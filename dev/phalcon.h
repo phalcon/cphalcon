@@ -139,6 +139,7 @@ PHP_METHOD(Phalcon_View, getViewsDir);
 PHP_METHOD(Phalcon_View, setTemplateBefore);
 PHP_METHOD(Phalcon_View, setTemplateAfter);
 PHP_METHOD(Phalcon_View, setParamToView);
+PHP_METHOD(Phalcon_View, getParamsToView);
 PHP_METHOD(Phalcon_View, start);
 PHP_METHOD(Phalcon_View, render);
 PHP_METHOD(Phalcon_View, finish);
@@ -479,6 +480,7 @@ PHP_METHOD(Phalcon_Config_Exception, __construct);
 
 PHP_METHOD(Phalcon_Controller, __construct);
 PHP_METHOD(Phalcon_Controller, _forward);
+PHP_METHOD(Phalcon_Controller, __get);
 
 PHP_METHOD(Phalcon_Model_Message, __construct);
 PHP_METHOD(Phalcon_Model_Message, setType);
@@ -616,6 +618,8 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_dispatch, 0, 0, 2)
 	ZEND_ARG_INFO(0, request)
 	ZEND_ARG_INFO(0, response)
+	ZEND_ARG_INFO(0, view)
+	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_forward, 0, 0, 1)
@@ -1293,10 +1297,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller___construct, 0, 0, 3)
 	ZEND_ARG_INFO(0, dispatcher)
 	ZEND_ARG_INFO(0, request)
 	ZEND_ARG_INFO(0, response)
+	ZEND_ARG_INFO(0, view)
+	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller__forward, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, propertyName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_message___construct, 0, 0, 1)
@@ -1665,6 +1675,7 @@ static const function_entry phalcon_view_functions[] = {
 	PHP_ME(Phalcon_View, setTemplateBefore, arginfo_phalcon_view_settemplatebefore, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setTemplateAfter, arginfo_phalcon_view_settemplateafter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setParamToView, arginfo_phalcon_view_setparamtoview, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, start, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, render, arginfo_phalcon_view_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, finish, NULL, ZEND_ACC_PUBLIC) 
@@ -2080,6 +2091,7 @@ static const function_entry phalcon_config_exception_functions[] = {
 static const function_entry phalcon_controller_functions[] = {
 	PHP_ME(Phalcon_Controller, __construct, arginfo_phalcon_controller___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Controller, _forward, arginfo_phalcon_controller__forward, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Controller, __get, arginfo_phalcon_controller___get, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
 

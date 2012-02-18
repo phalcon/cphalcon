@@ -50,8 +50,8 @@ phalcon_debug_entry *active = NULL;
  */
 int phalcon_start_debug(){
 	if(!phalcon_log){
-		//phalcon_log = fopen("/Applications/MAMP/htdocs/sparkphp/debug.a", "w");
-		phalcon_log = stderr;
+		phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
+		//phalcon_log = stderr;
 	}
 	return SUCCESS;
 }
@@ -318,6 +318,8 @@ int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
 	active->next = entry;
 	active = entry;
 	phalcon_debug_trace++;
+
+	return SUCCESS;
 }
 
 /**
@@ -340,7 +342,9 @@ int phalcon_step_out_entry(){
 
 	} else {
 		fprintf(phalcon_log, "Problem, stack?");
+		return FAILURE;
 	}
+	return SUCCESS;
 }
 
 #endif

@@ -45,7 +45,7 @@ int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC){
 	if(jit_initialization){
 		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
 	}
-	arr = PG(http_globals)[global_type];
+	arr = PG(http_globals)[global_type];	
 	return SUCCESS;
 }
 

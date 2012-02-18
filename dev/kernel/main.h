@@ -17,8 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
-//Main macros
-
+/** Main macros */
 #define PHALCON_DEBUG 0
 
 #define PHALCON_NOISY_FETCH 0
@@ -44,17 +43,17 @@ extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 #endif
 
-//Globals functions
+/** Globals functions */
 extern int phalcon_init_global(char *global TSRMLS_DC);
 extern int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
 
-//Logical functions
+/** Logical functions */
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
-//Concat functions
+/** Concat functions */
 extern int phalcon_concat_right(zval *result, zval *op1, const char *op2 TSRMLS_DC);
 extern int phalcon_concat_left(zval *result, const char *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op3 TSRMLS_DC);
@@ -65,14 +64,14 @@ extern int phalcon_compare_strict_string(zval *op1, char *op2);
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern long phalcon_count(const zval *value);
 
-//Low level filters
+/** Low level filters */
 extern int phalcon_filter_alphanum(zval **result, zval *param);
 
-//Memory macros
+/** Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z);
 
-//Renew memory allocated on certain pointer doing copy-write if needed
+/** Renew memory allocated on certain pointer doing copy-write if needed */
 #define PHALCON_REALLOC_ZVAL(z) \
 	if(Z_REFCOUNT_P(z)<=1){\
 		FREE_ZVAL(z);\
@@ -81,14 +80,14 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		SEPARATE_ZVAL(&z);\
 	}\
 
-//Copy value on destiny making separation if needed
+/** Copy value on destiny making separation if needed  */
 #define PHALCON_INIT_SEPARATE(destiny, value) \
 	PHALCON_VAR_INIT(destiny);\
 	ZVAL_ZVAL(destiny, value, 1, 0);\
 	Z_DELREF_P(value);\
 	Z_SET_REFCOUNT_P(destiny, 1);
 
-//Do/Renew memory allocation for zval used as a result
+/** Do/Renew memory allocation for zval used as a result */
 #define PHALCON_RESULT_INIT(var) \
 	if(!var){\
 		PHALCON_ALLOC_ZVAL(var);\
@@ -96,7 +95,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		PHALCON_REALLOC_ZVAL(var);\
 	}
 
-//Do/Renew memory allocation for zval used as a var
+/** Do/Renew memory allocation for zval used as a var */
 #define PHALCON_VAR_INIT(var) \
 	if(!var){\
 		PHALCON_ALLOC_ZVAL(var);\
@@ -104,7 +103,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		PHALCON_REALLOC_ZVAL(var);\
 	}
 
-//Do/Renew memory allocation for zval used only if data-type has changed
+/** Do/Renew memory allocation for zval used only if data-type has changed */
 #define PHALCON_TYPEVAR_INIT(var, type) \
 	if(!var){\
 		PHALCON_ALLOC_ZVAL(var);\
@@ -119,10 +118,10 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		}\
 	}
 
-//Do/Renew memory allocation for zval used only if data-type isn't long
+/** Do/Renew memory allocation for zval used only if data-type isn't long */
 #define PHALCON_LVAR_INIT(var) PHALCON_TYPEVAR_INIT(var, IS_LONG);
 
-//Do/Renew memory allocation for zval used only on binary operations (expect data-type will not change)
+/** Do/Renew memory allocation for zval used only on binary operations (expect data-type will not change) */
 #define PHALCON_BRESULT_INIT(var) \
 	if(!var){\
 		PHALCON_ALLOC_ZVAL(var);\
@@ -132,7 +131,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		}\
 	}
 
-//Do zval assignment doing separation on destiny or value if needed
+/** Do zval assignment doing separation on destiny or value if needed */
 #define PHALCON_CPY_WRT(destiny, value) \
 	if(!destiny||Z_REFCOUNT_P(value)==1){\
 		Z_ADDREF_P(value);\
@@ -141,7 +140,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		PHALCON_INIT_SEPARATE(destiny, value);\
 	}
 
-//Frees memory if is posible
+/** Frees memory if is posible */
 #define PHALCON_FREE(v) if(v){\
 	if(Z_REFCOUNT_P(v)<=1){\
 		FREE_ZVAL(v);\
@@ -151,7 +150,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 	}\
 }
 
-//Frees and destroys asociated memory
+/** Frees and destroys asociated memory */
 #define PHALCON_DFREE(v) if(v){\
 	if(Z_REFCOUNT_P(v)<=1){\
 		zval_ptr_dtor(&v);\
@@ -166,7 +165,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 	Z_DELREF_P(v);\
 }
 
-//Control flow macros
+/** Control flow macros */
 #define FOREACH_KV(var, varcopy, slabel, elabel, arrval, pointer, key, value) \
 			if(Z_TYPE_P(var)!=IS_ARRAY){\
                zend_error(E_WARNING, "Invalid argument supplied for foreach()");\
@@ -224,7 +223,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		}
 
 
-//Variables
+/** Variables */
 #define PHALCON_SET_LONG(var, vlong) PHALCON_LVAR_INIT(var); ZVAL_LONG(var, vlong)
 #define PHALCON_SET_STRING(var, str, alloc) PHALCON_VAR_INIT(var); ZVAL_STRING(var, str, alloc)
 #define PHALCON_SET_DOUBLE(var, vdouble) PHALCON_VAR_INIT(var); ZVAL_DOUBLE(var, vdouble)
@@ -235,7 +234,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 #define PHALCON_INIT_ZVAL(var, value) PHALCON_VAR_INIT(var, value);
 #define PHALCON_INIT_ARRAY(var) PHALCON_VAR_INIT(var); array_init(var)
 
-//Function and method params
+/** Function and method params */
 #define PHALCON_PARAM_STRING(param, str, cpy) INIT_PARAM(param); ZVAL_STRING(param, str, cpy)
 #define PHALCON_PARAM_LONG(param, vlong) INIT_PARAM(param); ZVAL_LONG(param, vlong)
 #define PHALCON_PARAM_DOUBLE(param, vdouble) INIT_PARAM(param); ZVAL_DOUBLE(param, vdouble)
@@ -244,7 +243,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 #define PHALCON_PARAM_ZVAL(param, value) INIT_PARAM(param); ZVAL_ZVAL(param, value, 1, 0)
 #define PHALCON_PARAM_CPY(param, value) Z_ADDREF_P(value); param = value;
 
-//Operators
+/** Operators */
 #define PHALCON_EQUAL_FUNCTION(result, op1, op2) PHALCON_BRESULT_INIT(result); is_equal_function(result, op1, op2 TSRMLS_CC)
 #define PHALCON_NOT_EQUAL_FUNCTION(result, op1, op2) PHALCON_BRESULT_INIT(result); is_not_equal_function(result, op1, op2 TSRMLS_CC)
 #define PHALCON_SMALLER_EQUAL_FUNCTION(result, op1, op2) PHALCON_BRESULT_INIT(result); is_smaller_or_equal_function(result, op1, op2 TSRMLS_CC)
@@ -267,11 +266,11 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 
 #define PHALCON_BOOLEAN_NOT_FUNCTION(result, op1) PHALCON_BRESULT_INIT(result); boolean_not_function(result, op1 TSRMLS_CC)
 
-//Constants
+/** Constants */
 #define PHALCON_GET_CONSTANT(var, name) PHALCON_VAR_INIT(var); zend_get_constant(name, strlen(name), var TSRMLS_CC)
 #define PHALCON_GET_CLASS_CONSTANT(var, class_entry, name) PHALCON_VAR_INIT(var); phalcon_get_class_constant(var, class_entry, name, strlen(name) TSRMLS_CC)
 
-//Symbols
+/** Symbols */
 #define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\
 			if(zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr)==SUCCESS){\
 				var = *auxarr;\
@@ -282,7 +281,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 			ZVAL_NULL(var);\
 		}
 
-//Globals
+/** Globals */
 #define PHALCON_GET_GLOBAL(varr, nglobal, glovar)	phalcon_init_global(nglobal TSRMLS_CC);\
 		if(&EG(symbol_table)){\
 			if(zend_hash_find(&EG(symbol_table), nglobal, sizeof(nglobal), (void **) &glovar)==SUCCESS){\

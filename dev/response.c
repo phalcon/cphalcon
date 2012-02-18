@@ -40,7 +40,10 @@
 PHP_METHOD(Phalcon_Response, __construct){
 
 
+	phalcon_step_into_entry("Phalcon_Response", "__construct", 0);
+	phalcon_step_out_entry();
 	RETURN_NULL();
+	phalcon_step_over("Phalcon_Response::__construct (Method) File=Library/Phalcon/Response.php Line=16");
 }
 
 PHP_METHOD(Phalcon_Response, getInstance){
@@ -48,14 +51,23 @@ PHP_METHOD(Phalcon_Response, getInstance){
 	zval *t0 = NULL, *t1 = NULL;
 	zval *i0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Response", "getInstance", 0);
+	phalcon_step_over("Phalcon_Response::getInstance (If) File=Library/Phalcon/Response.php Line=17");
 	t0 = zend_read_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (!zend_is_true(t0)) {
+		phalcon_step_over("Phalcon_Response::getInstance (Block) File=Library/Phalcon/Response.php Line=17");
+		phalcon_step_over("Phalcon_Response::getInstance (Assignment) File=Library/Phalcon/Response.php Line=18");
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_response_class_entry);
+		phalcon_assert_class(this_ptr, "Phalcon_Response" TSRMLS_CC);
+		phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
+		phalcon_assert_class(this_ptr, "Phalcon_Response" TSRMLS_CC);
 		zend_update_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, i0 TSRMLS_CC);
 	}
 	t1 = zend_read_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", t1 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t1) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -75,5 +87,6 @@ PHP_METHOD(Phalcon_Response, getInstance){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
 }
 

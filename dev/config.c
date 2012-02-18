@@ -65,8 +65,20 @@ PHP_METHOD(Phalcon_Config, __construct){
 		RETURN_NULL();
 	}
 
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Config", "__construct", 0);
+	phalcon_step_over("Phalcon_Config::__construct (Foreach) File=Library/Phalcon/Config.php Line=14");
+	//$arrayConfig
+	//$value
+	//$key
 	FOREACH_KV(v0, ac0, fes51, fee51, ah0, hp0, v2, v1)
+		phalcon_step_over("Phalcon_Config::__construct (Block) File=Library/Phalcon/Config.php Line=14");
+		phalcon_step_over("Phalcon_Config::__construct (If) File=Library/Phalcon/Config.php Line=15");
+		//$value
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
+			phalcon_step_over("Phalcon_Config::__construct (Block) File=Library/Phalcon/Config.php Line=15");
+			phalcon_step_over("Phalcon_Config::__construct (Assignment) File=Library/Phalcon/Config.php Line=16");
+			//$key
 			if (!i0) {
 				PHALCON_ALLOC_ZVAL(i0);
 			} else {
@@ -88,9 +100,15 @@ PHP_METHOD(Phalcon_Config, __construct){
 				}
 			}
 			object_init_ex(i0, phalcon_config_class_entry);
+			phalcon_assert_class(this_ptr, "Phalcon_Config" TSRMLS_CC);
+			phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
+			//$value
 			Z_ADDREF_P(v1);
 			p0[0] = v1;
+			phalcon_debug_param(v1 TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
+			phalcon_assert_class(this_ptr, "Phalcon_Config" TSRMLS_CC);
+			//$this
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -99,6 +117,11 @@ PHP_METHOD(Phalcon_Config, __construct){
 				phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), copy TSRMLS_CC);
 			}
 		} else {
+			phalcon_step_over("Phalcon_Config::__construct (Block) File=Library/Phalcon/Config.php Line=17");
+			phalcon_step_over("Phalcon_Config::__construct (Assignment) File=Library/Phalcon/Config.php Line=18");
+			//$key
+			//$value
+			//$this
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -108,6 +131,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 			}
 		}
 	END_FOREACH(ac0, fes51, fee51, ah0, hp0);
+	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

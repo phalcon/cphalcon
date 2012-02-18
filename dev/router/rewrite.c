@@ -41,6 +41,10 @@ PHP_METHOD(Phalcon_Router_Rewrite, __construct){
 
 	zval *a0 = NULL;
 
+	phalcon_step_over("Phalcon_Router_Rewrite::__construct (ClassVariables) File=Library/Phalcon/Router/Rewrite.php Line=13");
+	phalcon_step_over("Phalcon_Router_Rewrite::__construct (ClassVariables) File=Library/Phalcon/Router/Rewrite.php Line=15");
+	phalcon_step_over("Phalcon_Router_Rewrite::__construct (ClassVariables) File=Library/Phalcon/Router/Rewrite.php Line=17");
+	phalcon_step_into_entry("Phalcon_Router_Rewrite", "::__construct", 0);
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	zend_update_property(phalcon_router_rewrite_class_entry, this_ptr, "_params", strlen("_params"), a0 TSRMLS_CC);
@@ -57,16 +61,25 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 	zval *p0[] = { NULL, NULL }, *p1[] = { NULL }, *p2[] = { NULL }, *p3[] = { NULL };
 	int eval_int;
 
+	phalcon_step_into_entry("Phalcon_Router_Rewrite", "handle", 0);
+	phalcon_step_over("Phalcon_Router_Rewrite::handle (If) File=Library/Phalcon/Router/Rewrite.php Line=23");
+	//$_GET
 	PHALCON_GET_GLOBAL(a0, "_GET", gv0);
-	eval_int = phalcon_array_isset_string(a0, "_url", strlen("_url")+1 TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(a0, "_url", strlen("_url")+1);
 	if (eval_int) {
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=23");
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=24");
+		//$parts
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], "/", 1);
+		//$_GET
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_array_fetch_string(r1, a0, "_url", strlen("_url"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		p0[1] = r1;
+		phalcon_debug_param(r1 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r0, "explode", 2, p0);
+		phalcon_debug_vdump("explode > ", r0 TSRMLS_CC);
 		if (v0) {
 			if (!Z_REFCOUNT_P(v0)) {
 				FREE_ZVAL(v0);
@@ -74,12 +87,20 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		}
 		Z_ADDREF_P(r0);
 		v0 = r0;
-		eval_int = phalcon_array_isset_long(v0, 0 TSRMLS_CC);
+		phalcon_debug_assign("$parts", r0 TSRMLS_CC);
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (If) File=Library/Phalcon/Router/Rewrite.php Line=25");
+		//$parts
+		eval_int = phalcon_array_isset_long(v0, 0);
 		if (eval_int) {
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=25");
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=26");
+			//$parts
 			PHALCON_ALLOC_ZVAL(r2);
 			phalcon_array_fetch_long(r2, v0, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			p1[0] = r2;
+			phalcon_debug_param(r2 TSRMLS_CC);
 			phalcon_filter_alphanum(&r3, p1[0]);
+			//$this
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -87,21 +108,36 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(this_ptr, "_controller", strlen("_controller"), copy TSRMLS_CC);
 			}
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (If) File=Library/Phalcon/Router/Rewrite.php Line=27");
+			//$this
 			PHALCON_ALLOC_ZVAL(t0);
 			phalcon_read_property(t0, this_ptr, "_controller", sizeof("_controller")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			zval_copy_ctor(t0);
 			if (!zend_is_true(t0)) {
+				phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=27");
+				phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=28");
+				//$this
 				zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_controller", strlen("_controller") TSRMLS_CC);
 			}
 		} else {
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=30");
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=31");
+			//$this
 			zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_controller", strlen("_controller") TSRMLS_CC);
 		}
-		eval_int = phalcon_array_isset_long(v0, 1 TSRMLS_CC);
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (If) File=Library/Phalcon/Router/Rewrite.php Line=33");
+		//$parts
+		eval_int = phalcon_array_isset_long(v0, 1);
 		if (eval_int) {
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=33");
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=34");
+			//$parts
 			PHALCON_ALLOC_ZVAL(r4);
 			phalcon_array_fetch_long(r4, v0, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			p2[0] = r4;
+			phalcon_debug_param(r4 TSRMLS_CC);
 			phalcon_filter_alphanum(&r5, p2[0]);
+			//$this
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -109,15 +145,25 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(this_ptr, "_action", strlen("_action"), copy TSRMLS_CC);
 			}
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (If) File=Library/Phalcon/Router/Rewrite.php Line=35");
+			//$this
 			PHALCON_ALLOC_ZVAL(t1);
 			phalcon_read_property(t1, this_ptr, "_action", sizeof("_action")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			zval_copy_ctor(t1);
 			if (!zend_is_true(t1)) {
+				phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=35");
+				phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=36");
+				//$this
 				zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_action", strlen("_action") TSRMLS_CC);
 			}
 		} else {
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=38");
+			phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=39");
+			//$this
 			zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_action", strlen("_action") TSRMLS_CC);
 		}
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=41");
+		//$params
 		PHALCON_ALLOC_ZVAL(a1);
 		array_init(a1);
 		if (v1) {
@@ -128,9 +174,15 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		}
 		Z_ADDREF_P(a1);
 		v1 = a1;
+		phalcon_debug_assign("$params", a1 TSRMLS_CC);
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=42");
+		//$numberParts
 		PHALCON_ALLOC_ZVAL(r6);
+		//$parts
 		p3[0] = v0;
+		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r6, "count", 1, p3);
+		phalcon_debug_vdump("count > ", r6 TSRMLS_CC);
 		if (v2) {
 			Z_DELREF_P(v2);
 			if (!Z_REFCOUNT_P(v2)) {
@@ -139,13 +191,22 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		}
 		Z_ADDREF_P(r6);
 		v2 = r6;
+		phalcon_debug_assign("$numberParts", r6 TSRMLS_CC);
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (For) File=Library/Phalcon/Router/Rewrite.php Line=43");
+		//$i
 		PHALCON_ALLOC_ZVAL(v3);
 		ZVAL_LONG(v3, 2);
 		fs48:
+		//$i
+		//$numberParts
 		PHALCON_SMALLER_FUNCTION(r7, v3, v2);
 		if (!zend_is_true(r7)) {
 			goto fe48;
 		}
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=43");
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=44");
+		//$i
+		//$parts
 		if (!r8) {
 			PHALCON_ALLOC_ZVAL(r8);
 		} else {
@@ -167,6 +228,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			}
 		}
 		phalcon_array_fetch(r8, v0, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
+		//$params
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -185,6 +247,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			}
 			phalcon_array_append(v1, copy TSRMLS_CC);
 		}
+		//$i
 		{
 			zval *orig_ptr = v3;
 			if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -197,9 +260,13 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			}
 		}
 		increment_function(v3);
+		phalcon_debug_vdump("PostIncrementing $i", v3);
 		goto fs48;
 		fe48:
 		r7 = NULL;
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=46");
+		//$params
+		//$this
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -208,19 +275,30 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), copy TSRMLS_CC);
 		}
 	} else {
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Block) File=Library/Phalcon/Router/Rewrite.php Line=47");
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=48");
+		//$this
 		zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_controller", strlen("_controller") TSRMLS_CC);
+		phalcon_step_over("Phalcon_Router_Rewrite::handle (Assignment) File=Library/Phalcon/Router/Rewrite.php Line=49");
+		//$this
 		zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_action", strlen("_action") TSRMLS_CC);
 	}
+	phalcon_step_out_entry();
 	RETURN_NULL();
+	phalcon_step_over("Phalcon_Router_Rewrite::handle (Method) File=Library/Phalcon/Router/Rewrite.php Line=57");
 }
 
 PHP_METHOD(Phalcon_Router_Rewrite, getControllerName){
 
 	zval *t0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Router_Rewrite", "getControllerName", 0);
+	//$this
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controller", sizeof("_controller")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t0);
+	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -240,15 +318,21 @@ PHP_METHOD(Phalcon_Router_Rewrite, getControllerName){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Router_Rewrite::getControllerName (Method) File=Library/Phalcon/Router/Rewrite.php Line=64");
 }
 
 PHP_METHOD(Phalcon_Router_Rewrite, getActionName){
 
 	zval *t0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Router_Rewrite", "getActionName", 0);
+	//$this
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_action", sizeof("_action")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t0);
+	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -268,15 +352,21 @@ PHP_METHOD(Phalcon_Router_Rewrite, getActionName){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Router_Rewrite::getActionName (Method) File=Library/Phalcon/Router/Rewrite.php Line=71");
 }
 
 PHP_METHOD(Phalcon_Router_Rewrite, getParams){
 
 	zval *t0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Router_Rewrite", "getParams", 0);
+	//$this
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t0);
+	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -296,5 +386,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, getParams){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
 }
 

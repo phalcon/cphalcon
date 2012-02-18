@@ -32,8 +32,11 @@ typedef struct _phalcon_debug_entry {
 	struct _phalcon_debug_entry *next;
 } phalcon_debug_entry;
 
+extern int phalcon_start_debug();
+
 extern int phalcon_print_r(zval *userval TSRMLS_DC);
 extern int phalcon_vdump(zval *uservar TSRMLS_DC);
+extern int phalcon_debug_assign(char *name, zval *value TSRMLS_DC);
 extern int phalcon_vpdump(const zval **uservar TSRMLS_DC);
 extern int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC);
 extern int phalcon_class_debug(zval *val TSRMLS_DC);
@@ -46,6 +49,9 @@ extern int phalcon_debug_screen(char *message);
 extern int phalcon_step_over(char *message);
 extern int phalcon_step_into(char *message);
 extern int phalcon_step_out(char *message);
+
+extern int phalcon_step_into_entry(char *class_name, char *method_name, int lineno);
+extern int phalcon_step_out_entry();
 
 extern int phalcon_debug_method_call(zval *obj, char *method_name TSRMLS_DC);
 extern int phalcon_debug_vdump(char *preffix, zval *value TSRMLS_DC);

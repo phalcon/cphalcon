@@ -54,13 +54,26 @@ PHP_METHOD(Phalcon_Db_Exception, __construct){
 		PHALCON_INIT_NULL(v3);
 	}
 	
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v2 > ", v2 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v3 > ", v3 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Db_Exception", "__construct", 0);
+	phalcon_step_over("Phalcon_Db_Exception::__construct (StaticMethodCall) File=Library/Phalcon/Db/Exception.php Line=6");
+	//$message
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
+	phalcon_debug_param(v0 TSRMLS_CC);
+	//$code
 	Z_ADDREF_P(v1);
 	p0[1] = v1;
+	phalcon_debug_param(v1 TSRMLS_CC);
+	//$showTrace
 	Z_ADDREF_P(v2);
 	p0[2] = v2;
+	phalcon_debug_param(v2 TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Db_Exception", "__construct", 3, p0);
+	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

@@ -116,6 +116,7 @@ int phalcon_tag_static_init(zend_class_entry *ce TSRMLS_DC){
 PHP_MINIT_FUNCTION(phalcon){
 
 	zend_class_entry ce0, ce1, ce2, ce3, ce4, ce5, ce6, ce7, ce8, ce9, ce10, ce11, ce12, ce13, ce14, ce15, ce16, ce17, ce18, ce19, ce20, ce21, ce22, ce23, ce24, ce25, ce26, ce27, ce28, ce29, ce30, ce31, ce32, ce33, ce34, ce35, ce36, ce37, ce38, ce39, ce40, ce41, ce42;
+phalcon_start_debug();
 
 	if(!zend_ce_iterator){
 		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
@@ -268,8 +269,10 @@ PHP_MINIT_FUNCTION(phalcon){
 	INIT_CLASS_ENTRY(ce21, "Phalcon_Controller", phalcon_controller_functions);
 	phalcon_controller_class_entry = zend_register_internal_class(&ce21 TSRMLS_CC);
 	zend_declare_property_null(phalcon_controller_class_entry, "_dispatcher", sizeof("_dispatcher")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_controller_class_entry, "_request", sizeof("_request")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_controller_class_entry, "_response", sizeof("_response")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_controller_class_entry, "_view", sizeof("_view")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_controller_class_entry, "request", sizeof("request")-1, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_controller_class_entry, "response", sizeof("response")-1, ZEND_ACC_PUBLIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_controller_class_entry, "view", sizeof("view")-1, ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce22, "Phalcon_Model_Message", phalcon_model_message_functions);
 	phalcon_model_message_class_entry = zend_register_internal_class(&ce22 TSRMLS_CC);
