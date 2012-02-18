@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp2){
 	zval *r0 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -73,7 +73,8 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp7){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_pp0", sizeof("_pp0")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t0)>IS_BOOL){
+	zval_copy_ctor(t0);
+	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -106,7 +107,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp3){
 	zval *r0 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -131,14 +132,14 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, t0, v1);
-	if(zend_is_true(r0)){
+	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
 		mul_function(r1, v2, v3 TSRMLS_CC);
 		{
@@ -154,7 +155,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 30);
 		PHALCON_SMALLER_FUNCTION(r2, v2, t1);
-		if(zend_is_true(r2)){
+		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL(r3);
 			mul_function(r3, v1, v3 TSRMLS_CC);
 			{

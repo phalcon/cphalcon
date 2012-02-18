@@ -37,12 +37,18 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Controller
+ *
+ * Every application controller should extend this class that encapsulates all the controller functionality
+ */
+
 PHP_METHOD(Phalcon_Controller, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -78,13 +84,14 @@ PHP_METHOD(Phalcon_Controller, _forward){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	zval_copy_ctor(t0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
 	PHALCON_CALL_METHOD_PARAMS(r0, t0, "forward", 1, p0, PHALCON_CALL_DEFAULT);

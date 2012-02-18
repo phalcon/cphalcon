@@ -67,16 +67,16 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 	zval *p0[] = { NULL }, *p1[] = { NULL }, *p2[] = { NULL }, *p3[] = { NULL }, *p4[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v0){
+	if (!v0) {
 		PHALCON_INIT_BOOL(v0, 1);
 	}
 	
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if(zend_is_true(t0)){
+	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL(a0);
 		array_init(a0);
 		add_next_index_string(a0, "Phalcon_Transaction_Manager", 1);
@@ -87,23 +87,23 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
 	}
 	t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if(v1){
+	if (v1) {
 		Z_DELREF_P(v1);
-		if(!Z_REFCOUNT_P(v1)){
+		if (!Z_REFCOUNT_P(v1)) {
 			FREE_ZVAL(v1);
 		}
 	}
 	Z_ADDREF_P(t2);
 	v1 = t2;
-	if(!zend_is_true(v1)){
+	if (!zend_is_true(v1)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_transaction_class_entry);
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		PHALCON_ADD_FUNCTION(r0, t4, t5);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_dependencyPointer", sizeof("_dependencyPointer")-1, r0 TSRMLS_CC);
 		t6 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if(Z_TYPE_P(t6)!=IS_ARRAY){
+		if (Z_TYPE_P(t6) != IS_ARRAY) {
 			convert_to_array(t6);
 		}
 		phalcon_array_append(t6, v2);
@@ -150,9 +150,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		sub_function(r1, v1, t10 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(t9);
 		phalcon_array_fetch(t9, t8, r1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		PHALCON_PARAM_BOOL(p4[0], 0);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "setisnewtransaction", 1, p4, PHALCON_CALL_DEFAULT);
 	}
-	if(Z_TYPE_P(v2)>IS_BOOL){
+	if (Z_TYPE_P(v2) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -200,11 +200,11 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 	zval **hd;
 
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	FOREACH_V(t0, ac0, fes54, fee54, ah0, hp0, v0)
-		if(!r0){
+	FOREACH_V(t0, ac0, fes55, fee55, ah0, hp0, v0)
+		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
-			if(Z_REFCOUNT_P(r0)>1){
+			if (Z_REFCOUNT_P(r0) > 1) {
 				{
 					zval *orig_ptr = r0;
 					if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -222,18 +222,18 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 			}
 		}
 		PHALCON_CALL_METHOD(r0, v0, "getconnection", PHALCON_CALL_DEFAULT);
-		if(v1){
+		if (v1) {
 			Z_DELREF_P(v1);
-			if(!Z_REFCOUNT_P(v1)){
+			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);
 			}
 		}
 		Z_ADDREF_P(r0);
 		v1 = r0;
-		if(!r1){
+		if (!r1) {
 			PHALCON_ALLOC_ZVAL(r1);
 		} else {
-			if(Z_REFCOUNT_P(r1)>1){
+			if (Z_REFCOUNT_P(r1) > 1) {
 				{
 					zval *orig_ptr = r1;
 					if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -251,10 +251,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 			}
 		}
 		PHALCON_CALL_METHOD(r1, v1, "isundertransaction", PHALCON_CALL_DEFAULT);
-		if(zend_is_true(r1)){
+		if (zend_is_true(r1)) {
 			PHALCON_CALL_METHOD_NORETURN(v1, "commit", PHALCON_CALL_DEFAULT);
 		}
-	END_FOREACH(ac0, fes54, fee54, ah0, hp0);
+	END_FOREACH(ac0, fes55, fee55, ah0, hp0);
 	RETURN_NULL();
 }
 
@@ -270,20 +270,20 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	zval **hd;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v0){
+	if (!v0) {
 		PHALCON_INIT_BOOL(v0, 0);
 	}
 	
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	FOREACH_V(t0, ac0, fes55, fee55, ah0, hp0, v1)
-		if(!r0){
+	FOREACH_V(t0, ac0, fes56, fee56, ah0, hp0, v1)
+		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
-			if(Z_REFCOUNT_P(r0)>1){
+			if (Z_REFCOUNT_P(r0) > 1) {
 				{
 					zval *orig_ptr = r0;
 					if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -301,18 +301,18 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 			}
 		}
 		PHALCON_CALL_METHOD(r0, v1, "getconnection", PHALCON_CALL_DEFAULT);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
 		Z_ADDREF_P(r0);
 		v2 = r0;
-		if(!r1){
+		if (!r1) {
 			PHALCON_ALLOC_ZVAL(r1);
 		} else {
-			if(Z_REFCOUNT_P(r1)>1){
+			if (Z_REFCOUNT_P(r1) > 1) {
 				{
 					zval *orig_ptr = r1;
 					if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -330,16 +330,16 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 			}
 		}
 		PHALCON_CALL_METHOD(r1, v2, "isundertransaction", PHALCON_CALL_DEFAULT);
-		if(zend_is_true(r1)){
+		if (zend_is_true(r1)) {
 			PHALCON_CALL_METHOD_NORETURN(v2, "rollback", PHALCON_CALL_DEFAULT);
 			PHALCON_CALL_METHOD_NORETURN(v2, "close", PHALCON_CALL_DEFAULT);
 		}
-		if(zend_is_true(v0)){
+		if (zend_is_true(v0)) {
 			Z_ADDREF_P(v1);
 			p4[0] = v1;
 			PHALCON_CALL_SELF_PARAMS_NORETURN(this_ptr, "_collecttransaction", 1, p4);
 		}
-	END_FOREACH(ac0, fes55, fee55, ah0, hp0);
+	END_FOREACH(ac0, fes56, fee56, ah0, hp0);
 	RETURN_NULL();
 }
 
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 	zval **hd;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -399,13 +399,13 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_SMALLER_FUNCTION(r1, t1, r0);
-	if(zend_is_true(r1)){
+	if (zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_LONG(v1, 0);
 		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t2, ac0, fes56, fee56, ah0, hp0, v2)
+		FOREACH_V(t2, ac0, fes57, fee57, ah0, hp0, v2)
 			PHALCON_EQUAL_FUNCTION(r2, v2, v0);
-			if(zend_is_true(r2)){
+			if (zend_is_true(r2)) {
 				t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 				{
 					zval *orig_ptr = t3;
@@ -433,19 +433,19 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 				}
 			}
 			increment_function(v1);
-		END_FOREACH(ac0, fes56, fee56, ah0, hp0);
+		END_FOREACH(ac0, fes57, fee57, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(a0);
 		array_init(a0);
-		if(v3){
+		if (v3) {
 			Z_DELREF_P(v3);
-			if(!Z_REFCOUNT_P(v3)){
+			if (!Z_REFCOUNT_P(v3)) {
 				FREE_ZVAL(v3);
 			}
 		}
 		Z_ADDREF_P(a0);
 		v3 = a0;
 		t4 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t4, ac1, fes57, fee57, ah1, hp1, v2)
+		FOREACH_V(t4, ac1, fes58, fee58, ah1, hp1, v2)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 				}
 				phalcon_array_append(v3, copy TSRMLS_CC);
 			}
-		END_FOREACH(ac1, fes57, fee57, ah1, hp1);
+		END_FOREACH(ac1, fes58, fee58, ah1, hp1);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, v3 TSRMLS_CC);
 	}
 	RETURN_NULL();
@@ -488,11 +488,11 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_SMALLER_FUNCTION(r1, t1, r0);
-	if(zend_is_true(r1)){
+	if (zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL(v0);
 		ZVAL_LONG(v0, 0);
 		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t2, ac0, fes58, fee58, ah0, hp0, v1)
+		FOREACH_V(t2, ac0, fes59, fee59, ah0, hp0, v1)
 			t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			{
 				zval *orig_ptr = t3;
@@ -518,7 +518,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 				}
 			}
 			increment_function(v0);
-		END_FOREACH(ac0, fes58, fee58, ah0, hp0);
+		END_FOREACH(ac0, fes59, fee59, ah0, hp0);
 	}
 	RETURN_NULL();
 }
@@ -546,7 +546,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic){
 	zval *t0 = NULL;
 
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if(Z_TYPE_P(t0)>IS_BOOL){
+	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);

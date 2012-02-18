@@ -37,6 +37,20 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Exception
+ *
+ * All framework exceptions should use this exception
+ */
+
+/**
+ * Php_Exception constructor
+ *
+ * @param string $message
+ * @param int $errorCode
+ * @param boolean $showTrace
+ * @param array $backtrace
+ */
 PHP_METHOD(Phalcon_Exception, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -44,15 +58,15 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	zval *p0[] = { NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &v0, &v1, &v2, &v3) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &v0, &v1, &v2, &v3) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_LONG(v1, 0);
 	}
-	if(!v2){
+	if (!v2) {
 		PHALCON_INIT_BOOL(v2, 1);
 	}
 	
@@ -60,7 +74,7 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	Z_ADDREF_P(v1);
 	p0[0] = v1;
 	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
-	if(zend_is_true(r0)){
+	if (zend_is_true(r0)) {
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
 		Z_ADDREF_P(v1);

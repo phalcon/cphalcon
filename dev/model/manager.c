@@ -37,42 +37,21 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Model_Manager
+ *
+ * Manages creation of models inside application
+ */
+
+/**
+ * Constructor for Php_Model_Manager
+     * 
+ */
 PHP_METHOD(Phalcon_Model_Manager, __construct){
 
-	zval *v0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zval *a0 = NULL;
-	zval *p1[] = { NULL };
+	zval *p0[] = { NULL };
 
-	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE){
-		RETURN_NULL();
-	}
-
-	if(!v0){
-		PHALCON_INIT_NULL(v0);
-	}
-	
-	if(zend_is_true(v0)){
-		{
-			zval *copy;
-			ALLOC_ZVAL(copy);
-			ZVAL_ZVAL(copy, v0, 1, 0);
-			Z_SET_REFCOUNT_P(copy, 0);
-			phalcon_update_property_zval(this_ptr, "_front", strlen("_front"), copy TSRMLS_CC);
-		}
-		PHALCON_ALLOC_ZVAL(r0);
-		PHALCON_CALL_METHOD(r0, v0, "getmodelsdir", PHALCON_CALL_DEFAULT);
-		PHALCON_ALLOC_ZVAL(r1);
-		phalcon_concat_right(r1, r0, "/" TSRMLS_CC);
-		{
-			zval *copy;
-			ALLOC_ZVAL(copy);
-			ZVAL_ZVAL(copy, r1, 1, 0);
-			Z_SET_REFCOUNT_P(copy, 0);
-			phalcon_update_property_zval(this_ptr, "_modelsDir", strlen("_modelsDir"), copy TSRMLS_CC);
-		}
-	}
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	{
@@ -89,8 +68,8 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	add_next_index_zval(a0, this_ptr);
 	add_next_index_string(a0, "autoload", 1);
 	Z_ADDREF_P(a0);
-	p1[0] = a0;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("spl_autoload_register", 1, p1);
+	p0[0] = a0;
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("spl_autoload_register", 1, p0);
 	RETURN_NULL();
 }
 
@@ -99,7 +78,7 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 	zval *v0 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -120,7 +99,8 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_metadata", sizeof("_metadata")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(!zend_is_true(t0)){
+	zval_copy_ctor(t0);
+	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_model_metadata_class_entry);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
@@ -134,7 +114,8 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 	}
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, this_ptr, "_metadata", sizeof("_metadata")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t1)>IS_BOOL){
+	zval_copy_ctor(t1);
+	if (Z_TYPE_P(t1) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -155,12 +136,15 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 	return;
 }
 
+/**
+ * Sets/Changes the models directory
+ */
 PHP_METHOD(Phalcon_Model_Manager, setModelsDir){
 
 	zval *v0 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -174,13 +158,17 @@ PHP_METHOD(Phalcon_Model_Manager, setModelsDir){
 	RETURN_NULL();
 }
 
+/**
+ * Gets active models directory
+ */
 PHP_METHOD(Phalcon_Model_Manager, getModelsDir){
 
 	zval *t0 = NULL;
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t0)>IS_BOOL){
+	zval_copy_ctor(t0);
+	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -209,14 +197,14 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 	zval *p0[] = { NULL, NULL }, *p1[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	t0 = zend_read_static_property(phalcon_model_manager_class_entry, "_models", sizeof("_models")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_array_fetch(t1, t0, v0, PHALCON_SILENT_FETCH TSRMLS_CC);
-	if(zend_is_true(t1)){
+	if (zend_is_true(t1)) {
 		RETURN_TRUE;
 	} else {
 		PHALCON_ALLOC_ZVAL(r0);
@@ -224,21 +212,23 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 		p0[0] = v0;
 		PHALCON_PARAM_BOOL(p0[1], 0);
 		PHALCON_CALL_FUNC_PARAMS(r0, "class_exists", 2, p0);
-		if(!zend_is_true(r0)){
+		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL(t2);
 			phalcon_read_property(t2, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CONCAT_FUNCTION(r1, t2, v0);
+			zval_copy_ctor(t2);
+			PHALCON_ALLOC_ZVAL(r1);
+			concat_function(r1, t2, v0 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r2);
 			phalcon_concat_right(r2, r1, ".php" TSRMLS_CC);
-			if(v1){
+			if (v1) {
 				Z_DELREF_P(v1);
-				if(!Z_REFCOUNT_P(v1)){
+				if (!Z_REFCOUNT_P(v1)) {
 					FREE_ZVAL(v1);
 				}
 			}
 			Z_ADDREF_P(r2);
 			v1 = r2;
-			if(phalcon_file_exists(v1 TSRMLS_CC)==SUCCESS){
+			if (phalcon_file_exists(v1 TSRMLS_CC) == SUCCESS) {
 				PHALCON_ALLOC_ZVAL(r3);
 				Z_ADDREF_P(v0);
 				p1[0] = v0;
@@ -254,6 +244,9 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 	RETURN_NULL();
 }
 
+/**
+ * Initializes model doing instantiation and requiring
+ */
 PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -264,32 +257,34 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 	zend_class_entry *ce0;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	t0 = zend_read_static_property(phalcon_model_manager_class_entry, "_models", sizeof("_models")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_array_fetch(t1, t0, v0, PHALCON_SILENT_FETCH TSRMLS_CC);
-	if(zend_is_true(t1)){
+	if (zend_is_true(t1)) {
 		RETURN_TRUE;
 	} else {
 		PHALCON_ALLOC_ZVAL(t2);
 		phalcon_read_property(t2, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CONCAT_FUNCTION(r0, t2, v0);
+		zval_copy_ctor(t2);
+		PHALCON_ALLOC_ZVAL(r0);
+		concat_function(r0, t2, v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_concat_right(r1, r0, ".php" TSRMLS_CC);
-		if(v1){
+		if (v1) {
 			Z_DELREF_P(v1);
-			if(!Z_REFCOUNT_P(v1)){
+			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);
 			}
 		}
 		Z_ADDREF_P(r1);
 		v1 = r1;
-		if(phalcon_file_exists(v1 TSRMLS_CC)==SUCCESS){
+		if (phalcon_file_exists(v1 TSRMLS_CC) == SUCCESS) {
 			phalcon_require(v1 TSRMLS_CC);
-			if(EG(exception)||EG(exit_status)==255){
+			if (EG(exception) || EG(exit_status) == 255) {
 				return;
 			}
 			PHALCON_ALLOC_ZVAL(r2);
@@ -297,7 +292,7 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 			p0[0] = v0;
 			PHALCON_PARAM_BOOL(p0[1], 0);
 			PHALCON_CALL_FUNC_PARAMS(r2, "class_exists", 2, p0);
-			if(!zend_is_true(r2)){
+			if (!zend_is_true(r2)) {
 				PHALCON_ALLOC_ZVAL(i0);
 				object_init_ex(i0, phalcon_model_exception_class_entry);
 				PHALCON_ALLOC_ZVAL(r3);
@@ -316,7 +311,7 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 			p2[0] = this_ptr;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
 			t3 = zend_read_static_property(phalcon_model_manager_class_entry, "_models", sizeof("_models")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-			if(Z_TYPE_P(t3)!=IS_ARRAY){
+			if (Z_TYPE_P(t3) != IS_ARRAY) {
 				convert_to_array(t3);
 			}
 			phalcon_array_update(t3, v0, i1 TSRMLS_CC);
@@ -339,6 +334,9 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 	RETURN_NULL();
 }
 
+/**
+ * Gets/Instantiates model from directory
+ */
 PHP_METHOD(Phalcon_Model_Manager, getModel){
 
 	zval *v0 = NULL;
@@ -346,14 +344,14 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	t0 = zend_read_static_property(phalcon_model_manager_class_entry, "_models", sizeof("_models")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_array_fetch(t1, t0, v0, PHALCON_SILENT_FETCH TSRMLS_CC);
-	if(!zend_is_true(t1)){
+	if (!zend_is_true(t1)) {
 		Z_ADDREF_P(v0);
 		p0[0] = v0;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "initializemodel", 1, p0, PHALCON_CALL_DEFAULT);
@@ -361,7 +359,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 	t2 = zend_read_static_property(phalcon_model_manager_class_entry, "_models", sizeof("_models")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t3);
 	phalcon_array_fetch(t3, t2, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t3)>IS_BOOL){
+	if (Z_TYPE_P(t3) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -390,20 +388,20 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	t0 = zend_read_static_property(phalcon_model_manager_class_entry, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_array_fetch(t1, t0, v0, PHALCON_SILENT_FETCH TSRMLS_CC);
-	if(!zend_is_true(t1)){
+	if (!zend_is_true(t1)) {
 		PHALCON_ALLOC_ZVAL(r0);
 		Z_ADDREF_P(v0);
 		p0[0] = v0;
 		PHALCON_CALL_STATIC_PARAMS(r0, "phalcon_utils", "uncamelize", 1, p0);
 		t2 = zend_read_static_property(phalcon_model_manager_class_entry, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if(Z_TYPE_P(t2)!=IS_ARRAY){
+		if (Z_TYPE_P(t2) != IS_ARRAY) {
 			convert_to_array(t2);
 		}
 		phalcon_array_update(t2, v0, r0 TSRMLS_CC);
@@ -413,7 +411,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 	t3 = zend_read_static_property(phalcon_model_manager_class_entry, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t4);
 	phalcon_array_fetch(t4, t3, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t4)>IS_BOOL){
+	if (Z_TYPE_P(t4) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -440,7 +438,7 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_CALL_STATIC(r0, "phalcon_transaction_manager", "isautomatic");
-	if(zend_is_true(r0)){
+	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
 		PHALCON_ALLOC_ZVAL(r2);
 		PHALCON_CALL_STATIC(r2, "phalcon_transaction_manager", "get");
@@ -460,7 +458,7 @@ PHP_METHOD(Phalcon_Model_Manager, autoload){
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 

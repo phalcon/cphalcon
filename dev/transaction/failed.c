@@ -43,7 +43,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -69,14 +69,15 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(v0){
-		if(!Z_REFCOUNT_P(v0)){
+	zval_copy_ctor(t0);
+	if (v0) {
+		if (!Z_REFCOUNT_P(v0)) {
 			FREE_ZVAL(v0);
 		}
 	}
 	Z_ADDREF_P(t0);
 	v0 = t0;
-	if(Z_TYPE_P(v0)!=IS_NULL){
+	if (Z_TYPE_P(v0) != IS_NULL) {
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_CALL_METHOD(r0, v0, "getmessages", PHALCON_CALL_DEFAULT);
 		RETURN_ZVAL(r0, 1, 0);
@@ -94,7 +95,8 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if(Z_TYPE_P(t0)>IS_BOOL){
+	zval_copy_ctor(t0);
+	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);

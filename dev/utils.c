@@ -37,6 +37,18 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Utils
+ *
+ * Implements functionality used wide by the framework
+ */
+
+/**
+ * Converts strings to camelize style
+ *
+ * @param string $str
+ * @return string
+ */
 PHP_METHOD(Phalcon_Utils, camelize){
 
 	zval *v0 = NULL;
@@ -44,7 +56,7 @@ PHP_METHOD(Phalcon_Utils, camelize){
 	zval *p3[] = { NULL }, *p2[] = { NULL, NULL, NULL }, *p1[] = { NULL }, *p0[] = { NULL, NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -71,6 +83,12 @@ PHP_METHOD(Phalcon_Utils, camelize){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Uncamelize strings in a camelize way
+ *
+ * @param string $str
+ * @return string
+ */
 PHP_METHOD(Phalcon_Utils, uncamelize){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -87,7 +105,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 	int htype;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -95,19 +113,19 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 	array_init(a0);
 	add_assoc_string(a0, "/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/", "\\1_\\2", 1);
 	add_assoc_string(a0, "/(?<=(?:[a-z]))([A-Z])/", "_\\1", 1);
-	if(v1){
+	if (v1) {
 		Z_DELREF_P(v1);
-		if(!Z_REFCOUNT_P(v1)){
+		if (!Z_REFCOUNT_P(v1)) {
 			FREE_ZVAL(v1);
 		}
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	FOREACH_KV(v1, ac0, fes10, fee10, ah0, hp0, v3, v2)
-		if(!r0){
+	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
+		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
-			if(Z_REFCOUNT_P(r0)>1){
+			if (Z_REFCOUNT_P(r0) > 1) {
 				{
 					zval *orig_ptr = r0;
 					if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -129,11 +147,11 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 		Z_ADDREF_P(v0);
 		p0[1] = v0;
 		PHALCON_CALL_FUNC_PARAMS(r0, "preg_match", 2, p0);
-		if(zend_is_true(r0)){
-			if(!r1){
+		if (zend_is_true(r0)) {
+			if (!r1) {
 				PHALCON_ALLOC_ZVAL(r1);
 			} else {
-				if(Z_REFCOUNT_P(r1)>1){
+				if (Z_REFCOUNT_P(r1) > 1) {
 					{
 						zval *orig_ptr = r1;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -150,10 +168,10 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 					PHALCON_ALLOC_ZVAL(r1);
 				}
 			}
-			if(!r2){
+			if (!r2) {
 				PHALCON_ALLOC_ZVAL(r2);
 			} else {
-				if(Z_REFCOUNT_P(r2)>1){
+				if (Z_REFCOUNT_P(r2) > 1) {
 					{
 						zval *orig_ptr = r2;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -181,20 +199,25 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 			PHALCON_CALL_FUNC_PARAMS(r1, "strtolower", 1, p1);
 			RETURN_ZVAL(r1, 1, 0);
 		}
-	END_FOREACH(ac0, fes10, fee10, ah0, hp0);
+	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
 	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", 1, p3);
 	RETURN_ZVAL(r3, 1, 0);
 }
 
+/**
+ * Gets public URL to phalcon instance
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Utils, getUrl){
 
 	zval *v0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -202,7 +225,40 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	PHALCON_ALLOC_ZVAL(r1);
 	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
 	PHALCON_CALL_METHOD(r0, r1, "getbaseuri", PHALCON_CALL_DEFAULT);
-	PHALCON_CONCAT_FUNCTION(r2, r0, v0);
+	PHALCON_ALLOC_ZVAL(r2);
+	concat_function(r2, r0, v0 TSRMLS_CC);
+	{
+		zend_uchar is_ref = Z_ISREF_P(return_value);
+		zend_uint refcount = Z_REFCOUNT_P(return_value);
+		*(return_value) = *(r2);
+		zval_copy_ctor(return_value);
+		Z_SET_ISREF_TO_P(return_value, is_ref);
+		Z_SET_REFCOUNT_P(return_value, refcount);
+	}
+	return;
+}
+
+/**
+ * Gets path to local file
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Utils, getLocalPath){
+
+	zval *v0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(r0);
+	PHALCON_ALLOC_ZVAL(r1);
+	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
+	PHALCON_CALL_METHOD(r0, r1, "getbasepath", PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r2);
+	concat_function(r2, r0, v0 TSRMLS_CC);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);

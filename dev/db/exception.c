@@ -43,14 +43,14 @@ PHP_METHOD(Phalcon_Db_Exception, __construct){
 	zval *p0[] = { NULL, NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &v0, &v1, &v2, &v3) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &v0, &v1, &v2, &v3) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v2){
+	if (!v2) {
 		PHALCON_INIT_BOOL(v2, 1);
 	}
-	if(!v3){
+	if (!v3) {
 		PHALCON_INIT_NULL(v3);
 	}
 	

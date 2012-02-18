@@ -37,6 +37,15 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Config
+ *
+ * Php_Config is designed to simplify the access to, and the use of, configuration data within applications.
+ * It provides a nested object property based user interface for accessing this
+ * configuration data within application code.
+ *
+ */
+
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -52,16 +61,16 @@ PHP_METHOD(Phalcon_Config, __construct){
 	int htype;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	FOREACH_KV(v0, ac0, fes50, fee50, ah0, hp0, v2, v1)
-		if(Z_TYPE_P(v1)==IS_ARRAY){
-			if(!i0){
+	FOREACH_KV(v0, ac0, fes51, fee51, ah0, hp0, v2, v1)
+		if (Z_TYPE_P(v1) == IS_ARRAY) { 
+			if (!i0) {
 				PHALCON_ALLOC_ZVAL(i0);
 			} else {
-				if(Z_REFCOUNT_P(i0)>1){
+				if (Z_REFCOUNT_P(i0) > 1) {
 					{
 						zval *orig_ptr = i0;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -98,7 +107,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 				phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), copy TSRMLS_CC);
 			}
 		}
-	END_FOREACH(ac0, fes50, fee50, ah0, hp0);
+	END_FOREACH(ac0, fes51, fee51, ah0, hp0);
 	RETURN_NULL();
 }
 

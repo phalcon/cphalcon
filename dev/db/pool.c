@@ -37,6 +37,12 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Db_Pool
+ *
+ * Caches database connections
+ */
+
 PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -70,12 +76,12 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	int htype;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(Z_TYPE_P(v0)!=IS_ARRAY){
-		if(Z_TYPE_P(v0)!=IS_OBJECT){
+	if (Z_TYPE_P(v0) != IS_ARRAY) { 
+		if (Z_TYPE_P(v0) != IS_OBJECT) {
 			PHALCON_ALLOC_ZVAL(i0);
 			object_init_ex(i0, phalcon_db_exception_class_entry);
 			PHALCON_ALLOC_ZVAL(p0[0]);
@@ -89,18 +95,18 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 			return;
 		}
 	}
-	if(Z_TYPE_P(v0)==IS_ARRAY){
+	if (Z_TYPE_P(v0) == IS_ARRAY) { 
 		PHALCON_ALLOC_ZVAL(i1);
 		object_init(i1);
-		if(v1){
+		if (v1) {
 			Z_DELREF_P(v1);
-			if(!Z_REFCOUNT_P(v1)){
+			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);
 			}
 		}
 		Z_ADDREF_P(i1);
 		v1 = i1;
-		FOREACH_KV(v0, ac0, fes48, fee48, ah0, hp0, v3, v2)
+		FOREACH_KV(v0, ac0, fes49, fee49, ah0, hp0, v3, v2)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -108,11 +114,11 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes48, fee48, ah0, hp0);
+		END_FOREACH(ac0, fes49, fee49, ah0, hp0);
 	} else {
-		if(v1){
+		if (v1) {
 			Z_DELREF_P(v1);
-			if(!Z_REFCOUNT_P(v1)){
+			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);
 			}
 		}
@@ -133,27 +139,27 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	int eval_int;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v0){
+	if (!v0) {
 		PHALCON_INIT_BOOL(v0, 0);
 	}
-	if(!v1){
+	if (!v1) {
 		PHALCON_INIT_BOOL(v1, 0);
 	}
 	
 	t0 = zend_read_static_property(phalcon_db_pool_class_entry, "_defaultDescriptor", sizeof("_defaultDescriptor")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if(v2){
+	if (v2) {
 		Z_DELREF_P(v2);
-		if(!Z_REFCOUNT_P(v2)){
+		if (!Z_REFCOUNT_P(v2)) {
 			FREE_ZVAL(v2);
 		}
 	}
 	Z_ADDREF_P(t0);
 	v2 = t0;
-	if(!zend_is_true(v2)){
+	if (!zend_is_true(v2)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_db_exception_class_entry);
 		PHALCON_ALLOC_ZVAL(p0[0]);
@@ -167,7 +173,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		return;
 	}
 	eval_int = phalcon_isset_property(v2, "adapter", strlen("adapter") TSRMLS_CC);
-	if(!eval_int){
+	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL(i1);
 		object_init_ex(i1, phalcon_db_exception_class_entry);
 		PHALCON_ALLOC_ZVAL(p1[0]);
@@ -180,11 +186,12 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		Z_ADDREF_P(i1);
 		return;
 	}
-	if(zend_is_true(v0)){
-		if(zend_is_true(v1)){
+	if (zend_is_true(v0)) {
+		if (zend_is_true(v1)) {
 			PHALCON_ALLOC_ZVAL(r0);
 			PHALCON_ALLOC_ZVAL(t1);
 			phalcon_read_property(t1, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			zval_copy_ctor(t1);
 			Z_ADDREF_P(t1);
 			p2[0] = t1;
 			Z_ADDREF_P(v2);
@@ -193,9 +200,9 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_CALL_STATIC_PARAMS(r0, "phalcon_db", "factory", 3, p2);
 			zend_update_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, r0 TSRMLS_CC);
 			t2 = zend_read_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-			if(v3){
+			if (v3) {
 				Z_DELREF_P(v3);
-				if(!Z_REFCOUNT_P(v3)){
+				if (!Z_REFCOUNT_P(v3)) {
 					FREE_ZVAL(v3);
 				}
 			}
@@ -205,15 +212,16 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_ALLOC_ZVAL(r1);
 			PHALCON_ALLOC_ZVAL(t3);
 			phalcon_read_property(t3, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			zval_copy_ctor(t3);
 			Z_ADDREF_P(t3);
 			p3[0] = t3;
 			Z_ADDREF_P(v2);
 			p3[1] = v2;
 			PHALCON_PARAM_BOOL(p3[2], 0);
 			PHALCON_CALL_STATIC_PARAMS(r1, "phalcon_db", "factory", 3, p3);
-			if(v3){
+			if (v3) {
 				Z_DELREF_P(v3);
-				if(!Z_REFCOUNT_P(v3)){
+				if (!Z_REFCOUNT_P(v3)) {
 					FREE_ZVAL(v3);
 				}
 			}
@@ -226,10 +234,11 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		Z_ADDREF_P(t4);
 		p4[0] = t4;
 		PHALCON_CALL_FUNC_PARAMS(r2, "is_null", 1, p4);
-		if(zend_is_true(r2)){
+		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL(r3);
 			PHALCON_ALLOC_ZVAL(t5);
 			phalcon_read_property(t5, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			zval_copy_ctor(t5);
 			Z_ADDREF_P(t5);
 			p5[0] = t5;
 			Z_ADDREF_P(v2);
@@ -239,16 +248,16 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			zend_update_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, r3 TSRMLS_CC);
 		}
 		t6 = zend_read_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if(v3){
+		if (v3) {
 			Z_DELREF_P(v3);
-			if(!Z_REFCOUNT_P(v3)){
+			if (!Z_REFCOUNT_P(v3)) {
 				FREE_ZVAL(v3);
 			}
 		}
 		Z_ADDREF_P(t6);
 		v3 = t6;
 	}
-	if(Z_TYPE_P(v3)>IS_BOOL){
+	if (Z_TYPE_P(v3) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);

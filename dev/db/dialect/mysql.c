@@ -37,23 +37,23 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists){
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	zval *p0[] = { NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "", 0);
 	}
 	
-	if(phalcon_compare_strict_string(v1, "")){
+	if (phalcon_compare_strict_string(v1, "")) {
 		PHALCON_ALLOC_ZVAL(r0);
 		phalcon_concat_both(r0,  "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`='", v0, "'" TSRMLS_CC);
 		{
@@ -70,8 +70,8 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists){
 		Z_ADDREF_P(v1);
 		p0[0] = v1;
 		PHALCON_CALL_FUNC_PARAMS(r1, "addslashes", 1, p0);
-		if(v1){
-			if(!Z_REFCOUNT_P(v1)){
+		if (v1) {
+			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);
 			}
 		}
@@ -96,27 +96,27 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, tableExists){
 	RETURN_NULL();
 }
 
-PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeTable){
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "", 0);
 	}
 	
-	if(phalcon_compare_strict_string(v1, "")){
+	if (phalcon_compare_strict_string(v1, "")) {
 		PHALCON_ALLOC_ZVAL(r0);
 		phalcon_concat_both(r0,  "DESCRIBE `", v0, "`" TSRMLS_CC);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
@@ -129,9 +129,9 @@ PHP_METHOD(Phalcon_Db_Dialect_MySQL, describeTable){
 		phalcon_concat_vboth(r1, r2, "`.`", v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r3);
 		phalcon_concat_right(r3, r1, "`" TSRMLS_CC);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}

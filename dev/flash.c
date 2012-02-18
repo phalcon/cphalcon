@@ -37,6 +37,12 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Flash
+ *
+ * Shows HTML notifications related to diferent circustances. Classes can be stylized using CSS
+ */
+
 PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -49,40 +55,40 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 	zval **hd;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(Z_TYPE_P(v1)==IS_ARRAY){
+	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], " ", 1);
 		p0[1] = v1;
 		PHALCON_CALL_FUNC_PARAMS(r0, "join", 2, p0);
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
 		Z_ADDREF_P(r0);
 		v2 = r0;
 	} else {
-		if(v2){
+		if (v2) {
 			Z_DELREF_P(v2);
-			if(!Z_REFCOUNT_P(v2)){
+			if (!Z_REFCOUNT_P(v2)) {
 				FREE_ZVAL(v2);
 			}
 		}
 		Z_ADDREF_P(v1);
 		v2 = v1;
 	}
-	if(Z_TYPE_P(v0)==IS_ARRAY){
-		FOREACH_V(v0, ac0, fes49, fee49, ah0, hp0, v3)
-			if(!r3){
+	if (Z_TYPE_P(v0) == IS_ARRAY) { 
+		FOREACH_V(v0, ac0, fes50, fee50, ah0, hp0, v3)
+			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
-				if(Z_REFCOUNT_P(r3)>1){
+				if (Z_REFCOUNT_P(r3) > 1) {
 					{
 						zval *orig_ptr = r3;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -100,10 +106,10 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 				}
 			}
 			phalcon_concat_left(r3, "<div class=\"", v2 TSRMLS_CC);
-			if(!r2){
+			if (!r2) {
 				PHALCON_ALLOC_ZVAL(r2);
 			} else {
-				if(Z_REFCOUNT_P(r2)>1){
+				if (Z_REFCOUNT_P(r2) > 1) {
 					{
 						zval *orig_ptr = r2;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -122,10 +128,10 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			}
 			phalcon_concat_vboth(r2, r3, "\">", v3 TSRMLS_CC);
 			PHALCON_GET_CONSTANT(t0, "PHP_EOL");
-			if(!r1){
+			if (!r1) {
 				PHALCON_ALLOC_ZVAL(r1);
 			} else {
-				if(Z_REFCOUNT_P(r1)>1){
+				if (Z_REFCOUNT_P(r1) > 1) {
 					{
 						zval *orig_ptr = r1;
 						if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -144,7 +150,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			}
 			phalcon_concat_vboth(r1, r2, "</div>", t0 TSRMLS_CC);
 			zend_print_zval(r1, 0);
-		END_FOREACH(ac0, fes49, fee49, ah0, hp0);
+		END_FOREACH(ac0, fes50, fee50, ah0, hp0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r6);
 		phalcon_concat_left(r6, "<div class=\"", v2 TSRMLS_CC);
@@ -158,6 +164,13 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 	RETURN_NULL();
 }
 
+/**
+ * Shows a HTML error message
+ *
+ * @param string $message
+ * @param string $classes
+ * @return string
+ */
 PHP_METHOD(Phalcon_Flash, error){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -165,11 +178,11 @@ PHP_METHOD(Phalcon_Flash, error){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "errorMessage", 0);
 	}
@@ -183,6 +196,13 @@ PHP_METHOD(Phalcon_Flash, error){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Shows a HTML notice/information message
+ *
+ * @param string $message
+ * @param string $classes
+ * @return string
+ */
 PHP_METHOD(Phalcon_Flash, notice){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -190,11 +210,11 @@ PHP_METHOD(Phalcon_Flash, notice){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "noticeMessage", 0);
 	}
@@ -208,6 +228,13 @@ PHP_METHOD(Phalcon_Flash, notice){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Shows a HTML sucess message
+ *
+ * @param string $message
+ * @param string $classes
+ * @return string
+ */
 PHP_METHOD(Phalcon_Flash, success){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -215,11 +242,11 @@ PHP_METHOD(Phalcon_Flash, success){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "successMessage", 0);
 	}
@@ -233,6 +260,13 @@ PHP_METHOD(Phalcon_Flash, success){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Shows a HTML warning message
+ *
+ * @param string $message
+ * @param string $classes
+ * @return string
+ */
 PHP_METHOD(Phalcon_Flash, warning){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -240,11 +274,11 @@ PHP_METHOD(Phalcon_Flash, warning){
 	zval *p0[] = { NULL, NULL };
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v1){
+	if (!v1) {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "warningMessage", 0);
 	}

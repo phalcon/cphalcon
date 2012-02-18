@@ -42,11 +42,11 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	zval *v0 = NULL, *v1 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	if(!v0){
+	if (!v0) {
 		PHALCON_ALLOC_ZVAL(v0);
 		ZVAL_STRING(v0, "File", 0);
 	}
@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Logger, setFormat){
 	zval *v0 = NULL;
 
 	
-	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE){
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
