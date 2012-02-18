@@ -47,12 +47,6 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Transaction_Failed", "__construct", 0);
-	phalcon_step_over("Phalcon_Transaction_Failed::__construct (Assignment) File=Library/Phalcon/Transaction/Failed.php Line=8");
-	//$record
-	//$this
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -60,16 +54,11 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Transaction_Failed::__construct (StaticMethodCall) File=Library/Phalcon/Transaction/Failed.php Line=9");
-	//$message
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_PARAM_LONG(p0[1], 0);
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Transaction_Failed", "__construct", 2, p0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Transaction_Failed::__construct (Method) File=Library/Phalcon/Transaction/Failed.php Line=12");
 }
 
 PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
@@ -78,10 +67,6 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 	zval *t0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Transaction_Failed", "getRecordMessages", 0);
-	phalcon_step_over("Phalcon_Transaction_Failed::getRecordMessages (Assignment) File=Library/Phalcon/Transaction/Failed.php Line=13");
-	//$record
-	//$this
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t0);
@@ -92,50 +77,25 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 	}
 	Z_ADDREF_P(t0);
 	v0 = t0;
-	phalcon_debug_assign("$record", t0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Transaction_Failed::getRecordMessages (If) File=Library/Phalcon/Transaction/Failed.php Line=14");
-	//$record
 	if (Z_TYPE_P(v0) != IS_NULL) {
-		phalcon_step_over("Phalcon_Transaction_Failed::getRecordMessages (Block) File=Library/Phalcon/Transaction/Failed.php Line=14");
 		PHALCON_ALLOC_ZVAL(r0);
-		//$record
-		phalcon_assert_class(this_ptr, "Phalcon_Transaction_Failed" TSRMLS_CC);
-		phalcon_debug_method_call(v0, "getmessages" TSRMLS_CC);
 		PHALCON_CALL_METHOD(r0, v0, "getmessages", PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Transaction_Failed" TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r0, 1, 0);
 	} else {
-		phalcon_step_over("Phalcon_Transaction_Failed::getRecordMessages (Block) File=Library/Phalcon/Transaction/Failed.php Line=16");
 		PHALCON_ALLOC_ZVAL(r1);
-		//$this
-		phalcon_assert_class(this_ptr, "Phalcon_Transaction_Failed" TSRMLS_CC);
-		phalcon_debug_method_call(this_ptr, "_getmessage" TSRMLS_CC);
 		PHALCON_CALL_METHOD(r1, this_ptr, "_getmessage", PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r1 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Transaction_Failed" TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r1, 1, 0);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Transaction_Failed::getRecordMessages (Method) File=Library/Phalcon/Transaction/Failed.php Line=21");
 }
 
 PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Transaction_Failed", "getRecord", 0);
-	//$this
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t0);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -155,6 +115,5 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
 }
 
