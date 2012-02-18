@@ -146,6 +146,9 @@ PHP_METHOD(Phalcon_Request, getFilter){
 	return;
 }
 
+/**
+ * Gets variable from $_POST superglobal applying filters if needed
+ */
 PHP_METHOD(Phalcon_Request, getPost){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -208,6 +211,9 @@ PHP_METHOD(Phalcon_Request, getPost){
 	RETURN_NULL();
 }
 
+/**
+ * Gets variable from $_GET applying filters if needed
+ */
 PHP_METHOD(Phalcon_Request, getQuery){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -270,6 +276,9 @@ PHP_METHOD(Phalcon_Request, getQuery){
 	RETURN_NULL();
 }
 
+/**
+ * Gets variable from $_SERVER applying filters if needed
+ */
 PHP_METHOD(Phalcon_Request, getServer){
 
 	zval *v0 = NULL;

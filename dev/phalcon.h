@@ -117,12 +117,16 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig);
 PHP_METHOD(Phalcon_Controller_Front, setControllerDir);
 PHP_METHOD(Phalcon_Controller_Front, setModelsDir);
 PHP_METHOD(Phalcon_Controller_Front, setViewsDir);
+PHP_METHOD(Phalcon_Controller_Front, setRouter);
+PHP_METHOD(Phalcon_Controller_Front, getRouter);
 PHP_METHOD(Phalcon_Controller_Front, setDispatcher);
 PHP_METHOD(Phalcon_Controller_Front, getDispatcher);
 PHP_METHOD(Phalcon_Controller_Front, setBaseUri);
 PHP_METHOD(Phalcon_Controller_Front, getBaseUri);
 PHP_METHOD(Phalcon_Controller_Front, setBasePath);
 PHP_METHOD(Phalcon_Controller_Front, getBasePath);
+PHP_METHOD(Phalcon_Controller_Front, setRequest);
+PHP_METHOD(Phalcon_Controller_Front, setResponse);
 PHP_METHOD(Phalcon_Controller_Front, setModelComponent);
 PHP_METHOD(Phalcon_Controller_Front, getModelComponent);
 PHP_METHOD(Phalcon_Controller_Front, setViewComponent);
@@ -656,6 +660,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setviewsdir, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewsDir)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setrouter, 0, 0, 1)
+	ZEND_ARG_INFO(0, router)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setdispatcher, 0, 0, 1)
 	ZEND_ARG_INFO(0, dispatcher)
 ZEND_END_ARG_INFO()
@@ -666,6 +674,14 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setbasepath, 0, 0, 1)
 	ZEND_ARG_INFO(0, basePath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setrequest, 0, 0, 1)
+	ZEND_ARG_INFO(0, request)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setresponse, 0, 0, 1)
+	ZEND_ARG_INFO(0, response)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setmodelcomponent, 0, 0, 1)
@@ -1624,12 +1640,16 @@ static const function_entry phalcon_controller_front_functions[] = {
 	PHP_ME(Phalcon_Controller_Front, setControllerDir, arginfo_phalcon_controller_front_setcontrollerdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setModelsDir, arginfo_phalcon_controller_front_setmodelsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setViewsDir, arginfo_phalcon_controller_front_setviewsdir, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, setRouter, arginfo_phalcon_controller_front_setrouter, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, getRouter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setDispatcher, arginfo_phalcon_controller_front_setdispatcher, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, getDispatcher, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setBaseUri, arginfo_phalcon_controller_front_setbaseuri, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, getBaseUri, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setBasePath, arginfo_phalcon_controller_front_setbasepath, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, getBasePath, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, setRequest, arginfo_phalcon_controller_front_setrequest, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, setResponse, arginfo_phalcon_controller_front_setresponse, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setModelComponent, arginfo_phalcon_controller_front_setmodelcomponent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, getModelComponent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setViewComponent, arginfo_phalcon_controller_front_setviewcomponent, ZEND_ACC_PUBLIC) 
