@@ -41,10 +41,22 @@
  * Php_Db
  *
  * Php_Db and its related classes provide a simple SQL database interface for Phalcon Framework.
- * The Php_Db is the basic class you use to connect your PHP application to an RDBMS.
- * There is a different Adapter class for each brand of RDBMS
+ * The Php_Db is the basic class you use to connect your PHP application to a RDBMS.
+ * There is a different adapter class for each brand of RDBMS.
+ *
+ * This component is intended to low level database operations. If you want to interact with databases using
+ * high level abstraction use Php_Model.
+ *
+ * Php_Db is an abstract class. You only can use it with a database adapter like Php_Db_Mysql
+ *
+ * 
  */
 
+/**
+ * Php_Db contructor, This method does not should to be called directly. Use Php_Db::factory instead
+ *
+ * @param stdClass $descriptor
+ */
 PHP_METHOD(Phalcon_Db, __construct){
 
 	zval *v0 = NULL;
@@ -64,6 +76,11 @@ PHP_METHOD(Phalcon_Db, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Sets a logger class to log all SQL operations sended to database server
+ *
+ * @param Php_Logger $logger
+ */
 PHP_METHOD(Phalcon_Db, setLogger){
 
 	zval *v0 = NULL;
@@ -83,6 +100,12 @@ PHP_METHOD(Phalcon_Db, setLogger){
 	RETURN_NULL();
 }
 
+/**
+ * Sends a SQL operation made to the logger
+ *
+ * @param string $sqlStatement
+ * @param int $type
+ */
 PHP_METHOD(Phalcon_Db, log){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -110,6 +133,14 @@ PHP_METHOD(Phalcon_Db, log){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the first row in a SQL query result
+ *
+ * 
+ *
+ * @param string $sqlQuery
+ * @return array
+ */
 PHP_METHOD(Phalcon_Db, fetchOne){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -156,6 +187,14 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 	RETURN_NULL();
 }
 
+/**
+ * Dumps the complete result of a query into an array
+ *
+ * 
+ *
+ * @param string $sqlQuery
+ * @return array
+ */
 PHP_METHOD(Phalcon_Db, fetchAll){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -243,6 +282,17 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	return;
 }
 
+/**
+ * Inserts data into a database table using custom RBDM SQL syntax
+ *
+ * 
+ *
+ * @param string $tables
+ * @param array $values
+ * @param array $fields
+ * @param boolean $automaticQuotes
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db, insert){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -687,6 +737,18 @@ PHP_METHOD(Phalcon_Db, insert){
 	RETURN_NULL();
 }
 
+/**
+ * Updates data on a table using custom RBDM SQL syntax
+ *
+ * 
+ *
+ * @param string $tables
+ * @param array $fields
+ * @param array $values
+ * @param string $whereCondition
+ * @param boolean $automaticQuotes
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db, update){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -1183,6 +1245,15 @@ PHP_METHOD(Phalcon_Db, update){
 	RETURN_ZVAL(r23, 1, 0);
 }
 
+/**
+ * Deletes data from a table using custom RBDM SQL syntax
+ *
+ * 
+ *
+ * @param string $tables
+ * @param string $whereCondition
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db, delete){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -1225,6 +1296,11 @@ PHP_METHOD(Phalcon_Db, delete){
 	RETURN_NULL();
 }
 
+/**
+     * Starts a transaction in the connection
+     *
+     * @return boolean
+     */
 PHP_METHOD(Phalcon_Db, begin){
 
 	zval *r0 = NULL;
@@ -1239,6 +1315,11 @@ PHP_METHOD(Phalcon_Db, begin){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+     * Rollbacks the active transaction in the connection
+     *
+     * @return boolean
+     */
 PHP_METHOD(Phalcon_Db, rollback){
 
 	zval *t0 = NULL;
@@ -1274,6 +1355,11 @@ PHP_METHOD(Phalcon_Db, rollback){
 	RETURN_NULL();
 }
 
+/**
+     * Commits the active transaction in the connection
+     *
+     * @return boolean
+     */
 PHP_METHOD(Phalcon_Db, commit){
 
 	zval *t0 = NULL;
@@ -1309,6 +1395,11 @@ PHP_METHOD(Phalcon_Db, commit){
 	RETURN_NULL();
 }
 
+/**
+ * Manually sets a "under transaction" state for the connection
+ *
+ * @param boolean $underTransaction
+ */
 PHP_METHOD(Phalcon_Db, setUnderTransaction){
 
 	zval *v0 = NULL;
@@ -1328,6 +1419,11 @@ PHP_METHOD(Phalcon_Db, setUnderTransaction){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether connection is under database transaction
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db, isUnderTransaction){
 
 	zval *t0 = NULL;
@@ -1356,6 +1452,11 @@ PHP_METHOD(Phalcon_Db, isUnderTransaction){
 	return;
 }
 
+/**
+ * Checks whether connection have auto commit
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db, getHaveAutoCommit){
 
 	zval *t0 = NULL;
@@ -1384,6 +1485,11 @@ PHP_METHOD(Phalcon_Db, getHaveAutoCommit){
 	return;
 }
 
+/**
+ * Returns database name in the internal connection
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db, getDatabaseName){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1425,6 +1531,11 @@ PHP_METHOD(Phalcon_Db, getDatabaseName){
 	RETURN_NULL();
 }
 
+/**
+ * Returns active schema name in the internal connection
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db, getDefaultSchema){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
@@ -1498,6 +1609,11 @@ PHP_METHOD(Phalcon_Db, getDefaultSchema){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the username which has connected to the database
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db, getUsername){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1539,6 +1655,11 @@ PHP_METHOD(Phalcon_Db, getUsername){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the username which has connected to the database
+     *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db, getHostName){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1580,6 +1701,11 @@ PHP_METHOD(Phalcon_Db, getHostName){
 	RETURN_NULL();
 }
 
+/**
+ * Gets a active connection unique identifier
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db, getConnectionId){
 
 	zval *v0 = NULL;
@@ -1620,6 +1746,11 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 
 /**
  * Instantiates Php_Db adapter using given parameters
+ *
+ * @param string $adapterName
+ * @param stdClass $options
+ * @param boolean $persistent
+ * @return Php_Db
  */
 PHP_METHOD(Phalcon_Db, factory){
 

@@ -40,9 +40,17 @@
 /**
  * Php_Db_RawValue
  *
- * This class lets to insert/update raw data without quoting or formating
+ * This class lets to insert/update raw data without quoting or formating.
+ *
+ * The next example shows how to use the MySQL now() function as a field value.
+ * 
  */
 
+/**
+ * Php_Db_RawValue constructor
+ *
+ * @param string $value
+ */
 PHP_METHOD(Phalcon_Db_RawValue, __construct){
 
 	zval *v0 = NULL;
@@ -62,6 +70,11 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Returns internal raw value without quoting or formating
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_RawValue, getValue){
 
 	zval *t0 = NULL;

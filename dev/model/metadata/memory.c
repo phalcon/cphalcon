@@ -37,3 +37,9 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Model_MetaData_Memory
+ *
+ * Stores models meta-data in memory. Data will be ereased at the end of request
+ */
+

@@ -40,10 +40,16 @@
 /**
  * Php_Tag
  *
- * Php_Tag is designed to simplify building of HTML tags
- *
+ * Php_Tag is designed to simplify building of HTML tags.
+ * It provides a set of helpers to generate HTML in a dynamic way.
+ * This component is an abstract class that you can extend to add more helpers.
  */
 
+/**
+ * Sets the request dispatcher. A valid dispatcher is required to generated absolute paths
+ *
+ * @param Php_Dispatcher $dipatcher
+ */
 PHP_METHOD(Phalcon_Tag, setDispatcher){
 
 	zval *v0 = NULL;
@@ -58,7 +64,9 @@ PHP_METHOD(Phalcon_Tag, setDispatcher){
 }
 
 /**
- * Get request dispatcher
+ * Internally gets the request dispatcher
+ *
+ * @return Php_Dispatcher
  */
 PHP_METHOD(Phalcon_Tag, _getDispatcher){
 
@@ -96,7 +104,9 @@ PHP_METHOD(Phalcon_Tag, _getDispatcher){
 }
 
 /**
- * Assign the values to conponents
+ * Assigns values to tags
+ *
+ * 
  *
  * @param string $id
  * @param string $value
@@ -139,7 +149,11 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 }
 
 /**
- * Reads value from pre-asigned array or post
+ * Every helper call this function to check whether a component has a predefined
+ * value using Php_Tag::displayTo or value from $_POST
+ *
+ * @param string $name
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 
@@ -236,10 +250,11 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 }
 
 /**
- * Build a link using framework conventions
+ * Builds a HTML A tag using framework conventions
  *
- * @paramstring $action
- * @paramstring $text
+ * 
+ *
+ * @paramarray $params
  * @returnstring
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
@@ -560,6 +575,14 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	return;
 }
 
+/**
+ * Builds a HTML input[type="text"] tag
+ *
+ * 
+ *
+ * @paramarray $params
+ * @returnstring
+ */
 PHP_METHOD(Phalcon_Tag, textField){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -795,6 +818,14 @@ PHP_METHOD(Phalcon_Tag, textField){
 	return;
 }
 
+/**
+ * Builds a HTML input[type="submit"] tag
+ *
+ * 
+ *
+ * @paramarray $params
+ * @returnstring
+ */
 PHP_METHOD(Phalcon_Tag, submitButton){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -973,6 +1004,14 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 	return;
 }
 
+/**
+ * Builds a HTML SELECT tag using an array for options
+ *
+ * 
+ *
+ * @paramarray $params
+ * @returnstring
+ */
 PHP_METHOD(Phalcon_Tag, selectStatic){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -1502,7 +1541,12 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 }
 
 /**
+ * Builds a HTML SELECT tag using a resultset as options
+ *
  * 
+ *
+ * @paramarray $params
+ * @returnstring
  */
 PHP_METHOD(Phalcon_Tag, select){
 
@@ -2440,7 +2484,12 @@ PHP_METHOD(Phalcon_Tag, select){
 }
 
 /**
+ * Builds a HTML TEXTAREA tag
  *
+ * 
+ *
+ * @paramarray $params
+ * @returnstring
  */
 PHP_METHOD(Phalcon_Tag, textArea){
 
@@ -2671,6 +2720,14 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	return;
 }
 
+/**
+ * Builds a HTML FORM tag
+ *
+ * 
+ *
+ * @paramarray $params
+ * @returnstring
+ */
 PHP_METHOD(Phalcon_Tag, form){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -2972,6 +3029,11 @@ PHP_METHOD(Phalcon_Tag, form){
 	return;
 }
 
+/**
+ * Builds a HTML close FORM tag
+ *
+ * @returnstring
+ */
 PHP_METHOD(Phalcon_Tag, endForm){
 
 
@@ -3330,7 +3392,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 }
 
 /**
- * Builder for IMG HTML tags
+ * Builds HTML IMG tags
  *
  * @param  array $params
  * @return string

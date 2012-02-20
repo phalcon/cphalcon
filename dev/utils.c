@@ -40,11 +40,13 @@
 /**
  * Php_Utils
  *
- * Implements functionality used wide by the framework
+ * Implements functionality used widely by the framework
  */
 
 /**
  * Converts strings to camelize style
+ *
+ * 
  *
  * @param string $str
  * @return string
@@ -84,7 +86,9 @@ PHP_METHOD(Phalcon_Utils, camelize){
 }
 
 /**
- * Uncamelize strings in a camelize way
+ * Uncamelize strings which are camelized
+ *
+ * 
  *
  * @param string $str
  * @return string
@@ -209,6 +213,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 /**
  * Gets public URL to phalcon instance
  *
+ * @param string $params
  * @return string
  */
 PHP_METHOD(Phalcon_Utils, getUrl){
@@ -241,6 +246,7 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 /**
  * Gets path to local file
  *
+ * @param string $params
  * @return string
  */
 PHP_METHOD(Phalcon_Utils, getLocalPath){

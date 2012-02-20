@@ -37,6 +37,21 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Transaction
+ *
+ * Transactions are protective blocks where SQL statements are only permanent if they can
+ * all succeed as one atomic action. Php_Transaction is intended to be used with Php_Model_Base.
+ * Phalcon Transactions should be created using Php_Transaction_Manager.
+ *
+ *
+ */
+
+/**
+ * Php_Transaction constructor
+ *
+ * @param boolean $autoBegin
+ */
 PHP_METHOD(Phalcon_Transaction, __construct){
 
 	zval *a0 = NULL, *a1 = NULL;
@@ -89,6 +104,11 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Sets transaction manager related to the transaction
+ *
+ * @param Php_Transaction_Manager $manager
+ */
 PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 
 	zval *v0 = NULL;
@@ -108,6 +128,9 @@ PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 	RETURN_NULL();
 }
 
+/**
+ * Starts the transaction
+ */
 PHP_METHOD(Phalcon_Transaction, begin){
 
 	zval *r0 = NULL;
@@ -121,6 +144,11 @@ PHP_METHOD(Phalcon_Transaction, begin){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Commits the transaction
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction, commit){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -178,6 +206,13 @@ PHP_METHOD(Phalcon_Transaction, commit){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Rollbacks the transaction
+ *
+ * @param  string $rollbackMessage
+ * @param  Php_Model_Base $rollbackRecord
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction, rollback){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -294,6 +329,11 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	RETURN_NULL();
 }
 
+/**
+ * Returns connection related to transaction
+ *
+ * @return Php_Db
+ */
 PHP_METHOD(Phalcon_Transaction, getConnection){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -336,6 +376,11 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	return;
 }
 
+/**
+ * Sets if is a reused transaction or new once
+ *
+ * @param boolean $isNew
+ */
 PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
 
 	zval *v0 = NULL;
@@ -355,6 +400,11 @@ PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
 	RETURN_NULL();
 }
 
+/**
+ * Sets flag to rollback on abort the HTTP connection
+ *
+ * @param boolean $rollbackOnAbort
+ */
 PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
 
 	zval *v0 = NULL;
@@ -374,6 +424,11 @@ PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether transaction is managed by a transaction manager
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction, isManaged){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -412,6 +467,11 @@ PHP_METHOD(Phalcon_Transaction, isManaged){
 	return;
 }
 
+/**
+ * Changes dependency internal pointer
+ *
+ * @param int $pointer
+ */
 PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
 
 	zval *v0 = NULL;
@@ -431,6 +491,12 @@ PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
 	RETURN_NULL();
 }
 
+/**
+ * Attaches Php_Model_Base object to the active transaction
+ *
+ * @param int $pointer
+ * @param Php_Model_Base $object
+ */
 PHP_METHOD(Phalcon_Transaction, attachDependency){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -639,6 +705,11 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 	RETURN_NULL();
 }
 
+/**
+ * Make a bulk save on all attached objects
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction, save){
 
 	zval *a0 = NULL;
@@ -721,6 +792,11 @@ PHP_METHOD(Phalcon_Transaction, save){
 	RETURN_TRUE;
 }
 
+/**
+ * Returns validations messages from last save try
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Transaction, getMessages){
 
 	zval *t0 = NULL;
@@ -749,6 +825,11 @@ PHP_METHOD(Phalcon_Transaction, getMessages){
 	return;
 }
 
+/**
+     * Checks whether internal connection is under an active transaction
+     *
+     * @return boolean
+     */
 PHP_METHOD(Phalcon_Transaction, isValid){
 
 	zval *r0 = NULL;
@@ -762,6 +843,11 @@ PHP_METHOD(Phalcon_Transaction, isValid){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Sets object which generates rollback action
+ *
+ * @param Php_Model_Base $record
+ */
 PHP_METHOD(Phalcon_Transaction, setRollbackedRecord){
 
 	zval *v0 = NULL;

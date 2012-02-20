@@ -37,6 +37,13 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Logger
+ *
+ * Php_Logger is a component whose purpose is to create logs using different backends via adapters,
+ * generating options and formats and filters and implementation of transactions
+ */
+
 PHP_METHOD(Phalcon_Logger, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;

@@ -37,6 +37,21 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Db_Dialect_Mysql
+ *
+ * Generates database specific SQL for the MySQL RBDM
+ */
+
+/**
+ * Generates SQL checking for the existence of a schema.table
+ *
+ * 
+ *
+ * @param string $tableName
+ * @param string $schemaName
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -96,6 +111,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 	RETURN_NULL();
 }
 
+/**
+ * Generates SQL describing a table
+ *
+ * 
+ *
+ * @param string $tableName
+ * @param string $schemaName
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;

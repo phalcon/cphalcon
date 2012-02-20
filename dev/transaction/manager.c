@@ -37,6 +37,21 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Transaction_Manager
+ *
+ * A transaction acts on a single database connection. If you have multiple class-specific
+ * databases, the transaction will not protect interaction among them
+ *
+ *
+ *
+ */
+
+/**
+ * Checks whether manager has an active transaction
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, has){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -56,6 +71,12 @@ PHP_METHOD(Phalcon_Transaction_Manager, has){
 	return;
 }
 
+/**
+ * Returns a new Php_Transaction or an already created once
+ *
+ * @param boolean $autoBegin
+ * @return Php_Transaction
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, get){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -182,6 +203,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 	return;
 }
 
+/**
+ * Rollbacks active transactions whithin the manager
+ *
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, rollbackPendent){
 
 
@@ -189,6 +214,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollbackPendent){
 	RETURN_NULL();
 }
 
+/**
+ * Commmits active transactions whithin the manager
+ *
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, commit){
 
 	zval *t0 = NULL;
@@ -258,6 +287,12 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 	RETURN_NULL();
 }
 
+/**
+ * Rollbacks active transactions whithin the manager
+ * Collect will remove transaction from the manager
+ *
+ * @param boolean $collect
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -343,6 +378,11 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	RETURN_NULL();
 }
 
+/**
+ * Notifies the manager about a rollbacked transaction
+ *
+ * @param Php_Transaction $transaction
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 
 	zval *v0 = NULL;
@@ -359,6 +399,11 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 	RETURN_NULL();
 }
 
+/**
+ * Notifies the manager about a commited transaction
+ *
+ * @param Php_Transaction $transaction
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 
 	zval *v0 = NULL;
@@ -470,6 +515,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 	RETURN_NULL();
 }
 
+/**
+ * Remove all the transactions from the manager
+ *
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -523,6 +572,12 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether manager will inject an automatic transaction to all newly
+ * created instances of Php_Model_base
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -541,6 +596,11 @@ PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic){
 	return;
 }
 
+/**
+ * Returns automatic transaction for instances of Php_Model_base
+ *
+ * @return Php_Transaction
+ */
 PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic){
 
 	zval *t0 = NULL;

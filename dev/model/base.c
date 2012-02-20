@@ -40,12 +40,28 @@
 /**
  * Php_Model_Base
  *
- * Php_Model connects business objects and database tables to create 
- * a persistable domain model where logic and data are presented in one wrapping. 
- * It‘s an implementation of the object- relational mapping (ORM)
+ * <p>Php_Model connects business objects and database tables to create
+ * a persistable domain model where logic and data are presented in one wrapping.
+ * It‘s an implementation of the object- relational mapping (ORM).</p>
+ *
+ * <p>A model represents the information (data) of the application and the rules to manipulate that data.
+ * Models are primarily used for managing the rules of interaction with a corresponding database table.
+ * In most cases, each table in your database will correspond to one model in your application.
+ * The bulk of your application’s business logic will be concentrated in the models.</p>
+ *
+ * <p>Php_Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interact with databases while is also easy to use.</p>
+ *
+ * 
  *
  */
 
+/**
+ * Php_Model_Base constructor
+ *
+ * @param Php_Model_Manager $manager
+ *
+ */
 PHP_METHOD(Phalcon_Model_Base, __construct){
 
 	zval *v0 = NULL;
@@ -91,7 +107,8 @@ PHP_METHOD(Phalcon_Model_Base, __construct){
 }
 
 /**
- * Internal method for doing connection
+ * Internal method for make a connection. Automatically dumps mapped table meta-data
+ *
  */
 PHP_METHOD(Phalcon_Model_Base, _connect){
 
@@ -120,7 +137,9 @@ PHP_METHOD(Phalcon_Model_Base, _connect){
 }
 
 /**
- * Internal method for get field attributes
+ * Internal method for get table mapped attributes
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Model_Base, _getAttributes){
 
@@ -140,6 +159,11 @@ PHP_METHOD(Phalcon_Model_Base, _getAttributes){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Internal method for get attributes which are part of table mapped primary key
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, _getPrimaryKeyAttributes){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -158,6 +182,11 @@ PHP_METHOD(Phalcon_Model_Base, _getPrimaryKeyAttributes){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Internal method for get attributes which are not part of table mapped primary key
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, _getNonPrimaryKeyAttributes){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -176,6 +205,11 @@ PHP_METHOD(Phalcon_Model_Base, _getNonPrimaryKeyAttributes){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Internal method for get attributes which are part of table mapped primary key
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, _getNotNullAttributes){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -194,6 +228,11 @@ PHP_METHOD(Phalcon_Model_Base, _getNotNullAttributes){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Internal method for get numerical-typed attributes
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, _getDataTypesNumeric){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -212,6 +251,11 @@ PHP_METHOD(Phalcon_Model_Base, _getDataTypesNumeric){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Internal method for get data-types attributes
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, _getDataTypes){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -230,6 +274,11 @@ PHP_METHOD(Phalcon_Model_Base, _getDataTypes){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Dumps mapped table meta-data
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Base, dump){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1156,6 +1205,11 @@ PHP_METHOD(Phalcon_Model_Base, _createResultset){
 	RETURN_NULL();
 }
 
+/**
+ * Overwrittes default model manager
+ *
+ * @param Php_Model_Manager $manager
+ */
 PHP_METHOD(Phalcon_Model_Base, setManager){
 
 	zval *v0 = NULL;
@@ -1175,6 +1229,13 @@ PHP_METHOD(Phalcon_Model_Base, setManager){
 	RETURN_NULL();
 }
 
+/**
+ * Sets a transaction related to the Model instance
+ *
+ *
+ *
+ * @param Php_Transaction $transaction
+ */
 PHP_METHOD(Phalcon_Model_Base, setTransaction){
 
 	zval *v0 = NULL;
@@ -1228,6 +1289,11 @@ PHP_METHOD(Phalcon_Model_Base, setTransaction){
 	return;
 }
 
+/**
+ * Checks wheter model is mapped to a database view
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, isView){
 
 	zval *t0 = NULL;
@@ -1256,6 +1322,11 @@ PHP_METHOD(Phalcon_Model_Base, isView){
 	return;
 }
 
+/**
+ * Sets table name which model should be mapped
+ *
+ * @param string $source
+ */
 PHP_METHOD(Phalcon_Model_Base, setSource){
 
 	zval *v0 = NULL;
@@ -1275,6 +1346,11 @@ PHP_METHOD(Phalcon_Model_Base, setSource){
 	RETURN_NULL();
 }
 
+/**
+ * Returns table name mapped in the model
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Model_Base, getSource){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1327,6 +1403,11 @@ PHP_METHOD(Phalcon_Model_Base, getSource){
 	return;
 }
 
+/**
+ * Sets schema name where table mapped is located
+ *
+ * @param string $schema
+ */
 PHP_METHOD(Phalcon_Model_Base, setSchema){
 
 	zval *v0 = NULL;
@@ -1346,6 +1427,11 @@ PHP_METHOD(Phalcon_Model_Base, setSchema){
 	RETURN_NULL();
 }
 
+/**
+ * Returns schema name where table mapped is located
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Model_Base, getSchema){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -1392,6 +1478,11 @@ PHP_METHOD(Phalcon_Model_Base, getSchema){
 	return;
 }
 
+/**
+ * Gets internal Php_Db connection
+ *
+ * @return Php_Db
+ */
 PHP_METHOD(Phalcon_Model_Base, getConnection){
 
 	zval *t0 = NULL;
@@ -1421,6 +1512,14 @@ PHP_METHOD(Phalcon_Model_Base, getConnection){
 	return;
 }
 
+/**
+ * Assigns values to a model from an array returning a new model
+ *
+ *
+ *
+ * @param array $result
+ * @return Php_Model $result
+ */
 PHP_METHOD(Phalcon_Model_Base, dumpResult){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -1483,6 +1582,13 @@ PHP_METHOD(Phalcon_Model_Base, dumpResult){
 	return;
 }
 
+/**
+ * Assigns values to a model from an array
+ *
+ *
+ *
+ * @param array $result
+ */
 PHP_METHOD(Phalcon_Model_Base, dumpResultSelf){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -1517,6 +1623,14 @@ PHP_METHOD(Phalcon_Model_Base, dumpResultSelf){
 	RETURN_NULL();
 }
 
+/**
+ * Allows to query a set of records that match the specified conditions
+ *
+ * 
+ *
+ * @param array $params
+ * @return Php_Model_Resulset
+ */
 PHP_METHOD(Phalcon_Model_Base, find){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -1614,6 +1728,14 @@ PHP_METHOD(Phalcon_Model_Base, find){
 	RETURN_ZVAL(r3, 1, 0);
 }
 
+/**
+ * Allows to query the first record that match the specified conditions
+ *
+ * 
+ *
+ * @param array $params
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Base, findFirst){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -1858,6 +1980,14 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 	return;
 }
 
+/**
+ * Allows to query whether exists at least one record that match the specified conditions
+ *
+ * 
+ *
+ * @param array $params
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Base, exists){
 
 	zval *v0 = NULL;
@@ -2815,6 +2945,14 @@ PHP_METHOD(Phalcon_Model_Base, _getGroupResult){
 	RETURN_NULL();
 }
 
+/**
+ * Allows to count how many records match the specified conditions
+ *
+ * 
+ *
+ * @param array $params
+ * @return int
+ */
 PHP_METHOD(Phalcon_Model_Base, count){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -3239,6 +3377,13 @@ PHP_METHOD(Phalcon_Model_Base, _cancelOperation){
 	RETURN_NULL();
 }
 
+/**
+ * Appends a customized message on the validation process
+ *
+ * 
+ *
+ * @param Php_Model_Message $message
+ */
 PHP_METHOD(Phalcon_Model_Base, appendMessage){
 
 	zval *v0 = NULL;
@@ -3312,6 +3457,13 @@ PHP_METHOD(Phalcon_Model_Base, appendMessage){
 	RETURN_NULL();
 }
 
+/**
+ * Returns all the validation messages
+ *
+ * 
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Base, getMessages){
 
 	zval *t0 = NULL;
@@ -3340,6 +3492,13 @@ PHP_METHOD(Phalcon_Model_Base, getMessages){
 	return;
 }
 
+/**
+ * Inserts or updates a model instance. Returns true on success or else false .
+ *
+ * 
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, save){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
@@ -4893,6 +5052,13 @@ PHP_METHOD(Phalcon_Model_Base, save){
 	RETURN_NULL();
 }
 
+/**
+ * Deletes a model instance. Returns true on success or else false .
+ *
+ * 
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, delete){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
@@ -5171,6 +5337,14 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 	return;
 }
 
+/**
+ * Reads an attribute value by its name
+ *
+ * 
+ *
+ * @param string $attribute
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Model_Base, readAttribute){
 
 	zval *v0 = NULL;
@@ -5211,6 +5385,14 @@ PHP_METHOD(Phalcon_Model_Base, readAttribute){
 	return;
 }
 
+/**
+ * Writes an attribute value by its name
+ *
+ * 
+ *
+ * @param string $attribute
+ * @param mixed $value
+ */
 PHP_METHOD(Phalcon_Model_Base, writeAttribute){
 
 	zval *v0 = NULL, *v1 = NULL;

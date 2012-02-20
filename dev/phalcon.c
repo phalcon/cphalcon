@@ -329,11 +329,11 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce28, "Phalcon_Model_Resultset", phalcon_model_resultset_functions);
 	phalcon_model_resultset_class_entry = zend_register_internal_class(&ce28 TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_resultset_class_entry, "_model", sizeof("_model")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_resultset_class_entry, "_resultResource", sizeof("_resultResource")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_model_resultset_class_entry, "_pointer", sizeof("_pointer")-1, 0, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_resultset_class_entry, "_count", sizeof("_count")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_resultset_class_entry, "_activeRow", sizeof("_activeRow")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_resultset_class_entry, "_model", sizeof("_model")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_resultset_class_entry, "_resultResource", sizeof("_resultResource")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_model_resultset_class_entry, "_pointer", sizeof("_pointer")-1, 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_resultset_class_entry, "_count", sizeof("_count")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_resultset_class_entry, "_activeRow", sizeof("_activeRow")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_class_implements(phalcon_model_resultset_class_entry TSRMLS_CC, 3, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable);
 
 	INIT_CLASS_ENTRY(ce29, "Phalcon_Tag", phalcon_tag_functions);
@@ -414,10 +414,10 @@ PHP_MINIT_FUNCTION(phalcon){
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce37, "Phalcon_Db_MySQL", phalcon_db_mysql_functions);
+	INIT_CLASS_ENTRY(ce37, "Phalcon_Db_Mysql", phalcon_db_mysql_functions);
 	phalcon_db_mysql_class_entry = zend_register_internal_class_ex(&ce37, NULL, "phalcon_db" TSRMLS_CC);
 	if(!phalcon_db_mysql_class_entry){
-		fprintf(stderr, "Phalcon Error: Extended class 'Phalcon_Db' not found when registering class 'Phalcon_Db_MySQL'");
+		fprintf(stderr, "Phalcon Error: Extended class 'Phalcon_Db' not found when registering class 'Phalcon_Db_Mysql'");
 		return FAILURE;
 	}
 

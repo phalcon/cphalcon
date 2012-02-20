@@ -43,6 +43,8 @@
  * Php_View is a class for working with the "view" portion of the model-view-controller pattern.
  * That is, it exists to help keep the view script separate from the model and controller scripts.
  * It provides a system of helpers, output filters, and variable escaping.
+ *
+ * 
  */
 
 PHP_METHOD(Phalcon_View, __construct){
@@ -251,7 +253,7 @@ PHP_METHOD(Phalcon_View, setParamToView){
 /**
  * Returns parameters to views
  *
- * @return array 
+ * @return array
  */
 PHP_METHOD(Phalcon_View, getParamsToView){
 

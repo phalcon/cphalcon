@@ -40,9 +40,19 @@
 /**
  * Php_Model_Message
  *
- * Encapsulates validation related information generated before save/delete records
+ * Encapsulates validation info generated before save/delete records fails
+ *
+ * 
+ *
  */
 
+/**
+     * Php_Model_Message message
+     *
+     * @param string $message
+     * @param string $field
+     * @param string $type
+     */
 PHP_METHOD(Phalcon_Model_Message, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -83,6 +93,11 @@ PHP_METHOD(Phalcon_Model_Message, __construct){
 	RETURN_NULL();
 }
 
+/**
+     * Sets message type
+     *
+     * @param string $type
+     */
 PHP_METHOD(Phalcon_Model_Message, setType){
 
 	zval *v0 = NULL;
@@ -102,6 +117,11 @@ PHP_METHOD(Phalcon_Model_Message, setType){
 	RETURN_NULL();
 }
 
+/**
+     * Returns message type
+     *
+     * @return string
+     */
 PHP_METHOD(Phalcon_Model_Message, getType){
 
 	zval *t0 = NULL;
@@ -130,6 +150,11 @@ PHP_METHOD(Phalcon_Model_Message, getType){
 	return;
 }
 
+/**
+     * Sets verbose message
+     *
+     * @param string $message
+     */
 PHP_METHOD(Phalcon_Model_Message, setMessage){
 
 	zval *v0 = NULL;
@@ -149,6 +174,11 @@ PHP_METHOD(Phalcon_Model_Message, setMessage){
 	RETURN_NULL();
 }
 
+/**
+     * Returns verbose message
+     *
+     * @return string
+     */
 PHP_METHOD(Phalcon_Model_Message, getMessage){
 
 	zval *t0 = NULL;
@@ -177,6 +207,11 @@ PHP_METHOD(Phalcon_Model_Message, getMessage){
 	return;
 }
 
+/**
+     * Sets field name related to message
+     *
+     * @param string $field
+     */
 PHP_METHOD(Phalcon_Model_Message, setField){
 
 	zval *v0 = NULL;
@@ -196,6 +231,11 @@ PHP_METHOD(Phalcon_Model_Message, setField){
 	RETURN_NULL();
 }
 
+/**
+     * Returns field name related to message
+     *
+     * @return string
+     */
 PHP_METHOD(Phalcon_Model_Message, getField){
 
 	zval *t0 = NULL;
@@ -224,6 +264,11 @@ PHP_METHOD(Phalcon_Model_Message, getField){
 	return;
 }
 
+/**
+     * Magic __toString method returns verbose message
+     *
+     * @return string
+     */
 PHP_METHOD(Phalcon_Model_Message, __toString){
 
 	zval *t0 = NULL;
@@ -252,6 +297,12 @@ PHP_METHOD(Phalcon_Model_Message, __toString){
 	return;
 }
 
+/**
+     * Magic __set_state helps to recover messsages from serialization
+     *
+     * @param array $message
+     * @return Php_Model_Message
+     */
 PHP_METHOD(Phalcon_Model_Message, __set_state){
 
 	zval *v0 = NULL;

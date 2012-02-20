@@ -37,6 +37,12 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Model_Row
+ *
+ * This component allows to Php_Model_Base returns grouped resultsets.
+ */
+
 PHP_METHOD(Phalcon_Model_Row, __construct){
 
 	zval *a0 = NULL;
@@ -46,6 +52,11 @@ PHP_METHOD(Phalcon_Model_Row, __construct){
 	zend_update_property(phalcon_model_row_class_entry, this_ptr, "_columns", strlen("_columns"), a0 TSRMLS_CC);
 }
 
+/**
+ * Overwrittes default connection
+ *
+ * @param Php_Db $connection
+ */
 PHP_METHOD(Phalcon_Model_Row, setConnection){
 
 	zval *v0 = NULL;
@@ -65,6 +76,11 @@ PHP_METHOD(Phalcon_Model_Row, setConnection){
 	RETURN_NULL();
 }
 
+/**
+ * Returns default connection
+ *
+ * @return Php_Db
+ */
 PHP_METHOD(Phalcon_Model_Row, getConnection){
 
 	zval *t0 = NULL;
@@ -93,6 +109,14 @@ PHP_METHOD(Phalcon_Model_Row, getConnection){
 	return;
 }
 
+/**
+ * Assigns values to a row from an array returning a new row
+ *
+ *
+ *
+ * @param array $result
+ * @return Php_Model $result
+ */
 PHP_METHOD(Phalcon_Model_Row, dumpResult){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
@@ -228,6 +252,14 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 	return;
 }
 
+/**
+ * Reads an attribute value by its name
+ *
+ * 
+ *
+ * @param string $attribute
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Model_Row, readAttribute){
 
 	zval *v0 = NULL;
@@ -262,6 +294,11 @@ PHP_METHOD(Phalcon_Model_Row, readAttribute){
 	return;
 }
 
+/**
+ * Magic method sleep
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_Row, sleep){
 
 	zval *a0 = NULL;

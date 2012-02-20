@@ -40,9 +40,15 @@
 /**
  * Php_Db_Pool
  *
- * Caches database connections
+ * Manages caching of database connections. With the help of Php_Db_Pool, developers can be sure that no new database
+ * connections will made when calling multiple of times Php_Db_Pool::getConnection.
  */
 
+/**
+ * Check if a default descriptor has already defined
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -61,6 +67,14 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 	return;
 }
 
+/**
+ * Sets the default descriptor for database connections.
+ *
+ *
+ *
+ * @param array $options
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -129,6 +143,15 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	RETURN_NULL();
 }
 
+/**
+ * Returns a connection builded with the default descriptor parameters
+ *
+ * 
+ *
+ * @param boolean $newConnection
+     * @param boolean $renovate
+ * @return Php_Db
+ */
 PHP_METHOD(Phalcon_Db_Pool, getConnection){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;

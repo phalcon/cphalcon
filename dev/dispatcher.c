@@ -44,6 +44,7 @@
  * controller name, action name, and optional parameters contained in it, and then
  * instantiating a controller and calling an action of that controller.
  *
+ * 
  */
 
 PHP_METHOD(Phalcon_Dispatcher, __construct){
@@ -60,6 +61,8 @@ PHP_METHOD(Phalcon_Dispatcher, __construct){
 
 /**
  * Sets default controllers directory
+ *
+ * @param string $controllersDir
  */
 PHP_METHOD(Phalcon_Dispatcher, setControllersDir){
 
@@ -82,6 +85,8 @@ PHP_METHOD(Phalcon_Dispatcher, setControllersDir){
 
 /**
  * Gets active controllers directory
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 
@@ -113,6 +118,8 @@ PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 
 /**
  * Sets base path for controllers dir
+ *
+ * @param string $basePath
  */
 PHP_METHOD(Phalcon_Dispatcher, setBasePath){
 
@@ -135,6 +142,8 @@ PHP_METHOD(Phalcon_Dispatcher, setBasePath){
 
 /**
  * Gets base path for controllers dir
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 
@@ -188,6 +197,8 @@ PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 
 /**
  * Gets last dispacthed controller name
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getControllerName){
 
@@ -219,6 +230,8 @@ PHP_METHOD(Phalcon_Dispatcher, getControllerName){
 
 /**
  * Sets the action name to be dispatched
+ *
+ * @param string $actionName
  */
 PHP_METHOD(Phalcon_Dispatcher, setActionName){
 
@@ -241,6 +254,8 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 
 /**
  * Gets last dispacthed action name
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Dispatcher, getActionName){
 
@@ -272,6 +287,8 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
 
 /**
  * Sets action params to be dispatch
+ *
+ * @param array $params
  */
 PHP_METHOD(Phalcon_Dispatcher, setParams){
 
@@ -294,6 +311,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 
 /**
  * Gets action params
+     *
+ * @return array
  */
 PHP_METHOD(Phalcon_Dispatcher, getParams){
 
@@ -325,6 +344,12 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 
 /**
  * Dispatchs a action controller taking care of routing
+ *
+ * @param Php_Request $request
+ * @param Php_Response $response
+ * @param Php_View $view
+ * @param Php_Model_Manager $model
+ * @return Php_Controller
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
@@ -1341,6 +1366,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
 /**
  * Routes to a controller/action using a string or array uri
+ *
+ * @param string $uri
  */
 PHP_METHOD(Phalcon_Dispatcher, forward){
 
@@ -1564,7 +1591,9 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 }
 
 /**
- * Gets instantiated controllers whitin dispatcher
+ * Returns all instantiated controllers whitin the dispatcher
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Dispatcher, getControllers){
 
@@ -1595,7 +1624,9 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 }
 
 /**
- * Gets last dispatched controller
+ * Returns last dispatched controller
+ *
+ * @return Php_Controller
  */
 PHP_METHOD(Phalcon_Dispatcher, getLastController){
 
@@ -1626,7 +1657,9 @@ PHP_METHOD(Phalcon_Dispatcher, getLastController){
 }
 
 /**
- * Returns last value returned by last dispacthed action
+ * Returns value returned by last dispacthed action
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 

@@ -40,7 +40,13 @@
 /**
  * Php_Request
  *
- * Encapsulates request information for easily and secure access from application controllers
+ * <p>Encapsulates request information for easily and secure access from application controllers.</p>
+ *
+ * <p>The request object is a simple value object that is passed between the dispatcher and controller classes.
+ * It packages the HTTP request environment.</p>
+ *
+ * 
+ *
  */
 
 PHP_METHOD(Phalcon_Request, __construct){
@@ -49,6 +55,11 @@ PHP_METHOD(Phalcon_Request, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Gets the singleton instance of Php_Request
+ *
+ * @return Php_Request
+ */
 PHP_METHOD(Phalcon_Request, getInstance){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -83,6 +94,11 @@ PHP_METHOD(Phalcon_Request, getInstance){
 	return;
 }
 
+/**
+ * Overwrittes Php_Filter object used to sanitize input data
+ *
+ * @param Php_Filter $filter
+ */
 PHP_METHOD(Phalcon_Request, setFilter){
 
 	zval *v0 = NULL;
@@ -102,6 +118,11 @@ PHP_METHOD(Phalcon_Request, setFilter){
 	RETURN_NULL();
 }
 
+/**
+ * Returns active filter object used to sanitize input data
+ *
+ * @return Php_Filter
+ */
 PHP_METHOD(Phalcon_Request, getFilter){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -148,6 +169,10 @@ PHP_METHOD(Phalcon_Request, getFilter){
 
 /**
  * Gets variable from $_POST superglobal applying filters if needed
+ *
+ * @param string $name
+ * @param string|array $filters
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Request, getPost){
 
@@ -223,7 +248,11 @@ PHP_METHOD(Phalcon_Request, getPost){
 }
 
 /**
- * Gets variable from $_GET applying filters if needed
+ * Gets variable from $_GET superglobal applying filters if needed
+ *
+ * @param string $name
+ * @param string|array $filters
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Request, getQuery){
 
@@ -299,7 +328,10 @@ PHP_METHOD(Phalcon_Request, getQuery){
 }
 
 /**
- * Gets variable from $_SERVER applying filters if needed
+ * Gets variable from $_SERVER superglobal
+ *
+ * @param string $name
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Request, getServer){
 
@@ -355,6 +387,12 @@ PHP_METHOD(Phalcon_Request, getServer){
 	RETURN_NULL();
 }
 
+/**
+ * Gets HTTP header from request data
+ *
+ * @param string $header
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getHeader){
 
 	zval *v0 = NULL;
@@ -438,6 +476,11 @@ PHP_METHOD(Phalcon_Request, getHeader){
 	RETURN_NULL();
 }
 
+/**
+ * Gets HTTP schema (http/https)
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getScheme){
 
 	zval *r0 = NULL;
@@ -455,6 +498,11 @@ PHP_METHOD(Phalcon_Request, getScheme){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether request has been made using ajax
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isAjax){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -478,6 +526,11 @@ PHP_METHOD(Phalcon_Request, isAjax){
 	return;
 }
 
+/**
+ * Checks whether request has been made using SOAP
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isSoapRequested){
 
 	zval *a0 = NULL;
@@ -529,6 +582,11 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether request has been made using any secure layer
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isSecureRequest){
 
 	zval *r0 = NULL, *r1 = NULL;
@@ -547,6 +605,11 @@ PHP_METHOD(Phalcon_Request, isSecureRequest){
 	RETURN_NULL();
 }
 
+/**
+ * Gets HTTP raws request body
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getRawBody){
 
 	zval *r0 = NULL;
@@ -559,6 +622,11 @@ PHP_METHOD(Phalcon_Request, getRawBody){
 	RETURN_ZVAL(r0, 1, 0);
 }
 
+/**
+ * Gets active server address IP
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getServerAddress){
 
 	zval *a0 = NULL;
@@ -612,6 +680,11 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 	RETURN_NULL();
 }
 
+/**
+ * Gets active server name
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getServerName){
 
 	zval *a0 = NULL;
@@ -660,6 +733,11 @@ PHP_METHOD(Phalcon_Request, getServerName){
 	RETURN_NULL();
 }
 
+/**
+ * Gets information about schema, host and port used by the request
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getHttpHost){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -752,6 +830,11 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	RETURN_NULL();
 }
 
+/**
+ * Gets most possibly client IPv4 Address
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getClientAddress){
 
 	zval *a0 = NULL;
@@ -825,6 +908,11 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
 	RETURN_NULL();
 }
 
+/**
+ * Gets HTTP method which request has been made
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getMethod){
 
 	zval *a0 = NULL;
@@ -873,6 +961,11 @@ PHP_METHOD(Phalcon_Request, getMethod){
 	RETURN_NULL();
 }
 
+/**
+ * Gets HTTP user agent used to made the request
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getUserAgent){
 
 	zval *a0 = NULL;
@@ -921,6 +1014,11 @@ PHP_METHOD(Phalcon_Request, getUserAgent){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is POST
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isPost){
 
 	zval *r0 = NULL;
@@ -935,6 +1033,11 @@ PHP_METHOD(Phalcon_Request, isPost){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is GET
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isGet){
 
 	zval *r0 = NULL;
@@ -949,6 +1052,11 @@ PHP_METHOD(Phalcon_Request, isGet){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is PUT
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isPut){
 
 	zval *r0 = NULL;
@@ -963,6 +1071,11 @@ PHP_METHOD(Phalcon_Request, isPut){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is HEAD
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isHead){
 
 	zval *r0 = NULL;
@@ -977,6 +1090,11 @@ PHP_METHOD(Phalcon_Request, isHead){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is DELETE
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isDelete){
 
 	zval *r0 = NULL;
@@ -991,6 +1109,11 @@ PHP_METHOD(Phalcon_Request, isDelete){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether HTTP method is OPTIONS
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, isOptions){
 
 	zval *r0 = NULL;
@@ -1005,6 +1128,11 @@ PHP_METHOD(Phalcon_Request, isOptions){
 	RETURN_NULL();
 }
 
+/**
+ * Checks whether request include attached files
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Request, hasFiles){
 
 	zval *a0 = NULL;
@@ -1064,6 +1192,11 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 	RETURN_NULL();
 }
 
+/**
+ * Gets attached files as Php_UploadFile clases
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
@@ -1100,7 +1233,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 		Z_ADDREF_P(a1);
 		v0 = a1;
 		FOREACH_V(a0, ac0, fes2, fee2, ah0, hp0, v1)
-			ce0 = zend_fetch_class("controlleruploadfile", strlen("controlleruploadfile"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+			ce0 = zend_fetch_class("phalcon_uploadfile", strlen("phalcon_uploadfile"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 			if (!i0) {
 				PHALCON_ALLOC_ZVAL(i0);
 			} else {
@@ -1176,6 +1309,11 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 	RETURN_NULL();
 }
 
+/**
+ * Gets web page which refers active request
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getHTTPReferer){
 
 	zval *a0 = NULL;
@@ -1224,6 +1362,11 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 	RETURN_NULL();
 }
 
+/**
+ * Gets array with mime/types and their quality accepted by the browser/client.
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Request, getAcceptableContent){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL;
@@ -1484,6 +1627,11 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	return;
 }
 
+/**
+ * Gets best mime/type accepted by the browser/client.
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
@@ -1694,6 +1842,11 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 	return;
 }
 
+/**
+ * Gets charsets array and their quality accepted by the browser/client.
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Request, getClientCharsets){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL;
@@ -1954,6 +2107,11 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 	return;
 }
 
+/**
+ * Gets best charset accepted by the browser/client.
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;

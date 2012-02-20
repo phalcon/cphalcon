@@ -114,7 +114,8 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset);
 PHP_METHOD(Phalcon_Controller_Front, __construct);
 PHP_METHOD(Phalcon_Controller_Front, getInstance);
 PHP_METHOD(Phalcon_Controller_Front, setConfig);
-PHP_METHOD(Phalcon_Controller_Front, setControllerDir);
+PHP_METHOD(Phalcon_Controller_Front, setDatabaseConfig);
+PHP_METHOD(Phalcon_Controller_Front, setControllersDir);
 PHP_METHOD(Phalcon_Controller_Front, setModelsDir);
 PHP_METHOD(Phalcon_Controller_Front, setViewsDir);
 PHP_METHOD(Phalcon_Controller_Front, setRouter);
@@ -397,23 +398,23 @@ PHP_METHOD(Phalcon_Router_Rewrite, getParams);
 
 PHP_METHOD(Phalcon_Db_Exception, __construct);
 
-PHP_METHOD(Phalcon_Db_MySQL, __construct);
-PHP_METHOD(Phalcon_Db_MySQL, connect);
-PHP_METHOD(Phalcon_Db_MySQL, query);
-PHP_METHOD(Phalcon_Db_MySQL, close);
-PHP_METHOD(Phalcon_Db_MySQL, fetchArray);
-PHP_METHOD(Phalcon_Db_MySQL, numRows);
-PHP_METHOD(Phalcon_Db_MySQL, dataSeek);
-PHP_METHOD(Phalcon_Db_MySQL, affectedRows);
-PHP_METHOD(Phalcon_Db_MySQL, setFetchMode);
-PHP_METHOD(Phalcon_Db_MySQL, error);
-PHP_METHOD(Phalcon_Db_MySQL, noError);
-PHP_METHOD(Phalcon_Db_MySQL, lastInsertId);
-PHP_METHOD(Phalcon_Db_MySQL, limit);
-PHP_METHOD(Phalcon_Db_MySQL, tableExists);
-PHP_METHOD(Phalcon_Db_MySQL, viewExists);
-PHP_METHOD(Phalcon_Db_MySQL, describeTable);
-PHP_METHOD(Phalcon_Db_MySQL, getDateUsingFormat);
+PHP_METHOD(Phalcon_Db_Mysql, __construct);
+PHP_METHOD(Phalcon_Db_Mysql, connect);
+PHP_METHOD(Phalcon_Db_Mysql, query);
+PHP_METHOD(Phalcon_Db_Mysql, close);
+PHP_METHOD(Phalcon_Db_Mysql, fetchArray);
+PHP_METHOD(Phalcon_Db_Mysql, numRows);
+PHP_METHOD(Phalcon_Db_Mysql, dataSeek);
+PHP_METHOD(Phalcon_Db_Mysql, affectedRows);
+PHP_METHOD(Phalcon_Db_Mysql, setFetchMode);
+PHP_METHOD(Phalcon_Db_Mysql, error);
+PHP_METHOD(Phalcon_Db_Mysql, noError);
+PHP_METHOD(Phalcon_Db_Mysql, lastInsertId);
+PHP_METHOD(Phalcon_Db_Mysql, limit);
+PHP_METHOD(Phalcon_Db_Mysql, tableExists);
+PHP_METHOD(Phalcon_Db_Mysql, viewExists);
+PHP_METHOD(Phalcon_Db_Mysql, describeTable);
+PHP_METHOD(Phalcon_Db_Mysql, getDateUsingFormat);
 
 PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor);
 PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor);
@@ -652,7 +653,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setconfig, 0, 0, 1)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setcontrollerdir, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setdatabaseconfig, 0, 0, 1)
+	ZEND_ARG_INFO(0, database)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller_front_setcontrollersdir, 0, 0, 1)
 	ZEND_ARG_INFO(0, controllersDir)
 ZEND_END_ARG_INFO()
 
@@ -1647,7 +1652,8 @@ static const function_entry phalcon_controller_front_functions[] = {
 	PHP_ME(Phalcon_Controller_Front, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Controller_Front, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Controller_Front, setConfig, arginfo_phalcon_controller_front_setconfig, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Controller_Front, setControllerDir, arginfo_phalcon_controller_front_setcontrollerdir, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, setDatabaseConfig, arginfo_phalcon_controller_front_setdatabaseconfig, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Controller_Front, setControllersDir, arginfo_phalcon_controller_front_setcontrollersdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setModelsDir, arginfo_phalcon_controller_front_setmodelsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setViewsDir, arginfo_phalcon_controller_front_setviewsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, setRouter, arginfo_phalcon_controller_front_setrouter, ZEND_ACC_PUBLIC) 
@@ -1966,23 +1972,23 @@ static const function_entry phalcon_db_exception_functions[] = {
 };
 
 static const function_entry phalcon_db_mysql_functions[] = {
-	PHP_ME(Phalcon_Db_MySQL, __construct, arginfo_phalcon_db_mysql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Db_MySQL, connect, arginfo_phalcon_db_mysql_connect, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, query, arginfo_phalcon_db_mysql_query, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, close, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, fetchArray, arginfo_phalcon_db_mysql_fetcharray, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, numRows, arginfo_phalcon_db_mysql_numrows, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, dataSeek, arginfo_phalcon_db_mysql_dataseek, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, affectedRows, arginfo_phalcon_db_mysql_affectedrows, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, setFetchMode, arginfo_phalcon_db_mysql_setfetchmode, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, error, arginfo_phalcon_db_mysql_error, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, noError, arginfo_phalcon_db_mysql_noerror, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, lastInsertId, arginfo_phalcon_db_mysql_lastinsertid, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, limit, arginfo_phalcon_db_mysql_limit, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, tableExists, arginfo_phalcon_db_mysql_tableexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, viewExists, arginfo_phalcon_db_mysql_viewexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, describeTable, arginfo_phalcon_db_mysql_describetable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_MySQL, getDateUsingFormat, arginfo_phalcon_db_mysql_getdateusingformat, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, __construct, arginfo_phalcon_db_mysql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Db_Mysql, connect, arginfo_phalcon_db_mysql_connect, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, query, arginfo_phalcon_db_mysql_query, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, close, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, fetchArray, arginfo_phalcon_db_mysql_fetcharray, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, numRows, arginfo_phalcon_db_mysql_numrows, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, dataSeek, arginfo_phalcon_db_mysql_dataseek, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, affectedRows, arginfo_phalcon_db_mysql_affectedrows, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, setFetchMode, arginfo_phalcon_db_mysql_setfetchmode, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, error, arginfo_phalcon_db_mysql_error, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, noError, arginfo_phalcon_db_mysql_noerror, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, lastInsertId, arginfo_phalcon_db_mysql_lastinsertid, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, limit, arginfo_phalcon_db_mysql_limit, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, tableExists, arginfo_phalcon_db_mysql_tableexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, viewExists, arginfo_phalcon_db_mysql_viewexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, describeTable, arginfo_phalcon_db_mysql_describetable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, getDateUsingFormat, arginfo_phalcon_db_mysql_getdateusingformat, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
 

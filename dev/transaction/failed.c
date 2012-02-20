@@ -37,6 +37,19 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Transaction_Failed
+ *
+ * Php_Transaction_Failed will thrown to exit a try/catch block for transactions
+ *
+ */
+
+/**
+ * Php_Transaction_Failed constructor
+ *
+ * @param string $message
+ * @param Php_Model_Base $record
+ */
 PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -61,6 +74,11 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Returns validation record messages which stop the transaction
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 
 	zval *v0 = NULL;
@@ -83,12 +101,17 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 		RETURN_ZVAL(r0, 1, 0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r1);
-		PHALCON_CALL_METHOD(r1, this_ptr, "_getmessage", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD(r1, this_ptr, "getmessage", PHALCON_CALL_DEFAULT);
 		RETURN_ZVAL(r1, 1, 0);
 	}
 	RETURN_NULL();
 }
 
+/**
+ * Returns validation record messages which stop the transaction
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	zval *t0 = NULL;

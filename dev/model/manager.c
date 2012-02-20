@@ -40,12 +40,15 @@
 /**
  * Php_Model_Manager
  *
- * Manages creation of models inside application
+ * Manages the creation of models inside application and their relationships.
+ * Phacon_Model_Manager helps to control the creation of models across a request execution.
+ *
+ * 
  */
 
 /**
  * Constructor for Php_Model_Manager
-     * 
+     *
  */
 PHP_METHOD(Phalcon_Model_Manager, __construct){
 
@@ -73,6 +76,11 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Overwrittes default meta-data manager
+ *
+ * @param Php_Model_Metadata $metadata
+ */
 PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 
 	zval *v0 = NULL;
@@ -92,6 +100,11 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 	RETURN_NULL();
 }
 
+/**
+ * Returns active meta-data manager. If not exists any will be created one
+ *
+ * @return Php_Model_Metadata
+ */
 PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -137,7 +150,9 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 }
 
 /**
- * Sets/Changes the models directory
+ * Sets the models directory
+ *
+ * @param string $modelsDir
  */
 PHP_METHOD(Phalcon_Model_Manager, setModelsDir){
 
@@ -160,6 +175,8 @@ PHP_METHOD(Phalcon_Model_Manager, setModelsDir){
 
 /**
  * Gets active models directory
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Model_Manager, getModelsDir){
 
@@ -189,6 +206,14 @@ PHP_METHOD(Phalcon_Model_Manager, getModelsDir){
 	return;
 }
 
+/**
+ * Checks wheater given name is a existent model
+ *
+ * 
+ *
+ * @param string $modelName
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Manager, isModel){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -245,7 +270,10 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 }
 
 /**
- * Initializes model doing instantiation and requiring
+ * Initializes a model looking for its file and initializing them
+ *
+ * @param string $modelName
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 
@@ -336,6 +364,11 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel){
 
 /**
  * Gets/Instantiates model from directory
+ *
+ * 
+ *
+ * @param string $modelName
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Model_Manager, getModel){
 
@@ -380,6 +413,12 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 	return;
 }
 
+/**
+ * Gets the posibly source model name from its class name
+ *
+ * @param string $modelName
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Manager, getSource){
 
 	zval *v0 = NULL;
@@ -433,7 +472,9 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 }
 
 /**
- * Gets default connection to database
+ * Gets default connection to database. All models by default will use connection returned by this method
+ *
+ * @return Php_Db
  */
 PHP_METHOD(Phalcon_Model_Manager, getConnection){
 

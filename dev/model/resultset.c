@@ -37,6 +37,23 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Model_Resultset
+ *
+ * This component allows to Php_Model_Base returns large resulsets with the minimum memory comsuption
+ *
+ * Resulsets can be traversed using a standard foreach or a while statement.
+ *
+ * 
+ *
+ */
+
+/**
+ * Php_Model_Resultset constructor
+ *
+ * @param Php_Model_Base $model
+ * @param resource $resultResource
+ */
 PHP_METHOD(Phalcon_Model_Resultset, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -63,6 +80,11 @@ PHP_METHOD(Phalcon_Model_Resultset, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Check whether internal resource has rows to fetch
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Resultset, valid){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
@@ -142,6 +164,11 @@ PHP_METHOD(Phalcon_Model_Resultset, valid){
 	RETURN_NULL();
 }
 
+/**
+ * Returns current row in the resultset
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Resultset, current){
 
 	zval *t0 = NULL;
@@ -170,6 +197,10 @@ PHP_METHOD(Phalcon_Model_Resultset, current){
 	return;
 }
 
+/**
+ * Moves cursor to next row in the resultset
+ *
+ */
 PHP_METHOD(Phalcon_Model_Resultset, next){
 
 	zval *t0 = NULL;
@@ -199,6 +230,10 @@ PHP_METHOD(Phalcon_Model_Resultset, next){
 	RETURN_NULL();
 }
 
+/**
+ * Gets pointer number to active row in the resultset
+ *
+ */
 PHP_METHOD(Phalcon_Model_Resultset, key){
 
 	zval *t0 = NULL;
@@ -227,6 +262,10 @@ PHP_METHOD(Phalcon_Model_Resultset, key){
 	return;
 }
 
+/**
+ * Rewinds resultset to its beginning
+ *
+ */
 PHP_METHOD(Phalcon_Model_Resultset, rewind){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -263,6 +302,9 @@ PHP_METHOD(Phalcon_Model_Resultset, rewind){
 	RETURN_NULL();
 }
 
+/**
+ * Changes interal pointer to a specifically position in the resultset
+ */
 PHP_METHOD(Phalcon_Model_Resultset, seek){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -308,6 +350,11 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
 	RETURN_NULL();
 }
 
+/**
+ * Counts how many rows are in the resultset
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Model_Resultset, count){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
@@ -380,6 +427,11 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
 	return;
 }
 
+/**
+ * Checks whether offset exists in the resultset
+ *
+ * @param int $index
+ */
 PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
 
 	zval *v0 = NULL;
@@ -399,6 +451,11 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
 	RETURN_NULL();
 }
 
+/**
+ * Gets row in a specifically position of the resultset
+ *
+ * @param int $index
+ */
 PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 
 	zval *v0 = NULL;
@@ -440,6 +497,11 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 	RETURN_NULL();
 }
 
+/**
+ * Resulsets cannot be changed. It has only been implemented to meet the definition of the interface
+ *
+ * @param int $index
+ */
 PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -461,6 +523,11 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 	return;
 }
 
+/**
+ * Resulsets cannot be changed. It has only been implemented to meet the definition of the interface
+ *
+ * @param int $index
+ */
 PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 
 	zval *v0 = NULL;
@@ -482,6 +549,11 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 	return;
 }
 
+/**
+ * Get first row in the resultset
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
@@ -517,6 +589,11 @@ PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 	RETURN_NULL();
 }
 
+/**
+ * Get last row in the resultset
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Resultset, getLast){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -553,6 +630,11 @@ PHP_METHOD(Phalcon_Model_Resultset, getLast){
 	RETURN_NULL();
 }
 
+/**
+ * Get model which originates the resultset
+ *
+ * @return Php_Model_Base
+ */
 PHP_METHOD(Phalcon_Model_Resultset, getModel){
 
 	zval *t0 = NULL;

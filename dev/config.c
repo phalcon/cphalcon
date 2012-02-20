@@ -41,11 +41,19 @@
  * Php_Config
  *
  * Php_Config is designed to simplify the access to, and the use of, configuration data within applications.
- * It provides a nested object property based user interface for accessing this
- * configuration data within application code.
+ * It provides a nested object property based user interface for accessing this configuration data within
+ * application code.
+ *
+ * 
  *
  */
 
+/**
+ * Php_Config constructor
+ *
+ * @paramarray $arrayConfig
+ * @returnPhp_Config
+ */
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;

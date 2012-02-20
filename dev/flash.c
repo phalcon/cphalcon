@@ -167,6 +167,8 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 /**
  * Shows a HTML error message
  *
+ * 
+ *
  * @param string $message
  * @param string $classes
  * @return string
@@ -198,6 +200,8 @@ PHP_METHOD(Phalcon_Flash, error){
 
 /**
  * Shows a HTML notice/information message
+ *
+     * 
  *
  * @param string $message
  * @param string $classes
@@ -231,6 +235,8 @@ PHP_METHOD(Phalcon_Flash, notice){
 /**
  * Shows a HTML sucess message
  *
+ * 
+ *
  * @param string $message
  * @param string $classes
  * @return string
@@ -262,6 +268,8 @@ PHP_METHOD(Phalcon_Flash, success){
 
 /**
  * Shows a HTML warning message
+ *
+ * 
  *
  * @param string $message
  * @param string $classes

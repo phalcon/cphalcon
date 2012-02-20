@@ -42,6 +42,9 @@
  *
  * The Php_Filter component provides a set of commonly needed data filters. It provides
  * object oriented wrappers to the php filter extension
+ *
+ *
+ *
  */
 
 /**

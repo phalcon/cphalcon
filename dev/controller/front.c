@@ -43,6 +43,8 @@
  * Php_Controller_Front implements a "Front Controller" pattern used in "Model-View-Controller" (MVC) applications.
  * Its purpose is to initialize the request environment, route the incoming request, and then dispatch
  * any discovered actions; it aggregates any responses and returns them when the process is complete
+ *
+ *
  */
 
 /**
@@ -100,7 +102,9 @@ PHP_METHOD(Phalcon_Controller_Front, getInstance){
 }
 
 /**
- * Modifies multipe general settings using
+ * Modifies multipe general settings using a Php_Config object or a stdClass filled with parameters
+ *
+ * 
  *
  * @param stdClass $config
  */
@@ -220,11 +224,34 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig){
 }
 
 /**
+ * Sets the database default settings
+ *
+ * @param stdClass $database
+ */
+PHP_METHOD(Phalcon_Controller_Front, setDatabaseConfig){
+
+	zval *v0 = NULL;
+	zval *p0[] = { NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	Z_ADDREF_P(v0);
+	p0[0] = v0;
+	PHALCON_CALL_STATIC_PARAMS_NORETURN("phalcon_db_pool", "setdefaultdescriptor", 1, p0);
+	RETURN_NULL();
+}
+
+/**
  * Sets controllers directory
+ *
+ * 
  *
  * @param string $controllersDir
  */
-PHP_METHOD(Phalcon_Controller_Front, setControllerDir){
+PHP_METHOD(Phalcon_Controller_Front, setControllersDir){
 
 	zval *v0 = NULL;
 
@@ -245,6 +272,8 @@ PHP_METHOD(Phalcon_Controller_Front, setControllerDir){
 
 /**
  * Sets models directory
+     *
+ * 
  *
  * @param string $modelsDir
  */
@@ -270,6 +299,8 @@ PHP_METHOD(Phalcon_Controller_Front, setModelsDir){
 /**
  * Sets views directory
  *
+ * 
+ *
  * @param string $viewsDir
  */
 PHP_METHOD(Phalcon_Controller_Front, setViewsDir){
@@ -293,7 +324,10 @@ PHP_METHOD(Phalcon_Controller_Front, setViewsDir){
 
 /**
  * Replaces the default router with a predefined object
+ *
  * 
+ *
+ * @param Php_Router $router
  */
 PHP_METHOD(Phalcon_Controller_Front, setRouter){
 
@@ -317,7 +351,7 @@ PHP_METHOD(Phalcon_Controller_Front, setRouter){
 /**
  * Return active router
  *
- * @return string
+ * @return Php_Router
  */
 PHP_METHOD(Phalcon_Controller_Front, getRouter){
 
@@ -349,7 +383,7 @@ PHP_METHOD(Phalcon_Controller_Front, getRouter){
 
 /**
  * Replaces the default dispatcher with a predefined object
- * 
+ *
  * @param Php_Dispatcher $dispatcher
  */
 PHP_METHOD(Phalcon_Controller_Front, setDispatcher){
@@ -424,7 +458,7 @@ PHP_METHOD(Phalcon_Controller_Front, getDispatcher){
 /**
  * Sets external uri which app is executed
  *
- * @return string
+ * @param string $baseUri
  */
 PHP_METHOD(Phalcon_Controller_Front, setBaseUri){
 
@@ -559,6 +593,8 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 
 /**
  * Sets local path where app/ directory is located
+ *
+  * @param string $basePath
  */
 PHP_METHOD(Phalcon_Controller_Front, setBasePath){
 
@@ -613,7 +649,9 @@ PHP_METHOD(Phalcon_Controller_Front, getBasePath){
 }
 
 /**
- * Sets request object
+ * Overwrittes request object default object
+ *
+ * @param Php_Request $response
  */
 PHP_METHOD(Phalcon_Controller_Front, setRequest){
 
@@ -635,7 +673,9 @@ PHP_METHOD(Phalcon_Controller_Front, setRequest){
 }
 
 /**
- * Sets request object
+ * Overwrittes response object default object
+  *
+ * @param Php_Response $response
  */
 PHP_METHOD(Phalcon_Controller_Front, setResponse){
 
@@ -657,7 +697,9 @@ PHP_METHOD(Phalcon_Controller_Front, setResponse){
 }
 
 /**
-* Sets the models manager 
+ * Overwrittes models manager default object
+ *
+ * @param Php_Model_Manager $model
  */
 PHP_METHOD(Phalcon_Controller_Front, setModelComponent){
 
@@ -744,6 +786,8 @@ PHP_METHOD(Phalcon_Controller_Front, getModelComponent){
 
 /**
  * Sets view component
+ *
+ * @param Php_View $view
  */
 PHP_METHOD(Phalcon_Controller_Front, setViewComponent){
 

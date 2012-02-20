@@ -40,9 +40,21 @@
 /**
  * Php_Model_MetaData
  *
+ * <p>Because Php_Model requires meta-data as field names, data types, primary keys, etc.
+ * Php_Model_MetaData recopiles them and store for further querying by Php_Model_Base.
+ * This component can also be used to store metadata adapters temporarily or permanently.</p>
+ *
+ * <p>A standard Php_Model_MetaData can be used to query model attributes:</p>
+ *
+ * 
  *
  */
 
+/**
+ * Php_Model_MetaData constructor
+ *
+ * @param string $adapter
+ */
 PHP_METHOD(Phalcon_Model_MetaData, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -705,6 +717,12 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 	RETURN_NULL();
 }
 
+/**
+ * Returns table attributes name (fields)
+ *
+     * @paramPhp_Model_Base $model
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -773,6 +791,12 @@ PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
 	return;
 }
 
+/**
+ * Returns table attributes which are part of primary key
+ *
+ * @paramPhp_Model_Base $model
+ * @returnarray
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -841,6 +865,12 @@ PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 	return;
 }
 
+/**
+ * Returns table attributes which are non part of primary key
+ *
+     * @paramPhp_Model_Base $model
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -909,6 +939,12 @@ PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
 	return;
 }
 
+/**
+ * Returns not null attributes
+ *
+     * @paramPhp_Model_Base $model
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -977,6 +1013,12 @@ PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
 	return;
 }
 
+/**
+ * Returns attributes and their data types
+ *
+     * @paramPhp_Model_Base $model
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
@@ -1045,6 +1087,12 @@ PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
 	return;
 }
 
+/**
+ * Returns attributes which types are numerical
+ *
+     * @param  Php_Model_Base $model
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypesNumeric){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;

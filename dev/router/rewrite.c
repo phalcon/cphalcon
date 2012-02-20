@@ -37,6 +37,29 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Php_Router_Rewrite
+ *
+ * <p>Php_Router_Rewrite is the standard framework router. Routing is the
+ * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
+ * decomposing it into parameters to determine which module, controller, and
+ * action of that controller should receive the request</p>
+ *
+ *Rewrite rules using a single document root:
+ *
+ *
+ *Rewrite rules using a hidden directory and a public/ document root:
+ *
+ *
+ * On public/.htaccess:
+ *
+ *
+ *
+ * The component can be used as follows:
+ *
+ *
+ */
+
 PHP_METHOD(Phalcon_Router_Rewrite, __construct){
 
 	zval *a0 = NULL;
@@ -46,6 +69,9 @@ PHP_METHOD(Phalcon_Router_Rewrite, __construct){
 	zend_update_property(phalcon_router_rewrite_class_entry, this_ptr, "_params", strlen("_params"), a0 TSRMLS_CC);
 }
 
+/**
+ * Handles routing information received from the rewrite engine
+ */
 PHP_METHOD(Phalcon_Router_Rewrite, handle){
 
 	zval *a0 = NULL, *a1 = NULL;
@@ -225,6 +251,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 	RETURN_NULL();
 }
 
+/**
+ * Returns proccesed controller name
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Router_Rewrite, getControllerName){
 
 	zval *t0 = NULL;
@@ -253,6 +284,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, getControllerName){
 	return;
 }
 
+/**
+ * Returns proccesed action name
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Router_Rewrite, getActionName){
 
 	zval *t0 = NULL;
@@ -281,6 +317,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, getActionName){
 	return;
 }
 
+/**
+ * Returns proccesed extra params
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Router_Rewrite, getParams){
 
 	zval *t0 = NULL;
