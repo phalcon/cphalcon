@@ -17,15 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-//Reads properties
+/** Reads properties */
 #define PHALCON_READ_PROPERTY_NOISY(result, object, property_name, property_length) PHALCON_VAR_INIT(result); phalcon_read_property(result, object, property_name, property_length, PHALCON_NOISY_FETCH TSRMLS_CC);
 #define PHALCON_READ_PROPERTY_SILENT(result, object, property_name, property_length) PHALCON_VAR_INIT(result); phalcon_read_property(result, object, property_name, property_length, PHALCON_SILENT_FETCH TSRMLS_CC);
 
-//New
+/** New */
 #define PHALCON_NEW_STD(object) PHALCON_ALLOC_ZVAL(object); object_init(object)
 #define PHALCON_NEW(object, class) PHALCON_ALLOC_ZVAL(object); object_init_ex(object, class)
 
-//Instance of
+/** Instance of */
 #define PHALCON_INSTANCE_OF(result, var, class) if(Z_TYPE_P(var)!=IS_OBJECT){\
       zend_error(E_ERROR, "instanceof expects an object instance, constant given");\
     } else {\
