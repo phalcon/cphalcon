@@ -277,6 +277,7 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce21, "Phalcon_Session", phalcon_session_functions);
 	phalcon_session_class_entry = zend_register_internal_class(&ce21 TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_class_entry, "_options", sizeof("_options")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce22, "Phalcon_Controller", phalcon_controller_functions);

@@ -353,6 +353,7 @@ PHP_METHOD(Phalcon_View, render){
 	phalcon_read_property(t2, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zval_copy_ctor(t2);
 	FOREACH_KV(t2, ac0, fes7, fee7, ah0, hp0, v5, v4)
+		Z_ADDREF_P(v4);
 		ZEND_SET_SYMBOL(EG(active_symbol_table), Z_STRVAL_P(v5), v4);
 	END_FOREACH(ac0, fes7, fee7, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r0);
