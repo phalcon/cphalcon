@@ -19,7 +19,7 @@ Finally restart your webserver.
 
 On GNU/Linux platform you can easily compile and install the extension from source code.
 
-Requirements
+#### Requirements
 We need some packages previously installed.
 
 * PHP 5.x development resources
