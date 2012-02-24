@@ -5419,3 +5419,147 @@ PHP_METHOD(Phalcon_Model_Base, writeAttribute){
 	RETURN_NULL();
 }
 
+/**
+ * Setup a 1-1 relation between two models
+ * 
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Base, hasOne){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *i0 = NULL;
+	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(t0);
+	phalcon_read_property(t0, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	zval_copy_ctor(t0);
+	if (zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL(t1);
+		phalcon_read_property(t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		zval_copy_ctor(t1);
+		Z_ADDREF_P(this_ptr);
+		p0[0] = this_ptr;
+		Z_ADDREF_P(v0);
+		p0[1] = v0;
+		Z_ADDREF_P(v1);
+		p0[2] = v1;
+		Z_ADDREF_P(v2);
+		p0[3] = v2;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(t1, "addhasone", 4, p0, PHALCON_CALL_DEFAULT);
+	} else {
+		PHALCON_ALLOC_ZVAL(i0);
+		object_init_ex(i0, phalcon_model_exception_class_entry);
+		PHALCON_ALLOC_ZVAL(p1[0]);
+		ZVAL_STRING(p1[0], "There is not models manager related to this model", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
+		zend_throw_exception_object(i0 TSRMLS_CC);
+		Z_ADDREF_P(i0);
+		return;
+	}
+	RETURN_NULL();
+}
+
+/**
+ * Setup a relation reverse 1-1  between two models
+ *
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Base, belongsTo){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *i0 = NULL;
+	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(t0);
+	phalcon_read_property(t0, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	zval_copy_ctor(t0);
+	if (zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL(t1);
+		phalcon_read_property(t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		zval_copy_ctor(t1);
+		Z_ADDREF_P(this_ptr);
+		p0[0] = this_ptr;
+		Z_ADDREF_P(v0);
+		p0[1] = v0;
+		Z_ADDREF_P(v1);
+		p0[2] = v1;
+		Z_ADDREF_P(v2);
+		p0[3] = v2;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(t1, "addbelongsto", 4, p0, PHALCON_CALL_DEFAULT);
+	} else {
+		PHALCON_ALLOC_ZVAL(i0);
+		object_init_ex(i0, phalcon_model_exception_class_entry);
+		PHALCON_ALLOC_ZVAL(p1[0]);
+		ZVAL_STRING(p1[0], "There is not models manager related to this model", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
+		zend_throw_exception_object(i0 TSRMLS_CC);
+		Z_ADDREF_P(i0);
+		return;
+	}
+	RETURN_NULL();
+}
+
+/**
+ * Setup a relation 1-n between two models
+ *
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Base, hasMany){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *i0 = NULL;
+	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(t0);
+	phalcon_read_property(t0, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	zval_copy_ctor(t0);
+	if (zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL(t1);
+		phalcon_read_property(t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		zval_copy_ctor(t1);
+		Z_ADDREF_P(this_ptr);
+		p0[0] = this_ptr;
+		Z_ADDREF_P(v0);
+		p0[1] = v0;
+		Z_ADDREF_P(v1);
+		p0[2] = v1;
+		Z_ADDREF_P(v2);
+		p0[3] = v2;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(t1, "addhasmany", 4, p0, PHALCON_CALL_DEFAULT);
+	} else {
+		PHALCON_ALLOC_ZVAL(i0);
+		object_init_ex(i0, phalcon_model_exception_class_entry);
+		PHALCON_ALLOC_ZVAL(p1[0]);
+		ZVAL_STRING(p1[0], "There is not models manager related to this model", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
+		zend_throw_exception_object(i0 TSRMLS_CC);
+		Z_ADDREF_P(i0);
+		return;
+	}
+	RETURN_NULL();
+}
+

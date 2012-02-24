@@ -511,6 +511,66 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 }
 
 /**
+ * Setup a 1-1 relation between two models
+ * 
+ * @param Php_Model_Base $model
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Manager, addHasOne){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
+}
+
+/**
+ * Setup a relation reverse 1-1  between two models
+ * 
+ * @param Php_Model_Base $model
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
+}
+
+/**
+ * Setup a relation 1-n between two models
+ *
+ * @param Php_Model_Base $model
+ * @parammixed $fields
+ * @paramstring $referenceTable
+ * @parammixed $referencedFields 
+ */
+PHP_METHOD(Phalcon_Model_Manager, addHasMany){
+
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
+}
+
+/**
  * Autoload function for model lazy loading
  *
  * @param string $className

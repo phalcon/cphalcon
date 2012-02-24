@@ -512,6 +512,9 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
+PHP_METHOD(Phalcon_Model_Manager, addHasOne);
+PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
+PHP_METHOD(Phalcon_Model_Manager, addHasMany);
 PHP_METHOD(Phalcon_Model_Manager, autoload);
 
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
@@ -566,6 +569,9 @@ PHP_METHOD(Phalcon_Model_Base, save);
 PHP_METHOD(Phalcon_Model_Base, delete);
 PHP_METHOD(Phalcon_Model_Base, readAttribute);
 PHP_METHOD(Phalcon_Model_Base, writeAttribute);
+PHP_METHOD(Phalcon_Model_Base, hasOne);
+PHP_METHOD(Phalcon_Model_Base, belongsTo);
+PHP_METHOD(Phalcon_Model_Base, hasMany);
 
 
 PHP_METHOD(Phalcon_Model_Resultset, __construct);
@@ -1390,6 +1396,27 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getsource, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasone, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addbelongsto, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
 	ZEND_ARG_INFO(0, className)
 ZEND_END_ARG_INFO()
@@ -1523,6 +1550,24 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_writeattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, attribute)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasone, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_belongsto, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasmany, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
@@ -2166,6 +2211,9 @@ static const function_entry phalcon_model_manager_functions[] = {
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
@@ -2229,6 +2277,9 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, delete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, readAttribute, arginfo_phalcon_model_base_readattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, writeAttribute, arginfo_phalcon_model_base_writeattribute, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, hasOne, arginfo_phalcon_model_base_hasone, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
 	{NULL, NULL, NULL}
 };
 

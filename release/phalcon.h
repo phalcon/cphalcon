@@ -42,6 +42,7 @@ zend_class_entry *phalcon_exception_class_entry;
 zend_class_entry *phalcon_transaction_class_entry;
 zend_class_entry *phalcon_transaction_failed_class_entry;
 zend_class_entry *phalcon_transaction_manager_class_entry;
+zend_class_entry *phalcon_session_class_entry;
 zend_class_entry *phalcon_config_adapter_ini_class_entry;
 zend_class_entry *phalcon_config_exception_class_entry;
 zend_class_entry *phalcon_controller_class_entry;
@@ -177,6 +178,8 @@ PHP_METHOD(Phalcon_Db, factory);
 PHP_METHOD(Phalcon_Tag_Exception, __construct);
 
 PHP_METHOD(Phalcon_Router_Rewrite, __construct);
+PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri);
+PHP_METHOD(Phalcon_Router_Rewrite, setBaseUri);
 PHP_METHOD(Phalcon_Router_Rewrite, handle);
 PHP_METHOD(Phalcon_Router_Rewrite, getControllerName);
 PHP_METHOD(Phalcon_Router_Rewrite, getActionName);
@@ -261,6 +264,12 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions);
 PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic);
 PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic);
 
+PHP_METHOD(Phalcon_Session, start);
+PHP_METHOD(Phalcon_Session, setOptions);
+PHP_METHOD(Phalcon_Session, get);
+PHP_METHOD(Phalcon_Session, set);
+PHP_METHOD(Phalcon_Session, getId);
+
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
 PHP_METHOD(Phalcon_Config_Exception, __construct);
@@ -289,6 +298,9 @@ PHP_METHOD(Phalcon_Model_Manager, initializeModel);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
+PHP_METHOD(Phalcon_Model_Manager, addHasOne);
+PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
+PHP_METHOD(Phalcon_Model_Manager, addHasMany);
 PHP_METHOD(Phalcon_Model_Manager, autoload);
 
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
@@ -343,6 +355,9 @@ PHP_METHOD(Phalcon_Model_Base, save);
 PHP_METHOD(Phalcon_Model_Base, delete);
 PHP_METHOD(Phalcon_Model_Base, readAttribute);
 PHP_METHOD(Phalcon_Model_Base, writeAttribute);
+PHP_METHOD(Phalcon_Model_Base, hasOne);
+PHP_METHOD(Phalcon_Model_Base, belongsTo);
+PHP_METHOD(Phalcon_Model_Base, hasMany);
 
 
 PHP_METHOD(Phalcon_Model_Resultset, __construct);
@@ -596,6 +611,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_exception___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_rewrite_setbaseuri, 0, 0, 1)
+	ZEND_ARG_INFO(0, baseUri)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_exception___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, code)
@@ -815,6 +834,23 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_transaction_manager__collecttransaction, 
 	ZEND_ARG_INFO(0, transaction)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_start, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_setoptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_set, 0, 0, 2)
+	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
 ZEND_END_ARG_INFO()
@@ -883,6 +919,27 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getsource, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasone, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addbelongsto, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
@@ -1018,6 +1075,24 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_writeattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, attribute)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasone, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_belongsto, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasmany, 0, 0, 3)
+	ZEND_ARG_INFO(0, fields)
+	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
@@ -1260,6 +1335,8 @@ static const function_entry phalcon_tag_exception_functions[] = {
 
 static const function_entry phalcon_router_rewrite_functions[] = {
 	PHP_ME(Phalcon_Router_Rewrite, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Router_Rewrite, _getRewriteUri, NULL, ZEND_ACC_PRIVATE) 
+	PHP_ME(Phalcon_Router_Rewrite, setBaseUri, arginfo_phalcon_router_rewrite_setbaseuri, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, handle, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getActionName, NULL, ZEND_ACC_PUBLIC) 
@@ -1385,6 +1462,15 @@ static const function_entry phalcon_transaction_manager_functions[] = {
 	{NULL, NULL, NULL}
 };
 
+static const function_entry phalcon_session_functions[] = {
+	PHP_ME(Phalcon_Session, start, arginfo_phalcon_session_start, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, setOptions, arginfo_phalcon_session_setoptions, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, get, arginfo_phalcon_session_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Session, set, arginfo_phalcon_session_set, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC) 
+	{NULL, NULL, NULL}
+};
+
 static const function_entry phalcon_config_adapter_ini_functions[] = {
 	PHP_ME(Phalcon_Config_Adapter_Ini, __construct, arginfo_phalcon_config_adapter_ini___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	{NULL, NULL, NULL}
@@ -1426,6 +1512,9 @@ static const function_entry phalcon_model_manager_functions[] = {
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
@@ -1489,6 +1578,9 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, delete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, readAttribute, arginfo_phalcon_model_base_readattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, writeAttribute, arginfo_phalcon_model_base_writeattribute, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, hasOne, arginfo_phalcon_model_base_hasone, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
 	{NULL, NULL, NULL}
 };
 
