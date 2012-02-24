@@ -25,10 +25,12 @@ We need some packages previously installed.
 * PHP 5.x development resources
 * GCC compiler
 
-    #Ubuntu
+Ubuntu:
+
     sudo apt-get install php5-dev php5-mysql gcc
 
-    #Suse
+Suse:
+
     yast2 -i php5-pear php5-dev php5-mysql gcc
 
 Compilation
