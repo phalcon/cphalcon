@@ -5472,6 +5472,20 @@ PHP_METHOD(Phalcon_Internal_Test, sm10){
 	return;
 }
 
+PHP_METHOD(Phalcon_Internal_Test, sm11){
+
+	zval *v0 = NULL, *v1 = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_ALLOC_ZVAL(v0);
+	ZVAL_STRING(v0, "sm2", 0);
+	PHALCON_ALLOC_ZVAL(v1);
+	ZVAL_STRING(v1, "Phalcon_Internal_Test", 0);
+	PHALCON_ALLOC_ZVAL(r0);
+	PHALCON_CALL_ZVAL_STATIC(r0, v1, "sm2");
+	RETURN_ZVAL(r0, 1, 0);
+}
+
 PHP_METHOD(Phalcon_Internal_Test, smp2){
 
 	zval *r0 = NULL;

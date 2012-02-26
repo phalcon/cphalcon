@@ -50,8 +50,8 @@ phalcon_debug_entry *active = NULL;
  */
 int phalcon_start_debug(){
 	if(!phalcon_log){
-		phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
-		//phalcon_log = stderr;
+		//phalcon_log = fopen("phalcon-debug.a", "w");
+		phalcon_log = stderr;
 	}
 	return SUCCESS;
 }

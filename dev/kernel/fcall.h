@@ -33,7 +33,9 @@ extern int phalcon_call_self_func(zval *return_value, zval *object, char *method
 extern int phalcon_call_self_func_params(zval *return_value, zval *object, char *method_name, int param_count, zval *params[], int noreturn TSRMLS_DC);
 
 extern int phalcon_call_static_func(zval *return_value, char *class_name, char *method_name, int noreturn TSRMLS_DC);
+extern int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *method_name, int noreturn TSRMLS_DC);
 extern int phalcon_call_static_func_params(zval *return_value, char *class_name, char *method_name, int param_count, zval *params[], int noreturn TSRMLS_DC);
+extern int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int param_count, zval *params[], int noreturn TSRMLS_DC);
 
 extern int phalcon_is_callable_check_class(const char *name, int name_len, zend_fcall_info_cache *fcc, int *strict_class, char **error TSRMLS_DC);
 extern int phalcon_is_callable_check_func(int check_flags, zval *callable, zend_fcall_info_cache *fcc, int strict_class, char **error TSRMLS_DC);
@@ -71,3 +73,4 @@ extern int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fc
 #define PHALCON_CALL_STATIC(return_value, class_name, method_name) phalcon_call_static_func(return_value, class_name, method_name, 1 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_STATIC_NORETURN(class_name, method_name) phalcon_call_static_func(NULL, class_name, method_name, 0 TSRMLS_CC); if(EG(exception)) return
 
+#define PHALCON_CALL_ZVAL_STATIC(return_value, class_zval, method_name) phalcon_call_static_zval_func(return_value, class_zval, method_name, 1 TSRMLS_CC); if(EG(exception)) return
