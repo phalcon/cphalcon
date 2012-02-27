@@ -71,7 +71,6 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f1){
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_d1", sizeof("_d1")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
 	PHALCON_CALL_METHOD_PARAMS(r0, t0, "t12", 1, p0, PHALCON_CALL_DEFAULT);

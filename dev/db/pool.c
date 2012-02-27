@@ -214,7 +214,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_ALLOC_ZVAL(r0);
 			PHALCON_ALLOC_ZVAL(t1);
 			phalcon_read_property(t1, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			zval_copy_ctor(t1);
 			Z_ADDREF_P(t1);
 			p2[0] = t1;
 			Z_ADDREF_P(v2);
@@ -235,7 +234,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_ALLOC_ZVAL(r1);
 			PHALCON_ALLOC_ZVAL(t3);
 			phalcon_read_property(t3, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			zval_copy_ctor(t3);
 			Z_ADDREF_P(t3);
 			p3[0] = t3;
 			Z_ADDREF_P(v2);
@@ -261,7 +259,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_ALLOC_ZVAL(r3);
 			PHALCON_ALLOC_ZVAL(t5);
 			phalcon_read_property(t5, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			zval_copy_ctor(t5);
 			Z_ADDREF_P(t5);
 			p5[0] = t5;
 			Z_ADDREF_P(v2);

@@ -119,11 +119,9 @@ PHP_METHOD(Phalcon_Db, log){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t1);
 		Z_ADDREF_P(v0);
 		p0[0] = v0;
 		Z_ADDREF_P(v1);
@@ -1329,7 +1327,6 @@ PHP_METHOD(Phalcon_Db, rollback){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (zend_is_true(t0)) {
 		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
 		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
@@ -1369,7 +1366,6 @@ PHP_METHOD(Phalcon_Db, commit){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (zend_is_true(t0)) {
 		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
 		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
@@ -1430,7 +1426,6 @@ PHP_METHOD(Phalcon_Db, isUnderTransaction){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1463,7 +1458,6 @@ PHP_METHOD(Phalcon_Db, getHaveAutoCommit){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_autoCommit", sizeof("_autoCommit")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1497,15 +1491,12 @@ PHP_METHOD(Phalcon_Db, getDatabaseName){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	eval_int = phalcon_isset_property(t0, "name", strlen("name") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t1);
 		PHALCON_ALLOC_ZVAL(t2);
 		phalcon_read_property(t2, t1, "name", sizeof("name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t2);
 		if (Z_TYPE_P(t2) > IS_BOOL) {
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1543,15 +1534,12 @@ PHP_METHOD(Phalcon_Db, getDefaultSchema){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	eval_int = phalcon_isset_property(t0, "schema", strlen("schema") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t1);
 		PHALCON_ALLOC_ZVAL(t2);
 		phalcon_read_property(t2, t1, "schema", sizeof("schema")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t2);
 		if (Z_TYPE_P(t2) > IS_BOOL) {
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1574,15 +1562,12 @@ PHP_METHOD(Phalcon_Db, getDefaultSchema){
 	} else {
 		PHALCON_ALLOC_ZVAL(t3);
 		phalcon_read_property(t3, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t3);
 		eval_int = phalcon_isset_property(t3, "name", strlen("name") TSRMLS_CC);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL(t4);
 			phalcon_read_property(t4, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			zval_copy_ctor(t4);
 			PHALCON_ALLOC_ZVAL(t5);
 			phalcon_read_property(t5, t4, "name", sizeof("name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			zval_copy_ctor(t5);
 			if (Z_TYPE_P(t5) > IS_BOOL) {
 				{
 					zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1621,15 +1606,12 @@ PHP_METHOD(Phalcon_Db, getUsername){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	eval_int = phalcon_isset_property(t0, "username", strlen("username") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t1);
 		PHALCON_ALLOC_ZVAL(t2);
 		phalcon_read_property(t2, t1, "username", sizeof("username")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t2);
 		if (Z_TYPE_P(t2) > IS_BOOL) {
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1667,15 +1649,12 @@ PHP_METHOD(Phalcon_Db, getHostName){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	eval_int = phalcon_isset_property(t0, "host", strlen("host") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t1);
 		PHALCON_ALLOC_ZVAL(t2);
 		phalcon_read_property(t2, t1, "host", sizeof("host")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t2);
 		if (Z_TYPE_P(t2) > IS_BOOL) {
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1722,7 +1701,6 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 	
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1842,7 +1820,6 @@ PHP_METHOD(Phalcon_Db, factory){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(t0);
 		phalcon_read_property(t0, v3, "layer", sizeof("layer")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		zval_copy_ctor(t0);
 		if (v6) {
 			Z_DELREF_P(v6);
 			if (!Z_REFCOUNT_P(v6)) {

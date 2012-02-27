@@ -97,7 +97,6 @@ PHP_METHOD(Phalcon_View, getViewsDir){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_viewsDir", sizeof("_viewsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -227,7 +226,6 @@ PHP_METHOD(Phalcon_View, setParamToView){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	{
 		zval *orig_ptr = t0;
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -261,7 +259,6 @@ PHP_METHOD(Phalcon_View, getParamsToView){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -325,7 +322,6 @@ PHP_METHOD(Phalcon_View, render){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_viewsDir", sizeof("_viewsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (v2) {
 		Z_DELREF_P(v2);
 		if (!Z_REFCOUNT_P(v2)) {
@@ -336,7 +332,6 @@ PHP_METHOD(Phalcon_View, render){
 	v2 = t0;
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, this_ptr, "_layoutsDir", sizeof("_layoutsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t1);
 	if (v3) {
 		Z_DELREF_P(v3);
 		if (!Z_REFCOUNT_P(v3)) {
@@ -351,7 +346,6 @@ PHP_METHOD(Phalcon_View, render){
 	}
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t2);
 	FOREACH_KV(t2, ac0, fes7, fee7, ah0, hp0, v5, v4)
 		Z_ADDREF_P(v4);
 		ZEND_SET_SYMBOL(EG(active_symbol_table), Z_STRVAL_P(v5), v4);
@@ -397,7 +391,6 @@ PHP_METHOD(Phalcon_View, render){
 	}
 	PHALCON_ALLOC_ZVAL(t3);
 	phalcon_read_property(t3, this_ptr, "_templatesBefore", sizeof("_templatesBefore")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t3);
 	if (v7) {
 		Z_DELREF_P(v7);
 		if (!Z_REFCOUNT_P(v7)) {
@@ -586,7 +579,6 @@ PHP_METHOD(Phalcon_View, render){
 	}
 	PHALCON_ALLOC_ZVAL(t4);
 	phalcon_read_property(t4, this_ptr, "_templatesAfter", sizeof("_templatesAfter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t4);
 	if (v10) {
 		Z_DELREF_P(v10);
 		if (!Z_REFCOUNT_P(v10)) {
@@ -793,7 +785,6 @@ PHP_METHOD(Phalcon_View, getContent){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	zval_copy_ctor(t0);
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);

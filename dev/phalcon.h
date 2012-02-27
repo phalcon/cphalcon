@@ -219,6 +219,7 @@ PHP_METHOD(Phalcon_Internal_Test, a3);
 PHP_METHOD(Phalcon_Internal_Test, a4);
 PHP_METHOD(Phalcon_Internal_Test, a5);
 PHP_METHOD(Phalcon_Internal_Test, a6);
+PHP_METHOD(Phalcon_Internal_Test, a7);
 PHP_METHOD(Phalcon_Internal_Test, a10);
 PHP_METHOD(Phalcon_Internal_Test, a11);
 PHP_METHOD(Phalcon_Internal_Test, a12);
@@ -234,6 +235,7 @@ PHP_METHOD(Phalcon_Internal_Test, a21);
 PHP_METHOD(Phalcon_Internal_Test, a22);
 PHP_METHOD(Phalcon_Internal_Test, a23);
 PHP_METHOD(Phalcon_Internal_Test, a24);
+PHP_METHOD(Phalcon_Internal_Test, a25);
 PHP_METHOD(Phalcon_Internal_Test, sa0);
 PHP_METHOD(Phalcon_Internal_Test, sa1);
 PHP_METHOD(Phalcon_Internal_Test, sa2);
@@ -352,6 +354,10 @@ PHP_METHOD(Phalcon_Internal_Test, is5);
 PHP_METHOD(Phalcon_Internal_Test, is6);
 PHP_METHOD(Phalcon_Internal_Test, is7);
 PHP_METHOD(Phalcon_Internal_Test, is8);
+PHP_METHOD(Phalcon_Internal_Test, is9);
+PHP_METHOD(Phalcon_Internal_Test, is10);
+PHP_METHOD(Phalcon_Internal_Test, is11);
+PHP_METHOD(Phalcon_Internal_Test, is12);
 PHP_METHOD(Phalcon_Internal_Test, un1);
 PHP_METHOD(Phalcon_Internal_Test, un2);
 PHP_METHOD(Phalcon_Internal_Test, un3);
@@ -509,13 +515,16 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData);
 PHP_METHOD(Phalcon_Model_Manager, setModelsDir);
 PHP_METHOD(Phalcon_Model_Manager, getModelsDir);
 PHP_METHOD(Phalcon_Model_Manager, isModel);
-PHP_METHOD(Phalcon_Model_Manager, initializeModel);
+PHP_METHOD(Phalcon_Model_Manager, load);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
 PHP_METHOD(Phalcon_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, addHasMany);
+PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo);
+PHP_METHOD(Phalcon_Model_Manager, existsHasMany);
+PHP_METHOD(Phalcon_Model_Manager, existsHasOne);
 PHP_METHOD(Phalcon_Model_Manager, autoload);
 
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
@@ -574,6 +583,7 @@ PHP_METHOD(Phalcon_Model_Base, writeAttribute);
 PHP_METHOD(Phalcon_Model_Base, hasOne);
 PHP_METHOD(Phalcon_Model_Base, belongsTo);
 PHP_METHOD(Phalcon_Model_Base, hasMany);
+PHP_METHOD(Phalcon_Model_Base, __call);
 
 
 PHP_METHOD(Phalcon_Model_Resultset, __construct);
@@ -1386,7 +1396,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_ismodel, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_initializemodel, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_load, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
@@ -1417,6 +1427,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existsbelongsto, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existshasmany, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existshasone, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
@@ -1580,6 +1605,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasmany, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
@@ -1858,6 +1888,7 @@ static const function_entry phalcon_internal_test_functions[] = {
 	PHP_ME(Phalcon_Internal_Test, a4, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a5, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a6, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, a7, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a10, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a11, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a12, NULL, ZEND_ACC_PUBLIC) 
@@ -1873,6 +1904,7 @@ static const function_entry phalcon_internal_test_functions[] = {
 	PHP_ME(Phalcon_Internal_Test, a22, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a23, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, a24, arginfo_phalcon_internal_test_a24, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, a25, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, sa0, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, sa1, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, sa2, NULL, ZEND_ACC_PUBLIC) 
@@ -1991,6 +2023,10 @@ static const function_entry phalcon_internal_test_functions[] = {
 	PHP_ME(Phalcon_Internal_Test, is6, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, is7, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, is8, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, is9, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, is10, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, is11, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_Test, is12, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, un1, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, un2, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, un3, NULL, ZEND_ACC_PUBLIC) 
@@ -2220,13 +2256,16 @@ static const function_entry phalcon_model_manager_functions[] = {
 	PHP_ME(Phalcon_Model_Manager, setModelsDir, arginfo_phalcon_model_manager_setmodelsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getModelsDir, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, isModel, arginfo_phalcon_model_manager_ismodel, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Manager, initializeModel, arginfo_phalcon_model_manager_initializemodel, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, load, arginfo_phalcon_model_manager_load, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsBelongsTo, arginfo_phalcon_model_manager_existsbelongsto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsHasMany, arginfo_phalcon_model_manager_existshasmany, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsHasOne, arginfo_phalcon_model_manager_existshasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
@@ -2294,6 +2333,7 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, hasOne, arginfo_phalcon_model_base_hasone, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, __call, arginfo_phalcon_model_base___call, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
 
