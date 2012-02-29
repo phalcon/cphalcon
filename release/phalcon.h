@@ -294,13 +294,20 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData);
 PHP_METHOD(Phalcon_Model_Manager, setModelsDir);
 PHP_METHOD(Phalcon_Model_Manager, getModelsDir);
 PHP_METHOD(Phalcon_Model_Manager, isModel);
-PHP_METHOD(Phalcon_Model_Manager, initializeModel);
+PHP_METHOD(Phalcon_Model_Manager, load);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
 PHP_METHOD(Phalcon_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, addHasMany);
+PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo);
+PHP_METHOD(Phalcon_Model_Manager, existsHasMany);
+PHP_METHOD(Phalcon_Model_Manager, existsHasOne);
+PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords);
+PHP_METHOD(Phalcon_Model_Manager, getBelongsToRecords);
+PHP_METHOD(Phalcon_Model_Manager, getHasManyRecords);
+PHP_METHOD(Phalcon_Model_Manager, getHasOneRecords);
 PHP_METHOD(Phalcon_Model_Manager, autoload);
 
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
@@ -332,15 +339,16 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti);
 PHP_METHOD(Phalcon_Model_Base, _createSQLSelectOne);
 PHP_METHOD(Phalcon_Model_Base, _createResultset);
 PHP_METHOD(Phalcon_Model_Base, setManager);
+PHP_METHOD(Phalcon_Model_Base, getManager);
 PHP_METHOD(Phalcon_Model_Base, setTransaction);
 PHP_METHOD(Phalcon_Model_Base, isView);
 PHP_METHOD(Phalcon_Model_Base, setSource);
 PHP_METHOD(Phalcon_Model_Base, getSource);
 PHP_METHOD(Phalcon_Model_Base, setSchema);
 PHP_METHOD(Phalcon_Model_Base, getSchema);
+PHP_METHOD(Phalcon_Model_Base, setConnection);
 PHP_METHOD(Phalcon_Model_Base, getConnection);
 PHP_METHOD(Phalcon_Model_Base, dumpResult);
-PHP_METHOD(Phalcon_Model_Base, dumpResultSelf);
 PHP_METHOD(Phalcon_Model_Base, find);
 PHP_METHOD(Phalcon_Model_Base, findFirst);
 PHP_METHOD(Phalcon_Model_Base, exists);
@@ -358,6 +366,7 @@ PHP_METHOD(Phalcon_Model_Base, writeAttribute);
 PHP_METHOD(Phalcon_Model_Base, hasOne);
 PHP_METHOD(Phalcon_Model_Base, belongsTo);
 PHP_METHOD(Phalcon_Model_Base, hasMany);
+PHP_METHOD(Phalcon_Model_Base, __call);
 
 
 PHP_METHOD(Phalcon_Model_Resultset, __construct);
@@ -909,7 +918,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_ismodel, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_initializemodel, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_load, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
@@ -924,22 +933,57 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasone, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addbelongsto, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existsbelongsto, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existshasmany, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existshasone, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager__getrelationrecords, 0, 0, 3)
+	ZEND_ARG_INFO(0, relation)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, record)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getbelongstorecords, 0, 0, 4)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+	ZEND_ARG_INFO(0, record)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_gethasmanyrecords, 0, 0, 4)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, modelRelation)
+	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
@@ -996,16 +1040,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, manager)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createsqlselectmulti, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createsqlselectmulti, 0, 0, 4)
+	ZEND_ARG_INFO(0, manager)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createsqlselectone, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createsqlselectone, 0, 0, 4)
+	ZEND_ARG_INFO(0, manager)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, select)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createresultset, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createresultset, 0, 0, 4)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, select)
 	ZEND_ARG_INFO(0, resultResource)
 ZEND_END_ARG_INFO()
@@ -1026,11 +1078,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_setschema, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_dumpresult, 0, 0, 1)
-	ZEND_ARG_INFO(0, result)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_setconnection, 0, 0, 1)
+	ZEND_ARG_INFO(0, connection)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_dumpresultself, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_dumpresult, 0, 0, 2)
+	ZEND_ARG_INFO(0, base)
 	ZEND_ARG_INFO(0, result)
 ZEND_END_ARG_INFO()
 
@@ -1050,7 +1103,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, wherePk)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__getgroupresult, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__getgroupresult, 0, 0, 4)
+	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, selectStatement)
 	ZEND_ARG_INFO(0, alias)
@@ -1079,20 +1133,25 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasone, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_belongsto, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasmany, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceTable)
+	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
@@ -1508,13 +1567,20 @@ static const function_entry phalcon_model_manager_functions[] = {
 	PHP_ME(Phalcon_Model_Manager, setModelsDir, arginfo_phalcon_model_manager_setmodelsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getModelsDir, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, isModel, arginfo_phalcon_model_manager_ismodel, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Manager, initializeModel, arginfo_phalcon_model_manager_initializemodel, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, load, arginfo_phalcon_model_manager_load, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsBelongsTo, arginfo_phalcon_model_manager_existsbelongsto, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsHasMany, arginfo_phalcon_model_manager_existshasmany, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, existsHasOne, arginfo_phalcon_model_manager_existshasone, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, _getRelationRecords, arginfo_phalcon_model_manager__getrelationrecords, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Manager, getBelongsToRecords, arginfo_phalcon_model_manager_getbelongstorecords, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, getHasManyRecords, arginfo_phalcon_model_manager_gethasmanyrecords, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, getHasOneRecords, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
@@ -1551,25 +1617,26 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, _getDataTypesNumeric, NULL, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Model_Base, _getDataTypes, NULL, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Model_Base, dump, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _createSQLSelectMulti, arginfo_phalcon_model_base__createsqlselectmulti, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _createSQLSelectOne, arginfo_phalcon_model_base__createsqlselectone, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _createResultset, arginfo_phalcon_model_base__createresultset, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, _createSQLSelectMulti, arginfo_phalcon_model_base__createsqlselectmulti, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, _createSQLSelectOne, arginfo_phalcon_model_base__createsqlselectone, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, _createResultset, arginfo_phalcon_model_base__createresultset, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, getManager, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, setTransaction, arginfo_phalcon_model_base_settransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, isView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, setSource, arginfo_phalcon_model_base_setsource, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, getSource, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, setSchema, arginfo_phalcon_model_base_setschema, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, getSchema, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, setConnection, arginfo_phalcon_model_base_setconnection, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, getConnection, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Base, dumpResult, arginfo_phalcon_model_base_dumpresult, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Base, dumpResultSelf, arginfo_phalcon_model_base_dumpresultself, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Base, find, arginfo_phalcon_model_base_find, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Base, findFirst, arginfo_phalcon_model_base_findfirst, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, dumpResult, arginfo_phalcon_model_base_dumpresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, find, arginfo_phalcon_model_base_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, findFirst, arginfo_phalcon_model_base_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, exists, arginfo_phalcon_model_base_exists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, _exists, arginfo_phalcon_model_base__exists, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getGroupResult, arginfo_phalcon_model_base__getgroupresult, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, count, arginfo_phalcon_model_base_count, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, _getGroupResult, arginfo_phalcon_model_base__getgroupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, count, arginfo_phalcon_model_base_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, _callEvent, arginfo_phalcon_model_base__callevent, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Model_Base, _cancelOperation, NULL, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Model_Base, appendMessage, arginfo_phalcon_model_base_appendmessage, ZEND_ACC_PUBLIC) 
@@ -1581,6 +1648,7 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, hasOne, arginfo_phalcon_model_base_hasone, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, __call, arginfo_phalcon_model_base___call, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
 

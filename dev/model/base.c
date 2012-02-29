@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Model_Base, dump){
 	}
 	Z_ADDREF_P(r0);
 	v0 = r0;
-	FOREACH_V(v0, ac0, fes65, fee65, ah0, hp0, v1)
+	FOREACH_V(v0, ac0, fes66, fee66, ah0, hp0, v1)
 		eval_int = phalcon_isset_property_zval(this_ptr, v1 TSRMLS_CC);
 		if (!eval_int) {
 			if (!t2) {
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Model_Base, dump){
 				phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v1), Z_STRLEN_P(v1), copy TSRMLS_CC);
 			}
 		}
-	END_FOREACH(ac0, fes65, fee65, ah0, hp0);
+	END_FOREACH(ac0, fes66, fee66, ah0, hp0);
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_dumpLock", strlen("_dumpLock"), 0 TSRMLS_CC);
 	if (Z_TYPE_P(this_ptr) > IS_BOOL) {
 		{
@@ -1570,7 +1570,7 @@ PHP_METHOD(Phalcon_Model_Base, dumpResult){
 	Z_ADDREF_P(s0);
 	v2 = s0;
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
-		FOREACH_KV(v1, ac0, fes66, fee66, ah0, hp0, v4, v3)
+		FOREACH_KV(v1, ac0, fes67, fee67, ah0, hp0, v4, v3)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -1578,7 +1578,7 @@ PHP_METHOD(Phalcon_Model_Base, dumpResult){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v2, Z_STRVAL_P(v4), Z_STRLEN_P(v4), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes66, fee66, ah0, hp0);
+		END_FOREACH(ac0, fes67, fee67, ah0, hp0);
 	}
 	if (Z_TYPE_P(v2) > IS_BOOL) {
 		{
@@ -2228,7 +2228,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 			ZVAL_LONG(t1, 0);
 			PHALCON_SMALLER_FUNCTION(r7, t1, r6);
 			if (zend_is_true(r7)) {
-				FOREACH_V(v5, ac0, fes67, fee67, ah0, hp0, v7)
+				FOREACH_V(v5, ac0, fes68, fee68, ah0, hp0, v7)
 					if (!t2) {
 						PHALCON_ALLOC_ZVAL(t2);
 					} else {
@@ -2475,7 +2475,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 							}
 						}
 					}
-				END_FOREACH(ac0, fes67, fee67, ah0, hp0);
+				END_FOREACH(ac0, fes68, fee68, ah0, hp0);
 				PHALCON_ALLOC_ZVAL(r16);
 				p5[0] = v0;
 				PHALCON_CALL_FUNC_PARAMS(r16, "count", 1, p5);
@@ -2610,7 +2610,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 		ZVAL_LONG(t10, 0);
 		PHALCON_SMALLER_FUNCTION(r28, t10, r27);
 		if (zend_is_true(r28)) {
-			FOREACH_V(v5, ac1, fes68, fee68, ah1, hp1, v7)
+			FOREACH_V(v5, ac1, fes69, fee69, ah1, hp1, v7)
 				if (!t11) {
 					PHALCON_ALLOC_ZVAL(t11);
 				} else {
@@ -2857,7 +2857,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 						}
 					}
 				}
-			END_FOREACH(ac1, fes68, fee68, ah1, hp1);
+			END_FOREACH(ac1, fes69, fee69, ah1, hp1);
 			PHALCON_ALLOC_ZVAL(r37);
 			p12[0] = v0;
 			PHALCON_CALL_FUNC_PARAMS(r37, "count", 1, p12);
@@ -3764,10 +3764,10 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		v6 = r6;
 		PHALCON_ALLOC_ZVAL(v7);
 		ZVAL_LONG(v7, 0);
-		fs69:
+		fs70:
 		PHALCON_SMALLER_FUNCTION(r7, v7, v6);
 		if (!zend_is_true(r7)) {
-			goto fe69;
+			goto fe70;
 		}
 		if (!v8) {
 			PHALCON_ALLOC_ZVAL(v8);
@@ -3934,7 +3934,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 			PHALCON_EQUAL_FUNCTION(r15, v9, t7);
 			PHALCON_AND_FUNCTION(r16, r14, r15);
 			if (zend_is_true(r16)) {
-				goto fi69;
+				goto fi70;
 			}
 			if (!r17) {
 				PHALCON_ALLOC_ZVAL(r17);
@@ -4120,7 +4120,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 			}
 			ZVAL_BOOL(v5, 1);
 		}
-		fi69:
+		fi70:
 		{
 			zval *orig_ptr = v7;
 			if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -4133,8 +4133,8 @@ PHP_METHOD(Phalcon_Model_Base, save){
 			}
 		}
 		increment_function(v7);
-		goto fs69;
-		fe69:
+		goto fs70;
+		fe70:
 		r7 = NULL;
 		if (zend_is_true(v5)) {
 			if (!zend_is_true(v1)) {
@@ -4327,7 +4327,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		}
 		Z_ADDREF_P(r32);
 		v21 = r32;
-		FOREACH_V(v21, ac0, fes70, fee70, ah0, hp0, v9)
+		FOREACH_V(v21, ac0, fes71, fee71, ah0, hp0, v9)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -4655,7 +4655,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 					}
 				}
 			}
-		END_FOREACH(ac0, fes70, fee70, ah0, hp0);
+		END_FOREACH(ac0, fes71, fee71, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(r41);
 		Z_ADDREF_P(v15);
 		p39[0] = v15;
@@ -4707,7 +4707,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		}
 		Z_ADDREF_P(r42);
 		v23 = r42;
-		FOREACH_V(v23, ac1, fes71, fee71, ah1, hp1, v9)
+		FOREACH_V(v23, ac1, fes72, fee72, ah1, hp1, v9)
 			if (!phalcon_compare_strict_string(v9, "id")) {
 				{
 					zval *copy;
@@ -5037,7 +5037,7 @@ PHP_METHOD(Phalcon_Model_Base, save){
 					}
 				}
 			}
-		END_FOREACH(ac1, fes71, fee71, ah1, hp1);
+		END_FOREACH(ac1, fes72, fee72, ah1, hp1);
 		PHALCON_ALLOC_ZVAL(v24);
 		ZVAL_STRING(v24, "", 0);
 		eval_int = phalcon_isset_property(this_ptr, "id", strlen("id") TSRMLS_CC);
@@ -5275,7 +5275,7 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 		}
 		Z_ADDREF_P(a0);
 		v3 = a0;
-		FOREACH_V(v1, ac0, fes72, fee72, ah0, hp0, v4)
+		FOREACH_V(v1, ac0, fes73, fee73, ah0, hp0, v4)
 			if (!t7) {
 				PHALCON_ALLOC_ZVAL(t7);
 			} else {
@@ -5365,7 +5365,7 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 				}
 				phalcon_array_append(v3, copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes72, fee72, ah0, hp0);
+		END_FOREACH(ac0, fes73, fee73, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(r10);
 		PHALCON_ALLOC_ZVAL(p3[0]);
 		ZVAL_STRING(p3[0], " AND ", 1);
@@ -5523,6 +5523,8 @@ PHP_METHOD(Phalcon_Model_Base, writeAttribute){
 
 /**
  * Setup a 1-1 relation between two models
+ *
+ *
  * 
  * @parammixed $fields
  * @paramstring $referenceModel
@@ -5568,6 +5570,8 @@ PHP_METHOD(Phalcon_Model_Base, hasOne){
 /**
  * Setup a relation reverse 1-1  between two models
  *
+ *
+ *
  * @parammixed $fields
  * @paramstring $referenceModel
  * @parammixed $referencedFields 
@@ -5611,6 +5615,8 @@ PHP_METHOD(Phalcon_Model_Base, belongsTo){
 
 /**
  * Setup a relation 1-n between two models
+     *
+ *
  *
  * @parammixed $fields
  * @paramstring $referenceModel

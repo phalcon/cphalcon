@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		}
 		Z_ADDREF_P(a0);
 		v2 = a0;
-		FOREACH_KV(v0, ac0, fes63, fee63, ah0, hp0, v4, v3)
+		FOREACH_KV(v0, ac0, fes64, fee64, ah0, hp0, v4, v3)
 			PHALCON_INIT_TRUE(t2);
 			{
 				zval *copy;
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes63, fee63, ah0, hp0);
+		END_FOREACH(ac0, fes64, fee64, ah0, hp0);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			phalcon_update_property_zval(this_ptr, "_columns", strlen("_columns"), copy TSRMLS_CC);
 		}
 	} else {
-		FOREACH_KV(v0, ac1, fes64, fee64, ah1, hp1, v4, v3)
+		FOREACH_KV(v0, ac1, fes65, fee65, ah1, hp1, v4, v3)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac1, fes64, fee64, ah1, hp1);
+		END_FOREACH(ac1, fes65, fee65, ah1, hp1);
 		PHALCON_ALLOC_ZVAL(t3);
 		phalcon_read_property(t3, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		{

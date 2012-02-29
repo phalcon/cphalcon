@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		}
 		Z_ADDREF_P(r9);
 		v3 = r9;
-		FOREACH_KV(v0, ac0, fes73, fee73, ah0, hp0, v5, v4)
+		FOREACH_KV(v0, ac0, fes74, fee74, ah0, hp0, v5, v4)
 			if (Z_TYPE_P(v5) != IS_LONG) {
 				if (!r11) {
 					PHALCON_ALLOC_ZVAL(r11);
@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 				Z_ADDREF_P(r13);
 				v3 = r13;
 			}
-		END_FOREACH(ac0, fes73, fee73, ah0, hp0);
+		END_FOREACH(ac0, fes74, fee74, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(r14);
 		phalcon_concat_both(r14,  ">", v1, "</a>" TSRMLS_CC);
 		PHALCON_CONCAT_FUNCTION(r15, v3, r14);
@@ -741,7 +741,7 @@ PHP_METHOD(Phalcon_Tag, textField){
 	}
 	Z_ADDREF_P(r10);
 	v2 = r10;
-	FOREACH_KV(v0, ac0, fes74, fee74, ah0, hp0, v3, v1)
+	FOREACH_KV(v0, ac0, fes75, fee75, ah0, hp0, v3, v1)
 		if (Z_TYPE_P(v3) != IS_LONG) {
 			if (!r11) {
 				PHALCON_ALLOC_ZVAL(r11);
@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Tag, textField){
 			Z_ADDREF_P(r13);
 			v2 = r13;
 		}
-	END_FOREACH(ac0, fes74, fee74, ah0, hp0);
+	END_FOREACH(ac0, fes75, fee75, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, " />", 1);
 	PHALCON_CONCAT_FUNCTION(r14, v2, t0);
@@ -927,7 +927,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 	}
 	Z_ADDREF_P(r2);
 	v2 = r2;
-	FOREACH_KV(v0, ac0, fes75, fee75, ah0, hp0, v3, v1)
+	FOREACH_KV(v0, ac0, fes76, fee76, ah0, hp0, v3, v1)
 		if (Z_TYPE_P(v3) != IS_LONG) {
 			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
@@ -981,7 +981,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 			Z_ADDREF_P(r5);
 			v2 = r5;
 		}
-	END_FOREACH(ac0, fes75, fee75, ah0, hp0);
+	END_FOREACH(ac0, fes76, fee76, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, " />", 1);
 	PHALCON_CONCAT_FUNCTION(r6, v2, t0);
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		}
 		phalcon_array_unset_string(v0, "dummyText", strlen("dummyText")+1);
 	}
-	FOREACH_KV(v0, ac0, fes76, fee76, ah0, hp0, v7, v6)
+	FOREACH_KV(v0, ac0, fes77, fee77, ah0, hp0, v7, v6)
 		if (Z_TYPE_P(v7) != IS_LONG) {
 			if (Z_TYPE_P(v6) != IS_ARRAY) { 
 				if (!r10) {
@@ -1262,7 +1262,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 				v3 = r12;
 			}
 		}
-	END_FOREACH(ac0, fes76, fee76, ah0, hp0);
+	END_FOREACH(ac0, fes77, fee77, ah0, hp0);
 	PHALCON_GET_CONSTANT(t0, "PHP_EOL");
 	PHALCON_ALLOC_ZVAL(r13);
 	phalcon_concat_left(r13, ">", t0 TSRMLS_CC);
@@ -1314,7 +1314,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 		if (Z_TYPE_P(r19) == IS_ARRAY) { 
 			PHALCON_ALLOC_ZVAL(r20);
 			phalcon_array_fetch_long(r20, v0, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			FOREACH_KV(r20, ac1, fes77, fee77, ah1, hp1, v9, v8)
+			FOREACH_KV(r20, ac1, fes78, fee78, ah1, hp1, v9, v8)
 				PHALCON_EQUAL_FUNCTION(r21, v9, v2);
 				if (!t3) {
 					PHALCON_ALLOC_ZVAL(t3);
@@ -1506,7 +1506,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 					Z_ADDREF_P(r31);
 					v3 = r31;
 				}
-			END_FOREACH(ac1, fes77, fee77, ah1, hp1);
+			END_FOREACH(ac1, fes78, fee78, ah1, hp1);
 		} else {
 			PHALCON_ALLOC_ZVAL(i0);
 			object_init_ex(i0, phalcon_tag_exception_class_entry);
@@ -1679,7 +1679,7 @@ PHP_METHOD(Phalcon_Tag, select){
 	Z_ADDREF_P(r7);
 	v3 = r7;
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		FOREACH_KV(v0, ac0, fes78, fee78, ah0, hp0, v4, v2)
+		FOREACH_KV(v0, ac0, fes79, fee79, ah0, hp0, v4, v2)
 			if (Z_TYPE_P(v4) != IS_LONG) {
 				if (Z_TYPE_P(v2) != IS_ARRAY) { 
 					if (!r8) {
@@ -1735,7 +1735,7 @@ PHP_METHOD(Phalcon_Tag, select){
 					v3 = r10;
 				}
 			}
-		END_FOREACH(ac0, fes78, fee78, ah0, hp0);
+		END_FOREACH(ac0, fes79, fee79, ah0, hp0);
 	}
 	PHALCON_GET_CONSTANT(t0, "PHP_EOL");
 	PHALCON_ALLOC_ZVAL(r11);
@@ -1877,11 +1877,11 @@ PHP_METHOD(Phalcon_Tag, select){
 				Z_ADDREF_P(r23);
 				v8 = r23;
 				PHALCON_CALL_METHOD_NORETURN(v8, "rewind", PHALCON_CALL_DEFAULT);
-				ws79:
+				ws80:
 				PHALCON_ALLOC_ZVAL(r24);
 				PHALCON_CALL_METHOD(r24, v8, "valid", PHALCON_CALL_DEFAULT);
 				if (!zend_is_true(r24)) {
-					goto we79;
+					goto we80;
 				}
 				if (!r25) {
 					PHALCON_ALLOC_ZVAL(r25);
@@ -2309,8 +2309,8 @@ PHP_METHOD(Phalcon_Tag, select){
 					v3 = r44;
 				}
 				PHALCON_CALL_METHOD_NORETURN(v8, "next", PHALCON_CALL_DEFAULT);
-				goto ws79;
-				we79:
+				goto ws80;
+				we80:
 				r24 = NULL;
 			} else {
 				PHALCON_ALLOC_ZVAL(r45);
@@ -2318,7 +2318,7 @@ PHP_METHOD(Phalcon_Tag, select){
 				if (Z_TYPE_P(r45) == IS_ARRAY) { 
 					PHALCON_ALLOC_ZVAL(r46);
 					phalcon_array_fetch_long(r46, v0, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
-					FOREACH_V(r46, ac1, fes80, fee80, ah1, hp1, v9)
+					FOREACH_V(r46, ac1, fes81, fee81, ah1, hp1, v9)
 						if (!t7) {
 							PHALCON_ALLOC_ZVAL(t7);
 						} else {
@@ -2447,7 +2447,7 @@ PHP_METHOD(Phalcon_Tag, select){
 						}
 						Z_ADDREF_P(r52);
 						v3 = r52;
-					END_FOREACH(ac1, fes80, fee80, ah1, hp1);
+					END_FOREACH(ac1, fes81, fee81, ah1, hp1);
 				} else {
 					PHALCON_ALLOC_ZVAL(i2);
 					object_init_ex(i2, phalcon_tag_exception_class_entry);
@@ -2643,7 +2643,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 	Z_ADDREF_P(r8);
 	v2 = r8;
-	FOREACH_KV(v0, ac0, fes81, fee81, ah0, hp0, v4, v3)
+	FOREACH_KV(v0, ac0, fes82, fee82, ah0, hp0, v4, v3)
 		if (Z_TYPE_P(v4) != IS_LONG) {
 			if (!r9) {
 				PHALCON_ALLOC_ZVAL(r9);
@@ -2697,7 +2697,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 			Z_ADDREF_P(r11);
 			v2 = r11;
 		}
-	END_FOREACH(ac0, fes81, fee81, ah0, hp0);
+	END_FOREACH(ac0, fes82, fee82, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r12);
 	phalcon_concat_both(r12,  ">", v1, "</textarea>" TSRMLS_CC);
 	PHALCON_CONCAT_FUNCTION(r13, v2, r12);
@@ -2961,7 +2961,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 	Z_ADDREF_P(r20);
 	v4 = r20;
-	FOREACH_KV(v0, ac0, fes82, fee82, ah0, hp0, v6, v5)
+	FOREACH_KV(v0, ac0, fes83, fee83, ah0, hp0, v6, v5)
 		if (Z_TYPE_P(v6) != IS_LONG) {
 			if (!r21) {
 				PHALCON_ALLOC_ZVAL(r21);
@@ -3015,7 +3015,7 @@ PHP_METHOD(Phalcon_Tag, form){
 			Z_ADDREF_P(r23);
 			v4 = r23;
 		}
-	END_FOREACH(ac0, fes82, fee82, ah0, hp0);
+	END_FOREACH(ac0, fes83, fee83, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r24);
 	phalcon_concat_right(r24, v4, ">" TSRMLS_CC);
 	{
@@ -3293,7 +3293,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 	PHALCON_ALLOC_ZVAL(v2);
 	ZVAL_STRING(v2, "<link rel=\"stylesheet\" ", 0);
-	FOREACH_KV(v0, ac0, fes83, fee83, ah0, hp0, v4, v3)
+	FOREACH_KV(v0, ac0, fes84, fee84, ah0, hp0, v4, v3)
 		if (Z_TYPE_P(v4) != IS_LONG) {
 			if (!r6) {
 				PHALCON_ALLOC_ZVAL(r6);
@@ -3368,7 +3368,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 			Z_ADDREF_P(r8);
 			v2 = r8;
 		}
-	END_FOREACH(ac0, fes83, fee83, ah0, hp0);
+	END_FOREACH(ac0, fes84, fee84, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(t2);
 	ZVAL_STRING(t2, ">", 1);
 	PHALCON_CONCAT_FUNCTION(r9, v2, t2);
@@ -3508,7 +3508,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	phalcon_array_update_string(v0, "src", strlen("src"), r1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(v1);
 	ZVAL_STRING(v1, "<img ", 0);
-	FOREACH_KV(v0, ac0, fes84, fee84, ah0, hp0, v3, v2)
+	FOREACH_KV(v0, ac0, fes85, fee85, ah0, hp0, v3, v2)
 		if (Z_TYPE_P(v3) != IS_LONG) {
 			if (!r5) {
 				PHALCON_ALLOC_ZVAL(r5);
@@ -3583,7 +3583,7 @@ PHP_METHOD(Phalcon_Tag, image){
 			Z_ADDREF_P(r7);
 			v1 = r7;
 		}
-	END_FOREACH(ac0, fes84, fee84, ah0, hp0);
+	END_FOREACH(ac0, fes85, fee85, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_STRING(t1, ">", 1);
 	PHALCON_CONCAT_FUNCTION(r8, v1, t1);

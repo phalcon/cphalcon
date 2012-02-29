@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			}
 			Z_ADDREF_P(a5);
 			v12 = a5;
-			FOREACH_V(v6, ac0, fes62, fee62, ah0, hp0, v13)
+			FOREACH_V(v6, ac0, fes63, fee63, ah0, hp0, v13)
 				if (!r10) {
 					PHALCON_ALLOC_ZVAL(r10);
 				} else {
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 						phalcon_array_append(v11, copy TSRMLS_CC);
 					}
 				}
-			END_FOREACH(ac0, fes62, fee62, ah0, hp0);
+			END_FOREACH(ac0, fes63, fee63, ah0, hp0);
 			PHALCON_ALLOC_ZVAL(a6);
 			array_init(a6);
 			if (v16) {
