@@ -78,6 +78,10 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
 
 PHP_METHOD(Phalcon_Response, __construct);
 PHP_METHOD(Phalcon_Response, getInstance);
+PHP_METHOD(Phalcon_Response, setHeader);
+PHP_METHOD(Phalcon_Response, setContent);
+PHP_METHOD(Phalcon_Response, getContent);
+PHP_METHOD(Phalcon_Response, send);
 
 PHP_METHOD(Phalcon_Request, __construct);
 PHP_METHOD(Phalcon_Request, getInstance);
@@ -656,6 +660,15 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_forward, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_response_setheader, 0, 0, 2)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_response_setcontent, 0, 0, 1)
+	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request_setfilter, 0, 0, 1)
@@ -1750,6 +1763,10 @@ static const function_entry phalcon_dispatcher_functions[] = {
 static const function_entry phalcon_response_functions[] = {
 	PHP_ME(Phalcon_Response, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Response, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Response, setHeader, arginfo_phalcon_response_setheader, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Response, setContent, arginfo_phalcon_response_setcontent, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Response, send, NULL, ZEND_ACC_PUBLIC) 
 	{NULL, NULL, NULL}
 };
 

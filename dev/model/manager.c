@@ -1149,6 +1149,13 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasOne){
 	RETURN_FALSE;
 }
 
+/**
+ * Helper method to query records based on a relation definition
+ *
+ * @param array $relation
+ * @param string $method
+ * @param Php_Model_Base $record
+ */
 PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;

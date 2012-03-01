@@ -153,6 +153,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	INIT_CLASS_ENTRY(ce1, "Phalcon_Response", phalcon_response_functions);
 	phalcon_response_class_entry = zend_register_internal_class(&ce1 TSRMLS_CC);
 	zend_declare_property_null(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_response_class_entry, "_content", sizeof("_content")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce2, "Phalcon_Request", phalcon_request_functions);
 	phalcon_request_class_entry = zend_register_internal_class(&ce2 TSRMLS_CC);

@@ -856,11 +856,11 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL;
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL;
-	zval *p1[] = { NULL }, *p2[] = { NULL }, *p10[] = { NULL }, *p12[] = { NULL }, *p14[] = { NULL }, *p16[] = { NULL, NULL, NULL, NULL }, *p17[] = { NULL, NULL };
+	zval *r7 = NULL, *r8 = NULL, *r9 = NULL;
+	zval *p1[] = { NULL }, *p2[] = { NULL }, *p10[] = { NULL }, *p12[] = { NULL }, *p14[] = { NULL }, *p16[] = { NULL, NULL, NULL, NULL }, *p17[] = { NULL, NULL }, *p21[] = { NULL };
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1000,13 +1000,21 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		phalcon_update_property_zval(this_ptr, "_router", strlen("_router"), copy TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL(t8);
-	phalcon_read_property(t8, this_ptr, "_request", sizeof("_request")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(t8, this_ptr, "_response", sizeof("_response")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	if (v4) {
+		Z_DELREF_P(v4);
+		if (!Z_REFCOUNT_P(v4)) {
+			FREE_ZVAL(v4);
+		}
+	}
 	Z_ADDREF_P(t8);
-	p16[0] = t8;
+	v4 = t8;
 	PHALCON_ALLOC_ZVAL(t9);
-	phalcon_read_property(t9, this_ptr, "_response", sizeof("_response")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(t9, this_ptr, "_request", sizeof("_request")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t9);
-	p16[1] = t9;
+	p16[0] = t9;
+	Z_ADDREF_P(v4);
+	p16[1] = v4;
 	Z_ADDREF_P(v2);
 	p16[2] = v2;
 	Z_ADDREF_P(v3);
@@ -1022,11 +1030,16 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 	p17[1] = r8;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "render", 2, p17, PHALCON_CALL_DEFAULT);
 	PHALCON_CALL_METHOD_NORETURN(v2, "finish", PHALCON_CALL_DEFAULT);
-	if (Z_TYPE_P(v2) > IS_BOOL) {
+	PHALCON_ALLOC_ZVAL(r9);
+	PHALCON_CALL_METHOD(r9, v2, "getcontent", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r9);
+	p21[0] = r9;
+	PHALCON_CALL_METHOD_PARAMS_NORETURN(v4, "setcontent", 1, p21, PHALCON_CALL_DEFAULT);
+	if (Z_TYPE_P(v4) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(v2);
+			*(return_value) = *(v4);
 			zval_copy_ctor(return_value);
 			Z_SET_ISREF_TO_P(return_value, is_ref);
 	 		Z_SET_REFCOUNT_P(return_value, refcount);
@@ -1035,7 +1048,7 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(v2);
+			*(return_value) = *(v4);
 			Z_SET_ISREF_TO_P(return_value, is_ref);
 	 		Z_SET_REFCOUNT_P(return_value, refcount);
 		}
