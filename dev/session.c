@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Session, start){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_FUNC_NORETURN("session_start");
+	PHALCON_CALL_FUNC_NORETURN("session_start", strlen("session_start"));
 	RETURN_NULL();
 }
 
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Session, getId){
 	zval *r0 = NULL;
 
 	PHALCON_ALLOC_ZVAL(r0);
-	PHALCON_CALL_FUNC(r0, "session_id");
+	PHALCON_CALL_FUNC(r0, "session_id", strlen("session_id"));
 	RETURN_ZVAL(r0, 1, 0);
 }
 

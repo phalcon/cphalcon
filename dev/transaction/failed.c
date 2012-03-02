@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 	}
 	Z_ADDREF_P(t0);
 	v0 = t0;
-	if (Z_TYPE_P(v0) != IS_NULL) {
+	if (zend_is_true(v0)) {
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_CALL_METHOD(r0, v0, "getmessages", PHALCON_CALL_DEFAULT);
 		RETURN_ZVAL(r0, 1, 0);

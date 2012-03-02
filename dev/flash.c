@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], " ", 1);
 		p0[1] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "join", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS(r0, "join", strlen("join"), 2, p0);
 		if (v2) {
 			Z_DELREF_P(v2);
 			if (!Z_REFCOUNT_P(v2)) {

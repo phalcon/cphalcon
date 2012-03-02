@@ -226,6 +226,7 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 /** Variables */
 #define PHALCON_SET_LONG(var, vlong) PHALCON_LVAR_INIT(var); ZVAL_LONG(var, vlong)
 #define PHALCON_SET_STRING(var, str, alloc) PHALCON_VAR_INIT(var); ZVAL_STRING(var, str, alloc)
+#define PHALCON_SET_STRINGL(var, str, length, alloc) PHALCON_VAR_INIT(var); ZVAL_STRINGL(var, str, length, alloc)
 #define PHALCON_SET_DOUBLE(var, vdouble) PHALCON_VAR_INIT(var); ZVAL_DOUBLE(var, vdouble)
 #define PHALCON_INIT_NULL(var) PHALCON_VAR_INIT(var); ZVAL_NULL(var)
 #define PHALCON_INIT_BOOL(var, bvalue) PHALCON_VAR_INIT(var); ZVAL_BOOL(var, bvalue)

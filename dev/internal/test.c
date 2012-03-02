@@ -3343,7 +3343,7 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 			}
 			ZVAL_STRING(p0[0], ".", 1);
 			p0[1] = v2;
-			PHALCON_CALL_FUNC_PARAMS(r0, "strpos", 2, p0);
+			PHALCON_CALL_FUNC_PARAMS(r0, "strpos", strlen("strpos"), 2, p0);
 			PHALCON_INIT_FALSE(t1);
 			PHALCON_NOT_IDENTICAL_FUNCTION(r1, r0, t1);
 			if (zend_is_true(r1)) {
@@ -3381,7 +3381,7 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 				}
 				ZVAL_STRING(p1[0], ".", 1);
 				p1[1] = v2;
-				PHALCON_CALL_FUNC_PARAMS(r2, "explode", 2, p1);
+				PHALCON_CALL_FUNC_PARAMS(r2, "explode", strlen("explode"), 2, p1);
 				if (v6) {
 					Z_DELREF_P(v6);
 					if (!Z_REFCOUNT_P(v6)) {
@@ -4369,7 +4369,7 @@ PHP_METHOD(Phalcon_Internal_Test, f1){
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(p0[0]);
 	ZVAL_STRING(p0[0], "LOL", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "strlen", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "strlen", strlen("strlen"), 1, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4383,7 +4383,7 @@ PHP_METHOD(Phalcon_Internal_Test, f2){
 	ZVAL_STRING(p0[0], "hello\t", 1);
 	PHALCON_ALLOC_ZVAL(p0[1]);
 	ZVAL_STRING(p0[1], "\t", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "rtrim", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "rtrim", strlen("rtrim"), 2, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4399,7 +4399,7 @@ PHP_METHOD(Phalcon_Internal_Test, f3){
 	ZVAL_STRING(p0[1], "xx", 1);
 	PHALCON_ALLOC_ZVAL(p0[2]);
 	ZVAL_STRING(p0[2], "aabbcc", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", strlen("str_replace"), 3, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4414,9 +4414,9 @@ PHP_METHOD(Phalcon_Internal_Test, f4){
 	PHALCON_ALLOC_ZVAL(r1);
 	PHALCON_ALLOC_ZVAL(p1[0]);
 	ZVAL_STRING(p1[0], "deux", 1);
-	PHALCON_CALL_FUNC_PARAMS(r1, "strlen", 1, p1);
+	PHALCON_CALL_FUNC_PARAMS(r1, "strlen", strlen("strlen"), 1, p1);
 	p0[1] = r1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_repeat", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_repeat", strlen("str_repeat"), 2, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4440,7 +4440,7 @@ PHP_METHOD(Phalcon_Internal_Test, f5){
 	v0 = a0;
 	Z_SET_ISREF_P(v0);
 	p0[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("asort", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("asort", strlen("asort"), 1, p0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -4461,7 +4461,7 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_PARAM_LONG(p0[0], 0);
 	PHALCON_PARAM_LONG(p0[1], 100);
-	PHALCON_CALL_FUNC_PARAMS(r0, "mt_rand", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "mt_rand", strlen("mt_rand"), 2, p0);
 	PHALCON_ALLOC_ZVAL(r1);
 	phalcon_concat_right(r1, r0, ".txt" TSRMLS_CC);
 	if (v0) {
@@ -4475,7 +4475,7 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 	p1[0] = v0;
 	PHALCON_ALLOC_ZVAL(p1[1]);
 	ZVAL_STRING(p1[1], "w", 1);
-	PHALCON_CALL_FUNC_PARAMS(r2, "fopen", 2, p1);
+	PHALCON_CALL_FUNC_PARAMS(r2, "fopen", strlen("fopen"), 2, p1);
 	if (v1) {
 		if (!Z_REFCOUNT_P(v1)) {
 			FREE_ZVAL(v1);
@@ -4487,13 +4487,13 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 	p2[0] = v1;
 	PHALCON_ALLOC_ZVAL(p2[1]);
 	ZVAL_STRING(p2[1], "morelol\n", 1);
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("fwrite", 2, p2);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("fwrite", strlen("fwrite"), 2, p2);
 	Z_ADDREF_P(v1);
 	p3[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("fclose", 1, p3);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("fclose", strlen("fclose"), 1, p3);
 	PHALCON_ALLOC_ZVAL(r3);
 	p4[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r3, "file_get_contents", 1, p4);
+	PHALCON_CALL_FUNC_PARAMS(r3, "file_get_contents", strlen("file_get_contents"), 1, p4);
 	if (v2) {
 		if (!Z_REFCOUNT_P(v2)) {
 			FREE_ZVAL(v2);
@@ -4502,7 +4502,7 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 	Z_ADDREF_P(r3);
 	v2 = r3;
 	p5[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("unlink", 1, p5);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("unlink", strlen("unlink"), 1, p5);
 	if (Z_TYPE_P(v2) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -4531,7 +4531,7 @@ PHP_METHOD(Phalcon_Internal_Test, f7){
 
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_PARAM_DOUBLE(p0[0], 3.14159);
-	PHALCON_CALL_FUNC_PARAMS(r0, "sqrt", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "sqrt", strlen("sqrt"), 1, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4552,7 +4552,7 @@ PHP_METHOD(Phalcon_Internal_Test, f8){
 	ZVAL_STRING(p0[1], "&", 1);
 	PHALCON_ALLOC_ZVAL(p0[2]);
 	ZVAL_STRING(p0[2], "-.,-.,", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", strlen("str_replace"), 3, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -4582,7 +4582,7 @@ PHP_METHOD(Phalcon_Internal_Test, f9){
 	PHALCON_ALLOC_ZVAL(r2);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r2, "abs", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r2, "abs", strlen("abs"), 1, p0);
 	RETURN_ZVAL(r2, 1, 0);
 }
 
@@ -4608,7 +4608,7 @@ PHP_METHOD(Phalcon_Internal_Test, f10){
 	phalcon_array_fetch_long(r1, v0, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(r1);
 	p0[0] = r1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", strlen("is_numeric"), 1, p0);
 	if (zend_is_true(r0)) {
 		RETURN_TRUE;
 	} else {
@@ -8401,7 +8401,7 @@ PHP_METHOD(Phalcon_Internal_Test, t4){
 	} else {
 		PHALCON_ALLOC_ZVAL(r1);
 		p0[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r1, "sqrt", 1, p0);
+		PHALCON_CALL_FUNC_PARAMS(r1, "sqrt", strlen("sqrt"), 1, p0);
 		PHALCON_ALLOC_ZVAL(r2);
 		add_function(r2, r1, v0 TSRMLS_CC);
 		{
@@ -9653,7 +9653,7 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 	zend_update_property_null(Z_OBJCE_P(v1), v1, "estado", strlen("estado") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r0);
 	p0[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "count", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "count", strlen("count"), 1, p0);
 	if (v2) {
 		Z_DELREF_P(v2);
 		if (!Z_REFCOUNT_P(v2)) {
@@ -9774,7 +9774,7 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 	}
 	ZVAL_STRING(p1[1], "", 1);
 	p1[2] = v4;
-	PHALCON_CALL_FUNC_PARAMS(r3, "str_replace", 3, p1);
+	PHALCON_CALL_FUNC_PARAMS(r3, "str_replace", strlen("str_replace"), 3, p1);
 	if (v6) {
 		Z_DELREF_P(v6);
 		if (!Z_REFCOUNT_P(v6)) {
@@ -10298,7 +10298,7 @@ PHP_METHOD(Phalcon_Internal_Test, t12){
 	PHALCON_ALLOC_ZVAL(p0[0]);
 	ZVAL_STRING(p0[0], "/", 1);
 	p0[1] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "explode", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "explode", strlen("explode"), 2, p0);
 	if (v1) {
 		Z_DELREF_P(v1);
 		if (!Z_REFCOUNT_P(v1)) {

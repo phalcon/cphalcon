@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 	PHALCON_ALLOC_ZVAL(r1);
 	Z_ADDREF_P(v1);
 	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", strlen("class_exists"), 1, p0);
 	if (zend_is_true(r1)) {
 		ce0 = zend_fetch_class(Z_STRVAL_P(v1), Z_STRLEN_P(v1), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(i0);
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			phalcon_concat_vboth(r5, r6, "\".\"", v1 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r7);
 			p5[0] = v0;
-			PHALCON_CALL_FUNC_PARAMS(r7, "get_class", 1, p5);
+			PHALCON_CALL_FUNC_PARAMS(r7, "get_class", strlen("get_class"), 1, p5);
 			PHALCON_ALLOC_ZVAL(r4);
 			phalcon_concat_vboth(r4, r5, "\" doesn't exists on database when dumping information for ", r7 TSRMLS_CC);
 			Z_ADDREF_P(r4);
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 					}
 				}
 				ZVAL_STRING(p8[1], "int", 1);
-				PHALCON_CALL_FUNC_PARAMS(r13, "strpos", 2, p8);
+				PHALCON_CALL_FUNC_PARAMS(r13, "strpos", strlen("strpos"), 2, p8);
 				PHALCON_INIT_FALSE(t3);
 				PHALCON_NOT_IDENTICAL_FUNCTION(r14, r13, t3);
 				if (zend_is_true(r14)) {
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 						}
 					}
 					ZVAL_STRING(p9[1], "decimal", 1);
-					PHALCON_CALL_FUNC_PARAMS(r15, "strpos", 2, p9);
+					PHALCON_CALL_FUNC_PARAMS(r15, "strpos", strlen("strpos"), 2, p9);
 					PHALCON_INIT_FALSE(t5);
 					PHALCON_NOT_IDENTICAL_FUNCTION(r16, r15, t5);
 					if (zend_is_true(r16)) {

@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_ALLOC_ZVAL(r0);
 	p0[0] = v0;
 	PHALCON_PARAM_BOOL(p0[1], 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "parse_ini_file", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "parse_ini_file", strlen("parse_ini_file"), 2, p0);
 	PG(display_errors) = silence;
 	if (v2) {
 		Z_DELREF_P(v2);
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r1, "basename", 1, p2);
+		PHALCON_CALL_FUNC_PARAMS(r1, "basename", strlen("basename"), 1, p2);
 		PHALCON_ALLOC_ZVAL(r2);
 		phalcon_concat_both(r2,  "Configuration file ", r1, " can't be loaded" TSRMLS_CC);
 		Z_ADDREF_P(r2);
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 			}
 			ZVAL_STRING(p3[1], ".", 1);
-			PHALCON_CALL_FUNC_PARAMS(r3, "strpos", 2, p3);
+			PHALCON_CALL_FUNC_PARAMS(r3, "strpos", strlen("strpos"), 2, p3);
 			PHALCON_INIT_FALSE(t0);
 			PHALCON_NOT_IDENTICAL_FUNCTION(r4, r3, t0);
 			if (zend_is_true(r4)) {
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 				ZVAL_STRING(p4[0], ".", 1);
 				p4[1] = v6;
-				PHALCON_CALL_FUNC_PARAMS(r5, "explode", 2, p4);
+				PHALCON_CALL_FUNC_PARAMS(r5, "explode", strlen("explode"), 2, p4);
 				if (v7) {
 					Z_DELREF_P(v7);
 					if (!Z_REFCOUNT_P(v7)) {

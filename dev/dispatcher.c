@@ -680,7 +680,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_ADDREF_P(v10);
 		p2[0] = v10;
 		PHALCON_PARAM_BOOL(p2[1], 0);
-		PHALCON_CALL_FUNC_PARAMS(r7, "class_exists", 2, p2);
+		PHALCON_CALL_FUNC_PARAMS(r7, "class_exists", strlen("class_exists"), 2, p2);
 		if (!zend_is_true(r7)) {
 			if (!i1) {
 				PHALCON_ALLOC_ZVAL(i1);
@@ -1116,7 +1116,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		p7[0] = a0;
 		Z_ADDREF_P(v12);
 		p7[1] = v12;
-		PHALCON_CALL_FUNC_PARAMS(r12, "call_user_func_array", 2, p7);
+		PHALCON_CALL_FUNC_PARAMS(r12, "call_user_func_array", strlen("call_user_func_array"), 2, p7);
 		if (v5) {
 			Z_DELREF_P(v5);
 			if (!Z_REFCOUNT_P(v5)) {
@@ -1196,7 +1196,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			p8[0] = a1;
 			Z_ADDREF_P(v12);
 			p8[1] = v12;
-			PHALCON_CALL_FUNC_PARAMS(r13, "call_user_func_array", 2, p8);
+			PHALCON_CALL_FUNC_PARAMS(r13, "call_user_func_array", strlen("call_user_func_array"), 2, p8);
 			if (v5) {
 				Z_DELREF_P(v5);
 				if (!Z_REFCOUNT_P(v5)) {
@@ -1459,7 +1459,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], "/", 1);
 		p0[1] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r0, "explode", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS(r0, "explode", strlen("explode"), 2, p0);
 		if (v1) {
 			Z_DELREF_P(v1);
 			if (!Z_REFCOUNT_P(v1)) {

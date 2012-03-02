@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		PHALCON_ALLOC_ZVAL(p1[0]);
 		ZVAL_STRING(p1[0], "/", 1);
 		p1[1] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r1, "explode", 2, p1);
+		PHALCON_CALL_FUNC_PARAMS(r1, "explode", strlen("explode"), 2, p1);
 		if (v1) {
 			Z_DELREF_P(v1);
 			if (!Z_REFCOUNT_P(v1)) {
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		v2 = a0;
 		PHALCON_ALLOC_ZVAL(r6);
 		p4[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r6, "count", 1, p4);
+		PHALCON_CALL_FUNC_PARAMS(r6, "count", strlen("count"), 1, p4);
 		if (v3) {
 			Z_DELREF_P(v3);
 			if (!Z_REFCOUNT_P(v3)) {

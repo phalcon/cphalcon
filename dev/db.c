@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Db, insert){
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		PHALCON_ALLOC_ZVAL(r0);
 		p0[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "count", 1, p0);
+		PHALCON_CALL_FUNC_PARAMS(r0, "count", strlen("count"), 1, p0);
 		PHALCON_ALLOC_ZVAL(t0);
 		ZVAL_LONG(t0, 0);
 		PHALCON_EQUAL_FUNCTION(r1, r0, t0);
@@ -475,7 +475,7 @@ PHP_METHOD(Phalcon_Db, insert){
 							PHALCON_CALL_METHOD(r7, r8, "getvalue", PHALCON_CALL_DEFAULT);
 							Z_ADDREF_P(r7);
 							p2[0] = r7;
-							PHALCON_CALL_FUNC_PARAMS(r6, "addslashes", 1, p2);
+							PHALCON_CALL_FUNC_PARAMS(r6, "addslashes", strlen("addslashes"), 1, p2);
 							{
 								zval *copy;
 								ALLOC_ZVAL(copy);
@@ -538,7 +538,7 @@ PHP_METHOD(Phalcon_Db, insert){
 							phalcon_array_fetch(r10, v1, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
 							Z_ADDREF_P(r10);
 							p4[0] = r10;
-							PHALCON_CALL_FUNC_PARAMS(r9, "addslashes", 1, p4);
+							PHALCON_CALL_FUNC_PARAMS(r9, "addslashes", strlen("addslashes"), 1, p4);
 							if (!r11) {
 								PHALCON_ALLOC_ZVAL(r11);
 							} else {
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Db, insert){
 						phalcon_array_fetch(r13, v1, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
 						Z_ADDREF_P(r13);
 						p5[0] = r13;
-						PHALCON_CALL_FUNC_PARAMS(r12, "addslashes", 1, p5);
+						PHALCON_CALL_FUNC_PARAMS(r12, "addslashes", strlen("addslashes"), 1, p5);
 						if (!r14) {
 							PHALCON_ALLOC_ZVAL(r14);
 						} else {
@@ -672,14 +672,14 @@ PHP_METHOD(Phalcon_Db, insert){
 			PHALCON_ALLOC_ZVAL(p6[0]);
 			ZVAL_STRING(p6[0], ", ", 1);
 			p6[1] = v2;
-			PHALCON_CALL_FUNC_PARAMS(r18, "join", 2, p6);
+			PHALCON_CALL_FUNC_PARAMS(r18, "join", strlen("join"), 2, p6);
 			PHALCON_ALLOC_ZVAL(r16);
 			phalcon_concat_vboth(r16, r17, " (", r18 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r19);
 			PHALCON_ALLOC_ZVAL(p7[0]);
 			ZVAL_STRING(p7[0], ", ", 1);
 			p7[1] = v1;
-			PHALCON_CALL_FUNC_PARAMS(r19, "join", 2, p7);
+			PHALCON_CALL_FUNC_PARAMS(r19, "join", strlen("join"), 2, p7);
 			PHALCON_ALLOC_ZVAL(r15);
 			phalcon_concat_vboth(r15, r16, ") VALUES (", r19 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r20);
@@ -699,7 +699,7 @@ PHP_METHOD(Phalcon_Db, insert){
 			PHALCON_ALLOC_ZVAL(p8[0]);
 			ZVAL_STRING(p8[0], ", ", 1);
 			p8[1] = v1;
-			PHALCON_CALL_FUNC_PARAMS(r23, "join", 2, p8);
+			PHALCON_CALL_FUNC_PARAMS(r23, "join", strlen("join"), 2, p8);
 			PHALCON_ALLOC_ZVAL(r21);
 			phalcon_concat_vboth(r21, r22, " VALUES (", r23 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r24);
@@ -788,10 +788,10 @@ PHP_METHOD(Phalcon_Db, update){
 	v5 = r0;
 	PHALCON_ALLOC_ZVAL(r1);
 	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS(r1, "count", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r1, "count", strlen("count"), 1, p0);
 	PHALCON_ALLOC_ZVAL(r2);
 	p1[0] = v2;
-	PHALCON_CALL_FUNC_PARAMS(r2, "count", 1, p1);
+	PHALCON_CALL_FUNC_PARAMS(r2, "count", strlen("count"), 1, p1);
 	PHALCON_NOT_EQUAL_FUNCTION(r3, r1, r2);
 	if (zend_is_true(r3)) {
 		PHALCON_ALLOC_ZVAL(i0);
@@ -947,7 +947,7 @@ PHP_METHOD(Phalcon_Db, update){
 					PHALCON_CALL_METHOD(r8, r9, "getvalue", PHALCON_CALL_DEFAULT);
 					Z_ADDREF_P(r8);
 					p3[0] = r8;
-					PHALCON_CALL_FUNC_PARAMS(r7, "addslashes", 1, p3);
+					PHALCON_CALL_FUNC_PARAMS(r7, "addslashes", strlen("addslashes"), 1, p3);
 					{
 						zval *copy;
 						ALLOC_ZVAL(copy);
@@ -1009,7 +1009,7 @@ PHP_METHOD(Phalcon_Db, update){
 					phalcon_array_fetch(r11, v2, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
 					Z_ADDREF_P(r11);
 					p5[0] = r11;
-					PHALCON_CALL_FUNC_PARAMS(r10, "addslashes", 1, p5);
+					PHALCON_CALL_FUNC_PARAMS(r10, "addslashes", strlen("addslashes"), 1, p5);
 					if (!r12) {
 						PHALCON_ALLOC_ZVAL(r12);
 					} else {
@@ -1093,7 +1093,7 @@ PHP_METHOD(Phalcon_Db, update){
 				phalcon_array_fetch(r14, v2, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
 				Z_ADDREF_P(r14);
 				p6[0] = r14;
-				PHALCON_CALL_FUNC_PARAMS(r13, "addslashes", 1, p6);
+				PHALCON_CALL_FUNC_PARAMS(r13, "addslashes", strlen("addslashes"), 1, p6);
 				if (!r15) {
 					PHALCON_ALLOC_ZVAL(r15);
 				} else {
@@ -1211,7 +1211,7 @@ PHP_METHOD(Phalcon_Db, update){
 	PHALCON_ALLOC_ZVAL(p7[0]);
 	ZVAL_STRING(p7[0], ", ", 1);
 	p7[1] = v7;
-	PHALCON_CALL_FUNC_PARAMS(r18, "join", 2, p7);
+	PHALCON_CALL_FUNC_PARAMS(r18, "join", strlen("join"), 2, p7);
 	PHALCON_CONCAT_FUNCTION(r19, v5, r18);
 	if (v5) {
 		Z_DELREF_P(v5);
@@ -1271,7 +1271,7 @@ PHP_METHOD(Phalcon_Db, delete){
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v1);
 	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "trim", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "trim", strlen("trim"), 1, p0);
 	if (!phalcon_compare_strict_string(r0, "")) {
 		PHALCON_ALLOC_ZVAL(r1);
 		PHALCON_ALLOC_ZVAL(r3);
@@ -1845,7 +1845,7 @@ PHP_METHOD(Phalcon_Db, factory){
 	PHALCON_ALLOC_ZVAL(r1);
 	Z_ADDREF_P(v7);
 	p2[0] = v7;
-	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", 1, p2);
+	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", strlen("class_exists"), 1, p2);
 	if (zend_is_true(r1)) {
 		ce0 = zend_fetch_class(Z_STRVAL_P(v7), Z_STRLEN_P(v7), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(i3);

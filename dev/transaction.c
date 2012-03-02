@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Transaction, commit){
 		add_next_index_zval(a1, this_ptr);
 		Z_ADDREF_P(a1);
 		p0[1] = a1;
-		PHALCON_CALL_FUNC_PARAMS_NORETURN("call_user_func_array", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS_NORETURN("call_user_func_array", strlen("call_user_func_array"), 2, p0);
 	}
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t2);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		add_next_index_zval(a1, this_ptr);
 		Z_ADDREF_P(a1);
 		p0[1] = a1;
-		PHALCON_CALL_FUNC_PARAMS_NORETURN("call_user_func_array", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS_NORETURN("call_user_func_array", strlen("call_user_func_array"), 2, p0);
 	}
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t2);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 			PHALCON_ALLOC_ZVAL(v0);
 			ZVAL_STRING(v0, "Transaction aborted", 0);
 		}
-		if (Z_TYPE_P(v1) != IS_NULL) {
+		if (zend_is_true(v1)) {
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	phalcon_read_property(t0, this_ptr, "_rollbackOnAbort", sizeof("_rollbackOnAbort")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL(r0);
-		PHALCON_CALL_FUNC(r0, "connection_aborted");
+		PHALCON_CALL_FUNC(r0, "connection_aborted", strlen("connection_aborted"));
 		if (zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL(p1[0]);
 			ZVAL_STRING(p1[0], "The request was aborted", 1);

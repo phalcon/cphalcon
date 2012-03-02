@@ -20,8 +20,8 @@
 extern int phalcon_find_scope(zend_class_entry *ce, char *method_name TSRMLS_DC);
 extern int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, char *method_name TSRMLS_DC);
 
-extern int phalcon_call_func(zval *return_value, char *func_name, int noreturn TSRMLS_DC);
-extern int phalcon_call_func_params(zval *return_value, char *func_name, int param_count, zval *params[], int noreturn TSRMLS_DC);
+extern int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC);
+extern int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, int param_count, zval *params[], int noreturn TSRMLS_DC);
 
 extern int phalcon_call_method(zval *return_value, zval *object, char *method_name, int check, int noreturn TSRMLS_DC);
 extern int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int param_count, zval *params[], int check, int noreturn TSRMLS_DC);
@@ -48,17 +48,17 @@ extern int phalcon_call_user_function_ex(HashTable *function_table, zval **objec
 extern int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
 #endif
 
-#define PHALCON_CALL_FUNC(return_value, func_name) phalcon_call_func(return_value, func_name, 1 TSRMLS_CC); if(EG(exception)) return
-#define PHALCON_CALL_FUNC_NORETURN(func_name) phalcon_call_func(NULL, func_name, 0 TSRMLS_CC); if(EG(exception)) return
-#define PHALCON_CALL_FUNC_PARAMS(return_value, func_name, param_count, params) PHALCON_RESULT_INIT(return_value); phalcon_call_func_params(return_value, func_name, param_count, params, 1 TSRMLS_CC); if(EG(exception)) return
-#define PHALCON_CALL_FUNC_PARAMS_NORETURN(func_name, param_count, params) phalcon_call_func_params(NULL, func_name, param_count, params, 0 TSRMLS_CC); if(EG(exception)) return
+#define PHALCON_CALL_FUNC(return_value, func_name, func_length) phalcon_call_func(return_value, func_name, func_length, 1 TSRMLS_CC); if(EG(exception)) return
+#define PHALCON_CALL_FUNC_NORETURN(func_name, func_length) phalcon_call_func(NULL, func_name, func_length, 0 TSRMLS_CC); if(EG(exception)) return
+#define PHALCON_CALL_FUNC_PARAMS(return_value, func_name, func_length, param_count, params) phalcon_call_func_params(return_value, func_name, func_length, param_count, params, 1 TSRMLS_CC); if(EG(exception)) return
+#define PHALCON_CALL_FUNC_PARAMS_NORETURN(func_name, func_length, param_count, params) phalcon_call_func_params(NULL, func_name, func_length, param_count, params, 0 TSRMLS_CC); if(EG(exception)) return
 
 #define PHALCON_CALL_METHOD(return_value, object, method_name, check) phalcon_call_method(return_value, object, method_name, check, 1 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_METHOD_NORETURN(object, method_name, check) phalcon_call_method(NULL, object, method_name, check, 0 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_METHOD_PARAMS(return_value, object, method_name, param_count, params, check) phalcon_call_method_params(return_value, object, method_name, param_count, params, check, 1 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_METHOD_PARAMS_NORETURN(object, method_name, param_count, params, check) phalcon_call_method_params(NULL, object, method_name, param_count, params, check, 0 TSRMLS_CC); if(EG(exception)) return
 
-#define PHALCON_CALL_PARENT_PARAMS(return_value, object, active_class, method_name, param_count, params)  phalcon_call_parent_func_params(return_value, object, active_class, method_name, param_count, params, 1 TSRMLS_CC); if(EG(exception)) return
+#define PHALCON_CALL_PARENT_PARAMS(return_value, object, active_class, method_name, param_count, params) phalcon_call_parent_func_params(return_value, object, active_class, method_name, param_count, params, 1 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_PARENT_PARAMS_NORETURN(object, active_class, method_name, param_count, params) phalcon_call_parent_func_params(NULL, object, active_class, method_name, param_count, params, 0 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_PARENT(return_value, object, active_class, method_name) phalcon_call_parent_func(return_value, object, active_class, method_name, 1 TSRMLS_CC); if(EG(exception)) return
 #define PHALCON_CALL_PARENT_NORETURN(object, active_class, method_name) phalcon_call_parent_func(NULL, object, active_class, method_name, 0 TSRMLS_CC); if(EG(exception)) return;

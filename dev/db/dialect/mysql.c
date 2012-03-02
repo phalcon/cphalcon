@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v1);
 		p0[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r1, "addslashes", 1, p0);
+		PHALCON_CALL_FUNC_PARAMS(r1, "addslashes", strlen("addslashes"), 1, p0);
 		if (v1) {
 			if (!Z_REFCOUNT_P(v1)) {
 				FREE_ZVAL(v1);

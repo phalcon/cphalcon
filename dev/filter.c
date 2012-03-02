@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 517);
 		p0[1] = t1;
-		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", strlen("filter_var"), 2, p0);
 		RETURN_ZVAL(r1, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t2);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL(t3);
 		ZVAL_LONG(t3, 519);
 		p1[1] = t3;
-		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", 2, p1);
+		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", strlen("filter_var"), 2, p1);
 		RETURN_ZVAL(r3, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t4);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL(t5);
 		ZVAL_LONG(t5, 513);
 		p2[1] = t5;
-		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", 2, p2);
+		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", strlen("filter_var"), 2, p2);
 		RETURN_ZVAL(r5, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t6);
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		}
 		add_assoc_zval(a0, "flags", t8);
 		p3[2] = a0;
-		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3);
+		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", strlen("filter_var"), 3, p3);
 		RETURN_ZVAL(r7, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(i0);

@@ -287,6 +287,7 @@ int phalcon_debug_backtrace_internal(){
 		ptr = ptr->prev;
 		step++;
 	}
+	return SUCCESS;
 }
 
 /**

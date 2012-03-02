@@ -63,17 +63,11 @@ PHP_METHOD(Phalcon_Controller_Front, __construct){
  */
 PHP_METHOD(Phalcon_Controller_Front, getInstance){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *i0 = NULL;
-	zval *p0[] = { NULL };
 
-	PHALCON_ALLOC_ZVAL(r0);
 	t0 = zend_read_static_property(phalcon_controller_front_class_entry, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	Z_ADDREF_P(t0);
-	p0[0] = t0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "is_null", 1, p0);
-	if (zend_is_true(r0)) {
+	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_controller_front_class_entry);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
@@ -476,22 +470,17 @@ PHP_METHOD(Phalcon_Controller_Front, setBaseUri){
  */
 PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *a0 = NULL;
 	zval *v0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval **gv0;
-	zval *p0[] = { NULL }, *p4[] = { NULL }, *p3[] = { NULL, NULL }, *p2[] = { NULL, NULL, NULL }, *p1[] = { NULL, NULL };
+	zval *p3[] = { NULL }, *p2[] = { NULL, NULL }, *p1[] = { NULL, NULL, NULL }, *p0[] = { NULL, NULL };
 	int eval_int;
 
-	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_baseUri", sizeof("_baseUri")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	Z_ADDREF_P(t0);
-	p0[0] = t0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "is_null", 1, p0);
-	if (zend_is_true(r0)) {
+	if (!zend_is_true(t0)) {
 		phalcon_init_global("_SERVER" TSRMLS_CC);
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
@@ -506,51 +495,51 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 		}
 		eval_int = phalcon_array_isset_string(a0, "PHP_SELF", strlen("PHP_SELF")+1);
 		if (eval_int) {
+			PHALCON_ALLOC_ZVAL(r0);
 			PHALCON_ALLOC_ZVAL(r1);
 			PHALCON_ALLOC_ZVAL(r2);
+			PHALCON_ALLOC_ZVAL(p2[0]);
+			ZVAL_STRING(p2[0], "/", 1);
 			PHALCON_ALLOC_ZVAL(r3);
-			PHALCON_ALLOC_ZVAL(p3[0]);
-			ZVAL_STRING(p3[0], "/", 1);
 			PHALCON_ALLOC_ZVAL(r4);
-			PHALCON_ALLOC_ZVAL(r5);
-			phalcon_array_fetch_string(r5, a0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY_FETCH TSRMLS_CC);
-			p4[0] = r5;
-			PHALCON_CALL_FUNC_PARAMS(r4, "dirname", 1, p4);
-			p3[1] = r4;
-			PHALCON_CALL_FUNC_PARAMS(r3, "explode", 2, p3);
-			p2[0] = r3;
-			PHALCON_PARAM_LONG(p2[1], 1);
+			phalcon_array_fetch_string(r4, a0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY_FETCH TSRMLS_CC);
+			p3[0] = r4;
+			PHALCON_CALL_FUNC_PARAMS(r3, "dirname", strlen("dirname"), 1, p3);
+			p2[1] = r3;
+			PHALCON_CALL_FUNC_PARAMS(r2, "explode", strlen("explode"), 2, p2);
+			p1[0] = r2;
+			PHALCON_PARAM_LONG(p1[1], 1);
 			PHALCON_ALLOC_ZVAL(t2);
 			ZVAL_LONG(t2, 1);
 			PHALCON_ALLOC_ZVAL(t1);
 			ZVAL_LONG(t1, -1);
-			PHALCON_MUL_FUNCTION(r6, t1, t2);
-			p2[2] = r6;
-			PHALCON_CALL_FUNC_PARAMS(r2, "array_slice", 3, p2);
-			p1[0] = r2;
-			PHALCON_ALLOC_ZVAL(p1[1]);
-			ZVAL_STRING(p1[1], "/", 1);
-			PHALCON_CALL_FUNC_PARAMS(r1, "join", 2, p1);
+			PHALCON_MUL_FUNCTION(r5, t1, t2);
+			p1[2] = r5;
+			PHALCON_CALL_FUNC_PARAMS(r1, "array_slice", strlen("array_slice"), 3, p1);
+			p0[0] = r1;
+			PHALCON_ALLOC_ZVAL(p0[1]);
+			ZVAL_STRING(p0[1], "/", 1);
+			PHALCON_CALL_FUNC_PARAMS(r0, "join", strlen("join"), 2, p0);
 			if (v0) {
 				if (!Z_REFCOUNT_P(v0)) {
 					FREE_ZVAL(v0);
 				}
 			}
-			Z_ADDREF_P(r1);
-			v0 = r1;
+			Z_ADDREF_P(r0);
+			v0 = r0;
 		} else {
 			PHALCON_ALLOC_ZVAL(v0);
 			ZVAL_STRING(v0, "", 0);
 		}
-		if (phalcon_compare_strict_string(v0, "")) {
+		if (!zend_is_true(v0)) {
 			phalcon_update_property_string(this_ptr, "_baseUri", strlen("_baseUri"), "/" TSRMLS_CC);
 		} else {
-			PHALCON_ALLOC_ZVAL(r7);
-			phalcon_concat_both(r7,  "/", v0, "/" TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL(r6);
+			phalcon_concat_both(r6,  "/", v0, "/" TSRMLS_CC);
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
-				ZVAL_ZVAL(copy, r7, 1, 0);
+				ZVAL_ZVAL(copy, r6, 1, 0);
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(this_ptr, "_baseUri", strlen("_baseUri"), copy TSRMLS_CC);
 			}

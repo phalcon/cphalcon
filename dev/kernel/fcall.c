@@ -102,7 +102,7 @@ int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, char *me
 /**
  * Call single function which not requires parameters
  */
-int phalcon_call_func(zval *return_value, char *func_name, int noreturn TSRMLS_DC){
+int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -111,7 +111,7 @@ int phalcon_call_func(zval *return_value, char *func_name, int noreturn TSRMLS_D
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
-	PHALCON_SET_STRING(fn, func_name, 0);
+	PHALCON_SET_STRINGL(fn, func_name, func_length, 0);
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		zend_error_noreturn(E_ERROR, "Call to undefined function %s()", func_name);
@@ -128,7 +128,7 @@ int phalcon_call_func(zval *return_value, char *func_name, int noreturn TSRMLS_D
 /**
  * Call single function which requires parameters
  */
-int phalcon_call_func_params(zval *return_value, char *func_name, int param_count, zval *params[], int noreturn TSRMLS_DC){
+int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, int param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -137,7 +137,7 @@ int phalcon_call_func_params(zval *return_value, char *func_name, int param_coun
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
-	PHALCON_SET_STRING(fn, func_name, 0);
+	PHALCON_SET_STRINGL(fn, func_name, func_length, 0);
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		zend_error_noreturn(E_ERROR, "Call to undefined function %s()", func_name);

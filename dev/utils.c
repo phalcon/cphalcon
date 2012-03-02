@@ -75,13 +75,13 @@ PHP_METHOD(Phalcon_Utils, camelize){
 	ZVAL_STRING(p2[1], " ", 1);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", 1, p3);
+	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", strlen("strtolower"), 1, p3);
 	p2[2] = r3;
-	PHALCON_CALL_FUNC_PARAMS(r2, "str_replace", 3, p2);
+	PHALCON_CALL_FUNC_PARAMS(r2, "str_replace", strlen("str_replace"), 3, p2);
 	p1[0] = r2;
-	PHALCON_CALL_FUNC_PARAMS(r1, "ucwords", 1, p1);
+	PHALCON_CALL_FUNC_PARAMS(r1, "ucwords", strlen("ucwords"), 1, p1);
 	p0[2] = r1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", strlen("str_replace"), 3, p0);
 	RETURN_ZVAL(r0, 1, 0);
 }
 
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 		p0[0] = v3;
 		Z_ADDREF_P(v0);
 		p0[1] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r0, "preg_match", 2, p0);
+		PHALCON_CALL_FUNC_PARAMS(r0, "preg_match", strlen("preg_match"), 2, p0);
 		if (zend_is_true(r0)) {
 			if (!r1) {
 				PHALCON_ALLOC_ZVAL(r1);
@@ -198,15 +198,15 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 			p2[1] = v2;
 			Z_ADDREF_P(v0);
 			p2[2] = v0;
-			PHALCON_CALL_FUNC_PARAMS(r2, "preg_replace", 3, p2);
+			PHALCON_CALL_FUNC_PARAMS(r2, "preg_replace", strlen("preg_replace"), 3, p2);
 			p1[0] = r2;
-			PHALCON_CALL_FUNC_PARAMS(r1, "strtolower", 1, p1);
+			PHALCON_CALL_FUNC_PARAMS(r1, "strtolower", strlen("strtolower"), 1, p1);
 			RETURN_ZVAL(r1, 1, 0);
 		}
 	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", 1, p3);
+	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", strlen("strtolower"), 1, p3);
 	RETURN_ZVAL(r3, 1, 0);
 }
 

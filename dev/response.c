@@ -49,6 +49,11 @@ PHP_METHOD(Phalcon_Response, __construct){
 	RETURN_NULL();
 }
 
+/**
+ * Returns singleton Php_Response instance
+ *
+ * @return Php_Response
+ */
 PHP_METHOD(Phalcon_Response, getInstance){
 
 	zval *t0 = NULL, *t1 = NULL;
@@ -105,7 +110,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
 	Z_ADDREF_P(r0);
 	p0[0] = r0;
 	PHALCON_PARAM_BOOL(p0[1], 1);
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("header", 2, p0);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("header", strlen("header"), 2, p0);
 	RETURN_NULL();
 }
 

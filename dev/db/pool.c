@@ -157,8 +157,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL }, *p2[] = { NULL, NULL, NULL }, *p3[] = { NULL, NULL, NULL }, *p4[] = { NULL }, *p5[] = { NULL, NULL, NULL };
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL }, *p2[] = { NULL, NULL, NULL }, *p3[] = { NULL, NULL, NULL }, *p4[] = { NULL, NULL, NULL };
 	int eval_int;
 
 	
@@ -250,22 +250,18 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			v3 = r1;
 		}
 	} else {
-		PHALCON_ALLOC_ZVAL(r2);
 		t4 = zend_read_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		Z_ADDREF_P(t4);
-		p4[0] = t4;
-		PHALCON_CALL_FUNC_PARAMS(r2, "is_null", 1, p4);
-		if (zend_is_true(r2)) {
-			PHALCON_ALLOC_ZVAL(r3);
+		if (!zend_is_true(t4)) {
+			PHALCON_ALLOC_ZVAL(r2);
 			PHALCON_ALLOC_ZVAL(t5);
 			phalcon_read_property(t5, v2, "adapter", sizeof("adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			Z_ADDREF_P(t5);
-			p5[0] = t5;
+			p4[0] = t5;
 			Z_ADDREF_P(v2);
-			p5[1] = v2;
-			PHALCON_PARAM_BOOL(p5[2], 1);
-			PHALCON_CALL_STATIC_PARAMS(r3, "phalcon_db", "factory", 3, p5);
-			zend_update_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, r3 TSRMLS_CC);
+			p4[1] = v2;
+			PHALCON_PARAM_BOOL(p4[2], 1);
+			PHALCON_CALL_STATIC_PARAMS(r2, "phalcon_db", "factory", 3, p4);
+			zend_update_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, r2 TSRMLS_CC);
 		}
 		t6 = zend_read_static_property(phalcon_db_pool_class_entry, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		if (v3) {

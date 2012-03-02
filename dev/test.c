@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Test, nice){
 		}
 	END_FOREACH(ac0, fes10, fee10, ah0, hp0);
 	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", strlen("print_r"), 1, p0);
 	RETURN_NULL();
 }
 

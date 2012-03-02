@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	p0[0] = t0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "count", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "count", strlen("count"), 1, p0);
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_EQUAL_FUNCTION(r1, r0, t1);

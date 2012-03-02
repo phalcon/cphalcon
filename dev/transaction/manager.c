@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		add_next_index_string(a0, "Phalcon_Transaction_Manager", 1);
 		add_next_index_string(a0, "rollbackPendent", 1);
 		p0[0] = a0;
-		PHALCON_CALL_FUNC_PARAMS_NORETURN("register_shutdown_function", 1, p0);
+		PHALCON_CALL_FUNC_PARAMS_NORETURN("register_shutdown_function", strlen("register_shutdown_function"), 1, p0);
 		PHALCON_INIT_TRUE(t1);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
 	}
@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 	PHALCON_ALLOC_ZVAL(r0);
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	p0[0] = t0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "count", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "count", strlen("count"), 1, p0);
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_SMALLER_FUNCTION(r1, t1, r0);
@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 	PHALCON_ALLOC_ZVAL(r0);
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	p0[0] = t0;
-	PHALCON_CALL_FUNC_PARAMS(r0, "count", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "count", strlen("count"), 1, p0);
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_SMALLER_FUNCTION(r1, t1, r0);
