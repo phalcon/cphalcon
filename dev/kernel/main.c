@@ -30,10 +30,16 @@
  * Initilializes super global variables if doesn't
  */
 int phalcon_init_global(char *global TSRMLS_DC){
+	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
-	if(jit_initialization){
+	if (jit_initialization) {
 		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
 	}
+	#else 
+	if (PG(auto_globals_jit)) {
+		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+	}	
+	#endif
 	return SUCCESS;
 }
 
@@ -41,11 +47,17 @@ int phalcon_init_global(char *global TSRMLS_DC){
  * Gets the global zval into PG macro
  */
 int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC){
+	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if(jit_initialization){
 		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
 	}
-	arr = PG(http_globals)[global_type];	
+	#else
+	if (PG(auto_globals_jit)) {
+		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+	}
+	#endif
+	arr = PG(http_globals)[global_type];
 	return SUCCESS;
 }
 

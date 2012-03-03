@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Utils
+ * Phalcon_Utils
  *
  * Implements functionality used widely by the framework
  */
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes12, fee12, ah0, hp0, v3, v2)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 			PHALCON_CALL_FUNC_PARAMS(r1, "strtolower", strlen("strtolower"), 1, p1);
 			RETURN_ZVAL(r1, 1, 0);
 		}
-	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
+	END_FOREACH(ac0, fes12, fee12, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
 	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", strlen("strtolower"), 1, p3);

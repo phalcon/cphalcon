@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Model_Message
+ * Phalcon_Model_Message
  *
  * Encapsulates validation info generated before save/delete records fails
  *
@@ -47,7 +47,7 @@
  */
 
 /**
-     * Php_Model_Message message
+     * Phalcon_Model_Message message
      *
      * @param string $message
      * @param string $field
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Model_Message, __toString){
      * Magic __set_state helps to recover messsages from serialization
      *
      * @param array $message
-     * @return Php_Model_Message
+     * @return Phalcon_Model_Message
      */
 PHP_METHOD(Phalcon_Model_Message, __set_state){
 

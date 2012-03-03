@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Session
+ * Phalcon_Session
  *
  * Session client-server persistent state data management.
  */

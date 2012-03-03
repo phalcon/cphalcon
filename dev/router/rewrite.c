@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Router_Rewrite
+ * Phalcon_Router_Rewrite
  *
- * <p>Php_Router_Rewrite is the standard framework router. Routing is the
+ * <p>Phalcon_Router_Rewrite is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request</p>
@@ -244,10 +244,10 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		v3 = r6;
 		PHALCON_ALLOC_ZVAL(v4);
 		ZVAL_LONG(v4, 2);
-		fs48:
+		fs49:
 		PHALCON_SMALLER_FUNCTION(r7, v4, v3);
 		if (!zend_is_true(r7)) {
-			goto fe48;
+			goto fe49;
 		}
 		if (!r8) {
 			PHALCON_ALLOC_ZVAL(r8);
@@ -300,8 +300,8 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			}
 		}
 		increment_function(v4);
-		goto fs48;
-		fe48:
+		goto fs49;
+		fe49:
 		r7 = NULL;
 		{
 			zval *copy;

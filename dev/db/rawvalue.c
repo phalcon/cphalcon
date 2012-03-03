@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Db_RawValue
+ * Phalcon_Db_RawValue
  *
  * This class lets to insert/update raw data without quoting or formating.
  *
@@ -47,7 +47,7 @@
  */
 
 /**
- * Php_Db_RawValue constructor
+ * Phalcon_Db_RawValue constructor
  *
  * @param string $value
  */

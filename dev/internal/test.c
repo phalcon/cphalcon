@@ -969,12 +969,12 @@ PHP_METHOD(Phalcon_Internal_Test, o22){
 	ZVAL_LONG(v0, 0);
 	PHALCON_ALLOC_ZVAL(v1);
 	ZVAL_LONG(v1, 0);
-	fs16:
+	fs17:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 25);
 	PHALCON_SMALLER_FUNCTION(r0, v1, t0);
 	if (!zend_is_true(r0)) {
-		goto fe16;
+		goto fe17;
 	}
 	PHALCON_CONCAT_FUNCTION(r1, v0, v1);
 	if (v0) {
@@ -996,8 +996,8 @@ PHP_METHOD(Phalcon_Internal_Test, o22){
 		}
 	}
 	increment_function(v1);
-	goto fs16;
-	fe16:
+	goto fs17;
+	fe17:
 	r0 = NULL;
 	if (Z_TYPE_P(v0) > IS_BOOL) {
 		{
@@ -1030,12 +1030,12 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 	ZVAL_LONG(v0, 0);
 	PHALCON_ALLOC_ZVAL(v1);
 	ZVAL_LONG(v1, 0);
-	fs17:
+	fs18:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 25);
 	PHALCON_SMALLER_FUNCTION(r0, v1, t0);
 	if (!zend_is_true(r0)) {
-		goto fe17;
+		goto fe18;
 	}
 	if (!r1) {
 		PHALCON_ALLOC_ZVAL(r1);
@@ -1099,8 +1099,8 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 		}
 	}
 	increment_function(v1);
-	goto fs17;
-	fe17:
+	goto fs18;
+	fe18:
 	r0 = NULL;
 	if (Z_TYPE_P(v0) > IS_BOOL) {
 		{
@@ -1771,7 +1771,7 @@ PHP_METHOD(Phalcon_Internal_Test, a10){
 	}
 	Z_ADDREF_P(a0);
 	v0 = a0;
-	FOREACH_KV(v0, ac0, fes18, fee18, ah0, hp0, v2, v1)
+	FOREACH_KV(v0, ac0, fes19, fee19, ah0, hp0, v2, v1)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -1841,7 +1841,7 @@ PHP_METHOD(Phalcon_Internal_Test, a10){
 			}
 			phalcon_array_update(v0, v2, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes18, fee18, ah0, hp0);
+	END_FOREACH(ac0, fes19, fee19, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -1882,7 +1882,7 @@ PHP_METHOD(Phalcon_Internal_Test, a11){
 	}
 	Z_ADDREF_P(a0);
 	v0 = a0;
-	FOREACH_KV(v0, ac0, fes19, fee19, ah0, hp0, v2, v1)
+	FOREACH_KV(v0, ac0, fes20, fee20, ah0, hp0, v2, v1)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -1952,7 +1952,7 @@ PHP_METHOD(Phalcon_Internal_Test, a11){
 			}
 			phalcon_array_update(v0, r1, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes19, fee19, ah0, hp0);
+	END_FOREACH(ac0, fes20, fee20, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -1992,7 +1992,7 @@ PHP_METHOD(Phalcon_Internal_Test, a12){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	FOREACH_V(v1, ac0, fes20, fee20, ah0, hp0, v2)
+	FOREACH_V(v1, ac0, fes21, fee21, ah0, hp0, v2)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -2074,7 +2074,7 @@ PHP_METHOD(Phalcon_Internal_Test, a12){
 			}
 		}
 		increment_function(v0);
-	END_FOREACH(ac0, fes20, fee20, ah0, hp0);
+	END_FOREACH(ac0, fes21, fee21, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -2119,7 +2119,7 @@ PHP_METHOD(Phalcon_Internal_Test, a13){
 	}
 	Z_ADDREF_P(a1);
 	v1 = a1;
-	FOREACH_V(v1, ac0, fes21, fee21, ah0, hp0, v2)
+	FOREACH_V(v1, ac0, fes22, fee22, ah0, hp0, v2)
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -2137,7 +2137,7 @@ PHP_METHOD(Phalcon_Internal_Test, a13){
 			}
 			phalcon_array_append(v0, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes21, fee21, ah0, hp0);
+	END_FOREACH(ac0, fes22, fee22, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -2188,7 +2188,7 @@ PHP_METHOD(Phalcon_Internal_Test, a14){
 	}
 	Z_ADDREF_P(a1);
 	v1 = a1;
-	FOREACH_KV(v1, ac0, fes22, fee22, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes23, fee23, ah0, hp0, v3, v2)
 		if (!t0) {
 			PHALCON_ALLOC_ZVAL(t0);
 		} else {
@@ -2263,7 +2263,7 @@ PHP_METHOD(Phalcon_Internal_Test, a14){
 			}
 			phalcon_array_update(v0, v3, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes22, fee22, ah0, hp0);
+	END_FOREACH(ac0, fes23, fee23, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -2314,7 +2314,7 @@ PHP_METHOD(Phalcon_Internal_Test, a15){
 	}
 	Z_ADDREF_P(a1);
 	v1 = a1;
-	FOREACH_KV(v1, ac0, fes23, fee23, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes24, fee24, ah0, hp0, v3, v2)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -2471,7 +2471,7 @@ PHP_METHOD(Phalcon_Internal_Test, a15){
 			}
 			phalcon_array_update(v0, v3, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes23, fee23, ah0, hp0);
+	END_FOREACH(ac0, fes24, fee24, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -2563,9 +2563,9 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 	}
 	Z_ADDREF_P(a1);
 	v1 = a1;
-	FOREACH_KV(v1, ac0, fes24, fee24, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes25, fee25, ah0, hp0, v3, v2)
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
-			FOREACH_KV(v2, ac1, fes25, fee25, ah1, hp1, v5, v4)
+			FOREACH_KV(v2, ac1, fes26, fee26, ah1, hp1, v5, v4)
 				if (Z_TYPE_P(v0) == IS_ARRAY) {
 					if (!t0) {
 						PHALCON_ALLOC_ZVAL(t0);
@@ -2601,7 +2601,7 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 					Z_SET_REFCOUNT_P(copy, 0);
 					phalcon_array_update(t0, v5, copy TSRMLS_CC);
 				}
-			END_FOREACH(ac1, fes25, fee25, ah1, hp1);
+			END_FOREACH(ac1, fes26, fee26, ah1, hp1);
 		} else {
 			{
 				zval *copy;
@@ -2621,7 +2621,7 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 				phalcon_array_update(v0, v3, copy TSRMLS_CC);
 			}
 		}
-	END_FOREACH(ac0, fes24, fee24, ah0, hp0);
+	END_FOREACH(ac0, fes25, fee25, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -2724,7 +2724,7 @@ PHP_METHOD(Phalcon_Internal_Test, a17){
 	}
 	Z_ADDREF_P(a2);
 	v2 = a2;
-	FOREACH_KV(v1, ac0, fes26, fee26, ah0, hp0, v4, v3)
+	FOREACH_KV(v1, ac0, fes27, fee27, ah0, hp0, v4, v3)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -2763,7 +2763,7 @@ PHP_METHOD(Phalcon_Internal_Test, a17){
 			}
 			phalcon_array_update(v0, v4, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes26, fee26, ah0, hp0);
+	END_FOREACH(ac0, fes27, fee27, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -3269,9 +3269,9 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 	}
 	Z_ADDREF_P(a1);
 	v1 = a1;
-	FOREACH_KV(v1, ac0, fes27, fee27, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes28, fee28, ah0, hp0, v3, v2)
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
-			FOREACH_KV(v2, ac1, fes28, fee28, ah1, hp1, v5, v4)
+			FOREACH_KV(v2, ac1, fes29, fee29, ah1, hp1, v5, v4)
 				if (Z_TYPE_P(v0) == IS_ARRAY) {
 					if (!t0) {
 						PHALCON_ALLOC_ZVAL(t0);
@@ -3307,7 +3307,7 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 					Z_SET_REFCOUNT_P(copy, 0);
 					phalcon_array_update(t0, v5, copy TSRMLS_CC);
 				}
-			END_FOREACH(ac1, fes28, fee28, ah1, hp1);
+			END_FOREACH(ac1, fes29, fee29, ah1, hp1);
 		} else {
 			if (!r0) {
 				PHALCON_ALLOC_ZVAL(r0);
@@ -3487,7 +3487,7 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 				}
 			}
 		}
-	END_FOREACH(ac0, fes27, fee27, ah0, hp0);
+	END_FOREACH(ac0, fes28, fee28, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -3878,7 +3878,7 @@ PHP_METHOD(Phalcon_Internal_Test, sa6){
 	}
 	Z_ADDREF_P(a1);
 	v0 = a1;
-	FOREACH_KV(v0, ac0, fes29, fee29, ah0, hp0, v2, v1)
+	FOREACH_KV(v0, ac0, fes30, fee30, ah0, hp0, v2, v1)
 		if (!t0) {
 			PHALCON_ALLOC_ZVAL(t0);
 		} else {
@@ -3949,7 +3949,7 @@ PHP_METHOD(Phalcon_Internal_Test, sa6){
 		}
 		zend_update_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, t1 TSRMLS_CC);
 		
-	END_FOREACH(ac0, fes29, fee29, ah0, hp0);
+	END_FOREACH(ac0, fes30, fee30, ah0, hp0);
 	t2 = zend_read_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (Z_TYPE_P(t2) > IS_BOOL) {
 		{
@@ -4045,9 +4045,9 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 	}
 	Z_ADDREF_P(a1);
 	v0 = a1;
-	FOREACH_KV(v0, ac0, fes30, fee30, ah0, hp0, v2, v1)
+	FOREACH_KV(v0, ac0, fes31, fee31, ah0, hp0, v2, v1)
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
-			FOREACH_KV(v1, ac1, fes31, fee31, ah1, hp1, v4, v3)
+			FOREACH_KV(v1, ac1, fes32, fee32, ah1, hp1, v4, v3)
 				t0 = zend_read_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 				if (Z_TYPE_P(t0) != IS_ARRAY) {
 					convert_to_array(t0);
@@ -4089,7 +4089,7 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 				}
 				zend_update_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, t0 TSRMLS_CC);
 				
-			END_FOREACH(ac1, fes31, fee31, ah1, hp1);
+			END_FOREACH(ac1, fes32, fee32, ah1, hp1);
 		} else {
 			t2 = zend_read_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			if (Z_TYPE_P(t2) != IS_ARRAY) {
@@ -4105,7 +4105,7 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 			zend_update_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, t2 TSRMLS_CC);
 			
 		}
-	END_FOREACH(ac0, fes30, fee30, ah0, hp0);
+	END_FOREACH(ac0, fes31, fee31, ah0, hp0);
 	t3 = zend_read_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (Z_TYPE_P(t3) > IS_BOOL) {
 		{
@@ -4826,12 +4826,12 @@ PHP_METHOD(Phalcon_Internal_Test, m12){
 	ZVAL_LONG(v2, 0);
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs32:
+	fs33:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v3, t0);
 	if (!zend_is_true(r0)) {
-		goto fe32;
+		goto fe33;
 	}
 	if (!r1) {
 		PHALCON_ALLOC_ZVAL(r1);
@@ -4946,8 +4946,8 @@ PHP_METHOD(Phalcon_Internal_Test, m12){
 		}
 	}
 	increment_function(v3);
-	goto fs32;
-	fe32:
+	goto fs33;
+	fe33:
 	r0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -5279,12 +5279,12 @@ PHP_METHOD(Phalcon_Internal_Test, sm9){
 	ZVAL_LONG(v2, 0);
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs33:
+	fs34:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v3, t0);
 	if (!zend_is_true(r0)) {
-		goto fe33;
+		goto fe34;
 	}
 	if (!r1) {
 		PHALCON_ALLOC_ZVAL(r1);
@@ -5399,8 +5399,8 @@ PHP_METHOD(Phalcon_Internal_Test, sm9){
 		}
 	}
 	increment_function(v3);
-	goto fs33;
-	fe33:
+	goto fs34;
+	fe34:
 	r0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -5429,12 +5429,12 @@ PHP_METHOD(Phalcon_Internal_Test, sm10){
 	ZVAL_LONG(v2, 0);
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs34:
+	fs35:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v3, t0);
 	if (!zend_is_true(r0)) {
-		goto fe34;
+		goto fe35;
 	}
 	if (!r1) {
 		PHALCON_ALLOC_ZVAL(r1);
@@ -5549,8 +5549,8 @@ PHP_METHOD(Phalcon_Internal_Test, sm10){
 		}
 	}
 	increment_function(v3);
-	goto fs34;
-	fe34:
+	goto fs35;
+	fe35:
 	r0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -5622,12 +5622,12 @@ PHP_METHOD(Phalcon_Internal_Test, smp5){
 	ZVAL_LONG(v2, 0);
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs35:
+	fs36:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v3, t0);
 	if (!zend_is_true(r0)) {
-		goto fe35;
+		goto fe36;
 	}
 	if (!r1) {
 		PHALCON_ALLOC_ZVAL(r1);
@@ -5742,8 +5742,8 @@ PHP_METHOD(Phalcon_Internal_Test, smp5){
 		}
 	}
 	increment_function(v3);
-	goto fs35;
-	fe35:
+	goto fs36;
+	fe36:
 	r0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -6099,12 +6099,12 @@ PHP_METHOD(Phalcon_Internal_Test, p15){
 	phalcon_update_property_string(this_ptr, "_p0", strlen("_p0"), "" TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(v0);
 	ZVAL_LONG(v0, 0);
-	fs36:
+	fs37:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 30);
 	PHALCON_SMALLER_FUNCTION(r0, v0, t0);
 	if (!zend_is_true(r0)) {
-		goto fe36;
+		goto fe37;
 	}
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
@@ -6120,8 +6120,8 @@ PHP_METHOD(Phalcon_Internal_Test, p15){
 		}
 	}
 	increment_function(v0);
-	goto fs36;
-	fe36:
+	goto fs37;
+	fe37:
 	r0 = NULL;
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, this_ptr, "_p0", sizeof("_p0")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -6787,7 +6787,7 @@ PHP_METHOD(Phalcon_Internal_Test, p30){
 	}
 	Z_ADDREF_P(i0);
 	v1 = i0;
-	FOREACH_KV(v0, ac0, fes37, fee37, ah0, hp0, v3, v2)
+	FOREACH_KV(v0, ac0, fes38, fee38, ah0, hp0, v3, v2)
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
 			if (!i1) {
 				PHALCON_ALLOC_ZVAL(i1);
@@ -6817,7 +6817,7 @@ PHP_METHOD(Phalcon_Internal_Test, p30){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), copy TSRMLS_CC);
 			}
-			FOREACH_KV(v2, ac1, fes38, fee38, ah1, hp1, v5, v4)
+			FOREACH_KV(v2, ac1, fes39, fee39, ah1, hp1, v5, v4)
 				if (!t0) {
 					PHALCON_ALLOC_ZVAL(t0);
 				} else {
@@ -6846,7 +6846,7 @@ PHP_METHOD(Phalcon_Internal_Test, p30){
 					Z_SET_REFCOUNT_P(copy, 0);
 					phalcon_update_property_zval(t0, Z_STRVAL_P(v5), Z_STRLEN_P(v5), copy TSRMLS_CC);
 				}
-			END_FOREACH(ac1, fes38, fee38, ah1, hp1);
+			END_FOREACH(ac1, fes39, fee39, ah1, hp1);
 		} else {
 			{
 				zval *copy;
@@ -6856,7 +6856,7 @@ PHP_METHOD(Phalcon_Internal_Test, p30){
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), copy TSRMLS_CC);
 			}
 		}
-	END_FOREACH(ac0, fes37, fee37, ah0, hp0);
+	END_FOREACH(ac0, fes38, fee38, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -6896,12 +6896,12 @@ PHP_METHOD(Phalcon_Internal_Test, p31){
 	}
 	PHALCON_ALLOC_ZVAL(v1);
 	ZVAL_LONG(v1, 0);
-	fs39:
+	fs40:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v1, t0);
 	if (!zend_is_true(r0)) {
-		goto fe39;
+		goto fe40;
 	}
 	if (!i1) {
 		PHALCON_ALLOC_ZVAL(i1);
@@ -6990,8 +6990,8 @@ PHP_METHOD(Phalcon_Internal_Test, p31){
 		}
 	}
 	increment_function(v1);
-	goto fs39;
-	fe39:
+	goto fs40;
+	fe40:
 	r0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -8235,7 +8235,7 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	FOREACH_KV(v1, ac0, fes40, fee40, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes41, fee41, ah0, hp0, v3, v2)
 		Z_ADDREF_P(v3);
 		p0[0] = v3;
 		Z_ADDREF_P(v1);
@@ -8291,7 +8291,7 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 		}
 		Z_ADDREF_P(r2);
 		v0 = r2;
-	END_FOREACH(ac0, fes40, fee40, ah0, hp0);
+	END_FOREACH(ac0, fes41, fee41, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -8443,10 +8443,10 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 	}
 	Z_ADDREF_P(a0);
 	v3 = a0;
-	ws41:
+	ws42:
 	PHALCON_INIT_TRUE(t0);
 	if (!zend_is_true(t0)) {
-		goto we41;
+		goto we42;
 	}
 	if (!r0) {
 		PHALCON_ALLOC_ZVAL(r0);
@@ -8793,10 +8793,10 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 	ZVAL_LONG(t11, 10);
 	PHALCON_SMALLER_FUNCTION(r8, t11, t10);
 	if (zend_is_true(r8)) {
-		goto we41;
+		goto we42;
 	}
-	goto ws41;
-	we41:
+	goto ws42;
+	we42:
 	t0 = NULL;
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -8842,12 +8842,12 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 	zend_update_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, i0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(v4);
 	ZVAL_LONG(v4, 0);
-	fs42:
+	fs43:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v4, t0);
 	if (!zend_is_true(r0)) {
-		goto fe42;
+		goto fe43;
 	}
 	if (!t1) {
 		PHALCON_ALLOC_ZVAL(t1);
@@ -9090,8 +9090,8 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 		}
 	}
 	increment_function(v4);
-	goto fs42;
-	fe42:
+	goto fs43;
+	fe43:
 	r0 = NULL;
 	PHALCON_ALLOC_ZVAL(r9);
 	phalcon_array_fetch_long(r9, v3, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -9146,12 +9146,12 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 	zend_update_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, i0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs43:
+	fs44:
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_SMALLER_FUNCTION(r0, v3, t0);
 	if (!zend_is_true(r0)) {
-		goto fe43;
+		goto fe44;
 	}
 	if (v4) {
 		Z_DELREF_P(v4);
@@ -9161,7 +9161,7 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 	}
 	Z_ADDREF_P(v0);
 	v4 = v0;
-	fs44:
+	fs45:
 	if (!t1) {
 		PHALCON_ALLOC_ZVAL(t1);
 	} else {
@@ -9177,7 +9177,7 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 	ZVAL_LONG(t1, 0);
 	PHALCON_SMALLER_FUNCTION(r1, t1, v4);
 	if (!zend_is_true(r1)) {
-		goto fe44;
+		goto fe45;
 	}
 	if (!t2) {
 		PHALCON_ALLOC_ZVAL(t2);
@@ -9558,8 +9558,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 		}
 	}
 	decrement_function(v4);
-	goto fs44;
-	fe44:
+	goto fs45;
+	fe45:
 	r1 = NULL;
 	{
 		zval *orig_ptr = v3;
@@ -9573,8 +9573,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 		}
 	}
 	increment_function(v3);
-	goto fs43;
-	fe43:
+	goto fs44;
+	fe44:
 	r0 = NULL;
 	PHALCON_ALLOC_ZVAL(r15);
 	phalcon_array_fetch_long(r15, v2, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -9664,10 +9664,10 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 	v2 = r0;
 	PHALCON_ALLOC_ZVAL(v3);
 	ZVAL_LONG(v3, 0);
-	fs45:
+	fs46:
 	PHALCON_SMALLER_FUNCTION(r1, v3, v2);
 	if (!zend_is_true(r1)) {
-		goto fe45;
+		goto fe46;
 	}
 	if (!r2) {
 		PHALCON_ALLOC_ZVAL(r2);
@@ -9909,8 +9909,8 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 		}
 	}
 	increment_function(v3);
-	goto fs45;
-	fe45:
+	goto fs46;
+	fe46:
 	r1 = NULL;
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_p0", sizeof("_p0")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -10007,7 +10007,7 @@ PHP_METHOD(Phalcon_Internal_Test, t10){
 	}
 	Z_ADDREF_P(a2);
 	v3 = a2;
-	FOREACH_V(v0, ac0, fes46, fee46, ah0, hp0, v4)
+	FOREACH_V(v0, ac0, fes47, fee47, ah0, hp0, v4)
 		if (!t1) {
 			PHALCON_ALLOC_ZVAL(t1);
 		} else {
@@ -10149,7 +10149,7 @@ PHP_METHOD(Phalcon_Internal_Test, t10){
 				}
 			}
 		}
-	END_FOREACH(ac0, fes46, fee46, ah0, hp0);
+	END_FOREACH(ac0, fes47, fee47, ah0, hp0);
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -10185,12 +10185,12 @@ PHP_METHOD(Phalcon_Internal_Test, t11){
 	}
 	Z_ADDREF_P(i0);
 	v1 = i0;
-	ws47:
+	ws48:
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_p4", sizeof("_p4")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_BOOLEAN_NOT_FUNCTION(r0, t0);
 	if (!zend_is_true(r0)) {
-		goto we47;
+		goto we48;
 	}
 	if (!t1) {
 		PHALCON_ALLOC_ZVAL(t1);
@@ -10276,8 +10276,8 @@ PHP_METHOD(Phalcon_Internal_Test, t11){
 	if (zend_is_true(r2)) {
 		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_p4", strlen("_p4"), 1 TSRMLS_CC);
 	}
-	goto ws47;
-	we47:
+	goto ws48;
+	we48:
 	r0 = NULL;
 	RETURN_NULL();
 }

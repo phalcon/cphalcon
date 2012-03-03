@@ -38,10 +38,10 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Db_Pool
+ * Phalcon_Db_Pool
  *
- * Manages caching of database connections. With the help of Php_Db_Pool, developers can be sure that no new database
- * connections will made when calling multiple of times Php_Db_Pool::getConnection.
+ * Manages caching of database connections. With the help of Phalcon_Db_Pool, developers can be sure that no new database
+ * connections will made when calling multiple of times Phalcon_Db_Pool::getConnection.
  */
 
 /**
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		}
 		Z_ADDREF_P(i1);
 		v1 = i1;
-		FOREACH_KV(v0, ac0, fes49, fee49, ah0, hp0, v3, v2)
+		FOREACH_KV(v0, ac0, fes50, fee50, ah0, hp0, v3, v2)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes49, fee49, ah0, hp0);
+		END_FOREACH(ac0, fes50, fee50, ah0, hp0);
 	} else {
 		if (v1) {
 			Z_DELREF_P(v1);
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
  *
  * @param boolean $newConnection
      * @param boolean $renovate
- * @return Php_Db
+ * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Db_Pool, getConnection){
 

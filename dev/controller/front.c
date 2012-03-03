@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Controller_Front
+ * Phalcon_Controller_Front
  *
- * Php_Controller_Front implements a "Front Controller" pattern used in "Model-View-Controller" (MVC) applications.
+ * Phalcon_Controller_Front implements a "Front Controller" pattern used in "Model-View-Controller" (MVC) applications.
  * Its purpose is to initialize the request environment, route the incoming request, and then dispatch
  * any discovered actions; it aggregates any responses and returns them when the process is complete
  *
@@ -48,7 +48,7 @@
  */
 
 /**
- * Private Php_Controller_Front constructor for singleton
+ * Private Phalcon_Controller_Front constructor for singleton
  */
 PHP_METHOD(Phalcon_Controller_Front, __construct){
 
@@ -57,9 +57,9 @@ PHP_METHOD(Phalcon_Controller_Front, __construct){
 }
 
 /**
- * Gets Php_Controller_Front singleton instance
+ * Gets Phalcon_Controller_Front singleton instance
  *
- * @return Php_Controller_Front
+ * @return Phalcon_Controller_Front
  */
 PHP_METHOD(Phalcon_Controller_Front, getInstance){
 
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Controller_Front, getInstance){
 }
 
 /**
- * Modifies multipe general settings using a Php_Config object or a stdClass filled with parameters
+ * Modifies multipe general settings using a Phalcon_Config object or a stdClass filled with parameters
  *
  * 
  *
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Controller_Front, setViewsDir){
  *
  * 
  *
- * @param Php_Router $router
+ * @param Phalcon_Router $router
  */
 PHP_METHOD(Phalcon_Controller_Front, setRouter){
 
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Controller_Front, setRouter){
 /**
  * Return active router
  *
- * @return Php_Router
+ * @return Phalcon_Router
  */
 PHP_METHOD(Phalcon_Controller_Front, getRouter){
 
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Controller_Front, getRouter){
 /**
  * Replaces the default dispatcher with a predefined object
  *
- * @param Php_Dispatcher $dispatcher
+ * @param Phalcon_Dispatcher $dispatcher
  */
 PHP_METHOD(Phalcon_Controller_Front, setDispatcher){
 
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Controller_Front, setDispatcher){
 /**
  * Return active Dispatcher
  *
- * @return Php_Dispatcher
+ * @return Phalcon_Dispatcher
  */
 PHP_METHOD(Phalcon_Controller_Front, getDispatcher){
 
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Controller_Front, getBasePath){
 /**
  * Overwrittes request object default object
  *
- * @param Php_Request $response
+ * @param Phalcon_Request $response
  */
 PHP_METHOD(Phalcon_Controller_Front, setRequest){
 
@@ -651,7 +651,7 @@ PHP_METHOD(Phalcon_Controller_Front, setRequest){
 /**
  * Overwrittes response object default object
   *
- * @param Php_Response $response
+ * @param Phalcon_Response $response
  */
 PHP_METHOD(Phalcon_Controller_Front, setResponse){
 
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Controller_Front, setResponse){
 /**
  * Overwrittes models manager default object
  *
- * @param Php_Model_Manager $model
+ * @param Phalcon_Model_Manager $model
  */
 PHP_METHOD(Phalcon_Controller_Front, setModelComponent){
 
@@ -699,7 +699,7 @@ PHP_METHOD(Phalcon_Controller_Front, setModelComponent){
 /**
  * Gets the models manager
  *
- * @return Php_Model_Manager
+ * @return Phalcon_Model_Manager
  */
 PHP_METHOD(Phalcon_Controller_Front, getModelComponent){
 
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Controller_Front, getModelComponent){
 /**
  * Sets view component
  *
- * @param Php_View $view
+ * @param Phalcon_View $view
  */
 PHP_METHOD(Phalcon_Controller_Front, setViewComponent){
 
@@ -784,7 +784,7 @@ PHP_METHOD(Phalcon_Controller_Front, setViewComponent){
 /**
  * Gets the views part manager
  *
- * @return Php_View
+ * @return Phalcon_View
  */
 PHP_METHOD(Phalcon_Controller_Front, getViewComponent){
 
@@ -839,7 +839,7 @@ PHP_METHOD(Phalcon_Controller_Front, getViewComponent){
 /**
  * Executes the dispatch loop
  *
- * @return Php_View
+ * @return Phalcon_View
  */
 PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 

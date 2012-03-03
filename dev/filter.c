@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Filter
+ * Phalcon_Filter
  *
- * The Php_Filter component provides a set of commonly needed data filters. It provides
+ * The Phalcon_Filter component provides a set of commonly needed data filters. It provides
  * object oriented wrappers to the php filter extension
  *
  *
@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		if (zend_is_true(v0)) {
-			FOREACH_V(v1, ac0, fes52, fee52, ah0, hp0, v2)
+			FOREACH_V(v1, ac0, fes53, fee53, ah0, hp0, v2)
 				if (!r0) {
 					PHALCON_ALLOC_ZVAL(r0);
 				} else {
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				}
 				Z_ADDREF_P(r0);
 				v0 = r0;
-			END_FOREACH(ac0, fes52, fee52, ah0, hp0);
+			END_FOREACH(ac0, fes53, fee53, ah0, hp0);
 		}
 		if (Z_TYPE_P(v0) > IS_BOOL) {
 			{
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	zend_throw_exception_object(i0 TSRMLS_CC);
 	Z_ADDREF_P(i0);
 	return;
-	se53:
+	se54:
 	php_printf("");
 	RETURN_NULL();
 }

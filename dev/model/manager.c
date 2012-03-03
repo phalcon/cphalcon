@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Model_Manager
+ * Phalcon_Model_Manager
  *
  * Manages the creation of models inside application and their relationships.
  * Phacon_Model_Manager helps to control the creation of models across a request execution.
@@ -47,7 +47,7 @@
  */
 
 /**
- * Constructor for Php_Model_Manager
+ * Constructor for Phalcon_Model_Manager
      *
  */
 PHP_METHOD(Phalcon_Model_Manager, __construct){
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 /**
  * Overwrittes default meta-data manager
  *
- * @param Php_Model_Metadata $metadata
+ * @param Phalcon_Model_Metadata $metadata
  */
 PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 /**
  * Returns active meta-data manager. If not exists any will be created one
  *
- * @return Php_Model_Metadata
+ * @return Phalcon_Model_Metadata
  */
 PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 
@@ -500,7 +500,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 /**
  * Gets default connection to database. All models by default will use connection returned by this method
  *
- * @return Php_Db
+ * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Model_Manager, getConnection){
 
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 /**
  * Setup a 1-1 relation between two models
  * 
- * @param Php_Model_Base $model
+ * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
  * @parammixed $referencedFields 
@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 /**
  * Setup a relation reverse 1-1  between two models
  * 
- * @param Php_Model_Base $model
+ * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
  * @parammixed $referencedFields 
@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 /**
  * Setup a relation 1-n between two models
  *
- * @param Php_Model_Base $model
+ * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
  * @parammixed $referencedFields 
@@ -1154,7 +1154,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasOne){
  *
  * @param array $relation
  * @param string $method
- * @param Php_Model_Base $record
+ * @param Phalcon_Model_Base $record
  */
 PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 
@@ -1221,7 +1221,7 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 		v6 = a0;
 		PHALCON_ALLOC_ZVAL(r6);
 		phalcon_array_fetch_string(r6, v0, "fi", strlen("fi"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		FOREACH_V(r6, ac0, fes62, fee62, ah0, hp0, v7)
+		FOREACH_V(r6, ac0, fes63, fee63, ah0, hp0, v7)
 			if (!r7) {
 				PHALCON_ALLOC_ZVAL(r7);
 			} else {
@@ -1409,7 +1409,7 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 				}
 			}
 			increment_function(v5);
-		END_FOREACH(ac0, fes62, fee62, ah0, hp0);
+		END_FOREACH(ac0, fes63, fee63, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(r14);
 		PHALCON_ALLOC_ZVAL(p2[0]);
 		ZVAL_STRING(p2[0], " AND ", 1);

@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Db_Dialect_Mysql
+ * Phalcon_Db_Dialect_Mysql
  *
  * Generates database specific SQL for the MySQL RBDM
  */

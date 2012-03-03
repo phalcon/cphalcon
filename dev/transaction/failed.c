@@ -38,17 +38,17 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Transaction_Failed
+ * Phalcon_Transaction_Failed
  *
- * Php_Transaction_Failed will thrown to exit a try/catch block for transactions
+ * Phalcon_Transaction_Failed will thrown to exit a try/catch block for transactions
  *
  */
 
 /**
- * Php_Transaction_Failed constructor
+ * Phalcon_Transaction_Failed constructor
  *
  * @param string $message
- * @param Php_Model_Base $record
+ * @param Phalcon_Model_Base $record
  */
 PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return Php_Model_Base
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 

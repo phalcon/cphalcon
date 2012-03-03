@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Transaction_Manager
+ * Phalcon_Transaction_Manager
  *
  * A transaction acts on a single database connection. If you have multiple class-specific
  * databases, the transaction will not protect interaction among them
@@ -72,10 +72,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, has){
 }
 
 /**
- * Returns a new Php_Transaction or an already created once
+ * Returns a new Phalcon_Transaction or an already created once
  *
  * @param boolean $autoBegin
- * @return Php_Transaction
+ * @return Phalcon_Transaction
  */
 PHP_METHOD(Phalcon_Transaction_Manager, get){
 
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 	zval **hd;
 
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	FOREACH_V(t0, ac0, fes55, fee55, ah0, hp0, v0)
+	FOREACH_V(t0, ac0, fes56, fee56, ah0, hp0, v0)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 		if (zend_is_true(r1)) {
 			PHALCON_CALL_METHOD_NORETURN(v1, "commit", PHALCON_CALL_DEFAULT);
 		}
-	END_FOREACH(ac0, fes55, fee55, ah0, hp0);
+	END_FOREACH(ac0, fes56, fee56, ah0, hp0);
 	RETURN_NULL();
 }
 
@@ -314,7 +314,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	}
 	
 	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	FOREACH_V(t0, ac0, fes56, fee56, ah0, hp0, v1)
+	FOREACH_V(t0, ac0, fes57, fee57, ah0, hp0, v1)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -374,14 +374,14 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 			p4[0] = v1;
 			PHALCON_CALL_SELF_PARAMS_NORETURN(this_ptr, "_collecttransaction", 1, p4);
 		}
-	END_FOREACH(ac0, fes56, fee56, ah0, hp0);
+	END_FOREACH(ac0, fes57, fee57, ah0, hp0);
 	RETURN_NULL();
 }
 
 /**
  * Notifies the manager about a rollbacked transaction
  *
- * @param Php_Transaction $transaction
+ * @param Phalcon_Transaction $transaction
  */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 
@@ -402,7 +402,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 /**
  * Notifies the manager about a commited transaction
  *
- * @param Php_Transaction $transaction
+ * @param Phalcon_Transaction $transaction
  */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_LONG(v1, 0);
 		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t2, ac0, fes57, fee57, ah0, hp0, v2)
+		FOREACH_V(t2, ac0, fes58, fee58, ah0, hp0, v2)
 			PHALCON_EQUAL_FUNCTION(r2, v2, v0);
 			if (zend_is_true(r2)) {
 				t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 				}
 			}
 			increment_function(v1);
-		END_FOREACH(ac0, fes57, fee57, ah0, hp0);
+		END_FOREACH(ac0, fes58, fee58, ah0, hp0);
 		PHALCON_ALLOC_ZVAL(a0);
 		array_init(a0);
 		if (v3) {
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		Z_ADDREF_P(a0);
 		v3 = a0;
 		t4 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t4, ac1, fes58, fee58, ah1, hp1, v2)
+		FOREACH_V(t4, ac1, fes59, fee59, ah1, hp1, v2)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -509,7 +509,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 				}
 				phalcon_array_append(v3, copy TSRMLS_CC);
 			}
-		END_FOREACH(ac1, fes58, fee58, ah1, hp1);
+		END_FOREACH(ac1, fes59, fee59, ah1, hp1);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, v3 TSRMLS_CC);
 	}
 	RETURN_NULL();
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 		PHALCON_ALLOC_ZVAL(v0);
 		ZVAL_LONG(v0, 0);
 		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		FOREACH_V(t2, ac0, fes59, fee59, ah0, hp0, v1)
+		FOREACH_V(t2, ac0, fes60, fee60, ah0, hp0, v1)
 			t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			{
 				zval *orig_ptr = t3;
@@ -567,14 +567,14 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 				}
 			}
 			increment_function(v0);
-		END_FOREACH(ac0, fes59, fee59, ah0, hp0);
+		END_FOREACH(ac0, fes60, fee60, ah0, hp0);
 	}
 	RETURN_NULL();
 }
 
 /**
  * Checks whether manager will inject an automatic transaction to all newly
- * created instances of Php_Model_base
+ * created instances of Phalcon_Model_base
  *
  * @return boolean
  */
@@ -597,9 +597,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic){
 }
 
 /**
- * Returns automatic transaction for instances of Php_Model_base
+ * Returns automatic transaction for instances of Phalcon_Model_base
  *
- * @return Php_Transaction
+ * @return Phalcon_Transaction
  */
 PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic){
 

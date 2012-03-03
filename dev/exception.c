@@ -38,13 +38,13 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Exception
+ * Phalcon_Exception
  *
  * All framework exceptions should use this exception
  */
 
 /**
- * Php_Exception constructor
+ * Phalcon_Exception constructor
  *
  * @param string $message
  * @param int $errorCode

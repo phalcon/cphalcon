@@ -295,4 +295,3 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		} else {\
 			PHALCON_INIT_ARRAY(varr);\
 		}
-

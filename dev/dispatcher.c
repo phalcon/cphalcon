@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Dispatcher
+ * Phalcon_Dispatcher
  *
  * Dispatching is the process of taking the request object, extracting the module name,
  * controller name, action name, and optional parameters contained in it, and then
@@ -340,11 +340,11 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 /**
  * Dispatchs a action controller taking care of routing
  *
- * @param Php_Request $request
- * @param Php_Response $response
- * @param Php_View $view
- * @param Php_Model_Manager $model
- * @return Php_Controller
+ * @param Phalcon_Request $request
+ * @param Phalcon_Response $response
+ * @param Phalcon_View $view
+ * @param Phalcon_Model_Manager $model
+ * @return Phalcon_Controller
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
@@ -1679,7 +1679,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 /**
  * Returns last dispatched controller
  *
- * @return Php_Controller
+ * @return Phalcon_Controller
  */
 PHP_METHOD(Phalcon_Dispatcher, getLastController){
 

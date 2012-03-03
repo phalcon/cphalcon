@@ -20,10 +20,16 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.2.3"
+#define PHP_PHALCON_VERSION "0.2.5"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
 
+#endif
+
+#if PHP_VERSION_ID >= 50400
+ #define PHALCON_INIT_FUNCS(class_functions) const zend_function_entry class_functions[] = 
+#else
+ #define PHALCON_INIT_FUNCS(class_functions) const function_entry class_functions[] = 
 #endif

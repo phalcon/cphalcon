@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Request
+ * Phalcon_Request
  *
  * <p>Encapsulates request information for easily and secure access from application controllers.</p>
  *
@@ -56,9 +56,9 @@ PHP_METHOD(Phalcon_Request, __construct){
 }
 
 /**
- * Gets the singleton instance of Php_Request
+ * Gets the singleton instance of Phalcon_Request
  *
- * @return Php_Request
+ * @return Phalcon_Request
  */
 PHP_METHOD(Phalcon_Request, getInstance){
 
@@ -95,9 +95,9 @@ PHP_METHOD(Phalcon_Request, getInstance){
 }
 
 /**
- * Overwrittes Php_Filter object used to sanitize input data
+ * Overwrittes Phalcon_Filter object used to sanitize input data
  *
- * @param Php_Filter $filter
+ * @param Phalcon_Filter $filter
  */
 PHP_METHOD(Phalcon_Request, setFilter){
 
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Request, setFilter){
 /**
  * Returns active filter object used to sanitize input data
  *
- * @return Php_Filter
+ * @return Phalcon_Filter
  */
 PHP_METHOD(Phalcon_Request, getFilter){
 
@@ -1191,7 +1191,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 }
 
 /**
- * Gets attached files as Php_UploadFile clases
+ * Gets attached files as Phalcon_UploadFile clases
  *
  * @return array
  */

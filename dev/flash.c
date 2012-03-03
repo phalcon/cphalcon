@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Flash
+ * Phalcon_Flash
  *
  * Shows HTML notifications related to diferent circustances. Classes can be stylized using CSS
  */
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		v2 = v1;
 	}
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		FOREACH_V(v0, ac0, fes50, fee50, ah0, hp0, v3)
+		FOREACH_V(v0, ac0, fes51, fee51, ah0, hp0, v3)
 			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			}
 			phalcon_concat_vboth(r1, r2, "</div>", t0 TSRMLS_CC);
 			zend_print_zval(r1, 0);
-		END_FOREACH(ac0, fes50, fee50, ah0, hp0);
+		END_FOREACH(ac0, fes51, fee51, ah0, hp0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r6);
 		phalcon_concat_left(r6, "<div class=\"", v2 TSRMLS_CC);

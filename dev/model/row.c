@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Model_Row
+ * Phalcon_Model_Row
  *
- * This component allows to Php_Model_Base returns grouped resultsets.
+ * This component allows to Phalcon_Model_Base returns grouped resultsets.
  */
 
 PHP_METHOD(Phalcon_Model_Row, __construct){
@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Model_Row, __construct){
 /**
  * Overwrittes default connection
  *
- * @param Php_Db $connection
+ * @param Phalcon_Db $connection
  */
 PHP_METHOD(Phalcon_Model_Row, setConnection){
 
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Model_Row, setConnection){
 /**
  * Returns default connection
  *
- * @return Php_Db
+ * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Model_Row, getConnection){
 
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Model_Row, getConnection){
  *
  *
  * @param array $result
- * @return Php_Model $result
+ * @return Phalcon_Model $result
  */
 PHP_METHOD(Phalcon_Model_Row, dumpResult){
 
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		}
 		Z_ADDREF_P(a0);
 		v2 = a0;
-		FOREACH_KV(v0, ac0, fes64, fee64, ah0, hp0, v4, v3)
+		FOREACH_KV(v0, ac0, fes65, fee65, ah0, hp0, v4, v3)
 			PHALCON_INIT_TRUE(t2);
 			{
 				zval *copy;
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes64, fee64, ah0, hp0);
+		END_FOREACH(ac0, fes65, fee65, ah0, hp0);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			phalcon_update_property_zval(this_ptr, "_columns", strlen("_columns"), copy TSRMLS_CC);
 		}
 	} else {
-		FOREACH_KV(v0, ac1, fes65, fee65, ah1, hp1, v4, v3)
+		FOREACH_KV(v0, ac1, fes66, fee66, ah1, hp1, v4, v3)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac1, fes65, fee65, ah1, hp1);
+		END_FOREACH(ac1, fes66, fee66, ah1, hp1);
 		PHALCON_ALLOC_ZVAL(t3);
 		phalcon_read_property(t3, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		{

@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Model_Resultset
+ * Phalcon_Model_Resultset
  *
- * This component allows to Php_Model_Base returns large resulsets with the minimum memory comsuption
+ * This component allows to Phalcon_Model_Base returns large resulsets with the minimum memory comsuption
  *
  * Resulsets can be traversed using a standard foreach or a while statement.
  *
@@ -49,9 +49,9 @@
  */
 
 /**
- * Php_Model_Resultset constructor
+ * Phalcon_Model_Resultset constructor
  *
- * @param Php_Model_Base $model
+ * @param Phalcon_Model_Base $model
  * @param resource $resultResource
  */
 PHP_METHOD(Phalcon_Model_Resultset, __construct){
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Model_Resultset, valid){
 /**
  * Returns current row in the resultset
  *
- * @return Php_Model_Base
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Resultset, current){
 
@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 /**
  * Get first row in the resultset
  *
- * @return Php_Model_Base
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 
@@ -571,7 +571,7 @@ PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 /**
  * Get last row in the resultset
  *
- * @return Php_Model_Base
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Resultset, getLast){
 
@@ -611,7 +611,7 @@ PHP_METHOD(Phalcon_Model_Resultset, getLast){
 /**
  * Get model which originates the resultset
  *
- * @return Php_Model_Base
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Resultset, getModel){
 

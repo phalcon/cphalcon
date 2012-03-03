@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Logger
+ * Phalcon_Logger
  *
- * Php_Logger is a component whose purpose is to create logs using different backends via adapters,
+ * Phalcon_Logger is a component whose purpose is to create logs using different backends via adapters,
  * generating options and formats and filters and implementation of transactions
  */
 

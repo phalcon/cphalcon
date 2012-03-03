@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Test, nice){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	FOREACH_KV(v1, ac0, fes10, fee10, ah0, hp0, v3, v2)
+	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Test, nice){
 			}
 			phalcon_array_update(v1, v3, copy TSRMLS_CC);
 		}
-	END_FOREACH(ac0, fes10, fee10, ah0, hp0);
+	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
 	p0[0] = v1;
 	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", strlen("print_r"), 1, p0);
 	RETURN_NULL();

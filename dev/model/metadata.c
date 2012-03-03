@@ -38,20 +38,20 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Model_MetaData
+ * Phalcon_Model_MetaData
  *
- * <p>Because Php_Model requires meta-data as field names, data types, primary keys, etc.
- * Php_Model_MetaData recopiles them and store for further querying by Php_Model_Base.
+ * <p>Because Phalcon_Model requires meta-data as field names, data types, primary keys, etc.
+ * Phalcon_Model_MetaData recopiles them and store for further querying by Phalcon_Model_Base.
  * This component can also be used to store metadata adapters temporarily or permanently.</p>
  *
- * <p>A standard Php_Model_MetaData can be used to query model attributes:</p>
+ * <p>A standard Phalcon_Model_MetaData can be used to query model attributes:</p>
  *
  * 
  *
  */
 
 /**
- * Php_Model_MetaData constructor
+ * Phalcon_Model_MetaData constructor
  *
  * @param string $adapter
  */
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			}
 			Z_ADDREF_P(a5);
 			v12 = a5;
-			FOREACH_V(v6, ac0, fes63, fee63, ah0, hp0, v13)
+			FOREACH_V(v6, ac0, fes64, fee64, ah0, hp0, v13)
 				if (!r10) {
 					PHALCON_ALLOC_ZVAL(r10);
 				} else {
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 						phalcon_array_append(v11, copy TSRMLS_CC);
 					}
 				}
-			END_FOREACH(ac0, fes63, fee63, ah0, hp0);
+			END_FOREACH(ac0, fes64, fee64, ah0, hp0);
 			PHALCON_ALLOC_ZVAL(a6);
 			array_init(a6);
 			if (v16) {
@@ -720,7 +720,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 /**
  * Returns table attributes name (fields)
  *
-     * @paramPhp_Model_Base $model
+     * @paramPhalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
@@ -794,7 +794,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
 /**
  * Returns table attributes which are part of primary key
  *
- * @paramPhp_Model_Base $model
+ * @paramPhalcon_Model_Base $model
  * @returnarray
  */
 PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
@@ -868,7 +868,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 /**
  * Returns table attributes which are non part of primary key
  *
-     * @paramPhp_Model_Base $model
+     * @paramPhalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
@@ -942,7 +942,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
 /**
  * Returns not null attributes
  *
-     * @paramPhp_Model_Base $model
+     * @paramPhalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
@@ -1016,7 +1016,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
 /**
  * Returns attributes and their data types
  *
-     * @paramPhp_Model_Base $model
+     * @paramPhalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
@@ -1090,7 +1090,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
 /**
  * Returns attributes which types are numerical
  *
-     * @param  Php_Model_Base $model
+     * @param  Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypesNumeric){

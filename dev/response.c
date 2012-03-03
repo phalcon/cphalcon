@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Response
+ * Phalcon_Response
  *
  * Encapsulates the HTTP response message.
  */
@@ -50,9 +50,9 @@ PHP_METHOD(Phalcon_Response, __construct){
 }
 
 /**
- * Returns singleton Php_Response instance
+ * Returns singleton Phalcon_Response instance
  *
- * @return Php_Response
+ * @return Phalcon_Response
  */
 PHP_METHOD(Phalcon_Response, getInstance){
 

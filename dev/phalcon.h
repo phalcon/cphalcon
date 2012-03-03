@@ -142,12 +142,14 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop);
 PHP_METHOD(Phalcon_View, __construct);
 PHP_METHOD(Phalcon_View, setViewsDir);
 PHP_METHOD(Phalcon_View, getViewsDir);
+PHP_METHOD(Phalcon_View, setRenderLevel);
 PHP_METHOD(Phalcon_View, setTemplateBefore);
 PHP_METHOD(Phalcon_View, setTemplateAfter);
 PHP_METHOD(Phalcon_View, setParamToView);
 PHP_METHOD(Phalcon_View, getParamsToView);
 PHP_METHOD(Phalcon_View, start);
 PHP_METHOD(Phalcon_View, render);
+PHP_METHOD(Phalcon_View, partial);
 PHP_METHOD(Phalcon_View, finish);
 PHP_METHOD(Phalcon_View, getContent);
 PHP_METHOD(Phalcon_View, url);
@@ -576,7 +578,6 @@ PHP_METHOD(Phalcon_Model_Base, getConnection);
 PHP_METHOD(Phalcon_Model_Base, dumpResult);
 PHP_METHOD(Phalcon_Model_Base, find);
 PHP_METHOD(Phalcon_Model_Base, findFirst);
-PHP_METHOD(Phalcon_Model_Base, exists);
 PHP_METHOD(Phalcon_Model_Base, _exists);
 PHP_METHOD(Phalcon_Model_Base, _getGroupResult);
 PHP_METHOD(Phalcon_Model_Base, count);
@@ -749,6 +750,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_setviewsdir, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewsDir)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_setrenderlevel, 0, 0, 1)
+	ZEND_ARG_INFO(0, level)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_settemplatebefore, 0, 0, 1)
 	ZEND_ARG_INFO(0, templateBefore)
 ZEND_END_ARG_INFO()
@@ -765,6 +770,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, controllerName)
 	ZEND_ARG_INFO(0, actionName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_partial, 0, 0, 1)
+	ZEND_ARG_INFO(0, partialName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_url, 0, 0, 0)
@@ -1590,14 +1599,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_findfirst, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_exists, 0, 0, 0)
-	ZEND_ARG_INFO(0, wherePk)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__exists, 0, 0, 0)
-	ZEND_ARG_INFO(0, wherePk)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__getgroupresult, 0, 0, 4)
 	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, params)
@@ -1740,7 +1741,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_image, 0, 0, 0)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-static const function_entry phalcon_dispatcher_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_dispatcher_functions){
 	PHP_ME(Phalcon_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Dispatcher, setControllersDir, arginfo_phalcon_dispatcher_setcontrollersdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getControllersDir, NULL, ZEND_ACC_PUBLIC) 
@@ -1757,20 +1758,20 @@ static const function_entry phalcon_dispatcher_functions[] = {
 	PHP_ME(Phalcon_Dispatcher, getControllers, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getLastController, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_response_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_response_functions){
 	PHP_ME(Phalcon_Response, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Response, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Response, setHeader, arginfo_phalcon_response_setheader, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, setContent, arginfo_phalcon_response_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, send, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_request_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_request_functions){
 	PHP_ME(Phalcon_Request, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Request, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Request, setFilter, arginfo_phalcon_request_setfilter, ZEND_ACC_PUBLIC) 
@@ -1803,10 +1804,10 @@ static const function_entry phalcon_request_functions[] = {
 	PHP_ME(Phalcon_Request, getBestQualityAccept, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getClientCharsets, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getBestQualityCharset, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_controller_front_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_controller_front_functions){
 	PHP_ME(Phalcon_Controller_Front, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Controller_Front, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Controller_Front, setConfig, arginfo_phalcon_controller_front_setconfig, ZEND_ACC_PUBLIC) 
@@ -1829,40 +1830,42 @@ static const function_entry phalcon_controller_front_functions[] = {
 	PHP_ME(Phalcon_Controller_Front, setViewComponent, arginfo_phalcon_controller_front_setviewcomponent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, getViewComponent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Controller_Front, dispatchLoop, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_view_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_view_functions){
 	PHP_ME(Phalcon_View, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_View, setViewsDir, arginfo_phalcon_view_setviewsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getViewsDir, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, setRenderLevel, arginfo_phalcon_view_setrenderlevel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setTemplateBefore, arginfo_phalcon_view_settemplatebefore, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setTemplateAfter, arginfo_phalcon_view_settemplateafter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setParamToView, arginfo_phalcon_view_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, start, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, render, arginfo_phalcon_view_render, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, partial, arginfo_phalcon_view_partial, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, finish, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, url, arginfo_phalcon_view_url, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, path, arginfo_phalcon_view_path, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_test_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_test_functions){
 	PHP_ME(Phalcon_Test, nice, arginfo_phalcon_test_nice, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_utils_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_utils_functions){
 	PHP_ME(Phalcon_Utils, camelize, arginfo_phalcon_utils_camelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils, uncamelize, arginfo_phalcon_utils_uncamelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils, getUrl, arginfo_phalcon_utils_geturl, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Utils, getLocalPath, arginfo_phalcon_utils_getlocalpath, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_functions){
 	PHP_ME(Phalcon_Db, __construct, arginfo_phalcon_db___construct, ZEND_ACC_PROTECTED|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db, setLogger, arginfo_phalcon_db_setlogger, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, log, arginfo_phalcon_db_log, ZEND_ACC_PROTECTED) 
@@ -1883,10 +1886,10 @@ static const function_entry phalcon_db_functions[] = {
 	PHP_ME(Phalcon_Db, getHostName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getConnectionId, arginfo_phalcon_db_getconnectionid, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, factory, arginfo_phalcon_db_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_internal_test_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_internal_test_functions){
 	PHP_ME(Phalcon_Internal_Test, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Internal_Test, e1, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, e2, NULL, ZEND_ACC_PUBLIC) 
@@ -2086,10 +2089,10 @@ static const function_entry phalcon_internal_test_functions[] = {
 	PHP_ME(Phalcon_Internal_Test, t10, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, t11, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_Test, t12, arginfo_phalcon_internal_test_t12, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_internal_testtemp_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_internal_testtemp_functions){
 	PHP_ME(Phalcon_Internal_TestTemp, e5a, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e9a, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e10a, NULL, ZEND_ACC_PUBLIC) 
@@ -2098,31 +2101,31 @@ static const function_entry phalcon_internal_testtemp_functions[] = {
 	PHP_ME(Phalcon_Internal_TestTemp, e13c, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e13d, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e14, arginfo_phalcon_internal_testtemp_e14, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_internal_testdummy_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_internal_testdummy_functions){
 	PHP_ME(Phalcon_Internal_TestDummy, __construct, arginfo_phalcon_internal_testdummy___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Internal_TestDummy, f1, arginfo_phalcon_internal_testdummy_f1, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_internal_testparent_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_internal_testparent_functions){
 	PHP_ME(Phalcon_Internal_TestParent, mp1, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestParent, mp2, arginfo_phalcon_internal_testparent_mp2, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestParent, mp7, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestParent, smp1, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Internal_TestParent, smp3, arginfo_phalcon_internal_testparent_smp3, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Internal_TestParent, smp6, arginfo_phalcon_internal_testparent_smp6, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_tag_exception_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_tag_exception_functions){
 	PHP_ME(Phalcon_Tag_Exception, __construct, arginfo_phalcon_tag_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_router_rewrite_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_router_rewrite_functions){
 	PHP_ME(Phalcon_Router_Rewrite, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Router_Rewrite, _getRewriteUri, NULL, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Router_Rewrite, setBaseUri, arginfo_phalcon_router_rewrite_setbaseuri, ZEND_ACC_PUBLIC) 
@@ -2130,15 +2133,15 @@ static const function_entry phalcon_router_rewrite_functions[] = {
 	PHP_ME(Phalcon_Router_Rewrite, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getParams, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_exception_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_exception_functions){
 	PHP_ME(Phalcon_Db_Exception, __construct, arginfo_phalcon_db_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_mysql_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_mysql_functions){
 	PHP_ME(Phalcon_Db_Mysql, __construct, arginfo_phalcon_db_mysql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db_Mysql, connect, arginfo_phalcon_db_mysql_connect, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, query, arginfo_phalcon_db_mysql_query, ZEND_ACC_PUBLIC) 
@@ -2156,61 +2159,61 @@ static const function_entry phalcon_db_mysql_functions[] = {
 	PHP_ME(Phalcon_Db_Mysql, viewExists, arginfo_phalcon_db_mysql_viewexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, describeTable, arginfo_phalcon_db_mysql_describetable, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, getDateUsingFormat, arginfo_phalcon_db_mysql_getdateusingformat, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_pool_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_pool_functions){
 	PHP_ME(Phalcon_Db_Pool, hasDefaultDescriptor, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Db_Pool, setDefaultDescriptor, arginfo_phalcon_db_pool_setdefaultdescriptor, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Db_Pool, getConnection, arginfo_phalcon_db_pool_getconnection, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_dialect_mysql_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_dialect_mysql_functions){
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, describeTable, arginfo_phalcon_db_dialect_mysql_describetable, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_db_rawvalue_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_db_rawvalue_functions){
 	PHP_ME(Phalcon_Db_RawValue, __construct, arginfo_phalcon_db_rawvalue___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db_RawValue, getValue, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_RawValue, __toString, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_flash_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_flash_functions){
 	PHP_ME(Phalcon_Flash, _showMessage, arginfo_phalcon_flash__showmessage, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Flash, error, arginfo_phalcon_flash_error, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash, notice, arginfo_phalcon_flash_notice, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash, success, arginfo_phalcon_flash_success, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash, warning, arginfo_phalcon_flash_warning, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_logger_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_logger_functions){
 	PHP_ME(Phalcon_Logger, __construct, arginfo_phalcon_logger___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Logger, setFormat, arginfo_phalcon_logger_setformat, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_config_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_config_functions){
 	PHP_ME(Phalcon_Config, __construct, arginfo_phalcon_config___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_filter_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_filter_functions){
 	PHP_ME(Phalcon_Filter, sanitize, arginfo_phalcon_filter_sanitize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Filter, _sanitize, arginfo_phalcon_filter__sanitize, ZEND_ACC_PRIVATE) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_exception_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_exception_functions){
 	PHP_ME(Phalcon_Exception, __construct, arginfo_phalcon_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_transaction_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_transaction_functions){
 	PHP_ME(Phalcon_Transaction, __construct, arginfo_phalcon_transaction___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Transaction, setTransactionManager, arginfo_phalcon_transaction_settransactionmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Transaction, begin, NULL, ZEND_ACC_PUBLIC) 
@@ -2226,17 +2229,17 @@ static const function_entry phalcon_transaction_functions[] = {
 	PHP_ME(Phalcon_Transaction, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Transaction, isValid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Transaction, setRollbackedRecord, arginfo_phalcon_transaction_setrollbackedrecord, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_transaction_failed_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_transaction_failed_functions){
 	PHP_ME(Phalcon_Transaction_Failed, __construct, arginfo_phalcon_transaction_failed___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Transaction_Failed, getRecordMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Transaction_Failed, getRecord, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_transaction_manager_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_transaction_manager_functions){
 	PHP_ME(Phalcon_Transaction_Manager, has, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Transaction_Manager, get, arginfo_phalcon_transaction_manager_get, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Transaction_Manager, rollbackPendent, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -2248,36 +2251,36 @@ static const function_entry phalcon_transaction_manager_functions[] = {
 	PHP_ME(Phalcon_Transaction_Manager, collectTransactions, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Transaction_Manager, isAutomatic, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Transaction_Manager, getAutomatic, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_session_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_session_functions){
 	PHP_ME(Phalcon_Session, start, arginfo_phalcon_session_start, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, setOptions, arginfo_phalcon_session_setoptions, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, get, arginfo_phalcon_session_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session, set, arginfo_phalcon_session_set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_config_adapter_ini_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_config_adapter_ini_functions){
 	PHP_ME(Phalcon_Config_Adapter_Ini, __construct, arginfo_phalcon_config_adapter_ini___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_config_exception_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_config_exception_functions){
 	PHP_ME(Phalcon_Config_Exception, __construct, arginfo_phalcon_config_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_controller_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_controller_functions){
 	PHP_ME(Phalcon_Controller, __construct, arginfo_phalcon_controller___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Controller, _forward, arginfo_phalcon_controller__forward, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Controller, __get, arginfo_phalcon_controller___get, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_message_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_message_functions){
 	PHP_ME(Phalcon_Model_Message, __construct, arginfo_phalcon_model_message___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_Message, setType, arginfo_phalcon_model_message_settype, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Message, getType, NULL, ZEND_ACC_PUBLIC) 
@@ -2287,10 +2290,10 @@ static const function_entry phalcon_model_message_functions[] = {
 	PHP_ME(Phalcon_Model_Message, getField, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Message, __toString, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Message, __set_state, arginfo_phalcon_model_message___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_manager_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_manager_functions){
 	PHP_ME(Phalcon_Model_Manager, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_Manager, setMetaData, arginfo_phalcon_model_manager_setmetadata, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getMetaData, NULL, ZEND_ACC_PUBLIC) 
@@ -2312,10 +2315,10 @@ static const function_entry phalcon_model_manager_functions[] = {
 	PHP_ME(Phalcon_Model_Manager, getHasManyRecords, arginfo_phalcon_model_manager_gethasmanyrecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getHasOneRecords, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_metadata_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_metadata_functions){
 	PHP_ME(Phalcon_Model_MetaData, __construct, arginfo_phalcon_model_metadata___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_MetaData, _initializeMetaData, arginfo_phalcon_model_metadata__initializemetadata, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Model_MetaData, getAttributes, arginfo_phalcon_model_metadata_getattributes, ZEND_ACC_PUBLIC) 
@@ -2324,28 +2327,28 @@ static const function_entry phalcon_model_metadata_functions[] = {
 	PHP_ME(Phalcon_Model_MetaData, getNotNullAttributes, arginfo_phalcon_model_metadata_getnotnullattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_MetaData, getDataTypes, arginfo_phalcon_model_metadata_getdatatypes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_model_metadata_getdatatypesnumeric, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_row_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_row_functions){
 	PHP_ME(Phalcon_Model_Row, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_Row, setConnection, arginfo_phalcon_model_row_setconnection, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Row, getConnection, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Row, dumpResult, arginfo_phalcon_model_row_dumpresult, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Row, readAttribute, arginfo_phalcon_model_row_readattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Row, sleep, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_base_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_base_functions){
 	PHP_ME(Phalcon_Model_Base, __construct, arginfo_phalcon_model_base___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_Base, _connect, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getAttributes, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getPrimaryKeyAttributes, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getNonPrimaryKeyAttributes, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getNotNullAttributes, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getDataTypesNumeric, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _getDataTypes, NULL, ZEND_ACC_PRIVATE) 
+	PHP_ME(Phalcon_Model_Base, _getAttributes, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _getPrimaryKeyAttributes, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _getNonPrimaryKeyAttributes, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _getNotNullAttributes, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _getDataTypesNumeric, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _getDataTypes, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, dump, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _createSQLSelectMulti, arginfo_phalcon_model_base__createsqlselectmulti, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, _createSQLSelectOne, arginfo_phalcon_model_base__createsqlselectone, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
@@ -2363,12 +2366,11 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, dumpResult, arginfo_phalcon_model_base_dumpresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, find, arginfo_phalcon_model_base_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, findFirst, arginfo_phalcon_model_base_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Model_Base, exists, arginfo_phalcon_model_base_exists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Base, _exists, arginfo_phalcon_model_base__exists, ZEND_ACC_PRIVATE) 
+	PHP_ME(Phalcon_Model_Base, _exists, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _getGroupResult, arginfo_phalcon_model_base__getgroupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, count, arginfo_phalcon_model_base_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Model_Base, _callEvent, arginfo_phalcon_model_base__callevent, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Model_Base, _cancelOperation, NULL, ZEND_ACC_PRIVATE) 
+	PHP_ME(Phalcon_Model_Base, _callEvent, arginfo_phalcon_model_base__callevent, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _cancelOperation, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, appendMessage, arginfo_phalcon_model_base_appendmessage, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, save, NULL, ZEND_ACC_PUBLIC) 
@@ -2379,14 +2381,14 @@ static const function_entry phalcon_model_base_functions[] = {
 	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, __call, arginfo_phalcon_model_base___call, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_metadata_memory_functions[] = {
-	{NULL, NULL, NULL}
+PHALCON_INIT_FUNCS(phalcon_model_metadata_memory_functions){
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_resultset_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_model_resultset_functions){
 	PHP_ME(Phalcon_Model_Resultset, __construct, arginfo_phalcon_model_resultset___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_Resultset, valid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Resultset, current, NULL, ZEND_ACC_PUBLIC) 
@@ -2402,18 +2404,18 @@ static const function_entry phalcon_model_resultset_functions[] = {
 	PHP_ME(Phalcon_Model_Resultset, getFirst, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Resultset, getLast, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Resultset, getModel, NULL, ZEND_ACC_PUBLIC) 
-	{NULL, NULL, NULL}
+	PHP_FE_END
 };
 
-static const function_entry phalcon_model_exception_functions[] = {
-	{NULL, NULL, NULL}
+PHALCON_INIT_FUNCS(phalcon_model_exception_functions){
+	PHP_FE_END
 };
 
-static const function_entry phalcon_view_exception_functions[] = {
-	{NULL, NULL, NULL}
+PHALCON_INIT_FUNCS(phalcon_view_exception_functions){
+	PHP_FE_END
 };
 
-static const function_entry phalcon_tag_functions[] = {
+PHALCON_INIT_FUNCS(phalcon_tag_functions){
 	PHP_ME(Phalcon_Tag, setDispatcher, arginfo_phalcon_tag_setdispatcher, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, _getDispatcher, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, displayTo, arginfo_phalcon_tag_displayto, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -2432,10 +2434,6 @@ static const function_entry phalcon_tag_functions[] = {
 	PHP_ME(Phalcon_Tag, getTitle, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, stylesheetLink, arginfo_phalcon_tag_stylesheetlink, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, image, arginfo_phalcon_tag_image, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	{NULL, NULL, NULL}
-};
-
-static function_entry main_functions[] = {
-        {NULL, NULL, NULL}
+	PHP_FE_END
 };
 

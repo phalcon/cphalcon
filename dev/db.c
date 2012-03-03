@@ -38,22 +38,22 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Db
+ * Phalcon_Db
  *
- * Php_Db and its related classes provide a simple SQL database interface for Phalcon Framework.
- * The Php_Db is the basic class you use to connect your PHP application to a RDBMS.
+ * Phalcon_Db and its related classes provide a simple SQL database interface for Phalcon Framework.
+ * The Phalcon_Db is the basic class you use to connect your PHP application to a RDBMS.
  * There is a different adapter class for each brand of RDBMS.
  *
  * This component is intended to low level database operations. If you want to interact with databases using
- * high level abstraction use Php_Model.
+ * high level abstraction use Phalcon_Model.
  *
- * Php_Db is an abstract class. You only can use it with a database adapter like Php_Db_Mysql
+ * Phalcon_Db is an abstract class. You only can use it with a database adapter like Phalcon_Db_Mysql
  *
  * 
  */
 
 /**
- * Php_Db contructor, This method does not should to be called directly. Use Php_Db::factory instead
+ * Phalcon_Db contructor, This method does not should to be called directly. Use Phalcon_Db::factory instead
  *
  * @param stdClass $descriptor
  */
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 /**
  * Sets a logger class to log all SQL operations sended to database server
  *
- * @param Php_Logger $logger
+ * @param Phalcon_Logger $logger
  */
 PHP_METHOD(Phalcon_Db, setLogger){
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	PHALCON_INIT_FALSE(t0);
 	PHALCON_NOT_EQUAL_FUNCTION(r1, v2, t0);
 	if (zend_is_true(r1)) {
-		ws12:
+		ws13:
 		PHALCON_ALLOC_ZVAL(r2);
 		Z_ADDREF_P(v2);
 		p1[0] = v2;
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 		Z_ADDREF_P(r2);
 		v3 = r2;
 		if (!zend_is_true(v3)) {
-			goto we12;
+			goto we13;
 		}
 		{
 			zval *copy;
@@ -265,8 +265,8 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 			}
 			phalcon_array_append(v1, copy TSRMLS_CC);
 		}
-		goto ws12;
-		we12:
+		goto ws13;
+		we13:
 		v3 = NULL;
 	}
 	{
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Db, insert){
 			return;
 		} else {
 			if (zend_is_true(v3)) {
-				FOREACH_KV(v1, ac0, fes13, fee13, ah0, hp0, v6, v5)
+				FOREACH_KV(v1, ac0, fes14, fee14, ah0, hp0, v6, v5)
 					if (!r3) {
 						PHALCON_ALLOC_ZVAL(r3);
 					} else {
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Db, insert){
 								}
 								phalcon_array_update(v1, v6, copy TSRMLS_CC);
 							}
-							goto fes13;
+							goto fes14;
 						} else {
 							if (!r9) {
 								PHALCON_ALLOC_ZVAL(r9);
@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_Db, insert){
 							phalcon_array_update(v1, v6, copy TSRMLS_CC);
 						}
 					}
-				END_FOREACH(ac0, fes13, fee13, ah0, hp0);
+				END_FOREACH(ac0, fes14, fee14, ah0, hp0);
 			}
 		}
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Db, update){
 	}
 	Z_ADDREF_P(a0);
 	v7 = a0;
-	FOREACH_V(v1, ac0, fes14, fee14, ah0, hp0, v8)
+	FOREACH_V(v1, ac0, fes15, fee15, ah0, hp0, v8)
 		if (zend_is_true(v4)) {
 			if (!r4) {
 				PHALCON_ALLOC_ZVAL(r4);
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Db, update){
 			}
 		}
 		increment_function(v6);
-	END_FOREACH(ac0, fes14, fee14, ah0, hp0);
+	END_FOREACH(ac0, fes15, fee15, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r18);
 	PHALCON_ALLOC_ZVAL(p7[0]);
 	ZVAL_STRING(p7[0], ", ", 1);
@@ -1723,12 +1723,12 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 }
 
 /**
- * Instantiates Php_Db adapter using given parameters
+ * Instantiates Phalcon_Db adapter using given parameters
  *
  * @param string $adapterName
  * @param stdClass $options
  * @param boolean $persistent
- * @return Php_Db
+ * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Db, factory){
 
@@ -1797,7 +1797,7 @@ PHP_METHOD(Phalcon_Db, factory){
 		}
 		Z_ADDREF_P(i2);
 		v3 = i2;
-		FOREACH_KV(v1, ac0, fes15, fee15, ah0, hp0, v5, v4)
+		FOREACH_KV(v1, ac0, fes16, fee16, ah0, hp0, v5, v4)
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -1805,7 +1805,7 @@ PHP_METHOD(Phalcon_Db, factory){
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(v3, Z_STRVAL_P(v5), Z_STRLEN_P(v5), copy TSRMLS_CC);
 			}
-		END_FOREACH(ac0, fes15, fee15, ah0, hp0);
+		END_FOREACH(ac0, fes16, fee16, ah0, hp0);
 	} else {
 		if (v3) {
 			Z_DELREF_P(v3);

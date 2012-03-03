@@ -103,8 +103,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		Z_ADDREF_P(i0);
 		return;
 	}
-	FOREACH_KV(v2, ac0, fes60, fee60, ah0, hp0, v4, v3)
-		FOREACH_KV(v3, ac1, fes61, fee61, ah1, hp1, v6, v5)
+	FOREACH_KV(v2, ac0, fes61, fee61, ah0, hp0, v4, v3)
+		FOREACH_KV(v3, ac1, fes62, fee62, ah1, hp1, v6, v5)
 			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
@@ -328,8 +328,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 					phalcon_array_update(t3, v6, copy TSRMLS_CC);
 				}
 			}
-		END_FOREACH(ac1, fes61, fee61, ah1, hp1);
-	END_FOREACH(ac0, fes60, fee60, ah0, hp0);
+		END_FOREACH(ac1, fes62, fee62, ah1, hp1);
+	END_FOREACH(ac0, fes61, fee61, ah0, hp0);
 	Z_ADDREF_P(v1);
 	p5[0] = v1;
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Config_Adapter_Ini", "__construct", 1, p5);

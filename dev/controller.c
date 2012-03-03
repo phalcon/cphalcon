@@ -38,7 +38,7 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Controller
+ * Phalcon_Controller
  *
  * Every application controller should extends this class that encapsulates all the controller functionality
  *
@@ -50,13 +50,13 @@
  */
 
 /**
- * Constructor for Php_Controller
+ * Constructor for Phalcon_Controller
  *
- * @param Php_Dispatcher $dispatcher
- * @param Php_Request $request
- * @param Php_Response $response
- * @param Php_View $view
- * @param Php_Model_Manager $model
+ * @param Phalcon_Dispatcher $dispatcher
+ * @param Phalcon_Request $request
+ * @param Phalcon_Response $response
+ * @param Phalcon_View $view
+ * @param Phalcon_Model_Manager $model
  */
 PHP_METHOD(Phalcon_Controller, __construct){
 

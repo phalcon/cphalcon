@@ -38,17 +38,17 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Transaction
+ * Phalcon_Transaction
  *
  * Transactions are protective blocks where SQL statements are only permanent if they can
- * all succeed as one atomic action. Php_Transaction is intended to be used with Php_Model_Base.
- * Phalcon Transactions should be created using Php_Transaction_Manager.
+ * all succeed as one atomic action. Phalcon_Transaction is intended to be used with Phalcon_Model_Base.
+ * Phalcon Transactions should be created using Phalcon_Transaction_Manager.
  *
  *
  */
 
 /**
- * Php_Transaction constructor
+ * Phalcon_Transaction constructor
  *
  * @param boolean $autoBegin
  */
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 /**
  * Sets transaction manager related to the transaction
  *
- * @param Php_Transaction_Manager $manager
+ * @param Phalcon_Transaction_Manager $manager
  */
 PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 
@@ -205,7 +205,7 @@ PHP_METHOD(Phalcon_Transaction, commit){
  * Rollbacks the transaction
  *
  * @param  string $rollbackMessage
- * @param  Php_Model_Base $rollbackRecord
+ * @param  Phalcon_Model_Base $rollbackRecord
  * @return boolean
  */
 PHP_METHOD(Phalcon_Transaction, rollback){
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 /**
  * Returns connection related to transaction
  *
- * @return Php_Db
+ * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Transaction, getConnection){
 
@@ -474,10 +474,10 @@ PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
 }
 
 /**
- * Attaches Php_Model_Base object to the active transaction
+ * Attaches Phalcon_Model_Base object to the active transaction
  *
  * @param int $pointer
- * @param Php_Model_Base $object
+ * @param Phalcon_Model_Base $object
  */
 PHP_METHOD(Phalcon_Transaction, attachDependency){
 
@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Transaction, save){
 	}
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	FOREACH_V(t0, ac0, fes54, fee54, ah0, hp0, v0)
+	FOREACH_V(t0, ac0, fes55, fee55, ah0, hp0, v0)
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -763,7 +763,7 @@ PHP_METHOD(Phalcon_Transaction, save){
 			}
 			RETURN_FALSE;
 		}
-	END_FOREACH(ac0, fes54, fee54, ah0, hp0);
+	END_FOREACH(ac0, fes55, fee55, ah0, hp0);
 	RETURN_TRUE;
 }
 
@@ -819,7 +819,7 @@ PHP_METHOD(Phalcon_Transaction, isValid){
 /**
  * Sets object which generates rollback action
  *
- * @param Php_Model_Base $record
+ * @param Phalcon_Model_Base $record
  */
 PHP_METHOD(Phalcon_Transaction, setRollbackedRecord){
 

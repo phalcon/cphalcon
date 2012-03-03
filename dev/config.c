@@ -38,9 +38,9 @@
 #include "zend_interfaces.h"
 
 /**
- * Php_Config
+ * Phalcon_Config
  *
- * Php_Config is designed to simplify the access to, and the use of, configuration data within applications.
+ * Phalcon_Config is designed to simplify the access to, and the use of, configuration data within applications.
  * It provides a nested object property based user interface for accessing this configuration data within
  * application code.
  *
@@ -49,10 +49,10 @@
  */
 
 /**
- * Php_Config constructor
+ * Phalcon_Config constructor
  *
  * @paramarray $arrayConfig
- * @returnPhp_Config
+ * @returnPhalcon_Config
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 		RETURN_NULL();
 	}
 
-	FOREACH_KV(v0, ac0, fes51, fee51, ah0, hp0, v2, v1)
+	FOREACH_KV(v0, ac0, fes52, fee52, ah0, hp0, v2, v1)
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
 			if (!i0) {
 				PHALCON_ALLOC_ZVAL(i0);
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 				phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), copy TSRMLS_CC);
 			}
 		}
-	END_FOREACH(ac0, fes51, fee51, ah0, hp0);
+	END_FOREACH(ac0, fes52, fee52, ah0, hp0);
 	RETURN_NULL();
 }
 
