@@ -18,37 +18,33 @@
   +------------------------------------------------------------------------+
 */
 
-class ConfigTest extends PHPUnit_Framework_TestCase {
+class FilterTest extends PHPUnit_Framework_TestCase {
 
+	public function testSanitize(){
 
-$config = new Phalcon_Config(array(
-	'database' => array(
-		'adapter' => 'Mysql',
-		'host' => '192.168.0.28',
-		'username' => 'support',
-		'password' => 'H45pov682v',
-		'name' => 'demo'
-	),
-	'phalcon' => array(
-		'controllersDir' => 'tests/controllers/',
-		'modelsDir' => 'tests/models/phalcon/',
-		'viewsDir' => 'tests/views/',
-		'basePath' => './'
-	)
-));
+		$filter = new Phalcon_Filter();
 
+		$value = $filter->sanitize("lol", "string");
+		$this->assertEquals($value, "lol");
+		
+		$value = $filter->sanitize("lol", array("string"));
+		$this->assertEquals($value, "lol");
 
-$front = Phalcon_Controller_Front::getInstance();
+		$value = $filter->sanitize("lol<<", "string");
+		$this->assertEquals($value, "lol");			
 
-echo $front->getBaseUri();
+		$value = $filter->sanitize("lol", "int");
+		$this->assertEquals($value, "");
 
-$_GET['_url'] = 'test3/other';
-$front->setConfig($config);
-$view = $front->dispatchLoop();
+		$value = $filter->sanitize("!100a019", "int");
+		$this->assertEquals($value, "100019");		
 
-if($view->getContent()=='lolhere'){
-	echo 'Phalcon_Controller_Front::dispatchLoop() [1] [OK]', PHP_EOL;
-} else {
-	echo 'Phalcon_Controller_Front::dispatchLoop() [1] [FAILED]', PHP_EOL;
-	return;
+		$value = $filter->sanitize("!100a019.01a", "float");
+		$this->assertEquals($value, "100019.01");
+
+		$value = $filter->sanitize("some(one)@exa\\mple.com", "email");
+		$this->assertEquals($value, "someone@example.com");
+
+	}
+
 }

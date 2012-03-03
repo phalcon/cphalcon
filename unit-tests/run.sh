@@ -1,1 +1,0 @@
-echo "Unit test dummy"

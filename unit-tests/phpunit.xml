@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    <testsuites>
+        <testsuite name="Phalcon PHP Framework">
+            <file>unit-tests/ConfigTest.php</file>
+            <file>unit-tests/FilterTest.php</file>
+            <file>unit-tests/RequestTest.php</file>
+            <file>unit-tests/DispatcherTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
