@@ -133,4 +133,37 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	public function testEvents(){
+
+		$dispatcher = new Phalcon_Dispatcher();
+
+		$controllersDir = 'unit-tests/controllers/';
+		$dispatcher->setControllersDir($controllersDir);
+		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
+		
+		$request = Phalcon_Request::getInstance();
+		$this->assertInstanceOf('Phalcon_Request', $request);
+
+		$response = Phalcon_Response::getInstance();
+		$this->assertInstanceOf('Phalcon_Response', $response);
+
+		$dispatcher->setControllerName('test5');
+		$dispatcher->setActionName('notexists');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch($request, $response);
+		$value = $dispatcher->getActionName();
+		$this->assertEquals($value, 'notexists');		
+
+		$value = $dispatcher->getReturnedValue();
+		$this->assertEquals($value, 'not-found');		
+
+		$dispatcher->setControllerName('test6');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch($request, $response);
+		$value = $dispatcher->getReturnedValue();
+		$this->assertEquals($value, false);		
+		
+	}
+
 }
