@@ -26,7 +26,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$this->_dispatcher = new Phalcon_Dispatcher();
 	}
 
-
 	public function testDispatcher(){
 
 		$dispatcher = new Phalcon_Dispatcher();
@@ -163,7 +162,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->dispatch($request, $response);
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, false);		
-		
+
 	}
 
 }

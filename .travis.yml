@@ -8,8 +8,10 @@ before_script:
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
- - php unit-tests/disable-xdebug.php
+ - sudo php unit-tests/disable-xdebug.php
  - php -v
+ - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
+ - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
 
 script: phpunit -c unit-tests/phpunit.xml
 
