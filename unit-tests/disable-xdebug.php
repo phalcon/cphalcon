@@ -22,7 +22,7 @@ $file = '/home/vagrant/.phpenv/versions/'.PHP_VERSION.'/etc/php.ini';
 if(file_exists($file)){
 	$content = '';
 	foreach(file($file) as $line){
-		if(!preg_match('/zend_extension=/', $line)){
+		if(!preg_match('/zend_extension/', $line)){
 			$content.=$line;
 		}
 	}

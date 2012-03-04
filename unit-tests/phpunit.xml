@@ -18,6 +18,7 @@
             <file>unit-tests/RequestTest.php</file>
             <file>unit-tests/DispatcherTest.php</file>
             <file>unit-tests/DbPoolTest.php</file>
+            <file>unit-tests/DbTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
