@@ -38,6 +38,14 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...){
 	return len;
 }
 
+/**
+ * Forces to disable XDebug
+ */
+int phalcon_disable_xdebug(){
+	zend_execute = execute;
+	return SUCCESS;
+}
+
 #ifndef PHALCON_RELEASE
 
 FILE *phalcon_log = NULL;

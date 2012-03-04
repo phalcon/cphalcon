@@ -22,11 +22,15 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	private $_dispatcher;
 
-	public function setUp(){
+	public function setUp(){		
 		$this->_dispatcher = new Phalcon_Dispatcher();
 	}
 
 	public function testDispatcher(){
+
+		if(function_exists('xdebug_enable')){
+			return false;
+		}
 
 		$dispatcher = new Phalcon_Dispatcher();
 
@@ -132,7 +136,11 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testEvents(){
+	public function testEvents(){		
+
+		if(function_exists('xdebug_enable')){
+			return false;
+		}
 
 		$dispatcher = new Phalcon_Dispatcher();
 
@@ -161,7 +169,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 		$dispatcher->dispatch($request, $response);
 		$value = $dispatcher->getReturnedValue();
-		$this->assertEquals($value, false);		
+		$this->assertEquals($value, false);	
 
 	}
 

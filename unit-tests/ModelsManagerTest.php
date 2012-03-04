@@ -22,6 +22,10 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 
 	public function testManager(){
 
+		if(function_exists('xdebug_enable')){
+			return false;
+		}
+
 		$modelsDir = 'unit-tests/models/';
 
 		$modelManager = new Phalcon_Model_Manager();

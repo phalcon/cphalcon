@@ -18,6 +18,7 @@
 */
 
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
+extern int phalcon_disable_xdebug();
 
 #ifndef PHALCON_RELEASE
 
