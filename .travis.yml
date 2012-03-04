@@ -4,12 +4,12 @@ php:
   - 5.3
 
 before_script:
- - php -i
  - cd dev/
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
  - php unit-tests/disable-xdebug.php
+ - php -v
 
 script: phpunit -c unit-tests/phpunit.xml
 
