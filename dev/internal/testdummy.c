@@ -46,9 +46,6 @@ PHP_METHOD(Phalcon_Internal_TestDummy, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Internal_TestDummy", "__construct", 0);
-	phalcon_step_over("Phalcon_Internal_TestDummy::__construct (Assignment) File=/Internal/TestDummy Line=8");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -56,9 +53,7 @@ PHP_METHOD(Phalcon_Internal_TestDummy, __construct){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_d1", strlen("_d1"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Internal_TestDummy::__construct (Method) File=/Internal/TestDummy Line=11");
 }
 
 PHP_METHOD(Phalcon_Internal_TestDummy, f1){
@@ -73,22 +68,12 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f1){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Internal_TestDummy", "f1", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_d1", sizeof("_d1")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Internal_TestDummy" TSRMLS_CC);
-	phalcon_debug_method_call(t0, "t12" TSRMLS_CC);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS(r0, t0, "t12", 1, p0, PHALCON_CALL_DEFAULT);
-	phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Internal_TestDummy" TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
 }
 

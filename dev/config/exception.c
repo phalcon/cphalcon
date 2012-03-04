@@ -42,20 +42,14 @@ PHP_METHOD(Phalcon_Config_Exception, __construct){
 	zval *v0 = NULL;
 	zval *p0[] = { NULL };
 
-	phalcon_step_over("Phalcon_Config_Exception::__construct (Method) File=/Config/Exception Line=16");
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Config_Exception", "__construct", 0);
-	phalcon_step_over("Phalcon_Config_Exception::__construct (StaticMethodCall) File=/Config/Exception Line=17");
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Config_Exception", "__construct", 1, p0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

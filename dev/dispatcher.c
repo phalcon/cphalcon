@@ -51,7 +51,6 @@ PHP_METHOD(Phalcon_Dispatcher, __construct){
 
 	zval *a0 = NULL, *a1 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "::__construct", 0);
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	zend_update_property(phalcon_dispatcher_class_entry, this_ptr, "_controllers", strlen("_controllers"), a0 TSRMLS_CC);
@@ -74,9 +73,6 @@ PHP_METHOD(Phalcon_Dispatcher, setControllersDir){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "setControllersDir", 0);
-	phalcon_step_over("Phalcon_Dispatcher::setControllersDir (Assignment) File=/Dispatcher Line=57");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -84,9 +80,7 @@ PHP_METHOD(Phalcon_Dispatcher, setControllersDir){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_controllersDir", strlen("_controllersDir"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::setControllersDir (Method) File=/Dispatcher Line=65");
 }
 
 /**
@@ -98,11 +92,8 @@ PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getControllersDir", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllersDir", sizeof("_controllersDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -122,8 +113,6 @@ PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getControllersDir (Method) File=/Dispatcher Line=74");
 }
 
 /**
@@ -140,9 +129,6 @@ PHP_METHOD(Phalcon_Dispatcher, setBasePath){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "setBasePath", 0);
-	phalcon_step_over("Phalcon_Dispatcher::setBasePath (Assignment) File=/Dispatcher Line=75");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -150,9 +136,7 @@ PHP_METHOD(Phalcon_Dispatcher, setBasePath){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_basePath", strlen("_basePath"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::setBasePath (Method) File=/Dispatcher Line=83");
 }
 
 /**
@@ -164,11 +148,8 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getBasePath", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -188,8 +169,6 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getBasePath (Method) File=/Dispatcher Line=90");
 }
 
 /**
@@ -204,9 +183,6 @@ PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "setControllerName", 0);
-	phalcon_step_over("Phalcon_Dispatcher::setControllerName (Assignment) File=/Dispatcher Line=91");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -214,9 +190,7 @@ PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::setControllerName (Method) File=/Dispatcher Line=99");
 }
 
 /**
@@ -228,11 +202,8 @@ PHP_METHOD(Phalcon_Dispatcher, getControllerName){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getControllerName", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllerName", sizeof("_controllerName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -252,8 +223,6 @@ PHP_METHOD(Phalcon_Dispatcher, getControllerName){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getControllerName (Method) File=/Dispatcher Line=108");
 }
 
 /**
@@ -270,9 +239,6 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "setActionName", 0);
-	phalcon_step_over("Phalcon_Dispatcher::setActionName (Assignment) File=/Dispatcher Line=109");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -280,9 +246,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::setActionName (Method) File=/Dispatcher Line=117");
 }
 
 /**
@@ -294,11 +258,8 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getActionName", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_actionName", sizeof("_actionName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -318,8 +279,6 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getActionName (Method) File=/Dispatcher Line=126");
 }
 
 /**
@@ -336,9 +295,6 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "setParams", 0);
-	phalcon_step_over("Phalcon_Dispatcher::setParams (Assignment) File=/Dispatcher Line=127");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -346,9 +302,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::setParams (Method) File=/Dispatcher Line=135");
 }
 
 /**
@@ -360,11 +314,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getParams", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -384,8 +335,6 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getParams (Method) File=/Dispatcher Line=148");
 }
 
 /**
@@ -426,12 +375,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_NULL(v3);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v2 > ", v2 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v3 > ", v3 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "dispatch", 0);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=150");
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t1);
@@ -446,17 +389,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(r0);
 	v4 = r0;
-	phalcon_debug_assign("$controllersDir", r0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=152");
 	PHALCON_INIT_NULL(v5);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=153");
 	PHALCON_INIT_NULL(v6);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=154");
 	PHALCON_ALLOC_ZVAL(v7);
 	ZVAL_LONG(v7, 0);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=155");
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (While) File=/Dispatcher Line=156");
 	ws0:
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_finished", sizeof("_finished")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -464,10 +401,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	if (!zend_is_true(r1)) {
 		goto we0;
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=156");
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=158");
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 1 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=160");
 	if (!t3) {
 		PHALCON_ALLOC_ZVAL(t3);
 	} else {
@@ -497,11 +431,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(t3);
 	v8 = t3;
-	phalcon_debug_assign("$controllerName", t3 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=161");
 	if (!zend_is_true(v8)) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=161");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=162");
 		if (!t4) {
 			PHALCON_ALLOC_ZVAL(t4);
 		} else {
@@ -531,8 +461,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(t4);
 		v8 = t4;
-		phalcon_debug_assign("$controllerName", t4 TSRMLS_CC);
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=163");
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -541,7 +469,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), copy TSRMLS_CC);
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=166");
 	if (!t5) {
 		PHALCON_ALLOC_ZVAL(t5);
 	} else {
@@ -571,8 +498,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(t5);
 	v9 = t5;
-	phalcon_debug_assign("$controllers", t5 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=167");
 	if (!r2) {
 		PHALCON_ALLOC_ZVAL(r2);
 	} else {
@@ -595,9 +520,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(v8);
 	p0[0] = v8;
-	phalcon_debug_param(v8 TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS(r2, "phalcon_utils", "camelize", 1, p0);
-	phalcon_debug_vdump("StaticReturn > ", r2 TSRMLS_CC);
 	if (!r3) {
 		PHALCON_ALLOC_ZVAL(r3);
 	} else {
@@ -627,12 +550,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(r3);
 	v10 = r3;
-	phalcon_debug_assign("$controllerClass", r3 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=168");
 	eval_int = phalcon_array_isset(v9, v10);
 	if (!eval_int) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=168");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=171");
 		if (!r4) {
 			PHALCON_ALLOC_ZVAL(r4);
 		} else {
@@ -683,20 +602,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(r5);
 		v11 = r5;
-		phalcon_debug_assign("$controllerPath", r5 TSRMLS_CC);
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=172");
-		phalcon_debug_vdump("FileExists? > ", v11 TSRMLS_CC);
 		if (phalcon_file_exists(v11 TSRMLS_CC) == SUCCESS) {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=172");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Require) File=/Dispatcher Line=173");
-			phalcon_debug_vdump("Requiring File > ", v11 TSRMLS_CC);
 			phalcon_require(v11 TSRMLS_CC);
 			if (EG(exception) || EG(exit_status) == 255) {
 				return;
 			}
 		} else {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=174");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Throw) File=/Dispatcher Line=175");
 			if (!i0) {
 				PHALCON_ALLOC_ZVAL(i0);
 			} else {
@@ -718,8 +629,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 			object_init_ex(i0, phalcon_exception_class_entry);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 			if (!r6) {
 				PHALCON_ALLOC_ZVAL(r6);
 			} else {
@@ -743,14 +652,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_concat_both(r6,  "File for controller class ", v10, " doesn't exists" TSRMLS_CC);
 			Z_ADDREF_P(r6);
 			p1[0] = r6;
-			phalcon_debug_param(r6 TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 			zend_throw_exception_object(i0 TSRMLS_CC);
 			Z_ADDREF_P(i0);
 			return;
 		}
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=178");
 		if (!r7) {
 			PHALCON_ALLOC_ZVAL(r7);
 		} else {
@@ -773,13 +679,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(v10);
 		p2[0] = v10;
-		phalcon_debug_param(v10 TSRMLS_CC);
 		PHALCON_PARAM_BOOL(p2[1], 0);
 		PHALCON_CALL_FUNC_PARAMS(r7, "class_exists", strlen("class_exists"), 2, p2);
-		phalcon_debug_vdump("class_exists > ", r7 TSRMLS_CC);
 		if (!zend_is_true(r7)) {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=178");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Throw) File=/Dispatcher Line=179");
 			if (!i1) {
 				PHALCON_ALLOC_ZVAL(i1);
 			} else {
@@ -801,8 +703,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 			object_init_ex(i1, phalcon_exception_class_entry);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(i1, "__construct" TSRMLS_CC);
 			if (!r8) {
 				PHALCON_ALLOC_ZVAL(r8);
 			} else {
@@ -826,14 +726,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_concat_both(r8,  "Class ", v10, " was not found on controller file" TSRMLS_CC);
 			Z_ADDREF_P(r8);
 			p3[0] = r8;
-			phalcon_debug_param(r8 TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p3, PHALCON_CALL_CHECK);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 			zend_throw_exception_object(i1 TSRMLS_CC);
 			Z_ADDREF_P(i1);
 			return;
 		}
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=182");
 		ce0 = zend_fetch_class(Z_STRVAL_P(v10), Z_STRLEN_P(v10), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		if (!i2) {
 			PHALCON_ALLOC_ZVAL(i2);
@@ -856,25 +753,17 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		object_init_ex(i2, ce0);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-		phalcon_debug_method_call(i2, "__construct" TSRMLS_CC);
 		Z_ADDREF_P(this_ptr);
 		p4[0] = this_ptr;
-		phalcon_debug_param(this_ptr TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p4[1] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		Z_ADDREF_P(v1);
 		p4[2] = v1;
-		phalcon_debug_param(v1 TSRMLS_CC);
 		Z_ADDREF_P(v2);
 		p4[3] = v2;
-		phalcon_debug_param(v2 TSRMLS_CC);
 		Z_ADDREF_P(v3);
 		p4[4] = v3;
-		phalcon_debug_param(v3 TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 5, p4, PHALCON_CALL_CHECK);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 		if (v6) {
 			Z_DELREF_P(v6);
 			if (!Z_REFCOUNT_P(v6)) {
@@ -883,8 +772,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(i2);
 		v6 = i2;
-		phalcon_debug_assign("$controller", i2 TSRMLS_CC);
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=183");
 		if (!t6) {
 			PHALCON_ALLOC_ZVAL(t6);
 		} else {
@@ -899,14 +786,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		ZVAL_STRING(t6, "initialize", 0);
 		if (phalcon_method_exists(v6, t6 TSRMLS_CC) == SUCCESS) {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=183");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (MethodCall) File=/Dispatcher Line=184");
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(v6, "initialize" TSRMLS_CC);
 			PHALCON_CALL_METHOD_NORETURN(v6, "initialize", PHALCON_CALL_DEFAULT);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 		}
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=187");
 		if (!t7) {
 			PHALCON_ALLOC_ZVAL(t7);
 		} else {
@@ -954,8 +835,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, "_controllers", strlen("_controllers"), copy TSRMLS_CC);
 		}
 	} else {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=189");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=190");
 		if (!r9) {
 			PHALCON_ALLOC_ZVAL(r9);
 		} else {
@@ -985,9 +864,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(r9);
 		v6 = r9;
-		phalcon_debug_assign("$controller", r9 TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=193");
 	if (!t8) {
 		PHALCON_ALLOC_ZVAL(t8);
 	} else {
@@ -1017,8 +894,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(t8);
 	v12 = t8;
-	phalcon_debug_assign("$params", t8 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=195");
 	if (!t9) {
 		PHALCON_ALLOC_ZVAL(t9);
 	} else {
@@ -1048,11 +923,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(t9);
 	v13 = t9;
-	phalcon_debug_assign("$actionName", t9 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=196");
 	if (!zend_is_true(v13)) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=196");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=197");
 		if (!t10) {
 			PHALCON_ALLOC_ZVAL(t10);
 		} else {
@@ -1082,8 +953,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(t10);
 		v13 = t10;
-		phalcon_debug_assign("$actionName", t10 TSRMLS_CC);
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=198");
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -1092,7 +961,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=201");
 	if (!t11) {
 		PHALCON_ALLOC_ZVAL(t11);
 	} else {
@@ -1107,8 +975,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	ZVAL_STRING(t11, "beforeDispatch", 0);
 	if (phalcon_method_exists(v6, t11 TSRMLS_CC) == SUCCESS) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=201");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=202");
 		if (!r10) {
 			PHALCON_ALLOC_ZVAL(r10);
 		} else {
@@ -1129,14 +995,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r10);
 			}
 		}
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-		phalcon_debug_method_call(v6, "beforedispatch" TSRMLS_CC);
 		PHALCON_CALL_METHOD(r10, v6, "beforedispatch", PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r10 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 		if (Z_TYPE_P(r10) == IS_BOOL && !Z_BVAL_P(r10)) {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=202");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=203");
 			if (!v5) {
 				PHALCON_ALLOC_ZVAL(v5);
 			} else {
@@ -1150,11 +1010,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 			ZVAL_BOOL(v5, 0);
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Break) File=/Dispatcher Line=204");
 			goto we0;
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=208");
 	if (!r11) {
 		PHALCON_ALLOC_ZVAL(r11);
 	} else {
@@ -1184,11 +1042,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	Z_ADDREF_P(r11);
 	v14 = r11;
-	phalcon_debug_assign("$actionMethod", r11 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=209");
 	if (phalcon_method_exists(v6, v14 TSRMLS_CC) == SUCCESS) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=209");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=210");
 		if (!r12) {
 			PHALCON_ALLOC_ZVAL(r12);
 		} else {
@@ -1260,12 +1114,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(a0);
 		p7[0] = a0;
-		phalcon_debug_param(a0 TSRMLS_CC);
 		Z_ADDREF_P(v12);
 		p7[1] = v12;
-		phalcon_debug_param(v12 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r12, "call_user_func_array", strlen("call_user_func_array"), 2, p7);
-		phalcon_debug_vdump("call_user_func_array > ", r12 TSRMLS_CC);
 		if (v5) {
 			Z_DELREF_P(v5);
 			if (!Z_REFCOUNT_P(v5)) {
@@ -1274,10 +1125,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		Z_ADDREF_P(r12);
 		v5 = r12;
-		phalcon_debug_assign("$value", r12 TSRMLS_CC);
 	} else {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=211");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=212");
 		if (!t12) {
 			PHALCON_ALLOC_ZVAL(t12);
 		} else {
@@ -1292,8 +1140,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		ZVAL_STRING(t12, "notFoundAction", 0);
 		if (phalcon_method_exists(v6, t12 TSRMLS_CC) == SUCCESS) {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=212");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=213");
 			if (!r13) {
 				PHALCON_ALLOC_ZVAL(r13);
 			} else {
@@ -1348,12 +1194,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			add_next_index_string(a1, "notFoundAction", 1);
 			Z_ADDREF_P(a1);
 			p8[0] = a1;
-			phalcon_debug_param(a1 TSRMLS_CC);
 			Z_ADDREF_P(v12);
 			p8[1] = v12;
-			phalcon_debug_param(v12 TSRMLS_CC);
 			PHALCON_CALL_FUNC_PARAMS(r13, "call_user_func_array", strlen("call_user_func_array"), 2, p8);
-			phalcon_debug_vdump("call_user_func_array > ", r13 TSRMLS_CC);
 			if (v5) {
 				Z_DELREF_P(v5);
 				if (!Z_REFCOUNT_P(v5)) {
@@ -1362,10 +1205,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 			Z_ADDREF_P(r13);
 			v5 = r13;
-			phalcon_debug_assign("$value", r13 TSRMLS_CC);
 		} else {
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=214");
-			phalcon_step_over("Phalcon_Dispatcher::dispatch (Throw) File=/Dispatcher Line=215");
 			if (!i3) {
 				PHALCON_ALLOC_ZVAL(i3);
 			} else {
@@ -1387,8 +1227,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 			object_init_ex(i3, phalcon_exception_class_entry);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(i3, "__construct" TSRMLS_CC);
 			if (!r15) {
 				PHALCON_ALLOC_ZVAL(r15);
 			} else {
@@ -1454,15 +1292,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_concat_right(r16, r14, "'" TSRMLS_CC);
 			Z_ADDREF_P(r16);
 			p9[0] = r16;
-			phalcon_debug_param(r16 TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p9, PHALCON_CALL_CHECK);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 			zend_throw_exception_object(i3 TSRMLS_CC);
 			Z_ADDREF_P(i3);
 			return;
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=219");
 	if (!t13) {
 		PHALCON_ALLOC_ZVAL(t13);
 	} else {
@@ -1477,14 +1312,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	ZVAL_STRING(t13, "afterDispatch", 0);
 	if (phalcon_method_exists(v6, t13 TSRMLS_CC) == SUCCESS) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=219");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (MethodCall) File=/Dispatcher Line=220");
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-		phalcon_debug_method_call(v6, "afterdispatch" TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(v6, "afterdispatch", PHALCON_CALL_DEFAULT);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (PostIncDecOp) File=/Dispatcher Line=223");
 	{
 		zval *orig_ptr = v7;
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -1497,8 +1326,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	}
 	increment_function(v7);
-	phalcon_debug_vdump("PostIncrementing $numberDispatches", v7);
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (If) File=/Dispatcher Line=224");
 	if (!t14) {
 		PHALCON_ALLOC_ZVAL(t14);
 	} else {
@@ -1514,8 +1341,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	ZVAL_LONG(t14, 256);
 	PHALCON_SMALLER_FUNCTION(r17, t14, v7);
 	if (zend_is_true(r17)) {
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Block) File=/Dispatcher Line=224");
-		phalcon_step_over("Phalcon_Dispatcher::dispatch (Throw) File=/Dispatcher Line=225");
 		if (!i4) {
 			PHALCON_ALLOC_ZVAL(i4);
 		} else {
@@ -1537,8 +1362,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		object_init_ex(i4, phalcon_exception_class_entry);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-		phalcon_debug_method_call(i4, "__construct" TSRMLS_CC);
 		if (!p11[0]) {
 			PHALCON_ALLOC_ZVAL(p11[0]);
 		} else {
@@ -1553,7 +1376,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		ZVAL_STRING(p11[0], "Dispatcher has detected a cyclic routing causing stability problems", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i4, "__construct", 1, p11, PHALCON_CALL_CHECK);
-		phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 		zend_throw_exception_object(i4 TSRMLS_CC);
 		Z_ADDREF_P(i4);
 		return;
@@ -1561,7 +1383,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	goto ws0;
 	we0:
 	r1 = NULL;
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=230");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -1569,7 +1390,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_returnedValue", strlen("_returnedValue"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Assignment) File=/Dispatcher Line=231");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -1577,8 +1397,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_lastController", strlen("_lastController"), copy TSRMLS_CC);
 	}
-	phalcon_debug_vdump("Returning > ", v6 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(v6) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1598,8 +1416,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::dispatch (Method) File=/Dispatcher Line=241");
 }
 
 /**
@@ -1629,12 +1445,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Dispatcher", "forward", 0);
-	phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=242");
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=242");
-		phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=243");
 		if (v1) {
 			Z_DELREF_P(v1);
 			if (!Z_REFCOUNT_P(v1)) {
@@ -1643,17 +1454,12 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 		Z_ADDREF_P(v0);
 		v1 = v0;
-		phalcon_debug_assign("$parts", v0 TSRMLS_CC);
 	} else {
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=244");
-		phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=245");
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], "/", 1);
 		p0[1] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r0, "explode", strlen("explode"), 2, p0);
-		phalcon_debug_vdump("explode > ", r0 TSRMLS_CC);
 		if (v1) {
 			Z_DELREF_P(v1);
 			if (!Z_REFCOUNT_P(v1)) {
@@ -1662,17 +1468,12 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 		Z_ADDREF_P(r0);
 		v1 = r0;
-		phalcon_debug_assign("$parts", r0 TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=247");
 	eval_int = phalcon_array_isset_long(v1, 0);
 	if (eval_int) {
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=247");
-		phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=248");
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_array_fetch_long(r1, v1, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		p1[0] = r1;
-		phalcon_debug_param(r1 TSRMLS_CC);
 		phalcon_filter_alphanum(&r2, p1[0]);
 		{
 			zval *copy;
@@ -1681,7 +1482,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), copy TSRMLS_CC);
 		}
-		phalcon_step_over("Phalcon_Dispatcher::forward (Unset) File=/Dispatcher Line=249");
 		{
 			zval *orig_ptr = v1;
 			if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -1695,16 +1495,11 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 		phalcon_array_unset_long(v1, 0);
 	} else {
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=250");
-		phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=251");
 		eval_int = phalcon_array_isset_string(v1, "controller", strlen("controller")+1);
 		if (eval_int) {
-			phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=251");
-			phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=252");
 			PHALCON_ALLOC_ZVAL(r3);
 			phalcon_array_fetch_string(r3, v1, "controller", strlen("controller"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			p2[0] = r3;
-			phalcon_debug_param(r3 TSRMLS_CC);
 			phalcon_filter_alphanum(&r4, p2[0]);
 			{
 				zval *copy;
@@ -1714,14 +1509,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 				phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), copy TSRMLS_CC);
 			}
 		} else {
-			phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=253");
-			phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=254");
 			PHALCON_ALLOC_ZVAL(r5);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(this_ptr, "getcontrollername" TSRMLS_CC);
 			PHALCON_CALL_METHOD(r5, this_ptr, "getcontrollername", PHALCON_CALL_DEFAULT);
-			phalcon_debug_vdump("MethodReturn > ", r5 TSRMLS_CC);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -1731,15 +1520,11 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			}
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=257");
 	eval_int = phalcon_array_isset_long(v1, 1);
 	if (eval_int) {
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=257");
-		phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=258");
 		PHALCON_ALLOC_ZVAL(r6);
 		phalcon_array_fetch_long(r6, v1, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		p4[0] = r6;
-		phalcon_debug_param(r6 TSRMLS_CC);
 		phalcon_filter_alphanum(&r7, p4[0]);
 		{
 			zval *copy;
@@ -1748,7 +1533,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 		}
-		phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=259");
 		PHALCON_ALLOC_ZVAL(r8);
 		phalcon_array_fetch_long(r8, v1, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		{
@@ -1758,7 +1542,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 		}
-		phalcon_step_over("Phalcon_Dispatcher::forward (Unset) File=/Dispatcher Line=260");
 		{
 			zval *orig_ptr = v1;
 			if (Z_REFCOUNT_P(orig_ptr) > 1) {
@@ -1772,16 +1555,11 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 		phalcon_array_unset_long(v1, 1);
 	} else {
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=261");
-		phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=262");
 		eval_int = phalcon_array_isset_string(v1, "action", strlen("action")+1);
 		if (eval_int) {
-			phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=262");
-			phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=263");
 			PHALCON_ALLOC_ZVAL(r9);
 			phalcon_array_fetch_string(r9, v1, "action", strlen("action"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			p5[0] = r9;
-			phalcon_debug_param(r9 TSRMLS_CC);
 			phalcon_filter_alphanum(&r10, p5[0]);
 			{
 				zval *copy;
@@ -1791,14 +1569,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 				phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 			}
 		} else {
-			phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=264");
-			phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=265");
 			PHALCON_ALLOC_ZVAL(r11);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
-			phalcon_debug_method_call(this_ptr, "getactionname" TSRMLS_CC);
 			PHALCON_CALL_METHOD(r11, this_ptr, "getactionname", PHALCON_CALL_DEFAULT);
-			phalcon_debug_vdump("MethodReturn > ", r11 TSRMLS_CC);
-			phalcon_assert_class(this_ptr, "Phalcon_Dispatcher" TSRMLS_CC);
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
@@ -1808,7 +1580,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			}
 		}
 	}
-	phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=268");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	if (v2) {
@@ -1819,14 +1590,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	}
 	Z_ADDREF_P(a0);
 	v2 = a0;
-	phalcon_debug_assign("$params", a0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Dispatcher::forward (Foreach) File=/Dispatcher Line=269");
 	FOREACH_KV(v1, ac0, fes1, fee1, ah0, hp0, v4, v3)
-		phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=269");
-		phalcon_step_over("Phalcon_Dispatcher::forward (If) File=/Dispatcher Line=270");
 		if (Z_TYPE_P(v4) == IS_LONG) {
-			phalcon_step_over("Phalcon_Dispatcher::forward (Block) File=/Dispatcher Line=270");
-			phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=271");
 			if (!r12) {
 				PHALCON_ALLOC_ZVAL(r12);
 			} else {
@@ -1868,7 +1633,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			}
 		}
 	END_FOREACH(ac0, fes1, fee1, ah0, hp0);
-	phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=274");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -1876,11 +1640,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Dispatcher::forward (Assignment) File=/Dispatcher Line=275");
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Dispatcher::forward (Method) File=/Dispatcher Line=283");
 }
 
 /**
@@ -1892,11 +1653,8 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getControllers", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllers", sizeof("_controllers")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1916,8 +1674,6 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getControllers (Method) File=/Dispatcher Line=292");
 }
 
 /**
@@ -1929,11 +1685,8 @@ PHP_METHOD(Phalcon_Dispatcher, getLastController){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getLastController", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_lastController", sizeof("_lastController")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1953,8 +1706,6 @@ PHP_METHOD(Phalcon_Dispatcher, getLastController){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Dispatcher::getLastController (Method) File=/Dispatcher Line=301");
 }
 
 /**
@@ -1966,11 +1717,8 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Dispatcher", "getReturnedValue", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_returnedValue", sizeof("_returnedValue")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -1990,6 +1738,5 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 		}
 	}
 	return;
-	phalcon_step_out_entry();
 }
 

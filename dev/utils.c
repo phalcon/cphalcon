@@ -62,8 +62,6 @@ PHP_METHOD(Phalcon_Utils, camelize){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Utils", "camelize", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(p0[0]);
 	ZVAL_STRING(p0[0], " ", 1);
@@ -77,26 +75,14 @@ PHP_METHOD(Phalcon_Utils, camelize){
 	ZVAL_STRING(p2[1], " ", 1);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", strlen("strtolower"), 1, p3);
-	phalcon_debug_vdump("strtolower > ", r3 TSRMLS_CC);
 	p2[2] = r3;
-	phalcon_debug_param(r3 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r2, "str_replace", strlen("str_replace"), 3, p2);
-	phalcon_debug_vdump("str_replace > ", r2 TSRMLS_CC);
 	p1[0] = r2;
-	phalcon_debug_param(r2 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r1, "ucwords", strlen("ucwords"), 1, p1);
-	phalcon_debug_vdump("ucwords > ", r1 TSRMLS_CC);
 	p0[2] = r1;
-	phalcon_debug_param(r1 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", strlen("str_replace"), 3, p0);
-	phalcon_debug_vdump("str_replace > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Utils::camelize (Method) File=/Utils Line=30");
 }
 
 /**
@@ -127,9 +113,6 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Utils", "uncamelize", 0);
-	phalcon_step_over("Phalcon_Utils::uncamelize (Assignment) File=/Utils Line=31");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	add_assoc_string(a0, "/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/", "\\1_\\2", 1);
@@ -142,11 +125,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
-	phalcon_debug_assign("$patterns", a0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Utils::uncamelize (Foreach) File=/Utils Line=35");
 	FOREACH_KV(v1, ac0, fes12, fee12, ah0, hp0, v3, v2)
-		phalcon_step_over("Phalcon_Utils::uncamelize (Block) File=/Utils Line=35");
-		phalcon_step_over("Phalcon_Utils::uncamelize (If) File=/Utils Line=36");
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -169,14 +148,10 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 		}
 		Z_ADDREF_P(v3);
 		p0[0] = v3;
-		phalcon_debug_param(v3 TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p0[1] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r0, "preg_match", strlen("preg_match"), 2, p0);
-		phalcon_debug_vdump("preg_match > ", r0 TSRMLS_CC);
 		if (zend_is_true(r0)) {
-			phalcon_step_over("Phalcon_Utils::uncamelize (Block) File=/Utils Line=36");
 			if (!r1) {
 				PHALCON_ALLOC_ZVAL(r1);
 			} else {
@@ -219,34 +194,20 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 			}
 			Z_ADDREF_P(v3);
 			p2[0] = v3;
-			phalcon_debug_param(v3 TSRMLS_CC);
 			Z_ADDREF_P(v2);
 			p2[1] = v2;
-			phalcon_debug_param(v2 TSRMLS_CC);
 			Z_ADDREF_P(v0);
 			p2[2] = v0;
-			phalcon_debug_param(v0 TSRMLS_CC);
 			PHALCON_CALL_FUNC_PARAMS(r2, "preg_replace", strlen("preg_replace"), 3, p2);
-			phalcon_debug_vdump("preg_replace > ", r2 TSRMLS_CC);
 			p1[0] = r2;
-			phalcon_debug_param(r2 TSRMLS_CC);
 			PHALCON_CALL_FUNC_PARAMS(r1, "strtolower", strlen("strtolower"), 1, p1);
-			phalcon_debug_vdump("strtolower > ", r1 TSRMLS_CC);
-			phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
-			phalcon_step_out_entry();
 			RETURN_ZVAL(r1, 1, 0);
 		}
 	END_FOREACH(ac0, fes12, fee12, ah0, hp0);
 	PHALCON_ALLOC_ZVAL(r3);
 	p3[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r3, "strtolower", strlen("strtolower"), 1, p3);
-	phalcon_debug_vdump("strtolower > ", r3 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r3 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r3, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Utils::uncamelize (Method) File=/Utils Line=49");
 }
 
 /**
@@ -265,21 +226,12 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Utils", "getUrl", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(r1);
 	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
-	phalcon_debug_vdump("StaticReturn > ", r1 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Utils" TSRMLS_CC);
-	phalcon_debug_method_call(r1, "getbaseuri" TSRMLS_CC);
 	PHALCON_CALL_METHOD(r0, r1, "getbaseuri", PHALCON_CALL_DEFAULT);
-	phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Utils" TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r2);
 	concat_function(r2, r0, v0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r2 TSRMLS_CC);
-	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -289,8 +241,6 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Utils::getUrl (Method) File=/Utils Line=59");
 }
 
 /**
@@ -309,21 +259,12 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Utils", "getLocalPath", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(r1);
 	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
-	phalcon_debug_vdump("StaticReturn > ", r1 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Utils" TSRMLS_CC);
-	phalcon_debug_method_call(r1, "getbasepath" TSRMLS_CC);
 	PHALCON_CALL_METHOD(r0, r1, "getbasepath", PHALCON_CALL_DEFAULT);
-	phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Utils" TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r2);
 	concat_function(r2, r0, v0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r2 TSRMLS_CC);
-	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -333,6 +274,5 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
-	phalcon_step_out_entry();
 }
 
