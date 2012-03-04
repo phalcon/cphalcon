@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsManagerTest extends PHPUnit_Framework_TestCase {
+class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
 	public function testMetadata(){
 
@@ -93,11 +93,7 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$nnAttributes = $metaData->getNotNullAttributes($Personas);
-		if($nnAttributes==$pnnAttributes){
-			echo 'Phalcon_Model_MetaData::getNotNullAttributes() [1] [OK]', PHP_EOL;
-		} else {
-			echo 'Phalcon_Model_MetaData::getNotNullAttributes() [1] [FAILED]', PHP_EOL;
-		}
+		$this->assertEquals($nnAttributes, $pnnAttributes);		
 
 		$pdtAttributes = array(
 		  'cedula' => 'char(15)',
@@ -110,15 +106,11 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 		  'ciudad_id' => 'int(10) unsigned',
 		  'creado_at' => 'date',
 		  'cupo' => 'decimal(16,2)',
-		  'estado' => 'enum(\'A\',\'I\')',
+		  'estado' => 'enum(\'A\',\'I\',\'X\')',
 		);
 
 		$dtAttributes = $metaData->getDataTypes($Personas);
-		if($dtAttributes==$pdtAttributes){
-			echo 'Phalcon_Model_MetaData::getDataTypes() [1] [OK]', PHP_EOL;
-		} else {
-			echo 'Phalcon_Model_MetaData::getDataTypes() [1] [FAILED]', PHP_EOL;
-		}
+		$this->assertEquals($dtAttributes, $pdtAttributes);
 
 		$pndAttributes = array(
 			'tipo_documento_id' => true,
@@ -126,11 +118,10 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 			'cupo' => true,
 		);
 		$ndAttributes = $metaData->getDataTypesNumeric($Personas);
-		if($ndAttributes==$pndAttributes){
-			echo 'Phalcon_Model_MetaData::getDataTypesNumeric() [1] [OK]', PHP_EOL;
-		} else {
-			echo 'Phalcon_Model_MetaData::getDataTypesNumeric() [1] [FAILED]', PHP_EOL;
-		}
+		$this->assertEquals($ndAttributes, $pndAttributes);
+
+		//GC
+		gc_collect_cycles();
 
 	}
 

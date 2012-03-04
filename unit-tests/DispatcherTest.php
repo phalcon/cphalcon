@@ -130,6 +130,9 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(count($dispatcher->getControllers()), 2);
 
+		//GC
+		gc_collect_cycles();
+
 	}
 
 	public function testEvents(){
@@ -146,6 +149,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$response = Phalcon_Response::getInstance();
 		$this->assertInstanceOf('Phalcon_Response', $response);
 
+		//beforeDispatch event
 		$dispatcher->setControllerName('test5');
 		$dispatcher->setActionName('notexists');
 		$dispatcher->setParams(array());
@@ -153,15 +157,20 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$value = $dispatcher->getActionName();
 		$this->assertEquals($value, 'notexists');		
 
+		//Not found event
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 'not-found');		
 
+		//afterDispatch event
 		$dispatcher->setControllerName('test6');
 		$dispatcher->setActionName('index');
 		$dispatcher->setParams(array());
 		$dispatcher->dispatch($request, $response);
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, false);	
+
+		//GC
+		gc_collect_cycles();
 
 	}
 

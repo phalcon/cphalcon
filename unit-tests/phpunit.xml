@@ -20,6 +20,9 @@
             <file>unit-tests/DbPoolTest.php</file>
             <file>unit-tests/DbTest.php</file>
             <file>unit-tests/ModelsManagerTest.php</file>
+            <file>unit-tests/ModelsMetadataTest.php</file>
+            <file>unit-tests/ModelsTest.php</file>
+            <file>unit-tests/ModelsRelationsTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
