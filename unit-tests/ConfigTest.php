@@ -72,7 +72,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIniConfig(){
-		$config = new Phalcon_Config_Adapter_Ini('unit-tests/config.ini');		
+		$config = new Phalcon_Config_Adapter_Ini('unit-tests/config/config.ini');		
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
