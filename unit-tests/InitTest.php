@@ -31,8 +31,6 @@ class InitTest extends PHPUnit_Framework_TestCase {
     count($_GET);
     count($_REQUEST);
 
-    xdebug_start_code_coverage();
-
 	}
 
 }

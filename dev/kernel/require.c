@@ -39,22 +39,20 @@ int phalcon_require(zval *require_path TSRMLS_DC){
 	int file_path_length;
 	zend_file_handle file_handle;
 	zval *result = NULL;
-	zend_op_array *orig_op_array;
-	zval **orig_retval_ptr_ptr;
+	
+	zval **original_return_value = EG(return_value_ptr_ptr);
+    zend_op **original_opline_ptr = EG(opline_ptr);
+    zend_op_array *original_active_op_array = EG(active_op_array);
 
-	switch(Z_TYPE_P(require_path)){
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			zend_error_noreturn(E_ERROR, "Invalid require path value");
-			return FAILURE;
-	}
+	zend_op_array *new_op_array;
+	int dummy = 1;
 
-	if(Z_TYPE_P(require_path)!=IS_STRING){
-		convert_to_string(require_path);
-	}
+	if (Z_TYPE_P(require_path) != IS_STRING) {
+		zend_error_noreturn(E_ERROR, "Invalid require path value");
+		return FAILURE;
+	}	
 
-	file_path = Z_STRVAL_P(require_path);
+	file_path = Z_STRVAL_P(require_path), Z_STRLEN_P(require_path);
 	file_path_length = Z_STRLEN_P(require_path);
 
 	ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
@@ -76,25 +74,38 @@ int phalcon_require(zval *require_path TSRMLS_DC){
 				zend_hash_add(&EG(included_files), realfile, realfile_len+1, (void *)&dummy, sizeof(int), NULL);
 				file_handle.opened_path = estrndup(realfile, realfile_len);
 			}
-		}
+		}		
 
-		orig_op_array = EG(active_op_array);
-		orig_retval_ptr_ptr = EG(return_value_ptr_ptr);
+    	if (zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path)+1, (void *)&dummy, sizeof(int), NULL)==SUCCESS) {
+    		new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
+    		zend_destroy_file_handle(&file_handle TSRMLS_CC);
+    	} else {
+    		new_op_array = NULL;
+    		zend_file_handle_dtor(&file_handle TSRMLS_CC);
+    	}
 
-		EG(active_op_array) = zend_compile_file(&file_handle, ZEND_REQUIRE TSRMLS_CC);
-		if(EG(active_op_array) && file_handle.handle.stream.handle){
-			EG(return_value_ptr_ptr) = NULL;
-			zend_execute(EG(active_op_array) TSRMLS_CC);
-			destroy_op_array(EG(active_op_array) TSRMLS_CC);
-			efree(EG(active_op_array));
-		} else {
-			EG(active_op_array) = orig_op_array;
-			EG(return_value_ptr_ptr) = orig_retval_ptr_ptr;
-			return FAILURE;
-		}
+    	if (new_op_array) {
+    		
+    		EG(return_value_ptr_ptr) = &result;
+    		EG(active_op_array) = new_op_array;
+    		if (!EG(active_symbol_table)) {
+    			zend_rebuild_symbol_table(TSRMLS_C);
+    		}
 
-		EG(active_op_array) = orig_op_array;
-		EG(return_value_ptr_ptr) = orig_retval_ptr_ptr;
+    		zend_execute(new_op_array TSRMLS_CC);
+
+    		destroy_op_array(new_op_array TSRMLS_CC);
+    		efree(new_op_array);
+    		if (!EG(exception)) {
+    			if (EG(return_value_ptr_ptr)) {
+    				zval_ptr_dtor(EG(return_value_ptr_ptr));
+    			}
+    		}
+    	}
+
+		EG(return_value_ptr_ptr) = original_return_value;
+     	EG(opline_ptr) = original_opline_ptr;
+    	EG(active_op_array) = original_active_op_array;
 
 		return SUCCESS;
 	}

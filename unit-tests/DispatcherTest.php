@@ -28,10 +28,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	public function testDispatcher(){
 
-		if(function_exists('xdebug_enable')){
-			return false;
-		}
-
 		$dispatcher = new Phalcon_Dispatcher();
 
 		$controllersDir = 'unit-tests/controllers/';
@@ -136,11 +132,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testEvents(){		
-
-		if(function_exists('xdebug_enable')){
-			return false;
-		}
+	public function testEvents(){
 
 		$dispatcher = new Phalcon_Dispatcher();
 
