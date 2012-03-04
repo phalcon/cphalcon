@@ -11,7 +11,7 @@ Phalcon PHP is written in C with platform independence in mind. As a result, Pha
 
 For use phalcon on windows you only should to download a DLL library. Edit your php.ini file and then add:
 
-extension=phalcon.dll
+     extension=phalcon.dll
 
 Finally restart your webserver.
 
@@ -50,3 +50,10 @@ Add extension to your php.ini
      extension=phalcon.so
 
 Finally restart the webserver
+
+Current Build Status
+--------------------
+
+Phalcon Framework is build under Travic Continuous Integration service. The current build status is:
+
+[![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
