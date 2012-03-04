@@ -21,7 +21,15 @@
 class InitTest extends PHPUnit_Framework_TestCase {
 
 	public function testExtensionLoaded(){
+
+    //Check if phalcon ext was loaded
 		$this->assertTrue(in_array('phalcon', get_loaded_extensions()));
+
+    //Force to init auto-globals
+    count($_SERVER);
+    count($_POST);
+    count($_GET);
+    count($_REQUEST);
 	}
 
 }
