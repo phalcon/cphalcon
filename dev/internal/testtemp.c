@@ -41,8 +41,11 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e5a", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e5a (Assignment) File=/Internal/TestTemp Line=6");
 	PHALCON_ALLOC_ZVAL(v0);
 	ZVAL_LONG(v0, 5);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e5a (Assignment) File=/Internal/TestTemp Line=7");
 	if (v1) {
 		Z_DELREF_P(v1);
 		if (!Z_REFCOUNT_P(v1)) {
@@ -51,6 +54,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 	}
 	Z_ADDREF_P(v0);
 	v1 = v0;
+	phalcon_debug_assign("$b", v0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e5a (Assignment) File=/Internal/TestTemp Line=8");
 	if (v2) {
 		Z_DELREF_P(v2);
 		if (!Z_REFCOUNT_P(v2)) {
@@ -59,8 +64,12 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 	}
 	Z_ADDREF_P(v1);
 	v2 = v1;
+	phalcon_debug_assign("$c", v1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e5a (Assignment) File=/Internal/TestTemp Line=9");
 	PHALCON_ALLOC_ZVAL(v2);
 	ZVAL_LONG(v2, 1);
+	phalcon_debug_vdump("Returning > ", v0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -69,6 +78,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e5a (Method) File=/Internal/TestTemp Line=13");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
@@ -77,6 +88,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 	zval *a0 = NULL;
 	zval *t0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e9a", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e9a (Assignment) File=/Internal/TestTemp Line=14");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	if (v0) {
@@ -86,6 +99,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 	}
 	Z_ADDREF_P(a0);
 	v0 = a0;
+	phalcon_debug_assign("$a", a0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e9a (Assignment) File=/Internal/TestTemp Line=15");
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, "LOL", 1);
 	{
@@ -99,6 +114,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 		}
 	}
 	phalcon_array_update_long(v0, 0, t0 TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", v0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -108,6 +125,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e9a (Method) File=/Internal/TestTemp Line=19");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
@@ -116,6 +135,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 	zval *a0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e10a", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e10a (Assignment) File=/Internal/TestTemp Line=20");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	if (v0) {
@@ -125,6 +146,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 	}
 	Z_ADDREF_P(a0);
 	v0 = a0;
+	phalcon_debug_assign("$a", a0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e10a (Assignment) File=/Internal/TestTemp Line=21");
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, "LOL", 1);
 	{
@@ -138,6 +161,7 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 		}
 	}
 	phalcon_array_update_long(v0, 0, t0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e10a (Assignment) File=/Internal/TestTemp Line=22");
 	PHALCON_ALLOC_ZVAL(t1);
 	ZVAL_LONG(t1, 0);
 	{
@@ -151,6 +175,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 		}
 	}
 	phalcon_array_update_string(v0, "LOL", strlen("LOL"), t1 TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", v0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -160,6 +186,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e10a (Method) File=/Internal/TestTemp Line=26");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e13a){
@@ -168,6 +196,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13a){
 	zval *i0 = NULL;
 	zval *t0 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e13a", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13a (Assignment) File=/Internal/TestTemp Line=27");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init(i0);
 	if (v0) {
@@ -177,9 +207,13 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13a){
 	}
 	Z_ADDREF_P(i0);
 	v0 = i0;
+	phalcon_debug_assign("$a", i0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13a (Assignment) File=/Internal/TestTemp Line=28");
 	phalcon_update_property_long(v0, "uno", strlen("uno"), 1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, v0, "uno", sizeof("uno")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -199,6 +233,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13a){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13a (Method) File=/Internal/TestTemp Line=32");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
@@ -207,6 +243,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 	zval *i0 = NULL, *i1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e13b", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=33");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init(i0);
 	if (v0) {
@@ -216,8 +254,12 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 	}
 	Z_ADDREF_P(i0);
 	v0 = i0;
+	phalcon_debug_assign("$a", i0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=34");
 	phalcon_update_property_long(v0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=35");
 	phalcon_update_property_long(v0, "dos", strlen("dos"), 2 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=36");
 	PHALCON_ALLOC_ZVAL(i1);
 	object_init(i1);
 	{
@@ -227,9 +269,11 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(v0, "subA", strlen("subA"), copy TSRMLS_CC);
 	}
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=37");
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Assignment) File=/Internal/TestTemp Line=38");
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
@@ -237,6 +281,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 	phalcon_read_property(t2, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t3);
 	phalcon_read_property(t3, t2, "dos", sizeof("dos")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", t3 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t3) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -256,6 +302,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13b (Method) File=/Internal/TestTemp Line=42");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
@@ -265,6 +313,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e13c", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=43");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init(i0);
 	if (v0) {
@@ -274,8 +324,12 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 	}
 	Z_ADDREF_P(i0);
 	v0 = i0;
+	phalcon_debug_assign("$a", i0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=44");
 	phalcon_update_property_long(v0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=45");
 	phalcon_update_property_long(v0, "dos", strlen("dos"), 2 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=46");
 	PHALCON_ALLOC_ZVAL(i1);
 	object_init(i1);
 	{
@@ -285,12 +339,15 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(v0, "subA", strlen("subA"), copy TSRMLS_CC);
 	}
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=47");
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=48");
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=49");
 	PHALCON_ALLOC_ZVAL(i2);
 	object_init(i2);
 	PHALCON_ALLOC_ZVAL(t2);
@@ -302,11 +359,13 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(t2, "subSubA", strlen("subSubA"), copy TSRMLS_CC);
 	}
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=50");
 	PHALCON_ALLOC_ZVAL(t3);
 	phalcon_read_property(t3, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t4);
 	phalcon_read_property(t4, t3, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t4, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Assignment) File=/Internal/TestTemp Line=51");
 	PHALCON_ALLOC_ZVAL(t5);
 	phalcon_read_property(t5, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t6);
@@ -318,6 +377,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 	phalcon_read_property(t8, t7, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t9);
 	phalcon_read_property(t9, t8, "dos", sizeof("dos")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", t9 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t9) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -337,6 +398,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13c (Method) File=/Internal/TestTemp Line=55");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
@@ -347,6 +410,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL, *t11 = NULL, *t12 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e13d", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=56");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init(i0);
 	if (v0) {
@@ -356,8 +421,12 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 	}
 	Z_ADDREF_P(i0);
 	v0 = i0;
+	phalcon_debug_assign("$a", i0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=57");
 	phalcon_update_property_long(v0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=58");
 	phalcon_update_property_long(v0, "dos", strlen("dos"), 2 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=59");
 	PHALCON_ALLOC_ZVAL(i1);
 	object_init(i1);
 	{
@@ -367,12 +436,15 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(v0, "subA", strlen("subA"), copy TSRMLS_CC);
 	}
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=60");
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=61");
 	PHALCON_ALLOC_ZVAL(t1);
 	phalcon_read_property(t1, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=62");
 	PHALCON_ALLOC_ZVAL(i2);
 	object_init(i2);
 	PHALCON_ALLOC_ZVAL(t2);
@@ -384,11 +456,13 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(t2, "subSubA", strlen("subSubA"), copy TSRMLS_CC);
 	}
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=63");
 	PHALCON_ALLOC_ZVAL(t3);
 	phalcon_read_property(t3, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t4);
 	phalcon_read_property(t4, t3, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	phalcon_update_property_long(t4, "uno", strlen("uno"), 1 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Assignment) File=/Internal/TestTemp Line=64");
 	PHALCON_ALLOC_ZVAL(t5);
 	phalcon_read_property(t5, v0, "subA", sizeof("subA")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(t6);
@@ -410,6 +484,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 	phalcon_read_property(t12, t11, "uno", sizeof("uno")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r1);
 	mul_function(r1, r0, t12 TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
+	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -419,6 +495,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
+	phalcon_step_out_entry();
+	phalcon_step_over("Phalcon_Internal_TestTemp::e13d (Method) File=/Internal/TestTemp Line=68");
 }
 
 PHP_METHOD(Phalcon_Internal_TestTemp, e14){
@@ -432,6 +510,9 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e14){
 		RETURN_NULL();
 	}
 
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Internal_TestTemp", "e14", 0);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e14 (Assignment) File=/Internal/TestTemp Line=69");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init(i0);
 	if (v1) {
@@ -442,6 +523,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e14){
 	}
 	Z_ADDREF_P(i0);
 	v1 = i0;
+	phalcon_debug_assign("$a", i0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Internal_TestTemp::e14 (Assignment) File=/Internal/TestTemp Line=70");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -451,6 +534,8 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e14){
 	}
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, v1, "val", sizeof("val")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
+	phalcon_step_out_entry();
 	if (Z_TYPE_P(t0) > IS_BOOL) {
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -470,5 +555,6 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e14){
 		}
 	}
 	return;
+	phalcon_step_out_entry();
 }
 

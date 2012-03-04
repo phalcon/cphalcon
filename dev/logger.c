@@ -58,7 +58,12 @@ PHP_METHOD(Phalcon_Logger, __construct){
 		ZVAL_STRING(v0, "File", 0);
 	}
 	
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Logger", "__construct", 0);
+	phalcon_step_out_entry();
 	RETURN_NULL();
+	phalcon_step_over("Phalcon_Logger::__construct (Method) File=/Logger Line=35");
 }
 
 PHP_METHOD(Phalcon_Logger, setFormat){
@@ -70,6 +75,9 @@ PHP_METHOD(Phalcon_Logger, setFormat){
 		RETURN_NULL();
 	}
 
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Logger", "setFormat", 0);
+	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

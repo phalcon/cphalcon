@@ -62,6 +62,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		RETURN_NULL();
 	}
 
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Config_Adapter_Ini", "__construct", 0);
+	phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Assignment) File=/Config/Adapter/Ini Line=38");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	if (v1) {
@@ -72,12 +75,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	}
 	Z_ADDREF_P(a0);
 	v1 = a0;
+	phalcon_debug_assign("$config", a0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Assignment) File=/Config/Adapter/Ini Line=39");
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL(r0);
 	p0[0] = v0;
+	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_PARAM_BOOL(p0[1], 1);
 	PHALCON_CALL_FUNC_PARAMS(r0, "parse_ini_file", strlen("parse_ini_file"), 2, p0);
+	phalcon_debug_vdump("parse_ini_file > ", r0 TSRMLS_CC);
 	PG(display_errors) = silence;
 	if (v2) {
 		Z_DELREF_P(v2);
@@ -87,24 +94,39 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	}
 	Z_ADDREF_P(r0);
 	v2 = r0;
+	phalcon_debug_assign("$iniConfig", r0 TSRMLS_CC);
+	phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (If) File=/Config/Adapter/Ini Line=40");
 	if (Z_TYPE_P(v2) == IS_BOOL && !Z_BVAL_P(v2)) {
+		phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Block) File=/Config/Adapter/Ini Line=40");
+		phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Throw) File=/Config/Adapter/Ini Line=41");
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_config_exception_class_entry);
+		phalcon_assert_class(this_ptr, "Phalcon_Config_Adapter_Ini" TSRMLS_CC);
+		phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
+		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r1, "basename", strlen("basename"), 1, p2);
+		phalcon_debug_vdump("basename > ", r1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r2);
 		phalcon_concat_both(r2,  "Configuration file ", r1, " can't be loaded" TSRMLS_CC);
 		Z_ADDREF_P(r2);
 		p1[0] = r2;
+		phalcon_debug_param(r2 TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
+		phalcon_assert_class(this_ptr, "Phalcon_Config_Adapter_Ini" TSRMLS_CC);
 		zend_throw_exception_object(i0 TSRMLS_CC);
 		Z_ADDREF_P(i0);
 		return;
 	}
-	FOREACH_KV(v2, ac0, fes61, fee61, ah0, hp0, v4, v3)
-		FOREACH_KV(v3, ac1, fes62, fee62, ah1, hp1, v6, v5)
+	phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Foreach) File=/Config/Adapter/Ini Line=43");
+	FOREACH_KV(v2, ac0, fes62, fee62, ah0, hp0, v4, v3)
+		phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Block) File=/Config/Adapter/Ini Line=43");
+		phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Foreach) File=/Config/Adapter/Ini Line=44");
+		FOREACH_KV(v3, ac1, fes63, fee63, ah1, hp1, v6, v5)
+			phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Block) File=/Config/Adapter/Ini Line=44");
+			phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (If) File=/Config/Adapter/Ini Line=45");
 			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
@@ -126,6 +148,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 			}
 			p3[0] = v6;
+			phalcon_debug_param(v6 TSRMLS_CC);
 			if (!p3[1]) {
 				PHALCON_ALLOC_ZVAL(p3[1]);
 			} else {
@@ -140,9 +163,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			}
 			ZVAL_STRING(p3[1], ".", 1);
 			PHALCON_CALL_FUNC_PARAMS(r3, "strpos", strlen("strpos"), 2, p3);
+			phalcon_debug_vdump("strpos > ", r3 TSRMLS_CC);
 			PHALCON_INIT_FALSE(t0);
 			PHALCON_NOT_IDENTICAL_FUNCTION(r4, r3, t0);
 			if (zend_is_true(r4)) {
+				phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Block) File=/Config/Adapter/Ini Line=45");
+				phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Assignment) File=/Config/Adapter/Ini Line=46");
 				if (!r5) {
 					PHALCON_ALLOC_ZVAL(r5);
 				} else {
@@ -177,7 +203,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 				ZVAL_STRING(p4[0], ".", 1);
 				p4[1] = v6;
+				phalcon_debug_param(v6 TSRMLS_CC);
 				PHALCON_CALL_FUNC_PARAMS(r5, "explode", strlen("explode"), 2, p4);
+				phalcon_debug_vdump("explode > ", r5 TSRMLS_CC);
 				if (v7) {
 					Z_DELREF_P(v7);
 					if (!Z_REFCOUNT_P(v7)) {
@@ -186,6 +214,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 				Z_ADDREF_P(r5);
 				v7 = r5;
+				phalcon_debug_assign("$directiveParts", r5 TSRMLS_CC);
+				phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Assignment) File=/Config/Adapter/Ini Line=47");
 				if (Z_TYPE_P(v1) == IS_ARRAY) {
 					if (!t1) {
 						PHALCON_ALLOC_ZVAL(t1);
@@ -292,6 +322,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 					phalcon_array_update(t2, r7, copy TSRMLS_CC);
 				}
 			} else {
+				phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Block) File=/Config/Adapter/Ini Line=48");
+				phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (Assignment) File=/Config/Adapter/Ini Line=49");
 				if (Z_TYPE_P(v1) == IS_ARRAY) {
 					if (!t3) {
 						PHALCON_ALLOC_ZVAL(t3);
@@ -328,11 +360,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 					phalcon_array_update(t3, v6, copy TSRMLS_CC);
 				}
 			}
-		END_FOREACH(ac1, fes62, fee62, ah1, hp1);
-	END_FOREACH(ac0, fes61, fee61, ah0, hp0);
+		END_FOREACH(ac1, fes63, fee63, ah1, hp1);
+	END_FOREACH(ac0, fes62, fee62, ah0, hp0);
+	phalcon_step_over("Phalcon_Config_Adapter_Ini::__construct (StaticMethodCall) File=/Config/Adapter/Ini Line=53");
 	Z_ADDREF_P(v1);
 	p5[0] = v1;
+	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Config_Adapter_Ini", "__construct", 1, p5);
+	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

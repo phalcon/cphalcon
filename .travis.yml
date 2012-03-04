@@ -3,7 +3,8 @@ language: php
 php:
   - 5.3
 
-before_script: 
+before_script:
+ - php -i
  - cd dev/
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`

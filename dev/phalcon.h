@@ -430,6 +430,7 @@ PHP_METHOD(Phalcon_Db_Mysql, limit);
 PHP_METHOD(Phalcon_Db_Mysql, tableExists);
 PHP_METHOD(Phalcon_Db_Mysql, viewExists);
 PHP_METHOD(Phalcon_Db_Mysql, describeTable);
+PHP_METHOD(Phalcon_Db_Mysql, listTables);
 PHP_METHOD(Phalcon_Db_Mysql, getDateUsingFormat);
 
 PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor);
@@ -438,6 +439,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection);
 
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
 
 PHP_METHOD(Phalcon_Db_RawValue, __construct);
 PHP_METHOD(Phalcon_Db_RawValue, getValue);
@@ -1205,6 +1207,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_mysql_describetable, 0, 0, 1)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_mysql_listtables, 0, 0, 0)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_mysql_getdateusingformat, 0, 0, 1)
 	ZEND_ARG_INFO(0, date)
 	ZEND_ARG_INFO(0, format)
@@ -1227,6 +1233,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_describetable, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_listtables, 0, 0, 0)
+	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_rawvalue___construct, 0, 0, 1)
@@ -2158,6 +2168,7 @@ PHALCON_INIT_FUNCS(phalcon_db_mysql_functions){
 	PHP_ME(Phalcon_Db_Mysql, tableExists, arginfo_phalcon_db_mysql_tableexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, viewExists, arginfo_phalcon_db_mysql_viewexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, describeTable, arginfo_phalcon_db_mysql_describetable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Mysql, listTables, arginfo_phalcon_db_mysql_listtables, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Mysql, getDateUsingFormat, arginfo_phalcon_db_mysql_getdateusingformat, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -2172,6 +2183,7 @@ PHALCON_INIT_FUNCS(phalcon_db_pool_functions){
 PHALCON_INIT_FUNCS(phalcon_db_dialect_mysql_functions){
 	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, describeTable, arginfo_phalcon_db_dialect_mysql_describetable, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, listTables, arginfo_phalcon_db_dialect_mysql_listtables, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 
