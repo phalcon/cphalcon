@@ -9,6 +9,7 @@ before_script:
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
+ - php unit-tests/disable-xdebug.php
 
 script: phpunit -c unit-tests/phpunit.xml
 
