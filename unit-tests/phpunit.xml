@@ -23,6 +23,7 @@
             <file>unit-tests/ModelsMetadataTest.php</file>
             <file>unit-tests/ModelsTest.php</file>
             <file>unit-tests/ModelsRelationsTest.php</file>
+            <file>unit-tests/TransactionsTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

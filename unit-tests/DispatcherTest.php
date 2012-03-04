@@ -46,6 +46,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$dispatcher->dispatch($request, $response);
+			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "File for controller class IndexController doesn't exists");		
@@ -57,6 +58,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$dispatcher->dispatch($request, $response);
+			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "File for controller class EssaiController doesn't exists");
@@ -68,6 +70,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$dispatcher->dispatch($request, $response);
+			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "Class Test0Controller was not found on controller file");			
@@ -79,6 +82,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$dispatcher->dispatch($request, $response);
+			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "Action 'index' was not found on controller 'test1'");
@@ -96,6 +100,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 		try {
 			$dispatcher->dispatch($request, $response);
+			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "Action 'essai' was not found on controller 'test2'");
