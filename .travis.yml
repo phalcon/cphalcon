@@ -9,7 +9,10 @@ before_script:
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
  - sudo php unit-tests/disable-xdebug.php
- - php -v
+ - echo "xdebug.default_enable = 0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+ - echo "xdebug.coverage_enable = 0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"` 
+ - echo "xdebug.auto_trace = 0" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`  
+ - cat /home/vagrant/.phpenv/versions/5.3.10/etc/php.ini
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
  - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
 
