@@ -196,7 +196,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($before-1, People::count());
 
 		//GC
-		gc_collect_cycles();			
+		gc_collect_cycles();
 
 	}
 
