@@ -54,6 +54,8 @@ Finally restart the webserver
 Current Build Status
 --------------------
 
-Phalcon Framework is build under Travic Continuous Integration service. The current build status is:
+Phalcon PHP Framework is built under Travis CI service. Every commit pushed up to this repository
+will queue a build into the continuos integration service and will run all phpunit tests to ensure that 
+everything is going well and the project is stable. The current build status is:
 
 [![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
