@@ -18,8 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
- require '../phalcon/tests/autoload.php';
-
 class ViewTest extends PHPUnit_Framework_TestCase {
 
 	public function testStandardRender(){
@@ -65,8 +63,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-
-		//echo $view->getContent();
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
 
 	}
 }
