@@ -144,7 +144,9 @@ PHP_METHOD(Phalcon_View, setViewsDir);
 PHP_METHOD(Phalcon_View, getViewsDir);
 PHP_METHOD(Phalcon_View, setRenderLevel);
 PHP_METHOD(Phalcon_View, setTemplateBefore);
+PHP_METHOD(Phalcon_View, cleanTemplateBefore);
 PHP_METHOD(Phalcon_View, setTemplateAfter);
+PHP_METHOD(Phalcon_View, cleanTemplateAfter);
 PHP_METHOD(Phalcon_View, setParamToView);
 PHP_METHOD(Phalcon_View, getParamsToView);
 PHP_METHOD(Phalcon_View, start);
@@ -182,6 +184,7 @@ PHP_METHOD(Phalcon_Db, getUsername);
 PHP_METHOD(Phalcon_Db, getHostName);
 PHP_METHOD(Phalcon_Db, getConnectionId);
 PHP_METHOD(Phalcon_Db, factory);
+PHP_METHOD(Phalcon_Db, _beforeQuery);
 
 PHP_METHOD(Phalcon_Internal_Test, __construct);
 PHP_METHOD(Phalcon_Internal_Test, e1);
@@ -859,6 +862,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_factory, 0, 0, 2)
 	ZEND_ARG_INFO(0, adapterName)
 	ZEND_ARG_INFO(0, options)
 	ZEND_ARG_INFO(0, persistent)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db__beforequery, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlStatement)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_test_e6, 0, 0, 1)
@@ -1849,7 +1856,9 @@ PHALCON_INIT_FUNCS(phalcon_view_functions){
 	PHP_ME(Phalcon_View, getViewsDir, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setRenderLevel, arginfo_phalcon_view_setrenderlevel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setTemplateBefore, arginfo_phalcon_view_settemplatebefore, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, cleanTemplateBefore, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setTemplateAfter, arginfo_phalcon_view_settemplateafter, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, cleanTemplateAfter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setParamToView, arginfo_phalcon_view_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, start, NULL, ZEND_ACC_PUBLIC) 
@@ -1896,6 +1905,7 @@ PHALCON_INIT_FUNCS(phalcon_db_functions){
 	PHP_ME(Phalcon_Db, getHostName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getConnectionId, arginfo_phalcon_db_getconnectionid, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, factory, arginfo_phalcon_db_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Db, _beforeQuery, arginfo_phalcon_db__beforequery, ZEND_ACC_PROTECTED) 
 	PHP_FE_END
 };
 

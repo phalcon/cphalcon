@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	zval *a0 = NULL, *a1 = NULL;
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *t0 = NULL;
 	zval *p0[] = { NULL };
 
 	PHALCON_ALLOC_ZVAL(a0);
@@ -96,9 +96,7 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	PHALCON_INIT_TRUE(t0);
 	PHALCON_EQUAL_FUNCTION(r1, v0, t0);
 	if (zend_is_true(r1)) {
-		PHALCON_ALLOC_ZVAL(t1);
-		phalcon_read_property(t1, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CALL_METHOD_NORETURN(t1, "begin", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD_NORETURN(v1, "begin", PHALCON_CALL_DEFAULT);
 	}
 	RETURN_NULL();
 }

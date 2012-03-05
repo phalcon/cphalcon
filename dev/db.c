@@ -1882,3 +1882,36 @@ PHP_METHOD(Phalcon_Db, factory){
 	RETURN_NULL();
 }
 
+PHP_METHOD(Phalcon_Db, _beforeQuery){
+
+	zval *v0 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *p0[] = { NULL, NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(t0);
+	phalcon_read_property(t0, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	if (zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL(t1);
+		phalcon_read_property(t1, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL(t2);
+		phalcon_read_property(t2, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL(r1);
+		phalcon_concat_left(r1, "[", t2 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL(r0);
+		phalcon_concat_vboth(r0, r1, "] ", v0 TSRMLS_CC);
+		Z_ADDREF_P(r0);
+		p0[0] = r0;
+		PHALCON_GET_CLASS_CONSTANT(t3, phalcon_logger_class_entry, "DEBUG");
+		Z_ADDREF_P(t3);
+		p0[1] = t3;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(t1, "log", 2, p0, PHALCON_CALL_DEFAULT);
+	}
+	RETURN_NULL();
+}
+

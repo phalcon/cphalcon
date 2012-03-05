@@ -16,6 +16,7 @@
             <file>unit-tests/ConfigTest.php</file>
             <file>unit-tests/FilterTest.php</file>
             <file>unit-tests/RequestTest.php</file>
+            <file>unit-tests/FlashTest.php</file>
             <file>unit-tests/DispatcherTest.php</file>
             <file>unit-tests/DbPoolTest.php</file>
             <file>unit-tests/DbTest.php</file>
@@ -25,7 +26,8 @@
             <file>unit-tests/ModelsRelationsTest.php</file>
             <file>unit-tests/TransactionsTest.php</file>
             <file>unit-tests/ViewTest.php</file>
-            <file>unit-tests/ControllersTest.php</file>
+            <!--<file>unit-tests/ControllersTest.php</file>
+            <file>unit-tests/ControllerFrontTest.php</file>-->
         </testsuite>
     </testsuites>
 </phpunit>

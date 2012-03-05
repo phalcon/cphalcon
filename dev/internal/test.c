@@ -108,6 +108,7 @@ PHP_METHOD(Phalcon_Internal_Test, e5){
 	PHALCON_ALLOC_ZVAL(v0);
 	ZVAL_LONG(v0, 5);
 	if (v1) {
+		Z_DELREF_P(v1);
 		if (!Z_REFCOUNT_P(v1)) {
 			FREE_ZVAL(v1);
 		}
@@ -115,6 +116,7 @@ PHP_METHOD(Phalcon_Internal_Test, e5){
 	Z_ADDREF_P(v0);
 	v1 = v0;
 	if (v2) {
+		Z_DELREF_P(v2);
 		if (!Z_REFCOUNT_P(v2)) {
 			FREE_ZVAL(v2);
 		}

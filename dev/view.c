@@ -196,6 +196,17 @@ PHP_METHOD(Phalcon_View, setTemplateBefore){
 }
 
 /**
+ * Resets any template before layouts
+ * 
+ */
+PHP_METHOD(Phalcon_View, cleanTemplateBefore){
+
+
+	zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_templatesBefore", strlen("_templatesBefore") TSRMLS_CC);
+	RETURN_NULL();
+}
+
+/**
  * Appends template after controller layout
  *
  * @param string|array $templateAfter
@@ -247,6 +258,17 @@ PHP_METHOD(Phalcon_View, setTemplateAfter){
 			phalcon_update_property_zval(this_ptr, "_templatesAfter", strlen("_templatesAfter"), copy TSRMLS_CC);
 		}
 	}
+	RETURN_NULL();
+}
+
+/**
+ * Resets any template before layouts
+ * 
+ */
+PHP_METHOD(Phalcon_View, cleanTemplateAfter){
+
+
+	zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_templatesAfter", strlen("_templatesAfter") TSRMLS_CC);
 	RETURN_NULL();
 }
 
@@ -328,6 +350,7 @@ PHP_METHOD(Phalcon_View, getParamsToView){
 PHP_METHOD(Phalcon_View, start){
 
 
+	zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_content", strlen("_content") TSRMLS_CC);
 	PHALCON_CALL_FUNC_NORETURN("ob_start", strlen("ob_start"));
 	RETURN_NULL();
 }
@@ -890,7 +913,7 @@ PHP_METHOD(Phalcon_View, partial){
 	Z_ADDREF_P(t1);
 	v3 = t1;
 	PHALCON_ALLOC_ZVAL(r0);
-	phalcon_concat_vboth(r0, v3, "_", v0 TSRMLS_CC);
+	concat_function(r0, v3, v0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r1);
 	phalcon_concat_right(r1, r0, ".phtml" TSRMLS_CC);
 	if (v4) {
@@ -927,7 +950,7 @@ PHP_METHOD(Phalcon_View, partial){
 PHP_METHOD(Phalcon_View, finish){
 
 
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", strlen("ob_end_clean"));
+	PHALCON_CALL_FUNC_NORETURN("ob_end_flush", strlen("ob_end_flush"));
 	RETURN_NULL();
 }
 

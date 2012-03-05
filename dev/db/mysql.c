@@ -455,12 +455,12 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 
 PHP_METHOD(Phalcon_Db_Mysql, query){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL;
 	zval *i0 = NULL;
-	zval *p1[] = { NULL, NULL }, *p3[] = { NULL }, *p2[] = { NULL }, *p5[] = { NULL, NULL, NULL, NULL };
+	zval *p1[] = { NULL }, *p2[] = { NULL, NULL }, *p4[] = { NULL }, *p3[] = { NULL }, *p6[] = { NULL, NULL, NULL, NULL };
 
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
@@ -469,7 +469,15 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	if (v1) {
+		Z_DELREF_P(v1);
+		if (!Z_REFCOUNT_P(v1)) {
+			FREE_ZVAL(v1);
+		}
+	}
+	Z_ADDREF_P(t0);
+	v1 = t0;
+	if (!zend_is_true(v1)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "connect", PHALCON_CALL_DEFAULT);
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -484,33 +492,34 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_lastQuery", strlen("_lastQuery"), copy TSRMLS_CC);
 	}
-	PHALCON_ALLOC_ZVAL(r0);
+	Z_ADDREF_P(v0);
 	p1[0] = v0;
-	PHALCON_ALLOC_ZVAL(t2);
-	phalcon_read_property(t2, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	p1[1] = t2;
-	PHALCON_CALL_FUNC_PARAMS(r0, "mysql_query", strlen("mysql_query"), 2, p1);
-	if (v1) {
-		Z_DELREF_P(v1);
-		if (!Z_REFCOUNT_P(v1)) {
-			FREE_ZVAL(v1);
+	PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "_beforequery", 1, p1, PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r0);
+	p2[0] = v0;
+	p2[1] = v1;
+	PHALCON_CALL_FUNC_PARAMS(r0, "mysql_query", strlen("mysql_query"), 2, p2);
+	if (v2) {
+		Z_DELREF_P(v2);
+		if (!Z_REFCOUNT_P(v2)) {
+			FREE_ZVAL(v2);
 		}
 	}
 	Z_ADDREF_P(r0);
-	v1 = r0;
-	if (zend_is_true(v1)) {
+	v2 = r0;
+	if (zend_is_true(v2)) {
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
-			ZVAL_ZVAL(copy, v1, 1, 0);
+			ZVAL_ZVAL(copy, v2, 1, 0);
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_lastResultQuery", strlen("_lastResultQuery"), copy TSRMLS_CC);
 		}
-		if (Z_TYPE_P(v1) > IS_BOOL) {
+		if (Z_TYPE_P(v2) > IS_BOOL) {
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
 				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(v1);
+				*(return_value) = *(v2);
 				zval_copy_ctor(return_value);
 				Z_SET_ISREF_TO_P(return_value, is_ref);
 		 		Z_SET_REFCOUNT_P(return_value, refcount);
@@ -519,7 +528,7 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
 			{
 				zend_uchar is_ref = Z_ISREF_P(return_value);
 				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(v1);
+				*(return_value) = *(v2);
 				Z_SET_ISREF_TO_P(return_value, is_ref);
 		 		Z_SET_REFCOUNT_P(return_value, refcount);
 			}
@@ -531,45 +540,45 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
 		PHALCON_ALLOC_ZVAL(r3);
 		phalcon_concat_left(r3, " when executing \"", v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r4);
-		PHALCON_PARAM_BOOL(p3[0], 1);
-		PHALCON_CALL_METHOD_PARAMS(r4, this_ptr, "getconnectionid", 1, p3, PHALCON_CALL_DEFAULT);
+		PHALCON_PARAM_BOOL(p4[0], 1);
+		PHALCON_CALL_METHOD_PARAMS(r4, this_ptr, "getconnectionid", 1, p4, PHALCON_CALL_DEFAULT);
 		PHALCON_ALLOC_ZVAL(r2);
 		phalcon_concat_vboth(r2, r3, "\" on connection \"", r4 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r5);
 		phalcon_concat_right(r5, r2, "\"" TSRMLS_CC);
 		Z_ADDREF_P(r5);
-		p2[0] = r5;
-		PHALCON_CALL_METHOD_PARAMS(r1, this_ptr, "error", 1, p2, PHALCON_CALL_DEFAULT);
-		if (v2) {
-			Z_DELREF_P(v2);
-			if (!Z_REFCOUNT_P(v2)) {
-				FREE_ZVAL(v2);
-			}
-		}
-		Z_ADDREF_P(r1);
-		v2 = r1;
-		PHALCON_ALLOC_ZVAL(r6);
-		PHALCON_CALL_METHOD(r6, this_ptr, "noerror", PHALCON_CALL_DEFAULT);
+		p3[0] = r5;
+		PHALCON_CALL_METHOD_PARAMS(r1, this_ptr, "error", 1, p3, PHALCON_CALL_DEFAULT);
 		if (v3) {
 			Z_DELREF_P(v3);
 			if (!Z_REFCOUNT_P(v3)) {
 				FREE_ZVAL(v3);
 			}
 		}
+		Z_ADDREF_P(r1);
+		v3 = r1;
+		PHALCON_ALLOC_ZVAL(r6);
+		PHALCON_CALL_METHOD(r6, this_ptr, "noerror", PHALCON_CALL_DEFAULT);
+		if (v4) {
+			Z_DELREF_P(v4);
+			if (!Z_REFCOUNT_P(v4)) {
+				FREE_ZVAL(v4);
+			}
+		}
 		Z_ADDREF_P(r6);
-		v3 = r6;
+		v4 = r6;
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_db_exception_class_entry);
-		Z_ADDREF_P(v2);
-		p5[0] = v2;
+		Z_ADDREF_P(v3);
+		p6[0] = v3;
 		PHALCON_ALLOC_ZVAL(r7);
 		PHALCON_CALL_METHOD(r7, this_ptr, "noerror", PHALCON_CALL_DEFAULT);
 		Z_ADDREF_P(r7);
-		p5[1] = r7;
-		PHALCON_PARAM_BOOL(p5[2], 1);
+		p6[1] = r7;
+		PHALCON_PARAM_BOOL(p6[2], 1);
 		Z_ADDREF_P(this_ptr);
-		p5[3] = this_ptr;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p5, PHALCON_CALL_CHECK);
+		p6[3] = this_ptr;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p6, PHALCON_CALL_CHECK);
 		zend_throw_exception_object(i0 TSRMLS_CC);
 		Z_ADDREF_P(i0);
 		return;

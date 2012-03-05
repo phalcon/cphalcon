@@ -32,59 +32,75 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Db_Pool::setDefaultDescriptor($config);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
-		
+
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
+
+		$connection = $manager->getConnection();
+		$this->assertTrue(is_object($connection));
+
+		$success = $connection->delete("personas", "cedula LIKE 'T-Cx%'");
+		$this->assertTrue($success);
 
 		$numPersonas = Personas::count();
 		$this->assertGreaterThan(0, $numPersonas);
 
 		try {
 
-			$transaction = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction);
+			$transaction1 = Phalcon_Transaction_Manager::get();
+			$this->assertInstanceOf('Phalcon_Transaction', $transaction1);			
 
+			$this->assertNotEquals((string) $transaction1->getConnection()->getConnectionId(), (string) $connection->getConnectionId());
+
+			$p = 100;
 			for($i=0;$i<10;$i++){
 				$persona = new Personas($manager);
-				$persona->setTransaction($transaction);
-				$persona->cedula = 'T-Cx'.mt_rand(80000, 100000);
+				$persona->setTransaction($transaction1);
+				$persona->cedula = 'T-Cx'.$i;
 				$persona->tipo_documento_id = 1;
 				$persona->nombres = 'LOST LOST';
 				$persona->telefono = '2';
 				$persona->cupo = 0;
 				$persona->estado = 'A';
 				$this->assertTrue($persona->save());
-				
+				$p++;
 			}
 
-			$transaction->rollback();
+			$transaction1->rollback();
 
 			$this->assertTrue(FALSE, 'oh, Why?');
 			
 		}
 		catch(Phalcon_Transaction_Failed $e){
-			$rollbackNumPersonas = Personas::count();
-			$this->assertEquals($numPersonas, $rollbackNumPersonas);			
+			
 		}
+
+		$rollbackNumPersonas = Personas::count();
+		$this->assertEquals($numPersonas, $rollbackNumPersonas);
 
 		try {
 
-			$transaction = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction);			
+			$transaction2 = Phalcon_Transaction_Manager::get();
+			$this->assertInstanceOf('Phalcon_Transaction', $transaction2);			
 
+			$this->assertNotEquals((string) $transaction2->getConnection()->getConnectionId(), (string) $connection->getConnectionId());
+			$this->assertNotEquals((string) $transaction1->getConnection()->getConnectionId(), (string) $transaction2->getConnection()->getConnectionId());
+
+			$p = 200;
 			for($i=0;$i<15;$i++){
 				$persona = new Personas($manager);
-				$persona->setTransaction($transaction);
-				$persona->cedula = 'T-Cx'.mt_rand(80000, 100000);
+				$persona->setTransaction($transaction2);
+				$persona->cedula = 'T-Cx'.$p;
 				$persona->tipo_documento_id = 1;
 				$persona->nombres = 'LOST LOST';
 				$persona->telefono = '1';
 				$persona->cupo = 0;
 				$persona->estado = 'A';
 				$this->assertTrue($persona->save());
+				$p++;
 			}
 
-			$transaction->commit();
+			$transaction2->commit();
 
 			$commitNumPersonas = Personas::count();
 			$this->assertEquals($commitNumPersonas, $numPersonas+15);				

@@ -20,31 +20,41 @@
 
 class ViewTest extends PHPUnit_Framework_TestCase {
 
-	public function testView(){
+	public function testStandardRender(){
 
 		$view = new Phalcon_View();
-		$view->setViewsDir('tests/views/');
-		$this->assertEquals($view->getViewsDir(), 'tests/views/');
+		$view->setViewsDir('unit-tests/views/');
+		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
 
-		//Render
+		//Standard Render
 		$view->start();
 		$view->render('test2', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), 'here');		
+		$this->assertEquals($view->getContent(), '<html>here</html>');
+
+	}
+
+	public function testStandardRender2(){
+
+		$view = new Phalcon_View();
+		$view->setViewsDir('unit-tests/views/');
+		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
 
 		$view->start();
 		$view->render('test3', 'other');
-		$view->finish();
-		$this->assertEquals($view->getContent(), 'lolhere');
+		$view->finish();		
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
+
+	}
 		
-		//Variables
+		/*//Variables
 		$view->setParamToView('born', 'this');
 
 		$view->start();
 		$view->render('test3', 'another');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), 'lolthis');			
+		$this->assertEquals($view->getContent(), '<html>lolthis</html>');
 
 		//Templates
 		$view->setTemplateAfter('test');
@@ -53,7 +63,18 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'other');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), 'zuplolhere');		
+		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>');
 
-	}
+		$view->cleanTemplateAfter();
+
+		//Render Levels		
+		$view->setRenderLevel(Phalcon_View::LEVEL_MAIN_LAYOUT);
+
+		$view->start();
+		$view->render('test3', 'other');
+		$view->finish();
+
+		echo $view->getContent();
+
+	}*/
 }

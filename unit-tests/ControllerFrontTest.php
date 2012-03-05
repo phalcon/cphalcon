@@ -18,37 +18,34 @@
   +------------------------------------------------------------------------+
 */
 
-class ConfigTest extends PHPUnit_Framework_TestCase {
+class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
+	public function testControllerFront(){
 
-$config = new Phalcon_Config(array(
-	'database' => array(
-		'adapter' => 'Mysql',
-		'host' => '192.168.0.28',
-		'username' => 'support',
-		'password' => 'H45pov682v',
-		'name' => 'demo'
-	),
-	'phalcon' => array(
-		'controllersDir' => 'tests/controllers/',
-		'modelsDir' => 'tests/models/phalcon/',
-		'viewsDir' => 'tests/views/',
-		'basePath' => './'
-	)
-));
+		$config = new Phalcon_Config(array(
+			'database' => array(
+				'adapter' => 'Mysql',
+				'host' => '127.0.0.1',
+				'username' => 'root',
+				'password' => '',
+				'name' => 'phalcon_test'
+			),
+			'phalcon' => array(
+				'controllersDir' => 'unit-tests/controllers/',
+				'modelsDir' => 'unit-tests/models/',
+				'viewsDir' => 'unit-tests/views/',
+				'basePath' => './'
+			)
+		));
 
+		$front = Phalcon_Controller_Front::getInstance();
 
-$front = Phalcon_Controller_Front::getInstance();
+		$_GET['_url'] = 'test3/other';
+		$front->setConfig($config);
+		$response = $front->dispatchLoop();
 
-echo $front->getBaseUri();
+		$this->assertEquals($response->getContent(), '<html>lolhere</html>');
 
-$_GET['_url'] = 'test3/other';
-$front->setConfig($config);
-$view = $front->dispatchLoop();
-
-if($view->getContent()=='lolhere'){
-	echo 'Phalcon_Controller_Front::dispatchLoop() [1] [OK]', PHP_EOL;
-} else {
-	echo 'Phalcon_Controller_Front::dispatchLoop() [1] [FAILED]', PHP_EOL;
-	return;
+	}
+	
 }
