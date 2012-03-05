@@ -287,12 +287,12 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 PHP_METHOD(Phalcon_Model_Manager, load){
 
 	zval *v0 = NULL, *v1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
-	zval *p0[] = { NULL, NULL }, *p1[] = { NULL }, *p2[] = { NULL }, *p3[] = { NULL };
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL;
+	zval *p0[] = { NULL, NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL }, *p3[] = { NULL }, *p4[] = { NULL }, *p5[] = { NULL };
 	int eval_int;
-	zend_class_entry *ce0;
+	zend_class_entry *ce0, *ce1;
 
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
@@ -302,87 +302,119 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, v0);
-	if (eval_int) {
-		RETURN_TRUE;
-	} else {
-		PHALCON_ALLOC_ZVAL(t1);
-		phalcon_read_property(t1, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL(r0);
-		concat_function(r0, t1, v0 TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL(r1);
-		phalcon_concat_right(r1, r0, ".php" TSRMLS_CC);
-		if (v1) {
-			Z_DELREF_P(v1);
-			if (!Z_REFCOUNT_P(v1)) {
-				FREE_ZVAL(v1);
-			}
-		}
-		Z_ADDREF_P(r1);
-		v1 = r1;
-		if (phalcon_file_exists(v1 TSRMLS_CC) == SUCCESS) {
-			phalcon_require(v1 TSRMLS_CC);
-			if (EG(exception) || EG(exit_status) == 255) {
-				return;
-			}
+		Z_ADDREF_P(v0);
+		p0[0] = v0;
+		PHALCON_PARAM_BOOL(p0[1], 0);
+		PHALCON_CALL_FUNC_PARAMS(r0, "class_exists", strlen("class_exists"), 2, p0);
+		if (!zend_is_true(r0)) {
+			PHALCON_ALLOC_ZVAL(t1);
+			phalcon_read_property(t1, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL(r1);
+			concat_function(r1, t1, v0 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL(r2);
-			Z_ADDREF_P(v0);
-			p0[0] = v0;
-			PHALCON_PARAM_BOOL(p0[1], 0);
-			PHALCON_CALL_FUNC_PARAMS(r2, "class_exists", strlen("class_exists"), 2, p0);
-			if (!zend_is_true(r2)) {
-				PHALCON_ALLOC_ZVAL(i0);
-				object_init_ex(i0, phalcon_model_exception_class_entry);
-				PHALCON_ALLOC_ZVAL(r3);
-				phalcon_concat_both(r3,  "Class \"", v0, "\" was not found on model file" TSRMLS_CC);
-				Z_ADDREF_P(r3);
-				p1[0] = r3;
-				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				return;
-			}
-			ce0 = zend_fetch_class(Z_STRVAL_P(v0), Z_STRLEN_P(v0), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
-			PHALCON_ALLOC_ZVAL(i1);
-			object_init_ex(i1, ce0);
-			Z_ADDREF_P(this_ptr);
-			p2[0] = this_ptr;
-			PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
-			PHALCON_ALLOC_ZVAL(t2);
-			phalcon_read_property(t2, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			{
-				zval *orig_ptr = t2;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t2);
-					*t2 = *orig_ptr;
-					zval_copy_ctor(t2);
-					Z_SET_REFCOUNT_P(t2, 1);
-					Z_UNSET_ISREF_P(t2);
+			phalcon_concat_right(r2, r1, ".php" TSRMLS_CC);
+			if (v1) {
+				Z_DELREF_P(v1);
+				if (!Z_REFCOUNT_P(v1)) {
+					FREE_ZVAL(v1);
 				}
 			}
-			phalcon_array_update(t2, v0, i1 TSRMLS_CC);
+			Z_ADDREF_P(r2);
+			v1 = r2;
+			if (phalcon_file_exists(v1 TSRMLS_CC) == SUCCESS) {
+				phalcon_require(v1 TSRMLS_CC);
+				if (EG(exception) || EG(exit_status) == 255) {
+					return;
+				}
+				PHALCON_ALLOC_ZVAL(r3);
+				Z_ADDREF_P(v0);
+				p1[0] = v0;
+				PHALCON_PARAM_BOOL(p1[1], 0);
+				PHALCON_CALL_FUNC_PARAMS(r3, "class_exists", strlen("class_exists"), 2, p1);
+				if (!zend_is_true(r3)) {
+					PHALCON_ALLOC_ZVAL(i0);
+					object_init_ex(i0, phalcon_model_exception_class_entry);
+					PHALCON_ALLOC_ZVAL(r4);
+					phalcon_concat_both(r4,  "Class \"", v0, "\" could not found on model file" TSRMLS_CC);
+					Z_ADDREF_P(r4);
+					p2[0] = r4;
+					PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
+					zend_throw_exception_object(i0 TSRMLS_CC);
+					Z_ADDREF_P(i0);
+					return;
+				}
+				ce0 = zend_fetch_class(Z_STRVAL_P(v0), Z_STRLEN_P(v0), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL(i1);
+				object_init_ex(i1, ce0);
+				Z_ADDREF_P(this_ptr);
+				p3[0] = this_ptr;
+				PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p3, PHALCON_CALL_CHECK);
+				PHALCON_ALLOC_ZVAL(t2);
+				phalcon_read_property(t2, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+				{
+					zval *orig_ptr = t2;
+					if (Z_REFCOUNT_P(orig_ptr) > 1) {
+						Z_DELREF_P(orig_ptr);
+						ALLOC_ZVAL(t2);
+						*t2 = *orig_ptr;
+						zval_copy_ctor(t2);
+						Z_SET_REFCOUNT_P(t2, 1);
+						Z_UNSET_ISREF_P(t2);
+					}
+				}
+				phalcon_array_update(t2, v0, i1 TSRMLS_CC);
+				{
+					zval *copy;
+					ALLOC_ZVAL(copy);
+					ZVAL_ZVAL(copy, t2, 1, 0);
+					Z_SET_REFCOUNT_P(copy, 0);
+					phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), copy TSRMLS_CC);
+				}
+			} else {
+				PHALCON_ALLOC_ZVAL(i2);
+				object_init_ex(i2, phalcon_model_exception_class_entry);
+				PHALCON_ALLOC_ZVAL(r5);
+				phalcon_concat_both(r5,  "Class file path for model \"", v0, "\"  could not found" TSRMLS_CC);
+				Z_ADDREF_P(r5);
+				p4[0] = r5;
+				PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p4, PHALCON_CALL_CHECK);
+				zend_throw_exception_object(i2 TSRMLS_CC);
+				Z_ADDREF_P(i2);
+				return;
+			}
+		} else {
+			ce1 = zend_fetch_class(Z_STRVAL_P(v0), Z_STRLEN_P(v0), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL(i3);
+			object_init_ex(i3, ce1);
+			Z_ADDREF_P(this_ptr);
+			p5[0] = this_ptr;
+			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p5, PHALCON_CALL_CHECK);
+			PHALCON_ALLOC_ZVAL(t3);
+			phalcon_read_property(t3, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			{
+				zval *orig_ptr = t3;
+				if (Z_REFCOUNT_P(orig_ptr) > 1) {
+					Z_DELREF_P(orig_ptr);
+					ALLOC_ZVAL(t3);
+					*t3 = *orig_ptr;
+					zval_copy_ctor(t3);
+					Z_SET_REFCOUNT_P(t3, 1);
+					Z_UNSET_ISREF_P(t3);
+				}
+			}
+			phalcon_array_update(t3, v0, i3 TSRMLS_CC);
 			{
 				zval *copy;
 				ALLOC_ZVAL(copy);
-				ZVAL_ZVAL(copy, t2, 1, 0);
+				ZVAL_ZVAL(copy, t3, 1, 0);
 				Z_SET_REFCOUNT_P(copy, 0);
 				phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), copy TSRMLS_CC);
 			}
-			RETURN_TRUE;
-		} else {
-			PHALCON_ALLOC_ZVAL(i2);
-			object_init_ex(i2, phalcon_model_exception_class_entry);
-			PHALCON_ALLOC_ZVAL(r4);
-			phalcon_concat_both(r4,  "Class file path for model \"", v0, "\" was not found" TSRMLS_CC);
-			Z_ADDREF_P(r4);
-			p3[0] = r4;
-			PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p3, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i2 TSRMLS_CC);
-			Z_ADDREF_P(i2);
-			return;
 		}
 	}
-	RETURN_NULL();
+	RETURN_TRUE;
 }
 
 /**

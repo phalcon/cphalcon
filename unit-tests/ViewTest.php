@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+ require '../phalcon/tests/autoload.php';
+
 class ViewTest extends PHPUnit_Framework_TestCase {
 
 	public function testStandardRender(){
@@ -32,29 +34,19 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>here</html>');
 
-	}
-
-	public function testStandardRender2(){
-
-		$view = new Phalcon_View();
-		$view->setViewsDir('unit-tests/views/');
-		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
-
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();		
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
 
-	}
-		
-		/*//Variables
+		//Variables
 		$view->setParamToView('born', 'this');
 
 		$view->start();
 		$view->render('test3', 'another');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>lolthis</html>');
+		$this->assertEquals($view->getContent(), '<html>lol<p>this</p></html>');
 
 		//Templates
 		$view->setTemplateAfter('test');
@@ -74,7 +66,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'other');
 		$view->finish();
 
-		echo $view->getContent();
+		//echo $view->getContent();
 
-	}*/
+	}
 }

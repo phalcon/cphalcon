@@ -950,7 +950,7 @@ PHP_METHOD(Phalcon_View, partial){
 PHP_METHOD(Phalcon_View, finish){
 
 
-	PHALCON_CALL_FUNC_NORETURN("ob_end_flush", strlen("ob_end_flush"));
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", strlen("ob_end_clean"));
 	RETURN_NULL();
 }
 
