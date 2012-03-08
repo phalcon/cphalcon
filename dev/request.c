@@ -199,7 +199,8 @@ PHP_METHOD(Phalcon_Request, getPost){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset(a0, v0);
@@ -279,7 +280,8 @@ PHP_METHOD(Phalcon_Request, getQuery){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset(a0, v0);
@@ -353,7 +355,8 @@ PHP_METHOD(Phalcon_Request, getServer){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset(a0, v0);
@@ -413,7 +416,8 @@ PHP_METHOD(Phalcon_Request, getHeader){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset(a0, v0);
@@ -547,7 +551,8 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "HTTP_SOAPACTION", strlen("HTTP_SOAPACTION")+1);
@@ -642,7 +647,8 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "SERVER_ADDR", strlen("SERVER_ADDR")+1);
@@ -699,7 +705,8 @@ PHP_METHOD(Phalcon_Request, getServerName){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "SERVER_NAME", strlen("SERVER_NAME")+1);
@@ -849,7 +856,8 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "HTTP_X_FORWARDED_FOR", strlen("HTTP_X_FORWARDED_FOR")+1);
@@ -927,7 +935,8 @@ PHP_METHOD(Phalcon_Request, getMethod){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "REQUEST_METHOD", strlen("REQUEST_METHOD")+1);
@@ -980,7 +989,8 @@ PHP_METHOD(Phalcon_Request, getUserAgent){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "HTTP_USER_AGENT", strlen("HTTP_USER_AGENT")+1);
@@ -1148,7 +1158,8 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	if (zend_is_true(a0)) {
@@ -1217,7 +1228,8 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	if (zend_is_true(a0)) {
@@ -1328,7 +1340,8 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "HTTP_REFERER", strlen("HTTP_REFERER")+1);

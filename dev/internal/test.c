@@ -10365,3 +10365,17 @@ PHP_METHOD(Phalcon_Internal_Test, t12){
 	RETURN_NULL();
 }
 
+PHP_METHOD(Phalcon_Internal_Test, si1){
+
+	zval *r0 = NULL;
+	zend_bool silence;
+
+	php_printf("lol!");
+	silence = PG(display_errors);
+	PG(display_errors) = 0;
+	PHALCON_ALLOC_ZVAL(r0);
+	PHALCON_CALL_FUNC(r0, "session_start", strlen("session_start"));
+	PG(display_errors) = silence;
+	RETURN_NULL();
+}
+

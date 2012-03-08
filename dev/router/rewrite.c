@@ -92,7 +92,8 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset_string(a0, "_url", strlen("_url")+1);

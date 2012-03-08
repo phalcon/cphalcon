@@ -490,7 +490,8 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 					PHALCON_INIT_ARRAY(a0);
 				}
 			}
-		} else {
+		}
+		if (!a0) {
 			PHALCON_INIT_ARRAY(a0);
 		}
 		eval_int = phalcon_array_isset_string(a0, "PHP_SELF", strlen("PHP_SELF")+1);
@@ -848,8 +849,9 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL;
+	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL;
 	zval *p1[] = { NULL }, *p2[] = { NULL }, *p10[] = { NULL }, *p12[] = { NULL }, *p14[] = { NULL }, *p16[] = { NULL, NULL, NULL, NULL }, *p17[] = { NULL, NULL }, *p21[] = { NULL };
+	int eval_int;
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -911,9 +913,14 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 			phalcon_update_property_zval(this_ptr, "_response", strlen("_response"), copy TSRMLS_CC);
 		}
 	}
+	eval_int = phalcon_isset_property(this_ptr, "_router", strlen("_router") TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL(r2);
+	ZVAL_BOOL(r2, !eval_int);
 	PHALCON_ALLOC_ZVAL(t6);
 	phalcon_read_property(t6, this_ptr, "_router", sizeof("_router")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (!zend_is_true(t6)) {
+	PHALCON_BOOLEAN_NOT_FUNCTION(r3, t6);
+	PHALCON_OR_FUNCTION(r4, r2, r3);
+	if (zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL(i1);
 		object_init_ex(i1, phalcon_router_rewrite_class_entry);
 		PHALCON_CALL_METHOD_NORETURN(i1, "__construct", PHALCON_CALL_CHECK);
@@ -938,41 +945,41 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		Z_ADDREF_P(t7);
 		v1 = t7;
 	}
-	PHALCON_ALLOC_ZVAL(r2);
-	PHALCON_CALL_METHOD(r2, this_ptr, "getviewcomponent", PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r5);
+	PHALCON_CALL_METHOD(r5, this_ptr, "getviewcomponent", PHALCON_CALL_DEFAULT);
 	if (v2) {
 		Z_DELREF_P(v2);
 		if (!Z_REFCOUNT_P(v2)) {
 			FREE_ZVAL(v2);
 		}
 	}
-	Z_ADDREF_P(r2);
-	v2 = r2;
+	Z_ADDREF_P(r5);
+	v2 = r5;
 	PHALCON_CALL_METHOD_NORETURN(v2, "start", PHALCON_CALL_DEFAULT);
-	PHALCON_ALLOC_ZVAL(r3);
-	PHALCON_CALL_METHOD(r3, this_ptr, "getmodelcomponent", PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r6);
+	PHALCON_CALL_METHOD(r6, this_ptr, "getmodelcomponent", PHALCON_CALL_DEFAULT);
 	if (v3) {
 		Z_DELREF_P(v3);
 		if (!Z_REFCOUNT_P(v3)) {
 			FREE_ZVAL(v3);
 		}
 	}
-	Z_ADDREF_P(r3);
-	v3 = r3;
-	PHALCON_ALLOC_ZVAL(r4);
-	PHALCON_CALL_METHOD(r4, v1, "getcontrollername", PHALCON_CALL_DEFAULT);
-	Z_ADDREF_P(r4);
-	p10[0] = r4;
-	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "setcontrollername", 1, p10, PHALCON_CALL_DEFAULT);
-	PHALCON_ALLOC_ZVAL(r5);
-	PHALCON_CALL_METHOD(r5, v1, "getactionname", PHALCON_CALL_DEFAULT);
-	Z_ADDREF_P(r5);
-	p12[0] = r5;
-	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "setactionname", 1, p12, PHALCON_CALL_DEFAULT);
-	PHALCON_ALLOC_ZVAL(r6);
-	PHALCON_CALL_METHOD(r6, v1, "getparams", PHALCON_CALL_DEFAULT);
 	Z_ADDREF_P(r6);
-	p14[0] = r6;
+	v3 = r6;
+	PHALCON_ALLOC_ZVAL(r7);
+	PHALCON_CALL_METHOD(r7, v1, "getcontrollername", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r7);
+	p10[0] = r7;
+	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "setcontrollername", 1, p10, PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r8);
+	PHALCON_CALL_METHOD(r8, v1, "getactionname", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r8);
+	p12[0] = r8;
+	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "setactionname", 1, p12, PHALCON_CALL_DEFAULT);
+	PHALCON_ALLOC_ZVAL(r9);
+	PHALCON_CALL_METHOD(r9, v1, "getparams", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r9);
+	p14[0] = r9;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "setparams", 1, p14, PHALCON_CALL_DEFAULT);
 	{
 		zval *copy;
@@ -1009,20 +1016,20 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 	Z_ADDREF_P(v3);
 	p16[3] = v3;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(v0, "dispatch", 4, p16, PHALCON_CALL_DEFAULT);
-	PHALCON_ALLOC_ZVAL(r7);
-	PHALCON_CALL_METHOD(r7, v0, "getcontrollername", PHALCON_CALL_DEFAULT);
-	Z_ADDREF_P(r7);
-	p17[0] = r7;
-	PHALCON_ALLOC_ZVAL(r8);
-	PHALCON_CALL_METHOD(r8, v0, "getactionname", PHALCON_CALL_DEFAULT);
-	Z_ADDREF_P(r8);
-	p17[1] = r8;
+	PHALCON_ALLOC_ZVAL(r10);
+	PHALCON_CALL_METHOD(r10, v0, "getcontrollername", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r10);
+	p17[0] = r10;
+	PHALCON_ALLOC_ZVAL(r11);
+	PHALCON_CALL_METHOD(r11, v0, "getactionname", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r11);
+	p17[1] = r11;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "render", 2, p17, PHALCON_CALL_DEFAULT);
 	PHALCON_CALL_METHOD_NORETURN(v2, "finish", PHALCON_CALL_DEFAULT);
-	PHALCON_ALLOC_ZVAL(r9);
-	PHALCON_CALL_METHOD(r9, v2, "getcontent", PHALCON_CALL_DEFAULT);
-	Z_ADDREF_P(r9);
-	p21[0] = r9;
+	PHALCON_ALLOC_ZVAL(r12);
+	PHALCON_CALL_METHOD(r12, v2, "getcontent", PHALCON_CALL_DEFAULT);
+	Z_ADDREF_P(r12);
+	p21[0] = r12;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(v4, "setcontent", 1, p21, PHALCON_CALL_DEFAULT);
 	if (Z_TYPE_P(v4) > IS_BOOL) {
 		{

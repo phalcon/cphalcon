@@ -1558,6 +1558,15 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 	RETURN_ZVAL(r18, 1, 0);
 }
 
+/**
+ * Gets belongsTo related records from a model
+ *
+ * @param string $method
+ * @param string $modelName
+ * @param string $modelRelation
+ * @param Phalcon_Model_Base $record
+ * @return Phalcon_Model_Resultset
+ */
 PHP_METHOD(Phalcon_Model_Manager, getBelongsToRecords){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
@@ -1609,6 +1618,15 @@ PHP_METHOD(Phalcon_Model_Manager, getBelongsToRecords){
 	RETURN_ZVAL(r3, 1, 0);
 }
 
+/**
+ * Gets hasMany related records from a model
+ *
+ * @param string $method
+ * @param string $modelName
+ * @param string $modelRelation
+ * @param Phalcon_Model_Base $record
+ * @return Phalcon_Model_Resultset
+ */
 PHP_METHOD(Phalcon_Model_Manager, getHasManyRecords){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
@@ -1660,10 +1678,64 @@ PHP_METHOD(Phalcon_Model_Manager, getHasManyRecords){
 	RETURN_ZVAL(r3, 1, 0);
 }
 
+/**
+ * Gets belongsTo related records from a model
+ *
+ * @param string $method
+ * @param string $modelName
+ * @param string $modelRelation
+ * @param Phalcon_Model_Base $record
+ * @return Phalcon_Model_Resultset
+ */
 PHP_METHOD(Phalcon_Model_Manager, getHasOneRecords){
 
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *p0[] = { NULL, NULL, NULL };
+	int eval_int;
 
-	RETURN_NULL();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(t0);
+	phalcon_read_property(t0, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, v1);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL(t1);
+		phalcon_read_property(t1, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL(r0);
+		phalcon_array_fetch(r0, t1, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		eval_int = phalcon_array_isset(r0, v2);
+		if (!eval_int) {
+			RETURN_FALSE;
+		}
+	}
+	PHALCON_ALLOC_ZVAL(t2);
+	phalcon_read_property(t2, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL(r1);
+	phalcon_array_fetch(r1, t2, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL(r2);
+	phalcon_array_fetch(r2, r1, v2, PHALCON_NOISY_FETCH TSRMLS_CC);
+	if (v4) {
+		Z_DELREF_P(v4);
+		if (!Z_REFCOUNT_P(v4)) {
+			FREE_ZVAL(v4);
+		}
+	}
+	Z_ADDREF_P(r2);
+	v4 = r2;
+	PHALCON_ALLOC_ZVAL(r3);
+	Z_ADDREF_P(v4);
+	p0[0] = v4;
+	Z_ADDREF_P(v0);
+	p0[1] = v0;
+	Z_ADDREF_P(v3);
+	p0[2] = v3;
+	PHALCON_CALL_METHOD_PARAMS(r3, this_ptr, "_getrelationrecords", 3, p0, PHALCON_CALL_DEFAULT);
+	RETURN_ZVAL(r3, 1, 0);
 }
 
 /**

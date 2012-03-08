@@ -211,6 +211,51 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 }
 
 /**
+     * Changes only first letter to lowercase
+     *     
+     * @param string $str
+     * @return string
+     * @static
+     **/
+PHP_METHOD(Phalcon_Utils, lcfirst){
+
+	zval *v0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *p1[] = { NULL, NULL, NULL }, *p0[] = { NULL }, *p2[] = { NULL, NULL };
+
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL(r0);
+	PHALCON_ALLOC_ZVAL(r1);
+	Z_ADDREF_P(v0);
+	p1[0] = v0;
+	PHALCON_PARAM_LONG(p1[1], 0);
+	PHALCON_PARAM_LONG(p1[2], 1);
+	PHALCON_CALL_FUNC_PARAMS(r1, "substr", strlen("substr"), 3, p1);
+	p0[0] = r1;
+	PHALCON_CALL_FUNC_PARAMS(r0, "strtolower", strlen("strtolower"), 1, p0);
+	PHALCON_ALLOC_ZVAL(r2);
+	Z_ADDREF_P(v0);
+	p2[0] = v0;
+	PHALCON_PARAM_LONG(p2[1], 1);
+	PHALCON_CALL_FUNC_PARAMS(r2, "substr", strlen("substr"), 2, p2);
+	PHALCON_ALLOC_ZVAL(r3);
+	concat_function(r3, r0, r2 TSRMLS_CC);
+	{
+		zend_uchar is_ref = Z_ISREF_P(return_value);
+		zend_uint refcount = Z_REFCOUNT_P(return_value);
+		*(return_value) = *(r3);
+		zval_copy_ctor(return_value);
+		Z_SET_ISREF_TO_P(return_value, is_ref);
+		Z_SET_REFCOUNT_P(return_value, refcount);
+	}
+	return;
+}
+
+/**
  * Gets public URL to phalcon instance
  *
  * @param string $params

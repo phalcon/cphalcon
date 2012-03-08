@@ -49,13 +49,19 @@
 PHP_METHOD(Phalcon_Session, start){
 
 	zval *v0 = NULL;
+	zval *r0 = NULL;
+	zend_bool silence;
 
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_FUNC_NORETURN("session_start", strlen("session_start"));
+	silence = PG(display_errors);
+	PG(display_errors) = 0;
+	PHALCON_ALLOC_ZVAL(r0);
+	PHALCON_CALL_FUNC(r0, "session_start", strlen("session_start"));
+	PG(display_errors) = silence;
 	RETURN_NULL();
 }
 
@@ -82,6 +88,9 @@ PHP_METHOD(Phalcon_Session, setOptions){
 	RETURN_NULL();
 }
 
+/**
+ * Gets a session variable from an application context
+ */
 PHP_METHOD(Phalcon_Session, get){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -116,7 +125,8 @@ PHP_METHOD(Phalcon_Session, get){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	eval_int = phalcon_array_isset(a0, v1);
@@ -149,7 +159,7 @@ PHP_METHOD(Phalcon_Session, get){
 }
 
 /**
- * 
+ * Sets a session variable in an application context
  */
 PHP_METHOD(Phalcon_Session, set){
 
@@ -173,7 +183,8 @@ PHP_METHOD(Phalcon_Session, set){
 				PHALCON_INIT_ARRAY(a0);
 			}
 		}
-	} else {
+	}
+	if (!a0) {
 		PHALCON_INIT_ARRAY(a0);
 	}
 	t0 = zend_read_static_property(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);

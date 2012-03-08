@@ -1,3 +1,4 @@
+<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -17,23 +18,25 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHP_PHALCON_H
-#define PHP_PHALCON_H 1
+class SessionTest extends PHPUnit_Framework_TestCase {
 
-#define PHP_PHALCON_VERSION "0.2.6"
-#define PHP_PHALCON_EXTNAME "phalcon"
+  public function testSession(){
 
-extern zend_module_entry phalcon_module_entry;
-#define phpext_phalcon_ptr &phalcon_module_entry
+    Phalcon_Session::start();    
 
-#endif
+    Phalcon_Session::set('lol', 'value');
 
-#if PHP_VERSION_ID >= 50400
- #define PHALCON_INIT_FUNCS(class_functions) const zend_function_entry class_functions[] = 
-#else
- #define PHALCON_INIT_FUNCS(class_functions) const function_entry class_functions[] = 
-#endif
+    $this->assertEquals(Phalcon_Session::get('lol'), 'value');
 
-#ifndef PHP_FE_END
- #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
+    Phalcon_Session::setOptions(array(
+      'uniqueId' => 'unique-session'
+    ));
+
+    $this->assertEquals(Phalcon_Session::get('lol'), '');
+
+    Phalcon_Session::set('lol', 'another-value');
+    $this->assertEquals(Phalcon_Session::get('lol'), 'another-value');    
+
+  }
+
+}

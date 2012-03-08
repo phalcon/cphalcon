@@ -47,7 +47,7 @@ int phalcon_require(zval *require_path TSRMLS_DC){
 	zend_op_array *new_op_array = NULL;	
 
 	if (Z_TYPE_P(require_path) != IS_STRING) {
-    zend_error_noreturn(E_ERROR, "Invalid require path value");
+    php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid require path value");
     return FAILURE;
 	}	
 

@@ -85,7 +85,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 	zval **result_ptr;
 
 	if(zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS){
-		zend_error_noreturn(E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
 		return FAILURE;
 	} else {
 		*return_value  = **result_ptr;

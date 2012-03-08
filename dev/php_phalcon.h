@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.2.5"
+#define PHP_PHALCON_VERSION "0.2.6"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 extern zend_module_entry phalcon_module_entry;

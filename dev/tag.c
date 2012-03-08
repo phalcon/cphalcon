@@ -206,7 +206,8 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 					PHALCON_INIT_ARRAY(a0);
 				}
 			}
-		} else {
+		}
+		if (!a0) {
 			PHALCON_INIT_ARRAY(a0);
 		}
 		eval_int = phalcon_array_isset(a0, v0);

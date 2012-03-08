@@ -29,7 +29,7 @@ class InitTest extends PHPUnit_Framework_TestCase {
     count($_SERVER);
     count($_POST);
     count($_GET);
-    count($_REQUEST);
+    count($_REQUEST);    
 
     //Enable garbage collector
     gc_enable();

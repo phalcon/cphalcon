@@ -74,7 +74,7 @@ int phalcon_class_exists(zval *return_value, zval *class_name_zval, zval *autolo
 		case IS_ARRAY:
 		case IS_OBJECT:
 		case IS_RESOURCE:
-			zend_error_noreturn(E_ERROR, "Invalid parameter for class_exists");
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid parameter for class_exists");
 			return FAILURE;
 	}
 
@@ -108,19 +108,19 @@ int phalcon_clone(zval **dst, zval *obj TSRMLS_DC){
 	//zend_function *clone;
 	zend_object_clone_obj_t clone_call;
 
-	if(Z_TYPE_P(obj)!=IS_OBJECT){
-		zend_error_noreturn(E_ERROR, "__clone method called on non-object");
+	if (Z_TYPE_P(obj) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "__clone method called on non-object");
 		return FAILURE;
 	}
 
 	ce = Z_OBJCE_P(obj);
 	//clone = ce ? ce->clone : NULL;
 	clone_call =  Z_OBJ_HT_P(obj)->clone_obj;
-	if(!clone_call){
-		if(ce){
-			zend_error_noreturn(E_ERROR, "Trying to clone an uncloneable object of class %s", ce->name);
+	if (!clone_call) {
+		if (ce) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Trying to clone an uncloneable object of class %s", ce->name);
 		} else {
-			zend_error_noreturn(E_ERROR, "Trying to clone an uncloneable object");
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Trying to clone an uncloneable object");
 		}
 		return FAILURE;
 	}
@@ -232,7 +232,7 @@ int phalcon_read_property_zval(zval *result, zval *object, zval *property, int s
  */
 int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		zend_error_noreturn(E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		zend_update_property_long(Z_OBJCE_P(obj), obj, property_name, property_length, value TSRMLS_CC);
@@ -245,7 +245,7 @@ int phalcon_update_property_long(zval *obj, char *property_name, int property_le
  */
 int phalcon_update_property_string(zval *obj, char *property_name, int property_length, char *value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		zend_error_noreturn(E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		zend_update_property_string(Z_OBJCE_P(obj), obj, property_name, property_length, value TSRMLS_CC);
@@ -258,7 +258,7 @@ int phalcon_update_property_string(zval *obj, char *property_name, int property_
  */
 int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		zend_error_noreturn(E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		Z_ADDREF_P(value);

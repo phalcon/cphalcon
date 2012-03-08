@@ -17,23 +17,23 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHP_PHALCON_H
-#define PHP_PHALCON_H 1
-
-#define PHP_PHALCON_VERSION "0.2.6"
-#define PHP_PHALCON_EXTNAME "phalcon"
-
-extern zend_module_entry phalcon_module_entry;
-#define phpext_phalcon_ptr &phalcon_module_entry
-
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
-#if PHP_VERSION_ID >= 50400
- #define PHALCON_INIT_FUNCS(class_functions) const zend_function_entry class_functions[] = 
-#else
- #define PHALCON_INIT_FUNCS(class_functions) const function_entry class_functions[] = 
-#endif
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-#ifndef PHP_FE_END
- #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
+#include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/require.h"
+#include "kernel/object.h"
+#include "kernel/debug.h"
+#include "kernel/assert.h"
+#include "kernel/array.h"
+
+#include "zend_operators.h"
+#include "zend_exceptions.h"
+#include "zend_interfaces.h"
+

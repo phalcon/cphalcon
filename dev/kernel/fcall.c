@@ -132,7 +132,7 @@ int phalcon_call_func(zval *return_value, char *func_name, int func_length, int 
 	PHALCON_SET_STRINGL(fn, func_name, func_length, 0);
 	status = call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
-		zend_error_noreturn(E_ERROR, "Call to undefined function %s()", func_name);
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 		return FAILURE;
 	}
 
@@ -158,7 +158,7 @@ int phalcon_call_func_params(zval *return_value, char *func_name, int func_lengt
 	PHALCON_SET_STRINGL(fn, func_name, func_length, 0);
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
-		zend_error_noreturn(E_ERROR, "Call to undefined function %s()", func_name);
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 		return FAILURE;
 	}
 
@@ -195,12 +195,12 @@ int phalcon_call_method(zval *return_value, zval *object, char *method_name, int
 		phalcon_find_scope(Z_OBJCE_P(object), method_name TSRMLS_CC);
 		status = call_user_function(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 		if (status == FAILURE) {
-			zend_error_noreturn(E_ERROR, "Call to undefined method %s()", Z_STRVAL_P(fn));
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", Z_STRVAL_P(fn));
 			return FAILURE;
 		}
 		EG(scope) = active_scope;
 	} else {
-		zend_error_noreturn(E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
 		return FAILURE;
 	}
 
@@ -238,12 +238,12 @@ int phalcon_call_method_params(zval *return_value, zval *object, char *method_na
 		status = call_user_function(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 		if(status==FAILURE){
 			EG(scope) = active_scope;
-			zend_error_noreturn(E_ERROR, "Call to undefined method %s() on class %s", Z_STRVAL_P(fn), Z_OBJCE_P(object)->name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", Z_STRVAL_P(fn), Z_OBJCE_P(object)->name);
 			return FAILURE;
 		}
 		EG(scope) = active_scope;
 	} else {
-		zend_error_noreturn(E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
 		return FAILURE;
 	}
 
@@ -359,7 +359,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, char *method_
 	add_next_index_string(fn, method_name, 0);
 	status = call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status==FAILURE) {
-		zend_error_noreturn(E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 		return FAILURE;
 	}
 
@@ -389,9 +389,9 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	status = call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status==FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
-			zend_error_noreturn(E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
-			zend_error_noreturn(E_ERROR, "Call to undefined function %s()", method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", method_name);
 		}
 		return FAILURE;
 	}
@@ -421,7 +421,7 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, char *
 	add_next_index_string(fn, method_name, 0);
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status==FAILURE) {
-		zend_error_noreturn(E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 		return FAILURE;
 	}
 
@@ -446,9 +446,9 @@ int phalcon_call_static_func_zval_params(zval *return_value, zval *mixed_name, c
 	status = call_user_function(CG(function_table), NULL, mixed_name, return_value, param_count, params TSRMLS_CC);
 	if (status==FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
-			zend_error_noreturn(E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
-			zend_error_noreturn(E_ERROR, "Call to undefined function %s()", method_name);
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", method_name);
 		}
 		return FAILURE;
 	}
