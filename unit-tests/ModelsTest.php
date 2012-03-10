@@ -36,7 +36,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
-		$Personas = $modelManager->getModel('Personas');
+		$Personas = $modelManager->getModel('Personas');		
 		$this->assertEquals(get_class($Personas), 'Personas');
 
 		$People = $modelManager->getModel('People');

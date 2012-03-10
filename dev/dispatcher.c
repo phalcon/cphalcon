@@ -94,25 +94,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllersDir", sizeof("_controllersDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -150,25 +132,7 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -204,25 +168,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllerName){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllerName", sizeof("_controllerName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -260,25 +206,7 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_actionName", sizeof("_actionName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -316,25 +244,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -359,7 +269,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL, *i4 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *p0[] = { NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL }, *p3[] = { NULL, NULL }, *p4[] = { NULL }, *p5[] = { NULL, NULL, NULL, NULL, NULL }, *p8[] = { NULL, NULL }, *p9[] = { NULL, NULL }, *p10[] = { NULL }, *p12[] = { NULL };
+	zval *p0[] = { NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL }, *p3[] = { NULL, NULL }, *p4[] = { NULL }, *p5[] = { NULL, NULL, NULL, NULL, NULL }, *p7[] = { NULL, NULL, NULL }, *p8[] = { NULL, NULL }, *p9[] = { NULL, NULL }, *p10[] = { NULL }, *p11[] = { NULL, NULL, NULL }, *p12[] = { NULL };
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -369,10 +279,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 
 	if (!v2) {
-		PHALCON_INIT_NULL(v2);
+		PHALCON_ALLOC_ZVAL(v2);
+		ZVAL_NULL(v2);
 	}
 	if (!v3) {
-		PHALCON_INIT_NULL(v3);
+		PHALCON_ALLOC_ZVAL(v3);
+		ZVAL_NULL(v3);
 	}
 	
 	PHALCON_ALLOC_ZVAL(t0);
@@ -381,23 +293,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	phalcon_read_property(t1, this_ptr, "_controllersDir", sizeof("_controllersDir")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r0);
 	concat_function(r0, t0, t1 TSRMLS_CC);
-	if (v4) {
-		Z_DELREF_P(v4);
-		if (!Z_REFCOUNT_P(v4)) {
-			FREE_ZVAL(v4);
-		}
-	}
-	Z_ADDREF_P(r0);
-	v4 = r0;
-	PHALCON_INIT_NULL(v5);
-	PHALCON_INIT_NULL(v6);
+	PHALCON_CPY_WRT(v4, r0);
+	PHALCON_ALLOC_ZVAL(v5);
+	ZVAL_NULL(v5);
+	PHALCON_ALLOC_ZVAL(v6);
+	ZVAL_NULL(v6);
 	PHALCON_ALLOC_ZVAL(v7);
 	ZVAL_LONG(v7, 0);
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);
 	ws0:
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_finished", sizeof("_finished")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_BOOLEAN_NOT_FUNCTION(r1, t2);
+	PHALCON_ALLOC_ZVAL(r1);
+	boolean_not_function(r1, t2 TSRMLS_CC);
 	if (!zend_is_true(r1)) {
 		goto we0;
 	}
@@ -406,61 +314,27 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_ALLOC_ZVAL(t3);
 	} else {
 		if (Z_REFCOUNT_P(t3) > 1) {
-			{
-				zval *orig_ptr = t3;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t3);
-					*t3 = *orig_ptr;
-					zval_copy_ctor(t3);
-					Z_SET_REFCOUNT_P(t3, 1);
-					Z_UNSET_ISREF_P(t3);
-				}
-			}
+			PHALCON_SEPARATE(t3);
 		} else {
 			FREE_ZVAL(t3);
 			PHALCON_ALLOC_ZVAL(t3);
 		}
 	}
 	phalcon_read_property(t3, this_ptr, "_controllerName", sizeof("_controllerName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (v8) {
-		Z_DELREF_P(v8);
-		if (!Z_REFCOUNT_P(v8)) {
-			FREE_ZVAL(v8);
-		}
-	}
-	Z_ADDREF_P(t3);
-	v8 = t3;
+	PHALCON_CPY_WRT(v8, t3);
 	if (!zend_is_true(v8)) {
 		if (!t4) {
 			PHALCON_ALLOC_ZVAL(t4);
 		} else {
 			if (Z_REFCOUNT_P(t4) > 1) {
-				{
-					zval *orig_ptr = t4;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(t4);
-						*t4 = *orig_ptr;
-						zval_copy_ctor(t4);
-						Z_SET_REFCOUNT_P(t4, 1);
-						Z_UNSET_ISREF_P(t4);
-					}
-				}
+				PHALCON_SEPARATE(t4);
 			} else {
 				FREE_ZVAL(t4);
 				PHALCON_ALLOC_ZVAL(t4);
 			}
 		}
 		phalcon_read_property(t4, this_ptr, "_defaultController", sizeof("_defaultController")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (v8) {
-			Z_DELREF_P(v8);
-			if (!Z_REFCOUNT_P(v8)) {
-				FREE_ZVAL(v8);
-			}
-		}
-		Z_ADDREF_P(t4);
-		v8 = t4;
+		PHALCON_CPY_WRT(v8, t4);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -473,46 +347,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_ALLOC_ZVAL(t5);
 	} else {
 		if (Z_REFCOUNT_P(t5) > 1) {
-			{
-				zval *orig_ptr = t5;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t5);
-					*t5 = *orig_ptr;
-					zval_copy_ctor(t5);
-					Z_SET_REFCOUNT_P(t5, 1);
-					Z_UNSET_ISREF_P(t5);
-				}
-			}
+			PHALCON_SEPARATE(t5);
 		} else {
 			FREE_ZVAL(t5);
 			PHALCON_ALLOC_ZVAL(t5);
 		}
 	}
 	phalcon_read_property(t5, this_ptr, "_controllers", sizeof("_controllers")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (v9) {
-		Z_DELREF_P(v9);
-		if (!Z_REFCOUNT_P(v9)) {
-			FREE_ZVAL(v9);
-		}
-	}
-	Z_ADDREF_P(t5);
-	v9 = t5;
+	PHALCON_CPY_WRT(v9, t5);
 	if (!r2) {
 		PHALCON_ALLOC_ZVAL(r2);
 	} else {
 		if (Z_REFCOUNT_P(r2) > 1) {
-			{
-				zval *orig_ptr = r2;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(r2);
-					*r2 = *orig_ptr;
-					zval_copy_ctor(r2);
-					Z_SET_REFCOUNT_P(r2, 1);
-					Z_UNSET_ISREF_P(r2);
-				}
-			}
+			PHALCON_SEPARATE(r2);
 		} else {
 			FREE_ZVAL(r2);
 			PHALCON_ALLOC_ZVAL(r2);
@@ -525,48 +372,21 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_ALLOC_ZVAL(r3);
 	} else {
 		if (Z_REFCOUNT_P(r3) > 1) {
-			{
-				zval *orig_ptr = r3;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(r3);
-					*r3 = *orig_ptr;
-					zval_copy_ctor(r3);
-					Z_SET_REFCOUNT_P(r3, 1);
-					Z_UNSET_ISREF_P(r3);
-				}
-			}
+			PHALCON_SEPARATE(r3);
 		} else {
 			FREE_ZVAL(r3);
 			PHALCON_ALLOC_ZVAL(r3);
 		}
 	}
-	phalcon_concat_right(r3, r2, "Controller" TSRMLS_CC);
-	if (v10) {
-		Z_DELREF_P(v10);
-		if (!Z_REFCOUNT_P(v10)) {
-			FREE_ZVAL(v10);
-		}
-	}
-	Z_ADDREF_P(r3);
-	v10 = r3;
+	PHALCON_CONCAT_RIGHT(r3, r2, "Controller");
+	PHALCON_CPY_WRT(v10, r3);
 	eval_int = phalcon_array_isset(v9, v10);
 	if (!eval_int) {
 		if (!r4) {
 			PHALCON_ALLOC_ZVAL(r4);
 		} else {
 			if (Z_REFCOUNT_P(r4) > 1) {
-				{
-					zval *orig_ptr = r4;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(r4);
-						*r4 = *orig_ptr;
-						zval_copy_ctor(r4);
-						Z_SET_REFCOUNT_P(r4, 1);
-						Z_UNSET_ISREF_P(r4);
-					}
-				}
+				PHALCON_SEPARATE(r4);
 			} else {
 				FREE_ZVAL(r4);
 				PHALCON_ALLOC_ZVAL(r4);
@@ -575,23 +395,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_ADDREF_P(v10);
 		p1[0] = v10;
 		PHALCON_PARAM_BOOL(p1[1], 0);
-		PHALCON_CALL_FUNC_PARAMS(r4, "class_exists", strlen("class_exists"), 2, p1);
+		PHALCON_CALL_FUNC_PARAMS(r4, "class_exists", 2, p1);
 		if (!zend_is_true(r4)) {
 			if (!r5) {
 				PHALCON_ALLOC_ZVAL(r5);
 			} else {
 				if (Z_REFCOUNT_P(r5) > 1) {
-					{
-						zval *orig_ptr = r5;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r5);
-							*r5 = *orig_ptr;
-							zval_copy_ctor(r5);
-							Z_SET_REFCOUNT_P(r5, 1);
-							Z_UNSET_ISREF_P(r5);
-						}
-					}
+					PHALCON_SEPARATE(r5);
 				} else {
 					FREE_ZVAL(r5);
 					PHALCON_ALLOC_ZVAL(r5);
@@ -602,31 +412,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r6);
 			} else {
 				if (Z_REFCOUNT_P(r6) > 1) {
-					{
-						zval *orig_ptr = r6;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r6);
-							*r6 = *orig_ptr;
-							zval_copy_ctor(r6);
-							Z_SET_REFCOUNT_P(r6, 1);
-							Z_UNSET_ISREF_P(r6);
-						}
-					}
+					PHALCON_SEPARATE(r6);
 				} else {
 					FREE_ZVAL(r6);
 					PHALCON_ALLOC_ZVAL(r6);
 				}
 			}
-			phalcon_concat_right(r6, r5, ".php" TSRMLS_CC);
-			if (v11) {
-				Z_DELREF_P(v11);
-				if (!Z_REFCOUNT_P(v11)) {
-					FREE_ZVAL(v11);
-				}
-			}
-			Z_ADDREF_P(r6);
-			v11 = r6;
+			PHALCON_CONCAT_RIGHT(r6, r5, ".php");
+			PHALCON_CPY_WRT(v11, r6);
 			if (phalcon_file_exists(v11 TSRMLS_CC) == SUCCESS) {
 				phalcon_require(v11 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
@@ -637,17 +430,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					PHALCON_ALLOC_ZVAL(i0);
 				} else {
 					if (Z_REFCOUNT_P(i0) > 1) {
-						{
-							zval *orig_ptr = i0;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(i0);
-								*i0 = *orig_ptr;
-								zval_copy_ctor(i0);
-								Z_SET_REFCOUNT_P(i0, 1);
-								Z_UNSET_ISREF_P(i0);
-							}
-						}
+						PHALCON_SEPARATE(i0);
 					} else {
 						FREE_ZVAL(i0);
 						PHALCON_ALLOC_ZVAL(i0);
@@ -658,17 +441,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					PHALCON_ALLOC_ZVAL(r7);
 				} else {
 					if (Z_REFCOUNT_P(r7) > 1) {
-						{
-							zval *orig_ptr = r7;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r7);
-								*r7 = *orig_ptr;
-								zval_copy_ctor(r7);
-								Z_SET_REFCOUNT_P(r7, 1);
-								Z_UNSET_ISREF_P(r7);
-							}
-						}
+						PHALCON_SEPARATE(r7);
 					} else {
 						FREE_ZVAL(r7);
 						PHALCON_ALLOC_ZVAL(r7);
@@ -686,17 +459,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r8);
 			} else {
 				if (Z_REFCOUNT_P(r8) > 1) {
-					{
-						zval *orig_ptr = r8;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r8);
-							*r8 = *orig_ptr;
-							zval_copy_ctor(r8);
-							Z_SET_REFCOUNT_P(r8, 1);
-							Z_UNSET_ISREF_P(r8);
-						}
-					}
+					PHALCON_SEPARATE(r8);
 				} else {
 					FREE_ZVAL(r8);
 					PHALCON_ALLOC_ZVAL(r8);
@@ -705,23 +468,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			Z_ADDREF_P(v10);
 			p3[0] = v10;
 			PHALCON_PARAM_BOOL(p3[1], 0);
-			PHALCON_CALL_FUNC_PARAMS(r8, "class_exists", strlen("class_exists"), 2, p3);
+			PHALCON_CALL_FUNC_PARAMS(r8, "class_exists", 2, p3);
 			if (!zend_is_true(r8)) {
 				if (!i1) {
 					PHALCON_ALLOC_ZVAL(i1);
 				} else {
 					if (Z_REFCOUNT_P(i1) > 1) {
-						{
-							zval *orig_ptr = i1;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(i1);
-								*i1 = *orig_ptr;
-								zval_copy_ctor(i1);
-								Z_SET_REFCOUNT_P(i1, 1);
-								Z_UNSET_ISREF_P(i1);
-							}
-						}
+						PHALCON_SEPARATE(i1);
 					} else {
 						FREE_ZVAL(i1);
 						PHALCON_ALLOC_ZVAL(i1);
@@ -732,17 +485,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					PHALCON_ALLOC_ZVAL(r9);
 				} else {
 					if (Z_REFCOUNT_P(r9) > 1) {
-						{
-							zval *orig_ptr = r9;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r9);
-								*r9 = *orig_ptr;
-								zval_copy_ctor(r9);
-								Z_SET_REFCOUNT_P(r9, 1);
-								Z_UNSET_ISREF_P(r9);
-							}
-						}
+						PHALCON_SEPARATE(r9);
 					} else {
 						FREE_ZVAL(r9);
 						PHALCON_ALLOC_ZVAL(r9);
@@ -762,17 +505,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_ALLOC_ZVAL(i2);
 		} else {
 			if (Z_REFCOUNT_P(i2) > 1) {
-				{
-					zval *orig_ptr = i2;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(i2);
-						*i2 = *orig_ptr;
-						zval_copy_ctor(i2);
-						Z_SET_REFCOUNT_P(i2, 1);
-						Z_UNSET_ISREF_P(i2);
-					}
-				}
+				PHALCON_SEPARATE(i2);
 			} else {
 				FREE_ZVAL(i2);
 				PHALCON_ALLOC_ZVAL(i2);
@@ -790,14 +523,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_ADDREF_P(v3);
 		p5[4] = v3;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 5, p5, PHALCON_CALL_CHECK);
-		if (v6) {
-			Z_DELREF_P(v6);
-			if (!Z_REFCOUNT_P(v6)) {
-				FREE_ZVAL(v6);
-			}
-		}
-		Z_ADDREF_P(i2);
-		v6 = i2;
+		PHALCON_CPY_WRT(v6, i2);
 		if (!t6) {
 			PHALCON_ALLOC_ZVAL(t6);
 		} else {
@@ -818,17 +544,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_ALLOC_ZVAL(t7);
 		} else {
 			if (Z_REFCOUNT_P(t7) > 1) {
-				{
-					zval *orig_ptr = t7;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(t7);
-						*t7 = *orig_ptr;
-						zval_copy_ctor(t7);
-						Z_SET_REFCOUNT_P(t7, 1);
-						Z_UNSET_ISREF_P(t7);
-					}
-				}
+				PHALCON_SEPARATE(t7);
 			} else {
 				FREE_ZVAL(t7);
 				PHALCON_ALLOC_ZVAL(t7);
@@ -839,18 +555,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			zval *copy;
 			ALLOC_ZVAL(copy);
 			ZVAL_ZVAL(copy, v6, 1, 0);
-			Z_SET_REFCOUNT_P(copy, 0);
-			{
-				zval *orig_ptr = t7;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t7);
-					*t7 = *orig_ptr;
-					zval_copy_ctor(t7);
-					Z_SET_REFCOUNT_P(t7, 1);
-					Z_UNSET_ISREF_P(t7);
-				}
-			}
+			Z_SET_REFCOUNT_P(copy, 1);
+			PHALCON_SEPARATE(t7);
 			phalcon_array_update(t7, v10, copy TSRMLS_CC);
 		}
 		{
@@ -865,120 +571,52 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_ALLOC_ZVAL(r10);
 		} else {
 			if (Z_REFCOUNT_P(r10) > 1) {
-				{
-					zval *orig_ptr = r10;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(r10);
-						*r10 = *orig_ptr;
-						zval_copy_ctor(r10);
-						Z_SET_REFCOUNT_P(r10, 1);
-						Z_UNSET_ISREF_P(r10);
-					}
-				}
+				PHALCON_SEPARATE(r10);
 			} else {
 				FREE_ZVAL(r10);
 				PHALCON_ALLOC_ZVAL(r10);
 			}
 		}
 		phalcon_array_fetch(r10, v9, v10, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (v6) {
-			Z_DELREF_P(v6);
-			if (!Z_REFCOUNT_P(v6)) {
-				FREE_ZVAL(v6);
-			}
-		}
-		Z_ADDREF_P(r10);
-		v6 = r10;
+		PHALCON_CPY_WRT(v6, r10);
 	}
 	if (!t8) {
 		PHALCON_ALLOC_ZVAL(t8);
 	} else {
 		if (Z_REFCOUNT_P(t8) > 1) {
-			{
-				zval *orig_ptr = t8;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t8);
-					*t8 = *orig_ptr;
-					zval_copy_ctor(t8);
-					Z_SET_REFCOUNT_P(t8, 1);
-					Z_UNSET_ISREF_P(t8);
-				}
-			}
+			PHALCON_SEPARATE(t8);
 		} else {
 			FREE_ZVAL(t8);
 			PHALCON_ALLOC_ZVAL(t8);
 		}
 	}
 	phalcon_read_property(t8, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (v12) {
-		Z_DELREF_P(v12);
-		if (!Z_REFCOUNT_P(v12)) {
-			FREE_ZVAL(v12);
-		}
-	}
-	Z_ADDREF_P(t8);
-	v12 = t8;
+	PHALCON_CPY_WRT(v12, t8);
 	if (!t9) {
 		PHALCON_ALLOC_ZVAL(t9);
 	} else {
 		if (Z_REFCOUNT_P(t9) > 1) {
-			{
-				zval *orig_ptr = t9;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(t9);
-					*t9 = *orig_ptr;
-					zval_copy_ctor(t9);
-					Z_SET_REFCOUNT_P(t9, 1);
-					Z_UNSET_ISREF_P(t9);
-				}
-			}
+			PHALCON_SEPARATE(t9);
 		} else {
 			FREE_ZVAL(t9);
 			PHALCON_ALLOC_ZVAL(t9);
 		}
 	}
 	phalcon_read_property(t9, this_ptr, "_actionName", sizeof("_actionName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (v13) {
-		Z_DELREF_P(v13);
-		if (!Z_REFCOUNT_P(v13)) {
-			FREE_ZVAL(v13);
-		}
-	}
-	Z_ADDREF_P(t9);
-	v13 = t9;
+	PHALCON_CPY_WRT(v13, t9);
 	if (!zend_is_true(v13)) {
 		if (!t10) {
 			PHALCON_ALLOC_ZVAL(t10);
 		} else {
 			if (Z_REFCOUNT_P(t10) > 1) {
-				{
-					zval *orig_ptr = t10;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(t10);
-						*t10 = *orig_ptr;
-						zval_copy_ctor(t10);
-						Z_SET_REFCOUNT_P(t10, 1);
-						Z_UNSET_ISREF_P(t10);
-					}
-				}
+				PHALCON_SEPARATE(t10);
 			} else {
 				FREE_ZVAL(t10);
 				PHALCON_ALLOC_ZVAL(t10);
 			}
 		}
 		phalcon_read_property(t10, this_ptr, "_defaultAction", sizeof("_defaultAction")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (v13) {
-			Z_DELREF_P(v13);
-			if (!Z_REFCOUNT_P(v13)) {
-				FREE_ZVAL(v13);
-			}
-		}
-		Z_ADDREF_P(t10);
-		v13 = t10;
+		PHALCON_CPY_WRT(v13, t10);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
@@ -1005,23 +643,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_ALLOC_ZVAL(r11);
 		} else {
 			if (Z_REFCOUNT_P(r11) > 1) {
-				{
-					zval *orig_ptr = r11;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(r11);
-						*r11 = *orig_ptr;
-						zval_copy_ctor(r11);
-						Z_SET_REFCOUNT_P(r11, 1);
-						Z_UNSET_ISREF_P(r11);
-					}
-				}
+				PHALCON_SEPARATE(r11);
 			} else {
 				FREE_ZVAL(r11);
 				PHALCON_ALLOC_ZVAL(r11);
 			}
 		}
-		PHALCON_CALL_METHOD(r11, v6, "beforedispatch", PHALCON_CALL_DEFAULT);
+		Z_ADDREF_P(v8);
+		p7[0] = v8;
+		Z_ADDREF_P(v13);
+		p7[1] = v13;
+		Z_ADDREF_P(v12);
+		p7[2] = v12;
+		PHALCON_CALL_METHOD_PARAMS(r11, v6, "beforedispatch", 3, p7, PHALCON_CALL_DEFAULT);
 		if (Z_TYPE_P(r11) == IS_BOOL && !Z_BVAL_P(r11)) {
 			if (!v5) {
 				PHALCON_ALLOC_ZVAL(v5);
@@ -1043,47 +677,20 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_ALLOC_ZVAL(r12);
 	} else {
 		if (Z_REFCOUNT_P(r12) > 1) {
-			{
-				zval *orig_ptr = r12;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(r12);
-					*r12 = *orig_ptr;
-					zval_copy_ctor(r12);
-					Z_SET_REFCOUNT_P(r12, 1);
-					Z_UNSET_ISREF_P(r12);
-				}
-			}
+			PHALCON_SEPARATE(r12);
 		} else {
 			FREE_ZVAL(r12);
 			PHALCON_ALLOC_ZVAL(r12);
 		}
 	}
-	phalcon_concat_right(r12, v13, "Action" TSRMLS_CC);
-	if (v14) {
-		Z_DELREF_P(v14);
-		if (!Z_REFCOUNT_P(v14)) {
-			FREE_ZVAL(v14);
-		}
-	}
-	Z_ADDREF_P(r12);
-	v14 = r12;
+	PHALCON_CONCAT_RIGHT(r12, v13, "Action");
+	PHALCON_CPY_WRT(v14, r12);
 	if (phalcon_method_exists(v6, v14 TSRMLS_CC) == SUCCESS) {
 		if (!r13) {
 			PHALCON_ALLOC_ZVAL(r13);
 		} else {
 			if (Z_REFCOUNT_P(r13) > 1) {
-				{
-					zval *orig_ptr = r13;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(r13);
-						*r13 = *orig_ptr;
-						zval_copy_ctor(r13);
-						Z_SET_REFCOUNT_P(r13, 1);
-						Z_UNSET_ISREF_P(r13);
-					}
-				}
+				PHALCON_SEPARATE(r13);
 			} else {
 				FREE_ZVAL(r13);
 				PHALCON_ALLOC_ZVAL(r13);
@@ -1107,17 +714,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			ALLOC_ZVAL(copy);
 			ZVAL_ZVAL(copy, v6, 1, 0);
 			Z_SET_REFCOUNT_P(copy, 0);
-			{
-				zval *orig_ptr = a0;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(a0);
-					*a0 = *orig_ptr;
-					zval_copy_ctor(a0);
-					Z_SET_REFCOUNT_P(a0, 1);
-					Z_UNSET_ISREF_P(a0);
-				}
-			}
+			PHALCON_SEPARATE(a0);
 			add_next_index_zval(a0, copy);
 		}
 		{
@@ -1125,32 +722,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			ALLOC_ZVAL(copy);
 			ZVAL_ZVAL(copy, v14, 1, 0);
 			Z_SET_REFCOUNT_P(copy, 0);
-			{
-				zval *orig_ptr = a0;
-				if (Z_REFCOUNT_P(orig_ptr) > 1) {
-					Z_DELREF_P(orig_ptr);
-					ALLOC_ZVAL(a0);
-					*a0 = *orig_ptr;
-					zval_copy_ctor(a0);
-					Z_SET_REFCOUNT_P(a0, 1);
-					Z_UNSET_ISREF_P(a0);
-				}
-			}
+			PHALCON_SEPARATE(a0);
 			add_next_index_zval(a0, copy);
 		}
 		Z_ADDREF_P(a0);
 		p8[0] = a0;
 		Z_ADDREF_P(v12);
 		p8[1] = v12;
-		PHALCON_CALL_FUNC_PARAMS(r13, "call_user_func_array", strlen("call_user_func_array"), 2, p8);
-		if (v5) {
-			Z_DELREF_P(v5);
-			if (!Z_REFCOUNT_P(v5)) {
-				FREE_ZVAL(v5);
-			}
-		}
-		Z_ADDREF_P(r13);
-		v5 = r13;
+		PHALCON_CALL_FUNC_PARAMS(r13, "call_user_func_array", 2, p8);
+		PHALCON_CPY_WRT(v5, r13);
 	} else {
 		if (!t12) {
 			PHALCON_ALLOC_ZVAL(t12);
@@ -1170,17 +750,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r14);
 			} else {
 				if (Z_REFCOUNT_P(r14) > 1) {
-					{
-						zval *orig_ptr = r14;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r14);
-							*r14 = *orig_ptr;
-							zval_copy_ctor(r14);
-							Z_SET_REFCOUNT_P(r14, 1);
-							Z_UNSET_ISREF_P(r14);
-						}
-					}
+					PHALCON_SEPARATE(r14);
 				} else {
 					FREE_ZVAL(r14);
 					PHALCON_ALLOC_ZVAL(r14);
@@ -1204,17 +774,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				ALLOC_ZVAL(copy);
 				ZVAL_ZVAL(copy, v6, 1, 0);
 				Z_SET_REFCOUNT_P(copy, 0);
-				{
-					zval *orig_ptr = a1;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(a1);
-						*a1 = *orig_ptr;
-						zval_copy_ctor(a1);
-						Z_SET_REFCOUNT_P(a1, 1);
-						Z_UNSET_ISREF_P(a1);
-					}
-				}
+				PHALCON_SEPARATE(a1);
 				add_next_index_zval(a1, copy);
 			}
 			add_next_index_string(a1, "notFoundAction", 1);
@@ -1222,31 +782,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			p9[0] = a1;
 			Z_ADDREF_P(v12);
 			p9[1] = v12;
-			PHALCON_CALL_FUNC_PARAMS(r14, "call_user_func_array", strlen("call_user_func_array"), 2, p9);
-			if (v5) {
-				Z_DELREF_P(v5);
-				if (!Z_REFCOUNT_P(v5)) {
-					FREE_ZVAL(v5);
-				}
-			}
-			Z_ADDREF_P(r14);
-			v5 = r14;
+			PHALCON_CALL_FUNC_PARAMS(r14, "call_user_func_array", 2, p9);
+			PHALCON_CPY_WRT(v5, r14);
 		} else {
 			if (!i3) {
 				PHALCON_ALLOC_ZVAL(i3);
 			} else {
 				if (Z_REFCOUNT_P(i3) > 1) {
-					{
-						zval *orig_ptr = i3;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(i3);
-							*i3 = *orig_ptr;
-							zval_copy_ctor(i3);
-							Z_SET_REFCOUNT_P(i3, 1);
-							Z_UNSET_ISREF_P(i3);
-						}
-					}
+					PHALCON_SEPARATE(i3);
 				} else {
 					FREE_ZVAL(i3);
 					PHALCON_ALLOC_ZVAL(i3);
@@ -1257,38 +800,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r16);
 			} else {
 				if (Z_REFCOUNT_P(r16) > 1) {
-					{
-						zval *orig_ptr = r16;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r16);
-							*r16 = *orig_ptr;
-							zval_copy_ctor(r16);
-							Z_SET_REFCOUNT_P(r16, 1);
-							Z_UNSET_ISREF_P(r16);
-						}
-					}
+					PHALCON_SEPARATE(r16);
 				} else {
 					FREE_ZVAL(r16);
 					PHALCON_ALLOC_ZVAL(r16);
 				}
 			}
-			phalcon_concat_left(r16, "Action '", v13 TSRMLS_CC);
+			PHALCON_CONCAT_LEFT(r16, "Action '", v13);
 			if (!r15) {
 				PHALCON_ALLOC_ZVAL(r15);
 			} else {
 				if (Z_REFCOUNT_P(r15) > 1) {
-					{
-						zval *orig_ptr = r15;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r15);
-							*r15 = *orig_ptr;
-							zval_copy_ctor(r15);
-							Z_SET_REFCOUNT_P(r15, 1);
-							Z_UNSET_ISREF_P(r15);
-						}
-					}
+					PHALCON_SEPARATE(r15);
 				} else {
 					FREE_ZVAL(r15);
 					PHALCON_ALLOC_ZVAL(r15);
@@ -1299,23 +822,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_ALLOC_ZVAL(r17);
 			} else {
 				if (Z_REFCOUNT_P(r17) > 1) {
-					{
-						zval *orig_ptr = r17;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r17);
-							*r17 = *orig_ptr;
-							zval_copy_ctor(r17);
-							Z_SET_REFCOUNT_P(r17, 1);
-							Z_UNSET_ISREF_P(r17);
-						}
-					}
+					PHALCON_SEPARATE(r17);
 				} else {
 					FREE_ZVAL(r17);
 					PHALCON_ALLOC_ZVAL(r17);
 				}
 			}
-			phalcon_concat_right(r17, r15, "'" TSRMLS_CC);
+			PHALCON_CONCAT_RIGHT(r17, r15, "'");
 			Z_ADDREF_P(r17);
 			p10[0] = r17;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p10, PHALCON_CALL_CHECK);
@@ -1338,19 +851,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	ZVAL_STRING(t13, "afterDispatch", 0);
 	if (phalcon_method_exists(v6, t13 TSRMLS_CC) == SUCCESS) {
-		PHALCON_CALL_METHOD_NORETURN(v6, "afterdispatch", PHALCON_CALL_DEFAULT);
+		Z_ADDREF_P(v8);
+		p11[0] = v8;
+		Z_ADDREF_P(v13);
+		p11[1] = v13;
+		Z_ADDREF_P(v12);
+		p11[2] = v12;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(v6, "afterdispatch", 3, p11, PHALCON_CALL_DEFAULT);
 	}
-	{
-		zval *orig_ptr = v7;
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {
-			Z_DELREF_P(orig_ptr);
-			ALLOC_ZVAL(v7);
-			*v7 = *orig_ptr;
-			zval_copy_ctor(v7);
-			Z_SET_REFCOUNT_P(v7, 1);
-			Z_UNSET_ISREF_P(v7);
-		}
-	}
+	PHALCON_SEPARATE(v7);
 	increment_function(v7);
 	if (!t14) {
 		PHALCON_ALLOC_ZVAL(t14);
@@ -1365,23 +874,25 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	}
 	ZVAL_LONG(t14, 256);
-	PHALCON_SMALLER_FUNCTION(r18, t14, v7);
+	if (!r18) {
+		PHALCON_ALLOC_ZVAL(r18);
+	} else {
+		if (Z_REFCOUNT_P(r18) > 1) {
+			SEPARATE_ZVAL(&r18);
+		} else {
+			if (Z_TYPE_P(r18) != IS_BOOL) {
+				FREE_ZVAL(r18);
+				PHALCON_ALLOC_ZVAL(r18);
+			}
+		}
+	}
+	is_smaller_function(r18, t14, v7 TSRMLS_CC);
 	if (zend_is_true(r18)) {
 		if (!i4) {
 			PHALCON_ALLOC_ZVAL(i4);
 		} else {
 			if (Z_REFCOUNT_P(i4) > 1) {
-				{
-					zval *orig_ptr = i4;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(i4);
-						*i4 = *orig_ptr;
-						zval_copy_ctor(i4);
-						Z_SET_REFCOUNT_P(i4, 1);
-						Z_UNSET_ISREF_P(i4);
-					}
-				}
+				PHALCON_SEPARATE(i4);
 			} else {
 				FREE_ZVAL(i4);
 				PHALCON_ALLOC_ZVAL(i4);
@@ -1423,25 +934,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_lastController", strlen("_lastController"), copy TSRMLS_CC);
 	}
-	if (Z_TYPE_P(v6) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(v6);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(v6);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(v6);
 }
 
 /**
@@ -1472,28 +965,14 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	}
 
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		if (v1) {
-			Z_DELREF_P(v1);
-			if (!Z_REFCOUNT_P(v1)) {
-				FREE_ZVAL(v1);
-			}
-		}
-		Z_ADDREF_P(v0);
-		v1 = v0;
+		PHALCON_CPY_WRT(v1, v0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], "/", 1);
 		p0[1] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r0, "explode", strlen("explode"), 2, p0);
-		if (v1) {
-			Z_DELREF_P(v1);
-			if (!Z_REFCOUNT_P(v1)) {
-				FREE_ZVAL(v1);
-			}
-		}
-		Z_ADDREF_P(r0);
-		v1 = r0;
+		PHALCON_CALL_FUNC_PARAMS(r0, "explode", 2, p0);
+		PHALCON_CPY_WRT(v1, r0);
 	}
 	eval_int = phalcon_array_isset_long(v1, 0);
 	if (eval_int) {
@@ -1508,17 +987,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), copy TSRMLS_CC);
 		}
-		{
-			zval *orig_ptr = v1;
-			if (Z_REFCOUNT_P(orig_ptr) > 1) {
-				Z_DELREF_P(orig_ptr);
-				ALLOC_ZVAL(v1);
-				*v1 = *orig_ptr;
-				zval_copy_ctor(v1);
-				Z_SET_REFCOUNT_P(v1, 1);
-				Z_UNSET_ISREF_P(v1);
-			}
-		}
+		PHALCON_SEPARATE(v1);
 		phalcon_array_unset_long(v1, 0);
 	} else {
 		eval_int = phalcon_array_isset_string(v1, "controller", strlen("controller")+1);
@@ -1568,17 +1037,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			Z_SET_REFCOUNT_P(copy, 0);
 			phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), copy TSRMLS_CC);
 		}
-		{
-			zval *orig_ptr = v1;
-			if (Z_REFCOUNT_P(orig_ptr) > 1) {
-				Z_DELREF_P(orig_ptr);
-				ALLOC_ZVAL(v1);
-				*v1 = *orig_ptr;
-				zval_copy_ctor(v1);
-				Z_SET_REFCOUNT_P(v1, 1);
-				Z_UNSET_ISREF_P(v1);
-			}
-		}
+		PHALCON_SEPARATE(v1);
 		phalcon_array_unset_long(v1, 1);
 	} else {
 		eval_int = phalcon_array_isset_string(v1, "action", strlen("action")+1);
@@ -1608,31 +1067,14 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	}
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
-	if (v2) {
-		Z_DELREF_P(v2);
-		if (!Z_REFCOUNT_P(v2)) {
-			FREE_ZVAL(v2);
-		}
-	}
-	Z_ADDREF_P(a0);
-	v2 = a0;
+	PHALCON_CPY_WRT(v2, a0);
 	FOREACH_KV(v1, ac0, fes1, fee1, ah0, hp0, v4, v3)
 		if (Z_TYPE_P(v4) == IS_LONG) {
 			if (!r12) {
 				PHALCON_ALLOC_ZVAL(r12);
 			} else {
 				if (Z_REFCOUNT_P(r12) > 1) {
-					{
-						zval *orig_ptr = r12;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r12);
-							*r12 = *orig_ptr;
-							zval_copy_ctor(r12);
-							Z_SET_REFCOUNT_P(r12, 1);
-							Z_UNSET_ISREF_P(r12);
-						}
-					}
+					PHALCON_SEPARATE(r12);
 				} else {
 					FREE_ZVAL(r12);
 					PHALCON_ALLOC_ZVAL(r12);
@@ -1644,17 +1086,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 				ALLOC_ZVAL(copy);
 				ZVAL_ZVAL(copy, r12, 1, 0);
 				Z_SET_REFCOUNT_P(copy, 1);
-				{
-					zval *orig_ptr = v2;
-					if (Z_REFCOUNT_P(orig_ptr) > 1) {
-						Z_DELREF_P(orig_ptr);
-						ALLOC_ZVAL(v2);
-						*v2 = *orig_ptr;
-						zval_copy_ctor(v2);
-						Z_SET_REFCOUNT_P(v2, 1);
-						Z_UNSET_ISREF_P(v2);
-					}
-				}
+				PHALCON_SEPARATE(v2);
 				phalcon_array_append(v2, copy TSRMLS_CC);
 			}
 		}
@@ -1681,25 +1113,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_controllers", sizeof("_controllers")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -1713,25 +1127,7 @@ PHP_METHOD(Phalcon_Dispatcher, getLastController){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_lastController", sizeof("_lastController")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 /**
@@ -1745,24 +1141,6 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_returnedValue", sizeof("_returnedValue")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 

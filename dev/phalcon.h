@@ -154,6 +154,8 @@ PHP_METHOD(Phalcon_View, setTemplateAfter);
 PHP_METHOD(Phalcon_View, cleanTemplateAfter);
 PHP_METHOD(Phalcon_View, setParamToView);
 PHP_METHOD(Phalcon_View, getParamsToView);
+PHP_METHOD(Phalcon_View, getControllerName);
+PHP_METHOD(Phalcon_View, getActionName);
 PHP_METHOD(Phalcon_View, start);
 PHP_METHOD(Phalcon_View, render);
 PHP_METHOD(Phalcon_View, partial);
@@ -406,6 +408,7 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b);
 PHP_METHOD(Phalcon_Internal_TestTemp, e13c);
 PHP_METHOD(Phalcon_Internal_TestTemp, e13d);
 PHP_METHOD(Phalcon_Internal_TestTemp, e14);
+PHP_METHOD(Phalcon_Internal_TestTemp, e15);
 
 PHP_METHOD(Phalcon_Internal_TestDummy, __construct);
 PHP_METHOD(Phalcon_Internal_TestDummy, f1);
@@ -1908,6 +1911,8 @@ PHALCON_INIT_FUNCS(phalcon_view_functions){
 	PHP_ME(Phalcon_View, cleanTemplateAfter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setParamToView, arginfo_phalcon_view_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, getControllerName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, start, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, render, arginfo_phalcon_view_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, partial, arginfo_phalcon_view_partial, ZEND_ACC_PUBLIC) 
@@ -2181,6 +2186,7 @@ PHALCON_INIT_FUNCS(phalcon_internal_testtemp_functions){
 	PHP_ME(Phalcon_Internal_TestTemp, e13c, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e13d, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestTemp, e14, arginfo_phalcon_internal_testtemp_e14, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Internal_TestTemp, e15, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -2196,7 +2202,7 @@ PHALCON_INIT_FUNCS(phalcon_internal_testparent_functions){
 	PHP_ME(Phalcon_Internal_TestParent, mp7, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestParent, smp1, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Internal_TestParent, smp3, arginfo_phalcon_internal_testparent_smp3, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Internal_TestParent, smp6, arginfo_phalcon_internal_testparent_smp6, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Internal_TestParent, smp6, arginfo_phalcon_internal_testparent_smp6, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

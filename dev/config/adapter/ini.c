@@ -43,10 +43,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	zval *v7 = NULL;
 	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
 	zval *i0 = NULL;
 	zval *ac0 = NULL, *ac1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *p0[] = { NULL, NULL }, *p2[] = { NULL }, *p1[] = { NULL }, *p3[] = { NULL, NULL }, *p4[] = { NULL, NULL }, *p5[] = { NULL };
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -64,36 +63,22 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
-	if (v1) {
-		Z_DELREF_P(v1);
-		if (!Z_REFCOUNT_P(v1)) {
-			FREE_ZVAL(v1);
-		}
-	}
-	Z_ADDREF_P(a0);
-	v1 = a0;
+	PHALCON_CPY_WRT(v1, a0);
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL(r0);
 	p0[0] = v0;
 	PHALCON_PARAM_BOOL(p0[1], 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "parse_ini_file", strlen("parse_ini_file"), 2, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "parse_ini_file", 2, p0);
 	PG(display_errors) = silence;
-	if (v2) {
-		Z_DELREF_P(v2);
-		if (!Z_REFCOUNT_P(v2)) {
-			FREE_ZVAL(v2);
-		}
-	}
-	Z_ADDREF_P(r0);
-	v2 = r0;
+	PHALCON_CPY_WRT(v2, r0);
 	if (Z_TYPE_P(v2) == IS_BOOL && !Z_BVAL_P(v2)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_config_exception_class_entry);
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r1, "basename", strlen("basename"), 1, p2);
+		PHALCON_CALL_FUNC_PARAMS(r1, "basename", 1, p2);
 		PHALCON_ALLOC_ZVAL(r2);
 		phalcon_concat_both(r2,  "Configuration file ", r1, " can't be loaded" TSRMLS_CC);
 		Z_ADDREF_P(r2);
@@ -109,17 +94,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
 				if (Z_REFCOUNT_P(r3) > 1) {
-					{
-						zval *orig_ptr = r3;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r3);
-							*r3 = *orig_ptr;
-							zval_copy_ctor(r3);
-							Z_SET_REFCOUNT_P(r3, 1);
-							Z_UNSET_ISREF_P(r3);
-						}
-					}
+					PHALCON_SEPARATE(r3);
 				} else {
 					FREE_ZVAL(r3);
 					PHALCON_ALLOC_ZVAL(r3);
@@ -139,28 +114,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 			}
 			ZVAL_STRING(p3[1], ".", 1);
-			PHALCON_CALL_FUNC_PARAMS(r3, "strpos", strlen("strpos"), 2, p3);
-			PHALCON_INIT_FALSE(t0);
-			PHALCON_NOT_IDENTICAL_FUNCTION(r4, r3, t0);
-			if (zend_is_true(r4)) {
-				if (!r5) {
-					PHALCON_ALLOC_ZVAL(r5);
+			PHALCON_CALL_FUNC_PARAMS(r3, "strpos", 2, p3);
+			if (Z_TYPE_P(r3) != IS_BOOL || (Z_TYPE_P(r3) == IS_BOOL && Z_BVAL_P(r3))) {
+				if (!r4) {
+					PHALCON_ALLOC_ZVAL(r4);
 				} else {
-					if (Z_REFCOUNT_P(r5) > 1) {
-						{
-							zval *orig_ptr = r5;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r5);
-								*r5 = *orig_ptr;
-								zval_copy_ctor(r5);
-								Z_SET_REFCOUNT_P(r5, 1);
-								Z_UNSET_ISREF_P(r5);
-							}
-						}
+					if (Z_REFCOUNT_P(r4) > 1) {
+						PHALCON_SEPARATE(r4);
 					} else {
-						FREE_ZVAL(r5);
-						PHALCON_ALLOC_ZVAL(r5);
+						FREE_ZVAL(r4);
+						PHALCON_ALLOC_ZVAL(r4);
 					}
 				}
 				if (!p4[0]) {
@@ -177,155 +140,98 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 				ZVAL_STRING(p4[0], ".", 1);
 				p4[1] = v6;
-				PHALCON_CALL_FUNC_PARAMS(r5, "explode", strlen("explode"), 2, p4);
-				if (v7) {
-					Z_DELREF_P(v7);
-					if (!Z_REFCOUNT_P(v7)) {
-						FREE_ZVAL(v7);
+				PHALCON_CALL_FUNC_PARAMS(r4, "explode", 2, p4);
+				PHALCON_CPY_WRT(v7, r4);
+				if (Z_TYPE_P(v1) == IS_ARRAY) {
+					if (!t0) {
+						PHALCON_ALLOC_ZVAL(t0);
+					} else {
+						if (Z_REFCOUNT_P(t0) > 1) {
+							PHALCON_SEPARATE(t0);
+						} else {
+							FREE_ZVAL(t0);
+							PHALCON_ALLOC_ZVAL(t0);
+						}
+					}
+					phalcon_array_fetch(t0, v1, v4, PHALCON_SILENT_FETCH TSRMLS_CC);
+				}
+				if (Z_TYPE_P(t0) != IS_ARRAY) {
+					convert_to_array(t0);
+					phalcon_array_update(v1, v4, t0 TSRMLS_CC);
+					Z_ADDREF_P(t0);
+				}
+				if (!r5) {
+					PHALCON_ALLOC_ZVAL(r5);
+				} else {
+					if (Z_REFCOUNT_P(r5) > 1) {
+						PHALCON_SEPARATE(r5);
+					} else {
+						FREE_ZVAL(r5);
+						PHALCON_ALLOC_ZVAL(r5);
 					}
 				}
-				Z_ADDREF_P(r5);
-				v7 = r5;
-				if (Z_TYPE_P(v1) == IS_ARRAY) {
+				phalcon_array_fetch_long(r5, v7, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
+				if (Z_TYPE_P(t0) == IS_ARRAY) {
 					if (!t1) {
 						PHALCON_ALLOC_ZVAL(t1);
 					} else {
 						if (Z_REFCOUNT_P(t1) > 1) {
-							{
-								zval *orig_ptr = t1;
-								if (Z_REFCOUNT_P(orig_ptr) > 1) {
-									Z_DELREF_P(orig_ptr);
-									ALLOC_ZVAL(t1);
-									*t1 = *orig_ptr;
-									zval_copy_ctor(t1);
-									Z_SET_REFCOUNT_P(t1, 1);
-									Z_UNSET_ISREF_P(t1);
-								}
-							}
+							PHALCON_SEPARATE(t1);
 						} else {
 							FREE_ZVAL(t1);
 							PHALCON_ALLOC_ZVAL(t1);
 						}
 					}
-					phalcon_array_fetch(t1, v1, v4, PHALCON_SILENT_FETCH TSRMLS_CC);
+					phalcon_array_fetch(t1, t0, r5, PHALCON_SILENT_FETCH TSRMLS_CC);
 				}
 				if (Z_TYPE_P(t1) != IS_ARRAY) {
 					convert_to_array(t1);
-					phalcon_array_update(v1, v4, t1 TSRMLS_CC);
+					phalcon_array_update(t0, r5, t1 TSRMLS_CC);
 					Z_ADDREF_P(t1);
 				}
 				if (!r6) {
 					PHALCON_ALLOC_ZVAL(r6);
 				} else {
 					if (Z_REFCOUNT_P(r6) > 1) {
-						{
-							zval *orig_ptr = r6;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r6);
-								*r6 = *orig_ptr;
-								zval_copy_ctor(r6);
-								Z_SET_REFCOUNT_P(r6, 1);
-								Z_UNSET_ISREF_P(r6);
-							}
-						}
+						PHALCON_SEPARATE(r6);
 					} else {
 						FREE_ZVAL(r6);
 						PHALCON_ALLOC_ZVAL(r6);
 					}
 				}
-				phalcon_array_fetch_long(r6, v7, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-				if (Z_TYPE_P(t1) == IS_ARRAY) {
+				phalcon_array_fetch_long(r6, v7, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
+				{
+					zval *copy;
+					ALLOC_ZVAL(copy);
+					ZVAL_ZVAL(copy, v5, 1, 0);
+					Z_SET_REFCOUNT_P(copy, 1);
+					phalcon_array_update(t1, r6, copy TSRMLS_CC);
+				}
+			} else {
+				if (Z_TYPE_P(v1) == IS_ARRAY) {
 					if (!t2) {
 						PHALCON_ALLOC_ZVAL(t2);
 					} else {
 						if (Z_REFCOUNT_P(t2) > 1) {
-							{
-								zval *orig_ptr = t2;
-								if (Z_REFCOUNT_P(orig_ptr) > 1) {
-									Z_DELREF_P(orig_ptr);
-									ALLOC_ZVAL(t2);
-									*t2 = *orig_ptr;
-									zval_copy_ctor(t2);
-									Z_SET_REFCOUNT_P(t2, 1);
-									Z_UNSET_ISREF_P(t2);
-								}
-							}
+							PHALCON_SEPARATE(t2);
 						} else {
 							FREE_ZVAL(t2);
 							PHALCON_ALLOC_ZVAL(t2);
 						}
 					}
-					phalcon_array_fetch(t2, t1, r6, PHALCON_SILENT_FETCH TSRMLS_CC);
+					phalcon_array_fetch(t2, v1, v4, PHALCON_SILENT_FETCH TSRMLS_CC);
 				}
 				if (Z_TYPE_P(t2) != IS_ARRAY) {
 					convert_to_array(t2);
-					phalcon_array_update(t1, r6, t2 TSRMLS_CC);
+					phalcon_array_update(v1, v4, t2 TSRMLS_CC);
 					Z_ADDREF_P(t2);
 				}
-				if (!r7) {
-					PHALCON_ALLOC_ZVAL(r7);
-				} else {
-					if (Z_REFCOUNT_P(r7) > 1) {
-						{
-							zval *orig_ptr = r7;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r7);
-								*r7 = *orig_ptr;
-								zval_copy_ctor(r7);
-								Z_SET_REFCOUNT_P(r7, 1);
-								Z_UNSET_ISREF_P(r7);
-							}
-						}
-					} else {
-						FREE_ZVAL(r7);
-						PHALCON_ALLOC_ZVAL(r7);
-					}
-				}
-				phalcon_array_fetch_long(r7, v7, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
 				{
 					zval *copy;
 					ALLOC_ZVAL(copy);
 					ZVAL_ZVAL(copy, v5, 1, 0);
-					Z_SET_REFCOUNT_P(copy, 0);
-					phalcon_array_update(t2, r7, copy TSRMLS_CC);
-				}
-			} else {
-				if (Z_TYPE_P(v1) == IS_ARRAY) {
-					if (!t3) {
-						PHALCON_ALLOC_ZVAL(t3);
-					} else {
-						if (Z_REFCOUNT_P(t3) > 1) {
-							{
-								zval *orig_ptr = t3;
-								if (Z_REFCOUNT_P(orig_ptr) > 1) {
-									Z_DELREF_P(orig_ptr);
-									ALLOC_ZVAL(t3);
-									*t3 = *orig_ptr;
-									zval_copy_ctor(t3);
-									Z_SET_REFCOUNT_P(t3, 1);
-									Z_UNSET_ISREF_P(t3);
-								}
-							}
-						} else {
-							FREE_ZVAL(t3);
-							PHALCON_ALLOC_ZVAL(t3);
-						}
-					}
-					phalcon_array_fetch(t3, v1, v4, PHALCON_SILENT_FETCH TSRMLS_CC);
-				}
-				if (Z_TYPE_P(t3) != IS_ARRAY) {
-					convert_to_array(t3);
-					phalcon_array_update(v1, v4, t3 TSRMLS_CC);
-					Z_ADDREF_P(t3);
-				}
-				{
-					zval *copy;
-					ALLOC_ZVAL(copy);
-					ZVAL_ZVAL(copy, v5, 1, 0);
-					Z_SET_REFCOUNT_P(copy, 0);
-					phalcon_array_update(t3, v6, copy TSRMLS_CC);
+					Z_SET_REFCOUNT_P(copy, 1);
+					phalcon_array_update(t2, v6, copy TSRMLS_CC);
 				}
 			}
 		END_FOREACH(ac1, fes63, fee63, ah1, hp1);

@@ -76,17 +76,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 					PHALCON_ALLOC_ZVAL(r0);
 				} else {
 					if (Z_REFCOUNT_P(r0) > 1) {
-						{
-							zval *orig_ptr = r0;
-							if (Z_REFCOUNT_P(orig_ptr) > 1) {
-								Z_DELREF_P(orig_ptr);
-								ALLOC_ZVAL(r0);
-								*r0 = *orig_ptr;
-								zval_copy_ctor(r0);
-								Z_SET_REFCOUNT_P(r0, 1);
-								Z_UNSET_ISREF_P(r0);
-							}
-						}
+						PHALCON_SEPARATE(r0);
 					} else {
 						FREE_ZVAL(r0);
 						PHALCON_ALLOC_ZVAL(r0);
@@ -97,34 +87,10 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				Z_ADDREF_P(v2);
 				p0[1] = v2;
 				PHALCON_CALL_METHOD_PARAMS(r0, this_ptr, "_sanitize", 2, p0, PHALCON_CALL_DEFAULT);
-				if (v0) {
-					if (!Z_REFCOUNT_P(v0)) {
-						FREE_ZVAL(v0);
-					}
-				}
-				Z_ADDREF_P(r0);
-				v0 = r0;
+				PHALCON_CPY_WRT_PARAM(v0, r0);
 			END_FOREACH(ac0, fes54, fee54, ah0, hp0);
 		}
-		if (Z_TYPE_P(v0) > IS_BOOL) {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(v0);
-				zval_copy_ctor(return_value);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		} else {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(v0);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		}
-		return;
+		PHALCON_RETURN_CTOR(v0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v0);
@@ -162,50 +128,50 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, "email", 1);
-	PHALCON_EQUAL_FUNCTION(r0, v1, t0);
+	PHALCON_ALLOC_ZVAL(r0);
+	is_equal_function(r0, v1, t0 TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
 		p0[0] = v0;
-		//UnresolvedConstantParam=FILTER_SANITIZE_EMAIL
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 517);
 		p0[1] = t1;
-		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", strlen("filter_var"), 2, p0);
+		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", 2, p0);
 		RETURN_ZVAL(r1, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t2);
 	ZVAL_STRING(t2, "int", 1);
-	PHALCON_EQUAL_FUNCTION(r2, v1, t2);
+	PHALCON_ALLOC_ZVAL(r2);
+	is_equal_function(r2, v1, t2 TSRMLS_CC);
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL(r3);
 		p1[0] = v0;
-		//UnresolvedConstantParam=FILTER_SANITIZE_NUMBER_INT
 		PHALCON_ALLOC_ZVAL(t3);
 		ZVAL_LONG(t3, 519);
 		p1[1] = t3;
-		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", strlen("filter_var"), 2, p1);
+		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", 2, p1);
 		RETURN_ZVAL(r3, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t4);
 	ZVAL_STRING(t4, "string", 1);
-	PHALCON_EQUAL_FUNCTION(r4, v1, t4);
+	PHALCON_ALLOC_ZVAL(r4);
+	is_equal_function(r4, v1, t4 TSRMLS_CC);
 	if (zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL(r5);
 		p2[0] = v0;
-		//UnresolvedConstantParam=FILTER_SANITIZE_STRING
 		PHALCON_ALLOC_ZVAL(t5);
 		ZVAL_LONG(t5, 513);
 		p2[1] = t5;
-		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", strlen("filter_var"), 2, p2);
+		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", 2, p2);
 		RETURN_ZVAL(r5, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t6);
 	ZVAL_STRING(t6, "float", 1);
-	PHALCON_EQUAL_FUNCTION(r6, v1, t6);
+	PHALCON_ALLOC_ZVAL(r6);
+	is_equal_function(r6, v1, t6 TSRMLS_CC);
 	if (zend_is_true(r6)) {
 		PHALCON_ALLOC_ZVAL(r7);
 		p3[0] = v0;
-		//UnresolvedConstantParam=FILTER_SANITIZE_NUMBER_FLOAT
 		PHALCON_ALLOC_ZVAL(t7);
 		ZVAL_LONG(t7, 520);
 		p3[1] = t7;
@@ -213,20 +179,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		array_init(a0);
 		PHALCON_ALLOC_ZVAL(t8);
 		ZVAL_LONG(t8, 4096);
-		{
-			zval *orig_ptr = a0;
-			if (Z_REFCOUNT_P(orig_ptr) > 1) {
-				Z_DELREF_P(orig_ptr);
-				ALLOC_ZVAL(a0);
-				*a0 = *orig_ptr;
-				zval_copy_ctor(a0);
-				Z_SET_REFCOUNT_P(a0, 1);
-				Z_UNSET_ISREF_P(a0);
-			}
-		}
+		PHALCON_SEPARATE(a0);
 		add_assoc_zval(a0, "flags", t8);
 		p3[2] = a0;
-		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", strlen("filter_var"), 3, p3);
+		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3);
 		RETURN_ZVAL(r7, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(i0);

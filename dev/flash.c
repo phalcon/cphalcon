@@ -64,24 +64,10 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], " ", 1);
 		p0[1] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "join", strlen("join"), 2, p0);
-		if (v2) {
-			Z_DELREF_P(v2);
-			if (!Z_REFCOUNT_P(v2)) {
-				FREE_ZVAL(v2);
-			}
-		}
-		Z_ADDREF_P(r0);
-		v2 = r0;
+		PHALCON_CALL_FUNC_PARAMS(r0, "join", 2, p0);
+		PHALCON_CPY_WRT(v2, r0);
 	} else {
-		if (v2) {
-			Z_DELREF_P(v2);
-			if (!Z_REFCOUNT_P(v2)) {
-				FREE_ZVAL(v2);
-			}
-		}
-		Z_ADDREF_P(v1);
-		v2 = v1;
+		PHALCON_CPY_WRT(v2, v1);
 	}
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
 		FOREACH_V(v0, ac0, fes52, fee52, ah0, hp0, v3)
@@ -89,60 +75,40 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
 				if (Z_REFCOUNT_P(r3) > 1) {
-					{
-						zval *orig_ptr = r3;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r3);
-							*r3 = *orig_ptr;
-							zval_copy_ctor(r3);
-							Z_SET_REFCOUNT_P(r3, 1);
-							Z_UNSET_ISREF_P(r3);
-						}
-					}
+					PHALCON_SEPARATE(r3);
 				} else {
 					FREE_ZVAL(r3);
 					PHALCON_ALLOC_ZVAL(r3);
 				}
 			}
-			phalcon_concat_left(r3, "<div class=\"", v2 TSRMLS_CC);
+			PHALCON_CONCAT_LEFT(r3, "<div class=\"", v2);
 			if (!r2) {
 				PHALCON_ALLOC_ZVAL(r2);
 			} else {
 				if (Z_REFCOUNT_P(r2) > 1) {
-					{
-						zval *orig_ptr = r2;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r2);
-							*r2 = *orig_ptr;
-							zval_copy_ctor(r2);
-							Z_SET_REFCOUNT_P(r2, 1);
-							Z_UNSET_ISREF_P(r2);
-						}
-					}
+					PHALCON_SEPARATE(r2);
 				} else {
 					FREE_ZVAL(r2);
 					PHALCON_ALLOC_ZVAL(r2);
 				}
 			}
 			phalcon_concat_vboth(r2, r3, "\">", v3 TSRMLS_CC);
-			PHALCON_GET_CONSTANT(t0, "PHP_EOL");
+			if (!t0) {
+				PHALCON_ALLOC_ZVAL(t0);
+			} else {
+				if (Z_REFCOUNT_P(t0) > 1) {
+					PHALCON_SEPARATE(t0);
+				} else {
+					FREE_ZVAL(t0);
+					PHALCON_ALLOC_ZVAL(t0);
+				}
+			}
+			zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t0 TSRMLS_CC);
 			if (!r1) {
 				PHALCON_ALLOC_ZVAL(r1);
 			} else {
 				if (Z_REFCOUNT_P(r1) > 1) {
-					{
-						zval *orig_ptr = r1;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(r1);
-							*r1 = *orig_ptr;
-							zval_copy_ctor(r1);
-							Z_SET_REFCOUNT_P(r1, 1);
-							Z_UNSET_ISREF_P(r1);
-						}
-					}
+					PHALCON_SEPARATE(r1);
 				} else {
 					FREE_ZVAL(r1);
 					PHALCON_ALLOC_ZVAL(r1);
@@ -153,10 +119,11 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		END_FOREACH(ac0, fes52, fee52, ah0, hp0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r6);
-		phalcon_concat_left(r6, "<div class=\"", v2 TSRMLS_CC);
+		PHALCON_CONCAT_LEFT(r6, "<div class=\"", v2);
 		PHALCON_ALLOC_ZVAL(r5);
 		phalcon_concat_vboth(r5, r6, "\">", v0 TSRMLS_CC);
-		PHALCON_GET_CONSTANT(t1, "PHP_EOL");
+		PHALCON_ALLOC_ZVAL(t1);
+		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r4);
 		phalcon_concat_vboth(r4, r5, "</div>", t1 TSRMLS_CC);
 		zend_print_zval(r4, 0);

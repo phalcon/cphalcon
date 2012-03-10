@@ -73,25 +73,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp7){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_pp0", sizeof("_pp0")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) > IS_BOOL) {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	} else {
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(t0);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-	 		Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-	}
-	return;
+	PHALCON_RETURN_CTOR(t0);
 }
 
 PHP_METHOD(Phalcon_Internal_TestParent, smp1){
@@ -137,7 +119,8 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_LONG(t0, 10);
-	PHALCON_SMALLER_FUNCTION(r0, t0, v1);
+	PHALCON_ALLOC_ZVAL(r0);
+	is_smaller_function(r0, t0, v1 TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
 		mul_function(r1, v2, v3 TSRMLS_CC);
@@ -153,7 +136,8 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 	} else {
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 30);
-		PHALCON_SMALLER_FUNCTION(r2, v2, t1);
+		PHALCON_ALLOC_ZVAL(r2);
+		is_smaller_function(r2, v2, t1 TSRMLS_CC);
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL(r3);
 			mul_function(r3, v1, v3 TSRMLS_CC);

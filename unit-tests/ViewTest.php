@@ -34,7 +34,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$view->start();
 		$view->render('test3', 'other');
-		$view->finish();		
+		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
 
 		//Variables
@@ -57,7 +57,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$view->cleanTemplateAfter();
 
-		//Render Levels		
+		//Render Levels
 		$view->setRenderLevel(Phalcon_View::LEVEL_MAIN_LAYOUT);
 
 		$view->start();
@@ -65,20 +65,19 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
 
-
 		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), 'lolhere');
+		$this->assertEquals($view->getContent(), '<html>lol</html>');
 
 		$view->setRenderLevel(Phalcon_View::LEVEL_ACTION_VIEW);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), 'here');
+		$this->assertEquals($view->getContent(), '<html></html>');
 
 	}
 }

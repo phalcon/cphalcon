@@ -20,7 +20,23 @@
 
 class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
-	public function testMetadata(){
+	private $_manager;
+
+	private $_pdtAttributes = array(
+		'cedula' => 'char(15)',
+		'tipo_documento_id' => 'int(3) unsigned',
+		'nombres' => 'varchar(100)',
+		'telefono' => 'varchar(20)',
+		'direccion' => 'varchar(100)',
+		'email' => 'varchar(50)',
+		'fecha_nacimiento' => 'date',
+		'ciudad_id' => 'int(10) unsigned',
+		'creado_at' => 'date',
+		'cupo' => 'decimal(16,2)',
+		'estado' => 'enum(\'A\',\'I\',\'X\')',
+	);
+
+	public function setUp(){
 
 		$config = array(
 			'adapter' => 'Mysql',
@@ -32,17 +48,22 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Db_Pool::setDefaultDescriptor($config);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
-		
-		$modelManager = new Phalcon_Model_Manager();
-		$modelManager->setModelsDir('unit-tests/models/');
 
-		$Personas = $modelManager->getModel('Personas');
+		$this->_manager = new Phalcon_Model_Manager();
+		$this->_manager->setModelsDir('unit-tests/models/');
+	}
+
+	public function testMetadata(){
+
+		$manager = $this->_manager;
+
+		$Personas = $manager->getModel('Personas');
 		$this->assertEquals(get_class($Personas), 'Personas');
 
 		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());		
+		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
-		$metaData = new Phalcon_Model_MetaData('Memory');
+		$metaData = $manager->getMetaData();
 
 		$pAttributes = array(
 			0 => 'cedula',
@@ -59,7 +80,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$attributes = $metaData->getAttributes($Personas);
-		$this->assertEquals($attributes, $pAttributes);		
+		$this->assertEquals($attributes, $pAttributes);
 
 		$ppkAttributes = array(
 			0 => 'cedula'
@@ -82,7 +103,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($Personas);
-		$this->assertEquals($pnpkAttributes, $npkAttributes);		
+		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$pnnAttributes = array(
 			0 => 'cedula',
@@ -93,24 +114,10 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$nnAttributes = $metaData->getNotNullAttributes($Personas);
-		$this->assertEquals($nnAttributes, $pnnAttributes);		
-
-		$pdtAttributes = array(
-		  'cedula' => 'char(15)',
-		  'tipo_documento_id' => 'int(3) unsigned',
-		  'nombres' => 'varchar(100)',
-		  'telefono' => 'varchar(20)',
-		  'direccion' => 'varchar(100)',
-		  'email' => 'varchar(50)',
-		  'fecha_nacimiento' => 'date',
-		  'ciudad_id' => 'int(10) unsigned',
-		  'creado_at' => 'date',
-		  'cupo' => 'decimal(16,2)',
-		  'estado' => 'enum(\'A\',\'I\',\'X\')',
-		);
+		$this->assertEquals($nnAttributes, $pnnAttributes);
 
 		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $pdtAttributes);
+		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
 
 		$pndAttributes = array(
 			'tipo_documento_id' => true,
@@ -120,8 +127,22 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		$ndAttributes = $metaData->getDataTypesNumeric($Personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
 
-		//GC
-		gc_collect_cycles();
+	}
+
+	public function testMetadata2(){
+
+		$manager = $this->_manager;
+
+		$Personas = $manager->getModel('Personas');
+		$this->assertEquals(get_class($Personas), 'Personas');
+
+		$connection = $Personas->getConnection();
+		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+
+		$metaData = $manager->getMetaData();
+
+		$dtAttributes = $metaData->getDataTypes($Personas);
+		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
 
 	}
 

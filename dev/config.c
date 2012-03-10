@@ -79,17 +79,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 				PHALCON_ALLOC_ZVAL(i0);
 			} else {
 				if (Z_REFCOUNT_P(i0) > 1) {
-					{
-						zval *orig_ptr = i0;
-						if (Z_REFCOUNT_P(orig_ptr) > 1) {
-							Z_DELREF_P(orig_ptr);
-							ALLOC_ZVAL(i0);
-							*i0 = *orig_ptr;
-							zval_copy_ctor(i0);
-							Z_SET_REFCOUNT_P(i0, 1);
-							Z_UNSET_ISREF_P(i0);
-						}
-					}
+					PHALCON_SEPARATE(i0);
 				} else {
 					FREE_ZVAL(i0);
 					PHALCON_ALLOC_ZVAL(i0);

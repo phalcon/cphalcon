@@ -35,10 +35,10 @@ int phalcon_init_global(char *global TSRMLS_DC){
 	if (jit_initialization) {
 		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
 	}
-	#else 
+	#else
 	if (PG(auto_globals_jit)) {
 		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
-	}	
+	}
 	#endif
 	return SUCCESS;
 }
@@ -49,7 +49,7 @@ int phalcon_init_global(char *global TSRMLS_DC){
 int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC){
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
-	if(jit_initialization){
+	if (jit_initialization) {
 		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
 	}
 	#else
@@ -66,8 +66,8 @@ int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC){
  */
 int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC){
 	zval **global_vars;
-	if(zend_hash_find(&EG(symbol_table), global, sizeof(global), (void **) &global_vars)==SUCCESS){
-		if(Z_TYPE_PP(global_vars)==IS_ARRAY){
+	if (zend_hash_find(&EG(symbol_table), global, sizeof(global), (void **) &global_vars) == SUCCESS) {
+		if (Z_TYPE_PP(global_vars) == IS_ARRAY) {
 			return zend_hash_find(Z_ARRVAL_PP(global_vars), index, sizeof(index), (void **) &result);
 		}
 	} else {
@@ -84,7 +84,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 
 	zval **result_ptr;
 
-	if(zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS){
+	if (zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
 		return FAILURE;
 	} else {
@@ -98,10 +98,10 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
  * Makes fast count on implicit array types
  */
 long phalcon_count(const zval *value){
-	if(Z_TYPE_P(value)==IS_ARRAY){
+	if (Z_TYPE_P(value) == IS_ARRAY) {
 		return zend_hash_num_elements(Z_ARRVAL_P(value));
 	} else {
-		if(Z_TYPE_P(value)==IS_NULL){
+		if (Z_TYPE_P(value) == IS_NULL) {
 			return 0;
 		}
 	}
@@ -114,7 +114,7 @@ long phalcon_count(const zval *value){
 int phalcon_and_function(zval *result, zval *left, zval *right){
 	int istrue = 1;
 	istrue = zend_is_true(left);
-	if(istrue){
+	if (istrue) {
 		istrue = zend_is_true(right);
 	}
 	ZVAL_BOOL(result, istrue);
@@ -124,18 +124,16 @@ int phalcon_and_function(zval *result, zval *left, zval *right){
 /**
  * Performs fast concat when right operator is char constant
  */
-int phalcon_concat_right(zval *result, zval *op1, const char *op2 TSRMLS_DC){
+int phalcon_concat_right(zval *result, zval *op1, const char *op2, int op2_length TSRMLS_DC){
 
 	zval op1_copy;
 	int use_copy1 = 0;
 
-	int op2_length = strlen(op2);
-
-	if(Z_TYPE_P(op1) != IS_STRING){
+	if (Z_TYPE_P(op1) != IS_STRING) {
 		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
 	}
 
-	if(use_copy1){
+	if (use_copy1) {
 		op1 = &op1_copy;
 	}
 
@@ -146,7 +144,7 @@ int phalcon_concat_right(zval *result, zval *op1, const char *op2 TSRMLS_DC){
 	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	Z_TYPE_P(result) = IS_STRING;
 
-	if(use_copy1){
+	if (use_copy1) {
 		zval_dtor(op1);
 	}
 
@@ -156,18 +154,16 @@ int phalcon_concat_right(zval *result, zval *op1, const char *op2 TSRMLS_DC){
 /**
  * Performs fast concat when left operator is char constant
  */
-int phalcon_concat_left(zval *result, const char *op1, zval *op2 TSRMLS_DC){
+int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2 TSRMLS_DC){
 
 	zval op2_copy;
 	int use_copy2 = 0;
 
-	int op1_length = strlen(op1);
-
-	if(Z_TYPE_P(op2) != IS_STRING){
+	if (Z_TYPE_P(op2) != IS_STRING) {
 		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
 	}
 
-	if(use_copy2){
+	if (use_copy2) {
 		op2 = &op2_copy;
 	}
 
@@ -178,7 +174,7 @@ int phalcon_concat_left(zval *result, const char *op1, zval *op2 TSRMLS_DC){
 	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	Z_TYPE_P(result) = IS_STRING;
 
-	if(use_copy2){
+	if (use_copy2) {
 		zval_dtor(op2);
 	}
 
@@ -196,11 +192,11 @@ int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op
 	int op1_length = strlen(op1);
 	int op3_length = strlen(op3);
 
-	if(Z_TYPE_P(op2) != IS_STRING){
+	if (Z_TYPE_P(op2) != IS_STRING) {
 		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
 	}
 
-	if(use_copy2){
+	if (use_copy2) {
 		op2 = &op2_copy;
 	}
 
@@ -212,7 +208,7 @@ int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op
 	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	Z_TYPE_P(result) = IS_STRING;
 
-	if(use_copy2){
+	if (use_copy2) {
 		zval_dtor(op2);
 	}
 
@@ -230,19 +226,19 @@ int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSR
 
 	int op2_length = strlen(op2);
 
-	if(Z_TYPE_P(op1) != IS_STRING){
+	if (Z_TYPE_P(op1) != IS_STRING) {
 		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
 	}
 
-	if(Z_TYPE_P(op3) != IS_STRING){
+	if (Z_TYPE_P(op3) != IS_STRING) {
 		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
 	}
 
-	if(use_copy1){
+	if (use_copy1) {
 		op1 = &op1_copy;
 	}
 
-	if(use_copy3){
+	if (use_copy3) {
 		op3 = &op3_copy;
 	}
 
@@ -254,11 +250,11 @@ int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSR
 	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	Z_TYPE_P(result) = IS_STRING;
 
-	if(use_copy1){
+	if (use_copy1) {
 		zval_dtor(op1);
 	}
 
-	if(use_copy3){
+	if (use_copy3) {
 		zval_dtor(op3);
 	}
 
@@ -269,21 +265,21 @@ int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSR
 /**
  * Natural compare with string operator on right
  */
-int phalcon_compare_strict_string(zval *op1, char *op2){
-
-	int op2_length = strlen(op2);
+int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
 	switch(Z_TYPE_P(op1)){
 		case IS_STRING:
-			if(!Z_STRLEN_P(op1)&&!op2_length){
+			if (!Z_STRLEN_P(op1) && !op2_length) {
 				return 1;
-			} else {
-				return zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length)==0;
 			}
+			if (Z_STRLEN_P(op1) != op2_length) {
+				return 0;
+			}
+			return zend_binary_strcmp(Z_STRVAL_P(op1), Z_STRLEN_P(op1), op2, op2_length)==0;
 		case IS_NULL:
 			return zend_binary_strcmp("", 0, op2, op2_length)==0;
 		case IS_BOOL:
-			if(!Z_BVAL_P(op1)){
+			if (!Z_BVAL_P(op1)) {
 				return zend_binary_strcmp("0", strlen("0"), op2, op2_length)==0;
 			} else {
 				return zend_binary_strcmp("1", strlen("1"), op2, op2_length)==0;
@@ -299,7 +295,7 @@ int phalcon_compare_strict_string(zval *op1, char *op2){
  */
 int phalcon_addslashes(zval *return_value, zval *param TSRMLS_DC){
 
-	if(Z_TYPE_P(param)!=IS_STRING){
+	if (Z_TYPE_P(param) != IS_STRING) {
 		return FAILURE;
 	}
 
@@ -315,11 +311,11 @@ int phalcon_addslashes(zval *return_value, zval *param TSRMLS_DC){
  */
 int phalcon_file_exists(zval *filename TSRMLS_DC){
 
-	if(Z_TYPE_P(filename)!=IS_STRING){
+	if (Z_TYPE_P(filename) != IS_STRING) {
 		return FAILURE;
 	}
 
-	if(VCWD_ACCESS(Z_STRVAL_P(filename), F_OK)==0){
+	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK)==0) {
 		return SUCCESS;
 	}
 
@@ -335,8 +331,8 @@ int phalcon_filter_alphanum(zval **result, zval *param){
 	zval *tmp;
 	char temp[255];
 
-	if(Z_TYPE_P(param)==IS_STRING){
-		for(i=0;i<Z_STRLEN_P(param)&&i<255;i++){
+	if (Z_TYPE_P(param) == IS_STRING) {
+		for(i=0; i < Z_STRLEN_P(param) && i < 255;i++){
 			ch = Z_STRVAL_P(param)[i];
 			if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)){
 				temp[alloc] = ch;
@@ -346,7 +342,7 @@ int phalcon_filter_alphanum(zval **result, zval *param){
 	}
 
 	ALLOC_INIT_ZVAL(tmp);
-	if(alloc>0){
+	if (alloc > 0) {
 		Z_TYPE_P(tmp) = IS_STRING;
 		Z_STRLEN_P(tmp) = alloc;
 		Z_STRVAL_P(tmp) = (char *) emalloc(alloc+1);

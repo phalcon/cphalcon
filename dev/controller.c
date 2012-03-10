@@ -68,10 +68,12 @@ PHP_METHOD(Phalcon_Controller, __construct){
 	}
 
 	if (!v3) {
-		PHALCON_INIT_NULL(v3);
+		PHALCON_ALLOC_ZVAL(v3);
+		ZVAL_NULL(v3);
 	}
 	if (!v4) {
-		PHALCON_INIT_NULL(v4);
+		PHALCON_ALLOC_ZVAL(v4);
+		ZVAL_NULL(v4);
 	}
 	
 	{
@@ -156,7 +158,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 		RETURN_NULL();
 	}
 
-	if (phalcon_compare_strict_string(v0, "view")) {
+	if (PHALCON_COMPARE_STRING(v0, "view")) {
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PHALCON_CALL_DEFAULT);
 		{
@@ -168,27 +170,9 @@ PHP_METHOD(Phalcon_Controller, __get){
 		}
 		PHALCON_ALLOC_ZVAL(t0);
 		phalcon_read_property(t0, this_ptr, "view", sizeof("view")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (Z_TYPE_P(t0) > IS_BOOL) {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(t0);
-				zval_copy_ctor(return_value);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		} else {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(t0);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		}
-		return;
+		PHALCON_RETURN_CTOR(t0);
 	}
-	if (phalcon_compare_strict_string(v0, "filter")) {
+	if (PHALCON_COMPARE_STRING(v0, "filter")) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_filter_class_entry);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
@@ -201,25 +185,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 		}
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "filter", sizeof("filter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (Z_TYPE_P(t1) > IS_BOOL) {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(t1);
-				zval_copy_ctor(return_value);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		} else {
-			{
-				zend_uchar is_ref = Z_ISREF_P(return_value);
-				zend_uint refcount = Z_REFCOUNT_P(return_value);
-				*(return_value) = *(t1);
-				Z_SET_ISREF_TO_P(return_value, is_ref);
-		 		Z_SET_REFCOUNT_P(return_value, refcount);
-			}
-		}
-		return;
+		PHALCON_RETURN_CTOR(t1);
 	}
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY_FETCH TSRMLS_CC);

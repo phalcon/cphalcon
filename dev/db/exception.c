@@ -48,10 +48,12 @@ PHP_METHOD(Phalcon_Db_Exception, __construct){
 	}
 
 	if (!v2) {
-		PHALCON_INIT_BOOL(v2, 1);
+		PHALCON_ALLOC_ZVAL(v2);
+		ZVAL_BOOL(v2, 1);
 	}
 	if (!v3) {
-		PHALCON_INIT_NULL(v3);
+		PHALCON_ALLOC_ZVAL(v3);
+		ZVAL_NULL(v3);
 	}
 	
 	Z_ADDREF_P(v0);

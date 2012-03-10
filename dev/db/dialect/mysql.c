@@ -72,20 +72,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 		PHALCON_ALLOC_ZVAL(r0);
 		Z_ADDREF_P(v1);
 		p0[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "addslashes", strlen("addslashes"), 1, p0);
-		if (v1) {
-			if (!Z_REFCOUNT_P(v1)) {
-				FREE_ZVAL(v1);
-			}
-		}
-		Z_ADDREF_P(r0);
-		v1 = r0;
+		PHALCON_CALL_FUNC_PARAMS(r0, "addslashes", 1, p0);
+		PHALCON_CPY_WRT_PARAM(v1, r0);
 		PHALCON_ALLOC_ZVAL(r2);
-		phalcon_concat_left(r2, "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", v0 TSRMLS_CC);
+		PHALCON_CONCAT_LEFT(r2, "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", v0);
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_concat_vboth(r1, r2, "' AND `TABLE_SCHEMA`='", v1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r3);
-		phalcon_concat_right(r3, r1, "'" TSRMLS_CC);
+		PHALCON_CONCAT_RIGHT(r3, r1, "'");
 		{
 			zend_uchar is_ref = Z_ISREF_P(return_value);
 			zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -137,30 +131,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){
 	
 	if (zend_is_true(v1)) {
 		PHALCON_ALLOC_ZVAL(r1);
-		phalcon_concat_left(r1, "DESCRIBE `", v1 TSRMLS_CC);
+		PHALCON_CONCAT_LEFT(r1, "DESCRIBE `", v1);
 		PHALCON_ALLOC_ZVAL(r0);
 		phalcon_concat_vboth(r0, r1, "`.`", v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r2);
-		phalcon_concat_right(r2, r0, "`" TSRMLS_CC);
-		if (v2) {
-			Z_DELREF_P(v2);
-			if (!Z_REFCOUNT_P(v2)) {
-				FREE_ZVAL(v2);
-			}
-		}
-		Z_ADDREF_P(r2);
-		v2 = r2;
+		PHALCON_CONCAT_RIGHT(r2, r0, "`");
+		PHALCON_CPY_WRT(v2, r2);
 	} else {
 		PHALCON_ALLOC_ZVAL(r3);
 		phalcon_concat_both(r3,  "DESCRIBE `", v0, "`" TSRMLS_CC);
-		if (v2) {
-			Z_DELREF_P(v2);
-			if (!Z_REFCOUNT_P(v2)) {
-				FREE_ZVAL(v2);
-			}
-		}
-		Z_ADDREF_P(r3);
-		v2 = r3;
+		PHALCON_CPY_WRT(v2, r3);
 	}
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
@@ -199,14 +179,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables){
 	if (zend_is_true(v0)) {
 		PHALCON_ALLOC_ZVAL(r0);
 		phalcon_concat_both(r0,  "SHOW TABLES FROM `", v0, "`" TSRMLS_CC);
-		if (v1) {
-			Z_DELREF_P(v1);
-			if (!Z_REFCOUNT_P(v1)) {
-				FREE_ZVAL(v1);
-			}
-		}
-		Z_ADDREF_P(r0);
-		v1 = r0;
+		PHALCON_CPY_WRT(v1, r0);
 	} else {
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_STRING(v1, "SHOW TABLES", 0);

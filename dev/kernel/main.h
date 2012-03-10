@@ -54,12 +54,12 @@ extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, 
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
 /** Concat functions */
-extern int phalcon_concat_right(zval *result, zval *op1, const char *op2 TSRMLS_DC);
-extern int phalcon_concat_left(zval *result, const char *op1, zval *op2 TSRMLS_DC);
+extern int phalcon_concat_right(zval *result, zval *op1, const char *op2, int op2_length TSRMLS_DC);
+extern int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2 TSRMLS_DC);
 extern int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op3 TSRMLS_DC);
 extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSRMLS_DC);
 
-extern int phalcon_compare_strict_string(zval *op1, char *op2);
+extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern long phalcon_count(const zval *value);
@@ -71,22 +71,6 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z);
 
-/** Renew memory allocated on certain pointer doing copy-write if needed */
-#define PHALCON_REALLOC_ZVAL(z) \
-	if(Z_REFCOUNT_P(z)<=1){\
-		FREE_ZVAL(z);\
-		PHALCON_ALLOC_ZVAL(z);\
-	} else {\
-		SEPARATE_ZVAL(&z);\
-	}\
-
-/** Copy value on destiny making separation if needed  */
-#define PHALCON_INIT_SEPARATE(destiny, value) \
-	PHALCON_VAR_INIT(destiny);\
-	ZVAL_ZVAL(destiny, value, 1, 0);\
-	Z_DELREF_P(value);\
-	Z_SET_REFCOUNT_P(destiny, 1);
-
 /** Do/Renew memory allocation for zval used as a result */
 #define PHALCON_RESULT_INIT(var) \
 	if(!var){\
@@ -95,50 +79,60 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		PHALCON_REALLOC_ZVAL(var);\
 	}
 
-/** Do/Renew memory allocation for zval used as a var */
-#define PHALCON_VAR_INIT(var) \
-	if(!var){\
-		PHALCON_ALLOC_ZVAL(var);\
+/** Do zval separation */
+#define PHALCON_SEPARATE(var) {\
+	zval *orig_ptr = var;\
+	if (Z_REFCOUNT_P(orig_ptr) > 1) {\
+		Z_DELREF_P(orig_ptr);\
+		ALLOC_ZVAL(var);\
+		*var = *orig_ptr;\
+		zval_copy_ctor(var);\
+		Z_SET_REFCOUNT_P(var, 1);\
+		Z_UNSET_ISREF_P(var);\
+	}\
+}
+
+/** Do zval separation on method params*/
+#define PHALCON_SEPARATE_PARAM(var) {\
+	zval *orig_ptr = var;\
+	if (Z_REFCOUNT_P(orig_ptr) > 1) {\
+		ALLOC_ZVAL(var);\
+		*var = *orig_ptr;\
+		zval_copy_ctor(var);\
+		Z_SET_REFCOUNT_P(var, 1);\
+		Z_UNSET_ISREF_P(var);\
+	}\
+}
+
+/** Renew memory allocated on certain pointer doing copy-write if needed */
+#define PHALCON_REALLOC_ZVAL(z) \
+	if(Z_REFCOUNT_P(z)<=1){\
+		FREE_ZVAL(z);\
+		PHALCON_ALLOC_ZVAL(z);\
 	} else {\
-		PHALCON_REALLOC_ZVAL(var);\
+		SEPARATE_ZVAL(&z);\
 	}
 
-/** Do/Renew memory allocation for zval used only if data-type has changed */
-#define PHALCON_TYPEVAR_INIT(var, type) \
-	if(!var){\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if(Z_REFCOUNT_P(var)>1){\
-			SEPARATE_ZVAL(&var);\
-		} else {\
-			if(Z_TYPE_P(var)!=type){\
-				FREE_ZVAL(var);\
-				PHALCON_ALLOC_ZVAL(var);\
-			}\
-		}\
-	}
-
-/** Do/Renew memory allocation for zval used only if data-type isn't long */
-#define PHALCON_LVAR_INIT(var) PHALCON_TYPEVAR_INIT(var, IS_LONG);
-
-/** Do/Renew memory allocation for zval used only on binary operations (expect data-type will not change) */
-#define PHALCON_BRESULT_INIT(var) \
-	if(!var){\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if(Z_REFCOUNT_P(var)>1){\
-			SEPARATE_ZVAL(&var);\
-		}\
-	}
-
-/** Do zval assignment doing separation on destiny or value if needed */
+/** Do zval assignment doing freeing on destiny if needed */
 #define PHALCON_CPY_WRT(destiny, value) \
-	if(!destiny||Z_REFCOUNT_P(value)==1){\
-		Z_ADDREF_P(value);\
-		destiny = value;\
-	} else {\
-		PHALCON_INIT_SEPARATE(destiny, value);\
-	}
+	if (destiny) {\
+		Z_DELREF_P(destiny);\
+		if (!Z_REFCOUNT_P(destiny)) {\
+			FREE_ZVAL(destiny);\
+		}\
+	}\
+	Z_ADDREF_P(value);\
+	destiny = value;
+
+/** Do zval assignment on method param doing freeing on destiny if needed */
+#define PHALCON_CPY_WRT_PARAM(destiny, value) \
+	if (destiny) {\
+		if (!Z_REFCOUNT_P(destiny)) {\
+			FREE_ZVAL(destiny);\
+		}\
+	}\
+	Z_ADDREF_P(value);\
+	destiny = value;
 
 /** Frees memory if is posible */
 #define PHALCON_FREE(v) if(v){\
@@ -267,6 +261,11 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 
 #define PHALCON_BOOLEAN_NOT_FUNCTION(result, op1) PHALCON_BRESULT_INIT(result); boolean_not_function(result, op1 TSRMLS_CC)
 
+/** Operators */
+#define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
+#define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_DC)
+#define PHALCON_CONCAT_LEFT(result, op1, op2) phalcon_concat_left(result, op1, strlen(op1), op2 TSRMLS_DC)
+
 /** Constants */
 #define PHALCON_GET_CONSTANT(var, name) PHALCON_VAR_INIT(var); zend_get_constant(name, strlen(name), var TSRMLS_CC)
 #define PHALCON_GET_CLASS_CONSTANT(var, class_entry, name) PHALCON_VAR_INIT(var); phalcon_get_class_constant(var, class_entry, name, strlen(name) TSRMLS_CC)
@@ -295,3 +294,23 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		} else {\
 			PHALCON_INIT_ARRAY(varr);\
 		}
+
+#define PHALCON_RETURN_CTOR(var) if (Z_TYPE_P(var) > IS_BOOL) {\
+	{\
+		zend_uchar is_ref = Z_ISREF_P(return_value);\
+		zend_uint refcount = Z_REFCOUNT_P(return_value);\
+		*(return_value) = *(var);\
+		zval_copy_ctor(return_value);\
+		Z_SET_ISREF_TO_P(return_value, is_ref);\
+		Z_SET_REFCOUNT_P(return_value, refcount);\
+	}\
+} else {\
+	{\
+		zend_uchar is_ref = Z_ISREF_P(return_value);\
+		zend_uint refcount = Z_REFCOUNT_P(return_value);\
+		*(return_value) = *(var);\
+		Z_SET_ISREF_TO_P(return_value, is_ref);\
+ 		Z_SET_REFCOUNT_P(return_value, refcount);\
+	}\
+}\
+return;

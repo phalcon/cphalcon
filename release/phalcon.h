@@ -152,6 +152,8 @@ PHP_METHOD(Phalcon_View, setTemplateAfter);
 PHP_METHOD(Phalcon_View, cleanTemplateAfter);
 PHP_METHOD(Phalcon_View, setParamToView);
 PHP_METHOD(Phalcon_View, getParamsToView);
+PHP_METHOD(Phalcon_View, getControllerName);
+PHP_METHOD(Phalcon_View, getActionName);
 PHP_METHOD(Phalcon_View, start);
 PHP_METHOD(Phalcon_View, render);
 PHP_METHOD(Phalcon_View, partial);
@@ -595,7 +597,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_adapter_file_start, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_adapter_file_save, 0, 0, 0)
-	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, stopBuffer)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_test_nice, 0, 0, 1)
@@ -1425,6 +1427,8 @@ PHALCON_INIT_FUNCS(phalcon_view_functions){
 	PHP_ME(Phalcon_View, cleanTemplateAfter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, setParamToView, arginfo_phalcon_view_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, getControllerName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_View, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, start, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, render, arginfo_phalcon_view_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, partial, arginfo_phalcon_view_partial, ZEND_ACC_PUBLIC) 

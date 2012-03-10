@@ -65,19 +65,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 	}
 
 	PHALCON_ALLOC_ZVAL(r0);
-	phalcon_concat_left(r0, "Phalcon_Cache_Adapter_", v0 TSRMLS_CC);
-	if (v3) {
-		Z_DELREF_P(v3);
-		if (!Z_REFCOUNT_P(v3)) {
-			FREE_ZVAL(v3);
-		}
-	}
-	Z_ADDREF_P(r0);
-	v3 = r0;
+	PHALCON_CONCAT_LEFT(r0, "Phalcon_Cache_Adapter_", v0);
+	PHALCON_CPY_WRT(v3, r0);
 	PHALCON_ALLOC_ZVAL(r1);
 	Z_ADDREF_P(v3);
 	p0[0] = v3;
-	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", strlen("class_exists"), 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", 1, p0);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_cache_exception_class_entry);

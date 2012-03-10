@@ -67,13 +67,14 @@ PHP_METHOD(Phalcon_Exception, __construct){
 		ZVAL_LONG(v1, 0);
 	}
 	if (!v2) {
-		PHALCON_INIT_BOOL(v2, 1);
+		PHALCON_ALLOC_ZVAL(v2);
+		ZVAL_BOOL(v2, 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v1);
 	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", strlen("is_numeric"), 1, p0);
+	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
 	if (zend_is_true(r0)) {
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
