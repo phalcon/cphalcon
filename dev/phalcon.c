@@ -125,6 +125,7 @@ int phalcon_tag_static_init(zend_class_entry *ce TSRMLS_DC){
 PHP_MINIT_FUNCTION(phalcon){
 
 	zend_class_entry ce0, ce1, ce2, ce3, ce4, ce5, ce6, ce7, ce8, ce9, ce10, ce11, ce12, ce13, ce14, ce15, ce16, ce17, ce18, ce19, ce20, ce21, ce22, ce23, ce24, ce25, ce26, ce27, ce28, ce29, ce30, ce31, ce32, ce33, ce34, ce35, ce36, ce37, ce38, ce39, ce40, ce41, ce42, ce43, ce44, ce45, ce46;
+phalcon_start_debug();
 
 	if(!zend_ce_iterator){
 		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
