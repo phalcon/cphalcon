@@ -71,22 +71,38 @@ PHP_METHOD(Phalcon_Exception, __construct){
 		ZVAL_BOOL(v2, 1);
 	}
 	
+	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v2 > ", v2 TSRMLS_CC);
+	phalcon_debug_vdump("Receiving Param &v3 > ", v3 TSRMLS_CC);
+	phalcon_step_into_entry("Phalcon_Exception", "__construct", 0);
+	phalcon_step_over("Phalcon_Exception::__construct (If) File=/Exception Line=19");
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v1);
 	p0[0] = v1;
+	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
+	phalcon_debug_vdump("is_numeric > ", r0 TSRMLS_CC);
 	if (zend_is_true(r0)) {
+		phalcon_step_over("Phalcon_Exception::__construct (Block) File=/Exception Line=19");
+		phalcon_step_over("Phalcon_Exception::__construct (StaticMethodCall) File=/Exception Line=20");
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
+		phalcon_debug_param(v0 TSRMLS_CC);
 		Z_ADDREF_P(v1);
 		p1[1] = v1;
+		phalcon_debug_param(v1 TSRMLS_CC);
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Exception", "__construct", 2, p1);
 	} else {
+		phalcon_step_over("Phalcon_Exception::__construct (Block) File=/Exception Line=21");
+		phalcon_step_over("Phalcon_Exception::__construct (StaticMethodCall) File=/Exception Line=22");
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
+		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_PARAM_LONG(p2[1], 0);
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Exception", "__construct", 2, p2);
 	}
+	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 
