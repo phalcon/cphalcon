@@ -136,7 +136,9 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		phalcon_debug_assign("$descriptor", i1 TSRMLS_CC);
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Foreach) File=/Db/Pool Line=48");
 		FOREACH_KV(v0, ac0, fes51, fee51, ah0, hp0, v3, v2)
-			phalcon_debug_vdump("Problem? ", v3);
+			phalcon_debug_vdump("Problem? [1]", v1);
+			phalcon_debug_vdump("Problem? [2]", v2);
+			phalcon_debug_vdump("Problem? [3]", v3);
 			phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Block) File=/Db/Pool Line=48");
 			phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Assignment) File=/Db/Pool Line=49");
 			{
