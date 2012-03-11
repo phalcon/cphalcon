@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	ulong num;
 	int htype;
 
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
 	phalcon_step_into_entry("Phalcon_Db_Pool", "setDefaultDescriptor", 0);
 	phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (If) File=/Db/Pool Line=41");
-	if (Z_TYPE_P(v0) != IS_ARRAY) { 
+	if (Z_TYPE_P(v0) != IS_ARRAY) {
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Block) File=/Db/Pool Line=41");
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (If) File=/Db/Pool Line=42");
 		if (Z_TYPE_P(v0) != IS_OBJECT) {
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		}
 	}
 	phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (If) File=/Db/Pool Line=46");
-	if (Z_TYPE_P(v0) == IS_ARRAY) { 
+	if (Z_TYPE_P(v0) == IS_ARRAY) {
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Block) File=/Db/Pool Line=46");
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Assignment) File=/Db/Pool Line=47");
 		PHALCON_ALLOC_ZVAL(i1);
@@ -136,6 +136,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		phalcon_debug_assign("$descriptor", i1 TSRMLS_CC);
 		phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Foreach) File=/Db/Pool Line=48");
 		FOREACH_KV(v0, ac0, fes51, fee51, ah0, hp0, v3, v2)
+			phalcon_debug_vdump("Problem? ", v3);
 			phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Block) File=/Db/Pool Line=48");
 			phalcon_step_over("Phalcon_Db_Pool::setDefaultDescriptor (Assignment) File=/Db/Pool Line=49");
 			{
@@ -162,7 +163,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 /**
  * Returns a connection builded with the default descriptor parameters
  *
- * 
+ *
  *
  * @param boolean $newConnection
      * @param boolean $renovate
@@ -177,7 +178,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL }, *p2[] = { NULL, NULL, NULL }, *p3[] = { NULL, NULL, NULL }, *p4[] = { NULL, NULL, NULL };
 	int eval_int;
 
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
@@ -190,7 +191,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		PHALCON_ALLOC_ZVAL(v1);
 		ZVAL_BOOL(v1, 0);
 	}
-	
+
 	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
 	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
 	phalcon_step_into_entry("Phalcon_Db_Pool", "getConnection", 0);
