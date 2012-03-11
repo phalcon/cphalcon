@@ -60,9 +60,6 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Db_RawValue", "__construct", 0);
-	phalcon_step_over("Phalcon_Db_RawValue::__construct (Assignment) File=/Db/RawValue Line=26");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
@@ -70,9 +67,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 		Z_SET_REFCOUNT_P(copy, 0);
 		phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Db_RawValue::__construct (Method) File=/Db/RawValue Line=34");
 }
 
 /**
@@ -84,14 +79,9 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Db_RawValue", "getValue", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	PHALCON_RETURN_CTOR(t0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Db_RawValue::getValue (Method) File=/Db/RawValue Line=41");
 }
 
 /**
@@ -101,12 +91,8 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Db_RawValue", "__toString", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	PHALCON_RETURN_CTOR(t0);
-	phalcon_step_out_entry();
 }
 

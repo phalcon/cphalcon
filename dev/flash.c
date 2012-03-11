@@ -59,35 +59,18 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Flash", "_showMessage", 0);
-	phalcon_step_over("Phalcon_Flash::_showMessage (If) File=/Flash Line=11");
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
-		phalcon_step_over("Phalcon_Flash::_showMessage (Block) File=/Flash Line=11");
-		phalcon_step_over("Phalcon_Flash::_showMessage (Assignment) File=/Flash Line=12");
 		PHALCON_ALLOC_ZVAL(r0);
 		PHALCON_ALLOC_ZVAL(p0[0]);
 		ZVAL_STRING(p0[0], " ", 1);
 		p0[1] = v1;
-		phalcon_debug_param(v1 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r0, "join", 2, p0);
-		phalcon_debug_vdump("join > ", r0 TSRMLS_CC);
 		PHALCON_CPY_WRT(v2, r0);
-		phalcon_debug_assign("$cssClasses", r0 TSRMLS_CC);
 	} else {
-		phalcon_step_over("Phalcon_Flash::_showMessage (Block) File=/Flash Line=13");
-		phalcon_step_over("Phalcon_Flash::_showMessage (Assignment) File=/Flash Line=14");
 		PHALCON_CPY_WRT(v2, v1);
-		phalcon_debug_assign("$cssClasses", v1 TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Flash::_showMessage (If) File=/Flash Line=16");
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		phalcon_step_over("Phalcon_Flash::_showMessage (Block) File=/Flash Line=16");
-		phalcon_step_over("Phalcon_Flash::_showMessage (Foreach) File=/Flash Line=17");
 		FOREACH_V(v0, ac0, fes52, fee52, ah0, hp0, v3)
-			phalcon_step_over("Phalcon_Flash::_showMessage (Block) File=/Flash Line=17");
-			phalcon_step_over("Phalcon_Flash::_showMessage (Echo) File=/Flash Line=18");
 			if (!r3) {
 				PHALCON_ALLOC_ZVAL(r3);
 			} else {
@@ -135,8 +118,6 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			zend_print_zval(r1, 0);
 		END_FOREACH(ac0, fes52, fee52, ah0, hp0);
 	} else {
-		phalcon_step_over("Phalcon_Flash::_showMessage (Block) File=/Flash Line=20");
-		phalcon_step_over("Phalcon_Flash::_showMessage (Echo) File=/Flash Line=21");
 		PHALCON_ALLOC_ZVAL(r6);
 		PHALCON_CONCAT_LEFT(r6, "<div class=\"", v2);
 		PHALCON_ALLOC_ZVAL(r5);
@@ -147,9 +128,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		phalcon_concat_vboth(r4, r5, "</div>", t1 TSRMLS_CC);
 		zend_print_zval(r4, 0);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Flash::_showMessage (Method) File=/Flash Line=34");
 }
 
 /**
@@ -177,23 +156,13 @@ PHP_METHOD(Phalcon_Flash, error){
 		ZVAL_STRING(v1, "errorMessage", 0);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Flash", "error", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	Z_ADDREF_P(v1);
 	p0[1] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_showmessage", 2, p0);
-	phalcon_debug_vdump("SelfStaticReturn > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Flash::error (Method) File=/Flash Line=47");
 }
 
 /**
@@ -221,23 +190,13 @@ PHP_METHOD(Phalcon_Flash, notice){
 		ZVAL_STRING(v1, "noticeMessage", 0);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Flash", "notice", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	Z_ADDREF_P(v1);
 	p0[1] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_showmessage", 2, p0);
-	phalcon_debug_vdump("SelfStaticReturn > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Flash::notice (Method) File=/Flash Line=60");
 }
 
 /**
@@ -265,23 +224,13 @@ PHP_METHOD(Phalcon_Flash, success){
 		ZVAL_STRING(v1, "successMessage", 0);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Flash", "success", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	Z_ADDREF_P(v1);
 	p0[1] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_showmessage", 2, p0);
-	phalcon_debug_vdump("SelfStaticReturn > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Flash::success (Method) File=/Flash Line=73");
 }
 
 /**
@@ -309,21 +258,12 @@ PHP_METHOD(Phalcon_Flash, warning){
 		ZVAL_STRING(v1, "warningMessage", 0);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Flash", "warning", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	Z_ADDREF_P(v1);
 	p0[1] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_showmessage", 2, p0);
-	phalcon_debug_vdump("SelfStaticReturn > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
 }
 

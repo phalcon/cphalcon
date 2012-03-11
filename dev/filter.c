@@ -69,19 +69,9 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Filter", "sanitize", 0);
-	phalcon_step_over("Phalcon_Filter::sanitize (If) File=/Filter Line=45");
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
-		phalcon_step_over("Phalcon_Filter::sanitize (Block) File=/Filter Line=45");
-		phalcon_step_over("Phalcon_Filter::sanitize (If) File=/Filter Line=46");
 		if (zend_is_true(v0)) {
-			phalcon_step_over("Phalcon_Filter::sanitize (Block) File=/Filter Line=46");
-			phalcon_step_over("Phalcon_Filter::sanitize (Foreach) File=/Filter Line=47");
 			FOREACH_V(v1, ac0, fes54, fee54, ah0, hp0, v2)
-				phalcon_step_over("Phalcon_Filter::sanitize (Block) File=/Filter Line=47");
-				phalcon_step_over("Phalcon_Filter::sanitize (Assignment) File=/Filter Line=48");
 				if (!r0) {
 					PHALCON_ALLOC_ZVAL(r0);
 				} else {
@@ -92,45 +82,25 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 						PHALCON_ALLOC_ZVAL(r0);
 					}
 				}
-				phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
-				phalcon_debug_method_call(this_ptr, "_sanitize" TSRMLS_CC);
 				Z_ADDREF_P(v0);
 				p0[0] = v0;
-				phalcon_debug_param(v0 TSRMLS_CC);
 				Z_ADDREF_P(v2);
 				p0[1] = v2;
-				phalcon_debug_param(v2 TSRMLS_CC);
 				PHALCON_CALL_METHOD_PARAMS(r0, this_ptr, "_sanitize", 2, p0, PHALCON_CALL_DEFAULT);
-				phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-				phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
 				PHALCON_CPY_WRT_PARAM(v0, r0);
-				phalcon_debug_assign("$value", r0 TSRMLS_CC);
 			END_FOREACH(ac0, fes54, fee54, ah0, hp0);
 		}
-		phalcon_debug_vdump("Returning > ", v0 TSRMLS_CC);
-		phalcon_step_out_entry();
 		PHALCON_RETURN_CTOR(v0);
 	} else {
-		phalcon_step_over("Phalcon_Filter::sanitize (Block) File=/Filter Line=52");
 		PHALCON_ALLOC_ZVAL(r1);
-		phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
-		phalcon_debug_method_call(this_ptr, "_sanitize" TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		Z_ADDREF_P(v1);
 		p1[1] = v1;
-		phalcon_debug_param(v1 TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS(r1, this_ptr, "_sanitize", 2, p1, PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r1 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r1, 1, 0);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Filter::sanitize (Method) File=/Filter Line=64");
 }
 
 /**
@@ -156,10 +126,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Filter", "_sanitize", 0);
-	phalcon_step_over("Phalcon_Filter::_sanitize (Switch) File=/Filter Line=65");
 	PHALCON_ALLOC_ZVAL(t0);
 	ZVAL_STRING(t0, "email", 1);
 	PHALCON_ALLOC_ZVAL(r0);
@@ -167,15 +133,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
 		p0[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 517);
 		p0[1] = t1;
-		phalcon_debug_param(t1 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", 2, p0);
-		phalcon_debug_vdump("filter_var > ", r1 TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r1, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t2);
@@ -185,15 +146,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL(r3);
 		p1[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(t3);
 		ZVAL_LONG(t3, 519);
 		p1[1] = t3;
-		phalcon_debug_param(t3 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", 2, p1);
-		phalcon_debug_vdump("filter_var > ", r3 TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r3 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r3, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t4);
@@ -203,15 +159,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL(r5);
 		p2[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(t5);
 		ZVAL_LONG(t5, 513);
 		p2[1] = t5;
-		phalcon_debug_param(t5 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", 2, p2);
-		phalcon_debug_vdump("filter_var > ", r5 TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r5 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r5, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t6);
@@ -221,11 +172,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (zend_is_true(r6)) {
 		PHALCON_ALLOC_ZVAL(r7);
 		p3[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(t7);
 		ZVAL_LONG(t7, 520);
 		p3[1] = t7;
-		phalcon_debug_param(t7 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(a0);
 		array_init(a0);
 		PHALCON_ALLOC_ZVAL(t8);
@@ -233,31 +182,21 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_SEPARATE(a0);
 		add_assoc_zval(a0, "flags", t8);
 		p3[2] = a0;
-		phalcon_debug_param(a0 TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3);
-		phalcon_debug_vdump("filter_var > ", r7 TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r7 TSRMLS_CC);
-		phalcon_step_out_entry();
 		RETURN_ZVAL(r7, 1, 0);
 	}
-	phalcon_step_over("Phalcon_Filter::_sanitize (Throw) File=/Filter Line=77");
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init_ex(i0, phalcon_exception_class_entry);
-	phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
-	phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r8);
 	phalcon_concat_both(r8,  "Filter ", v1, " is not supported" TSRMLS_CC);
 	Z_ADDREF_P(r8);
 	p4[0] = r8;
-	phalcon_debug_param(r8 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
-	phalcon_assert_class(this_ptr, "Phalcon_Filter" TSRMLS_CC);
 	zend_throw_exception_object(i0 TSRMLS_CC);
 	Z_ADDREF_P(i0);
 	return;
 	se55:
 	php_printf("");
-	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

@@ -58,20 +58,13 @@ PHP_METHOD(Phalcon_Test, nice){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Test", "nice", 0);
-	phalcon_step_over("Phalcon_Test::nice (Assignment) File=/Test Line=28");
 	PHALCON_ALLOC_ZVAL(a0);
 	array_init(a0);
 	add_assoc_long(a0, "hello1", 1);
 	add_assoc_long(a0, "hello2", 2);
 	add_assoc_long(a0, "hello3", 3);
 	PHALCON_CPY_WRT(v1, a0);
-	phalcon_debug_assign("$e", a0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Test::nice (Foreach) File=/Test Line=29");
 	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
-		phalcon_step_over("Phalcon_Test::nice (Block) File=/Test Line=29");
-		phalcon_step_over("Phalcon_Test::nice (Assignment) File=/Test Line=30");
 		if (!r0) {
 			PHALCON_ALLOC_ZVAL(r0);
 		} else {
@@ -113,11 +106,8 @@ PHP_METHOD(Phalcon_Test, nice){
 			phalcon_array_update(v1, v3, copy TSRMLS_CC);
 		}
 	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
-	phalcon_step_over("Phalcon_Test::nice (FunctionCall) File=/Test Line=32");
 	p0[0] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", 1, p0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 
