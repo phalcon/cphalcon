@@ -64,36 +64,21 @@ PHP_METHOD(Phalcon_Cache, factory){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v2 > ", v2 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Cache", "factory", 0);
-	phalcon_step_over("Phalcon_Cache::factory (Assignment) File=/Cache Line=19");
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Cache_Adapter_", v0);
 	PHALCON_CPY_WRT(v3, r0);
-	phalcon_debug_assign("$adapterClass", r0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Cache::factory (If) File=/Cache Line=20");
 	PHALCON_ALLOC_ZVAL(r1);
 	Z_ADDREF_P(v3);
 	p0[0] = v3;
-	phalcon_debug_param(v3 TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", 1, p0);
-	phalcon_debug_vdump("class_exists > ", r1 TSRMLS_CC);
 	if (!zend_is_true(r1)) {
-		phalcon_step_over("Phalcon_Cache::factory (Block) File=/Cache Line=20");
-		phalcon_step_over("Phalcon_Cache::factory (Throw) File=/Cache Line=21");
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_cache_exception_class_entry);
-		phalcon_assert_class(this_ptr, "Phalcon_Cache" TSRMLS_CC);
-		phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r2);
 		phalcon_concat_both(r2,  "Adapter \"", v0, "' doesn't exist" TSRMLS_CC);
 		Z_ADDREF_P(r2);
 		p1[0] = r2;
-		phalcon_debug_param(r2 TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		phalcon_assert_class(this_ptr, "Phalcon_Cache" TSRMLS_CC);
 		zend_throw_exception_object(i0 TSRMLS_CC);
 		Z_ADDREF_P(i0);
 		return;
@@ -101,18 +86,11 @@ PHP_METHOD(Phalcon_Cache, factory){
 	ce0 = zend_fetch_class(Z_STRVAL_P(v3), Z_STRLEN_P(v3), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(i1);
 	object_init_ex(i1, ce0);
-	phalcon_assert_class(this_ptr, "Phalcon_Cache" TSRMLS_CC);
-	phalcon_debug_method_call(i1, "__construct" TSRMLS_CC);
 	Z_ADDREF_P(v1);
 	p2[0] = v1;
-	phalcon_debug_param(v1 TSRMLS_CC);
 	Z_ADDREF_P(v2);
 	p2[1] = v2;
-	phalcon_debug_param(v2 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 2, p2, PHALCON_CALL_CHECK);
-	phalcon_assert_class(this_ptr, "Phalcon_Cache" TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", i1 TSRMLS_CC);
-	phalcon_step_out_entry();
 	{
 		zend_uchar is_ref = Z_ISREF_P(return_value);
 		zend_uint refcount = Z_REFCOUNT_P(return_value);
@@ -122,6 +100,5 @@ PHP_METHOD(Phalcon_Cache, factory){
 		Z_SET_REFCOUNT_P(return_value, refcount);
 	}
 	return;
-	phalcon_step_out_entry();
 }
 

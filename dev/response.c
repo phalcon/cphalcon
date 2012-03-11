@@ -46,10 +46,7 @@
 PHP_METHOD(Phalcon_Response, __construct){
 
 
-	phalcon_step_into_entry("Phalcon_Response", "__construct", 0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Response::__construct (Method) File=/Response Line=23");
 }
 
 /**
@@ -62,26 +59,15 @@ PHP_METHOD(Phalcon_Response, getInstance){
 	zval *t0 = NULL, *t1 = NULL;
 	zval *i0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Response", "getInstance", 0);
-	phalcon_step_over("Phalcon_Response::getInstance (If) File=/Response Line=24");
 	t0 = zend_read_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (!zend_is_true(t0)) {
-		phalcon_step_over("Phalcon_Response::getInstance (Block) File=/Response Line=24");
-		phalcon_step_over("Phalcon_Response::getInstance (Assignment) File=/Response Line=25");
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_response_class_entry);
-		phalcon_assert_class(this_ptr, "Phalcon_Response" TSRMLS_CC);
-		phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
-		phalcon_assert_class(this_ptr, "Phalcon_Response" TSRMLS_CC);
 		zend_update_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, i0 TSRMLS_CC);
 	}
 	t1 = zend_read_static_property(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t1 TSRMLS_CC);
-	phalcon_step_out_entry();
 	PHALCON_RETURN_CTOR(t1);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Response::getInstance (Method) File=/Response Line=36");
 }
 
 /**
@@ -101,20 +87,13 @@ PHP_METHOD(Phalcon_Response, setHeader){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Response", "setHeader", 0);
-	phalcon_step_over("Phalcon_Response::setHeader (FunctionCall) File=/Response Line=37");
 	PHALCON_ALLOC_ZVAL(r0);
 	phalcon_concat_vboth(r0, v0, ": ", v1 TSRMLS_CC);
 	Z_ADDREF_P(r0);
 	p0[0] = r0;
-	phalcon_debug_param(r0 TSRMLS_CC);
 	PHALCON_PARAM_BOOL(p0[1], 1);
 	PHALCON_CALL_FUNC_PARAMS_NORETURN("header", 2, p0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Response::setHeader (Method) File=/Response Line=45");
 }
 
 /**
@@ -131,19 +110,15 @@ PHP_METHOD(Phalcon_Response, setContent){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Response", "setContent", 0);
-	phalcon_step_over("Phalcon_Response::setContent (Assignment) File=/Response Line=46");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v0, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Response::setContent (Method) File=/Response Line=54");
 }
 
 /**
@@ -155,14 +130,9 @@ PHP_METHOD(Phalcon_Response, getContent){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Response", "getContent", 0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	PHALCON_RETURN_CTOR(t0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Response::getContent (Method) File=/Response Line=62");
 }
 
 /**
@@ -173,12 +143,9 @@ PHP_METHOD(Phalcon_Response, send){
 
 	zval *t0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Response", "send", 0);
-	phalcon_step_over("Phalcon_Response::send (Echo) File=/Response Line=63");
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	zend_print_zval(t0, 0);
-	phalcon_step_out_entry();
 	RETURN_NULL();
 }
 

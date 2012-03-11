@@ -62,12 +62,6 @@ PHP_METHOD(Phalcon_Controller, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
 
-	phalcon_step_over("Phalcon_Controller::__construct (ClassVariables) File=/Controller Line=42");
-	phalcon_step_over("Phalcon_Controller::__construct (ClassVariables) File=/Controller Line=44");
-	phalcon_step_over("Phalcon_Controller::__construct (ClassVariables) File=/Controller Line=46");
-	phalcon_step_over("Phalcon_Controller::__construct (ClassVariables) File=/Controller Line=48");
-	phalcon_step_over("Phalcon_Controller::__construct (ClassVariables) File=/Controller Line=50");
-	phalcon_step_over("Phalcon_Controller::__construct (Method) File=/Controller Line=61");
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &v0, &v1, &v2, &v3, &v4) == FAILURE) {
 		RETURN_NULL();
@@ -82,55 +76,47 @@ PHP_METHOD(Phalcon_Controller, __construct){
 		ZVAL_NULL(v4);
 	}
 	
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v2 > ", v2 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v3 > ", v3 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v4 > ", v4 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Controller", "__construct", 0);
-	phalcon_step_over("Phalcon_Controller::__construct (Assignment) File=/Controller Line=62");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v0, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "_dispatcher", strlen("_dispatcher"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Controller::__construct (Assignment) File=/Controller Line=63");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v1, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "request", strlen("request"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Controller::__construct (Assignment) File=/Controller Line=64");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v2, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "response", strlen("response"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Controller::__construct (Assignment) File=/Controller Line=65");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v3, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "view", strlen("view"), copy TSRMLS_CC);
 	}
-	phalcon_step_over("Phalcon_Controller::__construct (Assignment) File=/Controller Line=66");
 	{
 		zval *copy;
 		ALLOC_ZVAL(copy);
 		ZVAL_ZVAL(copy, v4, 1, 0);
 		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
 		phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), copy TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Controller::__construct (Method) File=/Controller Line=74");
 }
 
 /**
@@ -150,24 +136,13 @@ PHP_METHOD(Phalcon_Controller, _forward){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Controller", "_forward", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-	phalcon_debug_method_call(t0, "forward" TSRMLS_CC);
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	phalcon_debug_param(v0 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS(r0, t0, "forward", 1, p0, PHALCON_CALL_DEFAULT);
-	phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-	phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
-	phalcon_step_over("Phalcon_Controller::_forward (Method) File=/Controller Line=83");
 }
 
 /**
@@ -188,91 +163,56 @@ PHP_METHOD(Phalcon_Controller, __get){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Controller", "__get", 0);
-	phalcon_step_over("Phalcon_Controller::__get (If) File=/Controller Line=84");
 	if (PHALCON_COMPARE_STRING(v0, "view")) {
-		phalcon_step_over("Phalcon_Controller::__get (Block) File=/Controller Line=84");
-		phalcon_step_over("Phalcon_Controller::__get (Assignment) File=/Controller Line=85");
 		PHALCON_ALLOC_ZVAL(r0);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-		phalcon_debug_method_call(this_ptr, "_getviewcomponent" TSRMLS_CC);
 		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r0 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
 			ZVAL_ZVAL(copy, r0, 1, 0);
 			Z_SET_REFCOUNT_P(copy, 0);
+			Z_UNSET_ISREF_P(copy);
 			phalcon_update_property_zval(this_ptr, "view", strlen("view"), copy TSRMLS_CC);
 		}
 		PHALCON_ALLOC_ZVAL(t0);
 		phalcon_read_property(t0, this_ptr, "view", sizeof("view")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", t0 TSRMLS_CC);
-		phalcon_step_out_entry();
 		PHALCON_RETURN_CTOR(t0);
 	}
-	phalcon_step_over("Phalcon_Controller::__get (If) File=/Controller Line=88");
 	if (PHALCON_COMPARE_STRING(v0, "filter")) {
-		phalcon_step_over("Phalcon_Controller::__get (Block) File=/Controller Line=88");
-		phalcon_step_over("Phalcon_Controller::__get (Assignment) File=/Controller Line=89");
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_filter_class_entry);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-		phalcon_debug_method_call(i0, "__construct" TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
 		{
 			zval *copy;
 			ALLOC_ZVAL(copy);
 			ZVAL_ZVAL(copy, i0, 1, 0);
 			Z_SET_REFCOUNT_P(copy, 0);
+			Z_UNSET_ISREF_P(copy);
 			phalcon_update_property_zval(this_ptr, "filter", strlen("filter"), copy TSRMLS_CC);
 		}
 		PHALCON_ALLOC_ZVAL(t1);
 		phalcon_read_property(t1, this_ptr, "filter", sizeof("filter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", t1 TSRMLS_CC);
-		phalcon_step_out_entry();
 		PHALCON_RETURN_CTOR(t1);
 	}
-	phalcon_step_over("Phalcon_Controller::__get (If) File=/Controller Line=92");
 	PHALCON_ALLOC_ZVAL(t2);
 	phalcon_read_property(t2, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t2)) {
-		phalcon_step_over("Phalcon_Controller::__get (Block) File=/Controller Line=92");
-		phalcon_step_over("Phalcon_Controller::__get (If) File=/Controller Line=93");
 		PHALCON_ALLOC_ZVAL(r1);
 		PHALCON_ALLOC_ZVAL(t3);
 		phalcon_read_property(t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-		phalcon_debug_method_call(t3, "ismodel" TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
-		phalcon_debug_param(v0 TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS(r1, t3, "ismodel", 1, p2, PHALCON_CALL_DEFAULT);
-		phalcon_debug_vdump("MethodReturn > ", r1 TSRMLS_CC);
-		phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
 		if (zend_is_true(r1)) {
-			phalcon_step_over("Phalcon_Controller::__get (Block) File=/Controller Line=93");
 			PHALCON_ALLOC_ZVAL(r2);
 			PHALCON_ALLOC_ZVAL(t4);
 			phalcon_read_property(t4, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-			phalcon_debug_method_call(t4, "getmodel" TSRMLS_CC);
 			Z_ADDREF_P(v0);
 			p3[0] = v0;
-			phalcon_debug_param(v0 TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS(r2, t4, "getmodel", 1, p3, PHALCON_CALL_DEFAULT);
-			phalcon_debug_vdump("MethodReturn > ", r2 TSRMLS_CC);
-			phalcon_assert_class(this_ptr, "Phalcon_Controller" TSRMLS_CC);
-			phalcon_debug_vdump("Returning > ", r2 TSRMLS_CC);
-			phalcon_step_out_entry();
 			RETURN_ZVAL(r2, 1, 0);
 		}
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_out_entry();
 }
 

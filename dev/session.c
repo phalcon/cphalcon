@@ -57,18 +57,12 @@ PHP_METHOD(Phalcon_Session, start){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Session", "start", 0);
-	phalcon_step_over("Phalcon_Session::start (Silence) File=/Session Line=18");
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_CALL_FUNC(r0, "session_start");
-	phalcon_debug_vdump("session_start > ", r0 TSRMLS_CC);
 	PG(display_errors) = silence;
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Session::start (Method) File=/Session Line=24");
 }
 
 /**
@@ -85,20 +79,13 @@ PHP_METHOD(Phalcon_Session, setOptions){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Session", "setOptions", 0);
-	phalcon_step_over("Phalcon_Session::setOptions (If) File=/Session Line=25");
 	eval_int = phalcon_array_isset_string(v0, "uniqueId", strlen("uniqueId")+1);
 	if (eval_int) {
-		phalcon_step_over("Phalcon_Session::setOptions (Block) File=/Session Line=25");
-		phalcon_step_over("Phalcon_Session::setOptions (Assignment) File=/Session Line=26");
 		PHALCON_ALLOC_ZVAL(r0);
 		phalcon_array_fetch_string(r0, v0, "uniqueId", strlen("uniqueId"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		zend_update_static_property(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, r0 TSRMLS_CC);
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Session::setOptions (Method) File=/Session Line=33");
 }
 
 /**
@@ -118,15 +105,10 @@ PHP_METHOD(Phalcon_Session, get){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Session", "get", 0);
-	phalcon_step_over("Phalcon_Session::get (Assignment) File=/Session Line=34");
 	t0 = zend_read_static_property(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
 	PHALCON_CPY_WRT(v1, r0);
-	phalcon_debug_assign("$key", r0 TSRMLS_CC);
-	phalcon_step_over("Phalcon_Session::get (If) File=/Session Line=35");
 	phalcon_init_global("_SESSION" TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
@@ -144,20 +126,13 @@ PHP_METHOD(Phalcon_Session, get){
 	}
 	eval_int = phalcon_array_isset(a0, v1);
 	if (eval_int) {
-		phalcon_step_over("Phalcon_Session::get (Block) File=/Session Line=35");
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_array_fetch(r1, a0, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		phalcon_debug_vdump("Returning > ", r1 TSRMLS_CC);
-		phalcon_step_out_entry();
 		PHALCON_RETURN_CTOR(r1);
 	} else {
-		phalcon_step_over("Phalcon_Session::get (Block) File=/Session Line=37");
-		phalcon_step_out_entry();
 		RETURN_NULL();
 	}
-	phalcon_step_out_entry();
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Session::get (Method) File=/Session Line=45");
 }
 
 /**
@@ -176,10 +151,6 @@ PHP_METHOD(Phalcon_Session, set){
 		RETURN_NULL();
 	}
 
-	phalcon_debug_vdump("Receiving Param &v0 > ", v0 TSRMLS_CC);
-	phalcon_debug_vdump("Receiving Param &v1 > ", v1 TSRMLS_CC);
-	phalcon_step_into_entry("Phalcon_Session", "set", 0);
-	phalcon_step_over("Phalcon_Session::set (Assignment) File=/Session Line=46");
 	phalcon_init_global("_SESSION" TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
@@ -198,11 +169,16 @@ PHP_METHOD(Phalcon_Session, set){
 	t0 = zend_read_static_property(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
-	PHALCON_SEPARATE(a0);
-	phalcon_array_update(a0, r0, v1 TSRMLS_CC);
-	phalcon_step_out_entry();
+	{
+		zval *copy;
+		ALLOC_ZVAL(copy);
+		ZVAL_ZVAL(copy, v1, 1, 0);
+		Z_SET_REFCOUNT_P(copy, 1);
+		Z_UNSET_ISREF_P(copy);
+		PHALCON_SEPARATE(a0);
+		phalcon_array_update(a0, r0, copy TSRMLS_CC);
+	}
 	RETURN_NULL();
-	phalcon_step_over("Phalcon_Session::set (Method) File=/Session Line=52");
 }
 
 /** 
@@ -212,13 +188,8 @@ PHP_METHOD(Phalcon_Session, getId){
 
 	zval *r0 = NULL;
 
-	phalcon_step_into_entry("Phalcon_Session", "getId", 0);
 	PHALCON_ALLOC_ZVAL(r0);
 	PHALCON_CALL_FUNC(r0, "session_id");
-	phalcon_debug_vdump("session_id > ", r0 TSRMLS_CC);
-	phalcon_debug_vdump("Returning > ", r0 TSRMLS_CC);
-	phalcon_step_out_entry();
 	RETURN_ZVAL(r0, 1, 0);
-	phalcon_step_out_entry();
 }
 
