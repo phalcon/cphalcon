@@ -47,9 +47,9 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
+	zval *c0 = NULL;
 	zval *ac0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *p0[] = { NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -61,71 +61,35 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		PHALCON_ALLOC_ZVAL(r0);
-		PHALCON_ALLOC_ZVAL(p0[0]);
-		ZVAL_STRING(p0[0], " ", 1);
-		p0[1] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "join", 2, p0);
+		PHALCON_ALLOC_ZVAL(c0);
+		ZVAL_STRING(c0, " ", 1);
+		PHALCON_CALL_FUNC_PARAMS_2(r0, "join", c0, v1, 0x00B);
+		FREE_ZVAL(c0);
 		PHALCON_CPY_WRT(v2, r0);
 	} else {
 		PHALCON_CPY_WRT(v2, v1);
 	}
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
 		FOREACH_V(v0, ac0, fes52, fee52, ah0, hp0, v3)
-			if (!r3) {
-				PHALCON_ALLOC_ZVAL(r3);
-			} else {
-				if (Z_REFCOUNT_P(r3) > 1) {
-					PHALCON_SEPARATE(r3);
-				} else {
-					FREE_ZVAL(r3);
-					PHALCON_ALLOC_ZVAL(r3);
-				}
-			}
+			PHALCON_INIT_RESULT(r3);
 			PHALCON_CONCAT_LEFT(r3, "<div class=\"", v2);
-			if (!r2) {
-				PHALCON_ALLOC_ZVAL(r2);
-			} else {
-				if (Z_REFCOUNT_P(r2) > 1) {
-					PHALCON_SEPARATE(r2);
-				} else {
-					FREE_ZVAL(r2);
-					PHALCON_ALLOC_ZVAL(r2);
-				}
-			}
-			phalcon_concat_vboth(r2, r3, "\">", v3 TSRMLS_CC);
-			if (!t0) {
-				PHALCON_ALLOC_ZVAL(t0);
-			} else {
-				if (Z_REFCOUNT_P(t0) > 1) {
-					PHALCON_SEPARATE(t0);
-				} else {
-					FREE_ZVAL(t0);
-					PHALCON_ALLOC_ZVAL(t0);
-				}
-			}
+			PHALCON_INIT_RESULT(r2);
+			PHALCON_CONCAT_VBOTH(r2, r3, "\">", v3);
+			PHALCON_INIT_VAR(t0);
 			zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t0 TSRMLS_CC);
-			if (!r1) {
-				PHALCON_ALLOC_ZVAL(r1);
-			} else {
-				if (Z_REFCOUNT_P(r1) > 1) {
-					PHALCON_SEPARATE(r1);
-				} else {
-					FREE_ZVAL(r1);
-					PHALCON_ALLOC_ZVAL(r1);
-				}
-			}
-			phalcon_concat_vboth(r1, r2, "</div>", t0 TSRMLS_CC);
+			PHALCON_INIT_RESULT(r1);
+			PHALCON_CONCAT_VBOTH(r1, r2, "</div>", t0);
 			zend_print_zval(r1, 0);
 		END_FOREACH(ac0, fes52, fee52, ah0, hp0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r6);
 		PHALCON_CONCAT_LEFT(r6, "<div class=\"", v2);
 		PHALCON_ALLOC_ZVAL(r5);
-		phalcon_concat_vboth(r5, r6, "\">", v0 TSRMLS_CC);
+		PHALCON_CONCAT_VBOTH(r5, r6, "\">", v0);
 		PHALCON_ALLOC_ZVAL(t1);
 		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL(r4);
-		phalcon_concat_vboth(r4, r5, "</div>", t1 TSRMLS_CC);
+		PHALCON_CONCAT_VBOTH(r4, r5, "</div>", t1);
 		zend_print_zval(r4, 0);
 	}
 	RETURN_NULL();

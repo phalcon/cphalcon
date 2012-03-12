@@ -508,6 +508,14 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
+PHP_RINIT_FUNCTION(phalcon){
+	return phalcon_init_fcall_cache();
+}
+
+PHP_RSHUTDOWN_FUNCTION(phalcon){
+	return phalcon_free_fcall_cache();
+}
+
 zend_module_entry phalcon_module_entry = {
 #if ZEND_MODULE_API_NO >= 20010901
 	STANDARD_MODULE_HEADER,
@@ -516,8 +524,8 @@ zend_module_entry phalcon_module_entry = {
 	NULL,
 	PHP_MINIT(phalcon),
 	PHP_MSHUTDOWN(phalcon),
-	NULL,
-	NULL,
+	PHP_RINIT(phalcon),
+	PHP_RSHUTDOWN(phalcon),
 	NULL,
 #if ZEND_MODULE_API_NO >= 20010901
 	PHP_PHALCON_VERSION,

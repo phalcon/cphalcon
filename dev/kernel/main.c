@@ -184,13 +184,10 @@ int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2
 /**
  * Performs fast concat when left and right operator are char constants
  */
-int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op3 TSRMLS_DC){
+int phalcon_concat_both(zval *result, const char *op1, int op1_length, zval *op2, const char *op3, int op3_length TSRMLS_DC){
 
 	zval op2_copy;
 	int use_copy2 = 0;
-
-	int op1_length = strlen(op1);
-	int op3_length = strlen(op3);
 
 	if (Z_TYPE_P(op2) != IS_STRING) {
 		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
@@ -219,12 +216,10 @@ int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op
 /**
  * Performs fast concat when left and right operator are zvals
  */
-int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSRMLS_DC){
+int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, int op2_length, zval *op3 TSRMLS_DC){
 
 	zval op1_copy, op3_copy;
 	int use_copy1 = 0, use_copy3 = 0;
-
-	int op2_length = strlen(op2);
 
 	if (Z_TYPE_P(op1) != IS_STRING) {
 		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
@@ -263,7 +258,7 @@ int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSR
 }
 
 /**
- * Natural compare with string operator on right
+ * Natural compare with string operadus on right
  */
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
@@ -289,6 +284,39 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 	return 0;
 }
 
+/**
+ * Natural is smaller compare with long operadus on right
+ */
+int phalcon_is_smaller_strict_long(zval *op1, long op2){
+
+	zval *op2_tmp, *result;
+	int bool_result;
+
+	switch(Z_TYPE_P(op1)){
+		case IS_LONG:
+			return Z_LVAL_P(op1) < op2;
+		case IS_DOUBLE:
+			return Z_LVAL_P(op1) < (double) op2;
+		case IS_NULL:
+			return 0 < op2;
+		case IS_BOOL:
+			if (Z_BVAL_P(op1)) {
+				return 0 < op2;
+			} else {
+				return 1 < op2;
+			}
+		default:
+			ALLOC_INIT_ZVAL(result);
+			ALLOC_INIT_ZVAL(op2_tmp);
+			ZVAL_LONG(op2_tmp, op2);
+			is_smaller_function(result, op1, op2_tmp);
+			bool_result = Z_BVAL_P(result);
+			FREE_ZVAL(result);
+			FREE_ZVAL(op2_tmp);
+			return bool_result;
+	}
+
+}
 
 /**
  * Inmediate function resolution for addslaches function
@@ -355,4 +383,38 @@ int phalcon_filter_alphanum(zval **result, zval *param){
 	*result = tmp;
 
 	return SUCCESS;
+}
+
+/**
+ * Natural is smaller or equal compare with long operadus on right
+ */
+int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2){
+
+	zval *op2_tmp, *result;
+	int bool_result;
+
+	switch(Z_TYPE_P(op1)){
+		case IS_LONG:
+			return Z_LVAL_P(op1) <= op2;
+		case IS_DOUBLE:
+			return Z_LVAL_P(op1) <= (double) op2;
+		case IS_NULL:
+			return 0 < op2;
+		case IS_BOOL:
+			if (Z_BVAL_P(op1)) {
+				return 0 <= op2;
+			} else {
+				return 1 <= op2;
+			}
+		default:
+			ALLOC_INIT_ZVAL(result);
+			ALLOC_INIT_ZVAL(op2_tmp);
+			ZVAL_LONG(op2_tmp, op2);
+			is_smaller_or_equal_function(result, op1, op2_tmp);
+			bool_result = Z_BVAL_P(result);
+			FREE_ZVAL(result);
+			FREE_ZVAL(op2_tmp);
+			return bool_result;
+	}
+
 }

@@ -44,7 +44,6 @@ PHP_METHOD(Phalcon_Test, nice){
 	zval *ac0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
-	zval *p0[] = { NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -65,29 +64,9 @@ PHP_METHOD(Phalcon_Test, nice){
 	add_assoc_long(a0, "hello3", 3);
 	PHALCON_CPY_WRT(v1, a0);
 	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
-		if (!r0) {
-			PHALCON_ALLOC_ZVAL(r0);
-		} else {
-			if (Z_REFCOUNT_P(r0) > 1) {
-				PHALCON_SEPARATE(r0);
-			} else {
-				FREE_ZVAL(r0);
-				PHALCON_ALLOC_ZVAL(r0);
-			}
-		}
+		PHALCON_INIT_RESULT(r0);
 		phalcon_array_fetch(r0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (!t0) {
-			PHALCON_ALLOC_ZVAL(t0);
-		} else {
-			if (Z_REFCOUNT_P(t0) > 1) {
-				SEPARATE_ZVAL(&t0);
-			} else {
-				if (Z_TYPE_P(t0) != IS_LONG) {
-					FREE_ZVAL(t0);
-					PHALCON_ALLOC_ZVAL(t0);
-				}
-			}
-		}
+		PHALCON_INIT_VARTYPE(t0, IS_LONG);
 		ZVAL_LONG(t0, 100);
 		if (!r1) {
 			PHALCON_ALLOC_ZVAL(r1);
@@ -107,8 +86,7 @@ PHP_METHOD(Phalcon_Test, nice){
 			phalcon_array_update(v1, v3, copy TSRMLS_CC);
 		}
 	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
-	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", 1, p0);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v1, 0x012);
 	RETURN_NULL();
 }
 
