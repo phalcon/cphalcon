@@ -72,7 +72,16 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		if (zend_is_true(v0)) {
 			FOREACH_V(v1, ac0, fes54, fee54, ah0, hp0, v2)
-				PHALCON_INIT_RESULT(r0);
+				if (!r0) {
+					PHALCON_ALLOC_ZVAL(r0);
+				} else {
+					if (Z_REFCOUNT_P(r0) > 1) {
+						PHALCON_SEPARATE(r0);
+					} else {
+						FREE_ZVAL(r0);
+						PHALCON_ALLOC_ZVAL(r0);
+					}
+				}
 				Z_ADDREF_P(v0);
 				p0[0] = v0;
 				Z_ADDREF_P(v2);
@@ -81,7 +90,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				PHALCON_CPY_WRT_PARAM(v0, r0);
 			END_FOREACH(ac0, fes54, fee54, ah0, hp0);
 		}
-		PHALCON_RETURN_CHECK_CTOR(v0);
+		PHALCON_RETURN_CTOR(v0);
 	} else {
 		PHALCON_ALLOC_ZVAL(r1);
 		Z_ADDREF_P(v0);
@@ -108,10 +117,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	zval *r7 = NULL, *r8 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *t7 = NULL, *t8 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *a0 = NULL;
 	zval *i0 = NULL;
-	zval *p3[] = { NULL, NULL, NULL }, *p4[] = { NULL };
+	zval *p0[] = { NULL, NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL }, *p3[] = { NULL, NULL, NULL }, *p4[] = { NULL };
 
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
@@ -124,9 +132,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	is_equal_function(r0, v1, t0 TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL(r1);
+		p0[0] = v0;
 		PHALCON_ALLOC_ZVAL(t1);
 		ZVAL_LONG(t1, 517);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "filter_var", v0, t1, 0x037);
+		p0[1] = t1;
+		PHALCON_CALL_FUNC_PARAMS(r1, "filter_var", 2, p0);
 		RETURN_ZVAL(r1, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t2);
@@ -135,9 +145,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	is_equal_function(r2, v1, t2 TSRMLS_CC);
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL(r3);
+		p1[0] = v0;
 		PHALCON_ALLOC_ZVAL(t3);
 		ZVAL_LONG(t3, 519);
-		PHALCON_CALL_FUNC_PARAMS_2(r3, "filter_var", v0, t3, 0x037);
+		p1[1] = t3;
+		PHALCON_CALL_FUNC_PARAMS(r3, "filter_var", 2, p1);
 		RETURN_ZVAL(r3, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t4);
@@ -146,9 +158,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	is_equal_function(r4, v1, t4 TSRMLS_CC);
 	if (zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL(r5);
+		p2[0] = v0;
 		PHALCON_ALLOC_ZVAL(t5);
 		ZVAL_LONG(t5, 513);
-		PHALCON_CALL_FUNC_PARAMS_2(r5, "filter_var", v0, t5, 0x037);
+		p2[1] = t5;
+		PHALCON_CALL_FUNC_PARAMS(r5, "filter_var", 2, p2);
 		RETURN_ZVAL(r5, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(t6);
@@ -168,13 +182,13 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_SEPARATE(a0);
 		add_assoc_zval(a0, "flags", t8);
 		p3[2] = a0;
-		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3, 0x037);
+		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3);
 		RETURN_ZVAL(r7, 1, 0);
 	}
 	PHALCON_ALLOC_ZVAL(i0);
 	object_init_ex(i0, phalcon_exception_class_entry);
 	PHALCON_ALLOC_ZVAL(r8);
-	PHALCON_CONCAT_BOTH(r8,  "Filter ", v1, " is not supported");
+	phalcon_concat_both(r8,  "Filter ", v1, " is not supported" TSRMLS_CC);
 	Z_ADDREF_P(r8);
 	p4[0] = r8;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);

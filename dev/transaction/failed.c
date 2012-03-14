@@ -60,11 +60,17 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_UPDATE_PROPERTY_CPY(this_ptr, "_record", v1);
+	{
+		zval *copy;
+		ALLOC_ZVAL(copy);
+		ZVAL_ZVAL(copy, v1, 1, 0);
+		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
+		phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), copy TSRMLS_CC);
+	}
 	Z_ADDREF_P(v0);
 	p0[0] = v0;
-	PHALCON_ALLOC_ZVAL(p0[1]);
-	ZVAL_LONG(p0[1], 0);
+	PHALCON_PARAM_LONG(p0[1], 0);
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Transaction_Failed", "__construct", 2, p0);
 	RETURN_NULL();
 }
@@ -106,6 +112,6 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	PHALCON_ALLOC_ZVAL(t0);
 	phalcon_read_property(t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	PHALCON_RETURN_CTOR(t0);
 }
 

@@ -56,12 +56,10 @@ extern int phalcon_and_function(zval *result, zval *left, zval *right);
 /** Concat functions */
 extern int phalcon_concat_right(zval *result, zval *op1, const char *op2, int op2_length TSRMLS_DC);
 extern int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2 TSRMLS_DC);
-extern int phalcon_concat_both(zval *result, const char *op1, int op1_length, zval *op2, const char *op3, int op3_length TSRMLS_DC);
-extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, int op2_length, zval *op3 TSRMLS_DC);
+extern int phalcon_concat_both(zval *result, const char *op1, zval *op2, const char *op3 TSRMLS_DC);
+extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, zval *op3 TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
-extern int phalcon_is_smaller_strict_long(zval *op1, long op2);
-extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern long phalcon_count(const zval *value);
@@ -79,64 +77,6 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		PHALCON_ALLOC_ZVAL(var);\
 	} else {\
 		PHALCON_REALLOC_ZVAL(var);\
-	}
-
-#define PHALCON_INIT_RESULT(var) if (!var) {\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if (Z_REFCOUNT_P(var) > 1) {\
-			PHALCON_SEPARATE(var);\
-		} else {\
-			FREE_ZVAL(var);\
-			PHALCON_ALLOC_ZVAL(var);\
-		}\
-	}
-
-#define PHALCON_INIT_RESULT_PARAM(var) if (!var) {\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if (Z_REFCOUNT_P(var) > 1) {\
-			PHALCON_SEPARATE_PARAM(var);\
-		} else {\
-			FREE_ZVAL(var);\
-			PHALCON_ALLOC_ZVAL(var);\
-		}\
-	}
-
-#define PHALCON_INIT_VAR(var) if (!var) {\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if (Z_REFCOUNT_P(var) > 1) {\
-			PHALCON_SEPARATE(var);\
-		} else {\
-			FREE_ZVAL(var);\
-			PHALCON_ALLOC_ZVAL(var);\
-		}\
-	}
-
-#define PHALCON_INIT_VAR_PARAM(var) if (!var) {\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if (Z_REFCOUNT_P(var) > 1) {\
-			PHALCON_SEPARATE_PARAM(var);\
-		} else {\
-			FREE_ZVAL(var);\
-			PHALCON_ALLOC_ZVAL(var);\
-		}\
-	}
-
-/** Init var only when type has been changed */
-#define PHALCON_INIT_VARTYPE(var, type) if (!var) {\
-		PHALCON_ALLOC_ZVAL(var);\
-	} else {\
-		if (Z_REFCOUNT_P(var) > 1) {\
-			SEPARATE_ZVAL(&var);\
-		} else {\
-			if (Z_TYPE_P(var) != type) {\
-				FREE_ZVAL(var);\
-				PHALCON_ALLOC_ZVAL(var);\
-			}\
-		}\
 	}
 
 /** Do zval separation */
@@ -323,10 +263,8 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 
 /** Operators */
 #define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
-#define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_CC)
-#define PHALCON_CONCAT_LEFT(result, op1, op2) phalcon_concat_left(result, op1, strlen(op1), op2 TSRMLS_CC)
-#define PHALCON_CONCAT_BOTH(result, op1, op2, op3) phalcon_concat_both(result, op1, strlen(op1), op2, op3, strlen(op3) TSRMLS_CC)
-#define PHALCON_CONCAT_VBOTH(result, op1, op2, op3) phalcon_concat_vboth(result, op1, op2, strlen(op2), op3 TSRMLS_CC)
+#define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_DC)
+#define PHALCON_CONCAT_LEFT(result, op1, op2) phalcon_concat_left(result, op1, strlen(op1), op2 TSRMLS_DC)
 
 /** Constants */
 #define PHALCON_GET_CONSTANT(var, name) PHALCON_VAR_INIT(var); zend_get_constant(name, strlen(name), var TSRMLS_CC)
@@ -357,19 +295,8 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 			PHALCON_INIT_ARRAY(varr);\
 		}
 
-#define PHALCON_RETURN_CHECK_CTOR(var) {\
-		zend_uchar is_ref = Z_ISREF_P(return_value);\
-		zend_uint refcount = Z_REFCOUNT_P(return_value);\
-		*(return_value) = *(var);\
-		if (Z_TYPE_P(var) > IS_BOOL) {\
-			zval_copy_ctor(return_value);\
-		}\
-		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
-	}\
-	return;
-
-#define PHALCON_RETURN_CTOR(var) {\
+#define PHALCON_RETURN_CTOR(var) if (Z_TYPE_P(var) > IS_BOOL) {\
+	{\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\
@@ -377,14 +304,13 @@ extern int phalcon_filter_alphanum(zval **result, zval *param);
 		Z_SET_ISREF_TO_P(return_value, is_ref);\
 		Z_SET_REFCOUNT_P(return_value, refcount);\
 	}\
-	return;
-
-#define PHALCON_RETURN_NCTOR(var) {\
+} else {\
+	{\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\
 		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
+ 		Z_SET_REFCOUNT_P(return_value, refcount);\
 	}\
-	return;
-
+}\
+return;

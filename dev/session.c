@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_Session, start){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL(r0);
-	PHALCON_CALL_FUNC(r0, "session_start", 0x02A);
+	PHALCON_CALL_FUNC(r0, "session_start");
 	PG(display_errors) = silence;
 	RETURN_NULL();
 }
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Session, get){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL(r1);
 		phalcon_array_fetch(r1, a0, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_RETURN_CHECK_CTOR(r1);
+		PHALCON_RETURN_CTOR(r1);
 	} else {
 		RETURN_NULL();
 	}
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Session, getId){
 	zval *r0 = NULL;
 
 	PHALCON_ALLOC_ZVAL(r0);
-	PHALCON_CALL_FUNC(r0, "session_id", 0x03A);
+	PHALCON_CALL_FUNC(r0, "session_id");
 	RETURN_ZVAL(r0, 1, 0);
 }
 

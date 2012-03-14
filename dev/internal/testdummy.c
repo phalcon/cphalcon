@@ -46,7 +46,14 @@ PHP_METHOD(Phalcon_Internal_TestDummy, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_UPDATE_PROPERTY_CPY(this_ptr, "_d1", v0);
+	{
+		zval *copy;
+		ALLOC_ZVAL(copy);
+		ZVAL_ZVAL(copy, v0, 1, 0);
+		Z_SET_REFCOUNT_P(copy, 0);
+		Z_UNSET_ISREF_P(copy);
+		phalcon_update_property_zval(this_ptr, "_d1", strlen("_d1"), copy TSRMLS_CC);
+	}
 	RETURN_NULL();
 }
 

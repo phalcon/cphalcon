@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Exception, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *r0 = NULL;
-	zval *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
+	zval *p0[] = { NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
 
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &v0, &v1, &v2, &v3) == FAILURE) {
@@ -73,7 +73,8 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	
 	PHALCON_ALLOC_ZVAL(r0);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x029);
+	p0[0] = v1;
+	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
 	if (zend_is_true(r0)) {
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
@@ -83,8 +84,7 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	} else {
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
-		PHALCON_ALLOC_ZVAL(p2[1]);
-		ZVAL_LONG(p2[1], 0);
+		PHALCON_PARAM_LONG(p2[1], 0);
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Exception", "__construct", 2, p2);
 	}
 	RETURN_NULL();

@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
-	zval *p1[] = { NULL }, *p2[] = { NULL, NULL };
+	zval *p0[] = { NULL }, *p1[] = { NULL }, *p2[] = { NULL, NULL };
 	zend_class_entry *ce0;
 
 	
@@ -69,12 +69,13 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_CPY_WRT(v3, r0);
 	PHALCON_ALLOC_ZVAL(r1);
 	Z_ADDREF_P(v3);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v3, 0x000);
+	p0[0] = v3;
+	PHALCON_CALL_FUNC_PARAMS(r1, "class_exists", 1, p0);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL(i0);
 		object_init_ex(i0, phalcon_cache_exception_class_entry);
 		PHALCON_ALLOC_ZVAL(r2);
-		PHALCON_CONCAT_BOTH(r2,  "Adapter \"", v0, "' doesn't exist");
+		phalcon_concat_both(r2,  "Adapter \"", v0, "' doesn't exist" TSRMLS_CC);
 		Z_ADDREF_P(r2);
 		p1[0] = r2;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
@@ -90,6 +91,14 @@ PHP_METHOD(Phalcon_Cache, factory){
 	Z_ADDREF_P(v2);
 	p2[1] = v2;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 2, p2, PHALCON_CALL_CHECK);
-	PHALCON_RETURN_CTOR(i1);
+	{
+		zend_uchar is_ref = Z_ISREF_P(return_value);
+		zend_uint refcount = Z_REFCOUNT_P(return_value);
+		*(return_value) = *(i1);
+		zval_copy_ctor(return_value);
+		Z_SET_ISREF_TO_P(return_value, is_ref);
+		Z_SET_REFCOUNT_P(return_value, refcount);
+	}
+	return;
 }
 

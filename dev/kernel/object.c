@@ -268,15 +268,6 @@ int phalcon_update_property_zval(zval *obj, char *property_name, int property_le
 }
 
 /**
- * Checks wheter obj is an object and updates property with another zval, this function initializes value
- */
-int phalcon_update_property_zval_cpy(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC){
-	Z_SET_REFCOUNT_P(value, 0);
-	Z_UNSET_ISREF_P(value);
-	return phalcon_update_property_zval(obj, property_name, property_length, value TSRMLS_CC);
-}
-
-/**
  * Check if method exists on certain object
  */
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
@@ -299,20 +290,3 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 
 	return FAILURE;
 }
-
-/**
- * Check if method exists on certain object using explicit char param
- */
-int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC){
-
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		return FAILURE;
-	}
-
-	if (zend_hash_exists(&Z_OBJCE_P(object)->function_table, method_name, method_len+1)) {
-		return SUCCESS;
-	}
-
-	return FAILURE;
-}
-

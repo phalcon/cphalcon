@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class UtilsTest extends PHPUnit_Framework_TestCase {
+class UtilsTest extends PHPUnit_Framework_TestCase { 
 
 	public function testCamelize(){
 		$camelizeTests = array (
@@ -52,18 +52,6 @@ class UtilsTest extends PHPUnit_Framework_TestCase {
 		);
 		foreach($uncamelizeTests as $str => $camelized){
 			$this->assertEquals($camelized, Phalcon_Utils::uncamelize($str));
-		}
-	}
-
-	public function testLcFirst(){
-		$lcFirstTests = array (
-		  'lower' => 'lower',
-		  'LOWER' => 'lOWER',
-		  'LOWEr' => 'lOWEr',
-		  '123lower' => '123lower',
-		);
-		foreach($lcFirstTests as $str => $lcfirst){
-			$this->assertEquals($lcfirst, Phalcon_Utils::lcfirst($str));
 		}
 	}
 
