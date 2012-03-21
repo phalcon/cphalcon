@@ -18,7 +18,6 @@
 */
 
 extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
-extern int phalcon_disable_xdebug();
 
 #ifndef PHALCON_RELEASE
 
@@ -34,6 +33,7 @@ typedef struct _phalcon_debug_entry {
 } phalcon_debug_entry;
 
 extern int phalcon_start_debug();
+extern int phalcon_stop_debug();
 
 extern int phalcon_print_r(zval *userval TSRMLS_DC);
 extern int phalcon_vdump(zval *uservar TSRMLS_DC);

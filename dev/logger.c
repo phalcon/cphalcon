@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
@@ -48,16 +49,18 @@ PHP_METHOD(Phalcon_Logger, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	if (!v0) {
-		PHALCON_ALLOC_ZVAL(v0);
-		ZVAL_STRING(v0, "File", 0);
+		PHALCON_INIT_VAR(v0);
+		ZVAL_STRING(v0, "File", 1);
 	}
 	
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
@@ -65,11 +68,14 @@ PHP_METHOD(Phalcon_Logger, setFormat){
 
 	zval *v0 = NULL;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
+	
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 

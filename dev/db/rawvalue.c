@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
@@ -42,8 +43,7 @@
  *
  * This class lets to insert/update raw data without quoting or formating.
  *
- * The next example shows how to use the MySQL now() function as a field value.
- * 
+ *
  */
 
 /**
@@ -55,19 +55,15 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 
 	zval *v0 = NULL;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	{
-		zval *copy;
-		ALLOC_ZVAL(copy);
-		ZVAL_ZVAL(copy, v0, 1, 0);
-		Z_SET_REFCOUNT_P(copy, 0);
-		Z_UNSET_ISREF_P(copy);
-		phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), copy TSRMLS_CC);
-	}
+	
+	phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), v0 TSRMLS_CC);
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
@@ -80,9 +76,10 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue){
 
 	zval *t0 = NULL;
 
-	PHALCON_ALLOC_ZVAL(t0);
-	phalcon_read_property(t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_RETURN_CTOR(t0);
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -92,8 +89,9 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString){
 
 	zval *t0 = NULL;
 
-	PHALCON_ALLOC_ZVAL(t0);
-	phalcon_read_property(t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_RETURN_CTOR(t0);
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

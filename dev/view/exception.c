@@ -32,8 +32,15 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
+
+/**
+ * Phalcon_View_Exception
+ *
+ * Class for exceptions thrown by Phalcon_View
+ */
 

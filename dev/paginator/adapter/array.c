@@ -39,9 +39,17 @@
 #include "zend_interfaces.h"
 
 /**
- * Phalcon_Cache_Exception
+ * Array_Paginator
  *
- * Exceptions thrown in Phalcon_Cache will use this class
+ * Component of pagination by array data
  *
  */
+
+PHP_METHOD(Phalcon_Paginator_Adapter_Array, __construct){
+
+
+	PHALCON_MM_GROW();
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
 

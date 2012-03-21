@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
@@ -41,10 +42,8 @@ PHP_METHOD(Phalcon_Test, nice){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *a0 = NULL;
-	zval *ac0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
-	zval *p0[] = { NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -53,62 +52,66 @@ PHP_METHOD(Phalcon_Test, nice){
 	ulong num;
 	int htype;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL(a0);
+	
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	add_assoc_long(a0, "hello1", 1);
-	add_assoc_long(a0, "hello2", 2);
-	add_assoc_long(a0, "hello3", 3);
+	add_assoc_long_ex(a0, "hello1", strlen("hello1")+1, 1);
+	add_assoc_long_ex(a0, "hello2", strlen("hello2")+1, 2);
+	add_assoc_long_ex(a0, "hello3", strlen("hello3")+1, 3);
 	PHALCON_CPY_WRT(v1, a0);
-	FOREACH_KV(v1, ac0, fes11, fee11, ah0, hp0, v3, v2)
-		if (!r0) {
-			PHALCON_ALLOC_ZVAL(r0);
+	if (Z_TYPE_P(v1) != IS_ARRAY) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
+	} else {
+		ALLOC_HASHTABLE(ah0);
+		zend_hash_init(ah0, 0, NULL, NULL, 0);
+		zend_hash_copy(ah0, Z_ARRVAL_P(v1), NULL, NULL, sizeof(zval*));
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes12:
+		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			goto fee12;
 		} else {
-			if (Z_REFCOUNT_P(r0) > 1) {
-				PHALCON_SEPARATE(r0);
+			PHALCON_INIT_VAR(v3);
+			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
+			if (htype == HASH_KEY_IS_STRING) {
+				ZVAL_STRINGL(v3, index, index_len-1, 1);
 			} else {
-				FREE_ZVAL(r0);
-				PHALCON_ALLOC_ZVAL(r0);
-			}
-		}
-		phalcon_array_fetch(r0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (!t0) {
-			PHALCON_ALLOC_ZVAL(t0);
-		} else {
-			if (Z_REFCOUNT_P(t0) > 1) {
-				SEPARATE_ZVAL(&t0);
-			} else {
-				if (Z_TYPE_P(t0) != IS_LONG) {
-					FREE_ZVAL(t0);
-					PHALCON_ALLOC_ZVAL(t0);
+				if (htype == HASH_KEY_IS_LONG) {
+					ZVAL_LONG(v3, num);
 				}
 			}
 		}
+		v2 = *hd;
+		Z_REFCOUNT_P(v2);
+		PHALCON_INIT_VAR(r0);
+		phalcon_array_fetch(&r0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 100);
-		if (!r1) {
-			PHALCON_ALLOC_ZVAL(r1);
-		} else {
-			if (Z_REFCOUNT_P(r1) > 1){ 
-				PHALCON_SEPARATE(r1);
-			}
+		PHALCON_INIT_VAR(r1);
+		phalcon_add_function(r1, r0, t0 TSRMLS_CC);
+		Z_ADDREF_P(r1);
+		if (Z_REFCOUNT_P(v1) > 1) {
+			zval *new_zv;
+			Z_DELREF_P(v1);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, v1);
+			v1 = new_zv;
+			zval_copy_ctor(new_zv);
 		}
-		add_function(r1, r0, t0 TSRMLS_CC);
-		{
-			zval *copy;
-			ALLOC_ZVAL(copy);
-			ZVAL_ZVAL(copy, r1, 1, 0);
-			Z_SET_REFCOUNT_P(copy, 1);
-			Z_UNSET_ISREF_P(copy);
-			PHALCON_SEPARATE(v1);
-			phalcon_array_update(v1, v3, copy TSRMLS_CC);
-		}
-	END_FOREACH(ac0, fes11, fee11, ah0, hp0);
-	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("print_r", 1, p0);
+		phalcon_array_update(v1, v3, r1 TSRMLS_CC);
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto fes12;
+		fee12:
+		zend_hash_destroy(ah0);
+		efree(ah0);
+	}
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v1, 0x013);
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 

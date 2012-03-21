@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
@@ -55,38 +56,43 @@ PHP_METHOD(Phalcon_Exception, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *r0 = NULL;
-	zval *p0[] = { NULL }, *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
+	zval *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &v0, &v1, &v2, &v3) == FAILURE) {
 		RETURN_NULL();
 	}
 
+	
 	if (!v1) {
-		PHALCON_ALLOC_ZVAL(v1);
+		PHALCON_INIT_VAR(v1);
 		ZVAL_LONG(v1, 0);
 	}
 	if (!v2) {
-		PHALCON_ALLOC_ZVAL(v2);
+		PHALCON_INIT_VAR(v2);
 		ZVAL_BOOL(v2, 1);
 	}
 	
-	PHALCON_ALLOC_ZVAL(r0);
-	Z_ADDREF_P(v1);
-	p0[0] = v1;
-	PHALCON_CALL_FUNC_PARAMS(r0, "is_numeric", 1, p0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x02A);
 	if (zend_is_true(r0)) {
 		Z_ADDREF_P(v0);
 		p1[0] = v0;
 		Z_ADDREF_P(v1);
 		p1[1] = v1;
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Exception", "__construct", 2, p1);
+		Z_DELREF_P(p1[0]);
+		Z_DELREF_P(p1[1]);
 	} else {
 		Z_ADDREF_P(v0);
 		p2[0] = v0;
-		PHALCON_PARAM_LONG(p2[1], 0);
+		PHALCON_INIT_VAR(p2[1]);
+		ZVAL_LONG(p2[1], 0);
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Exception", "__construct", 2, p2);
+		Z_DELREF_P(p2[0]);
 	}
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 

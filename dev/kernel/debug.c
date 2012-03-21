@@ -38,14 +38,6 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...){
 	return len;
 }
 
-/**
- * Forces to disable XDebug
- */
-int phalcon_disable_xdebug(){
-	zend_execute = execute;
-	return SUCCESS;
-}
-
 #ifndef PHALCON_RELEASE
 
 FILE *phalcon_log = NULL;
@@ -54,12 +46,27 @@ phalcon_debug_entry *start = NULL;
 phalcon_debug_entry *active = NULL;
 
 /**
- * Stars debug on file
+ * Stars debug on file pipe
  */
 int phalcon_start_debug(){
 	if(!phalcon_log){
 		//phalcon_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
+		//phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
 		phalcon_log = stderr;
+	}
+	return SUCCESS;
+}
+
+/**
+ * Stops debug process
+ */
+int phalcon_stop_debug(){
+	phalcon_debug_entry *ptr = active;
+	phalcon_debug_entry *this_entry = NULL;
+	while(ptr){
+		this_entry = ptr;
+		ptr = ptr->prev;
+		efree(this_entry);
 	}
 	return SUCCESS;
 }
@@ -205,8 +212,7 @@ int phalcon_debug_long(char *what, uint vlong){
 
 int phalcon_debug_screen(char *message){
 	phalcon_debug_space();
-	fprintf(phalcon_log, "%s", message);
-	fprintf(phalcon_log, "\n");
+	fprintf(phalcon_log, "%s\n", message);
 	return SUCCESS;
 }
 
@@ -288,7 +294,6 @@ int phalcon_debug_backtrace_internal(){
 	char *message;
 	phalcon_debug_entry *ptr = active;
 	while(ptr){
-		message = (char *) emalloc(sizeof(char)*(strlen(ptr->class_name)+strlen(ptr->method_name)+13));
 		phalcon_spprintf(&message, 0, "#%d %s::%s", step, ptr->class_name, ptr->method_name);
 		phalcon_debug_screen(message);
 		efree(message);
@@ -302,9 +307,11 @@ int phalcon_debug_backtrace_internal(){
  * Appends a debug entry to internal execution scope
  */
 int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
+
 	char *message;
 	phalcon_debug_entry *entry;
-	if(!start){
+
+	if (!start) {
 		start = (phalcon_debug_entry *) emalloc(sizeof(phalcon_debug_entry));
 		start->class_name = "__main__";
 		start->method_name = "__init__";
@@ -314,12 +321,11 @@ int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
 		active = start;
 	}
 
-	message = (char *) emalloc(sizeof(char)*(strlen(class_name)+strlen(method_name)+14));
 	phalcon_spprintf(&message, 0, "Step Into %s::%s", class_name, method_name);
 	phalcon_debug_screen(message);
 	efree(message);
 
-	entry = (phalcon_debug_entry *) emalloc(sizeof(phalcon_debug_entry));
+	entry = emalloc(sizeof(phalcon_debug_entry));
 	entry->class_name = class_name;
 	entry->method_name = method_name;
 	entry->lineno = lineno;
@@ -335,12 +341,13 @@ int phalcon_step_into_entry(char *class_name, char *method_name, int lineno){
  * Steps out current stack
  */
 int phalcon_step_out_entry(){
+
 	char *message;
 	phalcon_debug_entry *prev;
 	if(active){
 
 		phalcon_debug_trace--;
-		message = (char *) emalloc(sizeof(char)*(strlen(active->class_name)+strlen(active->method_name)+13));
+
 		phalcon_spprintf(&message, 0, "Step out %s::%s", active->class_name, active->method_name);
 		phalcon_debug_screen(message);
 		efree(message);

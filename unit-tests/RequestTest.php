@@ -81,6 +81,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsSecureRequest(){
+		$_SERVER['HTTP_HTTPS'] = 'on';
 		$this->assertTrue($this->_request->isSecureRequest());
 	}
 

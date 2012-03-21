@@ -32,27 +32,45 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Phalcon_Db_Exception
+ *
+ * Exceptions thrown in Phalcon_Db will use this class
+ *
+ */
+
+/**
+ * Phalcon_Db_Exception constructor
+ *
+ * @param string $message
+ * @param int $code
+ * @param boolean $showTrace
+ * @param array $backtrace
+ */
 PHP_METHOD(Phalcon_Db_Exception, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *p0[] = { NULL, NULL, NULL };
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &v0, &v1, &v2, &v3) == FAILURE) {
 		RETURN_NULL();
 	}
 
+	
 	if (!v2) {
-		PHALCON_ALLOC_ZVAL(v2);
+		PHALCON_INIT_VAR(v2);
 		ZVAL_BOOL(v2, 1);
 	}
 	if (!v3) {
-		PHALCON_ALLOC_ZVAL(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_NULL(v3);
 	}
 	
@@ -63,6 +81,10 @@ PHP_METHOD(Phalcon_Db_Exception, __construct){
 	Z_ADDREF_P(v2);
 	p0[2] = v2;
 	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Db_Exception", "__construct", 3, p0);
+	Z_DELREF_P(p0[0]);
+	Z_DELREF_P(p0[1]);
+	Z_DELREF_P(p0[2]);
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 

@@ -2,9 +2,12 @@ ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
 
 if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c");
-  ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "dispatcher.c response.c request.c cache.c view.c test.c utils.c db.c flash.c logger.c config.c filter.c exception.c transaction.c session.c controller.c tag.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/.", "dispatcher.c response.c request.c cache.c view.c test.c utils.c db.c flash.c paginator.c logger.c config.c filter.c exception.c transaction.c session.c controller.c tag.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/paginator/adapter", "array.c model.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/paginator", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/controller", "front.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/session", "namespace.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache/adapter", "file.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/internal", "test.c testtemp.c testdummy.c testparent.c", "phalcon")
@@ -15,7 +18,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/transaction", "failed.c manager.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config/adapter", "ini.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/model", "message.c manager.c metadata.c row.c base.c resultset.c exception.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/model", "message.c manager.c metadata.c row.c base.c resultset.c sanitize.c exception.c query.c", "phalcon")
   ADD_SOURCES("ext/phalcon/model/metadata", "memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/view", "exception.c", "phalcon")
 }

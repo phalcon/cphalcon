@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 
 #include "zend_operators.h"
 #include "zend_exceptions.h"
@@ -56,52 +57,40 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *p0[] = { NULL };
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
+	
 	if (!v1) {
-		PHALCON_ALLOC_ZVAL(v1);
-		ZVAL_STRING(v1, "", 0);
+		PHALCON_INIT_VAR(v1);
+		ZVAL_STRING(v1, "", 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(v1);
 	}
 	
 	if (zend_is_true(v1)) {
-		PHALCON_ALLOC_ZVAL(r0);
+		PHALCON_ALLOC_ZVAL_MM(r0);
 		Z_ADDREF_P(v1);
-		p0[0] = v1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "addslashes", 1, p0);
-		PHALCON_CPY_WRT_PARAM(v1, r0);
-		PHALCON_ALLOC_ZVAL(r2);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "addslashes", v1, 0x01D);
+		Z_DELREF_P(v1);
+		PHALCON_CPY_WRT(v1, r0);
+		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_LEFT(r2, "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '", v0);
-		PHALCON_ALLOC_ZVAL(r1);
-		phalcon_concat_vboth(r1, r2, "' AND `TABLE_SCHEMA`='", v1 TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL(r3);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_VBOTH(r1, r2, "' AND `TABLE_SCHEMA`='", v1);
+		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_RIGHT(r3, r1, "'");
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(r3);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-			Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-		return;
+		PHALCON_RETURN_CTOR(r3);
 	} else {
-		PHALCON_ALLOC_ZVAL(r4);
-		phalcon_concat_both(r4,  "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`='", v0, "'" TSRMLS_CC);
-		{
-			zend_uchar is_ref = Z_ISREF_P(return_value);
-			zend_uint refcount = Z_REFCOUNT_P(return_value);
-			*(return_value) = *(r4);
-			zval_copy_ctor(return_value);
-			Z_SET_ISREF_TO_P(return_value, is_ref);
-			Z_SET_REFCOUNT_P(return_value, refcount);
-		}
-		return;
+		PHALCON_ALLOC_ZVAL_MM(r4);
+		PHALCON_CONCAT_BOTH(r4,  "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`='", v0, "'");
+		PHALCON_RETURN_CTOR(r4);
 	}
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
@@ -119,38 +108,32 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		RETURN_NULL();
 	}
 
+	
 	if (!v1) {
-		PHALCON_ALLOC_ZVAL(v1);
-		ZVAL_STRING(v1, "", 0);
+		PHALCON_INIT_VAR(v1);
+		ZVAL_STRING(v1, "", 1);
 	}
 	
 	if (zend_is_true(v1)) {
-		PHALCON_ALLOC_ZVAL(r1);
+		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CONCAT_LEFT(r1, "DESCRIBE `", v1);
-		PHALCON_ALLOC_ZVAL(r0);
-		phalcon_concat_vboth(r0, r1, "`.`", v0 TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL(r2);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CONCAT_VBOTH(r0, r1, "`.`", v0);
+		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_RIGHT(r2, r0, "`");
 		PHALCON_CPY_WRT(v2, r2);
 	} else {
-		PHALCON_ALLOC_ZVAL(r3);
-		phalcon_concat_both(r3,  "DESCRIBE `", v0, "`" TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r3);
+		PHALCON_CONCAT_BOTH(r3,  "DESCRIBE `", v0, "`");
 		PHALCON_CPY_WRT(v2, r3);
 	}
-	{
-		zend_uchar is_ref = Z_ISREF_P(return_value);
-		zend_uint refcount = Z_REFCOUNT_P(return_value);
-		*(return_value) = *(v2);
-		zval_copy_ctor(return_value);
-		Z_SET_ISREF_TO_P(return_value, is_ref);
-		Z_SET_REFCOUNT_P(return_value, refcount);
-	}
-	return;
+	PHALCON_RETURN_CTOR(v2);
 }
 
 /**
@@ -166,32 +149,25 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables){
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL;
 
+	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	if (!v0) {
-		PHALCON_ALLOC_ZVAL(v0);
-		ZVAL_STRING(v0, "", 0);
+		PHALCON_INIT_VAR(v0);
+		ZVAL_STRING(v0, "", 1);
 	}
 	
 	if (zend_is_true(v0)) {
-		PHALCON_ALLOC_ZVAL(r0);
-		phalcon_concat_both(r0,  "SHOW TABLES FROM `", v0, "`" TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CONCAT_BOTH(r0,  "SHOW TABLES FROM `", v0, "`");
 		PHALCON_CPY_WRT(v1, r0);
 	} else {
-		PHALCON_ALLOC_ZVAL(v1);
-		ZVAL_STRING(v1, "SHOW TABLES", 0);
+		PHALCON_INIT_VAR(v1);
+		ZVAL_STRING(v1, "SHOW TABLES", 1);
 	}
-	{
-		zend_uchar is_ref = Z_ISREF_P(return_value);
-		zend_uint refcount = Z_REFCOUNT_P(return_value);
-		*(return_value) = *(v1);
-		zval_copy_ctor(return_value);
-		Z_SET_ISREF_TO_P(return_value, is_ref);
-		Z_SET_REFCOUNT_P(return_value, refcount);
-	}
-	return;
+	PHALCON_RETURN_CTOR(v1);
 }
 
