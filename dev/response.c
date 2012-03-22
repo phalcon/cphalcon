@@ -80,8 +80,11 @@ PHP_METHOD(Phalcon_Response, getInstance){
 PHP_METHOD(Phalcon_Response, setStatusCode){
 
 	zval *v0 = NULL, *v1 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *c0 = NULL;
+	zval **gv0;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
@@ -91,15 +94,33 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 	}
 
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_LEFT(r1, "HTTP/1.1 ", v0);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_VBOTH(r0, r1, " ", v1);
-	Z_ADDREF_P(r0);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x004);
-	Z_DELREF_P(r0);
+	phalcon_init_global("_SERVER" TSRMLS_CC);
+	if (&EG(symbol_table)) {
+		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
+			if(Z_TYPE_PP(gv0)==IS_ARRAY){
+				g0 = *gv0;
+			} else {
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
+			}
+		}
+	}
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
+	}
+	eval_int = phalcon_array_isset_string(g0, "SERVER_SOFTWARE", strlen("SERVER_SOFTWARE")+1);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_LEFT(r1, "HTTP/1.1 ", v0);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CONCAT_VBOTH(r0, r1, " ", v1);
+		Z_ADDREF_P(r0);
+		PHALCON_INIT_VAR(c0);
+		ZVAL_BOOL(c0, 1);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x004);
+		Z_DELREF_P(r0);
+	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
