@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Model_Row, setConnection){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -119,6 +120,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -157,8 +159,8 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
-			v3 = *hd;
-			Z_REFCOUNT_P(v3);
+		PHALCON_INIT_VAR(v3);
+			ZVAL_ZVAL(v3, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
 			ZVAL_BOOL(t2, 1);
 			Z_ADDREF_P(t2);
@@ -199,8 +201,8 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
-			v3 = *hd;
-			Z_REFCOUNT_P(v3);
+		PHALCON_INIT_VAR(v3);
+			ZVAL_ZVAL(v3, *hd, 1, 0);
 			phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), v3 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes72;
@@ -230,6 +232,7 @@ PHP_METHOD(Phalcon_Model_Row, readAttribute){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

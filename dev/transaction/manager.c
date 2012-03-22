@@ -86,6 +86,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -194,8 +195,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee62;
 		}
-		v0 = *hd;
-		Z_REFCOUNT_P(v0);
+	PHALCON_INIT_VAR(v0);
+		ZVAL_ZVAL(v0, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, v0, "getconnection", PHALCON_CALL_DEFAULT);
 		PHALCON_CPY_WRT(v1, r0);
@@ -232,6 +233,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -250,8 +252,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee63;
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, v1, "getconnection", PHALCON_CALL_DEFAULT);
 		PHALCON_CPY_WRT(v2, r0);
@@ -289,6 +291,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -314,6 +317,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -339,6 +343,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -363,8 +368,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee64;
 			}
-			v2 = *hd;
-			Z_REFCOUNT_P(v2);
+		PHALCON_INIT_VAR(v2);
+			ZVAL_ZVAL(v2, *hd, 1, 0);
 			PHALCON_INIT_VAR(r2);
 			is_equal_function(r2, v2, v0 TSRMLS_CC);
 			if (zend_is_true(r2)) {
@@ -393,8 +398,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 				goto fee65;
 			}
-			v2 = *hd;
-			Z_REFCOUNT_P(v2);
+		PHALCON_INIT_VAR(v2);
+			ZVAL_ZVAL(v2, *hd, 1, 0);
 			Z_ADDREF_P(v2);
 			PHALCON_SEPARATE_ARRAY(v3);
 			phalcon_array_append(v3, v2 TSRMLS_CC);
@@ -443,8 +448,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee66;
 			}
-			v1 = *hd;
-			Z_REFCOUNT_P(v1);
+		PHALCON_INIT_VAR(v1);
+			ZVAL_ZVAL(v1, *hd, 1, 0);
 			t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			PHALCON_SEPARATE_NMO(t3);
 			decrement_function(t3);

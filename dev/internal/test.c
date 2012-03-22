@@ -116,6 +116,7 @@ PHP_METHOD(Phalcon_Internal_Test, e6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -130,6 +131,7 @@ PHP_METHOD(Phalcon_Internal_Test, e7){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Internal_Test, e14){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -286,6 +289,7 @@ PHP_METHOD(Phalcon_Internal_Test, o1){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -310,6 +314,7 @@ PHP_METHOD(Phalcon_Internal_Test, o2){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -330,6 +335,7 @@ PHP_METHOD(Phalcon_Internal_Test, o3){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -353,6 +359,7 @@ PHP_METHOD(Phalcon_Internal_Test, o4){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -372,6 +379,7 @@ PHP_METHOD(Phalcon_Internal_Test, o5){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -389,6 +397,7 @@ PHP_METHOD(Phalcon_Internal_Test, o6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -406,6 +415,7 @@ PHP_METHOD(Phalcon_Internal_Test, o7){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -423,6 +433,7 @@ PHP_METHOD(Phalcon_Internal_Test, o8){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -440,6 +451,7 @@ PHP_METHOD(Phalcon_Internal_Test, o9){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -608,6 +620,7 @@ PHP_METHOD(Phalcon_Internal_Test, o20){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1347,8 +1360,8 @@ PHP_METHOD(Phalcon_Internal_Test, a10){
 				}
 			}
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v0, v2, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_INIT_VAR(t0);
@@ -1418,8 +1431,8 @@ PHP_METHOD(Phalcon_Internal_Test, a11){
 				}
 			}
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v0, v2, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_INIT_VAR(t0);
@@ -1477,8 +1490,8 @@ PHP_METHOD(Phalcon_Internal_Test, a12){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee22;
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v1, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_INIT_VAR(t0);
@@ -1534,8 +1547,8 @@ PHP_METHOD(Phalcon_Internal_Test, a13){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee23;
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		Z_ADDREF_P(v2);
 		PHALCON_SEPARATE_ARRAY(v0);
 		phalcon_array_append(v0, v2 TSRMLS_CC);
@@ -1592,8 +1605,8 @@ PHP_METHOD(Phalcon_Internal_Test, a14){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 2);
 		PHALCON_INIT_VAR(r0);
@@ -1666,8 +1679,8 @@ PHP_METHOD(Phalcon_Internal_Test, a15){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
 		Z_ADDREF_P(r0);
@@ -1778,8 +1791,8 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
 			if (Z_TYPE_P(v2) != IS_ARRAY) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
@@ -1800,8 +1813,8 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 						}
 					}
 				}
-				v4 = *hd;
-				Z_REFCOUNT_P(v4);
+			PHALCON_INIT_VAR(v4);
+				ZVAL_ZVAL(v4, *hd, 1, 0);
 				if (Z_TYPE_P(v0) == IS_ARRAY) {
 					PHALCON_INIT_VAR(t0);
 					phalcon_array_fetch(&t0, v0, v3, PHALCON_SILENT_FETCH TSRMLS_CC);
@@ -1910,8 +1923,8 @@ PHP_METHOD(Phalcon_Internal_Test, a17){
 				}
 			}
 		}
-		v3 = *hd;
-		Z_REFCOUNT_P(v3);
+	PHALCON_INIT_VAR(v3);
+		ZVAL_ZVAL(v3, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v2, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
 		Z_ADDREF_P(r0);
@@ -2299,8 +2312,8 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
 			if (Z_TYPE_P(v2) != IS_ARRAY) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
@@ -2321,8 +2334,8 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 						}
 					}
 				}
-				v4 = *hd;
-				Z_REFCOUNT_P(v4);
+			PHALCON_INIT_VAR(v4);
+				ZVAL_ZVAL(v4, *hd, 1, 0);
 				if (Z_TYPE_P(v0) == IS_ARRAY) {
 					PHALCON_INIT_VAR(t0);
 					phalcon_array_fetch(&t0, v0, v3, PHALCON_SILENT_FETCH TSRMLS_CC);
@@ -2413,6 +2426,7 @@ PHP_METHOD(Phalcon_Internal_Test, a24){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -2777,8 +2791,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa6){
 				}
 			}
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 2);
 		PHALCON_INIT_VAR(r0);
@@ -2862,8 +2876,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 				}
 			}
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
 			if (Z_TYPE_P(v1) != IS_ARRAY) {
 				php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
@@ -2884,8 +2898,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 						}
 					}
 				}
-				v3 = *hd;
-				Z_REFCOUNT_P(v3);
+			PHALCON_INIT_VAR(v3);
+				ZVAL_ZVAL(v3, *hd, 1, 0);
 				t0 = zend_read_static_property(phalcon_internal_test_class_entry, "_sp0", sizeof("_sp0")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 				if (Z_TYPE_P(t0) != IS_ARRAY) {
 					convert_to_array(t0);
@@ -3110,6 +3124,7 @@ PHP_METHOD(Phalcon_Internal_Test, c11){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3381,6 +3396,7 @@ PHP_METHOD(Phalcon_Internal_Test, m6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3399,6 +3415,7 @@ PHP_METHOD(Phalcon_Internal_Test, m7){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3423,6 +3440,7 @@ PHP_METHOD(Phalcon_Internal_Test, m8){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3456,6 +3474,7 @@ PHP_METHOD(Phalcon_Internal_Test, m9){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3474,6 +3493,7 @@ PHP_METHOD(Phalcon_Internal_Test, m10){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3498,6 +3518,7 @@ PHP_METHOD(Phalcon_Internal_Test, m11){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3523,6 +3544,7 @@ PHP_METHOD(Phalcon_Internal_Test, m12){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3574,6 +3596,7 @@ PHP_METHOD(Phalcon_Internal_Test, m13){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3597,6 +3620,7 @@ PHP_METHOD(Phalcon_Internal_Test, m14){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3624,6 +3648,7 @@ PHP_METHOD(Phalcon_Internal_Test, m15){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3661,6 +3686,7 @@ PHP_METHOD(Phalcon_Internal_Test, mp4){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3702,6 +3728,7 @@ PHP_METHOD(Phalcon_Internal_Test, mp6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3779,6 +3806,7 @@ PHP_METHOD(Phalcon_Internal_Test, sm6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3797,6 +3825,7 @@ PHP_METHOD(Phalcon_Internal_Test, sm7){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3820,6 +3849,7 @@ PHP_METHOD(Phalcon_Internal_Test, sm8){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3839,6 +3869,7 @@ PHP_METHOD(Phalcon_Internal_Test, sm9){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3891,6 +3922,7 @@ PHP_METHOD(Phalcon_Internal_Test, sm10){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3967,6 +3999,7 @@ PHP_METHOD(Phalcon_Internal_Test, smp4){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -3992,6 +4025,7 @@ PHP_METHOD(Phalcon_Internal_Test, smp5){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4189,6 +4223,7 @@ PHP_METHOD(Phalcon_Internal_Test, p14){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4316,6 +4351,7 @@ PHP_METHOD(Phalcon_Internal_Test, p22){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4338,6 +4374,7 @@ PHP_METHOD(Phalcon_Internal_Test, p23){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4522,6 +4559,7 @@ PHP_METHOD(Phalcon_Internal_Test, sp9){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4542,6 +4580,7 @@ PHP_METHOD(Phalcon_Internal_Test, sp10){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -4568,6 +4607,7 @@ PHP_METHOD(Phalcon_Internal_Test, sp11){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5107,6 +5147,7 @@ PHP_METHOD(Phalcon_Internal_Test, t1){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5174,8 +5215,8 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		Z_ADDREF_P(v3);
 		p0[0] = v3;
 		Z_ADDREF_P(v1);
@@ -5207,6 +5248,7 @@ PHP_METHOD(Phalcon_Internal_Test, t3){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5242,6 +5284,7 @@ PHP_METHOD(Phalcon_Internal_Test, t4){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5281,6 +5324,7 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5388,6 +5432,7 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5521,6 +5566,7 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -5826,8 +5872,8 @@ PHP_METHOD(Phalcon_Internal_Test, t10){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee46;
 		}
-		v4 = *hd;
-		Z_REFCOUNT_P(v4);
+	PHALCON_INIT_VAR(v4);
+		ZVAL_ZVAL(v4, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		phalcon_read_property_zval(&t0, v2, v4, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_CPY_WRT(v5, t0);
@@ -5932,6 +5978,7 @@ PHP_METHOD(Phalcon_Internal_Test, t12){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -6026,8 +6073,8 @@ PHP_METHOD(Phalcon_Internal_Test, t13){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		if (Z_TYPE_P(v2) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(i1);
 			object_init(i1);
@@ -6051,8 +6098,8 @@ PHP_METHOD(Phalcon_Internal_Test, t13){
 						}
 					}
 				}
-				v4 = *hd;
-				Z_REFCOUNT_P(v4);
+			PHALCON_INIT_VAR(v4);
+				ZVAL_ZVAL(v4, *hd, 1, 0);
 				PHALCON_INIT_VAR(t0);
 				phalcon_read_property_zval(&t0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
 				phalcon_update_property_zval(t0, Z_STRVAL_P(v5), Z_STRLEN_P(v5), v4 TSRMLS_CC);
@@ -6124,6 +6171,7 @@ PHP_METHOD(Phalcon_Internal_Test, t15){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

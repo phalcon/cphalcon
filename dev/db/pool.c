@@ -88,6 +88,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -134,8 +135,8 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 					}
 				}
 			}
-			v2 = *hd;
-			Z_REFCOUNT_P(v2);
+		PHALCON_INIT_VAR(v2);
+			ZVAL_ZVAL(v2, *hd, 1, 0);
 			phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), v2 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes54;
@@ -171,6 +172,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

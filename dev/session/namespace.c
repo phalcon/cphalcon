@@ -38,10 +38,20 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+ * Phalcon_Session_Namespace
+ *
+ * This component helps to separate session data into namespaces. Working by this way
+ * you can easily create groups of session variables into the application
+ */
+
 PHP_METHOD(Phalcon_Session_Namespace, __construct){
 
 	zval *a0 = NULL;
-	zval *v0 = NULL;
+	zval *v0 = NULL, *v1 = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
+	zval *p0[] = { NULL };
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
@@ -49,11 +59,23 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 	zend_update_property(phalcon_session_namespace_class_entry, this_ptr, "_data", strlen("_data"), a0 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
 	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), v0 TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	Z_ADDREF_P(t0);
+	p0[0] = t0;
+	PHALCON_CALL_STATIC_PARAMS(r0, "phalcon_session", "get", 1, p0);
+	Z_DELREF_P(p0[0]);
+	PHALCON_CPY_WRT(v1, r0);
+	if (Z_TYPE_P(v1) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, "_data", strlen("_data"), v1 TSRMLS_CC);
+	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -67,6 +89,7 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -101,6 +124,7 @@ PHP_METHOD(Phalcon_Session_Namespace, __get){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

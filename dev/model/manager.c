@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -140,6 +141,7 @@ PHP_METHOD(Phalcon_Model_Manager, setModelsDir){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -184,6 +186,7 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -250,6 +253,7 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -375,6 +379,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -411,6 +416,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -508,6 +514,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -613,6 +620,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -722,6 +730,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -828,6 +837,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -868,6 +878,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasMany){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -908,6 +919,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasOne){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -954,6 +966,7 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -993,8 +1006,8 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee69;
 			}
-			v7 = *hd;
-			Z_REFCOUNT_P(v7);
+		PHALCON_INIT_VAR(v7);
+			ZVAL_ZVAL(v7, *hd, 1, 0);
 			PHALCON_INIT_VAR(r7);
 			PHALCON_INIT_VAR(r8);
 			phalcon_array_fetch_string(&r8, v0, "fi", strlen("fi"), PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1087,6 +1100,7 @@ PHP_METHOD(Phalcon_Model_Manager, getBelongsToRecords){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1146,6 +1160,7 @@ PHP_METHOD(Phalcon_Model_Manager, getHasManyRecords){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1205,6 +1220,7 @@ PHP_METHOD(Phalcon_Model_Manager, getHasOneRecords){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1257,6 +1273,7 @@ PHP_METHOD(Phalcon_Model_Manager, autoload){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

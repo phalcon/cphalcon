@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	zend_update_property(phalcon_transaction_class_entry, this_ptr, "_messages", strlen("_messages"), a1 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -305,6 +308,7 @@ PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -326,6 +330,7 @@ PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -376,6 +381,7 @@ PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -401,6 +407,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -483,8 +490,8 @@ PHP_METHOD(Phalcon_Transaction, save){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee61;
 		}
-		v0 = *hd;
-		Z_REFCOUNT_P(v0);
+	PHALCON_INIT_VAR(v0);
+		ZVAL_ZVAL(v0, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, v0, "save", PHALCON_CALL_DEFAULT);
 		PHALCON_INIT_VAR(t1);
@@ -552,6 +559,7 @@ PHP_METHOD(Phalcon_Transaction, setRollbackedRecord){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

@@ -83,10 +83,6 @@ extern int phalcon_filter_alphanum(zval *result, zval *param);
   Z_UNSET_ISREF_P(z);
 #endif
 
-#ifndef PHP_FE_END
- #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
-
 /** Operators */
 #define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
 #define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_CC)

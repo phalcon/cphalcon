@@ -75,6 +75,36 @@ PHP_METHOD(Phalcon_Response, getInstance){
 }
 
 /**
+ * Sets the HTTP response code
+ */
+PHP_METHOD(Phalcon_Response, setStatusCode){
+
+	zval *v0 = NULL, *v1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CONCAT_LEFT(r1, "HTTP/1.1 ", v0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CONCAT_VBOTH(r0, r1, " ", v1);
+	Z_ADDREF_P(r0);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_BOOL(c0, 1);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x004);
+	Z_DELREF_P(r0);
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
  * Overwrittes a header in the response
  *
  * @param string $name
@@ -89,6 +119,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -116,6 +147,7 @@ PHP_METHOD(Phalcon_Response, setContent){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -128,7 +160,7 @@ PHP_METHOD(Phalcon_Response, setContent){
 /**
  * Gets HTTP response body
  *
- * @return string 
+ * @return string
  */
 PHP_METHOD(Phalcon_Response, getContent){
 
@@ -142,7 +174,7 @@ PHP_METHOD(Phalcon_Response, getContent){
 
 /**
  * Sends HTTP response to the client
- * 
+ *
  */
 PHP_METHOD(Phalcon_Response, send){
 

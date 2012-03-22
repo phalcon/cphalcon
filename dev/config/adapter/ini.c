@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -134,8 +135,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				}
 			}
 		}
-		v3 = *hd;
-		Z_REFCOUNT_P(v3);
+	PHALCON_INIT_VAR(v3);
+		ZVAL_ZVAL(v3, *hd, 1, 0);
 		if (Z_TYPE_P(v3) != IS_ARRAY) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 		} else {
@@ -155,8 +156,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 					}
 				}
 			}
-			v5 = *hd;
-			Z_REFCOUNT_P(v5);
+		PHALCON_INIT_VAR(v5);
+			ZVAL_ZVAL(v5, *hd, 1, 0);
 			PHALCON_INIT_VAR(r3);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, ".", 1);

@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Db, setLogger){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -110,6 +112,7 @@ PHP_METHOD(Phalcon_Db, log){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -149,6 +152,7 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -194,6 +198,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -265,6 +270,7 @@ PHP_METHOD(Phalcon_Db, insert){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -331,8 +337,8 @@ PHP_METHOD(Phalcon_Db, insert){
 							}
 						}
 					}
-					v5 = *hd;
-					Z_REFCOUNT_P(v5);
+				PHALCON_INIT_VAR(v5);
+					ZVAL_ZVAL(v5, *hd, 1, 0);
 					PHALCON_INIT_VAR(r3);
 					phalcon_array_fetch(&r3, v1, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
 					if (Z_TYPE_P(r3) == IS_OBJECT) {
@@ -499,6 +505,7 @@ PHP_METHOD(Phalcon_Db, update){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|zz", &v0, &v1, &v2, &v3, &v4) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -554,8 +561,8 @@ PHP_METHOD(Phalcon_Db, update){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee16;
 		}
-		v8 = *hd;
-		Z_REFCOUNT_P(v8);
+	PHALCON_INIT_VAR(v8);
+		ZVAL_ZVAL(v8, *hd, 1, 0);
 		if (zend_is_true(v4)) {
 			PHALCON_INIT_VAR(r4);
 			phalcon_array_fetch(&r4, v2, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -682,6 +689,7 @@ PHP_METHOD(Phalcon_Db, delete){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -842,6 +850,7 @@ PHP_METHOD(Phalcon_Db, setUnderTransaction){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1017,6 +1026,7 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1059,6 +1069,7 @@ PHP_METHOD(Phalcon_Db, factory){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &v0, &v1, &v2) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -1127,8 +1138,8 @@ PHP_METHOD(Phalcon_Db, factory){
 					}
 				}
 			}
-			v4 = *hd;
-			Z_REFCOUNT_P(v4);
+		PHALCON_INIT_VAR(v4);
+			ZVAL_ZVAL(v4, *hd, 1, 0);
 			phalcon_update_property_zval(v3, Z_STRVAL_P(v5), Z_STRLEN_P(v5), v4 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes17;
@@ -1200,6 +1211,7 @@ PHP_METHOD(Phalcon_Db, _beforeQuery){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

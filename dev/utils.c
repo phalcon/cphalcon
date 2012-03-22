@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Utils, camelize){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -111,6 +112,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -139,8 +141,8 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		Z_ADDREF_P(v3);
 		Z_ADDREF_P(v0);
@@ -184,6 +186,7 @@ PHP_METHOD(Phalcon_Utils, lcfirst){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -224,6 +227,7 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -251,6 +255,7 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 

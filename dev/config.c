@@ -71,6 +71,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -93,8 +94,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 				}
 			}
 		}
-		v1 = *hd;
-		Z_REFCOUNT_P(v1);
+	PHALCON_INIT_VAR(v1);
+		ZVAL_ZVAL(v1, *hd, 1, 0);
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_config_class_entry);

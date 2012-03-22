@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Dispatcher, setControllersDir){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -112,6 +113,7 @@ PHP_METHOD(Phalcon_Dispatcher, setBasePath){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -146,6 +148,7 @@ PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -182,6 +185,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -218,6 +222,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -264,13 +269,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL, *i4 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *p0[] = { NULL }, *p2[] = { NULL }, *p4[] = { NULL }, *p5[] = { NULL, NULL, NULL, NULL, NULL }, *p7[] = { NULL, NULL, NULL }, *p10[] = { NULL }, *p11[] = { NULL, NULL, NULL }, *p12[] = { NULL };
+	zval *p0[] = { NULL }, *p2[] = { NULL }, *p4[] = { NULL }, *p5[] = { NULL, NULL, NULL, NULL, NULL }, *p7[] = { NULL, NULL, NULL }, *p10[] = { NULL, NULL }, *p11[] = { NULL }, *p12[] = { NULL, NULL, NULL }, *p13[] = { NULL };
 	int eval_int;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &v0, &v1, &v2, &v3) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -348,7 +354,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_INIT_VAR(i0);
 				object_init_ex(i0, phalcon_exception_class_entry);
 				PHALCON_INIT_VAR(r6);
-				PHALCON_CONCAT_BOTH(r6,  "File for controller class ", v10, " doesn't exists");
+				PHALCON_CONCAT_BOTH(r6,  "File for controller class ", v10, " doesn't exist");
 				Z_ADDREF_P(r6);
 				p2[0] = r6;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
@@ -477,6 +483,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			Z_DELREF_P(v12);
 			PHALCON_CPY_WRT(v5, r13);
 		} else {
+			PHALCON_INIT_VAR(p10[0]);
+			ZVAL_LONG(p10[0], 404);
+			PHALCON_INIT_VAR(p10[1]);
+			ZVAL_STRING(p10[1], "Not Found", 1);
+			PHALCON_CALL_METHOD_PARAMS_NORETURN(v1, "setstatuscode", 2, p10, PHALCON_CALL_DEFAULT);
 			PHALCON_INIT_VAR(i3);
 			object_init_ex(i3, phalcon_exception_class_entry);
 			PHALCON_INIT_VAR(r15);
@@ -486,9 +497,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_INIT_VAR(r16);
 			PHALCON_CONCAT_RIGHT(r16, r14, "'");
 			Z_ADDREF_P(r16);
-			p10[0] = r16;
-			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p10, PHALCON_CALL_CHECK);
-			Z_DELREF_P(p10[0]);
+			p11[0] = r16;
+			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p11, PHALCON_CALL_CHECK);
+			Z_DELREF_P(p11[0]);
 			zend_throw_exception_object(i3 TSRMLS_CC);
 			Z_ADDREF_P(i3);
 			PHALCON_MM_RESTORE();
@@ -497,15 +508,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 	if (phalcon_method_exists_ex(v6, "afterdispatch", strlen("afterdispatch") TSRMLS_CC) == SUCCESS) {
 		Z_ADDREF_P(v8);
-		p11[0] = v8;
+		p12[0] = v8;
 		Z_ADDREF_P(v13);
-		p11[1] = v13;
+		p12[1] = v13;
 		Z_ADDREF_P(v12);
-		p11[2] = v12;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(v6, "afterdispatch", 3, p11, PHALCON_CALL_DEFAULT);
-		Z_DELREF_P(p11[0]);
-		Z_DELREF_P(p11[1]);
-		Z_DELREF_P(p11[2]);
+		p12[2] = v12;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(v6, "afterdispatch", 3, p12, PHALCON_CALL_DEFAULT);
+		Z_DELREF_P(p12[0]);
+		Z_DELREF_P(p12[1]);
+		Z_DELREF_P(p12[2]);
 	}
 	PHALCON_SEPARATE(v7);
 	increment_function(v7);
@@ -516,9 +527,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	if (zend_is_true(r17)) {
 		PHALCON_INIT_VAR(i4);
 		object_init_ex(i4, phalcon_exception_class_entry);
-		PHALCON_INIT_VAR(p12[0]);
-		ZVAL_STRING(p12[0], "Dispatcher has detected a cyclic routing causing stability problems", 1);
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i4, "__construct", 1, p12, PHALCON_CALL_CHECK);
+		PHALCON_INIT_VAR(p13[0]);
+		ZVAL_STRING(p13[0], "Dispatcher has detected a cyclic routing causing stability problems", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i4, "__construct", 1, p13, PHALCON_CALL_CHECK);
 		zend_throw_exception_object(i4 TSRMLS_CC);
 		Z_ADDREF_P(i4);
 		PHALCON_MM_RESTORE();
@@ -557,6 +568,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -645,8 +657,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 				}
 			}
 		}
-		v3 = *hd;
-		Z_REFCOUNT_P(v3);
+	PHALCON_INIT_VAR(v3);
+		ZVAL_ZVAL(v3, *hd, 1, 0);
 		if (Z_TYPE_P(v4) == IS_LONG) {
 			PHALCON_INIT_VAR(r12);
 			phalcon_array_fetch(&r12, v1, v4, PHALCON_NOISY_FETCH TSRMLS_CC);

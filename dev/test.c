@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Test, nice){
 	PHALCON_MM_GROW();
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
@@ -86,8 +87,8 @@ PHP_METHOD(Phalcon_Test, nice){
 				}
 			}
 		}
-		v2 = *hd;
-		Z_REFCOUNT_P(v2);
+	PHALCON_INIT_VAR(v2);
+		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch(&r0, v1, v3, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_INIT_VAR(t0);
