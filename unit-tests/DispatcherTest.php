@@ -61,7 +61,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
-			$this->assertEquals($e->getMessage(), "File for controller class EssaiController doesn't exists");
+			$this->assertEquals($e->getMessage(), "File for controller class EssaiController doesn't exist");
 		}
 
 		$dispatcher->setControllerName('test0');
