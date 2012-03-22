@@ -1516,7 +1516,7 @@ PHP_METHOD(Phalcon_Tag, form){
 		PHALCON_SEPARATE(v1);
 		phalcon_array_unset_string(v1, "confirm", strlen("confirm")+1);
 	}
-	if (zend_is_true(v0)) {
+	if (zend_is_true(v3)) {
 		PHALCON_ALLOC_ZVAL_MM(r14);
 		Z_ADDREF_P(v4);
 		p5[0] = v4;
