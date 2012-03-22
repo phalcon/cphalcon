@@ -202,15 +202,6 @@ int phalcon_array_update_long(zval *arr, ulong index, zval *value TSRMLS_DC){
 }
 
 /**
- * Updates value on arrays by using a zval index also initializes value
- */
-int phalcon_array_update_cpy(zval *arr, zval *index, zval *value TSRMLS_DC){
-	Z_SET_REFCOUNT_P(value, 1);
-	Z_UNSET_ISREF_P(value);
-	return phalcon_array_update(arr, index, value);
-}
-
-/**
  * Reads an item from an array using a zval as index
  */
 int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int silent TSRMLS_DC){

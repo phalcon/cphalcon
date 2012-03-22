@@ -32,6 +32,7 @@ phalcon_memory_entry *active_memory = NULL;
 
 int phalcon_memory_grow_stack(){
 
+	int i;
 	phalcon_memory_entry *entry;
 
 	if(!start_memory){
@@ -43,7 +44,6 @@ int phalcon_memory_grow_stack(){
 	}
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
-	int i;
 	for(i=0;i<PHALCON_MAX_MEMORY_STACK;i++){
 		entry->addresses[i] = NULL;
 	}

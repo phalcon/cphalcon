@@ -379,7 +379,7 @@ PHP_METHOD(Phalcon_Controller_Front, setBaseUri){
 PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *v0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
@@ -395,18 +395,18 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 				if(Z_TYPE_PP(gv0)==IS_ARRAY){
-					a0 = *gv0;
+					g0 = *gv0;
 				} else {
-					PHALCON_INIT_VAR(a0);
-					array_init(a0);
+					PHALCON_INIT_VAR(g0);
+					array_init(g0);
 				}
 			}
 		}
-		if (!a0) {
-			PHALCON_INIT_VAR(a0);
-			array_init(a0);
+		if (!g0) {
+			PHALCON_INIT_VAR(g0);
+			array_init(g0);
 		}
-		eval_int = phalcon_array_isset_string(a0, "PHP_SELF", strlen("PHP_SELF")+1);
+		eval_int = phalcon_array_isset_string(g0, "PHP_SELF", strlen("PHP_SELF")+1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(r1);
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 			ZVAL_STRING(c0, "/", 1);
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_ALLOC_ZVAL_MM(r4);
-			phalcon_array_fetch_string(&r4, a0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch_string(&r4, g0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_CALL_FUNC_PARAMS_1(r3, "dirname", r4, 0x00E);
 			PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c0, r3, 0x002);
 			p1[0] = r2;

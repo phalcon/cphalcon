@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, __construct){
  */
 PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -77,21 +77,21 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_GET", sizeof("_GET"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "_url", strlen("_url")+1);
+	eval_int = phalcon_array_isset_string(g0, "_url", strlen("_url")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "_url", strlen("_url"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "_url", strlen("_url"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();

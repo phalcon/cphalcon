@@ -51,8 +51,11 @@ phalcon_debug_entry *active = NULL;
 int phalcon_start_debug(){
 	if(!phalcon_log){
 		//phalcon_log = fopen("/home/gutierrezandresfelipe/phalcon-debug.a", "w");
-		//phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
-		phalcon_log = stderr;
+		phalcon_log = fopen("/tmp/phalcon-debug.a", "w");
+		if(!phalcon_log){
+			fprintf(stderr, "Can't open debug log\n");
+		}
+		//phalcon_log = stderr;
 	}
 	return SUCCESS;
 }
@@ -68,6 +71,8 @@ int phalcon_stop_debug(){
 		ptr = ptr->prev;
 		efree(this_entry);
 	}
+	fclose(phalcon_log);
+	phalcon_log = NULL;
 	return SUCCESS;
 }
 

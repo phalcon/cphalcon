@@ -67,7 +67,7 @@ int phalcon_free_fcall_cache(){
 /**
  * Lookups a function call and caches its zend_fcall_info_cache for further calls
  */
-int phalcon_cache_lookup_function(zval *fn, int fcache_pointer){
+int phalcon_cache_lookup_function(zval *fn, int fcache_pointer TSRMLS_DC){
 	if(!phalcon_fcall_cache[fcache_pointer]){
 		{
 			char *callable_name;

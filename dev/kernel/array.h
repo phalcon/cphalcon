@@ -42,7 +42,6 @@ extern int phalcon_array_append(zval *arr, zval *value TSRMLS_DC);
 extern int phalcon_array_update(zval *arr, zval *index, zval *value TSRMLS_DC);
 extern int phalcon_array_update_string(zval *arr, char *index, uint index_length, zval *value TSRMLS_DC);
 extern int phalcon_array_update_long(zval *arr, ulong index, zval *value TSRMLS_DC);
-extern int phalcon_array_update_cpy(zval *arr, zval *index, zval *value TSRMLS_DC);
 
 /** Fetches items for arrays */
 extern int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int silent TSRMLS_DC);

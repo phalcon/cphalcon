@@ -1,3 +1,7 @@
+0.3.2
+ - Fixed separation of super globals by mistake causing segmentation faults
+ - Support for compilation on Visual C++ 6.0
+
 0.3.1
  - Phalcon garbage collector incrementally releases memory allocated after the end of a particular execution trace reducing memory fragmentation.
 

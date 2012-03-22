@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Request, getFilter){
 PHP_METHOD(Phalcon_Request, getPost){
 
 	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval **gv0;
 	zval *p0[] = { NULL, NULL };
@@ -157,25 +157,25 @@ PHP_METHOD(Phalcon_Request, getPost){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset(a0, v0);
+	eval_int = phalcon_array_isset(g0, v0);
 	if (eval_int) {
 		if (zend_is_true(v1)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_CALL_METHOD(r1, this_ptr, "getfilter", PHALCON_CALL_DEFAULT);
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_array_fetch(&r2, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch(&r2, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			Z_ADDREF_P(r2);
 			p0[0] = r2;
 			Z_ADDREF_P(v1);
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Request, getPost){
 			PHALCON_RETURN_DZVAL(r0);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch(&r3, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch(&r3, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_RETURN_CHECK_CTOR(r3);
 		}
 	} else {
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Request, getPost){
 PHP_METHOD(Phalcon_Request, getQuery){
 
 	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval **gv0;
 	zval *p0[] = { NULL, NULL };
@@ -229,25 +229,25 @@ PHP_METHOD(Phalcon_Request, getQuery){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_GET", sizeof("_GET"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset(a0, v0);
+	eval_int = phalcon_array_isset(g0, v0);
 	if (eval_int) {
 		if (zend_is_true(v1)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_CALL_METHOD(r1, this_ptr, "getfilter", PHALCON_CALL_DEFAULT);
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_array_fetch(&r2, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch(&r2, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			Z_ADDREF_P(r2);
 			p0[0] = r2;
 			Z_ADDREF_P(v1);
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Request, getQuery){
 			PHALCON_RETURN_DZVAL(r0);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch(&r3, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch(&r3, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_RETURN_CHECK_CTOR(r3);
 		}
 	} else {
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Request, getQuery){
 PHP_METHOD(Phalcon_Request, getServer){
 
 	zval *v0 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -294,21 +294,21 @@ PHP_METHOD(Phalcon_Request, getServer){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset(a0, v0);
+	eval_int = phalcon_array_isset(g0, v0);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch(&r0, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Request, getServer){
 PHP_METHOD(Phalcon_Request, getHeader){
 
 	zval *v0 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -343,31 +343,31 @@ PHP_METHOD(Phalcon_Request, getHeader){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset(a0, v0);
+	eval_int = phalcon_array_isset(g0, v0);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch(&r0, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CONCAT_LEFT(r1, "HTTP_", v0);
-		eval_int = phalcon_array_isset(a0, r1);
+		eval_int = phalcon_array_isset(g0, r1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_CONCAT_LEFT(r2, "HTTP_", v0);
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch(&r3, a0, r2, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch(&r3, g0, r2, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_RETURN_CHECK_CTOR(r3);
 		} else {
 			PHALCON_MM_RESTORE();
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Request, isAjax){
  */
 PHP_METHOD(Phalcon_Request, isSoapRequested){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *c0 = NULL;
 	zval *t0 = NULL;
@@ -446,27 +446,27 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "HTTP_SOAPACTION", strlen("HTTP_SOAPACTION")+1);
+	eval_int = phalcon_array_isset_string(g0, "HTTP_SOAPACTION", strlen("HTTP_SOAPACTION")+1);
 	if (eval_int) {
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	} else {
-		eval_int = phalcon_array_isset_string(a0, "CONTENT_TYPE", strlen("CONTENT_TYPE")+1);
+		eval_int = phalcon_array_isset_string(g0, "CONTENT_TYPE", strlen("CONTENT_TYPE")+1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_array_fetch_string(&r1, a0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch_string(&r1, g0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "application/soap+xml", 1);
 			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x005);
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Request, getRawBody){
  */
 PHP_METHOD(Phalcon_Request, getServerAddress){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *c0 = NULL;
 	zval **gv0;
@@ -548,21 +548,21 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "SERVER_ADDR", strlen("SERVER_ADDR")+1);
+	eval_int = phalcon_array_isset_string(g0, "SERVER_ADDR", strlen("SERVER_ADDR")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "SERVER_ADDR", strlen("SERVER_ADDR"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "SERVER_ADDR", strlen("SERVER_ADDR"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
  */
 PHP_METHOD(Phalcon_Request, getServerName){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -592,21 +592,21 @@ PHP_METHOD(Phalcon_Request, getServerName){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "SERVER_NAME", strlen("SERVER_NAME")+1);
+	eval_int = phalcon_array_isset_string(g0, "SERVER_NAME", strlen("SERVER_NAME")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "SERVER_NAME", strlen("SERVER_NAME"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "SERVER_NAME", strlen("SERVER_NAME"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -652,7 +652,7 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	is_equal_function(r4, v2, t1 TSRMLS_CC);
 	PHALCON_INIT_VAR(r5);
-	phalcon_and_function(r5, r3, r4 TSRMLS_CC);
+	phalcon_and_function(r5, r3, r4);
 	PHALCON_INIT_VAR(t2);
 	ZVAL_STRING(t2, "https", 1);
 	PHALCON_ALLOC_ZVAL_MM(r6);
@@ -662,7 +662,7 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	is_equal_function(r7, v2, t3 TSRMLS_CC);
 	PHALCON_INIT_VAR(r8);
-	phalcon_and_function(r8, r6, r7 TSRMLS_CC);
+	phalcon_and_function(r8, r6, r7);
 	PHALCON_INIT_VAR(r9);
 	ZVAL_BOOL(r9, zend_is_true(r5) || zend_is_true(r8));
 	if (zend_is_true(r9)) {
@@ -683,7 +683,7 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
  */
 PHP_METHOD(Phalcon_Request, getClientAddress){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -693,27 +693,27 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "HTTP_X_FORWARDED_FOR", strlen("HTTP_X_FORWARDED_FOR")+1);
+	eval_int = phalcon_array_isset_string(g0, "HTTP_X_FORWARDED_FOR", strlen("HTTP_X_FORWARDED_FOR")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "HTTP_X_FORWARDED_FOR", strlen("HTTP_X_FORWARDED_FOR"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "HTTP_X_FORWARDED_FOR", strlen("HTTP_X_FORWARDED_FOR"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
-		eval_int = phalcon_array_isset_string(a0, "REMOTE_ADDR", strlen("REMOTE_ADDR")+1);
+		eval_int = phalcon_array_isset_string(g0, "REMOTE_ADDR", strlen("REMOTE_ADDR")+1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_array_fetch_string(&r1, a0, "REMOTE_ADDR", strlen("REMOTE_ADDR"), PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_array_fetch_string(&r1, g0, "REMOTE_ADDR", strlen("REMOTE_ADDR"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_RETURN_CHECK_CTOR(r1);
 		} else {
 			PHALCON_MM_RESTORE();
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
  */
 PHP_METHOD(Phalcon_Request, getMethod){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -741,21 +741,21 @@ PHP_METHOD(Phalcon_Request, getMethod){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "REQUEST_METHOD", strlen("REQUEST_METHOD")+1);
+	eval_int = phalcon_array_isset_string(g0, "REQUEST_METHOD", strlen("REQUEST_METHOD")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "REQUEST_METHOD", strlen("REQUEST_METHOD"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "REQUEST_METHOD", strlen("REQUEST_METHOD"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Request, getMethod){
  */
 PHP_METHOD(Phalcon_Request, getUserAgent){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -782,21 +782,21 @@ PHP_METHOD(Phalcon_Request, getUserAgent){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "HTTP_USER_AGENT", strlen("HTTP_USER_AGENT")+1);
+	eval_int = phalcon_array_isset_string(g0, "HTTP_USER_AGENT", strlen("HTTP_USER_AGENT")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "HTTP_USER_AGENT", strlen("HTTP_USER_AGENT"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "HTTP_USER_AGENT", strlen("HTTP_USER_AGENT"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Request, isOptions){
  */
 PHP_METHOD(Phalcon_Request, hasFiles){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval **gv0;
@@ -961,20 +961,20 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_FILES", sizeof("_FILES"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	if (zend_is_true(a0)) {
+	if (zend_is_true(g0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "count", a0, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "count", g0, 0x008);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
 		PHALCON_INIT_VAR(r2);
@@ -1004,8 +1004,9 @@ PHP_METHOD(Phalcon_Request, hasFiles){
  */
 PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
+	zval *g0 = NULL;
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *i0 = NULL;
 	zval **gv0;
 	zval *p0[] = { NULL };
@@ -1019,25 +1020,25 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_FILES", sizeof("_FILES"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
+	}
+	if (zend_is_true(g0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	}
-	if (zend_is_true(a0)) {
-		PHALCON_INIT_VAR(a1);
-		array_init(a1);
-		PHALCON_CPY_WRT(v0, a1);
-		if (Z_TYPE_P(a0) != IS_ARRAY) {
+		PHALCON_CPY_WRT(v0, a0);
+		if (Z_TYPE_P(g0) != IS_ARRAY) {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 		} else {
-			ah0 = Z_ARRVAL_P(a0);
+			ah0 = Z_ARRVAL_P(g0);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 			fes2:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
@@ -1063,9 +1064,9 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 		}
 		PHALCON_RETURN_CTOR(v0);
 	} else {
-		PHALCON_INIT_VAR(a2);
-		array_init(a2);
-		PHALCON_RETURN_CTOR(a2);
+		PHALCON_INIT_VAR(a1);
+		array_init(a1);
+		PHALCON_RETURN_CTOR(a1);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -1078,7 +1079,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
  */
 PHP_METHOD(Phalcon_Request, getHTTPReferer){
 
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -1088,21 +1089,21 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset_string(a0, "HTTP_REFERER", strlen("HTTP_REFERER")+1);
+	eval_int = phalcon_array_isset_string(g0, "HTTP_REFERER", strlen("HTTP_REFERER")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, a0, "HTTP_REFERER", strlen("HTTP_REFERER"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, g0, "HTTP_REFERER", strlen("HTTP_REFERER"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();

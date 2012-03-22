@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 
 	zval *v0 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval **gv0;
 	int eval_int;
@@ -176,29 +176,29 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 				if(Z_TYPE_PP(gv0)==IS_ARRAY){
-					a0 = *gv0;
+					g0 = *gv0;
 				} else {
-					PHALCON_INIT_VAR(a0);
-					array_init(a0);
+					PHALCON_INIT_VAR(g0);
+					array_init(g0);
 				}
 			}
 		}
-		if (!a0) {
-			PHALCON_INIT_VAR(a0);
-			array_init(a0);
+		if (!g0) {
+			PHALCON_INIT_VAR(g0);
+			array_init(g0);
 		}
-		eval_int = phalcon_array_isset(a0, v0);
+		eval_int = phalcon_array_isset(g0, v0);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_CALL_FUNC(r0, "get_magic_quotes_gpc", 0x02B);
 			if (!zend_is_true(r0)) {
 				PHALCON_ALLOC_ZVAL_MM(r1);
-				phalcon_array_fetch(&r1, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+				phalcon_array_fetch(&r1, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 				PHALCON_RETURN_CHECK_CTOR(r1);
 			} else {
 				PHALCON_ALLOC_ZVAL_MM(r2);
 				PHALCON_ALLOC_ZVAL_MM(r3);
-				phalcon_array_fetch(&r3, a0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+				phalcon_array_fetch(&r3, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 				Z_ADDREF_P(r3);
 				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02C);
 				Z_DELREF_P(r3);
@@ -850,7 +850,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 				PHALCON_INIT_VAR(r19);
 				is_not_identical_function(r19, t2, v3 TSRMLS_CC);
 				PHALCON_INIT_VAR(r20);
-				phalcon_and_function(r20, r18, r19 TSRMLS_CC);
+				phalcon_and_function(r20, r18, r19);
 				if (zend_is_true(r20)) {
 					PHALCON_INIT_VAR(t3);
 					ZVAL_STRING(t3, "\t", 1);

@@ -61,8 +61,8 @@ extern int phalcon_concat_both(zval *result, const char *op1, int op1_length, zv
 extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, int op2_length, zval *op3 TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
-extern int phalcon_is_smaller_strict_long(zval *op1, long op2);
-extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2);
+extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
+extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern long phalcon_count(const zval *value);
@@ -70,18 +70,7 @@ extern long phalcon_count(const zval *value);
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
 
-/** Operators */
-#define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
-#define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_CC)
-#define PHALCON_CONCAT_LEFT(result, op1, op2) phalcon_concat_left(result, op1, strlen(op1), op2 TSRMLS_CC)
-#define PHALCON_CONCAT_BOTH(result, op1, op2, op3) phalcon_concat_both(result, op1, strlen(op1), op2, op3, strlen(op3) TSRMLS_CC)
-#define PHALCON_CONCAT_VBOTH(result, op1, op2, op3) phalcon_concat_vboth(result, op1, op2, strlen(op2), op3 TSRMLS_CC)
-
-/** Constants */
-#define PHALCON_GET_CONSTANT(var, name) PHALCON_VAR_INIT(var); zend_get_constant(name, strlen(name), var TSRMLS_CC)
-#define PHALCON_GET_CLASS_CONSTANT(var, class_entry, name) PHALCON_VAR_INIT(var); phalcon_get_class_constant(var, class_entry, name, strlen(name) TSRMLS_CC)
-
-/** Compatibility with 5.3 */
+/** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
   (z)->value = (v)->value;\
@@ -97,6 +86,17 @@ extern int phalcon_filter_alphanum(zval *result, zval *param);
 #ifndef PHP_FE_END
  #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
+
+/** Operators */
+#define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
+#define PHALCON_CONCAT_RIGHT(result, op1, op2) phalcon_concat_right(result, op1, op2, strlen(op2) TSRMLS_CC)
+#define PHALCON_CONCAT_LEFT(result, op1, op2) phalcon_concat_left(result, op1, strlen(op1), op2 TSRMLS_CC)
+#define PHALCON_CONCAT_BOTH(result, op1, op2, op3) phalcon_concat_both(result, op1, strlen(op1), op2, op3, strlen(op3) TSRMLS_CC)
+#define PHALCON_CONCAT_VBOTH(result, op1, op2, op3) phalcon_concat_vboth(result, op1, op2, strlen(op2), op3 TSRMLS_CC)
+
+/** Constants */
+#define PHALCON_GET_CONSTANT(var, name) PHALCON_VAR_INIT(var); zend_get_constant(name, strlen(name), var TSRMLS_CC)
+#define PHALCON_GET_CLASS_CONSTANT(var, class_entry, name) PHALCON_VAR_INIT(var); phalcon_get_class_constant(var, class_entry, name, strlen(name) TSRMLS_CC)
 
 /** Symbols */
 #define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\

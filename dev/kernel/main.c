@@ -287,7 +287,7 @@ int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 /**
  * Natural is smaller compare with long operadus on right
  */
-int phalcon_is_smaller_strict_long(zval *op1, long op2){
+int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC){
 
 	zval *op2_tmp, *result;
 	int bool_result;
@@ -309,10 +309,44 @@ int phalcon_is_smaller_strict_long(zval *op1, long op2){
 			ALLOC_INIT_ZVAL(result);
 			ALLOC_INIT_ZVAL(op2_tmp);
 			ZVAL_LONG(op2_tmp, op2);
-			is_smaller_function(result, op1, op2_tmp);
+			is_smaller_function(result, op1, op2_tmp TSRMLS_CC);
 			bool_result = Z_BVAL_P(result);
-			FREE_ZVAL(result);
-			FREE_ZVAL(op2_tmp);
+			zval_ptr_dtor(&result);
+			zval_ptr_dtor(&op2_tmp);
+			return bool_result;
+	}
+
+}
+
+/**
+ * Natural is smaller or equal compare with long operadus on right
+ */
+int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC){
+
+	zval *op2_tmp, *result;
+	int bool_result;
+
+	switch(Z_TYPE_P(op1)){
+		case IS_LONG:
+			return Z_LVAL_P(op1) <= op2;
+		case IS_DOUBLE:
+			return Z_DVAL_P(op1) <= (double) op2;
+		case IS_NULL:
+			return 0 < op2;
+		case IS_BOOL:
+			if (Z_BVAL_P(op1)) {
+				return 0 <= op2;
+			} else {
+				return 1 <= op2;
+			}
+		default:
+			ALLOC_INIT_ZVAL(result);
+			ALLOC_INIT_ZVAL(op2_tmp);
+			ZVAL_LONG(op2_tmp, op2);
+			is_smaller_or_equal_function(result, op1, op2_tmp TSRMLS_CC);
+			bool_result = Z_BVAL_P(result);
+			zval_ptr_dtor(&result);
+			zval_ptr_dtor(&op2_tmp);
 			return bool_result;
 	}
 
@@ -392,38 +426,4 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 	}
 
 	return SUCCESS;
-}
-
-/**
- * Natural is smaller or equal compare with long operadus on right
- */
-int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2){
-
-	zval *op2_tmp, *result;
-	int bool_result;
-
-	switch(Z_TYPE_P(op1)){
-		case IS_LONG:
-			return Z_LVAL_P(op1) <= op2;
-		case IS_DOUBLE:
-			return Z_DVAL_P(op1) <= (double) op2;
-		case IS_NULL:
-			return 0 < op2;
-		case IS_BOOL:
-			if (Z_BVAL_P(op1)) {
-				return 0 <= op2;
-			} else {
-				return 1 <= op2;
-			}
-		default:
-			ALLOC_INIT_ZVAL(result);
-			ALLOC_INIT_ZVAL(op2_tmp);
-			ZVAL_LONG(op2_tmp, op2);
-			is_smaller_or_equal_function(result, op1, op2_tmp);
-			bool_result = Z_BVAL_P(result);
-			zval_ptr_dtor(&result);
-			zval_ptr_dtor(&op2_tmp);
-			return bool_result;
-	}
-
 }

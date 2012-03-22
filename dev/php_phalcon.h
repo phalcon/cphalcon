@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.3.1"
+#define PHP_PHALCON_VERSION "0.3.2"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 extern zend_module_entry phalcon_module_entry;
@@ -37,4 +37,3 @@ extern zend_module_entry phalcon_module_entry;
 #else
  #define PHALCON_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
 #endif
-

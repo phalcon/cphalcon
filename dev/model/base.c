@@ -1624,7 +1624,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				PHALCON_INIT_VAR(r9);
 				is_not_identical_function(r9, t4, v8 TSRMLS_CC);
 				PHALCON_INIT_VAR(r10);
-				phalcon_and_function(r10, r8, r9 TSRMLS_CC);
+				phalcon_and_function(r10, r8, r9);
 				if (zend_is_true(r10)) {
 					eval_int = phalcon_array_isset(v6, v7);
 					if (eval_int) {
@@ -1724,7 +1724,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				PHALCON_INIT_VAR(r26);
 				is_not_identical_function(r26, t10, v8 TSRMLS_CC);
 				PHALCON_INIT_VAR(r27);
-				phalcon_and_function(r27, r25, r26 TSRMLS_CC);
+				phalcon_and_function(r27, r25, r26);
 				if (zend_is_true(r27)) {
 					eval_int = phalcon_array_isset(v10, v7);
 					if (eval_int) {
@@ -2377,7 +2377,7 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 			PHALCON_INIT_VAR(r14);
 			is_equal_function(r14, v9, t4 TSRMLS_CC);
 			PHALCON_INIT_VAR(r15);
-			phalcon_and_function(r15, r13, r14 TSRMLS_CC);
+			phalcon_and_function(r15, r13, r14);
 			if (zend_is_true(r15)) {
 				goto fi77;
 			}

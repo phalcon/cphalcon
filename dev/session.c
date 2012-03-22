@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Session, get){
 	zval *v0 = NULL, *v1 = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval **gv0;
 	int eval_int;
 
@@ -121,21 +121,21 @@ PHP_METHOD(Phalcon_Session, get){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
-	eval_int = phalcon_array_isset(a0, v1);
+	eval_int = phalcon_array_isset(g0, v1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch(&r1, a0, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch(&r1, g0, v1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Session, get){
 PHP_METHOD(Phalcon_Session, set){
 
 	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
+	zval *g0 = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL;
 	zval **gv0;
@@ -167,30 +167,22 @@ PHP_METHOD(Phalcon_Session, set){
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
-				a0 = *gv0;
+				g0 = *gv0;
 			} else {
-				PHALCON_INIT_VAR(a0);
-				array_init(a0);
+				PHALCON_INIT_VAR(g0);
+				array_init(g0);
 			}
 		}
 	}
-	if (!a0) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+	if (!g0) {
+		PHALCON_INIT_VAR(g0);
+		array_init(g0);
 	}
 	t0 = zend_read_static_property(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
 	Z_ADDREF_P(v1);
-	if (Z_REFCOUNT_P(a0) > 1) {
-		zval *new_zv;
-		Z_DELREF_P(a0);
-		ALLOC_ZVAL(new_zv);
-		INIT_PZVAL_COPY(new_zv, a0);
-		a0 = new_zv;
-		zval_copy_ctor(new_zv);
-	}
-	phalcon_array_update(a0, r0, v1 TSRMLS_CC);
+	phalcon_array_update(g0, r0, v1 TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

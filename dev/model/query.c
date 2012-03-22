@@ -331,13 +331,13 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			Z_DELREF_P(v8);
 			Z_DELREF_P(v4);
 			PHALCON_INIT_VAR(r8);
-			phalcon_and_function(r8, r7, v7 TSRMLS_CC);
+			phalcon_and_function(r8, r7, v7);
 			PHALCON_INIT_VAR(t5);
 			ZVAL_STRING(t5, "@", 1);
 			PHALCON_INIT_VAR(r9);
 			is_not_equal_function(r9, v7, t5 TSRMLS_CC);
 			PHALCON_INIT_VAR(r10);
-			phalcon_and_function(r10, r8, r9 TSRMLS_CC);
+			phalcon_and_function(r10, r8, r9);
 			if (zend_is_true(r10)) {
 				PHALCON_INIT_VAR(r11);
 				PHALCON_CONCAT_VBOTH(r11, v8, " = ?", v6);
