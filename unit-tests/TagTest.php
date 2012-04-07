@@ -27,7 +27,7 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 	public function testTags(){
 
-		Phalcon_Tag::displayTo('hello', 'lol');		
+		Phalcon_Tag::displayTo('hello', 'lol');
 
 		//textFields
 		$this->assertEquals(Phalcon_Tag::textField('hello'), '<input type="text" id="hello" value="lol" name="hello"  />');
@@ -39,8 +39,12 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$params = array('id' => 'hello', 'value' => 'miami');
 		$this->assertEquals(Phalcon_Tag::textField($params), '<input type="text" id="hello" value="miami" id="hello" name="hello"  />');
 
-		$params = array('hellou', 'name' => 'hello', 'value' => 'miami');		
+		$params = array('hellou', 'name' => 'hello', 'value' => 'miami');
 		$this->assertEquals(Phalcon_Tag::textField($params), '<input type="text" id="hellou" value="miami" name="hello"  />');
+
+		//passwordField
+		$this->assertEquals(Phalcon_Tag::passwordField('hello'), '<input type="password" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Phalcon_Tag::passwordField(array('hello')), '<input type="password" id="hello" value="lol" name="hello"  />');
 
 		//Links
 		$this->assertEquals(Phalcon_Tag::linkTo('index', 'home'), '<a href="/index" >home</a>');
@@ -109,7 +113,7 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Db_Pool::setDefaultDescriptor($config);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
-		
+
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
@@ -154,7 +158,7 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('other');
 		$dispatcher->setParams(array());
-		
+
 		$dispatcher->dispatch($request, $response);
 
 		Phalcon_Tag::setDispatcher($dispatcher);
