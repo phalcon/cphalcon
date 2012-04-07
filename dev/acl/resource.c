@@ -39,57 +39,82 @@
 #include "zend_interfaces.h"
 
 /**
- * Phalcon_Logger
  *
- * Phalcon_Logger is a component whose purpose is to create logs using different backends via adapters,
- * generating options and formats and filters also implementing transactions
+ * Phalcon_Acl_Resource
+ *
+ * This class defines resource entity and its description
+ *
  */
 
 /**
- * Phalcon_Logger constructor
+ * Phalcon_Acl_Resource description
  *
- * @param string $adapter
- * @param array $options
+ * @param string $name
+ * @param string $description
  */
-PHP_METHOD(Phalcon_Logger, __construct){
+PHP_METHOD(Phalcon_Acl_Resource, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
+	zval *i0 = NULL;
+	zval *p0[] = { NULL };
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_STRING(v0, "File", 1);
-	}
+	
 	if (!v1) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
+		PHALCON_INIT_VAR(v1);
+		ZVAL_STRING(v1, "", 1);
 	}
 	
+	if (PHALCON_COMPARE_STRING(v0, "*")) {
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, phalcon_acl_exception_class_entry);
+		PHALCON_INIT_VAR(p0[0]);
+		ZVAL_STRING(p0[0], "Resource name cannot be \"*\"", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
+		zend_throw_exception_object(i0 TSRMLS_CC);
+		Z_ADDREF_P(i0);
+		PHALCON_MM_RESTORE();
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), v0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_description", strlen("_description"), v1 TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
-PHP_METHOD(Phalcon_Logger, setFormat){
+/**
+ * Returns the resource name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, getName){
 
-	zval *v0 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(t0);
+}
 
-	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+/**
+ * Returns resource description
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, getDescription){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_description", sizeof("_description")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

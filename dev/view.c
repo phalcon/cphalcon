@@ -106,6 +106,8 @@ PHP_METHOD(Phalcon_View, getViewsDir){
 
 /**
  * Sets the render level for the view
+ *
+ * @param string $level
  */
 PHP_METHOD(Phalcon_View, setRenderLevel){
 
@@ -215,12 +217,40 @@ PHP_METHOD(Phalcon_View, cleanTemplateAfter){
 }
 
 /**
- * Adds parameter to views
+ * Adds parameters to views (alias of setVar)
  *
  * @param string $key
  * @param mixed $value
  */
 PHP_METHOD(Phalcon_View, setParamToView){
+
+	zval *v0 = NULL, *v1 = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	Z_ADDREF_P(v1);
+	phalcon_array_update(t0, v0, v1 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), t0 TSRMLS_CC);
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
+ * Adds parameters to views
+ *
+ * @param string $key
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_View, setVar){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *t0 = NULL;
@@ -378,7 +408,7 @@ PHP_METHOD(Phalcon_View, render){
 					}
 				}
 			}
-		PHALCON_INIT_VAR(v5);
+			PHALCON_INIT_VAR(v5);
 			ZVAL_ZVAL(v5, *hd, 1, 0);
 			{
 				zval *copy;
@@ -440,7 +470,7 @@ PHP_METHOD(Phalcon_View, render){
 					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 						goto fee9;
 					}
-				PHALCON_INIT_VAR(v9);
+					PHALCON_INIT_VAR(v9);
 					ZVAL_ZVAL(v9, *hd, 1, 0);
 					PHALCON_INIT_VAR(r9);
 					concat_function(r9, v7, v9 TSRMLS_CC);
@@ -521,7 +551,7 @@ PHP_METHOD(Phalcon_View, render){
 					if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
 						goto fee10;
 					}
-				PHALCON_INIT_VAR(v12);
+					PHALCON_INIT_VAR(v12);
 					ZVAL_ZVAL(v12, *hd, 1, 0);
 					PHALCON_INIT_VAR(r20);
 					concat_function(r20, v7, v12 TSRMLS_CC);
@@ -585,6 +615,7 @@ PHP_METHOD(Phalcon_View, render){
 /**
  * Rendes a partial view
  *
+ * @param string $partialName
  */
 PHP_METHOD(Phalcon_View, partial){
 
@@ -630,7 +661,7 @@ PHP_METHOD(Phalcon_View, partial){
 				}
 			}
 		}
-	PHALCON_INIT_VAR(v1);
+		PHALCON_INIT_VAR(v1);
 		ZVAL_ZVAL(v1, *hd, 1, 0);
 		{
 			zval *copy;

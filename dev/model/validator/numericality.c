@@ -39,57 +39,43 @@
 #include "zend_interfaces.h"
 
 /**
- * Phalcon_Logger
+ * Phalcon_Model_Validator_Numericality
  *
- * Phalcon_Logger is a component whose purpose is to create logs using different backends via adapters,
- * generating options and formats and filters also implementing transactions
+ *
  */
 
 /**
- * Phalcon_Logger constructor
+ * Executes the validator
  *
- * @param string $adapter
- * @param array $options
+ * @return boolean
  */
-PHP_METHOD(Phalcon_Logger, __construct){
+PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
 
-	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_STRING(v0, "File", 1);
-	}
-	if (!v1) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
-}
-
-PHP_METHOD(Phalcon_Logger, setFormat){
-
-	zval *v0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *p3[] = { NULL };
 
 	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD(r0, this_ptr, "isrequired", PHALCON_CALL_DEFAULT);
+	if (zend_is_true(r0)) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		PHALCON_CALL_METHOD(r2, this_ptr, "getvalue", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x02A);
+		if (!zend_is_true(r1)) {
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CALL_METHOD(r3, this_ptr, "getfieldname", PHALCON_CALL_DEFAULT);
+			PHALCON_ALLOC_ZVAL_MM(r4);
+			PHALCON_CONCAT_BOTH(r4,  "Value of field '", r3, "' must be numeric");
+			Z_ADDREF_P(r4);
+			p3[0] = r4;
+			PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "appendmessage", 1, p3, PHALCON_CALL_DEFAULT);
+			Z_DELREF_P(p3[0]);
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
 	}
-
-	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_TRUE;
 }
 

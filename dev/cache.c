@@ -41,7 +41,25 @@
 /**
  * Phalcon_Cache
  *
- * Phalcon_Cache could be use to caches output fragments for improve perfomace
+ * Phalcon_Cache could be use to caches output fragments for improve performance
+ *
+ *
+ * $frontendOptions = array(
+ *	'lifetime' => 172800
+ *);
+ *
+ *$backendOptions = array(
+ *	'cacheDir' => '../app/cache/'
+ *);
+ *
+ *$cache = Phalcon_Cache::factory('File', $frontendOptions, $backendOptions);
+ *
+ *$content = $cache->start('my-cache');
+ *if($content===null){
+ *  $cache->save();
+ *} else {
+ *	echo $content;
+ *}
  */
 
 /**
@@ -55,6 +73,7 @@
 PHP_METHOD(Phalcon_Cache, factory){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zval *p1[] = { NULL }, *p2[] = { NULL, NULL };
@@ -67,6 +86,17 @@ PHP_METHOD(Phalcon_Cache, factory){
 		RETURN_NULL();
 	}
 
+	
+	if (!v1) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+	PHALCON_CPY_WRT(v1, a0);
+	}
+	if (!v2) {
+		PHALCON_INIT_VAR(a1);
+		array_init(a1);
+	PHALCON_CPY_WRT(v2, a1);
+	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Cache_Adapter_", v0);

@@ -43,6 +43,10 @@
  *
  * Phalcon_Model_Query is designed to simplify building of search on models.
  * It provides a set of helpers to generate searchs in a dynamic way to support differents databases.
+ *
+ * 
+ * 
+ *
  */
 
 /**
@@ -68,6 +72,8 @@ PHP_METHOD(Phalcon_Model_Query, __construct){
 
 /**
  * Set the data to use to make the conditions in query
+ *
+ * @param array $data
  */
 PHP_METHOD(Phalcon_Model_Query, setInputData){
 
@@ -113,8 +119,6 @@ PHP_METHOD(Phalcon_Model_Query, setManager){
 /**
  * Add models to use in query
  *
- * 
- *
  * @param Phalcon_Model_Base $model
  */
 PHP_METHOD(Phalcon_Model_Query, from){
@@ -141,8 +145,6 @@ PHP_METHOD(Phalcon_Model_Query, from){
 
 /**
  * Add conditions to use in query
- *
- * 
  *
  * @param string $condition
  */
@@ -171,8 +173,6 @@ PHP_METHOD(Phalcon_Model_Query, where){
 /**
  * Set parameter in query to different database adapters.
  *
- * 
- *
  * @param string $parameter
  */
 PHP_METHOD(Phalcon_Model_Query, setParameters){
@@ -192,6 +192,11 @@ PHP_METHOD(Phalcon_Model_Query, setParameters){
 	RETURN_NULL();
 }
 
+/**
+ * Set the limit of rows to show
+ *
+ * @param int $limit
+ */
 PHP_METHOD(Phalcon_Model_Query, setLimit){
 
 	zval *v0 = NULL;
@@ -217,6 +222,11 @@ PHP_METHOD(Phalcon_Model_Query, getResultset){
 	RETURN_NULL();
 }
 
+/**
+ * Get the conditions of query
+ *
+ * @return string $query
+ */
 PHP_METHOD(Phalcon_Model_Query, getConditions){
 
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
@@ -267,11 +277,11 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 	} else {
 		ah0 = Z_ARRVAL_P(t2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes81:
+		fes97:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee81;
+			goto fee97;
 		}
-	PHALCON_INIT_VAR(v2);
+		PHALCON_INIT_VAR(v2);
 		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		Z_ADDREF_P(v2);
@@ -324,9 +334,9 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		} else {
 			ah1 = Z_ARRVAL_P(t4);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes82:
+			fes98:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee82;
+				goto fee98;
 			} else {
 				PHALCON_INIT_VAR(v10);
 				htype = zend_hash_get_current_key_ex(ah1, &index, &index_len, &num, 0, &hp1);
@@ -338,12 +348,12 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 					}
 				}
 			}
-		PHALCON_INIT_VAR(v9);
+			PHALCON_INIT_VAR(v9);
 			ZVAL_ZVAL(v9, *hd, 1, 0);
 			PHALCON_INIT_VAR(r8);
 			Z_ADDREF_P(v10);
 			Z_ADDREF_P(v5);
-			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x048);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x031);
 			Z_DELREF_P(v10);
 			Z_DELREF_P(v5);
 			if (zend_is_true(r8)) {
@@ -395,8 +405,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_SEPARATE(v7);
 			increment_function(v7);
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes82;
-			fee82:
+			goto fes98;
+			fee98:
 			if(0){ };
 		}
 		Z_ADDREF_P(v8);
@@ -416,11 +426,11 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		} else {
 			ah2 = Z_ARRVAL_P(t7);
 			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-			fes83:
+			fes99:
 			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
-				goto fee83;
+				goto fee99;
 			}
-		PHALCON_INIT_VAR(v11);
+			PHALCON_INIT_VAR(v11);
 			ZVAL_ZVAL(v11, *hd, 1, 0);
 			PHALCON_INIT_VAR(r14);
 			PHALCON_INIT_VAR(c0);
@@ -445,8 +455,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 				phalcon_array_append(v12, r19 TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah2, &hp2);
-			goto fes83;
-			fee83:
+			goto fes99;
+			fee99:
 			if(0){ };
 		}
 		PHALCON_INIT_VAR(r20);
@@ -463,14 +473,21 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		}
 		PHALCON_RETURN_CTOR(v15);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes81;
-		fee81:
+		goto fes97;
+		fee97:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
+/**
+ * Get instace of model query
+ *
+ * @param string $modelName
+ * @param array $data
+ * @return Phalcon_Model_Query $query
+ */
 PHP_METHOD(Phalcon_Model_Query, fromInput){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;

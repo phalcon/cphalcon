@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL;
+	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL, *i4 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
@@ -332,19 +332,21 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_CONCAT_RIGHT(r2, r1, "Controller");
 	PHALCON_CPY_WRT(v10, r2);
 	eval_int = phalcon_array_isset(v9, v10);
-	if (!eval_int) {
-		PHALCON_INIT_VAR(r3);
+	PHALCON_INIT_VAR(r3);
+	ZVAL_BOOL(r3, eval_int);
+	if (!zend_is_true(r3)) {
+		PHALCON_INIT_VAR(r4);
 		Z_ADDREF_P(v10);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 0);
-		PHALCON_CALL_FUNC_PARAMS_2(r3, "class_exists", v10, c0, 0x000);
+		PHALCON_CALL_FUNC_PARAMS_2(r4, "class_exists", v10, c0, 0x000);
 		Z_DELREF_P(v10);
-		if (!zend_is_true(r3)) {
-			PHALCON_INIT_VAR(r4);
-			concat_function(r4, v4, v10 TSRMLS_CC);
+		if (!zend_is_true(r4)) {
 			PHALCON_INIT_VAR(r5);
-			PHALCON_CONCAT_RIGHT(r5, r4, ".php");
-			PHALCON_CPY_WRT(v11, r5);
+			concat_function(r5, v4, v10 TSRMLS_CC);
+			PHALCON_INIT_VAR(r6);
+			PHALCON_CONCAT_RIGHT(r6, r5, ".php");
+			PHALCON_CPY_WRT(v11, r6);
 			if (phalcon_file_exists(v11 TSRMLS_CC) == SUCCESS) {
 				phalcon_require(v11 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
@@ -353,10 +355,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			} else {
 				PHALCON_INIT_VAR(i0);
 				object_init_ex(i0, phalcon_exception_class_entry);
-				PHALCON_INIT_VAR(r6);
-				PHALCON_CONCAT_BOTH(r6,  "File for controller class ", v10, " doesn't exist");
-				Z_ADDREF_P(r6);
-				p2[0] = r6;
+				PHALCON_INIT_VAR(r7);
+				PHALCON_CONCAT_BOTH(r7,  "File for controller class ", v10, " doesn't exist");
+				Z_ADDREF_P(r7);
+				p2[0] = r7;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p2[0]);
 				zend_throw_exception_object(i0 TSRMLS_CC);
@@ -364,19 +366,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_MM_RESTORE();
 				return;
 			}
-			PHALCON_INIT_VAR(r7);
+			PHALCON_INIT_VAR(r8);
 			Z_ADDREF_P(v10);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_BOOL(c1, 0);
-			PHALCON_CALL_FUNC_PARAMS_2(r7, "class_exists", v10, c1, 0x000);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "class_exists", v10, c1, 0x000);
 			Z_DELREF_P(v10);
-			if (!zend_is_true(r7)) {
+			if (!zend_is_true(r8)) {
 				PHALCON_INIT_VAR(i1);
 				object_init_ex(i1, phalcon_exception_class_entry);
-				PHALCON_INIT_VAR(r8);
-				PHALCON_CONCAT_BOTH(r8,  "Class ", v10, " was not found on controller file");
-				Z_ADDREF_P(r8);
-				p4[0] = r8;
+				PHALCON_INIT_VAR(r9);
+				PHALCON_CONCAT_BOTH(r9,  "Class ", v10, " was not found on controller file");
+				Z_ADDREF_P(r9);
+				p4[0] = r9;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p4, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p4[0]);
 				zend_throw_exception_object(i1 TSRMLS_CC);
@@ -414,9 +416,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		phalcon_array_update(t6, v10, v6 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_controllers", strlen("_controllers"), t6 TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(r9);
-		phalcon_array_fetch(&r9, v9, v10, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CPY_WRT(v6, r9);
+		PHALCON_INIT_VAR(r10);
+		phalcon_array_fetch(&r10, v9, v10, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_CPY_WRT(v6, r10);
 	}
 	PHALCON_INIT_VAR(t7);
 	phalcon_read_property(&t7, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -431,28 +433,28 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		phalcon_update_property_zval(this_ptr, "_actionName", strlen("_actionName"), v13 TSRMLS_CC);
 	}
 	if (phalcon_method_exists_ex(v6, "beforedispatch", strlen("beforedispatch") TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(r10);
+		PHALCON_INIT_VAR(r11);
 		Z_ADDREF_P(v8);
 		p7[0] = v8;
 		Z_ADDREF_P(v13);
 		p7[1] = v13;
 		Z_ADDREF_P(v12);
 		p7[2] = v12;
-		PHALCON_CALL_METHOD_PARAMS(r10, v6, "beforedispatch", 3, p7, PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD_PARAMS(r11, v6, "beforedispatch", 3, p7, PHALCON_CALL_DEFAULT);
 		Z_DELREF_P(p7[0]);
 		Z_DELREF_P(p7[1]);
 		Z_DELREF_P(p7[2]);
-		if (Z_TYPE_P(r10) == IS_BOOL && !Z_BVAL_P(r10)) {
+		if (Z_TYPE_P(r11) == IS_BOOL && !Z_BVAL_P(r11)) {
 			PHALCON_INIT_VAR(v5);
 			ZVAL_BOOL(v5, 0);
 			goto we0;
 		}
 	}
-	PHALCON_INIT_VAR(r11);
-	PHALCON_CONCAT_RIGHT(r11, v13, "Action");
-	PHALCON_CPY_WRT(v14, r11);
+	PHALCON_INIT_VAR(r12);
+	PHALCON_CONCAT_RIGHT(r12, v13, "Action");
+	PHALCON_CPY_WRT(v14, r12);
 	if (phalcon_method_exists(v6, v14 TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(r12);
+		PHALCON_INIT_VAR(r13);
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		Z_ADDREF_P(v6);
@@ -463,13 +465,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		add_next_index_zval(a0, v14);
 		Z_ADDREF_P(a0);
 		Z_ADDREF_P(v12);
-		PHALCON_CALL_FUNC_PARAMS_2(r12, "call_user_func_array", a0, v12, 0x001);
+		PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a0, v12, 0x001);
 		Z_DELREF_P(a0);
 		Z_DELREF_P(v12);
-		PHALCON_CPY_WRT(v5, r12);
+		PHALCON_CPY_WRT(v5, r13);
 	} else {
 		if (phalcon_method_exists_ex(v6, "notfoundaction", strlen("notfoundaction") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(r13);
+			PHALCON_INIT_VAR(r14);
 			PHALCON_INIT_VAR(a1);
 			array_init(a1);
 			Z_ADDREF_P(v6);
@@ -478,10 +480,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			add_next_index_stringl(a1, "notFoundAction", strlen("notFoundAction"), 1);
 			Z_ADDREF_P(a1);
 			Z_ADDREF_P(v12);
-			PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a1, v12, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r14, "call_user_func_array", a1, v12, 0x001);
 			Z_DELREF_P(a1);
 			Z_DELREF_P(v12);
-			PHALCON_CPY_WRT(v5, r13);
+			PHALCON_CPY_WRT(v5, r14);
 		} else {
 			PHALCON_INIT_VAR(p10[0]);
 			ZVAL_LONG(p10[0], 404);
@@ -490,14 +492,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(v1, "setstatuscode", 2, p10, PHALCON_CALL_DEFAULT);
 			PHALCON_INIT_VAR(i3);
 			object_init_ex(i3, phalcon_exception_class_entry);
-			PHALCON_INIT_VAR(r15);
-			PHALCON_CONCAT_LEFT(r15, "Action '", v13);
-			PHALCON_INIT_VAR(r14);
-			PHALCON_CONCAT_VBOTH(r14, r15, "' was not found on controller '", v8);
 			PHALCON_INIT_VAR(r16);
-			PHALCON_CONCAT_RIGHT(r16, r14, "'");
-			Z_ADDREF_P(r16);
-			p11[0] = r16;
+			PHALCON_CONCAT_LEFT(r16, "Action '", v13);
+			PHALCON_INIT_VAR(r15);
+			PHALCON_CONCAT_VBOTH(r15, r16, "' was not found on controller '", v8);
+			PHALCON_INIT_VAR(r17);
+			PHALCON_CONCAT_RIGHT(r17, r15, "'");
+			Z_ADDREF_P(r17);
+			p11[0] = r17;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p11, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p11[0]);
 			zend_throw_exception_object(i3 TSRMLS_CC);
@@ -522,9 +524,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	increment_function(v7);
 	PHALCON_INIT_VAR(t10);
 	ZVAL_LONG(t10, 256);
-	PHALCON_INIT_VAR(r17);
-	is_smaller_function(r17, t10, v7 TSRMLS_CC);
-	if (zend_is_true(r17)) {
+	PHALCON_INIT_VAR(r18);
+	is_smaller_function(r18, t10, v7 TSRMLS_CC);
+	if (zend_is_true(r18)) {
 		PHALCON_INIT_VAR(i4);
 		object_init_ex(i4, phalcon_exception_class_entry);
 		PHALCON_INIT_VAR(p13[0]);
@@ -657,7 +659,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 				}
 			}
 		}
-	PHALCON_INIT_VAR(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_ZVAL(v3, *hd, 1, 0);
 		if (Z_TYPE_P(v4) == IS_LONG) {
 			PHALCON_INIT_VAR(r12);

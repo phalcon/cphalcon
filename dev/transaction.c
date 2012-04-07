@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	phalcon_read_property(&t0, this_ptr, "_rollbackOnAbort", sizeof("_rollbackOnAbort")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x03B);
+		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x03D);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "The request was aborted", 1);
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *r0 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -434,7 +434,9 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		eval_int = phalcon_array_isset(t3, v0);
-		if (!eval_int) {
+		PHALCON_INIT_VAR(r1);
+		ZVAL_BOOL(r1, eval_int);
+		if (!zend_is_true(r1)) {
 			PHALCON_ALLOC_ZVAL_MM(t4);
 			phalcon_read_property(&t4, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			Z_ADDREF_P(v1);
@@ -486,11 +488,11 @@ PHP_METHOD(Phalcon_Transaction, save){
 	} else {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes61:
+		fes73:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee61;
+			goto fee73;
 		}
-	PHALCON_INIT_VAR(v0);
+		PHALCON_INIT_VAR(v0);
 		ZVAL_ZVAL(v0, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, v0, "save", PHALCON_CALL_DEFAULT);
@@ -506,8 +508,8 @@ PHP_METHOD(Phalcon_Transaction, save){
 			RETURN_FALSE;
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes61;
-		fee61:
+		goto fes73;
+		fee73:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();

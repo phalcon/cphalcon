@@ -1,3 +1,13 @@
+0.3.3
+ - Adding Phalcon_Tag::setDefault as an alias for Phalcon_Tag::displayTo
+ - Adding Phalcon_View::setVar as an alias for Phalcon_View::setParamToView
+ - Adding ACL managment with in-memory lists
+ - Fixing segfaults on methods with array optional parameters
+ - Fixing segfaults on some isset
+ - Adding built-in model attributes validators
+ - Adding Phalcon_ACL to manage access lists
+ - Adding missing Phalcon_Tag::passwordField
+
 0.3.2
  - Fixed separation of super globals by mistake causing segmentation faults
  - Support for compilation on Visual C++ 6.0

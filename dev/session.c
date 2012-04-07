@@ -46,10 +46,13 @@
 
 /**
  * Starts session, optionally using an adapter
+ *
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Session, start){
 
 	zval *v0 = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL;
 	zend_bool silence;
 
@@ -60,10 +63,16 @@ PHP_METHOD(Phalcon_Session, start){
 		RETURN_NULL();
 	}
 
+	if (!v0) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+	PHALCON_CPY_WRT(v0, a0);
+	}
+	
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_start", 0x03D);
+	PHALCON_CALL_FUNC(r0, "session_start", 0x03F);
 	PG(display_errors) = silence;
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -71,6 +80,8 @@ PHP_METHOD(Phalcon_Session, start){
 
 /**
  * Sets session options
+ *
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Session, setOptions){
 
@@ -98,6 +109,8 @@ PHP_METHOD(Phalcon_Session, setOptions){
 
 /**
  * Gets a session variable from an application context
+ *
+ * @param string $index
  */
 PHP_METHOD(Phalcon_Session, get){
 
@@ -150,6 +163,9 @@ PHP_METHOD(Phalcon_Session, get){
 
 /**
  * Sets a session variable in an application context
+ *
+ * @param string $index
+ * @param string $value
  */
 PHP_METHOD(Phalcon_Session, set){
 
@@ -193,6 +209,8 @@ PHP_METHOD(Phalcon_Session, set){
 
 /** 
  * Returns active session id
+ *
+ * @return session_id
  */
 PHP_METHOD(Phalcon_Session, getId){
 
@@ -200,7 +218,7 @@ PHP_METHOD(Phalcon_Session, getId){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_id", 0x03E);
+	PHALCON_CALL_FUNC(r0, "session_id", 0x040);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

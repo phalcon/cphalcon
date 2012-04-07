@@ -107,6 +107,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL, *t11 = NULL, *t12 = NULL, *t13 = NULL;
 	zval *t14 = NULL, *t15 = NULL, *t16 = NULL, *t17 = NULL, *t18 = NULL, *t19 = NULL, *t20 = NULL;
 	zval *t21 = NULL, *t22 = NULL, *t23 = NULL, *t24 = NULL, *t25 = NULL, *t26 = NULL, *t27 = NULL;
+	zval *t28 = NULL, *t29 = NULL, *t30 = NULL, *t31 = NULL, *t32 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL, *r19 = NULL;
@@ -138,44 +139,50 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		PHALCON_CPY_WRT(v0, t0);
 	}
 	eval_int = phalcon_isset_property(v0, "host", strlen("host") TSRMLS_CC);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, v0, "host", sizeof("host")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		r0 = t1;
-	} else {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_STRING(t2, "", 1);
+	PHALCON_INIT_VAR(t1);
+	ZVAL_BOOL(t1, eval_int);
+	if (zend_is_true(t1)) {
+		PHALCON_ALLOC_ZVAL_MM(t2);
+		phalcon_read_property(&t2, v0, "host", sizeof("host")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		r0 = t2;
+	} else {
+		PHALCON_INIT_VAR(t3);
+		ZVAL_STRING(t3, "", 1);
+		r0 = t3;
 	}
 	PHALCON_CPY_WRT(v2, r0);
 	eval_int = phalcon_isset_property(v0, "username", strlen("username") TSRMLS_CC);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, v0, "username", sizeof("username")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		r1 = t3;
-	} else {
-		PHALCON_INIT_VAR(t4);
-		ZVAL_STRING(t4, "", 1);
-		r1 = t4;
-	}
-	PHALCON_CPY_WRT(v3, r1);
-	eval_int = phalcon_isset_property(v0, "password", strlen("password") TSRMLS_CC);
-	if (eval_int) {
+	PHALCON_INIT_VAR(t4);
+	ZVAL_BOOL(t4, eval_int);
+	if (zend_is_true(t4)) {
 		PHALCON_ALLOC_ZVAL_MM(t5);
-		phalcon_read_property(&t5, v0, "password", sizeof("password")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		r2 = t5;
+		phalcon_read_property(&t5, v0, "username", sizeof("username")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		r1 = t5;
 	} else {
 		PHALCON_INIT_VAR(t6);
 		ZVAL_STRING(t6, "", 1);
-		r2 = t6;
+		r1 = t6;
+	}
+	PHALCON_CPY_WRT(v3, r1);
+	eval_int = phalcon_isset_property(v0, "password", strlen("password") TSRMLS_CC);
+	PHALCON_INIT_VAR(t7);
+	ZVAL_BOOL(t7, eval_int);
+	if (zend_is_true(t7)) {
+		PHALCON_ALLOC_ZVAL_MM(t8);
+		phalcon_read_property(&t8, v0, "password", sizeof("password")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		r2 = t8;
+	} else {
+		PHALCON_INIT_VAR(t9);
+		ZVAL_STRING(t9, "", 1);
+		r2 = t9;
 	}
 	PHALCON_CPY_WRT(v4, r2);
 	eval_int = phalcon_isset_property(v0, "port", strlen("port") TSRMLS_CC);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t7);
-		phalcon_read_property(&t7, v0, "port", sizeof("port")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(t10);
+		phalcon_read_property(&t10, v0, "port", sizeof("port")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r3);
-		PHALCON_CONCAT_VBOTH(r3, v2, ":", t7);
+		PHALCON_CONCAT_VBOTH(r3, v2, ":", t10);
 		PHALCON_CPY_WRT(v5, r3);
 	} else {
 		PHALCON_CPY_WRT(v5, v2);
@@ -184,54 +191,54 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 	ZVAL_NULL(v6);
 	eval_int = phalcon_isset_property(v0, "compression", strlen("compression") TSRMLS_CC);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t8);
-		phalcon_read_property(&t8, v0, "compression", sizeof("compression")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (zend_is_true(t8)) {
+		PHALCON_ALLOC_ZVAL_MM(t11);
+		phalcon_read_property(&t11, v0, "compression", sizeof("compression")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		if (zend_is_true(t11)) {
 			if (!zend_is_true(v6)) {
-				PHALCON_INIT_VAR(t9);
-				ZVAL_LONG(t9, 32);
-				PHALCON_CPY_WRT(v6, t9);
+				PHALCON_INIT_VAR(t12);
+				ZVAL_LONG(t12, 32);
+				PHALCON_CPY_WRT(v6, t12);
 			} else {
-				PHALCON_INIT_VAR(t10);
-				ZVAL_LONG(t10, 32);
+				PHALCON_INIT_VAR(t13);
+				ZVAL_LONG(t13, 32);
 				PHALCON_ALLOC_ZVAL_MM(r4);
-				bitwise_or_function(r4, v6, t10 TSRMLS_CC);
+				bitwise_or_function(r4, v6, t13 TSRMLS_CC);
 				PHALCON_CPY_WRT(v6, r4);
 			}
 		}
 	}
 	eval_int = phalcon_isset_property(v0, "ssl", strlen("ssl") TSRMLS_CC);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t11);
-		phalcon_read_property(&t11, v0, "ssl", sizeof("ssl")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (zend_is_true(t11)) {
+		PHALCON_ALLOC_ZVAL_MM(t14);
+		phalcon_read_property(&t14, v0, "ssl", sizeof("ssl")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		if (zend_is_true(t14)) {
 			if (!zend_is_true(v6)) {
-				PHALCON_INIT_VAR(t12);
-				ZVAL_LONG(t12, 2048);
-				PHALCON_CPY_WRT(v6, t12);
+				PHALCON_INIT_VAR(t15);
+				ZVAL_LONG(t15, 2048);
+				PHALCON_CPY_WRT(v6, t15);
 			} else {
-				PHALCON_INIT_VAR(t13);
-				ZVAL_LONG(t13, 2048);
+				PHALCON_INIT_VAR(t16);
+				ZVAL_LONG(t16, 2048);
 				PHALCON_ALLOC_ZVAL_MM(r5);
-				bitwise_or_function(r5, v6, t13 TSRMLS_CC);
+				bitwise_or_function(r5, v6, t16 TSRMLS_CC);
 				PHALCON_CPY_WRT(v6, r5);
 			}
 		}
 	}
 	eval_int = phalcon_isset_property(v0, "interactive", strlen("interactive") TSRMLS_CC);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t14);
-		phalcon_read_property(&t14, v0, "interactive", sizeof("interactive")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (zend_is_true(t14)) {
+		PHALCON_ALLOC_ZVAL_MM(t17);
+		phalcon_read_property(&t17, v0, "interactive", sizeof("interactive")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		if (zend_is_true(t17)) {
 			if (!zend_is_true(v6)) {
-				PHALCON_INIT_VAR(t15);
-				ZVAL_LONG(t15, 1024);
-				PHALCON_CPY_WRT(v6, t15);
+				PHALCON_INIT_VAR(t18);
+				ZVAL_LONG(t18, 1024);
+				PHALCON_CPY_WRT(v6, t18);
 			} else {
-				PHALCON_INIT_VAR(t16);
-				ZVAL_LONG(t16, 1024);
+				PHALCON_INIT_VAR(t19);
+				ZVAL_LONG(t19, 1024);
 				PHALCON_ALLOC_ZVAL_MM(r6);
-				bitwise_or_function(r6, v6, t16 TSRMLS_CC);
+				bitwise_or_function(r6, v6, t19 TSRMLS_CC);
 				PHALCON_CPY_WRT(v6, r6);
 			}
 		}
@@ -252,32 +259,34 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		p1[1] = v3;
 		p1[2] = v4;
 		p1[3] = v6;
-		PHALCON_CALL_FUNC_PARAMS(r8, "mysql_pconnect", 4, p1, 0x031);
+		PHALCON_CALL_FUNC_PARAMS(r8, "mysql_pconnect", 4, p1, 0x033);
 		phalcon_update_property_zval(this_ptr, "_idConnection", strlen("_idConnection"), r8 TSRMLS_CC);
 	}
-	PHALCON_ALLOC_ZVAL_MM(t17);
-	phalcon_read_property(&t17, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (zend_is_true(t17)) {
+	PHALCON_ALLOC_ZVAL_MM(t20);
+	phalcon_read_property(&t20, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	if (zend_is_true(t20)) {
 		eval_int = phalcon_isset_property(v0, "name", strlen("name") TSRMLS_CC);
-		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t18);
-			phalcon_read_property(&t18, v0, "name", sizeof("name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			r9 = t18;
+		PHALCON_INIT_VAR(t21);
+		ZVAL_BOOL(t21, eval_int);
+		if (zend_is_true(t21)) {
+			PHALCON_ALLOC_ZVAL_MM(t22);
+			phalcon_read_property(&t22, v0, "name", sizeof("name")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			r9 = t22;
 		} else {
-			PHALCON_INIT_VAR(t19);
-			ZVAL_STRING(t19, "", 1);
-			r9 = t19;
+			PHALCON_INIT_VAR(t23);
+			ZVAL_STRING(t23, "", 1);
+			r9 = t23;
 		}
 		PHALCON_CPY_WRT(v7, r9);
-		PHALCON_INIT_VAR(t20);
-		ZVAL_STRING(t20, "", 1);
+		PHALCON_INIT_VAR(t24);
+		ZVAL_STRING(t24, "", 1);
 		PHALCON_INIT_VAR(r10);
-		is_not_identical_function(r10, t20, v7 TSRMLS_CC);
+		is_not_identical_function(r10, t24, v7 TSRMLS_CC);
 		if (zend_is_true(r10)) {
 			PHALCON_ALLOC_ZVAL_MM(r11);
-			PHALCON_ALLOC_ZVAL_MM(t21);
-			phalcon_read_property(&t21, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_2(r11, "mysql_select_db", v7, t21, 0x02E);
+			PHALCON_ALLOC_ZVAL_MM(t25);
+			phalcon_read_property(&t25, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_CALL_FUNC_PARAMS_2(r11, "mysql_select_db", v7, t25, 0x02E);
 			if (!zend_is_true(r11)) {
 				PHALCON_ALLOC_ZVAL_MM(i0);
 				object_init_ex(i0, phalcon_db_exception_class_entry);
@@ -301,30 +310,32 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 			}
 		}
 		eval_int = phalcon_isset_property(v0, "autocommit", strlen("autocommit") TSRMLS_CC);
-		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t22);
-			phalcon_read_property(&t22, v0, "autocommit", sizeof("autocommit")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			r14 = t22;
+		PHALCON_INIT_VAR(t26);
+		ZVAL_BOOL(t26, eval_int);
+		if (zend_is_true(t26)) {
+			PHALCON_ALLOC_ZVAL_MM(t27);
+			phalcon_read_property(&t27, v0, "autocommit", sizeof("autocommit")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			r14 = t27;
 		} else {
-			PHALCON_INIT_VAR(t23);
-			ZVAL_BOOL(t23, 0);
-			r14 = t23;
+			PHALCON_INIT_VAR(t28);
+			ZVAL_BOOL(t28, 0);
+			r14 = t28;
 		}
 		PHALCON_CPY_WRT(v8, r14);
 		phalcon_update_property_zval(this_ptr, "_autoCommit", strlen("_autoCommit"), v8 TSRMLS_CC);
-		PHALCON_INIT_VAR(t24);
-		ZVAL_LONG(t24, 3);
-		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t24 TSRMLS_CC);
+		PHALCON_INIT_VAR(t29);
+		ZVAL_LONG(t29, 3);
+		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t29 TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p6[0] = v0;
 		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Db_Mysql", "__construct", 1, p6);
 		Z_DELREF_P(p6[0]);
 		eval_int = phalcon_isset_property(v0, "charset", strlen("charset") TSRMLS_CC);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t25);
-			phalcon_read_property(&t25, v0, "charset", sizeof("charset")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t30);
+			phalcon_read_property(&t30, v0, "charset", sizeof("charset")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r15);
-			PHALCON_CONCAT_LEFT(r15, "SET NAMES ", t25);
+			PHALCON_CONCAT_LEFT(r15, "SET NAMES ", t30);
 			Z_ADDREF_P(r15);
 			p7[0] = r15;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "query", 1, p7, PHALCON_CALL_DEFAULT);
@@ -332,18 +343,18 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		}
 		eval_int = phalcon_isset_property(v0, "collation", strlen("collation") TSRMLS_CC);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t26);
-			phalcon_read_property(&t26, v0, "collation", sizeof("collation")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t31);
+			phalcon_read_property(&t31, v0, "collation", sizeof("collation")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r16);
-			PHALCON_CONCAT_LEFT(r16, "SET collation_connection=", t26);
+			PHALCON_CONCAT_LEFT(r16, "SET collation_connection=", t31);
 			Z_ADDREF_P(r16);
 			p8[0] = r16;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "query", 1, p8, PHALCON_CALL_DEFAULT);
 			Z_DELREF_P(p8[0]);
-			PHALCON_ALLOC_ZVAL_MM(t27);
-			phalcon_read_property(&t27, v0, "collation", sizeof("collation")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t32);
+			phalcon_read_property(&t32, v0, "collation", sizeof("collation")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r17);
-			PHALCON_CONCAT_LEFT(r17, "SET collation_database=", t27);
+			PHALCON_CONCAT_LEFT(r17, "SET collation_database=", t32);
 			Z_ADDREF_P(r17);
 			p9[0] = r17;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "query", 1, p9, PHALCON_CALL_DEFAULT);
@@ -493,7 +504,7 @@ PHP_METHOD(Phalcon_Db_Mysql, close){
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		Z_ADDREF_P(t1);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_close", t1, 0x032);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_close", t1, 0x034);
 		Z_DELREF_P(t1);
 		PG(display_errors) = silence;
 		PHALCON_CPY_WRT(v0, r0);
@@ -611,7 +622,7 @@ PHP_METHOD(Phalcon_Db_Mysql, numRows){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_num_rows", v0, 0x033);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_num_rows", v0, 0x035);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v1, r0);
 	if (Z_TYPE_P(v1) != IS_BOOL || (Z_TYPE_P(v1) == IS_BOOL && Z_BVAL_P(v1))) {
@@ -693,7 +704,7 @@ PHP_METHOD(Phalcon_Db_Mysql, dataSeek){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_data_seek", v1, v0, 0x034);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_data_seek", v1, v0, 0x036);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v2, r0);
 	if (Z_TYPE_P(v2) != IS_BOOL || (Z_TYPE_P(v2) == IS_BOOL && Z_BVAL_P(v2))) {
@@ -760,7 +771,7 @@ PHP_METHOD(Phalcon_Db_Mysql, affectedRows){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_affected_rows", t0, 0x035);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_affected_rows", t0, 0x037);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v1, r0);
 	if (Z_TYPE_P(v1) != IS_BOOL || (Z_TYPE_P(v1) == IS_BOOL && Z_BVAL_P(v1))) {
@@ -877,13 +888,13 @@ PHP_METHOD(Phalcon_Db_Mysql, error){
 	phalcon_read_property(&t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "mysql_error", 0x036);
+		PHALCON_CALL_FUNC(r0, "mysql_error", 0x038);
 		PHALCON_CPY_WRT(v2, r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_error", t1, 0x036);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_error", t1, 0x038);
 		PHALCON_CPY_WRT(v2, r1);
 	}
 	if (zend_is_true(v2)) {
@@ -937,7 +948,7 @@ PHP_METHOD(Phalcon_Db_Mysql, noError){
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_errno", t1, 0x037);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_errno", t1, 0x039);
 	Z_DELREF_P(t1);
 	PHALCON_RETURN_DZVAL(r0);
 }
@@ -985,7 +996,7 @@ PHP_METHOD(Phalcon_Db_Mysql, lastInsertId){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_insert_id", t1, 0x038);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_insert_id", t1, 0x03A);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -1237,11 +1248,11 @@ PHP_METHOD(Phalcon_Db_Mysql, listTables){
 	} else {
 		ah0 = Z_ARRVAL_P(v3);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes53:
+		fes65:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee53;
+			goto fee65;
 		}
-	PHALCON_INIT_VAR(v5);
+		PHALCON_INIT_VAR(v5);
 		ZVAL_ZVAL(v5, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		phalcon_array_fetch_long(&r2, v5, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1249,8 +1260,8 @@ PHP_METHOD(Phalcon_Db_Mysql, listTables){
 		PHALCON_SEPARATE_ARRAY(v4);
 		phalcon_array_append(v4, r2 TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes53;
-		fee53:
+		goto fes65;
+		fee65:
 		if(0){ };
 	}
 	phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), v2 TSRMLS_CC);

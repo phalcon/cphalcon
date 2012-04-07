@@ -38,6 +38,11 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 
+/**
+* Paginator Exception
+*
+* @param string $message
+*/
 PHP_METHOD(Phalcon_Tag_Exception, __construct){
 
 	zval *v0 = NULL;

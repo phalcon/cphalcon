@@ -1049,7 +1049,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee2;
 			}
-		PHALCON_INIT_VAR(v1);
+			PHALCON_INIT_VAR(v1);
 			ZVAL_ZVAL(v1, *hd, 1, 0);
 			ce0 = zend_fetch_class("phalcon_uploadfile", strlen("phalcon_uploadfile"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 			PHALCON_INIT_VAR(i0);
@@ -1158,7 +1158,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee3;
 		}
-	PHALCON_INIT_VAR(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_ZVAL(v3, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c1);
@@ -1234,7 +1234,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee4;
 		}
-	PHALCON_INIT_VAR(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_ZVAL(v3, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
@@ -1310,7 +1310,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee5;
 		}
-	PHALCON_INIT_VAR(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_ZVAL(v3, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c1);
@@ -1386,7 +1386,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee6;
 		}
-	PHALCON_INIT_VAR(v3);
+		PHALCON_INIT_VAR(v3);
 		ZVAL_ZVAL(v3, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);

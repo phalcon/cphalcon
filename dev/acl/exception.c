@@ -39,57 +39,8 @@
 #include "zend_interfaces.h"
 
 /**
- * Phalcon_Logger
+ * Phalcon_Acl_Exception
  *
- * Phalcon_Logger is a component whose purpose is to create logs using different backends via adapters,
- * generating options and formats and filters also implementing transactions
+ * Class for exceptions thrown by Phalcon_Acl
  */
-
-/**
- * Phalcon_Logger constructor
- *
- * @param string $adapter
- * @param array $options
- */
-PHP_METHOD(Phalcon_Logger, __construct){
-
-	zval *v0 = NULL, *v1 = NULL;
-	zval *a0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_STRING(v0, "File", 1);
-	}
-	if (!v1) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
-}
-
-PHP_METHOD(Phalcon_Logger, setFormat){
-
-	zval *v0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
-}
 

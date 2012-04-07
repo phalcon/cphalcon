@@ -25,12 +25,14 @@
             <file>unit-tests/ModelsMetadataTest.php</file>
             <file>unit-tests/ModelsTest.php</file>
             <file>unit-tests/ModelsRelationsTest.php</file>
+            <file>unit-tests/ModelsValidatorsTest.php</file>
             <file>unit-tests/TransactionsTest.php</file>
             <file>unit-tests/ViewTest.php</file>
             <file>unit-tests/ControllersTest.php</file>
             <file>unit-tests/ControllerFrontTest.php</file>
             <file>unit-tests/TagTest.php</file>
             <file>unit-tests/CacheTest.php</file>
+            <file>unit-tests/AclTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

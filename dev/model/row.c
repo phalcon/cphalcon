@@ -145,9 +145,9 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		} else {
 			ah0 = Z_ARRVAL_P(v0);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes71:
+			fes83:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee71;
+				goto fee83;
 			} else {
 				PHALCON_INIT_VAR(v4);
 				htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
-		PHALCON_INIT_VAR(v3);
+			PHALCON_INIT_VAR(v3);
 			ZVAL_ZVAL(v3, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
 			ZVAL_BOOL(t2, 1);
@@ -175,8 +175,8 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			phalcon_array_update(v2, v4, t2 TSRMLS_CC);
 			phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), v3 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes71;
-			fee71:
+			goto fes83;
+			fee83:
 			if(0){ };
 		}
 		phalcon_update_property_zval(v1, "_columns", strlen("_columns"), v2 TSRMLS_CC);
@@ -187,9 +187,9 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		} else {
 			ah1 = Z_ARRVAL_P(v0);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes72:
+			fes84:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee72;
+				goto fee84;
 			} else {
 				PHALCON_INIT_VAR(v4);
 				htype = zend_hash_get_current_key_ex(ah1, &index, &index_len, &num, 0, &hp1);
@@ -201,12 +201,12 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
-		PHALCON_INIT_VAR(v3);
+			PHALCON_INIT_VAR(v3);
 			ZVAL_ZVAL(v3, *hd, 1, 0);
 			phalcon_update_property_zval(v1, Z_STRVAL_P(v4), Z_STRLEN_P(v4), v3 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes72;
-			fee72:
+			goto fes84;
+			fee84:
 			if(0){ };
 		}
 		PHALCON_ALLOC_ZVAL_MM(t3);

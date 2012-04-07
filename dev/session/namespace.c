@@ -45,6 +45,11 @@
  * you can easily create groups of session variables into the application
  */
 
+/**
+* Constructo of class
+*
+* @param string $name
+*/
 PHP_METHOD(Phalcon_Session_Namespace, __construct){
 
 	zval *a0 = NULL;
@@ -80,6 +85,12 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 	RETURN_NULL();
 }
 
+/**
+* Setter of values
+*
+* @param string $property
+* @param string $value
+*/
 PHP_METHOD(Phalcon_Session_Namespace, __set){
 
 	zval *v0 = NULL, *v1 = NULL;
@@ -114,6 +125,12 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 	RETURN_NULL();
 }
 
+/**
+* Getter of values
+*
+* @param string $property
+* @return string
+*/
 PHP_METHOD(Phalcon_Session_Namespace, __get){
 
 	zval *v0 = NULL, *v1 = NULL;

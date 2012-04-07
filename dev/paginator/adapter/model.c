@@ -72,7 +72,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPageNumber){
 /**
  * Set the slice to show in pagination
  *
- * @param int $page
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
@@ -304,6 +303,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_RETURN_CTOR(v4);
 }
 
+/**
+* Construct of class
+* @param array $config
+*/
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct){
 
 	zval *v0 = NULL;

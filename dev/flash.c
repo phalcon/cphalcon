@@ -77,11 +77,11 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		} else {
 			ah0 = Z_ARRVAL_P(v0);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes55:
+			fes67:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee55;
+				goto fee67;
 			}
-		PHALCON_INIT_VAR(v3);
+			PHALCON_INIT_VAR(v3);
 			ZVAL_ZVAL(v3, *hd, 1, 0);
 			PHALCON_INIT_VAR(r3);
 			PHALCON_CONCAT_LEFT(r3, "<div class=\"", v2);
@@ -93,8 +93,8 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			PHALCON_CONCAT_VBOTH(r1, r2, "</div>", t0);
 			zend_print_zval(r1, 0);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes55;
-			fee55:
+			goto fes67;
+			fee67:
 			if(0){ };
 		}
 	} else {

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 				}
 			}
 		}
-	PHALCON_INIT_VAR(v2);
+		PHALCON_INIT_VAR(v2);
 		ZVAL_ZVAL(v2, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
 		Z_ADDREF_P(v3);

@@ -101,6 +101,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 	RETURN_NULL();
 }
 
+/**
+* Set the base of application
+*
+* @param string $baseUri
+*/
 PHP_METHOD(Phalcon_Router_Rewrite, setBaseUri){
 
 	zval *v0 = NULL;
@@ -182,11 +187,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		PHALCON_CPY_WRT(v3, r6);
 		PHALCON_INIT_VAR(v4);
 		ZVAL_LONG(v4, 2);
-		fs52:
+		fs64:
 		PHALCON_INIT_VAR(r7);
 		is_smaller_function(r7, v4, v3 TSRMLS_CC);
 		if (!zend_is_true(r7)) {
-			goto fe52;
+			goto fe64;
 		}
 		PHALCON_INIT_VAR(r8);
 		phalcon_array_fetch(&r8, v1, v4, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -195,8 +200,8 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		phalcon_array_append(v2, r8 TSRMLS_CC);
 		PHALCON_SEPARATE(v4);
 		increment_function(v4);
-		goto fs52;
-		fe52:
+		goto fs64;
+		fe64:
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), v2 TSRMLS_CC);
 	} else {
 		zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_controller", strlen("_controller") TSRMLS_CC);

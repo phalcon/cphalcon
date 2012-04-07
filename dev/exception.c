@@ -55,6 +55,7 @@
 PHP_METHOD(Phalcon_Exception, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL;
 	zval *p1[] = { NULL, NULL }, *p2[] = { NULL, NULL };
 
@@ -73,6 +74,11 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	if (!v2) {
 		PHALCON_INIT_VAR(v2);
 		ZVAL_BOOL(v2, 1);
+	}
+	if (!v3) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+	PHALCON_CPY_WRT(v3, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

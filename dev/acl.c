@@ -39,22 +39,17 @@
 #include "zend_interfaces.h"
 
 /**
- * Phalcon_Paginator
- *
- * Phalcon_Paginator is designed to simplify building of paginate on views.
- *
- * 
+ * Phalcon_Acl
  *
  */
 
 /**
-     * Factories a paginator adapter
-     *
-     * @param   string $adapter
-     * @param   array $options
-     * @return  Object
-     */
-PHP_METHOD(Phalcon_Paginator, factory){
+ * Phalcon_Acl Constructor
+ *
+ * @param string $adapterName
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Acl, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *a0 = NULL;
@@ -65,13 +60,15 @@ PHP_METHOD(Phalcon_Paginator, factory){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(v0);
-	
+	if (!v0) {
+		PHALCON_INIT_VAR(v0);
+		ZVAL_STRING(v0, "Memory", 1);
+	}
 	if (!v1) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -79,7 +76,7 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "Phalcon_Paginator_Adapter_", v0);
+	PHALCON_CONCAT_LEFT(r0, "Phalcon_Acl_Adapter_", v0);
 	PHALCON_CPY_WRT(v2, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(v2);
@@ -87,9 +84,9 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	Z_DELREF_P(v2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_paginator_exception_class_entry);
+		object_init_ex(i0, phalcon_acl_exception_class_entry);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "The paginator adapter file \"", v0, "\" does not exist");
+		PHALCON_CONCAT_BOTH(r2,  "Adapter '", v0, "' does not exist");
 		Z_ADDREF_P(r2);
 		p1[0] = r2;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
@@ -106,7 +103,55 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	p2[0] = v1;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
 	Z_DELREF_P(p2[0]);
-	PHALCON_CPY_WRT(v0, i1);
-	PHALCON_RETURN_CHECK_CTOR(v0);
+	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
+ * Pass any call to the internal adapter object
+ *
+ * @param  string $method
+ * @param  array $arguments
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Acl, __call){
+
+	zval *v0 = NULL, *v1 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	if (!v1) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+	PHALCON_CPY_WRT(v1, a0);
+	}
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(a1);
+	array_init(a1);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	Z_ADDREF_P(t0);
+	PHALCON_SEPARATE_ARRAY(a1);
+	add_next_index_zval(a1, t0);
+	Z_ADDREF_P(v0);
+	PHALCON_SEPARATE_ARRAY(a1);
+	add_next_index_zval(a1, v0);
+	Z_ADDREF_P(a1);
+	Z_ADDREF_P(v1);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, v1, 0x001);
+	Z_DELREF_P(a1);
+	Z_DELREF_P(v1);
+	PHALCON_RETURN_DZVAL(r0);
 }
 

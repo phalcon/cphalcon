@@ -58,6 +58,7 @@
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *a0 = NULL;
 	zval *i0 = NULL;
 	zval *p0[] = { NULL };
 	HashTable *ah0;
@@ -75,14 +76,20 @@ PHP_METHOD(Phalcon_Config, __construct){
 		RETURN_NULL();
 	}
 
+	if (!v0) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+	PHALCON_CPY_WRT(v0, a0);
+	}
+	
 	if (Z_TYPE_P(v0) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 	} else {
 		ah0 = Z_ARRVAL_P(v0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes56:
+		fes68:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee56;
+			goto fee68;
 		} else {
 			PHALCON_INIT_VAR(v2);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -94,7 +101,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 				}
 			}
 		}
-	PHALCON_INIT_VAR(v1);
+		PHALCON_INIT_VAR(v1);
 		ZVAL_ZVAL(v1, *hd, 1, 0);
 		if (Z_TYPE_P(v1) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(i0);
@@ -108,8 +115,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), v1 TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes56;
-		fee56:
+		goto fes68;
+		fee68:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();

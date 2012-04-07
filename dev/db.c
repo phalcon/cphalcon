@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Db, insert){
 							}
 						}
 					}
-				PHALCON_INIT_VAR(v5);
+					PHALCON_INIT_VAR(v5);
 					ZVAL_ZVAL(v5, *hd, 1, 0);
 					PHALCON_INIT_VAR(r3);
 					phalcon_array_fetch(&r3, v1, v6, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Db, update){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee16;
 		}
-	PHALCON_INIT_VAR(v8);
+		PHALCON_INIT_VAR(v8);
 		ZVAL_ZVAL(v8, *hd, 1, 0);
 		if (zend_is_true(v4)) {
 			PHALCON_INIT_VAR(r4);
@@ -1138,7 +1138,7 @@ PHP_METHOD(Phalcon_Db, factory){
 					}
 				}
 			}
-		PHALCON_INIT_VAR(v4);
+			PHALCON_INIT_VAR(v4);
 			ZVAL_ZVAL(v4, *hd, 1, 0);
 			phalcon_update_property_zval(v3, Z_STRVAL_P(v5), Z_STRLEN_P(v5), v4 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
