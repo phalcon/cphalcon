@@ -55,6 +55,9 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$params = array('action' => 'index', 'text' => 'home');
 		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index" >home</a>');
 
+		$params = array('action' => 'index', 'text' => 'home', 'class' => 'btn btn-primary');
+		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index"  class="btn btn-primary" >home</a>');
+
 		$params = array('action' => 'index', 'text' => 'home', 'confirm' => 'more lol?');
 		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index"  onclick="if(!confirm(\'more lol?\')) { return false; }; " >home</a>');
 
@@ -181,14 +184,20 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 		//Javascript includes
 		$this->assertEquals(Phalcon_Tag::javascriptInclude('javascript/jquery.min.js'), '<script  src="/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
-		$this->assertEquals(Phalcon_Tag::javascriptInclude('http://localhost/javascript/jquery.min.js', false), '<script  src="http://localhost/javascript/jquery.min.js""  type="text/javascript" ></script>'.PHP_EOL);
+		$this->assertEquals(Phalcon_Tag::javascriptInclude('http://localhost/javascript/jquery.min.js', false), '<script  src="http://localhost/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
 
 	}
 
 	public function testTitle(){
 
 		Phalcon_Tag::setTitle('A title');
-		$this->assertEquals(Phalcon_Tag::getTitle(), '');
+		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>A title</title>'.PHP_EOL);
+
+		Phalcon_Tag::appendTitle(' - Append title');
+		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>A title - Append title</title>'.PHP_EOL);
+
+		Phalcon_Tag::prependTitle('Prepend title - ');
+		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>Prepend title - A title - Append title</title>'.PHP_EOL);
 
 	}
 
