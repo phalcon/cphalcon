@@ -1,3 +1,12 @@
+0.3.4
+ - Fixing wrong implementation in Phalcon_Tag::javascriptInclude
+ - Adding Phalcon_Cache_Frontend_Output
+ - Renaming Phalcon_Db_Mysql to Phalcon_Db_Adapter_Mysql
+ - Renaming Phalcon_Cache_Adapter_File to Phalcon_Cache_Frontend_File
+ - Adding Phalcon_Request::setRawHeader
+ - Adding Phalcon_Paginator_Adapter_Array
+ - Fixing bugs in model paginator
+
 0.3.3
  - Adding Phalcon_Tag::setDefault as an alias for Phalcon_Tag::displayTo
  - Adding Phalcon_View::setVar as an alias for Phalcon_View::setParamToView
