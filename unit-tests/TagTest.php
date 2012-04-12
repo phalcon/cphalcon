@@ -183,6 +183,13 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Phalcon_Tag::javascriptInclude('javascript/jquery.min.js'), '<script  src="/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
 		$this->assertEquals(Phalcon_Tag::javascriptInclude('http://localhost/javascript/jquery.min.js', false), '<script  src="http://localhost/javascript/jquery.min.js""  type="text/javascript" ></script>'.PHP_EOL);
 
+	}
+
+	public function testTitle(){
+
+		Phalcon_Tag::setTitle('A title');
+		$this->assertEquals(Phalcon_Tag::getTitle(), '');
 
 	}
+
 }
