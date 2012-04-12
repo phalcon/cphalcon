@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_View, start){
 
 	PHALCON_MM_GROW();
 	zend_update_property_null(Z_OBJCE_P(this_ptr), this_ptr, "_content", strlen("_content") TSRMLS_CC);
-	PHALCON_CALL_FUNC_NORETURN("ob_start", 0x00F);
+	PHALCON_CALL_FUNC_NORETURN("ob_start", 0x011);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_View, render){
 	is_smaller_function(r0, v4, t3 TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC(r1, "ob_get_contents", 0x010);
+		PHALCON_CALL_FUNC(r1, "ob_get_contents", 0x012);
 		phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t4);
 		phalcon_read_property(&t4, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -439,13 +439,13 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r5, r3, ".phtml");
 			PHALCON_CPY_WRT(v7, r5);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x011);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
 				}
 				PHALCON_ALLOC_ZVAL_MM(r6);
-				PHALCON_CALL_FUNC(r6, "ob_get_contents", 0x010);
+				PHALCON_CALL_FUNC(r6, "ob_get_contents", 0x012);
 				phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r6 TSRMLS_CC);
 			}
 		}
@@ -478,13 +478,13 @@ PHP_METHOD(Phalcon_View, render){
 					PHALCON_CONCAT_RIGHT(r10, r9, ".phtml");
 					PHALCON_CPY_WRT(v10, r10);
 					if (phalcon_file_exists(v10 TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x011);
+						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
 						phalcon_require(v10 TSRMLS_CC);
 						if (EG(exception) || EG(exit_status) == 255) {
 							return;
 						}
 						PHALCON_INIT_VAR(r11);
-						PHALCON_CALL_FUNC(r11, "ob_get_contents", 0x010);
+						PHALCON_CALL_FUNC(r11, "ob_get_contents", 0x012);
 						phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r11 TSRMLS_CC);
 					} else {
 						PHALCON_INIT_VAR(i0);
@@ -520,13 +520,13 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r16, r15, ".phtml");
 			PHALCON_CPY_WRT(v7, r16);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x011);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
 				}
 				PHALCON_ALLOC_ZVAL_MM(r17);
-				PHALCON_CALL_FUNC(r17, "ob_get_contents", 0x010);
+				PHALCON_CALL_FUNC(r17, "ob_get_contents", 0x012);
 				phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r17 TSRMLS_CC);
 			}
 		}
@@ -559,13 +559,13 @@ PHP_METHOD(Phalcon_View, render){
 					PHALCON_CONCAT_RIGHT(r21, r20, ".phtml");
 					PHALCON_CPY_WRT(v10, r21);
 					if (phalcon_file_exists(v10 TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x011);
+						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
 						phalcon_require(v10 TSRMLS_CC);
 						if (EG(exception) || EG(exit_status) == 255) {
 							return;
 						}
 						PHALCON_INIT_VAR(r22);
-						PHALCON_CALL_FUNC(r22, "ob_get_contents", 0x010);
+						PHALCON_CALL_FUNC(r22, "ob_get_contents", 0x012);
 						phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r22 TSRMLS_CC);
 					} else {
 						PHALCON_INIT_VAR(i1);
@@ -597,13 +597,13 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r25, v2, "index.phtml");
 			PHALCON_CPY_WRT(v7, r25);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x011);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
 				}
 				PHALCON_ALLOC_ZVAL_MM(r26);
-				PHALCON_CALL_FUNC(r26, "ob_get_contents", 0x010);
+				PHALCON_CALL_FUNC(r26, "ob_get_contents", 0x012);
 				phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r26 TSRMLS_CC);
 			}
 		}
@@ -717,7 +717,7 @@ PHP_METHOD(Phalcon_View, finish){
 
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x012);
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x014);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -762,7 +762,7 @@ PHP_METHOD(Phalcon_View, url){
 	}
 	
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v0, 0x013);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v0, 0x015);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		Z_ADDREF_P(v0);

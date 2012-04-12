@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 	if (zend_is_true(v1)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		Z_ADDREF_P(v1);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "addslashes", v1, 0x01D);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "addslashes", v1, 0x01F);
 		Z_DELREF_P(v1);
 		PHALCON_CPY_WRT(v1, r0);
 		PHALCON_ALLOC_ZVAL_MM(r2);

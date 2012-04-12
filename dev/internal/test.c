@@ -3145,7 +3145,7 @@ PHP_METHOD(Phalcon_Internal_Test, f1){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "LOL", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", c0, 0x01F);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", c0, 0x021);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3160,7 +3160,7 @@ PHP_METHOD(Phalcon_Internal_Test, f2){
 	ZVAL_STRING(c0, "hello\t", 1);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "\t", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "rtrim", c0, c1, 0x020);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "rtrim", c0, c1, 0x022);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3177,7 +3177,7 @@ PHP_METHOD(Phalcon_Internal_Test, f3){
 	ZVAL_STRING(p0[1], "xx", 1);
 	PHALCON_INIT_VAR(p0[2]);
 	ZVAL_STRING(p0[2], "aabbcc", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x018);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x01A);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3193,8 +3193,8 @@ PHP_METHOD(Phalcon_Internal_Test, f4){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "deux", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "strlen", c1, 0x01F);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "str_repeat", c0, r1, 0x021);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "strlen", c1, 0x021);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "str_repeat", c0, r1, 0x023);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3211,7 +3211,7 @@ PHP_METHOD(Phalcon_Internal_Test, f5){
 	add_next_index_stringl(a0, "a", strlen("a"), 1);
 	PHALCON_CPY_WRT(v0, a0);
 	Z_SET_ISREF_P(v0);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("asort", v0, 0x022);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("asort", v0, 0x024);
 	Z_UNSET_ISREF_P(v0);
 	PHALCON_RETURN_CTOR(v0);
 }
@@ -3228,27 +3228,27 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 	ZVAL_LONG(c0, 0);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_LONG(c1, 100);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mt_rand", c0, c1, 0x023);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mt_rand", c0, c1, 0x025);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CONCAT_RIGHT(r1, r0, ".txt");
 	PHALCON_CPY_WRT(v0, r1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "w", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r2, "fopen", v0, c2, 0x024);
+	PHALCON_CALL_FUNC_PARAMS_2(r2, "fopen", v0, c2, 0x026);
 	PHALCON_CPY_WRT(v1, r2);
 	Z_ADDREF_P(v1);
 	PHALCON_INIT_VAR(c3);
 	ZVAL_STRING(c3, "morelol\n", 1);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", v1, c3, 0x025);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", v1, c3, 0x027);
 	Z_DELREF_P(v1);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("fclose", v1, 0x026);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("fclose", v1, 0x028);
 	Z_DELREF_P(v1);
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_FUNC_PARAMS_1(r3, "file_get_contents", v0, 0x006);
 	PHALCON_CPY_WRT(v2, r3);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("unlink", v0, 0x027);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("unlink", v0, 0x029);
 	PHALCON_RETURN_CHECK_CTOR(v2);
 }
 
@@ -3261,7 +3261,7 @@ PHP_METHOD(Phalcon_Internal_Test, f7){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_DOUBLE(c0, 3.14159);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "sqrt", c0, 0x028);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "sqrt", c0, 0x02A);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3283,7 +3283,7 @@ PHP_METHOD(Phalcon_Internal_Test, f8){
 	ZVAL_STRING(p0[1], "&", 1);
 	PHALCON_INIT_VAR(p0[2]);
 	ZVAL_STRING(p0[2], "-.,-.,", 1);
-	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x018);
+	PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x01A);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -3307,7 +3307,7 @@ PHP_METHOD(Phalcon_Internal_Test, f9){
 	PHALCON_CPY_WRT(v0, r1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	Z_ADDREF_P(v0);
-	PHALCON_CALL_FUNC_PARAMS_1(r2, "abs", v0, 0x029);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "abs", v0, 0x02B);
 	Z_DELREF_P(v0);
 	PHALCON_RETURN_DZVAL(r2);
 }
@@ -3326,7 +3326,7 @@ PHP_METHOD(Phalcon_Internal_Test, f10){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_long(&r1, v0, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", r1, 0x02A);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", r1, 0x02C);
 	if (zend_is_true(r0)) {
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -5308,7 +5308,7 @@ PHP_METHOD(Phalcon_Internal_Test, t4){
 		PHALCON_RETURN_CHECK_CTOR(t1);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "sqrt", v1, 0x028);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "sqrt", v1, 0x02A);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		phalcon_add_function(r2, r1, v0 TSRMLS_CC);
 		PHALCON_RETURN_CTOR(r2);
@@ -5805,7 +5805,7 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 	PHALCON_INIT_VAR(p1[1]);
 	ZVAL_STRING(p1[1], "", 1);
 	p1[2] = v4;
-	PHALCON_CALL_FUNC_PARAMS(r3, "str_replace", 3, p1, 0x018);
+	PHALCON_CALL_FUNC_PARAMS(r3, "str_replace", 3, p1, 0x01A);
 	PHALCON_CPY_WRT(v6, r3);
 	PHALCON_INIT_VAR(i1);
 	object_init_ex(i1, phalcon_model_message_class_entry);
@@ -6209,7 +6209,7 @@ PHP_METHOD(Phalcon_Internal_Test, t15){
 		eval_int = phalcon_array_isset(g0, v0);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CALL_FUNC(r0, "get_magic_quotes_gpc", 0x02B);
+			PHALCON_CALL_FUNC(r0, "get_magic_quotes_gpc", 0x02D);
 			if (!zend_is_true(r0)) {
 				PHALCON_ALLOC_ZVAL_MM(r1);
 				phalcon_array_fetch(&r1, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -6219,7 +6219,7 @@ PHP_METHOD(Phalcon_Internal_Test, t15){
 				PHALCON_ALLOC_ZVAL_MM(r3);
 				phalcon_array_fetch(&r3, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 				Z_ADDREF_P(r3);
-				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02C);
+				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02E);
 				Z_DELREF_P(r3);
 				PHALCON_RETURN_DZVAL(r2);
 			}
@@ -6276,19 +6276,19 @@ PHP_METHOD(Phalcon_Internal_Test, t17){
 	ZVAL_STRING(p0[1], "root", 1);
 	PHALCON_INIT_VAR(p0[2]);
 	ZVAL_STRING(p0[2], "", 1);
-	PHALCON_CALL_FUNC_PARAMS_NORETURN("mysql_connect", 3, p0, 0x02D);
+	PHALCON_CALL_FUNC_PARAMS_NORETURN("mysql_connect", 3, p0, 0x02F);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "phalcon_test", 1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("mysql_select_db", c0, 0x02E);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("mysql_select_db", c0, 0x030);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "SELECT * FROM robots", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_query", c1, 0x02F);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_query", c1, 0x031);
 	PHALCON_CPY_WRT(v1, r0);
 	ws51:
 	PHALCON_INIT_VAR(r1);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_fetch_array", v1, 0x030);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_fetch_array", v1, 0x032);
 	Z_DELREF_P(v1);
 	PHALCON_CPY_WRT(v2, r1);
 	if (!zend_is_true(v2)) {

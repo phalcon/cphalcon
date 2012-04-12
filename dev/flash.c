@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "join", c0, v1, 0x00D);
+		PHALCON_CALL_FUNC_PARAMS_2(r0, "join", c0, v1, 0x00F);
 		PHALCON_CPY_WRT(v2, r0);
 	} else {
 		PHALCON_CPY_WRT(v2, v1);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Flash, notice){
 }
 
 /**
- * Shows a HTML sucess message
+ * Shows a HTML success message
  *
  * 
  *
@@ -232,6 +232,7 @@ PHP_METHOD(Phalcon_Flash, success){
 /**
  * Shows a HTML warning message
  *
+ * 
  * 
  *
  * @param string $message

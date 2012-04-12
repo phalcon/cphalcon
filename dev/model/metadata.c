@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			PHALCON_ALLOC_ZVAL_MM(r5);
 			PHALCON_CONCAT_VBOTH(r5, r6, "\".\"", v1);
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x043);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x044);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CONCAT_VBOTH(r4, r5, "\" doesn't exist on database when dumping information for ", r7);
 			Z_ADDREF_P(r4);

@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "parse_ini_file", v0, c0, 0x041);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "parse_ini_file", v0, c0, 0x042);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v2, r0);
 	if (Z_TYPE_P(v2) == IS_BOOL && !Z_BVAL_P(v2)) {
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		object_init_ex(i0, phalcon_config_exception_class_entry);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		Z_ADDREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", v0, 0x042);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", v0, 0x043);
 		Z_DELREF_P(v0);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_BOTH(r2,  "Configuration file ", r1, " can't be loaded");

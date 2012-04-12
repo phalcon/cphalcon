@@ -127,9 +127,9 @@ PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 		PHALCON_INIT_VAR(p0[1]);
 		ZVAL_STRING(p0[1], "", 1);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x043);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x044);
 		p0[2] = r1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x018);
+		PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x01A);
 		PHALCON_CPY_WRT(v2, r0);
 	}
 	PHALCON_ALLOC_ZVAL_MM(i0);

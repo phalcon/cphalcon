@@ -20,10 +20,10 @@
 
 class CacheTest extends PHPUnit_Framework_TestCase {
 
-  public function testCache(){
+  public function testOutputFileCache(){
 
     $frontendOptions = array(
-      'lifetime' => 4
+      'lifetime' => 2
     );
 
     $backendOptions = array(
@@ -34,21 +34,21 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 
     $time = date('H:i:s');
 
-    $cache = Phalcon_Cache::factory('File', $frontendOptions, $backendOptions);
-    $this->assertInstanceOf('Phalcon_Cache_Adapter_File', $cache);
+    $cache = Phalcon_Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
+    $this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
 
     ob_start();
 
     //First time cache
     $content = $cache->start('test');
     if($content!==null){
-      $this->assertTrue(false); 
+      $this->assertTrue(false);
     }
     echo $time;
-    $cache->save(true);
-    
+    $cache->save(null, null, true);
+
     $obContent = ob_get_contents();
-    ob_end_clean();    
+    ob_end_clean();
 
     $this->assertEquals($time, $obContent);
 
@@ -61,7 +61,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($time, $obContent);
 
     //Refresh cache
-    sleep(6);
+    sleep(4);
 
     $time2 = date('H:i:s');
 
@@ -69,13 +69,13 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 
     $content = $cache->start('test');
     if($content!==null){
-      $this->assertTrue(false); 
+      $this->assertTrue(false);
     }
     echo $time2;
-    $cache->save(true);
+    $cache->save(null, null, true);
 
     $obContent2 = ob_get_contents();
-    ob_end_clean();    
+    ob_end_clean();
 
     $this->assertNotEquals($time, $obContent2);
     $this->assertEquals($time2, $obContent2);

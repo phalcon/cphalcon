@@ -42,15 +42,9 @@
  * Phalcon_Response
  *
  * Encapsulates the HTTP response message.
+ *
+ *
  */
-
-PHP_METHOD(Phalcon_Response, __construct){
-
-
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
-}
 
 /**
  * Returns singleton Phalcon_Response instance
@@ -140,6 +134,8 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 /**
  * Overwrittes a header in the response
  *
+ *
+ *
  * @param string $name
  * @param string $value
  */
@@ -190,7 +186,36 @@ PHP_METHOD(Phalcon_Response, setHeader){
 }
 
 /**
+ * Send a raw header to the response
+ *
+ *
+ */
+PHP_METHOD(Phalcon_Response, setRawHeader){
+
+	zval *v0 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	Z_ADDREF_P(v0);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_BOOL(c0, 1);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", v0, c0, 0x004);
+	Z_DELREF_P(v0);
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
  * Sets HTTP response body
+     *
+ *
  *
  * @param string $content
  */
@@ -207,6 +232,34 @@ PHP_METHOD(Phalcon_Response, setContent){
 
 	
 	phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), v0 TSRMLS_CC);
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
+ * Appends a string to the HTTP response body
+ *
+ * @param string $content
+ */
+PHP_METHOD(Phalcon_Response, appendContent){
+
+	zval *v0 = NULL;
+	zval *t0 = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	concat_function(r0, t0, v0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r0 TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

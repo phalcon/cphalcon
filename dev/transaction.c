@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	phalcon_read_property(&t0, this_ptr, "_rollbackOnAbort", sizeof("_rollbackOnAbort")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x03D);
+		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x03E);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "The request was aborted", 1);

@@ -45,7 +45,6 @@
  * It provides a set of helpers to generate searchs in a dynamic way to support differents databases.
  *
  * 
- * 
  *
  */
 
@@ -93,7 +92,7 @@ PHP_METHOD(Phalcon_Model_Query, setInputData){
 }
 
 /**
- * Set the Phalcon_Model_Manager instance to use in query
+ * Set the Phalcon_Model_Manager instance to use in a query
  *
  * 
  *
@@ -119,7 +118,7 @@ PHP_METHOD(Phalcon_Model_Query, setManager){
 /**
  * Add models to use in query
  *
- * @param Phalcon_Model_Base $model
+ * @param string $model
  */
 PHP_METHOD(Phalcon_Model_Query, from){
 
@@ -297,7 +296,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_exception_class_entry);
 			PHALCON_INIT_VAR(r4);
-			PHALCON_CONCAT_BOTH(r4,  "The model ", v2, " not exist");
+			PHALCON_CONCAT_BOTH(r4,  "The model ", v2, " does not exist");
 			Z_ADDREF_P(r4);
 			p4[0] = r4;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
@@ -353,7 +352,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(r8);
 			Z_ADDREF_P(v10);
 			Z_ADDREF_P(v5);
-			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x031);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x033);
 			Z_DELREF_P(v10);
 			Z_DELREF_P(v5);
 			if (zend_is_true(r8)) {
@@ -468,7 +467,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(r21);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, " AND ", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r21, "join", c1, v12, 0x00D);
+			PHALCON_CALL_FUNC_PARAMS_2(r21, "join", c1, v12, 0x00F);
 			PHALCON_CPY_WRT(v15, r21);
 		}
 		PHALCON_RETURN_CTOR(v15);

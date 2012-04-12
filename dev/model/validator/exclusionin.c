@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 	ZVAL_STRING(p3[0], "domain", 1);
 	PHALCON_CALL_METHOD_PARAMS(r2, this_ptr, "getoption", 1, p3, PHALCON_CALL_DEFAULT);
 	Z_ADDREF_P(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x047);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x048);
 	Z_DELREF_P(r2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 			PHALCON_CALL_METHOD(r4, this_ptr, "getvalue", PHALCON_CALL_DEFAULT);
 			Z_ADDREF_P(r4);
 			Z_ADDREF_P(v0);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, v0, 0x031);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, v0, 0x033);
 			Z_DELREF_P(r4);
 			Z_DELREF_P(v0);
 			if (zend_is_true(r3)) {
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 				PHALCON_ALLOC_ZVAL_MM(r8);
 				PHALCON_INIT_VAR(c0);
 				ZVAL_STRING(c0, ", ", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r8, "join", c0, v0, 0x00D);
+				PHALCON_CALL_FUNC_PARAMS_2(r8, "join", c0, v0, 0x00F);
 				PHALCON_ALLOC_ZVAL_MM(r6);
 				PHALCON_CONCAT_VBOTH(r6, r7, "' must not be part of list: ", r8);
 				Z_ADDREF_P(r6);

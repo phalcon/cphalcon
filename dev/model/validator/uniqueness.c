@@ -41,8 +41,8 @@
 /**
  * Phalcon_Model_Validator_Uniqueness
  *
- * Validates that a field or a combination of a set of fields not
- * is present more than once in the existing records of the related table
+ * Validates that a field or a combination of a set of fields are not
+ * present more than once in the existing records of the related table
  *
  *
  *
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				PHALCON_CALL_METHOD_PARAMS(r4, v0, "readattribute", 1, p4, PHALCON_CALL_DEFAULT);
 				Z_DELREF_P(p4[0]);
 				Z_ADDREF_P(r4);
-				PHALCON_CALL_FUNC_PARAMS_1(r3, "addslashes", r4, 0x01D);
+				PHALCON_CALL_FUNC_PARAMS_1(r3, "addslashes", r4, 0x01F);
 				Z_DELREF_P(r4);
 				PHALCON_CPY_WRT(v4, r3);
 				PHALCON_INIT_VAR(r5);
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_ALLOC_ZVAL_MM(r8);
 			PHALCON_CALL_METHOD(r8, this_ptr, "getvalue", PHALCON_CALL_DEFAULT);
 			Z_ADDREF_P(r8);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x01D);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x01F);
 			Z_DELREF_P(r8);
 			PHALCON_CPY_WRT(v4, r7);
 			PHALCON_ALLOC_ZVAL_MM(r9);
@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_CALL_METHOD_PARAMS(r16, v0, "readattribute", 1, p11, PHALCON_CALL_DEFAULT);
 			Z_DELREF_P(p11[0]);
 			Z_ADDREF_P(r16);
-			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x01D);
+			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x01F);
 			Z_DELREF_P(r16);
 			PHALCON_INIT_VAR(r14);
 			PHALCON_CONCAT_VBOTH(r14, v8, "<>'", r15);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		PHALCON_ALLOC_ZVAL_MM(r18);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r18, "join", c0, v2, 0x00D);
+		PHALCON_CALL_FUNC_PARAMS_2(r18, "join", c0, v2, 0x00F);
 		PHALCON_CPY_WRT(v2, r18);
 		PHALCON_ALLOC_ZVAL_MM(r19);
 		Z_ADDREF_P(v2);

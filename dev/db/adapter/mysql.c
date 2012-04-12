@@ -46,12 +46,12 @@
  */
 
 /**
- * Constructor for Phalcon_Db_Mysql. This method does not should to be called directly. Use Phalcon_Db::factory instead
+ * Constructor for Phalcon_Db_Adapter_Mysql. This method does not should to be called directly. Use Phalcon_Db::factory instead
  *
  * @param stdClass $descriptor
  * @param boolean $persistent
  */
-PHP_METHOD(Phalcon_Db_Mysql, __construct){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, __construct){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *t0 = NULL;
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Db_Mysql, __construct){
  * @param boolean $persistent
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Mysql, connect){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
 	zval *v7 = NULL, *v8 = NULL;
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		PHALCON_INIT_VAR(p0[3]);
 		ZVAL_BOOL(p0[3], 1);
 		p0[4] = v6;
-		PHALCON_CALL_FUNC_PARAMS(r7, "mysql_connect", 5, p0, 0x02D);
+		PHALCON_CALL_FUNC_PARAMS(r7, "mysql_connect", 5, p0, 0x02F);
 		phalcon_update_property_zval(this_ptr, "_idConnection", strlen("_idConnection"), r7 TSRMLS_CC);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r8);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		p1[1] = v3;
 		p1[2] = v4;
 		p1[3] = v6;
-		PHALCON_CALL_FUNC_PARAMS(r8, "mysql_pconnect", 4, p1, 0x033);
+		PHALCON_CALL_FUNC_PARAMS(r8, "mysql_pconnect", 4, p1, 0x034);
 		phalcon_update_property_zval(this_ptr, "_idConnection", strlen("_idConnection"), r8 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t20);
@@ -286,7 +286,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 			PHALCON_ALLOC_ZVAL_MM(r11);
 			PHALCON_ALLOC_ZVAL_MM(t25);
 			phalcon_read_property(&t25, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_2(r11, "mysql_select_db", v7, t25, 0x02E);
+			PHALCON_CALL_FUNC_PARAMS_2(r11, "mysql_select_db", v7, t25, 0x030);
 			if (!zend_is_true(r11)) {
 				PHALCON_ALLOC_ZVAL_MM(i0);
 				object_init_ex(i0, phalcon_db_exception_class_entry);
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
 		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t29 TSRMLS_CC);
 		Z_ADDREF_P(v0);
 		p6[0] = v0;
-		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Db_Mysql", "__construct", 1, p6);
+		PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Db_Adapter_Mysql", "__construct", 1, p6);
 		Z_DELREF_P(p6[0]);
 		eval_int = phalcon_isset_property(v0, "charset", strlen("charset") TSRMLS_CC);
 		if (eval_int) {
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Db_Mysql, connect){
  * @param  string $sqlStatement
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Mysql, query){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, query){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(this_ptr, "_beforequery", 1, p1, PHALCON_CALL_DEFAULT);
 	Z_DELREF_P(p1[0]);
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_query", v0, v1, 0x02F);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_query", v0, v1, 0x031);
 	PHALCON_CPY_WRT(v2, r0);
 	if (zend_is_true(v2)) {
 		phalcon_update_property_zval(this_ptr, "_lastResultQuery", strlen("_lastResultQuery"), v2 TSRMLS_CC);
@@ -486,7 +486,7 @@ PHP_METHOD(Phalcon_Db_Mysql, query){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Mysql, close){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, close){
 
 	zval *t0 = NULL, *t1 = NULL;
 	zval *v0 = NULL;
@@ -497,14 +497,14 @@ PHP_METHOD(Phalcon_Db_Mysql, close){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon_Db_Mysql", "close");
+		PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon_Db_Adapter_Mysql", "close");
 		silence = PG(display_errors);
 		PG(display_errors) = 0;
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 		Z_ADDREF_P(t1);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_close", t1, 0x034);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_close", t1, 0x035);
 		Z_DELREF_P(t1);
 		PG(display_errors) = silence;
 		PHALCON_CPY_WRT(v0, r0);
@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Db_Mysql, close){
  * @param resource $resultQuery
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Mysql, fetchArray){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, fetchArray){
 
 	zval *v0 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Db_Mysql, fetchArray){
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_fetchMode", sizeof("_fetchMode")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t2);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_fetch_array", v0, t2, 0x030);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_fetch_array", v0, t2, 0x032);
 	Z_DELREF_P(v0);
 	Z_DELREF_P(t2);
 	PHALCON_RETURN_DZVAL(r0);
@@ -580,7 +580,7 @@ PHP_METHOD(Phalcon_Db_Mysql, fetchArray){
  * @param resource $resultQuery
  * @return int
  */
-PHP_METHOD(Phalcon_Db_Mysql, numRows){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, numRows){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Db_Mysql, numRows){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_num_rows", v0, 0x035);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_num_rows", v0, 0x036);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v1, r0);
 	if (Z_TYPE_P(v1) != IS_BOOL || (Z_TYPE_P(v1) == IS_BOOL && Z_BVAL_P(v1))) {
@@ -667,7 +667,7 @@ PHP_METHOD(Phalcon_Db_Mysql, numRows){
  * @param resource $resultQuery
  * @return int
  */
-PHP_METHOD(Phalcon_Db_Mysql, dataSeek){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, dataSeek){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *t0 = NULL;
@@ -704,7 +704,7 @@ PHP_METHOD(Phalcon_Db_Mysql, dataSeek){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_data_seek", v1, v0, 0x036);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysql_data_seek", v1, v0, 0x037);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v2, r0);
 	if (Z_TYPE_P(v2) != IS_BOOL || (Z_TYPE_P(v2) == IS_BOOL && Z_BVAL_P(v2))) {
@@ -744,7 +744,7 @@ PHP_METHOD(Phalcon_Db_Mysql, dataSeek){
  * @param resource $resultQuery
  * @return int
  */
-PHP_METHOD(Phalcon_Db_Mysql, affectedRows){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, affectedRows){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
@@ -771,7 +771,7 @@ PHP_METHOD(Phalcon_Db_Mysql, affectedRows){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_affected_rows", t0, 0x037);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_affected_rows", t0, 0x038);
 	PG(display_errors) = silence;
 	PHALCON_CPY_WRT(v1, r0);
 	if (Z_TYPE_P(v1) != IS_BOOL || (Z_TYPE_P(v1) == IS_BOOL && Z_BVAL_P(v1))) {
@@ -810,7 +810,7 @@ PHP_METHOD(Phalcon_Db_Mysql, affectedRows){
  *
  * @param int $fetchMode
  */
-PHP_METHOD(Phalcon_Db_Mysql, setFetchMode){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, setFetchMode){
 
 	zval *v0 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
@@ -825,7 +825,7 @@ PHP_METHOD(Phalcon_Db_Mysql, setFetchMode){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_get_class_constant(t0, phalcon_db_mysql_class_entry, "DB_ASSOC", strlen("DB_ASSOC") TSRMLS_CC);
+	phalcon_get_class_constant(t0, phalcon_db_adapter_mysql_class_entry, "DB_ASSOC", strlen("DB_ASSOC") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	is_equal_function(r0, v0, t0 TSRMLS_CC);
 	if (zend_is_true(r0)) {
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Db_Mysql, setFetchMode){
 		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t1 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_get_class_constant(t2, phalcon_db_mysql_class_entry, "DB_BOTH", strlen("DB_BOTH") TSRMLS_CC);
+	phalcon_get_class_constant(t2, phalcon_db_adapter_mysql_class_entry, "DB_BOTH", strlen("DB_BOTH") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	is_equal_function(r1, v0, t2 TSRMLS_CC);
 	if (zend_is_true(r1)) {
@@ -843,7 +843,7 @@ PHP_METHOD(Phalcon_Db_Mysql, setFetchMode){
 		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t3 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t4);
-	phalcon_get_class_constant(t4, phalcon_db_mysql_class_entry, "DB_NUM", strlen("DB_NUM") TSRMLS_CC);
+	phalcon_get_class_constant(t4, phalcon_db_adapter_mysql_class_entry, "DB_NUM", strlen("DB_NUM") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	is_equal_function(r2, v0, t4 TSRMLS_CC);
 	if (zend_is_true(r2)) {
@@ -862,7 +862,7 @@ PHP_METHOD(Phalcon_Db_Mysql, setFetchMode){
  * @param resurce $resultQuery
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, error){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, error){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
@@ -888,13 +888,13 @@ PHP_METHOD(Phalcon_Db_Mysql, error){
 	phalcon_read_property(&t0, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "mysql_error", 0x038);
+		PHALCON_CALL_FUNC(r0, "mysql_error", 0x039);
 		PHALCON_CPY_WRT(v2, r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_error", t1, 0x038);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "mysql_error", t1, 0x039);
 		PHALCON_CPY_WRT(v2, r1);
 	}
 	if (zend_is_true(v2)) {
@@ -920,7 +920,7 @@ PHP_METHOD(Phalcon_Db_Mysql, error){
  * @param resurce $resultQuery
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, noError){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, noError){
 
 	zval *v0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Db_Mysql, noError){
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_errno", t1, 0x039);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_errno", t1, 0x03A);
 	Z_DELREF_P(t1);
 	PHALCON_RETURN_DZVAL(r0);
 }
@@ -961,7 +961,7 @@ PHP_METHOD(Phalcon_Db_Mysql, noError){
  * @param string $sequenceName
  * @return int
  */
-PHP_METHOD(Phalcon_Db_Mysql, lastInsertId){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, lastInsertId){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -996,7 +996,7 @@ PHP_METHOD(Phalcon_Db_Mysql, lastInsertId){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_insert_id", t1, 0x03A);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_insert_id", t1, 0x03B);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -1009,7 +1009,7 @@ PHP_METHOD(Phalcon_Db_Mysql, lastInsertId){
  * @param int $number
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, limit){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, limit){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -1024,7 +1024,7 @@ PHP_METHOD(Phalcon_Db_Mysql, limit){
 	PHALCON_SEPARATE_PARAM(v1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x02A);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x02C);
 	if (zend_is_true(r0)) {
 		convert_to_long(v1);
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -1046,7 +1046,7 @@ PHP_METHOD(Phalcon_Db_Mysql, limit){
  * @param string $schemaName
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, tableExists){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, tableExists){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
@@ -1069,7 +1069,7 @@ PHP_METHOD(Phalcon_Db_Mysql, tableExists){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(v0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "addslashes", v0, 0x01D);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "addslashes", v0, 0x01F);
 	Z_DELREF_P(v0);
 	PHALCON_CPY_WRT(v0, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -1108,7 +1108,7 @@ PHP_METHOD(Phalcon_Db_Mysql, tableExists){
  * @param string $schemaName
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, viewExists){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, viewExists){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL;
@@ -1147,7 +1147,7 @@ PHP_METHOD(Phalcon_Db_Mysql, viewExists){
  * @param string $schemaName
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, describeTable){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeTable){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -1199,7 +1199,7 @@ PHP_METHOD(Phalcon_Db_Mysql, describeTable){
  * @param string $schemaName
  * @return array
  */
-PHP_METHOD(Phalcon_Db_Mysql, listTables){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, listTables){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
@@ -1275,7 +1275,7 @@ PHP_METHOD(Phalcon_Db_Mysql, listTables){
  * @param string $format
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Mysql, getDateUsingFormat){
+PHP_METHOD(Phalcon_Db_Adapter_Mysql, getDateUsingFormat){
 
 	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL;

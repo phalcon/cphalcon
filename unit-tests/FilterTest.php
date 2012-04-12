@@ -26,24 +26,42 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 		$value = $filter->sanitize("lol", "string");
 		$this->assertEquals($value, "lol");
-		
+
 		$value = $filter->sanitize("lol", array("string"));
 		$this->assertEquals($value, "lol");
 
 		$value = $filter->sanitize("lol<<", "string");
-		$this->assertEquals($value, "lol");			
+		$this->assertEquals($value, "lol");
 
 		$value = $filter->sanitize("lol", "int");
 		$this->assertEquals($value, "");
 
 		$value = $filter->sanitize("!100a019", "int");
-		$this->assertEquals($value, "100019");		
+		$this->assertEquals($value, "100019");
 
 		$value = $filter->sanitize("!100a019.01a", "float");
 		$this->assertEquals($value, "100019.01");
 
 		$value = $filter->sanitize("some(one)@exa\\mple.com", "email");
 		$this->assertEquals($value, "someone@example.com");
+
+		$value = $filter->filter("<h1>Hello</h1>", "striptags");
+		$this->assertEquals($value, "Hello");
+
+		$value = $filter->filter("<h1><p>Hello</h1>", "striptags");
+		$this->assertEquals($value, "Hello");
+
+		$value = $filter->filter(" Hello   ", "extraspaces");
+		$this->assertEquals($value, "Hello");
+
+		$value = $filter->filter("Hello   ", "extraspaces");
+		$this->assertEquals($value, "Hello");
+
+		$value = $filter->filter("   Hello", "extraspaces");
+		$this->assertEquals($value, "Hello");
+
+		$value = $filter->sanitizeAndFilter("   lol<<   ", array("string", "extraspaces"));
+		$this->assertEquals($value, "lol");
 
 	}
 

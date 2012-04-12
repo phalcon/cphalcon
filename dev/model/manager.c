@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	add_next_index_zval(a5, this_ptr);
 	add_next_index_stringl(a5, "autoload", strlen("autoload"), 1);
 	Z_ADDREF_P(a5);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5, 0x045);
 	Z_DELREF_P(a5);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 					PHALCON_ALLOC_ZVAL_MM(i0);
 					object_init_ex(i0, phalcon_model_exception_class_entry);
 					PHALCON_ALLOC_ZVAL_MM(r5);
-					PHALCON_CONCAT_BOTH(r5,  "Class \"", v0, "\" could not found on model file");
+					PHALCON_CONCAT_BOTH(r5,  "Class \"", v0, "\"  not be found in the model file");
 					Z_ADDREF_P(r5);
 					p2[0] = r5;
 					PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 				PHALCON_ALLOC_ZVAL_MM(i2);
 				object_init_ex(i2, phalcon_model_exception_class_entry);
 				PHALCON_ALLOC_ZVAL_MM(r7);
-				PHALCON_CONCAT_BOTH(r7,  "Class file path for model \"", v0, "\"  could not found");
+				PHALCON_CONCAT_BOTH(r7,  "Class file path for model \"", v0, "\" could not be found");
 				Z_ADDREF_P(r7);
 				p6[0] = r7;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p6, PHALCON_CALL_CHECK);
@@ -499,11 +499,11 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 
 /**
  * Setup a 1-1 relation between two models
- * 
+ *
  * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
- * @parammixed $referencedFields 
+ * @parammixed $referencedFields
  */
 PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 
@@ -524,7 +524,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x043);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -609,11 +609,11 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 
 /**
  * Setup a relation reverse 1-1  between two models
- * 
+ *
  * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
- * @parammixed $referencedFields 
+ * @parammixed $referencedFields
  */
 PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x043);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_belongsTo", sizeof("_belongsTo")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -727,7 +727,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
  * @param Phalcon_Model_Base $model
  * @parammixed $fields
  * @paramstring $referenceModel
- * @parammixed $referencedFields 
+ * @parammixed $referencedFields
  */
 PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x043);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -882,7 +882,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo){
  * @access public
  * @param string $modelName
  * @param string $modelRelation
- * @return boolean 
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Model_Manager, existsHasMany){
 
@@ -1055,7 +1055,7 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 		PHALCON_ALLOC_ZVAL_MM(r14);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r14, "join", c0, v6, 0x00D);
+		PHALCON_CALL_FUNC_PARAMS_2(r14, "join", c0, v6, 0x00F);
 		PHALCON_CPY_WRT(v4, r14);
 	}
 	PHALCON_INIT_VAR(a1);

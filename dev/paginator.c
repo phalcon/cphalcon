@@ -41,7 +41,7 @@
 /**
  * Phalcon_Paginator
  *
- * Phalcon_Paginator is designed to simplify building of paginate on views.
+ * Phalcon_Paginator is designed to simplify building of pagination on views
  *
  * 
  *

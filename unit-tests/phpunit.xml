@@ -33,6 +33,7 @@
             <file>unit-tests/TagTest.php</file>
             <file>unit-tests/CacheTest.php</file>
             <file>unit-tests/AclTest.php</file>
+            <file>unit-tests/PaginatorTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
