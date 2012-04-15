@@ -53,10 +53,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
  		$this->assertEquals($page->before, 1);
  		$this->assertEquals($page->next, 2);
- 		$this->assertEquals($page->last, 218);
+ 		$this->assertEquals($page->last, 219);
 
  		$this->assertEquals($page->current, 1);
- 		$this->assertEquals($page->total_pages, 218);
+ 		$this->assertEquals($page->total_pages, 219);
 
  		//Middle Page
  		$paginator->setCurrentPage(50);
@@ -68,10 +68,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
  		$this->assertEquals($page->before, 49);
  		$this->assertEquals($page->next, 51);
- 		$this->assertEquals($page->last, 218);
+ 		$this->assertEquals($page->last, 219);
 
  		$this->assertEquals($page->current, 50);
- 		$this->assertEquals($page->total_pages, 218);
+ 		$this->assertEquals($page->total_pages, 219);
 
  		//After Last Page
  		$paginator->setCurrentPage(250);
@@ -82,11 +82,11 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
  		$this->assertEquals(count($page->items), 10);
 
  		$this->assertEquals($page->before, 1);
- 		$this->assertEquals((int) $page->next, 218);
- 		$this->assertEquals($page->last, 218);
+ 		$this->assertEquals((int) $page->next, 219);
+ 		$this->assertEquals($page->last, 219);
 
  		$this->assertEquals($page->current, 1);
- 		$this->assertEquals($page->total_pages, 218);
+ 		$this->assertEquals($page->total_pages, 219);
 
 	}
 
