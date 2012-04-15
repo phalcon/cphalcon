@@ -70,14 +70,14 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lol</html>');
+		$this->assertEquals($view->getContent(), 'lolhere');
 
 		$view->setRenderLevel(Phalcon_View::LEVEL_ACTION_VIEW);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html></html>');
+		$this->assertEquals($view->getContent(), 'here');
 
 	}
 }
