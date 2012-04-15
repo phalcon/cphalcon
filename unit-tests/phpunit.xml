@@ -21,6 +21,8 @@
             <file>unit-tests/DispatcherTest.php</file>
             <file>unit-tests/DbPoolTest.php</file>
             <file>unit-tests/DbTest.php</file>
+            <file>unit-tests/DbDescribeTest.php</file>
+            <file>unit-tests/DbProfilerTest.php</file>
             <file>unit-tests/ModelsManagerTest.php</file>
             <file>unit-tests/ModelsMetadataTest.php</file>
             <file>unit-tests/ModelsTest.php</file>
@@ -34,6 +36,7 @@
             <file>unit-tests/CacheTest.php</file>
             <file>unit-tests/AclTest.php</file>
             <file>unit-tests/PaginatorTest.php</file>
+            <file>unit-tests/LoggerTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,21 +1,27 @@
 0.3.4
- - Fixing wrong implementation in Phalcon_Tag::javascriptInclude
- - Adding Phalcon_Cache_Frontend_Output
- - Renaming Phalcon_Db_Mysql to Phalcon_Db_Adapter_Mysql
- - Renaming Phalcon_Cache_Adapter_File to Phalcon_Cache_Frontend_File
- - Adding Phalcon_Request::setRawHeader
- - Adding Phalcon_Paginator_Adapter_Array
- - Fixing bugs in model paginator
+ - Fixed wrong implementation in Phalcon_Tag::javascriptInclude
+ - Added Phalcon_Cache_Frontend_Output
+ - Renamed Phalcon_Db_Mysql to Phalcon_Db_Adapter_Mysql
+ - Renamed Phalcon_Cache_Adapter_File to Phalcon_Cache_Frontend_File
+ - Added Phalcon_Request::setRawHeader
+ - Added Phalcon_Paginator_Adapter_Array
+ - Fixed bugs in model paginator
+ - Added Phalcon_Tag::hiddenField
+ - Added Phalcon_Tag::fileField
+ - Added Phalcon_Loader to autoload classes based on some conventions
+ - Added Phalcon_Db_Profiler to profile database operations and determine posible bottlenecks
+ - Added methods to query table metadata: Phalcon_Db::describeTable, Phalcon_Db::describeIndexes and Phalcon_Db::describeReferences
+ - Fixed segmentation fault in Phalcon_Db::tableExists
 
 0.3.3
- - Adding Phalcon_Tag::setDefault as an alias for Phalcon_Tag::displayTo
- - Adding Phalcon_View::setVar as an alias for Phalcon_View::setParamToView
- - Adding ACL managment with in-memory lists
- - Fixing segfaults on methods with array optional parameters
- - Fixing segfaults on some isset
- - Adding built-in model attributes validators
- - Adding Phalcon_ACL to manage access lists
- - Adding missing Phalcon_Tag::passwordField
+ - Added Phalcon_Tag::setDefault as an alias for Phalcon_Tag::displayTo
+ - Added Phalcon_View::setVar as an alias for Phalcon_View::setParamToView
+ - Added ACL managment with in-memory lists
+ - Fixed segfaults on methods with array optional parameters
+ - Fixed segfaults on some isset
+ - Added built-in model attributes validators
+ - Added Phalcon_ACL to manage access lists
+ - Added missing Phalcon_Tag::passwordField
 
 0.3.2
  - Fixed separation of super globals by mistake causing segmentation faults
@@ -26,7 +32,7 @@
  - Phalcon garbage collector incrementally releases memory allocated after the end of a particular execution trace reducing memory fragmentation.
 
 0.3.0
- - Refactoring many code patterns as C macros, the total base code was reduced by about 8000 lines of code less.
+ - Refactored many code patterns as C macros, the total base code was reduced by about 8000 lines of code less.
  - Most function calls was rewriten to avoid any string length counting by avoiding potential use of strlen. Functions and methods names have fixed string lengths improving general performance. This improvement was also implemented for static string concatenation.
  - We have implemented some kind of Register Allocation to take advantage of processor registers. However, compiler will choose best register allocations when it compiles the extension.
  - Support for PHP 5.4. A number of issues when running Phalcon under PHP 5.4 were identified and corrected.
@@ -34,6 +40,6 @@
  - A function cache was included to avoid potential function lookups on internal HashTables. This cache stores internal pointers to functions low level code improving performance.
 
 0.2.6
- - Fixing segfault when reading _SESSION superglobal when no session_start has been made
+ - Fixed segfault when reading _SESSION superglobal when no session_start has been made
  - Added Phalcon_Cache with adapter File
  - Added method Phalcon_Model_Manager::getHasOneRecords

@@ -121,9 +121,9 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		} else {
 			ah0 = Z_ARRVAL_P(v0);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes66:
+			fes_162f_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee66;
+				goto fee_162f_0;
 			} else {
 				PHALCON_INIT_VAR(v3);
 				htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -139,8 +139,8 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 			ZVAL_ZVAL(v2, *hd, 1, 0);
 			phalcon_update_property_zval(v1, Z_STRVAL_P(v3), Z_STRLEN_P(v3), v2 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes66;
-			fee66:
+			goto fes_162f_0;
+			fee_162f_0:
 			if(0){ };
 		}
 	} else {
