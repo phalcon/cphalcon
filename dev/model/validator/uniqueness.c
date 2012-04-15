@@ -92,9 +92,9 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			} else {
 				ah0 = Z_ARRVAL_P(v1);
 				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-				fes95:
+				fes_d73d_0:
 				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-					goto fee95;
+					goto fee_d73d_0;
 				}
 				PHALCON_INIT_VAR(v3);
 				ZVAL_ZVAL(v3, *hd, 1, 0);
@@ -116,8 +116,8 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				PHALCON_SEPARATE_ARRAY(v2);
 				phalcon_array_append(v2, r6 TSRMLS_CC);
 				zend_hash_move_forward_ex(ah0, &hp0);
-				goto fes95;
-				fee95:
+				goto fes_d73d_0;
+				fee_d73d_0:
 				if(0){ };
 			}
 		} else {
@@ -153,9 +153,9 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		} else {
 			ah1 = Z_ARRVAL_P(v7);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes96:
+			fes_d73d_1:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee96;
+				goto fee_d73d_1;
 			}
 			PHALCON_INIT_VAR(v8);
 			ZVAL_ZVAL(v8, *hd, 1, 0);
@@ -176,8 +176,8 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_SEPARATE_ARRAY(v2);
 			phalcon_array_append(v2, r17 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes96;
-			fee96:
+			goto fes_d73d_1;
+			fee_d73d_1:
 			if(0){ };
 		}
 		PHALCON_ALLOC_ZVAL_MM(r18);

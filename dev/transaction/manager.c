@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		array_init(a0);
 		add_next_index_stringl(a0, "Phalcon_Transaction_Manager", strlen("Phalcon_Transaction_Manager"), 1);
 		add_next_index_stringl(a0, "rollbackPendent", strlen("rollbackPendent"), 1);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x03F);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x044);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_BOOL(t1, 1);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
@@ -191,9 +191,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 	} else {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes74:
+		fes_ad2c_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee74;
+			goto fee_ad2c_0;
 		}
 		PHALCON_INIT_VAR(v0);
 		ZVAL_ZVAL(v0, *hd, 1, 0);
@@ -206,8 +206,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 			PHALCON_CALL_METHOD_NORETURN(v1, "commit", PHALCON_CALL_DEFAULT);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes74;
-		fee74:
+		goto fes_ad2c_0;
+		fee_ad2c_0:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();
@@ -248,9 +248,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	} else {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes75:
+		fes_ad2c_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee75;
+			goto fee_ad2c_1;
 		}
 		PHALCON_INIT_VAR(v1);
 		ZVAL_ZVAL(v1, *hd, 1, 0);
@@ -270,8 +270,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 			Z_DELREF_P(p4[0]);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes75;
-		fee75:
+		goto fes_ad2c_1;
+		fee_ad2c_1:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();
@@ -364,9 +364,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		} else {
 			ah0 = Z_ARRVAL_P(t2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes76:
+			fes_ad2c_2:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee76;
+				goto fee_ad2c_2;
 			}
 			PHALCON_INIT_VAR(v2);
 			ZVAL_ZVAL(v2, *hd, 1, 0);
@@ -381,8 +381,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			PHALCON_SEPARATE(v1);
 			increment_function(v1);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes76;
-			fee76:
+			goto fes_ad2c_2;
+			fee_ad2c_2:
 			if(0){ };
 		}
 		PHALCON_INIT_VAR(a0);
@@ -394,9 +394,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		} else {
 			ah1 = Z_ARRVAL_P(t4);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes77:
+			fes_ad2c_3:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee77;
+				goto fee_ad2c_3;
 			}
 			PHALCON_INIT_VAR(v2);
 			ZVAL_ZVAL(v2, *hd, 1, 0);
@@ -404,8 +404,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			PHALCON_SEPARATE_ARRAY(v3);
 			phalcon_array_append(v3, v2 TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes77;
-			fee77:
+			goto fes_ad2c_3;
+			fee_ad2c_3:
 			if(0){ };
 		}
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, v3 TSRMLS_CC);
@@ -444,9 +444,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 		} else {
 			ah0 = Z_ARRVAL_P(t2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes78:
+			fes_ad2c_4:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee78;
+				goto fee_ad2c_4;
 			}
 			PHALCON_INIT_VAR(v1);
 			ZVAL_ZVAL(v1, *hd, 1, 0);
@@ -456,8 +456,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 			zend_update_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
 			increment_function(v0);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes78;
-			fee78:
+			goto fes_ad2c_4;
+			fee_ad2c_4:
 			if(0){ };
 		}
 	}

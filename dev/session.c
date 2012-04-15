@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Session, start){
 	silence = PG(display_errors);
 	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_start", 0x040);
+	PHALCON_CALL_FUNC(r0, "session_start", 0x045);
 	PG(display_errors) = silence;
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Session, getId){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_id", 0x041);
+	PHALCON_CALL_FUNC(r0, "session_id", 0x046);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

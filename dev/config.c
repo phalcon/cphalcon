@@ -87,9 +87,9 @@ PHP_METHOD(Phalcon_Config, __construct){
 	} else {
 		ah0 = Z_ARRVAL_P(v0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes68:
+		fes_9656_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee68;
+			goto fee_9656_0;
 		} else {
 			PHALCON_INIT_VAR(v2);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -115,8 +115,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), v1 TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes68;
-		fee68:
+		goto fes_9656_0;
+		fee_9656_0:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();

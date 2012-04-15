@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	add_next_index_zval(a5, this_ptr);
 	add_next_index_stringl(a5, "autoload", strlen("autoload"), 1);
 	Z_ADDREF_P(a5);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5, 0x045);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5, 0x03F);
 	Z_DELREF_P(a5);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -524,7 +524,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x049);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x049);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_belongsTo", sizeof("_belongsTo")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x049);
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1018,9 +1018,9 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 		} else {
 			ah0 = Z_ARRVAL_P(r6);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes81:
+			fes_7231_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee81;
+				goto fee_7231_0;
 			}
 			PHALCON_INIT_VAR(v7);
 			ZVAL_ZVAL(v7, *hd, 1, 0);
@@ -1048,8 +1048,8 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 			PHALCON_SEPARATE(v5);
 			increment_function(v5);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes81;
-			fee81:
+			goto fes_7231_0;
+			fee_7231_0:
 			if(0){ };
 		}
 		PHALCON_ALLOC_ZVAL_MM(r14);

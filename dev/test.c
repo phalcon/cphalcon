@@ -73,9 +73,9 @@ PHP_METHOD(Phalcon_Test, nice){
 		zend_hash_init(ah0, 0, NULL, NULL, 0);
 		zend_hash_copy(ah0, Z_ARRVAL_P(v1), NULL, NULL, sizeof(zval*));
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes12:
+		fes_2ebb_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee12;
+			goto fee_2ebb_0;
 		} else {
 			PHALCON_INIT_VAR(v3);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -106,8 +106,8 @@ PHP_METHOD(Phalcon_Test, nice){
 		}
 		phalcon_array_update(v1, v3, r1 TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes12;
-		fee12:
+		goto fes_2ebb_0;
+		fee_2ebb_0:
 		zend_hash_destroy(ah0);
 		efree(ah0);
 	}

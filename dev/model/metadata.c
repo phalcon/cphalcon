@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			PHALCON_ALLOC_ZVAL_MM(r5);
 			PHALCON_CONCAT_VBOTH(r5, r6, "\".\"", v1);
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x044);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x049);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CONCAT_VBOTH(r4, r5, "\" doesn't exist on database when dumping information for ", r7);
 			Z_ADDREF_P(r4);
@@ -216,9 +216,9 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			} else {
 				ah0 = Z_ARRVAL_P(v6);
 				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-				fes82:
+				fes_f5c6_0:
 				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-					goto fee82;
+					goto fee_f5c6_0;
 				}
 				PHALCON_INIT_VAR(v13);
 				ZVAL_ZVAL(v13, *hd, 1, 0);
@@ -297,8 +297,8 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 					phalcon_array_append(v11, v14 TSRMLS_CC);
 				}
 				zend_hash_move_forward_ex(ah0, &hp0);
-				goto fes82;
-				fee82:
+				goto fes_f5c6_0;
+				fee_f5c6_0:
 				if(0){ };
 			}
 			PHALCON_INIT_VAR(a6);

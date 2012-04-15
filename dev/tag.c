@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x04C);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x041);
 	Z_DELREF_P(v1);
 	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -285,9 +285,9 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 	} else {
 		ah0 = Z_ARRVAL_P(g0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes100:
+		fes_9b93_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee100;
+			goto fee_9b93_0;
 		} else {
 			PHALCON_INIT_VAR(v1);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -303,8 +303,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 		ZVAL_ZVAL(v0, *hd, 1, 0);
 		phalcon_array_unset(g0, v1);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes100;
-		fee100:
+		goto fes_9b93_0;
+		fee_9b93_0:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();
@@ -455,9 +455,9 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		} else {
 			ah0 = Z_ARRVAL_P(v2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes101:
+			fes_9b93_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee101;
+				goto fee_9b93_1;
 			} else {
 				PHALCON_INIT_VAR(v6);
 				htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -483,8 +483,8 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 				PHALCON_CPY_WRT(v4, r14);
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes101;
-			fee101:
+			goto fes_9b93_1;
+			fee_9b93_1:
 			if(0){ };
 		}
 		PHALCON_ALLOC_ZVAL_MM(r15);
@@ -497,19 +497,20 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 }
 
 /**
- * Builds a HTML input[type="text"] tag
+ * Builds generic INPUT tags
  *
- * 
- *
+ * @param   string $type
  * @paramarray $parameters
  * @returnstring
  */
-PHP_METHOD(Phalcon_Tag, textField){
+PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
+	zval *v7 = NULL;
 	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
+	zval *r14 = NULL;
 	zval *t0 = NULL;
 	zval *p0[] = { NULL };
 	HashTable *ah0;
@@ -523,135 +524,169 @@ PHP_METHOD(Phalcon_Tag, textField){
 
 	PHALCON_MM_GROW();
 	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	if (Z_TYPE_P(v1) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+		Z_ADDREF_P(v1);
+		PHALCON_SEPARATE_ARRAY(a0);
+		add_next_index_zval(a0, v1);
+		PHALCON_CPY_WRT(v2, a0);
+	} else {
+		PHALCON_CPY_WRT(v2, v1);
+	}
+	eval_int = phalcon_array_isset_long(v2, 0);
+	PHALCON_INIT_VAR(r0);
+	ZVAL_BOOL(r0, eval_int);
+	if (!zend_is_true(r0)) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch_string(&r1, v2, "id", strlen("id"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		Z_ADDREF_P(r1);
+		if (Z_REFCOUNT_P(v2) > 1) {
+			zval *new_zv;
+			Z_DELREF_P(v2);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, v2);
+			v2 = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+		phalcon_array_update_long(v2, 0, r1 TSRMLS_CC);
+	}
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	phalcon_array_fetch_long(&r2, v2, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_CPY_WRT(v3, r2);
+	eval_int = phalcon_array_isset_string(v2, "name", strlen("name")+1);
+	PHALCON_INIT_VAR(r3);
+	ZVAL_BOOL(r3, eval_int);
+	if (!zend_is_true(r3)) {
+		Z_ADDREF_P(v3);
+		if (Z_REFCOUNT_P(v2) > 1) {
+			zval *new_zv;
+			Z_DELREF_P(v2);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, v2);
+			v2 = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+		phalcon_array_update_string(v2, "name", strlen("name"), v3 TSRMLS_CC);
+	} else {
+		PHALCON_ALLOC_ZVAL_MM(r4);
+		phalcon_array_fetch_string(&r4, v2, "name", strlen("name"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		if (!zend_is_true(r4)) {
+			Z_ADDREF_P(v3);
+			if (Z_REFCOUNT_P(v2) > 1) {
+				zval *new_zv;
+				Z_DELREF_P(v2);
+				ALLOC_ZVAL(new_zv);
+				INIT_PZVAL_COPY(new_zv, v2);
+				v2 = new_zv;
+				zval_copy_ctor(new_zv);
+			}
+			phalcon_array_update_string(v2, "name", strlen("name"), v3 TSRMLS_CC);
+		}
+	}
+	eval_int = phalcon_array_isset_string(v2, "value", strlen("value")+1);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(r5);
+		phalcon_array_fetch_string(&r5, v2, "value", strlen("value"), PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_CPY_WRT(v4, r5);
+		PHALCON_SEPARATE(v2);
+		phalcon_array_unset_string(v2, "value", strlen("value")+1);
+	} else {
+		PHALCON_ALLOC_ZVAL_MM(r6);
+		Z_ADDREF_P(v3);
+		p0[0] = v3;
+		PHALCON_CALL_SELF_PARAMS(r6, this_ptr, "_getvaluefromaction", 1, p0);
+		Z_DELREF_P(p0[0]);
+		PHALCON_CPY_WRT(v4, r6);
+	}
+	PHALCON_ALLOC_ZVAL_MM(r9);
+	PHALCON_CONCAT_LEFT(r9, "<input type=\"", v0);
+	PHALCON_ALLOC_ZVAL_MM(r8);
+	PHALCON_CONCAT_VBOTH(r8, r9, "\" id=\"", v3);
+	PHALCON_ALLOC_ZVAL_MM(r7);
+	PHALCON_CONCAT_VBOTH(r7, r8, "\" value=\"", v4);
+	PHALCON_ALLOC_ZVAL_MM(r10);
+	PHALCON_CONCAT_RIGHT(r10, r7, "\" ");
+	PHALCON_CPY_WRT(v5, r10);
+	if (Z_TYPE_P(v2) != IS_ARRAY) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
+	} else {
+		ah0 = Z_ARRVAL_P(v2);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_9b93_2:
+		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			goto fee_9b93_2;
+		} else {
+			PHALCON_INIT_VAR(v7);
+			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
+			if (htype == HASH_KEY_IS_STRING) {
+				ZVAL_STRINGL(v7, index, index_len-1, 1);
+			} else {
+				if (htype == HASH_KEY_IS_LONG) {
+					ZVAL_LONG(v7, num);
+				}
+			}
+		}
+		PHALCON_INIT_VAR(v6);
+		ZVAL_ZVAL(v6, *hd, 1, 0);
+		if (Z_TYPE_P(v7) != IS_LONG) {
+			PHALCON_INIT_VAR(r11);
+			PHALCON_CONCAT_VBOTH(r11, v7, "=\"", v6);
+			PHALCON_INIT_VAR(r12);
+			PHALCON_CONCAT_RIGHT(r12, r11, "\" ");
+			PHALCON_INIT_VAR(r13);
+			concat_function(r13, v5, r12 TSRMLS_CC);
+			PHALCON_CPY_WRT(v5, r13);
+		}
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto fes_9b93_2;
+		fee_9b93_2:
+		if(0){ };
+	}
+	PHALCON_INIT_VAR(t0);
+	ZVAL_STRING(t0, " />", 1);
+	PHALCON_ALLOC_ZVAL_MM(r14);
+	concat_function(r14, v5, t0 TSRMLS_CC);
+	PHALCON_CPY_WRT(v5, r14);
+	PHALCON_RETURN_CTOR(v5);
+}
+
+/**
+ * Builds a HTML input[type="text"] tag
+ *
+ * 
+ *
+ * @paramarray $parameters
+ * @returnstring
+ */
+PHP_METHOD(Phalcon_Tag, textField){
+
+	zval *v0 = NULL;
+	zval *r0 = NULL;
+	zval *p0[] = { NULL, NULL };
+
+	PHALCON_MM_GROW();
+	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	if (Z_TYPE_P(v0) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		Z_ADDREF_P(v0);
-		PHALCON_SEPARATE_ARRAY(a0);
-		add_next_index_zval(a0, v0);
-		PHALCON_CPY_WRT(v1, a0);
-	} else {
-		PHALCON_CPY_WRT(v1, v0);
-	}
-	eval_int = phalcon_array_isset_long(v1, 0);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, eval_int);
-	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, v1, "id", strlen("id"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		Z_ADDREF_P(r1);
-		if (Z_REFCOUNT_P(v1) > 1) {
-			zval *new_zv;
-			Z_DELREF_P(v1);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, v1);
-			v1 = new_zv;
-			zval_copy_ctor(new_zv);
-		}
-		phalcon_array_update_long(v1, 0, r1 TSRMLS_CC);
-	}
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_array_fetch_long(&r2, v1, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CPY_WRT(v2, r2);
-	eval_int = phalcon_array_isset_string(v1, "name", strlen("name")+1);
-	PHALCON_INIT_VAR(r3);
-	ZVAL_BOOL(r3, eval_int);
-	if (!zend_is_true(r3)) {
-		Z_ADDREF_P(v2);
-		if (Z_REFCOUNT_P(v1) > 1) {
-			zval *new_zv;
-			Z_DELREF_P(v1);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, v1);
-			v1 = new_zv;
-			zval_copy_ctor(new_zv);
-		}
-		phalcon_array_update_string(v1, "name", strlen("name"), v2 TSRMLS_CC);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		phalcon_array_fetch_string(&r4, v1, "name", strlen("name"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (!zend_is_true(r4)) {
-			Z_ADDREF_P(v2);
-			if (Z_REFCOUNT_P(v1) > 1) {
-				zval *new_zv;
-				Z_DELREF_P(v1);
-				ALLOC_ZVAL(new_zv);
-				INIT_PZVAL_COPY(new_zv, v1);
-				v1 = new_zv;
-				zval_copy_ctor(new_zv);
-			}
-			phalcon_array_update_string(v1, "name", strlen("name"), v2 TSRMLS_CC);
-		}
-	}
-	eval_int = phalcon_array_isset_string(v1, "value", strlen("value")+1);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		phalcon_array_fetch_string(&r5, v1, "value", strlen("value"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CPY_WRT(v3, r5);
-		PHALCON_SEPARATE(v1);
-		phalcon_array_unset_string(v1, "value", strlen("value")+1);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r6);
-		Z_ADDREF_P(v2);
-		p0[0] = v2;
-		PHALCON_CALL_SELF_PARAMS(r6, this_ptr, "_getvaluefromaction", 1, p0);
-		Z_DELREF_P(p0[0]);
-		PHALCON_CPY_WRT(v3, r6);
-	}
-	PHALCON_ALLOC_ZVAL_MM(r8);
-	PHALCON_CONCAT_LEFT(r8, "<input type=\"text\" id=\"", v2);
-	PHALCON_ALLOC_ZVAL_MM(r7);
-	PHALCON_CONCAT_VBOTH(r7, r8, "\" value=\"", v3);
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	PHALCON_CONCAT_RIGHT(r9, r7, "\" ");
-	PHALCON_CPY_WRT(v4, r9);
-	if (Z_TYPE_P(v1) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
-		ah0 = Z_ARRVAL_P(v1);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes102:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee102;
-		} else {
-			PHALCON_INIT_VAR(v6);
-			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
-			if (htype == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(v6, index, index_len-1, 1);
-			} else {
-				if (htype == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(v6, num);
-				}
-			}
-		}
-		PHALCON_INIT_VAR(v5);
-		ZVAL_ZVAL(v5, *hd, 1, 0);
-		if (Z_TYPE_P(v6) != IS_LONG) {
-			PHALCON_INIT_VAR(r10);
-			PHALCON_CONCAT_VBOTH(r10, v6, "=\"", v5);
-			PHALCON_INIT_VAR(r11);
-			PHALCON_CONCAT_RIGHT(r11, r10, "\" ");
-			PHALCON_INIT_VAR(r12);
-			concat_function(r12, v4, r11 TSRMLS_CC);
-			PHALCON_CPY_WRT(v4, r12);
-		}
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes102;
-		fee102:
-		if(0){ };
-	}
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, " />", 1);
-	PHALCON_ALLOC_ZVAL_MM(r13);
-	concat_function(r13, v4, t0 TSRMLS_CC);
-	PHALCON_CPY_WRT(v4, r13);
-	PHALCON_RETURN_CTOR(v4);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(p0[0]);
+	ZVAL_STRING(p0[0], "text", 1);
+	Z_ADDREF_P(v0);
+	p0[1] = v0;
+	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_inputfield", 2, p0);
+	Z_DELREF_P(p0[1]);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
@@ -664,20 +699,9 @@ PHP_METHOD(Phalcon_Tag, textField){
  */
 PHP_METHOD(Phalcon_Tag, passwordField){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL, *v4 = NULL, *v5 = NULL, *v6 = NULL;
-	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *t0 = NULL;
-	zval *p0[] = { NULL };
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	char *index;
-	uint index_len;
-	ulong num;
-	int htype;
-	int eval_int;
+	zval *v0 = NULL;
+	zval *r0 = NULL;
+	zval *p0[] = { NULL, NULL };
 
 	PHALCON_MM_GROW();
 	
@@ -687,129 +711,78 @@ PHP_METHOD(Phalcon_Tag, passwordField){
 	}
 
 	
-	if (Z_TYPE_P(v0) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		Z_ADDREF_P(v0);
-		PHALCON_SEPARATE_ARRAY(a0);
-		add_next_index_zval(a0, v0);
-		PHALCON_CPY_WRT(v1, a0);
-	} else {
-		PHALCON_CPY_WRT(v1, v0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(p0[0]);
+	ZVAL_STRING(p0[0], "password", 1);
+	Z_ADDREF_P(v0);
+	p0[1] = v0;
+	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_inputfield", 2, p0);
+	Z_DELREF_P(p0[1]);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Builds a HTML input[type="hidden"] tag
+ *
+ * 
+ *
+ * @paramarray $parameters
+ * @returnstring
+ */
+PHP_METHOD(Phalcon_Tag, hiddenField){
+
+	zval *v0 = NULL;
+	zval *r0 = NULL;
+	zval *p0[] = { NULL, NULL };
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
-	eval_int = phalcon_array_isset_long(v1, 0);
-	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, eval_int);
-	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, v1, "id", strlen("id"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		Z_ADDREF_P(r1);
-		if (Z_REFCOUNT_P(v1) > 1) {
-			zval *new_zv;
-			Z_DELREF_P(v1);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, v1);
-			v1 = new_zv;
-			zval_copy_ctor(new_zv);
-		}
-		phalcon_array_update_long(v1, 0, r1 TSRMLS_CC);
+
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(p0[0]);
+	ZVAL_STRING(p0[0], "hidden", 1);
+	Z_ADDREF_P(v0);
+	p0[1] = v0;
+	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_inputfield", 2, p0);
+	Z_DELREF_P(p0[1]);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Builds a HTML input[type="file"] tag
+ *
+ * 
+ *
+ * @paramarray $parameters
+ * @returnstring
+ */
+PHP_METHOD(Phalcon_Tag, fileField){
+
+	zval *v0 = NULL;
+	zval *r0 = NULL;
+	zval *p0[] = { NULL, NULL };
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_array_fetch_long(&r2, v1, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CPY_WRT(v2, r2);
-	eval_int = phalcon_array_isset_string(v1, "name", strlen("name")+1);
-	PHALCON_INIT_VAR(r3);
-	ZVAL_BOOL(r3, eval_int);
-	if (!zend_is_true(r3)) {
-		Z_ADDREF_P(v2);
-		if (Z_REFCOUNT_P(v1) > 1) {
-			zval *new_zv;
-			Z_DELREF_P(v1);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, v1);
-			v1 = new_zv;
-			zval_copy_ctor(new_zv);
-		}
-		phalcon_array_update_string(v1, "name", strlen("name"), v2 TSRMLS_CC);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		phalcon_array_fetch_string(&r4, v1, "name", strlen("name"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		if (!zend_is_true(r4)) {
-			Z_ADDREF_P(v2);
-			if (Z_REFCOUNT_P(v1) > 1) {
-				zval *new_zv;
-				Z_DELREF_P(v1);
-				ALLOC_ZVAL(new_zv);
-				INIT_PZVAL_COPY(new_zv, v1);
-				v1 = new_zv;
-				zval_copy_ctor(new_zv);
-			}
-			phalcon_array_update_string(v1, "name", strlen("name"), v2 TSRMLS_CC);
-		}
-	}
-	eval_int = phalcon_array_isset_string(v1, "value", strlen("value")+1);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		phalcon_array_fetch_string(&r5, v1, "value", strlen("value"), PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CPY_WRT(v3, r5);
-		PHALCON_SEPARATE(v1);
-		phalcon_array_unset_string(v1, "value", strlen("value")+1);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r6);
-		Z_ADDREF_P(v2);
-		p0[0] = v2;
-		PHALCON_CALL_SELF_PARAMS(r6, this_ptr, "_getvaluefromaction", 1, p0);
-		Z_DELREF_P(p0[0]);
-		PHALCON_CPY_WRT(v3, r6);
-	}
-	PHALCON_ALLOC_ZVAL_MM(r8);
-	PHALCON_CONCAT_LEFT(r8, "<input type=\"password\" id=\"", v2);
-	PHALCON_ALLOC_ZVAL_MM(r7);
-	PHALCON_CONCAT_VBOTH(r7, r8, "\" value=\"", v3);
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	PHALCON_CONCAT_RIGHT(r9, r7, "\" ");
-	PHALCON_CPY_WRT(v4, r9);
-	if (Z_TYPE_P(v1) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
-		ah0 = Z_ARRVAL_P(v1);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes103:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee103;
-		} else {
-			PHALCON_INIT_VAR(v6);
-			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
-			if (htype == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(v6, index, index_len-1, 1);
-			} else {
-				if (htype == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(v6, num);
-				}
-			}
-		}
-		PHALCON_INIT_VAR(v5);
-		ZVAL_ZVAL(v5, *hd, 1, 0);
-		if (Z_TYPE_P(v6) != IS_LONG) {
-			PHALCON_INIT_VAR(r10);
-			PHALCON_CONCAT_VBOTH(r10, v6, "=\"", v5);
-			PHALCON_INIT_VAR(r11);
-			PHALCON_CONCAT_RIGHT(r11, r10, "\" ");
-			PHALCON_INIT_VAR(r12);
-			concat_function(r12, v4, r11 TSRMLS_CC);
-			PHALCON_CPY_WRT(v4, r12);
-		}
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes103;
-		fee103:
-		if(0){ };
-	}
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, " />", 1);
-	PHALCON_ALLOC_ZVAL_MM(r13);
-	concat_function(r13, v4, t0 TSRMLS_CC);
-	PHALCON_CPY_WRT(v4, r13);
-	PHALCON_RETURN_CTOR(v4);
+
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(p0[0]);
+	ZVAL_STRING(p0[0], "file", 1);
+	Z_ADDREF_P(v0);
+	p0[1] = v0;
+	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_inputfield", 2, p0);
+	Z_DELREF_P(p0[1]);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
@@ -879,9 +852,9 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 	} else {
 		ah0 = Z_ARRVAL_P(v1);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes104:
+		fes_9b93_3:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee104;
+			goto fee_9b93_3;
 		} else {
 			PHALCON_INIT_VAR(v5);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -905,8 +878,8 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 			PHALCON_CPY_WRT(v3, r5);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes104;
-		fee104:
+		goto fes_9b93_3;
+		fee_9b93_3:
 		if(0){ };
 	}
 	PHALCON_INIT_VAR(t0);
@@ -1038,9 +1011,9 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 	} else {
 		ah0 = Z_ARRVAL_P(v2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes105:
+		fes_9b93_4:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee105;
+			goto fee_9b93_4;
 		} else {
 			PHALCON_INIT_VAR(v10);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -1066,8 +1039,8 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 			}
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes105;
-		fee105:
+		goto fes_9b93_4;
+		fee_9b93_4:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(r14);
@@ -1102,9 +1075,9 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 			} else {
 				ah1 = Z_ARRVAL_P(v1);
 				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-				fes106:
+				fes_9b93_5:
 				if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-					goto fee106;
+					goto fee_9b93_5;
 				} else {
 					PHALCON_INIT_VAR(v12);
 					htype = zend_hash_get_current_key_ex(ah1, &index, &index_len, &num, 0, &hp1);
@@ -1152,15 +1125,15 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 					PHALCON_CPY_WRT(v5, r31);
 				}
 				zend_hash_move_forward_ex(ah1, &hp1);
-				goto fes106;
-				fee106:
+				goto fes_9b93_5;
+				fee_9b93_5:
 				if(0){ };
 			}
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_tag_exception_class_entry);
 			PHALCON_INIT_VAR(p1[0]);
-			ZVAL_STRING(p1[0], "Data supplied for Phalcon_Tag::selectStatic is not valid", 1);
+			ZVAL_STRING(p1[0], "Data supplied to Phalcon_Tag::selectStatic is not valid", 1);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
 			zend_throw_exception_object(i0 TSRMLS_CC);
 			Z_ADDREF_P(i0);
@@ -1256,11 +1229,11 @@ PHP_METHOD(Phalcon_Tag, select){
 		PHALCON_CPY_WRT(v5, r3);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r5);
-	PHALCON_CONCAT_LEFT(r5, "<select id='", v4);
+	PHALCON_CONCAT_LEFT(r5, "<select id=\"", v4);
 	PHALCON_ALLOC_ZVAL_MM(r4);
-	PHALCON_CONCAT_VBOTH(r4, r5, "' name='", v4);
+	PHALCON_CONCAT_VBOTH(r4, r5, "\" name=\"", v4);
 	PHALCON_ALLOC_ZVAL_MM(r6);
-	PHALCON_CONCAT_RIGHT(r6, r4, "' ");
+	PHALCON_CONCAT_RIGHT(r6, r4, "\" ");
 	PHALCON_CPY_WRT(v6, r6);
 	if (Z_TYPE_P(v2) == IS_ARRAY) { 
 		if (Z_TYPE_P(v2) != IS_ARRAY) {
@@ -1268,9 +1241,9 @@ PHP_METHOD(Phalcon_Tag, select){
 		} else {
 			ah0 = Z_ARRVAL_P(v2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes107:
+			fes_9b93_6:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee107;
+				goto fee_9b93_6;
 			} else {
 				PHALCON_INIT_VAR(v8);
 				htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -1287,17 +1260,17 @@ PHP_METHOD(Phalcon_Tag, select){
 			if (Z_TYPE_P(v8) != IS_LONG) {
 				if (Z_TYPE_P(v7) != IS_ARRAY) { 
 					PHALCON_INIT_VAR(r7);
-					PHALCON_CONCAT_VBOTH(r7, v8, "='", v7);
+					PHALCON_CONCAT_VBOTH(r7, v8, "=\"", v7);
 					PHALCON_INIT_VAR(r8);
-					PHALCON_CONCAT_RIGHT(r8, r7, "' ");
+					PHALCON_CONCAT_RIGHT(r8, r7, "\" ");
 					PHALCON_INIT_VAR(r9);
 					concat_function(r9, v6, r8 TSRMLS_CC);
 					PHALCON_CPY_WRT(v6, r9);
 				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes107;
-			fee107:
+			goto fes_9b93_6;
+			fee_9b93_6:
 			if(0){ };
 		}
 	}
@@ -1385,11 +1358,11 @@ PHP_METHOD(Phalcon_Tag, select){
 				phalcon_array_fetch_string(&r23, v2, "using", strlen("using"), PHALCON_NOISY_FETCH TSRMLS_CC);
 				PHALCON_CPY_WRT(v12, r23);
 				PHALCON_CALL_METHOD_NORETURN(v11, "rewind", PHALCON_CALL_DEFAULT);
-				ws108:
+				ws_9b93_7:
 				PHALCON_INIT_VAR(r24);
 				PHALCON_CALL_METHOD(r24, v11, "valid", PHALCON_CALL_DEFAULT);
 				if (!zend_is_true(r24)) {
-					goto we108;
+					goto we_9b93_7;
 				}
 				PHALCON_INIT_VAR(r25);
 				PHALCON_CALL_METHOD(r25, v11, "current", PHALCON_CALL_DEFAULT);
@@ -1418,7 +1391,7 @@ PHP_METHOD(Phalcon_Tag, select){
 					PHALCON_INIT_VAR(r33);
 					PHALCON_CONCAT_VBOTH(r33, t2, "<option selected=\"selected\" value=\"", v14);
 					PHALCON_INIT_VAR(r32);
-					PHALCON_CONCAT_VBOTH(r32, r33, "'>", v15);
+					PHALCON_CONCAT_VBOTH(r32, r33, "\">", v15);
 					PHALCON_INIT_VAR(r31);
 					PHALCON_CONCAT_VBOTH(r31, r32, "</option>", v3);
 					PHALCON_INIT_VAR(r34);
@@ -1438,8 +1411,8 @@ PHP_METHOD(Phalcon_Tag, select){
 					PHALCON_CPY_WRT(v6, r38);
 				}
 				PHALCON_CALL_METHOD_NORETURN(v11, "next", PHALCON_CALL_DEFAULT);
-				goto ws108;
-				we108:
+				goto ws_9b93_7;
+				we_9b93_7:
 				if(0) { };
 			}
 		}
@@ -1567,9 +1540,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	} else {
 		ah0 = Z_ARRVAL_P(v1);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes109:
+		fes_9b93_8:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee109;
+			goto fee_9b93_8;
 		} else {
 			PHALCON_INIT_VAR(v6);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -1593,8 +1566,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
 			PHALCON_CPY_WRT(v4, r10);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes109;
-		fee109:
+		goto fes_9b93_8;
+		fee_9b93_8:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(r11);
@@ -1768,9 +1741,9 @@ PHP_METHOD(Phalcon_Tag, form){
 	} else {
 		ah0 = Z_ARRVAL_P(v1);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes110:
+		fes_9b93_9:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee110;
+			goto fee_9b93_9;
 		} else {
 			PHALCON_INIT_VAR(v7);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -1794,8 +1767,8 @@ PHP_METHOD(Phalcon_Tag, form){
 			PHALCON_CPY_WRT(v5, r25);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes110;
-		fee110:
+		goto fes_9b93_9;
+		fee_9b93_9:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(r26);
@@ -2057,15 +2030,15 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_update_string(v2, "href", strlen("href"), r5 TSRMLS_CC);
 	}
 	PHALCON_INIT_VAR(v3);
-	ZVAL_STRING(v3, "<link rel=\"stylesheet\" ", 1);
+	ZVAL_STRING(v3, "<link rel=\"stylesheet\"", 1);
 	if (Z_TYPE_P(v2) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 	} else {
 		ah0 = Z_ARRVAL_P(v2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes111:
+		fes_9b93_10:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee111;
+			goto fee_9b93_10;
 		} else {
 			PHALCON_INIT_VAR(v5);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -2091,8 +2064,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 			PHALCON_CPY_WRT(v3, r10);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes111;
-		fee111:
+		goto fes_9b93_10;
+		fee_9b93_10:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -2249,15 +2222,15 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(v2, "src", strlen("src"), r5 TSRMLS_CC);
 	}
 	PHALCON_INIT_VAR(v3);
-	ZVAL_STRING(v3, "<script ", 1);
+	ZVAL_STRING(v3, "<script", 1);
 	if (Z_TYPE_P(v2) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 	} else {
 		ah0 = Z_ARRVAL_P(v2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes112:
+		fes_9b93_11:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee112;
+			goto fee_9b93_11;
 		} else {
 			PHALCON_INIT_VAR(v5);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -2283,8 +2256,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 			PHALCON_CPY_WRT(v3, r10);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes112;
-		fee112:
+		goto fes_9b93_11;
+		fee_9b93_11:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -2393,15 +2366,15 @@ PHP_METHOD(Phalcon_Tag, image){
 	}
 	phalcon_array_update_string(v1, "src", strlen("src"), r2 TSRMLS_CC);
 	PHALCON_INIT_VAR(v2);
-	ZVAL_STRING(v2, "<img ", 1);
+	ZVAL_STRING(v2, "<img", 1);
 	if (Z_TYPE_P(v1) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
 	} else {
 		ah0 = Z_ARRVAL_P(v1);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes113:
+		fes_9b93_12:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee113;
+			goto fee_9b93_12;
 		} else {
 			PHALCON_INIT_VAR(v4);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -2427,8 +2400,8 @@ PHP_METHOD(Phalcon_Tag, image){
 			PHALCON_CPY_WRT(v2, r7);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes113;
-		fee113:
+		goto fes_9b93_12;
+		fee_9b93_12:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(t1);

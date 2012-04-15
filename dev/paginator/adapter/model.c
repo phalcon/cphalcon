@@ -217,11 +217,11 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		}
 		PHALCON_INIT_VAR(v7);
 		ZVAL_LONG(v7, 1);
-		ws7:
+		ws_e435_0:
 		PHALCON_INIT_VAR(r10);
 		PHALCON_CALL_METHOD(r10, v1, "valid", PHALCON_CALL_DEFAULT);
 		if (!zend_is_true(r10)) {
-			goto we7;
+			goto we_e435_0;
 		}
 		PHALCON_INIT_VAR(r11);
 		PHALCON_CALL_METHOD(r11, v1, "current", PHALCON_CALL_DEFAULT);
@@ -233,12 +233,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		PHALCON_INIT_VAR(r12);
 		is_smaller_or_equal_function(r12, v0, v7 TSRMLS_CC);
 		if (zend_is_true(r12)) {
-			goto we7;
+			goto we_e435_0;
 		}
 		PHALCON_SEPARATE(v7);
 		increment_function(v7);
-		goto ws7;
-		we7:
+		goto ws_e435_0;
+		we_e435_0:
 		if(0) { };
 	}
 	phalcon_update_property_long(v4, "first", strlen("first"), 1 TSRMLS_CC);
@@ -263,9 +263,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			PHALCON_ALLOC_ZVAL_MM(r18);
 			PHALCON_ALLOC_ZVAL_MM(r19);
 			div_function(r19, v3, v0 TSRMLS_CC);
-			Z_ADDREF_P(r19);
 			PHALCON_CALL_FUNC_PARAMS_1(r18, "intval", r19, 0x00E);
-			Z_DELREF_P(r19);
 			PHALCON_INIT_VAR(t9);
 			ZVAL_LONG(t9, 1);
 			PHALCON_ALLOC_ZVAL_MM(r20);
@@ -301,9 +299,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		PHALCON_ALLOC_ZVAL_MM(r25);
 		PHALCON_ALLOC_ZVAL_MM(r26);
 		div_function(r26, v3, v0 TSRMLS_CC);
-		Z_ADDREF_P(r26);
 		PHALCON_CALL_FUNC_PARAMS_1(r25, "intval", r26, 0x00E);
-		Z_DELREF_P(r26);
 		PHALCON_INIT_VAR(t12);
 		ZVAL_LONG(t12, 1);
 		PHALCON_ALLOC_ZVAL_MM(r27);

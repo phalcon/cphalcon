@@ -304,11 +304,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_INIT_VAR(v7);
 	ZVAL_LONG(v7, 0);
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);
-	ws0:
+	ws_e10f_0:
 	PHALCON_INIT_VAR(t2);
 	phalcon_read_property(&t2, this_ptr, "_finished", sizeof("_finished")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t2)) {
-		goto we0;
+		goto we_e10f_0;
 	}
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_finished", strlen("_finished"), 1 TSRMLS_CC);
 	PHALCON_INIT_VAR(t3);
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		if (Z_TYPE_P(r11) == IS_BOOL && !Z_BVAL_P(r11)) {
 			PHALCON_INIT_VAR(v5);
 			ZVAL_BOOL(v5, 0);
-			goto we0;
+			goto we_e10f_0;
 		}
 	}
 	PHALCON_INIT_VAR(r12);
@@ -537,8 +537,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_MM_RESTORE();
 		return;
 	}
-	goto ws0;
-	we0:
+	goto ws_e10f_0;
+	we_e10f_0:
 	if(0) { };
 	phalcon_update_property_zval(this_ptr, "_returnedValue", strlen("_returnedValue"), v5 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_lastController", strlen("_lastController"), v6 TSRMLS_CC);
@@ -645,9 +645,9 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	} else {
 		ah0 = Z_ARRVAL_P(v1);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes1:
+		fes_e10f_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee1;
+			goto fee_e10f_1;
 		} else {
 			PHALCON_INIT_VAR(v4);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -669,8 +669,8 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 			phalcon_array_append(v2, r12 TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes1;
-		fee1:
+		goto fes_e10f_1;
+		fee_e10f_1:
 		if(0){ };
 	}
 	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), v2 TSRMLS_CC);

@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	phalcon_read_property(&t0, this_ptr, "_rollbackOnAbort", sizeof("_rollbackOnAbort")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x03E);
+		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x043);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "The request was aborted", 1);
@@ -488,9 +488,9 @@ PHP_METHOD(Phalcon_Transaction, save){
 	} else {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes73:
+		fes_815a_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee73;
+			goto fee_815a_0;
 		}
 		PHALCON_INIT_VAR(v0);
 		ZVAL_ZVAL(v0, *hd, 1, 0);
@@ -508,8 +508,8 @@ PHP_METHOD(Phalcon_Transaction, save){
 			RETURN_FALSE;
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes73;
-		fee73:
+		goto fes_815a_0;
+		fee_815a_0:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();

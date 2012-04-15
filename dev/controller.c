@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_session_namespace_class_entry);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x044);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x049);
 		Z_ADDREF_P(r1);
 		p2[0] = r1;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);

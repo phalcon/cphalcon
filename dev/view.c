@@ -394,9 +394,9 @@ PHP_METHOD(Phalcon_View, render){
 		} else {
 			ah0 = Z_ARRVAL_P(t4);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes8:
+			fes_b0d8_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee8;
+				goto fee_b0d8_0;
 			} else {
 				PHALCON_INIT_VAR(v6);
 				htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -422,8 +422,8 @@ PHP_METHOD(Phalcon_View, render){
 				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes8;
-			fee8:
+			goto fes_b0d8_0;
+			fee_b0d8_0:
 			if(0){ };
 		}
 		PHALCON_INIT_VAR(t5);
@@ -466,9 +466,9 @@ PHP_METHOD(Phalcon_View, render){
 				} else {
 					ah1 = Z_ARRVAL_P(v8);
 					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-					fes9:
+					fes_b0d8_1:
 					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-						goto fee9;
+						goto fee_b0d8_1;
 					}
 					PHALCON_INIT_VAR(v9);
 					ZVAL_ZVAL(v9, *hd, 1, 0);
@@ -501,8 +501,8 @@ PHP_METHOD(Phalcon_View, render){
 						return;
 					}
 					zend_hash_move_forward_ex(ah1, &hp1);
-					goto fes9;
-					fee9:
+					goto fes_b0d8_1;
+					fee_b0d8_1:
 					if(0){ };
 				}
 			}
@@ -547,9 +547,9 @@ PHP_METHOD(Phalcon_View, render){
 				} else {
 					ah2 = Z_ARRVAL_P(v11);
 					zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-					fes10:
+					fes_b0d8_2:
 					if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
-						goto fee10;
+						goto fee_b0d8_2;
 					}
 					PHALCON_INIT_VAR(v12);
 					ZVAL_ZVAL(v12, *hd, 1, 0);
@@ -582,8 +582,8 @@ PHP_METHOD(Phalcon_View, render){
 						return;
 					}
 					zend_hash_move_forward_ex(ah2, &hp2);
-					goto fes10;
-					fee10:
+					goto fes_b0d8_2;
+					fee_b0d8_2:
 					if(0){ };
 				}
 			}
@@ -647,9 +647,9 @@ PHP_METHOD(Phalcon_View, partial){
 	} else {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes11:
+		fes_b0d8_3:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee11;
+			goto fee_b0d8_3;
 		} else {
 			PHALCON_INIT_VAR(v2);
 			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
@@ -675,8 +675,8 @@ PHP_METHOD(Phalcon_View, partial){
 			}
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes11;
-		fee11:
+		goto fes_b0d8_3;
+		fee_b0d8_3:
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(t1);

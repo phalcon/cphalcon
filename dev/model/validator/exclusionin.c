@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 	ZVAL_STRING(p3[0], "domain", 1);
 	PHALCON_CALL_METHOD_PARAMS(r2, this_ptr, "getoption", 1, p3, PHALCON_CALL_DEFAULT);
 	Z_ADDREF_P(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x048);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x04C);
 	Z_DELREF_P(r2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);

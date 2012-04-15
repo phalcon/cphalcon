@@ -276,9 +276,9 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 	} else {
 		ah0 = Z_ARRVAL_P(t2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes97:
+		fes_a355_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee97;
+			goto fee_a355_0;
 		}
 		PHALCON_INIT_VAR(v2);
 		ZVAL_ZVAL(v2, *hd, 1, 0);
@@ -333,9 +333,9 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		} else {
 			ah1 = Z_ARRVAL_P(t4);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes98:
+			fes_a355_1:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee98;
+				goto fee_a355_1;
 			} else {
 				PHALCON_INIT_VAR(v10);
 				htype = zend_hash_get_current_key_ex(ah1, &index, &index_len, &num, 0, &hp1);
@@ -404,8 +404,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_SEPARATE(v7);
 			increment_function(v7);
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes98;
-			fee98:
+			goto fes_a355_1;
+			fee_a355_1:
 			if(0){ };
 		}
 		Z_ADDREF_P(v8);
@@ -425,9 +425,9 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		} else {
 			ah2 = Z_ARRVAL_P(t7);
 			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-			fes99:
+			fes_a355_2:
 			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
-				goto fee99;
+				goto fee_a355_2;
 			}
 			PHALCON_INIT_VAR(v11);
 			ZVAL_ZVAL(v11, *hd, 1, 0);
@@ -454,8 +454,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 				phalcon_array_append(v12, r19 TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah2, &hp2);
-			goto fes99;
-			fee99:
+			goto fes_a355_2;
+			fee_a355_2:
 			if(0){ };
 		}
 		PHALCON_INIT_VAR(r20);
@@ -472,8 +472,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		}
 		PHALCON_RETURN_CTOR(v15);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes97;
-		fee97:
+		goto fes_a355_0;
+		fee_a355_0:
 		if(0){ };
 	}
 	PHALCON_MM_RESTORE();
