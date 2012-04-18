@@ -69,6 +69,22 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), Phalcon_ACL::ALLOW);
 		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), Phalcon_ACL::ALLOW);
 
+		//Serialize ACL list
+		file_put_contents('unit-tests/acl/acl.data', serialize($acl));
+
+		$aclObject = unserialize(file_get_contents('unit-tests/acl/acl.data'));
+		$this->assertEquals(get_class($aclObject), 'Phalcon_Acl');
+
+		$this->assertTrue($aclObject->isRole('Guests'));
+		$this->assertFalse($aclObject->isRole('ReadOnly'));
+
+		$this->assertTrue($aclObject->isResource('Customers'));
+		$this->assertFalse($aclObject->isResource('Products'));
+
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), Phalcon_ACL::DENY);
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), Phalcon_ACL::ALLOW);
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), Phalcon_ACL::ALLOW);
+
 	}
 
 }

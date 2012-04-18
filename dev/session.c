@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Session, start){
 	if (!v0) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v0, a0);
+		PHALCON_CPY_WRT(v0, a0);
 	}
 	
 	silence = PG(display_errors);

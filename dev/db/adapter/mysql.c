@@ -389,6 +389,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 
 /**
  * Sends SQL statements to the MySQL database server returning success state.
+ * When the SQL sent have returned any row, the result is a PHP resource.
  *
  * 
  *
@@ -523,7 +524,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, close){
 }
 
 /**
- * Fetches a row from active resultset. This method is affected by active fetch flag set using Phalcon_Db_Mysql::setFetchMode
+ * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
+ * This method is affected by the active fetch flag set using Phalcon_Db_Mysql::setFetchMode
  *
  * 
  *

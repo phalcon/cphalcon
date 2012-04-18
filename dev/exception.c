@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	if (!v3) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v3, a0);
+		PHALCON_CPY_WRT(v3, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

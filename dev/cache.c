@@ -76,12 +76,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 	if (!v2) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v2, a0);
+		PHALCON_CPY_WRT(v2, a0);
 	}
 	if (!v3) {
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
-	PHALCON_CPY_WRT(v3, a1);
+		PHALCON_CPY_WRT(v3, a1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

@@ -3612,7 +3612,7 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 	if (!v1) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(v1, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

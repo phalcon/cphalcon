@@ -41,6 +41,9 @@ extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 #endif
 
+/** Startup functions */
+extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
+
 /** Globals functions */
 extern int phalcon_init_global(char *global TSRMLS_DC);
 extern int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC);
@@ -164,3 +167,5 @@ extern int phalcon_filter_alphanum(zval *result, zval *param);
 	PHALCON_MM_RESTORE();\
 	return;
 
+/* Utils functions */
+int phalcon_inherit_not_found(char *class_name, char *inherit_name);

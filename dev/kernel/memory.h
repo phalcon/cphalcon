@@ -17,23 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-#define PHALCON_MAX_MEMORY_STACK 96
+extern int phalcon_memory_grow_stack(TSRMLS_D);
+extern int phalcon_memory_restore_stack(TSRMLS_D);
 
-typedef struct _phalcon_memory_entry {
-	int pointer;
-	zval **addresses[PHALCON_MAX_MEMORY_STACK];
-	struct _phalcon_memory_entry *prev;
-	struct _phalcon_memory_entry *next;
-} phalcon_memory_entry;
+extern int phalcon_memory_observe(zval **var TSRMLS_DC);
+extern int phalcon_memory_remove(zval **var TSRMLS_DC);
 
-extern int phalcon_memory_grow_stack();
-extern int phalcon_memory_restore_stack();
-
-extern int phalcon_memory_observe(zval **var);
-extern int phalcon_memory_remove(zval **var);
-
-#define PHALCON_MM_GROW() phalcon_memory_grow_stack()
-#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack()
+#define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
+#define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 
 /** Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
@@ -51,7 +42,7 @@ extern int phalcon_memory_remove(zval **var);
 			PHALCON_ALLOC_ZVAL(z);\
 		}\
 	} else {\
-		phalcon_memory_observe(&z);\
+		phalcon_memory_observe(&z TSRMLS_CC);\
 		PHALCON_ALLOC_ZVAL(z);\
 	}
 
@@ -67,13 +58,13 @@ extern int phalcon_memory_remove(zval **var);
 			PHALCON_ALLOC_ZVAL(z);\
 		}\
 	} else {\
-		phalcon_memory_observe(&z);\
+		phalcon_memory_observe(&z TSRMLS_CC);\
 		PHALCON_ALLOC_ZVAL(z);\
 	}
 
 #define PHALCON_ALLOC_ZVAL_MM(z) \
 	PHALCON_ALLOC_ZVAL(z); \
-	phalcon_memory_observe(&z);
+	phalcon_memory_observe(&z TSRMLS_CC);
 
 #define PHALCON_CPY_WRT(d, v) \
 	if (d) { \
@@ -81,7 +72,7 @@ extern int phalcon_memory_remove(zval **var);
 			zval_ptr_dtor(&d); \
 		} \
 	} else { \
-		phalcon_memory_observe(&d); \
+		phalcon_memory_observe(&d TSRMLS_CC); \
 	} \
 	Z_ADDREF_P(v); \
 	d = v;
@@ -104,7 +95,7 @@ extern int phalcon_memory_remove(zval **var);
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
 			Z_DELREF_P(orig_ptr);\
 			ALLOC_ZVAL(z);\
-			phalcon_memory_observe(&z);\
+			phalcon_memory_observe(&z TSRMLS_CC);\
 			*z = *orig_ptr;\
 			zval_copy_ctor(z);\
 			Z_SET_REFCOUNT_P(z, 1);\
@@ -130,7 +121,7 @@ extern int phalcon_memory_remove(zval **var);
 		zval *orig_ptr = z;\
 		if (Z_REFCOUNT_P(orig_ptr) > 1) {\
 			ALLOC_ZVAL(z);\
-			phalcon_memory_observe(&z);\
+			phalcon_memory_observe(&z TSRMLS_CC);\
 			*z = *orig_ptr;\
 			zval_copy_ctor(z);\
 			Z_SET_REFCOUNT_P(z, 1);\

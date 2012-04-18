@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Model_Validator, __construct){
 	if (!v3) {
 		PHALCON_INIT_VAR(a2);
 		array_init(a2);
-	PHALCON_CPY_WRT(v3, a2);
+		PHALCON_CPY_WRT(v3, a2);
 	}
 	
 	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), v0 TSRMLS_CC);

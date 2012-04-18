@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	if (!v2) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v2, a0);
+		PHALCON_CPY_WRT(v2, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Logger, __call){
 	if (!v1) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(v1, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

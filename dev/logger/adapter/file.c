@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	if (!v1) {
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
-	PHALCON_CPY_WRT(v1, a1);
+		PHALCON_CPY_WRT(v1, a1);
 	}
 	
 	eval_int = phalcon_array_isset_string(v1, "mode", strlen("mode")+1);

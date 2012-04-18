@@ -41,9 +41,9 @@
 /**
  * Phalcon_Model_MetaData
  *
- * Because Phalcon_Model requires meta-data as field names, data types, primary keys, etc.
+ * Because Phalcon_Model requires meta-data like field names, data types, primary keys, etc.
  * Phalcon_Model_MetaData recopiles them and store for further querying by Phalcon_Model_Base.
- * This component can also be used to store metadata adapters temporarily or permanently.
+ * This component can also use adapters to store temporarily or permanently the meta-data.
  *
  * A standard Phalcon_Model_MetaData can be used to query model attributes:
  *
@@ -397,7 +397,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 }
 
 /**
- * Returns table attributes name (fields)
+ * Returns table attributes names (fields)
  *
      * @paramPhalcon_Model_Base $model
  * @return array
@@ -495,7 +495,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 }
 
 /**
- * Returns table attributes which are non part of primary key
+ * Returns table attributes which are not part of primary key
  *
      * @paramPhalcon_Model_Base $model
  * @return array

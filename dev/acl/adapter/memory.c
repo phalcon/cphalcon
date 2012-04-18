@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	if (!v1) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(v1, a0);
 	}
 	
 	if (Z_TYPE_P(v0) == IS_OBJECT) {

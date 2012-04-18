@@ -50,13 +50,13 @@
 /**
      * Factories a paginator adapter
      *
-     * @param   string $adapter
+     * @param   string $adapterName
      * @param   array $options
      * @return  Object
      */
 PHP_METHOD(Phalcon_Paginator, factory){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
@@ -70,12 +70,11 @@ PHP_METHOD(Phalcon_Paginator, factory){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(v0);
 	
 	if (!v1) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(v1, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -106,7 +105,7 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	p2[0] = v1;
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
 	Z_DELREF_P(p2[0]);
-	PHALCON_CPY_WRT(v0, i1);
-	PHALCON_RETURN_CHECK_CTOR(v0);
+	PHALCON_CPY_WRT(v3, i1);
+	PHALCON_RETURN_CTOR(v3);
 }
 

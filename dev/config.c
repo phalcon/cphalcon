@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	if (!v0) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-	PHALCON_CPY_WRT(v0, a0);
+		PHALCON_CPY_WRT(v0, a0);
 	}
 	
 	if (Z_TYPE_P(v0) != IS_ARRAY) {

@@ -1701,7 +1701,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_warning, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_factory, 0, 0, 1)
-	ZEND_ARG_INFO(0, adapter)
+	ZEND_ARG_INFO(0, adapterName)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 

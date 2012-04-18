@@ -25,22 +25,20 @@
 #include "php_phalcon.h"
 #include "kernel/memory.h"
 
-int phalcon_memory_stack = 0;
+/**
+ * Initializes memory stack for the active function
+ */
+int phalcon_memory_grow_stack(TSRMLS_D){
 
-phalcon_memory_entry *start_memory = NULL;
-phalcon_memory_entry *active_memory = NULL;
-
-int phalcon_memory_grow_stack(){
-
-	int i;
+	register int i;
 	phalcon_memory_entry *entry;
 
-	if(!start_memory){
-		start_memory = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
-		start_memory->pointer = -1;
-		start_memory->prev = NULL;
-		start_memory->next = NULL;
-		active_memory = start_memory;
+	if(!PHALCON_GLOBAL(start_memory)){
+		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
+		PHALCON_GLOBAL(start_memory)->pointer = -1;
+		PHALCON_GLOBAL(start_memory)->prev = NULL;
+		PHALCON_GLOBAL(start_memory)->next = NULL;
+		PHALCON_GLOBAL(active_memory) = PHALCON_GLOBAL(start_memory);
 	}
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
@@ -48,17 +46,21 @@ int phalcon_memory_grow_stack(){
 		entry->addresses[i] = NULL;
 	}
 	entry->pointer = -1;
-	entry->prev = active_memory;
-	active_memory->next = entry;
-	active_memory = entry;
+	entry->prev = PHALCON_GLOBAL(active_memory);
+	PHALCON_GLOBAL(active_memory)->next = entry;
+	PHALCON_GLOBAL(active_memory) = entry;
 
 	return SUCCESS;
 }
 
-int phalcon_memory_restore_stack(){
+/**
+ * Finishes memory stack by releasing allocated memory
+ */
+int phalcon_memory_restore_stack(TSRMLS_D){
 
 	register int i;
 	phalcon_memory_entry *prev;
+	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 
 	if(active_memory){
 
@@ -82,18 +84,18 @@ int phalcon_memory_restore_stack(){
 		}
 
 		prev = active_memory->prev;
-		efree(active_memory);
-		active_memory = prev;
+		efree(PHALCON_GLOBAL(active_memory));
+		PHALCON_GLOBAL(active_memory) = prev;
 		if(prev != NULL){
-			active_memory->next = NULL;
-			if(active_memory==start_memory){
-				efree(active_memory);
-				start_memory = NULL;
-				active_memory = NULL;
+			PHALCON_GLOBAL(active_memory)->next = NULL;
+			if(PHALCON_GLOBAL(active_memory)==PHALCON_GLOBAL(start_memory)){
+				efree(PHALCON_GLOBAL(active_memory));
+				PHALCON_GLOBAL(start_memory) = NULL;
+				PHALCON_GLOBAL(active_memory) = NULL;
 			}
 		} else {
-			start_memory = NULL;
-			active_memory = NULL;
+			PHALCON_GLOBAL(start_memory) = NULL;
+			PHALCON_GLOBAL(active_memory) = NULL;
 		}
 
 	} else {
@@ -103,13 +105,20 @@ int phalcon_memory_restore_stack(){
 	return SUCCESS;
 }
 
-int phalcon_memory_observe(zval **var){
+/**
+ * Observes a memory pointer to release its memory at the end of the request
+ */
+int phalcon_memory_observe(zval **var TSRMLS_DC){
+	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 	active_memory->pointer++;
 	active_memory->addresses[active_memory->pointer] = var;
 	return SUCCESS;
 }
 
-int phalcon_memory_remove(zval **var){
+/**
+ * Removes a memory pointer from the active memory pool
+ */
+int phalcon_memory_remove(zval **var TSRMLS_DC){
 	zval_ptr_dtor(var);
 	*var = NULL;
 	return SUCCESS;

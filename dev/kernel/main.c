@@ -27,6 +27,15 @@
 #include "kernel/main.h"
 
 /**
+ * Initialize globals on each request or each thread started
+ */
+void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
+    phalcon_globals->phalcon_memory_stack = 0;
+    phalcon_globals->start_memory = NULL;
+	phalcon_globals->active_memory = NULL;
+}
+
+/**
  * Initilializes super global variables if doesn't
  */
 int phalcon_init_global(char *global TSRMLS_DC){
@@ -425,5 +434,13 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 		ZVAL_STRING(result, "", 1);
 	}
 
+	return SUCCESS;
+}
+
+/**
+ * Generates error when inherited class isn't found
+ */
+int phalcon_inherit_not_found(char *class_name, char *inherit_name){
+	fprintf(stderr, "Phalcon Error: Extended class '%s' not found when registering class '%s'", class_name, inherit_name);
 	return SUCCESS;
 }
