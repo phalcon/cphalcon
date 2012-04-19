@@ -13,7 +13,7 @@
  - Added methods to query table metadata: Phalcon_Db::describeTable, Phalcon_Db::describeIndexes and Phalcon_Db::describeReferences
  - Fixed segmentation fault in Phalcon_Db::tableExists
  - Fixed memory leak in Phalcon_Paginator
- - Adding Zend Thread Safety (ZTS) to Phalcon Memory Manager
+ - Adding Zend Thread Safety (ZTS) support to Phalcon Memory Manager
 
 0.3.3
  - Added Phalcon_Tag::setDefault as an alias for Phalcon_Tag::displayTo
