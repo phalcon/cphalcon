@@ -20,8 +20,35 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.3.3"
+#define PHP_PHALCON_VERSION "0.3.4"
 #define PHP_PHALCON_EXTNAME "phalcon"
+
+#define PHALCON_MAX_MEMORY_STACK 96
+
+typedef struct _phalcon_memory_entry {
+  int pointer;
+  zval **addresses[PHALCON_MAX_MEMORY_STACK];
+  struct _phalcon_memory_entry *prev;
+  struct _phalcon_memory_entry *next;
+} phalcon_memory_entry;
+
+ZEND_BEGIN_MODULE_GLOBALS(phalcon)
+  int phalcon_memory_stack;
+  phalcon_memory_entry *start_memory;
+  phalcon_memory_entry *active_memory;
+ZEND_END_MODULE_GLOBALS(phalcon)
+
+#ifdef ZTS
+#include "TSRM.h"
+#endif
+
+ZEND_EXTERN_MODULE_GLOBALS(phalcon)
+
+#ifdef ZTS
+  #define PHALCON_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
+#else
+  #define PHALCON_GLOBAL(v) (phalcon_globals.v)
+#endif
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
