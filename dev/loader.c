@@ -41,7 +41,7 @@
 /**
  * Phalcon_Loader
  *
- * This component helps to loads your project classes automatically based on some conventions
+ * This component helps to load your project classes automatically based on some conventions
  *
  *
  */

@@ -16,7 +16,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/acl", "role.c exception.c resource.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/router", "rewrite.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/db", "profiler.c exception.c pool.c rawvalue.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/db", "profiler.c index.c reference.c exception.c column.c pool.c rawvalue.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/adapter", "mysql.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/profiler", "item.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/dialect", "mysql.c", "phalcon")

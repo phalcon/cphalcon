@@ -41,8 +41,11 @@
 /**
  * Phalcon_Logger
  *
- * Phalcon_Logger is a component whose purpose is to create logs using different backends via adapters,
- * generating options and formats and filters also implementing transactions
+ * Phalcon_Logger is a component whose purpose is to create logs using
+ * different backends via adapters, generating options, formats and filters
+ * also implementing transactions.
+ *
+ *
  */
 
 /**
