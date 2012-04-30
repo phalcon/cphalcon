@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "explode", c0, v0, 0x002);
+		PHALCON_CALL_FUNC_PARAMS_2(r1, "explode", c0, v0, 0x005);
 		PHALCON_CPY_WRT(v1, r1);
 		eval_int = phalcon_array_isset_long(v1, 0);
 		if (eval_int) {
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		array_init(a0);
 		PHALCON_CPY_WRT(v2, a0);
 		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CALL_FUNC_PARAMS_1(r6, "count", v1, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r6, "count", v1, 0x007);
 		PHALCON_CPY_WRT(v3, r6);
 		PHALCON_INIT_VAR(v4);
 		ZVAL_LONG(v4, 2);

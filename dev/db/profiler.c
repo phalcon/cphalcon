@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_allProfiles", sizeof("_allProfiles")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

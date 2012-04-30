@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_CPY_WRT(v4, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(v4);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v4, 0x000);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v4, 0x00F);
 	Z_DELREF_P(v4);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_CPY_WRT(v5, r3);
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	Z_ADDREF_P(v5);
-	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", v5, 0x000);
+	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", v5, 0x00F);
 	Z_DELREF_P(v5);
 	if (!zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);

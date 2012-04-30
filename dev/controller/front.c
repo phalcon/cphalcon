@@ -424,8 +424,8 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			phalcon_array_fetch_string(&r4, g0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "dirname", r4, 0x010);
-			PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c0, r3, 0x002);
+			PHALCON_CALL_FUNC_PARAMS_1(r3, "dirname", r4, 0x048);
+			PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c0, r3, 0x005);
 			p1[0] = r2;
 			PHALCON_INIT_VAR(p1[1]);
 			ZVAL_LONG(p1[1], 1);
@@ -436,10 +436,10 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 			PHALCON_ALLOC_ZVAL_MM(r5);
 			mul_function(r5, t1, t2 TSRMLS_CC);
 			p1[2] = r5;
-			PHALCON_CALL_FUNC_PARAMS(r1, "array_slice", 3, p1, 0x00C);
+			PHALCON_CALL_FUNC_PARAMS(r1, "array_slice", 3, p1, 0x01D);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, "/", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "join", r1, c1, 0x00F);
+			PHALCON_CALL_FUNC_PARAMS_2(r0, "join", r1, c1, 0x00D);
 			PHALCON_CPY_WRT(v0, r0);
 		} else {
 			PHALCON_INIT_VAR(v0);

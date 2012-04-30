@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 			phalcon_array_fetch_string(&r1, g0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "application/soap+xml", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x005);
+			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x00A);
 			PHALCON_INIT_VAR(t0);
 			ZVAL_BOOL(t0, 0);
 			PHALCON_INIT_VAR(r2);
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Request, getRawBody){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "php://input", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "file_get_contents", c0, 0x006);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "file_get_contents", c0, 0x017);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "localhost", 1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x007);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x045);
 		PHALCON_RETURN_DZVAL(r1);
 	}
 	PHALCON_MM_RESTORE();
@@ -979,7 +979,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 	}
 	if (zend_is_true(g0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "count", g0, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "count", g0, 0x007);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
 		PHALCON_INIT_VAR(r2);
@@ -1144,7 +1144,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x009);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x046);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -1163,7 +1163,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c1, v3, 0x002);
+		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c1, v3, 0x005);
 		PHALCON_CPY_WRT(v4, r2);
 		eval_int = phalcon_array_isset_long(v4, 1);
 		if (eval_int) {
@@ -1173,7 +1173,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 			Z_ADDREF_P(r4);
 			PHALCON_INIT_VAR(c2);
 			ZVAL_LONG(c2, 2);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c2, 0x00A);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c2, 0x002);
 			Z_DELREF_P(r4);
 			PHALCON_CPY_WRT(v5, r3);
 		} else {
@@ -1296,7 +1296,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x009);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x046);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -1315,7 +1315,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c1, v3, 0x002);
+		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c1, v3, 0x005);
 		PHALCON_CPY_WRT(v4, r2);
 		eval_int = phalcon_array_isset_long(v4, 1);
 		if (eval_int) {
@@ -1325,7 +1325,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 			Z_ADDREF_P(r4);
 			PHALCON_INIT_VAR(c2);
 			ZVAL_LONG(c2, 2);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c2, 0x00A);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c2, 0x002);
 			Z_DELREF_P(r4);
 			PHALCON_CPY_WRT(v5, r3);
 		} else {

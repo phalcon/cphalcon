@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	PHALCON_CPY_WRT(v2, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(v2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v2, 0x000);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v2, 0x00F);
 	Z_DELREF_P(v2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Acl, __call){
 	add_next_index_zval(a1, v0);
 	Z_ADDREF_P(a1);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, v1, 0x001);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, v1, 0x010);
 	Z_DELREF_P(a1);
 	Z_DELREF_P(v1);
 	PHALCON_RETURN_DZVAL(r0);

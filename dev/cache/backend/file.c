@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch_string(&r1, v1, "cacheDir", strlen("cacheDir"), PHALCON_NOISY_FETCH TSRMLS_CC);
 		Z_ADDREF_P(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_writable", r1, 0x016);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_writable", r1, 0x014);
 		Z_DELREF_P(r1);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 	PHALCON_CPY_WRT(v3, t1);
 	if (phalcon_file_exists(v2 TSRMLS_CC) == SUCCESS) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_FUNC(r2, "time", 0x017);
+		PHALCON_CALL_FUNC(r2, "time", 0x015);
 		PHALCON_CPY_WRT(v4, r2);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CALL_METHOD(r3, v3, "getlifetime", PHALCON_CALL_DEFAULT);
@@ -151,13 +151,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 		sub_function(r4, v4, v5 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r5);
 		Z_ADDREF_P(v2);
-		PHALCON_CALL_FUNC_PARAMS_1(r5, "filemtime", v2, 0x018);
+		PHALCON_CALL_FUNC_PARAMS_1(r5, "filemtime", v2, 0x016);
 		Z_DELREF_P(v2);
 		PHALCON_INIT_VAR(r6);
 		is_smaller_function(r6, r4, r5 TSRMLS_CC);
 		if (zend_is_true(r6)) {
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "file_get_contents", v2, 0x006);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "file_get_contents", v2, 0x017);
 			PHALCON_RETURN_DZVAL(r7);
 		} else {
 			phalcon_update_property_zval(this_ptr, "_lastKey", strlen("_lastKey"), v0 TSRMLS_CC);
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 	Z_ADDREF_P(v5);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", v5, v1, 0x019);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", v5, v1, 0x018);
 	Z_DELREF_P(v5);
 	Z_DELREF_P(v1);
 	if (zend_is_true(v2)) {

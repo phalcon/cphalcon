@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(r8);
 			Z_ADDREF_P(v10);
 			Z_ADDREF_P(v5);
-			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x033);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "in_array", v10, v5, 0x019);
 			Z_DELREF_P(v10);
 			Z_DELREF_P(v5);
 			if (zend_is_true(r8)) {
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(r14);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "?", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r14, "explode", c0, v11, 0x002);
+			PHALCON_CALL_FUNC_PARAMS_2(r14, "explode", c0, v11, 0x005);
 			PHALCON_CPY_WRT(v13, r14);
 			PHALCON_INIT_VAR(r15);
 			phalcon_array_fetch_long(&r15, v13, 1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			if(0){ };
 		}
 		PHALCON_INIT_VAR(r20);
-		PHALCON_CALL_FUNC_PARAMS_1(r20, "count", v12, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r20, "count", v12, 0x007);
 		if (!zend_is_true(r20)) {
 			PHALCON_INIT_VAR(v15);
 			ZVAL_STRING(v15, "1=1", 1);
@@ -467,7 +467,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(r21);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, " AND ", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r21, "join", c1, v12, 0x00F);
+			PHALCON_CALL_FUNC_PARAMS_2(r21, "join", c1, v12, 0x00D);
 			PHALCON_CPY_WRT(v15, r21);
 		}
 		PHALCON_RETURN_CTOR(v15);

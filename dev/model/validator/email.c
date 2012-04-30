@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Model_Validator_Email, validate){
 		p2[1] = r3;
 		Z_SET_ISREF_P(v0);
 		p2[2] = v0;
-		PHALCON_CALL_FUNC_PARAMS(r2, "preg_match", 3, p2, 0x01D);
+		PHALCON_CALL_FUNC_PARAMS(r2, "preg_match", 3, p2, 0x032);
 		Z_DELREF_P(p2[1]);
 		Z_UNSET_ISREF_P(p2[2]);
 		if (zend_is_true(r2)) {

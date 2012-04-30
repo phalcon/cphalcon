@@ -1214,7 +1214,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_resourcesNames", sizeof("_resourcesNames")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "in_array", v1, t0, 0x033);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "in_array", v1, t0, 0x019);
 	Z_DELREF_P(v1);
 	Z_DELREF_P(t0);
 	if (!zend_is_true(r0)) {
@@ -1331,7 +1331,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_roles", sizeof("_roles")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
 	PHALCON_CPY_WRT(v0, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
@@ -1341,7 +1341,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	div_function(r3, r2, t1 TSRMLS_CC);
 	Z_ADDREF_P(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "ceil", r3, 0x00D);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "ceil", r3, 0x01A);
 	Z_DELREF_P(r3);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_INIT_VAR(v2);

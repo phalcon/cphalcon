@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x041);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x043);
 	Z_DELREF_P(v1);
 	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 		eval_int = phalcon_array_isset(g0, v0);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CALL_FUNC(r0, "get_magic_quotes_gpc", 0x02D);
+			PHALCON_CALL_FUNC(r0, "get_magic_quotes_gpc", 0x029);
 			if (!zend_is_true(r0)) {
 				PHALCON_ALLOC_ZVAL_MM(r1);
 				phalcon_array_fetch(&r1, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 				PHALCON_ALLOC_ZVAL_MM(r3);
 				phalcon_array_fetch(&r3, g0, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 				Z_ADDREF_P(r3);
-				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02E);
+				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02A);
 				Z_DELREF_P(r3);
 				PHALCON_RETURN_DZVAL(r2);
 			}
@@ -1637,7 +1637,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	ZVAL_STRING(c0, "/", 1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_METHOD(r2, v2, "getparams", PHALCON_CALL_DEFAULT);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "join", c0, r2, 0x00F);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "join", c0, r2, 0x00D);
 	PHALCON_CPY_WRT(v3, r1);
 	eval_int = phalcon_array_isset_long(v1, 0);
 	PHALCON_INIT_VAR(r3);

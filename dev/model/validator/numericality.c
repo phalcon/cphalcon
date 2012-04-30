@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD(r2, this_ptr, "getvalue", PHALCON_CALL_DEFAULT);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x02C);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x00B);
 		if (!zend_is_true(r1)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_CALL_METHOD(r3, this_ptr, "getfieldname", PHALCON_CALL_DEFAULT);

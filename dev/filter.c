@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 517);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "filter_var", v0, t1, 0x03D);
+		PHALCON_CALL_FUNC_PARAMS_2(r1, "filter_var", v0, t1, 0x04B);
 		PHALCON_RETURN_DZVAL(r1);
 	}
 	PHALCON_INIT_VAR(t2);
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_INIT_VAR(t3);
 		ZVAL_LONG(t3, 519);
-		PHALCON_CALL_FUNC_PARAMS_2(r3, "filter_var", v0, t3, 0x03D);
+		PHALCON_CALL_FUNC_PARAMS_2(r3, "filter_var", v0, t3, 0x04B);
 		PHALCON_RETURN_DZVAL(r3);
 	}
 	PHALCON_INIT_VAR(t4);
@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL_MM(r5);
 		PHALCON_INIT_VAR(t5);
 		ZVAL_LONG(t5, 513);
-		PHALCON_CALL_FUNC_PARAMS_2(r5, "filter_var", v0, t5, 0x03D);
+		PHALCON_CALL_FUNC_PARAMS_2(r5, "filter_var", v0, t5, 0x04B);
 		PHALCON_RETURN_DZVAL(r5);
 	}
 	PHALCON_INIT_VAR(t6);
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_SEPARATE_ARRAY(a0);
 		add_assoc_zval(a0, "flags", t8);
 		p3[2] = a0;
-		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3, 0x03D);
+		PHALCON_CALL_FUNC_PARAMS(r7, "filter_var", 3, p3, 0x04B);
 		PHALCON_RETURN_DZVAL(r7);
 	}
 	if (!zend_is_true(v2)) {
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		Z_ADDREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "trim", v0, 0x020);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "trim", v0, 0x00E);
 		Z_DELREF_P(v0);
 		PHALCON_RETURN_DZVAL(r1);
 	}
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		Z_ADDREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r3, "strip_tags", v0, 0x03E);
+		PHALCON_CALL_FUNC_PARAMS_1(r3, "strip_tags", v0, 0x04C);
 		Z_DELREF_P(v0);
 		PHALCON_RETURN_DZVAL(r3);
 	}

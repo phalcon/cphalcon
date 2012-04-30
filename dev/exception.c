@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Exception, __construct){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x02C);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", v1, 0x00B);
 	if (zend_is_true(r0)) {
 		Z_ADDREF_P(v0);
 		p1[0] = v0;

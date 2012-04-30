@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x014);
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x013);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

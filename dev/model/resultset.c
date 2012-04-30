@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_count", sizeof("_count")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	Z_ADDREF_P(t1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_null", t1, 0x04D);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_null", t1, 0x040);
 	Z_DELREF_P(t1);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);

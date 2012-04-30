@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Loader, register){
 	add_next_index_zval(a0, this_ptr);
 	add_next_index_stringl(a0, "autoLoad", strlen("autoLoad"), 1);
 	Z_ADDREF_P(a0);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a0, 0x03F);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a0, 0x000);
 	Z_DELREF_P(a0);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		PHALCON_INIT_VAR(v1);
 		ZVAL_ZVAL(v1, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", v0, 0x021);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", v0, 0x001);
 		PHALCON_INIT_VAR(r1);
 		is_smaller_function(r1, v2, r0 TSRMLS_CC);
 		if (zend_is_true(r1)) {
@@ -189,10 +189,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_VAR(p1[1]);
 			ZVAL_LONG(p1[1], 0);
 			PHALCON_INIT_VAR(r3);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "strlen", v2, 0x021);
+			PHALCON_CALL_FUNC_PARAMS_1(r3, "strlen", v2, 0x001);
 			Z_ADDREF_P(r3);
 			p1[2] = r3;
-			PHALCON_CALL_FUNC_PARAMS(r2, "substr", 3, p1, 0x00A);
+			PHALCON_CALL_FUNC_PARAMS(r2, "substr", 3, p1, 0x002);
 			Z_DELREF_P(p1[0]);
 			Z_DELREF_P(p1[2]);
 			PHALCON_INIT_VAR(r4);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				PHALCON_INIT_VAR(p3[1]);
 				ZVAL_STRING(p3[1], "", 1);
 				p3[2] = v0;
-				PHALCON_CALL_FUNC_PARAMS(r5, "str_replace", 3, p3, 0x01A);
+				PHALCON_CALL_FUNC_PARAMS(r5, "str_replace", 3, p3, 0x003);
 				PHALCON_CPY_WRT(v3, r5);
 				PHALCON_INIT_VAR(r6);
 				concat_function(r6, v1, v3 TSRMLS_CC);

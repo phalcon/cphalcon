@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 	PHALCON_CPY_WRT(v1, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v1, 0x000);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v1, 0x00F);
 	Z_DELREF_P(v1);
 	if (zend_is_true(r1)) {
 		ce0 = zend_fetch_class(Z_STRVAL_P(v1), Z_STRLEN_P(v1), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 			PHALCON_ALLOC_ZVAL_MM(r5);
 			PHALCON_CONCAT_VBOTH(r5, r6, "\".\"", v1);
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x049);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "get_class", v0, 0x02F);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CONCAT_VBOTH(r4, r5, "\" doesn't exist on database when dumping information for ", r7);
 			Z_ADDREF_P(r4);
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				PHALCON_INIT_VAR(r13);
 				PHALCON_INIT_VAR(c0);
 				ZVAL_STRING(c0, "int", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r13, "strpos", v15, c0, 0x005);
+				PHALCON_CALL_FUNC_PARAMS_2(r13, "strpos", v15, c0, 0x00A);
 				if (Z_TYPE_P(r13) != IS_BOOL || (Z_TYPE_P(r13) == IS_BOOL && Z_BVAL_P(r13))) {
 					PHALCON_INIT_VAR(t3);
 					ZVAL_BOOL(t3, 1);
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 					PHALCON_INIT_VAR(r14);
 					PHALCON_INIT_VAR(c1);
 					ZVAL_STRING(c1, "decimal", 1);
-					PHALCON_CALL_FUNC_PARAMS_2(r14, "strpos", v15, c1, 0x005);
+					PHALCON_CALL_FUNC_PARAMS_2(r14, "strpos", v15, c1, 0x00A);
 					if (Z_TYPE_P(r14) != IS_BOOL || (Z_TYPE_P(r14) == IS_BOOL && Z_BVAL_P(r14))) {
 						PHALCON_INIT_VAR(t4);
 						ZVAL_BOOL(t4, 1);

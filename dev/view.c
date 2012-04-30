@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r4, r2, ".phtml");
 			PHALCON_CPY_WRT(v7, r4);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01B);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_View, render){
 					PHALCON_CONCAT_RIGHT(r9, r8, ".phtml");
 					PHALCON_CPY_WRT(v10, r9);
 					if (phalcon_file_exists(v10 TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
+						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01B);
 						phalcon_require(v10 TSRMLS_CC);
 						if (EG(exception) || EG(exit_status) == 255) {
 							return;
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r15, r14, ".phtml");
 			PHALCON_CPY_WRT(v7, r15);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01B);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_View, render){
 					PHALCON_CONCAT_RIGHT(r20, r19, ".phtml");
 					PHALCON_CPY_WRT(v10, r20);
 					if (phalcon_file_exists(v10 TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
+						PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01B);
 						phalcon_require(v10 TSRMLS_CC);
 						if (EG(exception) || EG(exit_status) == 255) {
 							return;
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_View, render){
 			PHALCON_CONCAT_RIGHT(r24, v2, "index.phtml");
 			PHALCON_CPY_WRT(v7, r24);
 			if (phalcon_file_exists(v7 TSRMLS_CC) == SUCCESS) {
-				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x013);
+				PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01B);
 				phalcon_require(v7 TSRMLS_CC);
 				if (EG(exception) || EG(exit_status) == 255) {
 					return;
@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_View, finish){
 
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x014);
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x013);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -758,7 +758,7 @@ PHP_METHOD(Phalcon_View, url){
 	}
 	
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v0, 0x015);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v0, 0x004);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		Z_ADDREF_P(v0);

@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	p2[1] = v1;
 	Z_SET_ISREF_P(v0);
 	p2[2] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r2, "preg_match", 3, p2, 0x01D);
+	PHALCON_CALL_FUNC_PARAMS(r2, "preg_match", 3, p2, 0x032);
 	Z_DELREF_P(p2[0]);
 	Z_DELREF_P(p2[1]);
 	Z_UNSET_ISREF_P(p2[2]);

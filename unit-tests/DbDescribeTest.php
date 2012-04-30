@@ -56,94 +56,94 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//Fields describe
 		$expectedDescribe = array(
-  			0 => array(
-    			'Field' => 'cedula',
-    			'Type' => 'char(15)',
-    			'Null' => 'NO',
-    			'Key' => 'PRI',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
-  			1 => array(
-    			'Field' => 'tipo_documento_id',
-    			'Type' => 'int(3) unsigned',
-    			'Null' => 'NO',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
-  			2 => array(
-    			'Field' => 'nombres',
-    			'Type' => 'varchar(100)',
-    			'Null' => 'NO',
-    			'Key' => '',
-    			'Default' => '',
-    			'Extra' => '',
-  			),
-  			3 => array(
-    			'Field' => 'telefono',
-    			'Type' => 'varchar(20)',
-    			'Null' => 'YES',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
+			0 => array(
+				'Field' => 'cedula',
+				'Type' => 'char(15)',
+				'Null' => 'NO',
+				'Key' => 'PRI',
+				'Default' => NULL,
+				'Extra' => '',
+			),
+			1 => array(
+				'Field' => 'tipo_documento_id',
+				'Type' => 'int(3) unsigned',
+				'Null' => 'NO',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
+			2 => array(
+				'Field' => 'nombres',
+				'Type' => 'varchar(100)',
+				'Null' => 'NO',
+				'Key' => '',
+				'Default' => '',
+				'Extra' => '',
+			),
+			3 => array(
+				'Field' => 'telefono',
+				'Type' => 'varchar(20)',
+				'Null' => 'YES',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
   			4 => array(
-    			'Field' => 'direccion',
-    			'Type' => 'varchar(100)',
-    			'Null' => 'YES',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
+				'Field' => 'direccion',
+				'Type' => 'varchar(100)',
+				'Null' => 'YES',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
 			5 => array(
-    			'Field' => 'email',
-    			'Type' => 'varchar(50)',
-    			'Null' => 'YES',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
-  			6 => array(
-    			'Field' => 'fecha_nacimiento',
-    			'Type' => 'date',
-    			'Null' => 'YES',
-    			'Key' => '',
-    			'Default' => '1970-01-01',
-    			'Extra' => '',
-  			),
-  			7 => array(
-    			'Field' => 'ciudad_id',
-    			'Type' => 'int(10) unsigned',
-    			'Null' => 'YES',
-    			'Key' => 'MUL',
-    			'Default' => '0',
-    			'Extra' => '',
-  			),
-  			8 => array(
-    			'Field' => 'creado_at',
-    			'Type' => 'date',
-    			'Null' => 'YES',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
-  			9 => array(
-    			'Field' => 'cupo',
-    			'Type' => 'decimal(16,2)',
-    			'Null' => 'NO',
-    			'Key' => '',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			),
-  			10 => array(
-    			'Field' => 'estado',
-    			'Type' => 'enum(\'A\',\'I\',\'X\')',
-    			'Null' => 'NO',
-    			'Key' => 'MUL',
-    			'Default' => NULL,
-    			'Extra' => '',
-  			)
+				'Field' => 'email',
+				'Type' => 'varchar(50)',
+				'Null' => 'YES',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
+			6 => array(
+				'Field' => 'fecha_nacimiento',
+				'Type' => 'date',
+				'Null' => 'YES',
+				'Key' => '',
+				'Default' => '1970-01-01',
+				'Extra' => '',
+			),
+			7 => array(
+				'Field' => 'ciudad_id',
+				'Type' => 'int(10) unsigned',
+				'Null' => 'YES',
+				'Key' => 'MUL',
+				'Default' => '0',
+				'Extra' => '',
+			),
+			8 => array(
+				'Field' => 'creado_at',
+				'Type' => 'date',
+				'Null' => 'YES',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
+			9 => array(
+				'Field' => 'cupo',
+				'Type' => 'decimal(16,2)',
+				'Null' => 'NO',
+				'Key' => '',
+				'Default' => NULL,
+				'Extra' => '',
+			),
+			10 => array(
+				'Field' => 'estado',
+				'Type' => 'enum(\'A\',\'I\',\'X\')',
+				'Null' => 'NO',
+				'Key' => 'MUL',
+				'Default' => NULL,
+				'Extra' => '',
+			)
 		);
 
 		$describe = $connection->describeTable('personas');
@@ -152,19 +152,23 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 		$describe = $connection->describeTable('personas', 'phalcon_test');
 		$this->assertEquals($describe, $expectedDescribe);
 
-		//Indexes
+		//Indexes		
 		$expectedIndexes = array(
-			'PRIMARY' => array(
-    			0 => 'id',
-  			),
-  			'robots_id' => array(
-    			0 => 'robots_id',
-  			),
-  			'parts_id' => array(
-    			0 => 'parts_id',
-  			),
+			'PRIMARY' => Phalcon_Db_Index::__set_state(array(
+				'_indexName' => 'PRIMARY',
+				'_columns' => array('id')
+  			)),
+			'robots_id' => Phalcon_Db_Index::__set_state(array(
+				'_indexName' => 'robots_id',
+				'_columns' => array('robots_id')
+			)),
+			'parts_id' => Phalcon_Db_Index::__set_state(array(
+				'_indexName' => 'parts_id',
+				'_columns' => array('parts_id')
+			))
 		);
-		$describeIndexes = $connection->describeIndexes('robots_parts');
+
+		$describeIndexes = $connection->describeIndexes('robots_parts');		
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		$describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
@@ -172,26 +176,20 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//References
 		$expectedReferences = array(
-  			'robots_parts_ibfk_1' => array(
-    			'referencedSchema' => 'phalcon_test',
-    			'referencedTable' => 'robots',
-    			'columns' => array(
-      				0 => 'robots_id',
-    			),
-    			'referencedColumns' => array(
-      				0 => 'id',
-    			),
-  			),
-  			'robots_parts_ibfk_2' => array(
-    			'referencedSchema' => 'phalcon_test',
-    			'referencedTable' => 'parts',
-    			'columns' => array(
-      				0 => 'parts_id',
-    			),
-    			'referencedColumns' => array(
-      				0 => 'id',
-    			),
-  			),
+			'robots_parts_ibfk_1' => Phalcon_Db_Reference::__set_state(array(
+     		'_referenceName' => 'robots_parts_ibfk_1',
+     		'_referencedTable' => 'robots',
+     		'_columns' => array('robots_id'),
+				'_referencedColumns' => array('id'),
+				'_referencedSchema' => 'phalcon_test'
+			)),
+			'robots_parts_ibfk_2' => Phalcon_Db_Reference::__set_state(array(
+				'_referenceName' => 'robots_parts_ibfk_2',
+				'_referencedTable' => 'parts',
+				'_columns' => array('parts_id'),
+				'_referencedColumns' => array('id'),
+				'_referencedSchema' => 'phalcon_test',
+			)),
 		);
 
 		$describeReferences = $connection->describeReferences('robots_parts');

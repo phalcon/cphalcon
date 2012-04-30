@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		ZVAL_LONG(v2, 1);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "count", v1, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "count", v1, 0x007);
 	PHALCON_CPY_WRT(v3, r1);
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init(i0);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_CPY_WRT(v5, r3);
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_ALLOC_ZVAL_MM(r5);
-	PHALCON_CALL_FUNC_PARAMS_1(r5, "count", v1, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r5, "count", v1, 0x007);
 	PHALCON_INIT_VAR(t4);
 	ZVAL_LONG(t4, 1);
 	PHALCON_ALLOC_ZVAL_MM(r6);
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	div_function(r7, r6, v0 TSRMLS_CC);
 	Z_ADDREF_P(r7);
-	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x00B);
+	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x01C);
 	Z_DELREF_P(r7);
 	PHALCON_CPY_WRT(v6, r4);
 	if (Z_TYPE_P(v1) != IS_ARRAY) { 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	p4[0] = v1;
 	p4[1] = v5;
 	p4[2] = v0;
-	PHALCON_CALL_FUNC_PARAMS(r8, "array_slice", 3, p4, 0x00C);
+	PHALCON_CALL_FUNC_PARAMS(r8, "array_slice", 3, p4, 0x01D);
 	phalcon_update_property_zval(v4, "items", strlen("items"), r8 TSRMLS_CC);
 	phalcon_update_property_long(v4, "first", strlen("first"), 1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r9);

@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Model_Base, __construct){
 		zend_update_static_property(phalcon_model_base_class_entry, "_manager", sizeof("_manager")-1, v0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r2, "get_class", this_ptr, 0x049);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "get_class", this_ptr, 0x02F);
 	PHALCON_CPY_WRT(v1, r2);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_initialized", sizeof("_initialized")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti){
 		p4[0] = v1;
 		PHALCON_CALL_METHOD_PARAMS(r6, v4, "getattributes", 1, p4, PHALCON_CALL_DEFAULT);
 		Z_DELREF_P(p4[0]);
-		PHALCON_CALL_FUNC_PARAMS_2(r5, "join", c0, r6, 0x00F);
+		PHALCON_CALL_FUNC_PARAMS_2(r5, "join", c0, r6, 0x00D);
 		PHALCON_ALLOC_ZVAL_MM(r7);
 		concat_function(r7, v7, r5 TSRMLS_CC);
 		PHALCON_CPY_WRT(v7, r7);
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti){
 			PHALCON_ALLOC_ZVAL_MM(r17);
 			PHALCON_ALLOC_ZVAL_MM(r18);
 			phalcon_array_fetch_long(&r18, v3, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_1(r17, "is_numeric", r18, 0x02C);
+			PHALCON_CALL_FUNC_PARAMS_1(r17, "is_numeric", r18, 0x00B);
 			if (zend_is_true(r17)) {
 				eval_int = phalcon_array_isset_long(v9, 0);
 				if (eval_int) {
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectOne){
 				PHALCON_ALLOC_ZVAL_MM(r6);
 				PHALCON_ALLOC_ZVAL_MM(r7);
 				phalcon_array_fetch_long(&r7, v4, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
-				PHALCON_CALL_FUNC_PARAMS_1(r6, "is_numeric", r7, 0x02C);
+				PHALCON_CALL_FUNC_PARAMS_1(r6, "is_numeric", r7, 0x00B);
 				if (zend_is_true(r6)) {
 					PHALCON_ALLOC_ZVAL_MM(r9);
 					phalcon_array_fetch_long(&r9, v5, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -819,14 +819,14 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectOne){
 		}
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r31);
-		PHALCON_CALL_FUNC_PARAMS_1(r31, "strlen", v4, 0x021);
+		PHALCON_CALL_FUNC_PARAMS_1(r31, "strlen", v4, 0x001);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 0);
 		PHALCON_INIT_VAR(r32);
 		is_smaller_function(r32, t1, r31 TSRMLS_CC);
 		if (zend_is_true(r32)) {
 			PHALCON_ALLOC_ZVAL_MM(r33);
-			PHALCON_CALL_FUNC_PARAMS_1(r33, "is_numeric", v4, 0x02C);
+			PHALCON_CALL_FUNC_PARAMS_1(r33, "is_numeric", v4, 0x00B);
 			if (zend_is_true(r33)) {
 				PHALCON_ALLOC_ZVAL_MM(r35);
 				phalcon_array_fetch_long(&r35, v5, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1091,7 +1091,7 @@ PHP_METHOD(Phalcon_Model_Base, getSource){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		t1 = zend_read_static_property(phalcon_model_base_class_entry, "_manager", sizeof("_manager")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x049);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02F);
 		Z_ADDREF_P(r1);
 		p0[0] = r1;
 		PHALCON_CALL_METHOD_PARAMS(r0, t1, "getsource", 1, p0, PHALCON_CALL_DEFAULT);
@@ -1283,7 +1283,7 @@ PHP_METHOD(Phalcon_Model_Base, find){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "get_called_class", 0x04A);
+	PHALCON_CALL_FUNC(r0, "get_called_class", 0x03E);
 	PHALCON_CPY_WRT(v1, r0);
 	ce0 = zend_fetch_class(Z_STRVAL_P(v1), Z_STRLEN_P(v1), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i0);
@@ -1403,7 +1403,7 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "get_called_class", 0x04A);
+	PHALCON_CALL_FUNC(r0, "get_called_class", 0x03E);
 	PHALCON_CPY_WRT(v1, r0);
 	ce0 = zend_fetch_class(Z_STRVAL_P(v1), Z_STRLEN_P(v1), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i0);
@@ -1473,7 +1473,7 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 		p9[0] = v2;
 		PHALCON_CALL_METHOD_PARAMS(r8, r9, "getattributes", 1, p9, PHALCON_CALL_DEFAULT);
 		Z_DELREF_P(p9[0]);
-		PHALCON_CALL_FUNC_PARAMS_2(r7, "join", c0, r8, 0x00F);
+		PHALCON_CALL_FUNC_PARAMS_2(r7, "join", c0, r8, 0x00D);
 		PHALCON_ALLOC_ZVAL_MM(r10);
 		concat_function(r10, v8, r7 TSRMLS_CC);
 		PHALCON_CPY_WRT(v8, r10);
@@ -1611,7 +1611,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 		PHALCON_CALL_METHOD(r5, this_ptr, "_getdatatypesnumeric", PHALCON_CALL_DEFAULT);
 		PHALCON_CPY_WRT(v6, r5);
 		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CALL_FUNC_PARAMS_1(r6, "count", v5, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r6, "count", v5, 0x007);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 0);
 		PHALCON_INIT_VAR(r7);
@@ -1669,12 +1669,12 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				if(0){ };
 			}
 			PHALCON_ALLOC_ZVAL_MM(r16);
-			PHALCON_CALL_FUNC_PARAMS_1(r16, "count", v4, 0x008);
+			PHALCON_CALL_FUNC_PARAMS_1(r16, "count", v4, 0x007);
 			if (zend_is_true(r16)) {
 				PHALCON_ALLOC_ZVAL_MM(r17);
 				PHALCON_INIT_VAR(c0);
 				ZVAL_STRING(c0, " AND ", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r17, "join", c0, v4, 0x00F);
+				PHALCON_CALL_FUNC_PARAMS_2(r17, "join", c0, v4, 0x00D);
 				phalcon_update_property_zval(this_ptr, "_uniqueKey", strlen("_uniqueKey"), r17 TSRMLS_CC);
 			} else {
 				PHALCON_MM_RESTORE();
@@ -1711,7 +1711,7 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 		PHALCON_CALL_METHOD(r22, this_ptr, "_getdatatypesnumeric", PHALCON_CALL_DEFAULT);
 		PHALCON_CPY_WRT(v10, r22);
 		PHALCON_ALLOC_ZVAL_MM(r23);
-		PHALCON_CALL_FUNC_PARAMS_1(r23, "count", v5, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r23, "count", v5, 0x007);
 		PHALCON_INIT_VAR(t7);
 		ZVAL_LONG(t7, 0);
 		PHALCON_INIT_VAR(r24);
@@ -1769,12 +1769,12 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				if(0){ };
 			}
 			PHALCON_ALLOC_ZVAL_MM(r33);
-			PHALCON_CALL_FUNC_PARAMS_1(r33, "count", v4, 0x008);
+			PHALCON_CALL_FUNC_PARAMS_1(r33, "count", v4, 0x007);
 			if (zend_is_true(r33)) {
 				PHALCON_ALLOC_ZVAL_MM(r34);
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, " AND ", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r34, "join", c1, v4, 0x00F);
+				PHALCON_CALL_FUNC_PARAMS_2(r34, "join", c1, v4, 0x00D);
 				phalcon_update_property_zval(this_ptr, "_uniqueKey", strlen("_uniqueKey"), r34 TSRMLS_CC);
 				PHALCON_MM_RESTORE();
 				RETURN_TRUE;
@@ -1912,7 +1912,7 @@ PHP_METHOD(Phalcon_Model_Base, count){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "get_called_class", 0x04A);
+	PHALCON_CALL_FUNC(r0, "get_called_class", 0x03E);
 	PHALCON_CPY_WRT(v1, r0);
 	ce0 = zend_fetch_class(Z_STRVAL_P(v1), Z_STRLEN_P(v1), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i0);
@@ -2014,7 +2014,7 @@ PHP_METHOD(Phalcon_Model_Base, count){
 			phalcon_array_fetch_long(&r18, v5, 0, PHALCON_NOISY_FETCH TSRMLS_CC);
 			PHALCON_CPY_WRT(v10, r18);
 			PHALCON_ALLOC_ZVAL_MM(r19);
-			PHALCON_CALL_FUNC_PARAMS_1(r19, "is_numeric", v10, 0x02C);
+			PHALCON_CALL_FUNC_PARAMS_1(r19, "is_numeric", v10, 0x00B);
 			if (zend_is_true(r19)) {
 				PHALCON_ALLOC_ZVAL_MM(r20);
 				PHALCON_ALLOC_ZVAL_MM(r21);
@@ -2214,12 +2214,12 @@ PHP_METHOD(Phalcon_Model_Base, appendMessage){
 	
 	if (Z_TYPE_P(v0) == IS_OBJECT) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x049);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "get_class", v0, 0x02F);
 		if (!PHALCON_COMPARE_STRING(r0, "Phalcon_Model_Message")) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_model_exception_class_entry);
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", v0, 0x049);
+			PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", v0, 0x02F);
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_CONCAT_BOTH(r2,  "Invalid message format '", r1, "'");
 			Z_ADDREF_P(r2);
@@ -2236,7 +2236,7 @@ PHP_METHOD(Phalcon_Model_Base, appendMessage){
 		object_init_ex(i1, phalcon_model_exception_class_entry);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		Z_ADDREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r3, "gettype", v0, 0x04B);
+		PHALCON_CALL_FUNC_PARAMS_1(r3, "gettype", v0, 0x03F);
 		Z_DELREF_P(v0);
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		PHALCON_CONCAT_BOTH(r4,  "Invalid message format '", r3, "'");
@@ -2295,7 +2295,7 @@ PHP_METHOD(Phalcon_Model_Base, validate){
 	PHALCON_CPY_WRT(v2, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(v2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v2, 0x000);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v2, 0x00F);
 	Z_DELREF_P(v2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -2342,7 +2342,7 @@ PHP_METHOD(Phalcon_Model_Base, validate){
 	}
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	Z_ADDREF_P(v3);
-	PHALCON_CALL_FUNC_PARAMS_1(r5, "is_array", v3, 0x04C);
+	PHALCON_CALL_FUNC_PARAMS_1(r5, "is_array", v3, 0x03D);
 	Z_DELREF_P(v3);
 	PHALCON_INIT_VAR(t0);
 	ZVAL_BOOL(t0, 0);
@@ -2459,7 +2459,7 @@ PHP_METHOD(Phalcon_Model_Base, validationHasFailed){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_errorMessages", sizeof("_errorMessages")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r1);
@@ -2561,7 +2561,7 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 		PHALCON_INIT_VAR(v5);
 		ZVAL_BOOL(v5, 0);
 		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CALL_FUNC_PARAMS_1(r5, "count", v3, 0x008);
+		PHALCON_CALL_FUNC_PARAMS_1(r5, "count", v3, 0x007);
 		PHALCON_CPY_WRT(v6, r5);
 		PHALCON_INIT_VAR(v7);
 		ZVAL_LONG(v7, 0);
@@ -2599,7 +2599,7 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 			}
 		} else {
 			PHALCON_INIT_VAR(r12);
-			PHALCON_CALL_FUNC_PARAMS_1(r12, "is_numeric", v10, 0x02C);
+			PHALCON_CALL_FUNC_PARAMS_1(r12, "is_numeric", v10, 0x00B);
 			if (!zend_is_true(r12)) {
 				PHALCON_INIT_VAR(v8);
 				ZVAL_BOOL(v8, 1);
@@ -2627,7 +2627,7 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 			PHALCON_INIT_VAR(p10[1]);
 			ZVAL_STRING(p10[1], "", 1);
 			p10[2] = v9;
-			PHALCON_CALL_FUNC_PARAMS(r17, "str_replace", 3, p10, 0x01A);
+			PHALCON_CALL_FUNC_PARAMS(r17, "str_replace", 3, p10, 0x003);
 			PHALCON_CPY_WRT(v11, r17);
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_model_message_class_entry);
@@ -2926,7 +2926,7 @@ PHP_METHOD(Phalcon_Model_Base, _doLowInsert){
 		phalcon_array_append(v4, t6 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r9);
 		Z_ADDREF_P(v10);
-		PHALCON_CALL_FUNC_PARAMS_1(r9, "is_null", v10, 0x04D);
+		PHALCON_CALL_FUNC_PARAMS_1(r9, "is_null", v10, 0x040);
 		Z_DELREF_P(v10);
 		PHALCON_INIT_VAR(t7);
 		ZVAL_STRING(t7, "", 1);
@@ -3264,7 +3264,7 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 	PHALCON_CALL_METHOD(r1, this_ptr, "_getprimarykeyattributes", PHALCON_CALL_DEFAULT);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r2, "count", v1, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "count", v1, 0x007);
 	PHALCON_INIT_VAR(t5);
 	ZVAL_LONG(t5, 1);
 	PHALCON_ALLOC_ZVAL_MM(r3);
@@ -3315,7 +3315,7 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 		PHALCON_ALLOC_ZVAL_MM(r10);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r10, "join", c0, v3, 0x00F);
+		PHALCON_CALL_FUNC_PARAMS_2(r10, "join", c0, v3, 0x00D);
 		PHALCON_CPY_WRT(v3, r10);
 	}
 	t8 = zend_read_static_property(phalcon_model_base_class_entry, "_disableEvents", sizeof("_disableEvents")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
@@ -3622,20 +3622,20 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 	ZVAL_LONG(p0[1], 0);
 	PHALCON_INIT_VAR(p0[2]);
 	ZVAL_LONG(p0[2], 3);
-	PHALCON_CALL_FUNC_PARAMS(r0, "substr", 3, p0, 0x00A);
+	PHALCON_CALL_FUNC_PARAMS(r0, "substr", 3, p0, 0x002);
 	Z_DELREF_P(p0[0]);
 	if (PHALCON_COMPARE_STRING(r0, "get")) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x049);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02F);
 		PHALCON_CPY_WRT(v2, r1);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		Z_ADDREF_P(v0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_LONG(c0, 3);
-		PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", v0, c0, 0x00A);
+		PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", v0, c0, 0x002);
 		Z_DELREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r2, "ucfirst", r3, 0x04E);
+		PHALCON_CALL_FUNC_PARAMS_1(r2, "ucfirst", r3, 0x041);
 		PHALCON_CPY_WRT(v3, r2);
 		t0 = zend_read_static_property(phalcon_model_base_class_entry, "_manager", sizeof("_manager")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_CPY_WRT(v4, t0);
@@ -3672,11 +3672,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r6);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r6, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r6, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r6);
-			PHALCON_CALL_FUNC_PARAMS_2(r5, "call_user_func_array", a2, r6, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r5, "call_user_func_array", a2, r6, 0x010);
 			Z_DELREF_P(a2);
 			Z_DELREF_P(r6);
 			PHALCON_RETURN_DZVAL(r5);
@@ -3714,11 +3714,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r9);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r9, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r9, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r9);
-			PHALCON_CALL_FUNC_PARAMS_2(r8, "call_user_func_array", a4, r9, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "call_user_func_array", a4, r9, 0x010);
 			Z_DELREF_P(a4);
 			Z_DELREF_P(r9);
 			PHALCON_RETURN_DZVAL(r8);
@@ -3756,11 +3756,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r12);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r12, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r12, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r12);
-			PHALCON_CALL_FUNC_PARAMS_2(r11, "call_user_func_array", a6, r12, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r11, "call_user_func_array", a6, r12, 0x010);
 			Z_DELREF_P(a6);
 			Z_DELREF_P(r12);
 			PHALCON_RETURN_DZVAL(r11);
@@ -3773,20 +3773,20 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 	ZVAL_LONG(p13[1], 0);
 	PHALCON_INIT_VAR(p13[2]);
 	ZVAL_LONG(p13[2], 5);
-	PHALCON_CALL_FUNC_PARAMS(r13, "substr", 3, p13, 0x00A);
+	PHALCON_CALL_FUNC_PARAMS(r13, "substr", 3, p13, 0x002);
 	Z_DELREF_P(p13[0]);
 	if (PHALCON_COMPARE_STRING(r13, "count")) {
 		PHALCON_ALLOC_ZVAL_MM(r14);
-		PHALCON_CALL_FUNC_PARAMS_1(r14, "get_class", this_ptr, 0x049);
+		PHALCON_CALL_FUNC_PARAMS_1(r14, "get_class", this_ptr, 0x02F);
 		PHALCON_CPY_WRT(v2, r14);
 		PHALCON_ALLOC_ZVAL_MM(r15);
 		PHALCON_ALLOC_ZVAL_MM(r16);
 		Z_ADDREF_P(v0);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_LONG(c1, 5);
-		PHALCON_CALL_FUNC_PARAMS_2(r16, "substr", v0, c1, 0x00A);
+		PHALCON_CALL_FUNC_PARAMS_2(r16, "substr", v0, c1, 0x002);
 		Z_DELREF_P(v0);
-		PHALCON_CALL_FUNC_PARAMS_1(r15, "ucfirst", r16, 0x04E);
+		PHALCON_CALL_FUNC_PARAMS_1(r15, "ucfirst", r16, 0x041);
 		PHALCON_CPY_WRT(v3, r15);
 		t1 = zend_read_static_property(phalcon_model_base_class_entry, "_manager", sizeof("_manager")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_CPY_WRT(v4, t1);
@@ -3823,11 +3823,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r19);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r19, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r19, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r19);
-			PHALCON_CALL_FUNC_PARAMS_2(r18, "call_user_func_array", a8, r19, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r18, "call_user_func_array", a8, r19, 0x010);
 			Z_DELREF_P(a8);
 			Z_DELREF_P(r19);
 			PHALCON_RETURN_DZVAL(r18);
@@ -3865,11 +3865,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r22);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r22, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r22, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r22);
-			PHALCON_CALL_FUNC_PARAMS_2(r21, "call_user_func_array", a10, r22, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r21, "call_user_func_array", a10, r22, 0x010);
 			Z_DELREF_P(a10);
 			Z_DELREF_P(r22);
 			PHALCON_RETURN_DZVAL(r21);
@@ -3907,11 +3907,11 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 			PHALCON_ALLOC_ZVAL_MM(r25);
 			Z_ADDREF_P(v5);
 			Z_ADDREF_P(v1);
-			PHALCON_CALL_FUNC_PARAMS_2(r25, "array_merge", v5, v1, 0x04F);
+			PHALCON_CALL_FUNC_PARAMS_2(r25, "array_merge", v5, v1, 0x042);
 			Z_DELREF_P(v5);
 			Z_DELREF_P(v1);
 			Z_ADDREF_P(r25);
-			PHALCON_CALL_FUNC_PARAMS_2(r24, "call_user_func_array", a12, r25, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r24, "call_user_func_array", a12, r25, 0x010);
 			Z_DELREF_P(a12);
 			Z_DELREF_P(r25);
 			PHALCON_RETURN_DZVAL(r24);
@@ -3922,7 +3922,7 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 	PHALCON_ALLOC_ZVAL_MM(r27);
 	PHALCON_CONCAT_LEFT(r27, "Method \"", v0);
 	PHALCON_ALLOC_ZVAL_MM(r28);
-	PHALCON_CALL_FUNC_PARAMS_1(r28, "get_class", this_ptr, 0x049);
+	PHALCON_CALL_FUNC_PARAMS_1(r28, "get_class", this_ptr, 0x02F);
 	PHALCON_ALLOC_ZVAL_MM(r26);
 	PHALCON_CONCAT_VBOTH(r26, r27, "\" doesn't exist on model \"", r28);
 	PHALCON_ALLOC_ZVAL_MM(r29);

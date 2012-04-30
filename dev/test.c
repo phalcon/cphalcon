@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Test, nice){
 		zend_hash_destroy(ah0);
 		efree(ah0);
 	}
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v1, 0x015);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", v1, 0x004);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

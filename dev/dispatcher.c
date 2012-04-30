@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		Z_ADDREF_P(v10);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 0);
-		PHALCON_CALL_FUNC_PARAMS_2(r4, "class_exists", v10, c0, 0x000);
+		PHALCON_CALL_FUNC_PARAMS_2(r4, "class_exists", v10, c0, 0x00F);
 		Z_DELREF_P(v10);
 		if (!zend_is_true(r4)) {
 			PHALCON_INIT_VAR(r5);
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			Z_ADDREF_P(v10);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_BOOL(c1, 0);
-			PHALCON_CALL_FUNC_PARAMS_2(r8, "class_exists", v10, c1, 0x000);
+			PHALCON_CALL_FUNC_PARAMS_2(r8, "class_exists", v10, c1, 0x00F);
 			Z_DELREF_P(v10);
 			if (!zend_is_true(r8)) {
 				PHALCON_INIT_VAR(i1);
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		add_next_index_zval(a0, v14);
 		Z_ADDREF_P(a0);
 		Z_ADDREF_P(v12);
-		PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a0, v12, 0x001);
+		PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a0, v12, 0x010);
 		Z_DELREF_P(a0);
 		Z_DELREF_P(v12);
 		PHALCON_CPY_WRT(v5, r13);
@@ -480,7 +480,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			add_next_index_stringl(a1, "notFoundAction", strlen("notFoundAction"), 1);
 			Z_ADDREF_P(a1);
 			Z_ADDREF_P(v12);
-			PHALCON_CALL_FUNC_PARAMS_2(r14, "call_user_func_array", a1, v12, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_2(r14, "call_user_func_array", a1, v12, 0x010);
 			Z_DELREF_P(a1);
 			Z_DELREF_P(v12);
 			PHALCON_CPY_WRT(v5, r14);
@@ -581,7 +581,7 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "explode", c0, v0, 0x002);
+		PHALCON_CALL_FUNC_PARAMS_2(r0, "explode", c0, v0, 0x005);
 		PHALCON_CPY_WRT(v1, r0);
 	}
 	eval_int = phalcon_array_isset_long(v1, 0);
