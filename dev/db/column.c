@@ -43,6 +43,8 @@
  *
  * Allows to define columns to be used on create or alter table operations
  *
+ *
+ *
  */
 
 /**
@@ -81,10 +83,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Column type is required", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	eval_int = phalcon_array_isset_string(v1, "notNull", strlen("notNull")+1);
 	if (eval_int) {
@@ -116,10 +115,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "Column type does not support scale parameter", 1);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p1, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i1 TSRMLS_CC);
-			Z_ADDREF_P(i1);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i1 TSRMLS_CC);
 		}
 	}
 	eval_int = phalcon_array_isset_string(v1, "unsigned", strlen("unsigned")+1);
@@ -146,10 +142,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 			PHALCON_INIT_VAR(p2[0]);
 			ZVAL_STRING(p2[0], "Column type cannot be auto-increment", 1);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p2, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i2 TSRMLS_CC);
-			Z_ADDREF_P(i2);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i2 TSRMLS_CC);
 		}
 	}
 	eval_int = phalcon_array_isset_string(v1, "first", strlen("first")+1);

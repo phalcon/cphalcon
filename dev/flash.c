@@ -41,7 +41,7 @@
 /**
  * Phalcon_Flash
  *
- * Shows HTML notifications related to diferent circustances. Classes can be stylized using CSS
+ * Shows HTML notifications related to different circustances. Classes can be stylized using CSS
  */
 
 PHP_METHOD(Phalcon_Flash, _showMessage){

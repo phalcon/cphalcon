@@ -33,13 +33,13 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//List tables
 		$expectedTables = array(
-   			'parts',
-    		'personas',
-    		'prueba',
-    		'robots',
-    		'robots_parts',
-    		'subscriptores',
-    		'tipo_documento'
+			'parts',
+			'personas',
+			'prueba',
+			'robots',
+			'robots_parts',
+			'subscriptores',
+			'tipo_documento'
 		);
 
 		$tables = $connection->listTables();
@@ -151,6 +151,17 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		$describe = $connection->describeTable('personas', 'phalcon_test');
 		$this->assertEquals($describe, $expectedDescribe);
+
+		//Table Options
+		$expectedOptions = array (
+  			'TABLE_TYPE' => 'BASE TABLE',
+  			'AUTO_INCREMENT' => NULL,
+			'ENGINE' => 'InnoDB',
+			'TABLE_COLLATION' => 'utf8_unicode_ci',
+		);
+
+		$options = $connection->tableOptions('personas');
+		$this->assertEquals($options, $expectedOptions);		
 
 		//Indexes		
 		$expectedIndexes = array(

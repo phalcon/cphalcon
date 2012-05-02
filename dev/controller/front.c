@@ -54,9 +54,7 @@
 PHP_METHOD(Phalcon_Controller_Front, __construct){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 
 /**
@@ -156,10 +154,7 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig){
 		PHALCON_INIT_VAR(p1[0]);
 		ZVAL_STRING(p1[0], "Config parameter should be an Object", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -348,10 +343,7 @@ PHP_METHOD(Phalcon_Controller_Front, getDispatcher){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Dispatch process has not started yet", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -399,7 +391,7 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_baseUri", sizeof("_baseUri")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (!zend_is_true(t0)) {
-		phalcon_init_global("_SERVER" TSRMLS_CC);
+		phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 				if(Z_TYPE_PP(gv0)==IS_ARRAY){

@@ -105,10 +105,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		p1[0] = r2;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p1[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -423,14 +420,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Cannot send message to the log because it is invalid", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(v0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v0, 0x043);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v0, 0x044);
 	Z_DELREF_P(v0);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -523,10 +517,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "There is no active transaction", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -599,10 +590,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, rollback){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "There is no active transaction", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
 	PHALCON_INIT_VAR(a0);

@@ -363,8 +363,6 @@ PHP_METHOD(Phalcon_Model_Validator, getRecord){
 PHP_METHOD(Phalcon_Model_Validator, checkOptions){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 

@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Session, get){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
 	PHALCON_CPY_WRT(v1, r0);
-	phalcon_init_global("_SESSION" TSRMLS_CC);
+	phalcon_init_global("_SESSION", sizeof("_SESSION") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Session, set){
 	}
 
 	
-	phalcon_init_global("_SESSION" TSRMLS_CC);
+	phalcon_init_global("_SESSION", sizeof("_SESSION") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Session, has){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
 	PHALCON_CPY_WRT(v1, r0);
-	phalcon_init_global("_SESSION" TSRMLS_CC);
+	phalcon_init_global("_SESSION", sizeof("_SESSION") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Session, remove){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, v0 TSRMLS_CC);
 	PHALCON_CPY_WRT(v1, r0);
-	phalcon_init_global("_SESSION" TSRMLS_CC);
+	phalcon_init_global("_SESSION", sizeof("_SESSION") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SESSION", sizeof("_SESSION"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){

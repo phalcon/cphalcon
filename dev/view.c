@@ -491,10 +491,7 @@ PHP_METHOD(Phalcon_View, render){
 						p5[0] = r11;
 						PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p5, PHALCON_CALL_CHECK);
 						Z_DELREF_P(p5[0]);
-						zend_throw_exception_object(i0 TSRMLS_CC);
-						Z_ADDREF_P(i0);
-						PHALCON_MM_RESTORE();
-						return;
+						return phalcon_throw_exception(i0 TSRMLS_CC);
 					}
 					zend_hash_move_forward_ex(ah1, &hp1);
 					goto fes_b0d8_1;
@@ -572,10 +569,7 @@ PHP_METHOD(Phalcon_View, render){
 						p10[0] = r22;
 						PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p10, PHALCON_CALL_CHECK);
 						Z_DELREF_P(p10[0]);
-						zend_throw_exception_object(i1 TSRMLS_CC);
-						Z_ADDREF_P(i1);
-						PHALCON_MM_RESTORE();
-						return;
+						return phalcon_throw_exception(i1 TSRMLS_CC);
 					}
 					zend_hash_move_forward_ex(ah2, &hp2);
 					goto fes_b0d8_2;
@@ -697,10 +691,7 @@ PHP_METHOD(Phalcon_View, partial){
 		p0[0] = r2;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p0[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

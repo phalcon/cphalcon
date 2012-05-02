@@ -289,10 +289,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		p0[0] = r1;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p0[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		if (Z_TYPE_P(v1) != IS_ARRAY) {
@@ -325,10 +322,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 				p1[0] = r4;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p1, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p1[0]);
-				zend_throw_exception_object(i1 TSRMLS_CC);
-				Z_ADDREF_P(i1);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i1 TSRMLS_CC);
 			}
 			PHALCON_INIT_VAR(t2);
 			phalcon_read_property(&t2, this_ptr, "_roleInherits", sizeof("_roleInherits")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -379,10 +373,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 			p2[0] = r7;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p2, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p2[0]);
-			zend_throw_exception_object(i2 TSRMLS_CC);
-			Z_ADDREF_P(i2);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i2 TSRMLS_CC);
 		}
 		PHALCON_ALLOC_ZVAL_MM(t5);
 		phalcon_read_property(&t5, this_ptr, "_roleInherits", sizeof("_roleInherits")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -600,10 +591,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		p0[0] = r1;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p0[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
 		if (Z_TYPE_P(v1) != IS_ARRAY) {
@@ -793,10 +781,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		p0[0] = r1;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p0[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_resourcesNames", sizeof("_resourcesNames")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -812,10 +797,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		p1[0] = r3;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p1, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p1[0]);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(v2) == IS_ARRAY) { 
 		if (Z_TYPE_P(v2) != IS_ARRAY) {
@@ -849,10 +831,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				p2[0] = r8;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p2, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p2[0]);
-				zend_throw_exception_object(i2 TSRMLS_CC);
-				Z_ADDREF_P(i2);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i2 TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_3;
@@ -989,10 +968,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			p3[0] = r16;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p3, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p3[0]);
-			zend_throw_exception_object(i3 TSRMLS_CC);
-			Z_ADDREF_P(i3);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i3 TSRMLS_CC);
 		}
 		PHALCON_ALLOC_ZVAL_MM(t12);
 		phalcon_read_property(&t12, this_ptr, "_access", sizeof("_access")-1, PHALCON_NOISY_FETCH TSRMLS_CC);

@@ -50,10 +50,13 @@
 /**
  * Constructor for Phalcon_Model_Manager
      *
+     * @param array $metaDataOptions
  */
 PHP_METHOD(Phalcon_Model_Manager, __construct){
 
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL, *a6 = NULL;
+	zval *a7 = NULL;
+	zval *v0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
@@ -70,15 +73,30 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	zend_update_property(phalcon_model_manager_class_entry, this_ptr, "_belongsTo", strlen("_belongsTo"), a3 TSRMLS_CC);
 	PHALCON_INIT_VAR(a4);
 	array_init(a4);
+	zend_update_property(phalcon_model_manager_class_entry, this_ptr, "_metadataOptions", strlen("_metadataOptions"), a4 TSRMLS_CC);
 	PHALCON_INIT_VAR(a5);
 	array_init(a5);
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!v0) {
+		PHALCON_INIT_VAR(a6);
+		array_init(a6);
+		PHALCON_CPY_WRT(v0, a6);
+	}
+	
+	PHALCON_INIT_VAR(a7);
+	array_init(a7);
 	Z_ADDREF_P(this_ptr);
-	PHALCON_SEPARATE_ARRAY(a5);
-	add_next_index_zval(a5, this_ptr);
-	add_next_index_stringl(a5, "autoload", strlen("autoload"), 1);
-	Z_ADDREF_P(a5);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5, 0x000);
-	Z_DELREF_P(a5);
+	PHALCON_SEPARATE_ARRAY(a7);
+	add_next_index_zval(a7, this_ptr);
+	add_next_index_stringl(a7, "autoload", strlen("autoload"), 1);
+	Z_ADDREF_P(a7);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a7, 0x000);
+	Z_DELREF_P(a7);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -91,6 +109,8 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 
 	zval *v0 = NULL;
+	zval *i0 = NULL;
+	zval *p0[] = { NULL };
 
 	PHALCON_MM_GROW();
 	
@@ -100,33 +120,63 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 	}
 
 	
+	if (Z_TYPE_P(v0) != IS_OBJECT) {
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, phalcon_model_exception_class_entry);
+		PHALCON_INIT_VAR(p0[0]);
+		ZVAL_STRING(p0[0], "Meta-data must be an object instance of Phalcon_Model_Metadata", 1);
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
+		return phalcon_throw_exception(i0 TSRMLS_CC);
+	}
 	phalcon_update_property_zval(this_ptr, "_metadata", strlen("_metadata"), v0 TSRMLS_CC);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
 /**
- * Returns active meta-data manager. If not exists any will be created one
+ * Returns active meta-data manager. If no exist then it will be created
  *
  * @return Phalcon_Model_Metadata
  */
 PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 
-	zval *t0 = NULL, *t1 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *v0 = NULL, *v1 = NULL;
+	zval *r0 = NULL;
 	zval *i0 = NULL;
+	zval *p0[] = { NULL, NULL };
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_metadata", sizeof("_metadata")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
 	if (!zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, "_metadataOptions", sizeof("_metadataOptions")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		PHALCON_CPY_WRT(v0, t1);
+		eval_int = phalcon_array_isset_string(v0, "adapter", strlen("adapter")+1);
+		if (eval_int) {
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			phalcon_array_fetch_string(&r0, v0, "adapter", strlen("adapter"), PHALCON_NOISY_FETCH TSRMLS_CC);
+			PHALCON_CPY_WRT(v1, r0);
+		} else {
+			PHALCON_INIT_VAR(v1);
+			ZVAL_STRING(v1, "Memory", 1);
+		}
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_model_metadata_class_entry);
-		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CALL_CHECK);
+		Z_ADDREF_P(v1);
+		p0[0] = v1;
+		Z_ADDREF_P(v0);
+		p0[1] = v0;
+		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 2, p0, PHALCON_CALL_CHECK);
+		Z_DELREF_P(p0[0]);
+		Z_DELREF_P(p0[1]);
 		phalcon_update_property_zval(this_ptr, "_metadata", strlen("_metadata"), i0 TSRMLS_CC);
 	}
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_metadata", sizeof("_metadata")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_RETURN_CHECK_CTOR(t1);
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_read_property(&t2, this_ptr, "_metadata", sizeof("_metadata")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(t2);
 }
 
 /**
@@ -298,10 +348,7 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 					p2[0] = r5;
 					PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
 					Z_DELREF_P(p2[0]);
-					zend_throw_exception_object(i0 TSRMLS_CC);
-					Z_ADDREF_P(i0);
-					PHALCON_MM_RESTORE();
-					return;
+					return phalcon_throw_exception(i0 TSRMLS_CC);
 				}
 				ce0 = zend_fetch_class(Z_STRVAL_P(v0), Z_STRLEN_P(v0), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 				PHALCON_ALLOC_ZVAL_MM(i1);
@@ -331,10 +378,7 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 				p6[0] = r7;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p6, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p6[0]);
-				zend_throw_exception_object(i2 TSRMLS_CC);
-				Z_ADDREF_P(i2);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i2 TSRMLS_CC);
 			}
 		} else {
 			ce1 = zend_fetch_class(Z_STRVAL_P(v0), Z_STRLEN_P(v0), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -482,10 +526,7 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 				PHALCON_INIT_VAR(p4[0]);
 				ZVAL_STRING(p4[0], "There is not defined database connection parameters", 1);
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i0 TSRMLS_CC);
 			}
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CALL_STATIC(r4, "phalcon_db_pool", "getconnection");
@@ -561,10 +602,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 				PHALCON_INIT_VAR(p3[0]);
 				ZVAL_STRING(p3[0], "Number of referenced fields are not the same", 1);
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p3, PHALCON_CALL_CHECK);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i0 TSRMLS_CC);
 			}
 		}
 		PHALCON_INIT_VAR(a1);
@@ -671,10 +709,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 				PHALCON_INIT_VAR(p3[0]);
 				ZVAL_STRING(p3[0], "Number of referenced fields are not the same", 1);
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p3, PHALCON_CALL_CHECK);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i0 TSRMLS_CC);
 			}
 		}
 		PHALCON_INIT_VAR(a1);
@@ -785,10 +820,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 				PHALCON_INIT_VAR(p3[0]);
 				ZVAL_STRING(p3[0], "Number of referenced fields are not the same", 1);
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p3, PHALCON_CALL_CHECK);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i0 TSRMLS_CC);
 			}
 		}
 		PHALCON_INIT_VAR(a1);
@@ -879,7 +911,6 @@ PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo){
 /**
  * Checks whether a model have a hasMany relation with other model
  *
- * @access public
  * @param string $modelName
  * @param string $modelRelation
  * @return boolean
@@ -919,8 +950,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasMany){
 
 /**
  * Checks whether a model have a hasOne relation with other model
- *
- * @access public
+ * 
  * @param string $modelName
  * @param string $modelRelation
  * @return boolean

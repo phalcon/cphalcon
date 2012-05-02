@@ -53,9 +53,7 @@
 PHP_METHOD(Phalcon_Request, __construct){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 
 /**
@@ -155,7 +153,7 @@ PHP_METHOD(Phalcon_Request, getPost){
 		ZVAL_NULL(v1);
 	}
 	
-	phalcon_init_global("_POST" TSRMLS_CC);
+	phalcon_init_global("_POST", sizeof("_POST") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -228,7 +226,7 @@ PHP_METHOD(Phalcon_Request, getQuery){
 		ZVAL_NULL(v1);
 	}
 	
-	phalcon_init_global("_GET" TSRMLS_CC);
+	phalcon_init_global("_GET", sizeof("_GET") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_GET", sizeof("_GET"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -294,7 +292,7 @@ PHP_METHOD(Phalcon_Request, getServer){
 	}
 
 	
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -344,7 +342,7 @@ PHP_METHOD(Phalcon_Request, getHeader){
 	}
 
 	
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -447,7 +445,7 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -549,7 +547,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -573,7 +571,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "localhost", 1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x045);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x046);
 		PHALCON_RETURN_DZVAL(r1);
 	}
 	PHALCON_MM_RESTORE();
@@ -593,7 +591,7 @@ PHP_METHOD(Phalcon_Request, getServerName){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -694,7 +692,7 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -742,7 +740,7 @@ PHP_METHOD(Phalcon_Request, getMethod){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -783,7 +781,7 @@ PHP_METHOD(Phalcon_Request, getUserAgent){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -962,7 +960,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 	zval **gv0;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_FILES" TSRMLS_CC);
+	phalcon_init_global("_FILES", sizeof("_FILES") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_FILES", sizeof("_FILES"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -1021,7 +1019,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_FILES" TSRMLS_CC);
+	phalcon_init_global("_FILES", sizeof("_FILES") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_FILES", sizeof("_FILES"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -1090,7 +1088,7 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -1144,7 +1142,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x046);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x047);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -1296,7 +1294,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x046);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, v0, 0x047);
 	PHALCON_CPY_WRT(v1, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);

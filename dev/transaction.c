@@ -259,10 +259,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 2, p2, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p2[0]);
 		Z_DELREF_P(p2[1]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

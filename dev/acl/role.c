@@ -77,10 +77,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Role name cannot be \"*\"", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), v0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_description", strlen("_description"), v1 TSRMLS_CC);

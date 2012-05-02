@@ -16,14 +16,16 @@
             <file>unit-tests/ConfigTest.php</file>
             <file>unit-tests/FilterTest.php</file>
             <file>unit-tests/FlashTest.php</file>
+            <file>unit-tests/LoggerTest.php</file>
             <file>unit-tests/RequestTest.php</file>
             <file>unit-tests/RouterRewriteTest.php</file>
-            <file>unit-tests/DispatcherTest.php</file>
+            <file>unit-tests/DispatcherTest.php</file>            
             <file>unit-tests/DbPoolTest.php</file>
             <file>unit-tests/DbTest.php</file>
             <file>unit-tests/DbDescribeTest.php</file>
             <file>unit-tests/DbDialectTest.php</file>
             <file>unit-tests/DbProfilerTest.php</file>
+            <file>unit-tests/DbLoggerTest.php</file>
             <file>unit-tests/ModelsManagerTest.php</file>
             <file>unit-tests/ModelsMetadataTest.php</file>
             <file>unit-tests/ModelsTest.php</file>
@@ -36,8 +38,7 @@
             <file>unit-tests/TagTest.php</file>
             <file>unit-tests/CacheTest.php</file>
             <file>unit-tests/AclTest.php</file>
-            <file>unit-tests/PaginatorTest.php</file>
-            <file>unit-tests/LoggerTest.php</file>
+            <file>unit-tests/PaginatorTest.php</file>            
         </testsuite>
     </testsuites>
 </phpunit>

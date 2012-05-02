@@ -1,3 +1,14 @@
+0.3.5
+ - Most of throw exception process has been rewrriten to use less instructions
+ - Super global initialization is now slightly fast
+ - Fixed bug in Phalcon_Db::close
+ - Added logging capabilities to Phalcon_Db
+ - Added Phalcon_Model_Metadata::getIdentityField allowing to know the identity (auto_increment) field
+ - Added DDL and DML methods to Phalcon_Db
+ - Added Phalcon_Db_Column to describe table columns
+ - Added Phalcon_Db_Index to describe table indexes
+ - Added Phalcon_Db_Reference to describe table references (foreign keys)
+
 0.3.4
  - Fixed wrong implementation in Phalcon_Tag::javascriptInclude
  - Added Phalcon_Cache_Frontend_Output

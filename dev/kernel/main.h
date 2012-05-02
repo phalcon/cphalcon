@@ -45,11 +45,14 @@ extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 
 /** Globals functions */
-extern int phalcon_init_global(char *global TSRMLS_DC);
+extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
+
+/** Exception Functions */
+extern void phalcon_throw_exception(zval *object TSRMLS_DC);
 
 /** Add functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);

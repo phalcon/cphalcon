@@ -47,7 +47,7 @@
  */
 
 /**
- * Factories diferent caches backends from its adapters
+ * Factories different caches backends from its adapters
  *
  * @paramstring $frontendAdapter
  * @paramstring $backendAdapter
@@ -100,10 +100,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 		p1[0] = r2;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p1[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CONCAT_LEFT(r3, "Phalcon_Cache_Backend_", v1);
@@ -121,10 +118,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 		p3[0] = r5;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p3, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p3[0]);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	ce0 = zend_fetch_class(Z_STRVAL_P(v4), Z_STRLEN_P(v4), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i2);

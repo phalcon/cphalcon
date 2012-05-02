@@ -361,10 +361,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				p2[0] = r7;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p2[0]);
-				zend_throw_exception_object(i0 TSRMLS_CC);
-				Z_ADDREF_P(i0);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i0 TSRMLS_CC);
 			}
 			PHALCON_INIT_VAR(r8);
 			Z_ADDREF_P(v10);
@@ -381,10 +378,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				p4[0] = r9;
 				PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p4, PHALCON_CALL_CHECK);
 				Z_DELREF_P(p4[0]);
-				zend_throw_exception_object(i1 TSRMLS_CC);
-				Z_ADDREF_P(i1);
-				PHALCON_MM_RESTORE();
-				return;
+				return phalcon_throw_exception(i1 TSRMLS_CC);
 			}
 		}
 		ce0 = zend_fetch_class(Z_STRVAL_P(v10), Z_STRLEN_P(v10), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -502,10 +496,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			p11[0] = r17;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i3, "__construct", 1, p11, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p11[0]);
-			zend_throw_exception_object(i3 TSRMLS_CC);
-			Z_ADDREF_P(i3);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i3 TSRMLS_CC);
 		}
 	}
 	if (phalcon_method_exists_ex(v6, "afterdispatch", strlen("afterdispatch") TSRMLS_CC) == SUCCESS) {
@@ -532,10 +523,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_VAR(p13[0]);
 		ZVAL_STRING(p13[0], "Dispatcher has detected a cyclic routing causing stability problems", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i4, "__construct", 1, p13, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i4 TSRMLS_CC);
-		Z_ADDREF_P(i4);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i4 TSRMLS_CC);
 	}
 	goto ws_e10f_0;
 	we_e10f_0:

@@ -88,10 +88,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "The cache directory does not exist or is not writable", 1);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i0 TSRMLS_CC);
-			Z_ADDREF_P(i0);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i0 TSRMLS_CC);
 		}
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -99,10 +96,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		PHALCON_INIT_VAR(p2[0]);
 		ZVAL_STRING(p2[0], "You must specify the cache directory with the option cachesDir", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -225,10 +219,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Cache must be started first", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_frontendObject", sizeof("_frontendObject")-1, PHALCON_NOISY_FETCH TSRMLS_CC);

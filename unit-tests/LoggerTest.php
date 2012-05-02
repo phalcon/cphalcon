@@ -26,129 +26,129 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->log("Hello");
+		$logger->log("Hello");
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 1);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 1);
 
-    $this->assertTrue(strpos($lines[0], '[DEBUG]')!==false);
-    $this->assertTrue(strpos($lines[0], 'Hello')!==false);
+		$this->assertTrue(strpos($lines[0], '[DEBUG]')!==false);
+		$this->assertTrue(strpos($lines[0], 'Hello')!==false);
 
 	}
 
-  public function testFileLogger2(){
+	public function testFileLogger2(){
 
-    @unlink('unit-tests/logs/test.log');
+		@unlink('unit-tests/logs/test.log');
 
-    $logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->log("Hello 1", Phalcon_Logger::NOTICE);
-    $logger->log("Hello 2", Phalcon_Logger::ERROR);
+		$logger->log("Hello 1", Phalcon_Logger::NOTICE);
+		$logger->log("Hello 2", Phalcon_Logger::ERROR);
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 2);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 2);
 
-    $this->assertTrue(strpos($lines[0], '[NOTICE]')!==false);
-    $this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
+		$this->assertTrue(strpos($lines[0], '[NOTICE]')!==false);
+		$this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
 
-    $this->assertTrue(strpos($lines[1], '[ERROR]')!==false);
-    $this->assertTrue(strpos($lines[1], 'Hello 2')!==false);
+		$this->assertTrue(strpos($lines[1], '[ERROR]')!==false);
+		$this->assertTrue(strpos($lines[1], 'Hello 2')!==false);
 
-  }
+	}
 
-  public function testFileLogger3(){
+	public function testFileLogger3(){
 
-    @unlink('unit-tests/logs/test.log');
+		@unlink('unit-tests/logs/test.log');
 
-    $logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->notice("Hello 1");
-    $logger->error("Hello 2");
+		$logger->notice("Hello 1");
+		$logger->error("Hello 2");
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 2);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 2);
 
-    $this->assertTrue(strpos($lines[0], '[NOTICE]')!==false);
-    $this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
+		$this->assertTrue(strpos($lines[0], '[NOTICE]')!==false);
+		$this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
 
-    $this->assertTrue(strpos($lines[1], '[ERROR]')!==false);
-    $this->assertTrue(strpos($lines[1], 'Hello 2')!==false);
+		$this->assertTrue(strpos($lines[1], '[ERROR]')!==false);
+		$this->assertTrue(strpos($lines[1], 'Hello 2')!==false);
 
-  }
+	}
 
-  public function testFileLogger4(){
+	public function testFileLogger4(){
 
-    @unlink('unit-tests/logs/test.log');
+		@unlink('unit-tests/logs/test.log');
 
-    $logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->setFormat('/%date%/%type%/ %message%');
+		$logger->setFormat('/%date%/%type%/ %message%');
 
-    $logger->alert("Hello 1");
+		$logger->alert("Hello 1");
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 1);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 1);
 
-    $this->assertTrue(strpos($lines[0], '/ALERT/')!==false);
-    $this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
+		$this->assertTrue(strpos($lines[0], '/ALERT/')!==false);
+		$this->assertTrue(strpos($lines[0], 'Hello 1')!==false);
 
-  }
+	}
 
-  public function testFileLogger5(){
+	public function testFileLogger5(){
 
-    @unlink('unit-tests/logs/test.log');
+		@unlink('unit-tests/logs/test.log');
 
-    $logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->begin();
+		$logger->begin();
 
-    $logger->debug("Hello 1");
-    $logger->debug("Hello 2");
-    $logger->debug("Hello 3");
-    $logger->debug("Hello 4");
-    $logger->debug("Hello 5");
+		$logger->debug("Hello 1");
+		$logger->debug("Hello 2");
+		$logger->debug("Hello 3");
+		$logger->debug("Hello 4");
+		$logger->debug("Hello 5");
 
-    $logger->rollback();
+		$logger->rollback();
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 0);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 0);
 
-  }
+	}
 
-  public function testFileLogger6(){
+	public function testFileLogger6(){
 
-    @unlink('unit-tests/logs/test.log');
+		@unlink('unit-tests/logs/test.log');
 
-    $logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-    $logger->begin();
+		$logger->begin();
 
-    $logger->debug("Hello 1");
-    $logger->debug("Hello 2");
-    $logger->debug("Hello 3");
-    $logger->debug("Hello 4");
-    $logger->debug("Hello 5");
+		$logger->debug("Hello 1");
+		$logger->debug("Hello 2");
+		$logger->debug("Hello 3");
+		$logger->debug("Hello 4");
+		$logger->debug("Hello 5");
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 0);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 0);
 
-    $logger->commit();
+		$logger->commit();
 
-    $logger->close();
+		$logger->close();
 
-    $lines = file('unit-tests/logs/test.log');
-    $this->assertEquals(count($lines), 5);
+		$lines = file('unit-tests/logs/test.log');
+		$this->assertEquals(count($lines), 5);
 
-  }
+	}
 
 }

@@ -55,7 +55,6 @@ PHP_METHOD(Phalcon_Model_Query, __construct){
 
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 
-	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_model_query_class_entry, this_ptr, "_models", strlen("_models"), a0 TSRMLS_CC);
@@ -65,8 +64,7 @@ PHP_METHOD(Phalcon_Model_Query, __construct){
 	PHALCON_INIT_VAR(a2);
 	array_init(a2);
 	zend_update_property(phalcon_model_query_class_entry, this_ptr, "_conditions", strlen("_conditions"), a2 TSRMLS_CC);
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 
 /**
@@ -216,9 +214,7 @@ PHP_METHOD(Phalcon_Model_Query, setLimit){
 PHP_METHOD(Phalcon_Model_Query, getResultset){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 
 /**
@@ -301,10 +297,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			p4[0] = r4;
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p4[0]);
-			zend_throw_exception_object(i0 TSRMLS_CC);
-			Z_ADDREF_P(i0);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i0 TSRMLS_CC);
 		}
 		PHALCON_INIT_VAR(r5);
 		PHALCON_CALL_METHOD(r5, v1, "getmetadata", PHALCON_CALL_DEFAULT);

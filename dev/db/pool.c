@@ -106,10 +106,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 			PHALCON_INIT_VAR(p0[3]);
 			ZVAL_NULL(p0[3]);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p0, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i0 TSRMLS_CC);
-			Z_ADDREF_P(i0);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i0 TSRMLS_CC);
 		}
 	}
 	if (Z_TYPE_P(v0) == IS_ARRAY) { 
@@ -200,10 +197,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		PHALCON_INIT_VAR(p0[3]);
 		ZVAL_NULL(p0[3]);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	eval_int = phalcon_isset_property(v2, "adapter", strlen("adapter") TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
@@ -220,10 +214,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		PHALCON_INIT_VAR(p1[3]);
 		ZVAL_NULL(p1[3]);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 4, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	if (zend_is_true(v0)) {
 		if (zend_is_true(v1)) {

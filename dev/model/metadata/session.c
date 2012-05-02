@@ -17,51 +17,53 @@
   +------------------------------------------------------------------------+
 */
 
-#ifndef PHP_PHALCON_H
-#define PHP_PHALCON_H 1
-
-#define PHP_PHALCON_VERSION "0.3.5"
-#define PHP_PHALCON_EXTNAME "phalcon"
-
-#define PHALCON_MAX_MEMORY_STACK 96
-
-typedef struct _phalcon_memory_entry {
-  int pointer;
-  zval **addresses[PHALCON_MAX_MEMORY_STACK];
-  struct _phalcon_memory_entry *prev;
-  struct _phalcon_memory_entry *next;
-} phalcon_memory_entry;
-
-ZEND_BEGIN_MODULE_GLOBALS(phalcon)
-  int phalcon_memory_stack;
-  phalcon_memory_entry *start_memory;
-  phalcon_memory_entry *active_memory;
-ZEND_END_MODULE_GLOBALS(phalcon)
-
-#ifdef ZTS
-#include "TSRM.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
-ZEND_EXTERN_MODULE_GLOBALS(phalcon)
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-#ifdef ZTS
-  #define PHALCON_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
-#else
-  #define PHALCON_GLOBAL(v) (phalcon_globals.v)
-#endif
+#include "kernel/main.h"
+#include "kernel/fcall.h"
+#include "kernel/require.h"
+#include "kernel/object.h"
+#include "kernel/debug.h"
+#include "kernel/assert.h"
+#include "kernel/array.h"
+#include "kernel/memory.h"
 
-extern zend_module_entry phalcon_module_entry;
-#define phpext_phalcon_ptr &phalcon_module_entry
+#include "zend_operators.h"
+#include "zend_exceptions.h"
+#include "zend_interfaces.h"
 
-#endif
+/**
+ * Phalcon_Model_MetaData_Session
+ *
+ * Stores model meta-data in session. Data will be erased when the session finishes.
+ * Meta-data are permanent while the session is active
+ */
 
-#if PHP_VERSION_ID >= 50400
- #define PHALCON_INIT_FUNCS(class_functions) static const zend_function_entry class_functions[] =
-#else
- #define PHALCON_INIT_FUNCS(class_functions) static const function_entry class_functions[] =
-#endif
+PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
 
-#ifndef PHP_FE_END
- #define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
-#endif
+
+	
+}
+
+PHP_METHOD(Phalcon_Model_MetaData_Session, read){
+
+	zval *a0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(a0);
+	array_init(a0);
+	PHALCON_RETURN_CTOR(a0);
+}
+
+PHP_METHOD(Phalcon_Model_MetaData_Session, write){
+
+
+	
+}
 

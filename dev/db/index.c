@@ -130,10 +130,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "_indexName parameter is required", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	eval_int = phalcon_array_isset_string(v0, "_columns", strlen("_columns")+1);
 	PHALCON_INIT_VAR(r1);
@@ -144,10 +141,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		PHALCON_INIT_VAR(p1[0]);
 		ZVAL_STRING(p1[0], "_columns parameter is required", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, phalcon_db_index_class_entry);

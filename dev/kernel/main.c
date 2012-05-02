@@ -25,6 +25,7 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 /**
  * Initialize globals on each request or each thread started
@@ -38,15 +39,15 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 /**
  * Initilializes super global variables if doesn't
  */
-int phalcon_init_global(char *global TSRMLS_DC){
+int phalcon_init_global(char *global, int global_length TSRMLS_DC){
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
-		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
 	}
 	#else
 	if (PG(auto_globals_jit)) {
-		return zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
 	}
 	#endif
 	return SUCCESS;
@@ -101,6 +102,15 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 	}
 
 	return SUCCESS;
+}
+
+/**
+ * Throws an zval object as exception
+ */
+void phalcon_throw_exception(zval *object TSRMLS_DC){
+	zend_throw_exception_object(object TSRMLS_CC);
+	Z_ADDREF_P(object);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -386,7 +396,6 @@ int phalcon_addslashes(zval *return_value, zval *param TSRMLS_DC){
 	//ZVAL_STRING(return_value, php_addslashes(Z_STRVAL_P(param), Z_STRLEN_P(param), &Z_STRLEN_P(return_value), 0 TSRMLS_CC), 0);
 
 	return SUCCESS;
-
 }
 
 /**

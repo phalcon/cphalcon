@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 	}
 
 	
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x044);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x045);
 		Z_DELREF_P(r0);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_LEFT(r3, "Status: ", v0);
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		Z_ADDREF_P(r2);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_BOOL(c1, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x044);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x045);
 		Z_DELREF_P(r2);
 	}
 	PHALCON_MM_RESTORE();
@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
 	}
 
 	
-	phalcon_init_global("_SERVER" TSRMLS_CC);
+	phalcon_init_global("_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_SERVER", sizeof("_SERVER"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
 		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x044);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x045);
 		Z_DELREF_P(r0);
 	}
 	PHALCON_MM_RESTORE();
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
 	Z_ADDREF_P(v0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", v0, c0, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", v0, c0, 0x045);
 	Z_DELREF_P(v0);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

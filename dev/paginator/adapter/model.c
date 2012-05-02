@@ -169,10 +169,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		PHALCON_INIT_VAR(p2[0]);
 		ZVAL_STRING(p2[0], "Invalid data for paginator", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(v2) == IS_NULL) {
 		PHALCON_INIT_VAR(v2);
@@ -188,10 +185,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		PHALCON_INIT_VAR(p3[0]);
 		ZVAL_STRING(p3[0], "The start page number is zero or less", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i2, "__construct", 1, p3, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i2 TSRMLS_CC);
-		Z_ADDREF_P(i2);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i2 TSRMLS_CC);
 	}
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);

@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x043);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", v1, 0x044);
 	Z_DELREF_P(v1);
 	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -125,10 +125,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 		PHALCON_INIT_VAR(p1[0]);
 		ZVAL_STRING(p1[0], "Only scalar values can be assigned to UI components", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	t0 = zend_read_static_property(phalcon_tag_class_entry, "_displayValues", sizeof("_displayValues")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (Z_TYPE_P(t0) != IS_ARRAY) {
@@ -206,7 +203,7 @@ PHP_METHOD(Phalcon_Tag, _getValueFromAction){
 		phalcon_array_fetch(&t3, t2, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(t3);
 	} else {
-		phalcon_init_global("_POST" TSRMLS_CC);
+		phalcon_init_global("_POST", sizeof("_POST") TSRMLS_CC);
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 				if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -265,7 +262,7 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_static_property(phalcon_tag_class_entry, "_displayValues", sizeof("_displayValues")-1, a0 TSRMLS_CC);
-	phalcon_init_global("_POST" TSRMLS_CC);
+	phalcon_init_global("_POST", sizeof("_POST") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){
@@ -1135,10 +1132,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 			PHALCON_INIT_VAR(p1[0]);
 			ZVAL_STRING(p1[0], "Data supplied to Phalcon_Tag::selectStatic is not valid", 1);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i0 TSRMLS_CC);
-			Z_ADDREF_P(i0);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i0 TSRMLS_CC);
 		}
 	}
 	PHALCON_INIT_VAR(t5);
@@ -1335,10 +1329,7 @@ PHP_METHOD(Phalcon_Tag, select){
 					PHALCON_INIT_VAR(p1[0]);
 					ZVAL_STRING(p1[0], "The 'using' parameter is required", 1);
 					PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-					zend_throw_exception_object(i0 TSRMLS_CC);
-					Z_ADDREF_P(i0);
-					PHALCON_MM_RESTORE();
-					return;
+					return phalcon_throw_exception(i0 TSRMLS_CC);
 				} else {
 					PHALCON_ALLOC_ZVAL_MM(r22);
 					phalcon_array_fetch_string(&r22, v2, "using", strlen("using"), PHALCON_NOISY_FETCH TSRMLS_CC);
@@ -1348,10 +1339,7 @@ PHP_METHOD(Phalcon_Tag, select){
 						PHALCON_INIT_VAR(p2[0]);
 						ZVAL_STRING(p2[0], "The 'using' parameter should be an Array", 1);
 						PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
-						zend_throw_exception_object(i1 TSRMLS_CC);
-						Z_ADDREF_P(i1);
-						PHALCON_MM_RESTORE();
-						return;
+						return phalcon_throw_exception(i1 TSRMLS_CC);
 					}
 				}
 				PHALCON_ALLOC_ZVAL_MM(r23);

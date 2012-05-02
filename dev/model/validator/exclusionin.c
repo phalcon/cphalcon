@@ -67,10 +67,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 		PHALCON_INIT_VAR(p1[0]);
 		ZVAL_STRING(p1[0], "The option 'domain' is required for this validator", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_ALLOC_ZVAL_MM(r2);
@@ -86,10 +83,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 		PHALCON_INIT_VAR(p4[0]);
 		ZVAL_STRING(p4[0], "Option 'domain' must be an array", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p4, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

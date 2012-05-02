@@ -54,7 +54,7 @@
  */
 
 /**
- * Phalcon_Db contructor, This method does not should to be called directly. Use Phalcon_Db::factory instead
+ * Phalcon_Db contructor, this method should not be called directly. Use Phalcon_Db::factory instead
  *
  * @param stdClass $descriptor
  */
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Db, getLogger){
 }
 
 /**
- * Sends an aribtrary text to the related logger in the instance
+ * Sends arbitrary text to a related logger in the instance
  *
  * @param string $sqlStatement
  * @param int $type
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Db, log){
 }
 
 /**
- * Sets a database profiler in the connection
+ * Sets a database profiler to the connection
  *
  * @param Phalcon_Db_Profiler $profiler
  */
@@ -176,10 +176,7 @@ PHP_METHOD(Phalcon_Db, setProfiler){
 		PHALCON_INIT_VAR(p0[0]);
 		ZVAL_STRING(p0[0], "Profiler must be an object", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -289,7 +286,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 }
 
 /**
- * Inserts data into a database table using custom RBDM SQL syntax
+ * Inserts data into a table using custom RBDM SQL syntax
  *
  * 
  *
@@ -361,10 +358,7 @@ PHP_METHOD(Phalcon_Db, insert){
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p1, PHALCON_CALL_CHECK);
 			Z_DELREF_P(p1[0]);
 			Z_DELREF_P(p1[3]);
-			zend_throw_exception_object(i0 TSRMLS_CC);
-			Z_ADDREF_P(i0);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i0 TSRMLS_CC);
 		} else {
 			if (zend_is_true(v3)) {
 				if (Z_TYPE_P(v1) != IS_ARRAY) {
@@ -515,10 +509,7 @@ PHP_METHOD(Phalcon_Db, insert){
 		p10[3] = this_ptr;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 4, p10, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p10[3]);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -593,10 +584,7 @@ PHP_METHOD(Phalcon_Db, update){
 		p2[3] = this_ptr;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p2, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p2[3]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_INIT_VAR(v6);
 	ZVAL_LONG(v6, 0);
@@ -835,10 +823,7 @@ PHP_METHOD(Phalcon_Db, rollback){
 		p1[3] = this_ptr;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p1, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p1[3]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -880,10 +865,7 @@ PHP_METHOD(Phalcon_Db, commit){
 		p1[3] = this_ptr;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p1, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p1[3]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -1230,10 +1212,7 @@ PHP_METHOD(Phalcon_Db, factory){
 		PHALCON_INIT_VAR(p0[3]);
 		ZVAL_NULL(p0[3]);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p0, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(v1) != IS_ARRAY) { 
 		if (Z_TYPE_P(v1) != IS_OBJECT) {
@@ -1248,10 +1227,7 @@ PHP_METHOD(Phalcon_Db, factory){
 			PHALCON_INIT_VAR(p1[3]);
 			ZVAL_NULL(p1[3]);
 			PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 4, p1, PHALCON_CALL_CHECK);
-			zend_throw_exception_object(i1 TSRMLS_CC);
-			Z_ADDREF_P(i1);
-			PHALCON_MM_RESTORE();
-			return;
+			return phalcon_throw_exception(i1 TSRMLS_CC);
 		}
 	}
 	if (Z_TYPE_P(v1) == IS_ARRAY) { 
@@ -1331,10 +1307,7 @@ PHP_METHOD(Phalcon_Db, factory){
 		ZVAL_NULL(p4[3]);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i4, "__construct", 4, p4, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p4[0]);
-		zend_throw_exception_object(i4 TSRMLS_CC);
-		Z_ADDREF_P(i4);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i4 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

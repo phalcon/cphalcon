@@ -352,10 +352,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		p4[0] = r8;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p4[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	} else {
 		PHALCON_RETURN_CHECK_CTOR(v0);
 	}
@@ -425,10 +422,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 		p2[0] = r4;
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p2, PHALCON_CALL_CHECK);
 		Z_DELREF_P(p2[0]);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	} else {
 		PHALCON_RETURN_CHECK_CTOR(v0);
 	}

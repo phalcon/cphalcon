@@ -381,10 +381,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 		PHALCON_INIT_VAR(p4[0]);
 		ZVAL_STRING(p4[0], "The index does not exist in the cursor", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p4, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -414,10 +411,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 	PHALCON_INIT_VAR(p0[0]);
 	ZVAL_STRING(p0[0], "Cursor is read only", 1);
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-	zend_throw_exception_object(i0 TSRMLS_CC);
-	Z_ADDREF_P(i0);
-	PHALCON_MM_RESTORE();
-	return;
+	return phalcon_throw_exception(i0 TSRMLS_CC);
 }
 
 /**
@@ -444,10 +438,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 	PHALCON_INIT_VAR(p0[0]);
 	ZVAL_STRING(p0[0], "Cursor is read only", 1);
 	PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-	zend_throw_exception_object(i0 TSRMLS_CC);
-	Z_ADDREF_P(i0);
-	PHALCON_MM_RESTORE();
-	return;
+	return phalcon_throw_exception(i0 TSRMLS_CC);
 }
 
 /**

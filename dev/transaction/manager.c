@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		array_init(a0);
 		add_next_index_stringl(a0, "Phalcon_Transaction_Manager", strlen("Phalcon_Transaction_Manager"), 1);
 		add_next_index_stringl(a0, "rollbackPendent", strlen("rollbackPendent"), 1);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x047);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x043);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_BOOL(t1, 1);
 		zend_update_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);

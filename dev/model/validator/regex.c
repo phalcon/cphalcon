@@ -68,10 +68,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
 		PHALCON_INIT_VAR(p1[0]);
 		ZVAL_STRING(p1[0], "Validator requires a perl-compatible regex pattern", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i0 TSRMLS_CC);
-		Z_ADDREF_P(i0);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i0 TSRMLS_CC);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

@@ -42,7 +42,6 @@ PHP_METHOD(Phalcon_Internal_Test, __construct){
 
 	zval *a0 = NULL, *a1 = NULL;
 
-	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_internal_test_class_entry, this_ptr, "_p8", strlen("_p8"), a0 TSRMLS_CC);
@@ -52,8 +51,7 @@ PHP_METHOD(Phalcon_Internal_Test, __construct){
 	add_next_index_long(a1, 2);
 	add_next_index_long(a1, 3);
 	zend_update_property(phalcon_internal_test_class_entry, this_ptr, "_p9", strlen("_p9"), a1 TSRMLS_CC);
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
 }
 
 PHP_METHOD(Phalcon_Internal_Test, e1){
@@ -6191,7 +6189,7 @@ PHP_METHOD(Phalcon_Internal_Test, t15){
 		phalcon_array_fetch(&t3, t2, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(t3);
 	} else {
-		phalcon_init_global("_POST" TSRMLS_CC);
+		phalcon_init_global("_POST", sizeof("_POST") TSRMLS_CC);
 		if (&EG(symbol_table)) {
 			if( zend_hash_find(&EG(symbol_table), "_POST", sizeof("_POST"), (void **) &gv0) == SUCCESS) {
 				if(Z_TYPE_PP(gv0)==IS_ARRAY){

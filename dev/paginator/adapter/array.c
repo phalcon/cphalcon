@@ -169,10 +169,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		PHALCON_INIT_VAR(p3[0]);
 		ZVAL_STRING(p3[0], "Invalid data for paginator", 1);
 		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p3, PHALCON_CALL_CHECK);
-		zend_throw_exception_object(i1 TSRMLS_CC);
-		Z_ADDREF_P(i1);
-		PHALCON_MM_RESTORE();
-		return;
+		return phalcon_throw_exception(i1 TSRMLS_CC);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	p4[0] = v1;

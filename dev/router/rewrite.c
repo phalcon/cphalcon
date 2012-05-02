@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	phalcon_init_global("_GET" TSRMLS_CC);
+	phalcon_init_global("_GET", sizeof("_GET") TSRMLS_CC);
 	if (&EG(symbol_table)) {
 		if( zend_hash_find(&EG(symbol_table), "_GET", sizeof("_GET"), (void **) &gv0) == SUCCESS) {
 			if(Z_TYPE_PP(gv0)==IS_ARRAY){

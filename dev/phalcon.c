@@ -95,6 +95,7 @@ zend_class_entry *phalcon_model_metadata_class_entry;
 zend_class_entry *phalcon_model_message_class_entry;
 zend_class_entry *phalcon_model_manager_class_entry;
 zend_class_entry *phalcon_model_metadata_memory_class_entry;
+zend_class_entry *phalcon_model_metadata_session_class_entry;
 zend_class_entry *phalcon_model_resultset_class_entry;
 zend_class_entry *phalcon_tag_class_entry;
 zend_class_entry *phalcon_response_class_entry;
@@ -123,7 +124,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_class_entry ce40, ce41, ce42, ce43, ce44, ce45, ce46, ce47, ce48, ce49;
 	zend_class_entry ce50, ce51, ce52, ce53, ce54, ce55, ce56, ce57, ce58, ce59;
 	zend_class_entry ce60, ce61, ce62, ce63, ce64, ce65, ce66, ce67, ce68, ce69;
-	zend_class_entry ce70, ce71, ce72, ce73, ce74, ce75, ce76;
+	zend_class_entry ce70, ce71, ce72, ce73, ce74, ce75, ce76, ce77;
 
 
 	if(!zend_ce_iterator){
@@ -396,7 +397,7 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce35, "Phalcon_Model_MetaData", phalcon_model_metadata_functions);
 	phalcon_model_metadata_class_entry = zend_register_internal_class(&ce35 TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_metadata_class_entry, "_metaData", sizeof("_metaData")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_metadata_class_entry, "_metaData", sizeof("_metaData")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_ATTRIBUTES", sizeof("MODELS_ATTRIBUTES")-1, 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_PRIMARY_KEY", sizeof("MODELS_PRIMARY_KEY")-1, 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_NON_PRIMARY_KEY", sizeof("MODELS_NON_PRIMARY_KEY")-1, 2 TSRMLS_CC);
@@ -405,6 +406,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_DATA_TYPE_NUMERIC", sizeof("MODELS_DATA_TYPE_NUMERIC")-1, 5 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_DATE_AT", sizeof("MODELS_DATE_AT")-1, 6 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_DATE_IN", sizeof("MODELS_DATE_IN")-1, 7 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_model_metadata_class_entry, "MODELS_IDENTITY_FIELD", sizeof("MODELS_IDENTITY_FIELD")-1, 8 TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce36, "Phalcon_Model_Message", phalcon_model_message_functions);
 	phalcon_model_message_class_entry = zend_register_internal_class(&ce36 TSRMLS_CC);
@@ -420,13 +422,17 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_model_manager_class_entry, "_hasMany", sizeof("_hasMany")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_class_entry, "_hasOne", sizeof("_hasOne")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_class_entry, "_belongsTo", sizeof("_belongsTo")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_manager_class_entry, "_metadataOptions", sizeof("_metadataOptions")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_class_entry, "_sourceNames", sizeof("_sourceNames")-1, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce38, "Phalcon_Model_MetaData_Memory", phalcon_model_metadata_memory_functions);
 	phalcon_model_metadata_memory_class_entry = zend_register_internal_class(&ce38 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce39, "Phalcon_Model_Resultset", phalcon_model_resultset_functions);
-	phalcon_model_resultset_class_entry = zend_register_internal_class(&ce39 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce39, "Phalcon_Model_MetaData_Session", phalcon_model_metadata_session_functions);
+	phalcon_model_metadata_session_class_entry = zend_register_internal_class(&ce39 TSRMLS_CC);
+
+	INIT_CLASS_ENTRY(ce40, "Phalcon_Model_Resultset", phalcon_model_resultset_functions);
+	phalcon_model_resultset_class_entry = zend_register_internal_class(&ce40 TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_class_entry, "_model", sizeof("_model")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_class_entry, "_resultResource", sizeof("_resultResource")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_model_resultset_class_entry, "_pointer", sizeof("_pointer")-1, 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -434,32 +440,32 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_model_resultset_class_entry, "_activeRow", sizeof("_activeRow")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_class_implements(phalcon_model_resultset_class_entry TSRMLS_CC, 3, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable);
 
-	INIT_CLASS_ENTRY(ce40, "Phalcon_Tag", phalcon_tag_functions);
-	phalcon_tag_class_entry = zend_register_internal_class(&ce40 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce41, "Phalcon_Tag", phalcon_tag_functions);
+	phalcon_tag_class_entry = zend_register_internal_class(&ce41 TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_class_entry, "_displayValues", sizeof("_displayValues")-1, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_string(phalcon_tag_class_entry, "_documentTitle", sizeof("_documentTitle")-1, "", ZEND_ACC_PRIVATE|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_class_entry, "_dispatcher", sizeof("_dispatcher")-1, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce41, "Phalcon_Response", phalcon_response_functions);
-	phalcon_response_class_entry = zend_register_internal_class(&ce41 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce42, "Phalcon_Response", phalcon_response_functions);
+	phalcon_response_class_entry = zend_register_internal_class(&ce42 TSRMLS_CC);
 	zend_declare_property_null(phalcon_response_class_entry, "_instance", sizeof("_instance")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_response_class_entry, "_content", sizeof("_content")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce42, "Phalcon_Request", phalcon_request_functions);
-	phalcon_request_class_entry = zend_register_internal_class(&ce42 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce43, "Phalcon_Request", phalcon_request_functions);
+	phalcon_request_class_entry = zend_register_internal_class(&ce43 TSRMLS_CC);
 	zend_declare_property_null(phalcon_request_class_entry, "_filter", sizeof("_filter")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_request_class_entry, "_instance", sizeof("_instance")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce43, "Phalcon_Transaction_Manager", phalcon_transaction_manager_functions);
-	phalcon_transaction_manager_class_entry = zend_register_internal_class(&ce43 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce44, "Phalcon_Transaction_Manager", phalcon_transaction_manager_functions);
+	phalcon_transaction_manager_class_entry = zend_register_internal_class(&ce44 TSRMLS_CC);
 	zend_declare_property_bool(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_long(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_long(phalcon_transaction_manager_class_entry, "_dependencyPointer", sizeof("_dependencyPointer")-1, 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_transaction_manager_class_entry, "_automaticTransaction", sizeof("_automaticTransaction")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce44, "Phalcon_Controller_Front", phalcon_controller_front_functions);
-	phalcon_controller_front_class_entry = zend_register_internal_class(&ce44 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce45, "Phalcon_Controller_Front", phalcon_controller_front_functions);
+	phalcon_controller_front_class_entry = zend_register_internal_class(&ce45 TSRMLS_CC);
 	zend_declare_property_null(phalcon_controller_front_class_entry, "_instance", sizeof("_instance")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_controller_front_class_entry, "_controllersDir", sizeof("_controllersDir")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_controller_front_class_entry, "_modelsDir", sizeof("_modelsDir")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
@@ -472,42 +478,42 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_controller_front_class_entry, "_request", sizeof("_request")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_controller_front_class_entry, "_response", sizeof("_response")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce45, "Phalcon_Session", phalcon_session_functions);
-	phalcon_session_class_entry = zend_register_internal_class(&ce45 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce46, "Phalcon_Session", phalcon_session_functions);
+	phalcon_session_class_entry = zend_register_internal_class(&ce46 TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_class_entry, "_uniqueId", sizeof("_uniqueId")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_class_entry, "_options", sizeof("_options")-1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce46, "Phalcon_Flash", phalcon_flash_functions);
-	phalcon_flash_class_entry = zend_register_internal_class(&ce46 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce47, "Phalcon_Flash", phalcon_flash_functions);
+	phalcon_flash_class_entry = zend_register_internal_class(&ce47 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce47, "Phalcon_Config", phalcon_config_functions);
-	phalcon_config_class_entry = zend_register_internal_class(&ce47 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce48, "Phalcon_Config", phalcon_config_functions);
+	phalcon_config_class_entry = zend_register_internal_class(&ce48 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce48, "Phalcon_Filter", phalcon_filter_functions);
-	phalcon_filter_class_entry = zend_register_internal_class(&ce48 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce49, "Phalcon_Filter", phalcon_filter_functions);
+	phalcon_filter_class_entry = zend_register_internal_class(&ce49 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce49, "Phalcon_Acl", phalcon_acl_functions);
-	phalcon_acl_class_entry = zend_register_internal_class(&ce49 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce50, "Phalcon_Acl", phalcon_acl_functions);
+	phalcon_acl_class_entry = zend_register_internal_class(&ce50 TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_class_entry, "_adapter", sizeof("_adapter")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_acl_class_entry, "ALLOW", sizeof("ALLOW")-1, 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_acl_class_entry, "DENY", sizeof("DENY")-1, 0 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce50, "Phalcon_Logger_Adapter_File", phalcon_logger_adapter_file_functions);
-	phalcon_logger_adapter_file_class_entry = zend_register_internal_class(&ce50 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce51, "Phalcon_Logger_Adapter_File", phalcon_logger_adapter_file_functions);
+	phalcon_logger_adapter_file_class_entry = zend_register_internal_class(&ce51 TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_file_class_entry, "_fileHandler", sizeof("_fileHandler")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_logger_adapter_file_class_entry, "_transaction", sizeof("_transaction")-1, 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_adapter_file_class_entry, "_quenue", sizeof("_quenue")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_adapter_file_class_entry, "_dateFormat", sizeof("_dateFormat")-1, "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_adapter_file_class_entry, "_format", sizeof("_format")-1, "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce51, "Phalcon_Logger_Item", phalcon_logger_item_functions);
-	phalcon_logger_item_class_entry = zend_register_internal_class(&ce51 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce52, "Phalcon_Logger_Item", phalcon_logger_item_functions);
+	phalcon_logger_item_class_entry = zend_register_internal_class(&ce52 TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_item_class_entry, "_type", sizeof("_type")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_item_class_entry, "message", sizeof("message")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_logger_item_class_entry, "_time", sizeof("_time")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce52, "Phalcon_Transaction", phalcon_transaction_functions);
-	phalcon_transaction_class_entry = zend_register_internal_class(&ce52 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce53, "Phalcon_Transaction", phalcon_transaction_functions);
+	phalcon_transaction_class_entry = zend_register_internal_class(&ce53 TSRMLS_CC);
 	zend_declare_property_null(phalcon_transaction_class_entry, "_connection", sizeof("_connection")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_bool(phalcon_transaction_class_entry, "_activeTransaction", sizeof("_activeTransaction")-1, 0, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_bool(phalcon_transaction_class_entry, "_isNewTransaction", sizeof("_isNewTransaction")-1, 1, ZEND_ACC_PRIVATE TSRMLS_CC);
@@ -518,22 +524,22 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_transaction_class_entry, "_messages", sizeof("_messages")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_transaction_class_entry, "_rollbackRecord", sizeof("_rollbackRecord")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce53, "Phalcon_Exception", phalcon_exception_functions);
-	phalcon_exception_class_entry = zend_register_internal_class_ex(&ce53, NULL, "exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce54, "Phalcon_Exception", phalcon_exception_functions);
+	phalcon_exception_class_entry = zend_register_internal_class_ex(&ce54, NULL, "exception" TSRMLS_CC);
 	if(!phalcon_exception_class_entry){
 		phalcon_inherit_not_found("Exception", "Phalcon_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce54, "Phalcon_Config", phalcon_config_functions);
-	phalcon_config_class_entry = zend_register_internal_class(&ce54 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce55, "Phalcon_Config", phalcon_config_functions);
+	phalcon_config_class_entry = zend_register_internal_class(&ce55 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce55, "Phalcon_Internal_TestParent", phalcon_internal_testparent_functions);
-	phalcon_internal_testparent_class_entry = zend_register_internal_class(&ce55 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce56, "Phalcon_Internal_TestParent", phalcon_internal_testparent_functions);
+	phalcon_internal_testparent_class_entry = zend_register_internal_class(&ce56 TSRMLS_CC);
 	zend_declare_property_long(phalcon_internal_testparent_class_entry, "_pp0", sizeof("_pp0")-1, 0, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce56, "Phalcon_Db", phalcon_db_functions);
-	phalcon_db_class_entry = zend_register_internal_class(&ce56 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce57, "Phalcon_Db", phalcon_db_functions);
+	phalcon_db_class_entry = zend_register_internal_class(&ce57 TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_class_entry, "_descriptor", sizeof("_descriptor")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_class_entry, "_fetchMode", sizeof("_fetchMode")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_class_entry, "_autoCommit", sizeof("_autoCommit")-1, 1, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -545,65 +551,65 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_long(phalcon_db_class_entry, "DB_BOTH", sizeof("DB_BOTH")-1, 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_class_entry, "DB_NUM", sizeof("DB_NUM")-1, 3 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce57, "Phalcon_Model_Validator", phalcon_model_validator_functions);
-	phalcon_model_validator_class_entry = zend_register_internal_class(&ce57 TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce58, "Phalcon_Model_Validator", phalcon_model_validator_functions);
+	phalcon_model_validator_class_entry = zend_register_internal_class(&ce58 TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_validator_class_entry, "_record", sizeof("_record")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_validator_class_entry, "_fieldName", sizeof("_fieldName")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_validator_class_entry, "_value", sizeof("_value")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_validator_class_entry, "_options", sizeof("_options")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_validator_class_entry, "_messages", sizeof("_messages")-1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce58, "Phalcon_Config_Exception", phalcon_config_exception_functions);
-	phalcon_config_exception_class_entry = zend_register_internal_class_ex(&ce58, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce59, "Phalcon_Config_Exception", phalcon_config_exception_functions);
+	phalcon_config_exception_class_entry = zend_register_internal_class_ex(&ce59, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_config_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Config_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce59, "Phalcon_Config_Adapter_Ini", phalcon_config_adapter_ini_functions);
-	phalcon_config_adapter_ini_class_entry = zend_register_internal_class_ex(&ce59, NULL, "phalcon_config" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce60, "Phalcon_Config_Adapter_Ini", phalcon_config_adapter_ini_functions);
+	phalcon_config_adapter_ini_class_entry = zend_register_internal_class_ex(&ce60, NULL, "phalcon_config" TSRMLS_CC);
 	if(!phalcon_config_adapter_ini_class_entry){
 		phalcon_inherit_not_found("Phalcon_Config", "Phalcon_Config_Adapter_Ini");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce60, "Phalcon_Cache_Exception", phalcon_cache_exception_functions);
-	phalcon_cache_exception_class_entry = zend_register_internal_class_ex(&ce60, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce61, "Phalcon_Cache_Exception", phalcon_cache_exception_functions);
+	phalcon_cache_exception_class_entry = zend_register_internal_class_ex(&ce61, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_cache_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Cache_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce61, "Phalcon_Acl_Exception", phalcon_acl_exception_functions);
-	phalcon_acl_exception_class_entry = zend_register_internal_class_ex(&ce61, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce62, "Phalcon_Acl_Exception", phalcon_acl_exception_functions);
+	phalcon_acl_exception_class_entry = zend_register_internal_class_ex(&ce62, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_acl_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Acl_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce62, "Phalcon_View_Exception", phalcon_view_exception_functions);
-	phalcon_view_exception_class_entry = zend_register_internal_class_ex(&ce62, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce63, "Phalcon_View_Exception", phalcon_view_exception_functions);
+	phalcon_view_exception_class_entry = zend_register_internal_class_ex(&ce63, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_view_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_View_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce63, "Phalcon_Paginator_Exception", phalcon_paginator_exception_functions);
-	phalcon_paginator_exception_class_entry = zend_register_internal_class_ex(&ce63, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce64, "Phalcon_Paginator_Exception", phalcon_paginator_exception_functions);
+	phalcon_paginator_exception_class_entry = zend_register_internal_class_ex(&ce64, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_paginator_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Paginator_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce64, "Phalcon_Tag_Exception", phalcon_tag_exception_functions);
-	phalcon_tag_exception_class_entry = zend_register_internal_class_ex(&ce64, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce65, "Phalcon_Tag_Exception", phalcon_tag_exception_functions);
+	phalcon_tag_exception_class_entry = zend_register_internal_class_ex(&ce65, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_tag_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Tag_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce65, "Phalcon_Internal_Test", phalcon_internal_test_functions);
-	phalcon_internal_test_class_entry = zend_register_internal_class_ex(&ce65, NULL, "phalcon_internal_testparent" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce66, "Phalcon_Internal_Test", phalcon_internal_test_functions);
+	phalcon_internal_test_class_entry = zend_register_internal_class_ex(&ce66, NULL, "phalcon_internal_testparent" TSRMLS_CC);
 	if(!phalcon_internal_test_class_entry){
 		phalcon_inherit_not_found("Phalcon_Internal_TestParent", "Phalcon_Internal_Test");
 		return FAILURE;
@@ -634,79 +640,79 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_string(phalcon_internal_test_class_entry, "C6", sizeof("C6")-1, "str" TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_internal_test_class_entry, "C7", sizeof("C7")-1, -92 TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce66, "Phalcon_Db_Exception", phalcon_db_exception_functions);
-	phalcon_db_exception_class_entry = zend_register_internal_class_ex(&ce66, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce67, "Phalcon_Db_Exception", phalcon_db_exception_functions);
+	phalcon_db_exception_class_entry = zend_register_internal_class_ex(&ce67, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_db_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Db_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce67, "Phalcon_Db_Adapter_Mysql", phalcon_db_adapter_mysql_functions);
-	phalcon_db_adapter_mysql_class_entry = zend_register_internal_class_ex(&ce67, NULL, "phalcon_db" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce68, "Phalcon_Db_Adapter_Mysql", phalcon_db_adapter_mysql_functions);
+	phalcon_db_adapter_mysql_class_entry = zend_register_internal_class_ex(&ce68, NULL, "phalcon_db" TSRMLS_CC);
 	if(!phalcon_db_adapter_mysql_class_entry){
 		phalcon_inherit_not_found("Phalcon_Db", "Phalcon_Db_Adapter_Mysql");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce68, "Phalcon_Model_Validator_Uniqueness", phalcon_model_validator_uniqueness_functions);
-	phalcon_model_validator_uniqueness_class_entry = zend_register_internal_class_ex(&ce68, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce69, "Phalcon_Model_Validator_Uniqueness", phalcon_model_validator_uniqueness_functions);
+	phalcon_model_validator_uniqueness_class_entry = zend_register_internal_class_ex(&ce69, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_uniqueness_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Uniqueness");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce69, "Phalcon_Model_Validator_Exclusionin", phalcon_model_validator_exclusionin_functions);
-	phalcon_model_validator_exclusionin_class_entry = zend_register_internal_class_ex(&ce69, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce70, "Phalcon_Model_Validator_Exclusionin", phalcon_model_validator_exclusionin_functions);
+	phalcon_model_validator_exclusionin_class_entry = zend_register_internal_class_ex(&ce70, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_exclusionin_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Exclusionin");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce70, "Phalcon_Model_Validator_Regex", phalcon_model_validator_regex_functions);
-	phalcon_model_validator_regex_class_entry = zend_register_internal_class_ex(&ce70, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce71, "Phalcon_Model_Validator_Regex", phalcon_model_validator_regex_functions);
+	phalcon_model_validator_regex_class_entry = zend_register_internal_class_ex(&ce71, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_regex_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Regex");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce71, "Phalcon_Model_Validator_Inclusionin", phalcon_model_validator_inclusionin_functions);
-	phalcon_model_validator_inclusionin_class_entry = zend_register_internal_class_ex(&ce71, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce72, "Phalcon_Model_Validator_Inclusionin", phalcon_model_validator_inclusionin_functions);
+	phalcon_model_validator_inclusionin_class_entry = zend_register_internal_class_ex(&ce72, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_inclusionin_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Inclusionin");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce72, "Phalcon_Model_Validator_Numericality", phalcon_model_validator_numericality_functions);
-	phalcon_model_validator_numericality_class_entry = zend_register_internal_class_ex(&ce72, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce73, "Phalcon_Model_Validator_Numericality", phalcon_model_validator_numericality_functions);
+	phalcon_model_validator_numericality_class_entry = zend_register_internal_class_ex(&ce73, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_numericality_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Numericality");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce73, "Phalcon_Model_Validator_Email", phalcon_model_validator_email_functions);
-	phalcon_model_validator_email_class_entry = zend_register_internal_class_ex(&ce73, NULL, "phalcon_model_validator" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce74, "Phalcon_Model_Validator_Email", phalcon_model_validator_email_functions);
+	phalcon_model_validator_email_class_entry = zend_register_internal_class_ex(&ce74, NULL, "phalcon_model_validator" TSRMLS_CC);
 	if(!phalcon_model_validator_email_class_entry){
 		phalcon_inherit_not_found("Phalcon_Model_Validator", "Phalcon_Model_Validator_Email");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce74, "Phalcon_Model_Exception", phalcon_model_exception_functions);
-	phalcon_model_exception_class_entry = zend_register_internal_class_ex(&ce74, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce75, "Phalcon_Model_Exception", phalcon_model_exception_functions);
+	phalcon_model_exception_class_entry = zend_register_internal_class_ex(&ce75, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_model_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Model_Exception");
 		return FAILURE;
 	}
 
-	INIT_CLASS_ENTRY(ce75, "Phalcon_Transaction_Failed", phalcon_transaction_failed_functions);
-	phalcon_transaction_failed_class_entry = zend_register_internal_class_ex(&ce75, NULL, "exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce76, "Phalcon_Transaction_Failed", phalcon_transaction_failed_functions);
+	phalcon_transaction_failed_class_entry = zend_register_internal_class_ex(&ce76, NULL, "exception" TSRMLS_CC);
 	if(!phalcon_transaction_failed_class_entry){
 		phalcon_inherit_not_found("Exception", "Phalcon_Transaction_Failed");
 		return FAILURE;
 	}
 	zend_declare_property_null(phalcon_transaction_failed_class_entry, "_record", sizeof("_record")-1, ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	INIT_CLASS_ENTRY(ce76, "Phalcon_Logger_Exception", phalcon_logger_exception_functions);
-	phalcon_logger_exception_class_entry = zend_register_internal_class_ex(&ce76, NULL, "phalcon_exception" TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce77, "Phalcon_Logger_Exception", phalcon_logger_exception_functions);
+	phalcon_logger_exception_class_entry = zend_register_internal_class_ex(&ce77, NULL, "phalcon_exception" TSRMLS_CC);
 	if(!phalcon_logger_exception_class_entry){
 		phalcon_inherit_not_found("Phalcon_Exception", "Phalcon_Logger_Exception");
 		return FAILURE;
