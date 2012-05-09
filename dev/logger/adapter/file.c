@@ -1,4 +1,3 @@
-
 /*
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
@@ -143,16 +142,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormat){
 	zval *v0 = NULL;
 
 	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	
-	phalcon_update_property_zval(this_ptr, "_format", strlen("_format"), v0 TSRMLS_CC);
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	PHALCON_ALLOC_ZVAL_MM(v0);
+	phalcon_read_property(&v0, this_ptr, "_format", strlen("_format"), v0 TSRMLS_CC);
+	PHALCON_RETURN_CHECK_CTOR(v0);
 }
 
 /**
