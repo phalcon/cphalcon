@@ -52,74 +52,69 @@
 /**
  * Phalcon_Config constructor
  *
- * @paramarray $arrayConfig
- * @returnPhalcon_Config
+ * @param array $arrayConfig
+ * @return Phalcon_Config
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *array_config = NULL, *value = NULL, *key = NULL;
 	zval *a0 = NULL;
 	zval *i0 = NULL;
-	zval *p0[] = { NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *index;
-	uint index_len;
-	ulong num;
-	int htype;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &array_config) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!v0) {
+	if (!array_config) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-		PHALCON_CPY_WRT(v0, a0);
+		PHALCON_CPY_WRT(array_config, a0);
 	}
 	
-	if (Z_TYPE_P(v0) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
-		ah0 = Z_ARRVAL_P(v0);
+	if (phalcon_valid_foreach(array_config TSRMLS_CC)) {
+		ah0 = Z_ARRVAL_P(array_config);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_9656_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9656_0;
 		} else {
-			PHALCON_INIT_VAR(v2);
-			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
-			if (htype == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(v2, index, index_len-1, 1);
+			PHALCON_INIT_VAR(key);
+			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
+			if (hash_type == HASH_KEY_IS_STRING) {
+				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
 			} else {
-				if (htype == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(v2, num);
+				if (hash_type == HASH_KEY_IS_LONG) {
+					ZVAL_LONG(key, hash_num);
 				}
 			}
 		}
-		PHALCON_INIT_VAR(v1);
-		ZVAL_ZVAL(v1, *hd, 1, 0);
-		if (Z_TYPE_P(v1) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(value);
+		ZVAL_ZVAL(value, *hd, 1, 0);
+		if (Z_TYPE_P(value) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, phalcon_config_class_entry);
-			Z_ADDREF_P(v1);
-			p0[0] = v1;
-			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p0, PHALCON_CALL_CHECK);
-			Z_DELREF_P(p0[0]);
-			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), i0 TSRMLS_CC);
+			object_init_ex(i0, phalcon_config_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", value, PHALCON_CHECK);
+			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(key), Z_STRLEN_P(key), i0 TSRMLS_CC);
 		} else {
-			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(v2), Z_STRLEN_P(v2), v1 TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(key), Z_STRLEN_P(key), value TSRMLS_CC);
 		}
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9656_0;
 		fee_9656_0:
 		if(0){ };
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 

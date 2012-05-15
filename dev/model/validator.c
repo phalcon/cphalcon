@@ -48,35 +48,37 @@
  */
 PHP_METHOD(Phalcon_Model_Validator, __construct){
 
+	zval *record = NULL, *field_name = NULL, *value = NULL, *options = NULL;
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_model_validator_class_entry, this_ptr, "_options", strlen("_options"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_model_validator_ce, this_ptr, "_options", strlen("_options"), a0 TSRMLS_CC);
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
-	zend_update_property(phalcon_model_validator_class_entry, this_ptr, "_messages", strlen("_messages"), a1 TSRMLS_CC);
+	zend_update_property(phalcon_model_validator_ce, this_ptr, "_messages", strlen("_messages"), a1 TSRMLS_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &v0, &v1, &v2, &v3) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &record, &field_name, &value, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	if (!v3) {
+	
+	
+	if (!options) {
 		PHALCON_INIT_VAR(a2);
 		array_init(a2);
-		PHALCON_CPY_WRT(v3, a2);
+		PHALCON_CPY_WRT(options, a2);
 	}
 	
-	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), v0 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_fieldName", strlen("_fieldName"), v1 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), v2 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_options", strlen("_options"), v3 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), record TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_fieldName", strlen("_fieldName"), field_name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), value TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_options", strlen("_options"), options TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -88,69 +90,60 @@ PHP_METHOD(Phalcon_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *message = NULL, *field = NULL, *type = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL }, *p2[] = { NULL, NULL, NULL };
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &v0, &v1, &v2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &message, &field, &type) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	if (!v1) {
-		PHALCON_INIT_VAR(v1);
-		ZVAL_STRING(v1, "", 1);
+	if (!field) {
+		PHALCON_INIT_VAR(field);
+		ZVAL_STRING(field, "", 1);
 	} else {
-		PHALCON_SEPARATE_PARAM(v1);
-	}
-	if (!v2) {
-		PHALCON_INIT_VAR(v2);
-		ZVAL_STRING(v2, "", 1);
-	} else {
-		PHALCON_SEPARATE_PARAM(v2);
+		PHALCON_SEPARATE_PARAM(field);
 	}
 	
-	if (PHALCON_COMPARE_STRING(v1, "")) {
+	if (!type) {
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "", 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(type);
+	}
+	
+	if (PHALCON_COMPARE_STRING(field, "")) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CPY_WRT(v1, t0);
+		phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(field, t0);
 	}
-	if (PHALCON_COMPARE_STRING(v2, "")) {
+	if (PHALCON_COMPARE_STRING(type, "")) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_INIT_VAR(p0[0]);
-		ZVAL_STRING(p0[0], "Validator", 1);
-		PHALCON_INIT_VAR(p0[1]);
-		ZVAL_STRING(p0[1], "", 1);
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "Validator", 1);
+		PHALCON_INIT_VAR(c1);
+		ZVAL_STRING(c1, "", 1);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02F);
-		p0[2] = r1;
-		PHALCON_CALL_FUNC_PARAMS(r0, "str_replace", 3, p0, 0x003);
-		PHALCON_CPY_WRT(v2, r0);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02E);
+		PHALCON_CALL_FUNC_PARAMS_3(r0, "str_replace", c0, c1, r1, 0x003);
+		PHALCON_CPY_WRT(type, r0);
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_model_message_class_entry);
-	Z_ADDREF_P(v0);
-	p2[0] = v0;
-	Z_ADDREF_P(v1);
-	p2[1] = v1;
-	Z_ADDREF_P(v2);
-	p2[2] = v2;
-	PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 3, p2, PHALCON_CALL_CHECK);
-	Z_DELREF_P(p2[0]);
-	Z_DELREF_P(p2[1]);
-	Z_DELREF_P(p2[2]);
+	object_init_ex(i0, phalcon_model_message_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", message, field, type, PHALCON_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	Z_ADDREF_P(i0);
-	phalcon_array_append(t1, i0 TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_array_append(&t1, i0, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_messages", strlen("_messages"), t1 TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -164,7 +157,7 @@ PHP_METHOD(Phalcon_Model_Validator, getMessages){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -175,22 +168,22 @@ PHP_METHOD(Phalcon_Model_Validator, getMessages){
  */
 PHP_METHOD(Phalcon_Model_Validator, isRequired){
 
-	zval *v0 = NULL;
+	zval *required = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(v0);
-	ZVAL_BOOL(v0, 1);
+	PHALCON_INIT_VAR(required);
+	ZVAL_BOOL(required, 1);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "", 1);
 	PHALCON_INIT_VAR(r0);
 	is_identical_function(r0, t1, t0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t2, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(t3);
 	ZVAL_NULL(t3);
 	PHALCON_INIT_VAR(r1);
@@ -199,22 +192,22 @@ PHP_METHOD(Phalcon_Model_Validator, isRequired){
 	ZVAL_BOOL(r2, zend_is_true(r0) || zend_is_true(r1));
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_read_property(&t4, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 		eval_int = phalcon_array_isset_string(t4, "required", strlen("required")+1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+			phalcon_read_property(&t5, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch_string(&r3, t5, "required", strlen("required"), PHALCON_NOISY_FETCH TSRMLS_CC);
-			PHALCON_CPY_WRT(v0, r3);
+			phalcon_array_fetch_string(&r3, t5, "required", strlen("required"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CPY_WRT(required, r3);
 		}
-		PHALCON_RETURN_CHECK_CTOR(v0);
+		PHALCON_RETURN_CHECK_CTOR(required);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -228,41 +221,41 @@ PHP_METHOD(Phalcon_Model_Validator, getOptions){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
 /**
  * Returns an option
  *
- * @paramstring $option
- * @returnmixed
+ * @param string $option
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Model_Validator, getOption){
 
-	zval *v0 = NULL;
+	zval *option = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &option) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	eval_int = phalcon_array_isset(t0, v0);
+	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, option);
 	PHALCON_INIT_VAR(r1);
 	ZVAL_BOOL(r1, eval_int);
 	if (zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch(&r2, t1, v0, PHALCON_NOISY_FETCH TSRMLS_CC);
+		phalcon_array_fetch(&r2, t1, option, PHALCON_NOISY TSRMLS_CC);
 		r0 = r2;
 	} else {
 		PHALCON_INIT_VAR(t2);
@@ -275,45 +268,36 @@ PHP_METHOD(Phalcon_Model_Validator, getOption){
 /**
  * Check whether a option has been defined in the validator options
  *
- * @paramstring $option
- * @returnboolean
+ * @param string $option
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Model_Validator, isSetOption){
 
-	zval *v0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *option = NULL;
+	zval *t0 = NULL;
+	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &option) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	eval_int = phalcon_array_isset(t0, v0);
-	PHALCON_INIT_VAR(r1);
-	ZVAL_BOOL(r1, eval_int);
-	if (zend_is_true(r1)) {
-		PHALCON_INIT_VAR(t1);
-		ZVAL_BOOL(t1, 1);
-		r0 = t1;
-	} else {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_BOOL(t2, 0);
-		r0 = t2;
-	}
-	PHALCON_RETURN_CHECK_CTOR(r0);
+	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, option);
+	PHALCON_INIT_VAR(r0);
+	ZVAL_BOOL(r0, eval_int);
+	PHALCON_RETURN_NCTOR(r0);
 }
 
 /**
  * Returns the value of the validated field
  *
- * @returnmixed
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Model_Validator, getValue){
 
@@ -321,7 +305,7 @@ PHP_METHOD(Phalcon_Model_Validator, getValue){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -337,7 +321,7 @@ PHP_METHOD(Phalcon_Model_Validator, getFieldName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -352,7 +336,7 @@ PHP_METHOD(Phalcon_Model_Validator, getRecord){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

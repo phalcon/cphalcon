@@ -33,13 +33,25 @@
  * Check if class is instance of
  */
 int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
-	if(Z_TYPE_P(object)!=IS_OBJECT){
-		zend_error(E_ERROR, "instanceof expects an object instance, constant given");
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "instanceof expects an object instance, constant given");
 		return FAILURE;
     } else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
     }
     return SUCCESS;
+}
+
+/**
+ * Fetches a zend class entry from a zval value
+ */
+zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
+	if (Z_TYPE_P(class_name) == IS_STRING){
+		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "class name must be a string");
+		return zend_fetch_class("stdclass", strlen("strlen"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	}
 }
 
 /**
@@ -182,7 +194,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 		*result = tmp;
 		return SUCCESS;
 	} else {
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 		}
 	}
@@ -218,7 +230,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 			*result = tmp;
 		}
 	} else {
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 			return FAILURE;
 		}

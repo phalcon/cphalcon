@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, has){
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r0);
@@ -75,27 +75,27 @@ PHP_METHOD(Phalcon_Transaction_Manager, has){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, get){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *auto_begin = NULL, *number = NULL, *transaction = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL;
 	zval *a0 = NULL;
 	zval *i0 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *p1[] = { NULL }, *p2[] = { NULL }, *p3[] = { NULL }, *p4[] = { NULL };
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &auto_begin) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_BOOL(v0, 1);
+	if (!auto_begin) {
+		PHALCON_INIT_VAR(auto_begin);
+		ZVAL_BOOL(auto_begin, 1);
 	}
 	
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_initialized", sizeof("_initialized")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -104,58 +104,51 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x043);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_BOOL(t1, 1);
-		zend_update_static_property(phalcon_transaction_manager_class_entry, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
+		zend_update_static_property(phalcon_transaction_manager_ce, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
 	}
-	t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	PHALCON_CPY_WRT(v1, t2);
-	if (!zend_is_true(v1)) {
+	t2 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	PHALCON_CPY_WRT(number, t2);
+	if (!zend_is_true(number)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_transaction_class_entry);
-		Z_ADDREF_P(v0);
-		p1[0] = v0;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		Z_DELREF_P(p1[0]);
-		PHALCON_CPY_WRT(v2, i0);
-		PHALCON_INIT_VAR(p2[0]);
-		ZVAL_STRING(p2[0], "Phalcon_Transaction_Manager", 1);
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "settransactionmanager", 1, p2, PHALCON_CALL_DEFAULT);
-		t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_dependencyPointer", sizeof("_dependencyPointer")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		Z_ADDREF_P(t3);
-		p3[0] = t3;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "setdependencypointer", 1, p3, PHALCON_CALL_DEFAULT);
-		Z_DELREF_P(p3[0]);
-		t4 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_dependencyPointer", sizeof("_dependencyPointer")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		object_init_ex(i0, phalcon_transaction_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", auto_begin, PHALCON_CHECK);
+		PHALCON_CPY_WRT(transaction, i0);
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "Phalcon_Transaction_Manager", 1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "settransactionmanager", c0, PHALCON_NO_CHECK);
+		t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_dependencyPointer", sizeof("_dependencyPointer")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setdependencypointer", t3, PHALCON_NO_CHECK);
+		t4 = zend_read_static_property(phalcon_transaction_manager_ce, "_dependencyPointer", sizeof("_dependencyPointer")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_INIT_VAR(t5);
 		ZVAL_LONG(t5, 2048);
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_add_function(r0, t4, t5 TSRMLS_CC);
-		zend_update_static_property(phalcon_transaction_manager_class_entry, "_dependencyPointer", sizeof("_dependencyPointer")-1, r0 TSRMLS_CC);
-		t6 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		zend_update_static_property(phalcon_transaction_manager_ce, "_dependencyPointer", sizeof("_dependencyPointer")-1, r0 TSRMLS_CC);
+		t6 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		if (Z_TYPE_P(t6) != IS_ARRAY) {
 			convert_to_array(t6);
 		}
-		Z_ADDREF_P(v2);
-		phalcon_array_append(t6, v2 TSRMLS_CC);
-		zend_update_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, t6 TSRMLS_CC);
+		phalcon_array_append(&t6, transaction, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
+		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, t6 TSRMLS_CC);
 		
-		t7 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		t7 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_SEPARATE_NMO(t7);
 		increment_function(t7);
-		zend_update_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, t7 TSRMLS_CC);
+		zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t7 TSRMLS_CC);
 	} else {
-		t8 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		t8 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_INIT_VAR(t10);
 		ZVAL_LONG(t10, 1);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		sub_function(r1, v1, t10 TSRMLS_CC);
+		sub_function(r1, number, t10 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t9);
-		phalcon_array_fetch(&t9, t8, r1, PHALCON_NOISY_FETCH TSRMLS_CC);
-		PHALCON_CPY_WRT(v2, t9);
-		PHALCON_INIT_VAR(p4[0]);
-		ZVAL_BOOL(p4[0], 0);
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(v2, "setisnewtransaction", 1, p4, PHALCON_CALL_DEFAULT);
+		phalcon_array_fetch(&t9, t8, r1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(transaction, t9);
+		PHALCON_INIT_VAR(c1);
+		ZVAL_BOOL(c1, 0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", c1, PHALCON_NO_CHECK);
 	}
-	PHALCON_RETURN_CHECK_CTOR(v2);
+	PHALCON_RETURN_CHECK_CTOR(transaction);
 }
 
 /**
@@ -167,8 +160,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollbackPendent){
 
 	PHALCON_MM_GROW();
 	PHALCON_CALL_SELF_NORETURN(this_ptr, "rollback");
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -177,41 +170,39 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollbackPendent){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, commit){
 
+	zval *transaction = NULL, *connection = NULL;
 	zval *t0 = NULL;
-	zval *v0 = NULL, *v1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if (Z_TYPE_P(t0) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_ad2c_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_ad2c_0;
 		}
-		PHALCON_INIT_VAR(v0);
-		ZVAL_ZVAL(v0, *hd, 1, 0);
+		PHALCON_INIT_VAR(transaction);
+		ZVAL_ZVAL(transaction, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_METHOD(r0, v0, "getconnection", PHALCON_CALL_DEFAULT);
-		PHALCON_CPY_WRT(v1, r0);
+		PHALCON_CALL_METHOD(r0, transaction, "getconnection", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(connection, r0);
 		PHALCON_INIT_VAR(r1);
-		PHALCON_CALL_METHOD(r1, v1, "isundertransaction", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD(r1, connection, "isundertransaction", PHALCON_NO_CHECK);
 		if (zend_is_true(r1)) {
-			PHALCON_CALL_METHOD_NORETURN(v1, "commit", PHALCON_CALL_DEFAULT);
+			PHALCON_CALL_METHOD_NORETURN(connection, "commit", PHALCON_NO_CHECK);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_ad2c_0;
 		fee_ad2c_0:
 		if(0){ };
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -222,60 +213,54 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *collect = NULL, *transaction = NULL, *connection = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *p4[] = { NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &collect) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_BOOL(v0, 0);
+	if (!collect) {
+		PHALCON_INIT_VAR(collect);
+		ZVAL_BOOL(collect, 0);
 	}
 	
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	if (Z_TYPE_P(t0) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_ad2c_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_ad2c_1;
 		}
-		PHALCON_INIT_VAR(v1);
-		ZVAL_ZVAL(v1, *hd, 1, 0);
+		PHALCON_INIT_VAR(transaction);
+		ZVAL_ZVAL(transaction, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_METHOD(r0, v1, "getconnection", PHALCON_CALL_DEFAULT);
-		PHALCON_CPY_WRT(v2, r0);
+		PHALCON_CALL_METHOD(r0, transaction, "getconnection", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(connection, r0);
 		PHALCON_INIT_VAR(r1);
-		PHALCON_CALL_METHOD(r1, v2, "isundertransaction", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD(r1, connection, "isundertransaction", PHALCON_NO_CHECK);
 		if (zend_is_true(r1)) {
-			PHALCON_CALL_METHOD_NORETURN(v2, "rollback", PHALCON_CALL_DEFAULT);
-			PHALCON_CALL_METHOD_NORETURN(v2, "close", PHALCON_CALL_DEFAULT);
+			PHALCON_CALL_METHOD_NORETURN(connection, "rollback", PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_NORETURN(connection, "close", PHALCON_NO_CHECK);
 		}
-		if (zend_is_true(v0)) {
-			Z_ADDREF_P(v1);
-			p4[0] = v1;
-			PHALCON_CALL_SELF_PARAMS_NORETURN(this_ptr, "_collecttransaction", 1, p4);
-			Z_DELREF_P(p4[0]);
+		if (zend_is_true(collect)) {
+			PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_ad2c_1;
 		fee_ad2c_1:
 		if(0){ };
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -285,23 +270,19 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 
-	zval *v0 = NULL;
-	zval *p0[] = { NULL };
+	zval *transaction = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &transaction) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	Z_ADDREF_P(v0);
-	p0[0] = v0;
-	PHALCON_CALL_SELF_PARAMS_NORETURN(this_ptr, "_collecttransaction", 1, p0);
-	Z_DELREF_P(p0[0]);
+	PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -311,28 +292,25 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 
-	zval *v0 = NULL;
-	zval *p0[] = { NULL };
+	zval *transaction = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &transaction) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	Z_ADDREF_P(v0);
-	p0[0] = v0;
-	PHALCON_CALL_SELF_PARAMS_NORETURN(this_ptr, "_collecttransaction", 1, p0);
-	Z_DELREF_P(p0[0]);
+	PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+	zval *transaction = NULL, *number = NULL, *managed_transaction = NULL;
+	zval *transactions = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 	zval *a0 = NULL;
@@ -342,44 +320,42 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &transaction) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r1);
 	is_smaller_function(r1, t1, r0 TSRMLS_CC);
 	if (zend_is_true(r1)) {
-		PHALCON_INIT_VAR(v1);
-		ZVAL_LONG(v1, 0);
-		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if (Z_TYPE_P(t2) != IS_ARRAY) {
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-		} else {
+		PHALCON_INIT_VAR(number);
+		ZVAL_LONG(number, 0);
+		t2 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		if (phalcon_valid_foreach(t2 TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(t2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 			fes_ad2c_2:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_ad2c_2;
 			}
-			PHALCON_INIT_VAR(v2);
-			ZVAL_ZVAL(v2, *hd, 1, 0);
+			PHALCON_INIT_VAR(managed_transaction);
+			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
 			PHALCON_INIT_VAR(r2);
-			is_equal_function(r2, v2, v0 TSRMLS_CC);
+			is_equal_function(r2, managed_transaction, transaction TSRMLS_CC);
 			if (zend_is_true(r2)) {
-				t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+				t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 				PHALCON_SEPARATE_NMO(t3);
 				decrement_function(t3);
-				zend_update_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
+				zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
 			}
-			PHALCON_SEPARATE(v1);
-			increment_function(v1);
+			PHALCON_SEPARATE(number);
+			increment_function(number);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_2;
 			fee_ad2c_2:
@@ -387,31 +363,28 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		}
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-		PHALCON_CPY_WRT(v3, a0);
-		t4 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if (Z_TYPE_P(t4) != IS_ARRAY) {
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-		} else {
+		PHALCON_CPY_WRT(transactions, a0);
+		t4 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		if (phalcon_valid_foreach(t4 TSRMLS_CC)) {
 			ah1 = Z_ARRVAL_P(t4);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 			fes_ad2c_3:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 				goto fee_ad2c_3;
 			}
-			PHALCON_INIT_VAR(v2);
-			ZVAL_ZVAL(v2, *hd, 1, 0);
-			Z_ADDREF_P(v2);
-			PHALCON_SEPARATE_ARRAY(v3);
-			phalcon_array_append(v3, v2 TSRMLS_CC);
+			PHALCON_INIT_VAR(managed_transaction);
+			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
+			phalcon_array_append(&transactions, managed_transaction, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_ad2c_3;
 			fee_ad2c_3:
 			if(0){ };
 		}
-		zend_update_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, v3 TSRMLS_CC);
+		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, transactions TSRMLS_CC);
 	}
+	
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -420,49 +393,48 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
  */
 PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 
+	zval *number = NULL, *managed_transaction = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-	zval *v0 = NULL, *v1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r1);
 	is_smaller_function(r1, t1, r0 TSRMLS_CC);
 	if (zend_is_true(r1)) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_LONG(v0, 0);
-		t2 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		if (Z_TYPE_P(t2) != IS_ARRAY) {
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-		} else {
+		PHALCON_INIT_VAR(number);
+		ZVAL_LONG(number, 0);
+		t2 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		if (phalcon_valid_foreach(t2 TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(t2);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 			fes_ad2c_4:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_ad2c_4;
 			}
-			PHALCON_INIT_VAR(v1);
-			ZVAL_ZVAL(v1, *hd, 1, 0);
-			t3 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+			PHALCON_INIT_VAR(managed_transaction);
+			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
+			t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			PHALCON_SEPARATE_NMO(t3);
 			decrement_function(t3);
-			zend_update_static_property(phalcon_transaction_manager_class_entry, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
-			increment_function(v0);
+			zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
+			PHALCON_SEPARATE(number);
+			increment_function(number);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_4;
 			fee_ad2c_4:
 			if(0){ };
 		}
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -477,7 +449,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic){
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_NULL(t1);
 	PHALCON_INIT_VAR(r0);
@@ -495,7 +467,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_transaction_manager_class_entry, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

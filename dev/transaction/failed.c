@@ -53,26 +53,24 @@
  */
 PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 
-	zval *v0 = NULL, *v1 = NULL;
-	zval *p0[] = { NULL, NULL };
+	zval *message = NULL, *record = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &v0, &v1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &message, &record) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), v1 TSRMLS_CC);
-	Z_ADDREF_P(v0);
-	p0[0] = v0;
-	PHALCON_INIT_VAR(p0[1]);
-	ZVAL_LONG(p0[1], 0);
-	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Transaction_Failed", "__construct", 2, p0);
-	Z_DELREF_P(p0[0]);
+	
+	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), record TSRMLS_CC);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_LONG(c0, 0);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_Transaction_Failed", "__construct", message, c0);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -82,25 +80,25 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
  */
 PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 
-	zval *v0 = NULL;
+	zval *record = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	PHALCON_CPY_WRT(v0, t0);
-	if (zend_is_true(v0)) {
+	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(record, t0);
+	if (zend_is_true(record)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_METHOD(r0, v0, "getmessages", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD(r0, record, "getmessages", PHALCON_NO_CHECK);
 		PHALCON_RETURN_DZVAL(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_METHOD(r1, this_ptr, "getmessage", PHALCON_CALL_DEFAULT);
+		PHALCON_CALL_METHOD(r1, this_ptr, "getmessage", PHALCON_NO_CHECK);
 		PHALCON_RETURN_DZVAL(r1);
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -114,7 +112,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

@@ -56,58 +56,54 @@
  */
 PHP_METHOD(Phalcon_Acl, __construct){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *adapter_name = NULL, *options = NULL, *adapter_class = NULL;
 	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
-	zval *p1[] = { NULL }, *p2[] = { NULL };
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &v0, &v1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &adapter_name, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!v0) {
-		PHALCON_INIT_VAR(v0);
-		ZVAL_STRING(v0, "Memory", 1);
+	if (!adapter_name) {
+		PHALCON_INIT_VAR(adapter_name);
+		ZVAL_STRING(adapter_name, "Memory", 1);
 	}
-	if (!v1) {
+	
+	if (!options) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-		PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(options, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "Phalcon_Acl_Adapter_", v0);
-	PHALCON_CPY_WRT(v2, r0);
+	PHALCON_CONCAT_LEFT(r0, "Phalcon_Acl_Adapter_", adapter_name);
+	PHALCON_CPY_WRT(adapter_class, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	Z_ADDREF_P(v2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", v2, 0x00F);
-	Z_DELREF_P(v2);
+	Z_ADDREF_P(adapter_class);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x00E);
+	Z_DELREF_P(adapter_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_acl_exception_class_entry);
+		object_init_ex(i0, phalcon_acl_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "Adapter '", v0, "' does not exist");
-		Z_ADDREF_P(r2);
-		p1[0] = r2;
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 1, p1, PHALCON_CALL_CHECK);
-		Z_DELREF_P(p1[0]);
-		return phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_CONCAT_BOTH(r2,  "Adapter '", adapter_name, "' does not exist");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
+		phalcon_throw_exception(i0 TSRMLS_CC);
+		return;
 	}
-	ce0 = zend_fetch_class(Z_STRVAL_P(v2), Z_STRLEN_P(v2), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	
+	ce0 = phalcon_fetch_class(adapter_class TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
-	Z_ADDREF_P(v1);
-	p2[0] = v1;
-	PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 1, p2, PHALCON_CALL_CHECK);
-	Z_DELREF_P(p2[0]);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
 	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -119,41 +115,37 @@ PHP_METHOD(Phalcon_Acl, __construct){
  */
 PHP_METHOD(Phalcon_Acl, __call){
 
-	zval *v0 = NULL, *v1 = NULL;
+	zval *method = NULL, *arguments = NULL;
 	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &v0, &v1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	if (!v1) {
+	if (!arguments) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-		PHALCON_CPY_WRT(v1, a0);
+		PHALCON_CPY_WRT(arguments, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	Z_ADDREF_P(t0);
-	PHALCON_SEPARATE_ARRAY(a1);
-	add_next_index_zval(a1, t0);
-	Z_ADDREF_P(v0);
-	PHALCON_SEPARATE_ARRAY(a1);
-	add_next_index_zval(a1, v0);
+	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_array_append(&a1, t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	Z_ADDREF_P(a1);
-	Z_ADDREF_P(v1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, v1, 0x010);
+	Z_ADDREF_P(arguments);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x00F);
 	Z_DELREF_P(a1);
-	Z_DELREF_P(v1);
+	Z_DELREF_P(arguments);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

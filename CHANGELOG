@@ -1,3 +1,12 @@
+0.4.0
+- Fixed possible segmentation fault when releasing memory of zval strings that has constant values
+- Fixed bug that avoids auto-globals jit initialization inside phalcon on some old versions of PHP
+- Moved zval separation to phalcon_array_update_*
+- Moved zval separation to phalcon_array_append_*
+- Moved zval constructor to phalcon_array_update_*
+- Implemented functions to avoid using an array of zvals parameters for static and method calls
+- Moved automatic referencing to fcall functions on static and method calls
+
 0.3.5
  - Most of throw exception process has been rewrriten to use less instructions
  - Super global initialization is now slightly fast

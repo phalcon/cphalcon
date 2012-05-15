@@ -54,26 +54,27 @@
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL;
+	zval *message = NULL, *type = NULL, *time = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &v0, &v1, &v2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &message, &type, &time) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	if (!v2) {
-		PHALCON_INIT_VAR(v2);
-		ZVAL_LONG(v2, 0);
+	
+	if (!time) {
+		PHALCON_INIT_VAR(time);
+		ZVAL_LONG(time, 0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, "_message", strlen("_message"), v0 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_type", strlen("_type"), v1 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_time", strlen("_time"), v2 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_message", strlen("_message"), message TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_type", strlen("_type"), type TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_time", strlen("_time"), time TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -87,7 +88,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_message", sizeof("_message")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_message", sizeof("_message")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -102,7 +103,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_time", sizeof("_time")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_time", sizeof("_time")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

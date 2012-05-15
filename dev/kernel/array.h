@@ -17,14 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-
-#define PHALCON_ARRAY_UPDATE(arr, index, value) {\
-	zval *copy;\
-	ALLOC_ZVAL(copy);\
-	ZVAL_ZVAL(copy, value, 1, 0);\
-	phalcon_array_update_cpy(arr, index, copy TSRMLS_CC);\
-}
-
 /** Check for index existence */
 extern int phalcon_array_isset(const zval *arr, zval *index);
 extern int phalcon_array_isset_long(const zval *arr, ulong index);
@@ -36,12 +28,12 @@ extern int phalcon_array_unset_long(zval *arr, ulong index);
 extern int phalcon_array_unset_string(zval *arr, char *index, uint index_length);
 
 /** Appends Element to arrays */
-extern int phalcon_array_append(zval *arr, zval *value TSRMLS_DC);
+extern int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC);
 
 /** Modifies arrays */
-extern int phalcon_array_update(zval *arr, zval *index, zval *value TSRMLS_DC);
-extern int phalcon_array_update_string(zval *arr, char *index, uint index_length, zval *value TSRMLS_DC);
-extern int phalcon_array_update_long(zval *arr, ulong index, zval *value TSRMLS_DC);
+extern int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int copy, int ctor TSRMLS_DC);
+extern int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval *value, int separate, int copy, int ctor TSRMLS_DC);
+extern int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate, int copy, int ctor TSRMLS_DC);
 
 /** Fetches items for arrays */
 extern int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int silent TSRMLS_DC);

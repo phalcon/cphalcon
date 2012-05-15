@@ -47,8 +47,18 @@
 
 PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
 
+	zval *options = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
 
 	
+	
+	PHALCON_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Model_MetaData_Session, read){

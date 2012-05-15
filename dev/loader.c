@@ -54,10 +54,10 @@ PHP_METHOD(Phalcon_Loader, __construct){
 
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_loader_class_entry, this_ptr, "_namespaces", strlen("_namespaces"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_loader_ce, this_ptr, "_namespaces", strlen("_namespaces"), a0 TSRMLS_CC);
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
-	zend_update_property(phalcon_loader_class_entry, this_ptr, "_directories", strlen("_directories"), a1 TSRMLS_CC);
+	zend_update_property(phalcon_loader_ce, this_ptr, "_directories", strlen("_directories"), a1 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -69,19 +69,19 @@ PHP_METHOD(Phalcon_Loader, __construct){
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces){
 
-	zval *v0 = NULL;
+	zval *namespaces = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespaces) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	phalcon_update_property_zval(this_ptr, "_namespaces", strlen("_namespaces"), v0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_namespaces", strlen("_namespaces"), namespaces TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -91,19 +91,19 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
  */
 PHP_METHOD(Phalcon_Loader, registerDirs){
 
-	zval *v0 = NULL;
+	zval *directories = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &directories) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	phalcon_update_property_zval(this_ptr, "_directories", strlen("_directories"), v0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_directories", strlen("_directories"), directories TSRMLS_CC);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -116,15 +116,13 @@ PHP_METHOD(Phalcon_Loader, register){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	Z_ADDREF_P(this_ptr);
-	PHALCON_SEPARATE_ARRAY(a0);
-	add_next_index_zval(a0, this_ptr);
+	phalcon_array_append(&a0, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	add_next_index_stringl(a0, "autoLoad", strlen("autoLoad"), 1);
 	Z_ADDREF_P(a0);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a0, 0x000);
 	Z_DELREF_P(a0);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 
 /**
@@ -134,82 +132,71 @@ PHP_METHOD(Phalcon_Loader, register){
  */
 PHP_METHOD(Phalcon_Loader, autoLoad){
 
-	zval *v0 = NULL, *v1 = NULL, *v2 = NULL, *v3 = NULL;
+	zval *class_name = NULL, *directory = NULL, *preffix = NULL, *file_name = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL;
-	zval *p1[] = { NULL, NULL, NULL }, *p3[] = { NULL, NULL, NULL };
+	zval *c0 = NULL, *c1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *index;
-	uint index_len;
-	ulong num;
-	int htype;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_namespaces", sizeof("_namespaces")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t0) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
+	phalcon_read_property(&t0, this_ptr, "_namespaces", sizeof("_namespaces")-1, PHALCON_NOISY TSRMLS_CC);
+	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(t0);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_0c08_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_0c08_0;
 		} else {
-			PHALCON_INIT_VAR(v2);
-			htype = zend_hash_get_current_key_ex(ah0, &index, &index_len, &num, 0, &hp0);
-			if (htype == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(v2, index, index_len-1, 1);
+			PHALCON_INIT_VAR(preffix);
+			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
+			if (hash_type == HASH_KEY_IS_STRING) {
+				ZVAL_STRINGL(preffix, hash_index, hash_index_len-1, 1);
 			} else {
-				if (htype == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(v2, num);
+				if (hash_type == HASH_KEY_IS_LONG) {
+					ZVAL_LONG(preffix, hash_num);
 				}
 			}
 		}
-		PHALCON_INIT_VAR(v1);
-		ZVAL_ZVAL(v1, *hd, 1, 0);
+		PHALCON_INIT_VAR(directory);
+		ZVAL_ZVAL(directory, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", v0, 0x001);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", class_name, 0x001);
 		PHALCON_INIT_VAR(r1);
-		is_smaller_function(r1, v2, r0 TSRMLS_CC);
+		is_smaller_function(r1, preffix, r0 TSRMLS_CC);
 		if (zend_is_true(r1)) {
 			PHALCON_INIT_VAR(r2);
-			Z_ADDREF_P(v0);
-			p1[0] = v0;
-			PHALCON_INIT_VAR(p1[1]);
-			ZVAL_LONG(p1[1], 0);
+			PHALCON_INIT_VAR(c0);
+			ZVAL_LONG(c0, 0);
 			PHALCON_INIT_VAR(r3);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "strlen", v2, 0x001);
-			Z_ADDREF_P(r3);
-			p1[2] = r3;
-			PHALCON_CALL_FUNC_PARAMS(r2, "substr", 3, p1, 0x002);
-			Z_DELREF_P(p1[0]);
-			Z_DELREF_P(p1[2]);
+			PHALCON_CALL_FUNC_PARAMS_1(r3, "strlen", preffix, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_3(r2, "substr", class_name, c0, r3, 0x002);
 			PHALCON_INIT_VAR(r4);
-			is_equal_function(r4, r2, v2 TSRMLS_CC);
+			is_equal_function(r4, r2, preffix TSRMLS_CC);
 			if (zend_is_true(r4)) {
 				PHALCON_INIT_VAR(r5);
-				p3[0] = v2;
-				PHALCON_INIT_VAR(p3[1]);
-				ZVAL_STRING(p3[1], "", 1);
-				p3[2] = v0;
-				PHALCON_CALL_FUNC_PARAMS(r5, "str_replace", 3, p3, 0x003);
-				PHALCON_CPY_WRT(v3, r5);
+				PHALCON_INIT_VAR(c1);
+				ZVAL_STRING(c1, "", 1);
+				PHALCON_CALL_FUNC_PARAMS_3(r5, "str_replace", preffix, c1, class_name, 0x003);
+				PHALCON_CPY_WRT(file_name, r5);
 				PHALCON_INIT_VAR(r6);
-				concat_function(r6, v1, v3 TSRMLS_CC);
+				concat_function(r6, directory, file_name TSRMLS_CC);
 				if (phalcon_file_exists(r6 TSRMLS_CC) == SUCCESS) {
-					phalcon_require(v3 TSRMLS_CC);
-					if (EG(exception) || EG(exit_status) == 255) {
+					if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
 						return;
 					}
 					PHALCON_MM_RESTORE();
@@ -223,23 +210,20 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		if(0){ };
 	}
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_directories", sizeof("_directories")-1, PHALCON_NOISY_FETCH TSRMLS_CC);
-	if (Z_TYPE_P(t1) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
-	} else {
+	phalcon_read_property(&t1, this_ptr, "_directories", sizeof("_directories")-1, PHALCON_NOISY TSRMLS_CC);
+	if (phalcon_valid_foreach(t1 TSRMLS_CC)) {
 		ah1 = Z_ARRVAL_P(t1);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 		fes_0c08_1:
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 			goto fee_0c08_1;
 		}
-		PHALCON_INIT_VAR(v1);
-		ZVAL_ZVAL(v1, *hd, 1, 0);
+		PHALCON_INIT_VAR(directory);
+		ZVAL_ZVAL(directory, *hd, 1, 0);
 		PHALCON_INIT_VAR(r7);
-		concat_function(r7, v1, v3 TSRMLS_CC);
+		concat_function(r7, directory, file_name TSRMLS_CC);
 		if (phalcon_file_exists(r7 TSRMLS_CC) == SUCCESS) {
-			phalcon_require(v3 TSRMLS_CC);
-			if (EG(exception) || EG(exit_status) == 255) {
+			if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
 				return;
 			}
 			PHALCON_MM_RESTORE();
@@ -250,7 +234,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		fee_0c08_1:
 		if(0){ };
 	}
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 

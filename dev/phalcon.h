@@ -17,80 +17,80 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_session_namespace_class_entry;
-extern zend_class_entry *phalcon_loader_class_entry;
-extern zend_class_entry *phalcon_test_class_entry;
-extern zend_class_entry *phalcon_router_rewrite_class_entry;
-extern zend_class_entry *phalcon_config_exception_class_entry;
-extern zend_class_entry *phalcon_config_adapter_ini_class_entry;
-extern zend_class_entry *phalcon_exception_class_entry;
-extern zend_class_entry *phalcon_db_class_entry;
-extern zend_class_entry *phalcon_logger_class_entry;
-extern zend_class_entry *phalcon_cache_exception_class_entry;
-extern zend_class_entry *phalcon_cache_frontend_output_class_entry;
-extern zend_class_entry *phalcon_cache_backend_file_class_entry;
-extern zend_class_entry *phalcon_acl_exception_class_entry;
-extern zend_class_entry *phalcon_acl_adapter_memory_class_entry;
-extern zend_class_entry *phalcon_acl_role_class_entry;
-extern zend_class_entry *phalcon_acl_resource_class_entry;
-extern zend_class_entry *phalcon_cache_class_entry;
-extern zend_class_entry *phalcon_view_class_entry;
-extern zend_class_entry *phalcon_view_exception_class_entry;
-extern zend_class_entry *phalcon_paginator_exception_class_entry;
-extern zend_class_entry *phalcon_paginator_adapter_array_class_entry;
-extern zend_class_entry *phalcon_paginator_adapter_model_class_entry;
-extern zend_class_entry *phalcon_tag_exception_class_entry;
-extern zend_class_entry *phalcon_internal_test_class_entry;
-extern zend_class_entry *phalcon_internal_testparent_class_entry;
-extern zend_class_entry *phalcon_internal_testtemp_class_entry;
-extern zend_class_entry *phalcon_internal_testdummy_class_entry;
-extern zend_class_entry *phalcon_controller_class_entry;
-extern zend_class_entry *phalcon_paginator_class_entry;
-extern zend_class_entry *phalcon_utils_class_entry;
-extern zend_class_entry *phalcon_dispatcher_class_entry;
-extern zend_class_entry *phalcon_db_pool_class_entry;
-extern zend_class_entry *phalcon_db_profiler_class_entry;
-extern zend_class_entry *phalcon_db_exception_class_entry;
-extern zend_class_entry *phalcon_db_reference_class_entry;
-extern zend_class_entry *phalcon_db_adapter_mysql_class_entry;
-extern zend_class_entry *phalcon_db_profiler_item_class_entry;
-extern zend_class_entry *phalcon_db_rawvalue_class_entry;
-extern zend_class_entry *phalcon_db_column_class_entry;
-extern zend_class_entry *phalcon_db_index_class_entry;
-extern zend_class_entry *phalcon_db_dialect_mysql_class_entry;
-extern zend_class_entry *phalcon_model_validator_uniqueness_class_entry;
-extern zend_class_entry *phalcon_model_validator_exclusionin_class_entry;
-extern zend_class_entry *phalcon_model_validator_regex_class_entry;
-extern zend_class_entry *phalcon_model_validator_inclusionin_class_entry;
-extern zend_class_entry *phalcon_model_validator_numericality_class_entry;
-extern zend_class_entry *phalcon_model_validator_email_class_entry;
-extern zend_class_entry *phalcon_model_query_class_entry;
-extern zend_class_entry *phalcon_model_exception_class_entry;
-extern zend_class_entry *phalcon_model_base_class_entry;
-extern zend_class_entry *phalcon_model_validator_class_entry;
-extern zend_class_entry *phalcon_model_row_class_entry;
-extern zend_class_entry *phalcon_model_sanitize_class_entry;
-extern zend_class_entry *phalcon_model_metadata_class_entry;
-extern zend_class_entry *phalcon_model_message_class_entry;
-extern zend_class_entry *phalcon_model_manager_class_entry;
-extern zend_class_entry *phalcon_model_metadata_memory_class_entry;
-extern zend_class_entry *phalcon_model_metadata_session_class_entry;
-extern zend_class_entry *phalcon_model_resultset_class_entry;
-extern zend_class_entry *phalcon_tag_class_entry;
-extern zend_class_entry *phalcon_response_class_entry;
-extern zend_class_entry *phalcon_request_class_entry;
-extern zend_class_entry *phalcon_transaction_failed_class_entry;
-extern zend_class_entry *phalcon_transaction_manager_class_entry;
-extern zend_class_entry *phalcon_controller_front_class_entry;
-extern zend_class_entry *phalcon_session_class_entry;
-extern zend_class_entry *phalcon_flash_class_entry;
-extern zend_class_entry *phalcon_config_class_entry;
-extern zend_class_entry *phalcon_filter_class_entry;
-extern zend_class_entry *phalcon_acl_class_entry;
-extern zend_class_entry *phalcon_logger_exception_class_entry;
-extern zend_class_entry *phalcon_logger_adapter_file_class_entry;
-extern zend_class_entry *phalcon_logger_item_class_entry;
-extern zend_class_entry *phalcon_transaction_class_entry;
+extern zend_class_entry *phalcon_session_namespace_ce;
+extern zend_class_entry *phalcon_loader_ce;
+extern zend_class_entry *phalcon_test_ce;
+extern zend_class_entry *phalcon_router_rewrite_ce;
+extern zend_class_entry *phalcon_config_exception_ce;
+extern zend_class_entry *phalcon_config_adapter_ini_ce;
+extern zend_class_entry *phalcon_exception_ce;
+extern zend_class_entry *phalcon_db_ce;
+extern zend_class_entry *phalcon_logger_ce;
+extern zend_class_entry *phalcon_cache_exception_ce;
+extern zend_class_entry *phalcon_cache_frontend_output_ce;
+extern zend_class_entry *phalcon_cache_backend_file_ce;
+extern zend_class_entry *phalcon_acl_exception_ce;
+extern zend_class_entry *phalcon_acl_adapter_memory_ce;
+extern zend_class_entry *phalcon_acl_role_ce;
+extern zend_class_entry *phalcon_acl_resource_ce;
+extern zend_class_entry *phalcon_cache_ce;
+extern zend_class_entry *phalcon_view_ce;
+extern zend_class_entry *phalcon_view_exception_ce;
+extern zend_class_entry *phalcon_paginator_exception_ce;
+extern zend_class_entry *phalcon_paginator_adapter_array_ce;
+extern zend_class_entry *phalcon_paginator_adapter_model_ce;
+extern zend_class_entry *phalcon_tag_exception_ce;
+extern zend_class_entry *phalcon_internal_test_ce;
+extern zend_class_entry *phalcon_internal_testparent_ce;
+extern zend_class_entry *phalcon_internal_testtemp_ce;
+extern zend_class_entry *phalcon_internal_testdummy_ce;
+extern zend_class_entry *phalcon_controller_ce;
+extern zend_class_entry *phalcon_paginator_ce;
+extern zend_class_entry *phalcon_utils_ce;
+extern zend_class_entry *phalcon_dispatcher_ce;
+extern zend_class_entry *phalcon_db_pool_ce;
+extern zend_class_entry *phalcon_db_profiler_ce;
+extern zend_class_entry *phalcon_db_exception_ce;
+extern zend_class_entry *phalcon_db_reference_ce;
+extern zend_class_entry *phalcon_db_adapter_mysql_ce;
+extern zend_class_entry *phalcon_db_profiler_item_ce;
+extern zend_class_entry *phalcon_db_rawvalue_ce;
+extern zend_class_entry *phalcon_db_column_ce;
+extern zend_class_entry *phalcon_db_index_ce;
+extern zend_class_entry *phalcon_db_dialect_mysql_ce;
+extern zend_class_entry *phalcon_model_validator_uniqueness_ce;
+extern zend_class_entry *phalcon_model_validator_exclusionin_ce;
+extern zend_class_entry *phalcon_model_validator_regex_ce;
+extern zend_class_entry *phalcon_model_validator_inclusionin_ce;
+extern zend_class_entry *phalcon_model_validator_numericality_ce;
+extern zend_class_entry *phalcon_model_validator_email_ce;
+extern zend_class_entry *phalcon_model_query_ce;
+extern zend_class_entry *phalcon_model_exception_ce;
+extern zend_class_entry *phalcon_model_base_ce;
+extern zend_class_entry *phalcon_model_validator_ce;
+extern zend_class_entry *phalcon_model_row_ce;
+extern zend_class_entry *phalcon_model_sanitize_ce;
+extern zend_class_entry *phalcon_model_metadata_ce;
+extern zend_class_entry *phalcon_model_message_ce;
+extern zend_class_entry *phalcon_model_manager_ce;
+extern zend_class_entry *phalcon_model_metadata_memory_ce;
+extern zend_class_entry *phalcon_model_metadata_session_ce;
+extern zend_class_entry *phalcon_model_resultset_ce;
+extern zend_class_entry *phalcon_tag_ce;
+extern zend_class_entry *phalcon_response_ce;
+extern zend_class_entry *phalcon_request_ce;
+extern zend_class_entry *phalcon_transaction_failed_ce;
+extern zend_class_entry *phalcon_transaction_manager_ce;
+extern zend_class_entry *phalcon_controller_front_ce;
+extern zend_class_entry *phalcon_session_ce;
+extern zend_class_entry *phalcon_flash_ce;
+extern zend_class_entry *phalcon_config_ce;
+extern zend_class_entry *phalcon_filter_ce;
+extern zend_class_entry *phalcon_acl_ce;
+extern zend_class_entry *phalcon_logger_exception_ce;
+extern zend_class_entry *phalcon_logger_adapter_file_ce;
+extern zend_class_entry *phalcon_logger_item_ce;
+extern zend_class_entry *phalcon_transaction_ce;
 
 PHP_METHOD(Phalcon_Session_Namespace, __construct);
 PHP_METHOD(Phalcon_Session_Namespace, __set);
@@ -116,7 +116,6 @@ PHP_METHOD(Phalcon_Config_Exception, __construct);
 
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
-PHP_METHOD(Phalcon_Exception, __construct);
 
 PHP_METHOD(Phalcon_Db, __construct);
 PHP_METHOD(Phalcon_Db, setLogger);
@@ -494,7 +493,6 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles);
 PHP_METHOD(Phalcon_Db_Profiler, reset);
 PHP_METHOD(Phalcon_Db_Profiler, getLastProfile);
 
-PHP_METHOD(Phalcon_Db_Exception, __construct);
 
 PHP_METHOD(Phalcon_Db_Reference, __construct);
 PHP_METHOD(Phalcon_Db_Reference, getName);
@@ -789,7 +787,6 @@ PHP_METHOD(Phalcon_Response, appendContent);
 PHP_METHOD(Phalcon_Response, getContent);
 PHP_METHOD(Phalcon_Response, send);
 
-PHP_METHOD(Phalcon_Request, __construct);
 PHP_METHOD(Phalcon_Request, getInstance);
 PHP_METHOD(Phalcon_Request, setFilter);
 PHP_METHOD(Phalcon_Request, getFilter);
@@ -962,13 +959,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, filePath)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_exception___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, errorCode)
-	ZEND_ARG_INFO(0, showTrace)
-	ZEND_ARG_INFO(0, backtrace)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db___construct, 0, 0, 1)
@@ -1590,13 +1580,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_startprofile, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_exception___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, message)
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, showTrace)
-	ZEND_ARG_INFO(0, db)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_reference___construct, 0, 0, 2)
@@ -2282,6 +2265,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
 	ZEND_ARG_INFO(0, className)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_metadata_session___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, resultResource)
@@ -2733,7 +2720,6 @@ PHALCON_INIT_FUNCS(phalcon_config_adapter_ini_functions){
 };
 
 PHALCON_INIT_FUNCS(phalcon_exception_functions){
-	PHP_ME(Phalcon_Exception, __construct, arginfo_phalcon_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_FE_END
 };
 
@@ -3192,7 +3178,6 @@ PHALCON_INIT_FUNCS(phalcon_db_profiler_functions){
 };
 
 PHALCON_INIT_FUNCS(phalcon_db_exception_functions){
-	PHP_ME(Phalcon_Db_Exception, __construct, arginfo_phalcon_db_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_FE_END
 };
 
@@ -3504,7 +3489,7 @@ PHALCON_INIT_FUNCS(phalcon_model_metadata_memory_functions){
 };
 
 PHALCON_INIT_FUNCS(phalcon_model_metadata_session_functions){
-	PHP_ME(Phalcon_Model_MetaData_Session, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Model_MetaData_Session, __construct, arginfo_phalcon_model_metadata_session___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Model_MetaData_Session, read, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_MetaData_Session, write, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
@@ -3571,7 +3556,6 @@ PHALCON_INIT_FUNCS(phalcon_response_functions){
 };
 
 PHALCON_INIT_FUNCS(phalcon_request_functions){
-	PHP_ME(Phalcon_Request, __construct, NULL, ZEND_ACC_PRIVATE|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Request, getInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Request, setFilter, arginfo_phalcon_request_setfilter, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getFilter, NULL, ZEND_ACC_PROTECTED) 

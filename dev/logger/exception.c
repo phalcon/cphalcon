@@ -52,22 +52,18 @@
  */
 PHP_METHOD(Phalcon_Logger_Exception, __construct){
 
-	zval *v0 = NULL;
-	zval *p0[] = { NULL };
+	zval *message = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &v0) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	Z_ADDREF_P(v0);
-	p0[0] = v0;
-	PHALCON_CALL_PARENT_PARAMS_NORETURN(this_ptr, "Phalcon_Logger_Exception", "__construct", 1, p0);
-	Z_DELREF_P(p0[0]);
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon_Logger_Exception", "__construct", message);
+	
 	PHALCON_MM_RESTORE();
-	RETURN_NULL();
 }
 

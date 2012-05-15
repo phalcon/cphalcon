@@ -20,19 +20,25 @@
 /** Main macros */
 #define PHALCON_DEBUG 0
 
-#define PHALCON_NOISY_FETCH 0
-#define PHALCON_SILENT_FETCH 1
-#define PHALCON_WRITE_FETCH 2
+#define PHALCON_NOISY 0
+#define PHALCON_SILENT 1
 
-#define PHALCON_CALL_CHECK 1
-#define PHALCON_CALL_DEFAULT 0
+#define PHALCON_CHECK 1
+#define PHALCON_NO_CHECK 0
 
-#define PHALCON_METHOD_CTOR 1
-#define PHALCON_METHOD_NORMAL 0
+#define PHALCON_SEPARATE_PLZ 1
+#define PHALCON_NO_SEPARATE_THX 0
 
-#define PHALCON_INVOKE_THIS 1
-#define PHALCON_INVOKE_OTHER 0
+#define PHALCON_COPY 1
+#define PHALCON_NO_COPY 0
 
+#define PHALCON_CTOR 1
+#define PHALCON_NO_CTOR 0
+
+/** Experimental Features **/
+#define PHALCON_EXPERIMENTAL_CALL 0
+
+/** SPL dependencies */
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
 extern ZEND_API zend_class_entry *zend_ce_iterator;
 extern ZEND_API zend_class_entry *zend_ce_arrayaccess;
@@ -46,7 +52,7 @@ extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRML
 
 /** Globals functions */
 extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC);
+extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
@@ -54,18 +60,13 @@ extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, 
 /** Exception Functions */
 extern void phalcon_throw_exception(zval *object TSRMLS_DC);
 
-/** Add functions */
+/** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-
-/** Logical functions */
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
-
-/** Concat functions */
 extern int phalcon_concat_right(zval *result, zval *op1, const char *op2, int op2_length TSRMLS_DC);
 extern int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2 TSRMLS_DC);
 extern int phalcon_concat_both(zval *result, const char *op1, int op1_length, zval *op2, const char *op3, int op3_length TSRMLS_DC);
 extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, int op2_length, zval *op3 TSRMLS_DC);
-
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
@@ -75,6 +76,10 @@ extern long phalcon_count(const zval *value);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
+
+/* Utils functions */
+extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
+extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -169,6 +174,3 @@ extern int phalcon_filter_alphanum(zval *result, zval *param);
 	}\
 	PHALCON_MM_RESTORE();\
 	return;
-
-/* Utils functions */
-int phalcon_inherit_not_found(char *class_name, char *inherit_name);

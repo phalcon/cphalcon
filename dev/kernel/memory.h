@@ -17,6 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
+extern void phalcon_init_var(zval **var TSRMLS_DC);
+extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
+
 extern int phalcon_memory_grow_stack(TSRMLS_D);
 extern int phalcon_memory_restore_stack(TSRMLS_D);
 
@@ -30,21 +33,7 @@ extern int phalcon_memory_remove(zval **var TSRMLS_DC);
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z);
 
-#define PHALCON_INIT_VAR(z)\
-	if (z) {\
-		if (Z_REFCOUNT_P(z) > 1) {\
-			Z_DELREF_P(z);\
-			ALLOC_ZVAL(z);\
-			Z_SET_REFCOUNT_P(z, 1);\
-			Z_UNSET_ISREF_P(z);\
-		} else {\
-			zval_ptr_dtor(&z);\
-			PHALCON_ALLOC_ZVAL(z);\
-		}\
-	} else {\
-		phalcon_memory_observe(&z TSRMLS_CC);\
-		PHALCON_ALLOC_ZVAL(z);\
-	}
+#ifdef PHP_WIN32
 
 #define PHALCON_INIT_VAR(z)\
 	if (z) {\
@@ -61,10 +50,6 @@ extern int phalcon_memory_remove(zval **var TSRMLS_DC);
 		phalcon_memory_observe(&z TSRMLS_CC);\
 		PHALCON_ALLOC_ZVAL(z);\
 	}
-
-#define PHALCON_ALLOC_ZVAL_MM(z) \
-	PHALCON_ALLOC_ZVAL(z); \
-	phalcon_memory_observe(&z TSRMLS_CC);
 
 #define PHALCON_CPY_WRT(d, v) \
 	if (d) { \
@@ -76,6 +61,17 @@ extern int phalcon_memory_remove(zval **var TSRMLS_DC);
 	} \
 	Z_ADDREF_P(v); \
 	d = v;
+
+#else
+
+#define PHALCON_INIT_VAR(z) phalcon_init_var(&z TSRMLS_CC)
+#define PHALCON_CPY_WRT(d, v) phalcon_cpy_wrt(&d, v TSRMLS_CC)
+
+#endif
+
+#define PHALCON_ALLOC_ZVAL_MM(z) \
+	PHALCON_ALLOC_ZVAL(z); \
+	phalcon_memory_observe(&z TSRMLS_CC);
 
 #define PHALCON_SEPARATE_ARRAY(a) \
 	{\

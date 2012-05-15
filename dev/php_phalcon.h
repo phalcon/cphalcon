@@ -20,10 +20,11 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.3.5"
+#define PHP_PHALCON_VERSION "0.4.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
-#define PHALCON_MAX_MEMORY_STACK 96
+#define PHALCON_MAX_MEMORY_STACK 64
+#define PHALCON_FCALL_MAX_CACHE 96
 
 typedef struct _phalcon_memory_entry {
 	int pointer;
@@ -36,6 +37,11 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	int phalcon_memory_stack;
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
+  zend_fcall_info_cache *phalcon_fcall_cache[PHALCON_FCALL_MAX_CACHE];
+#ifndef PHALCON_RELEASE
+  int phalcon_stack_stats;
+  int phalcon_fcall_stats;
+#endif
 ZEND_END_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS

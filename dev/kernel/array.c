@@ -136,11 +136,22 @@ int phalcon_array_unset_long(zval *arr, ulong index){
 }
 
 /**
- * Push one or more elements onto the end of array
+ * Push one or more elements onto the end of an array
  */
-int phalcon_array_append(zval *arr, zval *value TSRMLS_DC){
-	if (Z_TYPE_P(arr) == IS_ARRAY) {
-		return add_next_index_zval(arr, value);
+int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC){
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		if(separate){
+			if (Z_REFCOUNT_PP(arr) > 1) {
+				zval *new_zv;
+				Z_DELREF_PP(arr);
+				ALLOC_ZVAL(new_zv);
+				INIT_PZVAL_COPY(new_zv, *arr);
+				*arr = new_zv;
+				zval_copy_ctor(new_zv);
+			}
+		}
+		Z_ADDREF_P(value);
+		return add_next_index_zval(*arr, value);
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 	}
@@ -150,9 +161,9 @@ int phalcon_array_append(zval *arr, zval *value TSRMLS_DC){
 /**
  * Updates values on arrays by string or long indexes
  */
-int phalcon_array_update(zval *arr, zval *index, zval *value TSRMLS_DC){
+int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int copy, int ctor TSRMLS_DC){
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -165,11 +176,35 @@ int phalcon_array_update(zval *arr, zval *index, zval *value TSRMLS_DC){
 		}
 	}
 
+	if (ctor) {
+		zval *new_zv;
+		Z_DELREF_PP(arr);
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, *arr);
+		*arr = new_zv;
+		zval_copy_ctor(new_zv);
+	}
+
+	if (separate) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
+	    }
+	}
+
+	if (copy) {
+		Z_ADDREF_P(value);
+	}
+
  	if(Z_TYPE_P(index) == IS_STRING){
-		return zend_hash_update(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, &value, sizeof(zval *), NULL);
+		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, &value, sizeof(zval *), NULL);
 	} else {
 		if (Z_TYPE_P(index) == IS_LONG) {
-			return zend_hash_index_update(Z_ARRVAL_P(arr), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
+			return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
@@ -182,23 +217,75 @@ int phalcon_array_update(zval *arr, zval *index, zval *value TSRMLS_DC){
 /**
  * Updates values on arrays by string indexes only
  */
-int phalcon_array_update_string(zval *arr, char *index, uint index_length, zval *value TSRMLS_DC){
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval *value, int separate, int copy, int ctor TSRMLS_DC){
+
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
-	return zend_hash_update(Z_ARRVAL_P(arr), index, index_length+1, &value, sizeof(zval *), NULL);
+
+	if (ctor) {
+		zval *new_zv;
+		Z_DELREF_PP(arr);
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, *arr);
+		*arr = new_zv;
+		zval_copy_ctor(new_zv);
+	}
+
+	if (separate) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+	    	*arr = new_zv;
+	    	zval_copy_ctor(new_zv);
+	    }
+	}
+
+	if (copy) {
+		Z_ADDREF_P(value);
+	}
+
+	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length+1, &value, sizeof(zval *), NULL);
 }
 
 /**
  * Updates values on arrays by long indexes only
  */
-int phalcon_array_update_long(zval *arr, ulong index, zval *value TSRMLS_DC){
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate, int copy, int ctor TSRMLS_DC){
+
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
-	return zend_hash_index_update(Z_ARRVAL_P(arr), index, &value, sizeof(zval *), NULL);
+
+	if (ctor) {
+		zval *new_zv;
+		Z_DELREF_PP(arr);
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, *arr);
+		*arr = new_zv;
+		zval_copy_ctor(new_zv);
+	}
+
+	if (separate) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+	    	*arr = new_zv;
+	    	zval_copy_ctor(new_zv);
+	    }
+	}
+
+	if (copy) {
+		Z_ADDREF_P(value);
+	}
+
+	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, &value, sizeof(zval *), NULL);
 }
 
 /**
@@ -211,7 +298,7 @@ int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int s
 
  	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 		ZVAL_NULL(*return_value);
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
 		return FAILURE;
@@ -228,7 +315,7 @@ int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int s
 	}
 
 	if (Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
 		return FAILURE;
@@ -264,7 +351,7 @@ int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int s
 		}
 	}
 
-	if (silent == PHALCON_NOISY_FETCH) {
+	if (silent == PHALCON_NOISY) {
 		if (Z_TYPE_P(index) == IS_LONG) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %ld", Z_LVAL_P(index));
 		} else {
@@ -287,7 +374,7 @@ int phalcon_array_fetch_string(zval **return_value, const zval *arr, char *index
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		ZVAL_NULL(*return_value);
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		}
 		return FAILURE;
@@ -300,7 +387,7 @@ int phalcon_array_fetch_string(zval **return_value, const zval *arr, char *index
 		return SUCCESS;
 	}
 
-	if (silent == PHALCON_NOISY_FETCH) {
+	if (silent == PHALCON_NOISY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %s", index);
 	}
 
@@ -319,7 +406,7 @@ int phalcon_array_fetch_long(zval **return_value, const zval *arr, ulong index, 
 	ZVAL_NULL(*return_value);
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		if (silent == PHALCON_NOISY_FETCH) {
+		if (silent == PHALCON_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		}
 		return FAILURE;
@@ -332,7 +419,7 @@ int phalcon_array_fetch_long(zval **return_value, const zval *arr, ulong index, 
 		return SUCCESS;
 	}
 
-	if (silent == PHALCON_NOISY_FETCH) {
+	if (silent == PHALCON_NOISY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %ld", index);
 	}
 

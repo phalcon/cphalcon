@@ -32,15 +32,7 @@
 #define PHALCON_NEW_STD(object) PHALCON_ALLOC_ZVAL(object); object_init(object)
 #define PHALCON_NEW(object, class) PHALCON_ALLOC_ZVAL(object); object_init_ex(object, class)
 
-
-/** Instance of */
-#define PHALCON_INSTANCE_OF(result, var, class) if(Z_TYPE_P(var)!=IS_OBJECT){\
-      zend_error(E_ERROR, "instanceof expects an object instance, constant given");\
-    } else {\
-      PHALCON_RESULT_INIT(result);\
-      ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(var), class TSRMLS_CC));\
-    }
-
+extern zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
 
 extern int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
 extern int phalcon_class_exists(zval *return_value, zval *class_name_zval, zval *autoload_zval TSRMLS_DC);

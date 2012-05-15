@@ -34,6 +34,10 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
     phalcon_globals->phalcon_memory_stack = 0;
     phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
+	#ifndef PHALCON_RELEASE
+	phalcon_globals->phalcon_stack_stats = 0;
+	phalcon_globals->phalcon_fcall_stats = 0;
+	#endif
 }
 
 /**
@@ -56,36 +60,33 @@ int phalcon_init_global(char *global, int global_length TSRMLS_DC){
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval *arr, char *global, int global_type TSRMLS_DC){
-	#if PHP_VERSION_ID < 50400
-	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
+int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
+
+	zval **gv;
+
+	zend_bool jit_initialization = PG(auto_globals_jit);
 	if (jit_initialization) {
-		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+		zend_is_auto_global(global, global_length-1 TSRMLS_CC);
 	}
-	#else
-	if (PG(auto_globals_jit)) {
-		zend_is_auto_global(global, sizeof(global)-1 TSRMLS_CC);
+
+	if (&EG(symbol_table)) {
+		if( zend_hash_find(&EG(symbol_table), global, global_length, (void **) &gv) == SUCCESS) {
+			if (Z_TYPE_PP(gv) == IS_ARRAY) {
+				*arr = *gv;
+			} else {
+				PHALCON_INIT_VAR(*arr);
+				array_init(*arr);
+			}
+		}
 	}
-	#endif
-	arr = PG(http_globals)[global_type];
+	if (!*arr) {
+		PHALCON_INIT_VAR(*arr);
+		array_init(*arr);
+	}
+
 	return SUCCESS;
 }
 
-/**
- * Get a super global zval by its name
- */
-int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC){
-	zval **global_vars;
-	if (zend_hash_find(&EG(symbol_table), global, sizeof(global), (void **) &global_vars) == SUCCESS) {
-		if (Z_TYPE_PP(global_vars) == IS_ARRAY) {
-			return zend_hash_find(Z_ARRVAL_PP(global_vars), index, sizeof(index), (void **) &result);
-		}
-	} else {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Can't find superglobal: %s", global);
-		ZVAL_NULL(result);
-	}
-	return FAILURE;
-}
 
 /**
  * Reads class constant from string name and returns its value
@@ -447,9 +448,19 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 }
 
 /**
+ * Generates error when foreach is invalid
+ */
+int phalcon_valid_foreach(zval *arr TSRMLS_DC){
+	if (Z_TYPE_P(arr) != IS_ARRAY) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
+		return 0;
+	}
+	return 1;
+}
+
+/**
  * Generates error when inherited class isn't found
  */
-int phalcon_inherit_not_found(char *class_name, char *inherit_name){
+void phalcon_inherit_not_found(char *class_name, char *inherit_name){
 	fprintf(stderr, "Phalcon Error: Extended class '%s' not found when registering class '%s'", class_name, inherit_name);
-	return SUCCESS;
 }
