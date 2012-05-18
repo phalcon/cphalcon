@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -45,9 +46,7 @@
  */
 
 /**
- * Converts strings to camelize style
- *
- * 
+ * This function is now deprecated, use Phalcon_Text::camelize instead
  *
  * @param string $str
  * @return string
@@ -55,8 +54,7 @@
 PHP_METHOD(Phalcon_Utils, camelize){
 
 	zval *str = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -65,46 +63,21 @@ PHP_METHOD(Phalcon_Utils, camelize){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, " ", 1);
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "", 1);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "_", 1);
-	PHALCON_INIT_VAR(c3);
-	ZVAL_STRING(c3, " ", 1);
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x030);
-	PHALCON_CALL_FUNC_PARAMS_3(r2, "str_replace", c2, c3, r3, 0x003);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "ucwords", r2, 0x02F);
-	PHALCON_CALL_FUNC_PARAMS_3(r0, "str_replace", c0, c1, r1, 0x003);
+	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "camelize", str);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
- * Uncamelize strings which are camelized
- *
- * 
+ * This function is now deprecated, use Phalcon_Text::uncamelize instead
  *
  * @param string $str
  * @return string
  */
 PHP_METHOD(Phalcon_Utils, uncamelize){
 
-	zval *str = NULL, *patterns = NULL, *replacement = NULL, *pattern = NULL;
-	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
+	zval *str = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -113,67 +86,21 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 		RETURN_NULL();
 	}
 
-	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	add_assoc_stringl_ex(a0, "/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/", strlen("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, "\\1_\\2", strlen("\\1_\\2"), 1);
-	add_assoc_stringl_ex(a0, "/(?<=(?:[a-z]))([A-Z])/", strlen("/(?<=(?:[a-z]))([A-Z])/")+1, "_\\1", strlen("_\\1"), 1);
-	PHALCON_CPY_WRT(patterns, a0);
-	if (phalcon_valid_foreach(patterns TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(patterns);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_6277_0:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_6277_0;
-		} else {
-			PHALCON_INIT_VAR(pattern);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(pattern, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(pattern, hash_num);
-				}
-			}
-		}
-		PHALCON_INIT_VAR(replacement);
-		ZVAL_ZVAL(replacement, *hd, 1, 0);
-		PHALCON_INIT_VAR(r0);
-		Z_ADDREF_P(pattern);
-		Z_ADDREF_P(str);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "preg_match", pattern, str, 0x031);
-		Z_DELREF_P(pattern);
-		Z_DELREF_P(str);
-		if (zend_is_true(r0)) {
-			PHALCON_INIT_VAR(r1);
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_replace", pattern, replacement, str, 0x032);
-			PHALCON_CALL_FUNC_PARAMS_1(r1, "strtolower", r2, 0x030);
-			PHALCON_RETURN_DZVAL(r1);
-		}
-		
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_6277_0;
-		fee_6277_0:
-		if(0){ };
-	}
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x030);
-	PHALCON_RETURN_DZVAL(r3);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "uncamelize", str);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
-     * Changes only first letter to lowercase
-     *     
-     * @param string $str
-     * @return string
-     * @static
-     **/
+ * This function is now deprecated, use Phalcon_Text::lcfirst instead
+ *
+ * @param string $str
+ * @return string
+ */
 PHP_METHOD(Phalcon_Utils, lcfirst){
 
 	zval *str = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -182,77 +109,72 @@ PHP_METHOD(Phalcon_Utils, lcfirst){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_LONG(c0, 0);
-	PHALCON_INIT_VAR(c1);
-	ZVAL_LONG(c1, 1);
-	PHALCON_CALL_FUNC_PARAMS_3(r1, "substr", str, c0, c1, 0x002);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "strtolower", r1, 0x030);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_INIT_VAR(c2);
-	ZVAL_LONG(c2, 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r2, "substr", str, c2, 0x002);
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	concat_function(r3, r0, r2 TSRMLS_CC);
-	PHALCON_RETURN_CTOR(r3);
+	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "lcfirst", str);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
  * Gets public URL to phalcon instance
  *
- * @param string $params
+ * @param string $uri
  * @return string
  */
 PHP_METHOD(Phalcon_Utils, getUrl){
 
-	zval *params = NULL;
+	zval *uri = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!uri) {
+		PHALCON_INIT_VAR(uri);
+		ZVAL_STRING(uri, "", 1);
+	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
 	PHALCON_CALL_METHOD(r0, r1, "getbaseuri", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, params TSRMLS_CC);
+	concat_function(r2, r0, uri TSRMLS_CC);
 	PHALCON_RETURN_CTOR(r2);
 }
 
 /**
  * Gets path to local file
  *
- * @param string $params
+ * @param string $extraPath
  * @return string
  */
 PHP_METHOD(Phalcon_Utils, getLocalPath){
 
-	zval *params = NULL;
+	zval *extra_path = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &extra_path) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!extra_path) {
+		PHALCON_INIT_VAR(extra_path);
+		ZVAL_STRING(extra_path, "", 1);
+	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
 	PHALCON_CALL_METHOD(r0, r1, "getbasepath", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, params TSRMLS_CC);
+	concat_function(r2, r0, extra_path TSRMLS_CC);
 	PHALCON_RETURN_CTOR(r2);
 }
 

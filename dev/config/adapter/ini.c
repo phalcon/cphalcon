@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -76,7 +77,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	zend_bool silence;
 
 	PHALCON_MM_GROW();
 	
@@ -85,24 +85,21 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(config, a0);
-	silence = PG(display_errors);
-	PG(display_errors) = 0;
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "parse_ini_file", file_path, c0, 0x008);
-	PG(display_errors) = silence;
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "parse_ini_file", file_path, c0, 0x00C);
 	PHALCON_CPY_WRT(ini_config, r0);
 	if (Z_TYPE_P(ini_config) == IS_BOOL && !Z_BVAL_P(ini_config)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_config_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		Z_ADDREF_P(file_path);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", file_path, 0x009);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", file_path, 0x00D);
 		Z_DELREF_P(file_path);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_BOTH(r2,  "Configuration file ", r1, " can't be loaded");
@@ -110,7 +107,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	if (phalcon_valid_foreach(ini_config TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(ini_config);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -152,12 +148,12 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			PHALCON_INIT_VAR(r3);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, ".", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "strpos", key, c1, 0x00A);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "strpos", key, c1, 0x00E);
 			if (Z_TYPE_P(r3) != IS_BOOL || (Z_TYPE_P(r3) == IS_BOOL && Z_BVAL_P(r3))) {
 				PHALCON_INIT_VAR(r4);
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ".", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r4, "explode", c2, key, 0x005);
+				PHALCON_CALL_FUNC_PARAMS_2(r4, "explode", c2, key, 0x009);
 				PHALCON_CPY_WRT(directive_parts, r4);
 				if (Z_TYPE_P(config) == IS_ARRAY) {
 					PHALCON_INIT_VAR(t0);

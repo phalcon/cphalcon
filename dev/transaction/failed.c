@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -63,8 +64,6 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), record TSRMLS_CC);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_LONG(c0, 0);

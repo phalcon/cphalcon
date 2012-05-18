@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -76,7 +77,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 	ZVAL_STRING(c2, "domain", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c2, PHALCON_NO_CHECK);
 	Z_ADDREF_P(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x03C);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x03D);
 	Z_DELREF_P(r2);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -120,17 +121,20 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CALL_METHOD(r4, this_ptr, "getvalue", PHALCON_NO_CHECK);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, domain, 0x03D);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, domain, 0x03E);
 			if (zend_is_true(r3)) {
 				PHALCON_ALLOC_ZVAL_MM(r5);
 				PHALCON_CALL_METHOD(r5, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 				PHALCON_CPY_WRT(field_name, r5);
+				
 				PHALCON_ALLOC_ZVAL_MM(r7);
 				PHALCON_CONCAT_LEFT(r7, "Value of field '", field_name);
-				PHALCON_ALLOC_ZVAL_MM(r8);
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ", ", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r8, "join", c2, domain, 0x00C);
+				
+				PHALCON_ALLOC_ZVAL_MM(r8);
+				phalcon_fast_join(r8, c2, domain TSRMLS_CC);
+				
 				PHALCON_ALLOC_ZVAL_MM(r6);
 				PHALCON_CONCAT_VBOTH(r6, r7, "' must not be part of list: ", r8);
 				PHALCON_INIT_VAR(c3);
@@ -139,11 +143,8 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
 			}
-			
 		}
-		
 	}
-	
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }

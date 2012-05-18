@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -61,7 +62,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_sqlStatement", strlen("_sqlStatement"), sql_statement TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -98,7 +98,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_initialTime", strlen("_initialTime"), initial_time TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -120,7 +119,6 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_finalTime", strlen("_finalTime"), final_time TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

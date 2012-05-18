@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -69,7 +70,6 @@ PHP_METHOD(Phalcon_Paginator, factory){
 		RETURN_NULL();
 	}
 
-	
 	if (!options) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -79,9 +79,10 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Paginator_Adapter_", adapter_name);
 	PHALCON_CPY_WRT(class_name, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(class_name);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x00E);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
 	Z_DELREF_P(class_name);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -92,7 +93,6 @@ PHP_METHOD(Phalcon_Paginator, factory){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);

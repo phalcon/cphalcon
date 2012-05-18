@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -54,7 +55,6 @@ PHP_METHOD(Phalcon_Paginator_Exception, __construct){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon_Paginator_Exception", "__construct", message);
 	
 	PHALCON_MM_RESTORE();

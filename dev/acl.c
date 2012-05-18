@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -83,9 +84,10 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Acl_Adapter_", adapter_name);
 	PHALCON_CPY_WRT(adapter_class, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(adapter_class);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x00E);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x012);
 	Z_DELREF_P(adapter_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -96,7 +98,6 @@ PHP_METHOD(Phalcon_Acl, __construct){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	ce0 = phalcon_fetch_class(adapter_class TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
@@ -127,7 +128,6 @@ PHP_METHOD(Phalcon_Acl, __call){
 		RETURN_NULL();
 	}
 
-	
 	if (!arguments) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Acl, __call){
 	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	Z_ADDREF_P(a1);
 	Z_ADDREF_P(arguments);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x00F);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x013);
 	Z_DELREF_P(a1);
 	Z_DELREF_P(arguments);
 	PHALCON_RETURN_DZVAL(r0);

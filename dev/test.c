@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -59,7 +60,6 @@ PHP_METHOD(Phalcon_Test, nice){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	add_assoc_long_ex(a0, "hello1", strlen("hello1")+1, 1);
@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Test, nice){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_2ebb_0;
 		} else {
+			
 			PHALCON_INIT_VAR(k);
 			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
 			if (hash_type == HASH_KEY_IS_STRING) {
@@ -85,6 +86,7 @@ PHP_METHOD(Phalcon_Test, nice){
 				}
 			}
 		}
+		
 		PHALCON_INIT_VAR(v);
 		ZVAL_ZVAL(v, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -100,7 +102,7 @@ PHP_METHOD(Phalcon_Test, nice){
 		zend_hash_destroy(ah0);
 		efree(ah0);
 	}
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", e, 0x004);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", e, 0x008);
 	
 	PHALCON_MM_RESTORE();
 }

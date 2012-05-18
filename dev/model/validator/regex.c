@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -89,15 +90,19 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(matches);
 	ZVAL_NULL(matches);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "getvalue", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(value, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD(r1, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(field_name, r1);
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r2);
+	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
@@ -105,7 +110,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	Z_ADDREF_P(r3);
 	Z_ADDREF_P(value);
 	Z_SET_ISREF_P(matches);
-	PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", r3, value, matches, 0x031);
+	PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", r3, value, matches, 0x006);
 	Z_DELREF_P(r3);
 	Z_DELREF_P(value);
 	Z_UNSET_ISREF_P(matches);
@@ -118,12 +123,10 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 			PHALCON_INIT_VAR(failed);
 			ZVAL_BOOL(failed, 0);
 		}
-		
 	} else {
 		PHALCON_INIT_VAR(failed);
 		ZVAL_BOOL(failed, 0);
 	}
-	
 	if (!zend_is_true(failed)) {
 		PHALCON_ALLOC_ZVAL_MM(r6);
 		PHALCON_CONCAT_BOTH(r6,  "Value of field '", field_name, "' doesn't match regular expression");

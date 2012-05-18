@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -115,12 +116,15 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13b){
 	PHALCON_CPY_WRT(a, i0);
 	phalcon_update_property_long(a, "uno", strlen("uno"), 1 TSRMLS_CC);
 	phalcon_update_property_long(a, "dos", strlen("dos"), 2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init(i1);
 	phalcon_update_property_zval(a, "subA", strlen("subA"), i1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
@@ -144,27 +148,36 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13c){
 	PHALCON_CPY_WRT(a, i0);
 	phalcon_update_property_long(a, "uno", strlen("uno"), 1 TSRMLS_CC);
 	phalcon_update_property_long(a, "dos", strlen("dos"), 2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init(i1);
 	phalcon_update_property_zval(a, "subA", strlen("subA"), i1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init(i2);
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_zval(t2, "subSubA", strlen("subSubA"), i2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t3);
 	phalcon_read_property(&t3, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_read_property(&t4, t3, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t4, "uno", strlen("uno"), 1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t5);
 	phalcon_read_property(&t5, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t6);
 	phalcon_read_property(&t6, t5, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t6, "dos", strlen("dos"), 2 TSRMLS_CC);
@@ -191,27 +204,36 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e13d){
 	PHALCON_CPY_WRT(a, i0);
 	phalcon_update_property_long(a, "uno", strlen("uno"), 1 TSRMLS_CC);
 	phalcon_update_property_long(a, "dos", strlen("dos"), 2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init(i1);
 	phalcon_update_property_zval(a, "subA", strlen("subA"), i1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t0, "uno", strlen("uno"), 1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t1, "dos", strlen("dos"), 2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init(i2);
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_zval(t2, "subSubA", strlen("subSubA"), i2 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t3);
 	phalcon_read_property(&t3, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_read_property(&t4, t3, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t4, "uno", strlen("uno"), 1 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t5);
 	phalcon_read_property(&t5, a, "subA", sizeof("subA")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t6);
 	phalcon_read_property(&t6, t5, "subSubA", sizeof("subSubA")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_update_property_long(t6, "dos", strlen("dos"), 2 TSRMLS_CC);
@@ -247,7 +269,6 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e14){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init(i0);
 	PHALCON_CPY_WRT(a, i0);

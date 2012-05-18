@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -78,8 +79,11 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CALL_METHOD(r1, this_ptr, "getrecord", PHALCON_NO_CHECK);
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		phalcon_clone(i0, r1 TSRMLS_CC);
+		if (phalcon_clone(i0, r1 TSRMLS_CC) == FAILURE){
+			return;
+		}
 		PHALCON_CPY_WRT(record, i0);
+		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD(r2, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(field, r2);
@@ -100,7 +104,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				PHALCON_INIT_VAR(r4);
 				PHALCON_CALL_METHOD_PARAMS_1(r4, record, "readattribute", compose_field, PHALCON_NO_CHECK);
 				Z_ADDREF_P(r4);
-				PHALCON_CALL_FUNC_PARAMS_1(r3, "addslashes", r4, 0x00B);
+				PHALCON_CALL_FUNC_PARAMS_1(r3, "addslashes", r4, 0x00F);
 				Z_DELREF_P(r4);
 				PHALCON_CPY_WRT(value, r3);
 				PHALCON_INIT_VAR(r5);
@@ -118,7 +122,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_ALLOC_ZVAL_MM(r8);
 			PHALCON_CALL_METHOD(r8, this_ptr, "getvalue", PHALCON_NO_CHECK);
 			Z_ADDREF_P(r8);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x00B);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x00F);
 			Z_DELREF_P(r8);
 			PHALCON_CPY_WRT(value, r7);
 			PHALCON_ALLOC_ZVAL_MM(r9);
@@ -149,7 +153,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_INIT_VAR(r16);
 			PHALCON_CALL_METHOD_PARAMS_1(r16, record, "readattribute", primary_field, PHALCON_NO_CHECK);
 			Z_ADDREF_P(r16);
-			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x00B);
+			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x00F);
 			Z_DELREF_P(r16);
 			PHALCON_INIT_VAR(r14);
 			PHALCON_CONCAT_VBOTH(r14, primary_field, "<>'", r15);
@@ -161,10 +165,10 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			fee_d73d_1:
 			if(0){ };
 		}
-		PHALCON_ALLOC_ZVAL_MM(r18);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r18, "join", c0, conditions, 0x00C);
+		PHALCON_ALLOC_ZVAL_MM(r18);
+		phalcon_fast_join(r18, c0, conditions TSRMLS_CC);
 		PHALCON_CPY_WRT(conditions, r18);
 		PHALCON_ALLOC_ZVAL_MM(r19);
 		PHALCON_CALL_STATIC_ZVAL_PARAMS_1(r19, record, "count", conditions);
@@ -190,13 +194,10 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				ZVAL_STRING(c2, "unique", 1);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r23, field, c2, PHALCON_NO_CHECK);
 			}
-			
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
 		}
-		
 	}
-	
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }

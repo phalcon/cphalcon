@@ -47,5 +47,5 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($response->getContent(), '<html>lolhere</html>');
 
 	}
-	
+
 }

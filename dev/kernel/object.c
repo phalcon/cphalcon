@@ -30,16 +30,51 @@
 #include "kernel/object.h"
 
 /**
+ * Reads class constant from string name and returns its value
+ */
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC){
+
+	zval **result_ptr;
+
+	if (zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
+		return FAILURE;
+	} else {
+		ZVAL_ZVAL(return_value, *result_ptr, 1, 0);
+	}
+
+	return SUCCESS;
+}
+
+/**
  * Check if class is instance of
  */
 int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "instanceof expects an object instance, constant given");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
 		return FAILURE;
     } else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
     }
     return SUCCESS;
+}
+
+/**
+ * Returns class name into result
+ */
+void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
+	zend_class_entry *ce;
+	if (Z_TYPE_P(object) == IS_OBJECT){
+		ce = Z_OBJCE_P(object);
+		Z_STRLEN_P(result) = ce->name_length;
+		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
+		memcpy(Z_STRVAL_P(result), ce->name, ce->name_length);
+		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+		Z_TYPE_P(result) = IS_STRING;
+	} else {
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+	}
 }
 
 /**
@@ -49,50 +84,9 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
 	if (Z_TYPE_P(class_name) == IS_STRING){
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	} else {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "class name must be a string");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
 		return zend_fetch_class("stdclass", strlen("strlen"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	}
-}
-
-/**
- * Check if a class exists
- *
- * @TODO Unfortunately doesn't works
- */
-int phalcon_class_exists(zval *return_value, zval *class_name_zval, zval *autoload_zval TSRMLS_DC){
-
-	/*char *class_name;
-	int class_name_len;
-	zend_class_entry ***ce;
-	ulong hash;
-	ALLOCA_FLAG(use_heap)
-
-	switch(Z_TYPE_P(class_name_zval)){
-		case IS_ARRAY:
-		case IS_OBJECT:
-		case IS_RESOURCE:
-			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid parameter for class_exists");
-			return FAILURE;
-	}
-
-	if(Z_TYPE_P(class_name_zval)!=IS_STRING){
-		convert_to_string(class_name_zval);
-	}
-
-	class_name = estrndup(Z_STRVAL_P(class_name_zval), Z_STRLEN_P(class_name_zval));
-	class_name_len = strlen(class_name);
-
-	zend_str_tolower(class_name, class_name_len);
-
-	hash = zend_inline_hash_func(class_name, class_name_len);
-	if(zend_hash_quick_find(EG(class_table), class_name, class_name_len, hash, (void **) ce) == SUCCESS) {
-		free_alloca(class_name, use_heap);
-		return SUCCESS;
-	}
-
-	free_alloca(class_name, use_heap);*/
-	return FAILURE;
-
 }
 
 /**
@@ -243,7 +237,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
  */
 int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		zend_update_property_long(Z_OBJCE_P(obj), obj, property_name, property_length, value TSRMLS_CC);
@@ -256,7 +250,7 @@ int phalcon_update_property_long(zval *obj, char *property_name, int property_le
  */
 int phalcon_update_property_string(zval *obj, char *property_name, int property_length, char *value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		zend_update_property_string(Z_OBJCE_P(obj), obj, property_name, property_length, value TSRMLS_CC);
@@ -269,7 +263,7 @@ int phalcon_update_property_string(zval *obj, char *property_name, int property_
  */
 int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC){
 	if (Z_TYPE_P(obj) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Attempt to assign property of non-object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	} else {
 		zend_update_property(Z_OBJCE_P(obj), obj, property_name, property_length, value TSRMLS_CC);

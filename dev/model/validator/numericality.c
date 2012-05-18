@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -60,7 +61,7 @@ PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD(r2, this_ptr, "getvalue", PHALCON_NO_CHECK);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x027);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x02B);
 		if (!zend_is_true(r1)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_CALL_METHOD(r3, this_ptr, "getfieldname", PHALCON_NO_CHECK);

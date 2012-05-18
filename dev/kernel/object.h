@@ -17,25 +17,20 @@
   +------------------------------------------------------------------------+
 */
 
-/** Reads properties */
-#define PHALCON_READ_PROPERTY_NOISY(result, object, property_name, property_length) PHALCON_VAR_INIT(result); phalcon_read_property(result, object, property_name, property_length, PHALCON_NOISY_FETCH TSRMLS_CC);
-#define PHALCON_READ_PROPERTY_SILENT(result, object, property_name, property_length) PHALCON_VAR_INIT(result); phalcon_read_property(result, object, property_name, property_length, PHALCON_SILENT_FETCH TSRMLS_CC);
-
-#define PHALCON_UPDATE_PROPERTY_CPY(object, property_name, value) {\
-    zval *copy;\
-    ALLOC_ZVAL(copy);\
-    ZVAL_ZVAL(copy, value, 1, 0);\
-    phalcon_update_property_zval_cpy(object, property_name, strlen(property_name), copy TSRMLS_CC);\
-  }
-
 /** New */
 #define PHALCON_NEW_STD(object) PHALCON_ALLOC_ZVAL(object); object_init(object)
 #define PHALCON_NEW(object, class) PHALCON_ALLOC_ZVAL(object); object_init_ex(object, class)
 
+/** Class Constants */
+#define PHALCON_GET_CLASS_CONSTANT(var, class_entry, name) PHALCON_VAR_INIT(var); phalcon_get_class_constant(var, class_entry, name, strlen(name) TSRMLS_CC)
+
+extern void phalcon_get_class(zval *result, zval *object TSRMLS_DC);
+
 extern zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
 
+extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
+
 extern int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
-extern int phalcon_class_exists(zval *return_value, zval *class_name_zval, zval *autoload_zval TSRMLS_DC);
 extern int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC);
 
 extern int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC);
@@ -50,4 +45,3 @@ extern int phalcon_read_property_zval(zval **result, zval *object, zval *propert
 extern int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC);
 extern int phalcon_update_property_string(zval *obj, char *property_name, int property_length, char *value TSRMLS_DC);
 extern int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC);
-

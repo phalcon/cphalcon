@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -63,7 +64,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_frontendOptions", strlen("_frontendOptions"), frontend_options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_start", 0x010);
+	PHALCON_CALL_FUNC_NORETURN("ob_start", 0x014);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x011);
+	PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x015);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x012);
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x016);
 	
 	PHALCON_MM_RESTORE();
 }

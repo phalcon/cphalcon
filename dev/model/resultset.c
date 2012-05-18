@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -66,8 +67,6 @@ PHP_METHOD(Phalcon_Model_Resultset, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), model TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_resultResource", strlen("_resultResource"), result_resource TSRMLS_CC);
 	
@@ -224,7 +223,9 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
 	
 	convert_to_long(position);
 	phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), position TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD(r0, t0, "getconnection", PHALCON_NO_CHECK);
@@ -259,7 +260,7 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_count", sizeof("_count")-1, PHALCON_NOISY TSRMLS_CC);
 	Z_ADDREF_P(t1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_null", t1, 0x040);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_null", t1, 0x041);
 	Z_DELREF_P(t1);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -295,7 +296,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "count", PHALCON_NO_CHECK);
 	PHALCON_INIT_VAR(r1);
@@ -304,7 +304,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -328,7 +327,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "count", PHALCON_NO_CHECK);
 	PHALCON_INIT_VAR(r1);
@@ -376,8 +374,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 		RETURN_NULL();
 	}
 
-	
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_exception_ce);
 	PHALCON_INIT_VAR(c0);
@@ -405,7 +401,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_exception_ce);
 	PHALCON_INIT_VAR(c0);
@@ -445,9 +440,7 @@ PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 			PHALCON_CALL_METHOD(r2, this_ptr, "current", PHALCON_NO_CHECK);
 			PHALCON_RETURN_DZVAL(r2);
 		}
-		
 	}
-	
 	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
 }

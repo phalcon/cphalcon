@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -70,9 +71,6 @@ PHP_METHOD(Phalcon_Controller, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
-	
 	if (!view) {
 		PHALCON_INIT_VAR(view);
 		ZVAL_NULL(view);
@@ -110,7 +108,6 @@ PHP_METHOD(Phalcon_Controller, _forward){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
@@ -125,9 +122,9 @@ PHP_METHOD(Phalcon_Controller, _forward){
  */
 PHP_METHOD(Phalcon_Controller, __get){
 
-	zval *property_name = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
+	zval *property_name = NULL, *model = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -137,7 +134,6 @@ PHP_METHOD(Phalcon_Controller, __get){
 		RETURN_NULL();
 	}
 
-	
 	if (PHALCON_COMPARE_STRING(property_name, "view")) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PHALCON_NO_CHECK);
@@ -159,7 +155,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_session_namespace_ce);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02E);
+		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r1, PHALCON_CHECK);
 		phalcon_update_property_zval(this_ptr, "session", strlen("session"), i1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t2);
@@ -169,20 +165,22 @@ PHP_METHOD(Phalcon_Controller, __get){
 	PHALCON_ALLOC_ZVAL_MM(t3);
 	phalcon_read_property(&t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t3)) {
-		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_ALLOC_ZVAL_MM(t4);
 		phalcon_read_property(&t4, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_1(r2, t4, "ismodel", property_name, PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(model, t4);
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		PHALCON_CALL_METHOD_PARAMS_1(r2, model, "ismodel", property_name, PHALCON_NO_CHECK);
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CALL_METHOD_PARAMS_1(r3, t5, "getmodel", property_name, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(r3, model, "getmodel", property_name, PHALCON_NO_CHECK);
 			PHALCON_RETURN_DZVAL(r3);
 		}
-		
 	}
-	
+	PHALCON_ALLOC_ZVAL_MM(r4);
+	PHALCON_CONCAT_LEFT(r4, "Access to undefined property ", property_name);
+	Z_ADDREF_P(r4);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", r4, 0x033);
+	Z_DELREF_P(r4);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

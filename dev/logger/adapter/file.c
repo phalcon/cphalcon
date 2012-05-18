@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -59,7 +60,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	zval *t0 = NULL;
 	zval *i0 = NULL;
 	int eval_int;
-	zend_bool silence;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
@@ -71,7 +71,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		RETURN_NULL();
 	}
 
-	
 	if (!options) {
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
@@ -87,11 +86,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		PHALCON_INIT_VAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	silence = PG(display_errors);
-	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "fopen", name, mode, 0x021);
-	PG(display_errors) = silence;
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "fopen", name, mode, 0x025);
 	phalcon_update_property_zval(this_ptr, "_fileHandler", strlen("_fileHandler"), r1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
@@ -104,7 +100,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -125,7 +120,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, setFormat){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_format", strlen("_format"), format TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -148,7 +142,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormat){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_format", sizeof("_format")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);
@@ -286,7 +279,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
-	zend_bool silence;
 
 	PHALCON_MM_GROW();
 	
@@ -295,8 +287,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 		RETURN_NULL();
 	}
 
-	
-	
 	if (!time) {
 		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
@@ -306,7 +296,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	
 	if (!zend_is_true(time)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "time", 0x014);
+		PHALCON_CALL_FUNC(r0, "time", 0x018);
 		PHALCON_CPY_WRT(time, r0);
 	}
 	PHALCON_ALLOC_ZVAL_MM(t0);
@@ -315,17 +305,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "%date%", 1);
-	silence = PG(display_errors);
-	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_dateFormat", sizeof("_dateFormat")-1, PHALCON_NOISY TSRMLS_CC);
 	Z_ADDREF_P(t1);
 	Z_ADDREF_P(time);
-	PHALCON_CALL_FUNC_PARAMS_2(r2, "date", t1, time, 0x04D);
+	PHALCON_CALL_FUNC_PARAMS_2(r2, "date", t1, time, 0x04E);
 	Z_DELREF_P(t1);
 	Z_DELREF_P(time);
-	PG(display_errors) = silence;
 	PHALCON_CALL_FUNC_PARAMS_3(r1, "str_replace", c0, r2, format, 0x003);
 	PHALCON_CPY_WRT(format, r1);
 	PHALCON_ALLOC_ZVAL_MM(r3);
@@ -359,7 +346,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, setDateFormat){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_dateFormat", strlen("_dateFormat"), date TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -401,8 +387,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		RETURN_NULL();
 	}
 
-	
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t0)) {
@@ -416,23 +400,22 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 	}
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	Z_ADDREF_P(message);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", message, 0x044);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", message, 0x045);
 	Z_DELREF_P(message);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_BOOL(c1, 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "print_r", message, c1, 0x004);
+		PHALCON_CALL_FUNC_PARAMS_2(r1, "print_r", message, c1, 0x008);
 		PHALCON_CPY_WRT(msg, r1);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_transaction", sizeof("_transaction")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t1)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_logger_item_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_FUNC(r2, "time", 0x014);
+		PHALCON_CALL_FUNC(r2, "time", 0x018);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i1, "__construct", message, type, r2, PHALCON_CHECK);
 		PHALCON_ALLOC_ZVAL_MM(t2);
 		phalcon_read_property(&t2, this_ptr, "_quenue", sizeof("_quenue")-1, PHALCON_NOISY TSRMLS_CC);
@@ -449,11 +432,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		concat_function(r4, r3, t4 TSRMLS_CC);
 		Z_ADDREF_P(r4);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t3, r4, 0x04E);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t3, r4, 0x04F);
 		Z_DELREF_P(t3);
 		Z_DELREF_P(r4);
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -526,7 +508,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		PHALCON_INIT_VAR(r4);
 		concat_function(r4, r0, t3 TSRMLS_CC);
 		Z_ADDREF_P(r4);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t2, r4, 0x04E);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t2, r4, 0x04F);
 		Z_DELREF_P(t2);
 		Z_DELREF_P(r4);
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -578,18 +560,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 
 	zval *r0 = NULL;
 	zval *t0 = NULL;
-	zend_bool silence;
 
 	PHALCON_MM_GROW();
-	silence = PG(display_errors);
-	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
 	Z_ADDREF_P(t0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "fclose", t0, 0x023);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "fclose", t0, 0x027);
 	Z_DELREF_P(t0);
-	PG(display_errors) = silence;
 	PHALCON_RETURN_CHECK_CTOR(r0);
 }
 
@@ -602,18 +580,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 	zval *c0 = NULL;
-	zend_bool silence;
 
 	PHALCON_MM_GROW();
-	silence = PG(display_errors);
-	PG(display_errors) = 0;
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_path", sizeof("_path")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "ab", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "fopen", t0, c0, 0x021);
-	PG(display_errors) = silence;
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "fopen", t0, c0, 0x025);
 	phalcon_update_property_zval(this_ptr, "_fileHandler", strlen("_fileHandler"), r0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

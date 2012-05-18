@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -63,7 +64,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, __construct){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_config", strlen("_config"), config TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(config, "limit", strlen("limit")+1);
 	if (eval_int) {
@@ -71,14 +71,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, __construct){
 		phalcon_array_fetch_string(&r0, config, "limit", strlen("limit"), PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_limitRows", strlen("_limitRows"), r0 TSRMLS_CC);
 	}
-	
 	eval_int = phalcon_array_isset_string(config, "page", strlen("page")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch_string(&r1, config, "page", strlen("page"), PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_page", strlen("_page"), r1 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -99,7 +97,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, setCurrentPage){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_page", strlen("_page"), page TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -127,11 +124,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_limitRows", sizeof("_limitRows")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(show, t0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_config", sizeof("_config")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_string(&r0, t1, "data", strlen("data"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(items, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_page", sizeof("_page")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(page_number, t2);
@@ -139,9 +139,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		PHALCON_INIT_VAR(page_number);
 		ZVAL_LONG(page_number, 1);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "count", items, 0x007);
+	phalcon_fast_count(r1, items TSRMLS_CC);
 	PHALCON_CPY_WRT(n, r1);
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init(i0);
@@ -155,7 +154,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_CPY_WRT(start, r3);
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_ALLOC_ZVAL_MM(r5);
-	PHALCON_CALL_FUNC_PARAMS_1(r5, "count", items, 0x007);
+	phalcon_fast_count(r5, items TSRMLS_CC);
 	PHALCON_INIT_VAR(t4);
 	ZVAL_LONG(t4, 1);
 	PHALCON_ALLOC_ZVAL_MM(r6);
@@ -163,7 +162,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	div_function(r7, r6, show TSRMLS_CC);
 	Z_ADDREF_P(r7);
-	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x01A);
+	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x01E);
 	Z_DELREF_P(r7);
 	PHALCON_CPY_WRT(total_pages, r4);
 	if (Z_TYPE_P(items) != IS_ARRAY) { 
@@ -175,9 +174,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(r8);
-	PHALCON_CALL_FUNC_PARAMS_3(r8, "array_slice", items, start, show, 0x01B);
+	PHALCON_CALL_FUNC_PARAMS_3(r8, "array_slice", items, start, show, 0x01F);
 	phalcon_update_property_zval(page, "items", strlen("items"), r8 TSRMLS_CC);
 	phalcon_update_property_long(page, "first", strlen("first"), 1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r9);
@@ -207,15 +205,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 			phalcon_add_function(r15, r14, t6 TSRMLS_CC);
 			PHALCON_CPY_WRT(next, r15);
 		}
-		
 	}
-	
 	PHALCON_INIT_VAR(r16);
 	is_smaller_function(r16, total_pages, next TSRMLS_CC);
 	if (zend_is_true(r16)) {
 		PHALCON_CPY_WRT(next, total_pages);
 	}
-	
 	phalcon_update_property_zval(page, "next", strlen("next"), next TSRMLS_CC);
 	PHALCON_INIT_VAR(t7);
 	ZVAL_LONG(t7, 1);
@@ -231,7 +226,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		PHALCON_INIT_VAR(before);
 		ZVAL_LONG(before, 1);
 	}
-	
 	phalcon_update_property_zval(page, "before", strlen("before"), before TSRMLS_CC);
 	phalcon_update_property_zval(page, "current", strlen("current"), page_number TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r20);

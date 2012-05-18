@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -41,7 +42,7 @@
 /**
  * Phalcon_Model_MetaData_Session
  *
- * Stores model meta-data in session. Data will be erased when the session finishes.
+ * Stores model meta-data in session. Data will erase when the session finishes.
  * Meta-data are permanent while the session is active
  */
 
@@ -56,7 +57,6 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
 		RETURN_NULL();
 	}
 
-	
 	
 	PHALCON_MM_RESTORE();
 }

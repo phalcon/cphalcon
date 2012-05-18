@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -67,9 +68,10 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), name TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_session", "get", t0);
@@ -77,7 +79,6 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 	if (Z_TYPE_P(data) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, "_data", strlen("_data"), data TSRMLS_CC);
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -100,8 +101,6 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 		RETURN_NULL();
 	}
 
-	
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_update(&t0, property, value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -135,7 +134,6 @@ PHP_METHOD(Phalcon_Session_Namespace, __get){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(data, t0);

@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -103,7 +104,6 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig){
 		RETURN_NULL();
 	}
 
-	
 	if (Z_TYPE_P(config) == IS_OBJECT) {
 		eval_int = phalcon_isset_property(config, "database", strlen("database") TSRMLS_CC);
 		if (eval_int) {
@@ -122,37 +122,31 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig){
 				phalcon_read_property(&t2, phalcon, "controllersDir", sizeof("controllersDir")-1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, "_controllersDir", strlen("_controllersDir"), t2 TSRMLS_CC);
 			}
-			
 			eval_int = phalcon_isset_property(phalcon, "modelsDir", strlen("modelsDir") TSRMLS_CC);
 			if (eval_int) {
 				PHALCON_ALLOC_ZVAL_MM(t3);
 				phalcon_read_property(&t3, phalcon, "modelsDir", sizeof("modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, "_modelsDir", strlen("_modelsDir"), t3 TSRMLS_CC);
 			}
-			
 			eval_int = phalcon_isset_property(phalcon, "viewsDir", strlen("viewsDir") TSRMLS_CC);
 			if (eval_int) {
 				PHALCON_ALLOC_ZVAL_MM(t4);
 				phalcon_read_property(&t4, phalcon, "viewsDir", sizeof("viewsDir")-1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, "_viewsDir", strlen("_viewsDir"), t4 TSRMLS_CC);
 			}
-			
 			eval_int = phalcon_isset_property(phalcon, "baseUri", strlen("baseUri") TSRMLS_CC);
 			if (eval_int) {
 				PHALCON_ALLOC_ZVAL_MM(t5);
 				phalcon_read_property(&t5, phalcon, "baseUri", sizeof("baseUri")-1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, "_baseUri", strlen("_baseUri"), t5 TSRMLS_CC);
 			}
-			
 			eval_int = phalcon_isset_property(phalcon, "basePath", strlen("basePath") TSRMLS_CC);
 			if (eval_int) {
 				PHALCON_ALLOC_ZVAL_MM(t6);
 				phalcon_read_property(&t6, phalcon, "basePath", sizeof("basePath")-1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, "_basePath", strlen("_basePath"), t6 TSRMLS_CC);
 			}
-			
 		}
-		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_exception_ce);
@@ -162,7 +156,6 @@ PHP_METHOD(Phalcon_Controller_Front, setConfig){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -183,7 +176,6 @@ PHP_METHOD(Phalcon_Controller_Front, setDatabaseConfig){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_CALL_STATIC_PARAMS_1_NORETURN("phalcon_db_pool", "setdefaultdescriptor", database);
 	
 	PHALCON_MM_RESTORE();
@@ -207,7 +199,6 @@ PHP_METHOD(Phalcon_Controller_Front, setControllersDir){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_controllersDir", strlen("_controllersDir"), controllers_dir TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -231,7 +222,6 @@ PHP_METHOD(Phalcon_Controller_Front, setModelsDir){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_modelsDir", strlen("_modelsDir"), models_dir TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -255,7 +245,6 @@ PHP_METHOD(Phalcon_Controller_Front, setViewsDir){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_viewsDir", strlen("_viewsDir"), views_dir TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -279,7 +268,6 @@ PHP_METHOD(Phalcon_Controller_Front, setRouter){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_router", strlen("_router"), router TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -316,7 +304,6 @@ PHP_METHOD(Phalcon_Controller_Front, setDispatcher){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_dispatcher", strlen("_dispatcher"), dispatcher TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -350,7 +337,6 @@ PHP_METHOD(Phalcon_Controller_Front, getDispatcher){
 		return;
 	}
 	
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -370,7 +356,6 @@ PHP_METHOD(Phalcon_Controller_Front, setBaseUri){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_baseUri", strlen("_baseUri"), base_uri TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -386,8 +371,8 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 	zval *uri = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -397,29 +382,29 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 		phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 		eval_int = phalcon_array_isset_string(g0, "PHP_SELF", strlen("PHP_SELF")+1);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "/", 1);
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			phalcon_array_fetch_string(&r4, g0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "dirname", r4, 0x048);
-			PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c0, r3, 0x005);
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_INIT_VAR(c1);
-			ZVAL_LONG(c1, 1);
+			ZVAL_STRING(c1, "/", 1);
+			PHALCON_ALLOC_ZVAL_MM(r2);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			phalcon_array_fetch_string(&r3, g0, "PHP_SELF", strlen("PHP_SELF"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CALL_FUNC_PARAMS_1(r2, "dirname", r3, 0x049);
+			PHALCON_CALL_FUNC_PARAMS_2(r1, "explode", c1, r2, 0x009);
+			PHALCON_INIT_VAR(c2);
+			ZVAL_LONG(c2, 1);
 			PHALCON_INIT_VAR(t2);
 			ZVAL_LONG(t2, 1);
 			PHALCON_INIT_VAR(t1);
 			ZVAL_LONG(t1, -1);
+			PHALCON_ALLOC_ZVAL_MM(r4);
+			mul_function(r4, t1, t2 TSRMLS_CC);
+			PHALCON_CALL_FUNC_PARAMS_3(r0, "array_slice", r1, c2, r4, 0x01F);
 			PHALCON_ALLOC_ZVAL_MM(r5);
-			mul_function(r5, t1, t2 TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_3(r1, "array_slice", r2, c1, r5, 0x01B);
-			PHALCON_INIT_VAR(c2);
-			ZVAL_STRING(c2, "/", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "join", r1, c2, 0x00C);
-			PHALCON_CPY_WRT(uri, r0);
+			phalcon_fast_join(r5, c0, r0 TSRMLS_CC);
+			PHALCON_CPY_WRT(uri, r5);
 		} else {
 			PHALCON_INIT_VAR(uri);
 			ZVAL_STRING(uri, "", 1);
@@ -453,7 +438,6 @@ PHP_METHOD(Phalcon_Controller_Front, setBasePath){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_basePath", strlen("_basePath"), base_path TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -490,7 +474,6 @@ PHP_METHOD(Phalcon_Controller_Front, setRequest){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_request", strlen("_request"), request TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -512,7 +495,6 @@ PHP_METHOD(Phalcon_Controller_Front, setResponse){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_response", strlen("_response"), response TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -534,7 +516,6 @@ PHP_METHOD(Phalcon_Controller_Front, setModelComponent){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), model TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -559,12 +540,12 @@ PHP_METHOD(Phalcon_Controller_Front, getModelComponent){
 		object_init_ex(i0, phalcon_model_manager_ce);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
 		PHALCON_CPY_WRT(model, i0);
+		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setmodelsdir", t1, PHALCON_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), model TSRMLS_CC);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t2);
@@ -586,7 +567,6 @@ PHP_METHOD(Phalcon_Controller_Front, setViewComponent){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_view", strlen("_view"), view TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -645,6 +625,7 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		object_init_ex(i0, phalcon_dispatcher_ce);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
 		PHALCON_CPY_WRT(dispatcher, i0);
+		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setbasepath", t1, PHALCON_NO_CHECK);
@@ -656,7 +637,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		phalcon_read_property(&t3, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(dispatcher, t3);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_read_property(&t4, this_ptr, "_request", sizeof("_request")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t4)) {
@@ -664,7 +644,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		PHALCON_CALL_STATIC(r0, "phalcon_request", "getinstance");
 		phalcon_update_property_zval(this_ptr, "_request", strlen("_request"), r0 TSRMLS_CC);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(t5);
 	phalcon_read_property(&t5, this_ptr, "_response", sizeof("_response")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t5)) {
@@ -672,7 +651,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		PHALCON_CALL_STATIC(r1, "phalcon_response", "getinstance");
 		phalcon_update_property_zval(this_ptr, "_response", strlen("_response"), r1 TSRMLS_CC);
 	}
-	
 	eval_int = phalcon_isset_property(this_ptr, "_router", strlen("_router") TSRMLS_CC);
 	PHALCON_INIT_VAR(r2);
 	ZVAL_BOOL(r2, !eval_int);

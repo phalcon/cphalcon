@@ -82,32 +82,32 @@ class TagTest extends PHPUnit_Framework_TestCase {
 			'T' => 'Tonight',
 			'C' => 'Crystal'
 		);
-		$this->assertEquals(Phalcon_Tag::selectStatic('horror', $values), '<select id="horror" name="horror" >
+		$this->assertEquals(Phalcon_Tag::selectStatic('horror', $values), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C');
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror" value="C" >
+		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
-	<option value="C" selected="selected">Crystal</option>
+	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'dummyText' => 'more');
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror" value="C" >
+		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
-	<option value="C" selected="selected">Crystal</option>
+	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'useDummy' => true);
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror" value="C" useDummy="1" >
-	<option value="@">Choose...</option>
+		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror" useDummy="1">
+	<option value="">Choose...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
-	<option value="C" selected="selected">Crystal</option>
+	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 	}
@@ -131,14 +131,14 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$robots = Robots::find();
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'));
-		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice" >
+		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice">
 	<option value="1">Robotina</option>
 	<option value="2">Astro Boy</option>
 	<option value="3">Terminator</option>
 </select>');
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'), 'value' => '2');
-		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice" value="2" >
+		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice">
 	<option value="1">Robotina</option>
 	<option selected="selected" value="2">Astro Boy</option>
 	<option value="3">Terminator</option>

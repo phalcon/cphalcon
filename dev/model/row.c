@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -73,7 +74,6 @@ PHP_METHOD(Phalcon_Model_Row, setConnection){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_connection", strlen("_connection"), connection TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -106,8 +106,8 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 
 	zval *result = NULL, *object_row = NULL, *columns = NULL, *value = NULL, *field = NULL;
 	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *a0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -124,16 +124,20 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
-	phalcon_clone(i0, this_ptr TSRMLS_CC);
+	if (phalcon_clone(i0, this_ptr TSRMLS_CC) == FAILURE){
+		return;
+	}
 	PHALCON_CPY_WRT(object_row, i0);
-	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_fast_count(r0, t0 TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	is_equal_function(r1, r0, t1 TSRMLS_CC);
 	if (zend_is_true(r1)) {
@@ -147,6 +151,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_47c8_0;
 			} else {
+				
 				PHALCON_INIT_VAR(field);
 				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
 				if (hash_type == HASH_KEY_IS_STRING) {
@@ -157,6 +162,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
+			
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
@@ -223,7 +229,6 @@ PHP_METHOD(Phalcon_Model_Row, readAttribute){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property_zval(&t0, this_ptr, property, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_RETURN_CHECK_CTOR(t0);

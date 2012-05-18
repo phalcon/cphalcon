@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -63,8 +64,6 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
 	if (!time) {
 		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);

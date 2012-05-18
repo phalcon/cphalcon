@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -88,7 +89,6 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 		PHALCON_CALL_METHOD_NORETURN(connection, "begin", PHALCON_NO_CHECK);
 	}
 	
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -108,7 +108,6 @@ PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_manager", strlen("_manager"), manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -144,7 +143,7 @@ PHP_METHOD(Phalcon_Transaction, commit){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY TSRMLS_CC);
-	if (!PHALCON_COMPARE_STRING(t0, "")) {
+	if (zend_is_true(t0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
@@ -156,7 +155,7 @@ PHP_METHOD(Phalcon_Transaction, commit){
 		array_init(a1);
 		phalcon_array_append(&a1, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		Z_ADDREF_P(a1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x00F);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x013);
 		Z_DELREF_P(a0);
 		Z_DELREF_P(a1);
 	}
@@ -192,7 +191,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 
 	if (!rollback_message) {
 		PHALCON_INIT_VAR(rollback_message);
-		ZVAL_STRING(rollback_message, "", 1);
+		ZVAL_NULL(rollback_message);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_message);
 	}
@@ -204,7 +203,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY TSRMLS_CC);
-	if (!PHALCON_COMPARE_STRING(t0, "")) {
+	if (zend_is_true(t0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
@@ -216,7 +215,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		array_init(a1);
 		phalcon_array_append(&a1, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		Z_ADDREF_P(a1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x00F);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x013);
 		Z_DELREF_P(a0);
 		Z_DELREF_P(a1);
 	}
@@ -226,14 +225,13 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	PHALCON_CALL_METHOD(r0, t2, "rollback", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(success, r0);
 	if (zend_is_true(success)) {
-		if (PHALCON_COMPARE_STRING(rollback_message, "")) {
+		if (!zend_is_true(rollback_message)) {
 			PHALCON_INIT_VAR(rollback_message);
 			ZVAL_STRING(rollback_message, "Transaction aborted", 1);
 		}
 		if (zend_is_true(rollback_record)) {
 			phalcon_update_property_zval(this_ptr, "_rollbackRecord", strlen("_rollbackRecord"), rollback_record TSRMLS_CC);
 		}
-		
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_transaction_failed_ce);
 		PHALCON_ALLOC_ZVAL_MM(t3);
@@ -242,7 +240,6 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -263,7 +260,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
 	phalcon_read_property(&t0, this_ptr, "_rollbackOnAbort", sizeof("_rollbackOnAbort")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x04F);
+		PHALCON_CALL_FUNC(r0, "connection_aborted", 0x050);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "The request was aborted", 1);
@@ -291,7 +288,6 @@ PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_isNewTransaction", strlen("_isNewTransaction"), is_new TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -313,7 +309,6 @@ PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_rollbackOnAbort", strlen("_rollbackOnAbort"), rollback_on_abort TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -353,7 +348,6 @@ PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), pointer TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -380,7 +374,6 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 
 	PHALCON_SEPARATE_PARAM(pointer);
 	
-	
 	if (!zend_is_true(pointer)) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
 		phalcon_read_property(&t0, this_ptr, "_pointer", sizeof("_pointer")-1, PHALCON_NOISY TSRMLS_CC);
@@ -388,6 +381,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 		increment_function(t0);
 		phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), t0 TSRMLS_CC);
 		PHALCON_CPY_WRT(pointer, t0);
+		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY TSRMLS_CC);
 		phalcon_array_update(&t1, pointer, object, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -410,15 +404,14 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 			increment_function(t4);
 			phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), t4 TSRMLS_CC);
 			PHALCON_CPY_WRT(pointer, t4);
+			
 			PHALCON_ALLOC_ZVAL_MM(t5);
 			phalcon_read_property(&t5, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY TSRMLS_CC);
 			phalcon_array_update(&t5, pointer, object, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, "_dependencies", strlen("_dependencies"), t5 TSRMLS_CC);
 			PHALCON_RETURN_CHECK_CTOR(pointer);
 		}
-		
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -442,6 +435,7 @@ PHP_METHOD(Phalcon_Transaction, save){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	phalcon_update_property_zval(this_ptr, "_messages", strlen("_messages"), a0 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_dependencies", sizeof("_dependencies")-1, PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
@@ -451,6 +445,7 @@ PHP_METHOD(Phalcon_Transaction, save){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_815a_0;
 		}
+		
 		PHALCON_INIT_VAR(dependency);
 		ZVAL_ZVAL(dependency, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -520,7 +515,6 @@ PHP_METHOD(Phalcon_Transaction, setRollbackedRecord){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_rollbackRecord", strlen("_rollbackRecord"), record TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

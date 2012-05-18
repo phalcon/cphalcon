@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -62,7 +63,6 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_value", strlen("_value"), value TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

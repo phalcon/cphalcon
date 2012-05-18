@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -89,8 +90,6 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(g0, "SERVER_SOFTWARE", strlen("SERVER_SOFTWARE")+1);
 	if (eval_int) {
@@ -101,7 +100,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x045);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
 		Z_DELREF_P(r0);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_LEFT(r3, "Status: ", code);
@@ -110,7 +109,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		Z_ADDREF_P(r2);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_BOOL(c1, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x045);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x046);
 		Z_DELREF_P(r2);
 	}
 	
@@ -140,8 +139,6 @@ PHP_METHOD(Phalcon_Response, setHeader){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(g0, "SERVER_SOFTWARE", strlen("SERVER_SOFTWARE")+1);
 	if (eval_int) {
@@ -150,10 +147,9 @@ PHP_METHOD(Phalcon_Response, setHeader){
 		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x045);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
 		Z_DELREF_P(r0);
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -175,11 +171,10 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
 		RETURN_NULL();
 	}
 
-	
 	Z_ADDREF_P(header);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, c0, 0x045);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, c0, 0x046);
 	Z_DELREF_P(header);
 	
 	PHALCON_MM_RESTORE();
@@ -203,7 +198,6 @@ PHP_METHOD(Phalcon_Response, setContent){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), content TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -227,7 +221,6 @@ PHP_METHOD(Phalcon_Response, appendContent){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);

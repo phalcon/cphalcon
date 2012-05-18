@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		array_init(a0);
 		add_next_index_stringl(a0, "Phalcon_Transaction_Manager", strlen("Phalcon_Transaction_Manager"), 1);
 		add_next_index_stringl(a0, "rollbackPendent", strlen("rollbackPendent"), 1);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x043);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0, 0x044);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_BOOL(t1, 1);
 		zend_update_static_property(phalcon_transaction_manager_ce, "_initialized", sizeof("_initialized")-1, t1 TSRMLS_CC);
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		t4 = zend_read_static_property(phalcon_transaction_manager_ce, "_dependencyPointer", sizeof("_dependencyPointer")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_INIT_VAR(t5);
 		ZVAL_LONG(t5, 2048);
+		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_add_function(r0, t4, t5 TSRMLS_CC);
 		zend_update_static_property(phalcon_transaction_manager_ce, "_dependencyPointer", sizeof("_dependencyPointer")-1, r0 TSRMLS_CC);
@@ -245,6 +247,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, transaction, "getconnection", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(connection, r0);
+		
 		PHALCON_INIT_VAR(r1);
 		PHALCON_CALL_METHOD(r1, connection, "isundertransaction", PHALCON_NO_CHECK);
 		if (zend_is_true(r1)) {
@@ -279,7 +282,6 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyRollback){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
 	
 	PHALCON_MM_RESTORE();
@@ -301,7 +303,6 @@ PHP_METHOD(Phalcon_Transaction_Manager, notifyCommit){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
 	
 	PHALCON_MM_RESTORE();
@@ -311,8 +312,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 
 	zval *transaction = NULL, *number = NULL, *managed_transaction = NULL;
 	zval *transactions = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *a0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -325,10 +326,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		RETURN_NULL();
 	}
 
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_fast_count(r0, t0 TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r1);
@@ -344,6 +344,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_ad2c_2;
 			}
+			
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
 			PHALCON_INIT_VAR(r2);
@@ -383,7 +384,6 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, transactions TSRMLS_CC);
 	}
 	
-	
 	PHALCON_MM_RESTORE();
 }
 
@@ -394,16 +394,16 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 
 	zval *number = NULL, *managed_transaction = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "count", t0, 0x007);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_fast_count(r0, t0 TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r1);

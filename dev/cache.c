@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -73,8 +74,6 @@ PHP_METHOD(Phalcon_Cache, factory){
 		RETURN_NULL();
 	}
 
-	
-	
 	if (!frontend_options) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -90,9 +89,10 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Cache_Frontend_", frontend_adapter);
 	PHALCON_CPY_WRT(frontend_class, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(frontend_class);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", frontend_class, 0x00E);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", frontend_class, 0x012);
 	Z_DELREF_P(frontend_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -103,13 +103,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CONCAT_LEFT(r3, "Phalcon_Cache_Backend_", backend_adapter);
 	PHALCON_CPY_WRT(backend_class, r3);
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	Z_ADDREF_P(backend_class);
-	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", backend_class, 0x00E);
+	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", backend_class, 0x012);
 	Z_DELREF_P(backend_class);
 	if (!zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -120,7 +119,6 @@ PHP_METHOD(Phalcon_Cache, factory){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	ce0 = phalcon_fetch_class(frontend_class TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, ce0);

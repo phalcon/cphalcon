@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -88,7 +89,6 @@ PHP_METHOD(Phalcon_Request, setFilter){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_filter", strlen("_filter"), filter TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -139,7 +139,6 @@ PHP_METHOD(Phalcon_Request, getPost){
 		RETURN_NULL();
 	}
 
-	
 	if (!filters) {
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
@@ -187,7 +186,6 @@ PHP_METHOD(Phalcon_Request, getQuery){
 		RETURN_NULL();
 	}
 
-	
 	if (!filters) {
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
@@ -234,7 +232,6 @@ PHP_METHOD(Phalcon_Request, getServer){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, name);
 	if (eval_int) {
@@ -244,6 +241,87 @@ PHP_METHOD(Phalcon_Request, getServer){
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
+}
+
+/**
+ * Checks whether $_POST superglobal has certain index
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Request, hasPost){
+
+	zval *name = NULL;
+	zval *g0 = NULL;
+	zval *r0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_get_global(&g0, "_POST", sizeof("_POST") TSRMLS_CC);
+	eval_int = phalcon_array_isset(g0, name);
+	PHALCON_INIT_VAR(r0);
+	ZVAL_BOOL(r0, eval_int);
+	PHALCON_RETURN_NCTOR(r0);
+}
+
+/**
+ * Checks whether $_SERVER superglobal has certain index
+ *
+ * @param string $name
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Request, hasQuery){
+
+	zval *name = NULL;
+	zval *g0 = NULL;
+	zval *r0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_get_global(&g0, "_GET", sizeof("_GET") TSRMLS_CC);
+	eval_int = phalcon_array_isset(g0, name);
+	PHALCON_INIT_VAR(r0);
+	ZVAL_BOOL(r0, eval_int);
+	PHALCON_RETURN_NCTOR(r0);
+}
+
+/**
+ * Checks whether $_SERVER superglobal has certain index
+ *
+ * @param string $name
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Request, hasServer){
+
+	zval *name = NULL;
+	zval *g0 = NULL;
+	zval *r0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
+	eval_int = phalcon_array_isset(g0, name);
+	PHALCON_INIT_VAR(r0);
+	ZVAL_BOOL(r0, eval_int);
+	PHALCON_RETURN_NCTOR(r0);
 }
 
 /**
@@ -266,7 +344,6 @@ PHP_METHOD(Phalcon_Request, getHeader){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, header);
 	if (eval_int) {
@@ -362,7 +439,7 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 			phalcon_array_fetch_string(&r1, g0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "application/soap+xml", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x00A);
+			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x00E);
 			PHALCON_INIT_VAR(t0);
 			ZVAL_BOOL(t0, 0);
 			PHALCON_INIT_VAR(r2);
@@ -408,7 +485,7 @@ PHP_METHOD(Phalcon_Request, getRawBody){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "php://input", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "file_get_contents", c0, 0x016);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "file_get_contents", c0, 0x01A);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -435,7 +512,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "localhost", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x046);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x047);
 	PHALCON_RETURN_DZVAL(r1);
 }
 
@@ -479,11 +556,13 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "getscheme", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(scheme, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "HTTP_SERVER_NAME", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(name, r1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "HTTP_SERVER_PORT", 1);
@@ -491,20 +570,24 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	PHALCON_CPY_WRT(port, r2);
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, "http", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	is_equal_function(r3, scheme, t0 TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 80);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	is_equal_function(r4, port, t1 TSRMLS_CC);
 	PHALCON_INIT_VAR(r5);
 	phalcon_and_function(r5, r3, r4);
 	PHALCON_INIT_VAR(t2);
 	ZVAL_STRING(t2, "https", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	is_equal_function(r6, scheme, t2 TSRMLS_CC);
 	PHALCON_INIT_VAR(t3);
 	ZVAL_LONG(t3, 443);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	is_equal_function(r7, port, t3 TSRMLS_CC);
 	PHALCON_INIT_VAR(r8);
@@ -514,7 +597,6 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	if (zend_is_true(r9)) {
 		PHALCON_RETURN_CHECK_CTOR(name);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	PHALCON_CONCAT_VBOTH(r10, name, ":", port);
 	PHALCON_RETURN_CTOR(r10);
@@ -548,9 +630,7 @@ PHP_METHOD(Phalcon_Request, getClientAddress){
 			phalcon_array_fetch_string(&r1, g0, "REMOTE_ADDR", strlen("REMOTE_ADDR"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CPY_WRT(address, r1);
 		}
-		
 	}
-	
 	PHALCON_RETURN_CHECK_CTOR(address);
 }
 
@@ -735,7 +815,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 	phalcon_get_global(&g0, "_FILES", sizeof("_FILES") TSRMLS_CC);
 	if (zend_is_true(g0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "count", g0, 0x007);
+		phalcon_fast_count(r0, g0 TSRMLS_CC);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
 		PHALCON_INIT_VAR(r1);
@@ -747,14 +827,15 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 }
 
 /**
- * Gets attached files as Phalcon_UploadFile clases
+ * Gets attached files as Phalcon_Request_File instances
  *
  * @return array
  */
 PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
-	zval *files = NULL, *file = NULL, *controller_file = NULL;
+	zval *files = NULL, *file = NULL;
 	zval *g0 = NULL;
+	zval *r0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
@@ -764,7 +845,9 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
 	PHALCON_MM_GROW();
 	phalcon_get_global(&g0, "_FILES", sizeof("_FILES") TSRMLS_CC);
-	if (zend_is_true(g0)) {
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_fast_count(r0, g0 TSRMLS_CC);
+	if (zend_is_true(r0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(files, a0);
@@ -775,14 +858,14 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_9aea_0;
 			}
+			
 			PHALCON_INIT_VAR(file);
 			ZVAL_ZVAL(file, *hd, 1, 0);
-			ce0 = zend_fetch_class("phalcon_uploadfile", strlen("phalcon_uploadfile"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+			ce0 = zend_fetch_class("phalcon_request_file", strlen("phalcon_request_file"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", file, PHALCON_CHECK);
-			PHALCON_CPY_WRT(controller_file, i0);
-			phalcon_array_append(&files, controller_file, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			phalcon_array_append(&files, i0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_9aea_0;
 			fee_9aea_0:
@@ -796,7 +879,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 }
 
 /**
- * Gets web page which refers active request
+ * Gets web page that refers active request
  *
  * @return string
  */
@@ -841,10 +924,11 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	ZVAL_STRING(c0, "HTTP_ACCEPT", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(http_accept, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept, 0x047);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept, 0x048);
 	PHALCON_CPY_WRT(accepted, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -856,12 +940,13 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9aea_1;
 		}
+		
 		PHALCON_INIT_VAR(accept);
 		ZVAL_ZVAL(accept, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c2);
 		ZVAL_STRING(c2, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x005);
+		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x009);
 		PHALCON_CPY_WRT(accept_parts, r2);
 		eval_int = phalcon_array_isset_long(accept_parts, 1);
 		if (eval_int) {
@@ -876,7 +961,6 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 			PHALCON_INIT_VAR(quality);
 			ZVAL_DOUBLE(quality, 1);
 		}
-		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		PHALCON_INIT_VAR(r5);
@@ -915,6 +999,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 	ZVAL_LONG(selected_accept_quality, 0);
 	PHALCON_INIT_VAR(selected_accept_name);
 	ZVAL_STRING(selected_accept_name, "", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "getacceptablecontent", PHALCON_NO_CHECK);
 	if (phalcon_valid_foreach(r0 TSRMLS_CC)) {
@@ -924,6 +1009,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9aea_2;
 		}
+		
 		PHALCON_INIT_VAR(accept);
 		ZVAL_ZVAL(accept, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
@@ -984,10 +1070,11 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 	ZVAL_STRING(c0, "HTTP_ACCEPT_CHARSET", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(http_accept_charset, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept_charset, 0x047);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept_charset, 0x048);
 	PHALCON_CPY_WRT(accepted, r1);
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -999,12 +1086,13 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9aea_3;
 		}
+		
 		PHALCON_INIT_VAR(accept);
 		ZVAL_ZVAL(accept, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c2);
 		ZVAL_STRING(c2, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x005);
+		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x009);
 		PHALCON_CPY_WRT(accept_parts, r2);
 		eval_int = phalcon_array_isset_long(accept_parts, 1);
 		if (eval_int) {
@@ -1019,7 +1107,6 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 			PHALCON_INIT_VAR(quality);
 			ZVAL_DOUBLE(quality, 1);
 		}
-		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		PHALCON_INIT_VAR(r5);
@@ -1058,6 +1145,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 	ZVAL_LONG(selected_charset_quality, 0);
 	PHALCON_INIT_VAR(selected_charset_name);
 	ZVAL_STRING(selected_charset_name, "", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "getclientcharsets", PHALCON_NO_CHECK);
 	if (phalcon_valid_foreach(r0 TSRMLS_CC)) {
@@ -1067,6 +1155,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9aea_4;
 		}
+		
 		PHALCON_INIT_VAR(charset);
 		ZVAL_ZVAL(charset, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);

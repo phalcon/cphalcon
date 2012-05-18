@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -65,10 +66,9 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		RETURN_NULL();
 	}
 
-	
 	if (!description) {
 		PHALCON_INIT_VAR(description);
-		ZVAL_STRING(description, "", 1);
+		ZVAL_NULL(description);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {

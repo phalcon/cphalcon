@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -108,7 +109,6 @@ PHP_METHOD(Phalcon_Config, __construct){
 		} else {
 			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(key), Z_STRLEN_P(key), value TSRMLS_CC);
 		}
-		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9656_0;
 		fee_9656_0:

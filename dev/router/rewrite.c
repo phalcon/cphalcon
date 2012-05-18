@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -78,13 +79,9 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch_string(&r0, g0, "_url", strlen("_url"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_RETURN_CHECK_CTOR(r0);
-	} else {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
 	}
-	
-	
 	PHALCON_MM_RESTORE();
+	RETURN_NULL();
 }
 
 /**
@@ -103,7 +100,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, setBaseUri){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_baseUri", strlen("_baseUri"), base_uri TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -120,7 +116,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 	zval *c0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *a0 = NULL;
-	zval *p2[] = { NULL }, *p3[] = { NULL };
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -131,15 +126,14 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "explode", c0, uri, 0x005);
+		PHALCON_CALL_FUNC_PARAMS_2(r1, "explode", c0, uri, 0x009);
 		PHALCON_CPY_WRT(parts, r1);
 		eval_int = phalcon_array_isset_long(parts, 0);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			phalcon_array_fetch_long(&r2, parts, 0, PHALCON_NOISY TSRMLS_CC);
-			p2[0] = r2;
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_filter_alphanum(r3, p2[0]);
+			phalcon_filter_alphanum(r3, r2);
 			phalcon_update_property_zval(this_ptr, "_controller", strlen("_controller"), r3 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(t0);
 			phalcon_read_property(&t0, this_ptr, "_controller", sizeof("_controller")-1, PHALCON_NOISY TSRMLS_CC);
@@ -153,9 +147,8 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			phalcon_array_fetch_long(&r4, parts, 1, PHALCON_NOISY TSRMLS_CC);
-			p3[0] = r4;
 			PHALCON_ALLOC_ZVAL_MM(r5);
-			phalcon_filter_alphanum(r5, p3[0]);
+			phalcon_filter_alphanum(r5, r4);
 			phalcon_update_property_zval(this_ptr, "_action", strlen("_action"), r5 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(t1);
 			phalcon_read_property(&t1, this_ptr, "_action", sizeof("_action")-1, PHALCON_NOISY TSRMLS_CC);
@@ -169,22 +162,22 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		array_init(a0);
 		PHALCON_CPY_WRT(params, a0);
 		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CALL_FUNC_PARAMS_1(r6, "count", parts, 0x007);
+		phalcon_fast_count(r6, parts TSRMLS_CC);
 		PHALCON_CPY_WRT(number_parts, r6);
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 2);
 		fs_ef57_0:
-		PHALCON_INIT_VAR(r7);
-		is_smaller_function(r7, i, number_parts TSRMLS_CC);
-		if (!zend_is_true(r7)) {
-			goto fe_ef57_0;
-		}
-		PHALCON_INIT_VAR(r8);
-		phalcon_array_fetch(&r8, parts, i, PHALCON_NOISY TSRMLS_CC);
-		phalcon_array_append(&params, r8, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-		PHALCON_SEPARATE(i);
-		increment_function(i);
-		goto fs_ef57_0;
+			PHALCON_INIT_VAR(r7);
+			is_smaller_function(r7, i, number_parts TSRMLS_CC);
+			if (!zend_is_true(r7)) {
+				goto fe_ef57_0;
+			}
+			PHALCON_INIT_VAR(r8);
+			phalcon_array_fetch(&r8, parts, i, PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_append(&params, r8, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_SEPARATE(i);
+			increment_function(i);
+			goto fs_ef57_0;
 		fe_ef57_0:
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
 	} else {

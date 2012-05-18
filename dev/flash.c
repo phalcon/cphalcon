@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -47,8 +48,8 @@
 PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	zval *message = NULL, *classes = NULL, *css_classes = NULL, *msg = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -61,13 +62,11 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		RETURN_NULL();
 	}
 
-	
-	
 	if (Z_TYPE_P(classes) == IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " ", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "join", c0, classes, 0x00C);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_fast_join(r0, c0, classes TSRMLS_CC);
 		PHALCON_CPY_WRT(css_classes, r0);
 	} else {
 		PHALCON_CPY_WRT(css_classes, classes);
@@ -132,7 +131,6 @@ PHP_METHOD(Phalcon_Flash, error){
 		RETURN_NULL();
 	}
 
-	
 	if (!classes) {
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "errorMessage", 1);
@@ -164,7 +162,6 @@ PHP_METHOD(Phalcon_Flash, notice){
 		RETURN_NULL();
 	}
 
-	
 	if (!classes) {
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "noticeMessage", 1);
@@ -196,7 +193,6 @@ PHP_METHOD(Phalcon_Flash, success){
 		RETURN_NULL();
 	}
 
-	
 	if (!classes) {
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "successMessage", 1);
@@ -229,7 +225,6 @@ PHP_METHOD(Phalcon_Flash, warning){
 		RETURN_NULL();
 	}
 
-	
 	if (!classes) {
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "warningMessage", 1);

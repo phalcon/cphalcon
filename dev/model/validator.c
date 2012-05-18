@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -64,9 +65,6 @@ PHP_METHOD(Phalcon_Model_Validator, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
-	
 	if (!options) {
 		PHALCON_INIT_VAR(a2);
 		array_init(a2);
@@ -103,38 +101,36 @@ PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 		RETURN_NULL();
 	}
 
-	
 	if (!field) {
 		PHALCON_INIT_VAR(field);
-		ZVAL_STRING(field, "", 1);
+		ZVAL_NULL(field);
 	} else {
 		PHALCON_SEPARATE_PARAM(field);
 	}
 	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "", 1);
+		ZVAL_NULL(type);
 	} else {
 		PHALCON_SEPARATE_PARAM(type);
 	}
 	
-	if (PHALCON_COMPARE_STRING(field, "")) {
+	if (!zend_is_true(field)) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
 		phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(field, t0);
 	}
-	if (PHALCON_COMPARE_STRING(type, "")) {
+	if (!zend_is_true(type)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "Validator", 1);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, "", 1);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "get_class", this_ptr, 0x02E);
+		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS_3(r0, "str_replace", c0, c1, r1, 0x003);
 		PHALCON_CPY_WRT(type, r0);
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_message_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", message, field, type, PHALCON_CHECK);
@@ -245,7 +241,6 @@ PHP_METHOD(Phalcon_Model_Validator, getOption){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, option);
@@ -285,7 +280,6 @@ PHP_METHOD(Phalcon_Model_Validator, isSetOption){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, option);

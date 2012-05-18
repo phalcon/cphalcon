@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -62,8 +63,6 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_update_property_zval(this_ptr, "_indexName", strlen("_indexName"), index_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_columns", strlen("_columns"), columns TSRMLS_CC);
 	
@@ -121,7 +120,6 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		RETURN_NULL();
 	}
 
-	
 	eval_int = phalcon_array_isset_string(data, "_indexName", strlen("_indexName")+1);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -142,7 +140,6 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, phalcon_db_index_ce);
 	PHALCON_ALLOC_ZVAL_MM(r0);

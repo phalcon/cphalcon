@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -71,8 +72,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_update_property_zval(this_ptr, "_frontendObject", strlen("_frontendObject"), frontend_object TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_backendOptions", strlen("_backendOptions"), backend_options TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(backend_options, "cacheDir", strlen("cacheDir")+1);
@@ -81,7 +80,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch_string(&r1, backend_options, "cacheDir", strlen("cacheDir"), PHALCON_NOISY TSRMLS_CC);
 		Z_ADDREF_P(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_writable", r1, 0x013);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_writable", r1, 0x017);
 		Z_DELREF_P(r1);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
@@ -92,7 +91,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 			phalcon_throw_exception(i0 TSRMLS_CC);
 			return;
 		}
-		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_cache_exception_ce);
@@ -102,7 +100,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -128,22 +125,25 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_backendOptions", sizeof("_backendOptions")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(backend, t0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_string(&r0, backend, "cacheDir", strlen("cacheDir"), PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	concat_function(r1, r0, key_name TSRMLS_CC);
 	PHALCON_CPY_WRT(cache_file, r1);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_frontendObject", sizeof("_frontendObject")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(front_end, t1);
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_FUNC(r2, "time", 0x014);
+		PHALCON_CALL_FUNC(r2, "time", 0x018);
 		PHALCON_CPY_WRT(time, r2);
+		
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CALL_METHOD(r3, front_end, "getlifetime", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(lifetime, r3);
@@ -151,13 +151,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 		sub_function(r4, time, lifetime TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r5);
 		Z_ADDREF_P(cache_file);
-		PHALCON_CALL_FUNC_PARAMS_1(r5, "filemtime", cache_file, 0x015);
+		PHALCON_CALL_FUNC_PARAMS_1(r5, "filemtime", cache_file, 0x019);
 		Z_DELREF_P(cache_file);
 		PHALCON_INIT_VAR(r6);
 		is_smaller_function(r6, r4, r5 TSRMLS_CC);
 		if (zend_is_true(r6)) {
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "file_get_contents", cache_file, 0x016);
+			PHALCON_CALL_FUNC_PARAMS_1(r7, "file_get_contents", cache_file, 0x01A);
 			PHALCON_RETURN_DZVAL(r7);
 		} else {
 			phalcon_update_property_zval(this_ptr, "_lastKey", strlen("_lastKey"), key_name TSRMLS_CC);
@@ -165,14 +165,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 			PHALCON_MM_RESTORE();
 			RETURN_NULL();
 		}
-		
 	} else {
 		phalcon_update_property_zval(this_ptr, "_lastKey", strlen("_lastKey"), key_name TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(front_end, "start", PHALCON_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -233,7 +231,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_frontendObject", sizeof("_frontendObject")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(front_end, t1);
@@ -250,16 +247,14 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_CALL_METHOD(r2, front_end, "getcontent", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(cached_content, r2);
 	}
-	
 	Z_ADDREF_P(cache_file);
 	Z_ADDREF_P(cached_content);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", cache_file, cached_content, 0x017);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", cache_file, cached_content, 0x01B);
 	Z_DELREF_P(cache_file);
 	Z_DELREF_P(cached_content);
 	if (zend_is_true(stop_buffer)) {
 		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PHALCON_NO_CHECK);
 	}
-	
 	zend_print_zval(cached_content, 0);
 	
 	PHALCON_MM_RESTORE();

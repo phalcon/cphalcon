@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -58,8 +59,6 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp2){
 		RETURN_NULL();
 	}
 
-	
-	
 	phalcon_update_property_long(this_ptr, "_pp0", strlen("_pp0"), 0 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, a, b TSRMLS_CC);
@@ -96,8 +95,6 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp3){
 		RETURN_NULL();
 	}
 
-	
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, a, b TSRMLS_CC);
 	PHALCON_RETURN_CTOR(r0);
@@ -116,10 +113,6 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 		RETURN_NULL();
 	}
 
-	
-	
-	
-	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_LONG(t0, 10);
 	PHALCON_INIT_VAR(r0);
@@ -142,9 +135,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 			PHALCON_CALL_METHOD_PARAMS_2(r4, o, "mp7", a, b, PHALCON_NO_CHECK);
 			PHALCON_RETURN_DZVAL(r4);
 		}
-		
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }

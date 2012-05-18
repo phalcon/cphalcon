@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -65,7 +66,6 @@ PHP_METHOD(Phalcon_Model_Message, __construct){
 		RETURN_NULL();
 	}
 
-	
 	if (!field) {
 		PHALCON_INIT_VAR(field);
 		ZVAL_NULL(field);
@@ -99,7 +99,6 @@ PHP_METHOD(Phalcon_Model_Message, setType){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_type", strlen("_type"), type TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -136,7 +135,6 @@ PHP_METHOD(Phalcon_Model_Message, setMessage){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_message", strlen("_message"), message TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -173,7 +171,6 @@ PHP_METHOD(Phalcon_Model_Message, setField){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_field", strlen("_field"), field TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -228,7 +225,6 @@ PHP_METHOD(Phalcon_Model_Message, __set_state){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_message_ce);
 	PHALCON_ALLOC_ZVAL_MM(r0);

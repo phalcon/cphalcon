@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -92,7 +93,6 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		RETURN_NULL();
 	}
 
-	
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_OBJECT) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
@@ -200,7 +200,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	eval_int = phalcon_isset_property(database, "adapter", strlen("adapter") TSRMLS_CC);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -217,7 +216,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	if (zend_is_true(new_connection)) {
 		if (zend_is_true(renovate)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);

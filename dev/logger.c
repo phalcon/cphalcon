@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -89,9 +90,10 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Logger_Adapter_", adapter);
 	PHALCON_CPY_WRT(class_name, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	Z_ADDREF_P(class_name);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x00E);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
 	Z_DELREF_P(class_name);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -102,7 +104,6 @@ PHP_METHOD(Phalcon_Logger, __construct){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
@@ -130,7 +131,6 @@ PHP_METHOD(Phalcon_Logger, log){
 		RETURN_NULL();
 	}
 
-	
 	if (!type) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
@@ -161,7 +161,6 @@ PHP_METHOD(Phalcon_Logger, debug){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -189,7 +188,6 @@ PHP_METHOD(Phalcon_Logger, error){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -217,7 +215,6 @@ PHP_METHOD(Phalcon_Logger, info){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -245,7 +242,6 @@ PHP_METHOD(Phalcon_Logger, notice){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -273,7 +269,6 @@ PHP_METHOD(Phalcon_Logger, warning){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -301,7 +296,6 @@ PHP_METHOD(Phalcon_Logger, alert){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -332,7 +326,6 @@ PHP_METHOD(Phalcon_Logger, __call){
 		RETURN_NULL();
 	}
 
-	
 	if (!arguments) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
@@ -348,7 +341,7 @@ PHP_METHOD(Phalcon_Logger, __call){
 	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	Z_ADDREF_P(a1);
 	Z_ADDREF_P(arguments);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x00F);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x013);
 	Z_DELREF_P(a1);
 	Z_DELREF_P(arguments);
 	PHALCON_RETURN_DZVAL(r0);

@@ -32,6 +32,7 @@
 #include "kernel/debug.h"
 #include "kernel/assert.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 #include "zend_operators.h"
@@ -78,7 +79,6 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_namespaces", strlen("_namespaces"), namespaces TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -100,7 +100,6 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 		RETURN_NULL();
 	}
 
-	
 	phalcon_update_property_zval(this_ptr, "_directories", strlen("_directories"), directories TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -152,7 +151,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		RETURN_NULL();
 	}
 
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_namespaces", sizeof("_namespaces")-1, PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
