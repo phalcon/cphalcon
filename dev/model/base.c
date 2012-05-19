@@ -2151,7 +2151,7 @@ PHP_METHOD(Phalcon_Model_Base, getMessages){
 
 PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 
-	/*zval *manager = NULL, *belongs_to = NULL, *error = NULL, *relation = NULL, *options = NULL;
+	zval *manager = NULL, *belongs_to = NULL, *error = NULL, *relation = NULL, *options = NULL;
 	zval *foreign_key = NULL, *conditions = NULL, *referenced_model = NULL;
 	zval *fields = NULL, *referenced_fields = NULL, *field = NULL, *n = NULL, *value = NULL;
 	zval *rowcount = NULL, *user_message = NULL;
@@ -2347,7 +2347,7 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 			RETURN_FALSE;
 		}
 	}
-	PHALCON_MM_RESTORE();*/
+	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }
 
