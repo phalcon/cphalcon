@@ -99,7 +99,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($messages[0]->getField(), "status");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' doesn't match regular expression");
 
-
 	}
 
 }

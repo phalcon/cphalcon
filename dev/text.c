@@ -134,11 +134,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		PHALCON_INIT_VAR(replacement);
 		ZVAL_ZVAL(replacement, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		Z_ADDREF_P(pattern);
-		Z_ADDREF_P(str);
 		PHALCON_CALL_FUNC_PARAMS_2(r0, "preg_match", pattern, str, 0x006);
-		Z_DELREF_P(pattern);
-		Z_DELREF_P(str);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(r1);
 			PHALCON_INIT_VAR(r2);

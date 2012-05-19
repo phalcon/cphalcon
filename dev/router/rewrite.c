@@ -175,8 +175,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			PHALCON_INIT_VAR(r8);
 			phalcon_array_fetch(&r8, parts, i, PHALCON_NOISY TSRMLS_CC);
 			phalcon_array_append(&params, r8, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-			PHALCON_SEPARATE(i);
-			increment_function(i);
+			phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			goto fs_ef57_0;
 		fe_ef57_0:
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);

@@ -79,9 +79,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch_string(&r1, backend_options, "cacheDir", strlen("cacheDir"), PHALCON_NOISY TSRMLS_CC);
-		Z_ADDREF_P(r1);
 		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_writable", r1, 0x017);
-		Z_DELREF_P(r1);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_cache_exception_ce);
@@ -150,9 +148,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		sub_function(r4, time, lifetime TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r5);
-		Z_ADDREF_P(cache_file);
 		PHALCON_CALL_FUNC_PARAMS_1(r5, "filemtime", cache_file, 0x019);
-		Z_DELREF_P(cache_file);
 		PHALCON_INIT_VAR(r6);
 		is_smaller_function(r6, r4, r5 TSRMLS_CC);
 		if (zend_is_true(r6)) {
@@ -247,11 +243,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_CALL_METHOD(r2, front_end, "getcontent", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(cached_content, r2);
 	}
-	Z_ADDREF_P(cache_file);
-	Z_ADDREF_P(cached_content);
 	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", cache_file, cached_content, 0x01B);
-	Z_DELREF_P(cache_file);
-	Z_DELREF_P(cached_content);
 	if (zend_is_true(stop_buffer)) {
 		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PHALCON_NO_CHECK);
 	}

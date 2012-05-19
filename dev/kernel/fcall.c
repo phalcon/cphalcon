@@ -83,26 +83,6 @@ int phalcon_cache_lookup_function(char *func_name, int func_name_length, int fca
 }
 
 /**
- * Automatic increasing of reference count on params
- */
-inline void phalcon_reference_params(zend_uint param_count, zval *params[]){
-	int i;
-	for (i=0;i<param_count;i++){
-		Z_ADDREF_P(params[i]);
-	}
-}
-
-/**
- * Automatic decreasing of reference count on params
- */
-inline void phalcon_dereference_params(zend_uint param_count, zval *params[]){
-	int i;
-	for (i=0;i<param_count;i++){
-		Z_DELREF_P(params[i]);
-	}
-}
-
-/**
  * Finds the correct scope to execute the function
  */
 int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
@@ -519,7 +499,6 @@ inline int phalcon_call_method_params_fast(zval *return_value, zval *object, cha
 
 	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
 	for (i=0; i<param_count; i++) {
-		Z_ADDREF_P(params[i]);
 		params_array[i] = &params[i];
 	}
 
@@ -532,8 +511,6 @@ inline int phalcon_call_method_params_fast(zval *return_value, zval *object, cha
 	}
 
 	EG(scope) = active_scope;
-	phalcon_dereference_params(param_count, params);
-
 	if (local_retval_ptr) {
 		if (noreturn) {
 			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);

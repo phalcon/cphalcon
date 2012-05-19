@@ -28,7 +28,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 		$config->password = '';
 		$config->name = 'phalcon_test';
 
-		$connection = Phalcon_Db::factory('Mysql', $config, true);
+		$connection = Phalcon_Db::factory('Mysql', $config);
 		$this->assertTrue(is_object($connection));
 
 		//List tables
@@ -161,9 +161,9 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$options = $connection->tableOptions('personas');
-		$this->assertEquals($options, $expectedOptions);		
+		$this->assertEquals($options, $expectedOptions);
 
-		//Indexes		
+		//Indexes
 		$expectedIndexes = array(
 			'PRIMARY' => Phalcon_Db_Index::__set_state(array(
 				'_indexName' => 'PRIMARY',
@@ -179,7 +179,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 			))
 		);
 
-		$describeIndexes = $connection->describeIndexes('robots_parts');		
+		$describeIndexes = $connection->describeIndexes('robots_parts');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		$describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');

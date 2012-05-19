@@ -162,7 +162,6 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL };
 	int eval_int;
 
@@ -221,33 +220,27 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(t1);
 			phalcon_read_property(&t1, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(c0);
-			ZVAL_BOOL(c0, 1);
-			PHALCON_CALL_STATIC_PARAMS_3(r0, "phalcon_db", "factory", t1, database, c0);
-			zend_update_static_property(phalcon_db_pool_ce, "_persistentConnection", sizeof("_persistentConnection")-1, r0 TSRMLS_CC);
-			t2 = zend_read_static_property(phalcon_db_pool_ce, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+			PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon_db", "factory", t1, database);
+			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r0 TSRMLS_CC);
+			t2 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 			PHALCON_CPY_WRT(connection, t2);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_ALLOC_ZVAL_MM(t3);
 			phalcon_read_property(&t3, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(c1);
-			ZVAL_BOOL(c1, 0);
-			PHALCON_CALL_STATIC_PARAMS_3(r1, "phalcon_db", "factory", t3, database, c1);
+			PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon_db", "factory", t3, database);
 			PHALCON_CPY_WRT(connection, r1);
 		}
 	} else {
-		t4 = zend_read_static_property(phalcon_db_pool_ce, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		t4 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		if (!zend_is_true(t4)) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_ALLOC_ZVAL_MM(t5);
 			phalcon_read_property(&t5, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(c2);
-			ZVAL_BOOL(c2, 1);
-			PHALCON_CALL_STATIC_PARAMS_3(r2, "phalcon_db", "factory", t5, database, c2);
-			zend_update_static_property(phalcon_db_pool_ce, "_persistentConnection", sizeof("_persistentConnection")-1, r2 TSRMLS_CC);
+			PHALCON_CALL_STATIC_PARAMS_2(r2, "phalcon_db", "factory", t5, database);
+			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r2 TSRMLS_CC);
 		}
-		t6 = zend_read_static_property(phalcon_db_pool_ce, "_persistentConnection", sizeof("_persistentConnection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		t6 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_CPY_WRT(connection, t6);
 	}
 	PHALCON_RETURN_CHECK_CTOR(connection);

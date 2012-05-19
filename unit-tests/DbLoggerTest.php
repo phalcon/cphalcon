@@ -28,7 +28,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 		$config->password = '';
 		$config->name = 'phalcon_test';
 
-		$connection = Phalcon_Db::factory('Mysql', $config, true);
+		$connection = Phalcon_Db::factory('Mysql', $config);
 		$this->assertTrue(is_object($connection));
 
 		@unlink('unit-tests/logs/test-db.log');

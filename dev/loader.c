@@ -117,9 +117,7 @@ PHP_METHOD(Phalcon_Loader, register){
 	array_init(a0);
 	phalcon_array_append(&a0, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	add_next_index_stringl(a0, "autoLoad", strlen("autoLoad"), 1);
-	Z_ADDREF_P(a0);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a0, 0x000);
-	Z_DELREF_P(a0);
 	
 	PHALCON_MM_RESTORE();
 }

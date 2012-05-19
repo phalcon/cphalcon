@@ -331,9 +331,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	is_equal_function(r0, filter, t0 TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		Z_ADDREF_P(value);
 		PHALCON_CALL_FUNC_PARAMS_1(r1, "trim", value, 0x011);
-		Z_DELREF_P(value);
 		PHALCON_RETURN_DZVAL(r1);
 	}
 	PHALCON_INIT_VAR(t1);
@@ -342,9 +340,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	is_equal_function(r2, filter, t1 TSRMLS_CC);
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL_MM(r3);
-		Z_ADDREF_P(value);
 		PHALCON_CALL_FUNC_PARAMS_1(r3, "strip_tags", value, 0x04D);
-		Z_DELREF_P(value);
 		PHALCON_RETURN_DZVAL(r3);
 	}
 	if (!zend_is_true(silent)) {

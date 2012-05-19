@@ -103,9 +103,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				PHALCON_INIT_VAR(r3);
 				PHALCON_INIT_VAR(r4);
 				PHALCON_CALL_METHOD_PARAMS_1(r4, record, "readattribute", compose_field, PHALCON_NO_CHECK);
-				Z_ADDREF_P(r4);
 				PHALCON_CALL_FUNC_PARAMS_1(r3, "addslashes", r4, 0x00F);
-				Z_DELREF_P(r4);
 				PHALCON_CPY_WRT(value, r3);
 				PHALCON_INIT_VAR(r5);
 				PHALCON_CONCAT_VBOTH(r5, compose_field, "='", value);
@@ -121,9 +119,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_ALLOC_ZVAL_MM(r7);
 			PHALCON_ALLOC_ZVAL_MM(r8);
 			PHALCON_CALL_METHOD(r8, this_ptr, "getvalue", PHALCON_NO_CHECK);
-			Z_ADDREF_P(r8);
 			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x00F);
-			Z_DELREF_P(r8);
 			PHALCON_CPY_WRT(value, r7);
 			PHALCON_ALLOC_ZVAL_MM(r9);
 			PHALCON_CONCAT_VBOTH(r9, field, "='", value);
@@ -152,9 +148,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			PHALCON_INIT_VAR(r15);
 			PHALCON_INIT_VAR(r16);
 			PHALCON_CALL_METHOD_PARAMS_1(r16, record, "readattribute", primary_field, PHALCON_NO_CHECK);
-			Z_ADDREF_P(r16);
 			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x00F);
-			Z_DELREF_P(r16);
 			PHALCON_INIT_VAR(r14);
 			PHALCON_CONCAT_VBOTH(r14, primary_field, "<>'", r15);
 			PHALCON_INIT_VAR(r17);

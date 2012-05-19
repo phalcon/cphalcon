@@ -92,9 +92,7 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	PHALCON_CPY_WRT(class_name, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	Z_ADDREF_P(class_name);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
-	Z_DELREF_P(class_name);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_logger_exception_ce);
@@ -339,11 +337,7 @@ PHP_METHOD(Phalcon_Logger, __call){
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&a1, t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	Z_ADDREF_P(a1);
-	Z_ADDREF_P(arguments);
 	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x013);
-	Z_DELREF_P(a1);
-	Z_DELREF_P(arguments);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

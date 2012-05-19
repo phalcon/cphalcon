@@ -178,9 +178,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 	}
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_LEFT(r4, "Access to undefined property ", property_name);
-	Z_ADDREF_P(r4);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", r4, 0x033);
-	Z_DELREF_P(r4);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

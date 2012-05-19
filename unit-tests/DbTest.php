@@ -29,7 +29,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$config->password = '';
 		$config->name = 'phalcon_test';
 
-		$connection = Phalcon_Db::factory('Mysql', $config, true);
+		$connection = Phalcon_Db::factory('Mysql', $config);
 		$this->assertTrue(is_object($connection));
 
 		$this->assertEquals($connection->getDatabaseName(), $config->name);
@@ -39,16 +39,16 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_resource($result));
-	
+
 		for($i=0;$i<3;$i++){
 			$row = $connection->fetchArray($result);
-			$this->assertEquals(count($row), 22);			
+			$this->assertEquals(count($row), 22);
 		}
 
 		$row = $connection->fetchArray($result);
 		$this->assertEquals($row, false);
 		$this->assertEquals($connection->numRows($result), 3);
-		
+
 		$number = 0;
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$this->assertTrue(is_resource($result));
@@ -82,10 +82,10 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array("'LOL 2'", "'E'"), array('nombre', 'estado'));
-		$this->assertTrue($success);	
+		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'), true);
-		$this->assertTrue($success);	
+		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array(new Phalcon_Db_RawValue('current_date'), "'A'"), array('nombre', 'estado'));
 		$this->assertTrue($success);
@@ -94,9 +94,9 @@ class DbTest extends PHPUnit_Framework_TestCase {
 			$success = $connection->insert('prueba', array("LOL ".$i, "F"), array('nombre', 'estado'), true);
 			$this->assertTrue($success);
 		}
-			
+
 		$success = $connection->update('prueba', array("nombre", "estado"), array("'LOL 1000'", "'X'"), "estado='E'");
-		$this->assertTrue($success);	
+		$this->assertTrue($success);
 
 		$success = $connection->update('prueba', array("nombre"), array("'LOL 2500'"), "estado='X'");
 		$this->assertTrue($success);

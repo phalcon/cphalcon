@@ -150,14 +150,10 @@ PHP_METHOD(Phalcon_Transaction, commit){
 		phalcon_read_property(&t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY TSRMLS_CC);
 		phalcon_array_append(&a0, t1, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		add_next_index_stringl(a0, "notifyCommit", strlen("notifyCommit"), 1);
-		Z_ADDREF_P(a0);
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		phalcon_array_append(&a1, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-		Z_ADDREF_P(a1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x013);
-		Z_DELREF_P(a0);
-		Z_DELREF_P(a1);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -210,14 +206,10 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		phalcon_read_property(&t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY TSRMLS_CC);
 		phalcon_array_append(&a0, t1, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		add_next_index_stringl(a0, "notifyRollback", strlen("notifyRollback"), 1);
-		Z_ADDREF_P(a0);
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		phalcon_array_append(&a1, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-		Z_ADDREF_P(a1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1, 0x013);
-		Z_DELREF_P(a0);
-		Z_DELREF_P(a1);
 	}
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -377,8 +369,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 	if (!zend_is_true(pointer)) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
 		phalcon_read_property(&t0, this_ptr, "_pointer", sizeof("_pointer")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_SEPARATE_NMO(t0);
-		increment_function(t0);
+		phalcon_increment_function(&t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), t0 TSRMLS_CC);
 		PHALCON_CPY_WRT(pointer, t0);
 		
@@ -400,8 +391,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(t4);
 			phalcon_read_property(&t4, this_ptr, "_pointer", sizeof("_pointer")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_SEPARATE_NMO(t4);
-			increment_function(t4);
+			phalcon_increment_function(&t4, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), t4 TSRMLS_CC);
 			PHALCON_CPY_WRT(pointer, t4);
 			

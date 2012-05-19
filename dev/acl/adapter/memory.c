@@ -1218,8 +1218,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 			fee_c945_7:
 			if(0){ };
 		}
-		PHALCON_SEPARATE(i);
-		increment_function(i);
+		phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		goto fs_c945_6;
 	fe_c945_6:
 	

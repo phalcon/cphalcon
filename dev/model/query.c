@@ -340,8 +340,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "where", condition, PHALCON_NO_CHECK);
 				}
 			}
-			PHALCON_SEPARATE(i);
-			increment_function(i);
+			phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_a355_1;
 			fee_a355_1:

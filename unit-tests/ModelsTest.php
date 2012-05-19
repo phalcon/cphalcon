@@ -32,25 +32,25 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Db_Pool::setDefaultDescriptor($config);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
-		
+
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
-		$Personas = $modelManager->getModel('Personas');		
+		$Personas = $modelManager->getModel('Personas');
 		$this->assertEquals(get_class($Personas), 'Personas');
 
 		$People = $modelManager->getModel('People');
 		$this->assertEquals(get_class($People), 'People');
 
 		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());	
+		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
 		$manager = People::getManager();
 		$this->assertEquals(get_class($manager), 'Phalcon_Model_Manager');
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
-		
+
 		$params = array();
 		$this->assertEquals(People::count($params), Personas::count($params));
 
@@ -138,7 +138,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$messages = array(
 			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'PresenceOf',
-				'_message' => 'tipo_documento is required',
+				'_message' => 'tipo_documento_id is required',
 				'_field' => 'tipo_documento_id',
 			)),
 			1 => Phalcon_Model_Message::__set_state(array(
@@ -194,9 +194,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$before = People::count();
 		$this->assertTrue($persona->delete());
 		$this->assertEquals($before-1, People::count());
-
-		//GC
-		gc_collect_cycles();
 
 	}
 

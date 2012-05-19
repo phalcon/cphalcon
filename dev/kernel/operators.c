@@ -22,11 +22,10 @@
 #endif
 
 #include "php.h"
-#ifdef PHP_WIN32
-#include "php_string.h"
-#endif
+#include "ext/standard/php_string.h"
 #include "php_phalcon.h"
 #include "kernel/main.h"
+#include "kernel/memory.h"
 
 /**
  * Performs logical AND function operator
@@ -282,4 +281,42 @@ int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 	Z_SET_REFCOUNT_P(result, ref_count);
 	Z_SET_ISREF_TO_P(result, is_ref);
 	return status;
+}
+
+/**
+ * Increment zval doing separation if needed
+ */
+void phalcon_increment_function(zval **var, int separate TSRMLS_DC){
+	if(separate){
+		zval *orig_ptr = *var;
+		if (Z_REFCOUNT_P(orig_ptr) > 1) {
+			Z_DELREF_P(orig_ptr);
+			ALLOC_ZVAL(*var);
+			phalcon_memory_observe(var TSRMLS_CC);
+			**var = *orig_ptr;
+			zval_copy_ctor(*var);
+			Z_SET_REFCOUNT_PP(var, 1);
+			Z_UNSET_ISREF_PP(var);
+		}
+	}
+	increment_function(*var);
+}
+
+/**
+ * Decrement zval doing separation if needed
+ */
+void phalcon_decrement_function(zval **var, int separate TSRMLS_DC){
+	if(separate){
+		zval *orig_ptr = *var;
+		if (Z_REFCOUNT_P(orig_ptr) > 1) {
+			Z_DELREF_P(orig_ptr);
+			ALLOC_ZVAL(*var);
+			phalcon_memory_observe(var TSRMLS_CC);
+			**var = *orig_ptr;
+			zval_copy_ctor(*var);
+			Z_SET_REFCOUNT_PP(var, 1);
+			Z_UNSET_ISREF_PP(var);
+		}
+	}
+	decrement_function(*var);
 }

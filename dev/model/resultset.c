@@ -149,8 +149,7 @@ PHP_METHOD(Phalcon_Model_Resultset, next){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_pointer", sizeof("_pointer")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_SEPARATE_NMO(t0);
-	increment_function(t0);
+	phalcon_increment_function(&t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_pointer", strlen("_pointer"), t0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -259,9 +258,7 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_count", sizeof("_count")-1, PHALCON_NOISY TSRMLS_CC);
-	Z_ADDREF_P(t1);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_null", t1, 0x041);
-	Z_DELREF_P(t1);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_ALLOC_ZVAL_MM(t2);

@@ -631,20 +631,20 @@ PHP_METHOD(Phalcon_Model_Query, fromInput);
 
 
 PHP_METHOD(Phalcon_Model_Base, __construct);
+PHP_METHOD(Phalcon_Model_Base, setManager);
+PHP_METHOD(Phalcon_Model_Base, getManager);
 PHP_METHOD(Phalcon_Model_Base, _connect);
-PHP_METHOD(Phalcon_Model_Base, _getAttributes);
-PHP_METHOD(Phalcon_Model_Base, _getPrimaryKeyAttributes);
-PHP_METHOD(Phalcon_Model_Base, _getNonPrimaryKeyAttributes);
-PHP_METHOD(Phalcon_Model_Base, _getNotNullAttributes);
-PHP_METHOD(Phalcon_Model_Base, _getDataTypesNumeric);
-PHP_METHOD(Phalcon_Model_Base, _getDataTypes);
-PHP_METHOD(Phalcon_Model_Base, _getIdentityField);
+PHP_METHOD(Phalcon_Model_Base, getAttributes);
+PHP_METHOD(Phalcon_Model_Base, getPrimaryKeyAttributes);
+PHP_METHOD(Phalcon_Model_Base, getNonPrimaryKeyAttributes);
+PHP_METHOD(Phalcon_Model_Base, getNotNullAttributes);
+PHP_METHOD(Phalcon_Model_Base, getDataTypesNumeric);
+PHP_METHOD(Phalcon_Model_Base, getDataTypes);
+PHP_METHOD(Phalcon_Model_Base, getIdentityField);
 PHP_METHOD(Phalcon_Model_Base, dump);
 PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti);
 PHP_METHOD(Phalcon_Model_Base, _createSQLSelectOne);
 PHP_METHOD(Phalcon_Model_Base, _createResultset);
-PHP_METHOD(Phalcon_Model_Base, setManager);
-PHP_METHOD(Phalcon_Model_Base, getManager);
 PHP_METHOD(Phalcon_Model_Base, setTransaction);
 PHP_METHOD(Phalcon_Model_Base, isView);
 PHP_METHOD(Phalcon_Model_Base, setSource);
@@ -665,6 +665,8 @@ PHP_METHOD(Phalcon_Model_Base, appendMessage);
 PHP_METHOD(Phalcon_Model_Base, validate);
 PHP_METHOD(Phalcon_Model_Base, validationHasFailed);
 PHP_METHOD(Phalcon_Model_Base, getMessages);
+PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys);
+PHP_METHOD(Phalcon_Model_Base, _checkForeignKeysReverse);
 PHP_METHOD(Phalcon_Model_Base, _preSave);
 PHP_METHOD(Phalcon_Model_Base, _postSave);
 PHP_METHOD(Phalcon_Model_Base, _doLowInsert);
@@ -676,7 +678,6 @@ PHP_METHOD(Phalcon_Model_Base, writeAttribute);
 PHP_METHOD(Phalcon_Model_Base, hasOne);
 PHP_METHOD(Phalcon_Model_Base, belongsTo);
 PHP_METHOD(Phalcon_Model_Base, hasMany);
-PHP_METHOD(Phalcon_Model_Base, addForeignKey);
 PHP_METHOD(Phalcon_Model_Base, __call);
 
 PHP_METHOD(Phalcon_Model_Validator, __construct);
@@ -733,7 +734,6 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection);
 PHP_METHOD(Phalcon_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, addHasMany);
-PHP_METHOD(Phalcon_Model_Manager, addForeignKey);
 PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, existsHasMany);
 PHP_METHOD(Phalcon_Model_Manager, existsHasOne);
@@ -741,6 +741,7 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords);
 PHP_METHOD(Phalcon_Model_Manager, getBelongsToRecords);
 PHP_METHOD(Phalcon_Model_Manager, getHasManyRecords);
 PHP_METHOD(Phalcon_Model_Manager, getHasOneRecords);
+PHP_METHOD(Phalcon_Model_Manager, getBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, autoload);
 
 PHP_METHOD(Phalcon_Model_MetaData_Memory, read);
@@ -1054,7 +1055,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_factory, 0, 0, 2)
 	ZEND_ARG_INFO(0, adapterName)
 	ZEND_ARG_INFO(0, options)
-	ZEND_ARG_INFO(0, persistent)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger___construct, 0, 0, 0)
@@ -1640,12 +1640,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
-	ZEND_ARG_INFO(0, persistent)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
-	ZEND_ARG_INFO(0, persistent)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_query, 0, 0, 1)
@@ -1987,6 +1985,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, manager)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_setmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, manager)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createsqlselectmulti, 0, 0, 4)
 	ZEND_ARG_INFO(0, manager)
 	ZEND_ARG_INFO(0, model)
@@ -2007,10 +2009,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__createresultset, 0, 0, 4)
 	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, select)
 	ZEND_ARG_INFO(0, resultResource)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_setmanager, 0, 0, 1)
-	ZEND_ARG_INFO(0, manager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_settransaction, 0, 0, 1)
@@ -2066,9 +2064,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_validate, 0, 0, 2)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__presave, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__presave, 0, 0, 3)
 	ZEND_ARG_INFO(0, disableEvents)
 	ZEND_ARG_INFO(0, exists)
+	ZEND_ARG_INFO(0, identityField)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__postsave, 0, 0, 3)
@@ -2077,11 +2076,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__postsave, 0, 0, 3)
 	ZEND_ARG_INFO(0, exists)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__dolowinsert, 0, 0, 4)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__dolowinsert, 0, 0, 5)
 	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, dataType)
 	ZEND_ARG_INFO(0, dataTypeNumeric)
+	ZEND_ARG_INFO(0, identityField)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base__dolowupdate, 0, 0, 4)
@@ -2110,19 +2110,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_belongsto, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_hasmany, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base_addforeignkey, 0, 0, 3)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referencedTable)
-	ZEND_ARG_INFO(0, referencedFields)
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___call, 0, 0, 1)
@@ -2264,6 +2258,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addbelongsto, 0, 0, 4)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
@@ -2271,14 +2266,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasmany, 0, 0, 4)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referenceModel)
 	ZEND_ARG_INFO(0, referencedFields)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addforeignkey, 0, 0, 4)
-	ZEND_ARG_INFO(0, model)
-	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceModel)
-	ZEND_ARG_INFO(0, referencedFields)
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_existsbelongsto, 0, 0, 2)
@@ -2321,6 +2308,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_gethasonerecords, 0, 0, 4)
 	ZEND_ARG_INFO(0, modelName)
 	ZEND_ARG_INFO(0, modelRelation)
 	ZEND_ARG_INFO(0, record)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getbelongsto, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_autoload, 0, 0, 1)
@@ -3444,20 +3435,20 @@ PHALCON_INIT_FUNCS(phalcon_model_cache_functions){
 
 PHALCON_INIT_FUNCS(phalcon_model_base_functions){
 	PHP_ME(Phalcon_Model_Base, __construct, arginfo_phalcon_model_base___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, getManager, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, _connect, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getAttributes, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getPrimaryKeyAttributes, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getNonPrimaryKeyAttributes, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getNotNullAttributes, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getDataTypesNumeric, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getDataTypes, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, _getIdentityField, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, getAttributes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getPrimaryKeyAttributes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getNonPrimaryKeyAttributes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getNotNullAttributes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getDataTypesNumeric, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getDataTypes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getIdentityField, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, dump, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _createSQLSelectMulti, arginfo_phalcon_model_base__createsqlselectmulti, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, _createSQLSelectOne, arginfo_phalcon_model_base__createsqlselectone, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, _createResultset, arginfo_phalcon_model_base__createresultset, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Model_Base, getManager, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Model_Base, setTransaction, arginfo_phalcon_model_base_settransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, isView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, setSource, arginfo_phalcon_model_base_setsource, ZEND_ACC_PROTECTED) 
@@ -3478,6 +3469,8 @@ PHALCON_INIT_FUNCS(phalcon_model_base_functions){
 	PHP_ME(Phalcon_Model_Base, validate, arginfo_phalcon_model_base_validate, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, validationHasFailed, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, getMessages, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, _checkForeignKeys, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Model_Base, _checkForeignKeysReverse, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _preSave, arginfo_phalcon_model_base__presave, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _postSave, arginfo_phalcon_model_base__postsave, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, _doLowInsert, arginfo_phalcon_model_base__dolowinsert, ZEND_ACC_PROTECTED) 
@@ -3489,7 +3482,6 @@ PHALCON_INIT_FUNCS(phalcon_model_base_functions){
 	PHP_ME(Phalcon_Model_Base, hasOne, arginfo_phalcon_model_base_hasone, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, belongsTo, arginfo_phalcon_model_base_belongsto, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, hasMany, arginfo_phalcon_model_base_hasmany, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Model_Base, addForeignKey, arginfo_phalcon_model_base_addforeignkey, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, __call, arginfo_phalcon_model_base___call, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
@@ -3564,7 +3556,6 @@ PHALCON_INIT_FUNCS(phalcon_model_manager_functions){
 	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Model_Manager, addForeignKey, arginfo_phalcon_model_manager_addforeignkey, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, existsBelongsTo, arginfo_phalcon_model_manager_existsbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, existsHasMany, arginfo_phalcon_model_manager_existshasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, existsHasOne, arginfo_phalcon_model_manager_existshasone, ZEND_ACC_PUBLIC) 
@@ -3572,6 +3563,7 @@ PHALCON_INIT_FUNCS(phalcon_model_manager_functions){
 	PHP_ME(Phalcon_Model_Manager, getBelongsToRecords, arginfo_phalcon_model_manager_getbelongstorecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getHasManyRecords, arginfo_phalcon_model_manager_gethasmanyrecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getHasOneRecords, arginfo_phalcon_model_manager_gethasonerecords, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, getBelongsTo, arginfo_phalcon_model_manager_getbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, autoload, arginfo_phalcon_model_manager_autoload, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

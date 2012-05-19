@@ -98,9 +98,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_config_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		Z_ADDREF_P(file_path);
 		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", file_path, 0x00D);
-		Z_DELREF_P(file_path);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_BOTH(r2,  "Configuration file ", r1, " can't be loaded");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);

@@ -227,8 +227,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			if (zend_is_true(r12)) {
 				goto we_e435_0;
 			}
-			PHALCON_SEPARATE(i);
-			increment_function(i);
+			phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			goto ws_e435_0;
 		we_e435_0:
 		if(0) { };

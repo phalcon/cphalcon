@@ -115,9 +115,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	Z_ADDREF_P(value);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", value, 0x045);
-	Z_DELREF_P(value);
 	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_tag_exception_ce);
@@ -205,9 +203,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 				PHALCON_ALLOC_ZVAL_MM(r2);
 				PHALCON_ALLOC_ZVAL_MM(r3);
 				phalcon_array_fetch(&r3, g0, name, PHALCON_NOISY TSRMLS_CC);
-				Z_ADDREF_P(r3);
 				PHALCON_CALL_FUNC_PARAMS_1(r2, "stripslashes", r3, 0x02D);
-				Z_DELREF_P(r3);
 				PHALCON_RETURN_DZVAL(r2);
 			}
 		}

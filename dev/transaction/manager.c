@@ -134,8 +134,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, t6 TSRMLS_CC);
 		
 		t7 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		PHALCON_SEPARATE_NMO(t7);
-		increment_function(t7);
+		phalcon_increment_function(&t7, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t7 TSRMLS_CC);
 	} else {
 		t8 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
@@ -351,12 +350,10 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			is_equal_function(r2, managed_transaction, transaction TSRMLS_CC);
 			if (zend_is_true(r2)) {
 				t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-				PHALCON_SEPARATE_NMO(t3);
-				decrement_function(t3);
+				phalcon_decrement_function(&t3, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 				zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
 			}
-			PHALCON_SEPARATE(number);
-			increment_function(number);
+			phalcon_increment_function(&number, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_2;
 			fee_ad2c_2:
@@ -422,11 +419,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
 			t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-			PHALCON_SEPARATE_NMO(t3);
-			decrement_function(t3);
+			phalcon_decrement_function(&t3, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
-			PHALCON_SEPARATE(number);
-			increment_function(number);
+			phalcon_increment_function(&number, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_4;
 			fee_ad2c_4:

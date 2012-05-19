@@ -97,20 +97,16 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		PHALCON_CONCAT_LEFT(r1, "HTTP/1.1 ", code);
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CONCAT_VBOTH(r0, r1, " ", message);
-		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
-		Z_DELREF_P(r0);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_LEFT(r3, "Status: ", code);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_VBOTH(r2, r3, " ", message);
-		Z_ADDREF_P(r2);
 		PHALCON_INIT_VAR(c1);
 		ZVAL_BOOL(c1, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x046);
-		Z_DELREF_P(r2);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -144,11 +140,9 @@ PHP_METHOD(Phalcon_Response, setHeader){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CONCAT_VBOTH(r0, name, ": ", value);
-		Z_ADDREF_P(r0);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
-		Z_DELREF_P(r0);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -171,11 +165,9 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
 		RETURN_NULL();
 	}
 
-	Z_ADDREF_P(header);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
 	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, c0, 0x046);
-	Z_DELREF_P(header);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -308,11 +308,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_dateFormat", sizeof("_dateFormat")-1, PHALCON_NOISY TSRMLS_CC);
-	Z_ADDREF_P(t1);
-	Z_ADDREF_P(time);
 	PHALCON_CALL_FUNC_PARAMS_2(r2, "date", t1, time, 0x04E);
-	Z_DELREF_P(t1);
-	Z_DELREF_P(time);
 	PHALCON_CALL_FUNC_PARAMS_3(r1, "str_replace", c0, r2, format, 0x003);
 	PHALCON_CPY_WRT(format, r1);
 	PHALCON_ALLOC_ZVAL_MM(r3);
@@ -399,9 +395,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		return;
 	}
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	Z_ADDREF_P(message);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", message, 0x045);
-	Z_DELREF_P(message);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c1);
@@ -424,17 +418,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
-		Z_ADDREF_P(t3);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CALL_METHOD_PARAMS_2(r3, this_ptr, "_applyformat", message, type, PHALCON_NO_CHECK);
 		PHALCON_ALLOC_ZVAL_MM(t4);
 		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t4 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		concat_function(r4, r3, t4 TSRMLS_CC);
-		Z_ADDREF_P(r4);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t3, r4, 0x04F);
-		Z_DELREF_P(t3);
-		Z_DELREF_P(r4);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -494,7 +484,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		ZVAL_ZVAL(message, *hd, 1, 0);
 		PHALCON_INIT_VAR(t2);
 		phalcon_read_property(&t2, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
-		Z_ADDREF_P(t2);
 		PHALCON_INIT_VAR(r0);
 		PHALCON_INIT_VAR(r1);
 		PHALCON_CALL_METHOD(r1, message, "getmessage", PHALCON_NO_CHECK);
@@ -507,10 +496,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t3 TSRMLS_CC);
 		PHALCON_INIT_VAR(r4);
 		concat_function(r4, r0, t3 TSRMLS_CC);
-		Z_ADDREF_P(r4);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t2, r4, 0x04F);
-		Z_DELREF_P(t2);
-		Z_DELREF_P(r4);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_654f_1;
 		fee_654f_1:
@@ -565,9 +551,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_fileHandler", sizeof("_fileHandler")-1, PHALCON_NOISY TSRMLS_CC);
-	Z_ADDREF_P(t0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "fclose", t0, 0x027);
-	Z_DELREF_P(t0);
 	PHALCON_RETURN_CHECK_CTOR(r0);
 }
 

@@ -27,10 +27,16 @@
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
+
 extern int phalcon_concat_right(zval *result, zval *op1, const char *op2, int op2_length TSRMLS_DC);
 extern int phalcon_concat_left(zval *result, const char *op1, int op1_length, zval *op2 TSRMLS_DC);
 extern int phalcon_concat_both(zval *result, const char *op1, int op1_length, zval *op2, const char *op3, int op3_length TSRMLS_DC);
 extern int phalcon_concat_vboth(zval *result, zval *op1, const char *op2, int op2_length, zval *op3 TSRMLS_DC);
+
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
+
 extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
+
+extern void phalcon_increment_function(zval **var, int separate TSRMLS_DC);
+extern void phalcon_decrement_function(zval **var, int separate TSRMLS_DC);

@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 }
 
 /**
- * Gets last dispacthed controller name
+ * Gets last dispatched controller name
  *
  * @return string
  */
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 }
 
 /**
- * Gets last dispacthed action name
+ * Gets last dispatched action name
  *
  * @return string
  */
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
 }
 
 /**
- * Sets action params to be dispatch
+ * Sets action params to be dispatched
  *
  * @param array $params
  */
@@ -331,11 +331,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		eval_int = phalcon_array_isset(controllers, controller_class);
 		if (!eval_int) {
 			PHALCON_INIT_VAR(r3);
-			Z_ADDREF_P(controller_class);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_BOOL(c0, 0);
 			PHALCON_CALL_FUNC_PARAMS_2(r3, "class_exists", controller_class, c0, 0x012);
-			Z_DELREF_P(controller_class);
 			if (!zend_is_true(r3)) {
 				PHALCON_INIT_VAR(r4);
 				concat_function(r4, controllers_dir, controller_class TSRMLS_CC);
@@ -356,11 +354,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					return;
 				}
 				PHALCON_INIT_VAR(r7);
-				Z_ADDREF_P(controller_class);
 				PHALCON_INIT_VAR(c1);
 				ZVAL_BOOL(c1, 0);
 				PHALCON_CALL_FUNC_PARAMS_2(r7, "class_exists", controller_class, c1, 0x012);
-				Z_DELREF_P(controller_class);
 				if (!zend_is_true(r7)) {
 					PHALCON_INIT_VAR(i1);
 					object_init_ex(i1, phalcon_exception_ce);
@@ -423,11 +419,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			array_init(a0);
 			phalcon_array_append(&a0, controller, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			phalcon_array_append(&a0, action_method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-			Z_ADDREF_P(a0);
-			Z_ADDREF_P(params);
 			PHALCON_CALL_FUNC_PARAMS_2(r12, "call_user_func_array", a0, params, 0x013);
-			Z_DELREF_P(a0);
-			Z_DELREF_P(params);
 			PHALCON_CPY_WRT(value, r12);
 		} else {
 			if (phalcon_method_exists_ex(controller, "notfoundaction", strlen("notfoundaction") TSRMLS_CC) == SUCCESS) {
@@ -436,11 +428,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				array_init(a1);
 				phalcon_array_append(&a1, controller, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 				add_next_index_stringl(a1, "notFoundAction", strlen("notFoundAction"), 1);
-				Z_ADDREF_P(a1);
-				Z_ADDREF_P(params);
 				PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a1, params, 0x013);
-				Z_DELREF_P(a1);
-				Z_DELREF_P(params);
 				PHALCON_CPY_WRT(value, r13);
 			} else {
 				PHALCON_INIT_VAR(c2);
@@ -464,8 +452,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		if (phalcon_method_exists_ex(controller, "afterdispatch", strlen("afterdispatch") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(controller, "afterdispatch", controller_name, action_name, params, PHALCON_NO_CHECK);
 		}
-		PHALCON_SEPARATE(number_dispatches);
-		increment_function(number_dispatches);
+		phalcon_increment_function(&number_dispatches, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		PHALCON_INIT_VAR(t10);
 		ZVAL_LONG(t10, 256);
 		PHALCON_INIT_VAR(r17);

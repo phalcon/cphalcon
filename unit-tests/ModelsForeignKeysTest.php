@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
+class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 
 	public function testModels(){
 
@@ -36,55 +36,37 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
-		$success = $manager->load('Robots');
+		$success = $manager->load('RobotsParts');
 		$this->assertTrue($success);
 
-		$manager->load('Parts');
-		$this->assertTrue($success);
+		$robotsParts = new RobotsParts();
+		$robotsParts->robots_id = 1;
+		$robotsParts->parts_id = 100;
+		$this->assertFalse($robotsParts->save());
 
-		$manager->load('RobotsParts');
-		$this->assertTrue($success);
+		$messages = array(
+			0 => Phalcon_Model_Message::__set_state(array(
+				'_type' => 'ConstraintViolation',
+				'_message' => 'Value of field "parts_id" does not exist on referenced table',
+				'_field' => 'parts_id',
+  			))
+  		);
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');
-		$this->assertTrue($success);
+		$this->assertEquals($robotsParts->getMessages(), $messages);
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Parts');
-		$this->assertTrue($success);
+		$robotsParts->robots_id = 100;
+		$robotsParts->parts_id = 1;
+		$this->assertFalse($robotsParts->save());
 
-		$success = $manager->existsHasMany('Robots', 'RobotsParts');
-		$this->assertTrue($success);
+		$messages = array(
+			0 => Phalcon_Model_Message::__set_state(array(
+				'_type' => 'ConstraintViolation',
+				'_message' => 'The robot code does not exist',
+				'_field' => 'robots_id',
+  			))
+  		);
 
-		$success = $manager->existsHasMany('Parts', 'RobotsParts');
-		$this->assertTrue($success);
-
-		$robot = Robots::findFirst();
-		$this->assertNotEquals($robot, false);
-
-		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
-		$this->assertEquals(count($robotsParts), 3);
-
-		$number = $robot->countRobotsParts();
-		$this->assertEquals($number, 3);
-
-		$part = Parts::findFirst();
-		$this->assertNotEquals($part, false);
-
-		$robotsParts = $part->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
-		$this->assertEquals(count($robotsParts), 1);
-
-		$number = $part->countRobotsParts();
-		$this->assertEquals($number, 1);
-
-		$robotPart = RobotsParts::findFirst();
-		$this->assertNotEquals($robotPart, false);
-
-		$robot = $robotPart->getRobots();
-		$this->assertEquals(get_class($robot), 'Robots');
-
-		$part = $robotPart->getParts();
-		$this->assertEquals(get_class($part), 'Parts');
+		$this->assertEquals($robotsParts->getMessages(), $messages);
 
 	}
 

@@ -1037,8 +1037,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 				PHALCON_CPY_WRT(selected_accept_name, r7);
 			}
 		}
-		PHALCON_SEPARATE(i);
-		increment_function(i);
+		phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_2;
 		fee_9aea_2:
@@ -1183,8 +1182,7 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 				PHALCON_CPY_WRT(selected_charset_name, r7);
 			}
 		}
-		PHALCON_SEPARATE(i);
-		increment_function(i);
+		phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_4;
 		fee_9aea_4:

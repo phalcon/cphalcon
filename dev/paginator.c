@@ -81,9 +81,7 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	PHALCON_CPY_WRT(class_name, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	Z_ADDREF_P(class_name);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
-	Z_DELREF_P(class_name);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_paginator_exception_ce);

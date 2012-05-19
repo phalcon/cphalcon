@@ -161,9 +161,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	sub_function(r6, r5, t4 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	div_function(r7, r6, show TSRMLS_CC);
-	Z_ADDREF_P(r7);
 	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x01E);
-	Z_DELREF_P(r7);
 	PHALCON_CPY_WRT(total_pages, r4);
 	if (Z_TYPE_P(items) != IS_ARRAY) { 
 		PHALCON_ALLOC_ZVAL_MM(i1);

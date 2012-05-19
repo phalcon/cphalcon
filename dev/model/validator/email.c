@@ -73,10 +73,8 @@ PHP_METHOD(Phalcon_Model_Validator_Email, validate){
 		ZVAL_STRING(c0, "/^[a-zA-Z0-9_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CALL_METHOD(r3, this_ptr, "getvalue", PHALCON_NO_CHECK);
-		Z_ADDREF_P(r3);
 		Z_SET_ISREF_P(regs);
 		PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", c0, r3, regs, 0x006);
-		Z_DELREF_P(r3);
 		Z_UNSET_ISREF_P(regs);
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r4);

@@ -83,9 +83,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Model_MetaData_", adapter);
 	PHALCON_CPY_WRT(adapter_class, r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	Z_ADDREF_P(adapter_class);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x012);
-	Z_DELREF_P(adapter_class);
 	if (zend_is_true(r1)) {
 		ce0 = phalcon_fetch_class(adapter_class TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(i0);

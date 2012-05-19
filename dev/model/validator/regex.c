@@ -107,12 +107,8 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "getoption", c0, PHALCON_NO_CHECK);
-	Z_ADDREF_P(r3);
-	Z_ADDREF_P(value);
 	Z_SET_ISREF_P(matches);
 	PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", r3, value, matches, 0x006);
-	Z_DELREF_P(r3);
-	Z_DELREF_P(value);
 	Z_UNSET_ISREF_P(matches);
 	if (zend_is_true(r2)) {
 		PHALCON_ALLOC_ZVAL_MM(r4);
