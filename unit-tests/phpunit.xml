@@ -19,7 +19,7 @@
             <file>unit-tests/LoggerTest.php</file>
             <file>unit-tests/RequestTest.php</file>
             <file>unit-tests/RouterRewriteTest.php</file>
-            <file>unit-tests/DispatcherTest.php</file>            
+            <file>unit-tests/DispatcherTest.php</file>
             <file>unit-tests/DbPoolTest.php</file>
             <file>unit-tests/DbTest.php</file>
             <file>unit-tests/DbDescribeTest.php</file>
@@ -31,7 +31,7 @@
             <file>unit-tests/ModelsTest.php</file>
             <file>unit-tests/ModelsRelationsTest.php</file>
             <file>unit-tests/ModelsValidatorsTest.php</file>
-            <file>unit-tests/ModelsForeignKeysTest.php</file>
+            <!-- <file>unit-tests/ModelsForeignKeysTest.php</file> -->
             <file>unit-tests/TransactionsTest.php</file>
             <file>unit-tests/ViewTest.php</file>
             <file>unit-tests/ControllersTest.php</file>
@@ -39,7 +39,7 @@
             <file>unit-tests/TagTest.php</file>
             <!--<file>unit-tests/CacheTest.php</file>-->
             <file>unit-tests/AclTest.php</file>
-            <file>unit-tests/PaginatorTest.php</file>            
+            <file>unit-tests/PaginatorTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
