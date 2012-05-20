@@ -101,9 +101,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CONCAT_LEFT(r3, "Phalcon_Cache_Backend_", backend_adapter);
 	PHALCON_CPY_WRT(backend_class, r3);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", backend_class, 0x012);
 	if (!zend_is_true(r4)) {
@@ -115,15 +118,19 @@ PHP_METHOD(Phalcon_Cache, factory){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
+	
 	ce0 = phalcon_fetch_class(frontend_class TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, ce0);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", frontend_options, PHALCON_CHECK);
 	PHALCON_CPY_WRT(front_object, i2);
 	ce1 = phalcon_fetch_class(backend_class TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i3);
 	object_init_ex(i3, ce1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i3, "__construct", front_object, backend_options, PHALCON_CHECK);
+	
 	PHALCON_RETURN_CTOR(i3);
 }
 

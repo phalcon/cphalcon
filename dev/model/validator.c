@@ -131,9 +131,12 @@ PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 		PHALCON_CALL_FUNC_PARAMS_3(r0, "str_replace", c0, c1, r1, 0x003);
 		PHALCON_CPY_WRT(type, r0);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_message_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", message, field, type, PHALCON_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&t1, i0, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
@@ -154,6 +157,7 @@ PHP_METHOD(Phalcon_Model_Validator, getMessages){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_messages", sizeof("_messages")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -172,12 +176,14 @@ PHP_METHOD(Phalcon_Model_Validator, isRequired){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(required);
 	ZVAL_BOOL(required, 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "", 1);
 	PHALCON_INIT_VAR(r0);
 	is_identical_function(r0, t1, t0 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(t3);
@@ -197,6 +203,7 @@ PHP_METHOD(Phalcon_Model_Validator, isRequired){
 			phalcon_array_fetch_string(&r3, t5, "required", strlen("required"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CPY_WRT(required, r3);
 		}
+		
 		PHALCON_RETURN_CHECK_CTOR(required);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -218,6 +225,7 @@ PHP_METHOD(Phalcon_Model_Validator, getOptions){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_options", sizeof("_options")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -257,6 +265,7 @@ PHP_METHOD(Phalcon_Model_Validator, getOption){
 		ZVAL_STRING(t2, "", 1);
 		r0 = t2;
 	}
+	
 	PHALCON_RETURN_CHECK_CTOR(r0);
 }
 
@@ -285,6 +294,7 @@ PHP_METHOD(Phalcon_Model_Validator, isSetOption){
 	eval_int = phalcon_array_isset(t0, option);
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
+	
 	PHALCON_RETURN_NCTOR(r0);
 }
 
@@ -300,6 +310,7 @@ PHP_METHOD(Phalcon_Model_Validator, getValue){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -316,6 +327,7 @@ PHP_METHOD(Phalcon_Model_Validator, getFieldName){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_fieldName", sizeof("_fieldName")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -331,6 +343,7 @@ PHP_METHOD(Phalcon_Model_Validator, getRecord){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

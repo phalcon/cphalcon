@@ -4,7 +4,8 @@ php:
   - 5.3
 
 before_script:
- - cd release/
+ - cd dev/
+ - export CFLAGS="-O2 -fnodelete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd .. 

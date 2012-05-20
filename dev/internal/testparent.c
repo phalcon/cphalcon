@@ -60,8 +60,10 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp2){
 	}
 
 	phalcon_update_property_long(this_ptr, "_pp0", strlen("_pp0"), 0 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, a, b TSRMLS_CC);
+	
 	PHALCON_RETURN_CTOR(r0);
 }
 
@@ -72,6 +74,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp7){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_pp0", sizeof("_pp0")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -97,6 +100,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp3){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, a, b TSRMLS_CC);
+	
 	PHALCON_RETURN_CTOR(r0);
 }
 
@@ -120,6 +124,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		mul_function(r1, b, c TSRMLS_CC);
+		
 		PHALCON_RETURN_CTOR(r1);
 	} else {
 		PHALCON_INIT_VAR(t1);
@@ -129,6 +134,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			mul_function(r3, a, c TSRMLS_CC);
+			
 			PHALCON_RETURN_CTOR(r3);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r4);

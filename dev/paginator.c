@@ -91,11 +91,14 @@ PHP_METHOD(Phalcon_Paginator, factory){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
+	
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
 	PHALCON_CPY_WRT(adapter, i1);
+	
 	PHALCON_RETURN_CTOR(adapter);
 }
 

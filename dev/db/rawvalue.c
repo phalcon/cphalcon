@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -93,6 +94,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

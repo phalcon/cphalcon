@@ -31,9 +31,9 @@ extern int phalcon_array_unset_string(zval *arr, char *index, uint index_length)
 extern int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC);
 
 /** Modifies arrays */
-extern int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int copy, int ctor TSRMLS_DC);
-extern int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval *value, int separate, int copy, int ctor TSRMLS_DC);
-extern int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate, int copy, int ctor TSRMLS_DC);
+extern int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, int copy, int ctor TSRMLS_DC);
+extern int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int separate, int copy, int ctor TSRMLS_DC);
+extern int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separate, int copy, int ctor TSRMLS_DC);
 
 /** Fetches items for arrays */
 extern int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int silent TSRMLS_DC);

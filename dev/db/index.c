@@ -81,6 +81,7 @@ PHP_METHOD(Phalcon_Db_Index, getName){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_indexName", sizeof("_indexName")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -96,6 +97,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -140,13 +142,18 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, phalcon_db_index_ce);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_string(&r0, data, "_indexName", strlen("_indexName"), PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_string(&r1, data, "_columns", strlen("_columns"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i2, "__construct", r0, r1, PHALCON_CHECK);
+	
 	PHALCON_RETURN_CTOR(i2);
 }
 

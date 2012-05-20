@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 	ZVAL_NULL(t1);
 	PHALCON_INIT_VAR(r0);
 	is_not_identical_function(r0, t1, t0 TSRMLS_CC);
+	
 	PHALCON_RETURN_NCTOR(r0);
 }
 
@@ -142,6 +143,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 	} else {
 		PHALCON_CPY_WRT(descriptor, options);
 	}
+	
 	zend_update_static_property(phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1, descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -199,6 +201,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
+	
 	eval_int = phalcon_isset_property(database, "adapter", strlen("adapter") TSRMLS_CC);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
@@ -215,6 +218,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
+	
 	if (zend_is_true(new_connection)) {
 		if (zend_is_true(renovate)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
@@ -243,6 +247,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		t6 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 		PHALCON_CPY_WRT(connection, t6);
 	}
+	
+	
 	PHALCON_RETURN_CHECK_CTOR(connection);
 }
 

@@ -123,6 +123,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 		PHALCON_INIT_VAR(failed);
 		ZVAL_BOOL(failed, 0);
 	}
+	
 	if (!zend_is_true(failed)) {
 		PHALCON_ALLOC_ZVAL_MM(r6);
 		PHALCON_CONCAT_BOTH(r6,  "Value of field '", field_name, "' doesn't match regular expression");

@@ -253,18 +253,10 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 	PHALCON_ALLOC_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 1);
 
-	for (i=0; i<param_count; i++) {
-		Z_ADDREF_P(params[i]);
-	}
-
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 		return FAILURE;
-	}
-
-	for (i=0; i<param_count; i++) {
-		Z_DELREF_P(params[i]);
 	}
 
 	zval_ptr_dtor(&fn);

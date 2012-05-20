@@ -143,6 +143,7 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	PHALCON_CALL_METHOD(r0, r1, "getbaseuri", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	concat_function(r2, r0, uri TSRMLS_CC);
+	
 	PHALCON_RETURN_CTOR(r2);
 }
 
@@ -175,6 +176,7 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	PHALCON_CALL_METHOD(r0, r1, "getbasepath", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	concat_function(r2, r0, extra_path TSRMLS_CC);
+	
 	PHALCON_RETURN_CTOR(r2);
 }
 

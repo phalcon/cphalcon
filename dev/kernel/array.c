@@ -161,7 +161,7 @@ int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC){
 /**
  * Updates values on arrays by string or long indexes
  */
-int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, int copy, int ctor TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -178,10 +178,10 @@ int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int
 
 	if (ctor) {
 		zval *new_zv;
-		Z_DELREF_PP(arr);
+		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
-		INIT_PZVAL_COPY(new_zv, *arr);
-		*arr = new_zv;
+		INIT_PZVAL_COPY(new_zv, *value);
+		*value = new_zv;
 		zval_copy_ctor(new_zv);
 	}
 
@@ -197,14 +197,14 @@ int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int
 	}
 
 	if (copy) {
-		Z_ADDREF_P(value);
+		Z_ADDREF_PP(value);
 	}
 
  	if(Z_TYPE_P(index) == IS_STRING){
-		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, &value, sizeof(zval *), NULL);
+		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval *), NULL);
 	} else {
 		if (Z_TYPE_P(index) == IS_LONG) {
-			return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
+			return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), value, sizeof(zval *), NULL);
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
@@ -217,7 +217,7 @@ int phalcon_array_update(zval **arr, zval *index, zval *value, int separate, int
 /**
  * Updates values on arrays by string indexes only
  */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval *value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int separate, int copy, int ctor TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -226,10 +226,10 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 
 	if (ctor) {
 		zval *new_zv;
-		Z_DELREF_PP(arr);
+		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
-		INIT_PZVAL_COPY(new_zv, *arr);
-		*arr = new_zv;
+		INIT_PZVAL_COPY(new_zv, *value);
+		*value = new_zv;
 		zval_copy_ctor(new_zv);
 	}
 
@@ -239,22 +239,22 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 			Z_DELREF_PP(arr);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, *arr);
-	    	*arr = new_zv;
-	    	zval_copy_ctor(new_zv);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
 	    }
 	}
 
 	if (copy) {
-		Z_ADDREF_P(value);
+		Z_ADDREF_PP(value);
 	}
 
-	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length+1, &value, sizeof(zval *), NULL);
+	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length+1, value, sizeof(zval *), NULL);
 }
 
 /**
  * Updates values on arrays by long indexes only
  */
-int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separate, int copy, int ctor TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -263,10 +263,10 @@ int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate
 
 	if (ctor) {
 		zval *new_zv;
-		Z_DELREF_PP(arr);
+		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
-		INIT_PZVAL_COPY(new_zv, *arr);
-		*arr = new_zv;
+		INIT_PZVAL_COPY(new_zv, *value);
+		*value = new_zv;
 		zval_copy_ctor(new_zv);
 	}
 
@@ -276,16 +276,16 @@ int phalcon_array_update_long(zval **arr, ulong index, zval *value, int separate
 			Z_DELREF_PP(arr);
 			ALLOC_ZVAL(new_zv);
 			INIT_PZVAL_COPY(new_zv, *arr);
-	    	*arr = new_zv;
-	    	zval_copy_ctor(new_zv);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
 	    }
 	}
 
 	if (copy) {
-		Z_ADDREF_P(value);
+		Z_ADDREF_PP(value);
 	}
 
-	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, &value, sizeof(zval *), NULL);
+	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, value, sizeof(zval *), NULL);
 }
 
 /**

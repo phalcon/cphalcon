@@ -103,10 +103,12 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
-	phalcon_array_update(&t0, property, value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update(&t0, property, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_data", strlen("_data"), t0 TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon_session", "set", t1, t2);
@@ -141,6 +143,7 @@ PHP_METHOD(Phalcon_Session_Namespace, __get){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch(&r0, data, property, PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();

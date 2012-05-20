@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, has){
 	ZVAL_LONG(t1, 0);
 	PHALCON_INIT_VAR(r0);
 	is_smaller_function(r0, t1, t0 TSRMLS_CC);
+	
 	PHALCON_RETURN_NCTOR(r0);
 }
 
@@ -134,7 +135,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, t6 TSRMLS_CC);
 		
 		t7 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-		phalcon_increment_function(&t7, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+		PHALCON_SEPARATE_NMO(t7);
+		increment_function(t7);
 		zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t7 TSRMLS_CC);
 	} else {
 		t8 = zend_read_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
@@ -149,6 +151,8 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 		ZVAL_BOOL(c1, 0);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", c1, PHALCON_NO_CHECK);
 	}
+	
+	
 	PHALCON_RETURN_CHECK_CTOR(transaction);
 }
 
@@ -192,6 +196,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, transaction, "getconnection", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(connection, r0);
+		
 		PHALCON_INIT_VAR(r1);
 		PHALCON_CALL_METHOD(r1, connection, "isundertransaction", PHALCON_NO_CHECK);
 		if (zend_is_true(r1)) {
@@ -253,6 +258,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 			PHALCON_CALL_METHOD_NORETURN(connection, "rollback", PHALCON_NO_CHECK);
 			PHALCON_CALL_METHOD_NORETURN(connection, "close", PHALCON_NO_CHECK);
 		}
+		
 		if (zend_is_true(collect)) {
 			PHALCON_CALL_SELF_PARAMS_1_NORETURN(this_ptr, "_collecttransaction", transaction);
 		}
@@ -350,10 +356,12 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			is_equal_function(r2, managed_transaction, transaction TSRMLS_CC);
 			if (zend_is_true(r2)) {
 				t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-				phalcon_decrement_function(&t3, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+				PHALCON_SEPARATE_NMO(t3);
+				decrement_function(t3);
 				zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
 			}
-			phalcon_increment_function(&number, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_SEPARATE(number);
+			increment_function(number);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_2;
 			fee_ad2c_2:
@@ -370,6 +378,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 				goto fee_ad2c_3;
 			}
+			
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
 			phalcon_array_append(&transactions, managed_transaction, PHALCON_SEPARATE_PLZ TSRMLS_CC);
@@ -416,12 +425,15 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_ad2c_4;
 			}
+			
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
 			t3 = zend_read_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
-			phalcon_decrement_function(&t3, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_SEPARATE_NMO(t3);
+			decrement_function(t3);
 			zend_update_static_property(phalcon_transaction_manager_ce, "_number", sizeof("_number")-1, t3 TSRMLS_CC);
-			phalcon_increment_function(&number, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_SEPARATE(number);
+			increment_function(number);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_4;
 			fee_ad2c_4:
@@ -449,6 +461,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, isAutomatic){
 	ZVAL_NULL(t1);
 	PHALCON_INIT_VAR(r0);
 	is_not_equal_function(r0, t0, t1 TSRMLS_CC);
+	
 	PHALCON_RETURN_NCTOR(r0);
 }
 
@@ -463,6 +476,7 @@ PHP_METHOD(Phalcon_Transaction_Manager, getAutomatic){
 
 	PHALCON_MM_GROW();
 	t0 = zend_read_static_property(phalcon_transaction_manager_ce, "_automaticTransaction", sizeof("_automaticTransaction")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

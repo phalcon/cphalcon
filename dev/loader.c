@@ -189,6 +189,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				ZVAL_STRING(c1, "", 1);
 				PHALCON_CALL_FUNC_PARAMS_3(r5, "str_replace", preffix, c1, class_name, 0x003);
 				PHALCON_CPY_WRT(file_name, r5);
+				
 				PHALCON_INIT_VAR(r6);
 				concat_function(r6, directory, file_name TSRMLS_CC);
 				if (phalcon_file_exists(r6 TSRMLS_CC) == SUCCESS) {
@@ -205,6 +206,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		fee_0c08_0:
 		if(0){ };
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_directories", sizeof("_directories")-1, PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(t1 TSRMLS_CC)) {
@@ -214,6 +216,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 			goto fee_0c08_1;
 		}
+		
 		PHALCON_INIT_VAR(directory);
 		ZVAL_ZVAL(directory, *hd, 1, 0);
 		PHALCON_INIT_VAR(r7);

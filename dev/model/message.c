@@ -116,6 +116,7 @@ PHP_METHOD(Phalcon_Model_Message, getType){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -152,6 +153,7 @@ PHP_METHOD(Phalcon_Model_Message, getMessage){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_message", sizeof("_message")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -188,6 +190,7 @@ PHP_METHOD(Phalcon_Model_Message, getField){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_field", sizeof("_field")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -203,6 +206,7 @@ PHP_METHOD(Phalcon_Model_Message, __toString){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_message", sizeof("_message")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -234,6 +238,7 @@ PHP_METHOD(Phalcon_Model_Message, __set_state){
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	phalcon_array_fetch_string(&r2, message, "_type", strlen("_type"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", r0, r1, r2, PHALCON_CHECK);
+	
 	PHALCON_RETURN_CTOR(i0);
 }
 

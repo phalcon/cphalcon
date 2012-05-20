@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, read){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
+	
 	PHALCON_RETURN_CTOR(a0);
 }
 

@@ -75,7 +75,6 @@ PHP_METHOD(Phalcon_Test, nice){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_2ebb_0;
 		} else {
-			
 			PHALCON_INIT_VAR(k);
 			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
 			if (hash_type == HASH_KEY_IS_STRING) {
@@ -86,7 +85,6 @@ PHP_METHOD(Phalcon_Test, nice){
 				}
 			}
 		}
-		
 		PHALCON_INIT_VAR(v);
 		ZVAL_ZVAL(v, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -95,7 +93,7 @@ PHP_METHOD(Phalcon_Test, nice){
 		ZVAL_LONG(t0, 100);
 		PHALCON_INIT_VAR(r1);
 		phalcon_add_function(r1, r0, t0 TSRMLS_CC);
-		phalcon_array_update(&e, k, r1, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(&e, k, &r1, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_2ebb_0;
 		fee_2ebb_0:

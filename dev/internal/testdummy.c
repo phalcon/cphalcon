@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f2){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_d1", sizeof("_d1")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

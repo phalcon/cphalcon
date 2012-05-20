@@ -66,6 +66,7 @@ PHP_METHOD(Phalcon_Response, getInstance){
 		zend_update_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, i0 TSRMLS_CC);
 	}
 	t1 = zend_read_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }
 
@@ -100,8 +101,10 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
+		
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_LEFT(r3, "Status: ", code);
+		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_VBOTH(r2, r3, " ", message);
 		PHALCON_INIT_VAR(c1);
@@ -234,6 +237,7 @@ PHP_METHOD(Phalcon_Response, getContent){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

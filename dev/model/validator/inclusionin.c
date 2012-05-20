@@ -72,7 +72,9 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, checkOptions){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "domain", 1);
@@ -117,7 +119,9 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, validate){
 			ZVAL_STRING(c1, "domain", 1);
 			PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c1, PHALCON_NO_CHECK);
 			PHALCON_CPY_WRT(domain, r2);
+			
 			PHALCON_ALLOC_ZVAL_MM(r3);
+			
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CALL_METHOD(r4, this_ptr, "getvalue", PHALCON_NO_CHECK);
 			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, domain, 0x03E);

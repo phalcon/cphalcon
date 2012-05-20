@@ -119,7 +119,6 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_f8ee_0;
 		} else {
-			
 			PHALCON_INIT_VAR(pattern);
 			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
 			if (hash_type == HASH_KEY_IS_STRING) {
@@ -130,7 +129,6 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 				}
 			}
 		}
-		
 		PHALCON_INIT_VAR(replacement);
 		ZVAL_ZVAL(replacement, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -147,6 +145,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		fee_f8ee_0:
 		if(0){ };
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x005);
 	PHALCON_RETURN_DZVAL(r3);
@@ -186,6 +185,7 @@ PHP_METHOD(Phalcon_Text, lcfirst){
 	PHALCON_CALL_FUNC_PARAMS_2(r2, "substr", str, c2, 0x002);
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	concat_function(r3, r0, r2 TSRMLS_CC);
+	
 	PHALCON_RETURN_CTOR(r3);
 }
 

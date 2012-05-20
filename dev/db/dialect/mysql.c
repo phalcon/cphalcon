@@ -70,10 +70,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, limit){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CALL_FUNC_PARAMS_1(r1, "intval", number, 0x020);
 		PHALCON_CPY_WRT(limit, r1);
+		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_VBOTH(r2, sql_query, " LIMIT ", limit);
+		
 		PHALCON_RETURN_CTOR(r2);
 	} else {
+		
 		PHALCON_RETURN_CHECK_CTOR(sql_query);
 	}
 	
@@ -126,6 +129,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 	}
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ", ", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_fast_join(r1, c0, str_list TSRMLS_CC);
 	PHALCON_RETURN_DZVAL(r1);
@@ -163,13 +167,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, column, "getsize", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(size, r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD(r1, column, "gettype", PHALCON_NO_CHECK);
 	PHALCON_INIT_VAR(t0);
 	ZVAL_LONG(t0, 0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	is_equal_function(r2, r1, t0 TSRMLS_CC);
 	if (zend_is_true(r2)) {
@@ -186,10 +193,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 			concat_function(r5, column_sql, t1 TSRMLS_CC);
 			PHALCON_CPY_WRT(column_sql, r5);
 		}
+		
 		goto se_52be_1;
 	}
 	PHALCON_INIT_VAR(t2);
 	ZVAL_LONG(t2, 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	is_equal_function(r6, r1, t2 TSRMLS_CC);
 	if (zend_is_true(r6)) {
@@ -199,6 +208,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 	PHALCON_INIT_VAR(t3);
 	ZVAL_LONG(t3, 2);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	is_equal_function(r7, r1, t3 TSRMLS_CC);
 	if (zend_is_true(r7)) {
@@ -209,6 +219,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 	PHALCON_INIT_VAR(t4);
 	ZVAL_LONG(t4, 3);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	is_equal_function(r9, r1, t4 TSRMLS_CC);
 	if (zend_is_true(r9)) {
@@ -231,10 +242,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 			concat_function(r15, column_sql, t5 TSRMLS_CC);
 			PHALCON_CPY_WRT(column_sql, r15);
 		}
+		
 		goto se_52be_1;
 	}
 	PHALCON_INIT_VAR(t6);
 	ZVAL_LONG(t6, 4);
+	
 	PHALCON_ALLOC_ZVAL_MM(r16);
 	is_equal_function(r16, r1, t6 TSRMLS_CC);
 	if (zend_is_true(r16)) {
@@ -244,6 +257,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 	PHALCON_INIT_VAR(t7);
 	ZVAL_LONG(t7, 5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r17);
 	is_equal_function(r17, r1, t7 TSRMLS_CC);
 	if (zend_is_true(r17)) {
@@ -254,6 +268,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 	PHALCON_INIT_VAR(t8);
 	ZVAL_LONG(t8, 6);
+	
 	PHALCON_ALLOC_ZVAL_MM(r19);
 	is_equal_function(r19, r1, t8 TSRMLS_CC);
 	if (zend_is_true(r19)) {
@@ -270,6 +285,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	return;
 	se_52be_1:
 	if(0) { };
+	
 	PHALCON_RETURN_CTOR(column_sql);
 }
 
@@ -320,17 +336,24 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` ADD ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, column, "getname", PHALCON_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_LEFT(r6, "`", r5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	PHALCON_CALL_SELF_PARAMS_1(r7, this_ptr, "getcolumndefinition", column);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_VBOTH(r4, r6, "` ", r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	concat_function(r8, sql, r4 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r8);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	PHALCON_CALL_METHOD(r9, column, "isnotnull", PHALCON_NO_CHECK);
 	if (zend_is_true(r9)) {
@@ -340,6 +363,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		concat_function(r10, sql, t0 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r10);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r11);
 	PHALCON_CALL_METHOD(r11, column, "isfirst", PHALCON_NO_CHECK);
 	if (zend_is_true(r11)) {
@@ -360,6 +385,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 			PHALCON_CPY_WRT(sql, r15);
 		}
 	}
+	
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -409,17 +436,24 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` MODIFY ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, column, "getname", PHALCON_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_LEFT(r6, "`", r5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	PHALCON_CALL_SELF_PARAMS_1(r7, this_ptr, "getcolumndefinition", column);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_VBOTH(r4, r6, "` ", r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	concat_function(r8, sql, r4 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r8);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	PHALCON_CALL_METHOD(r9, column, "isnotnull", PHALCON_NO_CHECK);
 	if (zend_is_true(r9)) {
@@ -429,6 +463,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 		concat_function(r10, sql, t0 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r10);
 	}
+	
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -466,11 +502,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` DROP COLUMN ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_BOTH(r4,  "`", column_name, "`");
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	concat_function(r5, sql, r4 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r5);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -519,21 +558,30 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` ADD INDEX ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, index, "getname", PHALCON_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_LEFT(r6, "`", r5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	PHALCON_CALL_METHOD(r8, index, "getcolumns", PHALCON_NO_CHECK);
 	PHALCON_CALL_SELF_PARAMS_1(r7, this_ptr, "getcolumnlist", r8);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_VBOTH(r4, r6, "` (", r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	PHALCON_CONCAT_RIGHT(r9, r4, ")");
+	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	concat_function(r10, sql, r9 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r10);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -571,11 +619,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` DROP INDEX ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_BOTH(r4,  "`", index_name, "`");
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	concat_function(r5, sql, r4 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r5);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -624,15 +675,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` ADD PRIMARY KEY ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, index, "getcolumns", PHALCON_NO_CHECK);
 	PHALCON_CALL_SELF_PARAMS_1(r4, this_ptr, "getcolumnlist", r5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_BOTH(r6,  "(", r4, ")");
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	concat_function(r7, sql, r6 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r7);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -668,6 +725,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` DROP PRIMARY KEY");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -718,21 +776,30 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` ADD FOREIGN KEY ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, reference, "getname", PHALCON_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_LEFT(r6, "`", r5);
+	
 	PHALCON_ALLOC_ZVAL_MM(r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	PHALCON_CALL_METHOD(r8, reference, "getcolumns", PHALCON_NO_CHECK);
 	PHALCON_CALL_SELF_PARAMS_1(r7, this_ptr, "getcolumnlist", r8);
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_VBOTH(r4, r6, "`(", r7);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	PHALCON_CONCAT_RIGHT(r9, r4, ") REFERENCES ");
+	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	concat_function(r10, sql, r9 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r10);
+	
 	PHALCON_ALLOC_ZVAL_MM(r11);
 	PHALCON_CALL_METHOD(r11, reference, "getreferencedschema", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(referenced_schema, r11);
@@ -743,21 +810,30 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 		concat_function(r13, sql, r12 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r13);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r15);
 	PHALCON_CALL_METHOD(r15, reference, "getreferencedtable", PHALCON_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r16);
 	PHALCON_CONCAT_LEFT(r16, "`", r15);
+	
 	PHALCON_ALLOC_ZVAL_MM(r17);
+	
 	PHALCON_ALLOC_ZVAL_MM(r18);
 	PHALCON_CALL_METHOD(r18, reference, "getreferencedcolumns", PHALCON_NO_CHECK);
 	PHALCON_CALL_SELF_PARAMS_1(r17, this_ptr, "getcolumnlist", r18);
+	
 	PHALCON_ALLOC_ZVAL_MM(r14);
 	PHALCON_CONCAT_VBOTH(r14, r16, "`(", r17);
+	
 	PHALCON_ALLOC_ZVAL_MM(r19);
 	PHALCON_CONCAT_RIGHT(r19, r14, ")");
+	
 	PHALCON_ALLOC_ZVAL_MM(r20);
 	concat_function(r20, sql, r19 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r20);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -795,11 +871,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` DROP FOREIGN KEY ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_BOTH(r4,  "`", reference_name, "`");
+	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	concat_function(r5, sql, r4 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r5);
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -834,8 +913,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		phalcon_array_fetch_string(&r2, r1, "ENGINE", strlen("ENGINE"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(engine, r2);
+		
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		phalcon_array_fetch_string(&r3, definition, "options", strlen("options"), PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		phalcon_array_fetch_string(&r4, r3, "ENGINE", strlen("ENGINE"), PHALCON_NOISY TSRMLS_CC);
 		if (zend_is_true(r4)) {
@@ -844,6 +925,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			phalcon_array_append(&table_options, r5, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	phalcon_array_fetch_string(&r6, definition, "options", strlen("options"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(r6, "AUTO_INCREMENT", strlen("AUTO_INCREMENT")+1);
@@ -859,6 +942,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			phalcon_array_append(&table_options, r9, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	phalcon_array_fetch_string(&r10, definition, "options", strlen("options"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(r10, "TABLE_COLLATION", strlen("TABLE_COLLATION")+1);
@@ -881,11 +966,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			PHALCON_ALLOC_ZVAL_MM(r15);
 			PHALCON_CONCAT_LEFT(r15, "DEFAULT CHARSET=", r14);
 			phalcon_array_append(&table_options, r15, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			
 			PHALCON_ALLOC_ZVAL_MM(r16);
 			PHALCON_CONCAT_LEFT(r16, "COLLATE=", table_collation);
 			phalcon_array_append(&table_options, r16, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r17);
 	phalcon_fast_count(r17, table_options TSRMLS_CC);
 	if (zend_is_true(r17)) {
@@ -895,6 +983,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		phalcon_fast_join(r18, c1, table_options TSRMLS_CC);
 		PHALCON_RETURN_DZVAL(r18);
 	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -966,6 +1055,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			}
 		}
 	}
+	
 	if (zend_is_true(temporary)) {
 		PHALCON_ALLOC_ZVAL_MM(r7);
 		PHALCON_CONCAT_BOTH(r7,  "CREATE TEMPORARY TABLE ", table, " (\n\t");
@@ -975,9 +1065,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_CONCAT_BOTH(r8,  "CREATE TABLE ", table, " (\n\t");
 		PHALCON_CPY_WRT(sql, r8);
 	}
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(create_lines, a0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	phalcon_array_fetch_string(&r9, definition, "columns", strlen("columns"), PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(r9 TSRMLS_CC)) {
@@ -987,6 +1079,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_52be_2;
 		}
+		
 		PHALCON_INIT_VAR(column);
 		ZVAL_ZVAL(column, *hd, 1, 0);
 		PHALCON_INIT_VAR(r11);
@@ -1008,6 +1101,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			concat_function(r15, column_line, t0 TSRMLS_CC);
 			PHALCON_CPY_WRT(column_line, r15);
 		}
+		
+		
 		PHALCON_INIT_VAR(r16);
 		PHALCON_CALL_METHOD(r16, column, "isautoincrement", PHALCON_NO_CHECK);
 		if (zend_is_true(r16)) {
@@ -1017,6 +1112,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			concat_function(r17, column_line, t1 TSRMLS_CC);
 			PHALCON_CPY_WRT(column_line, r17);
 		}
+		
 		phalcon_array_append(&create_lines, column_line, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_52be_2;
@@ -1065,6 +1161,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			if(0){ };
 		}
 	}
+	
 	eval_int = phalcon_array_isset_string(definition, "references", strlen("references")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r26);
@@ -1107,12 +1204,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			if(0){ };
 		}
 	}
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ",\n\t", 1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r38);
 	phalcon_fast_join(r38, c0, create_lines TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r39);
 	PHALCON_CONCAT_RIGHT(r39, r38, "\n)");
+	
 	PHALCON_ALLOC_ZVAL_MM(r40);
 	concat_function(r40, sql, r39 TSRMLS_CC);
 	PHALCON_CPY_WRT(sql, r40);
@@ -1126,6 +1227,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		concat_function(r43, sql, r42 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r43);
 	}
+	
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -1170,10 +1273,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 	if (zend_is_true(if_exists)) {
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		PHALCON_CONCAT_LEFT(r4, "DROP TABLE IF EXISTS ", table);
+		
 		PHALCON_RETURN_CTOR(r4);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r5);
 		PHALCON_CONCAT_LEFT(r5, "DROP TABLE ", table);
+		
 		PHALCON_RETURN_CTOR(r5);
 	}
 	
@@ -1214,10 +1319,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 		PHALCON_CONCAT_VBOTH(r0, r1, "' AND `TABLE_SCHEMA`='", schema_name);
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CONCAT_RIGHT(r2, r0, "'");
+		
 		PHALCON_RETURN_CTOR(r2);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_BOTH(r3,  "SELECT COUNT(*) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`='", table_name, "'");
+		
 		PHALCON_RETURN_CTOR(r3);
 	}
 	
@@ -1263,6 +1370,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){
 		PHALCON_CONCAT_BOTH(r3,  "DESCRIBE `", table, "`");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -1299,6 +1407,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables){
 		PHALCON_INIT_VAR(sql);
 		ZVAL_STRING(sql, "SHOW TABLES", 1);
 	}
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -1339,6 +1448,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes){
 		PHALCON_CONCAT_BOTH(r3,  "SHOW INDEXES FROM `", table, "`");
 		PHALCON_CPY_WRT(sql, r3);
 	}
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -1385,6 +1495,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences){
 		concat_function(r5, sql, r4 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r5);
 	}
+	
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 
@@ -1431,6 +1543,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions){
 		concat_function(r5, sql, r4 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r5);
 	}
+	
+	
 	PHALCON_RETURN_CTOR(sql);
 }
 

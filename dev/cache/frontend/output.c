@@ -87,6 +87,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch_string(&r0, options, "lifetime", strlen("lifetime"), PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();

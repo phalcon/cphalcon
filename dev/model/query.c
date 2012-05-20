@@ -255,6 +255,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		phalcon_read_property(&t1, this_ptr, "_manager", sizeof("_manager")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(model_manager, t1);
 	}
+	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(t2 TSRMLS_CC)) {
@@ -264,6 +265,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_a355_0;
 		}
+		
 		PHALCON_INIT_VAR(model_name);
 		ZVAL_ZVAL(model_name, *hd, 1, 0);
 		PHALCON_INIT_VAR(r2);
@@ -278,12 +280,16 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			phalcon_throw_exception(i0 TSRMLS_CC);
 			return;
 		}
+		
+		
 		PHALCON_INIT_VAR(r4);
 		PHALCON_CALL_METHOD(r4, model_manager, "getmetadata", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(meta_data, r4);
+		
 		PHALCON_INIT_VAR(r5);
 		PHALCON_CALL_METHOD_PARAMS_1(r5, meta_data, "getattributes", entity, PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(attributes, r5);
+		
 		PHALCON_INIT_VAR(r6);
 		PHALCON_CALL_METHOD_PARAMS_1(r6, meta_data, "getdatatypesnumeric", entity, PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(numeric_types, r6);
@@ -292,6 +298,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(parameters, a0);
+		
 		PHALCON_INIT_VAR(t3);
 		phalcon_read_property(&t3, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
 		if (phalcon_valid_foreach(t3 TSRMLS_CC)) {
@@ -328,19 +335,21 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 						PHALCON_INIT_VAR(r10);
 						PHALCON_CONCAT_VBOTH(r10, param, " = ?", i);
 						PHALCON_CPY_WRT(condition, r10);
-						phalcon_array_update(&parameters, i, value, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+						phalcon_array_update(&parameters, i, &value, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 					} else {
 						PHALCON_INIT_VAR(r11);
 						PHALCON_CONCAT_VBOTH(r11, param, " LIKE ?", i);
 						PHALCON_CPY_WRT(condition, r11);
+						
 						PHALCON_INIT_VAR(r12);
 						PHALCON_CONCAT_BOTH(r12,  "%", value, "%");
-						phalcon_array_update(&parameters, i, r12, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+						phalcon_array_update(&parameters, i, &r12, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 					}
 					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "where", condition, PHALCON_NO_CHECK);
 				}
 			}
-			phalcon_increment_function(&i, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_SEPARATE(i);
+			increment_function(i);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_a355_1;
 			fee_a355_1:
@@ -350,9 +359,11 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		PHALCON_CPY_WRT(condition_where, a1);
+		
 		PHALCON_INIT_VAR(t5);
 		phalcon_read_property(&t5, this_ptr, "_parameters", sizeof("_parameters")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(parameters, t5);
+		
 		PHALCON_INIT_VAR(t6);
 		phalcon_read_property(&t6, this_ptr, "_conditions", sizeof("_conditions")-1, PHALCON_NOISY TSRMLS_CC);
 		if (phalcon_valid_foreach(t6 TSRMLS_CC)) {
@@ -362,6 +373,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
 				goto fee_a355_2;
 			}
+			
 			PHALCON_INIT_VAR(condition);
 			ZVAL_ZVAL(condition, *hd, 1, 0);
 			PHALCON_INIT_VAR(r13);
@@ -403,6 +415,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			fee_a355_2:
 			if(0){ };
 		}
+		
 		PHALCON_INIT_VAR(r20);
 		phalcon_fast_count(r20, condition_where TSRMLS_CC);
 		if (!zend_is_true(r20)) {
@@ -415,6 +428,8 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			phalcon_fast_join(r21, c1, condition_where TSRMLS_CC);
 			PHALCON_CPY_WRT(ret, r21);
 		}
+		
+		
 		PHALCON_RETURN_CHECK_CTOR(ret);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_a355_0;
@@ -450,6 +465,7 @@ PHP_METHOD(Phalcon_Model_Query, fromInput){
 	PHALCON_CPY_WRT(query, i0);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "from", model_name, PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setinputdata", data, PHALCON_NO_CHECK);
+	
 	PHALCON_RETURN_CTOR(query);
 }
 

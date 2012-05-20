@@ -98,6 +98,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				if(0){ };
 			}
 		}
+		
+		
 		PHALCON_RETURN_CHECK_CTOR(new_value);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -157,6 +159,8 @@ PHP_METHOD(Phalcon_Filter, filter){
 				if(0){ };
 			}
 		}
+		
+		
 		PHALCON_RETURN_CHECK_CTOR(new_value);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -198,6 +202,7 @@ PHP_METHOD(Phalcon_Filter, sanitizeAndFilter){
 	ZVAL_BOOL(c1, 1);
 	PHALCON_CALL_METHOD_PARAMS_3(r1, this_ptr, "filter", new_value, filters, c1, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(new_value, r1);
+	
 	PHALCON_RETURN_CHECK_CTOR(new_value);
 }
 
@@ -277,7 +282,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		array_init(a0);
 		PHALCON_INIT_VAR(t8);
 		ZVAL_LONG(t8, 4096);
-		phalcon_array_update_string(&a0, "flags", strlen("flags"), t8, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a0, "flags", strlen("flags"), &t8, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		PHALCON_CALL_FUNC_PARAMS_3(r7, "filter_var", value, t7, a0, 0x04C);
 		PHALCON_RETURN_DZVAL(r7);
 	}
@@ -290,6 +295,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	} else {
+		
 		PHALCON_RETURN_CHECK_CTOR(value);
 	}
 	se_e618_2:
@@ -352,6 +358,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	} else {
+		
 		PHALCON_RETURN_CHECK_CTOR(value);
 	}
 	se_e618_3:

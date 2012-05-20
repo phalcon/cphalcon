@@ -138,8 +138,10 @@ PHP_METHOD(Phalcon_Controller, __get){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PHALCON_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, "view", strlen("view"), r0 TSRMLS_CC);
+		
 		PHALCON_ALLOC_ZVAL_MM(t0);
 		phalcon_read_property(&t0, this_ptr, "view", sizeof("view")-1, PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(t0);
 	}
 	if (PHALCON_COMPARE_STRING(property_name, "filter")) {
@@ -147,10 +149,13 @@ PHP_METHOD(Phalcon_Controller, __get){
 		object_init_ex(i0, phalcon_filter_ce);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
 		phalcon_update_property_zval(this_ptr, "filter", strlen("filter"), i0 TSRMLS_CC);
+		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "filter", sizeof("filter")-1, PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(t1);
 	}
+	
 	if (PHALCON_COMPARE_STRING(property_name, "session")) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_session_namespace_ce);
@@ -158,16 +163,21 @@ PHP_METHOD(Phalcon_Controller, __get){
 		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r1, PHALCON_CHECK);
 		phalcon_update_property_zval(this_ptr, "session", strlen("session"), i1 TSRMLS_CC);
+		
 		PHALCON_ALLOC_ZVAL_MM(t2);
 		phalcon_read_property(&t2, this_ptr, "session", sizeof("session")-1, PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(t2);
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(t3);
 	phalcon_read_property(&t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t3)) {
 		PHALCON_ALLOC_ZVAL_MM(t4);
 		phalcon_read_property(&t4, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(model, t4);
+		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD_PARAMS_1(r2, model, "ismodel", property_name, PHALCON_NO_CHECK);
 		if (zend_is_true(r2)) {
@@ -176,6 +186,8 @@ PHP_METHOD(Phalcon_Controller, __get){
 			PHALCON_RETURN_DZVAL(r3);
 		}
 	}
+	
+	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_LEFT(r4, "Access to undefined property ", property_name);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", r4, 0x033);

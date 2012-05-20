@@ -193,6 +193,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_totalSeconds", sizeof("_totalSeconds")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -208,6 +209,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_allProfiles", sizeof("_allProfiles")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -239,6 +241,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getLastProfile){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_activeProfile", sizeof("_activeProfile")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 

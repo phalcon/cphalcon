@@ -132,6 +132,7 @@ PHP_METHOD(Phalcon_Session, get){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch(&r1, g0, key, PHALCON_NOISY TSRMLS_CC);
+		
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	} else {
 		PHALCON_MM_RESTORE();
@@ -165,7 +166,7 @@ PHP_METHOD(Phalcon_Session, set){
 	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, index TSRMLS_CC);
-	phalcon_array_update(&g0, r0, value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update(&g0, r0, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

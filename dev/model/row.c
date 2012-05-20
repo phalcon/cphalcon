@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Model_Row, getConnection){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -151,7 +152,6 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_47c8_0;
 			} else {
-				
 				PHALCON_INIT_VAR(field);
 				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
 				if (hash_type == HASH_KEY_IS_STRING) {
@@ -162,12 +162,11 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 					}
 				}
 			}
-			
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
 			ZVAL_BOOL(t2, 1);
-			phalcon_array_update(&columns, field, t2, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+			phalcon_array_update(&columns, field, &t2, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 			phalcon_update_property_zval(object_row, Z_STRVAL_P(field), Z_STRLEN_P(field), value TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_47c8_0;
@@ -202,10 +201,13 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			fee_47c8_1:
 			if(0){ };
 		}
+		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(object_row, "_columns", strlen("_columns"), t3 TSRMLS_CC);
 	}
+	
+	
 	PHALCON_RETURN_CHECK_CTOR(object_row);
 }
 
@@ -231,6 +233,7 @@ PHP_METHOD(Phalcon_Model_Row, readAttribute){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property_zval(&t0, this_ptr, property, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
@@ -247,6 +250,7 @@ PHP_METHOD(Phalcon_Model_Row, sleep){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	add_next_index_stringl(a0, "_columns", strlen("_columns"), 1);
+	
 	PHALCON_RETURN_CTOR(a0);
 }
 
