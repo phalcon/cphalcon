@@ -157,83 +157,16 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
 	return status;
 }
 
-/**
- * This is an experimental way to call PHP functions in a faster way
- */
-inline int phalcon_call_func_fast(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
-
-	int status;
-	zval *local_retval_ptr = NULL;
-
-	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
-	if (status == FAILURE) {
-		return FAILURE;
-	}
-
-	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, 0, NULL, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-		return FAILURE;
-	}
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
-	}
-
-	return status;
-}
 
 /**
  * Call single function which not requires parameters
  */
 int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL
+#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
 	return phalcon_call_func_fast(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
 #else
 	return phalcon_call_func_normal(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
 #endif
-}
-
-/**
- * This is an experimental function to call PHP functions that requires parameters in a faster way
- */
-inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
-
-	int status;
-	zval ***params_array;
-	zval *local_retval_ptr = NULL;
-	register int i;
-
-	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
-	if (status == FAILURE) {
-		return FAILURE;
-	}
-
-	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-	for (i=0; i<param_count; i++) {
-		params_array[i] = &params[i];
-	}
-
-	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, param_count, params_array, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-	}
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
-	}
-
-	if (params_array) {
-		efree(params_array);
-	}
-
-	return status;
 }
 
 /**
@@ -244,7 +177,6 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 	zval *fn = NULL;
 	int status = FAILURE;
 	zval *local_retval_ptr = NULL;
-	int i;
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
@@ -276,7 +208,7 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
  * Call single function which requires arbitrary number of parameters
  */
 int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL
+#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
 	return phalcon_call_func_params_fast(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
 #else
 	return phalcon_call_func_params_normal(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
@@ -353,58 +285,6 @@ inline int phalcon_call_method_normal(zval *return_value, zval *object, char *me
 }
 
 /**
- * This function implements a experimental way to call functions in a faster way
- */
-inline int phalcon_call_method_fast(zval *return_value, zval *object, char *method_name, int method_len, int check, int noreturn TSRMLS_DC){
-
-	int status;
-	zval *local_retval_ptr = NULL;
-	zend_class_entry *active_scope = NULL;
-	HashTable *function_table;
-	zend_fcall_info_cache local_fcache;
-	zend_fcall_info_cache *fcc = NULL;
-	zend_class_entry *obj_ce;
-
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		return FAILURE;
-	}
-
-	obj_ce = Z_OBJCE_P(object);
-	function_table = &obj_ce->function_table;
-
-	fcc = &local_fcache;
-	fcc->initialized = 0;
-	fcc->calling_scope = obj_ce;
-	fcc->called_scope = obj_ce;
-	fcc->function_handler = NULL;
-	fcc->object_ptr = object;
-
-	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
-		if (check) {
-			return FAILURE;
-		}
-	}
-
-	active_scope = EG(scope);
-	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
-	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, 0, NULL, fcc TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
-	}
-	EG(scope) = active_scope;
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
-	}
-
-	return status;
-}
-
-/**
  * Call method on an object that not requires parameters
  *
  */
@@ -463,75 +343,11 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 }
 
 /**
- * This is an experimental method to call methods that requires parameters in a faster way
- */
-inline int phalcon_call_method_params_fast(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
-
-	int status;
-	zend_class_entry *active_scope = NULL;
-	zval ***params_array;
-	zend_uint i;
-	zval *local_retval_ptr = NULL;
-	HashTable *function_table;
-	zend_fcall_info_cache local_fcache;
-	zend_fcall_info_cache *fcc = NULL;
-	zend_class_entry *obj_ce;
-
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		return FAILURE;
-	}
-
-	obj_ce = Z_OBJCE_P(object);
-	function_table = &obj_ce->function_table;
-
-	fcc = &local_fcache;
-	fcc->initialized = 0;
-	fcc->calling_scope = obj_ce;
-	fcc->called_scope = obj_ce;
-	fcc->function_handler = NULL;
-	fcc->object_ptr = object;
-
-	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
-		if (check) {
-			return FAILURE;
-		}
-	}
-
-	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-	for (i=0; i<param_count; i++) {
-		params_array[i] = &params[i];
-	}
-
-	active_scope = EG(scope);
-	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
-
-	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, param_count, params_array, fcc TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
-	}
-
-	EG(scope) = active_scope;
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
-	}
-
-	if(params_array){
-		efree(params_array);
-	}
-
-	return status;
-}
-
-/**
  * Call method on an object that requires an arbitrary number of parameters
  *
  */
 int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL
+#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
 	return phalcon_call_method_params_fast(return_value, object, method_name, method_len, param_count, params, check, noreturn TSRMLS_CC);
 #else
 	return phalcon_call_method_params_normal(return_value, object, method_name, method_len, param_count, params, check, noreturn TSRMLS_CC);
@@ -902,6 +718,192 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
+#if PHP_VERSION_ID < 50400
+
+/**
+ * This is an experimental way to call PHP functions in a faster way
+ */
+inline int phalcon_call_func_fast(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
+
+	int status;
+	zval *local_retval_ptr = NULL;
+
+	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
+	if (status == FAILURE) {
+		return FAILURE;
+	}
+
+	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, 0, NULL, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
+		return FAILURE;
+	}
+
+	if (local_retval_ptr) {
+		if (noreturn) {
+			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		}
+		//zval_ptr_dtor(&local_retval_ptr);
+	}
+
+	return status;
+}
+
+/**
+ * This is an experimental function to call PHP functions that requires parameters in a faster way
+ */
+inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
+
+	int status;
+	zval ***params_array;
+	zval *local_retval_ptr = NULL;
+	register int i;
+
+	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
+	if (status == FAILURE) {
+		return FAILURE;
+	}
+
+	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+	for (i=0; i<param_count; i++) {
+		params_array[i] = &params[i];
+	}
+
+	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, param_count, params_array, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
+	}
+
+	if (local_retval_ptr) {
+		if (noreturn) {
+			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		}
+		//zval_ptr_dtor(&local_retval_ptr);
+	}
+
+	if (params_array) {
+		efree(params_array);
+	}
+
+	return status;
+}
+
+/**
+ * This function implements a experimental way to call functions in a faster way
+ */
+inline int phalcon_call_method_fast(zval *return_value, zval *object, char *method_name, int method_len, int check, int noreturn TSRMLS_DC){
+
+	int status;
+	zval *local_retval_ptr = NULL;
+	zend_class_entry *active_scope = NULL;
+	HashTable *function_table;
+	zend_fcall_info_cache local_fcache;
+	zend_fcall_info_cache *fcc = NULL;
+	zend_class_entry *obj_ce;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
+		return FAILURE;
+	}
+
+	obj_ce = Z_OBJCE_P(object);
+	function_table = &obj_ce->function_table;
+
+	fcc = &local_fcache;
+	fcc->initialized = 0;
+	fcc->calling_scope = obj_ce;
+	fcc->called_scope = obj_ce;
+	fcc->function_handler = NULL;
+	fcc->object_ptr = object;
+
+	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
+		if (check) {
+			return FAILURE;
+		}
+	}
+
+	active_scope = EG(scope);
+	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
+	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, 0, NULL, fcc TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
+	}
+	EG(scope) = active_scope;
+
+	if (local_retval_ptr) {
+		if (noreturn) {
+			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		}
+		//zval_ptr_dtor(&local_retval_ptr);
+	}
+
+	return status;
+}
+
+/**
+ * This is an experimental method to call methods that requires parameters in a faster way
+ */
+inline int phalcon_call_method_params_fast(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
+
+	int status;
+	zend_class_entry *active_scope = NULL;
+	zval ***params_array;
+	zend_uint i;
+	zval *local_retval_ptr = NULL;
+	HashTable *function_table;
+	zend_fcall_info_cache local_fcache;
+	zend_fcall_info_cache *fcc = NULL;
+	zend_class_entry *obj_ce;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
+		return FAILURE;
+	}
+
+	obj_ce = Z_OBJCE_P(object);
+	function_table = &obj_ce->function_table;
+
+	fcc = &local_fcache;
+	fcc->initialized = 0;
+	fcc->calling_scope = obj_ce;
+	fcc->called_scope = obj_ce;
+	fcc->function_handler = NULL;
+	fcc->object_ptr = object;
+
+	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
+		if (check) {
+			return FAILURE;
+		}
+	}
+
+	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+	for (i=0; i<param_count; i++) {
+		params_array[i] = &params[i];
+	}
+
+	active_scope = EG(scope);
+	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
+
+	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, param_count, params_array, fcc TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
+	}
+
+	EG(scope) = active_scope;
+	if (local_retval_ptr) {
+		if (noreturn) {
+			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		}
+		//zval_ptr_dtor(&local_retval_ptr);
+	}
+
+	if(params_array){
+		efree(params_array);
+	}
+
+	return status;
+}
+
 /**
  * Executes zend_function with a prepared fci_cache (even cached)
  */
@@ -1184,3 +1186,5 @@ int phalcon_call_internal_method(char *method_name, int method_len, zend_fcall_i
 
 	return SUCCESS;
 }
+
+#endif

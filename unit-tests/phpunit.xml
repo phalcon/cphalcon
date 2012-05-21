@@ -31,7 +31,7 @@
             <file>unit-tests/ModelsTest.php</file>
             <file>unit-tests/ModelsRelationsTest.php</file>
             <file>unit-tests/ModelsValidatorsTest.php</file>
-            <!-- <file>unit-tests/ModelsForeignKeysTest.php</file> -->
+            <file>unit-tests/ModelsForeignKeysTest.php</file>
             <file>unit-tests/TransactionsTest.php</file>
             <file>unit-tests/ViewTest.php</file>
             <file>unit-tests/ControllersTest.php</file>
