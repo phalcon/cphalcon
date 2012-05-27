@@ -48,7 +48,7 @@
  */
 
 /**
- * Sets the request dispatcher. A valid dispatcher is required to generated absolute paths
+ * Sets the request dispatcher. A valid dispatcher is required to generate absolute paths
  *
  * @param Phalcon_Dispatcher $dispatcher
  */
@@ -79,7 +79,11 @@ PHP_METHOD(Phalcon_Tag, _getDispatcher){
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -87,7 +91,11 @@ PHP_METHOD(Phalcon_Tag, _getDispatcher){
 		PHALCON_CALL_METHOD(r0, r1, "getdispatcher", PHALCON_NO_CHECK);
 		zend_update_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, r0 TSRMLS_CC);
 	}
-	t1 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t1){
+		phalcon_memory_observe(&t1 TSRMLS_CC);
+	}
+	t1 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t1);
 	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }
@@ -126,7 +134,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	t0 = zend_read_static_property(phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	t0 = zend_read_static_property(phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1, PHALCON_FETCH_CLASS_SILENT);
 	if (Z_TYPE_P(t0) != IS_ARRAY) {
 		convert_to_array(t0);
 	}
@@ -161,7 +169,7 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 }
 
 /**
- * Every helper call this function to check whether a component has a predefined
+ * Every helper calls this function to check whether a component has a predefined
  * value using Phalcon_Tag::displayTo or value from $_POST
  *
  * @param string $name
@@ -182,11 +190,17 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	phalcon_read_static_property(&t0, phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_array_fetch(&t1, t0, name, PHALCON_SILENT TSRMLS_CC);
 	if (zend_is_true(t1)) {
-		t2 = zend_read_static_property(phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		if(!t2){
+			phalcon_memory_observe(&t2 TSRMLS_CC);
+		}
+		phalcon_read_static_property(&t2, phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_array_fetch(&t3, t2, name, PHALCON_NOISY TSRMLS_CC);
 		
@@ -216,7 +230,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 }
 
 /**
- * Resets the request and internal values to avoid that fields will have any default value
+ * Resets the request and internal values to avoid those fields will have any default value
  */
 PHP_METHOD(Phalcon_Tag, resetInput){
 
@@ -244,14 +258,7 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 			goto fee_9b93_0;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
@@ -299,6 +306,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	}
 
 	if (!text) {
+		
 		PHALCON_INIT_VAR(text);
 		ZVAL_NULL(text);
 	} else {
@@ -314,6 +322,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
+	
 	PHALCON_INIT_VAR(action);
 	ZVAL_STRING(action, "", 1);
 	eval_int = phalcon_array_isset_long(params, 0);
@@ -331,6 +340,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 			phalcon_array_unset_string(params, "action", strlen("action")+1);
 		}
 	}
+	
 	
 	PHALCON_INIT_VAR(text);
 	ZVAL_STRING(text, "", 1);
@@ -350,84 +360,76 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		}
 	}
 	
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
-	if (zend_is_true(action)) {
-		eval_int = phalcon_array_isset_string(params, "confirm", strlen("confirm")+1);
-		if (eval_int) {
-			eval_int = phalcon_array_isset_string(params, "onclick", strlen("onclick")+1);
-			if (!eval_int) {
-				PHALCON_INIT_VAR(t0);
-				ZVAL_STRING(t0, "", 1);
-				phalcon_array_update_string(&params, "onclick", strlen("onclick"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			}
-			
-			PHALCON_ALLOC_ZVAL_MM(r5);
-			phalcon_array_fetch_string(&r5, params, "confirm", strlen("confirm"), PHALCON_NOISY TSRMLS_CC);
-			
-			PHALCON_ALLOC_ZVAL_MM(r6);
-			PHALCON_CONCAT_LEFT(r6, "if(!confirm('", r5);
-			
-			PHALCON_ALLOC_ZVAL_MM(r7);
-			phalcon_array_fetch_string(&r7, params, "onclick", strlen("onclick"), PHALCON_NOISY TSRMLS_CC);
-			
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CONCAT_VBOTH(r4, r6, "')) { return false; }; ", r7);
-			phalcon_array_update_string(&params, "onclick", strlen("onclick"), &r4, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			PHALCON_SEPARATE(params);
-			phalcon_array_unset_string(params, "confirm", strlen("confirm")+1);
+	eval_int = phalcon_array_isset_string(params, "confirm", strlen("confirm")+1);
+	if (eval_int) {
+		eval_int = phalcon_array_isset_string(params, "onclick", strlen("onclick")+1);
+		if (!eval_int) {
+			PHALCON_INIT_VAR(t0);
+			ZVAL_STRING(t0, "", 1);
+			phalcon_array_update_string(&params, "onclick", strlen("onclick"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(r8);
-		PHALCON_CALL_STATIC_PARAMS_1(r8, "phalcon_utils", "geturl", action);
+		PHALCON_ALLOC_ZVAL_MM(r5);
+		phalcon_array_fetch_string(&r5, params, "confirm", strlen("confirm"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(r9);
-		PHALCON_CONCAT_BOTH(r9,  "<a href=\"", r8, "\" ");
-		PHALCON_CPY_WRT(code, r9);
-		if (phalcon_valid_foreach(params TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(params);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_9b93_1:
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_9b93_1;
-			} else {
-				PHALCON_INIT_VAR(key);
-				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(key, hash_num);
-					}
-				}
-			}
-			PHALCON_INIT_VAR(value);
-			ZVAL_ZVAL(value, *hd, 1, 0);
-			if (Z_TYPE_P(key) != IS_LONG) {
-				PHALCON_INIT_VAR(r11);
-				PHALCON_CONCAT_LEFT(r11, " ", key);
-				PHALCON_INIT_VAR(r10);
-				PHALCON_CONCAT_VBOTH(r10, r11, "=\"", value);
-				PHALCON_INIT_VAR(r12);
-				PHALCON_CONCAT_RIGHT(r12, r10, "\" ");
-				PHALCON_INIT_VAR(r13);
-				concat_function(r13, code, r12 TSRMLS_CC);
-				PHALCON_CPY_WRT(code, r13);
-			}
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_9b93_1;
-			fee_9b93_1:
-			if(0){ };
-		}
+		PHALCON_ALLOC_ZVAL_MM(r6);
+		PHALCON_CONCAT_LEFT(r6, "if(!confirm('", r5);
 		
-		PHALCON_ALLOC_ZVAL_MM(r14);
-		PHALCON_CONCAT_BOTH(r14,  ">", text, "</a>");
+		PHALCON_ALLOC_ZVAL_MM(r7);
+		phalcon_array_fetch_string(&r7, params, "onclick", strlen("onclick"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(r15);
-		concat_function(r15, code, r14 TSRMLS_CC);
-		PHALCON_CPY_WRT(code, r15);
+		PHALCON_ALLOC_ZVAL_MM(r4);
+		PHALCON_CONCAT_VBOTH(r4, r6, "')) { return false; }; ", r7);
+		phalcon_array_update_string(&params, "onclick", strlen("onclick"), &r4, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		PHALCON_SEPARATE(params);
+		phalcon_array_unset_string(params, "confirm", strlen("confirm")+1);
 	}
 	
+	
+	PHALCON_ALLOC_ZVAL_MM(r8);
+	PHALCON_CALL_STATIC_PARAMS_1(r8, "phalcon_utils", "geturl", action);
+	
+	PHALCON_ALLOC_ZVAL_MM(r9);
+	PHALCON_CONCAT_BOTH(r9,  "<a href=\"", r8, "\" ");
+	PHALCON_CPY_WRT(code, r9);
+	if (phalcon_valid_foreach(params TSRMLS_CC)) {
+		ah0 = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_9b93_1:
+		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			goto fee_9b93_1;
+		} else {
+			PHALCON_INIT_VAR(key);
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		}
+		PHALCON_INIT_VAR(value);
+		ZVAL_ZVAL(value, *hd, 1, 0);
+		if (Z_TYPE_P(key) != IS_LONG) {
+			PHALCON_INIT_VAR(r11);
+			PHALCON_CONCAT_LEFT(r11, " ", key);
+			PHALCON_INIT_VAR(r10);
+			PHALCON_CONCAT_VBOTH(r10, r11, "=\"", value);
+			PHALCON_INIT_VAR(r12);
+			PHALCON_CONCAT_RIGHT(r12, r10, "\" ");
+			PHALCON_INIT_VAR(r13);
+			concat_function(r13, code, r12 TSRMLS_CC);
+			PHALCON_CPY_WRT(code, r13);
+		}
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto fes_9b93_1;
+		fee_9b93_1:
+		if(0){ };
+	}
+	
+	PHALCON_ALLOC_ZVAL_MM(r14);
+	PHALCON_CONCAT_BOTH(r14,  ">", text, "</a>");
+	
+	PHALCON_ALLOC_ZVAL_MM(r15);
+	concat_function(r15, code, r14 TSRMLS_CC);
+	PHALCON_CPY_WRT(code, r15);
 	
 	PHALCON_RETURN_CTOR(code);
 }
@@ -527,14 +529,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			goto fee_9b93_2;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(avalue);
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
@@ -552,6 +547,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		fee_9b93_2:
 		if(0){ };
 	}
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, " />", 1);
 	
@@ -675,6 +671,34 @@ PHP_METHOD(Phalcon_Tag, fileField){
 }
 
 /**
+ * Builds a HTML input[type="check"] tag
+ *
+ * 
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, checkField){
+
+	zval *parameters = NULL;
+	zval *r0 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "checkbox", 1);
+	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
  * Builds a HTML input[type="submit"] tag
  *
  * 
@@ -744,14 +768,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 			goto fee_9b93_3;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(avalue);
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
@@ -769,6 +786,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 		fee_9b93_3:
 		if(0){ };
 	}
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, " />", 1);
 	
@@ -800,6 +818,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 	}
 
 	if (!data) {
+		
 		PHALCON_INIT_VAR(data);
 		ZVAL_NULL(data);
 	}
@@ -830,6 +849,7 @@ PHP_METHOD(Phalcon_Tag, select){
 	}
 
 	if (!data) {
+		
 		PHALCON_INIT_VAR(data);
 		ZVAL_NULL(data);
 	}
@@ -925,14 +945,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 			goto fee_9b93_4;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(avalue);
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
@@ -997,6 +1010,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 
 	if (!parameters) {
+		
 		PHALCON_INIT_VAR(parameters);
 		ZVAL_NULL(parameters);
 	}
@@ -1013,6 +1027,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF(r0, this_ptr, "_getdispatcher");
 	PHALCON_CPY_WRT(dispatcher, r0);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "/", 1);
 	
@@ -1105,14 +1120,7 @@ PHP_METHOD(Phalcon_Tag, form){
 			goto fee_9b93_5;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(avalue);
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
@@ -1189,7 +1197,11 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, title TSRMLS_CC);
 	zend_update_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, r0 TSRMLS_CC);
@@ -1215,7 +1227,11 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, title, t0 TSRMLS_CC);
 	zend_update_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, r0 TSRMLS_CC);
@@ -1234,7 +1250,11 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CONCAT_LEFT(r1, "<title>", t0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
@@ -1278,11 +1298,13 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	if (!parameters) {
+		
 		PHALCON_INIT_VAR(parameters);
 		ZVAL_NULL(parameters);
 	}
 	
 	if (!local) {
+		
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
@@ -1311,6 +1333,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 			phalcon_array_update_string(&params, "href", strlen("href"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		}
 	}
+	
 	
 	PHALCON_INIT_VAR(local);
 	ZVAL_STRING(local, "", 1);
@@ -1345,6 +1368,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_update_string(&params, "href", strlen("href"), &r3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -1355,14 +1379,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 			goto fee_9b93_6;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
@@ -1429,11 +1446,13 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	if (!parameters) {
+		
 		PHALCON_INIT_VAR(parameters);
 		ZVAL_NULL(parameters);
 	}
 	
 	if (!local) {
+		
 		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
@@ -1462,6 +1481,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 			phalcon_array_update_string(&params, "src", strlen("src"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		}
 	}
+	
 	
 	PHALCON_INIT_VAR(local);
 	ZVAL_STRING(local, "", 1);
@@ -1496,6 +1516,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(&params, "src", strlen("src"), &r3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -1506,14 +1527,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 			goto fee_9b93_7;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
@@ -1577,6 +1591,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	}
 
 	if (!parameters) {
+		
 		PHALCON_INIT_VAR(parameters);
 		ZVAL_NULL(parameters);
 	}
@@ -1610,6 +1625,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	phalcon_array_fetch_string(&r2, params, "src", strlen("src"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS_1(r1, "phalcon_utils", "geturl", r2);
 	phalcon_array_update_string(&params, "src", strlen("src"), &r1, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<img", 1);
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -1620,14 +1636,7 @@ PHP_METHOD(Phalcon_Tag, image){
 			goto fee_9b93_8;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);

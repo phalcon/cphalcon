@@ -46,24 +46,3 @@
  *
  */
 
-/**
- * Phalcon_Config_Exception constructor
- *
- * @param string $message
- */
-PHP_METHOD(Phalcon_Config_Exception, __construct){
-
-	zval *message = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon_Config_Exception", "__construct", message);
-	
-	PHALCON_MM_RESTORE();
-}
-

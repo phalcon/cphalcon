@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_session_namespace_ce, this_ptr, "_data", strlen("_data"), a0 TSRMLS_CC);

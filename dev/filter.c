@@ -134,6 +134,7 @@ PHP_METHOD(Phalcon_Filter, filter){
 	}
 
 	if (!silent) {
+		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}
@@ -198,6 +199,7 @@ PHP_METHOD(Phalcon_Filter, sanitizeAndFilter){
 	PHALCON_CPY_WRT(new_value, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_BOOL(c1, 1);
 	PHALCON_CALL_METHOD_PARAMS_3(r1, this_ptr, "filter", new_value, filters, c1, PHALCON_NO_CHECK);
@@ -218,9 +220,9 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value = NULL, *filter = NULL, *silent = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL;
+	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL;
+	zval *t7 = NULL, *t8 = NULL, *t9 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
 	zval *a0 = NULL;
 	zval *i0 = NULL;
@@ -233,6 +235,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 
 	if (!silent) {
+		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}
@@ -286,12 +289,21 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_CALL_FUNC_PARAMS_3(r7, "filter_var", value, t7, a0, 0x04C);
 		PHALCON_RETURN_DZVAL(r7);
 	}
+	PHALCON_INIT_VAR(t9);
+	ZVAL_STRING(t9, "alphanum", 1);
+	PHALCON_ALLOC_ZVAL_MM(r8);
+	is_equal_function(r8, filter, t9 TSRMLS_CC);
+	if (zend_is_true(r8)) {
+		PHALCON_ALLOC_ZVAL_MM(r9);
+		phalcon_filter_alphanum(r9, value);
+		PHALCON_RETURN_DZVAL(r9);
+	}
 	if (!zend_is_true(silent)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r8);
-		PHALCON_CONCAT_BOTH(r8,  "Sanitize filter ", filter, " is not supported");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r8, PHALCON_CHECK);
+		PHALCON_ALLOC_ZVAL_MM(r10);
+		PHALCON_CONCAT_BOTH(r10,  "Sanitize filter ", filter, " is not supported");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r10, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	} else {
@@ -327,6 +339,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	}
 
 	if (!silent) {
+		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}

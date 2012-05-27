@@ -42,12 +42,14 @@
 /**
  * Phalcon_Cache_Frontend_Output
  *
- * Allows to cache output fragments using a file backend
+ * Allows to cache output fragments captured with ob_* functions
  *
  */
 
 /**
  * Phalcon_Cache_Frontend_Output constructor
+ *
+ * @param array $frontendOptions
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
@@ -55,6 +57,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_cache_frontend_output_ce, this_ptr, "_frontendOptions", strlen("_frontendOptions"), a0 TSRMLS_CC);
@@ -71,6 +74,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 /**
  * Returns cache lifetime
+ *
+ * @return integer
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 
@@ -91,10 +96,24 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
-		RETURN_LONG(0);
+		RETURN_LONG(1);
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Check whether if frontend is buffering output
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_buffering", sizeof("_buffering")-1, PHALCON_NOISY TSRMLS_CC);
+	
+	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -104,6 +123,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 
 
 	PHALCON_MM_GROW();
+	phalcon_update_property_bool(this_ptr, "_buffering", strlen("_buffering"), 1 TSRMLS_CC);
 	PHALCON_CALL_FUNC_NORETURN("ob_start", 0x014);
 	
 	PHALCON_MM_RESTORE();
@@ -116,12 +136,22 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
+	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x015);
-	PHALCON_RETURN_DZVAL(r0);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_buffering", sizeof("_buffering")-1, PHALCON_NOISY TSRMLS_CC);
+	if (zend_is_true(t0)) {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x015);
+		PHALCON_RETURN_DZVAL(r0);
+	} else {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -129,10 +159,49 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x016);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_buffering", sizeof("_buffering")-1, PHALCON_NOISY TSRMLS_CC);
+	if (zend_is_true(t0)) {
+		PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x016);
+	}
+	phalcon_update_property_bool(this_ptr, "_buffering", strlen("_buffering"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
+
+	zval *data = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_RETURN_CHECK_CTOR(data);
+}
+
+/**
+ * Prepares data to be retrieved to user
+ */
+PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
+
+	zval *data = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_RETURN_CHECK_CTOR(data);
 }
 

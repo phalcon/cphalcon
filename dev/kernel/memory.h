@@ -26,6 +26,8 @@ extern int phalcon_memory_restore_stack(TSRMLS_D);
 extern int phalcon_memory_observe(zval **var TSRMLS_DC);
 extern int phalcon_memory_remove(zval **var TSRMLS_DC);
 
+extern int phalcon_clean_restore_stack(TSRMLS_D);
+
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 

@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 	}
 
 	if (!description) {
+		
 		PHALCON_INIT_VAR(description);
 		ZVAL_STRING(description, "", 1);
 	}

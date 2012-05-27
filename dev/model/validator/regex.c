@@ -98,12 +98,14 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD(r1, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(field_name, r1);
+	
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "getoption", c0, PHALCON_NO_CHECK);

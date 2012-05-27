@@ -53,9 +53,11 @@ PHP_METHOD(Phalcon_Model_Validator, __construct){
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_model_validator_ce, this_ptr, "_options", strlen("_options"), a0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	zend_update_property(phalcon_model_validator_ce, this_ptr, "_messages", strlen("_messages"), a1 TSRMLS_CC);
@@ -66,6 +68,7 @@ PHP_METHOD(Phalcon_Model_Validator, __construct){
 	}
 
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a2);
 		array_init(a2);
 		PHALCON_CPY_WRT(options, a2);
@@ -102,6 +105,7 @@ PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 	}
 
 	if (!field) {
+		
 		PHALCON_INIT_VAR(field);
 		ZVAL_NULL(field);
 	} else {
@@ -109,6 +113,7 @@ PHP_METHOD(Phalcon_Model_Validator, appendMessage){
 	}
 	
 	if (!type) {
+		
 		PHALCON_INIT_VAR(type);
 		ZVAL_NULL(type);
 	} else {
@@ -179,17 +184,22 @@ PHP_METHOD(Phalcon_Model_Validator, isRequired){
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "", 1);
+	
 	PHALCON_INIT_VAR(r0);
 	is_identical_function(r0, t1, t0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_value", sizeof("_value")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t3);
 	ZVAL_NULL(t3);
+	
 	PHALCON_INIT_VAR(r1);
 	is_identical_function(r1, t3, t2 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(r2);
 	ZVAL_BOOL(r2, zend_is_true(r0) || zend_is_true(r1));
 	if (zend_is_true(r2)) {

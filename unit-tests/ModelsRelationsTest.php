@@ -39,10 +39,10 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$manager->load('Parts');
+		$success = $manager->load('Parts');
 		$this->assertTrue($success);
 
-		$manager->load('RobotsParts');
+		$success = $manager->load('RobotsParts');
 		$this->assertTrue($success);
 
 		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');

@@ -42,7 +42,7 @@
 /**
  * Phalcon_Cache
  *
- * Phalcon_Cache can be used to caches output fragments to improve performance
+ * Phalcon_Cache can be used to cache output fragments to improve performance
  *
  *
  */

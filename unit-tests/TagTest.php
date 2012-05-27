@@ -54,6 +54,10 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Phalcon_Tag::fileField('hello'), '<input type="file" id="hello" value="lol" name="hello"  />');
 		$this->assertEquals(Phalcon_Tag::fileField(array('hello')), '<input type="file" id="hello" value="lol" name="hello"  />');
 
+		//checkField
+		$this->assertEquals(Phalcon_Tag::checkField('hello'), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Phalcon_Tag::checkField(array('hello')), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
+
 		//Links
 		$this->assertEquals(Phalcon_Tag::linkTo('index', 'home'), '<a href="/index" >home</a>');
 

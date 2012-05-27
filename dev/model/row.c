@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Model_Row, __construct){
 
 	PHALCON_MM_GROW();
 
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_model_row_ce, this_ptr, "_columns", strlen("_columns"), a0 TSRMLS_CC);
@@ -136,6 +137,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_fast_count(r0, t0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	
@@ -153,21 +155,14 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				goto fee_47c8_0;
 			} else {
 				PHALCON_INIT_VAR(field);
-				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(field, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(field, hash_num);
-					}
-				}
+				PHALCON_GET_FOREACH_KEY(field, ah0, hp0);
 			}
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
 			ZVAL_BOOL(t2, 1);
 			phalcon_array_update(&columns, field, &t2, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			phalcon_update_property_zval(object_row, Z_STRVAL_P(field), Z_STRLEN_P(field), value TSRMLS_CC);
+			phalcon_update_property_zval_zval(object_row, field, value TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_47c8_0;
 			fee_47c8_0:
@@ -184,18 +179,11 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 				goto fee_47c8_1;
 			} else {
 				PHALCON_INIT_VAR(field);
-				hash_type = zend_hash_get_current_key_ex(ah1, &hash_index, &hash_index_len, &hash_num, 0, &hp1);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(field, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(field, hash_num);
-					}
-				}
+				PHALCON_GET_FOREACH_KEY(field, ah1, hp1);
 			}
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
-			phalcon_update_property_zval(object_row, Z_STRVAL_P(field), Z_STRLEN_P(field), value TSRMLS_CC);
+			phalcon_update_property_zval_zval(object_row, field, value TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_47c8_1;
 			fee_47c8_1:

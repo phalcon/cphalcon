@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 	phalcon_read_property(&t1, this_ptr, "_activeProfile", sizeof("_activeProfile")-1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "microtime", c0, 0x034);

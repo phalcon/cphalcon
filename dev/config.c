@@ -90,14 +90,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 			goto fee_9656_0;
 		} else {
 			PHALCON_INIT_VAR(key);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(key, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
@@ -105,9 +98,9 @@ PHP_METHOD(Phalcon_Config, __construct){
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_config_ce);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", value, PHALCON_CHECK);
-			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(key), Z_STRLEN_P(key), i0 TSRMLS_CC);
+			phalcon_update_property_zval_zval(this_ptr, key, i0 TSRMLS_CC);
 		} else {
-			phalcon_update_property_zval(this_ptr, Z_STRVAL_P(key), Z_STRLEN_P(key), value TSRMLS_CC);
+			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9656_0;

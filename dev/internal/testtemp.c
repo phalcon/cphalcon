@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 	ZVAL_LONG(a, 5);
 	PHALCON_CPY_WRT(b, a);
 	PHALCON_CPY_WRT(c, b);
+	
 	PHALCON_INIT_VAR(c);
 	ZVAL_LONG(c, 1);
 	
@@ -64,6 +65,7 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(a, a0);
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, "LOL", 1);
 	phalcon_array_update_long(&a, 0, &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -81,9 +83,11 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(a, a0);
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, "LOL", 1);
 	phalcon_array_update_long(&a, 0, &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 0);
 	phalcon_array_update_string(&a, "LOL", strlen("LOL"), &t1, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);

@@ -40,6 +40,7 @@ We need to compile a shared library from C source to generate phalcon.so extensi
 
      # git clone git://github.com/phalcon/cphalcon.git
      # cd cphalcon/target/release
+     # export CFLAGS="-O2 -fno-delete-null-pointer-checks"
      # phpize
      # ./configure --enable-phalcon
      # make
@@ -59,3 +60,9 @@ will queue a build into the continuos integration service and will run all phpun
 everything is going well and the project is stable. The current build status is:
 
 [![Build Status](https://secure.travis-ci.org/phalcon/cphalcon.png?branch=master)](http://travis-ci.org/phalcon/cphalcon)
+
+
+License
+--------------
+
+See the docs/LICENSE.txt file.

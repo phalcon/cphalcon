@@ -142,6 +142,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	phalcon_fast_count(r6, t1 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(r7);
 	is_not_equal_function(r7, r5, r6 TSRMLS_CC);
 	if (zend_is_true(r7)) {
@@ -333,6 +334,7 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, phalcon_db_reference_ce);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	phalcon_array_update_string(&a0, "referencedSchema", strlen("referencedSchema"), &referenced_schema, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);

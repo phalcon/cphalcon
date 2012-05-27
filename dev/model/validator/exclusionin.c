@@ -75,6 +75,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
+	
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "domain", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c2, PHALCON_NO_CHECK);
@@ -131,6 +132,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 				
 				PHALCON_ALLOC_ZVAL_MM(r7);
 				PHALCON_CONCAT_LEFT(r7, "Value of field '", field_name);
+				
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ", ", 1);
 				
@@ -139,6 +141,7 @@ PHP_METHOD(Phalcon_Model_Validator_Exclusionin, validate){
 				
 				PHALCON_ALLOC_ZVAL_MM(r6);
 				PHALCON_CONCAT_VBOTH(r6, r7, "' must not be part of list: ", r8);
+				
 				PHALCON_INIT_VAR(c3);
 				ZVAL_STRING(c3, "exclusion", 1);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r6, field_name, c3, PHALCON_NO_CHECK);

@@ -42,9 +42,9 @@
 /**
  * Phalcon_Controller
  *
- * Every application controller should extends this class that encapsulates all the controller functionality
+ * Every application controller should extend this class that encapsulates all the controller functionality
  *
- * Controllers provide the “flow” between models and views. Controllers are responsible
+ * The controllers provide the “flow” between models and views. Controllers are responsible
  * for processing the incoming requests from the web browser, interrogating the models for data,
  * and passing that data on to the views for presentation.
  *
@@ -72,11 +72,13 @@ PHP_METHOD(Phalcon_Controller, __construct){
 	}
 
 	if (!view) {
+		
 		PHALCON_INIT_VAR(view);
 		ZVAL_NULL(view);
 	}
 	
 	if (!model) {
+		
 		PHALCON_INIT_VAR(model);
 		ZVAL_NULL(model);
 	}

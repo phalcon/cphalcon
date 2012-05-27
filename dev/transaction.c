@@ -62,9 +62,11 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_transaction_ce, this_ptr, "_dependencies", strlen("_dependencies"), a0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	zend_update_property(phalcon_transaction_ce, this_ptr, "_messages", strlen("_messages"), a1 TSRMLS_CC);
@@ -75,6 +77,7 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	}
 
 	if (!auto_begin) {
+		
 		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 0);
 	}
@@ -188,6 +191,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	}
 
 	if (!rollback_message) {
+		
 		PHALCON_INIT_VAR(rollback_message);
 		ZVAL_NULL(rollback_message);
 	} else {
@@ -195,6 +199,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	}
 	
 	if (!rollback_record) {
+		
 		PHALCON_INIT_VAR(rollback_record);
 		ZVAL_NULL(rollback_record);
 	}

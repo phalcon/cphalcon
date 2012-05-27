@@ -42,7 +42,7 @@
 /**
  * Phalcon_Request
  *
- * Encapsulates request information for easily and secure access from application controllers.
+ * Encapsulates request information for easy and secure access from application controllers.
  *
  * The request object is a simple value object that is passed between the dispatcher and controller classes.
  * It packages the HTTP request environment.
@@ -62,14 +62,22 @@ PHP_METHOD(Phalcon_Request, getInstance){
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
-	t0 = zend_read_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_request_ce);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
 		zend_update_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, i0 TSRMLS_CC);
 	}
-	t1 = zend_read_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t1){
+		phalcon_memory_observe(&t1 TSRMLS_CC);
+	}
+	t1 = zend_read_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t1);
 	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }
@@ -96,7 +104,7 @@ PHP_METHOD(Phalcon_Request, setFilter){
 }
 
 /**
- * Returns active filter object used to sanitize input data
+ * Returns the active filter object used to sanitize input data
  *
  * @return Phalcon_Filter
  */
@@ -143,6 +151,7 @@ PHP_METHOD(Phalcon_Request, getPost){
 	}
 
 	if (!filters) {
+		
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
 	}
@@ -191,6 +200,7 @@ PHP_METHOD(Phalcon_Request, getQuery){
 	}
 
 	if (!filters) {
+		
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
 	}
@@ -526,6 +536,7 @@ PHP_METHOD(Phalcon_Request, getServerAddress){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "localhost", 1);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "gethostbyname", c0, 0x047);
@@ -575,40 +586,49 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	PHALCON_CPY_WRT(scheme, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "HTTP_SERVER_NAME", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(name, r1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "HTTP_SERVER_PORT", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getserver", c1, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(port, r2);
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, "http", 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	is_equal_function(r3, scheme, t0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_LONG(t1, 80);
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	is_equal_function(r4, port, t1 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(r5);
 	phalcon_and_function(r5, r3, r4);
+	
 	PHALCON_INIT_VAR(t2);
 	ZVAL_STRING(t2, "https", 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	is_equal_function(r6, scheme, t2 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(t3);
 	ZVAL_LONG(t3, 443);
 	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	is_equal_function(r7, port, t3 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(r8);
 	phalcon_and_function(r8, r6, r7);
+	
 	PHALCON_INIT_VAR(r9);
 	ZVAL_BOOL(r9, zend_is_true(r5) || zend_is_true(r8));
 	if (zend_is_true(r9)) {
@@ -906,6 +926,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 		
 		PHALCON_RETURN_CTOR(files);
 	}
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	
@@ -961,10 +982,12 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	PHALCON_CPY_WRT(http_accept, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "/,\\s*/", 1);
 	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept, 0x048);
 	PHALCON_CPY_WRT(accepted, r1);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(returned_accept, a0);
@@ -978,10 +1001,10 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		
 		PHALCON_INIT_VAR(accept);
 		ZVAL_ZVAL(accept, *hd, 1, 0);
-		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c2);
 		ZVAL_STRING(c2, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x009);
+		PHALCON_INIT_VAR(r2);
+		phalcon_fast_explode(r2, c2, accept TSRMLS_CC);
 		PHALCON_CPY_WRT(accept_parts, r2);
 		eval_int = phalcon_array_isset_long(accept_parts, 1);
 		if (eval_int) {
@@ -996,6 +1019,7 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 			PHALCON_INIT_VAR(quality);
 			ZVAL_DOUBLE(quality, 1);
 		}
+		
 		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
@@ -1033,8 +1057,10 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
+	
 	PHALCON_INIT_VAR(selected_accept_quality);
 	ZVAL_LONG(selected_accept_quality, 0);
+	
 	PHALCON_INIT_VAR(selected_accept_name);
 	ZVAL_STRING(selected_accept_name, "", 1);
 	
@@ -1113,10 +1139,12 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 	PHALCON_CPY_WRT(http_accept_charset, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "/,\\s*/", 1);
 	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept_charset, 0x048);
 	PHALCON_CPY_WRT(accepted, r1);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(returned_accept, a0);
@@ -1130,10 +1158,10 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 		
 		PHALCON_INIT_VAR(accept);
 		ZVAL_ZVAL(accept, *hd, 1, 0);
-		PHALCON_INIT_VAR(r2);
 		PHALCON_INIT_VAR(c2);
 		ZVAL_STRING(c2, ";", 1);
-		PHALCON_CALL_FUNC_PARAMS_2(r2, "explode", c2, accept, 0x009);
+		PHALCON_INIT_VAR(r2);
+		phalcon_fast_explode(r2, c2, accept TSRMLS_CC);
 		PHALCON_CPY_WRT(accept_parts, r2);
 		eval_int = phalcon_array_isset_long(accept_parts, 1);
 		if (eval_int) {
@@ -1148,6 +1176,7 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 			PHALCON_INIT_VAR(quality);
 			ZVAL_DOUBLE(quality, 1);
 		}
+		
 		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
@@ -1185,8 +1214,10 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
+	
 	PHALCON_INIT_VAR(selected_charset_quality);
 	ZVAL_LONG(selected_charset_quality, 0);
+	
 	PHALCON_INIT_VAR(selected_charset_name);
 	ZVAL_STRING(selected_charset_name, "", 1);
 	

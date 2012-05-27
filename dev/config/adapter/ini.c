@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *i0 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_CPY_WRT(config, a0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
 	PHALCON_CALL_FUNC_PARAMS_2(r0, "parse_ini_file", file_path, c0, 0x00C);
@@ -114,14 +115,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			goto fee_b840_0;
 		} else {
 			PHALCON_INIT_VAR(section);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(section, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(section, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(directives);
 		ZVAL_ZVAL(directives, *hd, 1, 0);
@@ -133,14 +127,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				goto fee_b840_1;
 			} else {
 				PHALCON_INIT_VAR(key);
-				hash_type = zend_hash_get_current_key_ex(ah1, &hash_index, &hash_index_len, &hash_num, 0, &hp1);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(key, hash_num);
-					}
-				}
+				PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			}
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
@@ -149,10 +136,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			ZVAL_STRING(c1, ".", 1);
 			PHALCON_CALL_FUNC_PARAMS_2(r3, "strpos", key, c1, 0x00E);
 			if (Z_TYPE_P(r3) != IS_BOOL || (Z_TYPE_P(r3) == IS_BOOL && Z_BVAL_P(r3))) {
-				PHALCON_INIT_VAR(r4);
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ".", 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r4, "explode", c2, key, 0x009);
+				PHALCON_INIT_VAR(r4);
+				phalcon_fast_explode(r4, c2, key TSRMLS_CC);
 				PHALCON_CPY_WRT(directive_parts, r4);
 				if (Z_TYPE_P(config) == IS_ARRAY) {
 					PHALCON_INIT_VAR(t0);
@@ -165,7 +152,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 					convert_to_array(t0);
 					phalcon_array_update(&config, section, &t0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 				}
-				
 				PHALCON_INIT_VAR(r5);
 				phalcon_array_fetch_long(&r5, directive_parts, 0, PHALCON_NOISY TSRMLS_CC);
 				if (Z_TYPE_P(t0) == IS_ARRAY) {
@@ -184,18 +170,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				phalcon_array_fetch_long(&r6, directive_parts, 1, PHALCON_NOISY TSRMLS_CC);
 				phalcon_array_update(&t1, r6, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 			} else {
-				if (Z_TYPE_P(config) == IS_ARRAY) {
-					PHALCON_INIT_VAR(t2);
-					phalcon_array_fetch(&t2, config, section, PHALCON_SILENT TSRMLS_CC);
-				}
-				if (Z_REFCOUNT_P(t2) > 1) {
-					phalcon_array_update(&config, section, &t2, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
-				}
-				if (Z_TYPE_P(t2) != IS_ARRAY) {
-					convert_to_array(t2);
-					phalcon_array_update(&config, section, &t2, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-				}
-				phalcon_array_update(&t2, key, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				phalcon_array_update_multi_2(&config, section, key, &value, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_b840_1;

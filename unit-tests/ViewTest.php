@@ -23,6 +23,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 	public function testStandardRender(){
 
 		$view = new Phalcon_View();
+		$view->setBasePath(__DIR__.'/../');
 		$view->setViewsDir('unit-tests/views/');
 		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
 
@@ -38,13 +39,13 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
 
 		//Variables
-		$view->setParamToView('born', 'this');
+		$view->setParamToView('a_cool_var', 'le-this');
 
 		$view->start();
 		$view->render('test3', 'another');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>lol<p>this</p></html>');
+		$this->assertEquals($view->getContent(), '<html>lol<p>le-this</p></html>');
 
 		//Templates
 		$view->setTemplateAfter('test');

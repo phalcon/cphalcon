@@ -133,6 +133,7 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	}
 
 	if (!uri) {
+		
 		PHALCON_INIT_VAR(uri);
 		ZVAL_STRING(uri, "", 1);
 	}
@@ -166,6 +167,7 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	}
 
 	if (!extra_path) {
+		
 		PHALCON_INIT_VAR(extra_path);
 		ZVAL_STRING(extra_path, "", 1);
 	}

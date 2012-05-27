@@ -94,9 +94,9 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
  * Throws an zval object as exception
  */
 void phalcon_throw_exception(zval *object TSRMLS_DC){
-	zend_throw_exception_object(object TSRMLS_CC);
 	Z_ADDREF_P(object);
-	PHALCON_MM_RESTORE();
+	zend_throw_exception_object(object TSRMLS_CC);
+	phalcon_clean_restore_stack(TSRMLS_C);
 }
 
 /**
@@ -159,19 +159,32 @@ void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 	php_implode(glue, pieces, result TSRMLS_CC);
 }
 
+void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
+
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING){
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
+		return;
+	}
+
+	array_init(result);
+	php_explode(delimiter, str, result, LONG_MAX);
+}
 
 /**
  * Inmediate function resolution for addslaches function
  */
-int phalcon_addslashes(zval *return_value, zval *param TSRMLS_DC){
+void phalcon_fast_addslashes(zval *return_value, zval *param TSRMLS_DC){
 
 	if (Z_TYPE_P(param) != IS_STRING) {
-		return FAILURE;
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
+		return;
 	}
 
-	//ZVAL_STRING(return_value, php_addslashes(Z_STRVAL_P(param), Z_STRLEN_P(param), &Z_STRLEN_P(return_value), 0 TSRMLS_CC), 0);
+	//php_addslashes_ex(Z_STRVAL_P(param), Z_STRLEN_P(param), return_value, 0 TSRMLS_CC)
 
-	return SUCCESS;
+	return;
 }
 
 /**
@@ -217,6 +230,37 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	} else {
 		ZVAL_STRING(result, "", 1);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Exports symbols to the active symbol table
+ */
+int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
+
+	int use_symbol_table = 0;
+	HashTable *old_symbol_table;
+
+	if (!EG(active_symbol_table)) {
+		old_symbol_table = EG(active_symbol_table);
+		EG(active_symbol_table) = &EG(symbol_table);
+		use_symbol_table = 1;
+	}
+
+	if (EG(active_symbol_table)) {
+		if (Z_TYPE_P(key_name) == IS_STRING){
+			Z_ADDREF_P(value);
+			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name)+1, &value, sizeof(zval *), NULL);
+			if (EG(exception)) {
+				return FAILURE;
+			}
+		}
+	}
+
+	if (use_symbol_table) {
+		EG(active_symbol_table) = old_symbol_table;
 	}
 
 	return SUCCESS;

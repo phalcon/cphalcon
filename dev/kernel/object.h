@@ -44,4 +44,11 @@ extern int phalcon_read_property_zval(zval **result, zval *object, zval *propert
 
 extern int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC);
 extern int phalcon_update_property_string(zval *obj, char *property_name, int property_length, char *value TSRMLS_DC);
+extern int phalcon_update_property_bool(zval *obj, char *property_name, int property_length, int value TSRMLS_DC);
+extern int phalcon_update_property_null(zval *obj, char *property_name, int property_length TSRMLS_DC);
 extern int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC);
+
+extern int phalcon_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
+
+/** Static properties **/
+extern void phalcon_read_static_property(zval **result, zend_class_entry *ce, char *property_name, int property_length TSRMLS_DC);

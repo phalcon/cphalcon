@@ -76,14 +76,7 @@ PHP_METHOD(Phalcon_Test, nice){
 			goto fee_2ebb_0;
 		} else {
 			PHALCON_INIT_VAR(k);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(k, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(k, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(k, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(v);
 		ZVAL_ZVAL(v, *hd, 1, 0);

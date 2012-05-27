@@ -72,16 +72,19 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	}
 
 	if (!adapter) {
+		
 		PHALCON_INIT_VAR(adapter);
 		ZVAL_STRING(adapter, "File", 1);
 	}
 	
 	if (!name) {
+		
 		PHALCON_INIT_VAR(name);
 		ZVAL_NULL(name);
 	}
 	
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
@@ -132,6 +135,7 @@ PHP_METHOD(Phalcon_Logger, log){
 	}
 
 	if (!type) {
+		
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
 	}
@@ -327,6 +331,7 @@ PHP_METHOD(Phalcon_Logger, __call){
 	}
 
 	if (!arguments) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(arguments, a0);

@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 	}
 
 	if (!description) {
+		
 		PHALCON_INIT_VAR(description);
 		ZVAL_NULL(description);
 	}

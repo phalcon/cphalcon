@@ -35,6 +35,8 @@
 #define PHALCON_CTOR 1
 #define PHALCON_NO_CTOR 0
 
+#define PHALCON_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
+
 /** Experimental Features **/
 #define PHALCON_EXPERIMENTAL_CALL 0
 
@@ -42,6 +44,7 @@
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
 extern ZEND_API zend_class_entry *zend_ce_iterator;
 extern ZEND_API zend_class_entry *zend_ce_arrayaccess;
+extern ZEND_API zend_class_entry *zend_ce_serializable;
 extern PHPAPI zend_class_entry *spl_ce_RuntimeException;
 extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
@@ -63,6 +66,7 @@ extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 /** Function replacement **/
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
+extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
@@ -70,6 +74,9 @@ extern int phalcon_filter_alphanum(zval *result, zval *param);
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
+
+/** Export symbols to active symbol table */
+extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -139,3 +146,15 @@ extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 	}\
 	PHALCON_MM_RESTORE();\
 	return;
+
+/** Foreach */
+#define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
+	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
+	if (hash_type == HASH_KEY_IS_STRING) { \
+		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+	} else { \
+		if (hash_type == HASH_KEY_IS_LONG) { \
+			ZVAL_LONG(var, hash_num); \
+		}\
+	}
+

@@ -147,14 +147,7 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 				goto fee_9c31_0;
 			} else {
 				PHALCON_INIT_VAR(key);
-				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(key, hash_num);
-					}
-				}
+				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			}
 			PHALCON_INIT_VAR(avalue);
 			ZVAL_ZVAL(avalue, *hd, 1, 0);
@@ -264,6 +257,7 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 		}
 	}
 	
+	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "</select>", 1);
 	
@@ -296,7 +290,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, resultset, "valid", PHALCON_NO_CHECK);
-		if (!zend_is_true(r0)) {
+		if (Z_TYPE_P(r0) != IS_BOOL || (Z_TYPE_P(r0) == IS_BOOL && !Z_BVAL_P(r0))) {
 			goto we_9c31_1;
 		}
 		PHALCON_INIT_VAR(r1);
@@ -380,14 +374,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 			goto fee_9c31_2;
 		} else {
 			PHALCON_INIT_VAR(option_value);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(option_value, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(option_value, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(option_text);
 		ZVAL_ZVAL(option_text, *hd, 1, 0);

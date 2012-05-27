@@ -65,7 +65,7 @@ inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC){
  * Initializes memory stack for the active function
  */
 int phalcon_memory_grow_stack(TSRMLS_D){
-	
+
 	phalcon_memory_entry *entry;
 
 	if(!PHALCON_GLOBAL(start_memory)){
@@ -77,7 +77,7 @@ int phalcon_memory_grow_stack(TSRMLS_D){
 	}
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
-	entry->addresses[0] = NULL;	
+	entry->addresses[0] = NULL;
 	entry->pointer = -1;
 	entry->prev = PHALCON_GLOBAL(active_memory);
 	PHALCON_GLOBAL(active_memory)->next = entry;
@@ -155,7 +155,7 @@ int phalcon_memory_observe(zval **var TSRMLS_DC){
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 	active_memory->pointer++;
 	active_memory->addresses[active_memory->pointer] = var;
-	active_memory->addresses[active_memory->pointer+1] = NULL;		
+	active_memory->addresses[active_memory->pointer+1] = NULL;
 	return SUCCESS;
 }
 
@@ -165,5 +165,15 @@ int phalcon_memory_observe(zval **var TSRMLS_DC){
 int phalcon_memory_remove(zval **var TSRMLS_DC){
 	zval_ptr_dtor(var);
 	*var = NULL;
+	return SUCCESS;
+}
+
+/**
+ * Cleans the phalcon memory stack recursivery
+ */
+int phalcon_clean_restore_stack(TSRMLS_D){
+	while (PHALCON_GLOBAL(active_memory)) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
 	return SUCCESS;
 }

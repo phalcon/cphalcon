@@ -74,6 +74,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 	}
 
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
@@ -96,6 +97,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 		PHALCON_CALL_METHOD(r2, adapter_object, "read", PHALCON_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, "_metaData", strlen("_metaData"), r2 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), adapter_object TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		phalcon_array_append(&a1, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
@@ -190,24 +192,31 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				PHALCON_CALL_METHOD_PARAMS_2(r10, connection, "describetable", table, schema, PHALCON_NO_CHECK);
 				PHALCON_CPY_WRT(meta_datas, r10);
 			}
+			
 			PHALCON_INIT_VAR(a0);
 			array_init(a0);
 			PHALCON_CPY_WRT(attributes, a0);
+			
 			PHALCON_INIT_VAR(a1);
 			array_init(a1);
 			PHALCON_CPY_WRT(primary_keys, a1);
+			
 			PHALCON_INIT_VAR(a2);
 			array_init(a2);
 			PHALCON_CPY_WRT(non_primary_keys, a2);
+			
 			PHALCON_INIT_VAR(a3);
 			array_init(a3);
 			PHALCON_CPY_WRT(numeric_typed, a3);
+			
 			PHALCON_INIT_VAR(a4);
 			array_init(a4);
 			PHALCON_CPY_WRT(not_null, a4);
+			
 			PHALCON_INIT_VAR(a5);
 			array_init(a5);
 			PHALCON_CPY_WRT(field_types, a5);
+			
 			PHALCON_INIT_VAR(identity_field);
 			ZVAL_BOOL(identity_field, 0);
 			if (phalcon_valid_foreach(meta_datas TSRMLS_CC)) {
@@ -240,6 +249,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				phalcon_array_update(&field_types, field_name, &type, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(r14);
+				
 				PHALCON_INIT_VAR(c0);
 				ZVAL_STRING(c0, "int", 1);
 				PHALCON_CALL_FUNC_PARAMS_2(r14, "strpos", type, c0, 0x00E);
@@ -277,6 +287,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				fee_f5c6_0:
 				if(0){ };
 			}
+			
 			PHALCON_INIT_VAR(a6);
 			array_init(a6);
 			PHALCON_CPY_WRT(table_metadata, a6);

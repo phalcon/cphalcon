@@ -71,11 +71,13 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	}
 
 	if (!adapter_name) {
+		
 		PHALCON_INIT_VAR(adapter_name);
 		ZVAL_STRING(adapter_name, "Memory", 1);
 	}
 	
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
@@ -129,6 +131,7 @@ PHP_METHOD(Phalcon_Acl, __call){
 	}
 
 	if (!arguments) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(arguments, a0);

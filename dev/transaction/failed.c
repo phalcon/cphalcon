@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 	}
 
 	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), record TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_LONG(c0, 0);
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_Transaction_Failed", "__construct", message, c0);

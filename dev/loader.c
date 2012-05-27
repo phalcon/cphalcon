@@ -56,6 +56,7 @@ PHP_METHOD(Phalcon_Loader, __construct){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_loader_ce, this_ptr, "_namespaces", strlen("_namespaces"), a0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	zend_update_property(phalcon_loader_ce, this_ptr, "_directories", strlen("_directories"), a1 TSRMLS_CC);
@@ -159,14 +160,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			goto fee_0c08_0;
 		} else {
 			PHALCON_INIT_VAR(preffix);
-			hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-			if (hash_type == HASH_KEY_IS_STRING) {
-				ZVAL_STRINGL(preffix, hash_index, hash_index_len-1, 1);
-			} else {
-				if (hash_type == HASH_KEY_IS_LONG) {
-					ZVAL_LONG(preffix, hash_num);
-				}
-			}
+			PHALCON_GET_FOREACH_KEY(preffix, ah0, hp0);
 		}
 		PHALCON_INIT_VAR(directory);
 		ZVAL_ZVAL(directory, *hd, 1, 0);

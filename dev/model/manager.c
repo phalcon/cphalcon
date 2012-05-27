@@ -60,21 +60,27 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	zval *a7 = NULL;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_model_manager_ce, this_ptr, "_models", strlen("_models"), a0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	zend_update_property(phalcon_model_manager_ce, this_ptr, "_hasMany", strlen("_hasMany"), a1 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a2);
 	array_init(a2);
 	zend_update_property(phalcon_model_manager_ce, this_ptr, "_hasOne", strlen("_hasOne"), a2 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a3);
 	array_init(a3);
 	zend_update_property(phalcon_model_manager_ce, this_ptr, "_belongsTo", strlen("_belongsTo"), a3 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a4);
 	array_init(a4);
 	zend_update_property(phalcon_model_manager_ce, this_ptr, "_metadataOptions", strlen("_metadataOptions"), a4 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a5);
 	array_init(a5);
 	
@@ -84,6 +90,7 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	}
 
 	if (!meta_data_options) {
+		
 		PHALCON_INIT_VAR(a6);
 		array_init(a6);
 		PHALCON_CPY_WRT(meta_data_options, a6);
@@ -94,6 +101,25 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	phalcon_array_append(&a7, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	add_next_index_stringl(a7, "autoload", strlen("autoload"), 1);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a7, 0x000);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets base path
+ */
+PHP_METHOD(Phalcon_Model_Manager, setBasePath){
+
+	zval *base_path = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &base_path) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, "_basePath", strlen("_basePath"), base_path TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -221,8 +247,8 @@ PHP_METHOD(Phalcon_Model_Manager, getModelsDir){
 PHP_METHOD(Phalcon_Model_Manager, isModel){
 
 	zval *model_name = NULL, *model_path = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	zval *c0 = NULL;
 	int eval_int;
 
@@ -243,16 +269,20 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 		PHALCON_CALL_FUNC_PARAMS_2(r0, "class_exists", model_name, c0, 0x012);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t1, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t2);
+			phalcon_read_property(&t2, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			concat_function(r1, t1, model_name TSRMLS_CC);
+			concat_function(r1, t1, t2 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CONCAT_RIGHT(r2, r1, ".php");
-			PHALCON_CPY_WRT(model_path, r2);
+			concat_function(r2, r1, model_name TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CONCAT_RIGHT(r3, r2, ".php");
+			PHALCON_CPY_WRT(model_path, r3);
 			if (phalcon_file_exists(model_path TSRMLS_CC) == SUCCESS) {
-				PHALCON_ALLOC_ZVAL_MM(r3);
-				PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "load", model_name, PHALCON_NO_CHECK);
-				PHALCON_RETURN_DZVAL(r3);
+				PHALCON_ALLOC_ZVAL_MM(r4);
+				PHALCON_CALL_METHOD_PARAMS_1(r4, this_ptr, "load", model_name, PHALCON_NO_CHECK);
+				PHALCON_RETURN_DZVAL(r4);
 			} else {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -272,9 +302,9 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
 PHP_METHOD(Phalcon_Model_Manager, load){
 
 	zval *model_name = NULL, *model_path = NULL, *model = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
+	zval *r7 = NULL, *r8 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL;
 	int eval_int;
@@ -297,27 +327,32 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 		PHALCON_CALL_FUNC_PARAMS_2(r0, "class_exists", model_name, c0, 0x012);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t1, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t2);
+			phalcon_read_property(&t2, this_ptr, "_modelsDir", sizeof("_modelsDir")-1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			concat_function(r1, t1, model_name TSRMLS_CC);
+			concat_function(r1, t1, t2 TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CONCAT_RIGHT(r2, r1, ".php");
-			PHALCON_CPY_WRT(model_path, r2);
+			concat_function(r2, r1, model_name TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CONCAT_RIGHT(r3, r2, ".php");
+			PHALCON_CPY_WRT(model_path, r3);
 			if (phalcon_file_exists(model_path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(model_path TSRMLS_CC) == FAILURE) {
 					return;
 				}
 				
-				PHALCON_ALLOC_ZVAL_MM(r3);
+				PHALCON_ALLOC_ZVAL_MM(r4);
+				
 				PHALCON_INIT_VAR(c1);
 				ZVAL_BOOL(c1, 0);
-				PHALCON_CALL_FUNC_PARAMS_2(r3, "class_exists", model_name, c1, 0x012);
-				if (!zend_is_true(r3)) {
+				PHALCON_CALL_FUNC_PARAMS_2(r4, "class_exists", model_name, c1, 0x012);
+				if (!zend_is_true(r4)) {
 					PHALCON_ALLOC_ZVAL_MM(i0);
 					object_init_ex(i0, phalcon_model_exception_ce);
-					PHALCON_ALLOC_ZVAL_MM(r4);
-					PHALCON_CONCAT_BOTH(r4,  "Class \"", model_name, "\"  not be found in the model file");
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r4, PHALCON_CHECK);
+					PHALCON_ALLOC_ZVAL_MM(r5);
+					PHALCON_CONCAT_BOTH(r5,  "Class \"", model_name, "\"  not be found in the model file");
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PHALCON_CHECK);
 					phalcon_throw_exception(i0 TSRMLS_CC);
 					return;
 				}
@@ -329,20 +364,20 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", this_ptr, PHALCON_CHECK);
 				PHALCON_CPY_WRT(model, i1);
 				
-				PHALCON_ALLOC_ZVAL_MM(r5);
-				PHALCON_CALL_METHOD(r5, this_ptr, "getconnection", PHALCON_NO_CHECK);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r5, PHALCON_NO_CHECK);
+				PHALCON_ALLOC_ZVAL_MM(r6);
+				PHALCON_CALL_METHOD(r6, this_ptr, "getconnection", PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r6, PHALCON_NO_CHECK);
 				
-				PHALCON_ALLOC_ZVAL_MM(t2);
-				phalcon_read_property(&t2, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY TSRMLS_CC);
-				phalcon_array_update(&t2, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), t2 TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL_MM(t3);
+				phalcon_read_property(&t3, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY TSRMLS_CC);
+				phalcon_array_update(&t3, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), t3 TSRMLS_CC);
 			} else {
 				PHALCON_ALLOC_ZVAL_MM(i2);
 				object_init_ex(i2, phalcon_model_exception_ce);
-				PHALCON_ALLOC_ZVAL_MM(r6);
-				PHALCON_CONCAT_BOTH(r6,  "Class file path for model \"", model_name, "\" could not be found");
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", r6, PHALCON_CHECK);
+				PHALCON_ALLOC_ZVAL_MM(r7);
+				PHALCON_CONCAT_BOTH(r7,  "Class file path for model \"", model_name, "\" could not be found");
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", r7, PHALCON_CHECK);
 				phalcon_throw_exception(i2 TSRMLS_CC);
 				return;
 			}
@@ -353,14 +388,14 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i3, "__construct", this_ptr, PHALCON_CHECK);
 			PHALCON_CPY_WRT(model, i3);
 			
-			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CALL_METHOD(r7, this_ptr, "getconnection", PHALCON_NO_CHECK);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r7, PHALCON_NO_CHECK);
+			PHALCON_ALLOC_ZVAL_MM(r8);
+			PHALCON_CALL_METHOD(r8, this_ptr, "getconnection", PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r8, PHALCON_NO_CHECK);
 			
-			PHALCON_ALLOC_ZVAL_MM(t3);
-			phalcon_read_property(&t3, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY TSRMLS_CC);
-			phalcon_array_update(&t3, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), t3 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t4);
+			phalcon_read_property(&t4, this_ptr, "_models", sizeof("_models")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_update(&t4, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, "_models", strlen("_models"), t4 TSRMLS_CC);
 		}
 	}
 	PHALCON_MM_RESTORE();
@@ -424,13 +459,16 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	phalcon_read_static_property(&t0, phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_array_fetch(&t1, t0, model_name, PHALCON_SILENT TSRMLS_CC);
 	if (!zend_is_true(t1)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "uncamelize", model_name);
-		t2 = zend_read_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+		t2 = zend_read_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, PHALCON_FETCH_CLASS_SILENT);
 		if (Z_TYPE_P(t2) != IS_ARRAY) {
 			convert_to_array(t2);
 		}
@@ -438,7 +476,10 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 		zend_update_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, t2 TSRMLS_CC);
 		
 	}
-	t3 = zend_read_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t3){
+		phalcon_memory_observe(&t3 TSRMLS_CC);
+	}
+	phalcon_read_static_property(&t3, phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_array_fetch(&t4, t3, model_name, PHALCON_NOISY TSRMLS_CC);
@@ -502,25 +543,33 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
-	zval *entity_name = NULL;
+	zval *options = NULL, *entity_name = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *i0 = NULL;
 	zval *c0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &model, &fields, &reference_model, &referenced_fields) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &model, &fields, &reference_model, &referenced_fields, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!options) {
+		
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(options, a0);
+	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_get_class(r0, model TSRMLS_CC);
 	PHALCON_CPY_WRT(entity_name, r0);
@@ -529,11 +578,11 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 	phalcon_read_property(&t0, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, entity_name);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+		PHALCON_INIT_VAR(a1);
+		array_init(a1);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
-		phalcon_array_update(&t1, entity_name, &a0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(&t1, entity_name, &a1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_hasOne", strlen("_hasOne"), t1 TSRMLS_CC);
 	}
 	
@@ -562,26 +611,17 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 				return;
 			}
 		}
-		PHALCON_INIT_VAR(a1);
-		array_init(a1);
-		phalcon_array_update_string(&a1, "fi", strlen("fi"), &fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_update_string(&a1, "rt", strlen("rt"), &reference_model, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_update_string(&a1, "rf", strlen("rf"), &referenced_fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(a2);
+		array_init(a2);
+		phalcon_array_update_string(&a2, "fi", strlen("fi"), &fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "rt", strlen("rt"), &reference_model, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "rf", strlen("rf"), &referenced_fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "op", strlen("op"), &options, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(t3) == IS_ARRAY) {
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_array_fetch(&t4, t3, entity_name, PHALCON_SILENT TSRMLS_CC);
-		}
-		if (Z_REFCOUNT_P(t4) > 1) {
-			phalcon_array_update(&t3, entity_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
-		}
-		if (Z_TYPE_P(t4) != IS_ARRAY) {
-			convert_to_array(t4);
-			phalcon_array_update(&t3, entity_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		}
-		phalcon_array_update(&t4, reference_model, &a1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a2, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_hasOne", strlen("_hasOne"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -606,7 +646,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 	zval *options = NULL, *model_name = NULL;
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *i0 = NULL;
 	zval *c0 = NULL;
 	int eval_int;
@@ -619,6 +659,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 	}
 
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
@@ -665,6 +706,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 				return;
 			}
 		}
+		
 		PHALCON_INIT_VAR(a2);
 		array_init(a2);
 		phalcon_array_update_string(&a2, "fi", strlen("fi"), &fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -674,18 +716,7 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_belongsTo", sizeof("_belongsTo")-1, PHALCON_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(t3) == IS_ARRAY) {
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_array_fetch(&t4, t3, model_name, PHALCON_SILENT TSRMLS_CC);
-		}
-		if (Z_REFCOUNT_P(t4) > 1) {
-			phalcon_array_update(&t3, model_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
-		}
-		if (Z_TYPE_P(t4) != IS_ARRAY) {
-			convert_to_array(t4);
-			phalcon_array_update(&t3, model_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		}
-		phalcon_array_update(&t4, reference_model, &a2, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, model_name, reference_model, &a2, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_belongsTo", strlen("_belongsTo"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -702,25 +733,33 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
-	zval *entity_name = NULL;
+	zval *options = NULL, *entity_name = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *i0 = NULL;
 	zval *c0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &model, &fields, &reference_model, &referenced_fields) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &model, &fields, &reference_model, &referenced_fields, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!options) {
+		
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(options, a0);
+	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_get_class(r0, model TSRMLS_CC);
 	PHALCON_CPY_WRT(entity_name, r0);
@@ -729,11 +768,11 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 	phalcon_read_property(&t0, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, entity_name);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
+		PHALCON_INIT_VAR(a1);
+		array_init(a1);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
-		phalcon_array_update(&t1, entity_name, &a0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(&t1, entity_name, &a1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_hasMany", strlen("_hasMany"), t1 TSRMLS_CC);
 	}
 	
@@ -762,26 +801,17 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 				return;
 			}
 		}
-		PHALCON_INIT_VAR(a1);
-		array_init(a1);
-		phalcon_array_update_string(&a1, "fi", strlen("fi"), &fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_update_string(&a1, "rt", strlen("rt"), &reference_model, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_update_string(&a1, "rf", strlen("rf"), &referenced_fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(a2);
+		array_init(a2);
+		phalcon_array_update_string(&a2, "fi", strlen("fi"), &fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "rt", strlen("rt"), &reference_model, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "rf", strlen("rf"), &referenced_fields, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&a2, "op", strlen("op"), &options, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
-		if (Z_TYPE_P(t3) == IS_ARRAY) {
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_array_fetch(&t4, t3, entity_name, PHALCON_SILENT TSRMLS_CC);
-		}
-		if (Z_REFCOUNT_P(t4) > 1) {
-			phalcon_array_update(&t3, entity_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
-		}
-		if (Z_TYPE_P(t4) != IS_ARRAY) {
-			convert_to_array(t4);
-			phalcon_array_update(&t3, entity_name, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		}
-		phalcon_array_update(&t4, reference_model, &a1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a2, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_hasMany", strlen("_hasMany"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -918,17 +948,23 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasOne){
  */
 PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 
-	zval *relation = NULL, *method = NULL, *record = NULL, *value = NULL, *condition = NULL;
-	zval *i = NULL, *conditions = NULL, *referenced_field = NULL, *find_params = NULL;
-	zval *reference_table = NULL, *referenced_entity = NULL;
+	zval *relation = NULL, *method = NULL, *record = NULL, *conditions = NULL, *value = NULL;
+	zval *i = NULL, *referenced_field = NULL, *number_args = NULL, *key = NULL;
+	zval *find_params = NULL, *reference_table = NULL, *referenced_entity = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL;
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
+	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL, *r19 = NULL, *r20 = NULL;
+	zval *r21 = NULL, *r22 = NULL, *r23 = NULL, *r24 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *c0 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
 
 	PHALCON_MM_GROW();
 	
@@ -937,6 +973,10 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(a0);
+	array_init(a0);
+	PHALCON_CPY_WRT(conditions, a0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_string(&r0, relation, "fi", strlen("fi"), PHALCON_NOISY TSRMLS_CC);
 	if (Z_TYPE_P(r0) != IS_ARRAY) { 
@@ -954,13 +994,10 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 		
 		PHALCON_ALLOC_ZVAL_MM(r5);
 		PHALCON_CONCAT_RIGHT(r5, r3, "'");
-		PHALCON_CPY_WRT(condition, r5);
+		phalcon_array_update_long(&conditions, 0, &r5, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 0);
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(conditions, a0);
 		
 		PHALCON_ALLOC_ZVAL_MM(r6);
 		phalcon_array_fetch_string(&r6, relation, "fi", strlen("fi"), PHALCON_NOISY TSRMLS_CC);
@@ -1001,37 +1038,85 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 			fee_7231_0:
 			if(0){ };
 		}
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, " AND ", 1);
-		
-		PHALCON_ALLOC_ZVAL_MM(r14);
-		phalcon_fast_join(r14, c0, conditions TSRMLS_CC);
-		PHALCON_CPY_WRT(condition, r14);
 	}
+	
+	
+	PHALCON_ALLOC_ZVAL_MM(r14);
+	PHALCON_CALL_FUNC(r14, "func_num_args", 0x052);
+	PHALCON_CPY_WRT(number_args, r14);
+	
+	PHALCON_INIT_VAR(t0);
+	ZVAL_LONG(t0, 4);
+	
+	PHALCON_INIT_VAR(r15);
+	is_smaller_function(r15, t0, number_args TSRMLS_CC);
+	if (zend_is_true(r15)) {
+		PHALCON_ALLOC_ZVAL_MM(r16);
+		PHALCON_CALL_FUNC(r16, "func_get_args", 0x053);
+		if (phalcon_valid_foreach(r16 TSRMLS_CC)) {
+			ah1 = Z_ARRVAL_P(r16);
+			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+			fes_7231_1:
+			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+				goto fee_7231_1;
+			} else {
+				PHALCON_INIT_VAR(key);
+				PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
+			}
+			PHALCON_INIT_VAR(value);
+			ZVAL_ZVAL(value, *hd, 1, 0);
+			PHALCON_INIT_VAR(t1);
+			ZVAL_LONG(t1, 0);
+			PHALCON_INIT_VAR(r17);
+			is_equal_function(r17, key, t1 TSRMLS_CC);
+			PHALCON_INIT_VAR(t2);
+			ZVAL_STRING(t2, "conditions", 1);
+			PHALCON_INIT_VAR(r18);
+			is_equal_function(r18, key, t2 TSRMLS_CC);
+			PHALCON_INIT_VAR(r19);
+			ZVAL_BOOL(r19, zend_is_true(r17) || zend_is_true(r18));
+			if (zend_is_true(r19)) {
+				phalcon_array_append(&conditions, value, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			}
+			zend_hash_move_forward_ex(ah1, &hp1);
+			goto fes_7231_1;
+			fee_7231_1:
+			if(0){ };
+		}
+	}
+	
+	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
-	phalcon_array_append(&a1, condition, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, " AND ", 1);
+	
+	PHALCON_ALLOC_ZVAL_MM(r20);
+	phalcon_fast_join(r20, c0, conditions TSRMLS_CC);
+	phalcon_array_append(&a1, r20, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	PHALCON_CPY_WRT(find_params, a1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r15);
-	phalcon_array_fetch_string(&r15, relation, "rt", strlen("rt"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(reference_table, r15);
+	PHALCON_ALLOC_ZVAL_MM(r21);
+	phalcon_array_fetch_string(&r21, relation, "rt", strlen("rt"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(reference_table, r21);
 	
-	PHALCON_ALLOC_ZVAL_MM(r16);
-	PHALCON_CALL_METHOD_PARAMS_1(r16, this_ptr, "getmodel", reference_table, PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(referenced_entity, r16);
+	PHALCON_ALLOC_ZVAL_MM(r22);
+	PHALCON_CALL_METHOD_PARAMS_1(r22, this_ptr, "getmodel", reference_table, PHALCON_NO_CHECK);
+	PHALCON_CPY_WRT(referenced_entity, r22);
 	
-	PHALCON_ALLOC_ZVAL_MM(r17);
-	PHALCON_CALL_METHOD(r17, record, "getconnection", PHALCON_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_entity, "setconnection", r17, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r23);
+	PHALCON_CALL_METHOD(r23, record, "getconnection", PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_entity, "setconnection", r23, PHALCON_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r18);
+	PHALCON_ALLOC_ZVAL_MM(r24);
+	
 	PHALCON_INIT_VAR(a2);
 	array_init(a2);
 	phalcon_array_append(&a2, referenced_entity, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_array_append(&a2, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2(r18, "call_user_func_array", a2, find_params, 0x013);
-	PHALCON_RETURN_DZVAL(r18);
+	PHALCON_CALL_FUNC_PARAMS_2(r24, "call_user_func_array", a2, find_params, 0x013);
+	PHALCON_RETURN_DZVAL(r24);
 }
 
 /**
@@ -1233,10 +1318,126 @@ PHP_METHOD(Phalcon_Model_Manager, getBelongsTo){
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	}
 	
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	
 	PHALCON_RETURN_CTOR(a0);
+}
+
+/**
+ * Gets hasMany relations defined on a model
+ *
+ * @param  Phalcon_Model_Base $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Model_Manager, getHasMany){
+
+	zval *model = NULL, *model_name = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *a0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_get_class(r0, model TSRMLS_CC);
+	PHALCON_CPY_WRT(model_name, r0);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, model_name);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch(&r1, t1, model_name, PHALCON_NOISY TSRMLS_CC);
+		
+		PHALCON_RETURN_CHECK_CTOR(r1);
+	}
+	
+	
+	PHALCON_INIT_VAR(a0);
+	array_init(a0);
+	
+	PHALCON_RETURN_CTOR(a0);
+}
+
+/**
+ * Gets hasOne relations defined on a model
+ *
+ * @param  Phalcon_Model_Base $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Model_Manager, getHasOne){
+
+	zval *model = NULL, *model_name = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *a0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_get_class(r0, model TSRMLS_CC);
+	PHALCON_CPY_WRT(model_name, r0);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, model_name);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch(&r1, t1, model_name, PHALCON_NOISY TSRMLS_CC);
+		
+		PHALCON_RETURN_CHECK_CTOR(r1);
+	}
+	
+	
+	PHALCON_INIT_VAR(a0);
+	array_init(a0);
+	
+	PHALCON_RETURN_CTOR(a0);
+}
+
+/**
+ * Gets hasOne relations defined on a model
+ *
+ * @param  Phalcon_Model_Base $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Model_Manager, getHasOneAndHasMany){
+
+	zval *model = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "gethasone", model, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "gethasmany", model, PHALCON_NO_CHECK);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "array_merge", r1, r2, 0x043);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**

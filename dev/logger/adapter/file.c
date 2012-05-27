@@ -62,6 +62,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	int eval_int;
 
 	PHALCON_MM_GROW();
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_logger_adapter_file_ce, this_ptr, "_quenue", strlen("_quenue"), a0 TSRMLS_CC);
@@ -72,6 +73,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	}
 
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		PHALCON_CPY_WRT(options, a1);
@@ -292,6 +294,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	}
 
 	if (!time) {
+		
 		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
 	} else {
@@ -309,6 +312,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_CPY_WRT(format, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "%date%", 1);
 	
@@ -321,6 +325,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_CPY_WRT(format, r1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "%type%", 1);
 	
@@ -330,6 +335,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_CPY_WRT(format, r3);
 	
 	PHALCON_ALLOC_ZVAL_MM(r5);
+	
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "%message%", 1);
 	PHALCON_CALL_FUNC_PARAMS_3(r5, "str_replace", c2, message, format, 0x003);
@@ -454,7 +460,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, begin){
 
 
 	PHALCON_MM_GROW();
-	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_transaction", strlen("_transaction"), 1 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, "_transaction", strlen("_transaction"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -486,7 +492,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_quenue", sizeof("_quenue")-1, PHALCON_NOISY TSRMLS_CC);
@@ -547,7 +553,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, rollback){
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
-	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, "_transaction", strlen("_transaction"), 0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	phalcon_update_property_zval(this_ptr, "_quenue", strlen("_quenue"), a0 TSRMLS_CC);

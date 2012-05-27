@@ -18,42 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
-class UtilsTest extends PHPUnit_Framework_TestCase { 
+class UtilsTest extends PHPUnit_Framework_TestCase {
 
-	public function testCamelize(){
-		$camelizeTests = array (
-		  'camelize' => 'Camelize',
-		  'CameLiZe' => 'Camelize',
-		  'cAmeLize' => 'Camelize',
-		  '_camelize' => 'Camelize',
-		  '123camelize' => '123camelize',
-		  'c_a_m_e_l_i_z_e' => 'CAMELIZE',
-		  'Camelize' => 'Camelize',
-		  'camel_ize' => 'CamelIze',
-		  'CameLize' => 'Camelize',
-		);
-		foreach($camelizeTests as $str => $camelized){
-			$this->assertEquals($camelized, Phalcon_Utils::camelize($str));
-		}
+	public function testNone(){
 
 	}
-
-	public function testUncamelize(){
-		$uncamelizeTests = array (
-		  'camelize' => 'camelize',
-		  'CameLiZe' => 'came_li_ze',
-		  'cAmeLize' => 'c_ame_lize',
-		  '_camelize' => '_camelize',
-		  '123camelize' => '123camelize',
-		  'c_a_m_e_l_i_z_e' => 'c_a_m_e_l_i_z_e',
-		  'Camelize' => 'camelize',
-		  'camel_ize' => 'camel_ize',
-		  'CameLize' => 'came_lize',
-		);
-		foreach($uncamelizeTests as $str => $camelized){
-			$this->assertEquals($camelized, Phalcon_Utils::uncamelize($str));
-		}
-	}
-
 
 }

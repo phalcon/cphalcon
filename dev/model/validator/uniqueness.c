@@ -87,6 +87,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD(r2, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(field, r2);
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(conditions, a0);
@@ -168,6 +169,7 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			fee_d73d_1:
 			if(0){ };
 		}
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
 		
@@ -177,8 +179,10 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		
 		PHALCON_ALLOC_ZVAL_MM(r19);
 		PHALCON_CALL_STATIC_ZVAL_PARAMS_1(r19, record, "count", conditions);
+		
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
+		
 		PHALCON_INIT_VAR(r20);
 		is_smaller_function(r20, t0, r19 TSRMLS_CC);
 		if (zend_is_true(r20)) {

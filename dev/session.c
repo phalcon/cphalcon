@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_Session, start){
 	}
 
 	if (!options) {
+		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
@@ -123,7 +124,11 @@ PHP_METHOD(Phalcon_Session, get){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, index TSRMLS_CC);
 	PHALCON_CPY_WRT(key, r0);
@@ -163,7 +168,11 @@ PHP_METHOD(Phalcon_Session, set){
 	}
 
 	phalcon_get_global(&g0, "_SESSION", sizeof("_SESSION") TSRMLS_CC);
-	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, index TSRMLS_CC);
 	phalcon_array_update(&g0, r0, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -191,7 +200,11 @@ PHP_METHOD(Phalcon_Session, has){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, index TSRMLS_CC);
 	PHALCON_CPY_WRT(key, r0);
@@ -227,7 +240,11 @@ PHP_METHOD(Phalcon_Session, remove){
 		RETURN_NULL();
 	}
 
-	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC);
+	if(!t0){
+		phalcon_memory_observe(&t0 TSRMLS_CC);
+	}
+	t0 = zend_read_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, PHALCON_FETCH_CLASS_SILENT);
+	Z_ADDREF_P(t0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, index TSRMLS_CC);
 	PHALCON_CPY_WRT(key, r0);

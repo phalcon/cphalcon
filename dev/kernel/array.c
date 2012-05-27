@@ -291,7 +291,7 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separat
 /**
  * Reads an item from an array using a zval as index
  */
-int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int silent TSRMLS_DC){
+int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC){
 
 	zval **zv;
 	int result = FAILURE, type;
@@ -365,7 +365,7 @@ int phalcon_array_fetch(zval **return_value, const zval *arr, zval *index, int s
 /**
  * Reads an item from an array using a string as index
  */
-int phalcon_array_fetch_string(zval **return_value, const zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
+int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC){
 
 	zval **zv;
 	int result = FAILURE;
@@ -398,7 +398,7 @@ int phalcon_array_fetch_string(zval **return_value, const zval *arr, char *index
 /**
  * Reads an item from an array using a long as index
  */
-int phalcon_array_fetch_long(zval **return_value, const zval *arr, ulong index, int silent TSRMLS_DC){
+int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int silent TSRMLS_DC){
 
 	zval **zv;
 	int result = FAILURE;
@@ -424,5 +424,130 @@ int phalcon_array_fetch_long(zval **return_value, const zval *arr, ulong index, 
 	}
 
 	return FAILURE;
+
+}
+
+/**
+ * Append a zval to a multi-dimensional array with two indexes
+ */
+void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int separate TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch(&temp, *arr, index, PHALCON_SILENT TSRMLS_CC);
+	}
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update(arr, index, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update(arr, index, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+
+	phalcon_array_append(&temp, value, separate TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
+
+}
+
+/**
+ * Updates multi-dimensional array with two zval indexes
+ */
+void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval **value, int separate TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+	}
+
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+	}
+
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+
+	phalcon_array_update(&temp, index2, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
+
+}
+
+void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2, zval **value, int separate TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch_long(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+	}
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+
+	phalcon_array_update_long(&temp, index2, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
+
+}
+
+void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, int index2_length, zval **value, int separate TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch_long(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+	}
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+
+	phalcon_array_update_string(&temp, index2, index2_length, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
+
+}
+
+/**
+ *
+ */
+void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, int separate TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+	}
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+	phalcon_array_append(&temp, value, separate TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
 
 }

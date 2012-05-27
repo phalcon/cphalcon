@@ -141,7 +141,6 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
 	status = call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
@@ -154,9 +153,16 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
 		zval_ptr_dtor(&return_value);
 	}
 
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
+	}
+
 	return status;
 }
-
 
 /**
  * Call single function which not requires parameters
@@ -188,7 +194,6 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
@@ -199,6 +204,14 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -250,7 +263,7 @@ inline int phalcon_call_method_normal(zval *return_value, zval *object, char *me
 
 	if (check) {
 		if (!zend_hash_exists(&Z_OBJCE_P(object)->function_table, method_name, strlen(method_name)+1)) {
-			return FAILURE;
+			return SUCCESS;
 		}
 	}
 
@@ -267,18 +280,25 @@ inline int phalcon_call_method_normal(zval *return_value, zval *object, char *me
 		status = call_user_function(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 		if (status == FAILURE) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", Z_STRVAL_P(fn));
-			return FAILURE;
 		}
 		EG(scope) = active_scope;
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
-		return FAILURE;
+		status = FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -307,7 +327,7 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 
 	if (check) {
 		if (!zend_hash_exists(&Z_OBJCE_P(object)->function_table, method_name, method_len+1)) {
-			return FAILURE;
+			return SUCCESS;
 		}
 	}
 
@@ -325,18 +345,26 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 		if (status == FAILURE) {
 			EG(scope) = active_scope;
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", Z_STRVAL_P(fn), Z_OBJCE_P(object)->name);
-			return FAILURE;
+			status = FAILURE;
 		}
 		EG(scope) = active_scope;
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", Z_STRVAL_P(fn));
-		return FAILURE;
+		status = FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -526,13 +554,20 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 	status = call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -558,13 +593,20 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -617,13 +659,20 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
 		}
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -652,13 +701,20 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, c
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function not-callable::%s()", method_name);
 		}
-		return FAILURE;
 	}
 
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -707,11 +763,18 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	status = call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
-		return FAILURE;
 	}
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -729,21 +792,27 @@ inline int phalcon_call_func_fast(zval *return_value, char *func_name, int func_
 	zval *local_retval_ptr = NULL;
 
 	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
-	if (status == FAILURE) {
-		return FAILURE;
-	}
+	if (status != FAILURE) {
 
-	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, 0, NULL, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-		return FAILURE;
-	}
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, 0, NULL, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
+		if (status == FAILURE) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 		}
-		//zval_ptr_dtor(&local_retval_ptr);
+
+		if (local_retval_ptr) {
+			if (noreturn) {
+				COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+			}
+			//zval_ptr_dtor(&local_retval_ptr);
+		}
+
+		if (EG(exception)){
+			status = FAILURE;
+		}
+	}
+
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -760,29 +829,37 @@ inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, in
 	register int i;
 
 	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
-	if (status == FAILURE) {
-		return FAILURE;
-	}
+	if (status != FAILURE) {
 
-	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-	for (i=0; i<param_count; i++) {
-		params_array[i] = &params[i];
-	}
-
-	status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, param_count, params_array, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-	}
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+		for (i=0; i<param_count; i++) {
+			params_array[i] = &params[i];
 		}
-		//zval_ptr_dtor(&local_retval_ptr);
+
+		status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, param_count, params_array, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
+		if (status == FAILURE) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
+			phalcon_clean_restore_stack(TSRMLS_C);
+		}
+
+		if (local_retval_ptr) {
+			if (noreturn) {
+				COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+			}
+			//zval_ptr_dtor(&local_retval_ptr);
+		}
+
+		if (params_array) {
+			efree(params_array);
+		}
+
+		if (EG(exception)){
+			status = FAILURE;
+		}
 	}
 
-	if (params_array) {
-		efree(params_array);
+	if (status == FAILURE) {
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -803,38 +880,47 @@ inline int phalcon_call_method_fast(zval *return_value, zval *object, char *meth
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		return FAILURE;
-	}
+	} else {
 
-	obj_ce = Z_OBJCE_P(object);
-	function_table = &obj_ce->function_table;
+		obj_ce = Z_OBJCE_P(object);
+		function_table = &obj_ce->function_table;
 
-	fcc = &local_fcache;
-	fcc->initialized = 0;
-	fcc->calling_scope = obj_ce;
-	fcc->called_scope = obj_ce;
-	fcc->function_handler = NULL;
-	fcc->object_ptr = object;
+		fcc = &local_fcache;
+		fcc->initialized = 0;
+		fcc->calling_scope = obj_ce;
+		fcc->called_scope = obj_ce;
+		fcc->function_handler = NULL;
+		fcc->object_ptr = object;
 
-	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
-		if (check) {
-			return FAILURE;
+		if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
+			if (check) {
+				return SUCCESS;
+			}
 		}
+
+		active_scope = EG(scope);
+		phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
+		status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, 0, NULL, fcc TSRMLS_CC);
+		if (status == FAILURE) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
+		}
+		EG(scope) = active_scope;
+
+		if (local_retval_ptr) {
+			if (noreturn) {
+				COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+			}
+			//zval_ptr_dtor(&local_retval_ptr);
+		}
+
+		if (EG(exception)){
+			status = FAILURE;
+		}
+
 	}
 
-	active_scope = EG(scope);
-	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
-	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, 0, NULL, fcc TSRMLS_CC);
 	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
-	}
-	EG(scope) = active_scope;
-
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -857,48 +943,58 @@ inline int phalcon_call_method_params_fast(zval *return_value, zval *object, cha
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
-		return FAILURE;
-	}
+	} else {
 
-	obj_ce = Z_OBJCE_P(object);
-	function_table = &obj_ce->function_table;
+		obj_ce = Z_OBJCE_P(object);
+		function_table = &obj_ce->function_table;
 
-	fcc = &local_fcache;
-	fcc->initialized = 0;
-	fcc->calling_scope = obj_ce;
-	fcc->called_scope = obj_ce;
-	fcc->function_handler = NULL;
-	fcc->object_ptr = object;
+		fcc = &local_fcache;
+		fcc->initialized = 0;
+		fcc->calling_scope = obj_ce;
+		fcc->called_scope = obj_ce;
+		fcc->function_handler = NULL;
+		fcc->object_ptr = object;
 
-	if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
-		if (check) {
-			return FAILURE;
+		if (zend_hash_find(function_table, method_name, method_len+1, (void**)&fcc->function_handler) != SUCCESS) {
+			if (check) {
+				return SUCCESS;
+			}
 		}
+
+		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
+		for (i=0; i<param_count; i++) {
+			params_array[i] = &params[i];
+		}
+
+		active_scope = EG(scope);
+		phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
+
+		status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, param_count, params_array, fcc TSRMLS_CC);
+		if (status == FAILURE) {
+			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
+			phalcon_clean_restore_stack(TSRMLS_C);
+		}
+
+		EG(scope) = active_scope;
+		if (local_retval_ptr) {
+			if (noreturn) {
+				COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
+			}
+			//zval_ptr_dtor(&local_retval_ptr);
+		}
+
+		if(params_array){
+			efree(params_array);
+		}
+
+		if (EG(exception)){
+			status = FAILURE;
+		}
+
 	}
 
-	params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-	for (i=0; i<param_count; i++) {
-		params_array[i] = &params[i];
-	}
-
-	active_scope = EG(scope);
-	phalcon_find_scope(obj_ce, method_name, method_len TSRMLS_CC);
-
-	status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, param_count, params_array, fcc TSRMLS_CC);
 	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
-	}
-
-	EG(scope) = active_scope;
-	if (local_retval_ptr) {
-		if (noreturn) {
-			COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-		}
-		//zval_ptr_dtor(&local_retval_ptr);
-	}
-
-	if(params_array){
-		efree(params_array);
+		phalcon_clean_restore_stack(TSRMLS_C);
 	}
 
 	return status;

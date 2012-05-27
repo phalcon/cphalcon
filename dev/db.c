@@ -241,8 +241,10 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", sql_query, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(result_query, r0);
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_BOOL(t0, 0);
+	
 	PHALCON_INIT_VAR(r1);
 	is_not_equal_function(r1, result_query, t0 TSRMLS_CC);
 	if (zend_is_true(r1)) {
@@ -303,11 +305,13 @@ PHP_METHOD(Phalcon_Db, insert){
 	PHALCON_SEPARATE_PARAM(values);
 	
 	if (!fields) {
+		
 		PHALCON_INIT_VAR(fields);
 		ZVAL_NULL(fields);
 	}
 	
 	if (!automatic_quotes) {
+		
 		PHALCON_INIT_VAR(automatic_quotes);
 		ZVAL_BOOL(automatic_quotes, 0);
 	}
@@ -341,14 +345,7 @@ PHP_METHOD(Phalcon_Db, insert){
 						goto fee_e7f0_1;
 					} else {
 						PHALCON_INIT_VAR(key);
-						hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-						if (hash_type == HASH_KEY_IS_STRING) {
-							ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-						} else {
-							if (hash_type == HASH_KEY_IS_LONG) {
-								ZVAL_LONG(key, hash_num);
-							}
-						}
+						PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 					}
 					PHALCON_INIT_VAR(value);
 					ZVAL_ZVAL(value, *hd, 1, 0);
@@ -482,11 +479,13 @@ PHP_METHOD(Phalcon_Db, update){
 	PHALCON_SEPARATE_PARAM(values);
 	
 	if (!where_condition) {
+		
 		PHALCON_INIT_VAR(where_condition);
 		ZVAL_NULL(where_condition);
 	}
 	
 	if (!automatic_quotes) {
+		
 		PHALCON_INIT_VAR(automatic_quotes);
 		ZVAL_BOOL(automatic_quotes, 0);
 	}
@@ -500,6 +499,7 @@ PHP_METHOD(Phalcon_Db, update){
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	phalcon_fast_count(r2, values TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(r3);
 	is_not_equal_function(r3, r1, r2 TSRMLS_CC);
 	if (zend_is_true(r3)) {
@@ -512,8 +512,10 @@ PHP_METHOD(Phalcon_Db, update){
 		return;
 	}
 	
+	
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(update_values, a0);
@@ -576,6 +578,7 @@ PHP_METHOD(Phalcon_Db, update){
 		fee_e7f0_2:
 		if(0){ };
 	}
+	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, ", ", 1);
 	
@@ -585,8 +588,10 @@ PHP_METHOD(Phalcon_Db, update){
 	PHALCON_ALLOC_ZVAL_MM(r19);
 	concat_function(r19, update_sql, r18 TSRMLS_CC);
 	PHALCON_CPY_WRT(update_sql, r19);
+	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_NULL(t0);
+	
 	PHALCON_INIT_VAR(r20);
 	is_not_equal_function(r20, where_condition, t0 TSRMLS_CC);
 	if (zend_is_true(r20)) {
@@ -625,6 +630,7 @@ PHP_METHOD(Phalcon_Db, delete){
 	}
 
 	if (!where_condition) {
+		
 		PHALCON_INIT_VAR(where_condition);
 		ZVAL_STRING(where_condition, "", 1);
 	}
@@ -661,10 +667,11 @@ PHP_METHOD(Phalcon_Db, begin){
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
-	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_autoCommit", strlen("_autoCommit"), 0 TSRMLS_CC);
-	zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_underTransaction", strlen("_underTransaction"), 1 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "BEGIN", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
@@ -688,10 +695,11 @@ PHP_METHOD(Phalcon_Db, rollback){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
-		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r0);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "ROLLBACK", 1);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
@@ -731,10 +739,11 @@ PHP_METHOD(Phalcon_Db, commit){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
-		zend_update_property_bool(Z_OBJCE_P(this_ptr), this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r0);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "COMMIT", 1);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
@@ -956,6 +965,7 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 	}
 
 	if (!as_string) {
+		
 		PHALCON_INIT_VAR(as_string);
 		ZVAL_BOOL(as_string, 0);
 	}
@@ -1104,18 +1114,11 @@ PHP_METHOD(Phalcon_Db, factory){
 				goto fee_e7f0_3;
 			} else {
 				PHALCON_INIT_VAR(key);
-				hash_type = zend_hash_get_current_key_ex(ah0, &hash_index, &hash_index_len, &hash_num, 0, &hp0);
-				if (hash_type == HASH_KEY_IS_STRING) {
-					ZVAL_STRINGL(key, hash_index, hash_index_len-1, 1);
-				} else {
-					if (hash_type == HASH_KEY_IS_LONG) {
-						ZVAL_LONG(key, hash_num);
-					}
-				}
+				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			}
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
-			phalcon_update_property_zval(descriptor, Z_STRVAL_P(key), Z_STRLEN_P(key), value TSRMLS_CC);
+			phalcon_update_property_zval_zval(descriptor, key, value TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_e7f0_3;
 			fee_e7f0_3:

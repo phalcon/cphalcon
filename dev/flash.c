@@ -42,7 +42,7 @@
 /**
  * Phalcon_Flash
  *
- * Shows HTML notifications related to different circustances. Classes can be stylized using CSS
+ * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
  */
 
 PHP_METHOD(Phalcon_Flash, _showMessage){
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t0 TSRMLS_CC);
 			PHALCON_INIT_VAR(r1);
 			PHALCON_CONCAT_VBOTH(r1, r2, "</div>", t0);
-			zend_print_zval(r1, 0);
+			zend_print_zval(r1, 1);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_3b3c_0;
 			fee_3b3c_0:
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		PHALCON_CONCAT_VBOTH(r4, r5, "</div>", t1);
-		zend_print_zval(r4, 0);
+		zend_print_zval(r4, 1);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -132,6 +132,7 @@ PHP_METHOD(Phalcon_Flash, error){
 	}
 
 	if (!classes) {
+		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "errorMessage", 1);
 	}
@@ -163,6 +164,7 @@ PHP_METHOD(Phalcon_Flash, notice){
 	}
 
 	if (!classes) {
+		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "noticeMessage", 1);
 	}
@@ -194,6 +196,7 @@ PHP_METHOD(Phalcon_Flash, success){
 	}
 
 	if (!classes) {
+		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "successMessage", 1);
 	}
@@ -226,6 +229,7 @@ PHP_METHOD(Phalcon_Flash, warning){
 	}
 
 	if (!classes) {
+		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "warningMessage", 1);
 	}

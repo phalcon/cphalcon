@@ -22,7 +22,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
 	private $_dispatcher;
 
-	public function setUp(){		
+	public function setUp(){
 		$this->_dispatcher = new Phalcon_Dispatcher();
 	}
 
@@ -33,7 +33,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$controllersDir = 'unit-tests/controllers/';
 		$dispatcher->setControllersDir($controllersDir);
 		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
-		
+
 		$request = Phalcon_Request::getInstance();
 		$this->assertInstanceOf('Phalcon_Request', $request);
 
@@ -49,7 +49,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
-			$this->assertEquals($e->getMessage(), "File for controller class IndexController doesn't exist");		
+			$this->assertEquals($e->getMessage(), "File for controller class IndexController doesn't exist");
 		}
 
 		$dispatcher->setControllerName('essai');
@@ -73,7 +73,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon_Exception $e){
-			$this->assertEquals($e->getMessage(), "Class Test0Controller was not found on controller file");			
+			$this->assertEquals($e->getMessage(), "Class Test0Controller was not found on controller file");
 		}
 
 		$dispatcher->setControllerName('test1');
@@ -105,7 +105,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		catch(Phalcon_Exception $e){
 			$this->assertEquals($e->getMessage(), "Action 'essai' was not found on controller 'test2'");
 		}
-	
+
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('other');
 		$dispatcher->setParams(array());
@@ -147,7 +147,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$controllersDir = 'unit-tests/controllers/';
 		$dispatcher->setControllersDir($controllersDir);
 		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
-		
+
 		$request = Phalcon_Request::getInstance();
 		$this->assertInstanceOf('Phalcon_Request', $request);
 
@@ -160,11 +160,11 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 		$dispatcher->dispatch($request, $response);
 		$value = $dispatcher->getActionName();
-		$this->assertEquals($value, 'notexists');		
+		$this->assertEquals($value, 'notexists');
 
 		//Not found event
 		$value = $dispatcher->getReturnedValue();
-		$this->assertEquals($value, 'not-found');		
+		$this->assertEquals($value, 'not-found');
 
 		//afterDispatch event
 		$dispatcher->setControllerName('test6');
@@ -172,7 +172,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 		$dispatcher->dispatch($request, $response);
 		$value = $dispatcher->getReturnedValue();
-		$this->assertEquals($value, false);	
+		$this->assertEquals($value, false);
 
 		//GC
 		gc_collect_cycles();
