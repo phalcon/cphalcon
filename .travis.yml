@@ -14,6 +14,10 @@ before_script:
  - sh -c "cd APC-3.1.9 && phpize && ./configure --enable-apc && make && sudo make install"
  - echo "extension=apc.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - echo "apc.enable_cli = On" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+ - cd unit-tests/engines/
+ - git clone https://github.com/bobthecow/mustache.php.git
+ - git clone git://github.com/fabpot/Twig.git
+ - cd ../..
  - cd dev/
  - export CFLAGS="-O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"

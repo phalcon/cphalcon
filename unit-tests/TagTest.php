@@ -59,6 +59,7 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Phalcon_Tag::checkField(array('hello')), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
 
 		//Links
+		$this->assertEquals(Phalcon_Tag::linkTo('', 'home'), '<a href="/" >home</a>');
 		$this->assertEquals(Phalcon_Tag::linkTo('index', 'home'), '<a href="/index" >home</a>');
 
 		$params = array('index', 'home');

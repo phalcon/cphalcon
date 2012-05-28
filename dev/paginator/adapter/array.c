@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Array_Paginator
@@ -141,7 +141,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		ZVAL_LONG(page_number, 1);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_fast_count(r1, items TSRMLS_CC);
 	PHALCON_CPY_WRT(n, r1);
@@ -185,7 +184,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	PHALCON_CALL_FUNC_PARAMS_3(r8, "array_slice", items, start, show, 0x01F);
 	phalcon_update_property_zval(page, "items", strlen("items"), r8 TSRMLS_CC);
@@ -220,7 +218,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 			PHALCON_CPY_WRT(next, r15);
 		}
 	}
-	
 	
 	PHALCON_INIT_VAR(r16);
 	is_smaller_function(r16, total_pages, next TSRMLS_CC);

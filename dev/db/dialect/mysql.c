@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db_Dialect_Mysql
@@ -125,7 +125,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_52be_0;
 		fee_52be_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(c0);
@@ -292,7 +294,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	phalcon_throw_exception(i1 TSRMLS_CC);
 	return;
 	se_52be_1:
-	if(0) { };
 	
 	PHALCON_RETURN_CTOR(column_sql);
 }
@@ -345,7 +346,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		PHALCON_CPY_WRT(sql, r3);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, column, "getname", PHALCON_NO_CHECK);
 	
@@ -371,7 +371,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		concat_function(r10, sql, t0 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r10);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r11);
 	PHALCON_CALL_METHOD(r11, column, "isfirst", PHALCON_NO_CHECK);
@@ -444,7 +443,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 		PHALCON_CONCAT_BOTH(r3,  "ALTER TABLE `", table_name, "` MODIFY ");
 		PHALCON_CPY_WRT(sql, r3);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, column, "getname", PHALCON_NO_CHECK);
@@ -567,7 +565,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
 		PHALCON_CPY_WRT(sql, r3);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, index, "getname", PHALCON_NO_CHECK);
 	
@@ -684,7 +681,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey){
 		PHALCON_CPY_WRT(sql, r3);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	
 	PHALCON_ALLOC_ZVAL_MM(r5);
@@ -785,7 +781,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 		PHALCON_CPY_WRT(sql, r3);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CALL_METHOD(r5, reference, "getname", PHALCON_NO_CHECK);
 	
@@ -818,7 +813,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 		concat_function(r13, sql, r12 TSRMLS_CC);
 		PHALCON_CPY_WRT(sql, r13);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r15);
 	PHALCON_CALL_METHOD(r15, reference, "getreferencedtable", PHALCON_NO_CHECK);
@@ -934,7 +928,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		}
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	phalcon_array_fetch_string(&r6, definition, "options", strlen("options"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(r6, "AUTO_INCREMENT", strlen("AUTO_INCREMENT")+1);
@@ -950,7 +943,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			phalcon_array_append(&table_options, r9, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	phalcon_array_fetch_string(&r10, definition, "options", strlen("options"), PHALCON_NOISY TSRMLS_CC);
@@ -980,7 +972,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 			phalcon_array_append(&table_options, r16, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r17);
 	phalcon_fast_count(r17, table_options TSRMLS_CC);
@@ -1075,7 +1066,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_CPY_WRT(sql, r8);
 	}
 	
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(create_lines, a0);
@@ -1127,7 +1117,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_52be_2;
 		fee_52be_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	eval_int = phalcon_array_isset_string(definition, "indexes", strlen("indexes")+1);
 	if (eval_int) {
@@ -1168,7 +1160,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_52be_3;
 			fee_52be_3:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
 	
@@ -1211,10 +1205,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			zend_hash_move_forward_ex(ah2, &hp2);
 			goto fes_52be_4;
 			fee_52be_4:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
-	
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ",\n\t", 1);

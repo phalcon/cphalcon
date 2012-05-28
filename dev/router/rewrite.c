@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Router_Rewrite
@@ -189,7 +189,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 			increment_function(i);
 			goto fs_ef57_0;
 		fe_ef57_0:
-		if(0){}
 		phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
 	} else {
 		phalcon_update_property_null(this_ptr, "_controller", strlen("_controller") TSRMLS_CC);

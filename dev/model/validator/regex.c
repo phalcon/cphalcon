@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_Validator_Regex

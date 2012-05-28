@@ -45,6 +45,9 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$value = $filter->sanitize("some(one)@exa\\mple.com", "email");
 		$this->assertEquals($value, "someone@example.com");
 
+		$value = $filter->sanitize("?a&5xka\tŧ?1-s.Xa[\n", "alphanum");
+		$this->assertEquals($value, "a5xka1sXa");
+
 		$value = $filter->filter("<h1>Hello</h1>", "striptags");
 		$this->assertEquals($value, "Hello");
 

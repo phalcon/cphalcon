@@ -15,7 +15,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/acl/adapter", "memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/view", "engine.c exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/view/engine", "php.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/view/engine", "php.c twig.c mustache.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator/adapter", "array.c model.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "exception.c select.c", "phalcon")

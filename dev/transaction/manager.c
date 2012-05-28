@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Transaction_Manager
@@ -241,7 +241,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, commit){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_ad2c_0;
 		fee_ad2c_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -306,7 +308,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_ad2c_1;
 		fee_ad2c_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -418,7 +422,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_2;
 			fee_ad2c_2:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		
 		PHALCON_INIT_VAR(a0);
@@ -443,7 +449,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, _collectTransaction){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_ad2c_3;
 			fee_ad2c_3:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		zend_update_static_property(phalcon_transaction_manager_ce, "_transactions", sizeof("_transactions")-1, transactions TSRMLS_CC);
 	}
@@ -507,7 +515,9 @@ PHP_METHOD(Phalcon_Transaction_Manager, collectTransactions){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ad2c_4;
 			fee_ad2c_4:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
 	

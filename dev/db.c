@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db
@@ -55,7 +55,7 @@
  */
 
 /**
- * Phalcon_Db contructor, this method should not be called directly. Use Phalcon_Db::factory instead
+ * Phalcon_Db constructor, this method should not be called directly. Use Phalcon_Db::factory instead
  *
  * @param stdClass $descriptor
  */
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 }
 
 /**
- * Sets a logger class to log all SQL operations sended to database server
+ * Sets a logger class to log all SQL operations sent to database server
  *
  * @param Phalcon_Logger $logger
  */
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 			phalcon_array_append(&results, row, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			goto ws_e7f0_0;
 		we_e7f0_0:
-		if(0) { };
+		if(0){}
 	}
 	
 	
@@ -388,6 +388,8 @@ PHP_METHOD(Phalcon_Db, insert){
 					fee_e7f0_1:
 					zend_hash_destroy(ah0);
 					efree(ah0);
+				} else {
+					return;
 				}
 			}
 		}
@@ -512,7 +514,6 @@ PHP_METHOD(Phalcon_Db, update){
 		return;
 	}
 	
-	
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
 	
@@ -576,7 +577,9 @@ PHP_METHOD(Phalcon_Db, update){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_e7f0_2;
 		fee_e7f0_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(c1);
@@ -601,7 +604,6 @@ PHP_METHOD(Phalcon_Db, update){
 		concat_function(r22, update_sql, r21 TSRMLS_CC);
 		PHALCON_CPY_WRT(update_sql, r22);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r23);
 	PHALCON_CALL_METHOD_PARAMS_1(r23, this_ptr, "query", update_sql, PHALCON_NO_CHECK);
@@ -977,7 +979,7 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 }
 
 /**
- * This method is executed before every SQL statement sended to the database system
+ * This method is executed before every SQL statement sent to the database system
  *
  * @param string $sqlStatement
  */
@@ -1022,7 +1024,7 @@ PHP_METHOD(Phalcon_Db, _beforeQuery){
 }
 
 /**
- * This method is executed after every SQL statement sended to the database system
+ * This method is executed after every SQL statement sent to the database system
  *
  * @param string $sqlStatement
  */
@@ -1122,7 +1124,9 @@ PHP_METHOD(Phalcon_Db, factory){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_e7f0_3;
 			fee_e7f0_3:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	} else {
 		PHALCON_CPY_WRT(descriptor, options);
@@ -1137,7 +1141,6 @@ PHP_METHOD(Phalcon_Db, factory){
 		PHALCON_INIT_VAR(layer);
 		ZVAL_STRING(layer, "native", 1);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_LEFT(r0, "Phalcon_Db_Adapter_", adapter_name);

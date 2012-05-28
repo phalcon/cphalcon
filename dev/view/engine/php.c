@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  *
@@ -49,21 +49,22 @@
 /**
  * Phalcon_View_Engine_Php constructor
  *
- * @param Phalcon_View
+ * @param Phalcon_View $view
+ * @param array $options
  * @param array $params
  */
 PHP_METHOD(Phalcon_View_Engine_Php, __construct){
 
-	zval *view = NULL, *params = NULL;
+	zval *view = NULL, *options = NULL, *params = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &view, &options, &params) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Php", "__construct", view, params);
+	PHALCON_CALL_PARENT_PARAMS_3_NORETURN(this_ptr, "Phalcon_View_Engine_Php", "__construct", view, options, params);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -76,7 +77,8 @@ PHP_METHOD(Phalcon_View_Engine_Php, __construct){
 PHP_METHOD(Phalcon_View_Engine_Php, render){
 
 	zval *path = NULL, *value = NULL, *key = NULL;
-	zval *t0 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -92,6 +94,8 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 		RETURN_NULL();
 	}
 
+	PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01D);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
 	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
@@ -112,11 +116,20 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_4b07_0;
 		fee_4b07_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;
 	}
+	
+	PHALCON_ALLOC_ZVAL_MM(t1);
+	phalcon_read_property(&t1, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x015);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "setcontent", r0, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

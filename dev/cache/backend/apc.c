@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Cache_Backend_Apc
@@ -155,7 +155,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 		RETURN_NULL();
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, front_end, "afterretrieve", cached_content, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r1);
@@ -220,7 +219,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_frontendObject", sizeof("_frontendObject")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(front_end, t1);
@@ -235,7 +233,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	} else {
 		PHALCON_CPY_WRT(cached_content, content);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, front_end, "beforestore", cached_content, PHALCON_NO_CHECK);

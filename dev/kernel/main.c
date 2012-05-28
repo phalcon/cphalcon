@@ -271,7 +271,8 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
  */
 int phalcon_valid_foreach(zval *arr TSRMLS_DC){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument supplied for foreach()");
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid argument supplied for foreach()");
+		phalcon_clean_restore_stack(TSRMLS_C);
 		return 0;
 	}
 	return 1;

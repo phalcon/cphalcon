@@ -36,10 +36,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
-		$personas = Personas::find();
+		$personnes = Personnes::find();
 
 		$paginator = Phalcon_Paginator::factory('Model', array(
- 			'data' => $personas,
+ 			'data' => $personnes,
  			'limit' => 10,
  			'page' => 1
  		));
@@ -53,10 +53,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
  		$this->assertEquals($page->before, 1);
  		$this->assertEquals($page->next, 2);
- 		$this->assertEquals($page->last, 219);
+ 		$this->assertEquals($page->last, 218);
 
  		$this->assertEquals($page->current, 1);
- 		$this->assertEquals($page->total_pages, 219);
+ 		$this->assertEquals($page->total_pages, 218);
 
  		//Middle Page
  		$paginator->setCurrentPage(50);
@@ -68,10 +68,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
  		$this->assertEquals($page->before, 49);
  		$this->assertEquals($page->next, 51);
- 		$this->assertEquals($page->last, 219);
+ 		$this->assertEquals($page->last, 218);
 
  		$this->assertEquals($page->current, 50);
- 		$this->assertEquals($page->total_pages, 219);
+ 		$this->assertEquals($page->total_pages, 218);
 
  		//Last Page
  		/*$paginator->setCurrentPage(219);

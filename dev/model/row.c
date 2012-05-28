@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_Row
@@ -166,7 +166,9 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_47c8_0;
 			fee_47c8_0:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		phalcon_update_property_zval(object_row, "_columns", strlen("_columns"), columns TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_columns", strlen("_columns"), columns TSRMLS_CC);
@@ -187,7 +189,9 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_47c8_1;
 			fee_47c8_1:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);

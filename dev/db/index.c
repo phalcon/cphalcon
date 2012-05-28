@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db_Index
@@ -142,7 +142,6 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(i2);
 	object_init_ex(i2, phalcon_db_index_ce);

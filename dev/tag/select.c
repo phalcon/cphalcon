@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 PHP_METHOD(Phalcon_Tag_Select, select){
 
@@ -128,7 +128,6 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 		phalcon_array_unset_string(params, "dummyText", strlen("dummyText")+1);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r6);
 	PHALCON_CONCAT_LEFT(r6, "<select id=\"", id);
 	
@@ -167,10 +166,11 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_9c31_0;
 			fee_9c31_0:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r12);
 	PHALCON_CONCAT_LEFT(r12, ">", eol);
@@ -257,7 +257,6 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "</select>", 1);
 	
@@ -338,7 +337,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		PHALCON_CALL_METHOD_NORETURN(resultset, "next", PHALCON_NO_CHECK);
 		goto ws_9c31_1;
 	we_9c31_1:
-	if(0) { };
 	
 	PHALCON_RETURN_CTOR(code);
 }
@@ -404,7 +402,9 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9c31_2;
 		fee_9c31_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(code);

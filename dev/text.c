@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Converts strings to camelize style
@@ -136,7 +136,9 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f8ee_0;
 		fee_f8ee_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);

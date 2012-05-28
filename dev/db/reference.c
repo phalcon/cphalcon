@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db_Reference
@@ -129,7 +129,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 		phalcon_array_fetch_string(&r4, definition, "referencedSchema", strlen("referencedSchema"), PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_referencedSchema", strlen("_referencedSchema"), r4 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
@@ -330,7 +329,6 @@ PHP_METHOD(Phalcon_Db_Reference, __set_state){
 		PHALCON_INIT_VAR(referenced_columns);
 		ZVAL_NULL(referenced_columns);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, phalcon_db_reference_ce);

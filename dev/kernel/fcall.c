@@ -168,7 +168,7 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
  * Call single function which not requires parameters
  */
 int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
+#if PHALCON_EXPERIMENTAL_CALL
 	return phalcon_call_func_fast(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
 #else
 	return phalcon_call_func_normal(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
@@ -221,7 +221,7 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
  * Call single function which requires arbitrary number of parameters
  */
 int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
+#if PHALCON_EXPERIMENTAL_CALL
 	return phalcon_call_func_params_fast(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
 #else
 	return phalcon_call_func_params_normal(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
@@ -375,7 +375,7 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
  *
  */
 int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
-#if PHALCON_EXPERIMENTAL_CALL && PHP_VERSION_ID < 50400
+#if PHALCON_EXPERIMENTAL_CALL
 	return phalcon_call_method_params_fast(return_value, object, method_name, method_len, param_count, params, check, noreturn TSRMLS_CC);
 #else
 	return phalcon_call_method_params_normal(return_value, object, method_name, method_len, param_count, params, check, noreturn TSRMLS_CC);
@@ -781,7 +781,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
-#if PHP_VERSION_ID < 50400
+#if PHALCON_EXPERIMENTAL_CALL
 
 /**
  * This is an experimental way to call PHP functions in a faster way
@@ -826,7 +826,7 @@ inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, in
 	int status;
 	zval ***params_array;
 	zval *local_retval_ptr = NULL;
-	register int i;
+	register zend_uint i;
 
 	status = phalcon_cache_lookup_function(func_name, func_length, fcache_pointer TSRMLS_CC);
 	if (status != FAILURE) {
@@ -1032,6 +1032,7 @@ int phalcon_call_user_function_ex(HashTable *function_table, zval **retval_ptr_p
 int phalcon_call_internal_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC){
 
 	zend_uint i;
+	int call_via_handler;
 	zend_class_entry *current_scope;
 	zend_class_entry *current_called_scope;
 	zend_class_entry *calling_scope = NULL;
@@ -1078,7 +1079,7 @@ int phalcon_call_internal_function(zend_fcall_info *fci, zend_fcall_info_cache *
 	EX(prev_execute_data) = EG(current_execute_data);
 	EG(current_execute_data) = &execute_data;
 
-	int call_via_handler = (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
+	call_via_handler = (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
 	ALLOC_INIT_ZVAL(*fci->retval_ptr_ptr);
 	if (EX(function_state).function->common.scope) {
 		EG(scope) = EX(function_state).function->common.scope;
@@ -1174,6 +1175,7 @@ int phalcon_is_callable_ex(char *method_name, int method_len, zval *object_ptr, 
 int phalcon_call_internal_method(char *method_name, int method_len, zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) {
 
 	zend_uint i;
+	int call_via_handler;
 	zend_class_entry *current_scope;
 	zend_class_entry *current_called_scope;
 	zend_class_entry *calling_scope = NULL;
@@ -1249,7 +1251,7 @@ int phalcon_call_internal_method(char *method_name, int method_len, zend_fcall_i
 	EX(prev_execute_data) = EG(current_execute_data);
 	EG(current_execute_data) = &execute_data;
 
-	int call_via_handler = (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
+	call_via_handler = (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
 	ALLOC_INIT_ZVAL(*fci->retval_ptr_ptr);
 	if (EX(function_state).function->common.scope) {
 		EG(scope) = EX(function_state).function->common.scope;

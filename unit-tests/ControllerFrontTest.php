@@ -44,7 +44,7 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 		$front->setConfig($config);
 		$response = $front->dispatchLoop();
 
-		$this->assertEquals($response->getContent(), '<html>lolhere</html>');
+		$this->assertEquals($response->getContent(), '<html>lolhere</html>'."\n");
 
 	}
 

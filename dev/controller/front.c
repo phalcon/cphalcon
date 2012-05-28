@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Controller_Front
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Controller_Front, setDatabaseConfig){
 }
 
 /**
- * Sets controllers directory
+ * Sets controllers directory. Depending of your platform, always add a trailing slash or backslash
  *
  * 
  *
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Controller_Front, setControllersDir){
 }
 
 /**
- * Sets models directory
+ * Sets models directory. Depending of your platform, always add a trailing slash or backslash
      *
  * 
  *
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Controller_Front, setModelsDir){
 }
 
 /**
- * Sets views directory
+ * Sets views directory. Depending of your platform, always add a trailing slash or backslash
  *
  * 
  *
@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Controller_Front, getBaseUri){
 }
 
 /**
- * Sets local path where app/ directory is located
+ * Sets local path where app/ directory is located. Depending of your platform, always add a trailing slash or backslash
  *
   * @param string $basePath
  */
@@ -671,7 +671,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		phalcon_update_property_zval(this_ptr, "_request", strlen("_request"), r0 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t5);
 	phalcon_read_property(&t5, this_ptr, "_response", sizeof("_response")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t5)) {
@@ -679,7 +678,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		PHALCON_CALL_STATIC(r1, "phalcon_response", "getinstance");
 		phalcon_update_property_zval(this_ptr, "_response", strlen("_response"), r1 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t6);
 	phalcon_read_property(&t6, this_ptr, "_router", sizeof("_router")-1, PHALCON_NOISY TSRMLS_CC);
@@ -694,7 +692,6 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 		phalcon_read_property(&t7, this_ptr, "_router", sizeof("_router")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(router, t7);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t8);
 	phalcon_read_property(&t8, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);

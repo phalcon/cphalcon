@@ -13,18 +13,19 @@
 - Added virtual foreign keys to Phalcon_Model (ORM)
 - Implemented the possibility to serialize Phalcon_Model_Resultset objects
 - Implemented the possibility to access Phalcon_Model_Resultset as an array of objects
-- Added Phalcon_Cache_Backend_Apc, Phalcon_Cache_Backend_Memcache, Phalcon_Cache_Frontend_None and Phalcon_Cache_Frontend_Data 
+- Added Phalcon_Cache_Backend_Apc, Phalcon_Cache_Backend_Memcache, Phalcon_Cache_Frontend_None and Phalcon_Cache_Frontend_Data
 - Added Phalcon_Request::hasPost and Phalcon_Request::hasQuery
 - Added parameter "persistent" to Phalcon_Db allowing to create persistent connections
 - Added alphanum to Phalcon_Filter to filter strings allowing filter only alpha-numeric characters
 - Refactored Phalcon_Tag::select and Phalcon_Tag::selectStatic, now uses the same code in Phalcon_Tag_Select
 - Added Phalcon_Tag::checkField helper to create input[type="checkbox"] tags
-- Added Phalcon_View::getParams to recover extra params sended to the request
+- Added Phalcon_View::getParams to recover extra params sent to the request
 - Sometimes when Phalcon throws an internal exception or E_ERROR the memory stack is not properly cleaned
   producing an unstable state, this situation was fixed
 - Phalcon_View was refactored to allow other templating engines like Mustache or Twig
 - Added Phalcon_Translate for multi-lingual translation messages based on adapters
 - Added calculation functions to Phalcon_Model: count, sum, average, minimum and maximum
+- Dispatcher exceptions now throws a 404 Not found status
 
 0.3.5
  - Most of throw exception process has been rewrriten to use less instructions

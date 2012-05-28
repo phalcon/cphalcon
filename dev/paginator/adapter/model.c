@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Paginator_Adapter_Model
@@ -143,7 +143,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		ZVAL_LONG(page_number, 1);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_fast_count(r1, items TSRMLS_CC);
 	PHALCON_CPY_WRT(n, r1);
@@ -189,7 +188,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		ZVAL_LONG(page_number, 0);
 	}
 	
-	
 	PHALCON_INIT_VAR(t5);
 	ZVAL_LONG(t5, 0);
 	
@@ -204,7 +202,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		phalcon_throw_exception(i2 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -255,7 +252,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			increment_function(i);
 			goto ws_e435_0;
 		we_e435_0:
-		if(0) { };
+		if(0){}
 	}
 	
 	phalcon_update_property_long(page, "first", strlen("first"), 1 TSRMLS_CC);
@@ -290,7 +287,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			PHALCON_CPY_WRT(next, r20);
 		}
 	}
-	
 	
 	PHALCON_INIT_VAR(r21);
 	is_smaller_function(r21, total_pages, next TSRMLS_CC);

@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Config
@@ -105,7 +105,9 @@ PHP_METHOD(Phalcon_Config, __construct){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9656_0;
 		fee_9656_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();

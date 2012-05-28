@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Controller
@@ -172,7 +172,6 @@ PHP_METHOD(Phalcon_Controller, __get){
 		PHALCON_RETURN_CHECK_CTOR(t2);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t3);
 	phalcon_read_property(&t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t3)) {
@@ -188,7 +187,6 @@ PHP_METHOD(Phalcon_Controller, __get){
 			PHALCON_RETURN_DZVAL(r3);
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CONCAT_LEFT(r4, "Access to undefined property ", property_name);

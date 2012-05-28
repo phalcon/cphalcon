@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db_Mysql
@@ -133,7 +133,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 		PHALCON_CPY_WRT(host, t1);
 	}
 	
-	
 	PHALCON_INIT_VAR(username);
 	ZVAL_STRING(username, "", 1);
 	eval_int = phalcon_isset_property(descriptor, "username", strlen("username") TSRMLS_CC);
@@ -142,7 +141,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 		phalcon_read_property(&t2, descriptor, "username", sizeof("username")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(username, t2);
 	}
-	
 	
 	PHALCON_INIT_VAR(password);
 	ZVAL_STRING(password, "", 1);
@@ -163,7 +161,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 	} else {
 		PHALCON_CPY_WRT(dbstring, host);
 	}
-	
 	
 	PHALCON_INIT_VAR(client_flags);
 	ZVAL_NULL(client_flags);
@@ -204,7 +201,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(persistent);
 	ZVAL_BOOL(persistent, 0);
 	eval_int = phalcon_isset_property(descriptor, "persistent", strlen("persistent") TSRMLS_CC);
@@ -233,7 +229,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 		PHALCON_CALL_FUNC_PARAMS(r4, "mysql_pconnect", 4, p1, 0x035);
 		phalcon_update_property_zval(this_ptr, "_idConnection", strlen("_idConnection"), r4 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t11);
 	phalcon_read_property(&t11, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY TSRMLS_CC);
@@ -491,7 +486,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, fetchArray){
 		}
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -547,7 +541,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, numRows){
 			RETURN_FALSE;
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysql_num_rows", result_query, 0x037);
@@ -732,7 +725,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, setFetchMode){
 		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t3 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_INIT_VAR(t4);
 	ZVAL_LONG(t4, 3);
 	
@@ -803,7 +795,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, error){
 		PHALCON_CONCAT_BOTH(r4,  "[Unknown MySQL error: ", error_string, "]");
 		phalcon_update_property_zval(this_ptr, "_lastError", strlen("_lastError"), r4 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_lastError", sizeof("_lastError")-1, PHALCON_NOISY TSRMLS_CC);
@@ -1131,7 +1122,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, createTable){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_string(&r1, definition, "columns", strlen("columns"), PHALCON_NOISY TSRMLS_CC);
 	
@@ -1146,7 +1136,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, createTable){
 		phalcon_throw_exception(i2 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_STATIC_PARAMS_3(r3, "phalcon_db_dialect_mysql", "createtable", table_name, schema_name, definition);
@@ -1592,7 +1581,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, listTables){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_321f_0;
 		fee_321f_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), fetch_mode TSRMLS_CC);
 	
@@ -1712,7 +1703,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeIndexes){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_321f_1;
 		fee_321f_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(a2);
@@ -1737,7 +1730,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeIndexes){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_321f_2;
 		fee_321f_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(t1);
@@ -1888,7 +1883,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeReferences){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_321f_3;
 		fee_321f_3:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(a4);
@@ -1927,7 +1924,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeReferences){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_321f_4;
 		fee_321f_4:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(t5);

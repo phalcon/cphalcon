@@ -40,6 +40,15 @@
 /** Experimental Features **/
 #define PHALCON_EXPERIMENTAL_CALL 0
 
+/** Check whether we can use experimental call yet */
+#ifdef PHP_WIN32
+#define PHALCON_EXPERIMENTAL_CALL 0
+#else
+#if PHP_VERSION_ID < 50400
+#define PHALCON_EXPERIMENTAL_CALL 0
+#endif
+#endif
+
 /** SPL dependencies */
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
 extern ZEND_API zend_class_entry *zend_ce_iterator;

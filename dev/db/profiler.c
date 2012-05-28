@@ -35,16 +35,16 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Db_Profiler
  *
  * Instances of Phalcon_Db can generate execution profiles
- * on SQL statements sended to the relational database. Profiled
- * information includes excution time in miliseconds.
+ * on SQL statements sent to the relational database. Profiled
+ * information includes execution time in miliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
  */

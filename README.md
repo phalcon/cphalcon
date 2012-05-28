@@ -13,7 +13,7 @@ For use phalcon on windows you only should to download a DLL library. Edit your 
 
      extension=php_phalcon.dll
 
-Finally restart your webserver.
+Finally restart your webserver. You can download DLL for Windows from http://phalconphp.com/downloads
 
 ### GNU/Linux
 
@@ -27,11 +27,11 @@ We need some packages previously installed.
 
 Ubuntu:
 
-    sudo apt-get install php5-dev php5-mysql gcc
+    sudo apt-get install php5-dev php5-mysql gcc make
 
 Suse:
 
-    yast2 -i php5-pear php5-dev php5-mysql gcc
+    yast2 -i php5-pear php5-dev libmysqlclient gcc make autoconf2.13
 
 Compilation
 -----------

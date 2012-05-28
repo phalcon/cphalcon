@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Cache_Backend_Memcache
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_backendOptions", sizeof("_backendOptions")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(backend_options, t0);
-	ce0 = zend_fetch_class("memcache", strlen("memcache"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	ce0 = zend_fetch_class("Memcache", strlen("Memcache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, ce0);
@@ -248,7 +248,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 		RETURN_NULL();
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, front_end, "afterretrieve", cached_content, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r1);
@@ -314,7 +313,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_frontendObject", sizeof("_frontendObject")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(front_end, t1);
@@ -336,7 +334,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	} else {
 		PHALCON_CPY_WRT(cached_content, content);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, front_end, "beforestore", cached_content, PHALCON_NO_CHECK);
@@ -368,7 +365,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CALL_METHOD(r4, front_end, "isbuffering", PHALCON_NO_CHECK);

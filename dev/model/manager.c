@@ -35,14 +35,14 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_Manager
  *
- * Manages the creation of models inside application and their relationships.
+ * Manages the creation of models into applications and their relationships.
  * Phacon_Model_Manager helps to control the creation of models across a request execution.
  *
  * 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 }
 
 /**
- * Sets base path
+ * Sets base path. Depending of your platform, always add a trailing slash or backslash
  */
 PHP_METHOD(Phalcon_Model_Manager, setBasePath){
 
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Model_Manager, setMetaData){
 }
 
 /**
- * Returns active meta-data manager. If no exist then it will be created
+ * Returns active meta-data manager. If not exist then one will be created
  *
  * @return Phalcon_Model_Metadata
  */
@@ -200,7 +200,7 @@ PHP_METHOD(Phalcon_Model_Manager, getMetaData){
 }
 
 /**
- * Sets the models directory
+ * Sets the models directory. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $modelsDir
  */
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModelsDir){
 }
 
 /**
- * Checks wheater given name is a existent model
+ * Checks whether the given name is an existing model
  *
  * 
  *
@@ -441,7 +441,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 }
 
 /**
- * Gets the posibly source model name from its class name
+ * Gets the possible source model name from its class name
  *
  * @param string $modelName
  * @return boolean
@@ -488,7 +488,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 }
 
 /**
- * Gets default connection to database. All models by default will use connection returned by this method
+ * Gets default connection to the database. All models by default will use connection returned by this method
  *
  * @return Phalcon_Db
  */
@@ -586,7 +586,6 @@ PHP_METHOD(Phalcon_Model_Manager, addHasOne){
 		phalcon_update_property_zval(this_ptr, "_hasOne", strlen("_hasOne"), t1 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_hasOne", sizeof("_hasOne")-1, PHALCON_NOISY TSRMLS_CC);
 	
@@ -680,7 +679,6 @@ PHP_METHOD(Phalcon_Model_Manager, addBelongsTo){
 		phalcon_array_update(&t1, model_name, &a1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_belongsTo", strlen("_belongsTo"), t1 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_belongsTo", sizeof("_belongsTo")-1, PHALCON_NOISY TSRMLS_CC);
@@ -776,7 +774,6 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 		phalcon_update_property_zval(this_ptr, "_hasMany", strlen("_hasMany"), t1 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_hasMany", sizeof("_hasMany")-1, PHALCON_NOISY TSRMLS_CC);
 	
@@ -822,7 +819,7 @@ PHP_METHOD(Phalcon_Model_Manager, addHasMany){
 }
 
 /**
- * Checks whether a model have a belongsTo relation with other model
+ * Checks whether a model has a belongsTo relation with another model
  *
  * @access public
  * @param string $modelName
@@ -862,7 +859,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsBelongsTo){
 }
 
 /**
- * Checks whether a model have a hasMany relation with other model
+ * Checks whether a model has a hasMany relation with another model
  *
  * @param string $modelName
  * @param string $modelRelation
@@ -901,7 +898,7 @@ PHP_METHOD(Phalcon_Model_Manager, existsHasMany){
 }
 
 /**
- * Checks whether a model have a hasOne relation with other model
+ * Checks whether a model has a hasOne relation with another model
  *
  * @param string $modelName
  * @param string $modelRelation
@@ -1036,10 +1033,11 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_7231_0;
 			fee_7231_0:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r14);
 	PHALCON_CALL_FUNC(r14, "func_num_args", 0x052);
@@ -1081,10 +1079,11 @@ PHP_METHOD(Phalcon_Model_Manager, _getRelationRecords){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_7231_1;
 			fee_7231_1:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
-	
 	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
@@ -1318,7 +1317,6 @@ PHP_METHOD(Phalcon_Model_Manager, getBelongsTo){
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	}
 	
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	
@@ -1362,7 +1360,6 @@ PHP_METHOD(Phalcon_Model_Manager, getHasMany){
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	}
 	
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	
@@ -1405,7 +1402,6 @@ PHP_METHOD(Phalcon_Model_Manager, getHasOne){
 		
 		PHALCON_RETURN_CHECK_CTOR(r1);
 	}
-	
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);

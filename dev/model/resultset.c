@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_Resultset
@@ -563,7 +563,6 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "next", PHALCON_NO_CHECK);
 		goto ws_fd08_1;
 	we_fd08_1:
-	if(0) { };
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_FUNC_PARAMS_1(r2, "serialize", records, 0x057);

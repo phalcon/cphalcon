@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Tag
@@ -266,7 +266,9 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_0;
 		fee_9b93_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -341,7 +343,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(text);
 	ZVAL_STRING(text, "", 1);
 	eval_int = phalcon_array_isset_long(params, 1);
@@ -360,7 +361,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	eval_int = phalcon_array_isset_string(params, "confirm", strlen("confirm")+1);
@@ -377,7 +377,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		
 		PHALCON_ALLOC_ZVAL_MM(r6);
 		PHALCON_CONCAT_LEFT(r6, "if(!confirm('", r5);
-		
 		PHALCON_ALLOC_ZVAL_MM(r7);
 		phalcon_array_fetch_string(&r7, params, "onclick", strlen("onclick"), PHALCON_NOISY TSRMLS_CC);
 		
@@ -387,7 +386,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		PHALCON_SEPARATE(params);
 		phalcon_array_unset_string(params, "confirm", strlen("confirm")+1);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	PHALCON_CALL_STATIC_PARAMS_1(r8, "phalcon_utils", "geturl", action);
@@ -421,7 +419,9 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_1;
 		fee_9b93_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r14);
@@ -480,7 +480,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		phalcon_array_update_long(&params, 0, &r0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_long(&r1, params, 0, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(id, r1);
@@ -507,7 +506,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		PHALCON_CALL_SELF_PARAMS_1(r4, this_ptr, "getvalue", id);
 		PHALCON_CPY_WRT(value, r4);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r7);
 	PHALCON_CONCAT_LEFT(r7, "<input type=\"", type);
@@ -545,7 +543,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_2;
 		fee_9b93_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(t0);
@@ -756,7 +756,6 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 		}
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CONCAT_BOTH(r2,  "<input type=\"submit\" value=\"", value, "\" ");
 	PHALCON_CPY_WRT(code, r2);
@@ -784,7 +783,9 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_3;
 		fee_9b93_3:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_INIT_VAR(t0);
@@ -905,7 +906,6 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		phalcon_array_update_long(&params, 0, &r0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_long(&r1, params, 0, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(id, r1);
@@ -932,7 +932,6 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		PHALCON_CALL_SELF_PARAMS_1(r4, this_ptr, "getvalue", id);
 		PHALCON_CPY_WRT(content, r4);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r5);
 	PHALCON_CONCAT_BOTH(r5,  "<textarea id=\"", id, "\" ");
@@ -961,7 +960,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_4;
 		fee_9b93_4:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r9);
@@ -1108,7 +1109,6 @@ PHP_METHOD(Phalcon_Tag, form){
 		PHALCON_CPY_WRT(action, r19);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r20);
 	PHALCON_CONCAT_BOTH(r20,  "<form action=\"", action, "\" ");
 	PHALCON_CPY_WRT(code, r20);
@@ -1136,7 +1136,9 @@ PHP_METHOD(Phalcon_Tag, form){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_5;
 		fee_9b93_5:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r24);
@@ -1334,7 +1336,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(local);
 	ZVAL_STRING(local, "", 1);
 	eval_int = phalcon_array_isset_long(params, 1);
@@ -1368,7 +1369,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_update_string(&params, "href", strlen("href"), &r3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
-	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -1397,7 +1397,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_6;
 		fee_9b93_6:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -1482,7 +1484,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(local);
 	ZVAL_STRING(local, "", 1);
 	eval_int = phalcon_array_isset_long(params, 1);
@@ -1516,7 +1517,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		phalcon_array_update_string(&params, "src", strlen("src"), &r3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
-	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -1545,7 +1545,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_7;
 		fee_9b93_7:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
@@ -1618,7 +1620,6 @@ PHP_METHOD(Phalcon_Tag, image){
 		}
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
@@ -1654,7 +1655,9 @@ PHP_METHOD(Phalcon_Tag, image){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9b93_8;
 		fee_9b93_8:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);

@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Request
@@ -636,7 +636,6 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 		PHALCON_RETURN_CHECK_CTOR(name);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	PHALCON_CONCAT_VBOTH(r10, name, ":", port);
 	
@@ -913,7 +912,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 			
 			PHALCON_INIT_VAR(file);
 			ZVAL_ZVAL(file, *hd, 1, 0);
-			ce0 = zend_fetch_class("phalcon_request_file", strlen("phalcon_request_file"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+			ce0 = zend_fetch_class("Phalcon_Request_File", strlen("Phalcon_Request_File"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", file, PHALCON_CHECK);
@@ -921,7 +920,9 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_9aea_0;
 			fee_9aea_0:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		
 		PHALCON_RETURN_CTOR(files);
@@ -1032,7 +1033,9 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_1;
 		fee_9aea_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(returned_accept);
@@ -1108,7 +1111,9 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_2;
 		fee_9aea_2:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CHECK_CTOR(selected_accept_name);
@@ -1189,7 +1194,9 @@ PHP_METHOD(Phalcon_Request, getClientCharsets){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_3;
 		fee_9aea_3:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(returned_accept);
@@ -1265,7 +1272,9 @@ PHP_METHOD(Phalcon_Request, getBestQualityCharset){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_4;
 		fee_9aea_4:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CHECK_CTOR(selected_charset_name);

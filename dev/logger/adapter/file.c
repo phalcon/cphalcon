@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Logger_Adapter_File
@@ -268,7 +268,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
 	PHALCON_INIT_VAR(type);
 	ZVAL_STRING(type, "CUSTOM", 1);
 	se_654f_0:
-	if(0) { };
 	
 	PHALCON_RETURN_CHECK_CTOR(type);
 }
@@ -424,7 +423,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		PHALCON_CPY_WRT(msg, r1);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_transaction", sizeof("_transaction")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t1)) {
@@ -524,7 +522,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_654f_1;
 		fee_654f_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();

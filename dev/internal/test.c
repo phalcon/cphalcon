@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 PHP_METHOD(Phalcon_Internal_Test, __construct){
 
@@ -774,7 +774,6 @@ PHP_METHOD(Phalcon_Internal_Test, o22){
 		increment_function(i);
 		goto fs_fdd7_0;
 	fe_fdd7_0:
-	if(0){}
 	
 	PHALCON_RETURN_CHECK_CTOR(e);
 }
@@ -815,7 +814,6 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 		increment_function(i);
 		goto fs_fdd7_1;
 	fe_fdd7_1:
-	if(0){}
 	
 	PHALCON_RETURN_CHECK_CTOR(e);
 }
@@ -1232,6 +1230,8 @@ PHP_METHOD(Phalcon_Internal_Test, a10){
 		fee_fdd7_2:
 		zend_hash_destroy(ah0);
 		efree(ah0);
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(e);
@@ -1286,6 +1286,8 @@ PHP_METHOD(Phalcon_Internal_Test, a11){
 		fee_fdd7_3:
 		zend_hash_destroy(ah0);
 		efree(ah0);
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(e);
@@ -1339,6 +1341,8 @@ PHP_METHOD(Phalcon_Internal_Test, a12){
 		fee_fdd7_4:
 		zend_hash_destroy(ah0);
 		efree(ah0);
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(e);
@@ -1379,7 +1383,9 @@ PHP_METHOD(Phalcon_Internal_Test, a13){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_5;
 		fee_fdd7_5:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(f);
@@ -1436,7 +1442,9 @@ PHP_METHOD(Phalcon_Internal_Test, a14){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_6;
 		fee_fdd7_6:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(f);
@@ -1508,6 +1516,8 @@ PHP_METHOD(Phalcon_Internal_Test, a15){
 		fee_fdd7_7:
 		zend_hash_destroy(ah0);
 		efree(ah0);
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(f);
@@ -1579,7 +1589,9 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 				zend_hash_move_forward_ex(ah1, &hp1);
 				goto fes_fdd7_9;
 				fee_fdd7_9:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		} else {
 			phalcon_array_update(&f, k, &v, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
@@ -1587,7 +1599,9 @@ PHP_METHOD(Phalcon_Internal_Test, a16){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_8;
 		fee_fdd7_8:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(f);
@@ -1654,7 +1668,9 @@ PHP_METHOD(Phalcon_Internal_Test, a17){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_10;
 		fee_fdd7_10:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(w);
@@ -1974,7 +1990,9 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 				zend_hash_move_forward_ex(ah1, &hp1);
 				goto fes_fdd7_12;
 				fee_fdd7_12:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		} else {
 			PHALCON_INIT_VAR(r0);
@@ -2001,7 +2019,9 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_11;
 		fee_fdd7_11:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(f);
@@ -2107,7 +2127,6 @@ PHP_METHOD(Phalcon_Internal_Test, a26){
 		increment_function(i);
 		goto fs_fdd7_13;
 	fe_fdd7_13:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(a);
 }
@@ -2188,7 +2207,6 @@ PHP_METHOD(Phalcon_Internal_Test, sa4){
 	phalcon_array_append(&t0, a1, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, t0 TSRMLS_CC);
 	
-	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_STRING(t1, "more-loose", 1);
 	t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
@@ -2208,7 +2226,6 @@ PHP_METHOD(Phalcon_Internal_Test, sa4){
 	}
 	phalcon_array_append(&t3, t1, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, t2 TSRMLS_CC);
-	
 	
 	PHALCON_INIT_VAR(t4);
 	ZVAL_STRING(t4, "yeah, more-loose", 1);
@@ -2364,7 +2381,9 @@ PHP_METHOD(Phalcon_Internal_Test, sa6){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_14;
 		fee_fdd7_14:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if(!t2){
 		phalcon_memory_observe(&t2 TSRMLS_CC);
@@ -2459,7 +2478,9 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 				zend_hash_move_forward_ex(ah1, &hp1);
 				goto fes_fdd7_16;
 				fee_fdd7_16:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		} else {
 			t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
@@ -2473,7 +2494,9 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_15;
 		fee_fdd7_15:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if(!t3){
 		phalcon_memory_observe(&t3 TSRMLS_CC);
@@ -3089,7 +3112,6 @@ PHP_METHOD(Phalcon_Internal_Test, m12){
 		increment_function(c);
 		goto fs_fdd7_17;
 	fe_fdd7_17:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(d);
 }
@@ -3380,7 +3402,6 @@ PHP_METHOD(Phalcon_Internal_Test, sm9){
 		increment_function(c);
 		goto fs_fdd7_18;
 	fe_fdd7_18:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(d);
 }
@@ -3430,7 +3451,6 @@ PHP_METHOD(Phalcon_Internal_Test, sm10){
 		increment_function(c);
 		goto fs_fdd7_19;
 	fe_fdd7_19:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(d);
 }
@@ -3524,7 +3544,6 @@ PHP_METHOD(Phalcon_Internal_Test, smp5){
 		increment_function(c);
 		goto fs_fdd7_20;
 	fe_fdd7_20:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(d);
 }
@@ -3734,7 +3753,6 @@ PHP_METHOD(Phalcon_Internal_Test, p15){
 		increment_function(i);
 		goto fs_fdd7_21;
 	fe_fdd7_21:
-	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_p0", sizeof("_p0")-1, PHALCON_NOISY TSRMLS_CC);
@@ -4684,7 +4702,7 @@ PHP_METHOD(Phalcon_Internal_Test, iof2){
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init(i0);
 	PHALCON_CPY_WRT(a, i0);
-		ce0 = zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		ce0 = zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(r0);
 	phalcon_instance_of(r0, a, ce0 TSRMLS_CC);
@@ -4800,7 +4818,9 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_22;
 		fee_fdd7_22:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(m);
@@ -4994,7 +5014,6 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 		}
 		goto ws_fdd7_23;
 	we_fdd7_23:
-	if(0) { };
 	
 	PHALCON_RETURN_CTOR(node);
 }
@@ -5089,7 +5108,6 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 		increment_function(i);
 		goto fs_fdd7_24;
 	fe_fdd7_24:
-	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(r9);
 	phalcon_array_fetch_long(&r9, e, 1, PHALCON_NOISY TSRMLS_CC);
@@ -5242,7 +5260,6 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 		increment_function(i);
 		goto fs_fdd7_25;
 	fe_fdd7_25:
-	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(r15);
 	phalcon_array_fetch_long(&r15, e, 1, PHALCON_NOISY TSRMLS_CC);
@@ -5342,7 +5359,6 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 		increment_function(i);
 		goto fs_fdd7_27;
 	fe_fdd7_27:
-	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_p0", sizeof("_p0")-1, PHALCON_NOISY TSRMLS_CC);
@@ -5433,7 +5449,9 @@ PHP_METHOD(Phalcon_Internal_Test, t10){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_28;
 		fee_fdd7_28:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(values);
@@ -5486,7 +5504,6 @@ PHP_METHOD(Phalcon_Internal_Test, t11){
 		}
 		goto ws_fdd7_29;
 	we_fdd7_29:
-	if(0) { };
 	phalcon_update_property_bool(this_ptr, "_p4", strlen("_p4"), 1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t3);
@@ -5609,7 +5626,9 @@ PHP_METHOD(Phalcon_Internal_Test, t13){
 				zend_hash_move_forward_ex(ah1, &hp1);
 				goto fes_fdd7_31;
 				fee_fdd7_31:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		} else {
 			phalcon_update_property_zval_zval(o, k, v TSRMLS_CC);
@@ -5617,7 +5636,9 @@ PHP_METHOD(Phalcon_Internal_Test, t13){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_30;
 		fee_fdd7_30:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CTOR(o);
@@ -5664,7 +5685,6 @@ PHP_METHOD(Phalcon_Internal_Test, t14){
 		increment_function(i);
 		goto fs_fdd7_32;
 	fe_fdd7_32:
-	if(0){}
 	
 	PHALCON_RETURN_CTOR(p);
 }
@@ -5803,7 +5823,6 @@ PHP_METHOD(Phalcon_Internal_Test, t17){
 		phalcon_array_append(&robots, robot, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		goto ws_fdd7_33;
 	we_fdd7_33:
-	if(0) { };
 	
 	PHALCON_RETURN_CTOR(robots);
 }

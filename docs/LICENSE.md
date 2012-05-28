@@ -1,3 +1,7 @@
+
+New BSD License
+===============
+
 Copyright (c) 2011-2012, Phalcon Framework Team
 All rights reserved.
 

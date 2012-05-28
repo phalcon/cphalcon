@@ -24,6 +24,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$view = new Phalcon_View();
 		$view->setBasePath(__DIR__.'/../');
+
 		$view->setViewsDir('unit-tests/views/');
 		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
 
@@ -31,12 +32,12 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test2', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>here</html>');
+		$this->assertEquals($view->getContent(), '<html>here</html>'."\n");
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>'."\n");
 
 		//Variables
 		$view->setParamToView('a_cool_var', 'le-this');
@@ -45,7 +46,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'another');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>lol<p>le-this</p></html>');
+		$this->assertEquals($view->getContent(), '<html>lol<p>le-this</p></html>'."\n");
 
 		//Templates
 		$view->setTemplateAfter('test');
@@ -54,7 +55,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'other');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>');
+		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>'."\n");
 
 		$view->cleanTemplateAfter();
 
@@ -64,7 +65,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolhere</html>');
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>'."\n");
 
 		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
 
@@ -81,4 +82,23 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($view->getContent(), 'here');
 
 	}
+
+	public function testPartials(){
+
+		$view = new Phalcon_View();
+		$view->setBasePath(__DIR__.'/../');
+
+		$view->setViewsDir('unit-tests/views/');
+		$this->assertEquals($view->getViewsDir(), 'unit-tests/views/');
+
+		$view->setParamToView('cool_var', 'le-this');
+
+		$view->start();
+		$view->render('test5', 'index');
+		$view->finish();
+
+		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>'."\n");
+
+	}
+
 }

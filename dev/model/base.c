@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_Base
@@ -389,7 +389,9 @@ PHP_METHOD(Phalcon_Model_Base, dump){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f9eb_0;
 		fee_f9eb_0:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_RETURN_CHECK_CTOR(this_ptr);
@@ -478,7 +480,6 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti){
 		concat_function(r13, select, r12 TSRMLS_CC);
 		PHALCON_CPY_WRT(select, r13);
 	}
-	
 	
 	PHALCON_INIT_VAR(number_rows);
 	ZVAL_STRING(number_rows, "n", 1);
@@ -638,7 +639,6 @@ PHP_METHOD(Phalcon_Model_Base, _createSQLSelectMulti){
 			PHALCON_CPY_WRT(select, r47);
 		}
 	}
-	
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
@@ -1169,7 +1169,9 @@ PHP_METHOD(Phalcon_Model_Base, dumpResult){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_f9eb_1;
 			fee_f9eb_1:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
 	
@@ -1232,7 +1234,6 @@ PHP_METHOD(Phalcon_Model_Base, find){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_METHOD(r2, manager, "getconnection", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(connection, r2);
@@ -1251,7 +1252,6 @@ PHP_METHOD(Phalcon_Model_Base, find){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	p6[0] = manager;
@@ -1337,7 +1337,6 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_METHOD(r2, manager, "getconnection", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(connection, r2);
@@ -1356,7 +1355,6 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_METHOD(r3, model, "getschema", PHALCON_NO_CHECK);
@@ -1410,7 +1408,6 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 		phalcon_array_update_string(&params, "limit", strlen("limit"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
-	
 	PHALCON_INIT_VAR(record);
 	ZVAL_BOOL(record, 0);
 	
@@ -1435,7 +1432,6 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 		PHALCON_CALL_SELF_PARAMS_2(r18, this_ptr, "dumpresult", model, result);
 		PHALCON_CPY_WRT(record, r18);
 	}
-	
 	
 	PHALCON_INIT_VAR(c2);
 	ZVAL_LONG(c2, 2);
@@ -1555,7 +1551,9 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_f9eb_2;
 				fee_f9eb_2:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 			
 			PHALCON_ALLOC_ZVAL_MM(r16);
@@ -1665,7 +1663,9 @@ PHP_METHOD(Phalcon_Model_Base, _exists){
 				zend_hash_move_forward_ex(ah1, &hp1);
 				goto fes_f9eb_3;
 				fee_f9eb_3:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 			
 			PHALCON_ALLOC_ZVAL_MM(r33);
@@ -1743,7 +1743,6 @@ PHP_METHOD(Phalcon_Model_Base, _prepareGroupResult){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_METHOD(r2, manager, "getconnection", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(connection, r2);
@@ -1762,7 +1761,6 @@ PHP_METHOD(Phalcon_Model_Base, _prepareGroupResult){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_METHOD(r3, model, "getschema", PHALCON_NO_CHECK);
@@ -1934,7 +1932,6 @@ PHP_METHOD(Phalcon_Model_Base, _prepareGroupResult){
 		PHALCON_CALL_METHOD_PARAMS_2(r49, connection, "_limit", select, r50, PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(select, r49);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r51);
 	p12[0] = connection;
@@ -2409,7 +2406,9 @@ PHP_METHOD(Phalcon_Model_Base, validate){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_f9eb_4;
 			fee_f9eb_4:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		ce1 = phalcon_fetch_class(class_name TSRMLS_CC);
 		
@@ -2446,7 +2445,9 @@ PHP_METHOD(Phalcon_Model_Base, validate){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_f9eb_5;
 			fee_f9eb_5:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	}
 	
@@ -2610,7 +2611,9 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 								zend_hash_move_forward_ex(ah1, &hp1);
 								goto fes_f9eb_7;
 								fee_f9eb_7:
-								if(0){ };
+								if(0){}
+							} else {
+								return;
 							}
 						} else {
 							PHALCON_INIT_VAR(t2);
@@ -2708,7 +2711,9 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_f9eb_6;
 			fee_f9eb_6:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		if (zend_is_true(error)) {
 			PHALCON_INIT_VAR(c3);
@@ -2832,7 +2837,9 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeysReverse){
 								zend_hash_move_forward_ex(ah1, &hp1);
 								goto fes_f9eb_9;
 								fee_f9eb_9:
-								if(0){ };
+								if(0){}
+							} else {
+								return;
 							}
 						} else {
 							PHALCON_INIT_VAR(t2);
@@ -2898,7 +2905,9 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeysReverse){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_f9eb_8;
 			fee_f9eb_8:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		if (zend_is_true(error)) {
 			PHALCON_INIT_VAR(c2);
@@ -2978,7 +2987,6 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
 	PHALCON_CALL_METHOD(r4, this_ptr, "getnotnullattributes", PHALCON_NO_CHECK);
@@ -3073,7 +3081,6 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 			increment_function(i);
 			goto fs_f9eb_10;
 		fe_f9eb_10:
-		if(0){}
 		if (zend_is_true(error)) {
 			if (!zend_is_true(disable_events)) {
 				PHALCON_INIT_VAR(c4);
@@ -3085,7 +3092,6 @@ PHP_METHOD(Phalcon_Model_Base, _preSave){
 			RETURN_FALSE;
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r17);
 	
@@ -3328,7 +3334,9 @@ PHP_METHOD(Phalcon_Model_Base, _doLowInsert){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f9eb_11;
 		fee_f9eb_11:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if (zend_is_true(identity_field)) {
 		PHALCON_ALLOC_ZVAL_MM(t5);
@@ -3355,7 +3363,6 @@ PHP_METHOD(Phalcon_Model_Base, _doLowInsert){
 			phalcon_array_append(&values, id, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r14);
 	PHALCON_CALL_METHOD_PARAMS_3(r14, connection, "insert", table, values, fields, PHALCON_NO_CHECK);
@@ -3458,7 +3465,9 @@ PHP_METHOD(Phalcon_Model_Base, _doLowUpdate){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f9eb_12;
 		fee_f9eb_12:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r10);
@@ -3503,7 +3512,6 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		phalcon_update_property_long(this_ptr, "_operationMade", strlen("_operationMade"), 2 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	phalcon_update_property_zval(this_ptr, "_errorMessages", strlen("_errorMessages"), a0 TSRMLS_CC);
@@ -3525,7 +3533,6 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		RETURN_FALSE;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_METHOD(r3, this_ptr, "getschema", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(schema, r3);
@@ -3540,7 +3547,6 @@ PHP_METHOD(Phalcon_Model_Base, save){
 	} else {
 		PHALCON_CPY_WRT(table, source);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
@@ -3576,7 +3582,6 @@ PHP_METHOD(Phalcon_Model_Base, save){
 		PHALCON_CPY_WRT(success, r10);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r11);
 	PHALCON_CALL_METHOD(r11, connection, "isundertransaction", PHALCON_NO_CHECK);
 	if (!zend_is_true(r11)) {
@@ -3586,7 +3591,6 @@ PHP_METHOD(Phalcon_Model_Base, save){
 			PHALCON_CALL_METHOD_NORETURN(connection, "commit", PHALCON_NO_CHECK);
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r13);
 	PHALCON_CALL_METHOD_PARAMS_3(r13, this_ptr, "_postsave", disable_events, success, exists, PHALCON_NO_CHECK);
@@ -3647,7 +3651,6 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 		RETURN_FALSE;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_CALL_METHOD(r2, this_ptr, "getprimarykeyattributes", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(primary_keys, r2);
@@ -3703,7 +3706,9 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_f9eb_13;
 			fee_f9eb_13:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		
 		PHALCON_INIT_VAR(c0);
@@ -3730,7 +3735,6 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 			RETURN_FALSE;
 		}
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(r13);
 	
@@ -4152,7 +4156,6 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 		PHALCON_CALL_FUNC_PARAMS_2(r11, "call_user_func_array", a2, r12, 0x013);
 		PHALCON_RETURN_DZVAL(r11);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_model_exception_ce);

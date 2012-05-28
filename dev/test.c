@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 PHP_METHOD(Phalcon_Test, nice){
 
@@ -92,6 +92,8 @@ PHP_METHOD(Phalcon_Test, nice){
 		fee_2ebb_0:
 		zend_hash_destroy(ah0);
 		efree(ah0);
+	} else {
+		return;
 	}
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", e, 0x008);
 	

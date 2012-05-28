@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Filter
@@ -95,7 +95,9 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_e618_0;
 				fee_e618_0:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		}
 		
@@ -157,7 +159,9 @@ PHP_METHOD(Phalcon_Filter, filter){
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_e618_1;
 				fee_e618_1:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		}
 		
@@ -311,7 +315,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_RETURN_CHECK_CTOR(value);
 	}
 	se_e618_2:
-	if(0) { };
+	if(0){}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -375,7 +379,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 		PHALCON_RETURN_CHECK_CTOR(value);
 	}
 	se_e618_3:
-	if(0) { };
+	if(0){}
 	
 	PHALCON_MM_RESTORE();
 }

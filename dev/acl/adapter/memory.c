@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Acl_Adapter_Memory
@@ -178,7 +178,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 		RETURN_FALSE;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_roles", sizeof("_roles")-1, PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&t1, object, PHALCON_NO_SEPARATE_THX TSRMLS_CC);
@@ -275,14 +274,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		return;
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	is_equal_function(r1, role_to_inherit, role_name TSRMLS_CC);
 	if (zend_is_true(r1)) {
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_roleInherits", sizeof("_roleInherits")-1, PHALCON_NOISY TSRMLS_CC);
@@ -295,7 +292,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		phalcon_array_update(&t3, role_name, &a0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_roleInherits", strlen("_roleInherits"), t3 TSRMLS_CC);
 	}
-	
 	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_read_property(&t4, this_ptr, "_roleInherits", sizeof("_roleInherits")-1, PHALCON_NOISY TSRMLS_CC);
@@ -440,7 +436,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		phalcon_update_property_zval(this_ptr, "_resourcesNames", strlen("_resourcesNames"), t4 TSRMLS_CC);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_2(r1, this_ptr, "addresourceaccess", resource_name, access_list, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r1);
@@ -508,7 +503,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_0;
 			fee_c945_0:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t4);
@@ -571,7 +568,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_1;
 			fee_c945_1:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t1);
@@ -665,7 +664,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_2;
 			fee_c945_2:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		if (phalcon_valid_foreach(access TSRMLS_CC)) {
 			ah1 = Z_ARRVAL_P(access);
@@ -744,7 +745,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_c945_3;
 			fee_c945_3:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t11);
@@ -959,7 +962,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		PHALCON_RETURN_CHECK_CTOR(t3);
 	}
 	
-	
 	PHALCON_ALLOC_ZVAL_MM(t4);
 	phalcon_read_property(&t4, this_ptr, "_access", sizeof("_access")-1, PHALCON_NOISY TSRMLS_CC);
 	
@@ -997,7 +999,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_c945_4;
 		fee_c945_4:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if (phalcon_valid_foreach(access_roles TSRMLS_CC)) {
 		ah1 = Z_ARRVAL_P(access_roles);
@@ -1029,7 +1033,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_c945_5;
 		fee_c945_5:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_LONG(0);
@@ -1176,24 +1182,32 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 								zend_hash_move_forward_ex(ah3, &hp3);
 								goto fes_c945_10;
 								fee_c945_10:
-								if(0){ };
+								if(0){}
+							} else {
+								return;
 							}
 							zend_hash_move_forward_ex(ah2, &hp2);
 							goto fes_c945_9;
 							fee_c945_9:
-							if(0){ };
+							if(0){}
+						} else {
+							return;
 						}
 					}
 					zend_hash_move_forward_ex(ah1, &hp1);
 					goto fes_c945_8;
 					fee_c945_8:
-					if(0){ };
+					if(0){}
+				} else {
+					return;
 				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_7;
 			fee_c945_7:
-			if(0){ };
+			if(0){}
+		} else {
+			return;
 		}
 		PHALCON_SEPARATE(i);
 		increment_function(i);

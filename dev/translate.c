@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Translate
@@ -50,24 +50,24 @@
  * Phalcon_Translate constructor
  *
  * @param string $adapter
- * @param mixed $data
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Translate, __construct){
 
-	zval *adapter = NULL, *data = NULL, *adapter_class = NULL;
+	zval *adapter = NULL, *options = NULL, *adapter_class = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &adapter, &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &adapter, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_RIGHT(r0, adapter, "Traslate");
+	PHALCON_CONCAT_LEFT(r0, "Phalcon_Translate_Adapter_", adapter);
 	PHALCON_CPY_WRT(adapter_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", data, PHALCON_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
 	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

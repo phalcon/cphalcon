@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Dispatcher
@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Dispatcher, __construct){
 }
 
 /**
- * Sets default controllers directory
+ * Sets default controllers directory. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $controllersDir
  */
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllersDir){
 }
 
 /**
- * Sets base path for controllers dir
+ * Sets base path for controllers dir. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $basePath
  */
@@ -143,6 +143,8 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 
 /**
  * Sets the controller name to be dispatched
+ *
+ * @param string $controllerName
  */
 PHP_METHOD(Phalcon_Dispatcher, setControllerName){
 
@@ -251,7 +253,7 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 }
 
 /**
- * Dispatchs a action controller taking care of routing
+ * Dispatches a controller action taking into account the routing parameters
  *
  * @param Phalcon_Request $request
  * @param Phalcon_Response $response
@@ -480,13 +482,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		goto ws_e10f_0;
 	we_e10f_0:
-	if(0) { };
 	phalcon_update_property_zval(this_ptr, "_returnedValue", strlen("_returnedValue"), value TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_lastController", strlen("_lastController"), controller TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(controller);
 }
 
+/**
+ * Throws an internal exception
+ *
+ * @param Phalcon_Response $response
+ * @param string $message
+ */
 PHP_METHOD(Phalcon_Dispatcher, _throwDispatchException){
 
 	zval *response = NULL, *message = NULL;
@@ -602,7 +609,6 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 	}
 	
-	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_CPY_WRT(params, a0);
@@ -626,7 +632,9 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_e10f_1;
 		fee_e10f_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);

@@ -35,6 +35,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 		$expectedTables = array(
 			'parts',
 			'personas',
+			'personnes',
 			'prueba',
 			'robots',
 			'robots_parts',

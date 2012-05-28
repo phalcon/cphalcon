@@ -35,9 +35,9 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_View
@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_View, __construct){
 }
 
 /**
- * Sets views directory
+ * Sets views directory. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $viewsDir
  */
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_View, getViewsDir){
 }
 
 /**
- * Sets base path
+ * Sets base path. Depending of your platform, always add a trailing slash or backslash
  */
 PHP_METHOD(Phalcon_View, setBasePath){
 
@@ -396,11 +396,12 @@ PHP_METHOD(Phalcon_View, start){
 PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 
 	zval *engines = NULL, *params = NULL, *registered_engines = NULL;
-	zval *engine = NULL, *extension = NULL, *class_name = NULL;
+	zval *engine = NULL, *extension = NULL, *options = NULL, *name = NULL, *class_name = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL, *i4 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -408,6 +409,7 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
+	int eval_int;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -431,7 +433,9 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_view_engine_php_ce);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, params, PHALCON_CHECK);
+			PHALCON_INIT_VAR(a1);
+			array_init(a1);
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", this_ptr, a1, params, PHALCON_CHECK);
 			phalcon_array_update_string(&engines, ".phtml", strlen(".phtml"), &i0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		} else {
 			if (phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
@@ -446,36 +450,78 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 				}
 				PHALCON_INIT_VAR(engine);
 				ZVAL_ZVAL(engine, *hd, 1, 0);
-				if (Z_TYPE_P(engine) == IS_OBJECT) {
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(engine, "initialize", this_ptr, params, PHALCON_NO_CHECK);
-					phalcon_array_update(&engines, extension, &engine, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-				} else {
-					PHALCON_INIT_VAR(r1);
-					PHALCON_CONCAT_LEFT(r1, "Phalcon_View_Engine_", engine);
-					PHALCON_CPY_WRT(class_name, r1);
-					
-					PHALCON_INIT_VAR(r2);
-					PHALCON_CALL_FUNC_PARAMS_1(r2, "class_exists", class_name, 0x012);
-					if (zend_is_true(r2)) {
-						ce0 = phalcon_fetch_class(engine TSRMLS_CC);
-						PHALCON_INIT_VAR(i1);
-						object_init_ex(i1, ce0);
-						PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i1, "__construct", this_ptr, params, PHALCON_CHECK);
-						phalcon_array_update(&engines, extension, &i1, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				PHALCON_INIT_VAR(a2);
+				array_init(a2);
+				PHALCON_CPY_WRT(options, a2);
+				if (Z_TYPE_P(engine) == IS_ARRAY) { 
+					eval_int = phalcon_array_isset_long(engine, 0);
+					if (eval_int) {
+						PHALCON_INIT_VAR(r1);
+						phalcon_array_fetch_long(&r1, engine, 0, PHALCON_NOISY TSRMLS_CC);
+						PHALCON_CPY_WRT(name, r1);
 					} else {
-						PHALCON_INIT_VAR(i2);
-						object_init_ex(i2, phalcon_view_exception_ce);
-						PHALCON_INIT_VAR(r3);
-						PHALCON_CONCAT_BOTH(r3,  "Template engine '", class_name, "' cannot be loaded");
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", r3, PHALCON_CHECK);
-						phalcon_throw_exception(i2 TSRMLS_CC);
+						PHALCON_INIT_VAR(i1);
+						object_init_ex(i1, phalcon_view_exception_ce);
+						PHALCON_INIT_VAR(c0);
+						ZVAL_STRING(c0, "The template engine name is required", 1);
+						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c0, PHALCON_CHECK);
+						phalcon_throw_exception(i1 TSRMLS_CC);
 						return;
 					}
+					eval_int = phalcon_array_isset_long(engine, 1);
+					if (eval_int) {
+						PHALCON_INIT_VAR(r2);
+						phalcon_array_fetch_long(&r2, engine, 1, PHALCON_NOISY TSRMLS_CC);
+						PHALCON_CPY_WRT(options, r2);
+					}
+				} else {
+					if (Z_TYPE_P(engine) == IS_STRING) {
+						PHALCON_CPY_WRT(name, engine);
+					} else {
+						if (Z_TYPE_P(engine) == IS_OBJECT) {
+							PHALCON_CALL_METHOD_PARAMS_3_NORETURN(engine, "initialize", this_ptr, options, params, PHALCON_NO_CHECK);
+							phalcon_array_update(&engines, extension, &engine, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+							goto fes_b0d8_0;
+						} else {
+							PHALCON_INIT_VAR(i2);
+							object_init_ex(i2, phalcon_view_exception_ce);
+							PHALCON_INIT_VAR(c1);
+							ZVAL_STRING(c1, "The template engine is invalid", 1);
+							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", c1, PHALCON_CHECK);
+							phalcon_throw_exception(i2 TSRMLS_CC);
+							return;
+						}
+					}
+				}
+				
+				
+				PHALCON_INIT_VAR(r3);
+				PHALCON_CONCAT_LEFT(r3, "Phalcon_View_Engine_", name);
+				PHALCON_CPY_WRT(class_name, r3);
+				
+				PHALCON_INIT_VAR(r4);
+				PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", class_name, 0x012);
+				if (zend_is_true(r4)) {
+					ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+					PHALCON_INIT_VAR(i3);
+					object_init_ex(i3, ce0);
+					PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i3, "__construct", this_ptr, options, params, PHALCON_CHECK);
+					phalcon_array_update(&engines, extension, &i3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				} else {
+					PHALCON_INIT_VAR(i4);
+					object_init_ex(i4, phalcon_view_exception_ce);
+					PHALCON_INIT_VAR(r5);
+					PHALCON_CONCAT_BOTH(r5,  "Template engine '", class_name, "' cannot be loaded");
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i4, "__construct", r5, PHALCON_CHECK);
+					phalcon_throw_exception(i4 TSRMLS_CC);
+					return;
 				}
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_b0d8_0;
 				fee_b0d8_0:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 		}
 		
@@ -497,7 +543,7 @@ PHP_METHOD(Phalcon_View, _engineRender){
 	zval *engines = NULL, *view_path = NULL, *silence = NULL, *not_exists = NULL;
 	zval *views_dir_path = NULL, *engine = NULL, *extension = NULL, *view_engine_path = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -545,12 +591,7 @@ PHP_METHOD(Phalcon_View, _engineRender){
 		concat_function(r2, views_dir_path, extension TSRMLS_CC);
 		PHALCON_CPY_WRT(view_engine_path, r2);
 		if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01D);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(engine, "render", view_engine_path, PHALCON_NO_CHECK);
-			
-			PHALCON_INIT_VAR(r3);
-			PHALCON_CALL_FUNC(r3, "ob_get_contents", 0x015);
-			phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), r3 TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(not_exists);
 			ZVAL_BOOL(not_exists, 0);
@@ -559,19 +600,53 @@ PHP_METHOD(Phalcon_View, _engineRender){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_b0d8_1;
 		fee_b0d8_1:
-		if(0){ };
+		if(0){}
+	} else {
+		return;
 	}
 	if (zend_is_true(not_exists)) {
 		if (!zend_is_true(silence)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_view_exception_ce);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CONCAT_BOTH(r4,  "View '", views_dir_path, "' was not found in the views directory");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r4, PHALCON_CHECK);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CONCAT_BOTH(r3,  "View '", views_dir_path, "' was not found in the views directory");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r3, PHALCON_CHECK);
 			phalcon_throw_exception(i0 TSRMLS_CC);
 			return;
 		}
 	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Register templating engines
+ *
+ * @param array $engines
+ */
+PHP_METHOD(Phalcon_View, registerEngines){
+
+	zval *engines = NULL;
+	zval *i0 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &engines) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(engines) != IS_ARRAY) { 
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, phalcon_view_exception_ce);
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "Engines to register must be an array", 1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
+		phalcon_throw_exception(i0 TSRMLS_CC);
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, "_registeredEngines", strlen("_registeredEngines"), engines TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -680,7 +755,9 @@ PHP_METHOD(Phalcon_View, render){
 						zend_hash_move_forward_ex(ah0, &hp0);
 						goto fes_b0d8_2;
 						fee_b0d8_2:
-						if(0){ };
+						if(0){}
+					} else {
+						return;
 					}
 				} else {
 					PHALCON_ALLOC_ZVAL_MM(r6);
@@ -735,7 +812,9 @@ PHP_METHOD(Phalcon_View, render){
 						zend_hash_move_forward_ex(ah1, &hp1);
 						goto fes_b0d8_3;
 						fee_b0d8_3:
-						if(0){ };
+						if(0){}
+					} else {
+						return;
 					}
 				} else {
 					PHALCON_ALLOC_ZVAL_MM(r11);
@@ -768,17 +847,17 @@ PHP_METHOD(Phalcon_View, render){
 /**
  * Renders a partial view
  *
- * @param string $partialName
+ * @param string $partialPath
  */
 PHP_METHOD(Phalcon_View, partial){
 
-	zval *partial_name = NULL;
+	zval *partial_path = NULL;
 	zval *r0 = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partial_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partial_path) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -787,19 +866,40 @@ PHP_METHOD(Phalcon_View, partial){
 	PHALCON_CALL_METHOD(r0, this_ptr, "_loadtemplateengines", PHALCON_NO_CHECK);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 0);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "_enginerender", r0, partial_name, c0, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "_enginerender", r0, partial_path, c0, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Finishes render process
+ * Finishes the render process
  */
 PHP_METHOD(Phalcon_View, finish){
 
 
 	PHALCON_MM_GROW();
 	PHALCON_CALL_FUNC_NORETURN("ob_end_clean", 0x016);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Set externally the view content
+ *
+ * @param string $content
+ */
+PHP_METHOD(Phalcon_View, setContent){
+
+	zval *content = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, "_content", strlen("_content"), content TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

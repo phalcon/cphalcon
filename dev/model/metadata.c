@@ -35,16 +35,16 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 
-#include "zend_operators.h"
-#include "zend_exceptions.h"
-#include "zend_interfaces.h"
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
 /**
  * Phalcon_Model_MetaData
  *
  * Because Phalcon_Model requires meta-data like field names, data types, primary keys, etc.
- * Phalcon_Model_MetaData recopiles them and store for further querying by Phalcon_Model_Base.
- * This component can also use adapters to store temporarily or permanently the meta-data.
+ * this component collect them and store for further querying by Phalcon_Model_Base.
+ * Phalcon_Model_MetaData can also use adapters to store temporarily or permanently the meta-data.
  *
  * A standard Phalcon_Model_MetaData can be used to query model attributes:
  *
@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
-	zend_class_entry *ce0, *ce1;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
@@ -104,9 +104,8 @@ PHP_METHOD(Phalcon_Model_MetaData, __construct){
 		add_next_index_stringl(a1, "storeMetaData", strlen("storeMetaData"), 1);
 		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a1, 0x044);
 	} else {
-		ce1 = zend_fetch_class("phacon_model_exception", strlen("phacon_model_exception"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, ce1);
+		object_init_ex(i1, phalcon_model_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_BOTH(r3,  "Meta-data adapter '", adapter, "' could not found");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r3, PHALCON_CHECK);
@@ -285,7 +284,9 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_f5c6_0;
 				fee_f5c6_0:
-				if(0){ };
+				if(0){}
+			} else {
+				return;
 			}
 			
 			PHALCON_INIT_VAR(a6);
@@ -353,7 +354,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
 }
 
 /**
- * Returns table attributes which are part of primary key
+ * Returns an array of fields which are part of the primary key
  *
  * @param Phalcon_Model_Base $model
  * @return array
@@ -396,7 +397,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 }
 
 /**
- * Returns table attributes which are not part of primary key
+ * Returns an arrau of fields which are not part of the primary key
  *
      * @param Phalcon_Model_Base $model
  * @return array
@@ -439,7 +440,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
 }
 
 /**
- * Returns not null attributes
+ * Returns an array of not null attributes
  *
      * @param Phalcon_Model_Base $model
  * @return array
@@ -610,7 +611,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getIdentityField){
 	PHALCON_RETURN_CHECK_CTOR(r4);
 }
 
-/** 
+/**
  * Stores meta-data using an adapter
  */
 PHP_METHOD(Phalcon_Model_MetaData, storeMetaData){
