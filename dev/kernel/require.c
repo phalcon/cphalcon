@@ -126,7 +126,7 @@ int phalcon_require(zval *require_path TSRMLS_DC){
 	}
 
 	if (status == FAILURE){
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;

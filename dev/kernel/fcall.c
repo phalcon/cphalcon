@@ -158,7 +158,7 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -211,7 +211,7 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -298,7 +298,7 @@ inline int phalcon_call_method_normal(zval *return_value, zval *object, char *me
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -364,7 +364,7 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -567,7 +567,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -606,7 +606,7 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -672,7 +672,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -714,7 +714,7 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, c
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -774,7 +774,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -812,7 +812,7 @@ inline int phalcon_call_func_fast(zval *return_value, char *func_name, int func_
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -839,7 +839,6 @@ inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, in
 		status = phalcon_call_user_function_ex(CG(function_table), &local_retval_ptr, param_count, params_array, PHALCON_GLOBAL(phalcon_fcall_cache)[fcache_pointer] TSRMLS_CC);
 		if (status == FAILURE) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
-			phalcon_clean_restore_stack(TSRMLS_C);
 		}
 
 		if (local_retval_ptr) {
@@ -859,7 +858,7 @@ inline int phalcon_call_func_params_fast(zval *return_value, char *func_name, in
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -920,7 +919,7 @@ inline int phalcon_call_method_fast(zval *return_value, zval *object, char *meth
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;
@@ -972,7 +971,6 @@ inline int phalcon_call_method_params_fast(zval *return_value, zval *object, cha
 		status = phalcon_call_user_method_ex(function_table, &object, method_name, method_len, &local_retval_ptr, param_count, params_array, fcc TSRMLS_CC);
 		if (status == FAILURE) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, obj_ce->name);
-			phalcon_clean_restore_stack(TSRMLS_C);
 		}
 
 		EG(scope) = active_scope;
@@ -994,7 +992,7 @@ inline int phalcon_call_method_params_fast(zval *return_value, zval *object, cha
 	}
 
 	if (status == FAILURE) {
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;

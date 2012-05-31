@@ -39,7 +39,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 
 	if (zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
 	} else {
 		ZVAL_ZVAL(return_value, *result_ptr, 1, 0);
@@ -54,7 +54,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
     } else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
@@ -128,7 +128,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 	}
 
 	if (status == FAILURE){
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
 	return status;

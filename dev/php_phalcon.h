@@ -39,8 +39,8 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	phalcon_memory_entry *active_memory;
   zend_fcall_info_cache *phalcon_fcall_cache[PHALCON_FCALL_MAX_CACHE];
 #ifndef PHALCON_RELEASE
-  int phalcon_stack_stats;
-  int phalcon_fcall_stats;
+	int phalcon_stack_stats;
+	int phalcon_fcall_stats;
 #endif
 ZEND_END_MODULE_GLOBALS(phalcon)
 

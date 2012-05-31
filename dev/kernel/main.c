@@ -96,7 +96,7 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
 	zend_throw_exception_object(object TSRMLS_CC);
-	phalcon_clean_restore_stack(TSRMLS_C);
+	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
 /**
@@ -272,7 +272,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 int phalcon_valid_foreach(zval *arr TSRMLS_DC){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid argument supplied for foreach()");
-		phalcon_clean_restore_stack(TSRMLS_C);
+		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}
 	return 1;
