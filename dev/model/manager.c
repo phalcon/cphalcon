@@ -459,9 +459,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
+	PHALCON_OBSERVE_VAR(t0);
 	phalcon_read_static_property(&t0, phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_array_fetch(&t1, t0, model_name, PHALCON_SILENT TSRMLS_CC);
@@ -476,9 +474,7 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 		zend_update_static_property(phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1, t2 TSRMLS_CC);
 		
 	}
-	if(!t3){
-		phalcon_memory_observe(&t3 TSRMLS_CC);
-	}
+	PHALCON_OBSERVE_VAR(t3);
 	phalcon_read_static_property(&t3, phalcon_model_manager_ce, "_sourceNames", sizeof("_sourceNames")-1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t4);

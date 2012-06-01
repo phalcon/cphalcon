@@ -137,3 +137,7 @@ extern int phalcon_clean_restore_stack(TSRMLS_D);
 			Z_UNSET_ISREF_P(z);\
 		}\
 	}
+
+#define PHALCON_OBSERVE_VAR(var) if(!var){\
+                phalcon_memory_observe(&var TSRMLS_CC);\
+        }

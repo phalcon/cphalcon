@@ -26,6 +26,7 @@
 #include "php_main.h"
 #include "kernel/main.h"
 #include "kernel/require.h"
+#include "kernel/memory.h"
 #include "kernel/debug.h"
 #include "Zend/zend_exceptions.h"
 

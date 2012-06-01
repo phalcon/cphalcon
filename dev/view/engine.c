@@ -55,16 +55,16 @@
  */
 PHP_METHOD(Phalcon_View_Engine, __construct){
 
-	zval *view = NULL, *options = NULL, *params = NULL;
+	zval *view = NULL, *options = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &view, &options, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "initialize", view, options, params, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "initialize", view, options, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -74,17 +74,16 @@ PHP_METHOD(Phalcon_View_Engine, __construct){
  *
  * @param Phalcon_View $view
  * @param array $options
- * @param array $params
  */
 PHP_METHOD(Phalcon_View_Engine, initialize){
 
-	zval *view = NULL, *options = NULL, *params = NULL;
+	zval *view = NULL, *options = NULL;
 	zval *i0 = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &view, &options, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -100,7 +99,6 @@ PHP_METHOD(Phalcon_View_Engine, initialize){
 	}
 	phalcon_update_property_zval(this_ptr, "_view", strlen("_view"), view TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_options", strlen("_options"), options TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -138,24 +136,6 @@ PHP_METHOD(Phalcon_View_Engine, getActionName){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD(r0, t0, "getactionname", PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r0);
-}
-
-/**
- * Gets the extra params sent to request
- *
- * @return array
- */
-PHP_METHOD(Phalcon_View_Engine, getParams){
-
-	zval *r0 = NULL;
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(r0, t0, "getparams", PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -202,7 +182,6 @@ PHP_METHOD(Phalcon_View_Engine, url){
 	}
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", params, 0x008);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_utils", "geturl", params);

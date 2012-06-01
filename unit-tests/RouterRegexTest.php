@@ -23,10 +23,9 @@ class RouterRegexTest extends PHPUnit_Framework_TestCase {
 	private function _runTest($router, $test){
 
 		$router->handle($test['uri']);
-
-		$this->assertEquals($test['controller'], $router->getControllerName());
-		$this->assertEquals($test['action'], $router->getActionName());
-		$this->assertEquals($test['params'], $router->getParams());
+		$this->assertEquals($router->getControllerName(), $test['controller']);
+		$this->assertEquals($router->getActionName(), $test['action']);
+		$this->assertEquals($router->getParams(), $test['params']);
 	}
 
 	public function testRouter(){
@@ -37,6 +36,30 @@ class RouterRegexTest extends PHPUnit_Framework_TestCase {
 				'controller' => 'documentation',
 				'action' => 'index',
 				'params' => array('hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc')
+			),
+			array(
+				'uri' => '/documentation/index/',
+				'controller' => 'documentation',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'uri' => '/documentation/index',
+				'controller' => 'documentation',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'uri' => '/documentation/',
+				'controller' => 'documentation',
+				'action' => null,
+				'params' => array()
+			),
+			array(
+				'uri' => '/documentation',
+				'controller' => 'documentation',
+				'action' => null,
+				'params' => array()
 			),
 			array(
 				'uri' => '/system/admin/a/edit/hellao/aaadp',

@@ -79,11 +79,8 @@ PHP_METHOD(Phalcon_Tag, _getDispatcher){
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1 TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -91,11 +88,8 @@ PHP_METHOD(Phalcon_Tag, _getDispatcher){
 		PHALCON_CALL_METHOD(r0, r1, "getdispatcher", PHALCON_NO_CHECK);
 		zend_update_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, r0 TSRMLS_CC);
 	}
-	if(!t1){
-		phalcon_memory_observe(&t1 TSRMLS_CC);
-	}
-	t1 = zend_read_static_property(phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t1);
+	PHALCON_OBSERVE_VAR(t1);
+	phalcon_read_static_property(&t1, phalcon_tag_ce, "_dispatcher", sizeof("_dispatcher")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }
@@ -190,16 +184,12 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
+	PHALCON_OBSERVE_VAR(t0);
 	phalcon_read_static_property(&t0, phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_array_fetch(&t1, t0, name, PHALCON_SILENT TSRMLS_CC);
 	if (zend_is_true(t1)) {
-		if(!t2){
-			phalcon_memory_observe(&t2 TSRMLS_CC);
-		}
+		PHALCON_OBSERVE_VAR(t2);
 		phalcon_read_static_property(&t2, phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_array_fetch(&t3, t2, name, PHALCON_NOISY TSRMLS_CC);
@@ -1199,11 +1189,8 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, title TSRMLS_CC);
 	zend_update_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, r0 TSRMLS_CC);
@@ -1229,11 +1216,8 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, title, t0 TSRMLS_CC);
 	zend_update_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, r0 TSRMLS_CC);
@@ -1252,11 +1236,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_tag_ce, "_documentTitle", sizeof("_documentTitle")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CONCAT_LEFT(r1, "<title>", t0);
 	PHALCON_ALLOC_ZVAL_MM(t1);

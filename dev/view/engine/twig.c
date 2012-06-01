@@ -54,7 +54,7 @@
  */
 PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 
-	zval *view = NULL, *options = NULL, *params = NULL, *twig = NULL, *loader = NULL;
+	zval *view = NULL, *options = NULL, *twig = NULL, *loader = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &view, &options, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 	}
 	
 	phalcon_update_property_zval(this_ptr, "_twig", strlen("_twig"), twig TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_3_NORETURN(this_ptr, "Phalcon_View_Engine_Twig", "__construct", view, options, params);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Twig", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -119,39 +119,37 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
  * Renders a view using the template engine
  *
  * @param string $path
+ * @param array $params
  */
 PHP_METHOD(Phalcon_View_Engine_Twig, render){
 
-	zval *path = NULL, *params = NULL, *view = NULL, *relative_path = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *path = NULL, *params = NULL, *view = NULL, *twig_params = NULL, *relative_path = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *c0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &path) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &path, &params) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(params, t0);
-	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(view, t1);
-	eval_int = phalcon_array_isset_string(params, "view", strlen("view")+1);
-	if (!eval_int) {
-		phalcon_array_update_string(&params, "view", strlen("view"), &view, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-	}
-	
-	eval_int = phalcon_array_isset_string(params, "content", strlen("content")+1);
+	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(view, t0);
+	PHALCON_CPY_WRT(twig_params, params);
+	eval_int = phalcon_array_isset_string(twig_params, "content", strlen("content")+1);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_METHOD(r0, view, "getcontent", PHALCON_NO_CHECK);
-		phalcon_array_update_string(&params, "content", strlen("content"), &r0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&twig_params, "content", strlen("content"), &r0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	}
+	
+	eval_int = phalcon_array_isset_string(twig_params, "view", strlen("view")+1);
+	if (!eval_int) {
+		phalcon_array_update_string(&twig_params, "view", strlen("view"), &view, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -164,15 +162,15 @@ PHP_METHOD(Phalcon_View_Engine_Twig, render){
 	PHALCON_CALL_FUNC_PARAMS_3(r1, "str_replace", r2, c0, path, 0x003);
 	PHALCON_CPY_WRT(relative_path, r1);
 	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t1);
+	phalcon_read_property(&t1, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	
-	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_read_property(&t3, this_ptr, "_twig", sizeof("_twig")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2(r3, t3, "render", relative_path, params, PHALCON_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t2, "setcontent", r3, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_read_property(&t2, this_ptr, "_twig", sizeof("_twig")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD_PARAMS_2(r3, t2, "render", relative_path, twig_params, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "setcontent", r3, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

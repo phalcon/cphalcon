@@ -5,7 +5,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c operators.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "namespace.c", "phalcon")
   ADD_SOURCES("ext/phalcon/.", "loader.c text.c test.c exception.c db.c logger.c cache.c view.c controller.c paginator.c utils.c dispatcher.c translate.c tag.c response.c request.c session.c flash.c config.c filter.c acl.c transaction.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/router", "rewrite.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/router", "rewrite.c regex.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config/adapter", "ini.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache", "exception.c", "phalcon")

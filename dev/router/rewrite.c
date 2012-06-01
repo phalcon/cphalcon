@@ -69,8 +69,11 @@ PHP_METHOD(Phalcon_Router_Rewrite, __construct){
  */
 PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 
+	zval *uri = NULL, *prefix = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *t0 = NULL;
+	zval *c0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -79,36 +82,51 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch_string(&r0, g0, "_url", strlen("_url"), PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(uri, r0);
 		
-		PHALCON_RETURN_CHECK_CTOR(r0);
+		PHALCON_ALLOC_ZVAL_MM(t0);
+		phalcon_read_property(&t0, this_ptr, "_prefix", sizeof("_prefix")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(prefix, t0);
+		if (zend_is_true(prefix)) {
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			PHALCON_ALLOC_ZVAL_MM(r2);
+			PHALCON_CONCAT_BOTH(r2,  "~^", prefix, "~");
+			PHALCON_INIT_VAR(c0);
+			ZVAL_STRING(c0, "", 1);
+			PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_replace", r2, c0, uri, 0x007);
+			PHALCON_CPY_WRT(uri, r1);
+		}
+		
+		
+		PHALCON_RETURN_CHECK_CTOR(uri);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
 /**
-* Set the base of application
-*
-* @param string $baseUri
-*/
-PHP_METHOD(Phalcon_Router_Rewrite, setBaseUri){
+ * Set a uri prefix. This will be replaced from the beginning of the uri
+ */
+PHP_METHOD(Phalcon_Router_Rewrite, setPrefix){
 
-	zval *base_uri = NULL;
+	zval *prefix = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &base_uri) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefix) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_baseUri", strlen("_baseUri"), base_uri TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_prefix", strlen("_prefix"), prefix TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
  * Handles routing information received from the rewrite engine
+ *
+ * @param string $uri
  */
 PHP_METHOD(Phalcon_Router_Rewrite, handle){
 
@@ -121,9 +139,25 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "_getrewriteuri", PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(uri, r0);
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!uri) {
+		
+		PHALCON_INIT_VAR(uri);
+		ZVAL_NULL(uri);
+	} else {
+		PHALCON_SEPARATE_PARAM(uri);
+	}
+	
+	if (!zend_is_true(uri)) {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_METHOD(r0, this_ptr, "_getrewriteuri", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(uri, r0);
+	}
 	if (zend_is_true(uri)) {
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/", 1);

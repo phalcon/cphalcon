@@ -50,11 +50,10 @@
  *
  * @param Phalcon_View $view
  * @param array $options
- * @param array $params
  */
 PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 
-	zval *view = NULL, *options = NULL, *params = NULL, *mustache = NULL;
+	zval *view = NULL, *options = NULL, *mustache = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
@@ -63,7 +62,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &view, &options, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -95,7 +94,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 	}
 	
 	phalcon_update_property_zval(this_ptr, "_mustache", strlen("_mustache"), mustache TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_3_NORETURN(this_ptr, "Phalcon_View_Engine_Mustache", "__construct", view, options, params);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Mustache", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -104,25 +103,31 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
  * Renders a view using the template engine
  *
  * @param string $path
+ * @param array $params
  */
 PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 
-	zval *path = NULL;
+	zval *path = NULL, *params = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &path) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &path, &params) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_mustache", sizeof("_mustache")-1, PHALCON_NOISY TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "file_get_contents", path, 0x01A);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, t1, "render", r1, this_ptr, PHALCON_NO_CHECK);

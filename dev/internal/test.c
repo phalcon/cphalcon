@@ -2148,11 +2148,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa1){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -2178,11 +2175,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa3){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -2247,11 +2241,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa4){
 	phalcon_array_update_long(&t6, 0, &t4, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, t5 TSRMLS_CC);
 	
-	if(!t7){
-		phalcon_memory_observe(&t7 TSRMLS_CC);
-	}
-	t7 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t7);
+	PHALCON_OBSERVE_VAR(t7);
+	phalcon_read_static_property(&t7, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t7);
 }
@@ -2298,9 +2289,7 @@ PHP_METHOD(Phalcon_Internal_Test, sa5){
 	phalcon_array_update_long(&t3, 3, &t0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, t1 TSRMLS_CC);
 	
-	if(!t4){
-		phalcon_memory_observe(&t4 TSRMLS_CC);
-	}
+	PHALCON_OBSERVE_VAR(t4);
 	phalcon_read_static_property(&t4, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(t8);
@@ -2385,11 +2374,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa6){
 	} else {
 		return;
 	}
-	if(!t2){
-		phalcon_memory_observe(&t2 TSRMLS_CC);
-	}
-	t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t2);
+	PHALCON_OBSERVE_VAR(t2);
+	phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t2);
 }
@@ -2498,11 +2484,8 @@ PHP_METHOD(Phalcon_Internal_Test, sa7){
 	} else {
 		return;
 	}
-	if(!t3){
-		phalcon_memory_observe(&t3 TSRMLS_CC);
-	}
-	t3 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t3);
+	PHALCON_OBSERVE_VAR(t3);
+	phalcon_read_static_property(&t3, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t3);
 }
@@ -3990,11 +3973,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp1){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4004,11 +3984,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp2){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4018,11 +3995,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp3){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4032,11 +4006,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp4){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp4", sizeof("_sp4")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp4", sizeof("_sp4")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4046,11 +4017,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp5){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp5", sizeof("_sp5")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp5", sizeof("_sp5")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4060,11 +4028,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp6){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp6", sizeof("_sp6")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp6", sizeof("_sp6")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4074,11 +4039,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp7){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp7", sizeof("_sp7")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp7", sizeof("_sp7")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4091,11 +4053,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp8){
 	PHALCON_INIT_VAR(t0);
 	ZVAL_STRING(t0, "i can't handle anymore", 1);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, t0 TSRMLS_CC);
-	if(!t1){
-		phalcon_memory_observe(&t1 TSRMLS_CC);
-	}
-	t1 = zend_read_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t1);
+	PHALCON_OBSERVE_VAR(t1);
+	phalcon_read_static_property(&t1, phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }
@@ -4116,11 +4075,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp9){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, a, b TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, r0 TSRMLS_CC);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -4140,16 +4096,10 @@ PHP_METHOD(Phalcon_Internal_Test, sp10){
 
 	zend_update_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, a TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1, b TSRMLS_CC);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
-	if(!t1){
-		phalcon_memory_observe(&t1 TSRMLS_CC);
-	}
-	t1 = zend_read_static_property(phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t1);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1 TSRMLS_CC);
+	PHALCON_OBSERVE_VAR(t1);
+	phalcon_read_static_property(&t1, phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, t0, t1 TSRMLS_CC);
@@ -4157,11 +4107,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp10){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_add_function(r1, r0, c TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1, r1 TSRMLS_CC);
-	if(!t2){
-		phalcon_memory_observe(&t2 TSRMLS_CC);
-	}
-	t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t2);
+	PHALCON_OBSERVE_VAR(t2);
+	phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t2);
 }
@@ -4181,16 +4128,10 @@ PHP_METHOD(Phalcon_Internal_Test, sp11){
 
 	zend_update_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, a TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1, b TSRMLS_CC);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
-	if(!t1){
-		phalcon_memory_observe(&t1 TSRMLS_CC);
-	}
-	t1 = zend_read_static_property(phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t1);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp1", sizeof("_sp1")-1 TSRMLS_CC);
+	PHALCON_OBSERVE_VAR(t1);
+	phalcon_read_static_property(&t1, phalcon_internal_test_ce, "_sp2", sizeof("_sp2")-1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_add_function(r0, t0, t1 TSRMLS_CC);
@@ -4198,11 +4139,8 @@ PHP_METHOD(Phalcon_Internal_Test, sp11){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_add_function(r1, r0, c TSRMLS_CC);
 	zend_update_static_property(phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1, r1 TSRMLS_CC);
-	if(!t2){
-		phalcon_memory_observe(&t2 TSRMLS_CC);
-	}
-	t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t2);
+	PHALCON_OBSERVE_VAR(t2);
+	phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp3", sizeof("_sp3")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t2);
 }
@@ -4848,11 +4786,8 @@ PHP_METHOD(Phalcon_Internal_Test, t3){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	is_equal_function(r1, r0, t1 TSRMLS_CC);
 	if (zend_is_true(r1)) {
-		if(!t2){
-			phalcon_memory_observe(&t2 TSRMLS_CC);
-		}
-		t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t2);
+		PHALCON_OBSERVE_VAR(t2);
+		phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 		
 		PHALCON_RETURN_CHECK_CTOR(t2);
 	} else {
@@ -4967,11 +4902,8 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 			ZVAL_LONG(t4, 1);
 			PHALCON_INIT_VAR(r5);
 			phalcon_add_function(r5, c, t4 TSRMLS_CC);
-			if(!t5){
-				phalcon_memory_observe(&t5 TSRMLS_CC);
-			}
-			t5 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-			Z_ADDREF_P(t5);
+			PHALCON_OBSERVE_VAR(t5);
+			phalcon_read_static_property(&t5, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 			PHALCON_CALL_SELF_PARAMS_2(r4, this_ptr, "t4", r5, t5);
 			phalcon_array_append(&node, r4, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			
@@ -5066,11 +4998,8 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 			PHALCON_INIT_VAR(r2);
 			phalcon_array_fetch_long(&r2, e, 1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_INIT_VAR(r3);
-			if(!t2){
-				phalcon_memory_observe(&t2 TSRMLS_CC);
-			}
-			t2 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-			Z_ADDREF_P(t2);
+			PHALCON_OBSERVE_VAR(t2);
+			phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 			p1[0] = t2;
 			p1[1] = i;
 			p1[2] = a;
@@ -5083,11 +5012,8 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 			PHALCON_INIT_VAR(r5);
 			phalcon_array_fetch_long(&r5, e, 1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_INIT_VAR(r6);
-			if(!t3){
-				phalcon_memory_observe(&t3 TSRMLS_CC);
-			}
-			t3 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-			Z_ADDREF_P(t3);
+			PHALCON_OBSERVE_VAR(t3);
+			phalcon_read_static_property(&t3, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 			p2[0] = t3;
 			PHALCON_INIT_VAR(r7);
 			phalcon_array_fetch_long(&r7, e, 0, PHALCON_NOISY TSRMLS_CC);
@@ -5113,11 +5039,8 @@ PHP_METHOD(Phalcon_Internal_Test, t6){
 	phalcon_array_fetch_long(&r9, e, 1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r10);
-	if(!t5){
-		phalcon_memory_observe(&t5 TSRMLS_CC);
-	}
-	t5 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t5);
+	PHALCON_OBSERVE_VAR(t5);
+	phalcon_read_static_property(&t5, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r10, t5, "mp7", PHALCON_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r11);
@@ -5185,11 +5108,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 				PHALCON_INIT_VAR(r3);
 				phalcon_array_fetch_long(&r3, e, 1, PHALCON_NOISY TSRMLS_CC);
 				PHALCON_INIT_VAR(r4);
-				if(!t3){
-					phalcon_memory_observe(&t3 TSRMLS_CC);
-				}
-				t3 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-				Z_ADDREF_P(t3);
+				PHALCON_OBSERVE_VAR(t3);
+				phalcon_read_static_property(&t3, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 				p1[0] = t3;
 				p1[1] = i;
 				p1[2] = a;
@@ -5207,11 +5127,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 					PHALCON_INIT_VAR(r7);
 					phalcon_array_fetch_long(&r7, e, 1, PHALCON_NOISY TSRMLS_CC);
 					PHALCON_INIT_VAR(r8);
-					if(!t5){
-						phalcon_memory_observe(&t5 TSRMLS_CC);
-					}
-					t5 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-					Z_ADDREF_P(t5);
+					PHALCON_OBSERVE_VAR(t5);
+					phalcon_read_static_property(&t5, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 					p2[0] = t5;
 					PHALCON_INIT_VAR(r9);
 					phalcon_array_fetch_long(&r9, e, 0, PHALCON_NOISY TSRMLS_CC);
@@ -5229,11 +5146,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 					PHALCON_INIT_VAR(r11);
 					phalcon_array_fetch_long(&r11, e, 1, PHALCON_NOISY TSRMLS_CC);
 					PHALCON_INIT_VAR(r12);
-					if(!t6){
-						phalcon_memory_observe(&t6 TSRMLS_CC);
-					}
-					t6 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-					Z_ADDREF_P(t6);
+					PHALCON_OBSERVE_VAR(t6);
+					phalcon_read_static_property(&t6, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 					p3[0] = t6;
 					PHALCON_INIT_VAR(r13);
 					phalcon_array_fetch_long(&r13, e, 0, PHALCON_NOISY TSRMLS_CC);
@@ -5265,11 +5179,8 @@ PHP_METHOD(Phalcon_Internal_Test, t7){
 	phalcon_array_fetch_long(&r15, e, 1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r16);
-	if(!t8){
-		phalcon_memory_observe(&t8 TSRMLS_CC);
-	}
-	t8 = zend_read_static_property(phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t8);
+	PHALCON_OBSERVE_VAR(t8);
+	phalcon_read_static_property(&t8, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r16, t8, "mp7", PHALCON_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r17);
@@ -5704,16 +5615,12 @@ PHP_METHOD(Phalcon_Internal_Test, t15){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
+	PHALCON_OBSERVE_VAR(t0);
 	phalcon_read_static_property(&t0, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_array_fetch(&t1, t0, name, PHALCON_SILENT TSRMLS_CC);
 	if (zend_is_true(t1)) {
-		if(!t2){
-			phalcon_memory_observe(&t2 TSRMLS_CC);
-		}
+		PHALCON_OBSERVE_VAR(t2);
 		phalcon_read_static_property(&t2, phalcon_internal_test_ce, "_sp0", sizeof("_sp0")-1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_array_fetch(&t3, t2, name, PHALCON_NOISY TSRMLS_CC);

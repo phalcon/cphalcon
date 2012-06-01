@@ -57,11 +57,8 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1 TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_NULL(t1);
 	PHALCON_INIT_VAR(r0);
@@ -185,11 +182,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		ZVAL_BOOL(renovate, 0);
 	}
 	
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(database, t0);
 	if (!zend_is_true(database)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -231,11 +225,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			phalcon_read_property(&t1, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon_db", "factory", t1, database);
 			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r0 TSRMLS_CC);
-			if(!t2){
-				phalcon_memory_observe(&t2 TSRMLS_CC);
-			}
-			t2 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, PHALCON_FETCH_CLASS_SILENT);
-			Z_ADDREF_P(t2);
+			PHALCON_OBSERVE_VAR(t2);
+			phalcon_read_static_property(&t2, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
 			PHALCON_CPY_WRT(connection, t2);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r1);
@@ -245,11 +236,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_CPY_WRT(connection, r1);
 		}
 	} else {
-		if(!t4){
-			phalcon_memory_observe(&t4 TSRMLS_CC);
-		}
-		t4 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t4);
+		PHALCON_OBSERVE_VAR(t4);
+		phalcon_read_static_property(&t4, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
 		if (!zend_is_true(t4)) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_ALLOC_ZVAL_MM(t5);
@@ -257,11 +245,8 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 			PHALCON_CALL_STATIC_PARAMS_2(r2, "phalcon_db", "factory", t5, database);
 			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r2 TSRMLS_CC);
 		}
-		if(!t6){
-			phalcon_memory_observe(&t6 TSRMLS_CC);
-		}
-		t6 = zend_read_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t6);
+		PHALCON_OBSERVE_VAR(t6);
+		phalcon_read_static_property(&t6, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
 		PHALCON_CPY_WRT(connection, t6);
 	}
 	

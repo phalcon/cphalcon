@@ -58,22 +58,16 @@ PHP_METHOD(Phalcon_Response, getInstance){
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_response_ce, "_instance", sizeof("_instance")-1 TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_response_ce);
 		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
 		zend_update_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, i0 TSRMLS_CC);
 	}
-	if(!t1){
-		phalcon_memory_observe(&t1 TSRMLS_CC);
-	}
-	t1 = zend_read_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t1);
+	PHALCON_OBSERVE_VAR(t1);
+	phalcon_read_static_property(&t1, phalcon_response_ce, "_instance", sizeof("_instance")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t1);
 }

@@ -22,6 +22,7 @@ extern zend_class_entry *phalcon_loader_ce;
 extern zend_class_entry *phalcon_text_ce;
 extern zend_class_entry *phalcon_test_ce;
 extern zend_class_entry *phalcon_router_rewrite_ce;
+extern zend_class_entry *phalcon_router_regex_ce;
 extern zend_class_entry *phalcon_config_exception_ce;
 extern zend_class_entry *phalcon_config_adapter_ini_ce;
 extern zend_class_entry *phalcon_exception_ce;
@@ -124,11 +125,21 @@ PHP_METHOD(Phalcon_Test, nice);
 
 PHP_METHOD(Phalcon_Router_Rewrite, __construct);
 PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri);
-PHP_METHOD(Phalcon_Router_Rewrite, setBaseUri);
+PHP_METHOD(Phalcon_Router_Rewrite, setPrefix);
 PHP_METHOD(Phalcon_Router_Rewrite, handle);
 PHP_METHOD(Phalcon_Router_Rewrite, getControllerName);
 PHP_METHOD(Phalcon_Router_Rewrite, getActionName);
 PHP_METHOD(Phalcon_Router_Rewrite, getParams);
+
+PHP_METHOD(Phalcon_Router_Regex, __construct);
+PHP_METHOD(Phalcon_Router_Regex, _getRewriteUri);
+PHP_METHOD(Phalcon_Router_Regex, setBaseUri);
+PHP_METHOD(Phalcon_Router_Regex, compilePattern);
+PHP_METHOD(Phalcon_Router_Regex, add);
+PHP_METHOD(Phalcon_Router_Regex, handle);
+PHP_METHOD(Phalcon_Router_Regex, getControllerName);
+PHP_METHOD(Phalcon_Router_Regex, getActionName);
+PHP_METHOD(Phalcon_Router_Regex, getParams);
 
 
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
@@ -278,7 +289,6 @@ PHP_METHOD(Phalcon_View_Engine, __construct);
 PHP_METHOD(Phalcon_View_Engine, initialize);
 PHP_METHOD(Phalcon_View_Engine, getControllerName);
 PHP_METHOD(Phalcon_View_Engine, getActionName);
-PHP_METHOD(Phalcon_View_Engine, getParams);
 PHP_METHOD(Phalcon_View_Engine, getContent);
 PHP_METHOD(Phalcon_View_Engine, url);
 PHP_METHOD(Phalcon_View_Engine, path);
@@ -1080,8 +1090,29 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_test_nice, 0, 0, 1)
 	ZEND_ARG_INFO(0, word)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_rewrite_setbaseuri, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_rewrite_setprefix, 0, 0, 1)
+	ZEND_ARG_INFO(0, prefix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_rewrite_handle, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_regex_setbaseuri, 0, 0, 1)
 	ZEND_ARG_INFO(0, baseUri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_regex_compilepattern, 0, 0, 1)
+	ZEND_ARG_INFO(0, pattern)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_regex_add, 0, 0, 2)
+	ZEND_ARG_INFO(0, pattern)
+	ZEND_ARG_INFO(0, parts)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_router_regex_handle, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_adapter_ini___construct, 0, 0, 1)
@@ -1436,16 +1467,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_setcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine___construct, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, options)
-	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_initialize, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_initialize, 0, 0, 2)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, options)
-	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_url, 0, 0, 0)
@@ -1460,34 +1489,34 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_php___construct, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_php___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_php_render, 0, 0, 2)
+	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_php_render, 0, 0, 1)
-	ZEND_ARG_INFO(0, path)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_twig___construct, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_twig___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_twig_render, 0, 0, 2)
+	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_twig_render, 0, 0, 1)
-	ZEND_ARG_INFO(0, path)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_mustache___construct, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_mustache___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, options)
-	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_mustache_render, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_mustache_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_view_engine_mustache___isset, 0, 0, 1)
@@ -3130,12 +3159,25 @@ PHALCON_INIT_FUNCS(phalcon_test_functions){
 
 PHALCON_INIT_FUNCS(phalcon_router_rewrite_functions){
 	PHP_ME(Phalcon_Router_Rewrite, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Router_Rewrite, _getRewriteUri, NULL, ZEND_ACC_PRIVATE) 
-	PHP_ME(Phalcon_Router_Rewrite, setBaseUri, arginfo_phalcon_router_rewrite_setbaseuri, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Router_Rewrite, handle, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Rewrite, _getRewriteUri, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Router_Rewrite, setPrefix, arginfo_phalcon_router_rewrite_setprefix, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Rewrite, handle, arginfo_phalcon_router_rewrite_handle, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Router_Rewrite, getParams, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_router_regex_functions){
+	PHP_ME(Phalcon_Router_Regex, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Router_Regex, _getRewriteUri, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Router_Regex, setBaseUri, arginfo_phalcon_router_regex_setbaseuri, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, compilePattern, arginfo_phalcon_router_regex_compilepattern, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, add, arginfo_phalcon_router_regex_add, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, handle, arginfo_phalcon_router_regex_handle, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, getControllerName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, getActionName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Router_Regex, getParams, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3345,7 +3387,6 @@ PHALCON_INIT_FUNCS(phalcon_view_engine_functions){
 	PHP_ME(Phalcon_View_Engine, initialize, arginfo_phalcon_view_engine_initialize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View_Engine, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View_Engine, getActionName, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_View_Engine, getParams, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View_Engine, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View_Engine, url, arginfo_phalcon_view_engine_url, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View_Engine, path, arginfo_phalcon_view_engine_path, ZEND_ACC_PUBLIC) 

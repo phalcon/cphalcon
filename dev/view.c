@@ -395,9 +395,9 @@ PHP_METHOD(Phalcon_View, start){
  */
 PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 
-	zval *engines = NULL, *params = NULL, *registered_engines = NULL;
-	zval *engine = NULL, *extension = NULL, *options = NULL, *name = NULL, *class_name = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *engines = NULL, *registered_engines = NULL, *engine = NULL;
+	zval *extension = NULL, *options = NULL, *name = NULL, *class_name = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL, *i4 = NULL;
@@ -421,12 +421,8 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 		PHALCON_CPY_WRT(engines, a0);
 		
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_viewParams", sizeof("_viewParams")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(params, t1);
-		
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, "_registeredEngines", sizeof("_registeredEngines")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(registered_engines, t2);
+		phalcon_read_property(&t1, this_ptr, "_registeredEngines", sizeof("_registeredEngines")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(registered_engines, t1);
 		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_fast_count(r0, registered_engines TSRMLS_CC);
@@ -435,7 +431,7 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 			object_init_ex(i0, phalcon_view_engine_php_ce);
 			PHALCON_INIT_VAR(a1);
 			array_init(a1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", this_ptr, a1, params, PHALCON_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, a1, PHALCON_CHECK);
 			phalcon_array_update_string(&engines, ".phtml", strlen(".phtml"), &i0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		} else {
 			if (phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
@@ -479,7 +475,7 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 						PHALCON_CPY_WRT(name, engine);
 					} else {
 						if (Z_TYPE_P(engine) == IS_OBJECT) {
-							PHALCON_CALL_METHOD_PARAMS_3_NORETURN(engine, "initialize", this_ptr, options, params, PHALCON_NO_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_2_NORETURN(engine, "initialize", this_ptr, options, PHALCON_NO_CHECK);
 							phalcon_array_update(&engines, extension, &engine, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 							goto fes_b0d8_0;
 						} else {
@@ -505,7 +501,7 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 					ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 					PHALCON_INIT_VAR(i3);
 					object_init_ex(i3, ce0);
-					PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i3, "__construct", this_ptr, options, params, PHALCON_CHECK);
+					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i3, "__construct", this_ptr, options, PHALCON_CHECK);
 					phalcon_array_update(&engines, extension, &i3, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 				} else {
 					PHALCON_INIT_VAR(i4);
@@ -527,9 +523,9 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 		
 		phalcon_update_property_zval(this_ptr, "_engines", strlen("_engines"), engines TSRMLS_CC);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, this_ptr, "_engines", sizeof("_engines")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(engines, t3);
+		PHALCON_ALLOC_ZVAL_MM(t2);
+		phalcon_read_property(&t2, this_ptr, "_engines", sizeof("_engines")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(engines, t2);
 	}
 	
 	PHALCON_RETURN_CHECK_CTOR(engines);
@@ -541,8 +537,9 @@ PHP_METHOD(Phalcon_View, _loadTemplateEngines){
 PHP_METHOD(Phalcon_View, _engineRender){
 
 	zval *engines = NULL, *view_path = NULL, *silence = NULL, *not_exists = NULL;
-	zval *views_dir_path = NULL, *engine = NULL, *extension = NULL, *view_engine_path = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *view_params = NULL, *views_dir_path = NULL, *engine = NULL;
+	zval *extension = NULL, *view_engine_path = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
@@ -564,13 +561,17 @@ PHP_METHOD(Phalcon_View, _engineRender){
 	ZVAL_BOOL(not_exists, 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_viewParams", sizeof("_viewParams")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(view_params, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_viewsDir", sizeof("_viewsDir")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_read_property(&t2, this_ptr, "_viewsDir", sizeof("_viewsDir")-1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	concat_function(r0, t0, t1 TSRMLS_CC);
+	concat_function(r0, t1, t2 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	concat_function(r1, r0, view_path TSRMLS_CC);
@@ -591,7 +592,7 @@ PHP_METHOD(Phalcon_View, _engineRender){
 		concat_function(r2, views_dir_path, extension TSRMLS_CC);
 		PHALCON_CPY_WRT(view_engine_path, r2);
 		if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(engine, "render", view_engine_path, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(engine, "render", view_engine_path, view_params, PHALCON_NO_CHECK);
 			
 			PHALCON_INIT_VAR(not_exists);
 			ZVAL_BOOL(not_exists, 0);

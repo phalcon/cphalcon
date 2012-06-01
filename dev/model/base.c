@@ -83,11 +83,8 @@ PHP_METHOD(Phalcon_Model_Base, __construct){
 	}
 	
 	if (!zend_is_true(manager)) {
-		if(!t0){
-			phalcon_memory_observe(&t0 TSRMLS_CC);
-		}
-		t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t0);
+		PHALCON_OBSERVE_VAR(t0);
+		phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		if (!zend_is_true(t0)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(r1);
@@ -146,11 +143,8 @@ PHP_METHOD(Phalcon_Model_Base, getManager){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
@@ -169,11 +163,8 @@ PHP_METHOD(Phalcon_Model_Base, _connect){
 	phalcon_read_property(&t0, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		if(!t1){
-			phalcon_memory_observe(&t1 TSRMLS_CC);
-		}
-		t1 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t1);
+		PHALCON_OBSERVE_VAR(t1);
+		phalcon_read_static_property(&t1, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		PHALCON_CALL_METHOD(r0, t1, "getconnection", PHALCON_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, "_connection", strlen("_connection"), r0 TSRMLS_CC);
 	}
@@ -195,11 +186,8 @@ PHP_METHOD(Phalcon_Model_Base, getAttributes){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getattributes", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -218,11 +206,8 @@ PHP_METHOD(Phalcon_Model_Base, getPrimaryKeyAttributes){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getprimarykeyattributes", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -241,11 +226,8 @@ PHP_METHOD(Phalcon_Model_Base, getNonPrimaryKeyAttributes){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getnonprimarykeyattributes", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -264,11 +246,8 @@ PHP_METHOD(Phalcon_Model_Base, getNotNullAttributes){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getnotnullattributes", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -287,11 +266,8 @@ PHP_METHOD(Phalcon_Model_Base, getDataTypesNumeric){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getdatatypesnumeric", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -310,11 +286,8 @@ PHP_METHOD(Phalcon_Model_Base, getDataTypes){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getdatatypes", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -333,11 +306,8 @@ PHP_METHOD(Phalcon_Model_Base, getIdentityField){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CALL_METHOD(r1, t0, "getmetadata", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, r1, "getidentityfield", this_ptr, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
@@ -1015,11 +985,8 @@ PHP_METHOD(Phalcon_Model_Base, getSource){
 	phalcon_read_property(&t0, this_ptr, "_source", sizeof("_source")-1, PHALCON_NOISY TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		if(!t1){
-			phalcon_memory_observe(&t1 TSRMLS_CC);
-		}
-		t1 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t1);
+		PHALCON_OBSERVE_VAR(t1);
+		phalcon_read_static_property(&t1, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, t1, "getsource", r1, PHALCON_NO_CHECK);
@@ -2221,11 +2188,8 @@ PHP_METHOD(Phalcon_Model_Base, _cancelOperation){
 	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1 TSRMLS_CC);
 	if (!zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, "_operationMade", sizeof("_operationMade")-1, PHALCON_NOISY TSRMLS_CC);
@@ -2528,11 +2492,8 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(manager, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -2752,11 +2713,8 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeysReverse){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(manager, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -3515,11 +3473,8 @@ PHP_METHOD(Phalcon_Model_Base, save){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	phalcon_update_property_zval(this_ptr, "_errorMessages", strlen("_errorMessages"), a0 TSRMLS_CC);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(disable_events, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -3719,11 +3674,8 @@ PHP_METHOD(Phalcon_Model_Base, delete){
 		PHALCON_CPY_WRT(conditions, r11);
 	}
 	
-	if(!t7){
-		phalcon_memory_observe(&t7 TSRMLS_CC);
-	}
-	t7 = zend_read_static_property(phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t7);
+	PHALCON_OBSERVE_VAR(t7);
+	phalcon_read_static_property(&t7, phalcon_model_base_ce, "_disableEvents", sizeof("_disableEvents")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(disable_events, t7);
 	if (!zend_is_true(disable_events)) {
 		PHALCON_ALLOC_ZVAL_MM(r12);
@@ -3842,17 +3794,11 @@ PHP_METHOD(Phalcon_Model_Base, hasOne){
 		RETURN_NULL();
 	}
 
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		if(!t1){
-			phalcon_memory_observe(&t1 TSRMLS_CC);
-		}
-		t1 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t1);
+		PHALCON_OBSERVE_VAR(t1);
+		phalcon_read_static_property(&t1, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		p0[0] = this_ptr;
 		p0[1] = fields;
 		p0[2] = reference_model;
@@ -3906,17 +3852,11 @@ PHP_METHOD(Phalcon_Model_Base, belongsTo){
 		PHALCON_CPY_WRT(options, a0);
 	}
 	
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		if(!t1){
-			phalcon_memory_observe(&t1 TSRMLS_CC);
-		}
-		t1 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t1);
+		PHALCON_OBSERVE_VAR(t1);
+		phalcon_read_static_property(&t1, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		p0[0] = this_ptr;
 		p0[1] = fields;
 		p0[2] = reference_model;
@@ -3970,17 +3910,11 @@ PHP_METHOD(Phalcon_Model_Base, hasMany){
 		PHALCON_CPY_WRT(options, a0);
 	}
 	
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		if(!t1){
-			phalcon_memory_observe(&t1 TSRMLS_CC);
-		}
-		t1 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-		Z_ADDREF_P(t1);
+		PHALCON_OBSERVE_VAR(t1);
+		phalcon_read_static_property(&t1, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 		p0[0] = this_ptr;
 		p0[1] = fields;
 		p0[2] = reference_model;
@@ -4041,11 +3975,8 @@ PHP_METHOD(Phalcon_Model_Base, __call){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_get_class(r0, this_ptr TSRMLS_CC);
 	PHALCON_CPY_WRT(model_name, r0);
-	if(!t0){
-		phalcon_memory_observe(&t0 TSRMLS_CC);
-	}
-	t0 = zend_read_static_property(phalcon_model_base_ce, "_manager", sizeof("_manager")-1, PHALCON_FETCH_CLASS_SILENT);
-	Z_ADDREF_P(t0);
+	PHALCON_OBSERVE_VAR(t0);
+	phalcon_read_static_property(&t0, phalcon_model_base_ce, "_manager", sizeof("_manager")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(manager, t0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
