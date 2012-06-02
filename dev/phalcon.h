@@ -57,6 +57,7 @@ extern zend_class_entry *phalcon_internal_testparent_ce;
 extern zend_class_entry *phalcon_internal_testtemp_ce;
 extern zend_class_entry *phalcon_internal_testdummy_ce;
 extern zend_class_entry *phalcon_controller_ce;
+extern zend_class_entry *phalcon_request_file_ce;
 extern zend_class_entry *phalcon_paginator_ce;
 extern zend_class_entry *phalcon_utils_ce;
 extern zend_class_entry *phalcon_dispatcher_ce;
@@ -552,7 +553,13 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f3);
 
 PHP_METHOD(Phalcon_Controller, __construct);
 PHP_METHOD(Phalcon_Controller, _forward);
+PHP_METHOD(Phalcon_Controller, _getParam);
 PHP_METHOD(Phalcon_Controller, __get);
+
+PHP_METHOD(Phalcon_Request_File, __construct);
+PHP_METHOD(Phalcon_Request_File, getSize);
+PHP_METHOD(Phalcon_Request_File, getName);
+PHP_METHOD(Phalcon_Request_File, getTempName);
 
 PHP_METHOD(Phalcon_Paginator, factory);
 
@@ -573,6 +580,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName);
 PHP_METHOD(Phalcon_Dispatcher, getActionName);
 PHP_METHOD(Phalcon_Dispatcher, setParams);
 PHP_METHOD(Phalcon_Dispatcher, getParams);
+PHP_METHOD(Phalcon_Dispatcher, getParam);
 PHP_METHOD(Phalcon_Dispatcher, dispatch);
 PHP_METHOD(Phalcon_Dispatcher, _throwDispatchException);
 PHP_METHOD(Phalcon_Dispatcher, forward);
@@ -938,10 +946,14 @@ PHP_METHOD(Phalcon_Request, isOptions);
 PHP_METHOD(Phalcon_Request, hasFiles);
 PHP_METHOD(Phalcon_Request, getUploadedFiles);
 PHP_METHOD(Phalcon_Request, getHTTPReferer);
+PHP_METHOD(Phalcon_Request, _getQualityHeader);
+PHP_METHOD(Phalcon_Request, _getBestQuality);
 PHP_METHOD(Phalcon_Request, getAcceptableContent);
-PHP_METHOD(Phalcon_Request, getBestQualityAccept);
+PHP_METHOD(Phalcon_Request, getBestAccept);
 PHP_METHOD(Phalcon_Request, getClientCharsets);
-PHP_METHOD(Phalcon_Request, getBestQualityCharset);
+PHP_METHOD(Phalcon_Request, getBestCharset);
+PHP_METHOD(Phalcon_Request, getLanguages);
+PHP_METHOD(Phalcon_Request, getBestLanguage);
 
 PHP_METHOD(Phalcon_Transaction_Failed, __construct);
 PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages);
@@ -1850,8 +1862,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller__forward, 0, 0, 1)
 	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller__getparam, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller___get, 0, 0, 1)
 	ZEND_ARG_INFO(0, propertyName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request_file___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, file)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_factory, 0, 0, 1)
@@ -1897,6 +1917,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setparams, 0, 0, 1)
 	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_getparam, 0, 0, 1)
+	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_dispatch, 0, 0, 2)
@@ -2871,6 +2895,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request_getheader, 0, 0, 1)
 	ZEND_ARG_INFO(0, header)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request__getqualityheader, 0, 0, 2)
+	ZEND_ARG_INFO(0, serverIndex)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request__getbestquality, 0, 0, 2)
+	ZEND_ARG_INFO(0, qualityParts)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_transaction_failed___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, record)
@@ -3692,7 +3726,16 @@ PHALCON_INIT_FUNCS(phalcon_internal_testdummy_functions){
 PHALCON_INIT_FUNCS(phalcon_controller_functions){
 	PHP_ME(Phalcon_Controller, __construct, arginfo_phalcon_controller___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Controller, _forward, arginfo_phalcon_controller__forward, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Controller, _getParam, arginfo_phalcon_controller__getparam, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Controller, __get, arginfo_phalcon_controller___get, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_request_file_functions){
+	PHP_ME(Phalcon_Request_File, __construct, arginfo_phalcon_request_file___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Request_File, getSize, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request_File, getName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request_File, getTempName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3722,6 +3765,7 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_functions){
 	PHP_ME(Phalcon_Dispatcher, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setParams, arginfo_phalcon_dispatcher_setparams, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getParams, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getParam, arginfo_phalcon_dispatcher_getparam, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, dispatch, arginfo_phalcon_dispatcher_dispatch, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, _throwDispatchException, arginfo_phalcon_dispatcher__throwdispatchexception, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Dispatcher, forward, arginfo_phalcon_dispatcher_forward, ZEND_ACC_PUBLIC) 
@@ -4183,10 +4227,14 @@ PHALCON_INIT_FUNCS(phalcon_request_functions){
 	PHP_ME(Phalcon_Request, hasFiles, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getUploadedFiles, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getHTTPReferer, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request, _getQualityHeader, arginfo_phalcon_request__getqualityheader, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Request, _getBestQuality, arginfo_phalcon_request__getbestquality, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Request, getAcceptableContent, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Request, getBestQualityAccept, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request, getBestAccept, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Request, getClientCharsets, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Request, getBestQualityCharset, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request, getBestCharset, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request, getLanguages, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Request, getBestLanguage, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

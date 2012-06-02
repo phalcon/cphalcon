@@ -133,10 +133,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$value = $dispatcher->getActionName();
 		$this->assertEquals($value, 'anotherfour');
 
-		$this->assertEquals(count($dispatcher->getControllers()), 2);
+		$dispatcher->setControllerName('test2');
+		$dispatcher->setActionName('anotherFive');
+		$dispatcher->setParams(array("param1" => 2, "param2" => 3));
+		$dispatcher->dispatch($request, $response);
+		$value = $dispatcher->getReturnedValue();
+		$this->assertEquals($value, 5);
 
-		//GC
-		gc_collect_cycles();
+		$this->assertEquals(count($dispatcher->getControllers()), 2);
 
 	}
 

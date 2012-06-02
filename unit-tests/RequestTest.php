@@ -36,7 +36,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($value, '');
 
 		$_POST['test'] = 1;
-		$value = $this->_request->getPost('test');		
+		$value = $this->_request->getPost('test');
 		$this->assertEquals($value, 1);
 
 		$_POST['test'] = "lol<";
@@ -133,6 +133,8 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$accept = $this->_request->getAcceptableContent();
 		$this->assertEquals(count($accept), 4);
 
+		//var_dump($accept);
+
 		$firstAccept = $accept[0];
 		$this->assertEquals($firstAccept['accept'], 'text/html');
 		$this->assertEquals($firstAccept['quality'], 1);
@@ -141,7 +143,43 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($lastAccept['accept'], '*/*');
 		$this->assertEquals($lastAccept['quality'], 0.8);
 
-		$this->assertEquals($this->_request->getBestQualityAccept(), 'text/html');
+		$this->assertEquals($this->_request->getBestAccept(), 'text/html');
+
+	}
+
+	public function testAcceptableCharsets(){
+
+		$_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5,unicode-1-1;q=0.8';
+		$accept = $this->_request->getClientCharsets();
+		$this->assertEquals(count($accept), 2);
+
+		$firstAccept = $accept[0];
+		$this->assertEquals($firstAccept['charset'], 'iso-8859-5');
+		$this->assertEquals($firstAccept['quality'], 1);
+
+		$lastAccept = $accept[1];
+		$this->assertEquals($lastAccept['charset'], 'unicode-1-1');
+		$this->assertEquals($lastAccept['quality'], 0.8);
+
+		$this->assertEquals($this->_request->getBestCharset(), 'iso-8859-5');
+
+	}
+
+	public function testAcceptableLanguage(){
+
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3';
+		$accept = $this->_request->getLanguages();
+		$this->assertEquals(count($accept), 4);
+
+		$firstAccept = $accept[0];
+		$this->assertEquals($firstAccept['language'], 'es');
+		$this->assertEquals($firstAccept['quality'], 1);
+
+		$lastAccept = $accept[3];
+		$this->assertEquals($lastAccept['language'], 'en-us');
+		$this->assertEquals($lastAccept['quality'], 0.3);
+
+		$this->assertEquals($this->_request->getBestLanguage(), 'es');
 
 	}
 

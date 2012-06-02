@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParams){
 
 /**
  * Gets action params
-     *
+ *
  * @return array
  */
 PHP_METHOD(Phalcon_Dispatcher, getParams){
@@ -250,6 +250,41 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
+}
+
+/**
+ * Gets a param by its name or numeric index
+     *
+     * @param  mixed $param
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Dispatcher, getParam){
+
+	zval *index = NULL, *params = NULL;
+	zval *t0 = NULL;
+	zval *r0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(params, t0);
+	eval_int = phalcon_array_isset(params, index);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch(&r0, params, index, PHALCON_NOISY TSRMLS_CC);
+		
+		PHALCON_RETURN_CHECK_CTOR(r0);
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
 }
 
 /**

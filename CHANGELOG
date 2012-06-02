@@ -27,6 +27,8 @@
 - Added calculation functions to Phalcon_Model: count, sum, average, minimum and maximum
 - Dispatcher exceptions now throws a 404 Not found status
 - Added Phalcon_Router_Regex to define routes based on regular expressions
+- Renamed Phalcon_Request::getBestQualityCharset() to Phalcon_Request::getBestCharset()
+- Added Phalcon_Request::getBestLanguage()
 
 0.3.5
  - Most of throw exception process has been rewrriten to use less instructions

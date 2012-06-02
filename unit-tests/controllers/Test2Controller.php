@@ -26,4 +26,8 @@ class Test2Controller extends Phalcon_Controller {
 		return 120;
 	}
 
+	public function anotherFiveAction(){
+		return $this->_getParam('param1')+$this->_getParam('param2');
+	}
+
 }

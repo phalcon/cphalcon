@@ -83,11 +83,11 @@ PHP_METHOD(Phalcon_Controller, __construct){
 		ZVAL_NULL(model);
 	}
 	
-	phalcon_update_property_zval(this_ptr, "_dispatcher", strlen("_dispatcher"), dispatcher TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "dispatcher", strlen("dispatcher"), dispatcher TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "request", strlen("request"), request TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "response", strlen("response"), response TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "view", strlen("view"), view TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), model TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "model", strlen("model"), model TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -112,8 +112,33 @@ PHP_METHOD(Phalcon_Controller, _forward){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_dispatcher", sizeof("_dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "dispatcher", sizeof("dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "forward", uri, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Returns a param from the dispatching params
+ *
+ * @param mixed $index
+ */
+PHP_METHOD(Phalcon_Controller, _getParam){
+
+	zval *index = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "dispatcher", sizeof("dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getparam", index, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -173,10 +198,10 @@ PHP_METHOD(Phalcon_Controller, __get){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_read_property(&t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t3, this_ptr, "model", sizeof("model")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t3)) {
 		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t4, this_ptr, "model", sizeof("model")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(model, t4);
 		
 		PHALCON_ALLOC_ZVAL_MM(r2);

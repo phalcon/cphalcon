@@ -878,7 +878,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
  */
 PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
-	zval *files = NULL, *file = NULL;
+	zval *super_files = NULL, *files = NULL, *file = NULL;
 	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
@@ -886,18 +886,19 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	phalcon_get_global(&g0, "_FILES", sizeof("_FILES") TSRMLS_CC);
+	PHALCON_CPY_WRT(super_files, g0);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_fast_count(r0, g0 TSRMLS_CC);
+	phalcon_fast_count(r0, super_files TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(files, a0);
-		if (phalcon_valid_foreach(g0 TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(g0);
+		if (phalcon_valid_foreach(super_files TSRMLS_CC)) {
+			ah0 = Z_ARRVAL_P(super_files);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 			fes_9aea_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
@@ -906,9 +907,8 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 			
 			PHALCON_INIT_VAR(file);
 			ZVAL_ZVAL(file, *hd, 1, 0);
-			ce0 = zend_fetch_class("Phalcon_Request_File", strlen("Phalcon_Request_File"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, ce0);
+			object_init_ex(i0, phalcon_request_file_ce);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", file, PHALCON_CHECK);
 			phalcon_array_append(&files, i0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
@@ -929,7 +929,7 @@ PHP_METHOD(Phalcon_Request, getUploadedFiles){
 }
 
 /**
- * Gets web page that refers active request
+ * Gets web page that refers active request. ie: http://www.google.com
  *
  * @return string
  */
@@ -952,17 +952,12 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 	RETURN_STRING("", 1);
 }
 
-/**
- * Gets array with mime/types and their quality accepted by the browser/client.
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Request, getAcceptableContent){
+PHP_METHOD(Phalcon_Request, _getQualityHeader){
 
-	zval *http_accept = NULL, *accepted = NULL, *returned_accept = NULL;
-	zval *accept = NULL, *accept_parts = NULL, *quality = NULL;
+	zval *server_index = NULL, *name = NULL, *http_server = NULL, *parts = NULL;
+	zval *returned_parts = NULL, *part = NULL, *header_parts = NULL, *quality = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -970,45 +965,49 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 	int eval_int;
 
 	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &server_index, &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "HTTP_ACCEPT", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(http_accept, r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getserver", server_index, PHALCON_NO_CHECK);
+	PHALCON_CPY_WRT(http_server, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept, 0x048);
-	PHALCON_CPY_WRT(accepted, r1);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "/,\\s*/", 1);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c0, http_server, 0x048);
+	PHALCON_CPY_WRT(parts, r1);
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	PHALCON_CPY_WRT(returned_accept, a0);
-	if (phalcon_valid_foreach(accepted TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(accepted);
+	PHALCON_CPY_WRT(returned_parts, a0);
+	if (phalcon_valid_foreach(parts TSRMLS_CC)) {
+		ah0 = Z_ARRVAL_P(parts);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_9aea_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9aea_1;
 		}
 		
-		PHALCON_INIT_VAR(accept);
-		ZVAL_ZVAL(accept, *hd, 1, 0);
-		PHALCON_INIT_VAR(c2);
-		ZVAL_STRING(c2, ";", 1);
+		PHALCON_INIT_VAR(part);
+		ZVAL_ZVAL(part, *hd, 1, 0);
+		PHALCON_INIT_VAR(c1);
+		ZVAL_STRING(c1, ";", 1);
 		PHALCON_INIT_VAR(r2);
-		phalcon_fast_explode(r2, c2, accept TSRMLS_CC);
-		PHALCON_CPY_WRT(accept_parts, r2);
-		eval_int = phalcon_array_isset_long(accept_parts, 1);
+		phalcon_fast_explode(r2, c1, part TSRMLS_CC);
+		PHALCON_CPY_WRT(header_parts, r2);
+		eval_int = phalcon_array_isset_long(header_parts, 1);
 		if (eval_int) {
 			PHALCON_INIT_VAR(r3);
 			PHALCON_INIT_VAR(r4);
-			phalcon_array_fetch_long(&r4, accept_parts, 1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(c3);
-			ZVAL_LONG(c3, 2);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c3, 0x002);
+			phalcon_array_fetch_long(&r4, header_parts, 1, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_INIT_VAR(c2);
+			ZVAL_LONG(c2, 2);
+			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c2, 0x002);
 			PHALCON_CPY_WRT(quality, r3);
 		} else {
 			PHALCON_INIT_VAR(quality);
@@ -1020,10 +1019,10 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		array_init(a1);
 		
 		PHALCON_INIT_VAR(r5);
-		phalcon_array_fetch_long(&r5, accept_parts, 0, PHALCON_NOISY TSRMLS_CC);
-		phalcon_array_update_string(&a1, "accept", strlen("accept"), &r5, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_fetch_long(&r5, header_parts, 0, PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_update(&a1, name, &r5, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 		phalcon_array_update_string(&a1, "quality", strlen("quality"), &quality, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_append(&returned_accept, a1, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+		phalcon_array_append(&returned_parts, a1, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9aea_1;
 		fee_9aea_1:
@@ -1032,39 +1031,36 @@ PHP_METHOD(Phalcon_Request, getAcceptableContent){
 		return;
 	}
 	
-	PHALCON_RETURN_CTOR(returned_accept);
+	PHALCON_RETURN_CTOR(returned_parts);
 }
 
-/**
- * Gets best mime/type accepted by the browser/client.
- *
- * @return array
- */
-PHP_METHOD(Phalcon_Request, getBestQualityAccept){
+PHP_METHOD(Phalcon_Request, _getBestQuality){
 
-	zval *i = NULL, *selected_accept_quality = NULL, *selected_accept_name = NULL;
+	zval *quality_parts = NULL, *name = NULL, *i = NULL, *quality = NULL, *selected_name = NULL;
 	zval *accept = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &quality_parts, &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
 	
-	PHALCON_INIT_VAR(selected_accept_quality);
-	ZVAL_LONG(selected_accept_quality, 0);
+	PHALCON_INIT_VAR(quality);
+	ZVAL_LONG(quality, 0);
 	
-	PHALCON_INIT_VAR(selected_accept_name);
-	ZVAL_STRING(selected_accept_name, "", 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "getacceptablecontent", PHALCON_NO_CHECK);
-	if (phalcon_valid_foreach(r0 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(r0);
+	PHALCON_INIT_VAR(selected_name);
+	ZVAL_STRING(selected_name, "", 1);
+	if (phalcon_valid_foreach(quality_parts TSRMLS_CC)) {
+		ah0 = Z_ARRVAL_P(quality_parts);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_9aea_2:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
@@ -1075,29 +1071,29 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 		ZVAL_ZVAL(accept, *hd, 1, 0);
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
-		PHALCON_INIT_VAR(r1);
-		is_equal_function(r1, i, t0 TSRMLS_CC);
-		if (zend_is_true(r1)) {
-			PHALCON_INIT_VAR(r2);
-			phalcon_array_fetch_string(&r2, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(selected_accept_quality, r2);
+		PHALCON_INIT_VAR(r0);
+		is_equal_function(r0, i, t0 TSRMLS_CC);
+		if (zend_is_true(r0)) {
+			PHALCON_INIT_VAR(r1);
+			phalcon_array_fetch_string(&r1, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CPY_WRT(quality, r1);
 			
-			PHALCON_INIT_VAR(r3);
-			phalcon_array_fetch_string(&r3, accept, "accept", strlen("accept"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(selected_accept_name, r3);
+			PHALCON_INIT_VAR(r2);
+			phalcon_array_fetch(&r2, accept, name, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CPY_WRT(selected_name, r2);
 		} else {
+			PHALCON_INIT_VAR(r3);
+			phalcon_array_fetch_string(&r3, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_INIT_VAR(r4);
-			phalcon_array_fetch_string(&r4, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(r5);
-			is_smaller_function(r5, selected_accept_quality, r4 TSRMLS_CC);
-			if (zend_is_true(r5)) {
-				PHALCON_INIT_VAR(r6);
-				phalcon_array_fetch_string(&r6, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CPY_WRT(selected_accept_quality, r6);
+			is_smaller_function(r4, quality, r3 TSRMLS_CC);
+			if (zend_is_true(r4)) {
+				PHALCON_INIT_VAR(r5);
+				phalcon_array_fetch_string(&r5, accept, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
+				PHALCON_CPY_WRT(quality, r5);
 				
-				PHALCON_INIT_VAR(r7);
-				phalcon_array_fetch_string(&r7, accept, "accept", strlen("accept"), PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CPY_WRT(selected_accept_name, r7);
+				PHALCON_INIT_VAR(r6);
+				phalcon_array_fetch(&r6, accept, name, PHALCON_NOISY TSRMLS_CC);
+				PHALCON_CPY_WRT(selected_name, r6);
 			}
 		}
 		PHALCON_SEPARATE(i);
@@ -1110,167 +1106,126 @@ PHP_METHOD(Phalcon_Request, getBestQualityAccept){
 		return;
 	}
 	
-	PHALCON_RETURN_CHECK_CTOR(selected_accept_name);
+	PHALCON_RETURN_CHECK_CTOR(selected_name);
 }
 
 /**
- * Gets charsets array and their quality accepted by the browser/client.
+ * Gets array with mime/types and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Request, getAcceptableContent){
+
+	zval *r0 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "HTTP_ACCEPT", 1);
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "accept", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getqualityheader", c0, c1, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Gets best mime/type accepted by the browser/client from $_SERVER['HTTP_ACCEPT']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Request, getBestAccept){
+
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD(r1, this_ptr, "getacceptablecontent", PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "accept", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getbestquality", r1, c0, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Gets charsets array and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']
  *
  * @return array
  */
 PHP_METHOD(Phalcon_Request, getClientCharsets){
 
-	zval *http_accept_charset = NULL, *accepted = NULL, *returned_accept = NULL;
-	zval *accept = NULL, *accept_parts = NULL, *quality = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *a0 = NULL, *a1 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	int eval_int;
+	zval *r0 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "HTTP_ACCEPT_CHARSET", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getserver", c0, PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(http_accept_charset, r0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	
 	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "/,\\s*/", 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "preg_split", c1, http_accept_charset, 0x048);
-	PHALCON_CPY_WRT(accepted, r1);
-	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	PHALCON_CPY_WRT(returned_accept, a0);
-	if (phalcon_valid_foreach(accepted TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(accepted);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_9aea_3:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_9aea_3;
-		}
-		
-		PHALCON_INIT_VAR(accept);
-		ZVAL_ZVAL(accept, *hd, 1, 0);
-		PHALCON_INIT_VAR(c2);
-		ZVAL_STRING(c2, ";", 1);
-		PHALCON_INIT_VAR(r2);
-		phalcon_fast_explode(r2, c2, accept TSRMLS_CC);
-		PHALCON_CPY_WRT(accept_parts, r2);
-		eval_int = phalcon_array_isset_long(accept_parts, 1);
-		if (eval_int) {
-			PHALCON_INIT_VAR(r3);
-			PHALCON_INIT_VAR(r4);
-			phalcon_array_fetch_long(&r4, accept_parts, 1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(c3);
-			ZVAL_LONG(c3, 2);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "substr", r4, c3, 0x002);
-			PHALCON_CPY_WRT(quality, r3);
-		} else {
-			PHALCON_INIT_VAR(quality);
-			ZVAL_DOUBLE(quality, 1);
-		}
-		
-		
-		PHALCON_INIT_VAR(a1);
-		array_init(a1);
-		
-		PHALCON_INIT_VAR(r5);
-		phalcon_array_fetch_long(&r5, accept_parts, 0, PHALCON_NOISY TSRMLS_CC);
-		phalcon_array_update_string(&a1, "accept", strlen("accept"), &r5, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_update_string(&a1, "quality", strlen("quality"), &quality, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_array_append(&returned_accept, a1, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_9aea_3;
-		fee_9aea_3:
-		if(0){}
-	} else {
-		return;
-	}
-	
-	PHALCON_RETURN_CTOR(returned_accept);
+	ZVAL_STRING(c1, "charset", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getqualityheader", c0, c1, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
 /**
- * Gets best charset accepted by the browser/client.
+ * Gets best charset accepted by the browser/client from $_SERVER['HTTP_ACCEPT_CHARSET']
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Request, getBestQualityCharset){
+PHP_METHOD(Phalcon_Request, getBestCharset){
 
-	zval *i = NULL, *selected_charset_quality = NULL, *selected_charset_name = NULL;
-	zval *charset = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
-	zval *t0 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(i);
-	ZVAL_LONG(i, 0);
-	
-	PHALCON_INIT_VAR(selected_charset_quality);
-	ZVAL_LONG(selected_charset_quality, 0);
-	
-	PHALCON_INIT_VAR(selected_charset_name);
-	ZVAL_STRING(selected_charset_name, "", 1);
-	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "getclientcharsets", PHALCON_NO_CHECK);
-	if (phalcon_valid_foreach(r0 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(r0);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_9aea_4:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_9aea_4;
-		}
-		
-		PHALCON_INIT_VAR(charset);
-		ZVAL_ZVAL(charset, *hd, 1, 0);
-		PHALCON_INIT_VAR(t0);
-		ZVAL_LONG(t0, 0);
-		PHALCON_INIT_VAR(r1);
-		is_equal_function(r1, i, t0 TSRMLS_CC);
-		if (zend_is_true(r1)) {
-			PHALCON_INIT_VAR(r2);
-			phalcon_array_fetch_string(&r2, charset, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(selected_charset_quality, r2);
-			
-			PHALCON_INIT_VAR(r3);
-			phalcon_array_fetch_string(&r3, charset, "accept", strlen("accept"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(selected_charset_name, r3);
-		} else {
-			PHALCON_INIT_VAR(r4);
-			phalcon_array_fetch_string(&r4, charset, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_INIT_VAR(r5);
-			is_smaller_function(r5, selected_charset_quality, r4 TSRMLS_CC);
-			if (zend_is_true(r5)) {
-				PHALCON_INIT_VAR(r6);
-				phalcon_array_fetch_string(&r6, charset, "quality", strlen("quality"), PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CPY_WRT(selected_charset_quality, r6);
-				
-				PHALCON_INIT_VAR(r7);
-				phalcon_array_fetch_string(&r7, charset, "accept", strlen("accept"), PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CPY_WRT(selected_charset_name, r7);
-			}
-		}
-		PHALCON_SEPARATE(i);
-		increment_function(i);
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_9aea_4;
-		fee_9aea_4:
-		if(0){}
-	} else {
-		return;
-	}
-	
-	PHALCON_RETURN_CHECK_CTOR(selected_charset_name);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD(r1, this_ptr, "getclientcharsets", PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "charset", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getbestquality", r1, c0, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Gets languages array and their quality accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Request, getLanguages){
+
+	zval *r0 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "HTTP_ACCEPT_LANGUAGE", 1);
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "language", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getqualityheader", c0, c1, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Gets best language accepted by the browser/client from $_SERVER['HTTP_ACCEPT_LANGUAGE']
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Request, getBestLanguage){
+
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD(r1, this_ptr, "getlanguages", PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "language", 1);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getbestquality", r1, c0, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
 }
 
