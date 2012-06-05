@@ -4604,9 +4604,9 @@ PHP_METHOD(Phalcon_Router_Rewrite, getParams){
 }
 
 /**
- * Phalcon_Router_Rewrite
+ * Phalcon_Router_Regex
  *
- * Phalcon_Router_Rewrite is the standard framework router. Routing is the
+ * Phalcon_Router_Regex is the standard framework router. Routing is the
  * process of taking a URI endpoint (that part of the URI which comes after the base URL) and
  * decomposing it into parameters to determine which module, controller, and
  * action of that controller should receive the request
@@ -9241,7 +9241,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 
 /**
  *
- * AclRole
+ * Phalcon_Acl_Role
  *
  * This class defines role entity and its description
  *
@@ -26629,16 +26629,18 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", value, 0x045);
-	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_tag_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Only scalar values can be assigned to UI components", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
+	if (zend_is_true(value)) {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", value, 0x045);
+		if (!zend_is_true(r0)) {
+			PHALCON_ALLOC_ZVAL_MM(i0);
+			object_init_ex(i0, phalcon_tag_exception_ce);
+			PHALCON_INIT_VAR(c0);
+			ZVAL_STRING(c0, "Only scalar values can be assigned to UI components", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
+			phalcon_throw_exception(i0 TSRMLS_CC);
+			return;
+		}
 	}
 	t0 = zend_read_static_property(phalcon_tag_ce, "_displayValues", sizeof("_displayValues")-1, PHALCON_FETCH_CLASS_SILENT);
 	if (Z_TYPE_P(t0) != IS_ARRAY) {
@@ -29088,6 +29090,7 @@ PHP_METHOD(Phalcon_Request, isPost){
 }
 
 /**
+ *
  * Checks whether HTTP method is GET
  *
  * @return boolean
