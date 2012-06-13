@@ -44,6 +44,8 @@
  * Phalcon_Flash
  *
  * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
+ *
+ *
  */
 
 PHP_METHOD(Phalcon_Flash, _showMessage){

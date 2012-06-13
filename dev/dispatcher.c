@@ -303,19 +303,19 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
  */
 PHP_METHOD(Phalcon_Dispatcher, setParam){
 
-	zval *index = NULL, *value = NULL;
+	zval *param = NULL, *value = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &param, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
-	phalcon_array_update(&t0, index, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update(&t0, param, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), t0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -329,14 +329,14 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
-	zval *index = NULL, *params = NULL;
+	zval *param = NULL, *params = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &param) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -344,10 +344,10 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(params, t0);
-	eval_int = phalcon_array_isset(params, index);
+	eval_int = phalcon_array_isset(params, param);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, params, index, PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch(&r0, params, param, PHALCON_NOISY TSRMLS_CC);
 		
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	}

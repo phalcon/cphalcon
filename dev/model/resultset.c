@@ -56,7 +56,7 @@
  * Phalcon_Model_Resultset constructor
  *
  * @param Phalcon_Model_Base $model
- * @param Phalcon_Model_Result_Mysql|Phalcon_Model_Result_Postgresql $result
+ * @param Phalcon_Model_Result $result
  */
 PHP_METHOD(Phalcon_Model_Resultset, __construct){
 
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 /**
  * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
- * @param int $index
+ * @param int $offset
  */
 PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Model_Resultset, isFresh){
 /**
  * Serializing a resultset will dump all related rows into a big array
  *
- * @param int $index
+ * @return string
  */
 PHP_METHOD(Phalcon_Model_Resultset, serialize){
 
@@ -557,7 +557,7 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
 /**
  * Unserializing a resultset will allow to only works on the rows present in the saved state
  *
- * @param int $index
+ * @param string $data
  */
 PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 

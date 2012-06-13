@@ -41,10 +41,16 @@
 #include "Zend/zend_interfaces.h"
 
 /**
+ * Phalcon_Model_Validator
+ *
+ * This is the base class for all the Phalcon_Model buit-in validators 
+ */
+
+/**
  * Phalcon_Model_Validator constructor
  *
  * @param Phalcon_Model_Base $record
- * @param string $field
+ * @param string $fieldName
  * @param string $value
  * @param array $options
  */
@@ -323,8 +329,7 @@ PHP_METHOD(Phalcon_Model_Validator, getValue){
 
 /**
  * Devuelve el nombre del campo validado
- *
- * @access protected
+ * 
  * @return string
  */
 PHP_METHOD(Phalcon_Model_Validator, getFieldName){
@@ -341,7 +346,7 @@ PHP_METHOD(Phalcon_Model_Validator, getFieldName){
 /**
  * Returns Phalcon_Model_Base related record
  *
- * @return ActiveRecord
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Validator, getRecord){
 

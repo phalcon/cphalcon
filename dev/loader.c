@@ -66,9 +66,9 @@ PHP_METHOD(Phalcon_Loader, __construct){
 }
 
 /**
- * Register namespaces and its related directories
+ * Register namespaces and their related directories
  *
- * @param array $directories
+ * @param array $namespaces
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces){
 
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 }
 
 /**
- * Register directories on which not found classes could be found
+ * Register directories on which "not found" classes could be found
  *
  * @param array $directories
  */
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 }
 
 /**
- * Register classes
+ * Register classes and their locations
  *
  * @param array $directories
  */

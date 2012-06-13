@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Filter, sanitizeAndFilter){
  * Internal sanizite wrapper to filter_var
  *
  * @param  mixed $value
- * @param  mixed $filters
+ * @param  string $filter
  * @param  boolean $silent
  * @return mixed
  */
@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
  * Internal filter function
  *
  * @param mixed $value
- * @param array $filters
+ * @param  string $filter
  * @param  boolean $silent
  * @return mixed
  */

@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
  *
  * @param string $modelName
  * @param array $data
- * @return Phalcon_Model_Query $query
+ * @return Phalcon_Model_Query
  */
 PHP_METHOD(Phalcon_Model_Query, fromInput){
 

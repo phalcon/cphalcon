@@ -49,7 +49,7 @@
 /**
  * Generates the SQL for a MySQL LIMIT clause
  *
- * @param string $errorString
+ * @param string $sqlQuery
  * @param int $number
  * @return string
  */
@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param string $column
+ * @param string $columnName
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn){
@@ -728,6 +728,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey){
 	PHALCON_RETURN_CTOR(sql);
 }
 
+/**
+ * Generates SQL to add the table creation options
+ *
+ * @param array $definition
+ * @return array
+ */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 
 	zval *definition = NULL, *table_options = NULL, *engine = NULL, *auto_increment = NULL;
@@ -1156,8 +1162,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
  *
  * 
  *
- * @param string $tableName
- * @param string $schemaName
+ * @param string $table
+ * @param string $schema
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeTable){

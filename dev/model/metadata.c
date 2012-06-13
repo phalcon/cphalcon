@@ -655,7 +655,7 @@ PHP_METHOD(Phalcon_Model_MetaData, isEmpty){
 }
 
 /**
- * Resets internal meta-data to regenerate it
+ * Resets internal meta-data in order to regenerate it
  */
 PHP_METHOD(Phalcon_Model_MetaData, reset){
 

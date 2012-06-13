@@ -44,8 +44,15 @@
  * Phalcon_Request_File
  *
  * Provides OO wrappers to the $_FILES superglobal
+ *
+ *
  */
 
+/**
+ * Phalcon_Request_File constructor
+ *
+ * @param array $file
+ */
 PHP_METHOD(Phalcon_Request_File, __construct){
 
 	zval *file = NULL;
@@ -59,12 +66,17 @@ PHP_METHOD(Phalcon_Request_File, __construct){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(file) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_request_exception_ce, "Phalcon_Request_File requires a valid uploaded file");
+		return;
+	}
 	eval_int = phalcon_array_isset_string(file, "name", strlen("name")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch_string(&r0, file, "name", strlen("name"), PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), r0 TSRMLS_CC);
 	}
+	
 	eval_int = phalcon_array_isset_string(file, "tmp_name", strlen("tmp_name")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -82,6 +94,11 @@ PHP_METHOD(Phalcon_Request_File, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the file size of the uploaded file
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Request_File, getSize){
 
 	zval *t0 = NULL;
@@ -93,6 +110,11 @@ PHP_METHOD(Phalcon_Request_File, getSize){
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
+/**
+ * Returns the real name of the uploaded file
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request_File, getName){
 
 	zval *t0 = NULL;
@@ -104,6 +126,11 @@ PHP_METHOD(Phalcon_Request_File, getName){
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
+/**
+ * Returns the temporal name of the uploaded file
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request_File, getTempName){
 
 	zval *t0 = NULL;

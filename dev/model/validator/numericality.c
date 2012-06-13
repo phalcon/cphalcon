@@ -43,6 +43,8 @@
 /**
  * Phalcon_Model_Validator_Numericality
  *
+ * Allows to validate if a field has a valid numeric format
+ *
  *
  */
 

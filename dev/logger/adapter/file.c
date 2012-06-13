@@ -45,6 +45,7 @@
  *
  * Adapter to store logs in plain text files
  *
+ *
  */
 
 /**
@@ -276,6 +277,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
  * Applies the internal format to the message
  *
  * @param  string $message
+ * @param  int $type
+ * @param  int $time
  * @return string
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
@@ -445,7 +448,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 }
 
 /**
-  * Starts a transaccion
+  * Starts a transaction
   *
   */
 PHP_METHOD(Phalcon_Logger_Adapter_File, begin){
@@ -562,7 +565,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 }
 
 /**
- * Opens the internal file handler on unserialization
+ * Opens the internal file handler after unserialization
  *
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){

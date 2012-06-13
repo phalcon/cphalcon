@@ -737,7 +737,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, getColumnList){
  *
  * 
  *
- * @param string $errorString
+ * @param string $sqlQuery
  * @param int $number
  * @return string
  */
@@ -808,7 +808,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, tableExists){
  *
  * 
  *
- * @param string $tableName
+ * @param string $viewName
  * @param string $schemaName
  * @return string
  */
@@ -1264,8 +1264,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, getColumnDefinition){
  *
  * 
  *
- * @param string $tableName
- * @param string $schemaName
+ * @param string $table
+ * @param string $schema
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeTable){

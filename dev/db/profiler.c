@@ -48,6 +48,8 @@
  * information includes execution time in miliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
+ *
+ *
  */
 
 PHP_METHOD(Phalcon_Db_Profiler, __construct){
@@ -202,7 +204,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds){
 /**
  * Returns all the processed profiles
  *
- * @return array
+ * @return Phalcon_Db_Profiler_Item[]
  */
 PHP_METHOD(Phalcon_Db_Profiler, getProfiles){
 

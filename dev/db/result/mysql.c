@@ -122,6 +122,7 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, numRows){
  *
  * 
  *
+ * @param int $number
  * @return int
  */
 PHP_METHOD(Phalcon_Db_Result_Mysql, dataSeek){

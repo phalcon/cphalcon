@@ -51,8 +51,8 @@
 /**
  * Phalcon_Db_Reference constructor
  *
- * @param string $indexName
- * @param array $columns
+ * @param string $referenceName
+ * @param array $definition
  */
 PHP_METHOD(Phalcon_Db_Reference, __construct){
 

@@ -59,7 +59,7 @@
  */
 PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL;
+	zval *options = NULL, *adapter_options = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	int eval_int;
 
@@ -70,16 +70,24 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_isset_property(options, "sufix", strlen("sufix") TSRMLS_CC);
+	PHALCON_SEPARATE_PARAM(options);
+	
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		PHALCON_SEPARATE_PARAM(options);
+		convert_to_array(options);
+		PHALCON_CPY_WRT(adapter_options, options);
+	}
+	eval_int = phalcon_isset_property(adapter_options, "suffix", strlen("suffix") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, options, "sufix", sizeof("sufix")-1, PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_sufix", strlen("_sufix"), t0 TSRMLS_CC);
+		phalcon_read_property(&t0, adapter_options, "suffix", sizeof("suffix")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, "_suffix", strlen("_suffix"), t0 TSRMLS_CC);
 	}
-	eval_int = phalcon_isset_property(options, "lifetime", strlen("lifetime") TSRMLS_CC);
+	
+	eval_int = phalcon_isset_property(adapter_options, "lifetime", strlen("lifetime") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, options, "lifetime", sizeof("lifetime")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, adapter_options, "lifetime", sizeof("lifetime")-1, PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_ttl", strlen("_ttl"), t1 TSRMLS_CC);
 	}
 	
@@ -101,7 +109,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, read){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_sufix", sizeof("_sufix")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_suffix", sizeof("_suffix")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
 	PHALCON_CPY_WRT(key, r0);
 	
@@ -139,7 +147,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, write){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_sufix", sizeof("_sufix")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, "_suffix", sizeof("_suffix")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_ttl", sizeof("_ttl")-1, PHALCON_NOISY TSRMLS_CC);

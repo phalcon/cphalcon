@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 			return;
 		}
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "You must specify the cache directory with the option cachesDir");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "You must specify the cache directory with the option cacheDir");
 		return;
 	}
 	
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 /**
  * Starts a cache. The $keyname allow to identify the created fragment
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, start){
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, start){
 /**
  * Returns a cached content
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param   long $lifetime
  * @return  mixed
  */
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 /**
  * Stores cached content into the file backend
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param string $content
  * @param long $lifetime
  * @param boolean $stopBuffer
@@ -327,6 +327,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 /**
  * Deletes a value from the cache by its key
  *
+ * @param int|string $keyName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, delete){

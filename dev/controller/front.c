@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Controller_Front, getBasePath){
 /**
  * Overwrites request object default object
  *
- * @param Phalcon_Request $response
+ * @param Phalcon_Request $request
  */
 PHP_METHOD(Phalcon_Controller_Front, setRequest){
 

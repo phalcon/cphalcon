@@ -1579,7 +1579,7 @@ PHP_METHOD(Phalcon_Model_Base, _getGroupResult){
  *
  * 
  *
- * @param array $params
+ * @param array $parameters
  * @return int
  */
 PHP_METHOD(Phalcon_Model_Base, count){
@@ -1614,7 +1614,7 @@ PHP_METHOD(Phalcon_Model_Base, count){
  *
  * 
  *
- * @param array $params
+ * @param array $parameters
  * @return double
  */
 PHP_METHOD(Phalcon_Model_Base, sum){
@@ -1649,7 +1649,7 @@ PHP_METHOD(Phalcon_Model_Base, sum){
  *
  * 
  *
- * @param array $params
+ * @param array $parameters
  * @return mixed
  */
 PHP_METHOD(Phalcon_Model_Base, maximum){
@@ -1684,7 +1684,7 @@ PHP_METHOD(Phalcon_Model_Base, maximum){
  *
  * 
  *
- * @param array $params
+ * @param array $parameters
  * @return mixed
  */
 PHP_METHOD(Phalcon_Model_Base, minimum){
@@ -1719,7 +1719,7 @@ PHP_METHOD(Phalcon_Model_Base, minimum){
  *
  * 
  *
- * @param array $params
+ * @param array $parameters
  * @return double
  */
 PHP_METHOD(Phalcon_Model_Base, average){
@@ -1749,6 +1749,12 @@ PHP_METHOD(Phalcon_Model_Base, average){
 	PHALCON_RETURN_DZVAL(r0);
 }
 
+/**
+ * Fires an internal event
+ *
+ * @param string $eventName
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, _callEvent){
 
 	zval *event_name = NULL;
@@ -2055,6 +2061,11 @@ PHP_METHOD(Phalcon_Model_Base, getMessages){
 	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
+/**
+ * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 
 	zval *manager = NULL, *belongs_to = NULL, *error = NULL, *relation = NULL, *options = NULL;
@@ -2269,6 +2280,11 @@ PHP_METHOD(Phalcon_Model_Base, _checkForeignKeys){
 	RETURN_TRUE;
 }
 
+/**
+ * Reads both "hasMany" and "hasOne" relations and check the virtual foreign keys when deleting records
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Model_Base, _checkForeignKeysReverse){
 
 	zval *manager = NULL, *relations = NULL, *error = NULL, *relation = NULL, *options = NULL;

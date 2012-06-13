@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, __construct){
 /**
  * Starts a cache. The $keyname allow to identify the created fragment
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, start){
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, start){
 /**
  * Returns a cached content
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param   long $lifetime
  * @return  mixed
  */
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 /**
  * Stores cached content into the file backend
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param string $content
  * @param long $lifetime
  * @param boolean $stopBuffer
@@ -268,6 +268,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 /**
  * Deletes a value from the cache by its key
  *
+ * @param string|int $keyName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, delete){

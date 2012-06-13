@@ -43,7 +43,7 @@
 /**
  * Phalcon_Model_Validator_Regex
  *
- * Validate that the value of a field matches a regular expression
+ * Allows to validate if the value of a field matches a regular expression
  *
  *
  *
@@ -78,13 +78,16 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
  */
 PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 
-	zval *matches = NULL, *value = NULL, *field_name = NULL, *failed = NULL;
+	zval *matches = NULL, *failed = NULL, *value = NULL, *field_name = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(matches);
 	ZVAL_NULL(matches);
+	
+	PHALCON_INIT_VAR(failed);
+	ZVAL_BOOL(failed, 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "getvalue", PHALCON_NO_CHECK);
@@ -93,9 +96,6 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD(r1, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(field_name, r1);
-	
-	PHALCON_INIT_VAR(failed);
-	ZVAL_BOOL(failed, 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	

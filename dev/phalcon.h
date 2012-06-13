@@ -57,6 +57,7 @@ extern zend_class_entry *phalcon_internal_testparent_ce;
 extern zend_class_entry *phalcon_internal_testtemp_ce;
 extern zend_class_entry *phalcon_internal_testdummy_ce;
 extern zend_class_entry *phalcon_controller_ce;
+extern zend_class_entry *phalcon_request_exception_ce;
 extern zend_class_entry *phalcon_request_file_ce;
 extern zend_class_entry *phalcon_paginator_ce;
 extern zend_class_entry *phalcon_utils_ce;
@@ -561,6 +562,8 @@ PHP_METHOD(Phalcon_Controller, _forward);
 PHP_METHOD(Phalcon_Controller, _getParam);
 PHP_METHOD(Phalcon_Controller, _setParam);
 PHP_METHOD(Phalcon_Controller, __get);
+
+PHP_METHOD(Phalcon_Request_Exception, __construct);
 
 PHP_METHOD(Phalcon_Request_File, __construct);
 PHP_METHOD(Phalcon_Request_File, getSize);
@@ -1912,6 +1915,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_controller___get, 0, 0, 1)
 	ZEND_ARG_INFO(0, propertyName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request_exception___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
 ZEND_END_ARG_INFO()
@@ -1966,12 +1973,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setparams, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setparam, 0, 0, 2)
-	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, param)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_getparam, 0, 0, 1)
-	ZEND_ARG_INFO(0, index)
+	ZEND_ARG_INFO(0, param)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_dispatch, 0, 0, 2)
@@ -3806,6 +3813,11 @@ PHALCON_INIT_FUNCS(phalcon_controller_functions){
 	PHP_ME(Phalcon_Controller, _getParam, arginfo_phalcon_controller__getparam, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Controller, _setParam, arginfo_phalcon_controller__setparam, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Controller, __get, arginfo_phalcon_controller___get, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_request_exception_functions){
+	PHP_ME(Phalcon_Request_Exception, __construct, arginfo_phalcon_request_exception___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_FE_END
 };
 

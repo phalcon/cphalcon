@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
  *
  * 
  *
- * @param string $attribute
+ * @param string $property
  * @return mixed
  */
 PHP_METHOD(Phalcon_Model_Row, readAttribute){

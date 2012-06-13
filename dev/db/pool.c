@@ -44,7 +44,7 @@
  * Phalcon_Db_Pool
  *
  * Manages the caching of database connections. With the help of Phalcon_Db_Pool, developers can be
- * sure that no new database connections will made when calling multiple of times Phalcon_Db_Pool::getConnection().
+ * sure that no new database connections will make when calling multiple of times Phalcon_Db_Pool::getConnection().
  *
  *
  */

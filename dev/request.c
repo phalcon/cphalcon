@@ -79,6 +79,8 @@ PHP_METHOD(Phalcon_Request, getInstance){
 
 /**
  * Overwrites Phalcon_Filter object used to sanitize input data
+     *
+ *
  *
  * @param Phalcon_Filter $filter
  */
@@ -100,6 +102,8 @@ PHP_METHOD(Phalcon_Request, setFilter){
 
 /**
  * Returns the active filter object used to sanitize input data
+ *
+ *
  *
  * @return Phalcon_Filter
  */
@@ -126,6 +130,8 @@ PHP_METHOD(Phalcon_Request, getFilter){
 
 /**
  * Gets variable from $_POST superglobal applying filters if needed
+ *
+ *
  *
  * @param string $name
  * @param string|array $filters
@@ -174,6 +180,8 @@ PHP_METHOD(Phalcon_Request, getPost){
 
 /**
  * Gets variable from $_GET superglobal applying filters if needed
+     *
+ *
  *
  * @param string $name
  * @param string|array $filters
@@ -636,7 +644,7 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 }
 
 /**
- * Gets most possibly client IPv4 Address
+ * Gets most possibly client IPv4 Address. This methods search in $_SERVER['HTTP_X_FORWARDED_FOR'] and $_SERVER['REMOTE_ADDR']
  *
  * @return string
  */
@@ -718,7 +726,7 @@ PHP_METHOD(Phalcon_Request, getUserAgent){
 }
 
 /**
- * Checks whether HTTP method is POST
+ * Checks whether HTTP method is POST. if $_SERVER['REQUEST_METHOD']=='POST'
  *
  * @return boolean
  */
@@ -740,7 +748,7 @@ PHP_METHOD(Phalcon_Request, isPost){
 
 /**
  *
- * Checks whether HTTP method is GET
+ * Checks whether HTTP method is GET. if $_SERVER['REQUEST_METHOD']=='GET'
  *
  * @return boolean
  */
@@ -761,7 +769,7 @@ PHP_METHOD(Phalcon_Request, isGet){
 }
 
 /**
- * Checks whether HTTP method is PUT
+ * Checks whether HTTP method is PUT. if $_SERVER['REQUEST_METHOD']=='PUT'
  *
  * @return boolean
  */
@@ -782,7 +790,7 @@ PHP_METHOD(Phalcon_Request, isPut){
 }
 
 /**
- * Checks whether HTTP method is HEAD
+ * Checks whether HTTP method is HEAD. if $_SERVER['REQUEST_METHOD']=='HEAD'
  *
  * @return boolean
  */
@@ -803,7 +811,7 @@ PHP_METHOD(Phalcon_Request, isHead){
 }
 
 /**
- * Checks whether HTTP method is DELETE
+ * Checks whether HTTP method is DELETE. if $_SERVER['REQUEST_METHOD']=='DELETE'
  *
  * @return boolean
  */
@@ -824,7 +832,7 @@ PHP_METHOD(Phalcon_Request, isDelete){
 }
 
 /**
- * Checks whether HTTP method is OPTIONS
+ * Checks whether HTTP method is OPTIONS. if $_SERVER['REQUEST_METHOD']=='OPTIONS'
  *
  * @return boolean
  */
@@ -874,7 +882,7 @@ PHP_METHOD(Phalcon_Request, hasFiles){
 /**
  * Gets attached files as Phalcon_Request_File instances
  *
- * @return array
+ * @return Phalcon_Request_File[]
  */
 PHP_METHOD(Phalcon_Request, getUploadedFiles){
 
@@ -952,6 +960,13 @@ PHP_METHOD(Phalcon_Request, getHTTPReferer){
 	RETURN_STRING("", 1);
 }
 
+/**
+ * Process a request header and return an array of values with their qualities
+ *
+ * @param string $serverIndex
+ * @param string $name
+ * @return array
+ */
 PHP_METHOD(Phalcon_Request, _getQualityHeader){
 
 	zval *server_index = NULL, *name = NULL, *http_server = NULL, *parts = NULL;
@@ -1033,6 +1048,13 @@ PHP_METHOD(Phalcon_Request, _getQualityHeader){
 	PHALCON_RETURN_CTOR(returned_parts);
 }
 
+/**
+ * Process a request header and return the one with best quality
+ *
+ * @param array $qualityParts
+ * @param string $name
+ * @return string
+ */
 PHP_METHOD(Phalcon_Request, _getBestQuality){
 
 	zval *quality_parts = NULL, *name = NULL, *i = NULL, *quality = NULL, *selected_name = NULL;

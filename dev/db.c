@@ -44,13 +44,13 @@
  * Phalcon_Db
  *
  * Phalcon_Db and its related classes provide a simple SQL database interface for Phalcon Framework.
- * The Phalcon_Db is the basic class you use to connect your PHP application to a RDBMS.
+ * The Phalcon_Db is the basic class you use to connect your PHP application to an RDBMS.
  * There is a different adapter class for each brand of RDBMS.
  *
- * This component is intended to low level database operations. If you want to interact with databases using
+ * This component is intended to lower level database operations. If you want to interact with databases using
  * high level abstraction use Phalcon_Model.
  *
- * Phalcon_Db is an abstract class. You only can use it with a database adapter like Phalcon_Db_Mysql
+ * Phalcon_Db is an abstract class. You only can use it with a database adapter like Phalcon_Db_Adapter_Mysql
  *
  * 
  */
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
  *
  * 
  *
- * @param string $tables
+ * @param string $table
  * @param array $values
  * @param array $fields
  * @param boolean $automaticQuotes
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Db, insert){
  *
  * 
  *
- * @param string $tables
+ * @param string $table
  * @param array $fields
  * @param array $values
  * @param string $whereCondition
@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Db, update){
  *
  * 
  *
- * @param string $tables
+ * @param string $table
  * @param string $whereCondition
  * @return boolean
  */

@@ -118,6 +118,8 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 
 /**
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
+ *
+ * @param string $basePath
  */
 PHP_METHOD(Phalcon_Model_Manager, setBasePath){
 

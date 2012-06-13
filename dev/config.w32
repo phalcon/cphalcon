@@ -20,7 +20,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/paginator/adapter", "array.c model.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "exception.c select.c", "phalcon")
   ADD_SOURCES("ext/phalcon/internal", "test.c testparent.c testtemp.c testdummy.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/request", "file.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/request", "exception.c file.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db", "pool.c profiler.c exception.c reference.c rawvalue.c column.c index.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/adapter", "mysql.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/profiler", "item.c", "phalcon")

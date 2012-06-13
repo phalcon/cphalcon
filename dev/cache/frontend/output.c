@@ -173,6 +173,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Prepare data to be stored
+ *
+ * @param mixed $data
+ */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
 	zval *data = NULL;
@@ -190,6 +195,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
 /**
  * Prepares data to be retrieved to user
+ *
+ * @param mixed $data
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 

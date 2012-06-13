@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 /**
  * Starts a cache. The $keyname allow to identify the created fragment
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, start){
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, start){
 /**
  * Returns a cached content
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param   long $lifetime
  * @return  mixed
  */
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 /**
  * Stores cached content into the file backend
  *
- * @param string $keyName
+ * @param int|string $keyName
  * @param string $content
  * @param long $lifetime
  * @param boolean $stopBuffer
@@ -380,6 +380,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 /**
  * Deletes a value from the cache by its key
  *
+ * @param int|string $keyName
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){

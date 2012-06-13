@@ -43,7 +43,9 @@
 /**
  * Phalcon_Model_Validator_Email
  *
- * Let to validate that email fields has correct values
+ * Allows to validate if email fields has correct values
+ *
+ *
  *
  */
 

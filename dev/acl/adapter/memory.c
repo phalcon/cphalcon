@@ -92,6 +92,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
 /**
  * Sets the default access level (Phalcon_Acl::ALLOW or Phalcon_Acl::DENY)
+ *
+ * @param int $defaultAccess
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction){
 

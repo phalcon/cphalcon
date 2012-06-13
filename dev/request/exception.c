@@ -41,118 +41,30 @@
 #include "Zend/zend_interfaces.h"
 
 /**
- * Phalcon_Cache_Frontend_None
+ * Phalcon_Request_Exception
  *
- * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
+ * Exceptions thrown in Phalcon_Request will use this class
  *
  */
 
 /**
- * Phalcon_Cache_Frontend_None constructor
+ * Phalcon_Request_Exception constructor
+ *
+ * @param string $message
  */
-PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
+PHP_METHOD(Phalcon_Request_Exception, __construct){
 
-	zval *frontend_options = NULL;
+	zval *message = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &frontend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon_Request_Exception", "__construct", message);
 	
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns cache lifetime, always one second expiring content
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
-
-
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_LONG(1);
-}
-
-/**
- * Check whether if frontend is buffering output, always false
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
-
-
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
-}
-
-/**
- * Starts output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, start){
-
-
-	
-}
-
-/**
- * Returns output cached content
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, getContent){
-
-
-	
-}
-
-/**
- * Stops output frontend
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, stop){
-
-
-	
-}
-
-/**
- * Prepare data to be stored
- *
- * @param mixed $data
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
-
-	zval *data = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	
-	PHALCON_RETURN_CHECK_CTOR(data);
-}
-
-/**
- * Prepares data to be retrieved to user
- *
- * @param mixed $data
- */
-PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
-
-	zval *data = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	
-	PHALCON_RETURN_CHECK_CTOR(data);
 }
 
