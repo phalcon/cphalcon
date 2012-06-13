@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -55,8 +56,7 @@
 PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
 
 	zval *r0 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
-	zval *i0 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -64,12 +64,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
 	ZVAL_STRING(c0, "pattern", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c0, PHALCON_NO_CHECK);
 	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_model_exception_ce);
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "Validator requires a perl-compatible regex pattern", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c1, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Validator requires a perl-compatible regex pattern");
 		return;
 	}
 	
@@ -128,7 +123,7 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	
 	if (!zend_is_true(failed)) {
 		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CONCAT_BOTH(r6,  "Value of field '", field_name, "' doesn't match regular expression");
+		PHALCON_CONCAT_SVS(r6, "Value of field '", field_name, "' doesn't match regular expression");
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, "regex", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r6, field_name, c1, PHALCON_NO_CHECK);

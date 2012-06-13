@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -88,7 +89,7 @@ PHP_METHOD(Phalcon_Model_Validator_Email, validate){
 			is_not_equal_function(r6, r4, r5 TSRMLS_CC);
 			if (zend_is_true(r6)) {
 				PHALCON_ALLOC_ZVAL_MM(r7);
-				PHALCON_CONCAT_BOTH(r7,  "Value of field '", field_name, "' should be a valid e-mail");
+				PHALCON_CONCAT_SVS(r7, "Value of field '", field_name, "' should be a valid e-mail");
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, "email", 1);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r7, field_name, c1, PHALCON_NO_CHECK);
@@ -97,7 +98,7 @@ PHP_METHOD(Phalcon_Model_Validator_Email, validate){
 			}
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r8);
-			PHALCON_CONCAT_BOTH(r8,  "Value of field '", field_name, "' should be a valid e-mail");
+			PHALCON_CONCAT_SVS(r8, "Value of field '", field_name, "' should be a valid e-mail");
 			PHALCON_INIT_VAR(c2);
 			ZVAL_STRING(c2, "email", 1);
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r8, field_name, c2, PHALCON_NO_CHECK);

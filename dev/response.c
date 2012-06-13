@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -82,7 +83,7 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 
 	zval *code = NULL, *message = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	int eval_int;
 
@@ -96,23 +97,18 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 	phalcon_get_global(&g0, "_SERVER", sizeof("_SERVER") TSRMLS_CC);
 	eval_int = phalcon_array_isset_string(g0, "SERVER_SOFTWARE", strlen("SERVER_SOFTWARE")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_LEFT(r1, "HTTP/1.1 ", code);
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_VBOTH(r0, r1, " ", message);
+		PHALCON_CONCAT_SVSV(r0, "HTTP/1.1 ", code, " ", message);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
 		
-		PHALCON_ALLOC_ZVAL_MM(r3);
-		PHALCON_CONCAT_LEFT(r3, "Status: ", code);
-		
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_VBOTH(r2, r3, " ", message);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVSV(r1, "Status: ", code, " ", message);
 		
 		PHALCON_INIT_VAR(c1);
 		ZVAL_BOOL(c1, 1);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r2, c1, 0x046);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r1, c1, 0x046);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -145,7 +141,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
 	eval_int = phalcon_array_isset_string(g0, "SERVER_SOFTWARE", strlen("SERVER_SOFTWARE")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_VBOTH(r0, name, ": ", value);
+		PHALCON_CONCAT_VSV(r0, name, ": ", value);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, c0, 0x046);
@@ -174,6 +170,47 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
 	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, c0, 0x046);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ *  Redirect by HTTP to another action or URL
+ *
+ *
+ *
+ * @param string $location
+ * @param boolean $full
+ */
+PHP_METHOD(Phalcon_Response, redirect){
+
+	zval *location = NULL, *full = NULL, *header = NULL;
+	zval *r0 = NULL;
+	zval *c0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &location, &full) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!full) {
+		PHALCON_INIT_VAR(full);
+		ZVAL_BOOL(full, 0);
+	}
+	
+	if (zend_is_true(full)) {
+		PHALCON_CPY_WRT(header, location);
+	} else {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_utils", "geturl", location);
+		PHALCON_CPY_WRT(header, r0);
+	}
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "Location", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c0, header, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -245,7 +282,7 @@ PHP_METHOD(Phalcon_Response, getContent){
 }
 
 /**
- * Sends HTTP response to the client
+ * Prints out HTTP response to the client
  *
  */
 PHP_METHOD(Phalcon_Response, send){
@@ -256,6 +293,21 @@ PHP_METHOD(Phalcon_Response, send){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_content", sizeof("_content")-1, PHALCON_NOISY TSRMLS_CC);
 	zend_print_zval(t0, 1);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Resets the internal singleton
+ */
+PHP_METHOD(Phalcon_Response, reset){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(t0);
+	ZVAL_NULL(t0);
+	zend_update_static_property(phalcon_response_ce, "_instance", sizeof("_instance")-1, t0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

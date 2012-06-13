@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -43,8 +44,16 @@
  * Phalcon_Model_MetaData_Memory
  *
  * Stores model meta-data in memory. Data will be erased when the request finishes
+ *
+ * 
+ *
  */
 
+/**
+ * Reads the meta-data from temporal memory
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Model_MetaData_Memory, read){
 
 	zval *a0 = NULL;
@@ -56,6 +65,11 @@ PHP_METHOD(Phalcon_Model_MetaData_Memory, read){
 	PHALCON_RETURN_CTOR(a0);
 }
 
+/**
+ * Writes the meta-data to temporal memory
+ *
+ * @param array $data
+ */
 PHP_METHOD(Phalcon_Model_MetaData_Memory, write){
 
 

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -119,9 +120,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL, *r19 = NULL, *r20 = NULL;
 	zval *r21 = NULL, *r22 = NULL, *r23 = NULL, *r24 = NULL, *r25 = NULL, *r26 = NULL, *r27 = NULL;
 	zval *r28 = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *i0 = NULL;
 	zval *a0 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
@@ -174,12 +175,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_CALL_FUNC_PARAMS_1(r4, "ceil", r6, 0x01C);
 	PHALCON_CPY_WRT(total_pages, r4);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_paginator_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Invalid data for paginator", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
 	}
 	
@@ -194,12 +190,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	PHALCON_INIT_VAR(r7);
 	is_smaller_function(r7, start, t5 TSRMLS_CC);
 	if (zend_is_true(r7)) {
-		PHALCON_ALLOC_ZVAL_MM(i2);
-		object_init_ex(i2, phalcon_paginator_exception_ce);
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "The start page number is zero or less", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", c1, PHALCON_CHECK);
-		phalcon_throw_exception(i2 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The start page number is zero or less");
 		return;
 	}
 	
@@ -218,9 +209,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		if (zend_is_true(r9)) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", start, PHALCON_NO_CHECK);
 		} else {
-			PHALCON_INIT_VAR(c2);
-			ZVAL_LONG(c2, 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", c2, PHALCON_NO_CHECK);
+			PHALCON_INIT_VAR(c0);
+			ZVAL_LONG(c0, 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", c0, PHALCON_NO_CHECK);
 			
 			PHALCON_INIT_VAR(page_number);
 			ZVAL_LONG(page_number, 1);

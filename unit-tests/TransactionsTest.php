@@ -22,15 +22,9 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 
 	public function testTransactions(){
 
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
+		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$manager = new Phalcon_Model_Manager();
@@ -48,9 +42,9 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 		try {
 
 			$transaction1 = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction1);			
+			$this->assertInstanceOf('Phalcon_Transaction', $transaction1);
 
-			$this->assertNotEquals((string) $transaction1->getConnection()->getConnectionId(), (string) $connection->getConnectionId());
+			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
 
 			$p = 100;
 			for($i=0;$i<10;$i++){
@@ -69,10 +63,10 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$transaction1->rollback();
 
 			$this->assertTrue(FALSE, 'oh, Why?');
-			
+
 		}
 		catch(Phalcon_Transaction_Failed $e){
-			
+
 		}
 
 		$rollbackNumPersonas = Personas::count();
@@ -81,10 +75,10 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 		try {
 
 			$transaction2 = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction2);			
+			$this->assertInstanceOf('Phalcon_Transaction', $transaction2);
 
-			$this->assertNotEquals((string) $transaction2->getConnection()->getConnectionId(), (string) $connection->getConnectionId());
-			$this->assertNotEquals((string) $transaction1->getConnection()->getConnectionId(), (string) $transaction2->getConnection()->getConnectionId());
+			$this->assertNotEquals($transaction2->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
+			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $transaction2->getConnection()->getConnectionId(true));
 
 			$p = 200;
 			for($i=0;$i<15;$i++){
@@ -103,7 +97,7 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$transaction2->commit();
 
 			$commitNumPersonas = Personas::count();
-			$this->assertEquals($commitNumPersonas, $numPersonas+15);				
+			$this->assertEquals($commitNumPersonas, $numPersonas+15);
 
 		}
 		catch(Phalcon_Transaction_Failed $e){

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -90,7 +91,7 @@ PHP_METHOD(Phalcon_Router_Rewrite, _getRewriteUri){
 		if (zend_is_true(prefix)) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CONCAT_BOTH(r2,  "~^", prefix, "~");
+			PHALCON_CONCAT_SVS(r2, "~^", prefix, "~");
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "", 1);
 			PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_replace", r2, c0, uri, 0x007);
@@ -146,7 +147,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 	}
 
 	if (!uri) {
-		
 		PHALCON_INIT_VAR(uri);
 		ZVAL_NULL(uri);
 	} else {
@@ -197,7 +197,6 @@ PHP_METHOD(Phalcon_Router_Rewrite, handle){
 		} else {
 			phalcon_update_property_null(this_ptr, "_action", strlen("_action") TSRMLS_CC);
 		}
-		
 		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);

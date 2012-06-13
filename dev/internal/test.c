@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -328,7 +329,6 @@ PHP_METHOD(Phalcon_Internal_Test, o1){
 	}
 
 	if (!num) {
-		
 		PHALCON_INIT_VAR(num);
 		ZVAL_LONG(num, 0);
 	} else {
@@ -377,7 +377,6 @@ PHP_METHOD(Phalcon_Internal_Test, o3){
 	}
 
 	if (!num) {
-		
 		PHALCON_INIT_VAR(num);
 		ZVAL_LONG(num, 1);
 	}
@@ -718,7 +717,7 @@ PHP_METHOD(Phalcon_Internal_Test, o20){
 PHP_METHOD(Phalcon_Internal_Test, o21){
 
 	zval *a = NULL, *b = NULL, *c = NULL, *d = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a);
@@ -728,19 +727,16 @@ PHP_METHOD(Phalcon_Internal_Test, o21){
 	ZVAL_STRING(b, "yes", 1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "no, ", a);
+	PHALCON_CONCAT_SV(r0, "no, ", a);
 	PHALCON_CPY_WRT(c, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_LEFT(r1, "leaks, ", b);
+	PHALCON_CONCAT_SV(r1, "leaks, ", b);
 	PHALCON_CPY_WRT(d, r1);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, c, d TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	concat_function(r3, r2, b TSRMLS_CC);
-	PHALCON_CPY_WRT(b, r3);
+	PHALCON_CONCAT_VVV(r2, c, d, b);
+	PHALCON_CPY_WRT(b, r2);
 	
 	PHALCON_RETURN_CTOR(b);
 }
@@ -749,7 +745,7 @@ PHP_METHOD(Phalcon_Internal_Test, o22){
 
 	zval *e = NULL, *i = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(e);
@@ -767,9 +763,7 @@ PHP_METHOD(Phalcon_Internal_Test, o22){
 		if (!zend_is_true(r0)) {
 			goto fe_fdd7_0;
 		}
-		PHALCON_INIT_VAR(r1);
-		concat_function(r1, e, i TSRMLS_CC);
-		PHALCON_CPY_WRT(e, r1);
+		phalcon_concat_self(&e, i TSRMLS_CC);
 		PHALCON_SEPARATE(i);
 		increment_function(i);
 		goto fs_fdd7_0;
@@ -782,7 +776,7 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 
 	zval *e = NULL, *i = NULL, *sx = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(e);
@@ -801,12 +795,9 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 			goto fe_fdd7_1;
 		}
 		PHALCON_INIT_VAR(r1);
-		PHALCON_CONCAT_RIGHT(r1, i, "-");
+		PHALCON_CONCAT_VS(r1, i, "-");
 		PHALCON_CPY_WRT(sx, r1);
-		
-		PHALCON_INIT_VAR(r2);
-		concat_function(r2, e, sx TSRMLS_CC);
-		PHALCON_CPY_WRT(e, r2);
+		phalcon_concat_self(&e, sx TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(sx);
 		ZVAL_STRING(sx, "nope", 1);
@@ -816,6 +807,40 @@ PHP_METHOD(Phalcon_Internal_Test, o23){
 	fe_fdd7_1:
 	
 	PHALCON_RETURN_CHECK_CTOR(e);
+}
+
+PHP_METHOD(Phalcon_Internal_Test, o24){
+
+	zval *a = NULL, *b = NULL, *c = NULL, *d = NULL, *e = NULL, *f = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(a);
+	ZVAL_STRING(a, "hello", 1);
+	
+	PHALCON_INIT_VAR(b);
+	ZVAL_STRING(b, "la", 1);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CONCAT_SV(r0, "thievery ", a);
+	PHALCON_CPY_WRT(c, r0);
+	
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CONCAT_SVS(r1, "thievery ", a, " corp ");
+	PHALCON_CPY_WRT(d, r1);
+	
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CONCAT_SVSV(r2, "thievery ", a, " corp ", c);
+	PHALCON_CPY_WRT(e, r2);
+	
+	PHALCON_ALLOC_ZVAL_MM(r3);
+	PHALCON_CONCAT_SVSVS(r3, "WHERE ", a, " = '", b, "'");
+	PHALCON_CPY_WRT(f, r3);
+	
+	PHALCON_ALLOC_ZVAL_MM(r4);
+	PHALCON_CONCAT_VVV(r4, d, e, f);
+	
+	PHALCON_RETURN_CTOR(r4);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, a0){
@@ -1918,8 +1943,8 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 
 	zval *f = NULL, *e = NULL, *v = NULL, *k = NULL, *sv = NULL, *sk = NULL, *p = NULL;
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -1995,10 +2020,10 @@ PHP_METHOD(Phalcon_Internal_Test, a23){
 				return;
 			}
 		} else {
-			PHALCON_INIT_VAR(r0);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, ".", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", c0, v, 0x00E);
+			PHALCON_INIT_VAR(r0);
+			phalcon_fast_strpos(r0, c0, v TSRMLS_CC);
 			if (Z_TYPE_P(r0) != IS_BOOL || (Z_TYPE_P(r0) == IS_BOOL && Z_BVAL_P(r0))) {
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, ".", 1);
@@ -2046,7 +2071,7 @@ PHP_METHOD(Phalcon_Internal_Test, a24){
 	PHALCON_CPY_WRT(e, a0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "hello, ", num);
+	PHALCON_CONCAT_SV(r0, "hello, ", num);
 	PHALCON_CPY_WRT(p, r0);
 	
 	PHALCON_RETURN_CTOR(p);
@@ -2775,14 +2800,14 @@ PHP_METHOD(Phalcon_Internal_Test, f6){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_LONG(c0, 0);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_LONG(c1, 100);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mt_rand", c0, c1, 0x024);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_RIGHT(r1, r0, ".txt");
-	PHALCON_CPY_WRT(file, r1);
+	PHALCON_CALL_FUNC_PARAMS_2(r1, "mt_rand", c0, c1, 0x024);
+	PHALCON_CONCAT_VS(r0, r1, ".txt");
+	PHALCON_CPY_WRT(file, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	
@@ -2932,13 +2957,13 @@ PHP_METHOD(Phalcon_Internal_Test, m5){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "m2", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD(r1, this_ptr, "m1", PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD(r1, this_ptr, "m2", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, r1 TSRMLS_CC);
+	PHALCON_CALL_METHOD(r2, this_ptr, "m1", PHALCON_NO_CHECK);
+	PHALCON_CONCAT_VV(r0, r1, r2);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, m6){
@@ -2989,13 +3014,13 @@ PHP_METHOD(Phalcon_Internal_Test, m8){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "m6", a, b, PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_2(r1, this_ptr, "m6", a, b, PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, r1 TSRMLS_CC);
+	PHALCON_CALL_METHOD_PARAMS_2(r2, this_ptr, "m6", a, b, PHALCON_NO_CHECK);
+	PHALCON_CONCAT_VV(r0, r1, r2);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, m9){
@@ -3278,13 +3303,13 @@ PHP_METHOD(Phalcon_Internal_Test, sm5){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_SELF(r0, this_ptr, "sm2");
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_SELF(r1, this_ptr, "sm1");
+	PHALCON_CALL_SELF(r1, this_ptr, "sm2");
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, r1 TSRMLS_CC);
+	PHALCON_CALL_SELF(r2, this_ptr, "sm1");
+	PHALCON_CONCAT_VV(r0, r1, r2);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, sm6){
@@ -3650,22 +3675,20 @@ PHP_METHOD(Phalcon_Internal_Test, p11){
 
 PHP_METHOD(Phalcon_Internal_Test, p12){
 
+	zval *r0 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_p1", sizeof("_p1")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_p2", sizeof("_p2")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	concat_function(r0, t0, t1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t2);
 	phalcon_read_property(&t2, this_ptr, "_p3", sizeof("_p3")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	concat_function(r1, r0, t2 TSRMLS_CC);
+	PHALCON_CONCAT_VVV(r0, t0, t1, t2);
 	
-	PHALCON_RETURN_CTOR(r1);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, p13){
@@ -4710,7 +4733,7 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 
 	zval *m = NULL, *a = NULL, *v = NULL, *k = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4745,14 +4768,11 @@ PHP_METHOD(Phalcon_Internal_Test, t2){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "t1", k, a, PHALCON_NO_CHECK);
 		
 		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch_long(&r0, a, 0, PHALCON_NOISY TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(r1);
-		concat_function(r1, k, r0 TSRMLS_CC);
-		
-		PHALCON_INIT_VAR(r2);
-		concat_function(r2, m, r1 TSRMLS_CC);
-		PHALCON_CPY_WRT(m, r2);
+		phalcon_array_fetch_long(&r1, a, 0, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CONCAT_VV(r0, k, r1);
+		phalcon_concat_self(&m, r0 TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_fdd7_22;
 		fee_fdd7_22:
@@ -4915,7 +4935,6 @@ PHP_METHOD(Phalcon_Internal_Test, t5){
 			PHALCON_CALL_METHOD_PARAMS_2(r6, this_ptr, "t3", a, b, PHALCON_NO_CHECK);
 			phalcon_array_append(&node, r6, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
-		
 		
 		PHALCON_INIT_VAR(t7);
 		phalcon_read_property(&t7, this_ptr, "_p0", sizeof("_p0")-1, PHALCON_NOISY TSRMLS_CC);
@@ -5255,7 +5274,7 @@ PHP_METHOD(Phalcon_Internal_Test, t9){
 		object_init_ex(i1, phalcon_model_message_ce);
 		
 		PHALCON_INIT_VAR(r4);
-		PHALCON_CONCAT_RIGHT(r4, human_field, " is required");
+		PHALCON_CONCAT_VS(r4, human_field, " is required");
 		
 		PHALCON_INIT_VAR(c2);
 		ZVAL_STRING(c2, "PresenceOf", 1);
@@ -5353,7 +5372,7 @@ PHP_METHOD(Phalcon_Internal_Test, t10){
 				phalcon_array_append(&values, value, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			} else {
 				PHALCON_INIT_VAR(r3);
-				PHALCON_CONCAT_BOTH(r3,  "'", value, "'");
+				PHALCON_CONCAT_SVS(r3, "'", value, "'");
 				phalcon_array_append(&values, r3, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			}
 		}
@@ -5676,15 +5695,15 @@ PHP_METHOD(Phalcon_Internal_Test, t16){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(b, "f3", c1, PHALCON_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, b, "f2", PHALCON_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD(r1, a, "f2", PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD(r1, b, "f2", PHALCON_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, r1 TSRMLS_CC);
+	PHALCON_CALL_METHOD(r2, a, "f2", PHALCON_NO_CHECK);
+	PHALCON_CONCAT_VV(r0, r1, r2);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_Test, t17){

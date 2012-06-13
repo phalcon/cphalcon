@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -118,8 +119,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL, *r19 = NULL, *r20 = NULL;
 	zval *r21 = NULL, *r22 = NULL, *r23 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
-	zval *c0 = NULL;
+	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
@@ -175,12 +175,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_CALL_FUNC_PARAMS_1(r4, "round", r7, 0x01E);
 	PHALCON_CPY_WRT(total_pages, r4);
 	if (Z_TYPE_P(items) != IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_paginator_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Invalid data for paginator", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
 	}
 	
@@ -210,6 +205,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r14);
 			div_function(r14, n, show TSRMLS_CC);
+			PHALCON_SEPARATE_NMO(r14);
 			convert_to_long(r14);
 			PHALCON_INIT_VAR(t6);
 			ZVAL_LONG(t6, 1);
@@ -249,9 +245,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate){
 	PHALCON_ALLOC_ZVAL_MM(r20);
 	mod_function(r20, n, show TSRMLS_CC);
 	if (zend_is_true(r20)) {
-		
 		PHALCON_ALLOC_ZVAL_MM(r21);
 		div_function(r21, n, show TSRMLS_CC);
+		PHALCON_SEPARATE_NMO(r21);
 		convert_to_long(r21);
 		
 		PHALCON_INIT_VAR(t9);

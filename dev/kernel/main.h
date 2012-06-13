@@ -49,6 +49,9 @@
 #endif
 #endif
 
+/** Exceptions */
+#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
+
 /** SPL dependencies */
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
 extern ZEND_API zend_class_entry *zend_ce_iterator;
@@ -69,6 +72,7 @@ extern int phalcon_get_global_by_index(char *global, char *index, zval *result T
 
 /** Exception Functions */
 extern void phalcon_throw_exception(zval *object TSRMLS_DC);
+extern void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 
@@ -76,6 +80,7 @@ extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
+extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);

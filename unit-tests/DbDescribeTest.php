@@ -22,13 +22,9 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 	public function testDb(){
 
-		$config = new stdClass();
-		$config->host = '127.0.0.1';
-		$config->username = 'root';
-		$config->password = '';
-		$config->name = 'phalcon_test';
+		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $config);
+		$connection = Phalcon_Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		//List tables

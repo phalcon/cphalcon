@@ -9,15 +9,15 @@ Get Started
 Phalcon PHP is written in C with platform independence in mind. As a result, Phalcon PHP is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
 ### Windows
 
-For use phalcon on windows you only should to download a DLL library. Edit your php.ini file and then add:
+For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/downloads). Edit your php.ini file and then add:
 
      extension=php_phalcon.dll
 
-Finally restart your webserver. You can download DLL for Windows from http://phalconphp.com/downloads
+Finally restart your webserver. 
 
-### GNU/Linux
+### Linux/Unix/Mac
 
-On GNU/Linux platform you can easily compile and install the extension from source code.
+On a Unix based platform you can easily compile and install the extension from source code.
 
 #### Requirements
 We need some packages previously installed.
@@ -36,7 +36,7 @@ Suse:
 Compilation
 -----------
 
-We need to compile a shared library from C source to generate phalcon.so extension:
+Follow this instructions to generate a binrary extension for your platform:
 
      # git clone git://github.com/phalcon/cphalcon.git
      # cd cphalcon/target/release
@@ -65,4 +65,4 @@ everything is going well and the project is stable. The current build status is:
 License
 --------------
 
-See the docs/LICENSE.txt file.
+Phalcon is open-sourced software licensed under the New BSD License. See the docs/LICENSE.txt file.

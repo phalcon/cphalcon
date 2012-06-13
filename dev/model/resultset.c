@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -55,26 +56,21 @@
  * Phalcon_Model_Resultset constructor
  *
  * @param Phalcon_Model_Base $model
- * @param resource $resultResource
+ * @param Phalcon_Model_Result_Mysql|Phalcon_Model_Result_Postgresql $result
  */
 PHP_METHOD(Phalcon_Model_Resultset, __construct){
 
-	zval *model = NULL, *result_resource = NULL;
-	zval *r0 = NULL;
+	zval *model = NULL, *result = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &result_resource) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &result) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, "_model", strlen("_model"), model TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, model, "getconnection", PHALCON_NO_CHECK);
-	phalcon_update_property_zval(this_ptr, "_connection", strlen("_connection"), r0 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_resultResource", strlen("_resultResource"), result_resource TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_result", strlen("_result"), result TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, "_type", strlen("_type"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -87,8 +83,8 @@ PHP_METHOD(Phalcon_Model_Resultset, __construct){
  */
 PHP_METHOD(Phalcon_Model_Resultset, valid){
 
-	zval *result_resource = NULL, *connection = NULL, *row = NULL, *rows = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *result = NULL, *row = NULL, *rows = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 
@@ -97,38 +93,34 @@ PHP_METHOD(Phalcon_Model_Resultset, valid){
 	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_resultResource", sizeof("_resultResource")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(result_resource, t1);
-		if (Z_TYPE_P(result_resource) != IS_BOOL || (Z_TYPE_P(result_resource) == IS_BOOL && Z_BVAL_P(result_resource))) {
-			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(connection, t2);
-			
+		phalcon_read_property(&t1, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(result, t1);
+		if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
 			PHALCON_INIT_VAR(c0);
 			ZVAL_LONG(c0, 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(connection, "setfetchmode", c0, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", c0, PHALCON_NO_CHECK);
 			
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CALL_METHOD_PARAMS_1(r0, connection, "fetcharray", result_resource, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(r0, result, "fetcharray", result, PHALCON_NO_CHECK);
 			PHALCON_CPY_WRT(row, r0);
 			if (zend_is_true(row)) {
 				PHALCON_ALLOC_ZVAL_MM(r1);
-				PHALCON_ALLOC_ZVAL_MM(t3);
-				phalcon_read_property(&t3, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon_model_base", "dumpresult", t3, row);
+				PHALCON_ALLOC_ZVAL_MM(t2);
+				phalcon_read_property(&t2, this_ptr, "_model", sizeof("_model")-1, PHALCON_NOISY TSRMLS_CC);
+				PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon_model_base", "dumpresult", t2, row);
 				phalcon_update_property_zval(this_ptr, "_activeRow", strlen("_activeRow"), r1 TSRMLS_CC);
 				PHALCON_MM_RESTORE();
 				RETURN_TRUE;
 			} else {
 				PHALCON_INIT_VAR(c1);
 				ZVAL_LONG(c1, 2);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(connection, "setfetchmode", c1, PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", c1, PHALCON_NO_CHECK);
 			}
 		}
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(rows, t4);
+		PHALCON_ALLOC_ZVAL_MM(t3);
+		phalcon_read_property(&t3, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(rows, t3);
 		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		Z_SET_ISREF_P(rows);
@@ -203,8 +195,8 @@ PHP_METHOD(Phalcon_Model_Resultset, key){
  */
 PHP_METHOD(Phalcon_Model_Resultset, rewind){
 
-	zval *result_resource = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *result = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -212,24 +204,21 @@ PHP_METHOD(Phalcon_Model_Resultset, rewind){
 	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_resultResource", sizeof("_resultResource")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(result_resource, t1);
-		if (Z_TYPE_P(result_resource) != IS_BOOL || (Z_TYPE_P(result_resource) == IS_BOOL && Z_BVAL_P(result_resource))) {
+		phalcon_read_property(&t1, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(result, t1);
+		if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
 			phalcon_update_property_long(this_ptr, "pointer", strlen("pointer"), 1 TSRMLS_CC);
-			
-			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(c0);
 			ZVAL_LONG(c0, 0);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t2, "dataseek", c0, result_resource, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "dataseek", c0, PHALCON_NO_CHECK);
 		}
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
-		Z_SET_ISREF_P(t3);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("reset", t3, 0x055);
-		Z_UNSET_ISREF_P(t3);
+		PHALCON_ALLOC_ZVAL_MM(t2);
+		phalcon_read_property(&t2, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
+		Z_SET_ISREF_P(t2);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("reset", t2, 0x055);
+		Z_UNSET_ISREF_P(t2);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -237,12 +226,14 @@ PHP_METHOD(Phalcon_Model_Resultset, rewind){
 
 /**
  * Changes internal pointer to a specific position in the resultset
+ *
+ * @param int $position
  */
 PHP_METHOD(Phalcon_Model_Resultset, seek){
 
 	zval *position = NULL, *rows = NULL, *i = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -259,14 +250,12 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
 	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, "_resultResource", sizeof("_resultResource")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t1, "dataseek", position, t2, PHALCON_NO_CHECK);
+		phalcon_read_property(&t1, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "dataseek", position, PHALCON_NO_CHECK);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(rows, t3);
+		PHALCON_ALLOC_ZVAL_MM(t2);
+		phalcon_read_property(&t2, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(rows, t2);
 		Z_SET_ISREF_P(rows);
 		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("reset", rows, 0x055);
 		Z_UNSET_ISREF_P(rows);
@@ -300,9 +289,9 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
  */
 PHP_METHOD(Phalcon_Model_Resultset, count){
 
-	zval *count = NULL, *result_resource = NULL;
+	zval *count = NULL, *result = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -317,32 +306,30 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
 		phalcon_read_property(&t1, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
 		if (zend_is_true(t1)) {
 			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, "_resultResource", sizeof("_resultResource")-1, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(result_resource, t2);
-			if (Z_TYPE_P(result_resource) != IS_BOOL || (Z_TYPE_P(result_resource) == IS_BOOL && Z_BVAL_P(result_resource))) {
+			phalcon_read_property(&t2, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CPY_WRT(result, t2);
+			if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
 				PHALCON_ALLOC_ZVAL_MM(r1);
 				PHALCON_ALLOC_ZVAL_MM(r2);
-				PHALCON_ALLOC_ZVAL_MM(t3);
-				phalcon_read_property(&t3, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
-				PHALCON_CALL_METHOD_PARAMS_1(r2, t3, "numrows", result_resource, PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD(r2, result, "numrows", PHALCON_NO_CHECK);
 				PHALCON_CALL_FUNC_PARAMS_1(r1, "intval", r2, 0x020);
 				PHALCON_CPY_WRT(count, r1);
 			}
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t3);
+			phalcon_read_property(&t3, this_ptr, "_rows", sizeof("_rows")-1, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_fast_count(r3, t4 TSRMLS_CC);
+			phalcon_fast_count(r3, t3 TSRMLS_CC);
 			PHALCON_CPY_WRT(count, r3);
 		}
 		
 		phalcon_update_property_zval(this_ptr, "_count", strlen("_count"), count TSRMLS_CC);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t5);
-	phalcon_read_property(&t5, this_ptr, "_count", sizeof("_count")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t4);
+	phalcon_read_property(&t4, this_ptr, "_count", sizeof("_count")-1, PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t5);
+	PHALCON_RETURN_CHECK_CTOR(t4);
 }
 
 /**
@@ -385,8 +372,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 
 	zval *index = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -413,14 +398,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 			RETURN_FALSE;
 		}
 	}
-	
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_model_exception_ce);
-	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "The index does not exist in the cursor", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "The index does not exist in the cursor");
 	return;
 }
 
@@ -433,8 +411,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 
 	zval *index = NULL, *value = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -443,12 +419,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_model_exception_ce);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Cursor is an immutable ArrayAccess object", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 
@@ -460,8 +431,6 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 
 	zval *offset = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -470,12 +439,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_model_exception_ce);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Cursor is an immutable ArrayAccess object", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 
@@ -532,6 +496,27 @@ PHP_METHOD(Phalcon_Model_Resultset, getLast){
 	
 	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
+}
+
+/**
+ * Tell if the resultset if fresh or an old cached
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Model_Resultset, isFresh){
+
+	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_INIT_VAR(t1);
+	ZVAL_LONG(t1, 1);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	is_equal_function(r0, t0, t1 TSRMLS_CC);
+	
+	PHALCON_RETURN_NCTOR(r0);
 }
 
 /**

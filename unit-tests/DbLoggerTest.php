@@ -20,16 +20,16 @@
 
 class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
-	public function testDbLogger(){
+	public function testDbLoggerMysql(){
 
-		$config = new stdClass();
-		$config->host = '127.0.0.1';
-		$config->username = 'root';
-		$config->password = '';
-		$config->name = 'phalcon_test';
+		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $config);
+		$connection = Phalcon_Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
+
+	}
+
+	protected function executeTests($connection){
 
 		@unlink('unit-tests/logs/test-db.log');
 
@@ -56,7 +56,6 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(strpos($lines[1], 'LIMIT 10')!==false);
 		$this->assertTrue(strpos($lines[2], '[DEBUG]')!==false);
 		$this->assertTrue(strpos($lines[2], 'LIMIT 1')!==false);
-
 	}
 
 }

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -78,8 +79,6 @@ PHP_METHOD(Phalcon_View_Engine, __construct){
 PHP_METHOD(Phalcon_View_Engine, initialize){
 
 	zval *view = NULL, *options = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -89,12 +88,7 @@ PHP_METHOD(Phalcon_View_Engine, initialize){
 	}
 
 	if (Z_TYPE_P(view) != IS_OBJECT) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_view_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Invalid view component provided to Phalcon_View_Engine", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Invalid view component provided to Phalcon_View_Engine");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, "_view", strlen("_view"), view TSRMLS_CC);
@@ -176,7 +170,6 @@ PHP_METHOD(Phalcon_View_Engine, url){
 	}
 
 	if (!params) {
-		
 		PHALCON_INIT_VAR(params);
 		ZVAL_NULL(params);
 	}
@@ -210,7 +203,6 @@ PHP_METHOD(Phalcon_View_Engine, path){
 	}
 
 	if (!params) {
-		
 		PHALCON_INIT_VAR(params);
 		ZVAL_STRING(params, "", 1);
 	}

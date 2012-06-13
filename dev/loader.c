@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -107,6 +108,27 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 }
 
 /**
+ * Register classes
+ *
+ * @param array $directories
+ */
+PHP_METHOD(Phalcon_Loader, registerClasses){
+
+	zval *classes = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &classes) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, "_classes", strlen("_classes"), classes TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Register the autoload method
  */
 PHP_METHOD(Phalcon_Loader, register){
@@ -130,10 +152,10 @@ PHP_METHOD(Phalcon_Loader, register){
  */
 PHP_METHOD(Phalcon_Loader, autoLoad){
 
-	zval *class_name = NULL, *directory = NULL, *preffix = NULL, *file_name = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *class_name = NULL, *file_name = NULL, *directory = NULL, *preffix = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
+	zval *r7 = NULL, *r8 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -142,6 +164,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
@@ -151,9 +174,25 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_namespaces", sizeof("_namespaces")-1, PHALCON_NOISY TSRMLS_CC);
-	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(t0);
+	phalcon_read_property(&t0, this_ptr, "_classes", sizeof("_classes")-1, PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, class_name);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, "_classes", sizeof("_classes")-1, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch(&r0, t1, class_name, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(file_name, r0);
+		if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
+			return;
+		}
+		PHALCON_MM_RESTORE();
+		RETURN_TRUE;
+	}
+	
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_read_property(&t2, this_ptr, "_namespaces", sizeof("_namespaces")-1, PHALCON_NOISY TSRMLS_CC);
+	if (phalcon_valid_foreach(t2 TSRMLS_CC)) {
+		ah0 = Z_ARRVAL_P(t2);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_0c08_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
@@ -164,34 +203,35 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		}
 		PHALCON_INIT_VAR(directory);
 		ZVAL_ZVAL(directory, *hd, 1, 0);
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "strlen", class_name, 0x001);
 		PHALCON_INIT_VAR(r1);
-		is_smaller_function(r1, preffix, r0 TSRMLS_CC);
-		if (zend_is_true(r1)) {
-			PHALCON_INIT_VAR(r2);
+		PHALCON_CALL_FUNC_PARAMS_1(r1, "strlen", class_name, 0x001);
+		PHALCON_INIT_VAR(r2);
+		is_smaller_function(r2, preffix, r1 TSRMLS_CC);
+		if (zend_is_true(r2)) {
+			PHALCON_INIT_VAR(r3);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_LONG(c0, 0);
-			PHALCON_INIT_VAR(r3);
-			PHALCON_CALL_FUNC_PARAMS_1(r3, "strlen", preffix, 0x001);
-			PHALCON_CALL_FUNC_PARAMS_3(r2, "substr", class_name, c0, r3, 0x002);
 			PHALCON_INIT_VAR(r4);
-			is_equal_function(r4, r2, preffix TSRMLS_CC);
-			if (zend_is_true(r4)) {
-				PHALCON_INIT_VAR(r5);
+			PHALCON_CALL_FUNC_PARAMS_1(r4, "strlen", preffix, 0x001);
+			PHALCON_CALL_FUNC_PARAMS_3(r3, "substr", class_name, c0, r4, 0x002);
+			PHALCON_INIT_VAR(r5);
+			is_equal_function(r5, r3, preffix TSRMLS_CC);
+			if (zend_is_true(r5)) {
+				PHALCON_INIT_VAR(r6);
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, "", 1);
-				PHALCON_CALL_FUNC_PARAMS_3(r5, "str_replace", preffix, c1, class_name, 0x003);
-				PHALCON_CPY_WRT(file_name, r5);
-				
-				PHALCON_INIT_VAR(r6);
-				concat_function(r6, directory, file_name TSRMLS_CC);
-				if (phalcon_file_exists(r6 TSRMLS_CC) == SUCCESS) {
-					if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
-						return;
+				PHALCON_CALL_FUNC_PARAMS_3(r6, "str_replace", preffix, c1, class_name, 0x003);
+				PHALCON_CPY_WRT(file_name, r6);
+				if (zend_is_true(file_name)) {
+					PHALCON_INIT_VAR(r7);
+					PHALCON_CONCAT_VV(r7, directory, file_name);
+					if (phalcon_file_exists(r7 TSRMLS_CC) == SUCCESS) {
+						if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
+							return;
+						}
+						PHALCON_MM_RESTORE();
+						RETURN_TRUE;
 					}
-					PHALCON_MM_RESTORE();
-					RETURN_TRUE;
 				}
 			}
 		}
@@ -203,10 +243,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		return;
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_directories", sizeof("_directories")-1, PHALCON_NOISY TSRMLS_CC);
-	if (phalcon_valid_foreach(t1 TSRMLS_CC)) {
-		ah1 = Z_ARRVAL_P(t1);
+	PHALCON_ALLOC_ZVAL_MM(t3);
+	phalcon_read_property(&t3, this_ptr, "_directories", sizeof("_directories")-1, PHALCON_NOISY TSRMLS_CC);
+	if (phalcon_valid_foreach(t3 TSRMLS_CC)) {
+		ah1 = Z_ARRVAL_P(t3);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 		fes_0c08_1:
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
@@ -215,9 +255,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		
 		PHALCON_INIT_VAR(directory);
 		ZVAL_ZVAL(directory, *hd, 1, 0);
-		PHALCON_INIT_VAR(r7);
-		concat_function(r7, directory, file_name TSRMLS_CC);
-		if (phalcon_file_exists(r7 TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(r8);
+		PHALCON_CONCAT_VV(r8, directory, file_name);
+		if (phalcon_file_exists(r8 TSRMLS_CC) == SUCCESS) {
 			if (phalcon_require(file_name TSRMLS_CC) == FAILURE) {
 				return;
 			}

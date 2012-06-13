@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -92,29 +93,6 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 }
 
 /**
- * This function is now deprecated, use Phalcon_Text::lcfirst instead
- *
- * @param string $str
- * @return string
- */
-PHP_METHOD(Phalcon_Utils, lcfirst){
-
-	zval *str = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "lcfirst", str);
-	PHALCON_RETURN_DZVAL(r0);
-}
-
-/**
  * Gets public URL to phalcon instance
  *
  * @param string $uri
@@ -133,19 +111,18 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	}
 
 	if (!uri) {
-		
 		PHALCON_INIT_VAR(uri);
-		ZVAL_STRING(uri, "", 1);
+		ZVAL_NULL(uri);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
-	PHALCON_CALL_METHOD(r0, r1, "getbaseuri", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, uri TSRMLS_CC);
+	PHALCON_CALL_STATIC(r2, "phalcon_controller_front", "getinstance");
+	PHALCON_CALL_METHOD(r1, r2, "getbaseuri", PHALCON_NO_CHECK);
+	PHALCON_CONCAT_VV(r0, r1, uri);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 
 /**
@@ -167,18 +144,17 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	}
 
 	if (!extra_path) {
-		
 		PHALCON_INIT_VAR(extra_path);
-		ZVAL_STRING(extra_path, "", 1);
+		ZVAL_NULL(extra_path);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_STATIC(r1, "phalcon_controller_front", "getinstance");
-	PHALCON_CALL_METHOD(r0, r1, "getbasepath", PHALCON_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	concat_function(r2, r0, extra_path TSRMLS_CC);
+	PHALCON_CALL_STATIC(r2, "phalcon_controller_front", "getinstance");
+	PHALCON_CALL_METHOD(r1, r2, "getbasepath", PHALCON_NO_CHECK);
+	PHALCON_CONCAT_VV(r0, r1, extra_path);
 	
-	PHALCON_RETURN_CTOR(r2);
+	PHALCON_RETURN_CTOR(r0);
 }
 

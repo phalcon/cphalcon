@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -144,43 +145,5 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x005);
 	PHALCON_RETURN_DZVAL(r3);
-}
-
-/**
-     * Changes only first letter to lowercase
-     *
-     * @param string $str
-     * @return string
-     * @static
-     **/
-PHP_METHOD(Phalcon_Text, lcfirst){
-
-	zval *str = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_LONG(c0, 0);
-	PHALCON_INIT_VAR(c1);
-	ZVAL_LONG(c1, 1);
-	PHALCON_CALL_FUNC_PARAMS_3(r1, "substr", str, c0, c1, 0x002);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "strtolower", r1, 0x005);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_INIT_VAR(c2);
-	ZVAL_LONG(c2, 1);
-	PHALCON_CALL_FUNC_PARAMS_2(r2, "substr", str, c2, 0x002);
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	concat_function(r3, r0, r2 TSRMLS_CC);
-	
-	PHALCON_RETURN_CTOR(r3);
 }
 

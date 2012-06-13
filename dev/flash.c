@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -49,7 +50,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	zval *message = NULL, *classes = NULL, *css_classes = NULL, *msg = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -81,14 +82,10 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			}
 			PHALCON_INIT_VAR(msg);
 			ZVAL_ZVAL(msg, *hd, 1, 0);
-			PHALCON_INIT_VAR(r3);
-			PHALCON_CONCAT_LEFT(r3, "<div class=\"", css_classes);
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CONCAT_VBOTH(r2, r3, "\">", msg);
+			PHALCON_INIT_VAR(r1);
 			PHALCON_INIT_VAR(t0);
 			zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t0 TSRMLS_CC);
-			PHALCON_INIT_VAR(r1);
-			PHALCON_CONCAT_VBOTH(r1, r2, "</div>", t0);
+			PHALCON_CONCAT_SVSVSV(r1, "<div class=\"", css_classes, "\">", msg, "</div>", t0);
 			zend_print_zval(r1, 1);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_3b3c_0;
@@ -98,15 +95,11 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			return;
 		}
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CONCAT_LEFT(r6, "<div class=\"", css_classes);
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CONCAT_VBOTH(r5, r6, "\">", message);
+		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t1 TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		PHALCON_CONCAT_VBOTH(r4, r5, "</div>", t1);
-		zend_print_zval(r4, 1);
+		PHALCON_CONCAT_SVSVSV(r2, "<div class=\"", css_classes, "\">", message, "</div>", t1);
+		zend_print_zval(r2, 1);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -134,7 +127,6 @@ PHP_METHOD(Phalcon_Flash, error){
 	}
 
 	if (!classes) {
-		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "errorMessage", 1);
 	}
@@ -166,7 +158,6 @@ PHP_METHOD(Phalcon_Flash, notice){
 	}
 
 	if (!classes) {
-		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "noticeMessage", 1);
 	}
@@ -198,7 +189,6 @@ PHP_METHOD(Phalcon_Flash, success){
 	}
 
 	if (!classes) {
-		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "successMessage", 1);
 	}
@@ -231,7 +221,6 @@ PHP_METHOD(Phalcon_Flash, warning){
 	}
 
 	if (!classes) {
-		
 		PHALCON_INIT_VAR(classes);
 		ZVAL_STRING(classes, "warningMessage", 1);
 	}

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -94,7 +95,6 @@ PHP_METHOD(Phalcon_Transaction_Manager, get){
 	}
 
 	if (!auto_begin) {
-		
 		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 1);
 	}
@@ -249,7 +249,6 @@ PHP_METHOD(Phalcon_Transaction_Manager, rollback){
 	}
 
 	if (!collect) {
-		
 		PHALCON_INIT_VAR(collect);
 		ZVAL_BOOL(collect, 0);
 	}

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -67,13 +68,11 @@ PHP_METHOD(Phalcon_Model_Message, __construct){
 	}
 
 	if (!field) {
-		
 		PHALCON_INIT_VAR(field);
 		ZVAL_NULL(field);
 	}
 	
 	if (!type) {
-		
 		PHALCON_INIT_VAR(type);
 		ZVAL_NULL(type);
 	}

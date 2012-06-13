@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -99,10 +100,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_config_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "basename", file_path, 0x00D);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "Configuration file ", r1, " can't be loaded");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
+		PHALCON_CALL_FUNC_PARAMS_1(r2, "basename", file_path, 0x00D);
+		PHALCON_CONCAT_SVS(r1, "Configuration file ", r2, " can't be loaded");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r1, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
@@ -131,10 +132,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			}
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
-			PHALCON_INIT_VAR(r3);
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, ".", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "strpos", key, c1, 0x00E);
+			PHALCON_INIT_VAR(r3);
+			phalcon_fast_strpos(r3, key, c1 TSRMLS_CC);
 			if (Z_TYPE_P(r3) != IS_BOOL || (Z_TYPE_P(r3) == IS_BOOL && Z_BVAL_P(r3))) {
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ".", 1);

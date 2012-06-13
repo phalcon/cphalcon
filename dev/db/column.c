@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -59,8 +60,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	zval *column_name = NULL, *definition = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	int eval_int;
 
@@ -78,12 +77,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		phalcon_array_fetch_string(&r0, definition, "type", strlen("type"), PHALCON_NOISY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, "_type", strlen("_type"), r0 TSRMLS_CC);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_db_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Column type is required", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type is required");
 		return;
 	}
 	
@@ -114,12 +108,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 			phalcon_array_fetch_string(&r4, definition, "scale", strlen("scale"), PHALCON_NOISY TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, "_scale", strlen("_scale"), r4 TSRMLS_CC);
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(i1);
-			object_init_ex(i1, phalcon_db_exception_ce);
-			PHALCON_INIT_VAR(c1);
-			ZVAL_STRING(c1, "Column type does not support scale parameter", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c1, PHALCON_CHECK);
-			phalcon_throw_exception(i1 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");
 			return;
 		}
 	}
@@ -144,12 +133,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 			phalcon_array_fetch_string(&r7, definition, "autoIncrement", strlen("autoIncrement"), PHALCON_NOISY TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, "_autoIncrement", strlen("_autoIncrement"), r7 TSRMLS_CC);
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(i2);
-			object_init_ex(i2, phalcon_db_exception_ce);
-			PHALCON_INIT_VAR(c2);
-			ZVAL_STRING(c2, "Column type cannot be auto-increment", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", c2, PHALCON_CHECK);
-			phalcon_throw_exception(i2 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment");
 			return;
 		}
 	}

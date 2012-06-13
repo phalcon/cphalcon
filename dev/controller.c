@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -72,13 +73,11 @@ PHP_METHOD(Phalcon_Controller, __construct){
 	}
 
 	if (!view) {
-		
 		PHALCON_INIT_VAR(view);
 		ZVAL_NULL(view);
 	}
 	
 	if (!model) {
-		
 		PHALCON_INIT_VAR(model);
 		ZVAL_NULL(model);
 	}
@@ -139,6 +138,32 @@ PHP_METHOD(Phalcon_Controller, _getParam){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "dispatcher", sizeof("dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getparam", index, PHALCON_NO_CHECK);
+	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Set a dispatching parameter
+ *
+ * @param mixed $index
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Controller, _setParam){
+
+	zval *index = NULL, *value = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "dispatcher", sizeof("dispatcher")-1, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "setparam", index, value, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -214,7 +239,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
-	PHALCON_CONCAT_LEFT(r4, "Access to undefined property ", property_name);
+	PHALCON_CONCAT_SV(r4, "Access to undefined property ", property_name);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", r4, 0x033);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();

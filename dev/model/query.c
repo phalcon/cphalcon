@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -281,12 +282,11 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_model_exception_ce);
 			PHALCON_INIT_VAR(r3);
-			PHALCON_CONCAT_BOTH(r3,  "The model ", model_name, " does not exist");
+			PHALCON_CONCAT_SVS(r3, "The model ", model_name, " does not exist");
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r3, PHALCON_CHECK);
 			phalcon_throw_exception(i0 TSRMLS_CC);
 			return;
 		}
-		
 		
 		PHALCON_INIT_VAR(r4);
 		PHALCON_CALL_METHOD(r4, model_manager, "getmetadata", PHALCON_NO_CHECK);
@@ -349,16 +349,16 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 							eval_int = phalcon_array_isset(numeric_types, param);
 							if (eval_int) {
 								PHALCON_INIT_VAR(r13);
-								PHALCON_CONCAT_VBOTH(r13, param, " = ?", i);
+								PHALCON_CONCAT_VSV(r13, param, " = ?", i);
 								PHALCON_CPY_WRT(condition, r13);
 								phalcon_array_update(&parameters, i, &value, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 							} else {
 								PHALCON_INIT_VAR(r14);
-								PHALCON_CONCAT_VBOTH(r14, param, " LIKE ?", i);
+								PHALCON_CONCAT_VSV(r14, param, " LIKE ?", i);
 								PHALCON_CPY_WRT(condition, r14);
 								
 								PHALCON_INIT_VAR(r15);
-								PHALCON_CONCAT_BOTH(r15,  "%", value, "%");
+								PHALCON_CONCAT_SVS(r15, "%", value, "%");
 								phalcon_array_update(&parameters, i, &r15, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 							}
 							phalcon_array_append(&conditions, condition, PHALCON_SEPARATE_PLZ TSRMLS_CC);
@@ -384,7 +384,6 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			PHALCON_CPY_WRT(conditions, t7);
 		}
 		
-		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
 		
@@ -405,7 +404,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			PHALCON_INIT_VAR(r17);
 			PHALCON_INIT_VAR(r18);
-			PHALCON_CONCAT_LEFT(r18, "?", index);
+			PHALCON_CONCAT_SV(r18, "?", index);
 			PHALCON_CALL_FUNC_PARAMS_3(r17, "str_replace", r18, value, conditions, 0x003);
 			PHALCON_CPY_WRT(conditions, r17);
 			zend_hash_move_forward_ex(ah2, &hp2);

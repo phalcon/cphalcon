@@ -20,7 +20,33 @@
 
 class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
-	public function testControllerFront(){
+	public function testControllerNoDbFront(){
+
+		Phalcon_Controller_Front::reset();
+
+		$config = new Phalcon_Config(array(
+			'phalcon' => array(
+				'controllersDir' => 'unit-tests/controllers/',
+				'modelsDir' => 'unit-tests/models/',
+				'viewsDir' => 'unit-tests/views/',
+				'basePath' => './'
+			)
+		));
+
+		$front = Phalcon_Controller_Front::getInstance();
+
+		$_GET['_url'] = 'test3/other';
+
+		$front->setConfig($config);
+		$response = $front->dispatchLoop();
+
+		$this->assertEquals($response->getContent(), '<html>lolhere</html>'."\n");
+
+	}
+
+	public function testControllerDbFront(){
+
+		Phalcon_Controller_Front::reset();
 
 		$config = new Phalcon_Config(array(
 			'database' => array(
@@ -40,11 +66,67 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
 		$front = Phalcon_Controller_Front::getInstance();
 
-		$_GET['_url'] = 'test3/other';
+		$_GET['_url'] = 'test3/query';
 		$front->setConfig($config);
 		$response = $front->dispatchLoop();
 
-		$this->assertEquals($response->getContent(), '<html>lolhere</html>'."\n");
+		$this->assertEquals($response->getContent(), '<html>lolRobotina</html>'."\n");
+
+	}
+
+	public function testControllerRouterRewriteFront(){
+
+		Phalcon_Controller_Front::reset();
+
+		$config = new Phalcon_Config(array(
+			'phalcon' => array(
+				'controllersDir' => 'unit-tests/controllers/',
+				'modelsDir' => 'unit-tests/models/',
+				'viewsDir' => 'unit-tests/views/',
+				'basePath' => './'
+			)
+		));
+
+		$front = Phalcon_Controller_Front::getInstance();
+
+		$router = new Phalcon_Router_Rewrite();
+
+		$router->handle('test3/coolVar');
+
+		$front->setRouter($router);
+		$front->setConfig($config);
+
+		$response = $front->dispatchLoop();
+
+		$this->assertEquals($response->getContent(), '<html>lol<p>got-the-life</p></html>'."\n");
+
+	}
+
+	public function testControllerRouterRegexFront(){
+
+		Phalcon_Controller_Front::reset();
+
+		$config = new Phalcon_Config(array(
+			'phalcon' => array(
+				'controllersDir' => 'unit-tests/controllers/',
+				'modelsDir' => 'unit-tests/models/',
+				'viewsDir' => 'unit-tests/views/',
+				'basePath' => './'
+			)
+		));
+
+		$front = Phalcon_Controller_Front::getInstance();
+
+		$router = new Phalcon_Router_Regex();
+
+		$router->handle('/test3/coolVar');
+
+		$front->setRouter($router);
+		$front->setConfig($config);
+
+		$response = $front->dispatchLoop();
+
+		$this->assertEquals($response->getContent(), '<html>lol<p>got-the-life</p></html>'."\n");
 
 	}
 

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -123,21 +124,28 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, start){
  * Returns a cached content
  *
  * @param string $keyName
+ * @param   long $lifetime
  * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 
-	zval *key_name = NULL, *backend = NULL, *front_end = NULL, *cached_content = NULL;
+	zval *key_name = NULL, *lifetime = NULL, *backend = NULL, *front_end = NULL;
+	zval *cached_content = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!lifetime) {
+		PHALCON_INIT_VAR(lifetime);
+		ZVAL_NULL(lifetime);
+	}
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_backendOptions", sizeof("_backendOptions")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(backend, t0);
@@ -165,39 +173,40 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
  *
  * @param string $keyName
  * @param string $content
+ * @param long $lifetime
  * @param boolean $stopBuffer
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 
-	zval *key_name = NULL, *content = NULL, *stop_buffer = NULL, *last_key = NULL;
-	zval *front_end = NULL, *backend = NULL, *cached_content = NULL, *prepared_content = NULL;
-	zval *is_buffering = NULL;
+	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
+	zval *last_key = NULL, *front_end = NULL, *backend = NULL, *cached_content = NULL;
+	zval *prepared_content = NULL, *ttl = NULL, *is_buffering = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzz", &key_name, &content, &stop_buffer) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzzz", &key_name, &content, &lifetime, &stop_buffer) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!key_name) {
-		
 		PHALCON_INIT_VAR(key_name);
 		ZVAL_NULL(key_name);
 	}
 	
 	if (!content) {
-		
 		PHALCON_INIT_VAR(content);
 		ZVAL_NULL(content);
 	}
 	
+	if (!lifetime) {
+		PHALCON_INIT_VAR(lifetime);
+		ZVAL_NULL(lifetime);
+	}
+	
 	if (!stop_buffer) {
-		
 		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
@@ -210,12 +219,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 		PHALCON_CPY_WRT(last_key, key_name);
 	}
 	if (!zend_is_true(last_key)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_cache_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "The cache must be started first", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
 		return;
 	}
 	
@@ -237,10 +241,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_METHOD_PARAMS_1(r1, front_end, "beforestore", cached_content, PHALCON_NO_CHECK);
 	PHALCON_CPY_WRT(prepared_content, r1);
+	if (Z_TYPE_P(lifetime) == IS_NULL) {
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		PHALCON_CALL_METHOD(r2, front_end, "getlifetime", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(ttl, r2);
+	} else {
+		PHALCON_CPY_WRT(ttl, lifetime);
+	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_METHOD(r2, front_end, "getlifetime", PHALCON_NO_CHECK);
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", last_key, prepared_content, r2, 0x05C);
+	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", last_key, prepared_content, ttl, 0x05C);
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_METHOD(r3, front_end, "isbuffering", PHALCON_NO_CHECK);

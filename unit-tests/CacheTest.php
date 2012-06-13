@@ -46,7 +46,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(false);
 		}
 		echo $time;
-		$cache->save(null, null, true);
+		$cache->save(null, null, null, true);
 
 		$obContent = ob_get_contents();
 		ob_end_clean();
@@ -74,7 +74,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(false);
 		}
 		echo $time2;
-		$cache->save(null, null, true);
+		$cache->save(null, null, null, true);
 
 		$obContent2 = ob_get_contents();
 		ob_end_clean();
@@ -156,7 +156,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 
 		echo $time;
 
-		$cache->save(null, null, true);
+		$cache->save(null, null, null, true);
 
 		$obContent = ob_get_contents();
 		ob_end_clean();
@@ -184,7 +184,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(false);
 		}
 		echo $time2;
-		$cache->save(null, null, true);
+		$cache->save(null, null, null, true);
 
 		$obContent2 = ob_get_contents();
 		ob_end_clean();
@@ -273,7 +273,7 @@ class CacheTest extends PHPUnit_Framework_TestCase {
 
 		echo $time;
 
-		$cache->save(null, null, true);
+		$cache->save(null, null, null, true);
 
 		$obContent = ob_get_contents();
 		ob_end_clean();

@@ -1,3 +1,20 @@
+0.4.1
+- Complex concatenations are now made without a lot of intermediate zvals improving the overall memory usage
+- Improved throwing of simple exceptions with a unique string parameter
+- Added Phalcon_Dispatcher::setParam to change a routing parameter
+- Added Phalcon_Request::redirect to make HTTP redirections from controllers
+- Phalcon_Model_* is now completely decoupled from Phalcon_Controller_Front
+- Phalcon_Model_Base::_createSQLSelectMulti and Phalcon_Model_Base::_createSQLSelectOne has been joined into a single method
+- Added Phalcon_Db::bindParams in order to avoid SQL injections
+- Added "bind" parameter to Phalcon_Model_Base::find, Phalcon_Model_Base::findFirst, Phalcon_Model_Base::count,
+Phalcon_Model_Base::sum, etc. to avoid SQL injections
+- The database adapter Phalcon_Db_Adapter_Mysql was moved from mysql extension to mysqli
+- Added Phalcon_Db_Result_Mysql to encapsulate the resultset functionality. Those methods were before in Phalcon_Db.
+- Fixed bug rebuilding symbol table in Phalcon_View_Engine_Php::render
+- Added Phalcon_View::pick to choose a view to show different than last-controller/last-action
+- Now is possible to define routes with a shortened syntax in Regex
+- Phalcon is now using Compare-and-Swap to reduce the number of writes to cache adapters like files or APC, also avoiding the unnecesary register or shutdown functions
+
 0.4.0
 - Fixed possible segmentation fault when releasing memory of zval strings that has constant values
 - Fixed bug avoiding that auto-globals will jit-initialized inside Phalcon on some old versions of PHP
@@ -25,7 +42,7 @@
 - Phalcon_View was refactored to allow other templating engines like Mustache or Twig
 - Added Phalcon_Translate for multi-lingual translation messages based on adapters
 - Added calculation functions to Phalcon_Model: count, sum, average, minimum and maximum
-- Dispatcher exceptions now throws a 404 Not found status
+- Dispatcher exceptions now throws a HTTP 404 Not found status
 - Added Phalcon_Router_Regex to define routes based on regular expressions
 - Renamed Phalcon_Request::getBestQualityCharset() to Phalcon_Request::getBestCharset()
 - Added Phalcon_Request::getBestLanguage()

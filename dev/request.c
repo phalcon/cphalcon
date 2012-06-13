@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -145,7 +146,6 @@ PHP_METHOD(Phalcon_Request, getPost){
 	}
 
 	if (!filters) {
-		
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
 	}
@@ -194,7 +194,6 @@ PHP_METHOD(Phalcon_Request, getQuery){
 	}
 
 	if (!filters) {
-		
 		PHALCON_INIT_VAR(filters);
 		ZVAL_NULL(filters);
 	}
@@ -366,11 +365,11 @@ PHP_METHOD(Phalcon_Request, getHeader){
 		PHALCON_RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_LEFT(r1, "HTTP_", header);
+		PHALCON_CONCAT_SV(r1, "HTTP_", header);
 		eval_int = phalcon_array_isset(g0, r1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CONCAT_LEFT(r2, "HTTP_", header);
+			PHALCON_CONCAT_SV(r2, "HTTP_", header);
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			phalcon_array_fetch(&r3, g0, r2, PHALCON_NOISY TSRMLS_CC);
 			
@@ -451,15 +450,15 @@ PHP_METHOD(Phalcon_Request, isSoapRequested){
 		eval_int = phalcon_array_isset_string(g0, "CONTENT_TYPE", strlen("CONTENT_TYPE")+1);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_array_fetch_string(&r1, g0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_fetch_string(&r0, g0, "CONTENT_TYPE", strlen("CONTENT_TYPE"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "application/soap+xml", 1);
-			PHALCON_CALL_FUNC_PARAMS_2(r0, "strpos", r1, c0, 0x00E);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			phalcon_fast_strpos(r1, r0, c0 TSRMLS_CC);
 			PHALCON_INIT_VAR(t0);
 			ZVAL_BOOL(t0, 0);
 			PHALCON_INIT_VAR(r2);
-			is_not_identical_function(r2, t0, r0 TSRMLS_CC);
+			is_not_identical_function(r2, t0, r1 TSRMLS_CC);
 			
 			PHALCON_RETURN_NCTOR(r2);
 		}
@@ -631,7 +630,7 @@ PHP_METHOD(Phalcon_Request, getHttpHost){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r10);
-	PHALCON_CONCAT_VBOTH(r10, name, ":", port);
+	PHALCON_CONCAT_VSV(r10, name, ":", port);
 	
 	PHALCON_RETURN_CTOR(r10);
 }
@@ -740,6 +739,7 @@ PHP_METHOD(Phalcon_Request, isPost){
 }
 
 /**
+ *
  * Checks whether HTTP method is GET
  *
  * @return boolean
@@ -1014,7 +1014,6 @@ PHP_METHOD(Phalcon_Request, _getQualityHeader){
 			ZVAL_DOUBLE(quality, 1);
 		}
 		
-		
 		PHALCON_INIT_VAR(a1);
 		array_init(a1);
 		
@@ -1227,5 +1226,20 @@ PHP_METHOD(Phalcon_Request, getBestLanguage){
 	ZVAL_STRING(c0, "language", 1);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_getbestquality", r1, c0, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
+}
+
+/**
+ * Resets the internal singleton
+ */
+PHP_METHOD(Phalcon_Request, reset){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(t0);
+	ZVAL_NULL(t0);
+	zend_update_static_property(phalcon_request_ce, "_instance", sizeof("_instance")-1, t0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
 }
 

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -136,7 +137,6 @@ PHP_METHOD(Phalcon_Filter, filter){
 	}
 
 	if (!silent) {
-		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}
@@ -239,7 +239,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 
 	if (!silent) {
-		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}
@@ -306,7 +305,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r10);
-		PHALCON_CONCAT_BOTH(r10,  "Sanitize filter ", filter, " is not supported");
+		PHALCON_CONCAT_SVS(r10, "Sanitize filter ", filter, " is not supported");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r10, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
@@ -343,7 +342,6 @@ PHP_METHOD(Phalcon_Filter, _filter){
 	}
 
 	if (!silent) {
-		
 		PHALCON_INIT_VAR(silent);
 		ZVAL_BOOL(silent, 0);
 	}
@@ -370,7 +368,7 @@ PHP_METHOD(Phalcon_Filter, _filter){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r4);
-		PHALCON_CONCAT_BOTH(r4,  "Filter ", filter, " is not supported");
+		PHALCON_CONCAT_SVS(r4, "Filter ", filter, " is not supported");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r4, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;

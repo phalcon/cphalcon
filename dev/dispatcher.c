@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -139,6 +140,48 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 	phalcon_read_property(&t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_RETURN_CHECK_CTOR(t0);
+}
+
+/**
+ * Sets the default controller name
+     *
+ * @param string $controllerName
+ */
+PHP_METHOD(Phalcon_Dispatcher, setDefaultController){
+
+	zval *controller_name = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, "_defaultController", strlen("_defaultController"), controller_name TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the default action name
+     *
+ * @param string $actionName
+ */
+PHP_METHOD(Phalcon_Dispatcher, setDefaultAction){
+
+	zval *action_name = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &action_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, "_defaultAction", strlen("_defaultAction"), action_name TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -253,6 +296,32 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 }
 
 /**
+ * Set a param by its name or numeric index
+     *
+     * @param  mixed $param
+     * @param  mixed $value 
+ */
+PHP_METHOD(Phalcon_Dispatcher, setParam){
+
+	zval *index = NULL, *value = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_array_update(&t0, index, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), t0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Gets a param by its name or numeric index
      *
      * @param  mixed $param
@@ -303,11 +372,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *controller_name = NULL, *controllers = NULL, *controller_class = NULL;
 	zval *controller_path = NULL, *params = NULL, *action_name = NULL;
 	zval *action_method = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL;
+	zval *r14 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
+	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *i0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
@@ -323,23 +392,21 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	}
 
 	if (!view) {
-		
 		PHALCON_INIT_VAR(view);
 		ZVAL_NULL(view);
 	}
 	
 	if (!model) {
-		
 		PHALCON_INIT_VAR(model);
 		ZVAL_NULL(model);
 	}
 	
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_basePath", sizeof("_basePath")-1, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, "_controllersDir", sizeof("_controllersDir")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	concat_function(r0, t0, t1 TSRMLS_CC);
+	PHALCON_CONCAT_VV(r0, t0, t1);
 	PHALCON_CPY_WRT(controllers_dir, r0);
 	
 	PHALCON_INIT_VAR(value);
@@ -370,17 +437,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, "_controllerName", strlen("_controllerName"), controller_name TSRMLS_CC);
 		}
 		
-		
 		PHALCON_INIT_VAR(t5);
 		phalcon_read_property(&t5, this_ptr, "_controllers", sizeof("_controllers")-1, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(controllers, t5);
 		
 		PHALCON_INIT_VAR(r1);
-		PHALCON_CALL_STATIC_PARAMS_1(r1, "phalcon_text", "camelize", controller_name);
 		
 		PHALCON_INIT_VAR(r2);
-		PHALCON_CONCAT_RIGHT(r2, r1, "Controller");
-		PHALCON_CPY_WRT(controller_class, r2);
+		PHALCON_CALL_STATIC_PARAMS_1(r2, "phalcon_text", "camelize", controller_name);
+		PHALCON_CONCAT_VS(r1, r2, "Controller");
+		PHALCON_CPY_WRT(controller_class, r1);
 		eval_int = phalcon_array_isset(controllers, controller_class);
 		if (!eval_int) {
 			PHALCON_INIT_VAR(r3);
@@ -389,30 +455,27 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CALL_FUNC_PARAMS_2(r3, "class_exists", controller_class, c0, 0x012);
 			if (!zend_is_true(r3)) {
 				PHALCON_INIT_VAR(r4);
-				concat_function(r4, controllers_dir, controller_class TSRMLS_CC);
-				PHALCON_INIT_VAR(r5);
-				PHALCON_CONCAT_RIGHT(r5, r4, ".php");
-				PHALCON_CPY_WRT(controller_path, r5);
+				PHALCON_CONCAT_VVS(r4, controllers_dir, controller_class, ".php");
+				PHALCON_CPY_WRT(controller_path, r4);
 				if (phalcon_file_exists(controller_path TSRMLS_CC) == SUCCESS) {
 					if (phalcon_require(controller_path TSRMLS_CC) == FAILURE) {
 						return;
 					}
 				} else {
-					PHALCON_INIT_VAR(r6);
-					PHALCON_CONCAT_BOTH(r6,  "File for controller class ", controller_class, " doesn't exist");
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r6, PHALCON_NO_CHECK);
+					PHALCON_INIT_VAR(r5);
+					PHALCON_CONCAT_SVS(r5, "File for controller class ", controller_class, " doesn't exist");
+					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r5, PHALCON_NO_CHECK);
 				}
 				
-				
-				PHALCON_INIT_VAR(r7);
+				PHALCON_INIT_VAR(r6);
 				
 				PHALCON_INIT_VAR(c1);
 				ZVAL_BOOL(c1, 0);
-				PHALCON_CALL_FUNC_PARAMS_2(r7, "class_exists", controller_class, c1, 0x012);
-				if (!zend_is_true(r7)) {
-					PHALCON_INIT_VAR(r8);
-					PHALCON_CONCAT_BOTH(r8,  "Class ", controller_class, " was not found on controller file");
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r8, PHALCON_NO_CHECK);
+				PHALCON_CALL_FUNC_PARAMS_2(r6, "class_exists", controller_class, c1, 0x012);
+				if (!zend_is_true(r6)) {
+					PHALCON_INIT_VAR(r7);
+					PHALCON_CONCAT_SVS(r7, "Class ", controller_class, " was not found on controller file");
+					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r7, PHALCON_NO_CHECK);
 				}
 			}
 			ce0 = phalcon_fetch_class(controller_class TSRMLS_CC);
@@ -430,17 +493,15 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				PHALCON_CALL_METHOD_NORETURN(controller, "initialize", PHALCON_NO_CHECK);
 			}
 			
-			
 			PHALCON_INIT_VAR(t6);
 			phalcon_read_property(&t6, this_ptr, "_controllers", sizeof("_controllers")-1, PHALCON_NOISY TSRMLS_CC);
 			phalcon_array_update(&t6, controller_class, &controller, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, "_controllers", strlen("_controllers"), t6 TSRMLS_CC);
 		} else {
-			PHALCON_INIT_VAR(r9);
-			phalcon_array_fetch(&r9, controllers, controller_class, PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(controller, r9);
+			PHALCON_INIT_VAR(r8);
+			phalcon_array_fetch(&r8, controllers, controller_class, PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CPY_WRT(controller, r8);
 		}
-		
 		
 		PHALCON_INIT_VAR(t7);
 		phalcon_read_property(&t7, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
@@ -457,44 +518,39 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		
 		if (phalcon_method_exists_ex(controller, "beforedispatch", strlen("beforedispatch") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(r10);
-			PHALCON_CALL_METHOD_PARAMS_3(r10, controller, "beforedispatch", controller_name, action_name, params, PHALCON_NO_CHECK);
-			if (Z_TYPE_P(r10) == IS_BOOL && !Z_BVAL_P(r10)) {
+			PHALCON_INIT_VAR(r9);
+			PHALCON_CALL_METHOD_PARAMS_3(r9, controller, "beforedispatch", controller_name, action_name, params, PHALCON_NO_CHECK);
+			if (Z_TYPE_P(r9) == IS_BOOL && !Z_BVAL_P(r9)) {
 				PHALCON_INIT_VAR(value);
 				ZVAL_BOOL(value, 0);
 				goto we_e10f_0;
 			}
 		}
 		
-		
-		PHALCON_INIT_VAR(r11);
-		PHALCON_CONCAT_RIGHT(r11, action_name, "Action");
-		PHALCON_CPY_WRT(action_method, r11);
+		PHALCON_INIT_VAR(r10);
+		PHALCON_CONCAT_VS(r10, action_name, "Action");
+		PHALCON_CPY_WRT(action_method, r10);
 		if (phalcon_method_exists(controller, action_method TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(r12);
+			PHALCON_INIT_VAR(r11);
 			PHALCON_INIT_VAR(a0);
 			array_init(a0);
 			phalcon_array_append(&a0, controller, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			phalcon_array_append(&a0, action_method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-			PHALCON_CALL_FUNC_PARAMS_2(r12, "call_user_func_array", a0, params, 0x013);
-			PHALCON_CPY_WRT(value, r12);
+			PHALCON_CALL_FUNC_PARAMS_2(r11, "call_user_func_array", a0, params, 0x013);
+			PHALCON_CPY_WRT(value, r11);
 		} else {
 			if (phalcon_method_exists_ex(controller, "notfoundaction", strlen("notfoundaction") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_VAR(r13);
+				PHALCON_INIT_VAR(r12);
 				PHALCON_INIT_VAR(a1);
 				array_init(a1);
 				phalcon_array_append(&a1, controller, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 				add_next_index_stringl(a1, "notFoundAction", strlen("notFoundAction"), 1);
-				PHALCON_CALL_FUNC_PARAMS_2(r13, "call_user_func_array", a1, params, 0x013);
-				PHALCON_CPY_WRT(value, r13);
+				PHALCON_CALL_FUNC_PARAMS_2(r12, "call_user_func_array", a1, params, 0x013);
+				PHALCON_CPY_WRT(value, r12);
 			} else {
-				PHALCON_INIT_VAR(r15);
-				PHALCON_CONCAT_LEFT(r15, "Action '", action_name);
-				PHALCON_INIT_VAR(r14);
-				PHALCON_CONCAT_VBOTH(r14, r15, "' was not found on controller '", controller_name);
-				PHALCON_INIT_VAR(r16);
-				PHALCON_CONCAT_RIGHT(r16, r14, "'");
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r16, PHALCON_NO_CHECK);
+				PHALCON_INIT_VAR(r13);
+				PHALCON_CONCAT_SVSVS(r13, "Action '", action_name, "' was not found on controller '", controller_name, "'");
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, r13, PHALCON_NO_CHECK);
 			}
 		}
 		
@@ -508,9 +564,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_VAR(t10);
 		ZVAL_LONG(t10, 256);
 		
-		PHALCON_INIT_VAR(r17);
-		is_smaller_function(r17, t10, number_dispatches TSRMLS_CC);
-		if (zend_is_true(r17)) {
+		PHALCON_INIT_VAR(r14);
+		is_smaller_function(r14, t10, number_dispatches TSRMLS_CC);
+		if (zend_is_true(r14)) {
 			PHALCON_INIT_VAR(c2);
 			ZVAL_STRING(c2, "Dispatcher has detected a cyclic routing causing stability problems", 1);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", response, c2, PHALCON_NO_CHECK);
@@ -675,6 +731,22 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 	phalcon_update_property_bool(this_ptr, "_finished", strlen("_finished"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Checks if the dispatch loop is finished or have more pendent controller to disptach
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Dispatcher, isFinished){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, "_finished", sizeof("_finished")-1, PHALCON_NOISY TSRMLS_CC);
+	
+	PHALCON_RETURN_CHECK_CTOR(t0);
 }
 
 /**

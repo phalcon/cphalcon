@@ -22,15 +22,9 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 
 	public function testModels(){
 
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
+		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$modelManager = new Phalcon_Model_Manager();
@@ -41,6 +35,9 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 
 		$People = $modelManager->getModel('People');
 		$this->assertEquals(get_class($People), 'People');
+
+		$Robots = $modelManager->getModel('Robots');
+		$this->assertEquals(get_class($Robots), 'Robots');
 
 		$connection = $Personas->getConnection();
 		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
@@ -100,6 +97,21 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($people->nombres, $persona->nombres);
 		$this->assertEquals($people->estado, $persona->estado);
 
+		$params = array("estado=?1", "bind" => array(1 => 'A'), "order" => "nombres DESC", "limit" => 30);
+		$people = People::findFirst($params);
+		$persona = Personas::findFirst($params);
+		$this->assertEquals($people->nombres, $persona->nombres);
+		$this->assertEquals($people->estado, $persona->estado);
+
+		$params = array("estado=:estado:", "bind" => array("estado" => 'A'), "order" => "nombres DESC", "limit" => 30);
+		$people = People::findFirst($params);
+		$persona = Personas::findFirst($params);
+		$this->assertEquals($people->nombres, $persona->nombres);
+		$this->assertEquals($people->estado, $persona->estado);
+
+		$robot = Robots::findFirst(1);
+		$this->assertEquals(get_class($robot), 'Robots');
+
 		//Find tests
 		$personas = Personas::find();
 		$people = People::find();
@@ -119,6 +131,16 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 
 		$personas = Personas::find(array("estado='A'", "order" => "nombres", "limit" => 100));
 		$people = People::find(array("estado='A'", "order" => "nombres", "limit" => 100));
+		$this->assertEquals(count($personas), count($people));
+
+		$params = array("estado=?1", "bind" => array(1 => "A"), "order" => "nombres", "limit" => 100);
+		$personas = Personas::find($params);
+		$people = People::find($params);
+		$this->assertEquals(count($personas), count($people));
+
+		$params = array("estado=:estado:", "bind" => array("estado" => "A"), "order" => "nombres", "limit" => 100);
+		$personas = Personas::find($params);
+		$people = People::find($params);
 		$this->assertEquals(count($personas), count($people));
 
 		$number = 0;

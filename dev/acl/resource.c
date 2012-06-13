@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -56,8 +57,6 @@
 PHP_METHOD(Phalcon_Acl_Resource, __construct){
 
 	zval *name = NULL, *description = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -67,18 +66,12 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 	}
 
 	if (!description) {
-		
 		PHALCON_INIT_VAR(description);
 		ZVAL_NULL(description);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_acl_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Resource name cannot be \"*\"", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), name TSRMLS_CC);

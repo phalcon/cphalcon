@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "Phalcon_Translate_Adapter_", adapter);
+	PHALCON_CONCAT_SV(r0, "Phalcon_Translate_Adapter_", adapter);
 	PHALCON_CPY_WRT(adapter_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -76,7 +77,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_translate_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "No existe el adaptador \"", adapter, "\"");
+		PHALCON_CONCAT_SVS(r2, "No existe el adaptador \"", adapter, "\"");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
@@ -96,25 +97,33 @@ PHP_METHOD(Phalcon_Translate, __construct){
  * Returns the translation string of the given key
  *
  * @param string $translateKey
+ * @param array $placeholders
  * @return string
  */
 PHP_METHOD(Phalcon_Translate, _){
 
-	zval *translate_key = NULL;
+	zval *translate_key = NULL, *placeholders = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &translate_key, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!placeholders) {
+		PHALCON_INIT_VAR(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(placeholders, a0);
+	}
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "query", translate_key, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", translate_key, placeholders, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
 }
 
@@ -127,8 +136,6 @@ PHP_METHOD(Phalcon_Translate, _){
 PHP_METHOD(Phalcon_Translate, offsetSet){
 
 	zval *offset = NULL, *value = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -137,12 +144,7 @@ PHP_METHOD(Phalcon_Translate, offsetSet){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_translate_exception_ce);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Translate is an immutable ArrayAccess object", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 
@@ -180,8 +182,6 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 PHP_METHOD(Phalcon_Translate, offsetUnset){
 
 	zval *offset = NULL;
-	zval *i0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -190,12 +190,7 @@ PHP_METHOD(Phalcon_Translate, offsetUnset){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_translate_exception_ce);
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Translate is an immutable ArrayAccess object", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
 	return;
 }
 
@@ -210,6 +205,7 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 	zval *traslate_key = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -221,7 +217,9 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "query", traslate_key, PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_NULL(c0);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", traslate_key, c0, PHALCON_NO_CHECK);
 	PHALCON_RETURN_DZVAL(r0);
 }
 

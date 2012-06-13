@@ -27,6 +27,7 @@
 #include "ext/standard/php_string.h"
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
@@ -95,6 +96,24 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
  */
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
+	zend_throw_exception_object(object TSRMLS_CC);
+	phalcon_memory_restore_stack(TSRMLS_C);
+}
+
+/**
+ * Throws a exception with a single string parameter
+ */
+void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+	zval *object, *msg;
+
+	ALLOC_INIT_ZVAL(object);
+	object_init_ex(object, ce);
+
+	ALLOC_INIT_ZVAL(msg);
+	ZVAL_STRINGL(msg, message, message_len, 1);
+
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PHALCON_CHECK);
+
 	zend_throw_exception_object(object TSRMLS_CC);
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
@@ -188,6 +207,34 @@ void phalcon_fast_addslashes(zval *return_value, zval *param TSRMLS_DC){
 }
 
 /**
+ * Inmediate function resolution for strpos function
+ */
+void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC){
+
+	char *found = NULL;
+
+	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for strpos()");
+		return;
+	}
+
+	if (!Z_STRLEN_P(needle)) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Empty delimiter");
+		return;
+	}
+
+	found = php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
+
+	if(found){
+		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
+	} else {
+		ZVAL_BOOL(return_value, 0);
+	}
+
+}
+
+/**
  * Checks if a file exists
  *
  */
@@ -240,13 +287,8 @@ int phalcon_filter_alphanum(zval *result, zval *param){
  */
 int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 
-	int use_symbol_table = 0;
-	HashTable *old_symbol_table;
-
 	if (!EG(active_symbol_table)) {
-		old_symbol_table = EG(active_symbol_table);
-		EG(active_symbol_table) = &EG(symbol_table);
-		use_symbol_table = 1;
+		zend_rebuild_symbol_table(TSRMLS_C);
 	}
 
 	if (EG(active_symbol_table)) {
@@ -257,10 +299,6 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 				return FAILURE;
 			}
 		}
-	}
-
-	if (use_symbol_table) {
-		EG(active_symbol_table) = old_symbol_table;
 	}
 
 	return SUCCESS;

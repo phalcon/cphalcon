@@ -81,6 +81,14 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'here');
 
+		//Pick View
+		$view->setRenderLevel(Phalcon_View::LEVEL_MAIN_LAYOUT);
+		$view->start();
+		$view->pick('test3/yup');
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>lolyup</html>'."\n");
+
 	}
 
 	public function testPartials(){

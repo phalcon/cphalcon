@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -64,10 +65,10 @@ PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
 		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x02B);
 		if (!zend_is_true(r1)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CALL_METHOD(r3, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CONCAT_BOTH(r4,  "Value of field '", r3, "' must be numeric");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "appendmessage", r4, PHALCON_NO_CHECK);
+			PHALCON_CALL_METHOD(r4, this_ptr, "getfieldname", PHALCON_NO_CHECK);
+			PHALCON_CONCAT_SVS(r3, "Value of field '", r4, "' must be numeric");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "appendmessage", r3, PHALCON_NO_CHECK);
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
 		}

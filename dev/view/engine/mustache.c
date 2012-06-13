@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -55,8 +56,8 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 
 	zval *view = NULL, *options = NULL, *mustache = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
+	zval *c0 = NULL;
+	zval *i0 = NULL;
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -72,12 +73,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 	ZVAL_STRING(c0, "Mustache", 1);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", c0, 0x012);
 	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_view_exception_ce);
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "Mustache class must be loaded first", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c1, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Mustache class must be loaded first");
 		return;
 	}
 	eval_int = phalcon_array_isset_string(options, "mustache", strlen("mustache")+1);
@@ -87,10 +83,10 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 		PHALCON_CPY_WRT(mustache, r1);
 	} else {
 		ce0 = zend_fetch_class("Mustache", strlen("Mustache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, ce0);
-		PHALCON_CALL_METHOD_NORETURN(i1, "__construct", PHALCON_CHECK);
-		PHALCON_CPY_WRT(mustache, i1);
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, ce0);
+		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PHALCON_CHECK);
+		PHALCON_CPY_WRT(mustache, i0);
 	}
 	
 	phalcon_update_property_zval(this_ptr, "_mustache", strlen("_mustache"), mustache TSRMLS_CC);

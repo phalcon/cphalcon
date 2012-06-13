@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -62,7 +63,6 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL, *r19 = NULL, *r20 = NULL;
-	zval *r21 = NULL, *r22 = NULL, *r23 = NULL;
 	zval *i0 = NULL;
 	zval *a0 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
@@ -108,11 +108,8 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				PHALCON_CPY_WRT(value, r3);
 				
 				PHALCON_INIT_VAR(r5);
-				PHALCON_CONCAT_VBOTH(r5, compose_field, "='", value);
-				
-				PHALCON_INIT_VAR(r6);
-				PHALCON_CONCAT_RIGHT(r6, r5, "'");
-				phalcon_array_append(&conditions, r6, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+				PHALCON_CONCAT_VSVS(r5, compose_field, "='", value, "'");
+				phalcon_array_append(&conditions, r5, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_d73d_0;
 				fee_d73d_0:
@@ -121,32 +118,28 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 				return;
 			}
 		} else {
+			PHALCON_ALLOC_ZVAL_MM(r6);
 			PHALCON_ALLOC_ZVAL_MM(r7);
+			PHALCON_CALL_METHOD(r7, this_ptr, "getvalue", PHALCON_NO_CHECK);
+			PHALCON_CALL_FUNC_PARAMS_1(r6, "addslashes", r7, 0x00F);
+			PHALCON_CPY_WRT(value, r6);
+			
 			PHALCON_ALLOC_ZVAL_MM(r8);
-			PHALCON_CALL_METHOD(r8, this_ptr, "getvalue", PHALCON_NO_CHECK);
-			PHALCON_CALL_FUNC_PARAMS_1(r7, "addslashes", r8, 0x00F);
-			PHALCON_CPY_WRT(value, r7);
-			
-			PHALCON_ALLOC_ZVAL_MM(r9);
-			PHALCON_CONCAT_VBOTH(r9, field, "='", value);
-			
-			PHALCON_ALLOC_ZVAL_MM(r10);
-			PHALCON_CONCAT_RIGHT(r10, r9, "'");
-			phalcon_array_append(&conditions, r10, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_CONCAT_VSVS(r8, field, "='", value, "'");
+			phalcon_array_append(&conditions, r8, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 		}
 		
+		PHALCON_ALLOC_ZVAL_MM(r9);
+		PHALCON_CALL_METHOD(r9, record, "getmanager", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(manager, r9);
+		
+		PHALCON_ALLOC_ZVAL_MM(r10);
+		PHALCON_CALL_METHOD(r10, manager, "getmetadata", PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(meta_data, r10);
 		
 		PHALCON_ALLOC_ZVAL_MM(r11);
-		PHALCON_CALL_METHOD(r11, record, "getmanager", PHALCON_NO_CHECK);
-		PHALCON_CPY_WRT(manager, r11);
-		
-		PHALCON_ALLOC_ZVAL_MM(r12);
-		PHALCON_CALL_METHOD(r12, manager, "getmetadata", PHALCON_NO_CHECK);
-		PHALCON_CPY_WRT(meta_data, r12);
-		
-		PHALCON_ALLOC_ZVAL_MM(r13);
-		PHALCON_CALL_METHOD_PARAMS_1(r13, meta_data, "getprimarykeyattributes", record, PHALCON_NO_CHECK);
-		PHALCON_CPY_WRT(primary_fields, r13);
+		PHALCON_CALL_METHOD_PARAMS_1(r11, meta_data, "getprimarykeyattributes", record, PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(primary_fields, r11);
 		if (phalcon_valid_foreach(primary_fields TSRMLS_CC)) {
 			ah1 = Z_ARRVAL_P(primary_fields);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
@@ -157,15 +150,13 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 			
 			PHALCON_INIT_VAR(primary_field);
 			ZVAL_ZVAL(primary_field, *hd, 1, 0);
-			PHALCON_INIT_VAR(r15);
-			PHALCON_INIT_VAR(r16);
-			PHALCON_CALL_METHOD_PARAMS_1(r16, record, "readattribute", primary_field, PHALCON_NO_CHECK);
-			PHALCON_CALL_FUNC_PARAMS_1(r15, "addslashes", r16, 0x00F);
+			PHALCON_INIT_VAR(r12);
+			PHALCON_INIT_VAR(r13);
 			PHALCON_INIT_VAR(r14);
-			PHALCON_CONCAT_VBOTH(r14, primary_field, "<>'", r15);
-			PHALCON_INIT_VAR(r17);
-			PHALCON_CONCAT_RIGHT(r17, r14, "'");
-			phalcon_array_append(&conditions, r17, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+			PHALCON_CALL_METHOD_PARAMS_1(r14, record, "readattribute", primary_field, PHALCON_NO_CHECK);
+			PHALCON_CALL_FUNC_PARAMS_1(r13, "addslashes", r14, 0x00F);
+			PHALCON_CONCAT_VSVS(r12, primary_field, "<>'", r13, "'");
+			phalcon_array_append(&conditions, r12, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_d73d_1;
 			fee_d73d_1:
@@ -177,35 +168,35 @@ PHP_METHOD(Phalcon_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " AND ", 1);
 		
-		PHALCON_ALLOC_ZVAL_MM(r18);
-		phalcon_fast_join(r18, c0, conditions TSRMLS_CC);
-		PHALCON_CPY_WRT(conditions, r18);
+		PHALCON_ALLOC_ZVAL_MM(r15);
+		phalcon_fast_join(r15, c0, conditions TSRMLS_CC);
+		PHALCON_CPY_WRT(conditions, r15);
 		
-		PHALCON_ALLOC_ZVAL_MM(r19);
-		PHALCON_CALL_STATIC_ZVAL_PARAMS_1(r19, record, "count", conditions);
+		PHALCON_ALLOC_ZVAL_MM(r16);
+		PHALCON_CALL_STATIC_ZVAL_PARAMS_1(r16, record, "count", conditions);
 		
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 0);
 		
-		PHALCON_INIT_VAR(r20);
-		is_smaller_function(r20, t0, r19 TSRMLS_CC);
-		if (zend_is_true(r20)) {
-			PHALCON_ALLOC_ZVAL_MM(r21);
-			PHALCON_CALL_METHOD(r21, this_ptr, "getoptions", PHALCON_NO_CHECK);
-			PHALCON_CPY_WRT(options, r21);
+		PHALCON_INIT_VAR(r17);
+		is_smaller_function(r17, t0, r16 TSRMLS_CC);
+		if (zend_is_true(r17)) {
+			PHALCON_ALLOC_ZVAL_MM(r18);
+			PHALCON_CALL_METHOD(r18, this_ptr, "getoptions", PHALCON_NO_CHECK);
+			PHALCON_CPY_WRT(options, r18);
 			eval_int = phalcon_array_isset_string(options, "message", strlen("message")+1);
 			if (eval_int) {
-				PHALCON_ALLOC_ZVAL_MM(r22);
-				phalcon_array_fetch_string(&r22, options, "message", strlen("message"), PHALCON_NOISY TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL_MM(r19);
+				phalcon_array_fetch_string(&r19, options, "message", strlen("message"), PHALCON_NOISY TSRMLS_CC);
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, "unique", 1);
-				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r22, field, c1, PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r19, field, c1, PHALCON_NO_CHECK);
 			} else {
-				PHALCON_ALLOC_ZVAL_MM(r23);
-				PHALCON_CONCAT_BOTH(r23,  "Value of field '", field, "' is already present in another record");
+				PHALCON_ALLOC_ZVAL_MM(r20);
+				PHALCON_CONCAT_SVS(r20, "Value of field '", field, "' is already present in another record");
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, "unique", 1);
-				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r23, field, c2, PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r20, field, c2, PHALCON_NO_CHECK);
 			}
 			
 			PHALCON_MM_RESTORE();

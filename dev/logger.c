@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -72,26 +73,23 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	}
 
 	if (!adapter) {
-		
 		PHALCON_INIT_VAR(adapter);
 		ZVAL_STRING(adapter, "File", 1);
 	}
 	
 	if (!name) {
-		
 		PHALCON_INIT_VAR(name);
 		ZVAL_NULL(name);
 	}
 	
 	if (!options) {
-		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "Phalcon_Logger_Adapter_", adapter);
+	PHALCON_CONCAT_SV(r0, "Phalcon_Logger_Adapter_", adapter);
 	PHALCON_CPY_WRT(class_name, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -100,7 +98,7 @@ PHP_METHOD(Phalcon_Logger, __construct){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_logger_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "Logger adapter '", class_name, "' cannot be found");
+		PHALCON_CONCAT_SVS(r2, "Logger adapter '", class_name, "' cannot be found");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
@@ -135,7 +133,6 @@ PHP_METHOD(Phalcon_Logger, log){
 	}
 
 	if (!type) {
-		
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
 	}
@@ -331,7 +328,6 @@ PHP_METHOD(Phalcon_Logger, __call){
 	}
 
 	if (!arguments) {
-		
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(arguments, a0);

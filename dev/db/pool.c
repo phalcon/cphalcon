@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -42,8 +43,10 @@
 /**
  * Phalcon_Db_Pool
  *
- * Manages caching of database connections. With the help of Phalcon_Db_Pool, developers can be sure that no new database
- * connections will made when calling multiple of times Phalcon_Db_Pool::getConnection.
+ * Manages the caching of database connections. With the help of Phalcon_Db_Pool, developers can be
+ * sure that no new database connections will made when calling multiple of times Phalcon_Db_Pool::getConnection().
+ *
+ *
  */
 
 /**
@@ -78,8 +81,7 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 
 	zval *options = NULL, *descriptor = NULL, *value = NULL, *key = NULL;
-	zval *i0 = NULL, *i1 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -97,25 +99,14 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
 		if (Z_TYPE_P(options) != IS_OBJECT) {
-			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, phalcon_db_exception_ce);
-			PHALCON_INIT_VAR(p0[0]);
-			ZVAL_STRING(p0[0], "The parameter 'options' must be an Array or Object", 1);
-			PHALCON_INIT_VAR(p0[1]);
-			ZVAL_LONG(p0[1], 0);
-			PHALCON_INIT_VAR(p0[2]);
-			ZVAL_BOOL(p0[2], 1);
-			PHALCON_INIT_VAR(p0[3]);
-			ZVAL_NULL(p0[3]);
-			PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p0, PHALCON_CHECK);
-			phalcon_throw_exception(i0 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The parameter 'options' must be an Array or Object");
 			return;
 		}
 	}
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init(i1);
-		PHALCON_CPY_WRT(descriptor, i1);
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init(i0);
+		PHALCON_CPY_WRT(descriptor, i0);
 		if (phalcon_valid_foreach(options TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(options);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -158,9 +149,7 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 
 	zval *new_connection = NULL, *renovate = NULL, *database = NULL, *connection = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL };
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -171,13 +160,11 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	}
 
 	if (!new_connection) {
-		
 		PHALCON_INIT_VAR(new_connection);
 		ZVAL_BOOL(new_connection, 0);
 	}
 	
 	if (!renovate) {
-		
 		PHALCON_INIT_VAR(renovate);
 		ZVAL_BOOL(renovate, 0);
 	}
@@ -186,35 +173,13 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	phalcon_read_static_property(&t0, phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1 TSRMLS_CC);
 	PHALCON_CPY_WRT(database, t0);
 	if (!zend_is_true(database)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_db_exception_ce);
-		PHALCON_INIT_VAR(p0[0]);
-		ZVAL_STRING(p0[0], "Default database connection parameters was not defined", 1);
-		PHALCON_INIT_VAR(p0[1]);
-		ZVAL_LONG(p0[1], 0);
-		PHALCON_INIT_VAR(p0[2]);
-		ZVAL_BOOL(p0[2], 1);
-		PHALCON_INIT_VAR(p0[3]);
-		ZVAL_NULL(p0[3]);
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i0, "__construct", 4, p0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Default database connection parameters was not defined");
 		return;
 	}
 	
 	eval_int = phalcon_isset_property(database, "adapter", strlen("adapter") TSRMLS_CC);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_db_exception_ce);
-		PHALCON_INIT_VAR(p1[0]);
-		ZVAL_STRING(p1[0], "A valid adapter name is required", 1);
-		PHALCON_INIT_VAR(p1[1]);
-		ZVAL_LONG(p1[1], 0);
-		PHALCON_INIT_VAR(p1[2]);
-		ZVAL_BOOL(p1[2], 1);
-		PHALCON_INIT_VAR(p1[3]);
-		ZVAL_NULL(p1[3]);
-		PHALCON_CALL_METHOD_PARAMS_NORETURN(i1, "__construct", 4, p1, PHALCON_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "A valid adapter name is required");
 		return;
 	}
 	

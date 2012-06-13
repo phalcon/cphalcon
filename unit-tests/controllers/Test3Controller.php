@@ -1,17 +1,32 @@
 <?php
 
-class Test3Controller extends Phalcon_Controller {
+class Test3Controller extends Phalcon_Controller
+{
 
-	public function indexAction(){
-
-	}
-
-	public function otherAction(){
+	public function indexAction()
+	{
 
 	}
 
-	public function anotherAction(){
+	public function otherAction()
+	{
+
+	}
+
+	public function anotherAction()
+	{
 		return 100;
+	}
+
+	public function coolvarAction()
+	{
+		$this->view->setVar("a_cool_var", "got-the-life");
+	}
+
+	public function queryAction()
+	{
+		$robot = Robots::findFirst();
+		$this->view->setVar("name", $robot->name);
 	}
 
 }

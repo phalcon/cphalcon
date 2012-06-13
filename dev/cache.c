@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -87,7 +88,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_LEFT(r0, "Phalcon_Cache_Frontend_", frontend_adapter);
+	PHALCON_CONCAT_SV(r0, "Phalcon_Cache_Frontend_", frontend_adapter);
 	PHALCON_CPY_WRT(frontend_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -96,14 +97,14 @@ PHP_METHOD(Phalcon_Cache, factory){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_cache_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_BOTH(r2,  "Frontend adapter \"", backend_adapter, "' doesn't exist");
+		PHALCON_CONCAT_SVS(r2, "Frontend adapter \"", backend_adapter, "' doesn't exist");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CONCAT_LEFT(r3, "Phalcon_Cache_Backend_", backend_adapter);
+	PHALCON_CONCAT_SV(r3, "Phalcon_Cache_Backend_", backend_adapter);
 	PHALCON_CPY_WRT(backend_class, r3);
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
@@ -112,7 +113,7 @@ PHP_METHOD(Phalcon_Cache, factory){
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_cache_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CONCAT_BOTH(r5,  "Backend adapter \"", backend_adapter, "' doesn't exist");
+		PHALCON_CONCAT_SVS(r5, "Backend adapter \"", backend_adapter, "' doesn't exist");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r5, PHALCON_CHECK);
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;

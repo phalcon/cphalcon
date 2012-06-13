@@ -22,15 +22,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
 	public function testModelPaginator(){
 
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
+		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$modelManager = new Phalcon_Model_Manager();

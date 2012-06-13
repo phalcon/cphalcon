@@ -20,24 +20,18 @@
 
 class DbPoolTest extends PHPUnit_Framework_TestCase {
 
-	public function testPool(){
+	public function testPoolMysql(){
 
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
+		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$connection = Phalcon_Db_Pool::getConnection();
 		$this->assertTrue(is_object($connection));
 
 		$connection2 = Phalcon_Db_Pool::getConnection(true);
-		$this->assertNotEquals($connection->getConnectionId(), $connection2->getConnectionId());
+		$this->assertNotEquals($connection->getConnectionId(true), $connection2->getConnectionId(true));
 
 	}
 

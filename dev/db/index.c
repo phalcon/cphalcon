@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -43,6 +44,8 @@
  * Phalcon_Db_Index
  *
  * Allows to define indexes to be used on tables
+ *
+ * 
  *
  */
 
@@ -110,8 +113,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	zval *data = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *i0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
@@ -124,35 +126,25 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	eval_int = phalcon_array_isset_string(data, "_indexName", strlen("_indexName")+1);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_db_exception_ce);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "_indexName parameter is required", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
 	eval_int = phalcon_array_isset_string(data, "_columns", strlen("_columns")+1);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_db_exception_ce);
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "_columns parameter is required", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c1, PHALCON_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
 		return;
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(i2);
-	object_init_ex(i2, phalcon_db_index_ce);
+	PHALCON_ALLOC_ZVAL_MM(i0);
+	object_init_ex(i0, phalcon_db_index_ce);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_string(&r0, data, "_indexName", strlen("_indexName"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	phalcon_array_fetch_string(&r1, data, "_columns", strlen("_columns"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i2, "__construct", r0, r1, PHALCON_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r0, r1, PHALCON_CHECK);
 	
-	PHALCON_RETURN_CTOR(i2);
+	PHALCON_RETURN_CTOR(i0);
 }
 

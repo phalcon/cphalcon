@@ -90,6 +90,18 @@ class RouterRegexTest extends PHPUnit_Framework_TestCase {
 				'controller' => 'manual',
 				'action' => 'show',
 				'params' => array('language' => 'en', 'file' => 'translate.adapter')
+			),
+			array(
+				'uri' => '/posts/1999/s/le-nice-title',
+				'controller' => 'posts',
+				'action' => 'show',
+				'params' => array('year' => '1999', 'title' => 'le-nice-title')
+			),
+			array(
+				'uri' => '/feed/fr/blog/diaporema.json',
+				'controller' => 'feed',
+				'action' => 'get',
+				'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
 			)
 		);
 
@@ -128,6 +140,10 @@ class RouterRegexTest extends PHPUnit_Framework_TestCase {
 			'language' => 1,
 			'file' => 2
 		));
+
+		$router->add("/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}", "Feed::get");
+
+		$router->add("/posts/{year:[0-9]+}/s/{title:[a-z\-]+}", "Posts::show");
 
 		foreach($tests as $n => $test){
 			$this->_runTest($router, $test);

@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -55,8 +56,7 @@
 PHP_METHOD(Phalcon_Model_Validator_Inclusionin, checkOptions){
 
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -64,12 +64,7 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, checkOptions){
 	ZVAL_STRING(c0, "domain", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c0, PHALCON_NO_CHECK);
 	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_model_exception_ce);
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "The option 'domain' is required for this validator", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c1, PHALCON_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "The option 'domain' is required for this validator");
 		return;
 	}
 	
@@ -77,17 +72,12 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, checkOptions){
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "domain", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c2, PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "domain", 1);
+	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c1, PHALCON_NO_CHECK);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x03D);
 	if (!zend_is_true(r1)) {
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_model_exception_ce);
-		PHALCON_INIT_VAR(c3);
-		ZVAL_STRING(c3, "Option 'domain' must be an array", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c3, PHALCON_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
 	
@@ -103,7 +93,7 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, validate){
 
 	zval *domain = NULL, *field_name = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL;
+	zval *r7 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
 
 	PHALCON_MM_GROW();
@@ -131,17 +121,14 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, validate){
 				PHALCON_CALL_METHOD(r5, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 				PHALCON_CPY_WRT(field_name, r5);
 				
-				PHALCON_ALLOC_ZVAL_MM(r7);
-				PHALCON_CONCAT_LEFT(r7, "Value of field '", field_name);
+				PHALCON_ALLOC_ZVAL_MM(r6);
 				
 				PHALCON_INIT_VAR(c2);
 				ZVAL_STRING(c2, ", ", 1);
 				
-				PHALCON_ALLOC_ZVAL_MM(r8);
-				phalcon_fast_join(r8, c2, domain TSRMLS_CC);
-				
-				PHALCON_ALLOC_ZVAL_MM(r6);
-				PHALCON_CONCAT_VBOTH(r6, r7, "' must be part of list: ", r8);
+				PHALCON_ALLOC_ZVAL_MM(r7);
+				phalcon_fast_join(r7, c2, domain TSRMLS_CC);
+				PHALCON_CONCAT_SVSV(r6, "Value of field '", field_name, "' must be part of list: ", r7);
 				
 				PHALCON_INIT_VAR(c3);
 				ZVAL_STRING(c3, "inclusion", 1);

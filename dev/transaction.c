@@ -33,6 +33,7 @@
 #include "kernel/assert.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 #include "kernel/memory.h"
 
 #include "Zend/zend_operators.h"
@@ -77,7 +78,6 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	}
 
 	if (!auto_begin) {
-		
 		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 0);
 	}
@@ -191,7 +191,6 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	}
 
 	if (!rollback_message) {
-		
 		PHALCON_INIT_VAR(rollback_message);
 		ZVAL_NULL(rollback_message);
 	} else {
@@ -199,7 +198,6 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 	}
 	
 	if (!rollback_record) {
-		
 		PHALCON_INIT_VAR(rollback_record);
 		ZVAL_NULL(rollback_record);
 	}
@@ -233,7 +231,6 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		if (zend_is_true(rollback_record)) {
 			phalcon_update_property_zval(this_ptr, "_rollbackRecord", strlen("_rollbackRecord"), rollback_record TSRMLS_CC);
 		}
-		
 		
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_transaction_failed_ce);
