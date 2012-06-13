@@ -26,8 +26,11 @@ before_script:
  - cd ..
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
  - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
+ - ulimit -c unlimited
 
 script: phpunit --debug -c unit-tests/phpunit.xml
+
+after_script: if [ -f core ]; then cat core; fi
 
 notifications:
   email:
