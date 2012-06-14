@@ -76,6 +76,8 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
 		PHALCON_SEPARATE_PARAM(options);
 		convert_to_array(options);
 		PHALCON_CPY_WRT(adapter_options, options);
+	} else {
+		PHALCON_CPY_WRT(adapter_options, options);
 	}
 	eval_int = phalcon_isset_property(adapter_options, "suffix", strlen("suffix") TSRMLS_CC);
 	if (eval_int) {
