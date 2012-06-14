@@ -26,7 +26,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 			if(file_exists($path)){
 				require $path;
 			} else {
-				echo '[WARNING] Mustache engine could not be found';
+				$this->markTestSkipped('Mustache engine could not be found');
 				return false;
 			}
 		}
@@ -40,7 +40,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 				require $path;
 				Twig_Autoloader::register();
 			} else {
-				echo '[WARNING] Twig engine could not be found';
+				$this->markTestSkipped('Twig engine could not be found');
 				return false;
 			}
 		}

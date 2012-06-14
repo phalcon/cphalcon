@@ -100,7 +100,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		@session_start();
 
 		$config = new stdClass();
-		$config->sufix = 'my-local-app';
+		$config->suffix = 'my-local-app';
 
 		$sessionMetaData = new Phalcon_Model_Metadata('Session', $config);
 
@@ -137,7 +137,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$manager = $this->_manager;
 
 		$config = new stdClass();
-		$config->sufix = 'my-local-app';
+		$config->suffix = 'my-local-app';
 		$config->lifetime = 60;
 
 		$apcMetaData = new Phalcon_Model_Metadata('Apc', $config);
@@ -171,7 +171,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$options = new stdClass();
 		$options->metadata = new stdClass();
 		$options->metadata->adapter = 'Apc';
-		$options->metadata->sufix = 'my-local-app';
+		$options->metadata->suffix = 'my-local-app';
 		$options->metadata->lifetime = 60;
 
 		$manager = new Phalcon_Model_Manager($options);
