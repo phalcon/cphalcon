@@ -28,7 +28,6 @@ before_script:
  - cd ..
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
  - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
- - ulimit -c unlimited
  - chmod +x unit-tests/ci/run_script.sh
 
 script: ./unit-tests/ci/run_script.sh
