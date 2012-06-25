@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Model_Validator_Regex
  *
@@ -99,15 +94,15 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "getoption", c0, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c0, PHALCON_NO_CHECK);
 	Z_SET_ISREF_P(matches);
-	PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", r3, value, matches, 0x006);
+	
+	PHALCON_ALLOC_ZVAL_MM(r3);
+	PHALCON_CALL_FUNC_PARAMS_3(r3, "preg_match", r2, value, matches);
 	Z_UNSET_ISREF_P(matches);
-	if (zend_is_true(r2)) {
+	if (zend_is_true(r3)) {
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		phalcon_array_fetch_long(&r4, matches, 0, PHALCON_NOISY TSRMLS_CC);
 		PHALCON_INIT_VAR(r5);

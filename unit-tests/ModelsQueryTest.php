@@ -40,13 +40,13 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase {
 		$query->where('name LIKE ?1');
 		$query->setParameters(array(0 => '10', 1 => '%Astro%'));
 
-		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE %Astro%');
+		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE \'%Astro%\'');
 
 		$query = Phalcon_Model_Query::fromInput('Robots', array(
 			'id' => 10,
 			'name' => 'Astro'
 		));
-		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE %Astro%');
+		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE \'%Astro%\'');
 
 	}
 

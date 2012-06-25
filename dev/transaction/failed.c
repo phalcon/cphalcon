@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 /**
  * Phalcon_Transaction_Failed
  *
@@ -65,7 +59,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_record", strlen("_record"), record TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_record"), record TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_LONG(c0, 0);
@@ -87,16 +81,16 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_record"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(record, t0);
 	if (zend_is_true(record)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_METHOD(r0, record, "getmessages", PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r0);
+		RETURN_DZVAL(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CALL_METHOD(r1, this_ptr, "getmessage", PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r1);
+		RETURN_DZVAL(r1);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -113,8 +107,8 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_record", sizeof("_record")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_record"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 

@@ -38,16 +38,27 @@ class DbProfiler extends Phalcon_Db_Profiler {
 
 class DbProfilerTest extends PHPUnit_Framework_TestCase {
 
-	public function testDb(){
+	public function testDbMysql(){
 
-		$config = new stdClass();
-		$config->host = '127.0.0.1';
-		$config->username = 'root';
-		$config->password = '';
-		$config->name = 'phalcon_test';
+		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $config);
+		$connection = Phalcon_Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
+
+		$this->_executeTests($connection);
+	}
+
+	public function testDbPostgresql(){
+
+		require 'unit-tests/config.db.php';
+
+		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$this->assertTrue(is_object($connection));
+
+		$this->_executeTests($connection);
+	}
+
+	public function _executeTests($connection){
 
 		$profiler = new DbProfiler();
 
@@ -89,7 +100,6 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(count($profiler->getProfiles()), 0);
 		$this->assertEquals($profiler->getNumberTotalStatements(), 0);
-
 	}
 
 }

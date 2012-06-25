@@ -125,7 +125,7 @@ int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int acti
 /**
  * This is a function to call PHP functions in a old-style secure way
  */
-inline int phalcon_call_func_normal(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
+inline int phalcon_call_func_normal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -167,18 +167,18 @@ inline int phalcon_call_func_normal(zval *return_value, char *func_name, int fun
 /**
  * Call single function which not requires parameters
  */
-int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn, int fcache_pointer TSRMLS_DC){
+int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
 #if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_call_func_fast(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_fast(return_value, func_name, func_length, noreturn, 0 TSRMLS_CC);
 #else
-	return phalcon_call_func_normal(return_value, func_name, func_length, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_normal(return_value, func_name, func_length, noreturn TSRMLS_CC);
 #endif
 }
 
 /**
  * This is an experimental function to call PHP functions that requires parameters in a faster way
  */
-inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
+inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -220,36 +220,36 @@ inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, 
 /**
  * Call single function which requires arbitrary number of parameters
  */
-int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn, int fcache_pointer TSRMLS_DC){
+int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 #if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_call_func_params_fast(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_params_fast(return_value, func_name, func_length, param_count, params, noreturn, 0 TSRMLS_CC);
 #else
-	return phalcon_call_func_params_normal(return_value, func_name, func_length, param_count, params, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_params_normal(return_value, func_name, func_length, param_count, params, noreturn TSRMLS_CC);
 #endif
 }
 
 /**
  * Call single function which requires only 1 parameter
  */
-int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn, int fcache_pointer TSRMLS_DC){
+int phalcon_call_func_one_param(zval *return_value, char *func_name, int func_length, zval *param1, int noreturn TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_params(return_value, func_name, func_length, 1, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single function which requires only 2 parameters
  */
-int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn, int fcache_pointer TSRMLS_DC){
+int phalcon_call_func_two_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_params(return_value, func_name, func_length, 2, params, noreturn TSRMLS_CC);
 }
 
 /**
  * Call single function which requires only 3 parameters
  */
-int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn, int fcache_pointer TSRMLS_DC){
+int phalcon_call_func_three_params(zval *return_value, char *func_name, int func_length, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn, fcache_pointer TSRMLS_CC);
+	return phalcon_call_func_params(return_value, func_name, func_length, 3, params, noreturn TSRMLS_CC);
 }
 
 /**
@@ -407,6 +407,15 @@ int phalcon_call_method_two_params(zval *return_value, zval *object, char *metho
 int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int check, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
 	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, check, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call method on an object that requires only 3 parameters
+ *
+ */
+int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int check, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, check, noreturn TSRMLS_CC);
 }
 
 /**

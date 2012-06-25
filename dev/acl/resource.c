@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/operators.h"
+#include "kernel/object.h"
 /**
  *
  * Phalcon_Acl_Resource
@@ -74,8 +68,8 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_description", strlen("_description"), description TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -91,9 +85,9 @@ PHP_METHOD(Phalcon_Acl_Resource, getName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -107,8 +101,8 @@ PHP_METHOD(Phalcon_Acl_Resource, getDescription){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_description", sizeof("_description")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_description"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 

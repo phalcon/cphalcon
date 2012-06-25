@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/array.h"
+#include "kernel/operators.h"
+#include "kernel/fcall.h"
 PHP_METHOD(Phalcon_Test, nice){
 
 	zval *word = NULL, *e = NULL, *v = NULL, *k = NULL;
@@ -63,9 +58,9 @@ PHP_METHOD(Phalcon_Test, nice){
 
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	add_assoc_long_ex(a0, "hello1", strlen("hello1")+1, 1);
-	add_assoc_long_ex(a0, "hello2", strlen("hello2")+1, 2);
-	add_assoc_long_ex(a0, "hello3", strlen("hello3")+1, 3);
+	add_assoc_long_ex(a0, SL("hello1")+1, 1);
+	add_assoc_long_ex(a0, SL("hello2")+1, 2);
+	add_assoc_long_ex(a0, SL("hello3")+1, 3);
 	PHALCON_CPY_WRT(e, a0);
 	if (phalcon_valid_foreach(e TSRMLS_CC)) {
 		ALLOC_HASHTABLE(ah0);
@@ -96,7 +91,7 @@ PHP_METHOD(Phalcon_Test, nice){
 	} else {
 		return;
 	}
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", e, 0x008);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", e);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Flash
  *
@@ -135,7 +129,7 @@ PHP_METHOD(Phalcon_Flash, error){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -166,7 +160,7 @@ PHP_METHOD(Phalcon_Flash, notice){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -197,7 +191,7 @@ PHP_METHOD(Phalcon_Flash, success){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -229,6 +223,6 @@ PHP_METHOD(Phalcon_Flash, warning){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 

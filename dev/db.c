@@ -25,21 +25,18 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
+#include "kernel/operators.h"
 /**
  * Phalcon_Db
  *
@@ -71,7 +68,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_descriptor", strlen("_descriptor"), descriptor TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -92,7 +89,7 @@ PHP_METHOD(Phalcon_Db, setLogger){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_logger", strlen("_logger"), logger TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_logger"), logger TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -108,9 +105,9 @@ PHP_METHOD(Phalcon_Db, getLogger){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -132,7 +129,7 @@ PHP_METHOD(Phalcon_Db, log){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(logger, t0);
 	if (zend_is_true(logger)) {
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(logger, "log", sql_statement, type, PHALCON_NO_CHECK);
@@ -158,7 +155,7 @@ PHP_METHOD(Phalcon_Db, setProfiler){
 	}
 
 	if (Z_TYPE_P(profiler) == IS_OBJECT) {
-		phalcon_update_property_zval(this_ptr, "_profiler", strlen("_profiler"), profiler TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_profiler"), profiler TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Profiler must be an object");
 		return;
@@ -202,12 +199,12 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 		
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CALL_METHOD(r1, result, "fetcharray", PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r1);
+		RETURN_DZVAL(r1);
 	} else {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		
-		PHALCON_RETURN_CTOR(a0);
+		RETURN_CTOR(a0);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -265,7 +262,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	}
 	
 	
-	PHALCON_RETURN_CTOR(results);
+	RETURN_CTOR(results);
 }
 
 /**
@@ -391,7 +388,7 @@ PHP_METHOD(Phalcon_Db, insert){
 		
 		PHALCON_ALLOC_ZVAL_MM(r10);
 		PHALCON_CALL_METHOD_PARAMS_1(r10, this_ptr, "query", insert_sql, PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r10);
+		RETURN_DZVAL(r10);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
 		return;
@@ -544,7 +541,7 @@ PHP_METHOD(Phalcon_Db, update){
 	
 	PHALCON_ALLOC_ZVAL_MM(r18);
 	PHALCON_CALL_METHOD_PARAMS_1(r18, this_ptr, "query", update_sql, PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r18);
+	RETURN_DZVAL(r18);
 }
 
 /**
@@ -578,13 +575,13 @@ PHP_METHOD(Phalcon_Db, delete){
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CONCAT_SVSV(r1, "DELETE FROM ", table, " WHERE ", where_condition);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", r1, PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r0);
+		RETURN_DZVAL(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		PHALCON_CONCAT_SV(r3, "DELETE FROM ", table);
 		PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "query", r3, PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r2);
+		RETURN_DZVAL(r2);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -601,15 +598,15 @@ PHP_METHOD(Phalcon_Db, begin){
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
-	phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 0 TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 1 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_autoCommit"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_underTransaction"), 1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "BEGIN", 1);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -625,17 +622,17 @@ PHP_METHOD(Phalcon_Db, rollback){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_underTransaction"), PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_underTransaction"), 0 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_autoCommit"), 1 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "ROLLBACK", 1);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r0);
+		RETURN_DZVAL(r0);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is not an active transaction on relational manager");
 		return;
@@ -657,17 +654,17 @@ PHP_METHOD(Phalcon_Db, commit){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_underTransaction"), PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
-		phalcon_update_property_bool(this_ptr, "_underTransaction", strlen("_underTransaction"), 0 TSRMLS_CC);
-		phalcon_update_property_bool(this_ptr, "_autoCommit", strlen("_autoCommit"), 1 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_underTransaction"), 0 TSRMLS_CC);
+		phalcon_update_property_bool(this_ptr, SL("_autoCommit"), 1 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "COMMIT", 1);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "query", c0, PHALCON_NO_CHECK);
-		PHALCON_RETURN_DZVAL(r0);
+		RETURN_DZVAL(r0);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "There is not an active transaction on relational manager");
 		return;
@@ -692,7 +689,7 @@ PHP_METHOD(Phalcon_Db, setUnderTransaction){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_underTransaction", strlen("_underTransaction"), under_transaction TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_underTransaction"), under_transaction TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -708,9 +705,9 @@ PHP_METHOD(Phalcon_Db, isUnderTransaction){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_underTransaction", sizeof("_underTransaction")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_underTransaction"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -724,9 +721,9 @@ PHP_METHOD(Phalcon_Db, getHaveAutoCommit){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_autoCommit", sizeof("_autoCommit")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_autoCommit"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -741,15 +738,15 @@ PHP_METHOD(Phalcon_Db, getDatabaseName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
-	eval_int = phalcon_isset_property(t0, "name", strlen("name") TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_isset_property(t0, SL("name") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, t1, "name", sizeof("name")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, t1, SL("name"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(t2);
+		RETURN_CHECK_CTOR(t2);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("", 1);
@@ -770,26 +767,26 @@ PHP_METHOD(Phalcon_Db, getDefaultSchema){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
-	eval_int = phalcon_isset_property(t0, "schema", strlen("schema") TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_isset_property(t0, SL("schema") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, t1, "schema", sizeof("schema")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, t1, SL("schema"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(t2);
+		RETURN_CHECK_CTOR(t2);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
-		eval_int = phalcon_isset_property(t3, "name", strlen("name") TSRMLS_CC);
+		phalcon_read_property(&t3, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
+		eval_int = phalcon_isset_property(t3, SL("name") TSRMLS_CC);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t4, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, t4, "name", sizeof("name")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t5, t4, SL("name"), PHALCON_NOISY TSRMLS_CC);
 			
-			PHALCON_RETURN_CHECK_CTOR(t5);
+			RETURN_CHECK_CTOR(t5);
 		} else {
 			PHALCON_MM_RESTORE();
 			RETURN_STRING("", 1);
@@ -811,15 +808,15 @@ PHP_METHOD(Phalcon_Db, getUsername){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
-	eval_int = phalcon_isset_property(t0, "username", strlen("username") TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_isset_property(t0, SL("username") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, t1, "username", sizeof("username")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, t1, SL("username"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(t2);
+		RETURN_CHECK_CTOR(t2);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("", 1);
@@ -840,15 +837,15 @@ PHP_METHOD(Phalcon_Db, getHostName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
-	eval_int = phalcon_isset_property(t0, "host", strlen("host") TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_isset_property(t0, SL("host") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_descriptor", sizeof("_descriptor")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_descriptor"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, t1, "host", sizeof("host")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, t1, SL("host"), PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(t2);
+		RETURN_CHECK_CTOR(t2);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("", 1);
@@ -865,8 +862,9 @@ PHP_METHOD(Phalcon_Db, getHostName){
 PHP_METHOD(Phalcon_Db, _beforeQuery){
 
 	zval *sql_statement = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
-	zval *r0 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -876,25 +874,27 @@ PHP_METHOD(Phalcon_Db, _beforeQuery){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_logger", sizeof("_logger")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_INIT_VAR(c0);
+		ZVAL_BOOL(c0, 1);
+		PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "getconnectionid", c0, PHALCON_NO_CHECK);
+		PHALCON_CONCAT_SVSV(r0, "[", r1, "] ", sql_statement);
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, "_idConnection", sizeof("_idConnection")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CONCAT_SVSV(r0, "[", t2, "] ", sql_statement);
-		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_get_class_constant(t3, phalcon_logger_ce, "DEBUG", strlen("DEBUG") TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t1, "log", r0, t3, PHALCON_NO_CHECK);
+		phalcon_get_class_constant(t2, phalcon_logger_ce, SL("DEBUG") TSRMLS_CC);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t1, "log", r0, t2, PHALCON_NO_CHECK);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t4);
-	phalcon_read_property(&t4, this_ptr, "_profiler", sizeof("_profiler")-1, PHALCON_NOISY TSRMLS_CC);
-	if (zend_is_true(t4)) {
-		PHALCON_ALLOC_ZVAL_MM(t5);
-		phalcon_read_property(&t5, this_ptr, "_profiler", sizeof("_profiler")-1, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t5, "startprofile", sql_statement, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(t3);
+	phalcon_read_property(&t3, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
+	if (zend_is_true(t3)) {
+		PHALCON_ALLOC_ZVAL_MM(t4);
+		phalcon_read_property(&t4, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t4, "startprofile", sql_statement, PHALCON_NO_CHECK);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -918,10 +918,10 @@ PHP_METHOD(Phalcon_Db, _afterQuery){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_profiler", sizeof("_profiler")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
 	if (zend_is_true(t0)) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_profiler", sizeof("_profiler")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "stopprofile", sql_statement, PHALCON_NO_CHECK);
 	}
 	
@@ -998,10 +998,10 @@ PHP_METHOD(Phalcon_Db, factory){
 		PHALCON_CPY_WRT(descriptor, options);
 	}
 	
-	eval_int = phalcon_isset_property(descriptor, "layer", strlen("layer") TSRMLS_CC);
+	eval_int = phalcon_isset_property(descriptor, SL("layer") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, descriptor, "layer", sizeof("layer")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t0, descriptor, SL("layer"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(layer, t0);
 	} else {
 		PHALCON_INIT_VAR(layer);
@@ -1013,14 +1013,14 @@ PHP_METHOD(Phalcon_Db, factory){
 	PHALCON_CPY_WRT(class_name, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name);
 	if (zend_is_true(r1)) {
 		ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, ce0);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", descriptor, PHALCON_CHECK);
 		
-		PHALCON_RETURN_CTOR(i1);
+		RETURN_CTOR(i1);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(i2);
 		object_init_ex(i2, phalcon_db_exception_ce);

@@ -25,38 +25,32 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
 /**
  * Phalcon_Cache
  *
- * Phalcon_Cache can be used to cache output fragments to improve performance
+ * Phalcon_Cache can be used to cache output fragments, PHP data and raw data in order to improve performance
  *
  *
  */
 
 /**
- * Factories different caches backends from its adapters
+ * Factories different caches backends from their adapters
  *
  * @param string $frontendAdapter
  * @param string $backendAdapter
  * @param array $frontendOptions
  * @param array $backendOptions
  * @return  Phalcon_Cache_Backend_File
- * @static
  */
 PHP_METHOD(Phalcon_Cache, factory){
 
@@ -92,12 +86,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_CPY_WRT(frontend_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", frontend_class, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", frontend_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_cache_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_SVS(r2, "Frontend adapter \"", backend_adapter, "' doesn't exist");
+		PHALCON_CONCAT_SVS(r2, "Frontend adapter \"", backend_adapter, "\" doesn't exist");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
@@ -108,12 +102,12 @@ PHP_METHOD(Phalcon_Cache, factory){
 	PHALCON_CPY_WRT(backend_class, r3);
 	
 	PHALCON_ALLOC_ZVAL_MM(r4);
-	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", backend_class, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r4, "class_exists", backend_class);
 	if (!zend_is_true(r4)) {
 		PHALCON_ALLOC_ZVAL_MM(i1);
 		object_init_ex(i1, phalcon_cache_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CONCAT_SVS(r5, "Backend adapter \"", backend_adapter, "' doesn't exist");
+		PHALCON_CONCAT_SVS(r5, "Backend adapter \"", backend_adapter, "\" doesn't exist");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r5, PHALCON_CHECK);
 		phalcon_throw_exception(i1 TSRMLS_CC);
 		return;
@@ -131,6 +125,6 @@ PHP_METHOD(Phalcon_Cache, factory){
 	object_init_ex(i3, ce1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i3, "__construct", front_object, backend_options, PHALCON_CHECK);
 	
-	PHALCON_RETURN_CTOR(i3);
+	RETURN_CTOR(i3);
 }
 

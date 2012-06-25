@@ -25,20 +25,12 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
 
 /**
  * Phalcon_Cache_Frontend_None
@@ -133,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 	}
 
 	
-	PHALCON_RETURN_CHECK_CTOR(data);
+	RETURN_CHECK_CTOR(data);
 }
 
 /**
@@ -153,6 +145,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 	}
 
 	
-	PHALCON_RETURN_CHECK_CTOR(data);
+	RETURN_CHECK_CTOR(data);
 }
 

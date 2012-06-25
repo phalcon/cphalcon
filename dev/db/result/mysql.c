@@ -25,23 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 /**
- * Phalcon_Db_Result
+ * Phalcon_Db_Result_Mysql
  *
  * Encapsulates the resultset internals
  *
@@ -49,9 +43,9 @@
  */
 
 /**
- * Phalcon_Db_Result constructor
+ * Phalcon_Db_Result_Mysql constructor
  *
- * @param resource $result
+ * @param object $result
  */
 PHP_METHOD(Phalcon_Db_Result_Mysql, __construct){
 
@@ -68,7 +62,7 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid mysql result supplied to Phalcon_Db_Result_Mysql");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, "_result", strlen("_result"), result TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -84,17 +78,17 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, __construct){
  */
 PHP_METHOD(Phalcon_Db_Result_Mysql, fetchArray){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_fetchMode", sizeof("_fetchMode")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_fetch_array", t0, t1, 0x067);
-	PHALCON_RETURN_DZVAL(r0);
+	phalcon_read_property(&t1, this_ptr, SL("_fetchMode"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_fetch_array", t0, t1);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -106,15 +100,15 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, fetchArray){
  */
 PHP_METHOD(Phalcon_Db_Result_Mysql, numRows){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysqli_num_rows", t0, 0x066);
-	PHALCON_RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysqli_num_rows", t0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -128,8 +122,8 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, numRows){
 PHP_METHOD(Phalcon_Db_Result_Mysql, dataSeek){
 
 	zval *number = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -138,11 +132,11 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, dataSeek){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_result", sizeof("_result")-1, PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_data_seek", t0, number, 0x068);
-	PHALCON_RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_data_seek", t0, number);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -172,7 +166,7 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, setFetchMode){
 	if (zend_is_true(r0)) {
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 1);
-		phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t1 TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_fetchMode"), t1 TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(t2);
 		ZVAL_LONG(t2, 2);
@@ -181,7 +175,7 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, setFetchMode){
 		if (zend_is_true(r1)) {
 			PHALCON_INIT_VAR(t3);
 			ZVAL_LONG(t3, 3);
-			phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t3 TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_fetchMode"), t3 TSRMLS_CC);
 		} else {
 			PHALCON_INIT_VAR(t4);
 			ZVAL_LONG(t4, 3);
@@ -190,11 +184,27 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, setFetchMode){
 			if (zend_is_true(r2)) {
 				PHALCON_INIT_VAR(t5);
 				ZVAL_LONG(t5, 2);
-				phalcon_update_property_zval(this_ptr, "_fetchMode", strlen("_fetchMode"), t5 TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_fetchMode"), t5 TSRMLS_CC);
 			}
 		}
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
+}
+
+/**
+ * Gets the internal MySQLi result object
+ *
+ * @return mysqli_result
+ */
+PHP_METHOD(Phalcon_Db_Result_Mysql, getInternalResult){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	
+	RETURN_CHECK_CTOR(t0);
 }
 

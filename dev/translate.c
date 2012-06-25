@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
 /**
  * Phalcon_Translate
  *
@@ -72,7 +67,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 	PHALCON_CPY_WRT(adapter_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_translate_exception_ce);
@@ -88,7 +83,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
-	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -122,9 +117,9 @@ PHP_METHOD(Phalcon_Translate, _){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", translate_key, placeholders, PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -169,9 +164,9 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "exists", translate_key, PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -216,10 +211,10 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_NULL(c0);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", traslate_key, c0, PHALCON_NO_CHECK);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 

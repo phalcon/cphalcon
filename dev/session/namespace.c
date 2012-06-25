@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
 /**
  * Phalcon_Session_Namespace
  *
@@ -63,23 +58,23 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_session_namespace_ce, this_ptr, "_data", strlen("_data"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_session_namespace_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_name", strlen("_name"), name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_session", "get", t0);
 	PHALCON_CPY_WRT(data, r0);
 	if (Z_TYPE_P(data) != IS_NULL) {
-		phalcon_update_property_zval(this_ptr, "_data", strlen("_data"), data TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -104,15 +99,15 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_update(&t0, property, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, "_data", strlen("_data"), t0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_data"), t0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_name", sizeof("_name")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t2, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon_session", "set", t1, t2);
 	
 	PHALCON_MM_RESTORE();
@@ -139,14 +134,14 @@ PHP_METHOD(Phalcon_Session_Namespace, __get){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_data", sizeof("_data")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(data, t0);
 	eval_int = phalcon_array_isset(data, property);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch(&r0, data, property, PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(r0);
+		RETURN_CHECK_CTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

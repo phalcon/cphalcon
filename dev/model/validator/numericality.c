@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Model_Validator_Numericality
  *
@@ -62,10 +56,10 @@ PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
 	PHALCON_CALL_METHOD(r0, this_ptr, "isrequired", PHALCON_NO_CHECK);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CALL_METHOD(r1, this_ptr, "getvalue", PHALCON_NO_CHECK);
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_METHOD(r2, this_ptr, "getvalue", PHALCON_NO_CHECK);
-		PHALCON_CALL_FUNC_PARAMS_1(r1, "is_numeric", r2, 0x02B);
-		if (!zend_is_true(r1)) {
+		PHALCON_CALL_FUNC_PARAMS_1(r2, "is_numeric", r1);
+		if (!zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CALL_METHOD(r4, this_ptr, "getfieldname", PHALCON_NO_CHECK);

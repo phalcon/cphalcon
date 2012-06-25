@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/require.h"
+#include "kernel/object.h"
 /**
  *
  * Phalcon_View_Engine_Php
@@ -95,7 +90,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_FUNC_NORETURN("ob_clean", 0x01D);
+	PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(params);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -123,10 +118,10 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "ob_get_contents", 0x015);
+	PHALCON_CALL_FUNC(r0, "ob_get_contents");
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();

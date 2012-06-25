@@ -25,6 +25,7 @@ extern int phalcon_memory_restore_stack(TSRMLS_D);
 
 extern int phalcon_memory_observe(zval **var TSRMLS_DC);
 extern int phalcon_memory_remove(zval **var TSRMLS_DC);
+extern int phalcon_memory_alloc(zval **var TSRMLS_DC);
 
 extern int phalcon_clean_restore_stack(TSRMLS_D);
 
@@ -35,7 +36,7 @@ extern int phalcon_clean_restore_stack(TSRMLS_D);
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z);
 
-#ifdef PHP_WIN32
+#ifndef PHP_WIN32
 
 #define PHALCON_INIT_VAR(z)\
 	if (z) {\
@@ -49,8 +50,7 @@ extern int phalcon_clean_restore_stack(TSRMLS_D);
 			PHALCON_ALLOC_ZVAL(z);\
 		}\
 	} else {\
-		phalcon_memory_observe(&z TSRMLS_CC);\
-		PHALCON_ALLOC_ZVAL(z);\
+		phalcon_memory_alloc(&z TSRMLS_CC);\
 	}
 
 #define PHALCON_CPY_WRT(d, v) \
@@ -139,5 +139,7 @@ extern int phalcon_clean_restore_stack(TSRMLS_D);
 	}
 
 #define PHALCON_OBSERVE_VAR(var) if(!var){\
-                phalcon_memory_observe(&var TSRMLS_CC);\
-        }
+		phalcon_memory_observe(&var TSRMLS_CC);\
+	} else {\
+		zval_ptr_dtor(&var);\
+	}

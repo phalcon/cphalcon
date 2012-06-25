@@ -25,21 +25,14 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
 /**
  * Phalcon_Db_Profiler_Item
  *
@@ -63,7 +56,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_sqlStatement", strlen("_sqlStatement"), sql_statement TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -79,9 +72,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_sqlStatement", sizeof("_sqlStatement")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_sqlStatement"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -100,7 +93,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_initialTime", strlen("_initialTime"), initial_time TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_initialTime"), initial_time TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -121,7 +114,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_finalTime", strlen("_finalTime"), final_time TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_finalTime"), final_time TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -137,9 +130,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_initialTime", sizeof("_initialTime")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_initialTime"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -153,9 +146,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_finalTime", sizeof("_finalTime")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -170,12 +163,12 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_finalTime", sizeof("_finalTime")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_initialTime", sizeof("_initialTime")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_initialTime"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	sub_function(r0, t0, t1 TSRMLS_CC);
 	
-	PHALCON_RETURN_CTOR(r0);
+	RETURN_CTOR(r0);
 }
 

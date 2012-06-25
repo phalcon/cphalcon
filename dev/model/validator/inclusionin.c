@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Model_Validator_Inclusionin
  *
@@ -70,13 +64,13 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, checkOptions){
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "domain", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c1, PHALCON_NO_CHECK);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "is_array", r2, 0x03D);
-	if (!zend_is_true(r1)) {
+	PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "getoption", c1, PHALCON_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "is_array", r1);
+	if (!zend_is_true(r2)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Option 'domain' must be an array");
 		return;
 	}
@@ -112,11 +106,11 @@ PHP_METHOD(Phalcon_Model_Validator_Inclusionin, validate){
 			PHALCON_CPY_WRT(domain, r2);
 			
 			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CALL_METHOD(r3, this_ptr, "getvalue", PHALCON_NO_CHECK);
 			
 			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_METHOD(r4, this_ptr, "getvalue", PHALCON_NO_CHECK);
-			PHALCON_CALL_FUNC_PARAMS_2(r3, "in_array", r4, domain, 0x03E);
-			if (!zend_is_true(r3)) {
+			PHALCON_CALL_FUNC_PARAMS_2(r4, "in_array", r3, domain);
+			if (!zend_is_true(r4)) {
 				PHALCON_ALLOC_ZVAL_MM(r5);
 				PHALCON_CALL_METHOD(r5, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 				PHALCON_CPY_WRT(field_name, r5);

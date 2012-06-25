@@ -25,21 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/array.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
+#include "kernel/operators.h"
 PHP_METHOD(Phalcon_Tag_Select, select){
 
 	zval *parameters = NULL, *data = NULL, *params = NULL, *eol = NULL, *id = NULL, *value = NULL, *dummy_value = NULL;
@@ -49,7 +45,7 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *p1[] = { NULL, NULL, NULL, NULL };
+	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -88,41 +84,41 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_long(&r0, params, 0, PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CPY_WRT(id, r0);
-	eval_int = phalcon_array_isset_string(params, "value", strlen("value")+1);
+	eval_int = phalcon_array_isset_string(params, SL("value")+1);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CALL_STATIC_PARAMS_1(r1, "phalcon_tag", "getvalue", id);
 		PHALCON_CPY_WRT(value, r1);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, params, "value", strlen("value"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r2, params, SL("value"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(value, r2);
 		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, "value", strlen("value")+1);
+		phalcon_array_unset_string(params, SL("value")+1);
 	}
 	
-	eval_int = phalcon_array_isset_string(params, "dummyValue", strlen("dummyValue")+1);
+	eval_int = phalcon_array_isset_string(params, SL("dummyValue")+1);
 	if (!eval_int) {
 		PHALCON_INIT_VAR(dummy_value);
 		ZVAL_STRING(dummy_value, "", 1);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r3);
-		phalcon_array_fetch_string(&r3, params, "dummyValue", strlen("dummyValue"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r3, params, SL("dummyValue"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(dummy_value, r3);
 		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, "dummyValue", strlen("dummyValue")+1);
+		phalcon_array_unset_string(params, SL("dummyValue")+1);
 	}
 	
-	eval_int = phalcon_array_isset_string(params, "dummyText", strlen("dummyText")+1);
+	eval_int = phalcon_array_isset_string(params, SL("dummyText")+1);
 	if (!eval_int) {
 		PHALCON_INIT_VAR(dummy_text);
 		ZVAL_STRING(dummy_text, "Choose...", 1);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r4);
-		phalcon_array_fetch_string(&r4, params, "dummyText", strlen("dummyText"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r4, params, SL("dummyText"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(dummy_text, r4);
 		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, "dummyText", strlen("dummyText")+1);
+		phalcon_array_unset_string(params, SL("dummyText")+1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r5);
@@ -164,7 +160,7 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 	PHALCON_ALLOC_ZVAL_MM(r8);
 	PHALCON_CONCAT_SV(r8, "</option>", eol);
 	PHALCON_CPY_WRT(close_option, r8);
-	eval_int = phalcon_array_isset_string(params, "useDummy", strlen("useDummy")+1);
+	eval_int = phalcon_array_isset_string(params, SL("useDummy")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r9);
 		PHALCON_CONCAT_SVSVV(r9, "\t<option value=\"", dummy_value, "\">", dummy_text, close_option);
@@ -181,13 +177,13 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 	}
 	
 	if (Z_TYPE_P(options) == IS_OBJECT) {
-		eval_int = phalcon_array_isset_string(params, "using", strlen("using")+1);
+		eval_int = phalcon_array_isset_string(params, SL("using")+1);
 		if (!eval_int) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter is required");
 			return;
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r11);
-			phalcon_array_fetch_string(&r11, params, "using", strlen("using"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_fetch_string(&r11, params, SL("using"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CPY_WRT(using, r11);
 			if (Z_TYPE_P(using) != IS_ARRAY) { 
 				PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter should be an Array");
@@ -196,11 +192,11 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 		}
 		
 		PHALCON_ALLOC_ZVAL_MM(r12);
-		p1[0] = options;
-		p1[1] = using;
-		p1[2] = value;
-		p1[3] = close_option;
-		PHALCON_CALL_SELF_PARAMS(r12, this_ptr, "_optionsfromresultset", 4, p1);
+		p0[0] = options;
+		p0[1] = using;
+		p0[2] = value;
+		p0[3] = close_option;
+		PHALCON_CALL_SELF_PARAMS(r12, this_ptr, "_optionsfromresultset", 4, p0);
 		phalcon_concat_self(&code, r12 TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -217,7 +213,7 @@ PHP_METHOD(Phalcon_Tag_Select, select){
 	ZVAL_STRING(t1, "</select>", 1);
 	phalcon_concat_self(&code, t1 TSRMLS_CC);
 	
-	PHALCON_RETURN_CTOR(code);
+	RETURN_CTOR(code);
 }
 
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
@@ -278,7 +274,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		goto ws_9c31_1;
 	we_9c31_1:
 	
-	PHALCON_RETURN_CTOR(code);
+	RETURN_CTOR(code);
 }
 
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
@@ -334,6 +330,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		return;
 	}
 	
-	PHALCON_RETURN_CTOR(code);
+	RETURN_CTOR(code);
 }
 

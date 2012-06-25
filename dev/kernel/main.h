@@ -49,6 +49,8 @@
 #endif
 #endif
 
+#define SL(str) ZEND_STRL(str)
+
 /** Exceptions */
 #define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
 
@@ -81,6 +83,7 @@ extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
+extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
@@ -116,7 +119,7 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 			ZVAL_NULL(var);\
 		}
 
-#define PHALCON_RETURN_CHECK_CTOR(var) {\
+#define RETURN_CHECK_CTOR(var) {\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\
@@ -129,7 +132,7 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 	PHALCON_MM_RESTORE();\
 	return;
 
-#define PHALCON_RETURN_CTOR(var) {\
+#define RETURN_CTOR(var) {\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\
@@ -140,7 +143,7 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 	PHALCON_MM_RESTORE();\
 	return;
 
-#define PHALCON_RETURN_DZVAL(var) {\
+#define RETURN_DZVAL(var) {\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\
@@ -151,7 +154,7 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 	}\
 	return;
 
-#define PHALCON_RETURN_NCTOR(var) {\
+#define RETURN_NCTOR(var) {\
 		zend_uchar is_ref = Z_ISREF_P(return_value);\
 		zend_uint refcount = Z_REFCOUNT_P(return_value);\
 		*(return_value) = *(var);\

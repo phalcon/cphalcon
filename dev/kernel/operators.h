@@ -33,3 +33,5 @@ extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC
 
 extern void phalcon_increment_function(zval **var, int separate TSRMLS_DC);
 extern void phalcon_decrement_function(zval **var, int separate TSRMLS_DC);
+
+extern void phalcon_cast(zval *result, zval *var, zend_uint type);

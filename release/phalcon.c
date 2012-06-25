@@ -14609,7 +14609,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL;
 	zval *c0 = NULL;
-	zval *p3[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	zval *p2[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -14766,15 +14766,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r6);
-	p3[0] = link;
-	p3[1] = host;
-	p3[2] = username;
-	p3[3] = password;
-	p3[4] = dbname;
-	p3[5] = port;
-	p3[6] = socket;
-	p3[7] = client_flags;
-	PHALCON_CALL_FUNC_PARAMS(r6, "mysqli_real_connect", 8, p3, 0x061);
+	p2[0] = link;
+	p2[1] = host;
+	p2[2] = username;
+	p2[3] = password;
+	p2[4] = dbname;
+	p2[5] = port;
+	p2[6] = socket;
+	p2[7] = client_flags;
+	PHALCON_CALL_FUNC_PARAMS(r6, "mysqli_real_connect", 8, p2, 0x061);
 	PHALCON_CPY_WRT(success, r6);
 	if (zend_is_true(success)) {
 		phalcon_update_property_zval(this_ptr, "_idConnection", strlen("_idConnection"), link TSRMLS_CC);
@@ -20261,7 +20261,7 @@ PHP_METHOD(Phalcon_Model_Base, find){
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *i0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *p5[] = { NULL, NULL, NULL, NULL, NULL };
+	zval *p4[] = { NULL, NULL, NULL, NULL, NULL };
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -20314,14 +20314,14 @@ PHP_METHOD(Phalcon_Model_Base, find){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
-	p5[0] = manager;
-	p5[1] = model;
-	p5[2] = connection;
-	p5[3] = params;
+	p4[0] = manager;
+	p4[1] = model;
+	p4[2] = connection;
+	p4[3] = params;
 	
-	PHALCON_INIT_VAR(p5[4]);
-	ZVAL_BOOL(p5[4], 0);
-	PHALCON_CALL_SELF_PARAMS(r3, this_ptr, "_getorcreateresultset", 5, p5);
+	PHALCON_INIT_VAR(p4[4]);
+	ZVAL_BOOL(p4[4], 0);
+	PHALCON_CALL_SELF_PARAMS(r3, this_ptr, "_getorcreateresultset", 5, p4);
 	PHALCON_RETURN_DZVAL(r3);
 }
 
@@ -20341,7 +20341,7 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 	zval *i0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
 	zval *t0 = NULL;
-	zval *p5[] = { NULL, NULL, NULL, NULL, NULL };
+	zval *p4[] = { NULL, NULL, NULL, NULL, NULL };
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -20402,14 +20402,14 @@ PHP_METHOD(Phalcon_Model_Base, findFirst){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
-	p5[0] = manager;
-	p5[1] = model;
-	p5[2] = connection;
-	p5[3] = params;
+	p4[0] = manager;
+	p4[1] = model;
+	p4[2] = connection;
+	p4[3] = params;
 	
-	PHALCON_INIT_VAR(p5[4]);
-	ZVAL_BOOL(p5[4], 1);
-	PHALCON_CALL_SELF_PARAMS(r3, this_ptr, "_getorcreateresultset", 5, p5);
+	PHALCON_INIT_VAR(p4[4]);
+	ZVAL_BOOL(p4[4], 1);
+	PHALCON_CALL_SELF_PARAMS(r3, this_ptr, "_getorcreateresultset", 5, p4);
 	PHALCON_RETURN_DZVAL(r3);
 }
 
@@ -20596,7 +20596,7 @@ PHP_METHOD(Phalcon_Model_Base, _prepareGroupResult){
 	zval *r21 = NULL, *r22 = NULL, *r23 = NULL, *r24 = NULL, *r25 = NULL, *r26 = NULL;
 	zval *i0 = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *p8[] = { NULL, NULL, NULL, NULL };
+	zval *p7[] = { NULL, NULL, NULL, NULL };
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -20762,11 +20762,11 @@ PHP_METHOD(Phalcon_Model_Base, _prepareGroupResult){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r26);
-	p8[0] = connection;
-	p8[1] = params;
-	p8[2] = select;
-	p8[3] = alias;
-	PHALCON_CALL_SELF_PARAMS(r26, this_ptr, "_getgroupresult", 4, p8);
+	p7[0] = connection;
+	p7[1] = params;
+	p7[2] = select;
+	p7[3] = alias;
+	PHALCON_CALL_SELF_PARAMS(r26, this_ptr, "_getgroupresult", 4, p7);
 	PHALCON_RETURN_DZVAL(r26);
 }
 

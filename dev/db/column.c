@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/array.h"
 /**
  * Phalcon_Db_Column
  *
@@ -70,86 +64,86 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_columnName", strlen("_columnName"), column_name TSRMLS_CC);
-	eval_int = phalcon_array_isset_string(definition, "type", strlen("type")+1);
+	phalcon_update_property_zval(this_ptr, SL("_columnName"), column_name TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(definition, SL("type")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, definition, "type", strlen("type"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_type", strlen("_type"), r0 TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, definition, SL("type"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_type"), r0 TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type is required");
 		return;
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "notNull", strlen("notNull")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("notNull")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, definition, "notNull", strlen("notNull"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_notNull", strlen("_notNull"), r1 TSRMLS_CC);
+		phalcon_array_fetch_string(&r1, definition, SL("notNull"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_notNull"), r1 TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "size", strlen("size")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("size")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, definition, "size", strlen("size"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_size", strlen("_size"), r2 TSRMLS_CC);
+		phalcon_array_fetch_string(&r2, definition, SL("size"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_size"), r2 TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "scale", strlen("scale")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("scale")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t0, this_ptr, SL("_type"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 3);
 		PHALCON_ALLOC_ZVAL_MM(r3);
 		is_equal_function(r3, t0, t1 TSRMLS_CC);
 		if (zend_is_true(r3)) {
 			PHALCON_ALLOC_ZVAL_MM(r4);
-			phalcon_array_fetch_string(&r4, definition, "scale", strlen("scale"), PHALCON_NOISY TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, "_scale", strlen("_scale"), r4 TSRMLS_CC);
+			phalcon_array_fetch_string(&r4, definition, SL("scale"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_scale"), r4 TSRMLS_CC);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");
 			return;
 		}
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "unsigned", strlen("unsigned")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("unsigned")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r5);
-		phalcon_array_fetch_string(&r5, definition, "unsigned", strlen("unsigned"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_unsigned", strlen("_unsigned"), r5 TSRMLS_CC);
+		phalcon_array_fetch_string(&r5, definition, SL("unsigned"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_unsigned"), r5 TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "autoIncrement", strlen("autoIncrement")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("autoIncrement")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, this_ptr, SL("_type"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_INIT_VAR(t3);
 		ZVAL_LONG(t3, 0);
 		PHALCON_ALLOC_ZVAL_MM(r6);
 		is_equal_function(r6, t2, t3 TSRMLS_CC);
 		if (zend_is_true(r6)) {
 			PHALCON_ALLOC_ZVAL_MM(r7);
-			phalcon_array_fetch_string(&r7, definition, "autoIncrement", strlen("autoIncrement"), PHALCON_NOISY TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, "_autoIncrement", strlen("_autoIncrement"), r7 TSRMLS_CC);
+			phalcon_array_fetch_string(&r7, definition, SL("autoIncrement"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), r7 TSRMLS_CC);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment");
 			return;
 		}
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "first", strlen("first")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("first")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r8);
-		phalcon_array_fetch_string(&r8, definition, "first", strlen("first"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_first", strlen("_first"), r8 TSRMLS_CC);
+		phalcon_array_fetch_string(&r8, definition, SL("first"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_first"), r8 TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, "after", strlen("after")+1);
+	eval_int = phalcon_array_isset_string(definition, SL("after")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r9);
-		phalcon_array_fetch_string(&r9, definition, "after", strlen("after"), PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_after", strlen("_after"), r9 TSRMLS_CC);
+		phalcon_array_fetch_string(&r9, definition, SL("after"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_after"), r9 TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -166,9 +160,9 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_schemaName", sizeof("_schemaName")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_schemaName"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -182,9 +176,9 @@ PHP_METHOD(Phalcon_Db_Column, getName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_columnName", sizeof("_columnName")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_columnName"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -198,9 +192,9 @@ PHP_METHOD(Phalcon_Db_Column, getType){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_type", sizeof("_type")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_type"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -214,9 +208,9 @@ PHP_METHOD(Phalcon_Db_Column, getSize){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_size", sizeof("_size")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_size"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -230,9 +224,9 @@ PHP_METHOD(Phalcon_Db_Column, getScale){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_scale", sizeof("_scale")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_scale"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -246,9 +240,9 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_unsigned", sizeof("_unsigned")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_unsigned"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -262,9 +256,9 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_notNull", sizeof("_notNull")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_notNull"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -278,9 +272,9 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_autoIncrement", sizeof("_autoIncrement")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_autoIncrement"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -294,9 +288,9 @@ PHP_METHOD(Phalcon_Db_Column, isFirst){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_first", sizeof("_first")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_first"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -310,8 +304,8 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_after", sizeof("_after")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_after"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 

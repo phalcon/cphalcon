@@ -27,6 +27,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "Zend/zend_operators.h"
+
 /**
  * Performs logical AND function operator
  */
@@ -164,39 +166,25 @@ int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 }
 
 /**
- * Increment zval doing separation if needed
+ * Cast variables converting they to other types
  */
-void phalcon_increment_function(zval **var, int separate TSRMLS_DC){
-	if(separate){
-		zval *orig_ptr = *var;
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {
-			Z_DELREF_P(orig_ptr);
-			ALLOC_ZVAL(*var);
-			phalcon_memory_observe(var TSRMLS_CC);
-			**var = *orig_ptr;
-			zval_copy_ctor(*var);
-			Z_SET_REFCOUNT_PP(var, 1);
-			Z_UNSET_ISREF_PP(var);
-		}
-	}
-	increment_function(*var);
-}
+void phalcon_cast(zval *result, zval *var, zend_uint type){
 
-/**
- * Decrement zval doing separation if needed
- */
-void phalcon_decrement_function(zval **var, int separate TSRMLS_DC){
-	if(separate){
-		zval *orig_ptr = *var;
-		if (Z_REFCOUNT_P(orig_ptr) > 1) {
-			Z_DELREF_P(orig_ptr);
-			ALLOC_ZVAL(*var);
-			phalcon_memory_observe(var TSRMLS_CC);
-			**var = *orig_ptr;
-			zval_copy_ctor(*var);
-			Z_SET_REFCOUNT_PP(var, 1);
-			Z_UNSET_ISREF_PP(var);
-		}
+	ZVAL_ZVAL(result, var, 1, 0);
+
+	switch(type){
+		case IS_STRING:
+			convert_to_string(result);
+			break;
+		case IS_LONG:
+			convert_to_long(result);
+			break;
+		/*case IS_BOOL:
+			convert_to_bool(result);
+			break;*/
+		case IS_ARRAY:
+			convert_to_array(result);
+			break;
 	}
-	decrement_function(*var);
+
 }

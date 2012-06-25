@@ -20,9 +20,7 @@
 
 class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
-	private $_manager;
-
-	private $_pdtAttributes = array(
+	private $_pdtAttributesMysql = array(
 		'cedula' => 'char(15)',
 		'tipo_documento_id' => 'int(3) unsigned',
 		'nombres' => 'varchar(100)',
@@ -36,20 +34,63 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		'estado' => 'enum(\'A\',\'I\',\'X\')',
 	);
 
-	public function setUp(){
+	private $_pdtAttributesPostgresql = array(
+		'cedula' => 'character(15)',
+		'tipo_documento_id' => 'integer',
+		'nombres' => 'character varying(100)',
+		'telefono' => 'character varying(20)',
+		'direccion' => 'character varying(100)',
+		'email' => 'character varying(50)',
+		'fecha_nacimiento' => 'date',
+		'ciudad_id' => 'integer',
+		'creado_at' => 'date',
+		'cupo' => 'numeric(16,2)',
+		'estado' => 'character(1)',
+	);
+
+	protected function _createManagerMysql(){
 
 		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::reset();
 
 		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
-		$this->_manager = new Phalcon_Model_Manager();
-		$this->_manager->setModelsDir('unit-tests/models/');
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		return $manager;
 	}
 
-	public function testMetadata(){
+	protected function _createManagerPostgresql(){
 
-		$manager = $this->_manager;
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::reset();
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		return $manager;
+	}
+
+	public function testMetadataMysql(){
+
+		$manager = $this->_createManagerMysql();
+
+		$metaData = $manager->getMetaData();
+
+		$this->_executeTests($manager, $metaData, $this->_pdtAttributesMysql);
+
+	}
+
+	public function testMetadataMysql2(){
+
+		$manager = $this->_createManagerMysql();
 
 		$Personas = $manager->getModel('Personas');
 		$this->assertEquals(get_class($Personas), 'Personas');
@@ -58,6 +99,29 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
 		$metaData = $manager->getMetaData();
+
+		$dtAttributes = $metaData->getDataTypes($Personas);
+		$this->assertEquals($dtAttributes, $this->_pdtAttributesMysql);
+
+	}
+
+	public function testMetadataPostgresql(){
+
+		$manager = $this->_createManagerPostgresql();
+
+		$metaData = $manager->getMetaData();
+
+		$this->_executeTests($manager, $metaData, $this->_pdtAttributesPostgresql);
+
+	}
+
+	protected function _executeTests($manager, $metaData, $dataTypes){
+
+		$Personas = $manager->getModel('Personas');
+		$this->assertEquals(get_class($Personas), 'Personas');
+
+		$connection = $Personas->getConnection();
+		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
 		$pAttributes = array(
 			0 => 'cedula',
@@ -111,7 +175,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($nnAttributes, $pnnAttributes);
 
 		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
+		$this->assertEquals($dtAttributes, $dataTypes);
 
 		$pndAttributes = array(
 			'tipo_documento_id' => true,
@@ -120,24 +184,6 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		);
 		$ndAttributes = $metaData->getDataTypesNumeric($Personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
-
-	}
-
-	public function testMetadata2(){
-
-		$manager = $this->_manager;
-
-		$Personas = $manager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
-
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
-
-		$metaData = $manager->getMetaData();
-
-		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $this->_pdtAttributes);
-
 	}
 
 }

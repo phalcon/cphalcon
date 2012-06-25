@@ -25,21 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
 /**
  * Phalcon_Logger
  *
@@ -93,7 +89,7 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	PHALCON_CPY_WRT(class_name, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_logger_exception_ce);
@@ -109,7 +105,7 @@ PHP_METHOD(Phalcon_Logger, __construct){
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i1, "__construct", name, options, PHALCON_CHECK);
-	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -138,7 +134,7 @@ PHP_METHOD(Phalcon_Logger, log){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, type, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -163,9 +159,9 @@ PHP_METHOD(Phalcon_Logger, debug){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "DEBUG", strlen("DEBUG") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("DEBUG") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -190,9 +186,9 @@ PHP_METHOD(Phalcon_Logger, error){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "ERROR", strlen("ERROR") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("ERROR") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -217,9 +213,9 @@ PHP_METHOD(Phalcon_Logger, info){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "INFO", strlen("INFO") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("INFO") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -244,9 +240,9 @@ PHP_METHOD(Phalcon_Logger, notice){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "NOTICE", strlen("NOTICE") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("NOTICE") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -271,9 +267,9 @@ PHP_METHOD(Phalcon_Logger, warning){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "WARNING", strlen("WARNING") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("WARNING") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -298,9 +294,9 @@ PHP_METHOD(Phalcon_Logger, alert){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_logger_ce, "ALERT", strlen("ALERT") TSRMLS_CC);
+	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("ALERT") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PHALCON_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -317,8 +313,8 @@ PHP_METHOD(Phalcon_Logger, __call){
 
 	zval *method = NULL, *arguments = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -333,14 +329,14 @@ PHP_METHOD(Phalcon_Logger, __call){
 		PHALCON_CPY_WRT(arguments, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&a1, t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x013);
-	PHALCON_RETURN_DZVAL(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments);
+	RETURN_DZVAL(r0);
 }
 

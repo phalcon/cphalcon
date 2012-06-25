@@ -20,12 +20,31 @@
 
 class ModelsTest extends PHPUnit_Framework_TestCase {
 
-	public function testModels(){
+	public function testModelsMysql(){
+
+		Phalcon_Db_Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
 		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+	}
+
+	public function testModelsPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+	}
+
+	protected function _executeTests(){
 
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
@@ -216,7 +235,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$before = People::count();
 		$this->assertTrue($persona->delete());
 		$this->assertEquals($before-1, People::count());
-
 	}
 
 

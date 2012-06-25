@@ -41,8 +41,7 @@ inline void phalcon_init_var(zval **var TSRMLS_DC){
 			PHALCON_ALLOC_ZVAL(*var);
 		}
 	} else {
-		phalcon_memory_observe(var TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL(*var);
+		phalcon_memory_alloc(var TSRMLS_CC);
 	}
 }
 
@@ -156,6 +155,19 @@ int phalcon_memory_observe(zval **var TSRMLS_DC){
 	active_memory->pointer++;
 	active_memory->addresses[active_memory->pointer] = var;
 	active_memory->addresses[active_memory->pointer+1] = NULL;
+	return SUCCESS;
+}
+
+/**
+ * Observe a variable and allocates memory for it
+ */
+int phalcon_memory_alloc(zval **var TSRMLS_DC){
+	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+	active_memory->pointer++;
+	active_memory->addresses[active_memory->pointer] = var;
+	active_memory->addresses[active_memory->pointer+1] = NULL;
+	ALLOC_ZVAL(*var);
+	INIT_PZVAL(*var);
 	return SUCCESS;
 }
 

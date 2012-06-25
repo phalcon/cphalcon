@@ -27,9 +27,20 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 		$connection = Phalcon_Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
+		$this->_executeTests($connection);
 	}
 
-	protected function executeTests($connection){
+	public function testDbLoggerPostgresql(){
+
+		require 'unit-tests/config.db.php';
+
+		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$this->assertTrue(is_object($connection));
+
+		$this->_executeTests($connection);
+	}
+
+	protected function _executeTests($connection){
 
 		@unlink('unit-tests/logs/test-db.log');
 

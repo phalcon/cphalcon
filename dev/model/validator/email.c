@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Model_Validator_Email
  *
@@ -72,17 +67,17 @@ PHP_METHOD(Phalcon_Model_Validator_Email, validate){
 		PHALCON_CALL_METHOD(r1, this_ptr, "getfieldname", PHALCON_NO_CHECK);
 		PHALCON_CPY_WRT(field_name, r1);
 		
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/^[a-zA-Z0-9_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
 		
-		PHALCON_ALLOC_ZVAL_MM(r3);
-		PHALCON_CALL_METHOD(r3, this_ptr, "getvalue", PHALCON_NO_CHECK);
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		PHALCON_CALL_METHOD(r2, this_ptr, "getvalue", PHALCON_NO_CHECK);
 		Z_SET_ISREF_P(regs);
-		PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", c0, r3, regs, 0x006);
+		
+		PHALCON_ALLOC_ZVAL_MM(r3);
+		PHALCON_CALL_FUNC_PARAMS_3(r3, "preg_match", c0, r2, regs);
 		Z_UNSET_ISREF_P(regs);
-		if (zend_is_true(r2)) {
+		if (zend_is_true(r3)) {
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			phalcon_array_fetch_long(&r4, regs, 0, PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(r5);

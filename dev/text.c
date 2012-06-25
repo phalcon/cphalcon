@@ -25,21 +25,14 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
 /**
  * Converts strings to camelize style
  *
@@ -51,8 +44,8 @@
 PHP_METHOD(Phalcon_Text, camelize){
 
 	zval *str = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -61,23 +54,23 @@ PHP_METHOD(Phalcon_Text, camelize){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, " ", 1);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "", 1);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_ALLOC_ZVAL_MM(r2);
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "_", 1);
 	PHALCON_INIT_VAR(c3);
 	ZVAL_STRING(c3, " ", 1);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "strtolower", str);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	phalcon_fast_str_replace(r1, c2, c3, r0 TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "ucwords", r1);
 	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x005);
-	PHALCON_CALL_FUNC_PARAMS_3(r2, "str_replace", c2, c3, r3, 0x003);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "ucwords", r2, 0x004);
-	PHALCON_CALL_FUNC_PARAMS_3(r0, "str_replace", c0, c1, r1, 0x003);
-	PHALCON_RETURN_DZVAL(r0);
+	phalcon_fast_str_replace(r3, c0, c1, r2 TSRMLS_CC);
+	RETURN_DZVAL(r3);
 }
 
 /**
@@ -110,8 +103,8 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	add_assoc_stringl_ex(a0, "/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/", strlen("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, "\\1_\\2", strlen("\\1_\\2"), 1);
-	add_assoc_stringl_ex(a0, "/(?<=(?:[a-z]))([A-Z])/", strlen("/(?<=(?:[a-z]))([A-Z])/")+1, "_\\1", strlen("_\\1"), 1);
+	add_assoc_stringl_ex(a0, SL("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, SL("\\1_\\2"), 1);
+	add_assoc_stringl_ex(a0, SL("/(?<=(?:[a-z]))([A-Z])/")+1, SL("_\\1"), 1);
 	PHALCON_CPY_WRT(patterns, a0);
 	if (phalcon_valid_foreach(patterns TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(patterns);
@@ -126,13 +119,13 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		PHALCON_INIT_VAR(replacement);
 		ZVAL_ZVAL(replacement, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "preg_match", pattern, str, 0x006);
+		PHALCON_CALL_FUNC_PARAMS_2(r0, "preg_match", pattern, str);
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(r1);
+			PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_replace", pattern, replacement, str);
 			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_replace", pattern, replacement, str, 0x007);
-			PHALCON_CALL_FUNC_PARAMS_1(r1, "strtolower", r2, 0x005);
-			PHALCON_RETURN_DZVAL(r1);
+			PHALCON_CALL_FUNC_PARAMS_1(r2, "strtolower", r1);
+			RETURN_DZVAL(r2);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f8ee_0;
@@ -143,7 +136,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str, 0x005);
-	PHALCON_RETURN_DZVAL(r3);
+	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str);
+	RETURN_DZVAL(r3);
 }
 

@@ -25,21 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Session
  *
@@ -76,7 +72,7 @@ PHP_METHOD(Phalcon_Session, start){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_start", 0x04A);
+	PHALCON_CALL_FUNC(r0, "session_start");
 	
 	PHALCON_MM_RESTORE();
 }
@@ -99,11 +95,11 @@ PHP_METHOD(Phalcon_Session, setOptions){
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(options, "uniqueId", strlen("uniqueId")+1);
+	eval_int = phalcon_array_isset_string(options, SL("uniqueId")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, options, "uniqueId", strlen("uniqueId"), PHALCON_NOISY TSRMLS_CC);
-		zend_update_static_property(phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1, r0 TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, options, SL("uniqueId"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_static_property(SL("Phalcon_Session"), SL("_uniqueId"), r0 TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -131,16 +127,16 @@ PHP_METHOD(Phalcon_Session, get){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Session"), SL("_uniqueId") TSRMLS_CC);
 	PHALCON_CONCAT_VV(r0, t0, index);
 	PHALCON_CPY_WRT(key, r0);
-	phalcon_get_global(&g0, "_SESSION", sizeof("_SESSION") TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, key);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_array_fetch(&r1, g0, key, PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(r1);
+		RETURN_CHECK_CTOR(r1);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -169,10 +165,10 @@ PHP_METHOD(Phalcon_Session, set){
 		RETURN_NULL();
 	}
 
-	phalcon_get_global(&g0, "_SESSION", sizeof("_SESSION") TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Session"), SL("_uniqueId") TSRMLS_CC);
 	PHALCON_CONCAT_VV(r0, t0, index);
 	phalcon_array_update(&g0, r0, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
 	
@@ -201,10 +197,10 @@ PHP_METHOD(Phalcon_Session, has){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Session"), SL("_uniqueId") TSRMLS_CC);
 	PHALCON_CONCAT_VV(r0, t0, index);
 	PHALCON_CPY_WRT(key, r0);
-	phalcon_get_global(&g0, "_SESSION", sizeof("_SESSION") TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, key);
 	if (eval_int) {
 		PHALCON_MM_RESTORE();
@@ -238,10 +234,10 @@ PHP_METHOD(Phalcon_Session, remove){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_session_ce, "_uniqueId", sizeof("_uniqueId")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Session"), SL("_uniqueId") TSRMLS_CC);
 	PHALCON_CONCAT_VV(r0, t0, index);
 	PHALCON_CPY_WRT(key, r0);
-	phalcon_get_global(&g0, "_SESSION", sizeof("_SESSION") TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	phalcon_array_unset(g0, key);
 	
 	PHALCON_MM_RESTORE();
@@ -258,7 +254,7 @@ PHP_METHOD(Phalcon_Session, getId){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_id", 0x04B);
-	PHALCON_RETURN_DZVAL(r0);
+	PHALCON_CALL_FUNC(r0, "session_id");
+	RETURN_DZVAL(r0);
 }
 

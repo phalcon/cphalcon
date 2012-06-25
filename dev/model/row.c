@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/array.h"
 /**
  * Phalcon_Model_Row
  *
@@ -55,7 +50,7 @@ PHP_METHOD(Phalcon_Model_Row, __construct){
 	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_model_row_ce, this_ptr, "_columns", strlen("_columns"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_model_row_ce, this_ptr, SL("_columns"), a0 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -76,7 +71,7 @@ PHP_METHOD(Phalcon_Model_Row, setConnection){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_connection", strlen("_connection"), connection TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -92,9 +87,9 @@ PHP_METHOD(Phalcon_Model_Row, getConnection){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_connection", sizeof("_connection")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_connection"), PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -134,7 +129,7 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 	PHALCON_CPY_WRT(object_row, i0);
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_columns"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_fast_count(r0, t0 TSRMLS_CC);
@@ -171,8 +166,8 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		} else {
 			return;
 		}
-		phalcon_update_property_zval(object_row, "_columns", strlen("_columns"), columns TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, "_columns", strlen("_columns"), columns TSRMLS_CC);
+		phalcon_update_property_zval(object_row, SL("_columns"), columns TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	} else {
 		if (phalcon_valid_foreach(result TSRMLS_CC)) {
 			ah1 = Z_ARRVAL_P(result);
@@ -196,12 +191,12 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult){
 		}
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
-		phalcon_read_property(&t3, this_ptr, "_columns", sizeof("_columns")-1, PHALCON_NOISY TSRMLS_CC);
-		phalcon_update_property_zval(object_row, "_columns", strlen("_columns"), t3 TSRMLS_CC);
+		phalcon_read_property(&t3, this_ptr, SL("_columns"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(object_row, SL("_columns"), t3 TSRMLS_CC);
 	}
 	
 	
-	PHALCON_RETURN_CHECK_CTOR(object_row);
+	RETURN_CHECK_CTOR(object_row);
 }
 
 /**
@@ -227,7 +222,7 @@ PHP_METHOD(Phalcon_Model_Row, readAttribute){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property_zval(&t0, this_ptr, property, PHALCON_NOISY TSRMLS_CC);
 	
-	PHALCON_RETURN_CHECK_CTOR(t0);
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -242,8 +237,8 @@ PHP_METHOD(Phalcon_Model_Row, sleep){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	add_next_index_stringl(a0, "_columns", strlen("_columns"), 1);
+	add_next_index_stringl(a0, SL("_columns"), 1);
 	
-	PHALCON_RETURN_CTOR(a0);
+	RETURN_CTOR(a0);
 }
 

@@ -20,7 +20,19 @@
 
 class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
+	public function setUp(){
+		$iterator = new DirectoryIterator('unit-tests/cache/');
+		foreach($iterator as $item){
+			if(!$item->isDir()){
+				unlink($item->getPathname());
+			}
+		}
+	}
+
 	private function _prepareTest(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
@@ -32,8 +44,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 	public function testCacheResultsetDirect(){
 
 		$this->_prepareTest();
-
-		@unlink('unit-tests/cache/1964662c8e19b91db1ac97541493273e');
 
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
@@ -65,8 +75,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Model_Manager::reset();
 
-		@unlink('unit-tests/cache/1964662c8e19b91db1ac97541493273e');
-
 		$config = new stdClass();
 		$config->cache = new stdClass();
 		$config->cache->adapter = 'File';
@@ -96,8 +104,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 		Phalcon_Model_Manager::reset();
 
-		@unlink('unit-tests/cache/1964662c8e19b91db1ac97541493273e');
-
 		$config = new stdClass();
 		$config->cache = new stdClass();
 		$config->cache->adapter = 'File';
@@ -126,8 +132,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$this->_prepareTest();
 
 		Phalcon_Model_Manager::reset();
-
-		@unlink('unit-tests/cache/mykey');
 
 		$config = new stdClass();
 		$config->cache = new stdClass();

@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/object.h"
+#include "kernel/fcall.h"
 /**
  * Phalcon_Db_Pool
  *
@@ -61,13 +55,13 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Db_Pool"), SL("_defaultDescriptor") TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_NULL(t1);
 	PHALCON_INIT_VAR(r0);
 	is_not_identical_function(r0, t1, t0 TSRMLS_CC);
 	
-	PHALCON_RETURN_NCTOR(r0);
+	RETURN_NCTOR(r0);
 }
 
 /**
@@ -131,7 +125,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		PHALCON_CPY_WRT(descriptor, options);
 	}
 	
-	zend_update_static_property(phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1, descriptor TSRMLS_CC);
+	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_defaultDescriptor"), descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -170,14 +164,14 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	}
 	
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, phalcon_db_pool_ce, "_defaultDescriptor", sizeof("_defaultDescriptor")-1 TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("Phalcon_Db_Pool"), SL("_defaultDescriptor") TSRMLS_CC);
 	PHALCON_CPY_WRT(database, t0);
 	if (!zend_is_true(database)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Default database connection parameters was not defined");
 		return;
 	}
 	
-	eval_int = phalcon_isset_property(database, "adapter", strlen("adapter") TSRMLS_CC);
+	eval_int = phalcon_isset_property(database, SL("adapter") TSRMLS_CC);
 	if (!eval_int) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "A valid adapter name is required");
 		return;
@@ -187,35 +181,55 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 		if (zend_is_true(renovate)) {
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t1, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon_db", "factory", t1, database);
-			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r0 TSRMLS_CC);
+			phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), r0 TSRMLS_CC);
 			PHALCON_OBSERVE_VAR(t2);
-			phalcon_read_static_property(&t2, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
+			phalcon_read_static_property(&t2, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
 			PHALCON_CPY_WRT(connection, t2);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			PHALCON_ALLOC_ZVAL_MM(t3);
-			phalcon_read_property(&t3, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t3, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon_db", "factory", t3, database);
 			PHALCON_CPY_WRT(connection, r1);
 		}
 	} else {
 		PHALCON_OBSERVE_VAR(t4);
-		phalcon_read_static_property(&t4, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
+		phalcon_read_static_property(&t4, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
 		if (!zend_is_true(t4)) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, database, "adapter", sizeof("adapter")-1, PHALCON_NOISY TSRMLS_CC);
+			phalcon_read_property(&t5, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_CALL_STATIC_PARAMS_2(r2, "phalcon_db", "factory", t5, database);
-			zend_update_static_property(phalcon_db_pool_ce, "_connection", sizeof("_connection")-1, r2 TSRMLS_CC);
+			phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), r2 TSRMLS_CC);
 		}
 		PHALCON_OBSERVE_VAR(t6);
-		phalcon_read_static_property(&t6, phalcon_db_pool_ce, "_connection", sizeof("_connection")-1 TSRMLS_CC);
+		phalcon_read_static_property(&t6, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
 		PHALCON_CPY_WRT(connection, t6);
 	}
 	
 	
-	PHALCON_RETURN_CHECK_CTOR(connection);
+	RETURN_CHECK_CTOR(connection);
+}
+
+/**
+ * Resets default descriptor and connection
+ *
+ */
+PHP_METHOD(Phalcon_Db_Pool, reset){
+
+	zval *t0 = NULL, *t1 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(t0);
+	ZVAL_NULL(t0);
+	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), t0 TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(t1);
+	ZVAL_NULL(t1);
+	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_defaultDescriptor"), t1 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
 }
 

@@ -20,7 +20,6 @@
 
 class DbTest extends PHPUnit_Framework_TestCase {
 
-
 	public function testDbMysql(){
 
 		require 'unit-tests/config.db.php';
@@ -34,6 +33,22 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($connection->getDefaultSchema(), $configMysql->name);
 
 		$this->_executeTests($connection, 'Phalcon_Db_Result_Mysql');
+
+	}
+
+	public function testDbPostgresql(){
+
+		require 'unit-tests/config.db.php';
+
+		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$this->assertTrue(is_object($connection));
+
+		$this->assertEquals($connection->getDatabaseName(), $configPostgresql->name);
+		$this->assertEquals($connection->getHostname(), $configPostgresql->host);
+		$this->assertEquals($connection->getUsername(), $configPostgresql->username);
+		$this->assertEquals($connection->getDefaultSchema(), $configPostgresql->name);
+
+		$this->_executeTests($connection, 'Phalcon_Db_Result_Postgresql');
 
 	}
 
@@ -81,7 +96,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$result = $connection->query("DELETE FROM prueba");
 		$this->assertTrue($result);
 
-		$success = $connection->insert('prueba', array('null', "'LOL 1'", "'A'"));
+		$success = $connection->insert('prueba', array('0', "'LOL 1'", "'A'"));
 		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array("'LOL 2'", "'E'"), array('nombre', 'estado'));

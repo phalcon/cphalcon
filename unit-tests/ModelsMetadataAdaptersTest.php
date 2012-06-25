@@ -23,7 +23,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 	private $_manager;
 
 	private $_data = array(
-		'phalcon_testrobots' => array(
+		'robots' => array(
 			0 => array(
 				0 => 'id',
 				1 => 'name',
@@ -59,6 +59,9 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 	);
 
 	public function setUp(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
 
 		require 'unit-tests/config.db.php';
 

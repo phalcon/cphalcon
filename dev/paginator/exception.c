@@ -25,39 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
 /**
-* Paginator Exception
-*
-* @param string $message
-*/
-PHP_METHOD(Phalcon_Paginator_Exception, __construct){
-
-	zval *message = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon_Paginator_Exception", "__construct", message);
-	
-	PHALCON_MM_RESTORE();
-}
+ * Phalcon_Paginator_Exception
+ *
+ * Exceptions thrown in Phalcon_Paginator will use this class
+ *
+ */
 

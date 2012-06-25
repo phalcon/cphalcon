@@ -22,6 +22,9 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 
 	public function testModels(){
 
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
+
 		require 'unit-tests/config.db.php';
 
 		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);

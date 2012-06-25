@@ -20,7 +20,34 @@
 
 class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
-	private function _prepareTest(){
+	private function _prepareTestPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		$success = $manager->load('Robots');
+		$this->assertTrue($success);
+
+	}
+
+	public function testResultsetPostgresql(){
+		$this->_prepareTestPostgresql();
+		$robots = Robots::find(array('order' => 'id'));
+		$this->_applyTests($robots);
+	}
+
+	private function _prepareTestMysql(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
@@ -35,8 +62,8 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testResultset(){
-		$this->_prepareTest();
+	public function testResultsetMysql(){
+		$this->_prepareTestMysql();
 		$robots = Robots::find(array('order' => 'id'));
 		$this->_applyTests($robots);
 	}
@@ -86,9 +113,23 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testSerialize(){
+	public function testSerializeMysql(){
 
-		$this->_prepareTest();
+		$this->_prepareTestMysql();
+
+		$data = serialize(Robots::find(array('order' => 'id')));
+
+		$robots = unserialize($data);
+
+		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
+
+		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializePostgresql(){
+
+		$this->_prepareTestPostgresql();
 
 		$data = serialize(Robots::find(array('order' => 'id')));
 

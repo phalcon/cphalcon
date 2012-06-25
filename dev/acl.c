@@ -25,21 +25,17 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
 /**
  * Phalcon_Acl
  *
@@ -87,7 +83,7 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	PHALCON_CPY_WRT(adapter_class, r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class, 0x012);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class);
 	if (!zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_acl_exception_ce);
@@ -103,7 +99,7 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
-	phalcon_update_property_zval(this_ptr, "_adapter", strlen("_adapter"), i1 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -119,8 +115,8 @@ PHP_METHOD(Phalcon_Acl, __call){
 
 	zval *method = NULL, *arguments = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -135,14 +131,14 @@ PHP_METHOD(Phalcon_Acl, __call){
 		PHALCON_CPY_WRT(arguments, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_adapter", sizeof("_adapter")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&a1, t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_array_append(&a1, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments, 0x013);
-	PHALCON_RETURN_DZVAL(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments);
+	RETURN_DZVAL(r0);
 }
 

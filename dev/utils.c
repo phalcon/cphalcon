@@ -25,21 +25,15 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 /**
  * Phalcon_Utils
  *
@@ -66,7 +60,7 @@ PHP_METHOD(Phalcon_Utils, camelize){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "camelize", str);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -89,7 +83,7 @@ PHP_METHOD(Phalcon_Utils, uncamelize){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "uncamelize", str);
-	PHALCON_RETURN_DZVAL(r0);
+	RETURN_DZVAL(r0);
 }
 
 /**
@@ -122,7 +116,7 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	PHALCON_CALL_METHOD(r1, r2, "getbaseuri", PHALCON_NO_CHECK);
 	PHALCON_CONCAT_VV(r0, r1, uri);
 	
-	PHALCON_RETURN_CTOR(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -155,6 +149,6 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	PHALCON_CALL_METHOD(r1, r2, "getbasepath", PHALCON_NO_CHECK);
 	PHALCON_CONCAT_VV(r0, r1, extra_path);
 	
-	PHALCON_RETURN_CTOR(r0);
+	RETURN_CTOR(r0);
 }
 

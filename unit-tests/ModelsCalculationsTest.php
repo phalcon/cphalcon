@@ -20,18 +20,33 @@
 
 class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
-	public function testCalculations(){
+	public function testCalculationsMysql(){
 
-		$config = array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		);
+		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($config);
+		Phalcon_Db_Pool::reset();
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+
+	}
+
+	public function testCalculationsPostgresql(){
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::reset();
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+
+	}
+
+	protected function _executeTests(){
 
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
@@ -92,7 +107,7 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 		//Average
 		$total = Personnes::average(array("column" => "cupo"));
-		$this->assertEquals(456452.302752, $total);
+		$this->assertEquals(456452.30, sprintf("%.2f", $total));
 
 		$total = Personnes::average(array("column" => "cupo", "conditions" => "estado='I'"));
 		$this->assertEquals(283510.00, $total);
@@ -100,9 +115,9 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 		$group = Personnes::average(array("column" => "cupo", "group" => "estado"));
 		$this->assertEquals(2, count($group));
 
-		$results = array('A' => 456611.111111, 'I' => 283510.00);
+		$results = array('A' => 456611.11, 'I' => 283510.00);
 		foreach($group as $row){
-			$this->assertEquals($results[$row->estado], $row->average);
+			$this->assertEquals($results[$row->estado], sprintf("%.2f", $row->average));
 		}
 
 		$group = Personnes::average(array("column" => "cupo", "group" => "ciudad_id", "order" => "average DESC"));
@@ -146,7 +161,6 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 		$group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado", "order" => "minimum ASC"));
 		$this->assertEquals($group[0]->minimum, 20404);
-
 	}
 
 

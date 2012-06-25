@@ -1,3 +1,17 @@
+0.4.2
+ - Added support for PostgreSQL database
+ - Phalcon_View is now fully integrated with Phalcon_Cache
+ - Dropped unnecessary registration of arguments for exception classes
+ - Dropped unncessary zval copy-on-write checks
+ - Fixed double registration of Phalcon_Config in MODULE_MINIT
+ - Fixed method definition of __destruct adding ZEND_ACC_DTOR
+ - Fixed bug in Phalcon_Model_Query making that the component does not apply quoting properly
+ - Fixed segmentation fault in Phalcon_Loader
+ - Fixed memory leaks generated when retreiving some static properties
+ - Replaced PHP's str_replace for a slightly faster once
+ - Improved stability working with static properties in multi-threaded web servers
+ - Fixed bug in integration between Phalcon_Db and Phalcon_Logger
+
 0.4.1
 - Complex concatenations are now made without a lot of intermediate zvals improving the overall memory usage
 - Improved throwing of simple exceptions with a unique string parameter
@@ -13,7 +27,7 @@ Phalcon_Model_Base::sum, etc. to avoid SQL injections
 - Fixed bug rebuilding symbol table in Phalcon_View_Engine_Php::render
 - Added Phalcon_View::pick to choose a view to show different than last-controller/last-action
 - Now is possible to define routes with a shortened syntax in Regex
-- Phalcon is now using Compare-and-Swap to reduce the number of writes to cache adapters like files or APC, also avoiding the unnecesary register or shutdown functions
+- Phalcon is now using Compare-and-Swap to reduce the number of writes to cache adapters like files or APC, also avoiding the unnecesary register of shutdown functions
 
 0.4.0
 - Fixed possible segmentation fault when releasing memory of zval strings that has constant values

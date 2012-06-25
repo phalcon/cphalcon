@@ -25,21 +25,16 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "kernel/main.h"
-#include "kernel/fcall.h"
-#include "kernel/require.h"
-#include "kernel/object.h"
-#include "kernel/debug.h"
-#include "kernel/assert.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
-#include "kernel/memory.h"
-
 #include "Zend/zend_operators.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 /**
  * Phalcon_View_Engine_Mustache
  *
@@ -55,8 +50,8 @@
 PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 
 	zval *view = NULL, *options = NULL, *mustache = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zval *c0 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *i0 = NULL;
 	int eval_int;
 	zend_class_entry *ce0;
@@ -68,18 +63,18 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "Mustache", 1);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", c0, 0x012);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", c0);
 	if (!zend_is_true(r0)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Mustache class must be loaded first");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(options, "mustache", strlen("mustache")+1);
+	eval_int = phalcon_array_isset_string(options, SL("mustache")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, options, "mustache", strlen("mustache"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r1, options, SL("mustache"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_CPY_WRT(mustache, r1);
 	} else {
 		ce0 = zend_fetch_class("Mustache", strlen("Mustache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
@@ -89,7 +84,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 		PHALCON_CPY_WRT(mustache, i0);
 	}
 	
-	phalcon_update_property_zval(this_ptr, "_mustache", strlen("_mustache"), mustache TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_mustache"), mustache TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Mustache", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
@@ -114,18 +109,18 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, "_params", strlen("_params"), params TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_view", sizeof("_view")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, "_mustache", sizeof("_mustache")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_mustache"), PHALCON_NOISY TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "file_get_contents", path, 0x01A);
+	PHALCON_CALL_FUNC_PARAMS_1(r1, "file_get_contents", path);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, t1, "render", r1, this_ptr, PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PHALCON_NO_CHECK);
 	
@@ -147,12 +142,12 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __isset){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_params"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, property);
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
 	
-	PHALCON_RETURN_NCTOR(r0);
+	RETURN_NCTOR(r0);
 }
 
 PHP_METHOD(Phalcon_View_Engine_Mustache, __get){
@@ -170,15 +165,15 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __get){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_params"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, property);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, "_params", sizeof("_params")-1, PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_params"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch(&r0, t1, property, PHALCON_NOISY TSRMLS_CC);
 		
-		PHALCON_RETURN_CHECK_CTOR(r0);
+		RETURN_CHECK_CTOR(r0);
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
@@ -200,10 +195,10 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __call){
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, "_mustache", sizeof("_mustache")-1, PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_mustache"), PHALCON_NOISY TSRMLS_CC);
 	phalcon_array_append(&a0, t0, PHALCON_SEPARATE_PLZ TSRMLS_CC);
 	phalcon_array_append(&a0, method, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, arguments, 0x013);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, arguments);
 	
 	PHALCON_MM_RESTORE();
 }

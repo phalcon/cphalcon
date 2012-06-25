@@ -235,6 +235,69 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 }
 
 /**
+ * Inmediate function resolution for str_replace function
+ */
+void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC){
+
+	zval replace_copy, search_copy;
+	int copy_replace = 0, copy_search = 0;
+
+	if (Z_TYPE_P(subject) != IS_STRING) {
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for str_replace()");
+		return;
+	}
+
+	if (Z_TYPE_P(replace) != IS_STRING) {
+		zend_make_printable_zval(replace, &replace_copy, &copy_replace);
+		if (copy_replace) {
+			replace = &replace_copy;
+		}
+	}
+
+	if (Z_TYPE_P(search) != IS_STRING) {
+		zend_make_printable_zval(search, &search_copy, &copy_search);
+		if (copy_search) {
+			search = &search_copy;
+		}
+	}
+
+	Z_TYPE_P(return_value) = IS_STRING;
+	if (Z_STRLEN_P(subject) == 0) {
+		ZVAL_STRINGL(return_value, "", 0, 1);
+		return;
+	}
+
+	if (Z_STRLEN_P(search) == 1) {
+		php_char_to_str_ex(Z_STRVAL_P(subject),
+			Z_STRLEN_P(subject),
+			Z_STRVAL_P(search)[0],
+			Z_STRVAL_P(replace),
+			Z_STRLEN_P(replace),
+			return_value,
+			1,
+			NULL);
+	} else {
+		if (Z_STRLEN_P(search) > 1) {
+			Z_STRVAL_P(return_value) = php_str_to_str_ex(Z_STRVAL_P(subject), Z_STRLEN_P(subject),
+				Z_STRVAL_P(search), Z_STRLEN_P(search),
+				Z_STRVAL_P(replace), Z_STRLEN_P(replace), &Z_STRLEN_P(return_value), 1, NULL);
+		} else {
+			MAKE_COPY_ZVAL(&subject, return_value);
+		}
+	}
+
+	if (copy_replace) {
+		zval_dtor(replace);
+	}
+
+	if (copy_search) {
+		zval_dtor(search);
+	}
+
+}
+
+/**
  * Checks if a file exists
  *
  */
