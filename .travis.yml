@@ -32,7 +32,7 @@ before_script:
  - psql -U postgres phalcon_test -f unit-tests/schemas/postgresql/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
-script: ./unit-tests/ci/run_script.sh
+script: sudo ./unit-tests/ci/run_script.sh
 
 notifications:
   email:

@@ -136,6 +136,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$config = new stdClass();
 		$config->cache = new stdClass();
 		$config->cache->adapter = 'File';
+		$config->cache->lifetime = 86400;
 		$config->cache->cacheDir = 'unit-tests/cache/';
 
 		$manager = new Phalcon_Model_Manager($config);
