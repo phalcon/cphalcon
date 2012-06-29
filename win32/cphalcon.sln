@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cphalcon", "cphalcon.vcproj", "{3CE423F6-4536-46BF-9CC4-754F68BF626A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug TS|Win32 = Debug TS|Win32
+		Release TS|Win32 = Release TS|Win32
+		Debug NTS|Win32 = Debug NTS|Win32
+		Release NTS|Win32 = Release NTS|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Debug TS|Win32.ActiveCfg = Debug TS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Debug TS|Win32.Build.0 = Debug TS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Release TS|Win32.ActiveCfg = Release TS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Release TS|Win32.Build.0 = Release TS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Debug NTS|Win32.ActiveCfg = Debug NTS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Debug NTS|Win32.Build.0 = Debug NTS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Release NTS|Win32.ActiveCfg = Release NTS|Win32
+		{3CE423F6-4536-46BF-9CC4-754F68BF626A}.Release NTS|Win32.Build.0 = Release NTS|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
