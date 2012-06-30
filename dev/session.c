@@ -78,6 +78,89 @@ PHP_METHOD(Phalcon_Session, start){
 }
 
 /**
+ * Destroys a session, optionally also deleting the session cookie.  Calling this function before calling Phalcon_Session::start() is an error.
+ *
+ * @param array $delete_cookie
+ */
+PHP_METHOD(Phalcon_Session, destroy){
+
+	zval *session_cookie_name = NULL,
+		*session_cookie_value = NULL,
+		*session_cookie_expiration = NULL,
+		*session_cookie_params = NULL,
+		*session_cookie_path_key = NULL,
+		*session_cookie_path = NULL,
+		*session_cookie_domain_key = NULL,
+		*session_cookie_domain = NULL,
+		*session_cookie_secure_key = NULL,
+		*session_cookie_secure = NULL,
+		*session_cookie_httponly_key = NULL,
+		*session_cookie_httponly = NULL,
+		*cookies = NULL,
+		*set_cookie_return = NULL,
+		*session_destroy_return = NULL;
+	zval* set_cookie_params[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+
+	zend_bool delete_cookie = FALSE;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|b", &delete_cookie) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (delete_cookie) {
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_params);
+		PHALCON_CALL_FUNC(session_cookie_params, "session_get_cookie_params");
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_name);
+		PHALCON_CALL_FUNC(session_cookie_name, "session_name");
+		set_cookie_params[0] = session_cookie_name;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_value);
+		ZVAL_STRING(session_cookie_value, "", 1);
+		set_cookie_params[1] = session_cookie_value;
+
+		PHALCON_INIT_VAR(session_cookie_expiration);
+		ZVAL_LONG(session_cookie_expiration, 1);
+		set_cookie_params[2] = session_cookie_expiration;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_path_key);
+		ZVAL_STRING(session_cookie_path_key, "path", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_path);
+		phalcon_array_fetch(&session_cookie_path, session_cookie_params, session_cookie_path_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[3] = session_cookie_path;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_domain_key);
+		ZVAL_STRING(session_cookie_domain_key, "domain", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_domain);
+		phalcon_array_fetch(&session_cookie_domain, session_cookie_params, session_cookie_domain_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[4] = session_cookie_domain;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_secure_key);
+		ZVAL_STRING(session_cookie_secure_key, "secure", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_secure);
+		phalcon_array_fetch(&session_cookie_secure, session_cookie_params, session_cookie_secure_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[5] = session_cookie_secure;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_httponly_key);
+		ZVAL_STRING(session_cookie_httponly_key, "httponly", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_httponly);
+		phalcon_array_fetch(&session_cookie_httponly, session_cookie_params, session_cookie_httponly_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[6] = session_cookie_httponly;
+
+		PHALCON_ALLOC_ZVAL_MM(set_cookie_return);
+		PHALCON_CALL_FUNC_PARAMS(set_cookie_return, "setcookie", 7, set_cookie_params);
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(session_destroy_return);
+	PHALCON_CALL_FUNC(session_destroy_return, "session_destroy");
+	
+	RETURN_DZVAL(session_destroy_return);
+}
+
+/**
  * Sets session options
  *
  * @param array $options
@@ -256,5 +339,31 @@ PHP_METHOD(Phalcon_Session, getId){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC(r0, "session_id");
 	RETURN_DZVAL(r0);
+}
+
+/**
+ * Checks if session cookie exists
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Session, exists){
+	zval *session_cookie_name = NULL,
+		 *cookies = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(session_cookie_name);
+	PHALCON_CALL_FUNC(session_cookie_name, "session_name");
+
+	phalcon_get_global(&cookies, SL("_COOKIE")+1 TSRMLS_CC);
+	eval_int = phalcon_array_isset(cookies, session_cookie_name);
+
+	PHALCON_MM_RESTORE();
+
+	if (eval_int) {
+		RETURN_TRUE;
+	} else {
+		RETURN_FALSE;
+	}
 }
 
