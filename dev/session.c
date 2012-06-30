@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Session, start){
 /**
  * Destroys a session, optionally also deleting the session cookie.  Calling this function before calling Phalcon_Session::start() is an error.
  *
- * @param array $delete_cookie
+ * @param bool $delete_cookie
  */
 PHP_METHOD(Phalcon_Session, destroy){
 
