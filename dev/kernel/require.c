@@ -42,7 +42,7 @@ int phalcon_require(zval *require_path TSRMLS_DC){
 	zend_file_handle file_handle;
 	zval *result = NULL;
 	int status = SUCCESS;
-	int dummy;
+	int dummy = 0;
 
 	zval **original_return_value = EG(return_value_ptr_ptr);
 	zend_op **original_opline_ptr = EG(opline_ptr);
