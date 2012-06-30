@@ -46,7 +46,7 @@
 				StringPooling="true"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(IntDir)\"
 				WarningLevel="3"
@@ -2745,42 +2745,6 @@
 			</File>
 			<File
 				RelativePath="..\dev\model\row.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\sanitize.c"
 				>
 				<FileConfiguration
 					Name="Debug TS|Win32"
