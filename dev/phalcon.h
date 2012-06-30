@@ -91,7 +91,6 @@ extern zend_class_entry *phalcon_model_exception_ce;
 extern zend_class_entry *phalcon_model_base_ce;
 extern zend_class_entry *phalcon_model_validator_ce;
 extern zend_class_entry *phalcon_model_row_ce;
-extern zend_class_entry *phalcon_model_sanitize_ce;
 extern zend_class_entry *phalcon_model_metadata_ce;
 extern zend_class_entry *phalcon_model_message_ce;
 extern zend_class_entry *phalcon_model_manager_ce;
@@ -909,7 +908,6 @@ PHP_METHOD(Phalcon_Model_Row, getConnection);
 PHP_METHOD(Phalcon_Model_Row, dumpResult);
 PHP_METHOD(Phalcon_Model_Row, readAttribute);
 PHP_METHOD(Phalcon_Model_Row, sleep);
-
 
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
 PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData);

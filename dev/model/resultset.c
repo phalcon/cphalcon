@@ -526,9 +526,10 @@ PHP_METHOD(Phalcon_Model_Resultset, isFresh){
  */
 PHP_METHOD(Phalcon_Model_Resultset, serialize){
 
-	zval *records = NULL;
-	zval *a0 = NULL;
+	zval *records = NULL, *data = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a0);
@@ -549,8 +550,17 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
 		goto ws_fd08_1;
 	we_fd08_1:
 	
+	PHALCON_INIT_VAR(a1);
+	array_init(a1);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_cache"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_array_update_string(&a1, SL("cache"), &t0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update_string(&a1, SL("rows"), &records, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	PHALCON_CPY_WRT(data, a1);
+	
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r2, "serialize", records);
+	PHALCON_CALL_FUNC_PARAMS_1(r2, "serialize", data);
 	RETURN_DZVAL(r2);
 }
 
@@ -561,8 +571,8 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
  */
 PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 
-	zval *data = NULL;
-	zval *r0 = NULL;
+	zval *data = NULL, *resultset = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -573,9 +583,20 @@ PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 
 	phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "unserialize", data);
-	phalcon_update_property_zval(this_ptr, SL("_rows"), r0 TSRMLS_CC);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_FUNC_PARAMS_1(resultset, "unserialize", data);
+	if (Z_TYPE_P(resultset) == IS_ARRAY) { 
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch_string(&r0, resultset, SL("rows"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_rows"), r0 TSRMLS_CC);
+		
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch_string(&r1, resultset, SL("cache"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_cache"), r1 TSRMLS_CC);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Invalid serialization data");
+		return;
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -583,7 +604,7 @@ PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 /**
  * Returns the associated cache for the resultset
  *
- * @return Phalcon_Cache
+ * @return Phalcon_Cache_Backend
  */
 PHP_METHOD(Phalcon_Model_Resultset, getCache){
 
@@ -598,6 +619,8 @@ PHP_METHOD(Phalcon_Model_Resultset, getCache){
 
 /**
  * Returns an instance of the model that is used to generate each of the results
+ *
+ * @return Phalcon_Model_Base
  */
 PHP_METHOD(Phalcon_Model_Resultset, getSourceModel){
 

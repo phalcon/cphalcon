@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Model_Base, _getOrCreateResultset){
 	zval *key = NULL, *cache = NULL, *lifetime = NULL, *select = NULL, *cache_options = NULL;
 	zval *resultset = NULL, *result = NULL, *count = NULL, *row = NULL, *result_data = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL;
+	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *i0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL };
@@ -648,13 +648,17 @@ PHP_METHOD(Phalcon_Model_Base, _getOrCreateResultset){
 			PHALCON_CALL_SELF_PARAMS(r6, this_ptr, "_createsqlselect", 4, p0);
 			PHALCON_CPY_WRT(select, r6);
 			
+			PHALCON_ALLOC_ZVAL_MM(r7);
+			
 			PHALCON_INIT_VAR(key);
 			PHALCON_CALL_FUNC_PARAMS_1(key, "md5", select);
+			PHALCON_CONCAT_SV(r7, "phc", key);
+			PHALCON_CPY_WRT(key, r7);
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(r7);
-		PHALCON_CALL_METHOD_PARAMS_2(r7, cache, "get", key, lifetime, PHALCON_NO_CHECK);
-		PHALCON_CPY_WRT(resultset, r7);
+		PHALCON_ALLOC_ZVAL_MM(r8);
+		PHALCON_CALL_METHOD_PARAMS_2(r8, cache, "get", key, lifetime, PHALCON_NO_CHECK);
+		PHALCON_CPY_WRT(resultset, r8);
 		if (Z_TYPE_P(resultset) != IS_NULL) {
 			
 			RETURN_CHECK_CTOR(resultset);
@@ -662,22 +666,22 @@ PHP_METHOD(Phalcon_Model_Base, _getOrCreateResultset){
 	}
 	
 	if (Z_TYPE_P(select) == IS_NULL) {
-		PHALCON_ALLOC_ZVAL_MM(r8);
+		PHALCON_ALLOC_ZVAL_MM(r9);
 		p1[0] = manager;
 		p1[1] = model;
 		p1[2] = connection;
 		p1[3] = params;
-		PHALCON_CALL_SELF_PARAMS(r8, this_ptr, "_createsqlselect", 4, p1);
-		PHALCON_CPY_WRT(select, r8);
+		PHALCON_CALL_SELF_PARAMS(r9, this_ptr, "_createsqlselect", 4, p1);
+		PHALCON_CPY_WRT(select, r9);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	PHALCON_CALL_METHOD_PARAMS_1(r9, connection, "query", select, PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(result, r9);
-	
 	PHALCON_ALLOC_ZVAL_MM(r10);
-	PHALCON_CALL_METHOD_PARAMS_1(r10, result, "numrows", result, PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(count, r10);
+	PHALCON_CALL_METHOD_PARAMS_1(r10, connection, "query", select, PHALCON_NO_CHECK);
+	PHALCON_CPY_WRT(result, r10);
+	
+	PHALCON_ALLOC_ZVAL_MM(r11);
+	PHALCON_CALL_METHOD_PARAMS_1(r11, result, "numrows", result, PHALCON_NO_CHECK);
+	PHALCON_CPY_WRT(count, r11);
 	if (Z_TYPE_P(unique) == IS_BOOL && Z_BVAL_P(unique)) {
 		if (!zend_is_true(count)) {
 			PHALCON_MM_RESTORE();
@@ -687,17 +691,17 @@ PHP_METHOD(Phalcon_Model_Base, _getOrCreateResultset){
 			ZVAL_LONG(c0, 1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", c0, PHALCON_NO_CHECK);
 			
-			PHALCON_ALLOC_ZVAL_MM(r11);
-			PHALCON_CALL_METHOD_PARAMS_1(r11, result, "fetcharray", result, PHALCON_NO_CHECK);
-			PHALCON_CPY_WRT(row, r11);
+			PHALCON_ALLOC_ZVAL_MM(r12);
+			PHALCON_CALL_METHOD_PARAMS_1(r12, result, "fetcharray", result, PHALCON_NO_CHECK);
+			PHALCON_CPY_WRT(row, r12);
 			
 			PHALCON_INIT_VAR(c1);
 			ZVAL_LONG(c1, 2);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", c1, PHALCON_NO_CHECK);
 			
-			PHALCON_ALLOC_ZVAL_MM(r12);
-			PHALCON_CALL_SELF_PARAMS_2(r12, this_ptr, "dumpresult", model, row);
-			RETURN_DZVAL(r12);
+			PHALCON_ALLOC_ZVAL_MM(r13);
+			PHALCON_CALL_SELF_PARAMS_2(r13, this_ptr, "dumpresult", model, row);
+			RETURN_DZVAL(r13);
 		}
 	}
 	

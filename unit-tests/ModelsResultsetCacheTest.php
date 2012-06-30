@@ -29,7 +29,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	private function _prepareTest(){
+	private function _prepareTestMysql(){
 
 		Phalcon_Db_Pool::reset();
 		Phalcon_Model_Manager::reset();
@@ -41,9 +41,31 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testCacheResultsetDirect(){
+	private function _prepareTestPostgresql(){
 
-		$this->_prepareTest();
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+	}
+
+	public function testCacheResultsetDirectMysql(){
+		$this->_prepareTestMysql();
+		$this->_testCacheDirect();
+	}
+
+	public function testCacheResultsetDirectPostgresql(){
+		$this->_prepareTestPostgresql();
+		$this->_testCacheDirect();
+	}
+
+	protected function _testCacheDirect(){
+
+		Phalcon_Model_Manager::reset();
 
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
@@ -69,9 +91,9 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testCacheResultsetConfig(){
+	public function testCacheResultsetConfigMysql(){
 
-		$this->_prepareTest();
+		$this->_prepareTestMysql();
 
 		Phalcon_Model_Manager::reset();
 
@@ -96,11 +118,17 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
+
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'phcd2b64883305e92cdaf5078930d881382',
+		));
+
 	}
 
 	public function testCacheResultsetNoLifetime(){
 
-		$this->_prepareTest();
+		$this->_prepareTestMysql();
 
 		Phalcon_Model_Manager::reset();
 
@@ -129,7 +157,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	public function testCacheResultsetConfigKey(){
 
-		$this->_prepareTest();
+		$this->_prepareTestMysql();
 
 		Phalcon_Model_Manager::reset();
 

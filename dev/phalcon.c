@@ -106,7 +106,6 @@ zend_class_entry *phalcon_model_exception_ce;
 zend_class_entry *phalcon_model_base_ce;
 zend_class_entry *phalcon_model_validator_ce;
 zend_class_entry *phalcon_model_row_ce;
-zend_class_entry *phalcon_model_sanitize_ce;
 zend_class_entry *phalcon_model_metadata_ce;
 zend_class_entry *phalcon_model_message_ce;
 zend_class_entry *phalcon_model_manager_ce;
@@ -183,7 +182,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_class_entry ce_model_base;
 	zend_class_entry ce_model_validator;
 	zend_class_entry ce_model_row;
-	zend_class_entry ce_model_sanitize;
 	zend_class_entry ce_model_metadata;
 	zend_class_entry ce_model_message;
 	zend_class_entry ce_model_manager;
@@ -574,11 +572,8 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce_model_row, "Phalcon_Model_Row", phalcon_model_row_functions);
 	phalcon_model_row_ce = zend_register_internal_class(&ce_model_row TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_row_ce, SL("_connection"), ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_row_ce, SL("_columns"), ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	INIT_CLASS_ENTRY(ce_model_sanitize, "Phalcon_Model_Sanitize", NULL);
-	phalcon_model_sanitize_ce = zend_register_internal_class(&ce_model_sanitize TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_row_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_row_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce_model_metadata, "Phalcon_Model_MetaData", phalcon_model_metadata_functions);
 	phalcon_model_metadata_ce = zend_register_internal_class(&ce_model_metadata TSRMLS_CC);
