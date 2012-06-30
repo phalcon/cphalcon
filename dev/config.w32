@@ -28,7 +28,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/db/result", "mysql.c postgresql.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db/dialect", "mysql.c postgresql.c", "phalcon")
   ADD_SOURCES("ext/phalcon/model/validator", "uniqueness.c exclusionin.c regex.c inclusionin.c numericality.c email.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/model", "query.c exception.c base.c validator.c row.c sanitize.c metadata.c message.c manager.c resultset.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/model", "query.c exception.c base.c validator.c row.c metadata.c message.c manager.c resultset.c", "phalcon")
   ADD_SOURCES("ext/phalcon/model/metadata", "memory.c apc.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/transaction", "failed.c manager.c", "phalcon")
   ADD_SOURCES("ext/phalcon/controller", "front.c", "phalcon")

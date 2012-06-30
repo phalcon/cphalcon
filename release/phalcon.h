@@ -88,7 +88,6 @@ zend_class_entry *phalcon_model_exception_ce;
 zend_class_entry *phalcon_model_base_ce;
 zend_class_entry *phalcon_model_validator_ce;
 zend_class_entry *phalcon_model_row_ce;
-zend_class_entry *phalcon_model_sanitize_ce;
 zend_class_entry *phalcon_model_metadata_ce;
 zend_class_entry *phalcon_model_message_ce;
 zend_class_entry *phalcon_model_manager_ce;
@@ -675,7 +674,6 @@ PHP_METHOD(Phalcon_Model_Row, dumpResult);
 PHP_METHOD(Phalcon_Model_Row, readAttribute);
 PHP_METHOD(Phalcon_Model_Row, sleep);
 
-
 PHP_METHOD(Phalcon_Model_MetaData, __construct);
 PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData);
 PHP_METHOD(Phalcon_Model_MetaData, getAttributes);
@@ -710,6 +708,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModelsDir);
 PHP_METHOD(Phalcon_Model_Manager, isModel);
 PHP_METHOD(Phalcon_Model_Manager, load);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
+PHP_METHOD(Phalcon_Model_Manager, initialize);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
 PHP_METHOD(Phalcon_Model_Manager, addHasOne);
@@ -759,6 +758,8 @@ PHP_METHOD(Phalcon_Model_Resultset, getLast);
 PHP_METHOD(Phalcon_Model_Resultset, isFresh);
 PHP_METHOD(Phalcon_Model_Resultset, serialize);
 PHP_METHOD(Phalcon_Model_Resultset, unserialize);
+PHP_METHOD(Phalcon_Model_Resultset, getCache);
+PHP_METHOD(Phalcon_Model_Resultset, getSourceModel);
 
 PHP_METHOD(Phalcon_Tag, setDispatcher);
 PHP_METHOD(Phalcon_Tag, _getDispatcher);
@@ -799,6 +800,7 @@ PHP_METHOD(Phalcon_Response, redirect);
 PHP_METHOD(Phalcon_Response, setContent);
 PHP_METHOD(Phalcon_Response, appendContent);
 PHP_METHOD(Phalcon_Response, getContent);
+PHP_METHOD(Phalcon_Response, sendHeaders);
 PHP_METHOD(Phalcon_Response, send);
 PHP_METHOD(Phalcon_Response, reset);
 
@@ -2358,6 +2360,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getmodel, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_initialize, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getsource, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
@@ -2461,6 +2467,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, cache)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_resultset_seek, 0, 0, 1)
@@ -3512,8 +3519,8 @@ PHALCON_INIT_FUNCS(phalcon_model_query_functions){
 
 PHALCON_INIT_FUNCS(phalcon_model_base_functions){
 	PHP_ME(Phalcon_Model_Base, __construct, arginfo_phalcon_model_base___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Model_Base, getManager, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Model_Base, setManager, arginfo_phalcon_model_base_setmanager, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Base, getManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, _connect, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_Base, getAttributes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Base, getPrimaryKeyAttributes, NULL, ZEND_ACC_PUBLIC) 
@@ -3633,6 +3640,7 @@ PHALCON_INIT_FUNCS(phalcon_model_manager_functions){
 	PHP_ME(Phalcon_Model_Manager, isModel, arginfo_phalcon_model_manager_ismodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, load, arginfo_phalcon_model_manager_load, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, initialize, arginfo_phalcon_model_manager_initialize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
@@ -3694,6 +3702,8 @@ PHALCON_INIT_FUNCS(phalcon_model_resultset_functions){
 	PHP_ME(Phalcon_Model_Resultset, isFresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Resultset, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Resultset, unserialize, arginfo_phalcon_model_resultset_unserialize, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Resultset, getCache, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Resultset, getSourceModel, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3740,6 +3750,7 @@ PHALCON_INIT_FUNCS(phalcon_response_functions){
 	PHP_ME(Phalcon_Response, setContent, arginfo_phalcon_response_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, appendContent, arginfo_phalcon_response_appendcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, getContent, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Response, sendHeaders, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, send, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Response, reset, NULL, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_FE_END

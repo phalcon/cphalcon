@@ -49,13 +49,13 @@
 
 /**
  * Constructor for Phalcon_Model_Manager
-     *
-     * @param Phalcon_Config|stdClass $options
+*
+* @param Phalcon_Config|stdClass $options
  */
 PHP_METHOD(Phalcon_Model_Manager, __construct){
 
 	zval *options = NULL, *model_options = NULL;
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL, *a6 = NULL;
 	zval *t0 = NULL;
 	zval *i0 = NULL;
 
@@ -79,6 +79,11 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	
 	PHALCON_INIT_VAR(a4);
 	array_init(a4);
+	zend_update_property(phalcon_model_manager_ce, this_ptr, SL("_sourceNames"), a4 TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(a5);
+	array_init(a5);
+	zend_update_property(phalcon_model_manager_ce, this_ptr, SL("_initialized"), a5 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
@@ -109,11 +114,11 @@ PHP_METHOD(Phalcon_Model_Manager, __construct){
 	
 	phalcon_update_property_zval(this_ptr, SL("_options"), model_options TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a5);
-	array_init(a5);
-	phalcon_array_append(&a5, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
-	add_next_index_stringl(a5, SL("autoload"), 1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a5);
+	PHALCON_INIT_VAR(a6);
+	array_init(a6);
+	phalcon_array_append(&a6, this_ptr, PHALCON_SEPARATE_PLZ TSRMLS_CC);
+	add_next_index_stringl(a6, SL("autoload"), 1);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a6);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -537,6 +542,49 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 }
 
 /**
+ * Initializes a model in the model manager
+ *
+ * @param Phalcon_Model_Manager $model
+ */
+PHP_METHOD(Phalcon_Model_Manager, initialize){
+
+	zval *model = NULL, *class_name = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_get_class(r0, model TSRMLS_CC);
+	PHALCON_CPY_WRT(class_name, r0);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_initialized"), PHALCON_NOISY TSRMLS_CC);
+	eval_int = phalcon_array_isset(t0, class_name);
+	if (!eval_int) {
+		if (phalcon_method_exists_ex(model, SL("initialize") TSRMLS_CC) == SUCCESS) {
+			PHALCON_CALL_METHOD_NORETURN(model, "initialize", PHALCON_NO_CHECK);
+		}
+		
+		PHALCON_INIT_VAR(t1);
+		ZVAL_BOOL(t1, 1);
+		
+		PHALCON_ALLOC_ZVAL_MM(t2);
+		phalcon_read_property(&t2, this_ptr, SL("_initialized"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_update(&t2, class_name, &t1, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_initialized"), t2 TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Gets the possible source model name from its class name
  *
  * @param string $modelName
@@ -544,9 +592,10 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
  */
 PHP_METHOD(Phalcon_Model_Manager, getSource){
 
-	zval *model_name = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
-	zval *r0 = NULL;
+	zval *model_name = NULL, *source_names = NULL, *source_name = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
@@ -555,28 +604,27 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 		RETURN_NULL();
 	}
 
-	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, SL("Phalcon_Model_Manager"), SL("_sourceNames") TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_array_fetch(&t1, t0, model_name, PHALCON_SILENT TSRMLS_CC);
-	if (!zend_is_true(t1)) {
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_sourceNames"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(source_names, t0);
+	eval_int = phalcon_array_isset(source_names, model_name);
+	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "uncamelize", model_name);
-		t2 = zend_read_static_property(phalcon_model_manager_ce, SL("_sourceNames"), PHALCON_FETCH_CLASS_SILENT);
-		if (Z_TYPE_P(t2) != IS_ARRAY) {
-			convert_to_array(t2);
-		}
-		phalcon_array_update(&t2, model_name, &r0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-		phalcon_update_static_property(SL("phalcon_model_manager_ce"), SL("_sourceNames"), t2 TSRMLS_CC);
+		PHALCON_CPY_WRT(source_name, r0);
 		
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_sourceNames"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_update(&t1, model_name, &source_name, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_sourceNames"), t1 TSRMLS_CC);
+		
+		RETURN_CHECK_CTOR(source_name);
 	}
-	PHALCON_OBSERVE_VAR(t3);
-	phalcon_read_static_property(&t3, SL("Phalcon_Model_Manager"), SL("_sourceNames") TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t4);
-	phalcon_array_fetch(&t4, t3, model_name, PHALCON_NOISY TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	phalcon_array_fetch(&r1, source_names, model_name, PHALCON_NOISY TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t4);
+	RETURN_CHECK_CTOR(r1);
 }
 
 /**
@@ -586,13 +634,15 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
  */
 PHP_METHOD(Phalcon_Model_Manager, getConnection){
 
-	zval *t0 = NULL, *t1 = NULL;
+	zval *connection = NULL;
+	zval *t0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_connection"), PHALCON_NOISY TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_CPY_WRT(connection, t0);
+	if (!zend_is_true(connection)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_STATIC(r0, "phalcon_transaction_manager", "isautomatic");
 		if (zend_is_true(r0)) {
@@ -611,14 +661,13 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 			
 			PHALCON_ALLOC_ZVAL_MM(r4);
 			PHALCON_CALL_STATIC(r4, "phalcon_db_pool", "getconnection");
-			phalcon_update_property_zval(this_ptr, SL("_connection"), r4 TSRMLS_CC);
+			PHALCON_CPY_WRT(connection, r4);
+			phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_connection"), PHALCON_NOISY TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t1);
+	RETURN_CHECK_CTOR(connection);
 }
 
 /**

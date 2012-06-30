@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
  * 
  *
  * @param boolean $newConnection
-     * @param boolean $renovate
+* @param boolean $renovate
  * @return Phalcon_Db
  */
 PHP_METHOD(Phalcon_Db_Pool, getConnection){

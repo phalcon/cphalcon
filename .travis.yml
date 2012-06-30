@@ -29,7 +29,7 @@ before_script:
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
  - mysql -uroot phalcon_test < unit-tests/schemas/mysql/phalcon_test.sql
  - psql -c 'create database phalcon_test;' -U postgres
- - psql -U postgres phalcon_test -f unit-tests/schemas/postgresql/phalcon_test.sql
+ - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
 script: sudo ./unit-tests/ci/run_script.sh

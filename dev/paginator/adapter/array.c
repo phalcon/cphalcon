@@ -44,10 +44,10 @@
  */
 
 /**
-     * Phalcon_Paginator_Adapter_Array constructor
+* Phalcon_Paginator_Adapter_Array constructor
   *
  * @param array $config
-     */
+*/
 PHP_METHOD(Phalcon_Paginator_Adapter_Array, __construct){
 
 	zval *config = NULL;

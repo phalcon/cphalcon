@@ -144,11 +144,11 @@ PHP_METHOD(Phalcon_Translate, offsetSet){
 }
 
 /**
-     * Check whether a translation key exists
-     *
-     * @param string $translateKey
-     * @return boolean
-     */
+* Check whether a translation key exists
+*
+* @param string $translateKey
+* @return boolean
+*/
 PHP_METHOD(Phalcon_Translate, offsetExists){
 
 	zval *translate_key = NULL;
@@ -170,10 +170,10 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 }
 
 /**
-     * Elimina un indice del diccionario
-     *
-     * @param string $offset
-     */
+* Elimina un indice del diccionario
+*
+* @param string $offset
+*/
 PHP_METHOD(Phalcon_Translate, offsetUnset){
 
 	zval *offset = NULL;

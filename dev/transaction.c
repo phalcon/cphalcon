@@ -487,10 +487,10 @@ PHP_METHOD(Phalcon_Transaction, getMessages){
 }
 
 /**
-     * Checks whether internal connection is under an active transaction
-     *
-     * @return boolean
-     */
+* Checks whether internal connection is under an active transaction
+*
+* @return boolean
+*/
 PHP_METHOD(Phalcon_Transaction, isValid){
 
 	zval *r0 = NULL;

@@ -20,12 +20,33 @@
 
 class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 
-	public function testModels(){
+	public function testForeignKeysMysql(){
+
+		Phalcon_Db_Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
 		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+	}
+
+	public function testForeignKeysPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+	}
+
+	public function _executeTests(){
+
+		Phalcon_Model_Manager::reset();
 
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');

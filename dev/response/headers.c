@@ -36,6 +36,14 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+/**
+ * Phalcon_Response_Headers
+ *
+ * This class is a bag to manage the response headers
+ *
+ *
+ */
+
 PHP_METHOD(Phalcon_Response_Headers, __construct){
 
 	zval *a0 = NULL;
@@ -49,6 +57,12 @@ PHP_METHOD(Phalcon_Response_Headers, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets a header to be sent at the end of the request
+ *
+ * @param string $name
+ * @param string $value
+ */
 PHP_METHOD(Phalcon_Response_Headers, set){
 
 	zval *name = NULL, *value = NULL;
@@ -69,6 +83,12 @@ PHP_METHOD(Phalcon_Response_Headers, set){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets a header value from the internal bag
+ *
+ * @param string $name
+ * @return string
+ */
 PHP_METHOD(Phalcon_Response_Headers, get){
 
 	zval *name = NULL, *headers = NULL;
@@ -98,6 +118,11 @@ PHP_METHOD(Phalcon_Response_Headers, get){
 	RETURN_FALSE;
 }
 
+/**
+ * Sets a raw header to be sent at the end of the request
+ *
+ * @param string $header
+ */
 PHP_METHOD(Phalcon_Response_Headers, setRaw){
 
 	zval *header = NULL;
@@ -120,11 +145,14 @@ PHP_METHOD(Phalcon_Response_Headers, setRaw){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sends the headers to the client
+ */
 PHP_METHOD(Phalcon_Response_Headers, send){
 
 	zval *t = NULL, *value = NULL, *header = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -134,38 +162,44 @@ PHP_METHOD(Phalcon_Response_Headers, send){
 	int hash_type;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(t);
-	ZVAL_BOOL(t, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
-	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(t0);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_ae51_0:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_ae51_0;
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC(r0, "headers_sent");
+	if (!zend_is_true(r0)) {
+		PHALCON_INIT_VAR(t);
+		ZVAL_BOOL(t, 1);
+		
+		PHALCON_ALLOC_ZVAL_MM(t0);
+		phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
+		if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
+			ah0 = Z_ARRVAL_P(t0);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+			fes_ae51_0:
+			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				goto fee_ae51_0;
+			} else {
+				PHALCON_INIT_VAR(header);
+				PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
+			}
+			PHALCON_INIT_VAR(value);
+			ZVAL_ZVAL(value, *hd, 1, 0);
+			if (zend_is_true(value)) {
+				PHALCON_INIT_VAR(r1);
+				PHALCON_CONCAT_VSV(r1, header, ": ", value);
+				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r1, t);
+			} else {
+				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, t);
+			}
+			zend_hash_move_forward_ex(ah0, &hp0);
+			goto fes_ae51_0;
+			fee_ae51_0:
+			if(0){}
 		} else {
-			PHALCON_INIT_VAR(header);
-			PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
+			return;
 		}
-		PHALCON_INIT_VAR(value);
-		ZVAL_ZVAL(value, *hd, 1, 0);
-		if (zend_is_true(value)) {
-			PHALCON_INIT_VAR(r0);
-			PHALCON_CONCAT_VSV(r0, header, ": ", value);
-			PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r0, t);
-		} else {
-			PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, t);
-		}
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_ae51_0;
-		fee_ae51_0:
-		if(0){}
-	} else {
-		return;
+		PHALCON_MM_RESTORE();
+		RETURN_TRUE;
 	}
-	
 	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 

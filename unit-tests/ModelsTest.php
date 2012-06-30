@@ -46,6 +46,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 
 	protected function _executeTests(){
 
+		Phalcon_Model_Manager::reset();
+
 		$modelManager = new Phalcon_Model_Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
@@ -61,7 +63,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$connection = $Personas->getConnection();
 		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
-		$manager = People::getManager();
+		$manager = $Personas->getManager();
 		$this->assertEquals(get_class($manager), 'Phalcon_Model_Manager');
 
 		//Count tests

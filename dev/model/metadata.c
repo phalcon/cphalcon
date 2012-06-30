@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 /**
  * Returns table attributes names (fields)
  *
-     * @param Phalcon_Model_Base $model
+* @param Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getAttributes){
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getPrimaryKeyAttributes){
 /**
  * Returns an arrau of fields which are not part of the primary key
  *
-     * @param Phalcon_Model_Base $model
+* @param Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes){
 /**
  * Returns an array of not null attributes
  *
-     * @param Phalcon_Model_Base $model
+* @param Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
@@ -497,7 +497,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getNotNullAttributes){
 /**
  * Returns attributes and their data types
  *
-     * @param Phalcon_Model_Base $model
+* @param Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Model_MetaData, getDataTypes){
 /**
  * Returns attributes which types are numerical
  *
-     * @param  Phalcon_Model_Base $model
+* @param  Phalcon_Model_Base $model
  * @return array
  */
 PHP_METHOD(Phalcon_Model_MetaData, getDataTypesNumeric){

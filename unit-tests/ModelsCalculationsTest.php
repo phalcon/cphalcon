@@ -48,6 +48,8 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 	protected function _executeTests(){
 
+		Phalcon_Model_Manager::reset();
+
 		$manager = new Phalcon_Model_Manager();
 		$manager->setModelsDir('unit-tests/models/');
 

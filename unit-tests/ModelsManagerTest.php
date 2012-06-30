@@ -28,9 +28,9 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 		$modelManager->setModelsDir($modelsDir);
 
 		$this->assertEquals($modelManager->getModelsDir(), $modelsDir);
-		
+
 		$isModel = $modelManager->isModel('NoExiste');
-		$this->assertFalse($isModel);			
+		$this->assertFalse($isModel);
 
 		$isModel = $modelManager->isModel('Personas');
 		$this->assertTrue($isModel);
