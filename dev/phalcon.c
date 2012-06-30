@@ -684,6 +684,9 @@ PHP_MINIT_FUNCTION(phalcon){
 	phalcon_session_ce = zend_register_internal_class(&ce_session TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_ce, SL("_uniqueId"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_ce, SL("_options"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_session_ce, SL("_started"), 0, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC TSRMLS_CC);
+	// _exists is not a bool so that it can be NULL meaning it hasn't been set yet.
+	zend_declare_property_null(phalcon_session_ce, SL("_exists"), ZEND_ACC_STATIC|ZEND_ACC_PUBLIC TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce_flash, "Phalcon_Flash", phalcon_flash_functions);
 	phalcon_flash_ce = zend_register_internal_class(&ce_flash TSRMLS_CC);
