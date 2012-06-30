@@ -57,26 +57,28 @@
  */
 PHP_METHOD(Phalcon_Request, getInstance){
 
-	zval *t0 = NULL, *t1 = NULL;
+	zval *instance = NULL;
+	zval *t0 = NULL;
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(t0);
 	phalcon_read_static_property(&t0, SL("Phalcon_Request"), SL("_instance") TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_CPY_WRT(instance, t0);
+	if (!zend_is_true(instance)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_request_ce);
-		phalcon_update_static_property(SL("Phalcon_Request"), SL("_instance"), i0 TSRMLS_CC);
+		PHALCON_CPY_WRT(instance, i0);
+		phalcon_update_static_property(SL("Phalcon_Request"), SL("_instance"), instance TSRMLS_CC);
 	}
-	PHALCON_OBSERVE_VAR(t1);
-	phalcon_read_static_property(&t1, SL("Phalcon_Request"), SL("_instance") TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t1);
+	
+	RETURN_CHECK_CTOR(instance);
 }
 
 /**
  * Overwrites Phalcon_Filter object used to sanitize input data
-     *
+*
  *
  *
  * @param Phalcon_Filter $filter
@@ -176,7 +178,7 @@ PHP_METHOD(Phalcon_Request, getPost){
 
 /**
  * Gets variable from $_GET superglobal applying filters if needed
-     *
+*
  *
  *
  * @param string $name

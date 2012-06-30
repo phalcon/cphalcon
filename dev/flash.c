@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Flash, error){
 /**
  * Shows a HTML notice/information message
  *
-     * 
+* 
  *
  * @param string $message
  * @param string $classes

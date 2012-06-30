@@ -545,7 +545,6 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce_model_base, "Phalcon_Model_Base", phalcon_model_base_functions);
 	phalcon_model_base_ce = zend_register_internal_class(&ce_model_base TSRMLS_CC);
-	zend_declare_property_bool(phalcon_model_base_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_model_base_ce, SL("_uniqueKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_connection"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_model_base_ce, SL("_schema"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -612,7 +611,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_hasOne"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_belongsTo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_manager_ce, SL("_sourceNames"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_manager_ce, SL("_sourceNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce_model_metadata_memory, "Phalcon_Model_MetaData_Memory", phalcon_model_metadata_memory_functions);
@@ -632,6 +632,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_model_resultset_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_resultset_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_model_resultset_ce, SL("_pointer"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_ce, SL("_count"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);

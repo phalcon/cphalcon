@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 }
 
 /**
-     * Returns the total number of SQL statements processed
+* Returns the total number of SQL statements processed
  *
  * @return integer
  */

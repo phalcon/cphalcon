@@ -588,10 +588,10 @@ PHP_METHOD(Phalcon_Db, delete){
 }
 
 /**
-     * Starts a transaction in the connection
-     *
-     * @return boolean
-     */
+* Starts a transaction in the connection
+*
+* @return boolean
+*/
 PHP_METHOD(Phalcon_Db, begin){
 
 	zval *r0 = NULL;
@@ -610,10 +610,10 @@ PHP_METHOD(Phalcon_Db, begin){
 }
 
 /**
-     * Rollbacks the active transaction in the connection
-     *
-     * @return boolean
-     */
+* Rollbacks the active transaction in the connection
+*
+* @return boolean
+*/
 PHP_METHOD(Phalcon_Db, rollback){
 
 	zval *t0 = NULL;
@@ -642,10 +642,10 @@ PHP_METHOD(Phalcon_Db, rollback){
 }
 
 /**
-     * Commits the active transaction in the connection
-     *
-     * @return boolean
-     */
+* Commits the active transaction in the connection
+*
+* @return boolean
+*/
 PHP_METHOD(Phalcon_Db, commit){
 
 	zval *t0 = NULL;
@@ -827,7 +827,7 @@ PHP_METHOD(Phalcon_Db, getUsername){
 
 /**
  * Returns the username which has connected to the database
-     *
+*
  * @return string
  */
 PHP_METHOD(Phalcon_Db, getHostName){
@@ -861,10 +861,10 @@ PHP_METHOD(Phalcon_Db, getHostName){
  */
 PHP_METHOD(Phalcon_Db, _beforeQuery){
 
-	zval *sql_statement = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *sql_statement = NULL, *logger = NULL, *profiler = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	zval *c0 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -875,26 +875,24 @@ PHP_METHOD(Phalcon_Db, _beforeQuery){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
-	if (zend_is_true(t0)) {
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_logger"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(logger, t0);
+	if (zend_is_true(logger)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 1);
 		PHALCON_CALL_METHOD_PARAMS_1(r1, this_ptr, "getconnectionid", c0, PHALCON_NO_CHECK);
 		PHALCON_CONCAT_SVSV(r0, "[", r1, "] ", sql_statement);
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_get_class_constant(t2, phalcon_logger_ce, SL("DEBUG") TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t1, "log", r0, t2, PHALCON_NO_CHECK);
+		PHALCON_INIT_VAR(c1);
+		ZVAL_LONG(c1, 7);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(logger, "log", r0, c1, PHALCON_NO_CHECK);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_read_property(&t3, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
-	if (zend_is_true(t3)) {
-		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t4, "startprofile", sql_statement, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(t1);
+	phalcon_read_property(&t1, this_ptr, SL("_profiler"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(profiler, t1);
+	if (zend_is_true(profiler)) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(profiler, "startprofile", sql_statement, PHALCON_NO_CHECK);
 	}
 	
 	PHALCON_MM_RESTORE();

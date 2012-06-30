@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Dispatcher, getBasePath){
 
 /**
  * Sets the default controller name
-     *
+*
  * @param string $controllerName
  */
 PHP_METHOD(Phalcon_Dispatcher, setDefaultController){
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultController){
 
 /**
  * Sets the default action name
-     *
+*
  * @param string $actionName
  */
 PHP_METHOD(Phalcon_Dispatcher, setDefaultAction){
@@ -294,9 +294,9 @@ PHP_METHOD(Phalcon_Dispatcher, getParams){
 
 /**
  * Set a param by its name or numeric index
-     *
-     * @param  mixed $param
-     * @param  mixed $value 
+*
+* @param  mixed $param
+* @param  mixed $value 
  */
 PHP_METHOD(Phalcon_Dispatcher, setParam){
 
@@ -320,8 +320,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
 
 /**
  * Gets a param by its name or numeric index
-     *
-     * @param  mixed $param
+*
+* @param  mixed $param
  * @return mixed
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Dispatcher, getControllers){
 }
 
 /**
- * Returns last dispatched controller
+ * Returns the lastest dispatched controller
  *
  * @return Phalcon_Controller
  */
@@ -776,7 +776,7 @@ PHP_METHOD(Phalcon_Dispatcher, getLastController){
 }
 
 /**
- * Returns value returned by last dispacthed action
+ * Returns value returned by the lastest dispatched action
  *
  * @return mixed
  */

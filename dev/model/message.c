@@ -45,12 +45,12 @@
  */
 
 /**
-     * Phalcon_Model_Message message
-     *
-     * @param string $message
-     * @param string $field
-     * @param string $type
-     */
+* Phalcon_Model_Message message
+*
+* @param string $message
+* @param string $field
+* @param string $type
+*/
 PHP_METHOD(Phalcon_Model_Message, __construct){
 
 	zval *message = NULL, *field = NULL, *type = NULL;
@@ -80,10 +80,10 @@ PHP_METHOD(Phalcon_Model_Message, __construct){
 }
 
 /**
-     * Sets message type
-     *
-     * @param string $type
-     */
+* Sets message type
+*
+* @param string $type
+*/
 PHP_METHOD(Phalcon_Model_Message, setType){
 
 	zval *type = NULL;
@@ -101,10 +101,10 @@ PHP_METHOD(Phalcon_Model_Message, setType){
 }
 
 /**
-     * Returns message type
-     *
-     * @return string
-     */
+* Returns message type
+*
+* @return string
+*/
 PHP_METHOD(Phalcon_Model_Message, getType){
 
 	zval *t0 = NULL;
@@ -117,10 +117,10 @@ PHP_METHOD(Phalcon_Model_Message, getType){
 }
 
 /**
-     * Sets verbose message
-     *
-     * @param string $message
-     */
+* Sets verbose message
+*
+* @param string $message
+*/
 PHP_METHOD(Phalcon_Model_Message, setMessage){
 
 	zval *message = NULL;
@@ -138,10 +138,10 @@ PHP_METHOD(Phalcon_Model_Message, setMessage){
 }
 
 /**
-     * Returns verbose message
-     *
-     * @return string
-     */
+* Returns verbose message
+*
+* @return string
+*/
 PHP_METHOD(Phalcon_Model_Message, getMessage){
 
 	zval *t0 = NULL;
@@ -154,10 +154,10 @@ PHP_METHOD(Phalcon_Model_Message, getMessage){
 }
 
 /**
-     * Sets field name related to message
-     *
-     * @param string $field
-     */
+* Sets field name related to message
+*
+* @param string $field
+*/
 PHP_METHOD(Phalcon_Model_Message, setField){
 
 	zval *field = NULL;
@@ -175,10 +175,10 @@ PHP_METHOD(Phalcon_Model_Message, setField){
 }
 
 /**
-     * Returns field name related to message
-     *
-     * @return string
-     */
+* Returns field name related to message
+*
+* @return string
+*/
 PHP_METHOD(Phalcon_Model_Message, getField){
 
 	zval *t0 = NULL;
@@ -191,10 +191,10 @@ PHP_METHOD(Phalcon_Model_Message, getField){
 }
 
 /**
-     * Magic __toString method returns verbose message
-     *
-     * @return string
-     */
+* Magic __toString method returns verbose message
+*
+* @return string
+*/
 PHP_METHOD(Phalcon_Model_Message, __toString){
 
 	zval *t0 = NULL;
@@ -207,11 +207,11 @@ PHP_METHOD(Phalcon_Model_Message, __toString){
 }
 
 /**
-     * Magic __set_state helps to recover messsages from serialization
-     *
-     * @param array $message
-     * @return Phalcon_Model_Message
-     */
+* Magic __set_state helps to recover messsages from serialization
+*
+* @param array $message
+* @return Phalcon_Model_Message
+*/
 PHP_METHOD(Phalcon_Model_Message, __set_state){
 
 	zval *message = NULL;

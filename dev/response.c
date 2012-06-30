@@ -50,21 +50,23 @@
  */
 PHP_METHOD(Phalcon_Response, getInstance){
 
-	zval *t0 = NULL, *t1 = NULL;
+	zval *instance = NULL;
+	zval *t0 = NULL;
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(t0);
 	phalcon_read_static_property(&t0, SL("Phalcon_Response"), SL("_instance") TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_CPY_WRT(instance, t0);
+	if (!zend_is_true(instance)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_response_ce);
-		phalcon_update_static_property(SL("Phalcon_Response"), SL("_instance"), i0 TSRMLS_CC);
+		PHALCON_CPY_WRT(instance, i0);
+		phalcon_update_static_property(SL("Phalcon_Response"), SL("_instance"), instance TSRMLS_CC);
 	}
-	PHALCON_OBSERVE_VAR(t1);
-	phalcon_read_static_property(&t1, SL("Phalcon_Response"), SL("_instance") TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t1);
+	
+	RETURN_CHECK_CTOR(instance);
 }
 
 /**
@@ -166,7 +168,7 @@ PHP_METHOD(Phalcon_Response, setHeader){
  * Send a raw header to the response
  *
  *
-     *
+*
  * @param string $header
  * @return Phalcon_Response
  */
@@ -334,7 +336,7 @@ PHP_METHOD(Phalcon_Response, redirect){
 
 /**
  * Sets HTTP response body
-     *
+*
  *
  *
  * @param string $content
@@ -397,6 +399,26 @@ PHP_METHOD(Phalcon_Response, getContent){
 	phalcon_read_property(&t0, this_ptr, SL("_content"), PHALCON_NOISY TSRMLS_CC);
 	
 	RETURN_CHECK_CTOR(t0);
+}
+
+/**
+ * Sends headers to the client
+ *
+ */
+PHP_METHOD(Phalcon_Response, sendHeaders){
+
+	zval *headers = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
+	PHALCON_CPY_WRT(headers, t0);
+	if (zend_is_true(headers)) {
+		PHALCON_CALL_METHOD_NORETURN(headers, "send", PHALCON_NO_CHECK);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Controller_Front, setControllersDir){
 
 /**
  * Sets models directory. Depending of your platform, always add a trailing slash or backslash
-     *
+*
  * 
  *
  * @param string $modelsDir
@@ -710,6 +710,7 @@ PHP_METHOD(Phalcon_Controller_Front, dispatchLoop){
 	PHALCON_ALLOC_ZVAL_MM(r10);
 	PHALCON_CALL_METHOD(r10, view, "getcontent", PHALCON_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", r10, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders", PHALCON_NO_CHECK);
 	
 	RETURN_CHECK_CTOR(response);
 }

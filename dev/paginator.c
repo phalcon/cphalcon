@@ -45,12 +45,12 @@
  */
 
 /**
-     * Factories a paginator adapter
-     *
-     * @param   string $adapterName
-     * @param   array $options
-     * @return  Object
-     */
+* Factories a paginator adapter
+*
+* @param   string $adapterName
+* @param   array $options
+* @return  Object
+*/
 PHP_METHOD(Phalcon_Paginator, factory){
 
 	zval *adapter_name = NULL, *options = NULL, *class_name = NULL, *adapter = NULL;

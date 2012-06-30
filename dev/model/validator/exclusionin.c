@@ -43,7 +43,7 @@
  */
 
 /**
-     * Check that the options are valid
+* Check that the options are valid
  *
  */
 PHP_METHOD(Phalcon_Model_Validator_Exclusionin, checkOptions){

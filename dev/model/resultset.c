@@ -52,20 +52,27 @@
  *
  * @param Phalcon_Model_Base $model
  * @param Phalcon_Model_Result $result
+ * @param Phalcon_Model_Cache $cache
  */
 PHP_METHOD(Phalcon_Model_Resultset, __construct){
 
-	zval *model = NULL, *result = NULL;
+	zval *model = NULL, *result = NULL, *cache = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &result) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &model, &result, &cache) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!cache) {
+		PHALCON_INIT_VAR(cache);
+		ZVAL_NULL(cache);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	phalcon_update_property_long(this_ptr, SL("_type"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -571,5 +578,35 @@ PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 	phalcon_update_property_zval(this_ptr, SL("_rows"), r0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the associated cache for the resultset
+ *
+ * @return Phalcon_Cache
+ */
+PHP_METHOD(Phalcon_Model_Resultset, getCache){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_cache"), PHALCON_NOISY TSRMLS_CC);
+	
+	RETURN_CHECK_CTOR(t0);
+}
+
+/**
+ * Returns an instance of the model that is used to generate each of the results
+ */
+PHP_METHOD(Phalcon_Model_Resultset, getSourceModel){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_model"), PHALCON_NOISY TSRMLS_CC);
+	
+	RETURN_CHECK_CTOR(t0);
 }
 
