@@ -1,7 +1,6 @@
 ulimit -c unlimited
 rm -f /tmp/core
 echo "/tmp/core" > /proc/sys/kernel/core_pattern
-php ./unit-tests/manual-unit.php
 php ./unit-tests/ci/phpunit.php --debug -c unit-tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then

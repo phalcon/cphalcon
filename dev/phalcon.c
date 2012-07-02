@@ -560,7 +560,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_forceExists"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_defaultConnection"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_base_ce, SL("_connectionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_base_ce, SL("_manager"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_base_ce, SL("_manager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_disableEvents"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_refreshPersistance"), 1, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_base_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -659,11 +659,11 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce_transaction_manager, "Phalcon_Transaction_Manager", phalcon_transaction_manager_functions);
 	phalcon_transaction_manager_ce = zend_register_internal_class(&ce_transaction_manager TSRMLS_CC);
-	zend_declare_property_bool(phalcon_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_transactions"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_dependencyPointer"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_automaticTransaction"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_bool(phalcon_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_transactions"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_dependencyPointer"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_automaticTransaction"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce_controller_front, "Phalcon_Controller_Front", phalcon_controller_front_functions);
 	phalcon_controller_front_ce = zend_register_internal_class(&ce_controller_front TSRMLS_CC);
