@@ -94,8 +94,28 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 	public function testCacheResultsetConfigMysql(){
 
 		$this->_prepareTestMysql();
+		$robots = $this->_testCacheResultsetConfig();
 
-		Phalcon_Model_Manager::reset();
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
+
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'phcd2b64883305e92cdaf5078930d881382',
+		));
+	}
+
+	public function testCacheResultsetConfigPostgresql(){
+
+		$this->_prepareTestPostgresql();
+		$robots = $this->_testCacheResultsetConfig();
+
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc7b01793487150c7241316e982a3a8b83');
+
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'phc7b01793487150c7241316e982a3a8b83',
+		));
+	}
+
+	protected function _testCacheResultsetConfig(){
 
 		$config = new stdClass();
 		$config->cache = new stdClass();
@@ -118,12 +138,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
-
-		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phcd2b64883305e92cdaf5078930d881382',
-		));
-
+		return $robots;
 	}
 
 	public function testCacheResultsetNoLifetime(){
