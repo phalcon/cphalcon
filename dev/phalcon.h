@@ -43,6 +43,7 @@ extern zend_class_entry *phalcon_acl_resource_ce;
 extern zend_class_entry *phalcon_cache_ce;
 extern zend_class_entry *phalcon_dispatcher_exception_ce;
 extern zend_class_entry *phalcon_view_ce;
+extern zend_class_entry *phalcon_registry_ce;
 extern zend_class_entry *phalcon_view_engine_ce;
 extern zend_class_entry *phalcon_view_exception_ce;
 extern zend_class_entry *phalcon_view_engine_php_ce;
@@ -303,6 +304,8 @@ PHP_METHOD(Phalcon_View, cache);
 PHP_METHOD(Phalcon_View, setContent);
 PHP_METHOD(Phalcon_View, getContent);
 PHP_METHOD(Phalcon_View, disable);
+
+PHP_METHOD(Phalcon_Registry, set);
 
 PHP_METHOD(Phalcon_View_Engine, __construct);
 PHP_METHOD(Phalcon_View_Engine, initialize);
@@ -945,7 +948,10 @@ PHP_METHOD(Phalcon_Model_Manager, load);
 PHP_METHOD(Phalcon_Model_Manager, getModel);
 PHP_METHOD(Phalcon_Model_Manager, initialize);
 PHP_METHOD(Phalcon_Model_Manager, getSource);
+PHP_METHOD(Phalcon_Model_Manager, setConnection);
 PHP_METHOD(Phalcon_Model_Manager, getConnection);
+PHP_METHOD(Phalcon_Model_Manager, setAutoConnection);
+PHP_METHOD(Phalcon_Model_Manager, haveAutoConnection);
 PHP_METHOD(Phalcon_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Model_Manager, addHasMany);
@@ -2802,6 +2808,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_getsource, 0, 0, 1)
 	ZEND_ARG_INFO(0, modelName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_setconnection, 0, 0, 1)
+	ZEND_ARG_INFO(0, connection)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_setautoconnection, 0, 0, 1)
+	ZEND_ARG_INFO(0, autoConnection)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_manager_addhasone, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
@@ -3556,6 +3570,11 @@ PHALCON_INIT_FUNCS(phalcon_view_functions){
 	PHP_ME(Phalcon_View, setContent, arginfo_phalcon_view_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, getContent, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_View, disable, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_registry_functions){
+	PHP_ME(Phalcon_Registry, set, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 
@@ -4323,7 +4342,10 @@ PHALCON_INIT_FUNCS(phalcon_model_manager_functions){
 	PHP_ME(Phalcon_Model_Manager, getModel, arginfo_phalcon_model_manager_getmodel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, initialize, arginfo_phalcon_model_manager_initialize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getSource, arginfo_phalcon_model_manager_getsource, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, setConnection, arginfo_phalcon_model_manager_setconnection, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, setAutoConnection, arginfo_phalcon_model_manager_setautoconnection, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Model_Manager, haveAutoConnection, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasOne, arginfo_phalcon_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addBelongsTo, arginfo_phalcon_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Manager, addHasMany, arginfo_phalcon_model_manager_addhasmany, ZEND_ACC_PUBLIC) 

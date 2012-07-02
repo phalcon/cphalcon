@@ -407,8 +407,9 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
  */
 PHP_METHOD(Phalcon_Model_Manager, load){
 
-	zval *model_name = NULL, *model_path = NULL, *model = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *model_name = NULL, *auto_connection = NULL, *model_path = NULL;
+	zval *model = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL;
@@ -426,17 +427,22 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 	phalcon_read_property(&t0, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, model_name);
 	if (!eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_autoConnection"), PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(auto_connection, t1);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 0);
+		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_FUNC_PARAMS_2(r0, "class_exists", model_name, c0);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, SL("_basePath"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, SL("_modelsDir"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CONCAT_VVVS(r1, t1, t2, model_name, ".php");
+			phalcon_read_property(&t2, this_ptr, SL("_basePath"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t3);
+			phalcon_read_property(&t3, this_ptr, SL("_modelsDir"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CONCAT_VVVS(r1, t2, t3, model_name, ".php");
 			PHALCON_CPY_WRT(model_path, r1);
 			if (phalcon_file_exists(model_path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(model_path TSRMLS_CC) == FAILURE) {
@@ -464,15 +470,16 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 				object_init_ex(i1, ce0);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", this_ptr, PHALCON_CHECK);
 				PHALCON_CPY_WRT(model, i1);
+				if (zend_is_true(auto_connection)) {
+					PHALCON_ALLOC_ZVAL_MM(r4);
+					PHALCON_CALL_METHOD(r4, this_ptr, "getconnection", PHALCON_NO_CHECK);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r4, PHALCON_NO_CHECK);
+				}
 				
-				PHALCON_ALLOC_ZVAL_MM(r4);
-				PHALCON_CALL_METHOD(r4, this_ptr, "getconnection", PHALCON_NO_CHECK);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r4, PHALCON_NO_CHECK);
-				
-				PHALCON_ALLOC_ZVAL_MM(t3);
-				phalcon_read_property(&t3, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
-				phalcon_array_update(&t3, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_models"), t3 TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL_MM(t4);
+				phalcon_read_property(&t4, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
+				phalcon_array_update(&t4, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_models"), t4 TSRMLS_CC);
 			} else {
 				PHALCON_ALLOC_ZVAL_MM(i2);
 				object_init_ex(i2, phalcon_model_exception_ce);
@@ -488,15 +495,16 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 			object_init_ex(i3, ce1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i3, "__construct", this_ptr, PHALCON_CHECK);
 			PHALCON_CPY_WRT(model, i3);
+			if (zend_is_true(auto_connection)) {
+				PHALCON_ALLOC_ZVAL_MM(r6);
+				PHALCON_CALL_METHOD(r6, this_ptr, "getconnection", PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r6, PHALCON_NO_CHECK);
+			}
 			
-			PHALCON_ALLOC_ZVAL_MM(r6);
-			PHALCON_CALL_METHOD(r6, this_ptr, "getconnection", PHALCON_NO_CHECK);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r6, PHALCON_NO_CHECK);
-			
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
-			phalcon_array_update(&t4, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_models"), t4 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t5);
+			phalcon_read_property(&t5, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_update(&t5, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_models"), t5 TSRMLS_CC);
 		}
 	}
 	PHALCON_MM_RESTORE();
@@ -544,7 +552,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 /**
  * Initializes a model in the model manager
  *
- * @param Phalcon_Model_Manager $model
+ * @param Phalcon_Model_Base $model
  */
 PHP_METHOD(Phalcon_Model_Manager, initialize){
 
@@ -628,6 +636,31 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 }
 
 /**
+ * Sets the main connection that automatically is binded to all created models
+ *
+ * @param Phalcon_Db $connection
+ */
+PHP_METHOD(Phalcon_Model_Manager, setConnection){
+
+	zval *connection = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(connection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "$connection must be an Object");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Gets default connection to the database. All models by default will use connection returned by this method
  *
  * @return Phalcon_Db
@@ -655,7 +688,7 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_CALL_STATIC(r3, "phalcon_db_pool", "hasdefaultdescriptor");
 			if (!zend_is_true(r3)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_exception_ce, "There is not defined database connection parameters");
+				PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "There is not defined database connection parameters");
 				return;
 			}
 			
@@ -668,6 +701,43 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 	
 	
 	RETURN_CHECK_CTOR(connection);
+}
+
+/**
+ * Sets if the models manager should create a default connection automatically and bind it to the created models
+ *
+ * @param boolean $autoConnection
+ */
+PHP_METHOD(Phalcon_Model_Manager, setAutoConnection){
+
+	zval *auto_connection = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &auto_connection) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_autoConnection"), auto_connection TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Check whether the manager binds a database connection automatically to the created models
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Model_Manager, haveAutoConnection){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_autoConnection"), PHALCON_NOISY TSRMLS_CC);
+	
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
