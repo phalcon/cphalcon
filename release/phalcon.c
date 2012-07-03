@@ -11784,6 +11784,12 @@ PHP_METHOD(Phalcon_View, disable){
 	PHALCON_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Registry, set){
+
+
+	
+}
+
 /**
  * Phalcon_View_Engine
  *
@@ -23751,26 +23757,27 @@ PHP_METHOD(Phalcon_Model_Base, setSource){
  */
 PHP_METHOD(Phalcon_Model_Base, getSource){
 
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *source = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_source"), PHALCON_NOISY TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_CPY_WRT(source, t0);
+	if (!zend_is_true(source)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_manager"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, t1, "getsource", r1, PHALCON_NO_CHECK);
-		phalcon_update_property_zval(this_ptr, SL("_source"), r0 TSRMLS_CC);
+		PHALCON_CPY_WRT(source, r0);
+		phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, SL("_source"), PHALCON_NOISY TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t2);
+	RETURN_CHECK_CTOR(source);
 }
 
 /**
@@ -28340,8 +28347,9 @@ PHP_METHOD(Phalcon_Model_Manager, isModel){
  */
 PHP_METHOD(Phalcon_Model_Manager, load){
 
-	zval *model_name = NULL, *model_path = NULL, *model = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *model_name = NULL, *auto_connection = NULL, *model_path = NULL;
+	zval *model = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *i0 = NULL, *i1 = NULL, *i2 = NULL, *i3 = NULL;
@@ -28359,17 +28367,22 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 	phalcon_read_property(&t0, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
 	eval_int = phalcon_array_isset(t0, model_name);
 	if (!eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_autoConnection"), PHALCON_NOISY TSRMLS_CC);
+		PHALCON_CPY_WRT(auto_connection, t1);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 0);
+		
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_FUNC_PARAMS_2(r0, "class_exists", model_name, c0);
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, SL("_basePath"), PHALCON_NOISY TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, SL("_modelsDir"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CONCAT_VVVS(r1, t1, t2, model_name, ".php");
+			phalcon_read_property(&t2, this_ptr, SL("_basePath"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t3);
+			phalcon_read_property(&t3, this_ptr, SL("_modelsDir"), PHALCON_NOISY TSRMLS_CC);
+			PHALCON_CONCAT_VVVS(r1, t2, t3, model_name, ".php");
 			PHALCON_CPY_WRT(model_path, r1);
 			if (phalcon_file_exists(model_path TSRMLS_CC) == SUCCESS) {
 				if (phalcon_require(model_path TSRMLS_CC) == FAILURE) {
@@ -28397,15 +28410,16 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 				object_init_ex(i1, ce0);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", this_ptr, PHALCON_CHECK);
 				PHALCON_CPY_WRT(model, i1);
+				if (zend_is_true(auto_connection)) {
+					PHALCON_ALLOC_ZVAL_MM(r4);
+					PHALCON_CALL_METHOD(r4, this_ptr, "getconnection", PHALCON_NO_CHECK);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r4, PHALCON_NO_CHECK);
+				}
 				
-				PHALCON_ALLOC_ZVAL_MM(r4);
-				PHALCON_CALL_METHOD(r4, this_ptr, "getconnection", PHALCON_NO_CHECK);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r4, PHALCON_NO_CHECK);
-				
-				PHALCON_ALLOC_ZVAL_MM(t3);
-				phalcon_read_property(&t3, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
-				phalcon_array_update(&t3, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_models"), t3 TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL_MM(t4);
+				phalcon_read_property(&t4, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
+				phalcon_array_update(&t4, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_models"), t4 TSRMLS_CC);
 			} else {
 				PHALCON_ALLOC_ZVAL_MM(i2);
 				object_init_ex(i2, phalcon_model_exception_ce);
@@ -28421,15 +28435,16 @@ PHP_METHOD(Phalcon_Model_Manager, load){
 			object_init_ex(i3, ce1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i3, "__construct", this_ptr, PHALCON_CHECK);
 			PHALCON_CPY_WRT(model, i3);
+			if (zend_is_true(auto_connection)) {
+				PHALCON_ALLOC_ZVAL_MM(r6);
+				PHALCON_CALL_METHOD(r6, this_ptr, "getconnection", PHALCON_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r6, PHALCON_NO_CHECK);
+			}
 			
-			PHALCON_ALLOC_ZVAL_MM(r6);
-			PHALCON_CALL_METHOD(r6, this_ptr, "getconnection", PHALCON_NO_CHECK);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnection", r6, PHALCON_NO_CHECK);
-			
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
-			phalcon_array_update(&t4, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_models"), t4 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t5);
+			phalcon_read_property(&t5, this_ptr, SL("_models"), PHALCON_NOISY TSRMLS_CC);
+			phalcon_array_update(&t5, model_name, &model, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_models"), t5 TSRMLS_CC);
 		}
 	}
 	PHALCON_MM_RESTORE();
@@ -28477,7 +28492,7 @@ PHP_METHOD(Phalcon_Model_Manager, getModel){
 /**
  * Initializes a model in the model manager
  *
- * @param Phalcon_Model_Manager $model
+ * @param Phalcon_Model_Base $model
  */
 PHP_METHOD(Phalcon_Model_Manager, initialize){
 
@@ -28561,6 +28576,31 @@ PHP_METHOD(Phalcon_Model_Manager, getSource){
 }
 
 /**
+ * Sets the main connection that automatically is binded to all created models
+ *
+ * @param Phalcon_Db $connection
+ */
+PHP_METHOD(Phalcon_Model_Manager, setConnection){
+
+	zval *connection = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(connection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "$connection must be an Object");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Gets default connection to the database. All models by default will use connection returned by this method
  *
  * @return Phalcon_Db
@@ -28588,7 +28628,7 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 			PHALCON_ALLOC_ZVAL_MM(r3);
 			PHALCON_CALL_STATIC(r3, "phalcon_db_pool", "hasdefaultdescriptor");
 			if (!zend_is_true(r3)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_exception_ce, "There is not defined database connection parameters");
+				PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "There is not defined database connection parameters");
 				return;
 			}
 			
@@ -28601,6 +28641,43 @@ PHP_METHOD(Phalcon_Model_Manager, getConnection){
 	
 	
 	RETURN_CHECK_CTOR(connection);
+}
+
+/**
+ * Sets if the models manager should create a default connection automatically and bind it to the created models
+ *
+ * @param boolean $autoConnection
+ */
+PHP_METHOD(Phalcon_Model_Manager, setAutoConnection){
+
+	zval *auto_connection = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &auto_connection) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_autoConnection"), auto_connection TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Check whether the manager binds a database connection automatically to the created models
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Model_Manager, haveAutoConnection){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_autoConnection"), PHALCON_NOISY TSRMLS_CC);
+	
+	RETURN_CHECK_CTOR(t0);
 }
 
 /**
@@ -37094,6 +37171,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_class_entry ce_acl_resource;
 	zend_class_entry ce_cache;
 	zend_class_entry ce_view;
+	zend_class_entry ce_registry;
 	zend_class_entry ce_view_engine;
 	zend_class_entry ce_paginator_adapter_array;
 	zend_class_entry ce_paginator_adapter_model;
@@ -37323,6 +37401,9 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_long(phalcon_view_ce, SL("LEVEL_ACTION_VIEW"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_view_ce, SL("LEVEL_NO_RENDER"), 0 TSRMLS_CC);
 
+	INIT_CLASS_ENTRY(ce_registry, "Phalcon_Registry", phalcon_registry_functions);
+	phalcon_registry_ce = zend_register_internal_class(&ce_registry TSRMLS_CC);
+
 	INIT_CLASS_ENTRY(ce_view_engine, "Phalcon_View_Engine", phalcon_view_engine_functions);
 	phalcon_view_engine_ce = zend_register_internal_class(&ce_view_engine TSRMLS_CC);
 	zend_declare_property_null(phalcon_view_engine_ce, SL("_view"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -37477,7 +37558,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_forceExists"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_defaultConnection"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_base_ce, SL("_connectionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_model_base_ce, SL("_manager"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_model_base_ce, SL("_manager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_disableEvents"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_base_ce, SL("_refreshPersistance"), 1, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_model_base_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -37519,6 +37600,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	INIT_CLASS_ENTRY(ce_model_manager, "Phalcon_Model_Manager", phalcon_model_manager_functions);
 	phalcon_model_manager_ce = zend_register_internal_class(&ce_model_manager TSRMLS_CC);
 	zend_declare_property_bool(phalcon_model_manager_ce, SL("_connection"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_model_manager_ce, SL("_autoConnection"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_metadata"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_manager_ce, SL("_basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -37575,11 +37657,11 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	INIT_CLASS_ENTRY(ce_transaction_manager, "Phalcon_Transaction_Manager", phalcon_transaction_manager_functions);
 	phalcon_transaction_manager_ce = zend_register_internal_class(&ce_transaction_manager TSRMLS_CC);
-	zend_declare_property_bool(phalcon_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_transactions"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_dependencyPointer"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_automaticTransaction"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_bool(phalcon_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_transactions"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_transaction_manager_ce, SL("_dependencyPointer"), 0, ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_transaction_manager_ce, SL("_automaticTransaction"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	INIT_CLASS_ENTRY(ce_controller_front, "Phalcon_Controller_Front", phalcon_controller_front_functions);
 	phalcon_controller_front_ce = zend_register_internal_class(&ce_controller_front TSRMLS_CC);
