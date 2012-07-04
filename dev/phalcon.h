@@ -1126,12 +1126,15 @@ PHP_METHOD(Phalcon_Controller_Front, getInstance);
 PHP_METHOD(Phalcon_Controller_Front, reset);
 
 PHP_METHOD(Phalcon_Session, start);
+PHP_METHOD(Phalcon_Session, destroy);
 PHP_METHOD(Phalcon_Session, setOptions);
 PHP_METHOD(Phalcon_Session, get);
 PHP_METHOD(Phalcon_Session, set);
 PHP_METHOD(Phalcon_Session, has);
 PHP_METHOD(Phalcon_Session, remove);
 PHP_METHOD(Phalcon_Session, getId);
+PHP_METHOD(Phalcon_Session, started);
+PHP_METHOD(Phalcon_Session, exists);
 
 PHP_METHOD(Phalcon_Flash, _showMessage);
 PHP_METHOD(Phalcon_Flash, error);
@@ -3177,6 +3180,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_start, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_destroy, 0, 0, 0)
+	ZEND_ARG_INFO(0, delete_cookie)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_setoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -4553,12 +4560,15 @@ PHALCON_INIT_FUNCS(phalcon_controller_front_functions){
 
 PHALCON_INIT_FUNCS(phalcon_session_functions){
 	PHP_ME(Phalcon_Session, start, arginfo_phalcon_session_start, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, destroy, arginfo_phalcon_session_destroy, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, setOptions, arginfo_phalcon_session_setoptions, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, get, arginfo_phalcon_session_get, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, set, arginfo_phalcon_session_set, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, has, arginfo_phalcon_session_has, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, remove, arginfo_phalcon_session_remove, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, started, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, exists, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 
