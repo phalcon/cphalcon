@@ -799,26 +799,27 @@ PHP_METHOD(Phalcon_Model_Base, setSource){
  */
 PHP_METHOD(Phalcon_Model_Base, getSource){
 
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *source = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_source"), PHALCON_NOISY TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_CPY_WRT(source, t0);
+	if (!zend_is_true(source)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_manager"), PHALCON_NOISY TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_get_class(r1, this_ptr TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1(r0, t1, "getsource", r1, PHALCON_NO_CHECK);
-		phalcon_update_property_zval(this_ptr, SL("_source"), r0 TSRMLS_CC);
+		PHALCON_CPY_WRT(source, r0);
+		phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, SL("_source"), PHALCON_NOISY TSRMLS_CC);
 	
-	RETURN_CHECK_CTOR(t2);
+	RETURN_CHECK_CTOR(source);
 }
 
 /**

@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
+error_reporting(E_ALL | E_NOTICE | E_STRICT);
 
 class PHPUnit_Framework_TestCase {
 
@@ -64,9 +64,13 @@ class PHPUnit_Framework_TestCase {
 				$class->setUp();
 			}
 			$reflectionClass = new ReflectionClass($class);
+			$hasSetup = $reflectionClass->hasMethod('setUp');
 			foreach($reflectionClass->getMethods() as $method){
 				$methodName = $method->getName();
 				if(substr($methodName, 0, 4)=='test'){
+					if($hasSetup){
+						$class->setUp();
+					}
 					$class->$methodName();
 				}
 			}
@@ -76,7 +80,9 @@ class PHPUnit_Framework_TestCase {
 
 }
 
-chdir('/home/gutierrezandresfelipe/cphalcon');
+if(isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME']=='gutierrezandresfelipe'){
+	chdir('/home/gutierrezandresfelipe/cphalcon');
+}
 
 if(!extension_loaded('phalcon')){
 	throw new Exception("Sorry, but phalcon extension is not loaded");

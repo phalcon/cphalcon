@@ -1,4 +1,3 @@
-<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -18,33 +17,24 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsManagerTest extends PHPUnit_Framework_TestCase {
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-	public function testManager(){
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
-		$modelsDir = 'unit-tests/models/';
+#include "kernel/main.h"
+#include "kernel/memory.h"
 
-		$modelManager = new Phalcon_Model_Manager();
-		$modelManager->setModelsDir($modelsDir);
-		$modelManager->setAutoConnection(false);
+PHP_METHOD(Phalcon_Registry, set){
 
-		$this->assertEquals($modelManager->getModelsDir(), $modelsDir);
 
-		$isModel = $modelManager->isModel('NoExiste');
-		$this->assertFalse($isModel);
-
-		$isModel = $modelManager->isModel('Personas');
-		$this->assertTrue($isModel);
-
-		$Personas = $modelManager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
-
-		$prueba = new Prueba($modelManager);
-		$this->assertEquals(get_class($prueba), 'Prueba');
-
-	}
-
+	
 }
+
