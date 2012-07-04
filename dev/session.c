@@ -57,6 +57,8 @@ PHP_METHOD(Phalcon_Session, start){
 	zval *options = NULL;
 	zval *a0 = NULL;
 	zval *r0 = NULL;
+	zval *started = NULL;
+	zval *ztrue = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -71,10 +73,123 @@ PHP_METHOD(Phalcon_Session, start){
 		PHALCON_CPY_WRT(options, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "session_start");
-	
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+
+	if (!zend_is_true(started)) {
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_FUNC(r0, "session_start");
+
+		PHALCON_INIT_VAR(ztrue);
+		ZVAL_BOOL(ztrue, TRUE);
+		phalcon_update_static_property(SL("Phalcon_Session"), SL("_started"), ztrue TSRMLS_CC);
+		phalcon_update_static_property(SL("Phalcon_Session"), SL("_exists"), ztrue TSRMLS_CC);
+	}
+
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Destroys a session, optionally also deleting the session cookie.  Calling this function before calling Phalcon_Session::start() is an error.
+ *
+ * @param bool $delete_cookie
+ */
+PHP_METHOD(Phalcon_Session, destroy){
+
+	zval *session_cookie_name = NULL,
+		*session_cookie_value = NULL,
+		*session_cookie_expiration = NULL,
+		*session_cookie_params = NULL,
+		*session_cookie_path_key = NULL,
+		*session_cookie_path = NULL,
+		*session_cookie_domain_key = NULL,
+		*session_cookie_domain = NULL,
+		*session_cookie_secure_key = NULL,
+		*session_cookie_secure = NULL,
+		*session_cookie_httponly_key = NULL,
+		*session_cookie_httponly = NULL,
+		*cookies = NULL,
+		*set_cookie_return = NULL,
+		*session_destroy_return = NULL,
+		*zfalse = NULL;
+	zval *exists = NULL, *started = NULL;
+	zval* set_cookie_params[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+
+	zend_bool delete_cookie = FALSE;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_ALLOC_ZVAL_MM(exists);
+	PHALCON_CALL_STATIC(exists, "Phalcon_Session", "exists");
+	if (!zend_is_true(exists)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+	if (!zend_is_true(started)) {
+		PHALCON_CALL_STATIC_NORETURN("Phalcon_Session", "start");
+	}
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|b", &delete_cookie) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (delete_cookie) {
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_params);
+		PHALCON_CALL_FUNC(session_cookie_params, "session_get_cookie_params");
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_name);
+		PHALCON_CALL_FUNC(session_cookie_name, "session_name");
+		set_cookie_params[0] = session_cookie_name;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_value);
+		ZVAL_STRING(session_cookie_value, "", 1);
+		set_cookie_params[1] = session_cookie_value;
+
+		PHALCON_INIT_VAR(session_cookie_expiration);
+		ZVAL_LONG(session_cookie_expiration, 1);
+		set_cookie_params[2] = session_cookie_expiration;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_path_key);
+		ZVAL_STRING(session_cookie_path_key, "path", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_path);
+		phalcon_array_fetch(&session_cookie_path, session_cookie_params, session_cookie_path_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[3] = session_cookie_path;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_domain_key);
+		ZVAL_STRING(session_cookie_domain_key, "domain", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_domain);
+		phalcon_array_fetch(&session_cookie_domain, session_cookie_params, session_cookie_domain_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[4] = session_cookie_domain;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_secure_key);
+		ZVAL_STRING(session_cookie_secure_key, "secure", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_secure);
+		phalcon_array_fetch(&session_cookie_secure, session_cookie_params, session_cookie_secure_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[5] = session_cookie_secure;
+
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_httponly_key);
+		ZVAL_STRING(session_cookie_httponly_key, "httponly", 1);
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_httponly);
+		phalcon_array_fetch(&session_cookie_httponly, session_cookie_params, session_cookie_httponly_key, PHALCON_NOISY TSRMLS_CC);
+		set_cookie_params[6] = session_cookie_httponly;
+
+		PHALCON_ALLOC_ZVAL_MM(set_cookie_return);
+		PHALCON_CALL_FUNC_PARAMS(set_cookie_return, "setcookie", 7, set_cookie_params);
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(session_destroy_return);
+	PHALCON_CALL_FUNC(session_destroy_return, "session_destroy");
+	
+	PHALCON_INIT_VAR(zfalse);
+	ZVAL_BOOL(zfalse, FALSE);
+	phalcon_update_static_property(SL("Phalcon_Session"), SL("_started"), zfalse TSRMLS_CC);
+	phalcon_update_static_property(SL("Phalcon_Session"), SL("_exists"), zfalse TSRMLS_CC);
+
+	RETURN_DZVAL(session_destroy_return);
 }
 
 /**
@@ -116,10 +231,25 @@ PHP_METHOD(Phalcon_Session, get){
 	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
 	zval *g0 = NULL;
+	zval *exists = NULL, *started = NULL;
+
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
+	PHALCON_ALLOC_ZVAL_MM(exists);
+	PHALCON_CALL_STATIC(exists, "Phalcon_Session", "exists");
+	if (!zend_is_true(exists)) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+	if (!zend_is_true(started)) {
+		PHALCON_CALL_STATIC_NORETURN("Phalcon_Session", "start");
+	}
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -154,6 +284,7 @@ PHP_METHOD(Phalcon_Session, get){
 PHP_METHOD(Phalcon_Session, set){
 
 	zval *index = NULL, *value = NULL;
+	zval *started = NULL;
 	zval *g0 = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
@@ -163,6 +294,12 @@ PHP_METHOD(Phalcon_Session, set){
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+	if (!zend_is_true(started)) {
+		PHALCON_CALL_STATIC_NORETURN("Phalcon_Session", "start");
 	}
 
 	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
@@ -186,13 +323,27 @@ PHP_METHOD(Phalcon_Session, has){
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 	zval *g0 = NULL;
+	zval *exists = NULL, *started = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
+	PHALCON_ALLOC_ZVAL_MM(exists);
+	PHALCON_CALL_STATIC(exists, "Phalcon_Session", "exists");
+	if (!zend_is_true(exists)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+	if (!zend_is_true(started)) {
+		PHALCON_CALL_STATIC_NORETURN("Phalcon_Session", "start");
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -202,6 +353,7 @@ PHP_METHOD(Phalcon_Session, has){
 	PHALCON_CPY_WRT(key, r0);
 	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, key);
+
 	if (eval_int) {
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -209,8 +361,6 @@ PHP_METHOD(Phalcon_Session, has){
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
-	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -221,15 +371,29 @@ PHP_METHOD(Phalcon_Session, has){
 PHP_METHOD(Phalcon_Session, remove){
 
 	zval *index = NULL, *key = NULL;
+	zval *exists = NULL, *started = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 	zval *g0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
+	PHALCON_ALLOC_ZVAL_MM(exists);
+	PHALCON_CALL_STATIC(exists, "Phalcon_Session", "exists");
+	if (!zend_is_true(exists)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(started);
+	PHALCON_CALL_STATIC(started, "Phalcon_Session", "started");
+	if (!zend_is_true(started)) {
+		PHALCON_CALL_STATIC_NORETURN("Phalcon_Session", "start");
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -256,5 +420,69 @@ PHP_METHOD(Phalcon_Session, getId){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC(r0, "session_id");
 	RETURN_DZVAL(r0);
+}
+
+/**
+ * Checks if session has been started
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session, started){
+	zval *static_started = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBSERVE_VAR(static_started);
+	phalcon_read_static_property(&static_started, SL("Phalcon_Session"), SL("_started") TSRMLS_CC);
+
+	eval_int = zend_is_true(static_started);
+	PHALCON_MM_RESTORE();
+
+	if (eval_int) {
+		RETURN_TRUE;
+	} else {
+		RETURN_FALSE;
+	}
+}
+
+/**
+ * Checks if session cookie exists
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session, exists){
+	zval *static_exists = NULL;
+	zval *cookie_exists = NULL;
+	zval *session_cookie_name = NULL;
+	zval *cookies = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBSERVE_VAR(static_exists);
+	phalcon_read_static_property(&static_exists, SL("Phalcon_Session"), SL("_exists") TSRMLS_CC);
+	
+	if (Z_TYPE_P(static_exists) == IS_NULL) {
+		PHALCON_ALLOC_ZVAL_MM(session_cookie_name);
+		PHALCON_CALL_FUNC(session_cookie_name, "session_name");
+
+		phalcon_get_global(&cookies, SL("_COOKIE")+1 TSRMLS_CC);
+		eval_int = phalcon_array_isset(cookies, session_cookie_name);
+
+		PHALCON_INIT_VAR(cookie_exists);
+		ZVAL_BOOL(cookie_exists, eval_int);
+		phalcon_update_static_property(SL("Phalcon_Session"), SL("_exists"), cookie_exists TSRMLS_CC);
+		phalcon_read_static_property(&static_exists, SL("Phalcon_Session"), SL("_exists") TSRMLS_CC);
+	}
+	
+	eval_int = zend_is_true(static_exists);
+	PHALCON_MM_RESTORE();
+
+	if (eval_int) {
+		RETURN_TRUE;
+	} else {
+		RETURN_FALSE;
+	}
 }
 
