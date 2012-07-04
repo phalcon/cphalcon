@@ -1133,6 +1133,7 @@ PHP_METHOD(Phalcon_Session, set);
 PHP_METHOD(Phalcon_Session, has);
 PHP_METHOD(Phalcon_Session, remove);
 PHP_METHOD(Phalcon_Session, getId);
+PHP_METHOD(Phalcon_Session, started);
 PHP_METHOD(Phalcon_Session, exists);
 
 PHP_METHOD(Phalcon_Flash, _showMessage);
@@ -4566,6 +4567,7 @@ PHALCON_INIT_FUNCS(phalcon_session_functions){
 	PHP_ME(Phalcon_Session, has, arginfo_phalcon_session_has, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, remove, arginfo_phalcon_session_remove, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, started, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, exists, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
