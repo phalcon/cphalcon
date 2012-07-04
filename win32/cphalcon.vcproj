@@ -4013,6 +4013,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\dev\registry.c"
+			>
+		</File>
+		<File
 			RelativePath="..\dev\request.c"
 			>
 		</File>
