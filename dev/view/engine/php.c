@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, __construct){
  *
  * @param string $path
  * @param array $params
+ * @return string
  */
 PHP_METHOD(Phalcon_View_Engine_Php, render){
 
@@ -90,7 +91,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_FUNC_NORETURN("ob_clean");
+	PHALCON_CALL_FUNC_NORETURN("ob_start");
 	if (phalcon_valid_foreach(params TSRMLS_CC)) {
 		ah0 = Z_ARRVAL_P(params);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -122,8 +123,8 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC(r0, "ob_get_contents");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PHALCON_NO_CHECK);
-	
-	PHALCON_MM_RESTORE();
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
+
+	RETURN_DZVAL(r0);
 }
 

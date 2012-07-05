@@ -210,10 +210,12 @@ PHP_METHOD(Phalcon_View_Engine, path){
  * Renders a partial inside another view
  *
  * @param string $partialPath
+ * @return string
  */
 PHP_METHOD(Phalcon_View_Engine, partial){
 
 	zval *partial_path = NULL;
+	zval *render_buffer = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -225,8 +227,9 @@ PHP_METHOD(Phalcon_View_Engine, partial){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "partial", partial_path, PHALCON_NO_CHECK);
+	PHALCON_INIT_VAR(render_buffer);
+	PHALCON_CALL_METHOD_PARAMS_1(render_buffer, t0, "partial", partial_path, PHALCON_NO_CHECK);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_DZVAL(render_buffer);
 }
 
