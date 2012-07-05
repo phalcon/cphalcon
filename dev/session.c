@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Session, start){
 		PHALCON_CALL_FUNC(r0, "session_start");
 
 		PHALCON_INIT_VAR(ztrue);
-		ZVAL_BOOL(ztrue, TRUE);
+		ZVAL_BOOL(ztrue, 1);
 		phalcon_update_static_property(SL("Phalcon_Session"), SL("_started"), ztrue TSRMLS_CC);
 		phalcon_update_static_property(SL("Phalcon_Session"), SL("_exists"), ztrue TSRMLS_CC);
 	}
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Session, destroy){
 	zval *exists = NULL, *started = NULL;
 	zval* set_cookie_params[] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 
-	zend_bool delete_cookie = FALSE;
+	zend_bool delete_cookie = 0;
 
 	PHALCON_MM_GROW();
 
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Session, destroy){
 	PHALCON_CALL_FUNC(session_destroy_return, "session_destroy");
 	
 	PHALCON_INIT_VAR(zfalse);
-	ZVAL_BOOL(zfalse, FALSE);
+	ZVAL_BOOL(zfalse, 0);
 	phalcon_update_static_property(SL("Phalcon_Session"), SL("_started"), zfalse TSRMLS_CC);
 	phalcon_update_static_property(SL("Phalcon_Session"), SL("_exists"), zfalse TSRMLS_CC);
 
