@@ -21,7 +21,6 @@
 class ViewTest extends PHPUnit_Framework_TestCase {
 
 	public function testStandardRender(){
-
 		$view = new Phalcon_View();
 		$view->setBasePath(__DIR__.'/../');
 
@@ -32,12 +31,12 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test2', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>here</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>here</html>'.PHP_EOL);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolhere</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
 
 		//Variables
 		$view->setParamToView('a_cool_var', 'le-this');
@@ -46,7 +45,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'another');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>lol<p>le-this</p></html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>lol<p>le-this</p></html>'.PHP_EOL);
 
 		//Templates
 		$view->setTemplateAfter('test');
@@ -55,7 +54,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test3', 'other');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>zuplolhere</html>'.PHP_EOL);
 
 		$view->cleanTemplateAfter();
 
@@ -65,7 +64,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolhere</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
 
 		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
 
@@ -87,7 +86,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->pick('test3/yup');
 		$view->render('test3', 'other');
 		$view->finish();
-		$this->assertEquals($view->getContent(), '<html>lolyup</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>lolyup</html>'.PHP_EOL);
 
 	}
 
@@ -105,7 +104,13 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->render('test5', 'index');
 		$view->finish();
 
-		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>'."\n");
+		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this</html>'.PHP_EOL);
+
+		$view->start();
+		$view->render('test9', 'index');
+		$view->finish();
+
+		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>'.PHP_EOL);
 
 	}
 

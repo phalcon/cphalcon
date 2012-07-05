@@ -95,6 +95,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
  *
  * @param string $path
  * @param array $params
+ * @return string
  */
 PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 
@@ -122,9 +123,8 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 	PHALCON_ALLOC_ZVAL_MM(r1);
 	PHALCON_CALL_FUNC_PARAMS_1(r1, "file_get_contents", path);
 	PHALCON_CALL_METHOD_PARAMS_2(r0, t1, "render", r1, this_ptr, PHALCON_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PHALCON_NO_CHECK);
-	
-	PHALCON_MM_RESTORE();
+
+	RETURN_DZVAL(r0);
 }
 
 PHP_METHOD(Phalcon_View_Engine_Mustache, __isset){
