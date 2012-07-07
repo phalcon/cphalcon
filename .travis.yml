@@ -21,7 +21,7 @@ before_script:
  - git clone https://github.com/bobthecow/mustache.php.git
  - git clone git://github.com/fabpot/Twig.git
  - cd ../..
- - cd dev/
+ - cd release/
  - export CFLAGS="-g -O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
