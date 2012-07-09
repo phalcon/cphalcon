@@ -325,852 +325,613 @@
 	</References>
 	<Files>
 		<Filter
-			Name="acl"
+			Name="release"
 			>
 			<File
-				RelativePath="..\dev\acl\exception.c"
+				RelativePath="..\release\phalcon.c"
 				>
 				<FileConfiguration
 					Name="Debug TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\acl\resource.c"
+				RelativePath="..\release\phalcon.h"
 				>
 				<FileConfiguration
 					Name="Debug TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\acl\role.c"
+				RelativePath="..\release\php_phalcon.h"
 				>
 				<FileConfiguration
 					Name="Debug TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\acl\"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="adapter"
-				>
-				<File
-					RelativePath="..\dev\acl\adapter\memory.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\acl\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\acl\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\acl\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\acl\adapter\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="cache"
-			>
-			<File
-				RelativePath="..\dev\cache\backend.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\cache\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\cache\"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="backend"
-				>
-				<File
-					RelativePath="..\dev\cache\backend\apc.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\cache\backend\file.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\cache\backend\memcache.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\backend\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="frontend"
-				>
-				<File
-					RelativePath="..\dev\cache\frontend\data.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\cache\frontend\none.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\cache\frontend\output.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\cache\frontend\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="config"
-			>
-			<File
-				RelativePath="..\dev\config\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\config\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\config\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\config\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\config\"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="adapter"
-				>
-				<File
-					RelativePath="..\dev\config\adapter\ini.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\config\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\config\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\config\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\config\adapter\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="controller"
-			>
-			<File
-				RelativePath="..\dev\controller\front.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\controller\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\controller\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\controller\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\controller\"
 					/>
 				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
-			Name="db"
+			Name="dev"
 			>
 			<File
-				RelativePath="..\dev\db\column.c"
+				RelativePath="..\dev\acl.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\exception.c"
+				RelativePath="..\dev\cache.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\index.c"
+				RelativePath="..\dev\config.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\pool.c"
+				RelativePath="..\dev\controller.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\profiler.c"
+				RelativePath="..\dev\db.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\rawvalue.c"
+				RelativePath="..\dev\dispatcher.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\dev\db\reference.c"
+				RelativePath="..\dev\exception.c"
 				>
 				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\db\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\filter.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\flash.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\loader.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\logger.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\paginator.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\phalcon.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\phalcon.h"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\php_phalcon.h"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\registry.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\request.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\response.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\session.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\tag.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\test.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\text.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\transaction.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\translate.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\utils.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\dev\view.c"
+				>
+				<FileConfiguration
+					Name="Release TS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release NTS|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
 			</File>
 			<Filter
-				Name="adapter"
+				Name="acl"
 				>
 				<File
-					RelativePath="..\dev\db\adapter\mysql.c"
+					RelativePath="..\dev\acl\exception.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1178,35 +939,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\db\adapter\postgresql.c"
+					RelativePath="..\dev\acl\resource.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1214,39 +977,121 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\adapter\"
+							ObjectFile="$(IntDir)\acl\"
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\dev\acl\role.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\acl\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\acl\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\acl\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\acl\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\acl\adapter\memory.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\acl\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\acl\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\acl\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\acl\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
-				Name="dialect"
+				Name="cache"
 				>
 				<File
-					RelativePath="..\dev\db\dialect\mysql.c"
+					RelativePath="..\dev\cache\backend.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1254,35 +1099,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\db\dialect\postgresql.c"
+					RelativePath="..\dev\cache\exception.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1290,39 +1137,277 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\dialect\"
+							ObjectFile="$(IntDir)\cache\"
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="backend"
+					>
+					<File
+						RelativePath="..\dev\cache\backend\apc.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\cache\backend\file.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\cache\backend\memcache.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\backend\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="frontend"
+					>
+					<File
+						RelativePath="..\dev\cache\frontend\data.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\cache\frontend\none.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\cache\frontend\output.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\cache\frontend\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
-				Name="profiler"
+				Name="config"
 				>
 				<File
-					RelativePath="..\dev\db\profiler\item.c"
+					RelativePath="..\dev\config\exception.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\profiler\"
+							ObjectFile="$(IntDir)\config\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\profiler\"
+							ObjectFile="$(IntDir)\config\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1330,39 +1415,83 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\profiler\"
+							ObjectFile="$(IntDir)\config\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\profiler\"
+							ObjectFile="$(IntDir)\config\"
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\config\adapter\ini.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\config\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\config\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\config\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\config\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
-				Name="result"
+				Name="controller"
 				>
 				<File
-					RelativePath="..\dev\db\result\mysql.c"
+					RelativePath="..\dev\controller\front.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
+							ObjectFile="$(IntDir)\controller\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
+							ObjectFile="$(IntDir)\controller\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -1370,1583 +1499,41 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
+							ObjectFile="$(IntDir)\controller\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\db\result\postgresql.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\db\result\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="dispatcher"
-			>
-			<File
-				RelativePath="..\dev\dispatcher\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\dispatcher\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\dispatcher\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\dispatcher\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\dispatcher\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="internal"
-			>
-			<File
-				RelativePath="..\dev\internal\test.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\internal\testdummy.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\internal\testparent.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\internal\testtemp.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\internal\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="kernel"
-			>
-			<File
-				RelativePath="..\dev\kernel\array.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\array.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\assert.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\assert.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\concat.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\concat.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\debug.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\debug.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\fcall.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\fcall.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\main.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\main.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\memory.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\memory.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\object.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\object.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\operators.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\operators.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\require.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\kernel\require.h"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\kernel\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="loader"
-			>
-			<File
-				RelativePath="..\dev\loader\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\loader\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\loader\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\loader\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\loader\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="logger"
-			>
-			<File
-				RelativePath="..\dev\logger\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\logger\item.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\logger\"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="adapter"
-				>
-				<File
-					RelativePath="..\dev\logger\adapter\file.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\logger\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\logger\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\logger\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\logger\adapter\"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="model"
-			>
-			<File
-				RelativePath="..\dev\model\base.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\manager.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\message.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\metadata.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\query.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\resultset.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\row.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\model\validator.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\model\"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="metadata"
-				>
-				<File
-					RelativePath="..\dev\model\metadata\apc.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\model\metadata\memory.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\model\metadata\session.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\metadata\"
+							ObjectFile="$(IntDir)\controller\"
 						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
-				Name="validator"
+				Name="db"
 				>
 				<File
-					RelativePath="..\dev\model\validator\email.c"
+					RelativePath="..\dev\db\column.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2954,35 +1541,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\model\validator\exclusionin.c"
+					RelativePath="..\dev\db\exception.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -2990,35 +1579,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\model\validator\inclusionin.c"
+					RelativePath="..\dev\db\index.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3026,35 +1617,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\model\validator\numericality.c"
+					RelativePath="..\dev\db\pool.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3062,35 +1655,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\model\validator\regex.c"
+					RelativePath="..\dev\db\profiler.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3098,35 +1693,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\model\validator\uniqueness.c"
+					RelativePath="..\dev\db\rawvalue.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3134,79 +1731,361 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\model\validator\"
+							ObjectFile="$(IntDir)\db\"
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\dev\db\reference.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\db\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\db\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\db\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\db\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\db\adapter\mysql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\db\adapter\postgresql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="dialect"
+					>
+					<File
+						RelativePath="..\dev\db\dialect\mysql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\db\dialect\postgresql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\dialect\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="profiler"
+					>
+					<File
+						RelativePath="..\dev\db\profiler\item.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\profiler\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\profiler\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\profiler\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\profiler\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="result"
+					>
+					<File
+						RelativePath="..\dev\db\result\mysql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\db\result\postgresql.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\db\result\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="paginator"
-			>
-			<File
-				RelativePath="..\dev\paginator\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\paginator\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\paginator\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\paginator\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\paginator\"
-					/>
-				</FileConfiguration>
-			</File>
 			<Filter
-				Name="adapter"
+				Name="dispatcher"
 				>
 				<File
-					RelativePath="..\dev\paginator\adapter\array.c"
+					RelativePath="..\dev\dispatcher\exception.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
+							ObjectFile="$(IntDir)\dispatcher\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
+							ObjectFile="$(IntDir)\dispatcher\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3214,535 +2093,41 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
+							ObjectFile="$(IntDir)\dispatcher\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\dev\paginator\adapter\model.c"
-					>
-					<FileConfiguration
-						Name="Debug TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release TS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release NTS|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\paginator\adapter\"
+							ObjectFile="$(IntDir)\dispatcher\"
 						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="request"
-			>
-			<File
-				RelativePath="..\dev\request\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\request\file.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\request\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="response"
-			>
-			<File
-				RelativePath="..\dev\response\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\response\headers.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\response\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="router"
-			>
-			<File
-				RelativePath="..\dev\router\regex.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\router\rewrite.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\router\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="session"
-			>
-			<File
-				RelativePath="..\dev\session\namespace.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\session\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\session\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\session\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\session\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="tag"
-			>
-			<File
-				RelativePath="..\dev\tag\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\tag\select.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\tag\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="transaction"
-			>
-			<File
-				RelativePath="..\dev\transaction\failed.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\transaction\manager.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\transaction\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="translate"
-			>
-			<File
-				RelativePath="..\dev\translate\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\translate\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\translate\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\translate\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\translate\"
-					/>
-				</FileConfiguration>
-			</File>
 			<Filter
-				Name="adapter"
+				Name="internal"
 				>
 				<File
-					RelativePath="..\dev\translate\adapter\array.c"
+					RelativePath="..\dev\internal\test.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\translate\adapter\"
+							ObjectFile="$(IntDir)\internal\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\translate\adapter\"
+							ObjectFile="$(IntDir)\internal\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3750,115 +2135,155 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\translate\adapter\"
+							ObjectFile="$(IntDir)\internal\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\translate\adapter\"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\internal\testdummy.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\internal\testparent.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\internal\testtemp.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\internal\"
 						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="view"
-			>
-			<File
-				RelativePath="..\dev\view\engine.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\dev\view\exception.c"
-				>
-				<FileConfiguration
-					Name="Debug TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release TS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release NTS|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\view\"
-					/>
-				</FileConfiguration>
-			</File>
 			<Filter
-				Name="engine"
+				Name="kernel"
 				>
 				<File
-					RelativePath="..\dev\view\engine\mustache.c"
+					RelativePath="..\dev\kernel\array.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3866,35 +2291,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\view\engine\php.c"
+					RelativePath="..\dev\kernel\array.h"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3902,35 +2329,37 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\dev\view\engine\twig.c"
+					RelativePath="..\dev\kernel\assert.c"
 					>
 					<FileConfiguration
 						Name="Debug TS|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3938,124 +2367,2373 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\view\engine\"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\assert.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\concat.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\concat.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\debug.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\debug.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\fcall.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\fcall.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\main.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\main.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\memory.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\memory.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\object.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\object.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\operators.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\operators.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\require.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\require.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
 						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="loader"
+				>
+				<File
+					RelativePath="..\dev\loader\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\loader\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\loader\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\loader\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\loader\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="logger"
+				>
+				<File
+					RelativePath="..\dev\logger\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\logger\item.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\logger\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\logger\adapter\file.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\logger\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\logger\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\logger\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\logger\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="model"
+				>
+				<File
+					RelativePath="..\dev\model\base.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\manager.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\message.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\metadata.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\query.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\resultset.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\row.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\model\validator.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\model\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="metadata"
+					>
+					<File
+						RelativePath="..\dev\model\metadata\apc.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\metadata\memory.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\metadata\session.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\metadata\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="validator"
+					>
+					<File
+						RelativePath="..\dev\model\validator\email.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\validator\exclusionin.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\validator\inclusionin.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\validator\numericality.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\validator\regex.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\model\validator\uniqueness.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\model\validator\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="paginator"
+				>
+				<File
+					RelativePath="..\dev\paginator\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\paginator\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\paginator\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\paginator\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\paginator\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\paginator\adapter\array.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\paginator\adapter\model.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\paginator\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="request"
+				>
+				<File
+					RelativePath="..\dev\request\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\request\file.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\request\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="response"
+				>
+				<File
+					RelativePath="..\dev\response\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\response\headers.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\response\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="router"
+				>
+				<File
+					RelativePath="..\dev\router\regex.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\router\rewrite.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\router\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="session"
+				>
+				<File
+					RelativePath="..\dev\session\namespace.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\session\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\session\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\session\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\session\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="tag"
+				>
+				<File
+					RelativePath="..\dev\tag\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\tag\select.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\tag\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="transaction"
+				>
+				<File
+					RelativePath="..\dev\transaction\failed.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\transaction\manager.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="translate"
+				>
+				<File
+					RelativePath="..\dev\translate\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\translate\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\translate\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\translate\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\translate\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="adapter"
+					>
+					<File
+						RelativePath="..\dev\translate\adapter\array.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\translate\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\translate\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\translate\adapter\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\translate\adapter\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="view"
+				>
+				<File
+					RelativePath="..\dev\view\engine.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\view\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\view\"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="engine"
+					>
+					<File
+						RelativePath="..\dev\view\engine\mustache.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\view\engine\php.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\dev\view\engine\twig.c"
+						>
+						<FileConfiguration
+							Name="Debug TS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release TS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug NTS|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release NTS|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								ObjectFile="$(IntDir)\view\engine\"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\dev\acl.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\cache.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\config.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\controller.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\db.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\dispatcher.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\exception.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\filter.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\flash.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\loader.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\logger.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\paginator.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\phalcon.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\phalcon.h"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\php_phalcon.h"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\registry.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\request.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\response.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\session.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\tag.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\test.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\text.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\transaction.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\translate.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\utils.c"
-			>
-		</File>
-		<File
-			RelativePath="..\dev\view.c"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
