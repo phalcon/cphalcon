@@ -761,6 +761,7 @@ PHP_METHOD(Phalcon_View, render){
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
 	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL;
 	zval *render_buffer = NULL;
+	zval *z_null = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -994,7 +995,11 @@ PHP_METHOD(Phalcon_View, render){
 				PHALCON_ALLOC_ZVAL_MM(r17);
 				PHALCON_CALL_METHOD(r17, cache, "isfresh", PHALCON_NO_CHECK);
 				if (zend_is_true(r17)) {
-					PHALCON_CALL_METHOD_NORETURN(cache, "save", PHALCON_NO_CHECK);
+					PHALCON_INIT_VAR(render_buffer);
+					PHALCON_CALL_METHOD(render_buffer, this_ptr, "getcontent", PHALCON_NO_CHECK);
+					PHALCON_INIT_VAR(z_null);
+					ZVAL_NULL(z_null);
+					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(cache, "save", z_null, render_buffer, PHALCON_NO_CHECK);
 				}
 			}
 		}
