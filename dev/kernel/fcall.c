@@ -819,7 +819,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 			fci_cache = &fci_cache_local;
 		}
 
-		if (!phalcon_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
+		if (!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
 			if (error) {
 				zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
 				efree(error);

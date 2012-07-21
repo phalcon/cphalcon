@@ -663,24 +663,16 @@ PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
-PHP_MSHUTDOWN_FUNCTION(phalcon){	
+PHP_MSHUTDOWN_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
 PHP_RINIT_FUNCTION(phalcon){
-#if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_init_fcall_cache(TSRMLS_C);
-#else
-	return SUCCESS;
-#endif
+return SUCCESS;
 }
 
 PHP_RSHUTDOWN_FUNCTION(phalcon){
-#if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_free_fcall_cache(TSRMLS_C);
-#else
-	return SUCCESS;
-#endif
+return SUCCESS;
 }
 
 zend_module_entry phalcon_module_entry = {

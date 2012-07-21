@@ -985,8 +985,9 @@ PHP_METHOD(Phalcon_View, pick){
  */
 PHP_METHOD(Phalcon_View, partial){
 
-	zval *partial_path = NULL, *vfalse = NULL;
-	zval *r0 = NULL;
+	zval *partial_path = NULL, *vfalse = NULL, *previous_content = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -998,9 +999,19 @@ PHP_METHOD(Phalcon_View, partial){
 	PHALCON_INIT_VAR(vfalse);
 	ZVAL_BOOL(vfalse, 0);
 	
+	PHALCON_INIT_VAR(previous_content);
+	phalcon_read_property(&previous_content, this_ptr, SL("_content"), PH_NOISY_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD(r0, this_ptr, "_loadtemplateengines", PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_4_NORETURN(this_ptr, "_enginerender", r0, partial_path, vfalse, vfalse, PH_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_content"), PH_NOISY_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CONCAT_VV(r1, previous_content, t0);
+	phalcon_update_property_zval(this_ptr, SL("_content"), r1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
