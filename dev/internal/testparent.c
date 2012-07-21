@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+
 PHP_METHOD(Phalcon_Internal_TestParent, mp1){
 
 
@@ -69,9 +70,9 @@ PHP_METHOD(Phalcon_Internal_TestParent, mp7){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_pp0"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_pp0"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 PHP_METHOD(Phalcon_Internal_TestParent, smp1){
@@ -115,7 +116,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 
 	PHALCON_INIT_VAR(t0);
 	ZVAL_LONG(t0, 10);
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	is_smaller_function(r0, t0, a TSRMLS_CC);
 	if (zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
@@ -125,7 +126,7 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 	} else {
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 30);
-		PHALCON_INIT_VAR(r2);
+		PHALCON_ALLOC_ZVAL_MM(r2);
 		is_smaller_function(r2, b, t1 TSRMLS_CC);
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
@@ -134,8 +135,8 @@ PHP_METHOD(Phalcon_Internal_TestParent, smp6){
 			RETURN_CTOR(r3);
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_METHOD_PARAMS_2(r4, o, "mp7", a, b, PHALCON_NO_CHECK);
-			RETURN_DZVAL(r4);
+			PHALCON_CALL_METHOD_PARAMS_2(r4, o, "mp7", a, b, PH_NO_CHECK);
+			RETURN_CTOR(r4);
 		}
 	}
 	

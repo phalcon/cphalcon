@@ -35,8 +35,9 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+
 /**
- * Phalcon_Db_Index
+ * Phalcon\Db\Index
  *
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
@@ -47,7 +48,7 @@
  */
 
 /**
- * Phalcon_Db_Index constructor
+ * Phalcon\Db\Index constructor
  *
  * @param string $indexName
  * @param array $columns
@@ -80,9 +81,9 @@ PHP_METHOD(Phalcon_Db_Index, getName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_indexName"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_indexName"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -96,16 +97,16 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_columns"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_columns"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
- * Restore a Phalcon_Db_Index object from export
+ * Restore a Phalcon\Db\Index object from export
  *
  * @param array $data
- * @return Phalcon_Db_Index
+ * @return Phalcon\Db\Index
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
@@ -136,11 +137,11 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	object_init_ex(i0, phalcon_db_index_ce);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_string(&r0, data, SL("_indexName"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_array_fetch_string(&r0, data, SL("_indexName"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_string(&r1, data, SL("_columns"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r0, r1, PHALCON_CHECK);
+	phalcon_array_fetch_string(&r1, data, SL("_columns"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r0, r1, PH_CHECK);
 	
 	RETURN_CTOR(i0);
 }

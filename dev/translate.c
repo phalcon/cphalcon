@@ -35,15 +35,16 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+
 /**
- * Phalcon_Translate
+ * Phalcon\Translate
  *
  * Translate component allows the creation of multi-language applications using
  * different adapters for translation lists.
  */
 
 /**
- * Phalcon_Translate constructor
+ * Phalcon\Translate constructor
  *
  * @param string $adapter
  * @param array $options
@@ -51,7 +52,7 @@
 PHP_METHOD(Phalcon_Translate, __construct){
 
 	zval *adapter = NULL, *options = NULL, *adapter_class = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zend_class_entry *ce0;
 
@@ -62,18 +63,17 @@ PHP_METHOD(Phalcon_Translate, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_SV(r0, "Phalcon_Translate_Adapter_", adapter);
-	PHALCON_CPY_WRT(adapter_class, r0);
+	PHALCON_INIT_VAR(adapter_class);
+	PHALCON_CONCAT_SV(adapter_class, "Phalcon\\Translate\\Adapter\\", adapter);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", adapter_class);
-	if (!zend_is_true(r1)) {
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", adapter_class);
+	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_translate_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_SVS(r2, "No existe el adaptador \"", adapter, "\"");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVS(r1, "Translate adapter \"", adapter_class, "\" does not exist");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r1, PH_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Translate, __construct){
 	
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PH_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -99,8 +99,8 @@ PHP_METHOD(Phalcon_Translate, _){
 
 	zval *translate_key = NULL, *placeholders = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -110,16 +110,16 @@ PHP_METHOD(Phalcon_Translate, _){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_VAR(a0);
+		PHALCON_ALLOC_ZVAL_MM(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(placeholders, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", translate_key, placeholders, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", translate_key, placeholders, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -144,16 +144,16 @@ PHP_METHOD(Phalcon_Translate, offsetSet){
 }
 
 /**
-* Check whether a translation key exists
-*
-* @param string $translateKey
-* @return boolean
-*/
+ * Check whether a translation key exists
+ *
+ * @param string $translateKey
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Translate, offsetExists){
 
 	zval *translate_key = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -162,18 +162,18 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "exists", translate_key, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "exists", translate_key, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
-* Elimina un indice del diccionario
-*
-* @param string $offset
-*/
+ * Elimina un indice del diccionario
+ *
+ * @param string $offset
+ */
 PHP_METHOD(Phalcon_Translate, offsetUnset){
 
 	zval *offset = NULL;
@@ -198,9 +198,9 @@ PHP_METHOD(Phalcon_Translate, offsetUnset){
 PHP_METHOD(Phalcon_Translate, offsetGet){
 
 	zval *traslate_key = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
 	zval *c0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -209,12 +209,12 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_NULL(c0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", traslate_key, c0, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", traslate_key, c0, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 

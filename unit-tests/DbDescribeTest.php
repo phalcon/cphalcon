@@ -24,7 +24,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$connection = Phalcon\Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		//List tables
@@ -162,15 +162,15 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//Indexes
 		$expectedIndexes = array(
-			'PRIMARY' => Phalcon_Db_Index::__set_state(array(
+			'PRIMARY' => Phalcon\Db\Index::__set_state(array(
 				'_indexName' => 'PRIMARY',
 				'_columns' => array('id')
   			)),
-			'robots_id' => Phalcon_Db_Index::__set_state(array(
+			'robots_id' => Phalcon\Db\Index::__set_state(array(
 				'_indexName' => 'robots_id',
 				'_columns' => array('robots_id')
 			)),
-			'parts_id' => Phalcon_Db_Index::__set_state(array(
+			'parts_id' => Phalcon\Db\Index::__set_state(array(
 				'_indexName' => 'parts_id',
 				'_columns' => array('parts_id')
 			))
@@ -184,14 +184,14 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//References
 		$expectedReferences = array(
-			'robots_parts_ibfk_1' => Phalcon_Db_Reference::__set_state(array(
+			'robots_parts_ibfk_1' => Phalcon\Db\Reference::__set_state(array(
      		'_referenceName' => 'robots_parts_ibfk_1',
      		'_referencedTable' => 'robots',
      		'_columns' => array('robots_id'),
 				'_referencedColumns' => array('id'),
 				'_referencedSchema' => 'phalcon_test'
 			)),
-			'robots_parts_ibfk_2' => Phalcon_Db_Reference::__set_state(array(
+			'robots_parts_ibfk_2' => Phalcon\Db\Reference::__set_state(array(
 				'_referenceName' => 'robots_parts_ibfk_2',
 				'_referencedTable' => 'parts',
 				'_columns' => array('parts_id'),
@@ -212,7 +212,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
 		$this->assertTrue(is_object($connection));
 
 		//List tables

@@ -34,8 +34,10 @@
 
 #include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+
 /**
- * Phalcon_Request_File
+ * Phalcon\Request\File
  *
  * Provides OO wrappers to the $_FILES superglobal
  *
@@ -43,7 +45,7 @@
  */
 
 /**
- * Phalcon_Request_File constructor
+ * Phalcon\Request\File constructor
  *
  * @param array $file
  */
@@ -67,21 +69,21 @@ PHP_METHOD(Phalcon_Request_File, __construct){
 	eval_int = phalcon_array_isset_string(file, SL("name")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, file, SL("name"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, file, SL("name"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_name"), r0 TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(file, SL("tmp_name")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, file, SL("tmp_name"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r1, file, SL("tmp_name"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_tmp"), r1 TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(file, SL("size")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, file, SL("size"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r2, file, SL("size"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_size"), r2 TSRMLS_CC);
 	}
 	
@@ -99,9 +101,9 @@ PHP_METHOD(Phalcon_Request_File, getSize){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_size"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_size"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -115,9 +117,9 @@ PHP_METHOD(Phalcon_Request_File, getName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_name"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -131,8 +133,33 @@ PHP_METHOD(Phalcon_Request_File, getTempName){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_tmp"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_tmp"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
+}
+
+/**
+ * Move the temporary file to a destination
+ *
+ * @param string $destination
+ */
+PHP_METHOD(Phalcon_Request_File, moveTo){
+
+	zval *destination = NULL;
+	zval *t0 = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &destination) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_tmp"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "move_uploaded_file", t0, destination);
+	RETURN_CTOR(r0);
 }
 

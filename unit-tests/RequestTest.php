@@ -23,11 +23,11 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	private $_request;
 
 	public function setUp(){
-		$this->_request = Phalcon_Request::getInstance();
+		$this->_request = Phalcon\Request::getInstance();
 	}
 
 	public function testInstanceOf(){
-		$this->assertInstanceOf('Phalcon_Request', $this->_request);
+		$this->assertInstanceOf('Phalcon\Request', $this->_request);
 	}
 
 	public function testInput(){

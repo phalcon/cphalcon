@@ -22,12 +22,15 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase {
 
 	public function testCacheResultset(){
 
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
+
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
@@ -39,8 +42,8 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/cache/testresultset');
 
-		$cache = Phalcon_Cache::factory('Data', 'File', null, $backendOptions);
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
+		$cache = Phalcon\Cache::factory('Data', 'File', null, $backendOptions);
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $cache);
 
 		$cache->save('test-resultset', Robots::find(array('order' => 'id')));
 
@@ -48,7 +51,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase {
 
 		$robots = $cache->get('test-resultset');
 
-		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Model\Resultset');
 		$this->assertEquals(count($robots), 3);
 		$this->assertEquals($robots->count(), 3);
 

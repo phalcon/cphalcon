@@ -33,9 +33,9 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Tag_Exception
+ * Phalcon\Tag\Exception
  *
- * Exceptions thrown in Phalcon_Tag will use this class
+ * Exceptions thrown in Phalcon\Tag will use this class
  *
  */
 

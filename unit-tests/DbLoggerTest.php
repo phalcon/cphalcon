@@ -24,7 +24,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$connection = Phalcon\Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
@@ -34,7 +34,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
@@ -44,11 +44,11 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test-db.log');
 
-		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test-db.log');
+		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test-db.log');
 		$connection->setLogger($logger);
 
 		$this->assertTrue(is_object($connection->getLogger()));
-		$this->assertEquals(get_class($connection->getLogger()), 'Phalcon_Logger');
+		$this->assertEquals(get_class($connection->getLogger()), 'Phalcon\Logger');
 
 		$connection->query("SELECT * FROM personas LIMIT 3");
 		$connection->query("SELECT * FROM personas LIMIT 10");

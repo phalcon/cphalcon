@@ -18,28 +18,27 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Db\Pool as Pool;
+
 class ControllersTest extends PHPUnit_Framework_TestCase {
 
 	public function testControllers(){
 
-		Phalcon_Db_Pool::setDefaultDescriptor(array(
-			'adapter' => 'Mysql',
-			'host' => '127.0.0.1',
-			'username' => 'root',
-			'password' => '',
-			'name' => 'phalcon_test'
-		));
+		require 'unit-tests/config.db.php';
 
-		$model = new Phalcon_Model_Manager();
+		Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Pool::hasDefaultDescriptor());
+
+		$model = new Phalcon\Model\Manager();
 		$model->setModelsDir('unit-tests/models/');
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
-		$dispatcher = new Phalcon_Dispatcher();
+		$dispatcher = new Phalcon\Dispatcher();
 
-		$request = Phalcon_Request::getInstance();
-		$response = Phalcon_Response::getInstance();
+		$request = Phalcon\Request::getInstance();
+		$response = Phalcon\Response::getInstance();
 
 		$dispatcher->setBasePath('./');
 		$dispatcher->setControllersDir('tests/controllers/');
@@ -55,7 +54,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($view->getParamsToView()), 1);
 
 		$records = $controller->modelAction();
-		$this->assertEquals(get_class($records), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($records), 'Phalcon\Model\Resultset');
 
 	}
 

@@ -24,7 +24,7 @@ class PHPUnit_Framework_TestCase {
 
 	public function assertInstanceOf($className, $object){
 		if(get_class($object)!=$className){
-			throw new Exception('Not instance of');
+			throw new Exception('Not instance of '.get_class($object));
 		}
 	}
 
@@ -36,7 +36,7 @@ class PHPUnit_Framework_TestCase {
 
 	public function assertNotEquals($a, $b){
 		if($a==$b){
-			throw new Exception('Equals');
+			throw new Exception('Equals '.$a.'=='.$b);
 		}
 	}
 

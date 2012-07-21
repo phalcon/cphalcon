@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
+
 /**
  * Phalcon_View_Engine_Twig
  *
@@ -52,8 +53,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 
 	zval *view = NULL, *options = NULL, *twig = NULL, *loader = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 	zend_class_entry *ce0, *ce1;
 
@@ -74,34 +74,30 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 	}
 	eval_int = phalcon_array_isset_string(options, SL("twig")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, options, SL("twig"), PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(twig, r1);
+		PHALCON_INIT_VAR(twig);
+		phalcon_array_fetch_string(&twig, options, SL("twig"), PH_NOISY_CC);
 	} else {
 		eval_int = phalcon_array_isset_string(options, SL("loader")+1);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_array_fetch_string(&r2, options, SL("loader"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CPY_WRT(loader, r2);
+			PHALCON_INIT_VAR(loader);
+			phalcon_array_fetch_string(&loader, options, SL("loader"), PH_NOISY_CC);
 		} else {
-			ce0 = zend_fetch_class("Twig_Loader_Filesystem", strlen("Twig_Loader_Filesystem"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, ce0);
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CALL_METHOD(r3, view, "getviewsdir", PHALCON_NO_CHECK);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r3, PHALCON_CHECK);
-			PHALCON_CPY_WRT(loader, i0);
+			ce0 = zend_fetch_class(SL("Twig_Loader_Filesystem"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			PHALCON_INIT_VAR(loader);
+			object_init_ex(loader, ce0);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			PHALCON_CALL_METHOD(r1, view, "getviewsdir", PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(loader, "__construct", r1, PH_CHECK);
 		}
-		ce1 = zend_fetch_class("Twig_Environment", strlen("Twig_Environment"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		ce1 = zend_fetch_class(SL("Twig_Environment"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, ce1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", loader, PHALCON_CHECK);
-		PHALCON_CPY_WRT(twig, i1);
+		PHALCON_INIT_VAR(twig);
+		object_init_ex(twig, ce1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(twig, "__construct", loader, PH_CHECK);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_twig"), twig TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Twig", "__construct", view, options);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\View\\Engine\\Twig", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -115,9 +111,9 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 PHP_METHOD(Phalcon_View_Engine_Twig, render){
 
 	zval *path = NULL, *params = NULL, *view = NULL, *twig_params = NULL, *relative_path = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *c0 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -127,41 +123,39 @@ PHP_METHOD(Phalcon_View_Engine_Twig, render){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(view, t0);
+	PHALCON_INIT_VAR(view);
+	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	PHALCON_CPY_WRT(twig_params, params);
 	eval_int = phalcon_array_isset_string(twig_params, SL("content")+1);
 	if (!eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_METHOD(r0, view, "getcontent", PHALCON_NO_CHECK);
-		phalcon_array_update_string(&twig_params, SL("content"), &r0, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		PHALCON_CALL_METHOD(r0, view, "getcontent", PH_NO_CHECK);
+		phalcon_array_update_string(&twig_params, SL("content"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(twig_params, SL("view")+1);
 	if (!eval_int) {
-		phalcon_array_update_string(&twig_params, SL("view"), &view, PHALCON_SEPARATE_PLZ, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&twig_params, SL("view"), &view, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD(r1, view, "getviewsdir", PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD(r1, view, "getviewsdir", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "", 1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_fast_str_replace(r2, r1, c0, path TSRMLS_CC);
-	PHALCON_CPY_WRT(relative_path, r2);
+	PHALCON_INIT_VAR(relative_path);
+	phalcon_fast_str_replace(relative_path, r1, c0, path TSRMLS_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_twig"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, SL("_twig"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2(r3, t2, "render", relative_path, twig_params, PHALCON_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "setcontent", r3, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CALL_METHOD_PARAMS_2(r2, t1, "render", relative_path, twig_params, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r2, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

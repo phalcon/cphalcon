@@ -1,6 +1,6 @@
 <?php
 
-class Subscriptores extends Phalcon_Model_Base {
+class Subscriptores extends Phalcon\Model\Base {
 
 	public function validation(){
 		$this->validate('Email', array(

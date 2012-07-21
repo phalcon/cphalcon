@@ -53,7 +53,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 			return;
 		}
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
 		$view->registerEngines(array(
@@ -63,7 +63,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 		$view->setParamToView('name', 'Sonny');
 
 		$view->start();
-		$view->setRenderLevel(Phalcon_View::LEVEL_ACTION_VIEW);
+		$view->setRenderLevel(Phalcon\View::LEVEL_ACTION_VIEW);
 		$view->render('test4', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Hello Sonny');
@@ -71,7 +71,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 		$view->setParamToView('some_eval', true);
 
 		$view->start();
-		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
+		$view->setRenderLevel(Phalcon\View::LEVEL_LAYOUT);
 		$view->render('test4', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.'."\n");
@@ -83,7 +83,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 			return;
 		}
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
 		$view->registerEngines(array(
@@ -94,7 +94,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 		$view->setParamToView('name', 'Sonny');
 
 		$view->start();
-		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
+		$view->setRenderLevel(Phalcon\View::LEVEL_LAYOUT);
 		$view->render('test6', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
@@ -106,7 +106,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 			return;
 		}
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
 		$view->registerEngines(array(
@@ -116,7 +116,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 		$view->setParamToView('song', 'Rock n roll');
 
 		$view->start();
-		$view->setRenderLevel(Phalcon_View::LEVEL_ACTION_VIEW);
+		$view->setRenderLevel(Phalcon\View::LEVEL_ACTION_VIEW);
 		$view->render('test7', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Hello Rock n roll!');
@@ -124,7 +124,7 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 		$view->setParamToView('some_eval', true);
 
 		$view->start();
-		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
+		$view->setRenderLevel(Phalcon\View::LEVEL_LAYOUT);
 		$view->render('test7', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");

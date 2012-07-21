@@ -18,19 +18,40 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Db\Pool as DbPool;
+
 class DbPoolTest extends PHPUnit_Framework_TestCase {
 
 	public function testPoolMysql(){
 
+		DbPool::reset();
+
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		DbPool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(DbPool::hasDefaultDescriptor());
 
-		$connection = Phalcon_Db_Pool::getConnection();
+		$this->_executeTests();
+	}
+
+	public function testPoolPostgresql(){
+
+		DbPool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		DbPool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(DbPool::hasDefaultDescriptor());
+
+		$this->_executeTests();
+	}
+
+	protected function _executeTests(){
+
+		$connection = DbPool::getConnection();
 		$this->assertTrue(is_object($connection));
 
-		$connection2 = Phalcon_Db_Pool::getConnection(true);
+		$connection2 = DbPool::getConnection(true);
 		$this->assertNotEquals($connection->getConnectionId(true), $connection2->getConnectionId(true));
 
 	}

@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Exception
+ * Phalcon\Exception
  *
- * All framework exceptions should use this exception
+ * All framework exceptions should use or extend this exception
  */
 

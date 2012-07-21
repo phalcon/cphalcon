@@ -22,15 +22,15 @@ class AclTest extends PHPUnit_Framework_TestCase {
 
 	public function testCache(){
 
-		$acl = new Phalcon_Acl('Memory');
+		$acl = new Phalcon\Acl('Memory');
 
-		$acl->setDefaultAction(Phalcon_Acl::DENY);
+		$acl->setDefaultAction(Phalcon\Acl::DENY);
 
-		$roleAdmins = new Phalcon_Acl_Role('Administrators', 'Super-User role');
+		$roleAdmins = new Phalcon\Acl\Role('Administrators', 'Super-User role');
 		$this->assertEquals($roleAdmins->getName(), 'Administrators');
 		$this->assertEquals($roleAdmins->getDescription(), 'Super-User role');
 
-		$roleGuests = new Phalcon_Acl_Role('Guests');
+		$roleGuests = new Phalcon\Acl\Role('Guests');
 		$this->assertEquals($roleGuests->getName(), 'Guests');
 		$this->assertEquals($roleGuests->getDescription(), '');
 
@@ -44,7 +44,7 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($acl->isRole('Guests'));
 		$this->assertFalse($acl->isRole('ReadOnly'));
 
-		$customersResource = new Phalcon_Acl_Resource('Customers', 'Customers management');
+		$customersResource = new Phalcon\Acl\Resource('Customers', 'Customers management');
 		$this->assertEquals($customersResource->getName(), 'Customers');
 		$this->assertEquals($customersResource->getDescription(), 'Customers management');
 
@@ -58,22 +58,22 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$acl->allow('Guests', 'Customers', 'create');
 		$acl->deny('Guests', 'Customers', 'update');
 
-		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'edit'), Phalcon_ACL::DENY);
-		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'search'), Phalcon_ACL::ALLOW);
-		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'create'), Phalcon_ACL::ALLOW);
+		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'edit'), Phalcon\Acl::DENY);
+		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'search'), Phalcon\Acl::ALLOW);
+		$this->assertEquals($acl->isAllowed('Guests', 'Customers', 'create'), Phalcon\Acl::ALLOW);
 
 		$this->assertTrue($acl->addRole($roleAdmins, 'Guests'));
 		$this->assertFalse($acl->addRole($roleAdmins, 'Guests'));
 
-		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'edit'), Phalcon_ACL::DENY);
-		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), Phalcon_ACL::ALLOW);
-		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), Phalcon_ACL::ALLOW);
+		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\Acl::DENY);
+		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), Phalcon\Acl::ALLOW);
+		$this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), Phalcon\Acl::ALLOW);
 
 		//Serialize ACL list
 		file_put_contents('unit-tests/acl/acl.data', serialize($acl));
 
 		$aclObject = unserialize(file_get_contents('unit-tests/acl/acl.data'));
-		$this->assertEquals(get_class($aclObject), 'Phalcon_Acl');
+		$this->assertEquals(get_class($aclObject), 'Phalcon\Acl');
 
 		$this->assertTrue($aclObject->isRole('Guests'));
 		$this->assertFalse($aclObject->isRole('ReadOnly'));
@@ -81,9 +81,9 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($aclObject->isResource('Customers'));
 		$this->assertFalse($aclObject->isResource('Products'));
 
-		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), Phalcon_ACL::DENY);
-		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), Phalcon_ACL::ALLOW);
-		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), Phalcon_ACL::ALLOW);
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\Acl::DENY);
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), Phalcon\Acl::ALLOW);
+		$this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), Phalcon\Acl::ALLOW);
 
 	}
 

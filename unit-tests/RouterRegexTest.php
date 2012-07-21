@@ -21,7 +21,6 @@
 class RouterRegexTest extends PHPUnit_Framework_TestCase {
 
 	private function _runTest($router, $test){
-
 		$router->handle($test['uri']);
 		$this->assertEquals($router->getControllerName(), $test['controller']);
 		$this->assertEquals($router->getActionName(), $test['action']);
@@ -105,7 +104,7 @@ class RouterRegexTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$router = new Phalcon_Router_Regex();
+		$router = new Phalcon\Router\Regex();
 
 		$router->add('/system/:controller/a/:action/:params', array(
 			'controller' => 1,

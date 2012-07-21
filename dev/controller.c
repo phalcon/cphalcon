@@ -36,8 +36,9 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+
 /**
- * Phalcon_Controller
+ * Phalcon\Controller
  *
  * Every application controller should extend this class that encapsulates all the controller functionality
  *
@@ -69,12 +70,12 @@ PHP_METHOD(Phalcon_Controller, __construct){
 	}
 
 	if (!view) {
-		PHALCON_INIT_VAR(view);
+		PHALCON_ALLOC_ZVAL_MM(view);
 		ZVAL_NULL(view);
 	}
 	
 	if (!model) {
-		PHALCON_INIT_VAR(model);
+		PHALCON_ALLOC_ZVAL_MM(model);
 		ZVAL_NULL(model);
 	}
 	
@@ -95,8 +96,8 @@ PHP_METHOD(Phalcon_Controller, __construct){
 PHP_METHOD(Phalcon_Controller, _forward){
 
 	zval *uri = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -105,11 +106,11 @@ PHP_METHOD(Phalcon_Controller, _forward){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "forward", uri, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "forward", uri, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -120,8 +121,8 @@ PHP_METHOD(Phalcon_Controller, _forward){
 PHP_METHOD(Phalcon_Controller, _getParam){
 
 	zval *index = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -130,11 +131,11 @@ PHP_METHOD(Phalcon_Controller, _getParam){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getparam", index, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getparam", index, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -146,8 +147,8 @@ PHP_METHOD(Phalcon_Controller, _getParam){
 PHP_METHOD(Phalcon_Controller, _setParam){
 
 	zval *index = NULL, *value = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -156,11 +157,11 @@ PHP_METHOD(Phalcon_Controller, _setParam){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "setparam", index, value, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "setparam", index, value, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -172,7 +173,7 @@ PHP_METHOD(Phalcon_Controller, __get){
 
 	zval *property_name = NULL, *model = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -184,13 +185,13 @@ PHP_METHOD(Phalcon_Controller, __get){
 
 	if (PHALCON_COMPARE_STRING(property_name, "view")) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PHALCON_NO_CHECK);
+		PHALCON_CALL_METHOD(r0, this_ptr, "_getviewcomponent", PH_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("view"), r0 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, SL("view"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t0, this_ptr, SL("view"), PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(t0);
+		RETURN_CCTOR(t0);
 	}
 	if (PHALCON_COMPARE_STRING(property_name, "filter")) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
@@ -198,9 +199,9 @@ PHP_METHOD(Phalcon_Controller, __get){
 		phalcon_update_property_zval(this_ptr, SL("filter"), i0 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("filter"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t1, this_ptr, SL("filter"), PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(t1);
+		RETURN_CCTOR(t1);
 	}
 	
 	if (PHALCON_COMPARE_STRING(property_name, "session")) {
@@ -208,28 +209,27 @@ PHP_METHOD(Phalcon_Controller, __get){
 		object_init_ex(i1, phalcon_session_namespace_ce);
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		phalcon_get_class(r1, this_ptr TSRMLS_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r1, PHALCON_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r1, PH_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("session"), i1 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, SL("session"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t2, this_ptr, SL("session"), PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(t2);
+		RETURN_CCTOR(t2);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_read_property(&t3, this_ptr, SL("model"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t3, this_ptr, SL("model"), PH_NOISY_CC);
 	if (zend_is_true(t3)) {
-		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, SL("model"), PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(model, t4);
+		PHALCON_INIT_VAR(model);
+		phalcon_read_property(&model, this_ptr, SL("model"), PH_NOISY_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_METHOD_PARAMS_1(r2, model, "ismodel", property_name, PHALCON_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(r2, model, "ismodel", property_name, PH_NO_CHECK);
 		if (zend_is_true(r2)) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CALL_METHOD_PARAMS_1(r3, model, "getmodel", property_name, PHALCON_NO_CHECK);
-			RETURN_DZVAL(r3);
+			PHALCON_CALL_METHOD_PARAMS_1(r3, model, "getmodel", property_name, PH_NO_CHECK);
+			RETURN_CTOR(r3);
 		}
 	}
 	

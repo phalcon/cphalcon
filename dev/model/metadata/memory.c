@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Model_MetaData_Memory
+ * Phalcon\Model\MetaData\Memory
  *
  * Stores model meta-data in memory. Data will be erased when the request finishes
  *
@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Memory, read){
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(a0);
+	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	
 	RETURN_CTOR(a0);

@@ -22,7 +22,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 
 	public function testNamespaces(){
 
-		$loader = new Phalcon_Loader();
+		$loader = new Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
 			"Example\Base" => "unit-tests/vendor/example/base/",
@@ -44,7 +44,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 
 	public function testDirectories(){
 
-		$loader = new Phalcon_Loader();
+		$loader = new Phalcon\Loader();
 
 		$loader->registerDirs(array(
 			"unit-tests/vendor/example/dialects/",
@@ -63,7 +63,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 
 	public function testClasses(){
 
-		$loader = new Phalcon_Loader();
+		$loader = new Phalcon\Loader();
 
 		$loader->registerClasses(array(
 			"MoiTest" => "unit-tests/vendor/example/test/MoiTest.php",

@@ -18,13 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Db as Db; 
+
 class DbBindTest extends PHPUnit_Framework_TestCase {
 
 	public function testDbBindMysql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$connection = Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
@@ -35,7 +37,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$connection = Db::factory('Postgresql', $configPostgresql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);

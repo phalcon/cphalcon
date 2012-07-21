@@ -39,8 +39,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
     phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 	#ifndef PHALCON_RELEASE
-	phalcon_globals->phalcon_stack_stats = 0;
-	phalcon_globals->phalcon_fcall_stats = 0;
+	phalcon_globals->phalcon_stack_stats = 0;	
 	#endif
 }
 
@@ -109,12 +108,13 @@ void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_ui
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	ALLOC_INIT_ZVAL(msg);
+	PHALCON_ALLOC_ZVAL_MM(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PHALCON_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);
 
 	zend_throw_exception_object(object TSRMLS_CC);
+
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
@@ -383,5 +383,5 @@ int phalcon_valid_foreach(zval *arr TSRMLS_DC){
  * Generates error when inherited class isn't found
  */
 void phalcon_inherit_not_found(char *class_name, char *inherit_name){
-	fprintf(stderr, "Phalcon Error: Extended class '%s' not found when registering class '%s'", class_name, inherit_name);
+	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }

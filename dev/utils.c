@@ -32,59 +32,14 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
+
 /**
- * Phalcon_Utils
+ * Phalcon\Utils
  *
  * Implements functionality used widely by the framework
  */
-
-/**
- * This function is now deprecated, use Phalcon_Text::camelize instead
- *
- * @param string $str
- * @return string
- */
-PHP_METHOD(Phalcon_Utils, camelize){
-
-	zval *str = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "camelize", str);
-	RETURN_DZVAL(r0);
-}
-
-/**
- * This function is now deprecated, use Phalcon_Text::uncamelize instead
- *
- * @param string $str
- * @return string
- */
-PHP_METHOD(Phalcon_Utils, uncamelize){
-
-	zval *str = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_text", "uncamelize", str);
-	RETURN_DZVAL(r0);
-}
 
 /**
  * Gets public URL to phalcon instance
@@ -105,18 +60,18 @@ PHP_METHOD(Phalcon_Utils, getUrl){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_VAR(uri);
+		PHALCON_ALLOC_ZVAL_MM(uri);
 		ZVAL_NULL(uri);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_STATIC(r0, "phalcon\\controller\\front", "getinstance");
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD(r1, r0, "getbaseuri", PH_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_STATIC(r2, "phalcon_controller_front", "getinstance");
-	PHALCON_CALL_METHOD(r1, r2, "getbaseuri", PHALCON_NO_CHECK);
-	PHALCON_CONCAT_VV(r0, r1, uri);
+	PHALCON_CONCAT_VV(r2, r1, uri);
 	
-	RETURN_CTOR(r0);
+	RETURN_CTOR(r2);
 }
 
 /**
@@ -138,17 +93,17 @@ PHP_METHOD(Phalcon_Utils, getLocalPath){
 	}
 
 	if (!extra_path) {
-		PHALCON_INIT_VAR(extra_path);
+		PHALCON_ALLOC_ZVAL_MM(extra_path);
 		ZVAL_NULL(extra_path);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_STATIC(r0, "phalcon\\controller\\front", "getinstance");
 	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_METHOD(r1, r0, "getbasepath", PH_NO_CHECK);
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_STATIC(r2, "phalcon_controller_front", "getinstance");
-	PHALCON_CALL_METHOD(r1, r2, "getbasepath", PHALCON_NO_CHECK);
-	PHALCON_CONCAT_VV(r0, r1, extra_path);
+	PHALCON_CONCAT_VV(r2, r1, extra_path);
 	
-	RETURN_CTOR(r0);
+	RETURN_CTOR(r2);
 }
 

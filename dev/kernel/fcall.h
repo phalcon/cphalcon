@@ -78,10 +78,6 @@
 #define PHALCON_CALL_STATIC_ZVAL_PARAMS(return_value, class_zval, method_name, param_count, params) if(phalcon_call_static_zval_func_params(return_value, class_zval, method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
 #define PHALCON_CALL_STATIC_ZVAL_PARAMS_1(return_value, class_zval, method_name, param1) if(phalcon_call_static_zval_func_one_param(return_value, class_zval, method_name, strlen(method_name), param1, 1 TSRMLS_CC)==FAILURE) return;
 
-/** Phalcon function cache */
-int phalcon_init_fcall_cache(TSRMLS_D);
-int phalcon_free_fcall_cache(TSRMLS_D);
-
 /** Look for call scope */
 int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC);
 int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC);
@@ -131,10 +127,9 @@ extern int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, c
 extern int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC);
 extern int phalcon_call_static_zval_func_one_param(zval *return_value, zval *mixed_name, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC);
 
-/** Call function applying zend_fcall_info_cache */
-int phalcon_call_user_function_ex(HashTable *function_table, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], zend_fcall_info_cache *fci_cache TSRMLS_DC);
-int phalcon_call_user_method_ex(HashTable *function_table, zval **object_pp, char *method_name, int method_len, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], zend_fcall_info_cache *fcc TSRMLS_DC);
-
 /** Call functions */
-int phalcon_call_internal_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
-int phalcon_call_internal_method(char *method_name, int method_len, zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC) ;
+int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC);
+int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC); 
+int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache TSRMLS_DC);
+int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload, zend_class_entry ***ce TSRMLS_DC);
+int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***ce TSRMLS_DC);

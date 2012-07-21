@@ -34,11 +34,12 @@
 
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+
 /**
- * Phalcon_Db_Pool
+ * Phalcon\Db\Pool
  *
- * Manages the caching of database connections. With the help of Phalcon_Db_Pool, developers can be
- * sure that no new database connections will make when calling multiple of times Phalcon_Db_Pool::getConnection().
+ * Manages the caching of database connections. With the help of Phalcon\Db\Pool, developers can be
+ * sure that no new database connections will make when calling multiple of times Phalcon\Db\Pool::getConnection().
  *
  *
  */
@@ -55,10 +56,10 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, SL("Phalcon_Db_Pool"), SL("_defaultDescriptor") TSRMLS_CC);
+	phalcon_read_static_property(&t0, SL("phalcon\\db\\pool"), SL("_defaultDescriptor") TSRMLS_CC);
 	PHALCON_INIT_VAR(t1);
 	ZVAL_NULL(t1);
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	is_not_identical_function(r0, t1, t0 TSRMLS_CC);
 	
 	RETURN_NCTOR(r0);
@@ -67,15 +68,12 @@ PHP_METHOD(Phalcon_Db_Pool, hasDefaultDescriptor){
 /**
  * Sets the default descriptor for database connections.
  *
- *
- *
  * @param array $options
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 
 	zval *options = NULL, *descriptor = NULL, *value = NULL, *key = NULL;
-	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -98,9 +96,8 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		}
 	}
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init(i0);
-		PHALCON_CPY_WRT(descriptor, i0);
+		PHALCON_INIT_VAR(descriptor);
+		object_init(descriptor);
 		if (phalcon_valid_foreach(options TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(options);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -125,7 +122,7 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 		PHALCON_CPY_WRT(descriptor, options);
 	}
 	
-	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_defaultDescriptor"), descriptor TSRMLS_CC);
+	phalcon_update_static_property(SL("phalcon\\db\\pool"), SL("_defaultDescriptor"), descriptor TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -133,17 +130,15 @@ PHP_METHOD(Phalcon_Db_Pool, setDefaultDescriptor){
 /**
  * Returns a connection builded with the default descriptor parameters
  *
- * 
- *
  * @param boolean $newConnection
-* @param boolean $renovate
- * @return Phalcon_Db
+ * @param boolean $renovate
+ * @return Phalcon\Db
  */
 PHP_METHOD(Phalcon_Db_Pool, getConnection){
 
 	zval *new_connection = NULL, *renovate = NULL, *database = NULL, *connection = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -154,18 +149,17 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	}
 
 	if (!new_connection) {
-		PHALCON_INIT_VAR(new_connection);
+		PHALCON_ALLOC_ZVAL_MM(new_connection);
 		ZVAL_BOOL(new_connection, 0);
 	}
 	
 	if (!renovate) {
-		PHALCON_INIT_VAR(renovate);
+		PHALCON_ALLOC_ZVAL_MM(renovate);
 		ZVAL_BOOL(renovate, 0);
 	}
 	
-	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, SL("Phalcon_Db_Pool"), SL("_defaultDescriptor") TSRMLS_CC);
-	PHALCON_CPY_WRT(database, t0);
+	PHALCON_OBSERVE_VAR(database);
+	phalcon_read_static_property(&database, SL("phalcon\\db\\pool"), SL("_defaultDescriptor") TSRMLS_CC);
 	if (!zend_is_true(database)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Default database connection parameters was not defined");
 		return;
@@ -179,38 +173,35 @@ PHP_METHOD(Phalcon_Db_Pool, getConnection){
 	
 	if (zend_is_true(new_connection)) {
 		if (zend_is_true(renovate)) {
+			PHALCON_ALLOC_ZVAL_MM(t0);
+			phalcon_read_property(&t0, database, SL("adapter"), PH_NOISY_CC);
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon_db", "factory", t1, database);
-			phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), r0 TSRMLS_CC);
-			PHALCON_OBSERVE_VAR(t2);
-			phalcon_read_static_property(&t2, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
-			PHALCON_CPY_WRT(connection, t2);
+			PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon\\db", "factory", t0, database);
+			phalcon_update_static_property(SL("phalcon\\db\\pool"), SL("_connection"), r0 TSRMLS_CC);
+			PHALCON_OBSERVE_VAR(connection);
+			phalcon_read_static_property(&connection, SL("phalcon\\db\\pool"), SL("_connection") TSRMLS_CC);
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_ALLOC_ZVAL_MM(t3);
-			phalcon_read_property(&t3, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon_db", "factory", t3, database);
-			PHALCON_CPY_WRT(connection, r1);
+			PHALCON_ALLOC_ZVAL_MM(t1);
+			phalcon_read_property(&t1, database, SL("adapter"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(connection);
+			PHALCON_CALL_STATIC_PARAMS_2(connection, "phalcon\\db", "factory", t1, database);
 		}
 	} else {
-		PHALCON_OBSERVE_VAR(t4);
-		phalcon_read_static_property(&t4, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
-		if (!zend_is_true(t4)) {
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, database, SL("adapter"), PHALCON_NOISY TSRMLS_CC);
-			PHALCON_CALL_STATIC_PARAMS_2(r2, "phalcon_db", "factory", t5, database);
-			phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), r2 TSRMLS_CC);
+		PHALCON_OBSERVE_VAR(t2);
+		phalcon_read_static_property(&t2, SL("phalcon\\db\\pool"), SL("_connection") TSRMLS_CC);
+		if (!zend_is_true(t2)) {
+			PHALCON_ALLOC_ZVAL_MM(t3);
+			phalcon_read_property(&t3, database, SL("adapter"), PH_NOISY_CC);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			PHALCON_CALL_STATIC_PARAMS_2(r1, "phalcon\\db", "factory", t3, database);
+			phalcon_update_static_property(SL("phalcon\\db\\pool"), SL("_connection"), r1 TSRMLS_CC);
 		}
-		PHALCON_OBSERVE_VAR(t6);
-		phalcon_read_static_property(&t6, SL("Phalcon_Db_Pool"), SL("_connection") TSRMLS_CC);
-		PHALCON_CPY_WRT(connection, t6);
+		PHALCON_OBSERVE_VAR(connection);
+		phalcon_read_static_property(&connection, SL("phalcon\\db\\pool"), SL("_connection") TSRMLS_CC);
 	}
 	
 	
-	RETURN_CHECK_CTOR(connection);
+	RETURN_CCTOR(connection);
 }
 
 /**
@@ -224,11 +215,11 @@ PHP_METHOD(Phalcon_Db_Pool, reset){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(t0);
 	ZVAL_NULL(t0);
-	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_connection"), t0 TSRMLS_CC);
+	phalcon_update_static_property(SL("phalcon\\db\\pool"), SL("_connection"), t0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(t1);
 	ZVAL_NULL(t1);
-	phalcon_update_static_property(SL("Phalcon_Db_Pool"), SL("_defaultDescriptor"), t1 TSRMLS_CC);
+	phalcon_update_static_property(SL("phalcon\\db\\pool"), SL("_defaultDescriptor"), t1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

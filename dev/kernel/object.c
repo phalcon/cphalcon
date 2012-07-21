@@ -205,7 +205,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 		*result = tmp;
 		return SUCCESS;
 	} else {
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 		}
 	}
@@ -231,7 +231,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 			*result = tmp;
 		}
 	} else {
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 			return FAILURE;
 		}
@@ -398,7 +398,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
-		*result = zend_read_static_property(*ce, property_name, property_length, PHALCON_FETCH_CLASS_SILENT);
+		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
 		if (*result) {
 			Z_ADDREF_PP(result);
 			return SUCCESS;
@@ -414,7 +414,6 @@ int phalcon_update_static_property(char *class_name, int class_length, char *nam
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
-	} else {
-		return FAILURE;
 	}
+	return FAILURE;
 }

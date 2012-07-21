@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
+
 /**
  *
  * Phalcon_View_Engine_Php
@@ -59,7 +60,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon_View_Engine_Php", "__construct", view, options);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\View\\Engine\\Php", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -118,11 +119,11 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC(r0, "ob_get_contents");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -35,28 +35,28 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+
 /**
- * Phalcon_Session_Namespace
+ * Phalcon\Session\Namespace
  *
  * This component helps to separate session data into namespaces. Working by this way
  * you can easily create groups of session variables into the application
  */
 
 /**
-* Constructo of class
-*
-* @param string $name
-*/
+ * Constructor of class
+ *
+ * @param string $name
+ */
 PHP_METHOD(Phalcon_Session_Namespace, __construct){
 
 	zval *name = NULL, *data = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	PHALCON_INIT_VAR(a0);
+	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	zend_update_property(phalcon_session_namespace_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
 	
@@ -67,12 +67,11 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_session", "get", t0);
-	PHALCON_CPY_WRT(data, r0);
+	phalcon_read_property(&t0, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(data);
+	PHALCON_CALL_STATIC_PARAMS_1(data, "phalcon\\session", "get", t0);
 	if (Z_TYPE_P(data) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	}
@@ -81,11 +80,11 @@ PHP_METHOD(Phalcon_Session_Namespace, __construct){
 }
 
 /**
-* Setter of values
-*
-* @param string $property
-* @param string $value
-*/
+ * Setter of values
+ *
+ * @param string $property
+ * @param string $value
+ */
 PHP_METHOD(Phalcon_Session_Namespace, __set){
 
 	zval *property = NULL, *value = NULL;
@@ -99,30 +98,29 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
-	phalcon_array_update(&t0, property, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_data"), PH_NOISY_CC);
+	phalcon_array_update(&t0, property, &value, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_data"), t0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_name"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon_session", "set", t1, t2);
+	phalcon_read_property(&t2, this_ptr, SL("_data"), PH_NOISY_CC);
+	PHALCON_CALL_STATIC_PARAMS_2_NORETURN("phalcon\\session", "set", t1, t2);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
-* Getter of values
-*
-* @param string $property
-* @return string
-*/
+ * Getter of values
+ *
+ * @param string $property
+ * @return string
+ */
 PHP_METHOD(Phalcon_Session_Namespace, __get){
 
 	zval *property = NULL, *data = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -133,15 +131,14 @@ PHP_METHOD(Phalcon_Session_Namespace, __get){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_data"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(data, t0);
+	PHALCON_INIT_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(data, property);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, data, property, PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch(&r0, data, property, PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(r0);
+		RETURN_CCTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

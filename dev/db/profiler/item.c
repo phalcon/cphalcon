@@ -33,10 +33,11 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+
 /**
- * Phalcon_Db_Profiler_Item
+ * Phalcon\Db\Profiler\Item
  *
- * This class identifies each profile in a Phalcon_Db_Profiler
+ * This class identifies each profile in a Phalcon\Db\Profiler
  *
  */
 
@@ -72,9 +73,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_sqlStatement"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -130,9 +131,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_initialTime"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -146,9 +147,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -163,9 +164,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_initialTime"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	sub_function(r0, t0, t1 TSRMLS_CC);
 	

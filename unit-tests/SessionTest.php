@@ -20,22 +20,22 @@
 
 class SessionTest extends PHPUnit_Framework_TestCase {
 
-  public function testSession(){
+	public function testSession(){
 
-    Phalcon_Session::start();    
+		Phalcon\Session::start();    
 
-    Phalcon_Session::set('lol', 'value');
+		Phalcon\Session::set('lol', 'value');
 
-    $this->assertEquals(Phalcon_Session::get('lol'), 'value');
+		$this->assertEquals(Phalcon\Session::get('lol'), 'value');
 
-    Phalcon_Session::setOptions(array(
-      'uniqueId' => 'unique-session'
-    ));
+		Phalcon\Session::setOptions(array(
+			'uniqueId' => 'unique-session'
+		));
 
-    $this->assertEquals(Phalcon_Session::get('lol'), '');
+		$this->assertEquals(Phalcon\Session::get('lol'), '');
 
-    Phalcon_Session::set('lol', 'another-value');
-    $this->assertEquals(Phalcon_Session::get('lol'), 'another-value');    
+		Phalcon\Session::set('lol', 'another-value');
+		$this->assertEquals(Phalcon\Session::get('lol'), 'another-value');    
 
   }
 

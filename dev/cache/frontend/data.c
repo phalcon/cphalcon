@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+
 /**
  * Phalcon_Cache_Frontend_Data
  *
@@ -53,7 +54,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(a0);
+	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	zend_update_property(phalcon_cache_frontend_data_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
 	
@@ -75,20 +76,18 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
 	zval *options = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_frontendOptions"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(options, t0);
+	PHALCON_INIT_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(r0);
+		RETURN_CCTOR(r0);
 	} else {
 		PHALCON_MM_RESTORE();
 		RETURN_LONG(1);
@@ -158,7 +157,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "serialize", data);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -180,6 +179,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "unserialize", data);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 

@@ -31,25 +31,25 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	private function _prepareTestMysql(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 	}
 
 	private function _prepareTestPostgresql(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 	}
 
@@ -65,21 +65,21 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	protected function _testCacheDirect(){
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$cache = Phalcon_Cache::factory('Data', 'File', null, array(
+		$cache = Phalcon\Cache::factory('Data', 'File', null, array(
 			'cacheDir' => 'unit-tests/cache/'
 		));
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $cache);
 
 		$manager->setCache($cache);
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $manager->getCache());
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
 
 		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
@@ -122,13 +122,13 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$config->cache->adapter = 'File';
 		$config->cache->cacheDir = 'unit-tests/cache/';
 
-		$manager = new Phalcon_Model_Manager($config);
+		$manager = new Phalcon\Model\Manager($config);
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $manager->getCache());
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
 
 		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
@@ -145,20 +145,20 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 		$this->_prepareTestMysql();
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
 		$config = new stdClass();
 		$config->cache = new stdClass();
 		$config->cache->adapter = 'File';
 		$config->cache->cacheDir = 'unit-tests/cache/';
 
-		$manager = new Phalcon_Model_Manager($config);
+		$manager = new Phalcon\Model\Manager($config);
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $manager->getCache());
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
 
 		$robots = Robots::find(array('cache' => true, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
@@ -174,7 +174,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 		$this->_prepareTestMysql();
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
 		$config = new stdClass();
 		$config->cache = new stdClass();
@@ -182,13 +182,13 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		$config->cache->lifetime = 86400;
 		$config->cache->cacheDir = 'unit-tests/cache/';
 
-		$manager = new Phalcon_Model_Manager($config);
+		$manager = new Phalcon\Model\Manager($config);
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $manager->getCache());
+		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
 
 		$params = array('cache' => array('key' => 'mykey'), 'order' => 'id');
 

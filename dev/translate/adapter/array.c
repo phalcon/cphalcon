@@ -36,22 +36,22 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+
 /**
- * Phalcon_Translate_Adapter_Array
+ * Phalcon\Translate\Adapter\Array
  *
  * Allows to define translation lists using PHP arrays
  *
  */
 
 /**
- * Phalcon_Translate_Adapter_Array constructor
+ * Phalcon\Translate\Adapter\Array constructor
  *
  * @param array $data
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Array, __construct){
 
 	zval *options = NULL, *data = NULL;
-	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -63,9 +63,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, __construct){
 
 	eval_int = phalcon_array_isset_string(options, SL("content")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, options, SL("content"), PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(data, r0);
+		PHALCON_INIT_VAR(data);
+		phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
 		if (Z_TYPE_P(data) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 			return;
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 	zval *index = NULL, *placeholders = NULL, *translation = NULL, *value = NULL;
 	zval *key = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -109,18 +108,17 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_traslate"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_traslate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(t0, index);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_traslate"), PHALCON_NOISY TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, t1, index, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_CPY_WRT(translation, r0);
+		phalcon_read_property(&t1, this_ptr, SL("_traslate"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(translation);
+		phalcon_array_fetch(&translation, t1, index, PH_NOISY_CC);
 		if (zend_is_true(placeholders)) {
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_fast_count(r1, placeholders TSRMLS_CC);
-			if (zend_is_true(r1)) {
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			phalcon_fast_count(r0, placeholders TSRMLS_CC);
+			if (zend_is_true(r0)) {
 				if (phalcon_valid_foreach(placeholders TSRMLS_CC)) {
 					ah0 = Z_ARRVAL_P(placeholders);
 					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
@@ -133,11 +131,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 					}
 					PHALCON_INIT_VAR(value);
 					ZVAL_ZVAL(value, *hd, 1, 0);
+					PHALCON_INIT_VAR(r1);
+					PHALCON_CONCAT_SVS(r1, "%", key, "%");
 					PHALCON_INIT_VAR(r2);
-					PHALCON_CONCAT_SVS(r2, "%", key, "%");
-					PHALCON_INIT_VAR(r3);
-					phalcon_fast_str_replace(r3, r2, value, translation TSRMLS_CC);
-					PHALCON_CPY_WRT(translation, r3);
+					phalcon_fast_str_replace(r2, r1, value, translation TSRMLS_CC);
+					PHALCON_CPY_WRT(translation, r2);
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_2f22_0;
 					fee_2f22_0:
@@ -149,10 +147,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 		}
 		
 		
-		RETURN_CHECK_CTOR(translation);
+		RETURN_CCTOR(translation);
 	} else {
 		
-		RETURN_CHECK_CTOR(index);
+		RETURN_CCTOR(index);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -179,7 +177,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, exists){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_traslate"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_traslate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(t0, index);
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);

@@ -18,37 +18,41 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Db\Pool as DbPool;
+use Phalcon\Model\Message as ModelMessage;
+use Phalcon\Model\Manager as ModelManager;
+
 class ModelsTest extends PHPUnit_Framework_TestCase {
 
 	public function testModelsMysql(){
 
-		Phalcon_Db_Pool::reset();
+		DbPool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		DbPool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(DbPool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	public function testModelsPostgresql(){
 
-		Phalcon_Db_Pool::reset();
+		DbPool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		DbPool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(DbPool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	protected function _executeTests(){
 
-		Phalcon_Model_Manager::reset();
+		ModelManager::reset();
 
-		$modelManager = new Phalcon_Model_Manager();
+		$modelManager = new ModelManager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
 		$Personas = $modelManager->getModel('Personas');
@@ -61,10 +65,10 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($Robots), 'Robots');
 
 		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+		$this->assertEquals($connection, DbPool::getConnection());
 
 		$manager = $Personas->getManager();
-		$this->assertEquals(get_class($manager), 'Phalcon_Model_Manager');
+		$this->assertEquals(get_class($manager), 'Phalcon\Model\Manager');
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
@@ -179,22 +183,22 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($persona->getMessages()), 4);
 
 		$messages = array(
-			0 => Phalcon_Model_Message::__set_state(array(
+			0 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'tipo_documento_id is required',
 				'_field' => 'tipo_documento_id',
 			)),
-			1 => Phalcon_Model_Message::__set_state(array(
+			1 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'nombres is required',
 				'_field' => 'nombres',
 			)),
-			2 => Phalcon_Model_Message::__set_state(array(
+			2 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'cupo is required',
 				'_field' => 'cupo',
 			)),
-			3 => Phalcon_Model_Message::__set_state(array(
+			3 => ModelMessage::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'estado is required',
 				'_field' => 'estado',

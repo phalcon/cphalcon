@@ -24,8 +24,8 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 
@@ -35,8 +35,8 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 
@@ -44,9 +44,9 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 
 	public function _executeTests(){
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
@@ -74,7 +74,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Model\Resultset');
 		$this->assertEquals(count($robotsParts), 3);
 
 		$number = $robot->countRobotsParts();
@@ -84,7 +84,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($part, false);
 
 		$robotsParts = $part->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Model\Resultset');
 		$this->assertEquals(count($robotsParts), 1);
 
 		$number = $part->countRobotsParts();

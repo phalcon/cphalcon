@@ -18,16 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Db\Pool as Pool;
+use Phalcon\Model\Manager as Manager;
+
 class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 	public function testCalculationsMysql(){
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::reset();
+		Pool::reset();
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 
@@ -37,10 +40,10 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::reset();
+		Pool::reset();
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 
@@ -48,9 +51,9 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 	protected function _executeTests(){
 
-		Phalcon_Model_Manager::reset();
+		Manager::reset();
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Personnes');

@@ -36,8 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
+
 /**
- * Phalcon_Model_MetaData_Session
+ * Phalcon\Model\MetaData\Session
  *
  * Stores model meta-data in session. Data will erase when the session finishes.
  * Meta-data are permanent while the session is active.
@@ -78,7 +79,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
 	eval_int = phalcon_isset_property(adapter_options, SL("suffix") TSRMLS_CC);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, adapter_options, SL("suffix"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t0, adapter_options, SL("suffix"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_suffix"), t0 TSRMLS_CC);
 	}
 	
@@ -94,8 +95,8 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, read){
 
 	zval *session = NULL, *key = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 	zval *a0 = NULL;
 	int eval_int;
 
@@ -103,21 +104,20 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, read){
 	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(session, g0);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
-	PHALCON_CPY_WRT(key, r0);
+	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(key);
+	PHALCON_CONCAT_SV(key, "$PMM$", t0);
 	eval_int = phalcon_array_isset(session, key);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch(&r1, session, key, PHALCON_NOISY TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch(&r0, session, key, PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(r1);
+		RETURN_CCTOR(r0);
 	}
 	
-	PHALCON_INIT_VAR(a0);
+	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	
 	RETURN_CTOR(a0);
@@ -132,8 +132,8 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, write){
 
 	zval *data = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -143,11 +143,11 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, write){
 	}
 
 	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
-	phalcon_array_update(&g0, r0, &data, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update(&g0, r0, &data, PH_COPY TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

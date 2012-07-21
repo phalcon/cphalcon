@@ -22,7 +22,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function testSanitize(){
 
-		$filter = new Phalcon_Filter();
+		$filter = new Phalcon\Filter();
 
 		$value = $filter->sanitize("lol", "string");
 		$this->assertEquals($value, "lol");
@@ -48,22 +48,22 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$value = $filter->sanitize("?a&5xka\tŧ?1-s.Xa[\n", "alphanum");
 		$this->assertEquals($value, "a5xka1sXa");
 
-		$value = $filter->filter("<h1>Hello</h1>", "striptags");
+		$value = $filter->sanitize("<h1>Hello</h1>", "striptags");
 		$this->assertEquals($value, "Hello");
 
-		$value = $filter->filter("<h1><p>Hello</h1>", "striptags");
+		$value = $filter->sanitize("<h1><p>Hello</h1>", "striptags");
 		$this->assertEquals($value, "Hello");
 
-		$value = $filter->filter(" Hello   ", "extraspaces");
+		$value = $filter->sanitize(" Hello   ", "extraspaces");
 		$this->assertEquals($value, "Hello");
 
-		$value = $filter->filter("Hello   ", "extraspaces");
+		$value = $filter->sanitize("Hello   ", "extraspaces");
 		$this->assertEquals($value, "Hello");
 
-		$value = $filter->filter("   Hello", "extraspaces");
+		$value = $filter->sanitize("   Hello", "extraspaces");
 		$this->assertEquals($value, "Hello");
 
-		$value = $filter->sanitizeAndFilter("   lol<<   ", array("string", "extraspaces"));
+		$value = $filter->sanitize("   lol<<   ", array("string", "extraspaces"));
 		$this->assertEquals($value, "lol");
 
 	}

@@ -23,7 +23,7 @@ class TranslateTest extends PHPUnit_Framework_TestCase {
 	protected function _getMessages($lang){
 
 		require 'unit-tests/messages/'.$lang.'.php';
-		$translate = new Phalcon_Translate('Array', array(
+		$translate = new Phalcon\Translate('Array', array(
 			'content' => $messages
 		));
 

@@ -22,33 +22,33 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 
 	public function testForeignKeysMysql(){
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	public function testForeignKeysPostgresql(){
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	public function _executeTests(){
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('RobotsParts');
@@ -61,7 +61,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($robotsParts->save());
 
 		$messages = array(
-			0 => Phalcon_Model_Message::__set_state(array(
+			0 => Phalcon\Model\Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Value of field "parts_id" does not exist on referenced table',
 				'_field' => 'parts_id',
@@ -75,7 +75,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($robotsParts->save());
 
 		$messages = array(
-			0 => Phalcon_Model_Message::__set_state(array(
+			0 => Phalcon\Model\Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'The robot code does not exist',
 				'_field' => 'robots_id',
@@ -94,7 +94,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($robot->delete());
 
 		$messages = array(
-			0 => Phalcon_Model_Message::__set_state(array(
+			0 => Phalcon\Model\Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Record is referenced by model RobotsParts',
 				'_field' => 'id',
@@ -112,7 +112,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($part->delete());
 
 		$messages = array(
-			0 => Phalcon_Model_Message::__set_state(array(
+			0 => Phalcon\Model\Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Parts cannot be deleted because is referenced by a Robot',
 				'_field' => 'id',

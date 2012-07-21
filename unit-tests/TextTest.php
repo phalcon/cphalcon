@@ -33,7 +33,7 @@ class TextTest extends PHPUnit_Framework_TestCase {
 		  'CameLize' => 'Camelize',
 		);
 		foreach($camelizeTests as $str => $camelized){
-			$this->assertEquals($camelized, Phalcon_Utils::camelize($str));
+			$this->assertEquals($camelized, \Phalcon\Text::camelize($str));
 		}
 
 	}
@@ -51,7 +51,7 @@ class TextTest extends PHPUnit_Framework_TestCase {
 		  'CameLize' => 'came_lize',
 		);
 		foreach($uncamelizeTests as $str => $camelized){
-			$this->assertEquals($camelized, Phalcon_Utils::uncamelize($str));
+			$this->assertEquals($camelized, \Phalcon\Text::uncamelize($str));
 		}
 	}
 

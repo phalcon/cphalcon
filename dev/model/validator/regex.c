@@ -35,8 +35,9 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+
 /**
- * Phalcon_Model_Validator_Regex
+ * Phalcon\Model\Validator\Regex
  *
  * Allows to validate if the value of a field matches a regular expression
  *
@@ -50,14 +51,14 @@
  */
 PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
 
-	zval *r0 = NULL;
 	zval *c0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c0, PHALCON_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c0, PH_NO_CHECK);
 	if (!zend_is_true(r0)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Validator requires a perl-compatible regex pattern");
 		return;
@@ -74,8 +75,8 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
 PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 
 	zval *matches = NULL, *failed = NULL, *value = NULL, *field_name = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(matches);
@@ -84,30 +85,28 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "getvalue", PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(value, r0);
+	PHALCON_INIT_VAR(value);
+	PHALCON_CALL_METHOD(value, this_ptr, "getvalue", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD(r1, this_ptr, "getfieldname", PHALCON_NO_CHECK);
-	PHALCON_CPY_WRT(field_name, r1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_INIT_VAR(field_name);
+	PHALCON_CALL_METHOD(field_name, this_ptr, "getfieldname", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "pattern", 1);
-	PHALCON_CALL_METHOD_PARAMS_1(r2, this_ptr, "getoption", c0, PHALCON_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getoption", c0, PH_NO_CHECK);
 	Z_SET_ISREF_P(matches);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_3(r3, "preg_match", r2, value, matches);
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_match", r0, value, matches);
 	Z_UNSET_ISREF_P(matches);
-	if (zend_is_true(r3)) {
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		phalcon_array_fetch_long(&r4, matches, 0, PHALCON_NOISY TSRMLS_CC);
-		PHALCON_INIT_VAR(r5);
-		is_not_equal_function(r5, r4, value TSRMLS_CC);
-		if (zend_is_true(r5)) {
+	if (zend_is_true(r1)) {
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		phalcon_array_fetch_long(&r2, matches, 0, PH_NOISY_CC);
+		PHALCON_ALLOC_ZVAL_MM(r3);
+		is_not_equal_function(r3, r2, value TSRMLS_CC);
+		if (zend_is_true(r3)) {
 			PHALCON_INIT_VAR(failed);
 			ZVAL_BOOL(failed, 0);
 		}
@@ -117,11 +116,11 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 	}
 	
 	if (!zend_is_true(failed)) {
-		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CONCAT_SVS(r6, "Value of field '", field_name, "' doesn't match regular expression");
+		PHALCON_ALLOC_ZVAL_MM(r4);
+		PHALCON_CONCAT_SVS(r4, "Value of field '", field_name, "' doesn't match regular expression");
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, "regex", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r6, field_name, c1, PHALCON_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r4, field_name, c1, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	} else {

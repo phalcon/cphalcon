@@ -60,15 +60,15 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$this->_manager = new Phalcon_Model_Manager();
+		$this->_manager = new Phalcon\Model\Manager();
 		$this->_manager->setModelsDir('unit-tests/models/');
 	}
 
@@ -76,12 +76,12 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 		$manager = $this->_manager;
 
-		$memoryMetaData = new Phalcon_Model_Metadata('Memory');
+		$memoryMetaData = new Phalcon\Model\Metadata('Memory');
 
 		$manager->setMetaData($memoryMetaData);
 
 		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon_Model_MetaData');
+		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
 
 		$metaData->reset();
 
@@ -105,12 +105,12 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$config = new stdClass();
 		$config->suffix = 'my-local-app';
 
-		$sessionMetaData = new Phalcon_Model_Metadata('Session', $config);
+		$sessionMetaData = new Phalcon\Model\Metadata('Session', $config);
 
 		$manager->setMetaData($sessionMetaData);
 
 		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon_Model_MetaData');
+		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
 
 		$metaData->reset();
 
@@ -143,12 +143,12 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$config->suffix = 'my-local-app';
 		$config->lifetime = 60;
 
-		$apcMetaData = new Phalcon_Model_Metadata('Apc', $config);
+		$apcMetaData = new Phalcon\Model\Metadata('Apc', $config);
 
 		$manager->setMetaData($apcMetaData);
 
 		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon_Model_MetaData');
+		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
 
 		$metaData->reset();
 
@@ -177,12 +177,12 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$options->metadata->suffix = 'my-local-app';
 		$options->metadata->lifetime = 60;
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
-		$manager = new Phalcon_Model_Manager($options);
+		$manager = new Phalcon\Model\Manager($options);
 
 		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon_Model_MetaData');
+		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
 
 		$metaData->reset();
 

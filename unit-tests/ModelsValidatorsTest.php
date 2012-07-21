@@ -22,21 +22,21 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 
 	public function testModels(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Subscriptores');
 		$this->assertTrue($success);
 
-		$connection = Phalcon_Db_Pool::getConnection();
+		$connection = Phalcon\Db\Pool::getConnection();
 		$this->assertTrue(is_object($connection));
 
 		$success = $connection->delete("subscriptores");
@@ -44,13 +44,13 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego@hotmail.com';
-		$subscriptor->created_at = new Phalcon_Db_RawValue('now()');
+		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
 		$subscriptor->status = 'P';
 		$this->assertTrue($subscriptor->save());
 
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego?=';
-		$subscriptor->created_at = new Phalcon_Db_RawValue('now()');
+		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
 		$subscriptor->status = 'P';
 		$this->assertFalse($subscriptor->save());
 

@@ -18,68 +18,70 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Tag as Tag;
+
 class TagTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp(){
-		$front = Phalcon_Controller_Front::getInstance();
+		$front = Phalcon\Controller\Front::getInstance();
 		$front->setBaseUri('/');
 	}
 
-	public function testTags(){
+	public function testTags(){		
 
-		Phalcon_Tag::displayTo('hello', 'lol');
+		Tag::displayTo('hello', 'lol');
 
 		//textFields
-		$this->assertEquals(Phalcon_Tag::textField('hello'), '<input type="text" id="hello" value="lol" name="hello"  />');
-		$this->assertEquals(Phalcon_Tag::textField(array('hello')), '<input type="text" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::textField('hello'), '<input type="text" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::textField(array('hello')), '<input type="text" id="hello" value="lol" name="hello"  />');
 
 		$params = array('id' => 'hello');
-		$this->assertEquals(Phalcon_Tag::textField($params), '<input type="text" id="hello" value="lol" id="hello" name="hello"  />');
+		$this->assertEquals(Tag::textField($params), '<input type="text" id="hello" value="lol" id="hello" name="hello"  />');
 
 		$params = array('id' => 'hello', 'value' => 'miami');
-		$this->assertEquals(Phalcon_Tag::textField($params), '<input type="text" id="hello" value="miami" id="hello" name="hello"  />');
+		$this->assertEquals(Tag::textField($params), '<input type="text" id="hello" value="miami" id="hello" name="hello"  />');
 
 		$params = array('hellou', 'name' => 'hello', 'value' => 'miami');
-		$this->assertEquals(Phalcon_Tag::textField($params), '<input type="text" id="hellou" value="miami" name="hello"  />');
+		$this->assertEquals(Tag::textField($params), '<input type="text" id="hellou" value="miami" name="hello"  />');
 
 		//passwordField
-		$this->assertEquals(Phalcon_Tag::passwordField('hello'), '<input type="password" id="hello" value="lol" name="hello"  />');
-		$this->assertEquals(Phalcon_Tag::passwordField(array('hello')), '<input type="password" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::passwordField('hello'), '<input type="password" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::passwordField(array('hello')), '<input type="password" id="hello" value="lol" name="hello"  />');
 
 		//hiddenField
-		$this->assertEquals(Phalcon_Tag::hiddenField('hello'), '<input type="hidden" id="hello" value="lol" name="hello"  />');
-		$this->assertEquals(Phalcon_Tag::hiddenField(array('hello')), '<input type="hidden" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::hiddenField('hello'), '<input type="hidden" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::hiddenField(array('hello')), '<input type="hidden" id="hello" value="lol" name="hello"  />');
 
 		//fileField
-		$this->assertEquals(Phalcon_Tag::fileField('hello'), '<input type="file" id="hello" value="lol" name="hello"  />');
-		$this->assertEquals(Phalcon_Tag::fileField(array('hello')), '<input type="file" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::fileField('hello'), '<input type="file" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::fileField(array('hello')), '<input type="file" id="hello" value="lol" name="hello"  />');
 
 		//checkField
-		$this->assertEquals(Phalcon_Tag::checkField('hello'), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
-		$this->assertEquals(Phalcon_Tag::checkField(array('hello')), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
+		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" id="hello" value="lol" name="hello"  />');
 
 		//Links
-		$this->assertEquals(Phalcon_Tag::linkTo('', 'home'), '<a href="/" >home</a>');
-		$this->assertEquals(Phalcon_Tag::linkTo('index', 'home'), '<a href="/index" >home</a>');
+		$this->assertEquals(Tag::linkTo('', 'home'), '<a href="/" >home</a>');
+		$this->assertEquals(Tag::linkTo('index', 'home'), '<a href="/index" >home</a>');
 
 		$params = array('index', 'home');
-		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index" >home</a>');
+		$this->assertEquals(Tag::linkTo($params), '<a href="/index" >home</a>');
 
 		$params = array('action' => 'index', 'text' => 'home');
-		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index" >home</a>');
+		$this->assertEquals(Tag::linkTo($params), '<a href="/index" >home</a>');
 
 		$params = array('action' => 'index', 'text' => 'home', 'class' => 'btn btn-primary');
-		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index"  class="btn btn-primary" >home</a>');
+		$this->assertEquals(Tag::linkTo($params), '<a href="/index"  class="btn btn-primary" >home</a>');
 
 		$params = array('action' => 'index', 'text' => 'home', 'confirm' => 'more lol?');
-		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index"  onclick="if(!confirm(\'more lol?\')) { return false; }; " >home</a>');
+		$this->assertEquals(Tag::linkTo($params), '<a href="/index"  onclick="if(!confirm(\'more lol?\')) { return false; }; " >home</a>');
 
 		$params = array('action' => 'index', 'text' => 'home', 'confirm' => 'more lol?', 'onclick' => 'yeah()');
-		$this->assertEquals(Phalcon_Tag::linkTo($params), '<a href="/index"  onclick="if(!confirm(\'more lol?\')) { return false; }; yeah()" >home</a>');
+		$this->assertEquals(Tag::linkTo($params), '<a href="/index"  onclick="if(!confirm(\'more lol?\')) { return false; }; yeah()" >home</a>');
 
 		//Submits
-		$this->assertEquals(Phalcon_Tag::submitButton('lol'), '<input type="submit" value="lol"  />');
-		$this->assertEquals(Phalcon_Tag::submitButton(array('lol')), '<input type="submit" value="lol"  />');
+		$this->assertEquals(Tag::submitButton('lol'), '<input type="submit" value="lol"  />');
+		$this->assertEquals(Tag::submitButton(array('lol')), '<input type="submit" value="lol"  />');
 
 		//Select Static
 		$values = array(
@@ -87,28 +89,28 @@ class TagTest extends PHPUnit_Framework_TestCase {
 			'T' => 'Tonight',
 			'C' => 'Crystal'
 		);
-		$this->assertEquals(Phalcon_Tag::selectStatic('horror', $values), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic('horror', $values), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C');
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'dummyText' => 'more');
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'useDummy' => true);
-		$this->assertEquals(Phalcon_Tag::selectStatic($params), '<select id="horror" name="horror" useDummy="1">
+		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror" useDummy="1">
 	<option value="">Choose...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
@@ -119,25 +121,28 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 	public function testSelect(){
 
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
+
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$modelManager = new Phalcon_Model_Manager();
+		$modelManager = new Phalcon\Model\Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
 		$robots = Robots::find();
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'));
-		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice">
+		$this->assertEquals(Tag::select($params), '<select id="nice" name="nice">
 	<option value="1">Robotina</option>
 	<option value="2">Astro Boy</option>
 	<option value="3">Terminator</option>
 </select>');
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'), 'value' => '2');
-		$this->assertEquals(Phalcon_Tag::select($params), '<select id="nice" name="nice">
+		$this->assertEquals(Tag::select($params), '<select id="nice" name="nice">
 	<option value="1">Robotina</option>
 	<option selected="selected" value="2">Astro Boy</option>
 	<option value="3">Terminator</option>
@@ -149,13 +154,13 @@ class TagTest extends PHPUnit_Framework_TestCase {
 	public function testForm(){
 
 		//Dispatcher
-		$dispatcher = new Phalcon_Dispatcher();
+		$dispatcher = new Phalcon\Dispatcher();
 
-		$request = Phalcon_Request::getInstance();
-		$this->assertInstanceOf('Phalcon_Request', $request);
+		$request = Phalcon\Request::getInstance();
+		$this->assertInstanceOf('Phalcon\Request', $request);
 
-		$response = Phalcon_Response::getInstance();
-		$this->assertInstanceOf('Phalcon_Response', $response);
+		$response = Phalcon\Response::getInstance();
+		$this->assertInstanceOf('Phalcon\Response', $response);
 
 		$basePath = './';
 		$dispatcher->setBasePath($basePath);
@@ -171,40 +176,40 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 		$dispatcher->dispatch($request, $response);
 
-		Phalcon_Tag::setDispatcher($dispatcher);
+		Tag::setDispatcher($dispatcher);
 
-		$this->assertEquals(Phalcon_Tag::form('controller/index'), '<form action="/controller/index/" method= "post" >');
+		$this->assertEquals(Tag::form('controller/index'), '<form action="/controller/index/" method= "post" >');
 
 		$params = array('controller/index', 'method' => 'get');
-		$this->assertEquals(Phalcon_Tag::form($params), '<form action="/controller/index/" method= "get" >');
+		$this->assertEquals(Tag::form($params), '<form action="/controller/index/" method= "get" >');
 	}
 
 	public function testStaticLinksRel(){
 
 		//Images
-		$this->assertEquals(Phalcon_Tag::image("img/hello.gif"), '<img src="/img/hello.gif">'.PHP_EOL);
-		$this->assertEquals(Phalcon_Tag::image(array("img/hello.gif", "alt" => "hello image")), '<img alt="hello image" src="/img/hello.gif">'.PHP_EOL);
+		$this->assertEquals(Tag::image("img/hello.gif"), '<img src="/img/hello.gif">'.PHP_EOL);
+		$this->assertEquals(Tag::image(array("img/hello.gif", "alt" => "hello image")), '<img alt="hello image" src="/img/hello.gif">'.PHP_EOL);
 
 		//CSS stylesheetlinks
-		$this->assertEquals(Phalcon_Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false), '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Rosario" type="text/css">'.PHP_EOL);
-		$this->assertEquals(Phalcon_Tag::stylesheetLink("css/style.css"), '<link rel="stylesheet" href="/css/style.css" type="text/css">'.PHP_EOL);
+		$this->assertEquals(Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false), '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Rosario" type="text/css">'.PHP_EOL);
+		$this->assertEquals(Tag::stylesheetLink("css/style.css"), '<link rel="stylesheet" href="/css/style.css" type="text/css">'.PHP_EOL);
 
 		//Javascript includes
-		$this->assertEquals(Phalcon_Tag::javascriptInclude('javascript/jquery.min.js'), '<script src="/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
-		$this->assertEquals(Phalcon_Tag::javascriptInclude('http://localhost/javascript/jquery.min.js', false), '<script src="http://localhost/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
+		$this->assertEquals(Tag::javascriptInclude('javascript/jquery.min.js'), '<script src="/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
+		$this->assertEquals(Tag::javascriptInclude('http://localhost/javascript/jquery.min.js', false), '<script src="http://localhost/javascript/jquery.min.js"  type="text/javascript" ></script>'.PHP_EOL);
 
 	}
 
 	public function testTitle(){
 
-		Phalcon_Tag::setTitle('A title');
-		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>A title</title>'.PHP_EOL);
+		Tag::setTitle('A title');
+		$this->assertEquals(Tag::getTitle(), '<title>A title</title>'.PHP_EOL);
 
-		Phalcon_Tag::appendTitle(' - Append title');
-		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>A title - Append title</title>'.PHP_EOL);
+		Tag::appendTitle(' - Append title');
+		$this->assertEquals(Tag::getTitle(), '<title>A title - Append title</title>'.PHP_EOL);
 
-		Phalcon_Tag::prependTitle('Prepend title - ');
-		$this->assertEquals(Phalcon_Tag::getTitle(), '<title>Prepend title - A title - Append title</title>'.PHP_EOL);
+		Tag::prependTitle('Prepend title - ');
+		$this->assertEquals(Tag::getTitle(), '<title>Prepend title - A title - Append title</title>'.PHP_EOL);
 
 	}
 

@@ -24,20 +24,20 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$modelManager = new Phalcon_Model_Manager();
+		$modelManager = new Phalcon\Model\Manager();
 		$modelManager->setModelsDir('unit-tests/models/');
 
 		$personnes = Personnes::find();
 
-		$paginator = Phalcon_Paginator::factory('Model', array(
+		$paginator = Phalcon\Paginator::factory('Model', array(
  			'data' => $personnes,
  			'limit' => 10,
  			'page' => 1
  		));
- 		$this->assertEquals(get_class($paginator), 'Phalcon_Paginator_Adapter_Model');
+ 		$this->assertEquals(get_class($paginator), 'Phalcon\Paginator\Adapter\Model');
 
  		//First Page
  		$page = $paginator->getPaginate();
@@ -143,12 +143,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$paginator = Phalcon_Paginator::factory('Array', array(
+		$paginator = Phalcon\Paginator::factory('Array', array(
  			'data' => $personas,
  			'limit' => 3,
  			'page' => 1
  		));
- 		$this->assertEquals(get_class($paginator), 'Phalcon_Paginator_Adapter_Array');
+ 		$this->assertEquals(get_class($paginator), 'Phalcon\Paginator\Adapter\Array');
 
  		//First Page
  		$page = $paginator->getPaginate();

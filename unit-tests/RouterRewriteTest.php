@@ -117,7 +117,7 @@ class RouterRewriteTest extends PHPUnit_Framework_TestCase {
 		);
 
 		foreach($tests as $test){
-			$router = new Phalcon_Router_Rewrite();
+			$router = new Phalcon\Router\Rewrite();
 			$this->_runTest($router, $test);		
 		}	
 

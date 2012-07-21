@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class DbProfiler extends Phalcon_Db_Profiler {
+class DbProfiler extends Phalcon\Db\Profiler {
 
 	private $_points = 0;
 
@@ -42,7 +42,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$connection = Phalcon\Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
@@ -52,7 +52,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
@@ -69,7 +69,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($profiler->getNumberTotalStatements(), 1);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon_Db_Profiler_Item');
+		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 3");
 		$this->assertEquals(gettype($profile->getInitialTime()), "double");
@@ -82,7 +82,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($profiler->getNumberTotalStatements(), 2);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon_Db_Profiler_Item');
+		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 100");
 		$this->assertTrue($profile->getFinalTime()>$profile->getInitialTime());

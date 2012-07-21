@@ -1,6 +1,6 @@
 <?php
 
-class Test2Controller extends Phalcon_Controller {
+class Test2Controller extends Phalcon\Controller {
 
 	public function indexAction(){
 

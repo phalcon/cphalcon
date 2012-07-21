@@ -34,10 +34,11 @@
 
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+
 /**
- * Phalcon_Config
+ * Phalcon\Config
  *
- * Phalcon_Config is designed to simplify the access to, and the use of, configuration data within applications.
+ * Phalcon\Config is designed to simplify the access to, and the use of, configuration data within applications.
  * It provides a nested object property based user interface for accessing this configuration data within
  * application code.
  *
@@ -46,10 +47,10 @@
  */
 
 /**
- * Phalcon_Config constructor
+ * Phalcon\Config constructor
  *
  * @param array $arrayConfig
- * @return Phalcon_Config
+ * @return Phalcon\Config
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
@@ -72,7 +73,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 
 	if (!array_config) {
-		PHALCON_INIT_VAR(a0);
+		PHALCON_ALLOC_ZVAL_MM(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(array_config, a0);
 	}
@@ -92,7 +93,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(i0);
 			object_init_ex(i0, phalcon_config_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", value, PHALCON_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", value, PH_CHECK);
 			phalcon_update_property_zval_zval(this_ptr, key, i0 TSRMLS_CC);
 		} else {
 			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);

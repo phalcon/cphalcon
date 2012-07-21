@@ -1,3 +1,17 @@
+0.5.0
+ - Classes now are registered as PHP namespaces. 
+ - Improved stability running Phalcon with PHP versions lower or equal than 5.3.3
+ - Thousand of innecesary intermediate variables were removed improving stability
+ - Phalcon now performs a reduced number of copy-on-write checks
+ - Added class modifiers like Abstract or Final to Phalcon classes
+ - Fixed memory leaks generated when throwing internal exceptions 
+ - Removed deprecated experimental function and method calls
+
+0.4.3
+ - Fixed problem with partials, that removed any output previously generated
+ - Added Phalcon_Session::destroy
+ - Fixed memory leaks generated when throwing internal exceptions 
+
 0.4.2
  - Added support for PostgreSQL database
  - Phalcon_View is now fully integrated with Phalcon_Cache

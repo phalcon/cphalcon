@@ -18,6 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
+use Phalcon\Flash as Flash;
+
 class FlashTest extends PHPUnit_Framework_TestCase {
 
 	public function testFlash(){
@@ -25,42 +27,42 @@ class FlashTest extends PHPUnit_Framework_TestCase {
 		$message = 'sample message';
 
 		ob_start();
-		Phalcon_Flash::error($message);
+		Phalcon\Flash::error($message);
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="errorMessage">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::error($message, 'alert alert-error');
+		Phalcon\Flash::error($message, 'alert alert-error');
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="alert alert-error">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::success($message);
+		Phalcon\Flash::success($message);
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="successMessage">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::success($message, 'alert alert-success');
+		Phalcon\Flash::success($message, 'alert alert-success');
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="alert alert-success">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::notice($message);
+		Phalcon\Flash::notice($message);
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="noticeMessage">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::notice($message, 'alert alert-notice');
+		Phalcon\Flash::notice($message, 'alert alert-notice');
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="alert alert-notice">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::warning($message);
+		Phalcon\Flash::warning($message);
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="warningMessage">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		Phalcon_Flash::warning($message, 'alert alert-warning');
+		Phalcon\Flash::warning($message, 'alert alert-warning');
 		$flash = ob_get_clean();
 		$this->assertEquals($flash, '<div class="alert alert-warning">sample message</div>'.PHP_EOL);
 

@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 	}
 
 	
-	RETURN_CHECK_CTOR(data);
+	RETURN_CCTOR(data);
 }
 
 /**
@@ -145,6 +145,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 	}
 
 	
-	RETURN_CHECK_CTOR(data);
+	RETURN_CCTOR(data);
 }
 

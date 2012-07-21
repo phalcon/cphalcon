@@ -34,6 +34,7 @@
 
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+
 PHP_METHOD(Phalcon_Internal_TestDummy, __construct){
 
 	zval *p1 = NULL;
@@ -53,8 +54,8 @@ PHP_METHOD(Phalcon_Internal_TestDummy, __construct){
 PHP_METHOD(Phalcon_Internal_TestDummy, f1){
 
 	zval *p1 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -63,11 +64,11 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f1){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_d1"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "t12", p1, PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_d1"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "t12", p1, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Internal_TestDummy, f2){
@@ -76,9 +77,9 @@ PHP_METHOD(Phalcon_Internal_TestDummy, f2){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_d1"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_d1"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 
 PHP_METHOD(Phalcon_Internal_TestDummy, f3){

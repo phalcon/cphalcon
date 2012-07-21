@@ -34,8 +34,9 @@
 
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+
 /**
- * Phalcon_Flash
+ * Phalcon\Flash
  *
  * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
  *
@@ -44,10 +45,9 @@
 
 PHP_METHOD(Phalcon_Flash, _showMessage){
 
-	zval *message = NULL, *classes = NULL, *css_classes = NULL, *msg = NULL;
+	zval *message = NULL, *classes = NULL, *css_classes = NULL, *eol = NULL, *msg = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -62,12 +62,14 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 	if (Z_TYPE_P(classes) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, " ", 1);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_fast_join(r0, c0, classes TSRMLS_CC);
-		PHALCON_CPY_WRT(css_classes, r0);
+		PHALCON_INIT_VAR(css_classes);
+		phalcon_fast_join(css_classes, c0, classes TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(css_classes, classes);
 	}
+	
+	PHALCON_INIT_VAR(eol);
+	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
 		if (phalcon_valid_foreach(message TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(message);
@@ -78,11 +80,9 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			}
 			PHALCON_INIT_VAR(msg);
 			ZVAL_ZVAL(msg, *hd, 1, 0);
-			PHALCON_INIT_VAR(r1);
-			PHALCON_INIT_VAR(t0);
-			zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t0 TSRMLS_CC);
-			PHALCON_CONCAT_SVSVSV(r1, "<div class=\"", css_classes, "\">", msg, "</div>", t0);
-			zend_print_zval(r1, 1);
+			PHALCON_INIT_VAR(r0);
+			PHALCON_CONCAT_SVSVSV(r0, "<div class=\"", css_classes, "\">", msg, "</div>", eol);
+			zend_print_zval(r0, 1);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_3b3c_0;
 			fee_3b3c_0:
@@ -91,11 +91,9 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			return;
 		}
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		zend_get_constant("PHP_EOL", strlen("PHP_EOL"), t1 TSRMLS_CC);
-		PHALCON_CONCAT_SVSVSV(r2, "<div class=\"", css_classes, "\">", message, "</div>", t1);
-		zend_print_zval(r2, 1);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVSVSV(r1, "<div class=\"", css_classes, "\">", message, "</div>", eol);
+		zend_print_zval(r1, 1);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -103,8 +101,6 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 
 /**
  * Shows a HTML error message
- *
- * 
  *
  * @param string $message
  * @param string $classes
@@ -123,19 +119,17 @@ PHP_METHOD(Phalcon_Flash, error){
 	}
 
 	if (!classes) {
-		PHALCON_INIT_VAR(classes);
+		PHALCON_ALLOC_ZVAL_MM(classes);
 		ZVAL_STRING(classes, "errorMessage", 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Shows a HTML notice/information message
- *
-* 
  *
  * @param string $message
  * @param string $classes
@@ -154,19 +148,17 @@ PHP_METHOD(Phalcon_Flash, notice){
 	}
 
 	if (!classes) {
-		PHALCON_INIT_VAR(classes);
+		PHALCON_ALLOC_ZVAL_MM(classes);
 		ZVAL_STRING(classes, "noticeMessage", 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Shows a HTML success message
- *
- * 
  *
  * @param string $message
  * @param string $classes
@@ -185,20 +177,17 @@ PHP_METHOD(Phalcon_Flash, success){
 	}
 
 	if (!classes) {
-		PHALCON_INIT_VAR(classes);
+		PHALCON_ALLOC_ZVAL_MM(classes);
 		ZVAL_STRING(classes, "successMessage", 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Shows a HTML warning message
- *
- * 
- * 
  *
  * @param string $message
  * @param string $classes
@@ -217,12 +206,12 @@ PHP_METHOD(Phalcon_Flash, warning){
 	}
 
 	if (!classes) {
-		PHALCON_INIT_VAR(classes);
+		PHALCON_ALLOC_ZVAL_MM(classes);
 		ZVAL_STRING(classes, "warningMessage", 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 

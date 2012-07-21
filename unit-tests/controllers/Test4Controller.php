@@ -1,6 +1,6 @@
 <?php
 
-class Test4Controller extends Phalcon_Controller {
+class Test4Controller extends Phalcon\Controller {
 
 	public function requestAction(){
 		return $this->request->getPost('email', 'email');

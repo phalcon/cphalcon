@@ -72,7 +72,7 @@ int phalcon_memory_grow_stack(TSRMLS_D){
 		PHALCON_GLOBAL(start_memory)->pointer = -1;
 		PHALCON_GLOBAL(start_memory)->prev = NULL;
 		PHALCON_GLOBAL(start_memory)->next = NULL;
-		PHALCON_GLOBAL(active_memory) = PHALCON_GLOBAL(start_memory);
+		PHALCON_GLOBAL(active_memory) = PHALCON_GLOBAL(start_memory);		
 	}
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
@@ -135,10 +135,10 @@ int phalcon_memory_restore_stack(TSRMLS_D){
 				PHALCON_GLOBAL(start_memory) = NULL;
 				PHALCON_GLOBAL(active_memory) = NULL;
 			}
-		} else {
+		} else {			
 			PHALCON_GLOBAL(start_memory) = NULL;
 			PHALCON_GLOBAL(active_memory) = NULL;
-		}
+		}		
 
 	} else {
 		return FAILURE;
@@ -153,6 +153,12 @@ int phalcon_memory_restore_stack(TSRMLS_D){
 int phalcon_memory_observe(zval **var TSRMLS_DC){
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 	active_memory->pointer++;
+	#ifndef PHALCON_RELEASE
+	if(active_memory->pointer>=(PHALCON_MAX_MEMORY_STACK-1)){
+		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d", PHALCON_MAX_MEMORY_STACK);
+		return FAILURE;
+	}
+	#endif
 	active_memory->addresses[active_memory->pointer] = var;
 	active_memory->addresses[active_memory->pointer+1] = NULL;
 	return SUCCESS;
@@ -164,6 +170,12 @@ int phalcon_memory_observe(zval **var TSRMLS_DC){
 int phalcon_memory_alloc(zval **var TSRMLS_DC){
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 	active_memory->pointer++;
+	#ifndef PHALCON_RELEASE
+	if(active_memory->pointer>=(PHALCON_MAX_MEMORY_STACK-1)){
+		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d", PHALCON_MAX_MEMORY_STACK);
+		return FAILURE;
+	}
+	#endif
 	active_memory->addresses[active_memory->pointer] = var;
 	active_memory->addresses[active_memory->pointer+1] = NULL;
 	ALLOC_ZVAL(*var);

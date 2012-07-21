@@ -35,28 +35,29 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+
 /**
- * Phalcon_Paginator
+ * Phalcon\Paginator
  *
- * Phalcon_Paginator is designed to simplify building of pagination on views
+ * Phalcon\Paginator is designed to simplify building of pagination on views
  *
  * 
  *
  */
 
 /**
-* Factories a paginator adapter
-*
-* @param   string $adapterName
-* @param   array $options
-* @return  Object
-*/
+ * Factories a paginator adapter
+ *
+ * @param   string $adapterName
+ * @param   array $options
+ * @return  Object
+ */
 PHP_METHOD(Phalcon_Paginator, factory){
 
 	zval *adapter_name = NULL, *options = NULL, *class_name = NULL, *adapter = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
+	zval *i0 = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -67,33 +68,31 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(a0);
+		PHALCON_ALLOC_ZVAL_MM(a0);
 		array_init(a0);
 		PHALCON_CPY_WRT(options, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_SV(r0, "Phalcon_Paginator_Adapter_", adapter_name);
-	PHALCON_CPY_WRT(class_name, r0);
+	PHALCON_INIT_VAR(class_name);
+	PHALCON_CONCAT_SV(class_name, "Phalcon\\Paginator\\Adapter\\", adapter_name);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name);
-	if (!zend_is_true(r1)) {
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", class_name);
+	if (!zend_is_true(r0)) {
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_paginator_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_SVS(r2, "The paginator adapter file \"", adapter_name, "\" does not exist");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PHALCON_CHECK);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVS(r1, "The paginator adapter file \"", adapter_name, "\" does not exist");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r1, PH_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
 	
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(i1);
-	object_init_ex(i1, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PHALCON_CHECK);
-	PHALCON_CPY_WRT(adapter, i1);
+	PHALCON_INIT_VAR(adapter);
+	object_init_ex(adapter, ce0);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(adapter, "__construct", options, PH_CHECK);
 	
 	RETURN_CTOR(adapter);
 }

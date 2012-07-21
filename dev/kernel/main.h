@@ -18,34 +18,32 @@
 */
 
 /** Main macros */
-#define PHALCON_DEBUG 0
+#define PH_DEBUG 0
 
-#define PHALCON_NOISY 0
-#define PHALCON_SILENT 1
+#define PH_NOISY 0
+#define PH_SILENT 1
 
-#define PHALCON_CHECK 1
-#define PHALCON_NO_CHECK 0
+#define PH_NOISY_CC PH_NOISY TSRMLS_CC
+#define PH_SILENT_CC PH_SILENT TSRMLS_CC
 
-#define PHALCON_SEPARATE_PLZ 1
-#define PHALCON_NO_SEPARATE_THX 0
+#define PH_CHECK 1
+#define PH_NO_CHECK 0
 
-#define PHALCON_COPY 1
-#define PHALCON_NO_COPY 0
+#define PH_SEPARATE 256
+#define PH_COPY 1024
+#define PH_CTOR 4096
 
-#define PHALCON_CTOR 1
-#define PHALCON_NO_CTOR 0
-
-#define PHALCON_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
+#define PH_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
 
 /** Experimental Features **/
-#define PHALCON_EXPERIMENTAL_CALL 0
+#define PH_EXPERIMENTAL_CALL 0
 
 /** Check whether we can use experimental call yet */
 #ifdef PHP_WIN32
-#define PHALCON_EXPERIMENTAL_CALL 0
+#define PH_EXPERIMENTAL_CALL 0
 #else
 #if PHP_VERSION_ID < 50400
-#define PHALCON_EXPERIMENTAL_CALL 0
+#define PH_EXPERIMENTAL_CALL 0
 #endif
 #endif
 
@@ -110,58 +108,56 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 
 /** Symbols */
 #define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\
-			if(zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr)==SUCCESS){\
-				var = *auxarr;\
-			} else {\
-				ZVAL_NULL(var);\
-			}\
-		} else {\
-			ZVAL_NULL(var);\
-		}
+	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
+			var = *auxarr; \
+		} else { \
+			ZVAL_NULL(var); \
+		} \
+	} else { \
+		ZVAL_NULL(var); \
+	}
 
-#define RETURN_CHECK_CTOR(var) {\
-		zend_uchar is_ref = Z_ISREF_P(return_value);\
-		zend_uint refcount = Z_REFCOUNT_P(return_value);\
-		*(return_value) = *(var);\
-		if (Z_TYPE_P(var) > IS_BOOL) {\
-			zval_copy_ctor(return_value);\
-		}\
-		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
-	}\
-	PHALCON_MM_RESTORE();\
+/**
+ * Return zval checking if it's needed to ctor
+ */
+#define RETURN_CCTOR(var) { \
+		zend_uchar is_ref = Z_ISREF_P(return_value); \
+		zend_uint refcount = Z_REFCOUNT_P(return_value); \
+		*(return_value) = *(var); \
+		if (Z_TYPE_P(var) > IS_BOOL) { \
+			zval_copy_ctor(return_value); \
+		} \
+		Z_SET_ISREF_TO_P(return_value, is_ref); \
+		Z_SET_REFCOUNT_P(return_value, refcount); \
+	} \
+	PHALCON_MM_RESTORE(); \
 	return;
 
-#define RETURN_CTOR(var) {\
-		zend_uchar is_ref = Z_ISREF_P(return_value);\
-		zend_uint refcount = Z_REFCOUNT_P(return_value);\
-		*(return_value) = *(var);\
-		zval_copy_ctor(return_value);\
-		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
-	}\
-	PHALCON_MM_RESTORE();\
+/**
+ * Return zval with always ctor
+ */
+#define RETURN_CTOR(var) { \
+		zend_uchar is_ref = Z_ISREF_P(return_value); \
+		zend_uint refcount = Z_REFCOUNT_P(return_value); \
+		*(return_value) = *(var); \
+		zval_copy_ctor(return_value); \
+		Z_SET_ISREF_TO_P(return_value, is_ref); \
+		Z_SET_REFCOUNT_P(return_value, refcount); \
+	} \
+	PHALCON_MM_RESTORE(); \
 	return;
 
-#define RETURN_DZVAL(var) {\
-		zend_uchar is_ref = Z_ISREF_P(return_value);\
-		zend_uint refcount = Z_REFCOUNT_P(return_value);\
-		*(return_value) = *(var);\
-		zval_copy_ctor(return_value);\
-		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
-		PHALCON_MM_RESTORE();\
-	}\
-	return;
-
-#define RETURN_NCTOR(var) {\
-		zend_uchar is_ref = Z_ISREF_P(return_value);\
-		zend_uint refcount = Z_REFCOUNT_P(return_value);\
-		*(return_value) = *(var);\
-		Z_SET_ISREF_TO_P(return_value, is_ref);\
-		Z_SET_REFCOUNT_P(return_value, refcount);\
-	}\
-	PHALCON_MM_RESTORE();\
+/**
+ * Returns variables without ctor
+ */
+#define RETURN_NCTOR(var) { \
+		zend_uchar is_ref = Z_ISREF_P(return_value); \
+		zend_uint refcount = Z_REFCOUNT_P(return_value); \
+		*(return_value) = *(var); \
+		Z_SET_ISREF_TO_P(return_value, is_ref); \
+		Z_SET_REFCOUNT_P(return_value, refcount); \
+	} \
+	PHALCON_MM_RESTORE(); \
 	return;
 
 /** Foreach */
@@ -175,3 +171,24 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 		}\
 	}
 
+#define PHALCON_REGISTER_CLASS(ns, classname, name, methods, flags) \
+	{ \
+		zend_class_entry ce; \
+		memset(&ce, 0, sizeof(zend_class_entry)); \
+		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
+		phalcon_ ##name## _ce = zend_register_internal_class(&ce TSRMLS_CC); \
+		phalcon_ ##name## _ce->ce_flags |= flags;  \
+	}
+
+#define PHALCON_REGISTER_CLASS_EX(ns, class_name, name, parent, methods, flags) \
+	{ \
+		zend_class_entry ce; \
+		memset(&ce, 0, sizeof(zend_class_entry)); \
+		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
+		phalcon_ ##name## _ce = zend_register_internal_class_ex(&ce, NULL, parent TSRMLS_CC); \
+		if(!phalcon_ ##name## _ce){ \
+			phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
+			return FAILURE;	\
+		}  \
+		phalcon_ ##name## _ce->ce_flags |= flags;  \
+	}

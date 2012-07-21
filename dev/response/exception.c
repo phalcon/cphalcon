@@ -33,9 +33,9 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Response_Exception
+ * Phalcon\Response\Exception
  *
- * Exceptions thrown in Phalcon_Response will use this class
+ * Exceptions thrown in Phalcon\Response will use this class
  *
  */
 

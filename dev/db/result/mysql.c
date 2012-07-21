@@ -34,8 +34,9 @@
 
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+
 /**
- * Phalcon_Db_Result_Mysql
+ * Phalcon\Db\Result\Mysql
  *
  * Encapsulates the resultset internals
  *
@@ -71,8 +72,6 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, __construct){
  * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
  * This method is affected by the active fetch flag set using Phalcon_Db_Result_Mysql::setFetchMode
  *
- * 
- *
  * @param resource $resultQuery
  * @return boolean
  */
@@ -83,18 +82,16 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, fetchArray){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_fetchMode"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_fetchMode"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_fetch_array", t0, t1);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Gets number of rows returned by a resulset
- *
- * 
  *
  * @return int
  */
@@ -105,16 +102,14 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, numRows){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "mysqli_num_rows", t0);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Moves internal resulset cursor to another position letting us to fetch a certain row
- *
- * 
  *
  * @param int $number
  * @return int
@@ -133,16 +128,14 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, dataSeek){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_2(r0, "mysqli_data_seek", t0, number);
-	RETURN_DZVAL(r0);
+	RETURN_CTOR(r0);
 }
 
 /**
  * Changes the fetching mode affecting Phalcon_Db_Mysql::fetchArray
- *
- * 
  *
  * @param int $fetchMode
  */
@@ -203,8 +196,8 @@ PHP_METHOD(Phalcon_Db_Result_Mysql, getInternalResult){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_result"), PHALCON_NOISY TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_result"), PH_NOISY_CC);
 	
-	RETURN_CHECK_CTOR(t0);
+	RETURN_CCTOR(t0);
 }
 

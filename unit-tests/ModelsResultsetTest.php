@@ -22,15 +22,15 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 	private function _prepareTestPostgresql(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
@@ -46,15 +46,15 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 	private function _prepareTestMysql(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
@@ -121,7 +121,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Model\Resultset');
 
 		$this->_applyTests($robots);
 
@@ -135,7 +135,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Model\Resultset');
 
 		$this->_applyTests($robots);
 

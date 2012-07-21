@@ -31,7 +31,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase {
 
 	public function testSetCache(){
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
 		$frontendOptions = array(
@@ -42,7 +42,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase {
 			'cacheDir' => 'unit-tests/cache/'
 		);
 
-		$cache = Phalcon_Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
+		$cache = Phalcon\Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
 		$view->setCache($cache);
 
 		$date = date("r");
@@ -77,7 +77,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase {
 		$config->cache->lifetime = 3600;
 		$config->cache->cacheDir = 'unit-tests/cache/';
 
-		$view = new Phalcon_View($config);
+		$view = new Phalcon\View($config);
 		$view->setViewsDir('unit-tests/views/');
 
 		$date = date("r");
@@ -106,7 +106,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase {
 
 	public function testCacheOptions(){
 
-		$view = new Phalcon_View();
+		$view = new Phalcon\View();
 		$view->setViewsDir('unit-tests/views/');
 
 		$options = array(

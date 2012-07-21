@@ -34,6 +34,7 @@
 
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+
 /**
  * Phalcon_View_Engine
  *
@@ -59,7 +60,7 @@ PHP_METHOD(Phalcon_View_Engine, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "initialize", view, options, PHALCON_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "initialize", view, options, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -98,15 +99,15 @@ PHP_METHOD(Phalcon_View_Engine, initialize){
  */
 PHP_METHOD(Phalcon_View_Engine, getControllerName){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(r0, t0, "getcontrollername", PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD(r0, t0, "getcontrollername", PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -116,15 +117,15 @@ PHP_METHOD(Phalcon_View_Engine, getControllerName){
  */
 PHP_METHOD(Phalcon_View_Engine, getActionName){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(r0, t0, "getactionname", PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD(r0, t0, "getactionname", PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -134,15 +135,15 @@ PHP_METHOD(Phalcon_View_Engine, getActionName){
  */
 PHP_METHOD(Phalcon_View_Engine, getContent){
 
-	zval *r0 = NULL;
 	zval *t0 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD(r0, t0, "getcontent", PHALCON_NO_CHECK);
-	RETURN_DZVAL(r0);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD(r0, t0, "getcontent", PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -164,15 +165,15 @@ PHP_METHOD(Phalcon_View_Engine, url){
 	}
 
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		PHALCON_ALLOC_ZVAL_MM(params);
 		ZVAL_NULL(params);
 	}
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_utils", "geturl", params);
-		RETURN_DZVAL(r0);
+		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\utils", "geturl", params);
+		RETURN_CTOR(r0);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -197,13 +198,13 @@ PHP_METHOD(Phalcon_View_Engine, path){
 	}
 
 	if (!params) {
-		PHALCON_INIT_VAR(params);
+		PHALCON_ALLOC_ZVAL_MM(params);
 		ZVAL_STRING(params, "", 1);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon_utils", "getlocalpath", params);
-	RETURN_DZVAL(r0);
+	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\utils", "getlocalpath", params);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -224,8 +225,8 @@ PHP_METHOD(Phalcon_View_Engine, partial){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "partial", partial_path, PHALCON_NO_CHECK);
+	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "partial", partial_path, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

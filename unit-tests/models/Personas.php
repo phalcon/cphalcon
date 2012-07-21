@@ -1,5 +1,5 @@
 <?php
 
-class Personas extends Phalcon_Model_Base {
+class Personas extends Phalcon\Model\Base {
 
 }

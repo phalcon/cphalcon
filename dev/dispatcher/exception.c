@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Dispatcher_Exception
+ * Phalcon\Dispatcher\Exception
  *
  * Exceptions thrown in Phalcon_Dispatcher will use this class
  *

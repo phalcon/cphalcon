@@ -22,12 +22,12 @@ class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 
 	public function testManager(){
 
-		Phalcon_Db_Pool::reset();
-		Phalcon_Model_Manager::reset();
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		$modelsDir = 'unit-tests/models/';
 
-		$modelManager = new Phalcon_Model_Manager();
+		$modelManager = new Phalcon\Model\Manager();
 		$modelManager->setModelsDir($modelsDir);
 		$modelManager->setAutoConnection(false);
 

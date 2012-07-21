@@ -45,7 +45,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 	);
 
 	private function _compareConfig($c, $config){
-
 		foreach($c as $k => $v){
 			$this->assertTrue(isset($config->$k));
 			if(is_array($v)){				
@@ -72,12 +71,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testIniConfig(){
-		$config = new Phalcon_Config_Adapter_Ini('unit-tests/config/config.ini');		
+		$config = new Phalcon\Config\Adapter\Ini('unit-tests/config/config.ini');		
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
 	public function testStandarConfig(){
-		$config = new Phalcon_Config($this->_config);
+		$config = new Phalcon\Config($this->_config);
 		$this->_compareConfig($this->_config, $config);
 	}
 

@@ -24,7 +24,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$connection = Phalcon\Db::factory('Mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		$this->assertEquals($connection->getDatabaseName(), $configMysql->name);
@@ -32,7 +32,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($connection->getUsername(), $configMysql->username);
 		$this->assertEquals($connection->getDefaultSchema(), $configMysql->name);
 
-		$this->_executeTests($connection, 'Phalcon_Db_Result_Mysql');
+		$this->_executeTests($connection, 'Phalcon\Db\Result\Mysql');
 
 	}
 
@@ -40,7 +40,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
 		$this->assertTrue(is_object($connection));
 
 		$this->assertEquals($connection->getDatabaseName(), $configPostgresql->name);
@@ -48,7 +48,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($connection->getUsername(), $configPostgresql->username);
 		$this->assertEquals($connection->getDefaultSchema(), $configPostgresql->name);
 
-		$this->_executeTests($connection, 'Phalcon_Db_Result_Postgresql');
+		$this->_executeTests($connection, 'Phalcon\Db\Result\Postgresql');
 
 	}
 
@@ -77,17 +77,17 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($number, 5);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon_Db::DB_NUM);
+		$result->setFetchMode(Phalcon\Db::DB_NUM);
 		$row = $result->fetchArray();
 		$this->assertEquals(count($row), 11);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon_Db::DB_ASSOC);
+		$result->setFetchMode(Phalcon\Db::DB_ASSOC);
 		$row = $result->fetchArray();
 		$this->assertEquals(count($row), 11);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon_Db::DB_BOTH);
+		$result->setFetchMode(Phalcon\Db::DB_BOTH);
 		$result->dataSeek(4);
 		$row = $result->fetchArray();
 		$row = $result->fetchArray();
@@ -105,7 +105,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'), true);
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array(new Phalcon_Db_RawValue('current_date'), "'A'"), array('nombre', 'estado'));
+		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "'A'"), array('nombre', 'estado'));
 		$this->assertTrue($success);
 
 		for($i=0;$i<50;$i++){
@@ -122,7 +122,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$success = $connection->update('prueba', array("nombre"), array("LOL 3000"), "estado='X'", true);
 		$this->assertTrue($success);
 
-		$success = $connection->update('prueba', array("nombre"), array(new Phalcon_Db_RawValue('current_date')), "estado='X'", false);
+		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'", false);
 		$this->assertTrue($success);
 
 		$connection->delete("prueba", "estado='X'");
@@ -135,13 +135,13 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$row = $connection->fetchOne("SELECT * FROM personas");
 		$this->assertEquals(count($row), 22);
 
-		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon_Db::DB_NUM);
+		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon\Db::DB_NUM);
 		$this->assertEquals(count($row), 11);
 
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10");
 		$this->assertEquals(count($rows), 10);
 
-		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon_Db::DB_NUM);
+		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::DB_NUM);
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
 

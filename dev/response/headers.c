@@ -36,12 +36,12 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+
 /**
- * Phalcon_Response_Headers
+ * Phalcon\Response\Headers
  *
  * This class is a bag to manage the response headers
- *
- *
+ * 
  */
 
 PHP_METHOD(Phalcon_Response_Headers, __construct){
@@ -50,7 +50,7 @@ PHP_METHOD(Phalcon_Response_Headers, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
+	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	zend_update_property(phalcon_response_headers_ce, this_ptr, SL("_headers"), a0 TSRMLS_CC);
 
@@ -76,8 +76,8 @@ PHP_METHOD(Phalcon_Response_Headers, set){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
-	phalcon_array_update(&t0, name, &value, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_headers"), PH_NOISY_CC);
+	phalcon_array_update(&t0, name, &value, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), t0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Response_Headers, set){
 PHP_METHOD(Phalcon_Response_Headers, get){
 
 	zval *name = NULL, *headers = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -103,15 +102,14 @@ PHP_METHOD(Phalcon_Response_Headers, get){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
-	PHALCON_CPY_WRT(headers, t0);
+	PHALCON_INIT_VAR(headers);
+	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(headers, name);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, headers, name, PHALCON_NOISY TSRMLS_CC);
+		phalcon_array_fetch(&r0, headers, name, PH_NOISY_CC);
 		
-		RETURN_CHECK_CTOR(r0);
+		RETURN_CCTOR(r0);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -138,8 +136,8 @@ PHP_METHOD(Phalcon_Response_Headers, setRaw){
 	PHALCON_INIT_VAR(t0);
 	ZVAL_BOOL(t0, 0);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
-	phalcon_array_update(&t1, header, &t0, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_headers"), PH_NOISY_CC);
+	phalcon_array_update(&t1, header, &t0, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), t1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -169,7 +167,7 @@ PHP_METHOD(Phalcon_Response_Headers, send){
 		ZVAL_BOOL(t, 1);
 		
 		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_headers"), PHALCON_NOISY TSRMLS_CC);
+		phalcon_read_property(&t0, this_ptr, SL("_headers"), PH_NOISY_CC);
 		if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
 			ah0 = Z_ARRVAL_P(t0);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);

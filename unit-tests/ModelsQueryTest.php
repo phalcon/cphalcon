@@ -22,39 +22,39 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase {
 
 	public function testQueryMysql(){
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	public function testQueryPostgresql(){
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
 	}
 
 	public function _executeTests(){
 
-		Phalcon_Model_Manager::reset();
+		Phalcon\Model\Manager::reset();
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$query = new Phalcon_Model_Query();
+		$query = new Phalcon\Model\Query();
 		$query->setManager($manager);
 		$query->from('Robots');
 		$query->where('id = ?0');
@@ -63,7 +63,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE \'%Astro%\'');
 
-		$query = Phalcon_Model_Query::fromInput('Robots', array(
+		$query = Phalcon\Model\Query::fromInput('Robots', array(
 			'id' => 10,
 			'name' => 'Astro'
 		));

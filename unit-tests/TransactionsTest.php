@@ -20,14 +20,33 @@
 
 class TransactionsTest extends PHPUnit_Framework_TestCase {
 
-	public function testTransactions(){
+	public function testTransactionsMysql(){
+
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
 
 		require 'unit-tests/config.db.php';
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		$this->_executeTests();
+	}
 
-		$manager = new Phalcon_Model_Manager();
+	public function testTransactionsPostgresql(){
+
+		Phalcon\Db\Pool::reset();
+		Phalcon\Model\Manager::reset();
+
+		require 'unit-tests/config.db.php';
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		
+		$this->_executeTests();
+	}
+
+	protected function _executeTests(){
+
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		$connection = $manager->getConnection();
@@ -41,8 +60,8 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 
 		try {
 
-			$transaction1 = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction1);
+			$transaction1 = Phalcon\Transaction\Manager::get();
+			$this->assertInstanceOf('Phalcon\Transaction', $transaction1);
 
 			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
 
@@ -65,8 +84,8 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(FALSE, 'oh, Why?');
 
 		}
-		catch(Phalcon_Transaction_Failed $e){
-
+		catch(Phalcon\Transaction\Failed $e){
+			$this->assertTrue(true);
 		}
 
 		$rollbackNumPersonas = Personas::count();
@@ -74,8 +93,8 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 
 		try {
 
-			$transaction2 = Phalcon_Transaction_Manager::get();
-			$this->assertInstanceOf('Phalcon_Transaction', $transaction2);
+			$transaction2 = Phalcon\Transaction\Manager::get();
+			$this->assertInstanceOf('Phalcon\Transaction', $transaction2);
 
 			$this->assertNotEquals($transaction2->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
 			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $transaction2->getConnection()->getConnectionId(true));
@@ -100,7 +119,7 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($commitNumPersonas, $numPersonas+15);
 
 		}
-		catch(Phalcon_Transaction_Failed $e){
+		catch(Phalcon\Transaction\Failed $e){
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 

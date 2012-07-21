@@ -1,6 +1,6 @@
 <?php
 
-class Parts extends Phalcon_Model_Base {
+class Parts extends Phalcon\Model\Base {
 
 	function initialize(){
 		$this->hasMany('id', 'RobotsParts', 'parts_id', array(

@@ -52,12 +52,12 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		return $manager;
@@ -67,12 +67,12 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		Phalcon_Db_Pool::reset();
+		Phalcon\Db\Pool::reset();
 
-		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
 
-		$manager = new Phalcon_Model_Manager();
+		$manager = new Phalcon\Model\Manager();
 		$manager->setModelsDir('unit-tests/models/');
 
 		return $manager;
@@ -96,7 +96,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($Personas), 'Personas');
 
 		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+		$this->assertEquals($connection, Phalcon\Db\Pool::getConnection());
 
 		$metaData = $manager->getMetaData();
 
@@ -121,7 +121,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($Personas), 'Personas');
 
 		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
+		$this->assertEquals($connection, Phalcon\Db\Pool::getConnection());
 
 		$pAttributes = array(
 			0 => 'cedula',

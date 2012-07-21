@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Paginator_Exception
+ * Phalcon\Paginator\Exception
  *
  * Exceptions thrown in Phalcon_Paginator will use this class
  *

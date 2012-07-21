@@ -27,6 +27,13 @@
 #include "kernel/debug.h"
 #include "kernel/array.h"
 
+void phalcon_convert_to_array(zval **var){
+	if (Z_REFCOUNT_PP(var) > 1) {
+		
+	}
+	convert_to_array(*var);
+}
+
 /**
  * Check if index exists on an array zval
  */
@@ -138,9 +145,9 @@ int phalcon_array_unset_long(zval *arr, ulong index){
 /**
  * Push one or more elements onto the end of an array
  */
-int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC){
+int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC){
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		if(separate){
+		if((flags & PH_SEPARATE) == PH_SEPARATE){
 			if (Z_REFCOUNT_PP(arr) > 1) {
 				zval *new_zv;
 				Z_DELREF_PP(arr);
@@ -161,7 +168,7 @@ int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC){
 /**
  * Updates values on arrays by string or long indexes
  */
-int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update(zval **arr, zval *index, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -176,7 +183,7 @@ int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, in
 		}
 	}
 
-	if (ctor) {
+	if ((flags & PH_CTOR) == PH_CTOR) {
 		zval *new_zv;
 		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
@@ -185,7 +192,7 @@ int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, in
 		zval_copy_ctor(new_zv);
 	}
 
-	if (separate) {
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
 		if (Z_REFCOUNT_PP(arr) > 1) {
 			zval *new_zv;
 			Z_DELREF_PP(arr);
@@ -196,7 +203,7 @@ int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, in
 	    }
 	}
 
-	if (copy) {
+	if ((flags & PH_COPY) == PH_COPY) {
 		Z_ADDREF_PP(value);
 	}
 
@@ -208,7 +215,6 @@ int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, in
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
-		return FAILURE;
 	}
 
 	return FAILURE;
@@ -217,14 +223,14 @@ int phalcon_array_update(zval **arr, zval *index, zval **value, int separate, in
 /**
  * Updates values on arrays by string indexes only
  */
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
 
-	if (ctor) {
+	if ((flags & PH_CTOR) == PH_CTOR) {
 		zval *new_zv;
 		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
@@ -233,7 +239,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 		zval_copy_ctor(new_zv);
 	}
 
-	if (separate) {
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
 		if (Z_REFCOUNT_PP(arr) > 1) {
 			zval *new_zv;
 			Z_DELREF_PP(arr);
@@ -244,7 +250,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 	    }
 	}
 
-	if (copy) {
+	if ((flags & PH_COPY) == PH_COPY) {
 		Z_ADDREF_PP(value);
 	}
 
@@ -254,14 +260,14 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 /**
  * Updates values on arrays by long indexes only
  */
-int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separate, int copy, int ctor TSRMLS_DC){
+int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
 
-	if (ctor) {
+	if ((flags & PH_CTOR) == PH_CTOR) {
 		zval *new_zv;
 		Z_DELREF_PP(value);
 		ALLOC_ZVAL(new_zv);
@@ -270,7 +276,7 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separat
 		zval_copy_ctor(new_zv);
 	}
 
-	if (separate) {
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
 		if (Z_REFCOUNT_PP(arr) > 1) {
 			zval *new_zv;
 			Z_DELREF_PP(arr);
@@ -281,7 +287,7 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int separat
 	    }
 	}
 
-	if (copy) {
+	if ((flags & PH_COPY) == PH_COPY) {
 		Z_ADDREF_PP(value);
 	}
 
@@ -298,7 +304,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 
  	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 		ZVAL_NULL(*return_value);
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
 		return FAILURE;
@@ -315,7 +321,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
 	if (Z_TYPE_P(index) != IS_STRING && Z_TYPE_P(index) != IS_LONG && Z_TYPE_P(index) != IS_DOUBLE) {
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
 		return FAILURE;
@@ -351,7 +357,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		}
 	}
 
-	if (silent == PHALCON_NOISY) {
+	if (silent == PH_NOISY) {
 		if (Z_TYPE_P(index) == IS_LONG) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %ld", Z_LVAL_P(index));
 		} else {
@@ -374,7 +380,7 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		ZVAL_NULL(*return_value);
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		}
 		return FAILURE;
@@ -387,7 +393,7 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 		return SUCCESS;
 	}
 
-	if (silent == PHALCON_NOISY) {
+	if (silent == PH_NOISY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %s", index);
 	}
 
@@ -406,7 +412,7 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int si
 	ZVAL_NULL(*return_value);
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		if (silent == PHALCON_NOISY) {
+		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		}
 		return FAILURE;
@@ -419,7 +425,7 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int si
 		return SUCCESS;
 	}
 
-	if (silent == PHALCON_NOISY) {
+	if (silent == PH_NOISY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Undefined index: %ld", index);
 	}
 
@@ -430,24 +436,24 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int si
 /**
  * Append a zval to a multi-dimensional array with two indexes
  */
-void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int separate TSRMLS_DC){
+void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int flags TSRMLS_DC){
 
 	zval *temp;
 
 	ALLOC_INIT_ZVAL(temp);
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index, PHALCON_SILENT TSRMLS_CC);
+		phalcon_array_fetch(&temp, *arr, index, PH_SILENT_CC);
 	}
 	if (Z_REFCOUNT_P(temp) > 1) {
-		phalcon_array_update(arr, index, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 	if (Z_TYPE_P(temp) != IS_ARRAY) {
 		convert_to_array(temp);
-		phalcon_array_update(arr, index, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index, &temp, PH_COPY TSRMLS_CC);
 	}
 
-	phalcon_array_append(&temp, value, separate TSRMLS_CC);
+	phalcon_array_append(&temp, value, flags TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
 
@@ -456,72 +462,82 @@ void phalcon_array_append_multi_2(zval **arr, zval *index, zval *value, int sepa
 /**
  * Updates multi-dimensional array with two zval indexes
  */
-void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval **value, int separate TSRMLS_DC){
+void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
 	ALLOC_INIT_ZVAL(temp);
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT_CC);
 	}
 
 	if (Z_REFCOUNT_P(temp) > 1) {
-		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index1, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 
 	if (Z_TYPE_P(temp) != IS_ARRAY) {
 		convert_to_array(temp);
-		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index1, &temp, PH_COPY TSRMLS_CC);
 	}
 
-	phalcon_array_update(&temp, index2, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update(&temp, index2, value, flags | PH_COPY TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
 
 }
 
-void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2, zval **value, int separate TSRMLS_DC){
+/**
+ * Updates multi-dimensional arrays with two long indices
+ *
+ * $foo[10][4] = $x
+ */
+void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
 	ALLOC_INIT_ZVAL(temp);
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch_long(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+		phalcon_array_fetch_long(&temp, *arr, index1, PH_SILENT_CC);
 	}
 	if (Z_REFCOUNT_P(temp) > 1) {
-		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+		phalcon_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 	if (Z_TYPE_P(temp) != IS_ARRAY) {
 		convert_to_array(temp);
-		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_long(arr, index1, &temp, PH_COPY TSRMLS_CC);
 	}
 
-	phalcon_array_update_long(&temp, index2, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update_long(&temp, index2, value, flags | PH_COPY TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
 
 }
 
-void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, int index2_length, zval **value, int separate TSRMLS_DC){
+/**
+ * Updates multi-dimensional arrays with one long index and other string
+ *
+ * $foo[10]["lol"] = $x
+ */
+void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, int index2_length, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
 	ALLOC_INIT_ZVAL(temp);
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch_long(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+		phalcon_array_fetch_long(&temp, *arr, index1, PH_SILENT_CC);
 	}
 	if (Z_REFCOUNT_P(temp) > 1) {
-		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+		phalcon_array_update_long(arr, index1, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 	if (Z_TYPE_P(temp) != IS_ARRAY) {
 		convert_to_array(temp);
-		phalcon_array_update_long(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update_long(arr, index1, &temp, PH_COPY TSRMLS_CC);
 	}
 
-	phalcon_array_update_string(&temp, index2, index2_length, value, separate, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+	phalcon_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
 
@@ -530,23 +546,23 @@ void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2
 /**
  *
  */
-void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, int separate TSRMLS_DC){
+void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, int flags TSRMLS_DC){
 
 	zval *temp;
 
 	ALLOC_INIT_ZVAL(temp);
 
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		phalcon_array_fetch(&temp, *arr, index1, PHALCON_SILENT TSRMLS_CC);
+		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT_CC);
 	}
 	if (Z_REFCOUNT_P(temp) > 1) {
-		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index1, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 	if (Z_TYPE_P(temp) != IS_ARRAY) {
 		convert_to_array(temp);
-		phalcon_array_update(arr, index1, &temp, PHALCON_NO_SEPARATE_THX, PHALCON_COPY, PHALCON_NO_CTOR TSRMLS_CC);
+		phalcon_array_update(arr, index1, &temp, PH_COPY TSRMLS_CC);
 	}
-	phalcon_array_append(&temp, value, separate TSRMLS_CC);
+	phalcon_array_append(&temp, value, flags TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
 
