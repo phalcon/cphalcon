@@ -49,9 +49,6 @@
 
 #define SL(str) ZEND_STRL(str)
 
-/** Exceptions */
-#define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
-
 /** SPL dependencies */
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))
 extern ZEND_API zend_class_entry *zend_ce_iterator;
@@ -70,9 +67,6 @@ extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
-/** Exception Functions */
-extern void phalcon_throw_exception(zval *object TSRMLS_DC);
-extern void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 

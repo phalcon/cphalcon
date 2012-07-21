@@ -23,10 +23,12 @@
 
 #include "php.h"
 #include "php_phalcon.h"
+
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/debug.h"
 #include "kernel/memory.h"
+#include "kernel/exception.h"
+
 #include "Zend/zend_API.h"
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_execute.h"
@@ -1040,7 +1042,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 	EG(current_execute_data) = EX(prev_execute_data);
 
 	if (EG(exception)) {
-		zend_throw_exception_internal(NULL TSRMLS_CC);
+		phalcon_throw_exception_internal(NULL TSRMLS_CC);
 	}
 	return SUCCESS;
 }

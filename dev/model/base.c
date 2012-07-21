@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Model\Base

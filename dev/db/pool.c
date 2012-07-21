@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 

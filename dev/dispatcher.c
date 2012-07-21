@@ -37,6 +37,7 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/require.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Dispatcher

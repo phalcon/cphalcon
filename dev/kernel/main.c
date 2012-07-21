@@ -25,9 +25,11 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "ext/standard/php_string.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
 
@@ -88,34 +90,6 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
 	}
 
 	return SUCCESS;
-}
-
-/**
- * Throws an zval object as exception
- */
-void phalcon_throw_exception(zval *object TSRMLS_DC){
-	Z_ADDREF_P(object);
-	zend_throw_exception_object(object TSRMLS_CC);
-	phalcon_memory_restore_stack(TSRMLS_C);
-}
-
-/**
- * Throws a exception with a single string parameter
- */
-void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
-	zval *object, *msg;
-
-	ALLOC_INIT_ZVAL(object);
-	object_init_ex(object, ce);
-
-	PHALCON_ALLOC_ZVAL_MM(msg);
-	ZVAL_STRINGL(msg, message, message_len, 1);
-
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);
-
-	zend_throw_exception_object(object TSRMLS_CC);
-
-	phalcon_memory_restore_stack(TSRMLS_C);
 }
 
 /**

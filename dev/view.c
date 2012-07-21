@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -788,19 +789,18 @@ PHP_METHOD(Phalcon_View, render){
 		PHALCON_CALL_METHOD(cache, this_ptr, "getcache", PH_NO_CHECK);
 	}
 	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC(r0, "ob_get_contents");
+	phalcon_update_property_zval(this_ptr, SL("_content"), r0 TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(silence);
 	ZVAL_BOOL(silence, 1);
 	
 	PHALCON_INIT_VAR(render_level);
 	phalcon_read_property(&render_level, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
 	if (zend_is_true(render_level)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "ob_get_contents");
-		phalcon_update_property_zval(this_ptr, SL("_content"), r0 TSRMLS_CC);
-		
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 1);
-		
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		is_smaller_or_equal_function(r1, t0, render_level TSRMLS_CC);
 		if (zend_is_true(r1)) {
@@ -1031,7 +1031,7 @@ PHP_METHOD(Phalcon_View, finish){
 /**
  * Set the cache object or cache parameters to do the resultset caching
  *
- * @param Phalcon_Cache_Backend|object $cache
+ * @param Phalcon\Cache\Backend|object $cache
  */
 PHP_METHOD(Phalcon_View, setCache){
 
@@ -1054,9 +1054,9 @@ PHP_METHOD(Phalcon_View, setCache){
 }
 
 /**
- * Create a Phalcon_Cache based on the internal cache options
+ * Create a Phalcon\Cache based on the internal cache options
  *
- * @return Phalcon_Cache
+ * @return Phalcon\Cache
  */
 PHP_METHOD(Phalcon_View, _createCache){
 
@@ -1104,7 +1104,7 @@ PHP_METHOD(Phalcon_View, _createCache){
 /**
  * Returns the cache instance used to cache
  *
- * @return Phalcon_Cache
+ * @return Phalcon\Cache\Backend
  */
 PHP_METHOD(Phalcon_View, getCache){
 

@@ -44,9 +44,9 @@
  */
 
 /**
- * Phalcon_View_Engine_Php constructor
+ * Phalcon\View\Engine\Php constructor
  *
- * @param Phalcon_View $view
+ * @param Phalcon\View $view
  * @param array $options
  */
 PHP_METHOD(Phalcon_View_Engine_Php, __construct){

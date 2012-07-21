@@ -34,6 +34,7 @@
 
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon_Db_Column

@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
