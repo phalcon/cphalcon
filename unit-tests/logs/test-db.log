@@ -1,3 +1,3 @@
-[Sun, 08 Jul 12 12:32:37 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 3
-[Sun, 08 Jul 12 12:32:37 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 10
-[Sun, 08 Jul 12 12:32:37 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 1
+[Sat, 21 Jul 12 13:40:40 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 3
+[Sat, 21 Jul 12 13:40:40 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 10
+[Sat, 21 Jul 12 13:40:40 -0500][DEBUG] [Resource id #218] SELECT * FROM personas LIMIT 1

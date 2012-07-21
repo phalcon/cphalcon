@@ -90,7 +90,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testPartials(){
+	/*public function testPartials(){
 
 		$view = new Phalcon\View();
 		$view->setBasePath(__DIR__.'/../');
@@ -112,6 +112,6 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>'.PHP_EOL);
 
-	}
+	}*/
 
 }
