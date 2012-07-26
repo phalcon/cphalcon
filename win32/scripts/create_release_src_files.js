@@ -24,6 +24,7 @@ var copyFileContents = function(inputFilename, output) {
   var input = FSO.OpenTextFile(PHALCON_DEV_SRC_DIR + inputFilename, 1, true);
 
   skipComment(input);
+  output.WriteLine('/* ------ Starting File: ' + inputFilename + ' ------ */');
 
   while(!input.AtEndOfStream) {
     inputLine = input.ReadLine();
@@ -45,6 +46,8 @@ var copyFileContents = function(inputFilename, output) {
       output.WriteLine(inputLine);
     }
   }
+  output.WriteLine('/* ------ Finished File: ' + inputFilename + ' ------ */');
+  output.WriteLine();
   input.Close();
 };
 
@@ -201,10 +204,14 @@ while(!input.AtEndOfStream) {
   
   inputLine = input.ReadLine();
 }
+if (inputLine) {
+  output.WriteLine(inputLine);
+}
 input.Close();
 
 output.WriteLine();
 copyFileContents('\\kernel\\fcall.h', output);
+copyFileContents('\\kernel\\exception.h', output);
 copyFileContents('\\kernel\\require.h', output);
 copyFileContents('\\kernel\\debug.h', output);
 copyFileContents('\\kernel\\assert.h', output);
