@@ -2571,6 +2571,82 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\dev\kernel\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\dev\kernel\exception.h"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\kernel\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\dev\kernel\fcall.c"
 					>
 					<FileConfiguration
@@ -4374,6 +4450,44 @@
 			<Filter
 				Name="transaction"
 				>
+				<File
+					RelativePath="..\dev\transaction\exception.c"
+					>
+					<FileConfiguration
+						Name="Debug TS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release TS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug NTS|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release NTS|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\transaction\"
+						/>
+					</FileConfiguration>
+				</File>
 				<File
 					RelativePath="..\dev\transaction\failed.c"
 					>
