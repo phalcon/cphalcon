@@ -892,6 +892,7 @@ PHP_METHOD(Phalcon_Controller_Front, reset);
 
 PHP_METHOD(Phalcon_Session, start);
 PHP_METHOD(Phalcon_Session, setOptions);
+PHP_METHOD(Phalcon_Session, exists);
 PHP_METHOD(Phalcon_Session, get);
 PHP_METHOD(Phalcon_Session, set);
 PHP_METHOD(Phalcon_Session, has);
@@ -3876,6 +3877,7 @@ PHALCON_INIT_FUNCS(phalcon_session_functions){
 	PHP_ME(Phalcon_Session, get, arginfo_phalcon_session_get, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, set, arginfo_phalcon_session_set, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, has, arginfo_phalcon_session_has, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Session, exists, arginfo_phalcon_session_has, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, remove, arginfo_phalcon_session_remove, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
