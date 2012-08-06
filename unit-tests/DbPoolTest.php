@@ -34,7 +34,7 @@ class DbPoolTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests();
 	}
 
-	public function testPoolPostgresql(){
+	/*public function testPoolPostgresql(){
 
 		DbPool::reset();
 
@@ -44,7 +44,7 @@ class DbPoolTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(DbPool::hasDefaultDescriptor());
 
 		$this->_executeTests();
-	}
+	}*/
 
 	protected function _executeTests(){
 
@@ -52,7 +52,7 @@ class DbPoolTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_object($connection));
 
 		$connection2 = DbPool::getConnection(true);
-		$this->assertNotEquals($connection->getConnectionId(true), $connection2->getConnectionId(true));
+		$this->assertNotEquals($connection->getConnectionId(), $connection2->getConnectionId());
 
 	}
 

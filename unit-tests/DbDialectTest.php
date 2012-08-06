@@ -201,88 +201,90 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 
 	public function testMysqlDialect(){
 
-		$columns = DialectMysql::getColumnList(array('column1', 'column2', 'column3'));
+		$dialect = new DialectMysql();
+
+		$columns = $dialect->getColumnList(array('column1', 'column2', 'column3'));
 		$this->assertEquals($columns, "`column1`, `column2`, `column3`");
 
 		$columns = $this->getColumns();
 
 		//Column definitions
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column1']), 'VARCHAR(10)');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column2']), 'INT(18) UNSIGNED');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column3']), 'DECIMAL(10,2)');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column4']), 'CHAR(100)');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column5']), 'DATE');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column6']), 'DATETIME');
-		$this->assertEquals(DialectMysql::getColumnDefinition($columns['column7']), 'TEXT');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column1']), 'VARCHAR(10)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column2']), 'INT(18) UNSIGNED');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column3']), 'DECIMAL(10,2)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column4']), 'CHAR(100)');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column5']), 'DATE');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column6']), 'DATETIME');
+		$this->assertEquals($dialect->getColumnDefinition($columns['column7']), 'TEXT');
 
 		//Add Columns
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column1']), 'ALTER TABLE `table` ADD `column1` VARCHAR(10)');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column1']), 'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column2']), 'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column2']), 'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column3']), 'ALTER TABLE `table` ADD `column3` DECIMAL(10,2) NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column3']), 'ALTER TABLE `schema`.`table` ADD `column3` DECIMAL(10,2) NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column4']), 'ALTER TABLE `table` ADD `column4` CHAR(100) NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column4']), 'ALTER TABLE `schema`.`table` ADD `column4` CHAR(100) NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column5']), 'ALTER TABLE `table` ADD `column5` DATE NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column5']), 'ALTER TABLE `schema`.`table` ADD `column5` DATE NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column6']), 'ALTER TABLE `table` ADD `column6` DATETIME NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column6']), 'ALTER TABLE `schema`.`table` ADD `column6` DATETIME NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', null, $columns['column7']), 'ALTER TABLE `table` ADD `column7` TEXT NOT NULL');
-		$this->assertEquals(DialectMysql::addColumn('table', 'schema', $columns['column7']), 'ALTER TABLE `schema`.`table` ADD `column7` TEXT NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column1']), 'ALTER TABLE `table` ADD `column1` VARCHAR(10)');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column1']), 'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column2']), 'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column2']), 'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column3']), 'ALTER TABLE `table` ADD `column3` DECIMAL(10,2) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column3']), 'ALTER TABLE `schema`.`table` ADD `column3` DECIMAL(10,2) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column4']), 'ALTER TABLE `table` ADD `column4` CHAR(100) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column4']), 'ALTER TABLE `schema`.`table` ADD `column4` CHAR(100) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column5']), 'ALTER TABLE `table` ADD `column5` DATE NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column5']), 'ALTER TABLE `schema`.`table` ADD `column5` DATE NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column6']), 'ALTER TABLE `table` ADD `column6` DATETIME NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column6']), 'ALTER TABLE `schema`.`table` ADD `column6` DATETIME NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', null, $columns['column7']), 'ALTER TABLE `table` ADD `column7` TEXT NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column7']), 'ALTER TABLE `schema`.`table` ADD `column7` TEXT NOT NULL');
 
 		//Modify Columns
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column1']), 'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column1']), 'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column2']), 'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column2']), 'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column3']), 'ALTER TABLE `table` MODIFY `column3` DECIMAL(10,2) NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column3']), 'ALTER TABLE `schema`.`table` MODIFY `column3` DECIMAL(10,2) NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column4']), 'ALTER TABLE `table` MODIFY `column4` CHAR(100) NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column4']), 'ALTER TABLE `schema`.`table` MODIFY `column4` CHAR(100) NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column5']), 'ALTER TABLE `table` MODIFY `column5` DATE NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column5']), 'ALTER TABLE `schema`.`table` MODIFY `column5` DATE NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column6']), 'ALTER TABLE `table` MODIFY `column6` DATETIME NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column6']), 'ALTER TABLE `schema`.`table` MODIFY `column6` DATETIME NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', null, $columns['column7']), 'ALTER TABLE `table` MODIFY `column7` TEXT NOT NULL');
-		$this->assertEquals(DialectMysql::modifyColumn('table', 'schema', $columns['column7']), 'ALTER TABLE `schema`.`table` MODIFY `column7` TEXT NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column1']), 'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column1']), 'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column2']), 'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column2']), 'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column3']), 'ALTER TABLE `table` MODIFY `column3` DECIMAL(10,2) NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column3']), 'ALTER TABLE `schema`.`table` MODIFY `column3` DECIMAL(10,2) NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column4']), 'ALTER TABLE `table` MODIFY `column4` CHAR(100) NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column4']), 'ALTER TABLE `schema`.`table` MODIFY `column4` CHAR(100) NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column5']), 'ALTER TABLE `table` MODIFY `column5` DATE NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column5']), 'ALTER TABLE `schema`.`table` MODIFY `column5` DATE NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column6']), 'ALTER TABLE `table` MODIFY `column6` DATETIME NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column6']), 'ALTER TABLE `schema`.`table` MODIFY `column6` DATETIME NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column7']), 'ALTER TABLE `table` MODIFY `column7` TEXT NOT NULL');
+		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column7']), 'ALTER TABLE `schema`.`table` MODIFY `column7` TEXT NOT NULL');
 
 		//Drop Columns
-		$this->assertEquals(DialectMysql::dropColumn('table', null, 'column1'), 'ALTER TABLE `table` DROP COLUMN `column1`');
-		$this->assertEquals(DialectMysql::dropColumn('table', 'schema', 'column1'), 'ALTER TABLE `schema`.`table` DROP COLUMN `column1`');
+		$this->assertEquals($dialect->dropColumn('table', null, 'column1'), 'ALTER TABLE `table` DROP COLUMN `column1`');
+		$this->assertEquals($dialect->dropColumn('table', 'schema', 'column1'), 'ALTER TABLE `schema`.`table` DROP COLUMN `column1`');
 
 		$indexes = $this->getIndexes();
 
 		//Add Index
-		$this->assertEquals(DialectMysql::addIndex('table', null, $indexes['index1']), 'ALTER TABLE `table` ADD INDEX `index1` (`column1`)');
-		$this->assertEquals(DialectMysql::addIndex('table', 'schema', $indexes['index1']), 'ALTER TABLE `schema`.`table` ADD INDEX `index1` (`column1`)');
-		$this->assertEquals(DialectMysql::addIndex('table', null, $indexes['index2']), 'ALTER TABLE `table` ADD INDEX `index2` (`column1`, `column2`)');
-		$this->assertEquals(DialectMysql::addIndex('table', 'schema', $indexes['index2']), 'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)');
-		$this->assertEquals(DialectMysql::addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)');
-		$this->assertEquals(DialectMysql::addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD INDEX `PRIMARY` (`column3`)');
+		$this->assertEquals($dialect->addIndex('table', null, $indexes['index1']), 'ALTER TABLE `table` ADD INDEX `index1` (`column1`)');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index1']), 'ALTER TABLE `schema`.`table` ADD INDEX `index1` (`column1`)');
+		$this->assertEquals($dialect->addIndex('table', null, $indexes['index2']), 'ALTER TABLE `table` ADD INDEX `index2` (`column1`, `column2`)');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['index2']), 'ALTER TABLE `schema`.`table` ADD INDEX `index2` (`column1`, `column2`)');
+		$this->assertEquals($dialect->addIndex('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD INDEX `PRIMARY` (`column3`)');
+		$this->assertEquals($dialect->addIndex('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD INDEX `PRIMARY` (`column3`)');
 
 		//Drop Index
-		$this->assertEquals(DialectMysql::dropIndex('table', null, 'index1'), 'ALTER TABLE `table` DROP INDEX `index1`');
-		$this->assertEquals(DialectMysql::dropIndex('table', 'schema', 'index1'), 'ALTER TABLE `schema`.`table` DROP INDEX `index1`');
+		$this->assertEquals($dialect->dropIndex('table', null, 'index1'), 'ALTER TABLE `table` DROP INDEX `index1`');
+		$this->assertEquals($dialect->dropIndex('table', 'schema', 'index1'), 'ALTER TABLE `schema`.`table` DROP INDEX `index1`');
 
 		//Add Primary Key
-		$this->assertEquals(DialectMysql::addPrimaryKey('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD PRIMARY KEY (`column3`)');
-		$this->assertEquals(DialectMysql::addPrimaryKey('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD PRIMARY KEY (`column3`)');
+		$this->assertEquals($dialect->addPrimaryKey('table', null, $indexes['PRIMARY']), 'ALTER TABLE `table` ADD PRIMARY KEY (`column3`)');
+		$this->assertEquals($dialect->addPrimaryKey('table', 'schema', $indexes['PRIMARY']), 'ALTER TABLE `schema`.`table` ADD PRIMARY KEY (`column3`)');
 
 		//Drop Primary Key
-		$this->assertEquals(DialectMysql::dropPrimaryKey('table', null), 'ALTER TABLE `table` DROP PRIMARY KEY');
-		$this->assertEquals(DialectMysql::dropPrimaryKey('table', 'schema'), 'ALTER TABLE `schema`.`table` DROP PRIMARY KEY');
+		$this->assertEquals($dialect->dropPrimaryKey('table', null), 'ALTER TABLE `table` DROP PRIMARY KEY');
+		$this->assertEquals($dialect->dropPrimaryKey('table', 'schema'), 'ALTER TABLE `schema`.`table` DROP PRIMARY KEY');
 
 		$references = $this->getReferences();
 
 		//Add Foreign Key
-		$this->assertEquals(DialectMysql::addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals(DialectMysql::addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
-		$this->assertEquals(DialectMysql::addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
-		$this->assertEquals(DialectMysql::addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk1']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk1']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk1`(`column1`) REFERENCES `ref_table`(`column2`)');
+		$this->assertEquals($dialect->addForeignKey('table', null, $references['fk2']), 'ALTER TABLE `table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
+		$this->assertEquals($dialect->addForeignKey('table', 'schema', $references['fk2']), 'ALTER TABLE `schema`.`table` ADD FOREIGN KEY `fk2`(`column3`, `column4`) REFERENCES `ref_table`(`column5`, `column6`)');
 
-		$this->assertEquals(DialectMysql::dropForeignKey('table', null, 'fk1'), 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`');
-		$this->assertEquals(DialectMysql::dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`');
+		$this->assertEquals($dialect->dropForeignKey('table', null, 'fk1'), 'ALTER TABLE `table` DROP FOREIGN KEY `fk1`');
+		$this->assertEquals($dialect->dropForeignKey('table', 'schema', 'fk1'), 'ALTER TABLE `schema`.`table` DROP FOREIGN KEY `fk1`');
 
 		//Create tables
 		$definition = array(
@@ -291,7 +293,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 				$columns['column2'],
 			)
 		);
-		$this->assertEquals(DialectMysql::createTable('table', null, $definition), 'CREATE TABLE `table` (
+		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
 	`column1` VARCHAR(10),
 	`column2` INT(18) UNSIGNED
 )');
@@ -306,7 +308,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 				$indexes['PRIMARY']
 			)
 		);
-		$this->assertEquals(DialectMysql::createTable('table', null, $definition), 'CREATE TABLE `table` (
+		$this->assertEquals($dialect->createTable('table', null, $definition), 'CREATE TABLE `table` (
 	`column2` INT(18) UNSIGNED,
 	`column3` DECIMAL(10,2) NOT NULL,
 	`column1` VARCHAR(10),

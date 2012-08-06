@@ -30,7 +30,7 @@ class PHPUnit_Framework_TestCase {
 
 	public function assertEquals($a, $b){
 		if($a!=$b){
-			throw new Exception('Not equals '.$a.' != '.$b);
+			throw new Exception('Not equals '.$a.' != '.print_r($b, true));
 		}
 	}
 
@@ -80,8 +80,10 @@ class PHPUnit_Framework_TestCase {
 
 }
 
-if(isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME']=='gutierrezandresfelipe'){
-	chdir('/home/gutierrezandresfelipe/cphalcon');
+if(PHP_OS=='Linux'){
+	if(isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME']=='gutierrezandresfelipe'){
+		chdir('/home/gutierrezandresfelipe/cphalcon');
+	}
 }
 
 if(!extension_loaded('phalcon')){

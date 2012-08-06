@@ -1,11 +1,10 @@
 <?php
 
 $configMysql = new stdClass();
-$configMysql->adapter = 'Mysql';
-$configMysql->host = '127.0.0.1';
+$configMysql->type = 'mysql';
+$configMysql->dsn = 'host=127.0.0.1;dbname=phalcon_test';
 $configMysql->username = 'root';
-$configMysql->password = '';
-$configMysql->name = 'phalcon_test';
+$configMysql->password = 'hea101';
 
 $configPostgresql = new stdClass();
 $configPostgresql->adapter = 'Postgresql';

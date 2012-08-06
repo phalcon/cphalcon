@@ -24,19 +24,14 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('Mysql', $configMysql);
-		$this->assertTrue(is_object($connection));
+		$connection = Phalcon\Db::factory('mysql', $configMysql);
+		$this->assertTrue(is_object($connection));		
 
-		$this->assertEquals($connection->getDatabaseName(), $configMysql->name);
-		$this->assertEquals($connection->getHostname(), $configMysql->host);
-		$this->assertEquals($connection->getUsername(), $configMysql->username);
-		$this->assertEquals($connection->getDefaultSchema(), $configMysql->name);
-
-		$this->_executeTests($connection, 'Phalcon\Db\Result\Mysql');
+		$this->_executeTests($connection);
 
 	}
 
-	public function testDbPostgresql(){
+	/*public function testDbPostgresql(){
 
 		require 'unit-tests/config.db.php';
 
@@ -50,13 +45,13 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		$this->_executeTests($connection, 'Phalcon\Db\Result\Postgresql');
 
-	}
+	}*/
 
-	protected function _executeTests($connection, $resultType){
+	protected function _executeTests($connection){
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
-		$this->assertEquals($resultType, get_class($result));
+		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
 		for($i=0;$i<3;$i++){
 			$row = $result->fetchArray();
@@ -77,17 +72,17 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($number, 5);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon\Db::DB_NUM);
+		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
 		$row = $result->fetchArray();
 		$this->assertEquals(count($row), 11);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon\Db::DB_ASSOC);
+		$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
 		$row = $result->fetchArray();
 		$this->assertEquals(count($row), 11);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
-		$result->setFetchMode(Phalcon\Db::DB_BOTH);
+		$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
 		$result->dataSeek(4);
 		$row = $result->fetchArray();
 		$row = $result->fetchArray();
@@ -96,33 +91,39 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$result = $connection->query("DELETE FROM prueba");
 		$this->assertTrue($result);
 
-		$success = $connection->insert('prueba', array('0', "'LOL 1'", "'A'"));
+		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES (?, ?, ?)', array('0', "LOL 1", "A"));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array("'LOL 2'", "'E'"), array('nombre', 'estado'));
+		$success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', array("LOL 11", "R"));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'), true);
+		$success = $connection->execute('DELETE FROM prueba WHERE estado = ?', array("R"));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "'A'"), array('nombre', 'estado'));
+		$success = $connection->insert('prueba', array('0', "LOL 1", "A"));
+		$this->assertTrue($success);
+
+		$success = $connection->insert('prueba', array("LOL 2", "E"), array('nombre', 'estado'));
+		$this->assertTrue($success);
+
+		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'));
+		$this->assertTrue($success);
+
+		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "A"), array('nombre', 'estado'));
 		$this->assertTrue($success);
 
 		for($i=0;$i<50;$i++){
-			$success = $connection->insert('prueba', array("LOL ".$i, "F"), array('nombre', 'estado'), true);
+			$success = $connection->insert('prueba', array("LOL ".$i, "F"), array('nombre', 'estado'));
 			$this->assertTrue($success);
 		}
 
-		$success = $connection->update('prueba', array("nombre", "estado"), array("'LOL 1000'", "'X'"), "estado='E'");
+		$success = $connection->update('prueba', array("nombre", "estado"), array("LOL 1000", "X"), "estado='E'");
 		$this->assertTrue($success);
 
-		$success = $connection->update('prueba', array("nombre"), array("'LOL 2500'"), "estado='X'");
+		$success = $connection->update('prueba', array("nombre"), array("LOL 3000"), "estado='X'");
 		$this->assertTrue($success);
 
-		$success = $connection->update('prueba', array("nombre"), array("LOL 3000"), "estado='X'", true);
-		$this->assertTrue($success);
-
-		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'", false);
+		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'");
 		$this->assertTrue($success);
 
 		$connection->delete("prueba", "estado='X'");
@@ -130,18 +131,18 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		$connection->delete("prueba");
 		$this->assertTrue($success);
-		$this->assertEquals($connection->affectedRows(), 53);
+		$this->assertEquals($connection->affectedRows(), 54);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
 		$this->assertEquals(count($row), 22);
 
-		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon\Db::DB_NUM);
+		$row = $connection->fetchOne("SELECT * FROM personas", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($row), 11);
 
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10");
 		$this->assertEquals(count($rows), 10);
 
-		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::DB_NUM);
+		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
 

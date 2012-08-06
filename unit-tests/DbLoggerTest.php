@@ -24,13 +24,13 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('Mysql', $configMysql);
+		$connection = Phalcon\Db::factory('mysql', $configMysql);
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
 	}
 
-	public function testDbLoggerPostgresql(){
+	/*public function testDbLoggerPostgresql(){
 
 		require 'unit-tests/config.db.php';
 
@@ -38,7 +38,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
-	}
+	}*/
 
 	protected function _executeTests($connection){
 
