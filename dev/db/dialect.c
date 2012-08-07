@@ -32,64 +32,135 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
+PHP_METHOD(Phalcon_Db_Dialect, limit){
 
-/**
- * Phalcon\Db\RawValue
- *
- * This class allows to insert/update raw data without quoting or formating.
- *
- *
- */
 
-/**
- * Phalcon_Db_RawValue constructor
- *
- * @param string $value
- */
-PHP_METHOD(Phalcon_Db_RawValue, __construct){
-
-	zval *value = NULL;
-
-	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 
-/**
- * Returns internal raw value without quoting or formating
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_RawValue, getValue){
+PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
-	zval *t0 = NULL;
 
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_value"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
 }
 
-/**
- * Magic method __toString returns raw value without quoting or formating
- */
-PHP_METHOD(Phalcon_Db_RawValue, __toString){
+PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 
-	zval *t0 = NULL;
 
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_value"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, getColumnDefinition){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, addColumn){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, modifyColumn){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, dropColumn){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, addIndex){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, dropIndex){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, addPrimaryKey){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, dropPrimaryKey){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, addForeignKey){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, dropForeignKey){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, createTable){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, dropTable){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, tableExists){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, describeTable){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, listTables){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, describeIndexes){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, describeReferences){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db_Dialect, tableOptions){
+
+
+	
 }
 

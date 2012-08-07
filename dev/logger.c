@@ -162,7 +162,6 @@ PHP_METHOD(Phalcon_Logger, debug){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("DEBUG") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);
 	
@@ -189,7 +188,6 @@ PHP_METHOD(Phalcon_Logger, error){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("ERROR") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);
@@ -218,7 +216,6 @@ PHP_METHOD(Phalcon_Logger, info){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("INFO") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);
 	
@@ -245,7 +242,6 @@ PHP_METHOD(Phalcon_Logger, notice){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("NOTICE") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);
@@ -274,7 +270,6 @@ PHP_METHOD(Phalcon_Logger, warning){
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("WARNING") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);
 	
@@ -301,7 +296,6 @@ PHP_METHOD(Phalcon_Logger, alert){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(t1);
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_logger_ce, SL("ALERT") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(t0, "log", message, t1, PH_NO_CHECK);

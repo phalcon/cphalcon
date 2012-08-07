@@ -32,64 +32,26 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
+PHP_METHOD(Phalcon_Db_Connection_Pdo, serialize){
 
-/**
- * Phalcon\Db\RawValue
- *
- * This class allows to insert/update raw data without quoting or formating.
- *
- *
- */
 
-/**
- * Phalcon_Db_RawValue constructor
- *
- * @param string $value
- */
-PHP_METHOD(Phalcon_Db_RawValue, __construct){
+	PHALCON_MM_GROW();
+	PHALCON_MM_RESTORE();
+	RETURN_STRING("", 1);
+}
 
-	zval *value = NULL;
+PHP_METHOD(Phalcon_Db_Connection_Pdo, unserialize){
+
+	zval *data = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
-	
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns internal raw value without quoting or formating
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Db_RawValue, getValue){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_value"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
-}
-
-/**
- * Magic method __toString returns raw value without quoting or formating
- */
-PHP_METHOD(Phalcon_Db_RawValue, __toString){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_value"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
+	RETURN_STRING("", 1);
 }
 

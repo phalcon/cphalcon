@@ -21,10 +21,12 @@
 class ViewEnginesTest extends PHPUnit_Framework_TestCase {
 
 	protected function _loadMustache(){
-		if(!class_exists('Mustache')){
-			$path = 'unit-tests/engines/mustache.php/Mustache.php';
+		$this->markTestSkipped('Mustache engine could not be found');
+		if(!class_exists('Mustache_Autoloader')){
+			$path = 'unit-tests/engines/mustache.php/src/Mustache/Autoloader.php';
 			if(file_exists($path)){
 				require $path;
+				Mustache_Autoloader::register();
 			} else {
 				$this->markTestSkipped('Mustache engine could not be found');
 				return false;

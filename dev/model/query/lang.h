@@ -1,4 +1,3 @@
-<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -18,45 +17,22 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Db\Pool as DbPool;
+typedef struct _phql_parser_token {
+    int opcode;	
+	char *token;
+	int token_len;
+	int free_flag;
+} phql_parser_token;
 
-class DbPoolTest extends PHPUnit_Framework_TestCase {
+typedef struct _phql_parser_status {
+    int status;
+	zval *ret;  
+	phql_scanner_state *scanner_state;
+} phql_parser_status;
 
-	public function testPoolMysql(){
+#define PHQL_PARSING_OK 1
+#define PHQL_PARSING_FAILED 1
 
-		DbPool::reset();
-
-		require 'unit-tests/config.db.php';
-
-		DbPool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(DbPool::hasDefaultDescriptor());
-
-		$this->_executeTests();
-	}
-
-	public function testPoolPostgresql(){
-
-		DbPool::reset();
-
-		require 'unit-tests/config.db.php';
-
-		DbPool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(DbPool::hasDefaultDescriptor());
-
-		$this->_executeTests();
-	}
-
-	protected function _executeTests(){
-
-		$connection = DbPool::getConnection();
-		$this->assertTrue(is_object($connection));
-
-		$connection2 = DbPool::getConnection(true);
-		$this->assertNotEquals($connection->getConnectionId(), $connection2->getConnectionId());
-
-	}
-
-}
-
-
-
+extern int phql_parse_sql(zval *result, zval *sql);
+extern int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg);
+    

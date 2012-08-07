@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Model_Query, __construct){
 /**
  * Set the Phalcon_Model_Manager instance to use in a query
  *
- * @param Phalcon_Model_Manager $manager
+ * @param Phalcon\Model\Manager $manager
  */
 PHP_METHOD(Phalcon_Model_Query, setManager){
 

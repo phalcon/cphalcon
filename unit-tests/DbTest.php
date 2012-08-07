@@ -25,27 +25,26 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		require 'unit-tests/config.db.php';
 
 		$connection = Phalcon\Db::factory('mysql', $configMysql);
-		$this->assertTrue(is_object($connection));		
+
+		$this->assertTrue(is_object($connection));
+		$this->assertEquals(get_class($connection), 'Phalcon\Db\Adapter\Pdo\Mysql');
 
 		$this->_executeTests($connection);
 
 	}
 
-	/*public function testDbPostgresql(){
+	public function testDbPostgresql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
+		$connection = Phalcon\Db::factory('postgresql', $configPostgresql);
+
 		$this->assertTrue(is_object($connection));
+		$this->assertEquals(get_class($connection), 'Phalcon\Db\Adapter\Pdo\Postgresql');
 
-		$this->assertEquals($connection->getDatabaseName(), $configPostgresql->name);
-		$this->assertEquals($connection->getHostname(), $configPostgresql->host);
-		$this->assertEquals($connection->getUsername(), $configPostgresql->username);
-		$this->assertEquals($connection->getDefaultSchema(), $configPostgresql->name);
+		$this->_executeTests($connection);
 
-		$this->_executeTests($connection, 'Phalcon\Db\Result\Postgresql');
-
-	}*/
+	}
 
 	protected function _executeTests($connection){
 
@@ -88,7 +87,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
 
-		$result = $connection->query("DELETE FROM prueba");
+		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);
 
 		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES (?, ?, ?)', array('0', "LOL 1", "A"));
@@ -131,7 +130,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		$connection->delete("prueba");
 		$this->assertTrue($success);
-		$this->assertEquals($connection->affectedRows(), 54);
+		$this->assertEquals($connection->affectedRows(), 53);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
 		$this->assertEquals(count($row), 22);

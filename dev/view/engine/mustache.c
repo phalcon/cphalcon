@@ -77,10 +77,10 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 		PHALCON_INIT_VAR(mustache);
 		phalcon_array_fetch_string(&mustache, options, SL("mustache"), PH_NOISY_CC);
 	} else {
-		ce0 = zend_fetch_class(SL("Mustache"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		ce0 = zend_fetch_class(SL("Mustache_Engine"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		PHALCON_INIT_VAR(mustache);
 		object_init_ex(mustache, ce0);
-		PHALCON_CALL_METHOD_NORETURN(mustache, "__construct", PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mustache, "__construct", options, PH_CHECK);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_mustache"), mustache TSRMLS_CC);
@@ -97,9 +97,9 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
  */
 PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 
-	zval *path = NULL, *params = NULL;
+	zval *path = NULL, *params = NULL, *template = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -111,17 +111,17 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, render){
 	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_mustache"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(template);
+	PHALCON_CALL_METHOD_PARAMS_1(template, t0, "loadtemplate", path, PH_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_mustache"), PH_NOISY_CC);
+	phalcon_read_property(&t1, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "file_get_contents", path);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD_PARAMS_2(r1, t1, "render", r0, this_ptr, PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, template, "render", this_ptr, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t1, "setcontent", r0, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -95,7 +95,11 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($people->estado, $persona->estado);
 
 		$people = People::findFirst("estado='I'");
+		$this->assertTrue(is_object($people));
+
 		$persona = Personas::findFirst("estado='I'");
+		$this->assertTrue(is_object($persona));
+
 		$this->assertEquals($people->nombres, $persona->nombres);
 		$this->assertEquals($people->estado, $persona->estado);
 

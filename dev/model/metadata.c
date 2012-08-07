@@ -211,11 +211,11 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				PHALCON_INIT_VAR(meta_data);
 				ZVAL_ZVAL(meta_data, *hd, 1, 0);
 				PHALCON_INIT_VAR(field_name);
-				phalcon_array_fetch_string(&field_name, meta_data, SL("Field"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&field_name, meta_data, SL("field"), PH_NOISY_CC);
 				phalcon_array_append(&attributes, field_name, PH_SEPARATE TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(r2);
-				phalcon_array_fetch_string(&r2, meta_data, SL("Key"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&r2, meta_data, SL("key"), PH_NOISY_CC);
 				if (PHALCON_COMPARE_STRING(r2, "PRI")) {
 					phalcon_array_append(&primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
 				} else {
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				}
 				
 				PHALCON_INIT_VAR(type);
-				phalcon_array_fetch_string(&type, meta_data, SL("Type"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&type, meta_data, SL("type"), PH_NOISY_CC);
 				phalcon_array_update(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(c0);
@@ -264,13 +264,13 @@ PHP_METHOD(Phalcon_Model_MetaData, _initializeMetaData){
 				}
 				
 				PHALCON_INIT_VAR(r7);
-				phalcon_array_fetch_string(&r7, meta_data, SL("Null"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&r7, meta_data, SL("null"), PH_NOISY_CC);
 				if (PHALCON_COMPARE_STRING(r7, "NO")) {
 					phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
 				}
 				
 				PHALCON_INIT_VAR(r8);
-				phalcon_array_fetch_string(&r8, meta_data, SL("Extra"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&r8, meta_data, SL("extra"), PH_NOISY_CC);
 				if (PHALCON_COMPARE_STRING(r8, "auto_increment")) {
 					PHALCON_CPY_WRT(identity_field, field_name);
 				}

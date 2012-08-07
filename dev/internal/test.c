@@ -709,6 +709,7 @@ PHP_METHOD(Phalcon_Internal_Test, o20){
 PHP_METHOD(Phalcon_Internal_Test, o21){
 
 	zval *a = NULL, *b = NULL, *c = NULL, *d = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a);
@@ -723,8 +724,9 @@ PHP_METHOD(Phalcon_Internal_Test, o21){
 	PHALCON_INIT_VAR(d);
 	PHALCON_CONCAT_SV(d, "leaks, ", b);
 	
-	PHALCON_INIT_VAR(b);
-	PHALCON_CONCAT_VVV(b, c, d, b);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CONCAT_VVV(r0, c, d, b);
+	PHALCON_CPY_WRT(b, r0);
 	
 	RETURN_CTOR(b);
 }
@@ -4155,7 +4157,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc1){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C1") TSRMLS_CC);
 	
 	RETURN_CCTOR(t0);
@@ -4166,7 +4167,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc2){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C2") TSRMLS_CC);
 	
@@ -4179,7 +4179,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc3){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C3") TSRMLS_CC);
 	
 	RETURN_CCTOR(t0);
@@ -4190,7 +4189,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc4){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C4") TSRMLS_CC);
 	
@@ -4203,7 +4201,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc5){
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C5") TSRMLS_CC);
 	
 	RETURN_CCTOR(t0);
@@ -4214,7 +4211,6 @@ PHP_METHOD(Phalcon_Internal_Test, cc6){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_get_class_constant(t0, phalcon_internal_test_ce, SL("C6") TSRMLS_CC);
 	

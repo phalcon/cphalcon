@@ -30,7 +30,7 @@ class PHPUnit_Framework_TestCase {
 
 	public function assertEquals($a, $b){
 		if($a!=$b){
-			throw new Exception('Not equals '.$a.' != '.print_r($b, true));
+			throw new Exception('Not equals '.print_r($a, true).' != '.print_r($b, true));
 		}
 	}
 

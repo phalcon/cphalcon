@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Db as Db; 
+use Phalcon\Db as Db;
 
 class DbBindTest extends PHPUnit_Framework_TestCase {
 
@@ -75,6 +75,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function _executeTestsMysql($connection){
+
 		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
 

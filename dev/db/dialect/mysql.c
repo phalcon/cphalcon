@@ -82,6 +82,54 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, limit){
 }
 
 /**
+ * Returns a SQL modified with a FOR UPDATE clause
+ *
+ * @param string $sqlQuery
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, forUpdate){
+
+	zval *sql_query = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CONCAT_VS(r0, sql_query, " FOR UPDATE");
+	
+	RETURN_CTOR(r0);
+}
+
+/**
+ * Returns a SQL modified with a LOCK IN SHARE MODE clause
+ *
+ * @param string $sqlQuery
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock){
+
+	zval *sql_query = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CONCAT_VS(r0, sql_query, " LOCK IN SHARE MODE");
+	
+	RETURN_CTOR(r0);
+}
+
+/**
  * Gets a list of columns
  *
  * @param array $columnList
@@ -155,7 +203,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon_Db_Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon\\Db\\Column");
 		return;
 	}
 	
@@ -290,7 +338,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon_Db_Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
 		return;
 	}
 	if (zend_is_true(schema_name)) {
@@ -361,7 +409,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon_Db_Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column parameter must be an instance of Phalcon\\Db\\Column");
 		return;
 	}
 	if (zend_is_true(schema_name)) {

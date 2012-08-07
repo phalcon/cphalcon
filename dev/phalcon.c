@@ -34,6 +34,7 @@
 
 zend_class_entry *phalcon_session_namespace_ce;
 zend_class_entry *phalcon_loader_ce;
+zend_class_entry *phalcon_di_ce;
 zend_class_entry *phalcon_text_ce;
 zend_class_entry *phalcon_test_ce;
 zend_class_entry *phalcon_router_rewrite_ce;
@@ -86,14 +87,16 @@ zend_class_entry *phalcon_db_pool_ce;
 zend_class_entry *phalcon_db_profiler_ce;
 zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_db_reference_ce;
-zend_class_entry *phalcon_db_adapter_mysql_ce;
-zend_class_entry *phalcon_db_adapter_postgresql_ce;
+zend_class_entry *phalcon_db_dialect_ce;
+zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
+zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
+zend_class_entry *phalcon_db_adapter_pdo_ce;
 zend_class_entry *phalcon_db_profiler_item_ce;
 zend_class_entry *phalcon_db_rawvalue_ce;
 zend_class_entry *phalcon_db_column_ce;
 zend_class_entry *phalcon_db_index_ce;
-zend_class_entry *phalcon_db_result_mysql_ce;
-zend_class_entry *phalcon_db_result_postgresql_ce;
+zend_class_entry *phalcon_db_result_pdo_ce;
+zend_class_entry *phalcon_db_connection_pdo_ce;
 zend_class_entry *phalcon_db_dialect_mysql_ce;
 zend_class_entry *phalcon_db_dialect_postgresql_ce;
 zend_class_entry *phalcon_model_validator_uniqueness_ce;
@@ -103,6 +106,7 @@ zend_class_entry *phalcon_model_validator_inclusionin_ce;
 zend_class_entry *phalcon_model_validator_numericality_ce;
 zend_class_entry *phalcon_model_validator_email_ce;
 zend_class_entry *phalcon_model_query_ce;
+zend_class_entry *phalcon_model_query_lang_ce;
 zend_class_entry *phalcon_model_exception_ce;
 zend_class_entry *phalcon_model_base_ce;
 zend_class_entry *phalcon_model_validator_ce;
@@ -143,6 +147,10 @@ PHP_MINIT_FUNCTION(phalcon){
 		fprintf(stderr, "Phalcon Error: Interface ArrayAccess was not found");
 		return FAILURE;
 	}
+	if(!zend_ce_serializable){
+		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
+		return FAILURE;
+	}
 	if(!zend_ce_iterator){
 		fprintf(stderr, "Phalcon Error: Interface Iterator was not found");
 		return FAILURE;
@@ -153,10 +161,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	}
 	if(!spl_ce_Countable){
 		fprintf(stderr, "Phalcon Error: Interface Countable was not found");
-		return FAILURE;
-	}
-	if(!zend_ce_serializable){
-		fprintf(stderr, "Phalcon Error: Interface Serializable was not found");
 		return FAILURE;
 	}
 
@@ -170,6 +174,9 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS(Phalcon, Loader, loader, phalcon_loader_method_entry, 0);
 	zend_declare_property_null(phalcon_loader_ce, SL("_namespaces"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_loader_ce, SL("_directories"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS(Phalcon, DI, di, phalcon_di_method_entry, 0);
+	zend_declare_property_null(phalcon_di_ce, SL("_definitions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Text, text, phalcon_text_method_entry, 0);
 
@@ -191,14 +198,13 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Db, db, phalcon_db_method_entry, ZEND_ACC_ABSTRACT);
 	zend_declare_property_null(phalcon_db_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_db_ce, SL("_idConnection"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_db_ce, SL("_autoCommit"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_db_ce, SL("_underTransaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_ce, SL("_logger"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_db_ce, SL("_profiler"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_db_ce, SL("DB_ASSOC"), 1 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_db_ce, SL("DB_BOTH"), 2 TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_db_ce, SL("DB_NUM"), 3 TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_connectionId"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3 TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Logger, logger, phalcon_logger_method_entry, 0);
 	zend_declare_property_null(phalcon_logger_ce, SL("_adapter"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -352,13 +358,15 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PRIVATE TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Dialect, db_dialect, phalcon_db_dialect_method_entry, 0);
+
 	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Profiler, Item, db_profiler_item, phalcon_db_profiler_item_method_entry, 0);
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_initialTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_finalTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, RawValue, db_rawvalue, phalcon_db_rawvalue_method_entry, 0);
-	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Column, db_column, phalcon_db_column_method_entry, 0);
 	zend_declare_property_null(phalcon_db_column_ce, SL("_columnName"), ZEND_ACC_PRIVATE TSRMLS_CC);
@@ -382,13 +390,9 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Index, db_index, phalcon_db_index_method_entry, 0);
 	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Result, Mysql, db_result_mysql, phalcon_db_result_mysql_method_entry, 0);
-	zend_declare_property_long(phalcon_db_result_mysql_ce, SL("_fetchMode"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_db_result_mysql_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Result, Postgresql, db_result_postgresql, phalcon_db_result_postgresql_method_entry, 0);
-	zend_declare_property_long(phalcon_db_result_postgresql_ce, SL("_fetchMode"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_db_result_postgresql_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, db_result_pdo, phalcon_db_result_pdo_method_entry, 0);
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Dialect, Mysql, db_dialect_mysql, phalcon_db_dialect_mysql_method_entry, ZEND_ACC_ABSTRACT);
 
@@ -401,6 +405,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_model_query_ce, SL("_parameters"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_query_ce, SL("_conditions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_model_query_ce, SL("_limit"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Model\\Query, Lang, model_query_lang, phalcon_model_query_lang_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Model, Base, model_base, phalcon_model_base_method_entry, ZEND_ACC_ABSTRACT);
 	zend_declare_property_string(phalcon_model_base_ce, SL("_uniqueKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -566,6 +572,11 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon, Exception, exception, "exception", NULL, 0);
 
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, db_adapter_pdo, "phalcon\\db", phalcon_db_adapter_pdo_method_entry, 0);
+	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_dialect"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config, Exception, config_exception, "phalcon\\exception", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, "phalcon\\config", phalcon_config_adapter_ini_method_entry, 0);
@@ -631,10 +642,14 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Exception, db_exception, "phalcon\\exception", NULL, 0);
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Mysql, db_adapter_mysql, "phalcon\\db", phalcon_db_adapter_mysql_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Mysql, db_adapter_pdo_mysql, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_mysql_method_entry, 0);
+	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_type"), "mysql", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Postgresql, db_adapter_postgresql, "phalcon\\db", phalcon_db_adapter_postgresql_method_entry, 0);
-	zend_declare_property_null(phalcon_db_adapter_postgresql_ce, SL("_lastResultset"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Postgresql, db_adapter_pdo_postgresql, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_postgresql_method_entry, 0);
+	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_type"), "pgsql", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Connection, Pdo, db_connection_pdo, "pdo", phalcon_db_connection_pdo_method_entry, 0);
+	zend_class_implements(phalcon_db_connection_pdo_ce TSRMLS_CC, 1, zend_ce_serializable);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Model\\Validator, Uniqueness, model_validator_uniqueness, "phalcon\\model\\validator", phalcon_model_validator_uniqueness_method_entry, 0);
 

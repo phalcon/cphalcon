@@ -79,7 +79,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 			),
 			3 => array(
 				'field' => 'telefono',
-				'Type' => 'varchar(20)',
+				'type' => 'varchar(20)',
 				'null' => 'YES',
 				'key' => '',
 				'default' => NULL,
@@ -141,14 +141,9 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 				'default' => NULL,
 				'extra' => '',
 			)
-		);	
+		);
 
 		$describe = $connection->describeTable('personas');
-		$this->assertEquals($describe, $expectedDescribe);
-		return;
-
-		//print_r($describe);
-
 		$this->assertEquals($describe, $expectedDescribe);
 
 		$describe = $connection->describeTable('personas', 'phalcon_test');
@@ -156,10 +151,10 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase {
 
 		//Table Options
 		$expectedOptions = array (
-  			'TABLE_TYPE' => 'BASE TABLE',
-  			'AUTO_INCREMENT' => NULL,
-			'ENGINE' => 'InnoDB',
-			'TABLE_COLLATION' => 'utf8_unicode_ci',
+  			'table_type' => 'BASE TABLE',
+  			'auto_increment' => NULL,
+			'engine' => 'InnoDB',
+			'table_collation' => 'utf8_unicode_ci',
 		);
 
 		$options = $connection->tableOptions('personas');

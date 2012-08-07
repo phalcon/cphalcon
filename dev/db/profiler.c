@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds){
 /**
  * Returns all the processed profiles
  *
- * @return Phalcon_Db_Profiler_Item[]
+ * @return Phalcon\Db\Profiler\Item[]
  */
 PHP_METHOD(Phalcon_Db_Profiler, getProfiles){
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset){
 /**
  * Returns the last profile executed in the profiler
  *
- * @return Phalcon_Db_Profiler_Item
+ * @return Phalcon\Db\Profiler\Item
  */
 PHP_METHOD(Phalcon_Db_Profiler, getLastProfile){
 

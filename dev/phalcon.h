@@ -19,6 +19,7 @@
 
 extern zend_class_entry *phalcon_session_namespace_ce;
 extern zend_class_entry *phalcon_loader_ce;
+extern zend_class_entry *phalcon_di_ce;
 extern zend_class_entry *phalcon_text_ce;
 extern zend_class_entry *phalcon_test_ce;
 extern zend_class_entry *phalcon_router_rewrite_ce;
@@ -71,14 +72,16 @@ extern zend_class_entry *phalcon_db_pool_ce;
 extern zend_class_entry *phalcon_db_profiler_ce;
 extern zend_class_entry *phalcon_db_exception_ce;
 extern zend_class_entry *phalcon_db_reference_ce;
-extern zend_class_entry *phalcon_db_adapter_mysql_ce;
-extern zend_class_entry *phalcon_db_adapter_postgresql_ce;
+extern zend_class_entry *phalcon_db_dialect_ce;
+extern zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
+extern zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
+extern zend_class_entry *phalcon_db_adapter_pdo_ce;
 extern zend_class_entry *phalcon_db_profiler_item_ce;
 extern zend_class_entry *phalcon_db_rawvalue_ce;
 extern zend_class_entry *phalcon_db_column_ce;
 extern zend_class_entry *phalcon_db_index_ce;
-extern zend_class_entry *phalcon_db_result_mysql_ce;
-extern zend_class_entry *phalcon_db_result_postgresql_ce;
+extern zend_class_entry *phalcon_db_result_pdo_ce;
+extern zend_class_entry *phalcon_db_connection_pdo_ce;
 extern zend_class_entry *phalcon_db_dialect_mysql_ce;
 extern zend_class_entry *phalcon_db_dialect_postgresql_ce;
 extern zend_class_entry *phalcon_model_validator_uniqueness_ce;
@@ -88,6 +91,7 @@ extern zend_class_entry *phalcon_model_validator_inclusionin_ce;
 extern zend_class_entry *phalcon_model_validator_numericality_ce;
 extern zend_class_entry *phalcon_model_validator_email_ce;
 extern zend_class_entry *phalcon_model_query_ce;
+extern zend_class_entry *phalcon_model_query_lang_ce;
 extern zend_class_entry *phalcon_model_exception_ce;
 extern zend_class_entry *phalcon_model_base_ce;
 extern zend_class_entry *phalcon_model_validator_ce;
@@ -130,6 +134,10 @@ PHP_METHOD(Phalcon_Loader, registerClasses);
 PHP_METHOD(Phalcon_Loader, register);
 PHP_METHOD(Phalcon_Loader, autoLoad);
 
+PHP_METHOD(Phalcon_DI, __construct);
+PHP_METHOD(Phalcon_DI, set);
+PHP_METHOD(Phalcon_DI, get);
+
 PHP_METHOD(Phalcon_Text, camelize);
 PHP_METHOD(Phalcon_Text, uncamelize);
 
@@ -171,15 +179,12 @@ PHP_METHOD(Phalcon_Db, delete);
 PHP_METHOD(Phalcon_Db, begin);
 PHP_METHOD(Phalcon_Db, rollback);
 PHP_METHOD(Phalcon_Db, commit);
-PHP_METHOD(Phalcon_Db, setUnderTransaction);
 PHP_METHOD(Phalcon_Db, isUnderTransaction);
-PHP_METHOD(Phalcon_Db, getHaveAutoCommit);
-PHP_METHOD(Phalcon_Db, getDatabaseName);
-PHP_METHOD(Phalcon_Db, getDefaultSchema);
-PHP_METHOD(Phalcon_Db, getUsername);
-PHP_METHOD(Phalcon_Db, getHostName);
+PHP_METHOD(Phalcon_Db, getDescriptor);
+PHP_METHOD(Phalcon_Db, getConnectionId);
 PHP_METHOD(Phalcon_Db, _beforeQuery);
 PHP_METHOD(Phalcon_Db, _afterQuery);
+PHP_METHOD(Phalcon_Db, getInternalHandler);
 PHP_METHOD(Phalcon_Db, factory);
 
 PHP_METHOD(Phalcon_Logger, __construct);
@@ -653,77 +658,66 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable);
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns);
 PHP_METHOD(Phalcon_Db_Reference, __set_state);
 
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, __construct);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, query);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, affectedRows);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, close);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, getConnectionId);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, escapeString);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, bindParams);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, error);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, noError);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, lastInsertId);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, getColumnList);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, limit);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, tableExists);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, viewExists);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, forUpdate);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, sharedLock);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, createTable);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, dropTable);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, addColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, modifyColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, dropColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, addIndex);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, dropIndex);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, addForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeTable);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, listTables);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, getDateUsingFormat);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeIndexes);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, describeReferences);
-PHP_METHOD(Phalcon_Db_Adapter_Mysql, tableOptions);
+PHP_METHOD(Phalcon_Db_Dialect, limit);
+PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
+PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
+PHP_METHOD(Phalcon_Db_Dialect, getColumnList);
+PHP_METHOD(Phalcon_Db_Dialect, getColumnDefinition);
+PHP_METHOD(Phalcon_Db_Dialect, addColumn);
+PHP_METHOD(Phalcon_Db_Dialect, modifyColumn);
+PHP_METHOD(Phalcon_Db_Dialect, dropColumn);
+PHP_METHOD(Phalcon_Db_Dialect, addIndex);
+PHP_METHOD(Phalcon_Db_Dialect, dropIndex);
+PHP_METHOD(Phalcon_Db_Dialect, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect, dropPrimaryKey);
+PHP_METHOD(Phalcon_Db_Dialect, addForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect, dropForeignKey);
+PHP_METHOD(Phalcon_Db_Dialect, createTable);
+PHP_METHOD(Phalcon_Db_Dialect, dropTable);
+PHP_METHOD(Phalcon_Db_Dialect, tableExists);
+PHP_METHOD(Phalcon_Db_Dialect, describeTable);
+PHP_METHOD(Phalcon_Db_Dialect, listTables);
+PHP_METHOD(Phalcon_Db_Dialect, describeIndexes);
+PHP_METHOD(Phalcon_Db_Dialect, describeReferences);
+PHP_METHOD(Phalcon_Db_Dialect, tableOptions);
 
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, __construct);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, connect);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, query);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, affectedRows);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, close);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, getConnectionId);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, escapeString);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, bindParams);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, error);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, noError);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, lastInsertId);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, getColumnList);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, limit);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, tableExists);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, viewExists);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, forUpdate);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, sharedLock);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, createTable);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, dropTable);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, addColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, modifyColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, dropColumn);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, addIndex);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, dropIndex);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, addPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, dropPrimaryKey);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, addForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, dropForeignKey);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, getColumnDefinition);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, describeTable);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, listTables);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, getDateUsingFormat);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, describeIndexes);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, describeReferences);
-PHP_METHOD(Phalcon_Db_Adapter_Postgresql, tableOptions);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, tableOptions);
+
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, tableOptions);
+
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, query);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, close);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getColumnList);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, limit);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, tableExists);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, viewExists);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, forUpdate);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, sharedLock);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, createTable);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropTable);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, addColumn);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, modifyColumn);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropColumn);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, addIndex);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropIndex);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, addPrimaryKey);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropPrimaryKey);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, addForeignKey);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropForeignKey);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getColumnDefinition);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeTable);
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, listTables);
 
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement);
@@ -754,21 +748,19 @@ PHP_METHOD(Phalcon_Db_Index, getName);
 PHP_METHOD(Phalcon_Db_Index, getColumns);
 PHP_METHOD(Phalcon_Db_Index, __set_state);
 
-PHP_METHOD(Phalcon_Db_Result_Mysql, __construct);
-PHP_METHOD(Phalcon_Db_Result_Mysql, fetchArray);
-PHP_METHOD(Phalcon_Db_Result_Mysql, numRows);
-PHP_METHOD(Phalcon_Db_Result_Mysql, dataSeek);
-PHP_METHOD(Phalcon_Db_Result_Mysql, setFetchMode);
-PHP_METHOD(Phalcon_Db_Result_Mysql, getInternalResult);
+PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
+PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
+PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
+PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
+PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult);
 
-PHP_METHOD(Phalcon_Db_Result_Postgresql, __construct);
-PHP_METHOD(Phalcon_Db_Result_Postgresql, fetchArray);
-PHP_METHOD(Phalcon_Db_Result_Postgresql, numRows);
-PHP_METHOD(Phalcon_Db_Result_Postgresql, dataSeek);
-PHP_METHOD(Phalcon_Db_Result_Postgresql, setFetchMode);
-PHP_METHOD(Phalcon_Db_Result_Postgresql, getInternalResult);
+PHP_METHOD(Phalcon_Db_Connection_Pdo, serialize);
+PHP_METHOD(Phalcon_Db_Connection_Pdo, unserialize);
 
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, limit);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, forUpdate);
+PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn);
@@ -837,6 +829,8 @@ PHP_METHOD(Phalcon_Model_Query, setLimit);
 PHP_METHOD(Phalcon_Model_Query, getResultset);
 PHP_METHOD(Phalcon_Model_Query, getConditions);
 PHP_METHOD(Phalcon_Model_Query, fromInput);
+
+PHP_METHOD(Phalcon_Model_Query_Lang, parseSQL);
 
 
 PHP_METHOD(Phalcon_Model_Base, __construct);
@@ -1278,7 +1272,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_insert, 0, 0, 2)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, values)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, automaticQuotes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_update, 0, 0, 3)
@@ -1286,17 +1279,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_update, 0, 0, 3)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, values)
 	ZEND_ARG_INFO(0, whereCondition)
-	ZEND_ARG_INFO(0, automaticQuotes)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_delete, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, whereCondition)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_factory, 0, 0, 2)
-	ZEND_ARG_INFO(0, adapterName)
-	ZEND_ARG_INFO(0, options)
+	ZEND_ARG_INFO(0, dbType)
+	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger___construct, 0, 0, 0)
@@ -2018,305 +2011,171 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_reference___set_state, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_describeindexes, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_describereferences, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_mysql_tableoptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, tableName)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_describeindexes, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_describereferences, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_postgresql_tableoptions, 0, 0, 1)
+	ZEND_ARG_INFO(0, tableName)
+	ZEND_ARG_INFO(0, schemaName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, dialect)
 	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_connect, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_query, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_query, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_getconnectionid, 0, 0, 0)
-	ZEND_ARG_INFO(0, asString)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_execute, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_escapestring, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_escapestring, 0, 0, 1)
 	ZEND_ARG_INFO(0, str)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_bindparams, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_bindparams, 0, 0, 2)
 	ZEND_ARG_INFO(0, sqlSelect)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_error, 0, 0, 0)
-	ZEND_ARG_INFO(0, errorString)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_noerror, 0, 0, 0)
-	ZEND_ARG_INFO(0, resultQuery)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_lastinsertid, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_lastinsertid, 0, 0, 0)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, primaryKey)
 	ZEND_ARG_INFO(0, sequenceName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_getcolumnlist, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_getcolumnlist, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnList)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_limit, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_limit, 0, 0, 2)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_tableexists, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_tableexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_viewexists, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_viewexists, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewName)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_forupdate, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_forupdate, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_sharedlock, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sharedlock, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_createtable, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_createtable, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_droptable, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_droptable, 0, 0, 2)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, ifExists)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_addcolumn, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_addcolumn, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, column)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_modifycolumn, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_modifycolumn, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, column)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_dropcolumn, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_dropcolumn, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, columnName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_addindex, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_addindex, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_dropindex, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_dropindex, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, indexName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_addprimarykey, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_addprimarykey, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_dropprimarykey, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_dropprimarykey, 0, 0, 2)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_addforeignkey, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_addforeignkey, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, reference)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_dropforeignkey, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_dropforeignkey, 0, 0, 3)
 	ZEND_ARG_INFO(0, tableName)
 	ZEND_ARG_INFO(0, schemaName)
 	ZEND_ARG_INFO(0, referenceName)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_getcolumndefinition, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_describetable, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_describetable, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_listtables, 0, 0, 0)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_getdateusingformat, 0, 0, 1)
-	ZEND_ARG_INFO(0, date)
-	ZEND_ARG_INFO(0, format)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_describeindexes, 0, 0, 1)
-	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_INFO(0, schema)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_describereferences, 0, 0, 1)
-	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_INFO(0, schema)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_mysql_tableoptions, 0, 0, 1)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, descriptor)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_connect, 0, 0, 0)
-	ZEND_ARG_INFO(0, descriptor)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_query, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlStatement)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_getconnectionid, 0, 0, 0)
-	ZEND_ARG_INFO(0, asString)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_escapestring, 0, 0, 1)
-	ZEND_ARG_INFO(0, str)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_bindparams, 0, 0, 2)
-	ZEND_ARG_INFO(0, sqlSelect)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_error, 0, 0, 0)
-	ZEND_ARG_INFO(0, errorString)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_noerror, 0, 0, 0)
-	ZEND_ARG_INFO(0, resultQuery)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_getcolumnlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, columnList)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_limit, 0, 0, 2)
-	ZEND_ARG_INFO(0, sqlQuery)
-	ZEND_ARG_INFO(0, number)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_tableexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_viewexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewName)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_forupdate, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlQuery)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_sharedlock, 0, 0, 1)
-	ZEND_ARG_INFO(0, sqlQuery)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_createtable, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, definition)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_droptable, 0, 0, 2)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, ifExists)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_addcolumn, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, column)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_modifycolumn, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, column)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_dropcolumn, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, columnName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_addindex, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, index)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_dropindex, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, indexName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_addprimarykey, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, index)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_dropprimarykey, 0, 0, 2)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_addforeignkey, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, reference)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_dropforeignkey, 0, 0, 3)
-	ZEND_ARG_INFO(0, tableName)
-	ZEND_ARG_INFO(0, schemaName)
-	ZEND_ARG_INFO(0, referenceName)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_getcolumndefinition, 0, 0, 1)
-	ZEND_ARG_INFO(0, column)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_describetable, 0, 0, 1)
-	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_INFO(0, schema)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_postgresql_listtables, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_listtables, 0, 0, 0)
 	ZEND_ARG_INFO(0, schemaName)
 ZEND_END_ARG_INFO()
 
@@ -2350,33 +2209,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_index___set_state, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_mysql___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, result)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_mysql_dataseek, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_dataseek, 0, 0, 1)
 	ZEND_ARG_INFO(0, number)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_mysql_setfetchmode, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_setfetchmode, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetchMode)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_postgresql___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, result)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_postgresql_dataseek, 0, 0, 1)
-	ZEND_ARG_INFO(0, number)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_postgresql_setfetchmode, 0, 0, 1)
-	ZEND_ARG_INFO(0, fetchMode)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_connection_pdo_unserialize, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_limit, 0, 0, 2)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, number)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_forupdate, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlQuery)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_sharedlock, 0, 0, 1)
+	ZEND_ARG_INFO(0, sqlQuery)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumnlist, 0, 0, 1)
@@ -2615,6 +2474,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_query_frominput, 0, 0, 2)
 	ZEND_ARG_INFO(0, modelName)
 	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_query_lang_parsesql, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_model_base___construct, 0, 0, 0)
@@ -3324,6 +3187,13 @@ PHALCON_INIT_FUNCS(phalcon_loader_method_entry){
 	PHP_FE_END
 };
 
+PHALCON_INIT_FUNCS(phalcon_di_method_entry){
+	PHP_ME(Phalcon_DI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_DI, set, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI, get, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
 PHALCON_INIT_FUNCS(phalcon_text_method_entry){
 	PHP_ME(Phalcon_Text, camelize, arginfo_phalcon_text_camelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Text, uncamelize, arginfo_phalcon_text_uncamelize, ZEND_ACC_STATIC|ZEND_ACC_PUBLIC) 
@@ -3379,15 +3249,12 @@ PHALCON_INIT_FUNCS(phalcon_db_method_entry){
 	PHP_ME(Phalcon_Db, begin, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, rollback, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, commit, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, setUnderTransaction, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db, isUnderTransaction, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, getHaveAutoCommit, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, getDatabaseName, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, getDefaultSchema, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, getUsername, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db, getHostName, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db, getDescriptor, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db, getConnectionId, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, _beforeQuery, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db, _afterQuery, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Db, getInternalHandler, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db, factory, arginfo_phalcon_db_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
@@ -3959,81 +3826,76 @@ PHALCON_INIT_FUNCS(phalcon_db_reference_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_db_adapter_mysql_method_entry){
-	PHP_ME(Phalcon_Db_Adapter_Mysql, __construct, arginfo_phalcon_db_adapter_mysql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, connect, arginfo_phalcon_db_adapter_mysql_connect, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, query, arginfo_phalcon_db_adapter_mysql_query, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, affectedRows, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, close, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, getConnectionId, arginfo_phalcon_db_adapter_mysql_getconnectionid, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, escapeString, arginfo_phalcon_db_adapter_mysql_escapestring, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, bindParams, arginfo_phalcon_db_adapter_mysql_bindparams, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, error, arginfo_phalcon_db_adapter_mysql_error, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, noError, arginfo_phalcon_db_adapter_mysql_noerror, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, lastInsertId, arginfo_phalcon_db_adapter_mysql_lastinsertid, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, getColumnList, arginfo_phalcon_db_adapter_mysql_getcolumnlist, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, limit, arginfo_phalcon_db_adapter_mysql_limit, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, tableExists, arginfo_phalcon_db_adapter_mysql_tableexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, viewExists, arginfo_phalcon_db_adapter_mysql_viewexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, forUpdate, arginfo_phalcon_db_adapter_mysql_forupdate, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, sharedLock, arginfo_phalcon_db_adapter_mysql_sharedlock, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, createTable, arginfo_phalcon_db_adapter_mysql_createtable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, dropTable, arginfo_phalcon_db_adapter_mysql_droptable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, addColumn, arginfo_phalcon_db_adapter_mysql_addcolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, modifyColumn, arginfo_phalcon_db_adapter_mysql_modifycolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, dropColumn, arginfo_phalcon_db_adapter_mysql_dropcolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, addIndex, arginfo_phalcon_db_adapter_mysql_addindex, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, dropIndex, arginfo_phalcon_db_adapter_mysql_dropindex, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, addPrimaryKey, arginfo_phalcon_db_adapter_mysql_addprimarykey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, dropPrimaryKey, arginfo_phalcon_db_adapter_mysql_dropprimarykey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, addForeignKey, arginfo_phalcon_db_adapter_mysql_addforeignkey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, dropForeignKey, arginfo_phalcon_db_adapter_mysql_dropforeignkey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, getColumnDefinition, arginfo_phalcon_db_adapter_mysql_getcolumndefinition, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, describeTable, arginfo_phalcon_db_adapter_mysql_describetable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, listTables, arginfo_phalcon_db_adapter_mysql_listtables, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, getDateUsingFormat, arginfo_phalcon_db_adapter_mysql_getdateusingformat, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, describeIndexes, arginfo_phalcon_db_adapter_mysql_describeindexes, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, describeReferences, arginfo_phalcon_db_adapter_mysql_describereferences, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Mysql, tableOptions, arginfo_phalcon_db_adapter_mysql_tableoptions, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_db_dialect_method_entry){
+	PHP_ME(Phalcon_Db_Dialect, limit, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, forUpdate, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, sharedLock, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, getColumnList, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, getColumnDefinition, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, addColumn, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, modifyColumn, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, dropColumn, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, addIndex, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, dropIndex, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, addPrimaryKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, dropPrimaryKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, addForeignKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, dropForeignKey, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, createTable, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, dropTable, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, tableExists, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, describeTable, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, listTables, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, describeIndexes, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, describeReferences, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, tableOptions, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_db_adapter_postgresql_method_entry){
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, __construct, arginfo_phalcon_db_adapter_postgresql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, connect, arginfo_phalcon_db_adapter_postgresql_connect, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, query, arginfo_phalcon_db_adapter_postgresql_query, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, affectedRows, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, close, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, getConnectionId, arginfo_phalcon_db_adapter_postgresql_getconnectionid, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, escapeString, arginfo_phalcon_db_adapter_postgresql_escapestring, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, bindParams, arginfo_phalcon_db_adapter_postgresql_bindparams, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, error, arginfo_phalcon_db_adapter_postgresql_error, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, noError, arginfo_phalcon_db_adapter_postgresql_noerror, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, lastInsertId, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, getColumnList, arginfo_phalcon_db_adapter_postgresql_getcolumnlist, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, limit, arginfo_phalcon_db_adapter_postgresql_limit, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, tableExists, arginfo_phalcon_db_adapter_postgresql_tableexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, viewExists, arginfo_phalcon_db_adapter_postgresql_viewexists, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, forUpdate, arginfo_phalcon_db_adapter_postgresql_forupdate, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, sharedLock, arginfo_phalcon_db_adapter_postgresql_sharedlock, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, createTable, arginfo_phalcon_db_adapter_postgresql_createtable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, dropTable, arginfo_phalcon_db_adapter_postgresql_droptable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, addColumn, arginfo_phalcon_db_adapter_postgresql_addcolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, modifyColumn, arginfo_phalcon_db_adapter_postgresql_modifycolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, dropColumn, arginfo_phalcon_db_adapter_postgresql_dropcolumn, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, addIndex, arginfo_phalcon_db_adapter_postgresql_addindex, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, dropIndex, arginfo_phalcon_db_adapter_postgresql_dropindex, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, addPrimaryKey, arginfo_phalcon_db_adapter_postgresql_addprimarykey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, dropPrimaryKey, arginfo_phalcon_db_adapter_postgresql_dropprimarykey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, addForeignKey, arginfo_phalcon_db_adapter_postgresql_addforeignkey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, dropForeignKey, arginfo_phalcon_db_adapter_postgresql_dropforeignkey, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, getColumnDefinition, arginfo_phalcon_db_adapter_postgresql_getcolumndefinition, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, describeTable, arginfo_phalcon_db_adapter_postgresql_describetable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, listTables, arginfo_phalcon_db_adapter_postgresql_listtables, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, getDateUsingFormat, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, describeIndexes, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, describeReferences, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Postgresql, tableOptions, NULL, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_mysql_method_entry){
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes, arginfo_phalcon_db_adapter_pdo_mysql_describeindexes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences, arginfo_phalcon_db_adapter_pdo_mysql_describereferences, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Mysql, tableOptions, arginfo_phalcon_db_adapter_pdo_mysql_tableoptions, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_postgresql_method_entry){
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes, arginfo_phalcon_db_adapter_pdo_postgresql_describeindexes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences, arginfo_phalcon_db_adapter_pdo_postgresql_describereferences, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Postgresql, tableOptions, arginfo_phalcon_db_adapter_pdo_postgresql_tableoptions, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_method_entry){
+	PHP_ME(Phalcon_Db_Adapter_Pdo, __construct, arginfo_phalcon_db_adapter_pdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, connect, arginfo_phalcon_db_adapter_pdo_connect, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, query, arginfo_phalcon_db_adapter_pdo_query, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, execute, arginfo_phalcon_db_adapter_pdo_execute, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, affectedRows, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, close, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, escapeString, arginfo_phalcon_db_adapter_pdo_escapestring, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, bindParams, arginfo_phalcon_db_adapter_pdo_bindparams, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, lastInsertId, arginfo_phalcon_db_adapter_pdo_lastinsertid, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, getColumnList, arginfo_phalcon_db_adapter_pdo_getcolumnlist, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, limit, arginfo_phalcon_db_adapter_pdo_limit, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, tableExists, arginfo_phalcon_db_adapter_pdo_tableexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, viewExists, arginfo_phalcon_db_adapter_pdo_viewexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, forUpdate, arginfo_phalcon_db_adapter_pdo_forupdate, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, sharedLock, arginfo_phalcon_db_adapter_pdo_sharedlock, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, createTable, arginfo_phalcon_db_adapter_pdo_createtable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, dropTable, arginfo_phalcon_db_adapter_pdo_droptable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, addColumn, arginfo_phalcon_db_adapter_pdo_addcolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, modifyColumn, arginfo_phalcon_db_adapter_pdo_modifycolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, dropColumn, arginfo_phalcon_db_adapter_pdo_dropcolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, addIndex, arginfo_phalcon_db_adapter_pdo_addindex, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, dropIndex, arginfo_phalcon_db_adapter_pdo_dropindex, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, addPrimaryKey, arginfo_phalcon_db_adapter_pdo_addprimarykey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, dropPrimaryKey, arginfo_phalcon_db_adapter_pdo_dropprimarykey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, addForeignKey, arginfo_phalcon_db_adapter_pdo_addforeignkey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, dropForeignKey, arginfo_phalcon_db_adapter_pdo_dropforeignkey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, getColumnDefinition, arginfo_phalcon_db_adapter_pdo_getcolumndefinition, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, describeTable, arginfo_phalcon_db_adapter_pdo_describetable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo, listTables, arginfo_phalcon_db_adapter_pdo_listtables, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4078,48 +3940,46 @@ PHALCON_INIT_FUNCS(phalcon_db_index_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_db_result_mysql_method_entry){
-	PHP_ME(Phalcon_Db_Result_Mysql, __construct, arginfo_phalcon_db_result_mysql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Db_Result_Mysql, fetchArray, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Mysql, numRows, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Mysql, dataSeek, arginfo_phalcon_db_result_mysql_dataseek, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Mysql, setFetchMode, arginfo_phalcon_db_result_mysql_setfetchmode, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Mysql, getInternalResult, NULL, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_db_result_pdo_method_entry){
+	PHP_ME(Phalcon_Db_Result_Pdo, __construct, arginfo_phalcon_db_result_pdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, numRows, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_result_pdo_dataseek, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_db_result_postgresql_method_entry){
-	PHP_ME(Phalcon_Db_Result_Postgresql, __construct, arginfo_phalcon_db_result_postgresql___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Db_Result_Postgresql, fetchArray, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Postgresql, numRows, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Postgresql, dataSeek, arginfo_phalcon_db_result_postgresql_dataseek, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Postgresql, setFetchMode, arginfo_phalcon_db_result_postgresql_setfetchmode, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Result_Postgresql, getInternalResult, NULL, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_db_connection_pdo_method_entry){
+	PHP_ME(Phalcon_Db_Connection_Pdo, serialize, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Connection_Pdo, unserialize, arginfo_phalcon_db_connection_pdo_unserialize, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
 PHALCON_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry){
-	PHP_ME(Phalcon_Db_Dialect_Mysql, limit, arginfo_phalcon_db_dialect_mysql_limit, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnList, arginfo_phalcon_db_dialect_mysql_getcolumnlist, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, dropColumn, arginfo_phalcon_db_dialect_mysql_dropcolumn, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, addIndex, arginfo_phalcon_db_dialect_mysql_addindex, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, dropIndex, arginfo_phalcon_db_dialect_mysql_dropindex, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, addPrimaryKey, arginfo_phalcon_db_dialect_mysql_addprimarykey, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, dropPrimaryKey, arginfo_phalcon_db_dialect_mysql_dropprimarykey, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, addForeignKey, arginfo_phalcon_db_dialect_mysql_addforeignkey, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, dropForeignKey, arginfo_phalcon_db_dialect_mysql_dropforeignkey, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, _getTableOptions, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, createTable, arginfo_phalcon_db_dialect_mysql_createtable, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, limit, arginfo_phalcon_db_dialect_mysql_limit, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, forUpdate, arginfo_phalcon_db_dialect_mysql_forupdate, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, sharedLock, arginfo_phalcon_db_dialect_mysql_sharedlock, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnList, arginfo_phalcon_db_dialect_mysql_getcolumnlist, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropColumn, arginfo_phalcon_db_dialect_mysql_dropcolumn, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addIndex, arginfo_phalcon_db_dialect_mysql_addindex, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropIndex, arginfo_phalcon_db_dialect_mysql_dropindex, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addPrimaryKey, arginfo_phalcon_db_dialect_mysql_addprimarykey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropPrimaryKey, arginfo_phalcon_db_dialect_mysql_dropprimarykey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, addForeignKey, arginfo_phalcon_db_dialect_mysql_addforeignkey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, dropForeignKey, arginfo_phalcon_db_dialect_mysql_dropforeignkey, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, _getTableOptions, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, createTable, arginfo_phalcon_db_dialect_mysql_createtable, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, dropTable, arginfo_phalcon_db_dialect_mysql_droptable, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, describeTable, arginfo_phalcon_db_dialect_mysql_describetable, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, listTables, arginfo_phalcon_db_dialect_mysql_listtables, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, describeIndexes, arginfo_phalcon_db_dialect_mysql_describeindexes, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, describeReferences, arginfo_phalcon_db_dialect_mysql_describereferences, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, tableExists, arginfo_phalcon_db_dialect_mysql_tableexists, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeTable, arginfo_phalcon_db_dialect_mysql_describetable, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, listTables, arginfo_phalcon_db_dialect_mysql_listtables, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeIndexes, arginfo_phalcon_db_dialect_mysql_describeindexes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, describeReferences, arginfo_phalcon_db_dialect_mysql_describereferences, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect_Mysql, tableOptions, arginfo_phalcon_db_dialect_mysql_tableoptions, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4192,6 +4052,11 @@ PHALCON_INIT_FUNCS(phalcon_model_query_method_entry){
 	PHP_ME(Phalcon_Model_Query, getResultset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Query, getConditions, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_Query, fromInput, arginfo_phalcon_model_query_frominput, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_model_query_lang_method_entry){
+	PHP_ME(Phalcon_Model_Query_Lang, parseSQL, arginfo_phalcon_model_query_lang_parsesql, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 
@@ -4279,7 +4144,7 @@ PHALCON_INIT_FUNCS(phalcon_model_row_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_model_metadata_method_entry){
 	PHP_ME(Phalcon_Model_MetaData, __construct, arginfo_phalcon_model_metadata___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Model_MetaData, _initializeMetaData, NULL, ZEND_ACC_PRIVATE) 
+	PHP_ME(Phalcon_Model_MetaData, _initializeMetaData, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Model_MetaData, getAttributes, arginfo_phalcon_model_metadata_getattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_MetaData, getPrimaryKeyAttributes, arginfo_phalcon_model_metadata_getprimarykeyattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Model_MetaData, getNonPrimaryKeyAttributes, arginfo_phalcon_model_metadata_getnonprimarykeyattributes, ZEND_ACC_PUBLIC) 
