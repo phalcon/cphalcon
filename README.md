@@ -27,7 +27,7 @@ We need some packages previously installed.
 
 Ubuntu:
 
-    sudo apt-get install php5-dev php5-mysql gcc make
+    sudo apt-get install php5-devel php5-mysql gcc make
 
 Suse:
 
@@ -36,10 +36,10 @@ Suse:
 Compilation
 -----------
 
-Follow this instructions to generate a binrary extension for your platform:
+Follow these instructions to generate a binary extension for your platform:
 
      # git clone git://github.com/phalcon/cphalcon.git
-     # cd cphalcon/target/release
+     # cd cphalcon/release
      # export CFLAGS="-O2 -fno-delete-null-pointer-checks"
      # phpize
      # ./configure --enable-phalcon
