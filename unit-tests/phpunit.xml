@@ -12,15 +12,14 @@
 	<testsuites>
 		<testsuite name="Phalcon PHP Framework">
 			<file>unit-tests/InitTest.php</file>
-			<file>unit-tests/UtilsTest.php</file>
 			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/FilterTest.php</file>
 			<file>unit-tests/FlashTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
 			<file>unit-tests/RequestTest.php</file>
-			<file>unit-tests/RouterRewriteTest.php</file>
-			<file>unit-tests/RouterRegexTest.php</file>
+			<file>unit-tests/ResponseTest.php</file>
+			<file>unit-tests/RouterTest.php</file>
 			<file>unit-tests/DispatcherTest.php</file>
 			<file>unit-tests/DbPoolTest.php</file>
 			<file>unit-tests/DbTest.php</file>

@@ -23,11 +23,19 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	private $_request;
 
 	public function setUp(){
-		$this->_request = Phalcon\Request::getInstance();
+
+		$di = new Phalcon\DI();
+
+		$di->set('filter', function(){
+			return new Phalcon\Filter();
+		});
+
+		$this->_request = new Phalcon\Http\Request();
+		$this->_request->setDI($di);
 	}
 
 	public function testInstanceOf(){
-		$this->assertInstanceOf('Phalcon\Request', $this->_request);
+		$this->assertInstanceOf('Phalcon\Http\Request', $this->_request);
 	}
 
 	public function testInput(){
@@ -132,8 +140,6 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
 		$accept = $this->_request->getAcceptableContent();
 		$this->assertEquals(count($accept), 4);
-
-		//var_dump($accept);
 
 		$firstAccept = $accept[0];
 		$this->assertEquals($firstAccept['accept'], 'text/html');

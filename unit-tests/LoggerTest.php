@@ -24,7 +24,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->log("Hello");
 
@@ -42,7 +42,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->log("Hello 1", Phalcon\Logger::NOTICE);
 		$logger->log("Hello 2", Phalcon\Logger::ERROR);
@@ -64,7 +64,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->notice("Hello 1");
 		$logger->error("Hello 2");
@@ -86,7 +86,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->setFormat('/%date%/%type%/ %message%');
 
@@ -106,7 +106,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->begin();
 
@@ -129,7 +129,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test.log');
+		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
 
 		$logger->begin();
 
