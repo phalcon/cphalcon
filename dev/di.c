@@ -126,12 +126,12 @@ PHP_METHOD(Phalcon_DI, attempt){
 
 PHP_METHOD(Phalcon_DI, _factory){
 
-	zval *service = NULL, *parameters = NULL, *reflection = NULL, *class_name = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
+	zval *service = NULL, *parameters = NULL, *found = NULL, *instance = NULL, *reflection = NULL;
+	zval *class_name = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL;
 	int eval_int;
-	zend_class_entry *ce0, *ce1;
+	zend_class_entry *ce0, *ce1, *ce2;
 
 	PHALCON_MM_GROW();
 	
@@ -140,6 +140,11 @@ PHP_METHOD(Phalcon_DI, _factory){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(found);
+	ZVAL_BOOL(found, 1);
+	
+	PHALCON_INIT_VAR(instance);
+	ZVAL_NULL(instance);
 	if (Z_TYPE_P(service) == IS_STRING) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", service);
@@ -150,15 +155,23 @@ PHP_METHOD(Phalcon_DI, _factory){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", service, PH_CHECK);
 			
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_CALL_METHOD_PARAMS_1(r1, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
-			RETURN_CTOR(r1);
+			phalcon_fast_count(r1, parameters TSRMLS_CC);
+			if (zend_is_true(r1)) {
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
+			} else {
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_METHOD(instance, reflection, "newinstance", PH_NO_CHECK);
+			}
 		} else {
 			PHALCON_ALLOC_ZVAL_MM(r2);
 			PHALCON_CALL_FUNC_PARAMS_1(r2, "is_callable", service);
 			if (zend_is_true(r2)) {
-				PHALCON_ALLOC_ZVAL_MM(r3);
-				PHALCON_CALL_FUNC_PARAMS_2(r3, "call_user_func_array", service, parameters);
-				RETURN_CTOR(r3);
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
+			} else {
+				PHALCON_INIT_VAR(found);
+				ZVAL_BOOL(found, 0);
 			}
 		}
 	} else {
@@ -171,39 +184,55 @@ PHP_METHOD(Phalcon_DI, _factory){
 			
 			PHALCON_INIT_VAR(class_name);
 			phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
-			ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			
-			PHALCON_INIT_VAR(reflection);
-			object_init_ex(reflection, ce1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name, PH_CHECK);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			phalcon_fast_count(r3, parameters TSRMLS_CC);
+			if (zend_is_true(r3)) {
+				ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+				PHALCON_INIT_VAR(reflection);
+				object_init_ex(reflection, ce1);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name, PH_CHECK);
+				
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
+			} else {
+				ce2 = phalcon_fetch_class(class_name TSRMLS_CC);
+				PHALCON_INIT_VAR(instance);
+				object_init_ex(instance, ce2);
+				PHALCON_CALL_METHOD_NORETURN(instance, "__construct", PH_CHECK);
+			}
 			
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_METHOD_PARAMS_1(r4, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
-			RETURN_CTOR(r4);
+			
+			RETURN_CCTOR(instance);
 		} else {
 			if (Z_TYPE_P(service) == IS_OBJECT) {
-				PHALCON_ALLOC_ZVAL_MM(r5);
-				phalcon_get_class(r5, service TSRMLS_CC);
-				if (PHALCON_COMPARE_STRING(r5, "Closure")) {
-					PHALCON_ALLOC_ZVAL_MM(r6);
-					PHALCON_CALL_FUNC_PARAMS_2(r6, "call_user_func_array", service, parameters);
-					RETURN_CTOR(r6);
+				PHALCON_ALLOC_ZVAL_MM(r4);
+				phalcon_get_class(r4, service TSRMLS_CC);
+				if (PHALCON_COMPARE_STRING(r4, "Closure")) {
+					PHALCON_INIT_VAR(instance);
+					PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
 				} else {
-					
-					RETURN_CCTOR(service);
+					PHALCON_CPY_WRT(instance, service);
 				}
+			} else {
+				PHALCON_INIT_VAR(found);
+				ZVAL_BOOL(found, 0);
 			}
 		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_di_exception_ce);
+	if (!zend_is_true(found)) {
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, phalcon_di_exception_ce);
+		PHALCON_ALLOC_ZVAL_MM(r5);
+		PHALCON_CONCAT_SVS(r5, "Service '", service, "' wasn't found in the dependency injection container");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PH_CHECK);
+		phalcon_throw_exception(i0 TSRMLS_CC);
+		return;
+	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r7);
-	PHALCON_CONCAT_SVS(r7, "Service '", service, "' wasn't found in the dependency injection container");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r7, PH_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
-	return;
+	
+	RETURN_CCTOR(instance);
 }
 
 PHP_METHOD(Phalcon_DI, get){
