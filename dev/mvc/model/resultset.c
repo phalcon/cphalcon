@@ -38,9 +38,9 @@
 #include "kernel/array.h"
 
 /**
- * Phalcon\Model\Resultset
+ * Phalcon\Mvc\Model\Resultset
  *
- * This component allows to Phalcon_Model_Base returns large resulsets with the minimum memory consumption
+ * This component allows to Phalcon\Mvc\Model returns large resulsets with the minimum memory consumption
  * Resulsets can be traversed using a standard foreach or a while statement. If a resultset is serialized
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
@@ -50,13 +50,13 @@
  */
 
 /**
- * Phalcon\Model\Resultset constructor
+ * Phalcon\Mvc\Model\Resultset constructor
  *
- * @param Phalcon\Model\Base $model
- * @param Phalcon\Model\Result $result
- * @param Phalcon\Model\Cache $cache
+ * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\Model\Result $result
+ * @param Phalcon\Cache\Backend $cache
  */
-PHP_METHOD(Phalcon_Model_Resultset, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct){
 
 	zval *model = NULL, *result = NULL, *cache = NULL;
 
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Model_Resultset, __construct){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Resultset, valid){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid){
 
 	zval *result = NULL, *row = NULL, *rows = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Model_Resultset, valid){
 				PHALCON_ALLOC_ZVAL_MM(t1);
 				phalcon_read_property(&t1, this_ptr, SL("_model"), PH_NOISY_CC);
 				PHALCON_ALLOC_ZVAL_MM(r0);
-				PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon\\model\\base", "dumpresult", t1, row);
+				PHALCON_CALL_STATIC_PARAMS_2(r0, "phalcon\\mvc\\model", "dumpresult", t1, row);
 				phalcon_update_property_zval(this_ptr, SL("_activeRow"), r0 TSRMLS_CC);
 				PHALCON_MM_RESTORE();
 				RETURN_TRUE;
@@ -143,9 +143,9 @@ PHP_METHOD(Phalcon_Model_Resultset, valid){
 /**
  * Returns current row in the resultset
  *
- * @return Phalcon\Model\Base
+ * @return Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Model_Resultset, current){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
 	zval *t0 = NULL;
 
@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Model_Resultset, current){
  * Moves cursor to next row in the resultset
  *
  */
-PHP_METHOD(Phalcon_Model_Resultset, next){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 
 	zval *t0 = NULL;
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Model_Resultset, next){
  * Gets pointer number of active row in the resultset
  *
  */
-PHP_METHOD(Phalcon_Model_Resultset, key){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
 
 	zval *t0 = NULL;
 
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Model_Resultset, key){
  * Rewinds resultset to its beginning
  *
  */
-PHP_METHOD(Phalcon_Model_Resultset, rewind){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 
 	zval *result = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Model_Resultset, rewind){
  *
  * @param int $position
  */
-PHP_METHOD(Phalcon_Model_Resultset, seek){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 
 	zval *position = NULL, *rows = NULL, *i = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -260,20 +260,20 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
 		
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 0);
-		fs_fd08_0:
+		fs_ebc1_0:
 			
 			PHALCON_INIT_VAR(r1);
 			is_smaller_function(r1, i, position TSRMLS_CC);
 			if (!zend_is_true(r1)) {
-				goto fe_fd08_0;
+				goto fe_ebc1_0;
 			}
 			Z_SET_ISREF_P(rows);
 			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
 			Z_UNSET_ISREF_P(rows);
 			PHALCON_SEPARATE(i);
 			increment_function(i);
-			goto fs_fd08_0;
-		fe_fd08_0:
+			goto fs_ebc1_0;
+		fe_ebc1_0:
 		if(0){}
 	}
 	
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Model_Resultset, seek){
  *
  * @return int
  */
-PHP_METHOD(Phalcon_Model_Resultset, count){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 
 	zval *count = NULL, *result = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Model_Resultset, count){
  * @param int $index
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 
 	zval *index = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -361,9 +361,9 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetExists){
  * Gets row in a specific position of the resultset
  *
  * @param int $index
- * @return Phalcon\Model\Base
+ * @return Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
 	zval *index = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
 			RETURN_FALSE;
 		}
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "The index does not exist in the cursor");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor");
 	return;
 }
 
@@ -401,9 +401,9 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetGet){
  * Resulsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $index
- * @param Phalcon\Model\Base $value
+ * @param Phalcon\Mvc\Model $value
  */
-PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 
 	zval *index = NULL, *value = NULL;
 
@@ -414,7 +414,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
 		RETURN_NULL();
 	}
 
-	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetSet){
  *
  * @param int $offset
  */
-PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 
 	zval *offset = NULL;
 
@@ -434,16 +434,16 @@ PHP_METHOD(Phalcon_Model_Resultset, offsetUnset){
 		RETURN_NULL();
 	}
 
-	PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Cursor is an immutable ArrayAccess object");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object");
 	return;
 }
 
 /**
  * Get first row in the resultset
  *
- * @return Phalcon\Model\Base
+ * @return Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Model_Resultset, getFirst){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
 	zval *r0 = NULL, *r1 = NULL;
 
@@ -465,9 +465,9 @@ PHP_METHOD(Phalcon_Model_Resultset, getFirst){
 /**
  * Get last row in the resultset
  *
- * @return Phalcon\Model\Base
+ * @return Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Model_Resultset, getLast){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	zval *t0 = NULL;
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Model_Resultset, getLast){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Resultset, isFresh){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL;
@@ -515,11 +515,43 @@ PHP_METHOD(Phalcon_Model_Resultset, isFresh){
 }
 
 /**
+ * Returns the associated cache for the resultset
+ *
+ * @return Phalcon\Cache\Backend
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_cache"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(t0);
+}
+
+/**
+ * Returns an instance of the model that is used to generate each of the results
+ *
+ * @return Phalcon\Mvc\Model
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getSourceModel){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_model"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(t0);
+}
+
+/**
  * Serializing a resultset will dump all related rows into a big array
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Model_Resultset, serialize){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, serialize){
 
 	zval *records = NULL, *data = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
@@ -529,19 +561,19 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
 	PHALCON_INIT_VAR(records);
 	array_init(records);
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind", PH_NO_CHECK);
-	ws_fd08_1:
+	ws_ebc1_1:
 		
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_METHOD(r0, this_ptr, "valid", PH_NO_CHECK);
 		if (Z_TYPE_P(r0) != IS_BOOL || (Z_TYPE_P(r0) == IS_BOOL && !Z_BVAL_P(r0))) {
-			goto we_fd08_1;
+			goto we_ebc1_1;
 		}
 		PHALCON_INIT_VAR(r1);
 		PHALCON_CALL_METHOD(r1, this_ptr, "current", PH_NO_CHECK);
 		phalcon_array_append(&records, r1, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "next", PH_NO_CHECK);
-		goto ws_fd08_1;
-	we_fd08_1:
+		goto ws_ebc1_1;
+	we_ebc1_1:
 	
 	PHALCON_INIT_VAR(data);
 	array_init(data);
@@ -561,7 +593,7 @@ PHP_METHOD(Phalcon_Model_Resultset, serialize){
  *
  * @param string $data
  */
-PHP_METHOD(Phalcon_Model_Resultset, unserialize){
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, unserialize){
 
 	zval *data = NULL, *resultset = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -586,42 +618,10 @@ PHP_METHOD(Phalcon_Model_Resultset, unserialize){
 		phalcon_array_fetch_string(&r1, resultset, SL("cache"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_cache"), r1 TSRMLS_CC);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Invalid serialization data");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
 	}
 	
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the associated cache for the resultset
- *
- * @return Phalcon\Cache\Backend
- */
-PHP_METHOD(Phalcon_Model_Resultset, getCache){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_cache"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
-}
-
-/**
- * Returns an instance of the model that is used to generate each of the results
- *
- * @return Phalcon\Model\Base
- */
-PHP_METHOD(Phalcon_Model_Resultset, getSourceModel){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_model"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
 }
 

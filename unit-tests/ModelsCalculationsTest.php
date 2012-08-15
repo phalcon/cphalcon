@@ -18,46 +18,65 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Db\Pool as Pool;
-use Phalcon\Model\Manager as Manager;
+class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
+{
 
-class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
+
+	protected function _getDI()
+	{
+
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		return $di;
+	}
 
 	public function testCalculationsMysql(){
 
-		require 'unit-tests/config.db.php';
+		$di = $this->_getDI();
 
-		Pool::reset();
-
-		Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Pool::hasDefaultDescriptor());
-
-		$this->_executeTests();
-
-	}
-
-	public function testCalculationsPostgresql(){
-
-		require 'unit-tests/config.db.php';
-
-		Pool::reset();
-
-		Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Pool::hasDefaultDescriptor());
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
 
 		$this->_executeTests();
 
 	}
 
-	protected function _executeTests(){
+	public function testCalculationsPostgresql()
+	{
 
-		Manager::reset();
+		$di = $this->_getDI();
 
-		$manager = new Manager();
-		$manager->setModelsDir('unit-tests/models/');
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
 
-		$success = $manager->load('Personnes');
-		$this->assertTrue($success);
+		$this->_executeTests($di);
+
+	}
+
+	protected function _executeTests()
+	{
+
+		spl_autoload_register(array($this, 'modelsAutoloader'));
 
 		//Count calculations
 		$rowcount = Personnes::count();
@@ -166,6 +185,8 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase {
 
 		$group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado", "order" => "minimum ASC"));
 		$this->assertEquals($group[0]->minimum, 20404);
+
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
 

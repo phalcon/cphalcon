@@ -66,6 +66,7 @@ PHP_METHOD(Phalcon_Db_Profiler, __construct){
  * Starts the profile of a SQL sentence
  *
  * @param string $sqlStatement
+ * @return \Phalcon\Db\Profiler
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 
@@ -105,13 +106,14 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "beforestartprofile", t2, PH_NO_CHECK);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CCTOR(this_ptr);
 }
 
 /**
  * Stops the active profile
  *
- * @access public
+ * @return \Phalcon\Db\Profiler 
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 
@@ -159,7 +161,8 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", t5, PH_NO_CHECK);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CCTOR(this_ptr);
 }
 
 /**
@@ -215,6 +218,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles){
 /**
  * Resets the profiler, cleaning up all the profiles
  *
+ * @return \Phalcon\Db\Profiler
  */
 PHP_METHOD(Phalcon_Db_Profiler, reset){
 
@@ -225,7 +229,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset){
 	array_init(a0);
 	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), a0 TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(this_ptr);
 }
 
 /**

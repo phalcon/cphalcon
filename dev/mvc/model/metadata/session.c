@@ -32,13 +32,13 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/operators.h"
-#include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 
 /**
- * Phalcon\Model\MetaData\Session
+ * Phalcon\Mvc\Model\MetaData\Session
  *
  * Stores model meta-data in session. Data will erase when the session finishes.
  * Meta-data are permanent while the session is active.
@@ -49,15 +49,14 @@
  */
 
 /**
- * Phalcon_Model_MetaData_Session constructor
+ * Phalcon\Mvc\Model\MetaData\Session constructor
  *
- * @param Phalcon_Config|stdClass $options
+ * @param array $options
  */
-PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 
-	zval *options = NULL, *adapter_options = NULL;
+	zval *options = NULL;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -67,21 +66,13 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(options);
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_cast(r0, options, IS_ARRAY);
-		PHALCON_CPY_WRT(adapter_options, r0);
-	} else {
-		PHALCON_CPY_WRT(adapter_options, options);
-	}
-	eval_int = phalcon_isset_property(adapter_options, SL("suffix") TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(options, SL("suffix")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, adapter_options, SL("suffix"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_suffix"), t0 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch_string(&r0, options, SL("suffix"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_suffix"), r0 TSRMLS_CC);
 	}
+	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\MetaData\\Session", "__construct");
 	
 	PHALCON_MM_RESTORE();
 }
@@ -91,7 +82,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, __construct){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Model_MetaData_Session, read){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
 	zval *session = NULL, *key = NULL;
 	zval *g0 = NULL;
@@ -128,12 +119,11 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, read){
  *
  * @param array $data
  */
-PHP_METHOD(Phalcon_Model_MetaData_Session, write){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 
-	zval *data = NULL;
-	zval *g0 = NULL;
+	zval *data = NULL, *key = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *g0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -142,12 +132,12 @@ PHP_METHOD(Phalcon_Model_MetaData_Session, write){
 		RETURN_NULL();
 	}
 
-	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
-	phalcon_array_update(&g0, r0, &data, PH_COPY TSRMLS_CC);
+	PHALCON_INIT_VAR(key);
+	PHALCON_CONCAT_SV(key, "$PMM$", t0);
+	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
+	phalcon_array_update_zval(&g0, key, &data, PH_COPY TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

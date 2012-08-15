@@ -33,11 +33,12 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Model\Validator\Email
+ * Phalcon\Mvc\Model\Validator\Email
  *
  * Allows to validate if email fields has correct values
  *
@@ -50,59 +51,68 @@
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Validator_Email, validate){
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 
-	zval *regs = NULL, *field_name = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
+	zval *record = NULL, *field_name = NULL, *regs = NULL, *invalid = NULL, *value = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "isrequired", PH_NO_CHECK);
-	if (zend_is_true(r0)) {
-		PHALCON_INIT_VAR(regs);
-		ZVAL_NULL(regs);
-		
-		PHALCON_INIT_VAR(field_name);
-		PHALCON_CALL_METHOD(field_name, this_ptr, "getfieldname", PH_NO_CHECK);
-		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "/^[a-zA-Z0-9_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
-		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_METHOD(r1, this_ptr, "getvalue", PH_NO_CHECK);
-		Z_SET_ISREF_P(regs);
-		
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_FUNC_PARAMS_3(r2, "preg_match", c0, r1, regs);
-		Z_UNSET_ISREF_P(regs);
-		if (zend_is_true(r2)) {
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch_long(&r3, regs, 0, PH_NOISY_CC);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_METHOD(r4, this_ptr, "getvalue", PH_NO_CHECK);
-			PHALCON_ALLOC_ZVAL_MM(r5);
-			is_not_equal_function(r5, r3, r4 TSRMLS_CC);
-			if (zend_is_true(r5)) {
-				PHALCON_ALLOC_ZVAL_MM(r6);
-				PHALCON_CONCAT_SVS(r6, "Value of field '", field_name, "' should be a valid e-mail");
-				PHALCON_INIT_VAR(c1);
-				ZVAL_STRING(c1, "email", 1);
-				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r6, field_name, c1, PH_NO_CHECK);
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
-			}
-		} else {
-			PHALCON_ALLOC_ZVAL_MM(r7);
-			PHALCON_CONCAT_SVS(r7, "Value of field '", field_name, "' should be a valid e-mail");
-			PHALCON_INIT_VAR(c2);
-			ZVAL_STRING(c2, "email", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r7, field_name, c2, PH_NO_CHECK);
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
-		}
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
+
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(field_name);
+	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", c0, PH_NO_CHECK);
+	if (Z_TYPE_P(field_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(regs);
+	ZVAL_NULL(regs);
+	
+	PHALCON_INIT_VAR(invalid);
+	ZVAL_BOOL(invalid, 0);
+	
+	PHALCON_INIT_VAR(value);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "/^[a-zA-Z0-9_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
+	Z_SET_ISREF_P(regs);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_3(r0, "preg_match", c1, value, regs);
+	Z_UNSET_ISREF_P(regs);
+	if (zend_is_true(r0)) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch_long(&r1, regs, 0, PH_NOISY_CC);
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		is_not_equal_function(r2, r1, value TSRMLS_CC);
+		if (zend_is_true(r2)) {
+			PHALCON_INIT_VAR(invalid);
+			ZVAL_BOOL(invalid, 1);
+		}
+	} else {
+		PHALCON_INIT_VAR(invalid);
+		ZVAL_BOOL(invalid, 1);
+	}
+	
+	if (zend_is_true(invalid)) {
+		PHALCON_ALLOC_ZVAL_MM(r3);
+		PHALCON_CONCAT_SVS(r3, "Value of field '", field_name, "' must have a valid e-mail format");
+		PHALCON_INIT_VAR(c2);
+		ZVAL_STRING(c2, "email", 1);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r3, field_name, c2, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }

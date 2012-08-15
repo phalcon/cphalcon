@@ -20,31 +20,33 @@
 
 use Phalcon\Db as Db;
 
-class DbBindTest extends PHPUnit_Framework_TestCase {
+class DbBindTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testDbBindMysql(){
+	public function testDbBindMysql()
+	{
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Db::factory('Mysql', $configMysql);
-		$this->assertTrue(is_object($connection));
+		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 		$this->_executeTests($connection);
 		$this->_executeTestsMysql($connection);
 	}
 
-	public function testDbBindPostgresql(){
+	public function testDbBindPostgresql()
+	{
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Db::factory('Postgresql', $configPostgresql);
-		$this->assertTrue(is_object($connection));
+		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
 		$this->_executeTests($connection);
 		$this->_executeTestsPostgresql($connection);
 	}
 
-	protected function _executeTests($connection){
+	protected function _executeTests($connection)
+	{
 
 		$conditions = $connection->bindParams("a=?0", array(0 => 100));
 		$this->assertEquals($conditions, "a=100");
@@ -74,7 +76,8 @@ class DbBindTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
 	}
 
-	protected function _executeTestsMysql($connection){
+	protected function _executeTestsMysql($connection)
+	{
 
 		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
@@ -83,7 +86,8 @@ class DbBindTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
 	}
 
-	protected function _executeTestsPostgresql($connection){
+	protected function _executeTestsPostgresql($connection)
+	{
 		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
 

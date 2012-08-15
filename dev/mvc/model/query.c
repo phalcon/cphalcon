@@ -49,7 +49,7 @@
  *
  */
 
-PHP_METHOD(Phalcon_Model_Query, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL;
 
@@ -57,29 +57,29 @@ PHP_METHOD(Phalcon_Model_Query, __construct){
 
 	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
-	zend_update_property(phalcon_model_query_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_query_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(a1);
 	array_init(a1);
-	zend_update_property(phalcon_model_query_ce, this_ptr, SL("_models"), a1 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_query_ce, this_ptr, SL("_models"), a1 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(a2);
 	array_init(a2);
-	zend_update_property(phalcon_model_query_ce, this_ptr, SL("_parameters"), a2 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_query_ce, this_ptr, SL("_parameters"), a2 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(a3);
 	array_init(a3);
-	zend_update_property(phalcon_model_query_ce, this_ptr, SL("_conditions"), a3 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_query_ce, this_ptr, SL("_conditions"), a3 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Set the Phalcon_Model_Manager instance to use in a query
+ * Set the Phalcon_Mvc_Model_Manager instance to use in a query
  *
  * @param Phalcon\Model\Manager $manager
  */
-PHP_METHOD(Phalcon_Model_Query, setManager){
+PHP_METHOD(Phalcon_Mvc_Model_Query, setManager){
 
 	zval *manager = NULL;
 
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Model_Query, setManager){
  *
  * @param string $model
  */
-PHP_METHOD(Phalcon_Model_Query, from){
+PHP_METHOD(Phalcon_Mvc_Model_Query, from){
 
 	zval *model = NULL;
 	zval *t0 = NULL;
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Model_Query, from){
  *
  * @param string $condition
  */
-PHP_METHOD(Phalcon_Model_Query, where){
+PHP_METHOD(Phalcon_Mvc_Model_Query, where){
 
 	zval *condition = NULL;
 	zval *t0 = NULL;
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Model_Query, where){
  *
  * @param string $parameter
  */
-PHP_METHOD(Phalcon_Model_Query, setParameters){
+PHP_METHOD(Phalcon_Mvc_Model_Query, setParameters){
 
 	zval *parameter = NULL;
 
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Model_Query, setParameters){
  *
  * @param array $data
  */
-PHP_METHOD(Phalcon_Model_Query, setInputData){
+PHP_METHOD(Phalcon_Mvc_Model_Query, setInputData){
 
 	zval *data = NULL;
 
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Model_Query, setInputData){
 	}
 
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Data parameter must be an Array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data parameter must be an Array");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Model_Query, setInputData){
  *
  * @param int $limit
  */
-PHP_METHOD(Phalcon_Model_Query, setLimit){
+PHP_METHOD(Phalcon_Mvc_Model_Query, setLimit){
 
 	zval *limit = NULL;
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Model_Query, setLimit){
 	PHALCON_MM_RESTORE();
 }
 
-PHP_METHOD(Phalcon_Model_Query, getResultset){
+PHP_METHOD(Phalcon_Mvc_Model_Query, getResultset){
 
 
 	
@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Model_Query, getResultset){
  *
  * @return string $query
  */
-PHP_METHOD(Phalcon_Model_Query, getConditions){
+PHP_METHOD(Phalcon_Mvc_Model_Query, getConditions){
 
 	zval *controller_front = NULL, *model_manager = NULL, *model_name = NULL;
 	zval *entity = NULL, *meta_data = NULL, *attributes = NULL, *numeric_types = NULL;
@@ -260,12 +260,15 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, SL("_models"), PH_NOISY_CC);
-	if (phalcon_valid_foreach(t1 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(t1);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_a355_0:
+	if (!phalcon_valid_foreach(t1 TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(t1);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_111d_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_a355_0;
+			goto fee_111d_0;
 		}
 		
 		PHALCON_INIT_VAR(model_name);
@@ -274,7 +277,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		PHALCON_CALL_METHOD_PARAMS_1(entity, model_manager, "getmodel", model_name, PH_NO_CHECK);
 		if (!zend_is_true(entity)) {
 			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, phalcon_model_exception_ce);
+			object_init_ex(i0, phalcon_mvc_model_exception_ce);
 			PHALCON_INIT_VAR(r0);
 			PHALCON_CONCAT_SVS(r0, "The model ", model_name, " does not exist");
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
@@ -311,16 +314,19 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 			
 			PHALCON_INIT_VAR(t3);
 			phalcon_read_property(&t3, this_ptr, SL("_data"), PH_NOISY_CC);
-			if (phalcon_valid_foreach(t3 TSRMLS_CC)) {
-				ah1 = Z_ARRVAL_P(t3);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-				fes_a355_1:
+			if (!phalcon_valid_foreach(t3 TSRMLS_CC)) {
+				return;
+			}
+			
+			ah1 = Z_ARRVAL_P(t3);
+			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+			fes_111d_1:
 				if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-					goto fee_a355_1;
-				} else {
-					PHALCON_INIT_VAR(param);
-					PHALCON_GET_FOREACH_KEY(param, ah1, hp1);
+					goto fee_111d_1;
 				}
+				
+				PHALCON_INIT_VAR(param);
+				PHALCON_GET_FOREACH_KEY(param, ah1, hp1);
 				PHALCON_INIT_VAR(value);
 				ZVAL_ZVAL(value, *hd, 1, 0);
 				PHALCON_INIT_VAR(r2);
@@ -342,14 +348,14 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 							if (eval_int) {
 								PHALCON_INIT_VAR(condition);
 								PHALCON_CONCAT_VSV(condition, param, " = ?", i);
-								phalcon_array_update(&parameters, i, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+								phalcon_array_update_zval(&parameters, i, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 							} else {
 								PHALCON_INIT_VAR(condition);
 								PHALCON_CONCAT_VSV(condition, param, " LIKE ?", i);
 								
 								PHALCON_INIT_VAR(r7);
 								PHALCON_CONCAT_SVS(r7, "%", value, "%");
-								phalcon_array_update(&parameters, i, &r7, PH_COPY | PH_SEPARATE TSRMLS_CC);
+								phalcon_array_update_zval(&parameters, i, &r7, PH_COPY | PH_SEPARATE TSRMLS_CC);
 							}
 							phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 						}
@@ -358,12 +364,10 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 				PHALCON_SEPARATE(i);
 				increment_function(i);
 				zend_hash_move_forward_ex(ah1, &hp1);
-				goto fes_a355_1;
-				fee_a355_1:
-				if(0){}
-			} else {
-				return;
-			}
+				goto fes_111d_1;
+			fee_111d_1:
+			if(0){}
+			
 		} else {
 			PHALCON_INIT_VAR(parameters);
 			phalcon_read_property(&parameters, this_ptr, SL("_parameters"), PH_NOISY_CC);
@@ -389,12 +393,10 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
 		
 		RETURN_CCTOR(conditions);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_a355_0;
-		fee_a355_0:
-		if(0){}
-	} else {
-		return;
-	}
+		goto fes_111d_0;
+	fee_111d_0:
+	if(0){}
+	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -406,7 +408,7 @@ PHP_METHOD(Phalcon_Model_Query, getConditions){
  * @param array $data
  * @return Phalcon\Model\Query
  */
-PHP_METHOD(Phalcon_Model_Query, fromInput){
+PHP_METHOD(Phalcon_Mvc_Model_Query, fromInput){
 
 	zval *model_name = NULL, *data = NULL, *query = NULL;
 
@@ -418,7 +420,7 @@ PHP_METHOD(Phalcon_Model_Query, fromInput){
 	}
 
 	PHALCON_INIT_VAR(query);
-	object_init_ex(query, phalcon_model_query_ce);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
 	PHALCON_CALL_METHOD_NORETURN(query, "__construct", PH_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "from", model_name, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setinputdata", data, PH_NO_CHECK);

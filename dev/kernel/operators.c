@@ -183,7 +183,9 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 			convert_to_bool(result);
 			break;*/
 		case IS_ARRAY:
-			convert_to_array(result);
+			if (Z_TYPE_P(result) != IS_ARRAY) {
+				convert_to_array(result);
+			}
 			break;
 	}
 

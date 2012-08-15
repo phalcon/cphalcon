@@ -21,7 +21,6 @@
 use Phalcon\Db\Column as Column;
 use Phalcon\Db\Index as Index;
 use Phalcon\Db\Reference as Reference;
-use Phalcon\Db\Dialect\Mysql as DialectMysql;
 
 class DbDialectTest extends PHPUnit_Framework_TestCase {
 
@@ -169,7 +168,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($column7->isNotNull());
 
 		//Float column
-		$column7 = $columns['column8'];
+		$column8 = $columns['column8'];
 
 		$this->assertEquals($column8->getName(), 'column8');
 		$this->assertEquals($column8->getType(), Column::TYPE_FLOAT);
@@ -217,7 +216,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 
 	public function testMysqlDialect(){
 
-		$dialect = new DialectMysql();
+		$dialect = new \Phalcon\Db\Dialect\Mysql();
 
 		$columns = $dialect->getColumnList(array('column1', 'column2', 'column3'));
 		$this->assertEquals($columns, "`column1`, `column2`, `column3`");
@@ -250,7 +249,7 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($dialect->addColumn('table', null, $columns['column7']), 'ALTER TABLE `table` ADD `column7` TEXT NOT NULL');
 		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column7']), 'ALTER TABLE `schema`.`table` ADD `column7` TEXT NOT NULL');
 		$this->assertEquals($dialect->addColumn('table', null, $columns['column8']), 'ALTER TABLE `table` ADD `column8` FLOAT(10,2) NOT NULL');
-		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column8']), 'ALTER TABLE `table` ADD `column8` FLOAT(10,2) NOT NULL');
+		$this->assertEquals($dialect->addColumn('table', 'schema', $columns['column8']), 'ALTER TABLE `schema`.`table` ADD `column8` FLOAT(10,2) NOT NULL');
 		//Modify Columns
 		$this->assertEquals($dialect->modifyColumn('table', null, $columns['column1']), 'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)');
 		$this->assertEquals($dialect->modifyColumn('table', 'schema', $columns['column1']), 'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)');

@@ -39,7 +39,7 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon_Logger_Adapter_File
+ * Phalcon\Logger\Adapter\File
  *
  * Adapter to store logs in plain text files
  *
@@ -47,7 +47,7 @@
  */
 
 /**
- * Phalcon_Logger_Adapter_File constructor
+ * Phalcon\Logger\Adapter\File constructor
  *
  * @param string $name
  * @param array $options
@@ -393,11 +393,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &message, &type) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &type) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!type) {
+		PHALCON_ALLOC_ZVAL_MM(type);
+		ZVAL_LONG(type, 7);
+	}
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!zend_is_true(t0)) {
@@ -478,10 +483,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, SL("_quenue"), PH_NOISY_CC);
-	if (phalcon_valid_foreach(t1 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(t1);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_654f_1:
+	if (!phalcon_valid_foreach(t1 TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(t1);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_654f_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_654f_1;
 		}
@@ -505,11 +513,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", t2, r4);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_654f_1;
-		fee_654f_1:
-		if(0){}
-	} else {
-		return;
-	}
+	fee_654f_1:
+	if(0){}
+	
 	
 	PHALCON_MM_RESTORE();
 }

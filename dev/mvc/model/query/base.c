@@ -32,21 +32,21 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 	pToken->token = estrndup(token->value, token->len);
 	pToken->token_len = token->len;
 	phql_(phql_parser, parsercode, pToken, parser_status);
-	efree(token->value);				
+	efree(token->value);
 }
 
 int phql_parse_sql(zval *result, zval *sql){
-	zval *error_msg;	
-	phql_internal_parse_sql(&result, Z_STRVAL_P(sql), &error_msg);	
+	zval *error_msg;
+	return phql_internal_parse_sql(&result, Z_STRVAL_P(sql), &error_msg);
 }
 
 int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 
-	char *error;	
+	char *error;
 	phql_scanner_state *state;
-	phql_scanner_token *token;	
-	int scanner_status, status = SUCCESS;	
-	phql_parser_status *parser_status = NULL;	
+	phql_scanner_token *token;
+	int scanner_status, status = SUCCESS;
+	phql_parser_status *parser_status = NULL;
 	TSRMLS_FETCH();
 
 	void* phql_parser = phql_Alloc(phql_wrapper_alloc);
@@ -61,17 +61,17 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phql_get_token(state, token))) {		
+	while(0 <= (scanner_status = phql_get_token(state, token))) {
 
 		switch(token->opcode){
 
 			case PHQL_T_IGNORE:
 				break;
 
-			case PHQL_T_ADD:				
+			case PHQL_T_ADD:
 				phql_(phql_parser, PHQL_PLUS, NULL, parser_status);
 				break;
-			case PHQL_T_SUB:				
+			case PHQL_T_SUB:
 				phql_(phql_parser, PHQL_MINUS, NULL, parser_status);
 				break;
 			case PHQL_T_MUL:
@@ -80,25 +80,25 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 			case PHQL_T_DIV:
 				phql_(phql_parser, PHQL_DIVIDE, NULL, parser_status);
 				break;
-			case PHQL_T_AND:				
+			case PHQL_T_AND:
 				phql_(phql_parser, PHQL_AND, NULL, parser_status);
 				break;
-			case PHQL_T_OR:				
+			case PHQL_T_OR:
 				phql_(phql_parser, PHQL_OR, NULL, parser_status);
 				break;
-			case PHQL_T_EQUALS:	      		
+			case PHQL_T_EQUALS:
 				phql_(phql_parser, PHQL_EQUALS, NULL, parser_status);
 				break;
-			case PHQL_T_NOTEQUALS:				
+			case PHQL_T_NOTEQUALS:
 				phql_(phql_parser, PHQL_NOTEQUALS, NULL, parser_status);
 				break;
-			case PHQL_T_LESS:	      			
+			case PHQL_T_LESS:
 				phql_(phql_parser, PHQL_LESS, NULL, parser_status);
 				break;
-			case PHQL_T_GREATER:	      			
+			case PHQL_T_GREATER:
 				phql_(phql_parser, PHQL_GREATER, NULL, parser_status);
 				break;
-			case PHQL_T_LIKE:	      			
+			case PHQL_T_LIKE:
 				phql_(phql_parser, PHQL_LIKE, NULL, parser_status);
 				break;
 			case PHQL_T_NOT:
@@ -107,7 +107,7 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
 				break;
-			case PHQL_T_COMMA:	      			
+			case PHQL_T_COMMA:
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
 
@@ -137,67 +137,67 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				phql_parse_with_token(phql_parser, PHQL_T_SPLACEHOLDER, PHQL_SPLACEHOLDER, token, parser_status);
 				break;
 
-			case PHQL_T_FROM:				
+			case PHQL_T_FROM:
 				phql_(phql_parser, PHQL_FROM, NULL, parser_status);
 				break;
-			case PHQL_T_UPDATE:	      			
+			case PHQL_T_UPDATE:
 				phql_(phql_parser, PHQL_UPDATE, NULL, parser_status);
 				break;
-			case PHQL_T_SET:	      			
+			case PHQL_T_SET:
 				phql_(phql_parser, PHQL_SET, NULL, parser_status);
 				break;
-			case PHQL_T_WHERE:	      	
+			case PHQL_T_WHERE:
 				phql_(phql_parser, PHQL_WHERE, NULL, parser_status);
 				break;
-			case PHQL_T_DELETE:	      		
+			case PHQL_T_DELETE:
 				phql_(phql_parser, PHQL_DELETE, NULL, parser_status);
 				break;
-			case PHQL_T_INSERT:	      		
+			case PHQL_T_INSERT:
 				phql_(phql_parser, PHQL_INSERT, NULL, parser_status);
 				break;
 			case PHQL_T_INTO:
 				phql_(phql_parser, PHQL_INTO, NULL, parser_status);
 				break;
-			case PHQL_T_VALUES:	
+			case PHQL_T_VALUES:
 				phql_(phql_parser, PHQL_VALUES, NULL, parser_status);
 				break;
-			case PHQL_T_SELECT:	      			
+			case PHQL_T_SELECT:
 				phql_(phql_parser, PHQL_SELECT, NULL, parser_status);
 				break;
-			case PHQL_T_AS:	
+			case PHQL_T_AS:
 				phql_(phql_parser, PHQL_AS, NULL, parser_status);
 				break;
 			case PHQL_T_ORDER:
 				phql_(phql_parser, PHQL_ORDER, NULL, parser_status);
 				break;
-			case PHQL_T_BY:	      		
+			case PHQL_T_BY:
 				phql_(phql_parser, PHQL_BY, NULL, parser_status);
 				break;
 			case PHQL_T_LIMIT:
 				phql_(phql_parser, PHQL_LIMIT, NULL, parser_status);
 				break;
-			case PHQL_T_GROUP:				
+			case PHQL_T_GROUP:
 				phql_(phql_parser, PHQL_GROUP, NULL, parser_status);
 				break;
-			case PHQL_T_HAVING:	      		
+			case PHQL_T_HAVING:
 				phql_(phql_parser, PHQL_HAVING, NULL, parser_status);
 				break;
 			case PHQL_T_IN:
 				phql_(phql_parser, PHQL_IN, NULL, parser_status);
 				break;
-			case PHQL_T_ON:				
+			case PHQL_T_ON:
 				phql_(phql_parser, PHQL_ON, NULL, parser_status);
 				break;
-			case PHQL_T_INNER:	           
+			case PHQL_T_INNER:
 				phql_(phql_parser, PHQL_INNER, NULL, parser_status);
 				break;
-			case PHQL_T_JOIN:				
+			case PHQL_T_JOIN:
 				phql_(phql_parser, PHQL_JOIN, NULL, parser_status);
 				break;
-			case PHQL_T_LEFT:	               
+			case PHQL_T_LEFT:
 				phql_(phql_parser, PHQL_LEFT, NULL, parser_status);
 				break;
-			case PHQL_T_RIGHT:	
+			case PHQL_T_RIGHT:
 				phql_(phql_parser, PHQL_RIGHT, NULL, parser_status);
 				break;
 			case PHQL_T_IS:
@@ -210,7 +210,7 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				status = FAILURE;
 				error = emalloc(sizeof(char)*32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);				
+				PHALCON_ALLOC_ZVAL_MM(*error_msg);
 				ZVAL_STRING(*error_msg, error, 0);
 				break;
 		}
@@ -228,7 +228,7 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
 				PHALCON_ALLOC_ZVAL_MM(*error_msg);
-				if (state->start) {					
+				if (state->start) {
 					error = emalloc(sizeof(char)*(48+strlen(state->start)));
 					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
 					ZVAL_STRING(*error_msg, error, 0);
@@ -245,7 +245,9 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 	phql_Free(phql_parser, phql_wrapper_free);
 
 	if (parser_status->status == PHQL_PARSING_OK) {
-		ZVAL_ZVAL(*result, parser_status->ret, 1, 0);
+		ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+		ZVAL_NULL(parser_status->ret);
+		zval_ptr_dtor(&parser_status->ret);
 	}
 
 	efree(parser_status);

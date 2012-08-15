@@ -522,6 +522,55 @@ void phalcon_concat_vvs(zval *result, zval *op1, zval *op2, char *op3, zend_uint
 
 }
 
+void phalcon_concat_vvsv(zval *result, zval *op1, zval *op2, char *op3, zend_uint op3_len, zval *op4 TSRMLS_DC){
+
+	zval op1_copy, op2_copy, op4_copy;
+	int use_copy1 = 0, use_copy2 = 0, use_copy4 = 0;
+
+	if (Z_TYPE_P(op1) != IS_STRING) {
+		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+		if (use_copy1) {
+			op1 = &op1_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op2) != IS_STRING) {
+		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
+		if (use_copy2) {
+			op2 = &op2_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op4) != IS_STRING) {
+		zend_make_printable_zval(op4, &op4_copy, &use_copy4);
+		if (use_copy4) {
+			op4 = &op4_copy;
+		}
+	}
+
+	Z_STRLEN_P(result) = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + op3_len + Z_STRLEN_P(op4);
+	Z_STRVAL_P(result) = (char *) emalloc(Z_STRLEN_P(result) + 1);
+	memcpy(Z_STRVAL_P(result), Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), op3, op3_len);
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+op3_len, Z_STRVAL_P(op4), Z_STRLEN_P(op4));
+	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+	Z_TYPE_P(result) = IS_STRING;
+
+	if (use_copy1) {
+		zval_dtor(op1);
+	}
+
+	if (use_copy2) {
+		zval_dtor(op2);
+	}
+
+	if (use_copy4) {
+		zval_dtor(op4);
+	}
+
+}
+
 void phalcon_concat_vvv(zval *result, zval *op1, zval *op2, zval *op3 TSRMLS_DC){
 
 	zval op1_copy, op2_copy, op3_copy;
@@ -553,55 +602,6 @@ void phalcon_concat_vvv(zval *result, zval *op1, zval *op2, zval *op3 TSRMLS_DC)
 	memcpy(Z_STRVAL_P(result), Z_STRVAL_P(op1), Z_STRLEN_P(op1));
 	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
 	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
-	Z_TYPE_P(result) = IS_STRING;
-
-	if (use_copy1) {
-		zval_dtor(op1);
-	}
-
-	if (use_copy2) {
-		zval_dtor(op2);
-	}
-
-	if (use_copy3) {
-		zval_dtor(op3);
-	}
-
-}
-
-void phalcon_concat_vvvs(zval *result, zval *op1, zval *op2, zval *op3, char *op4, zend_uint op4_len TSRMLS_DC){
-
-	zval op1_copy, op2_copy, op3_copy;
-	int use_copy1 = 0, use_copy2 = 0, use_copy3 = 0;
-
-	if (Z_TYPE_P(op1) != IS_STRING) {
-		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
-		if (use_copy1) {
-			op1 = &op1_copy;
-		}
-	}
-
-	if (Z_TYPE_P(op2) != IS_STRING) {
-		zend_make_printable_zval(op2, &op2_copy, &use_copy2);
-		if (use_copy2) {
-			op2 = &op2_copy;
-		}
-	}
-
-	if (Z_TYPE_P(op3) != IS_STRING) {
-		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
-		if (use_copy3) {
-			op3 = &op3_copy;
-		}
-	}
-
-	Z_STRLEN_P(result) = Z_STRLEN_P(op1) + Z_STRLEN_P(op2) + Z_STRLEN_P(op3) + op4_len;
-	Z_STRVAL_P(result) = (char *) emalloc(Z_STRLEN_P(result) + 1);
-	memcpy(Z_STRVAL_P(result), Z_STRVAL_P(op1), Z_STRLEN_P(op1));
-	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1), Z_STRVAL_P(op2), Z_STRLEN_P(op2));
-	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+Z_STRLEN_P(op2), Z_STRVAL_P(op3), Z_STRLEN_P(op3));
-	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+Z_STRLEN_P(op2)+Z_STRLEN_P(op3), op4, op4_len);
 	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	Z_TYPE_P(result) = IS_STRING;
 

@@ -41,7 +41,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
     phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 	#ifndef PHALCON_RELEASE
-	phalcon_globals->phalcon_stack_stats = 0;	
+	phalcon_globals->phalcon_stack_stats = 0;
 	#endif
 }
 
@@ -207,6 +207,30 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 	}
 
 }
+
+/**
+ * Inmediate function resolution for strpos function
+ */
+void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+
+	char *found = NULL;
+
+	if (Z_TYPE_P(haystack) != IS_STRING) {
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for strpos()");
+		return;
+	}
+
+	found = php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
+
+	if(found){
+		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
+	} else {
+		ZVAL_BOOL(return_value, 0);
+	}
+
+}
+
 
 /**
  * Inmediate function resolution for str_replace function

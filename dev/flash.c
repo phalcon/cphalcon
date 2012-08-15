@@ -71,13 +71,17 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 	PHALCON_INIT_VAR(eol);
 	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
-		if (phalcon_valid_foreach(message TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(message);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_3b3c_0:
+		if (!phalcon_valid_foreach(message TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(message);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_3b3c_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_3b3c_0;
 			}
+			
 			PHALCON_INIT_VAR(msg);
 			ZVAL_ZVAL(msg, *hd, 1, 0);
 			PHALCON_INIT_VAR(r0);
@@ -85,11 +89,9 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			zend_print_zval(r0, 1);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_3b3c_0;
-			fee_3b3c_0:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_3b3c_0:
+		if(0){}
+		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
 		PHALCON_CONCAT_SVSVSV(r1, "<div class=\"", css_classes, "\">", message, "</div>", eol);

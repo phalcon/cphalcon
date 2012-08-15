@@ -33,9 +33,9 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon\Dispatcher\Exception
+ * Phalcon\Mvc\Dispatcher\Exception
  *
- * Exceptions thrown in Phalcon_Dispatcher will use this class
+ * Exceptions thrown in Phalcon\Mvc\Dispatcher will use this class
  *
  */
 

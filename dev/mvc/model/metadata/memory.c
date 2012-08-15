@@ -35,9 +35,7 @@
 /**
  * Phalcon\Model\MetaData\Memory
  *
- * Stores model meta-data in memory. Data will be erased when the request finishes
- *
- * 
+ * Stores model meta-data in memory. Data will be erased when the request finishes 
  *
  */
 
@@ -46,7 +44,7 @@
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Model_MetaData_Memory, read){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){
 
 	zval *a0 = NULL;
 
@@ -62,7 +60,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Memory, read){
  *
  * @param array $data
  */
-PHP_METHOD(Phalcon_Model_MetaData_Memory, write){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write){
 
 
 	

@@ -20,8 +20,6 @@
 
 class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
-	private $_manager;
-
 	private $_data = array(
 		'robots' => array(
 			0 => array(
@@ -45,50 +43,68 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 				3 => 'year',
 			),
 			4 => array(
-				'id' => 'int(10) unsigned',
-				'name' => 'varchar(70)',
-				'type' => 'varchar(32)',
-				'year' => 'int(11)',
+				'id' => 0,
+				'name' => 2,
+				'type' => 2,
+				'year' => 0,
 			),
 			5 => array(
 				'id' => true,
 				'year' => true,
 			),
-			8 => 'id',
-		),
+			8 => 'id'
+		)
 	);
 
-	public function setUp(){
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
 
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
 
-		require 'unit-tests/config.db.php';
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+	protected function _getDI()
+	{
 
-		$this->_manager = new Phalcon\Model\Manager();
-		$this->_manager->setModelsDir('unit-tests/models/');
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		return $di;
 	}
 
 	public function testMetadataMemory(){
 
-		$manager = $this->_manager;
+		$di = $this->_getDI();
 
-		$memoryMetaData = new Phalcon\Model\Metadata('Memory');
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
 
-		$manager->setMetaData($memoryMetaData);
-
-		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
+		$metaData = $di->getShared('modelsMetadata');
 
 		$metaData->reset();
 
 		$this->assertTrue($metaData->isEmpty());
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
 
 		Robots::findFirst();
 
@@ -98,26 +114,21 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 	public function testMetadataSession(){
 
-		$manager = $this->_manager;
-
 		@session_start();
 
-		$config = new stdClass();
-		$config->suffix = 'my-local-app';
+		$di = $this->_getDI();
 
-		$sessionMetaData = new Phalcon\Model\Metadata('Session', $config);
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Session(array(
+				'suffix' => 'my-local-app'
+			));
+		});
 
-		$manager->setMetaData($sessionMetaData);
-
-		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
+		$metaData = $di->getShared('modelsMetadata');
 
 		$metaData->reset();
 
 		$this->assertTrue($metaData->isEmpty());
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
 
 		Robots::findFirst();
 
@@ -137,59 +148,20 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 		apc_delete('$PMM$my-local-app');
 
-		$manager = $this->_manager;
+		$di = $this->_getDI();
 
-		$config = new stdClass();
-		$config->suffix = 'my-local-app';
-		$config->lifetime = 60;
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Apc(array(
+				'suffix' => 'my-local-app',
+				'lifetime' =>60
+			));
+		});
 
-		$apcMetaData = new Phalcon\Model\Metadata('Apc', $config);
-
-		$manager->setMetaData($apcMetaData);
-
-		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
+		$metaData = $di->getShared('modelsMetadata');
 
 		$metaData->reset();
 
 		$this->assertTrue($metaData->isEmpty());
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		Robots::findFirst();
-
-		$metaData->storeMetaData();
-
-		$this->assertEquals(apc_fetch('$PMM$my-local-app'), $this->_data);
-
-		$this->assertFalse($metaData->isEmpty());
-
-	}
-
-	public function testMetadataConfigApc(){
-
-		apc_delete('$PMM$my-local-app');
-
-		$options = new stdClass();
-		$options->metadata = new stdClass();
-		$options->metadata->adapter = 'Apc';
-		$options->metadata->suffix = 'my-local-app';
-		$options->metadata->lifetime = 60;
-
-		Phalcon\Model\Manager::reset();
-
-		$manager = new Phalcon\Model\Manager($options);
-
-		$metaData = $manager->getMetaData();
-		$this->assertEquals(get_class($metaData), 'Phalcon\Model\MetaData');
-
-		$metaData->reset();
-
-		$this->assertTrue($metaData->isEmpty());
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
 
 		Robots::findFirst();
 

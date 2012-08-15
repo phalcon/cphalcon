@@ -75,6 +75,7 @@ extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
+extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
 extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
 /** Low level filters */
@@ -115,14 +116,11 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
  * Return zval checking if it's needed to ctor
  */
 #define RETURN_CCTOR(var) { \
-		zend_uchar is_ref = Z_ISREF_P(return_value); \
-		zend_uint refcount = Z_REFCOUNT_P(return_value); \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
 			zval_copy_ctor(return_value); \
 		} \
-		Z_SET_ISREF_TO_P(return_value, is_ref); \
-		Z_SET_REFCOUNT_P(return_value, refcount); \
+		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
 	return;
@@ -131,12 +129,9 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
  * Return zval with always ctor
  */
 #define RETURN_CTOR(var) { \
-		zend_uchar is_ref = Z_ISREF_P(return_value); \
-		zend_uint refcount = Z_REFCOUNT_P(return_value); \
 		*(return_value) = *(var); \
 		zval_copy_ctor(return_value); \
-		Z_SET_ISREF_TO_P(return_value, is_ref); \
-		Z_SET_REFCOUNT_P(return_value, refcount); \
+		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
 	return;
@@ -145,11 +140,8 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
  * Returns variables without ctor
  */
 #define RETURN_NCTOR(var) { \
-		zend_uchar is_ref = Z_ISREF_P(return_value); \
-		zend_uint refcount = Z_REFCOUNT_P(return_value); \
 		*(return_value) = *(var); \
-		Z_SET_ISREF_TO_P(return_value, is_ref); \
-		Z_SET_REFCOUNT_P(return_value, refcount); \
+		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
 	return;

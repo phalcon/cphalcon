@@ -37,20 +37,20 @@
 #include "kernel/object.h"
 
 /**
- * Phalcon_View_Engine
+ * Phalcon\Mvc\View\Engine
  *
  * All the template engine adapters must inherit this class. This provides
- * basic interfacing between the engine and the Phalcon_View component.
+ * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
 
 /**
- * Phalcon_View_Engine constructor
+ * Phalcon\Mvc\View\Engine constructor
  *
- * @param Phalcon_View $view
+ * @param Phalcon\Mvc\View $view
  * @param array $options
  * @param array $params
  */
-PHP_METHOD(Phalcon_View_Engine, __construct){
+PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
 	zval *view = NULL, *options = NULL;
 
@@ -69,10 +69,10 @@ PHP_METHOD(Phalcon_View_Engine, __construct){
 /**
  * Initializes the engine adapter
  *
- * @param Phalcon_View $view
+ * @param Phalcon\Mvc\View $view
  * @param array $options
  */
-PHP_METHOD(Phalcon_View_Engine, initialize){
+PHP_METHOD(Phalcon_Mvc_View_Engine, initialize){
 
 	zval *view = NULL, *options = NULL;
 
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_View_Engine, initialize){
 	}
 
 	if (Z_TYPE_P(view) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Invalid view component provided to Phalcon_View_Engine");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid view component provided to Phalcon_Mvc_View_Engine");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_View_Engine, initialize){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_View_Engine, getControllerName){
+PHP_METHOD(Phalcon_Mvc_View_Engine, getControllerName){
 
 	zval *t0 = NULL;
 	zval *r0 = NULL;
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_View_Engine, getControllerName){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_View_Engine, getActionName){
+PHP_METHOD(Phalcon_Mvc_View_Engine, getActionName){
 
 	zval *t0 = NULL;
 	zval *r0 = NULL;
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_View_Engine, getActionName){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_View_Engine, getContent){
+PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
 
 	zval *t0 = NULL;
 	zval *r0 = NULL;
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_View_Engine, getContent){
  * @param array|string $params
  * @return string
  */
-PHP_METHOD(Phalcon_View_Engine, url){
+PHP_METHOD(Phalcon_Mvc_View_Engine, url){
 
 	zval *params = NULL;
 	zval *r0 = NULL;
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_View_Engine, url){
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\utils", "geturl", params);
+		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\mvc\\url", "geturl", params);
 		RETURN_CTOR(r0);
 	}
 	
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_View_Engine, url){
  * @param array|string $params
  * @return string
  */
-PHP_METHOD(Phalcon_View_Engine, path){
+PHP_METHOD(Phalcon_Mvc_View_Engine, path){
 
 	zval *params = NULL;
 	zval *r0 = NULL;
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_View_Engine, path){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\utils", "getlocalpath", params);
+	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\mvc\\url", "getlocalpath", params);
 	RETURN_CTOR(r0);
 }
 
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_View_Engine, path){
  *
  * @param string $partialPath
  */
-PHP_METHOD(Phalcon_View_Engine, partial){
+PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
 	zval *partial_path = NULL;
 	zval *t0 = NULL;

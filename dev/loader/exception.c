@@ -35,7 +35,7 @@
 /**
  * Phalcon\Loader\Exception
  *
- * Exceptions thrown in Phalcon_Loader will use this class
+ * Exceptions thrown in Phalcon\Loader will use this class
  *
  */
 

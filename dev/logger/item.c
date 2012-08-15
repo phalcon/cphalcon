@@ -35,14 +35,14 @@
 #include "kernel/object.h"
 
 /**
- * Phalcon_Logger_Item
+ * Phalcon\Logger\Item
  *
  * Represents each item in a logger transaction
  *
  */
 
 /**
- * Phalcon_Logger_Item contructor
+ * Phalcon\Logger\Item contructor
  *
  * @param string $message
  * @param integer $type

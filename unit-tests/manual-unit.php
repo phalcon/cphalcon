@@ -20,43 +20,51 @@
 
 error_reporting(E_ALL | E_NOTICE | E_STRICT);
 
-class PHPUnit_Framework_TestCase {
+class PHPUnit_Framework_TestCase
+{
 
-	public function assertInstanceOf($className, $object){
-		if(get_class($object)!=$className){
+	public function assertInstanceOf($className, $object)
+	{
+		if (get_class($object) != $className) {
 			throw new Exception('Not instance of '.get_class($object));
 		}
 	}
 
-	public function assertEquals($a, $b){
-		if($a!=$b){
+	public function assertEquals($a, $b)
+	{
+		if ($a != $b) {
 			throw new Exception('Not equals '.print_r($a, true).' != '.print_r($b, true));
 		}
 	}
 
-	public function assertNotEquals($a, $b){
-		if($a==$b){
+	public function assertNotEquals($a, $b)
+	{
+		if ($a == $b) {
 			throw new Exception('Equals '.$a.'=='.$b);
 		}
 	}
 
-	public function assertFalse($a){
-		if($a){
+	public function assertFalse($a)
+	{
+		if ($a) {
 			throw new Exception('Not false');
 		}
 	}
 
-	public function assertTrue($a){
-		if(!$a){
+	public function assertTrue($a)
+	{
+		if (!$a) {
 			throw new Exception('Not true');
 		}
 	}
 
-	public function assertGreaterThan(){
+	public function assertGreaterThan()
+	{
 		return true;
 	}
 
-	public static function main($className){
+	public static function main($className)
+	{
 		echo 'Testing ', $className, ' ';
 		if(class_exists($className, false)){
 			$class = new $className();
@@ -80,23 +88,23 @@ class PHPUnit_Framework_TestCase {
 
 }
 
-if(PHP_OS=='Linux'){
+if (PHP_OS == 'Linux') {
 	if(isset($_SERVER['LOGNAME']) && $_SERVER['LOGNAME']=='gutierrezandresfelipe'){
 		chdir('/home/gutierrezandresfelipe/cphalcon');
 	}
 }
 
-if(!extension_loaded('phalcon')){
+if (!extension_loaded('phalcon')) {
 	throw new Exception("Sorry, but phalcon extension is not loaded");
 }
 
-if(isset($_SERVER['argv'][1])){
+if (isset($_SERVER['argv'][1])) {
 	$file = $_SERVER['argv'][1];
 	require $_SERVER['argv'][1];
-	if(isset($_SERVER['argv'][2])){
+	if (isset($_SERVER['argv'][2])) {
 		$className = $_SERVER['argv'][2];
 	} else {
-		if(preg_match('#/([a-zA-Z0-9]+)\.php$#', $_SERVER['argv'][1], $matches)){
+		if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $_SERVER['argv'][1], $matches)) {
 			$className = $matches[1];
 		} else {
 			throw new Exception("class-name plz");
@@ -105,10 +113,10 @@ if(isset($_SERVER['argv'][1])){
 	PHPUnit_Framework_TestCase::main($className);
 } else {
 	$xml = simplexml_load_file('unit-tests/phpunit.xml');
-	foreach($xml->testsuites as $suite){
-		foreach($suite->testsuite->file as $file){
+	foreach ($xml->testsuites as $suite) {
+		foreach ($suite->testsuite->file as $file) {
 			$fileName = (string) $file;
-			if(preg_match('#/([a-zA-Z0-9]+)\.php$#', $fileName, $matches)){
+			if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $fileName, $matches)) {
 				require $fileName;
 				PHPUnit_Framework_TestCase::main($matches[1]);
 			} else {

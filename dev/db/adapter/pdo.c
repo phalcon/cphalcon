@@ -32,11 +32,11 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -46,24 +46,41 @@
  */
 
 /**
- * Constructor for Phalcon\Db\Adapter\Pdo. This method does not should to be called directly. Use Phalcon_Db::factory instead
+ * Constructor for Phalcon\Db\Adapter\Pdo
  *
- * @param Phalcon\Db\Dialect $dialect
- * @param stdClass $descriptor
+ * @param array $descriptor
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 
-	zval *dialect = NULL, *descriptor = NULL;
+	zval *descriptor = NULL, *dialect_class = NULL;
+	zval *t0 = NULL;
+	zval *i0 = NULL;
+	int eval_int;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &dialect, &descriptor) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &descriptor) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dialect"), dialect TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_descriptor"), descriptor TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(descriptor, SL("dialectClass")+1);
+	if (!eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(t0);
+		phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(dialect_class);
+		PHALCON_CONCAT_SV(dialect_class, "phalcon\\db\\dialect\\", t0);
+	} else {
+		PHALCON_INIT_VAR(dialect_class);
+		phalcon_array_fetch_string(&dialect_class, descriptor, SL("dialectClass"), PH_NOISY_CC);
+	}
+	ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(i0);
+	object_init_ex(i0, ce0);
+	PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PH_CHECK);
+	phalcon_update_property_zval(this_ptr, SL("_dialect"), i0 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "connect", descriptor, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -73,18 +90,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
  * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection
  *
- * @param stdClass $descriptor
+ * @param array $descriptor
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
-	zval *descriptor = NULL, *dsn = NULL, *username = NULL, *password = NULL, *options = NULL;
-	zval *persistent = NULL;
+	zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts = NULL;
+	zval *value = NULL, *key = NULL, *dsn = NULL, *options = NULL, *persistent = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL, *t9 = NULL;
+	zval *t7 = NULL;
+	zval *c0 = NULL;
 	zval *i0 = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
 	int eval_int;
-	zend_class_entry *ce0, *ce1, *ce2, *ce3, *ce4, *ce5, *ce6;
+	zend_class_entry *ce0, *ce1, *ce2, *ce3, *ce4, *ce5, *ce6, *ce7;
 
 	PHALCON_MM_GROW();
 	
@@ -104,82 +130,110 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_INIT_VAR(descriptor);
 		phalcon_read_property(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
 	}
-	eval_int = phalcon_isset_property(descriptor, SL("dsn") TSRMLS_CC);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, descriptor, SL("dsn"), PH_NOISY_CC);
-		PHALCON_INIT_VAR(dsn);
-		PHALCON_CONCAT_VSV(dsn, t0, ":", t1);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "PDO DSN is required");
-		return;
-	}
-	
-	eval_int = phalcon_isset_property(descriptor, SL("username") TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(descriptor, SL("username")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(username);
-		phalcon_read_property(&username, descriptor, SL("username"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&username, descriptor, SL("username"), PH_NOISY_CC);
+		PHALCON_SEPARATE_PARAM(descriptor);
+		phalcon_array_unset_string(descriptor, SL("username")+1);
 	} else {
 		PHALCON_INIT_VAR(username);
 		ZVAL_NULL(username);
 	}
 	
-	eval_int = phalcon_isset_property(descriptor, SL("password") TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(descriptor, SL("password")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(password);
-		phalcon_read_property(&password, descriptor, SL("password"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&password, descriptor, SL("password"), PH_NOISY_CC);
+		PHALCON_SEPARATE_PARAM(descriptor);
+		phalcon_array_unset_string(descriptor, SL("password")+1);
 	} else {
 		PHALCON_INIT_VAR(password);
 		ZVAL_NULL(password);
 	}
 	
+	PHALCON_INIT_VAR(dsn_parts);
+	array_init(dsn_parts);
+	if (!phalcon_valid_foreach(descriptor TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(descriptor);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_7f5d_0:
+		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			goto fee_7f5d_0;
+		}
+		
+		PHALCON_INIT_VAR(key);
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_INIT_VAR(value);
+		ZVAL_ZVAL(value, *hd, 1, 0);
+		PHALCON_INIT_VAR(r0);
+		PHALCON_CONCAT_VSV(r0, key, "=", value);
+		phalcon_array_append(&dsn_parts, r0, PH_SEPARATE TSRMLS_CC);
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto fes_7f5d_0;
+	fee_7f5d_0:
+	if(0){}
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, ";", 1);
+	
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	phalcon_fast_join(r1, c0, dsn_parts TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(dsn);
+	PHALCON_CONCAT_VSV(dsn, t0, ":", r1);
+	
 	PHALCON_INIT_VAR(options);
 	array_init(options);
 	ce0 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_get_class_constant(t2, ce0, SL("ERRMODE_SILENT") TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t1);
+	phalcon_get_class_constant(t1, ce0, SL("ERRMODE_SILENT") TSRMLS_CC);
 	ce1 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_get_class_constant(t3, ce1, SL("ATTR_ERRMODE") TSRMLS_CC);
-	phalcon_array_update(&options, t3, &t2, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_get_class_constant(t2, ce1, SL("ATTR_ERRMODE") TSRMLS_CC);
+	phalcon_array_update_zval(&options, t2, &t1, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	ce2 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t4);
-	phalcon_get_class_constant(t4, ce2, SL("CASE_LOWER") TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t3);
+	phalcon_get_class_constant(t3, ce2, SL("CASE_LOWER") TSRMLS_CC);
 	ce3 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t5);
-	phalcon_get_class_constant(t5, ce3, SL("ATTR_CASE") TSRMLS_CC);
-	phalcon_array_update(&options, t5, &t4, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t4);
+	phalcon_get_class_constant(t4, ce3, SL("ATTR_CASE") TSRMLS_CC);
+	phalcon_array_update_zval(&options, t4, &t3, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	ce4 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t6);
-	phalcon_get_class_constant(t6, ce4, SL("CURSOR_SCROLL") TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t5);
+	phalcon_get_class_constant(t5, ce4, SL("CURSOR_SCROLL") TSRMLS_CC);
 	ce5 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t7);
-	phalcon_get_class_constant(t7, ce5, SL("ATTR_CURSOR") TSRMLS_CC);
-	phalcon_array_update(&options, t7, &t6, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	eval_int = phalcon_isset_property(descriptor, SL("persistent") TSRMLS_CC);
+	PHALCON_ALLOC_ZVAL_MM(t6);
+	phalcon_get_class_constant(t6, ce5, SL("ATTR_CURSOR") TSRMLS_CC);
+	phalcon_array_update_zval(&options, t6, &t5, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(descriptor, SL("persistent")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(persistent);
-		phalcon_read_property(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
-			PHALCON_INIT_VAR(t8);
-			ZVAL_BOOL(t8, 1);
 			ce6 = zend_fetch_class(SL("pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_ALLOC_ZVAL_MM(t9);
-			phalcon_get_class_constant(t9, ce6, SL("ATTR_PERSISTENT") TSRMLS_CC);
-			phalcon_array_update(&options, t9, &t8, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t7);
+			phalcon_get_class_constant(t7, ce6, SL("ATTR_PERSISTENT") TSRMLS_CC);
+			phalcon_array_update_zval_bool(&options, t7, 1, PH_SEPARATE TSRMLS_CC);
 		}
 	}
 	
+	ce7 = zend_fetch_class(SL("Pdo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_db_connection_pdo_ce);
+	object_init_ex(i0, ce7);
 	PHALCON_CALL_METHOD_PARAMS_4_NORETURN(i0, "__construct", dsn, username, password, options, PH_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), i0 TSRMLS_CC);
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
@@ -200,9 +254,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
-	zval *sql_statement = NULL, *pdo = NULL, *result = NULL, *error_info = NULL;
+	zval *sql_statement = NULL, *events_manager = NULL, *pdo = NULL, *result = NULL;
+	zval *error_info = NULL;
+	zval *c0 = NULL, *c1 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -211,7 +267,21 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_beforequery", sql_statement, PH_NO_CHECK);
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (zend_is_true(events_manager)) {
+		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "db:beforeQuery", 1);
+		
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_METHOD_PARAMS_2(r0, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+		if (Z_TYPE_P(r0) == IS_BOOL && !Z_BVAL_P(r0)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
 	
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
@@ -219,7 +289,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_1(result, pdo, "query", sql_statement, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_afterquery", sql_statement, PH_NO_CHECK);
+		if (zend_is_true(events_manager)) {
+			PHALCON_INIT_VAR(c1);
+			ZVAL_STRING(c1, "db:afterQuery", 1);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			PHALCON_CALL_METHOD_PARAMS_2(r1, events_manager, "fire", c1, this_ptr, PH_NO_CHECK);
+			if (Z_TYPE_P(r1) == IS_BOOL && !Z_BVAL_P(r1)) {
+				PHALCON_MM_RESTORE();
+				RETURN_FALSE;
+			}
+		}
 		
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_db_result_pdo_ce);
@@ -234,12 +313,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	PHALCON_ALLOC_ZVAL_MM(i1);
 	object_init_ex(i1, phalcon_db_exception_ce);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_long(&r0, error_info, 2, PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	phalcon_array_fetch_long(&r2, error_info, 2, PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_long(&r1, error_info, 1, PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i1, "__construct", r0, r1, PH_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r3);
+	PHALCON_CONCAT_VSV(r3, r2, " when executing ", sql_statement);
+	
+	PHALCON_ALLOC_ZVAL_MM(r4);
+	phalcon_array_fetch_long(&r4, error_info, 1, PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i1, "__construct", r3, r4, PH_CHECK);
 	phalcon_throw_exception(i1 TSRMLS_CC);
 	return;
 }
@@ -257,10 +339,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
-	zval *sql_statement = NULL, *placeholders = NULL, *pdo = NULL, *n = NULL, *statement = NULL;
-	zval *value = NULL, *affected_rows = NULL, *error_info = NULL;
+	zval *sql_statement = NULL, *placeholders = NULL, *events_manager = NULL;
+	zval *pdo = NULL, *n = NULL, *statement = NULL, *value = NULL, *success = NULL, *affected_rows = NULL;
+	zval *error_info = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -279,25 +363,42 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		PHALCON_CPY_WRT(placeholders, a0);
 	}
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_beforequery", sql_statement, PH_NO_CHECK);
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (zend_is_true(events_manager)) {
+		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "db:beforeQuery", 1);
+		
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_METHOD_PARAMS_2(r0, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+		if (Z_TYPE_P(r0) == IS_BOOL && !Z_BVAL_P(r0)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
 	
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_fast_count(r0, placeholders TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	PHALCON_ALLOC_ZVAL_MM(r1);
+	phalcon_fast_count(r1, placeholders TSRMLS_CC);
+	if (zend_is_true(r1)) {
 		PHALCON_INIT_VAR(n);
 		ZVAL_LONG(n, 1);
 		
 		PHALCON_INIT_VAR(statement);
 		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
-		if (phalcon_valid_foreach(placeholders TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(placeholders);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_7f5d_0:
+		if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(placeholders);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_7f5d_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_7f5d_0;
+				goto fee_7f5d_1;
 			}
 			
 			PHALCON_INIT_VAR(value);
@@ -306,26 +407,40 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 			PHALCON_SEPARATE(n);
 			increment_function(n);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_7f5d_0;
-			fee_7f5d_0:
-			if(0){}
-		} else {
-			return;
-		}
-		PHALCON_CALL_METHOD_NORETURN(statement, "execute", PH_NO_CHECK);
+			goto fes_7f5d_1;
+		fee_7f5d_1:
+		if(0){}
+		
+		PHALCON_INIT_VAR(success);
+		PHALCON_CALL_METHOD(success, statement, "execute", PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(affected_rows);
 		PHALCON_CALL_METHOD(affected_rows, statement, "rowcount", PH_NO_CHECK);
 	} else {
+		PHALCON_INIT_VAR(success);
+		ZVAL_BOOL(success, 1);
+		
 		PHALCON_INIT_VAR(affected_rows);
 		PHALCON_CALL_METHOD_PARAMS_1(affected_rows, pdo, "exec", sql_statement, PH_NO_CHECK);
 	}
 	
-	if (Z_TYPE_P(affected_rows) == IS_LONG) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_afterquery", sql_statement, PH_NO_CHECK);
-		phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
-		PHALCON_MM_RESTORE();
-		RETURN_TRUE;
+	if (zend_is_true(success)) {
+		if (Z_TYPE_P(affected_rows) == IS_LONG) {
+			phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
+			if (zend_is_true(events_manager)) {
+				PHALCON_INIT_VAR(c1);
+				ZVAL_STRING(c1, "db:afterQuery", 1);
+				PHALCON_ALLOC_ZVAL_MM(r2);
+				PHALCON_CALL_METHOD_PARAMS_2(r2, events_manager, "fire", c1, this_ptr, PH_NO_CHECK);
+				if (Z_TYPE_P(r2) == IS_BOOL && !Z_BVAL_P(r2)) {
+					PHALCON_MM_RESTORE();
+					RETURN_FALSE;
+				}
+			}
+			
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
 	}
 	
 	PHALCON_INIT_VAR(error_info);
@@ -334,12 +449,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_db_exception_ce);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_long(&r1, error_info, 2, PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r3);
+	phalcon_array_fetch_long(&r3, error_info, 2, PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_array_fetch_long(&r2, error_info, 1, PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r1, r2, PH_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r4);
+	PHALCON_CONCAT_VSV(r4, r3, " when executing ", sql_statement);
+	
+	PHALCON_ALLOC_ZVAL_MM(r5);
+	phalcon_array_fetch_long(&r5, error_info, 1, PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r4, r5, PH_CHECK);
 	phalcon_throw_exception(i0 TSRMLS_CC);
 	return;
 }
@@ -440,16 +558,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 		
 		PHALCON_INIT_VAR(pdo);
 		phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-		if (phalcon_valid_foreach(params TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(params);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_7f5d_1:
+		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_7f5d_2:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_7f5d_1;
-			} else {
-				PHALCON_INIT_VAR(index);
-				PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
+				goto fee_7f5d_2;
 			}
+			
+			PHALCON_INIT_VAR(index);
+			PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
 			PHALCON_INIT_VAR(bind_value);
 			ZVAL_ZVAL(bind_value, *hd, 1, 0);
 			PHALCON_INIT_VAR(r1);
@@ -479,12 +600,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_7f5d_1;
-			fee_7f5d_1:
-			if(0){}
-		} else {
-			return;
-		}
+			goto fes_7f5d_2;
+		fee_7f5d_2:
+		if(0){}
+		
 		
 		RETURN_CCTOR(select);
 	}
@@ -1119,44 +1238,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, getColumnDefinition){
 }
 
 /**
- * Generates SQL describing a table
- *
- * @param string $table
- * @param string $schema
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeTable){
-
-	zval *table = NULL, *schema = NULL, *sql = NULL, *describe = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "describetable", table, schema, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_ASSOC") TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
-	
-	RETURN_CCTOR(describe);
-}
-
-/**
  * List all tables on a database
  *
  * @param string $schemaName
@@ -1196,12 +1277,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, listTables){
 	
 	PHALCON_INIT_VAR(all_tables);
 	array_init(all_tables);
-	if (phalcon_valid_foreach(tables TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(tables);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_7f5d_2:
+	if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(tables);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_7f5d_3:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_7f5d_2;
+			goto fee_7f5d_3;
 		}
 		
 		PHALCON_INIT_VAR(table);
@@ -1210,12 +1294,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, listTables){
 		phalcon_array_fetch_long(&r0, table, 0, PH_NOISY_CC);
 		phalcon_array_append(&all_tables, r0, PH_SEPARATE TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_7f5d_2;
-		fee_7f5d_2:
-		if(0){}
-	} else {
-		return;
-	}
+		goto fes_7f5d_3;
+	fee_7f5d_3:
+	if(0){}
+	
 	
 	RETURN_CTOR(all_tables);
 }

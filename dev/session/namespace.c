@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Session_Namespace, __set){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_data"), PH_NOISY_CC);
-	phalcon_array_update(&t0, property, &value, PH_COPY TSRMLS_CC);
+	phalcon_array_update_zval(&t0, property, &value, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_data"), t0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t1);

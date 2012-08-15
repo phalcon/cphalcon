@@ -46,10 +46,10 @@
 /**
  * Phalcon\View\Engine\Mustache constructor
  *
- * @param Phalcon_View $view
+ * @param Phalcon\Mvc\View $view
  * @param array $options
  */
-PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __construct){
 
 	zval *view = NULL, *options = NULL, *mustache = NULL;
 	zval *c0 = NULL;
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", c0);
 	if (!zend_is_true(r0)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Mustache class must be loaded first");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Mustache class must be loaded first");
 		return;
 	}
 	eval_int = phalcon_array_isset_string(options, SL("mustache")+1);
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_mustache"), mustache TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\View\\Engine\\Mustache", "__construct", view, options);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Mvc\\View\\Engine\\Mustache", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __construct){
  * @param string $path
  * @param array $params
  */
-PHP_METHOD(Phalcon_View_Engine_Mustache, render){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, render){
 
 	zval *path = NULL, *params = NULL, *template = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, render){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_View_Engine_Mustache, __isset){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __isset){
 
 	zval *property = NULL;
 	zval *t0 = NULL;
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __isset){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_View_Engine_Mustache, __get){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __get){
 
 	zval *property = NULL;
 	zval *t0 = NULL, *t1 = NULL;
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_View_Engine_Mustache, __get){
  * @param string $method
  * @param array $arguments
  */
-PHP_METHOD(Phalcon_View_Engine_Mustache, __call){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __call){
 
 	zval *method = NULL, *arguments = NULL;
 	zval *a0 = NULL;

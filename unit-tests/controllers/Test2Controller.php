@@ -1,6 +1,6 @@
 <?php
 
-class Test2Controller extends Phalcon\Controller {
+class Test2Controller extends Phalcon\Mvc\Controller {
 
 	public function indexAction(){
 
@@ -19,7 +19,7 @@ class Test2Controller extends Phalcon\Controller {
 	}
 
 	public function anotherThreeAction(){
-		return $this->_forward('test2/anotherfour');
+		return $this->dispatcher->forward(array('controller' => 'test2', 'action' => 'anotherfour'));
 	}
 
 	public function anotherFourAction(){

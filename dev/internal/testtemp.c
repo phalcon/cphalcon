@@ -54,15 +54,11 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e5a){
 PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 
 	zval *a = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a);
 	array_init(a);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "LOL", 1);
-	phalcon_array_update_long(&a, 0, &t0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long_string(&a, 0, SL("LOL"), PH_SEPARATE TSRMLS_CC);
 	
 	RETURN_CTOR(a);
 }
@@ -70,19 +66,12 @@ PHP_METHOD(Phalcon_Internal_TestTemp, e9a){
 PHP_METHOD(Phalcon_Internal_TestTemp, e10a){
 
 	zval *a = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(a);
 	array_init(a);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "LOL", 1);
-	phalcon_array_update_long(&a, 0, &t0, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 0);
-	phalcon_array_update_string(&a, SL("LOL"), &t1, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long_string(&a, 0, SL("LOL"), PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string_long(&a, SL("LOL"), 0, PH_SEPARATE TSRMLS_CC);
 	
 	RETURN_CTOR(a);
 }

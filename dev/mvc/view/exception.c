@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_View_Exception
+ * Phalcon\Mvc\View\Exception
  *
- * Class for exceptions thrown by Phalcon_View
+ * Class for exceptions thrown by Phalcon\Mvc\View
  */
 

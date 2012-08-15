@@ -18,26 +18,47 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
+class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testModels(){
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
 
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
 
-		require 'unit-tests/config.db.php';
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+	public function testModels()
+	{
 
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
+		Phalcon\DI::reset();
 
-		$success = $manager->load('Subscriptores');
-		$this->assertTrue($success);
+		$di = new Phalcon\DI();
 
-		$connection = Phalcon\Db\Pool::getConnection();
-		$this->assertTrue(is_object($connection));
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$connection = $di->getShared('db');
 
 		$success = $connection->delete("subscriptores");
 		$this->assertTrue($success);
@@ -59,7 +80,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 		$messages = $subscriptor->getMessages();
 		$this->assertEquals($messages[0]->getType(), "email");
 		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' should be a valid e-mail");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
 
 		$subscriptor->email = 'le_fuego@hotmail.com';
 		$subscriptor->status = 'X';

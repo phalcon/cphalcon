@@ -18,37 +18,61 @@
   +------------------------------------------------------------------------+
 */
 
+class DbLoggerListener
+{
+
+	protected $_logger;
+
+	public function __construct(){
+		$this->_logger = new \Phalcon\Logger\Adapter\File('unit-tests/logs/test-db.log');
+	}
+
+	public function afterQuery($event, $connection)
+	{
+		$this->_logger->log($connection->getSQLStatement());
+	}
+
+	public function getProfiler(){
+		return $this->_profiler;
+	}
+
+	public function getLogger(){
+		return $this->_logger;
+	}
+
+}
+
 class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 	public function testDbLoggerMysql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('mysql', $configMysql);
-		$this->assertTrue(is_object($connection));
+		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 		$this->_executeTests($connection);
 	}
 
-	/*public function testDbLoggerPostgresql(){
+	public function testDbLoggerPostgresql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('Postgresql', $configPostgresql);
-		$this->assertTrue(is_object($connection));
+		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
 		$this->_executeTests($connection);
-	}*/
+	}
 
 	protected function _executeTests($connection){
 
 		@unlink('unit-tests/logs/test-db.log');
 
-		$logger = new Phalcon\Logger('File', 'unit-tests/logs/test-db.log');
-		$connection->setLogger($logger);
+		$eventsManager = new Phalcon\Events\Manager();
 
-		$this->assertTrue(is_object($connection->getLogger()));
-		$this->assertEquals(get_class($connection->getLogger()), 'Phalcon\Logger');
+		$listener = new DbLoggerListener();
+
+		$eventsManager->attach('db', $listener);
+
+		$connection->setEventsManager($eventsManager);
 
 		$connection->query("SELECT * FROM personas LIMIT 3");
 		$connection->query("SELECT * FROM personas LIMIT 10");
@@ -56,7 +80,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($connection->close());
 
-		$logger->close();
+		$listener->getLogger()->close();
 
 		$lines = file('unit-tests/logs/test-db.log');
 		$this->assertEquals(count($lines), 3);

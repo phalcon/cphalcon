@@ -38,19 +38,19 @@
 #include "kernel/object.h"
 
 /**
- * Phalcon_View_Engine_Twig
+ * Phalcon\Mvc\View\Engine\Twig
  *
  * Adapter to use Twig library as templating engine
  */
 
 /**
- * Phalcon_View_Engine_Twig constructor
+ * Phalcon\Mvc\View\Engine\Twig constructor
  *
- * @param Phalcon_View $view
+ * @param Phalcon\Mvc\View $view
  * @param array $options
  * @param array $params
  */
-PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Twig, __construct){
 
 	zval *view = NULL, *options = NULL, *twig = NULL, *loader = NULL;
 	zval *c0 = NULL;
@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", c0);
 	if (!zend_is_true(r0)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_view_exception_ce, "Twig library must be loaded first");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Twig library must be loaded first");
 		return;
 	}
 	eval_int = phalcon_array_isset_string(options, SL("twig")+1);
@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_twig"), twig TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\View\\Engine\\Twig", "__construct", view, options);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Mvc\\View\\Engine\\Twig", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_View_Engine_Twig, __construct){
  * @param string $path
  * @param array $params
  */
-PHP_METHOD(Phalcon_View_Engine_Twig, render){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Twig, render){
 
 	zval *path = NULL, *params = NULL, *view = NULL, *twig_params = NULL, *relative_path = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;

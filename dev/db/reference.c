@@ -46,7 +46,7 @@
  */
 
 /**
- * Phalcon_Db_Reference constructor
+ * Phalcon\Db\Reference constructor
  *
  * @param string $referenceName
  * @param array $definition
@@ -230,10 +230,10 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns){
 }
 
 /**
- * Restore a Phalcon_Db_Reference object from export
+ * Restore a Phalcon\Db\Reference object from export
  *
  * @param array $data
- * @return Phalcon_Db_Reference
+ * @return Phalcon\Db\Reference
  */
 PHP_METHOD(Phalcon_Db_Reference, __set_state){
 

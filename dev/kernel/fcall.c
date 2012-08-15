@@ -262,7 +262,7 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 
 	zval *fn = NULL;
 	int status = FAILURE;
-	zend_class_entry *active_scope = NULL;
+	zend_class_entry *ce, *active_scope = NULL;
 
 	if (check) {
 		if (!zend_hash_exists(&Z_OBJCE_P(object)->function_table, method_name, method_len+1)) {
@@ -279,8 +279,9 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
-		phalcon_find_scope(Z_OBJCE_P(object), method_name, method_len TSRMLS_CC);
-		status = phalcon_call_user_function(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
+		ce = Z_OBJCE_P(object);
+		phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
+		status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 		if (status == FAILURE) {
 			EG(scope) = active_scope;
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", Z_STRVAL_P(fn), Z_OBJCE_P(object)->name);
@@ -738,6 +739,7 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 	} else {
 		params_array = NULL;
 	}
+
 	ex_retval = phalcon_call_user_function_ex(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
@@ -868,8 +870,8 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 	for (i=0; i<fci->param_count; i++) {
 		zval *param;
 
-		if (EX(function_state).function->type == ZEND_INTERNAL_FUNCTION 
-			&& (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) == 0 
+		if (EX(function_state).function->type == ZEND_INTERNAL_FUNCTION
+			&& (EX(function_state).function->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) == 0
 			&& !ARG_SHOULD_BE_SENT_BY_REF(EX(function_state).function, i + 1)
 			&& PZVAL_IS_REF(*fci->params[i])) {
 			ALLOC_ZVAL(param);

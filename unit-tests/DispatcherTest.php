@@ -20,36 +20,34 @@
 
 class DispatcherTest extends PHPUnit_Framework_TestCase {
 
-	private $_dispatcher;
-
-	public function setUp(){
-		$this->_dispatcher = new Phalcon\Dispatcher();
+	public function dispatcherAutoloader($className){
+		if(file_exists('unit-tests/controllers/'.$className.'.php')){
+			require 'unit-tests/controllers/'.$className.'.php';
+		}
 	}
 
 	public function testDispatcher(){
 
-		$dispatcher = new Phalcon\Dispatcher();
+		spl_autoload_register(array($this, 'dispatcherAutoloader'));
 
-		$controllersDir = 'unit-tests/controllers/';
-		$dispatcher->setControllersDir($controllersDir);
-		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
+		$di = new Phalcon\DI();
 
-		$request = Phalcon\Request::getInstance();
-		$this->assertInstanceOf('Phalcon\Request', $request);
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+		$this->assertInstanceOf('Phalcon\DI', $dispatcher->getDI());
 
-		$response = Phalcon\Response::getInstance();
-		$this->assertInstanceOf('Phalcon\Response', $response);
+		$di->set('dispatcher', $dispatcher);
 
 		$dispatcher->setControllerName('index');
 		$dispatcher->setActionName('index');
 		$dispatcher->setParams(array());
 
 		try {
-			$dispatcher->dispatch($request, $response);
+			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "File for controller class IndexController doesn't exist");
+			$this->assertEquals($e->getMessage(), "Service 'IndexController' wasn't found in the dependency injection container");
 		}
 
 		$dispatcher->setControllerName('essai');
@@ -57,11 +55,11 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 
 		try {
-			$dispatcher->dispatch($request, $response);
+			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "File for controller class EssaiController doesn't exist");
+			$this->assertEquals($e->getMessage(), "Service 'EssaiController' wasn't found in the dependency injection container");
 		}
 
 		$dispatcher->setControllerName('test0');
@@ -69,11 +67,11 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 
 		try {
-			$dispatcher->dispatch($request, $response);
+			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "Class Test0Controller was not found on controller file");
+			$this->assertEquals($e->getMessage(), "Service 'Test0Controller' wasn't found in the dependency injection container");
 		}
 
 		$dispatcher->setControllerName('test1');
@@ -81,7 +79,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 
 		try {
-			$dispatcher->dispatch($request, $response);
+			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
@@ -91,7 +89,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('index');
 		$dispatcher->setParams(array());
-		$controller = $dispatcher->dispatch($request, $response);
+		$controller = $dispatcher->dispatch();
 		$this->assertInstanceOf('Test2Controller', $controller);
 
 		$dispatcher->setControllerName('test2');
@@ -99,7 +97,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setParams(array());
 
 		try {
-			$dispatcher->dispatch($request, $response);
+			$dispatcher->dispatch();
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
@@ -109,75 +107,41 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('other');
 		$dispatcher->setParams(array());
-		$controller = $dispatcher->dispatch($request, $response);
+		$controller = $dispatcher->dispatch();
 		$this->assertInstanceOf('Test2Controller', $controller);
 
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('another');
 		$dispatcher->setParams(array());
-		$dispatcher->dispatch($request, $response);
+		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 100);
 
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('anotherTwo');
 		$dispatcher->setParams(array(2, "3"));
-		$dispatcher->dispatch($request, $response);
+		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 5);
 
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('anotherthree');
 		$dispatcher->setParams(array());
-		$dispatcher->dispatch($request, $response);
+		$dispatcher->dispatch();
 		$value = $dispatcher->getActionName();
 		$this->assertEquals($value, 'anotherfour');
+		$value = $dispatcher->getReturnedValue();
+		$this->assertEquals($value, 120);
 
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('anotherFive');
 		$dispatcher->setParams(array("param1" => 2, "param2" => 3));
-		$dispatcher->dispatch($request, $response);
+		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 5);
 
-		$this->assertEquals(count($dispatcher->getControllers()), 2);
+		spl_autoload_register(array($this, 'dispatcherAutoloader'));
 
-	}
-
-	public function testEvents(){
-
-		$dispatcher = new Phalcon\Dispatcher();
-
-		$controllersDir = 'unit-tests/controllers/';
-		$dispatcher->setControllersDir($controllersDir);
-		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
-
-		$request = Phalcon\Request::getInstance();
-		$this->assertInstanceOf('Phalcon\Request', $request);
-
-		$response = Phalcon\Response::getInstance();
-		$this->assertInstanceOf('Phalcon\Response', $response);
-
-		//beforeDispatch event
-		$dispatcher->setControllerName('test5');
-		$dispatcher->setActionName('notexists');
-		$dispatcher->setParams(array());
-		$dispatcher->dispatch($request, $response);
-		$value = $dispatcher->getActionName();
-		$this->assertEquals($value, 'notexists');
-
-		//Not found event
-		$value = $dispatcher->getReturnedValue();
-		$this->assertEquals($value, 'not-found');
-
-		//afterDispatch event
-		$dispatcher->setControllerName('test6');
-		$dispatcher->setActionName('index');
-		$dispatcher->setParams(array());
-		$dispatcher->dispatch($request, $response);
-		$value = $dispatcher->getReturnedValue();
-		$this->assertEquals($value, false);
-		
 	}
 
 }

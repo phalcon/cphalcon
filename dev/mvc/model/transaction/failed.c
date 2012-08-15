@@ -36,19 +36,19 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon_Transaction_Failed
+ * Phalcon\Mvc\Model\Transaction\Failed
  *
- * Phalcon_Transaction_Failed will thrown to exit a try/catch block for transactions
+ * Phalcon\Mvc\Model\Transaction\Failed will be thrown to exit a try/catch block for transactions
  *
  */
 
 /**
- * Phalcon_Transaction_Failed constructor
+ * Phalcon\Mvc\Model\Transaction\Failed constructor
  *
  * @param string $message
- * @param Phalcon_Model_Base $record
+ * @param Phalcon\Mvc\Model $record
  */
-PHP_METHOD(Phalcon_Transaction_Failed, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 
 	zval *message = NULL, *record = NULL;
 	zval *c0 = NULL;
@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_LONG(c0, 0);
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Transaction\\Failed", "__construct", message, c0);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Mvc\\Model\\Transaction\\Failed", "__construct", message, c0);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Transaction_Failed, __construct){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 
 	zval *record = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -98,9 +98,9 @@ PHP_METHOD(Phalcon_Transaction_Failed, getRecordMessages){
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return Phalcon_Model_Base
+ * @return Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Transaction_Failed, getRecord){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord){
 
 	zval *t0 = NULL;
 

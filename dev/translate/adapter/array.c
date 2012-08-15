@@ -120,16 +120,19 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			phalcon_fast_count(r0, placeholders TSRMLS_CC);
 			if (zend_is_true(r0)) {
-				if (phalcon_valid_foreach(placeholders TSRMLS_CC)) {
-					ah0 = Z_ARRVAL_P(placeholders);
-					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-					fes_2f22_0:
+				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+					return;
+				}
+				
+				ah0 = Z_ARRVAL_P(placeholders);
+				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+				fes_2f22_0:
 					if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 						goto fee_2f22_0;
-					} else {
-						PHALCON_INIT_VAR(key);
-						PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 					}
+					
+					PHALCON_INIT_VAR(key);
+					PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 					PHALCON_INIT_VAR(value);
 					ZVAL_ZVAL(value, *hd, 1, 0);
 					PHALCON_INIT_VAR(r1);
@@ -139,11 +142,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_Array, query){
 					PHALCON_CPY_WRT(translation, r2);
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_2f22_0;
-					fee_2f22_0:
-					if(0){}
-				} else {
-					return;
-				}
+				fee_2f22_0:
+				if(0){}
+				
 			}
 		}
 		

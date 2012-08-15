@@ -24,10 +24,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('mysql', $configMysql);
-
-		$this->assertTrue(is_object($connection));
-		$this->assertEquals(get_class($connection), 'Phalcon\Db\Adapter\Pdo\Mysql');
+		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 		$this->_executeTests($connection);
 
@@ -37,13 +34,9 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = Phalcon\Db::factory('postgresql', $configPostgresql);
-
-		$this->assertTrue(is_object($connection));
-		$this->assertEquals(get_class($connection), 'Phalcon\Db\Adapter\Pdo\Postgresql');
+		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
 		$this->_executeTests($connection);
-
 	}
 
 	protected function _executeTests($connection){

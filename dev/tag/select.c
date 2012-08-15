@@ -129,16 +129,19 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVSVS(code, "<select id=\"", id, "\" name=\"", id, "\"");
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-		if (phalcon_valid_foreach(params TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(params);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_9c31_0:
+		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_9c31_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_9c31_0;
-			} else {
-				PHALCON_INIT_VAR(key);
-				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			}
+			
+			PHALCON_INIT_VAR(key);
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_INIT_VAR(avalue);
 			ZVAL_ZVAL(avalue, *hd, 1, 0);
 			if (Z_TYPE_P(key) != IS_LONG) {
@@ -150,11 +153,9 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_9c31_0;
-			fee_9c31_0:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_9c31_0:
+		if(0){}
+		
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
@@ -296,16 +297,19 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
-	if (phalcon_valid_foreach(data TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(data);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_9c31_2:
+	if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(data);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_9c31_2:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9c31_2;
-		} else {
-			PHALCON_INIT_VAR(option_value);
-			PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		}
+		
+		PHALCON_INIT_VAR(option_value);
+		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_INIT_VAR(option_text);
 		ZVAL_ZVAL(option_text, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -321,11 +325,9 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9c31_2;
-		fee_9c31_2:
-		if(0){}
-	} else {
-		return;
-	}
+	fee_9c31_2:
+	if(0){}
+	
 	
 	RETURN_CTOR(code);
 }

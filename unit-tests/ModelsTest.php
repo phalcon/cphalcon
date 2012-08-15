@@ -18,57 +18,76 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Db\Pool as DbPool;
-use Phalcon\Model\Message as ModelMessage;
-use Phalcon\Model\Manager as ModelManager;
+use Phalcon\Mvc\Model\Message as ModelMessage;
 
-class ModelsTest extends PHPUnit_Framework_TestCase {
+class ModelsTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testModelsMysql(){
-
-		DbPool::reset();
-
-		require 'unit-tests/config.db.php';
-
-		DbPool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(DbPool::hasDefaultDescriptor());
-
-		$this->_executeTests();
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
 	}
 
-	public function testModelsPostgresql(){
+	protected function _getDI()
+	{
 
-		DbPool::reset();
+		Phalcon\DI::reset();
 
-		require 'unit-tests/config.db.php';
+		$di = new Phalcon\DI();
 
-		DbPool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(DbPool::hasDefaultDescriptor());
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
 
-		$this->_executeTests();
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		return $di;
 	}
 
-	protected function _executeTests(){
+	public function testModelsMysql()
+	{
 
-		ModelManager::reset();
+		$di = $this->_getDI();
 
-		$modelManager = new ModelManager();
-		$modelManager->setModelsDir('unit-tests/models/');
+		$di->set('db', function(){
 
-		$Personas = $modelManager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
+			require 'unit-tests/config.db.php';
 
-		$People = $modelManager->getModel('People');
-		$this->assertEquals(get_class($People), 'People');
+			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
-		$Robots = $modelManager->getModel('Robots');
-		$this->assertEquals(get_class($Robots), 'Robots');
+			$db->delete("personas", "estado='X'");
 
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, DbPool::getConnection());
+			return $db;
+		});
 
-		$manager = $Personas->getManager();
-		$this->assertEquals(get_class($manager), 'Phalcon\Model\Manager');
+		$this->_executeTests($di);
+	}
+
+	public function testModelsPostgresql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+
+			$db = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+
+			$db->delete("personas", "estado='X'");
+
+			return $db;
+		});
+
+		$this->_executeTests($di);
+	}
+
+	protected function _executeTests($di){
+
+		spl_autoload_register(array($this, 'modelsAutoloader'));
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
@@ -179,7 +198,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->assertEquals($number, 20);
 
-		$persona = new Personas($modelManager);
+		$persona = new Personas($di);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$this->assertFalse($persona->save());
 
@@ -211,7 +230,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($persona->getMessages(), $messages);
 
 		//Save
-		$persona = new Personas($modelManager);
+		$persona = new Personas($di);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
@@ -220,7 +239,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$persona->estado = 'A';
 		$this->assertTrue($persona->save());
 
-		$persona = new Personas($modelManager);
+		$persona = new Personas($di);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
@@ -245,6 +264,8 @@ class ModelsTest extends PHPUnit_Framework_TestCase {
 		$before = People::count();
 		$this->assertTrue($persona->delete());
 		$this->assertEquals($before-1, People::count());
+
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
 

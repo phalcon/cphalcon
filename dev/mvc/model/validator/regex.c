@@ -38,7 +38,7 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Model\Validator\Regex
+ * Phalcon\Mvc\Model\Validator\Regex
  *
  * Allows to validate if the value of a field matches a regular expression
  *
@@ -47,60 +47,61 @@
  */
 
 /**
- * Check that the options are correct
- *
- */
-PHP_METHOD(Phalcon_Model_Validator_Regex, checkOptions){
-
-	zval *c0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "pattern", 1);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c0, PH_NO_CHECK);
-	if (!zend_is_true(r0)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_model_exception_ce, "Validator requires a perl-compatible regex pattern");
-		return;
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
  * Executes the validator
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
-	zval *matches = NULL, *failed = NULL, *value = NULL, *field_name = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *record = NULL, *field_name = NULL, *value = NULL, *failed = NULL, *matches = NULL;
+	zval *pattern = NULL;
+	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 
 	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(field_name);
+	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", c0, PH_NO_CHECK);
+	if (Z_TYPE_P(field_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "pattern", 1);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c1, PH_NO_CHECK);
+	if (!zend_is_true(r0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator requires a perl-compatible regex pattern");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(value);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(failed);
+	ZVAL_BOOL(failed, 0);
+	
 	PHALCON_INIT_VAR(matches);
 	ZVAL_NULL(matches);
 	
-	PHALCON_INIT_VAR(failed);
-	ZVAL_BOOL(failed, 1);
+	PHALCON_INIT_VAR(c2);
+	ZVAL_STRING(c2, "pattern", 1);
 	
-	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD(value, this_ptr, "getvalue", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(field_name);
-	PHALCON_CALL_METHOD(field_name, this_ptr, "getfieldname", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "pattern", 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "getoption", c0, PH_NO_CHECK);
+	PHALCON_INIT_VAR(pattern);
+	PHALCON_CALL_METHOD_PARAMS_1(pattern, this_ptr, "getoption", c2, PH_NO_CHECK);
 	Z_SET_ISREF_P(matches);
 	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_match", r0, value, matches);
+	PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_match", pattern, value, matches);
 	Z_UNSET_ISREF_P(matches);
 	if (zend_is_true(r1)) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
@@ -109,26 +110,24 @@ PHP_METHOD(Phalcon_Model_Validator_Regex, validate){
 		is_not_equal_function(r3, r2, value TSRMLS_CC);
 		if (zend_is_true(r3)) {
 			PHALCON_INIT_VAR(failed);
-			ZVAL_BOOL(failed, 0);
+			ZVAL_BOOL(failed, 1);
 		}
 	} else {
 		PHALCON_INIT_VAR(failed);
-		ZVAL_BOOL(failed, 0);
+		ZVAL_BOOL(failed, 1);
 	}
 	
-	if (!zend_is_true(failed)) {
+	if (zend_is_true(failed)) {
 		PHALCON_ALLOC_ZVAL_MM(r4);
 		PHALCON_CONCAT_SVS(r4, "Value of field '", field_name, "' doesn't match regular expression");
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "regex", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r4, field_name, c1, PH_NO_CHECK);
+		PHALCON_INIT_VAR(c3);
+		ZVAL_STRING(c3, "regex", 1);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r4, field_name, c3, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
-	} else {
-		PHALCON_MM_RESTORE();
-		RETURN_TRUE;
 	}
 	
 	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
 }
 

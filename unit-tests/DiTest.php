@@ -18,15 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
-class DiTest extends PHPUnit_Framework_TestCase {
+class DiTest extends PHPUnit_Framework_TestCase
+{
 
 	protected $_di;
 
-	public function setUp(){
+	public function setUp()
+	{
 		$this->_di = new \Phalcon\DI();
 	}
 
-	public function testSetString(){
+	public function testSetString()
+	{
 
 		$this->_di->set('request1', 'Phalcon\Http\Request');
 
@@ -34,7 +37,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
 	}
 
-	public function testSetAnonymousFunction(){
+	public function testSetAnonymousFunction()
+	{
 
 		$this->_di->set('request2', function(){
 			return new Phalcon\Http\Request();
@@ -44,7 +48,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
 	}
 
-	public function testSetArray(){
+	public function testSetArray()
+	{
 
 		$this->_di->set('request3', array(
 			'className' => 'Phalcon\Http\Request'
@@ -54,7 +59,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
 	}
 
-	public function testAtempt(){
+	public function testAtempt()
+	{
 
 		$this->_di->set('request4', function(){
 			return new Phalcon\Http\Request();
@@ -76,7 +82,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testHas(){
+	public function testHas()
+	{
 
 		$this->_di->set('request6', function(){
 			return new Phalcon\Http\Request();
@@ -86,7 +93,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->_di->has('request7'));
 	}
 
-	public function testShared(){
+	public function testShared()
+	{
 
 		$this->_di->set('dateObject', function(){
 			$object = new stdClass();
@@ -96,6 +104,7 @@ class DiTest extends PHPUnit_Framework_TestCase {
 
 		$dateObject = $this->_di->getShared('dateObject');
 		$this->assertEquals(get_class($dateObject), 'stdClass');
+		$this->assertTrue($this->_di->wasFreshInstance());
 
 		$dateObject2 = $this->_di->getShared('dateObject');
 		$this->assertEquals(get_class($dateObject), 'stdClass');
@@ -104,7 +113,8 @@ class DiTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testMagicCall(){
+	public function testMagicCall()
+	{
 
 		$this->_di->set('request8', 'Phalcon\Http\Request');
 

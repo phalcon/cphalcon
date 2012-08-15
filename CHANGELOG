@@ -1,20 +1,36 @@
+0.5.0a3
+ - Added Phalcon\DI as dependency injector container
+ - Added Phalcon\Events as events management component
+ - Removed Phalcon\Router\Rewrite
+ - Phalcon\Router\Regex moved to Phalcon\Mvc\Router
+ - Phalcon\Dispatcher moved to Phalcon\Mvc\Dispatcher
+ - Phalcon\Mvc\Dispatcher::forward now only accepts an array parameter
+ - Dispatcher events has been removed (beforeDispatch and afterDispatch) in favor of the new EventsManager component
+ - Controller look up based on controllersDir has been removed in favor of autoloaders
+ - Phalcon\Controller moved to Phalcon\Mvc\Controller
+ - Phalcon\Model moved to Phalcon\Mvc\Model
+ - Phalcon\Transaction moved to Phalcon\Mvc\Model\Transaction
+ - Removed Phalcon\Db\Pool
+ - ModelsManager look up based on modelsDir has been removed in favor of autoloaders
+ - Phalcon\Db\Pdo::describeColumns return an array of Phalcon\Db\Columns
+
 0.5.0a2
  - Removed memory leaks when reading class constants
  - Replaced the database native adapters by PDO
 
 0.5.0a1
- - Classes are now registered as PHP namespaces. 
+ - Classes are now registered as PHP namespaces.
  - Improved stability running Phalcon with PHP versions lower or equal than 5.3.3
  - Thousand of unnecesary intermediate variables were removed improving stability
  - Phalcon now performs a reduced number of copy-on-write checks
  - Added class modifiers like Abstract or Final to Phalcon classes
- - Fixed memory leaks generated when throwing internal exceptions 
+ - Fixed memory leaks generated when throwing internal exceptions
  - Removed deprecated experimental function and method calls
 
 0.4.3
  - Fixed problem with partials, that removed any output previously generated
  - Added Phalcon_Session::destroy
- - Fixed memory leaks generated when throwing internal exceptions 
+ - Fixed memory leaks generated when throwing internal exceptions
 
 0.4.2
  - Added support for PostgreSQL database

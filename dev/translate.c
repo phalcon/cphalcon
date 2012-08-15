@@ -32,10 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/object.h"
 
 /**
  * Phalcon\Translate
@@ -43,51 +41,6 @@
  * Translate component allows the creation of multi-language applications using
  * different adapters for translation lists.
  */
-
-/**
- * Phalcon\Translate constructor
- *
- * @param string $adapter
- * @param array $options
- */
-PHP_METHOD(Phalcon_Translate, __construct){
-
-	zval *adapter = NULL, *options = NULL, *adapter_class = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
-	zend_class_entry *ce0;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &adapter, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(adapter_class);
-	PHALCON_CONCAT_SV(adapter_class, "Phalcon\\Translate\\Adapter\\", adapter);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", adapter_class);
-	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_translate_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "Translate adapter \"", adapter_class, "\" does not exist");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r1, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
-	}
-	
-	ce0 = phalcon_fetch_class(adapter_class TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(i1);
-	object_init_ex(i1, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PH_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
 
 /**
  * Returns the translation string of the given key
@@ -100,7 +53,6 @@ PHP_METHOD(Phalcon_Translate, _){
 
 	zval *translate_key = NULL, *placeholders = NULL;
 	zval *a0 = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -116,10 +68,8 @@ PHP_METHOD(Phalcon_Translate, _){
 		PHALCON_CPY_WRT(placeholders, a0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", translate_key, placeholders, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_query", translate_key, placeholders, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 
@@ -153,7 +103,6 @@ PHP_METHOD(Phalcon_Translate, offsetSet){
 PHP_METHOD(Phalcon_Translate, offsetExists){
 
 	zval *translate_key = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -163,10 +112,8 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "exists", translate_key, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "_exists", translate_key, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 
@@ -199,7 +146,6 @@ PHP_METHOD(Phalcon_Translate, offsetUnset){
 PHP_METHOD(Phalcon_Translate, offsetGet){
 
 	zval *traslate_key = NULL;
-	zval *t0 = NULL;
 	zval *c0 = NULL;
 	zval *r0 = NULL;
 
@@ -210,12 +156,10 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(c0);
 	ZVAL_NULL(c0);
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "query", traslate_key, c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "query", traslate_key, c0, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 

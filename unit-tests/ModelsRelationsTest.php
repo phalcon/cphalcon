@@ -18,45 +18,76 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
+class ModelsRelationsTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testModelsMysql(){
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
 
-		require 'unit-tests/config.db.php';
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		$this->_executeTests();
+	protected function _getDI()
+	{
+
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		return $di;
+	}
+
+	public function testModelsMysql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_executeTests($di);
 
 	}
 
-	public function testModelsPostgresql(){
+	public function testModelsPostgresql()
+	{
 
-		require 'unit-tests/config.db.php';
+		$di = $this->_getDI();
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
 
-		$this->_executeTests();
+		$this->_executeTests($di);
 
 	}
 
-	public function _executeTests(){
+	public function _executeTests($di)
+	{
 
-		Phalcon\Model\Manager::reset();
-
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		$success = $manager->load('Parts');
-		$this->assertTrue($success);
-
-		$success = $manager->load('RobotsParts');
-		$this->assertTrue($success);
+		$manager = $di->getShared('modelsManager');
 
 		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');
 		$this->assertTrue($success);
@@ -74,7 +105,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Model\Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset');
 		$this->assertEquals(count($robotsParts), 3);
 
 		$number = $robot->countRobotsParts();
@@ -84,7 +115,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($part, false);
 
 		$robotsParts = $part->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Model\Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset');
 		$this->assertEquals(count($robotsParts), 1);
 
 		$number = $part->countRobotsParts();

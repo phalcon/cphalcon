@@ -33,12 +33,14 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Model\Validator\Numericality
+ * Phalcon\Mvc\Model\Validator\Numericality
  *
  * Allows to validate if a field has a valid numeric format
+ *
  *
  *
  */
@@ -48,28 +50,43 @@
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Model_Validator_Numericality, validate){
+PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *record = NULL, *field = NULL, *value = NULL;
+	zval *c0 = NULL, *c1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "isrequired", PH_NO_CHECK);
-	if (zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_METHOD(r1, this_ptr, "getvalue", PH_NO_CHECK);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_FUNC_PARAMS_1(r2, "is_numeric", r1);
-		if (!zend_is_true(r2)) {
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CALL_METHOD(r3, this_ptr, "getfieldname", PH_NO_CHECK);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CONCAT_SVS(r4, "Value of field '", r3, "' must be numeric");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "appendmessage", r4, PH_NO_CHECK);
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
-		}
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
+
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(field);
+	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", c0, PH_NO_CHECK);
+	if (Z_TYPE_P(field) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(value);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", value);
+	if (!zend_is_true(r0)) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVS(r1, "Value of field '", field, "' must be numeric");
+		PHALCON_INIT_VAR(c1);
+		ZVAL_STRING(c1, "numericality", 1);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r1, field, c1, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }

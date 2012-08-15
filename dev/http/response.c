@@ -38,43 +38,48 @@
 #include "kernel/exception.h"
 
 /**
- * Phalcon\Response
+ * Phalcon\Http\Response
  *
  * Encapsulates the HTTP response message.
  *
  *
  */
 
-/**
- * Returns singleton Phalcon\Response instance
- *
- * @return Phalcon\Response
- */
-PHP_METHOD(Phalcon_Response, getInstance){
+PHP_METHOD(Phalcon_Http_Response, setDI){
 
-	zval *instance = NULL;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_OBSERVE_VAR(instance);
-	phalcon_read_static_property(&instance, SL("phalcon\\response"), SL("_instance") TSRMLS_CC);
-	if (!zend_is_true(instance)) {
-		PHALCON_INIT_VAR(instance);
-		object_init_ex(instance, phalcon_response_ce);
-		phalcon_update_static_property(SL("phalcon\\response"), SL("_instance"), instance TSRMLS_CC);
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
+
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Http_Response, getDI){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(instance);
+	RETURN_CCTOR(t0);
 }
 
 /**
  * Sets the HTTP response code
  *
  * @param int $code
- * @param strign $message
- * @return Phalcon\Response
+ * @param string $message
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setStatusCode){
+PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
 	zval *code = NULL, *message = NULL, *headers = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -108,9 +113,9 @@ PHP_METHOD(Phalcon_Response, setStatusCode){
 /**
  * Returns headers set by the user
  *
- * @return Phalcon\Response\Headers
+ * @return Phalcon\Http\Response\Headers
  */
-PHP_METHOD(Phalcon_Response, getHeaders){
+PHP_METHOD(Phalcon_Http_Response, getHeaders){
 
 	zval *headers = NULL;
 
@@ -119,7 +124,7 @@ PHP_METHOD(Phalcon_Response, getHeaders){
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (!zend_is_true(headers)) {
 		PHALCON_INIT_VAR(headers);
-		object_init_ex(headers, phalcon_response_headers_ce);
+		object_init_ex(headers, phalcon_http_response_headers_ce);
 		PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	}
@@ -133,9 +138,9 @@ PHP_METHOD(Phalcon_Response, getHeaders){
  *
  * @param string $name
  * @param string $value
- * @return Phalcon\Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setHeader){
+PHP_METHOD(Phalcon_Http_Response, setHeader){
 
 	zval *name = NULL, *value = NULL, *headers = NULL;
 
@@ -157,9 +162,9 @@ PHP_METHOD(Phalcon_Response, setHeader){
  * Send a raw header to the response
  *
  * @param string $header
- * @return Phalcon\Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setRawHeader){
+PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 
 	zval *header = NULL, *headers = NULL;
 
@@ -172,7 +177,24 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
 
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "setraw", header, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", header, PH_NO_CHECK);
+	
+	RETURN_CCTOR(this_ptr);
+}
+
+/**
+ * Resets all the stablished headers
+ *
+ * @return Phalcon\Http\Response
+ */
+PHP_METHOD(Phalcon_Http_Response, resetHeaders){
+
+	zval *headers = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(headers);
+	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_NORETURN(headers, "reset", PH_NO_CHECK);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -181,9 +203,9 @@ PHP_METHOD(Phalcon_Response, setRawHeader){
  * Sets output expire time header
  *
  * @param DateTime $datetime
- * @return Phalcon\Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setExpires){
+PHP_METHOD(Phalcon_Http_Response, setExpires){
 
 	zval *datetime = NULL, *headers = NULL, *date = NULL;
 	zval *i0 = NULL, *i1 = NULL;
@@ -199,7 +221,7 @@ PHP_METHOD(Phalcon_Response, setExpires){
 	}
 
 	if (Z_TYPE_P(datetime) == IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_response_exception_ce, "datetime parameter must be an instance of DateTime");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "datetime parameter must be an instance of DateTime");
 		return;
 	}
 	
@@ -239,8 +261,10 @@ PHP_METHOD(Phalcon_Response, setExpires){
 
 /**
  * Sends a Not-Modified response
+ *
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setNotModified){
+PHP_METHOD(Phalcon_Http_Response, setNotModified){
 
 	zval *c0 = NULL, *c1 = NULL;
 
@@ -258,10 +282,31 @@ PHP_METHOD(Phalcon_Response, setNotModified){
  * Sets the response content-type mime, optionally the charset
  *
  */
-PHP_METHOD(Phalcon_Response, setContentType){
+PHP_METHOD(Phalcon_Http_Response, setContentType){
 
+	zval *content_type = NULL, *charset = NULL, *headers = NULL;
+	zval *c0 = NULL;
 
+	PHALCON_MM_GROW();
 	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &content_type, &charset) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!charset) {
+		PHALCON_ALLOC_ZVAL_MM(charset);
+		ZVAL_NULL(charset);
+	}
+	
+	PHALCON_INIT_VAR(headers);
+	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "Content-Type", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, content_type, PH_NO_CHECK);
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -270,13 +315,13 @@ PHP_METHOD(Phalcon_Response, setContentType){
  * @param string $location
  * @param boolean $externalRedirect
  * @param int $statusCode
- * @return Phalcon_Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, redirect){
+PHP_METHOD(Phalcon_Http_Response, redirect){
 
 	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
-	zval *header = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *header = NULL, *dependency_injector = NULL, *url = NULL;
+	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -298,17 +343,30 @@ PHP_METHOD(Phalcon_Response, redirect){
 	if (zend_is_true(external_redirect)) {
 		PHALCON_CPY_WRT(header, location);
 	} else {
+		PHALCON_INIT_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		if (!zend_is_true(dependency_injector)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
+			return;
+		}
+		
+		PHALCON_INIT_VAR(c0);
+		ZVAL_STRING(c0, "url", 1);
+		
+		PHALCON_INIT_VAR(url);
+		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "get", c0, PH_NO_CHECK);
+		
 		PHALCON_INIT_VAR(header);
-		PHALCON_CALL_STATIC_PARAMS_1(header, "phalcon\\utils", "geturl", location);
+		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Redirect", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", status_code, c0, PH_NO_CHECK);
-	
 	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "Location", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c1, header, PH_NO_CHECK);
+	ZVAL_STRING(c1, "Redirect", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", status_code, c1, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(c2);
+	ZVAL_STRING(c2, "Location", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c2, header, PH_NO_CHECK);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -317,8 +375,9 @@ PHP_METHOD(Phalcon_Response, redirect){
  * Sets HTTP response body
  *
  * @param string $content
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, setContent){
+PHP_METHOD(Phalcon_Http_Response, setContent){
 
 	zval *content = NULL;
 
@@ -338,9 +397,9 @@ PHP_METHOD(Phalcon_Response, setContent){
  * Appends a string to the HTTP response body
  *
  * @param string $content
- * @return Phalcon_Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, appendContent){
+PHP_METHOD(Phalcon_Http_Response, appendContent){
 
 	zval *content = NULL;
 	zval *t0 = NULL;
@@ -367,7 +426,7 @@ PHP_METHOD(Phalcon_Response, appendContent){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Response, getContent){
+PHP_METHOD(Phalcon_Http_Response, getContent){
 
 	zval *t0 = NULL;
 
@@ -381,8 +440,9 @@ PHP_METHOD(Phalcon_Response, getContent){
 /**
  * Sends headers to the client
  *
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, sendHeaders){
+PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
 	zval *headers = NULL;
 
@@ -393,15 +453,16 @@ PHP_METHOD(Phalcon_Response, sendHeaders){
 		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CCTOR(this_ptr);
 }
 
 /**
  * Prints out HTTP response to the client
  *
- * @return Phalcon_Response
+ * @return Phalcon\Http\Response
  */
-PHP_METHOD(Phalcon_Response, send){
+PHP_METHOD(Phalcon_Http_Response, send){
 
 	zval *headers = NULL;
 	zval *t0 = NULL;
@@ -418,20 +479,5 @@ PHP_METHOD(Phalcon_Response, send){
 	zend_print_zval(t0, 1);
 	
 	RETURN_CCTOR(this_ptr);
-}
-
-/**
- * Resets the internal singleton
- */
-PHP_METHOD(Phalcon_Response, reset){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(t0);
-	ZVAL_NULL(t0);
-	phalcon_update_static_property(SL("phalcon\\response"), SL("_instance"), t0 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
 }
 

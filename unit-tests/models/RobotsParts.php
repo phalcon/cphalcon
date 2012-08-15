@@ -1,6 +1,7 @@
 <?php
 
-class RobotsParts extends Phalcon\Model\Base {
+class RobotsParts extends Phalcon\Mvc\Model
+{
 
 	function initialize(){
 		$this->belongsTo('parts_id', 'Parts', 'id', array(

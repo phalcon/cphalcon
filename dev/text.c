@@ -107,16 +107,19 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 	array_init(patterns);
 	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, SL("\\1_\\2"), 1);
 	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[a-z]))([A-Z])/")+1, SL("_\\1"), 1);
-	if (phalcon_valid_foreach(patterns TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(patterns);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_f8ee_0:
+	if (!phalcon_valid_foreach(patterns TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(patterns);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_f8ee_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_f8ee_0;
-		} else {
-			PHALCON_INIT_VAR(pattern);
-			PHALCON_GET_FOREACH_KEY(pattern, ah0, hp0);
 		}
+		
+		PHALCON_INIT_VAR(pattern);
+		PHALCON_GET_FOREACH_KEY(pattern, ah0, hp0);
 		PHALCON_INIT_VAR(replacement);
 		ZVAL_ZVAL(replacement, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -130,11 +133,8 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f8ee_0;
-		fee_f8ee_0:
-		if(0){}
-	} else {
-		return;
-	}
+	fee_f8ee_0:
+	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str);

@@ -57,7 +57,6 @@
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -71,29 +70,21 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	
 	eval_int = phalcon_array_isset_string(backend_options, SL("host")+1);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, "127.0.0.1", 1);
-		phalcon_array_update_string(&backend_options, SL("host"), &t0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&backend_options, SL("host"), SL("127.0.0.1"), PH_SEPARATE TSRMLS_CC);
 	}
 	eval_int = phalcon_array_isset_string(backend_options, SL("port")+1);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(t1);
-		ZVAL_STRING(t1, "11211", 1);
-		phalcon_array_update_string(&backend_options, SL("port"), &t1, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&backend_options, SL("port"), SL("11211"), PH_SEPARATE TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(backend_options, SL("persistent")+1);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_BOOL(t2, 0);
-		phalcon_array_update_string(&backend_options, SL("persistent"), &t2, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_bool(&backend_options, SL("persistent"), 0, PH_SEPARATE TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(backend_options, SL("statsKey")+1);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(t3);
-		ZVAL_STRING(t3, "_PHCM", 1);
-		phalcon_array_update_string(&backend_options, SL("statsKey"), &t3, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string_string(&backend_options, SL("statsKey"), SL("_PHCM"), PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Memcache", "__construct", frontend_object, backend_options);
@@ -317,7 +308,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	
 	eval_int = phalcon_array_isset(keys, last_key);
 	if (!eval_int) {
-		phalcon_array_update(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_zval(&keys, last_key, &ttl, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(memcache, "set", special_key, keys, PH_NO_CHECK);
 	}
 	
@@ -450,16 +441,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(prefixed_keys);
 		array_init(prefixed_keys);
-		if (phalcon_valid_foreach(keys TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(keys);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_be7f_0:
+		if (!phalcon_valid_foreach(keys TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(keys);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_be7f_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_be7f_0;
-			} else {
-				PHALCON_INIT_VAR(key);
-				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			}
+			
+			PHALCON_INIT_VAR(key);
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_INIT_VAR(ttl);
 			ZVAL_ZVAL(ttl, *hd, 1, 0);
 			if (zend_is_true(prefix)) {
@@ -474,11 +468,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 			phalcon_array_append(&prefixed_keys, key, PH_SEPARATE TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_be7f_0;
-			fee_be7f_0:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_be7f_0:
+		if(0){}
+		
 		
 		RETURN_CTOR(prefixed_keys);
 	}

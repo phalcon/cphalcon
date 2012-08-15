@@ -49,7 +49,7 @@
  */
 
 /**
- * Phalcon_Acl Constructor
+ * Phalcon\Acl Constructor
  *
  * @param string $adapterName
  * @param array $options

@@ -78,13 +78,17 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	if (Z_TYPE_P(filters) == IS_ARRAY) { 
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
-			if (phalcon_valid_foreach(filters TSRMLS_CC)) {
-				ah0 = Z_ARRVAL_P(filters);
-				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-				fes_e618_0:
+			if (!phalcon_valid_foreach(filters TSRMLS_CC)) {
+				return;
+			}
+			
+			ah0 = Z_ARRVAL_P(filters);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+			fes_e618_0:
 				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 					goto fee_e618_0;
 				}
+				
 				PHALCON_INIT_VAR(filter);
 				ZVAL_ZVAL(filter, *hd, 1, 0);
 				PHALCON_INIT_VAR(r0);
@@ -92,11 +96,9 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				PHALCON_CPY_WRT(new_value, r0);
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_e618_0;
-				fee_e618_0:
-				if(0){}
-			} else {
-				return;
-			}
+			fee_e618_0:
+			if(0){}
+			
 		}
 		
 		

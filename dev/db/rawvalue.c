@@ -43,7 +43,7 @@
  */
 
 /**
- * Phalcon_Db_RawValue constructor
+ * Phalcon\Db\RawValue constructor
  *
  * @param string $value
  */

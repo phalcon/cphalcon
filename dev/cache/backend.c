@@ -38,14 +38,14 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon_Cache_Backend
+ * Phalcon\Cache\Backend
  *
  * This class implements common functionality for backend adapters. All the backend cache adapter must
  * extend this class
  */
 
 /**
- * Phalcon_Cache_Backend constructor
+ * Phalcon\Cache\Backend constructor
  *
  * @param mixed $frontendObject
  * @param array $backendOptions

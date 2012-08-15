@@ -128,19 +128,19 @@ PHP_METHOD(Phalcon_Db_Dialect, dropTable){
 	
 }
 
+PHP_METHOD(Phalcon_Db_Dialect, listTables){
+
+
+	
+}
+
 PHP_METHOD(Phalcon_Db_Dialect, tableExists){
 
 
 	
 }
 
-PHP_METHOD(Phalcon_Db_Dialect, describeTable){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Db_Dialect, listTables){
+PHP_METHOD(Phalcon_Db_Dialect, describeColumns){
 
 
 	

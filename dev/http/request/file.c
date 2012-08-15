@@ -38,7 +38,7 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Request\File
+ * Phalcon\Http\Request\File
  *
  * Provides OO wrappers to the $_FILES superglobal
  *
@@ -46,11 +46,11 @@
  */
 
 /**
- * Phalcon\Request\File constructor
+ * Phalcon\Http\Request\File constructor
  *
  * @param array $file
  */
-PHP_METHOD(Phalcon_Request_File, __construct){
+PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
 	zval *file = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
@@ -64,7 +64,7 @@ PHP_METHOD(Phalcon_Request_File, __construct){
 	}
 
 	if (Z_TYPE_P(file) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_request_exception_ce, "Phalcon_Request_File requires a valid uploaded file");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
 		return;
 	}
 	eval_int = phalcon_array_isset_string(file, SL("name")+1);
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Request_File, __construct){
  *
  * @return int
  */
-PHP_METHOD(Phalcon_Request_File, getSize){
+PHP_METHOD(Phalcon_Http_Request_File, getSize){
 
 	zval *t0 = NULL;
 
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Request_File, getSize){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Request_File, getName){
+PHP_METHOD(Phalcon_Http_Request_File, getName){
 
 	zval *t0 = NULL;
 
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Request_File, getName){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Request_File, getTempName){
+PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 
 	zval *t0 = NULL;
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Request_File, getTempName){
  *
  * @param string $destination
  */
-PHP_METHOD(Phalcon_Request_File, moveTo){
+PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 
 	zval *destination = NULL;
 	zval *t0 = NULL;

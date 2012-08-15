@@ -39,7 +39,7 @@
 #include "kernel/array.h"
 
 /**
- * Phalcon\Transaction
+ * Phalcon\Mvc\Model\Transaction
  *
  * Transactions are protective blocks where SQL statements are only permanent if they can
  * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
@@ -49,11 +49,11 @@
  */
 
 /**
- * Phalcon\Transaction constructor
+ * Phalcon\Mvc\Model\Transaction constructor
  *
  * @param boolean $autoBegin
  */
-PHP_METHOD(Phalcon_Transaction, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
 	zval *auto_begin = NULL, *connection = NULL;
 	zval *a0 = NULL, *a1 = NULL;
@@ -63,11 +63,11 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 	
 	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
-	zend_update_property(phalcon_transaction_ce, this_ptr, SL("_dependencies"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_transaction_ce, this_ptr, SL("_dependencies"), a0 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(a1);
 	array_init(a1);
-	zend_update_property(phalcon_transaction_ce, this_ptr, SL("_messages"), a1 TSRMLS_CC);
+	zend_update_property(phalcon_mvc_model_transaction_ce, this_ptr, SL("_messages"), a1 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &auto_begin) == FAILURE) {
 		PHALCON_MM_RESTORE();
@@ -94,13 +94,14 @@ PHP_METHOD(Phalcon_Transaction, __construct){
 /**
  * Sets transaction manager related to the transaction
  *
- * @param Phalcon\Transaction\Manager $manager
+ * @param Phalcon\Mvc\Model\Transaction\Manager $manager
  */
-PHP_METHOD(Phalcon_Transaction, setTransactionManager){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 
 	zval *manager = NULL;
 	zval *i0 = NULL;
 	zval *r0 = NULL;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
@@ -111,8 +112,9 @@ PHP_METHOD(Phalcon_Transaction, setTransactionManager){
 
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
 		if (Z_TYPE_P(manager) != IS_STRING) {
+			ce0 = zend_fetch_class(SL("Phalcon_Transaction_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, phalcon_transaction_exception_ce);
+			object_init_ex(i0, ce0);
 			PHALCON_ALLOC_ZVAL_MM(r0);
 			PHALCON_CONCAT_VS(r0, manager, " must be object or string");
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
@@ -130,7 +132,7 @@ PHP_METHOD(Phalcon_Transaction, setTransactionManager){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, begin){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
 
 	zval *t0 = NULL;
 	zval *r0 = NULL;
@@ -148,7 +150,7 @@ PHP_METHOD(Phalcon_Transaction, begin){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, commit){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 
 	zval *manager = NULL;
 	zval *a0 = NULL, *a1 = NULL;
@@ -184,7 +186,7 @@ PHP_METHOD(Phalcon_Transaction, commit){
  * @param  Phalcon\Model\Base $rollbackRecord
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, rollback){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	zval *rollback_message = NULL, *rollback_record = NULL;
 	zval *manager = NULL, *success = NULL;
@@ -239,7 +241,7 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 		}
 		
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_transaction_failed_ce);
+		object_init_ex(i0, phalcon_mvc_model_transaction_failed_ce);
 		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
@@ -254,9 +256,9 @@ PHP_METHOD(Phalcon_Transaction, rollback){
 /**
  * Returns connection related to transaction
  *
- * @return Phalcon_Db
+ * @return Phalcon\Db
  */
-PHP_METHOD(Phalcon_Transaction, getConnection){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL;
@@ -286,7 +288,7 @@ PHP_METHOD(Phalcon_Transaction, getConnection){
  *
  * @param boolean $isNew
  */
-PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction){
 
 	zval *is_new = NULL;
 
@@ -307,7 +309,7 @@ PHP_METHOD(Phalcon_Transaction, setIsNewTransaction){
  *
  * @param boolean $rollbackOnAbort
  */
-PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
 
 	zval *rollback_on_abort = NULL;
 
@@ -328,7 +330,7 @@ PHP_METHOD(Phalcon_Transaction, setRollbackOnAbort){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, isManaged){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 
 	zval *r0 = NULL;
 	zval *t0 = NULL;
@@ -347,7 +349,7 @@ PHP_METHOD(Phalcon_Transaction, isManaged){
  *
  * @param int $pointer
  */
-PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setDependencyPointer){
 
 	zval *pointer = NULL;
 
@@ -367,9 +369,9 @@ PHP_METHOD(Phalcon_Transaction, setDependencyPointer){
  * Attaches Phalcon_Model_Base object to the active transaction
  *
  * @param int $pointer
- * @param Phalcon\Model\Base $object
+ * @param Phalcon\Mvc\Model $object
  */
-PHP_METHOD(Phalcon_Transaction, attachDependency){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, attachDependency){
 
 	zval *pointer = NULL, *object = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
@@ -394,7 +396,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 		
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-		phalcon_array_update(&t1, pointer, &object, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t1, pointer, &object, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_dependencies"), t1 TSRMLS_CC);
 		
 		RETURN_CCTOR(pointer);
@@ -405,7 +407,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 		if (!eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(t3);
 			phalcon_read_property(&t3, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-			phalcon_array_update(&t3, pointer, &object, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(&t3, pointer, &object, PH_COPY TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_dependencies"), t3 TSRMLS_CC);
 			
 			RETURN_CCTOR(pointer);
@@ -419,7 +421,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
 			
 			PHALCON_ALLOC_ZVAL_MM(t5);
 			phalcon_read_property(&t5, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-			phalcon_array_update(&t5, pointer, &object, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(&t5, pointer, &object, PH_COPY TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_dependencies"), t5 TSRMLS_CC);
 			
 			RETURN_CCTOR(pointer);
@@ -434,7 +436,7 @@ PHP_METHOD(Phalcon_Transaction, attachDependency){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, save){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, save){
 
 	zval *dependency = NULL;
 	zval *a0 = NULL;
@@ -451,12 +453,15 @@ PHP_METHOD(Phalcon_Transaction, save){
 	
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-	if (phalcon_valid_foreach(t0 TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(t0);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_815a_0:
+	if (!phalcon_valid_foreach(t0 TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(t0);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_1ec6_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_815a_0;
+			goto fee_1ec6_0;
 		}
 		
 		PHALCON_INIT_VAR(dependency);
@@ -471,12 +476,10 @@ PHP_METHOD(Phalcon_Transaction, save){
 			RETURN_FALSE;
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_815a_0;
-		fee_815a_0:
-		if(0){}
-	} else {
-		return;
-	}
+		goto fes_1ec6_0;
+	fee_1ec6_0:
+	if(0){}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }
@@ -486,7 +489,7 @@ PHP_METHOD(Phalcon_Transaction, save){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Transaction, getMessages){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages){
 
 	zval *t0 = NULL;
 
@@ -502,7 +505,7 @@ PHP_METHOD(Phalcon_Transaction, getMessages){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_Transaction, isValid){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid){
 
 	zval *t0 = NULL;
 	zval *r0 = NULL;
@@ -518,9 +521,9 @@ PHP_METHOD(Phalcon_Transaction, isValid){
 /**
  * Sets object which generates rollback action
  *
- * @param Phalcon\Model\Base $record
+ * @param Phalcon\Mvc\Model $record
  */
-PHP_METHOD(Phalcon_Transaction, setRollbackedRecord){
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord){
 
 	zval *record = NULL;
 

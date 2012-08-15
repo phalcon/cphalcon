@@ -78,16 +78,19 @@ PHP_METHOD(Phalcon_Config, __construct){
 		PHALCON_CPY_WRT(array_config, a0);
 	}
 	
-	if (phalcon_valid_foreach(array_config TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(array_config);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_9656_0:
+	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(array_config);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_9656_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_9656_0;
-		} else {
-			PHALCON_INIT_VAR(key);
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		}
+		
+		PHALCON_INIT_VAR(key);
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
@@ -100,11 +103,9 @@ PHP_METHOD(Phalcon_Config, __construct){
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9656_0;
-		fee_9656_0:
-		if(0){}
-	} else {
-		return;
-	}
+	fee_9656_0:
+	if(0){}
+	
 	
 	PHALCON_MM_RESTORE();
 }

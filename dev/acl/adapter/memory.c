@@ -137,7 +137,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	zval *role_object = NULL, *access_inherits = NULL, *role_name = NULL;
 	zval *object = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -178,42 +177,39 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	phalcon_array_append(&t1, object, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_roles"), t1 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_BOOL(t2, 1);
+	PHALCON_ALLOC_ZVAL_MM(t2);
+	phalcon_read_property(&t2, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
+	phalcon_array_update_zval_bool(&t2, role_name, 1, 0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_rolesNames"), t2 TSRMLS_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t3);
-	phalcon_read_property(&t3, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-	phalcon_array_update(&t3, role_name, &t2, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_rolesNames"), t3 TSRMLS_CC);
+	phalcon_read_property(&t3, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(t4);
-	phalcon_read_property(&t4, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(t5);
-	phalcon_read_property(&t5, this_ptr, SL("_access"), PH_NOISY_CC);
+	phalcon_read_property(&t4, this_ptr, SL("_access"), PH_NOISY_CC);
+	if (Z_TYPE_P(t4) == IS_ARRAY) {
+		PHALCON_ALLOC_ZVAL_MM(t5);
+		phalcon_array_fetch(&t5, t4, role_name, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(t5) > 1) {
+		phalcon_array_update_zval(&t4, role_name, &t5, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(t5) != IS_ARRAY) {
+		convert_to_array(t5);
+		phalcon_array_update_zval(&t4, role_name, &t5, PH_COPY TSRMLS_CC);
+	}
 	if (Z_TYPE_P(t5) == IS_ARRAY) {
 		PHALCON_ALLOC_ZVAL_MM(t6);
-		phalcon_array_fetch(&t6, t5, role_name, PH_SILENT_CC);
+		phalcon_array_fetch_string(&t6, t5, SL("*"), PH_SILENT_CC);
 	}
 	if (Z_REFCOUNT_P(t6) > 1) {
-		phalcon_array_update(&t5, role_name, &t6, PH_COPY | PH_CTOR TSRMLS_CC);
+		phalcon_array_update_string(&t5, SL("*"), &t6, PH_COPY | PH_CTOR TSRMLS_CC);
 	}
 	if (Z_TYPE_P(t6) != IS_ARRAY) {
 		convert_to_array(t6);
-		phalcon_array_update(&t5, role_name, &t6, PH_COPY TSRMLS_CC);
+		phalcon_array_update_string(&t5, SL("*"), &t6, PH_COPY TSRMLS_CC);
 	}
-	if (Z_TYPE_P(t6) == IS_ARRAY) {
-		PHALCON_ALLOC_ZVAL_MM(t7);
-		phalcon_array_fetch_string(&t7, t6, SL("*"), PH_SILENT_CC);
-	}
-	if (Z_REFCOUNT_P(t7) > 1) {
-		phalcon_array_update_string(&t6, SL("*"), &t7, PH_COPY | PH_CTOR TSRMLS_CC);
-	}
-	if (Z_TYPE_P(t7) != IS_ARRAY) {
-		convert_to_array(t7);
-		phalcon_array_update_string(&t6, SL("*"), &t7, PH_COPY TSRMLS_CC);
-	}
-	phalcon_array_update_string(&t7, SL("*"), &t4, PH_COPY TSRMLS_CC);
+	phalcon_array_update_string(&t6, SL("*"), &t3, PH_COPY TSRMLS_CC);
 	if (zend_is_true(access_inherits)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "addinherit", role_name, access_inherits, PH_NO_CHECK);
@@ -284,7 +280,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
-		phalcon_array_update(&t3, role_name, &a0, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t3, role_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_roleInherits"), t3 TSRMLS_CC);
 	}
 	
@@ -371,7 +367,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	zval *resource = NULL, *access_list = NULL, *resource_name = NULL;
 	zval *object = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -414,16 +410,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		
 		PHALCON_ALLOC_ZVAL_MM(t2);
 		phalcon_read_property(&t2, this_ptr, SL("_accessList"), PH_NOISY_CC);
-		phalcon_array_update(&t2, resource_name, &a1, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t2, resource_name, &a1, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_accessList"), t2 TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(t3);
-		ZVAL_BOOL(t3, 1);
-		
-		PHALCON_ALLOC_ZVAL_MM(t4);
-		phalcon_read_property(&t4, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
-		phalcon_array_update(&t4, resource_name, &t3, PH_COPY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_resourcesNames"), t4 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(t3);
+		phalcon_read_property(&t3, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
+		phalcon_array_update_zval_bool(&t3, resource_name, 1, 0 TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_resourcesNames"), t3 TSRMLS_CC);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
@@ -468,13 +461,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		return;
 	}
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
-		if (phalcon_valid_foreach(access_list TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(access_list);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_c945_0:
+		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(access_list);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_c945_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_c945_0;
 			}
+			
 			PHALCON_INIT_VAR(access_name);
 			ZVAL_ZVAL(access_name, *hd, 1, 0);
 			PHALCON_INIT_VAR(t1);
@@ -484,19 +481,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 			eval_int = phalcon_array_isset(r1, access_name);
 			if (!eval_int) {
 				PHALCON_INIT_VAR(t2);
-				ZVAL_BOOL(t2, 1);
+				phalcon_read_property(&t2, this_ptr, SL("_accessList"), PH_NOISY_CC);
 				PHALCON_INIT_VAR(t3);
-				phalcon_read_property(&t3, this_ptr, SL("_accessList"), PH_NOISY_CC);
-				phalcon_array_update_multi_2(&t3, resource_name, access_name, &t2, 0 TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_accessList"), t3 TSRMLS_CC);
+				ZVAL_LONG(t3, 1);
+				phalcon_array_update_multi_2(&t2, resource_name, access_name, &t3, 0 TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_accessList"), t2 TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_0;
-			fee_c945_0:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_c945_0:
+		if(0){}
+		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t4);
 		phalcon_read_property(&t4, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -504,12 +499,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		phalcon_array_fetch(&r2, t4, resource_name, PH_NOISY_CC);
 		eval_int = phalcon_array_isset(r2, access_list);
 		if (!eval_int) {
-			PHALCON_INIT_VAR(t5);
-			ZVAL_BOOL(t5, 1);
-			PHALCON_ALLOC_ZVAL_MM(t6);
-			phalcon_read_property(&t6, this_ptr, SL("_accessList"), PH_NOISY_CC);
-			phalcon_array_update_multi_2(&t6, resource_name, access_list, &t5, 0 TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_accessList"), t6 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(t5);
+			phalcon_read_property(&t5, this_ptr, SL("_accessList"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(t6);
+			ZVAL_LONG(t6, 1);
+			phalcon_array_update_multi_2(&t5, resource_name, access_list, &t6, 0 TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_accessList"), t5 TSRMLS_CC);
 		}
 	}
 	
@@ -540,13 +535,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 	}
 
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
-		if (phalcon_valid_foreach(access_list TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(access_list);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_c945_1:
+		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(access_list);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_c945_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_c945_1;
 			}
+			
 			PHALCON_INIT_VAR(access_name);
 			ZVAL_ZVAL(access_name, *hd, 1, 0);
 			PHALCON_INIT_VAR(t0);
@@ -557,11 +556,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 			phalcon_array_unset(r0, access_name);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_1;
-			fee_c945_1:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_c945_1:
+		if(0){}
+		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -624,13 +621,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 	}
 	
 	if (Z_TYPE_P(access) == IS_ARRAY) { 
-		if (phalcon_valid_foreach(access TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(access);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_c945_2:
+		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(access);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_c945_2:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_c945_2;
 			}
+			
 			PHALCON_INIT_VAR(access_name);
 			ZVAL_ZVAL(access_name, *hd, 1, 0);
 			PHALCON_INIT_VAR(t2);
@@ -649,15 +650,16 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_2;
-			fee_c945_2:
-			if(0){}
-		} else {
+		fee_c945_2:
+		if(0){}
+		
+		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
 			return;
 		}
-		if (phalcon_valid_foreach(access TSRMLS_CC)) {
-			ah1 = Z_ARRVAL_P(access);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-			fes_c945_3:
+		
+		ah1 = Z_ARRVAL_P(access);
+		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+		fes_c945_3:
 			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 				goto fee_c945_3;
 			}
@@ -671,24 +673,24 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				phalcon_array_fetch(&t4, t3, role_name, PH_SILENT_CC);
 			}
 			if (Z_REFCOUNT_P(t4) > 1) {
-				phalcon_array_update(&t3, role_name, &t4, PH_COPY | PH_CTOR TSRMLS_CC);
+				phalcon_array_update_zval(&t3, role_name, &t4, PH_COPY | PH_CTOR TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t4) != IS_ARRAY) {
 				convert_to_array(t4);
-				phalcon_array_update(&t3, role_name, &t4, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval(&t3, role_name, &t4, PH_COPY TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t4) == IS_ARRAY) {
 				PHALCON_INIT_VAR(t5);
 				phalcon_array_fetch(&t5, t4, resource_name, PH_SILENT_CC);
 			}
 			if (Z_REFCOUNT_P(t5) > 1) {
-				phalcon_array_update(&t4, resource_name, &t5, PH_COPY | PH_CTOR TSRMLS_CC);
+				phalcon_array_update_zval(&t4, resource_name, &t5, PH_COPY | PH_CTOR TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t5) != IS_ARRAY) {
 				convert_to_array(t5);
-				phalcon_array_update(&t4, resource_name, &t5, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval(&t4, resource_name, &t5, PH_COPY TSRMLS_CC);
 			}
-			phalcon_array_update(&t5, access_name, &action, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(&t5, access_name, &action, PH_COPY TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(t6);
 			phalcon_read_property(&t6, this_ptr, SL("_access"), PH_NOISY_CC);
@@ -709,32 +711,30 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 					phalcon_array_fetch(&t9, t8, role_name, PH_SILENT_CC);
 				}
 				if (Z_REFCOUNT_P(t9) > 1) {
-					phalcon_array_update(&t8, role_name, &t9, PH_COPY | PH_CTOR TSRMLS_CC);
+					phalcon_array_update_zval(&t8, role_name, &t9, PH_COPY | PH_CTOR TSRMLS_CC);
 				}
 				if (Z_TYPE_P(t9) != IS_ARRAY) {
 					convert_to_array(t9);
-					phalcon_array_update(&t8, role_name, &t9, PH_COPY TSRMLS_CC);
+					phalcon_array_update_zval(&t8, role_name, &t9, PH_COPY TSRMLS_CC);
 				}
 				if (Z_TYPE_P(t9) == IS_ARRAY) {
 					PHALCON_INIT_VAR(t10);
 					phalcon_array_fetch(&t10, t9, resource_name, PH_SILENT_CC);
 				}
 				if (Z_REFCOUNT_P(t10) > 1) {
-					phalcon_array_update(&t9, resource_name, &t10, PH_COPY | PH_CTOR TSRMLS_CC);
+					phalcon_array_update_zval(&t9, resource_name, &t10, PH_COPY | PH_CTOR TSRMLS_CC);
 				}
 				if (Z_TYPE_P(t10) != IS_ARRAY) {
 					convert_to_array(t10);
-					phalcon_array_update(&t9, resource_name, &t10, PH_COPY TSRMLS_CC);
+					phalcon_array_update_zval(&t9, resource_name, &t10, PH_COPY TSRMLS_CC);
 				}
 				phalcon_array_update_string(&t10, SL("*"), &t7, PH_COPY TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_c945_3;
-			fee_c945_3:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_c945_3:
+		if(0){}
+		
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(t11);
 		phalcon_read_property(&t11, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -758,24 +758,24 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			phalcon_array_fetch(&t13, t12, role_name, PH_SILENT_CC);
 		}
 		if (Z_REFCOUNT_P(t13) > 1) {
-			phalcon_array_update(&t12, role_name, &t13, PH_COPY | PH_CTOR TSRMLS_CC);
+			phalcon_array_update_zval(&t12, role_name, &t13, PH_COPY | PH_CTOR TSRMLS_CC);
 		}
 		if (Z_TYPE_P(t13) != IS_ARRAY) {
 			convert_to_array(t13);
-			phalcon_array_update(&t12, role_name, &t13, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(&t12, role_name, &t13, PH_COPY TSRMLS_CC);
 		}
 		if (Z_TYPE_P(t13) == IS_ARRAY) {
 			PHALCON_ALLOC_ZVAL_MM(t14);
 			phalcon_array_fetch(&t14, t13, resource_name, PH_SILENT_CC);
 		}
 		if (Z_REFCOUNT_P(t14) > 1) {
-			phalcon_array_update(&t13, resource_name, &t14, PH_COPY | PH_CTOR TSRMLS_CC);
+			phalcon_array_update_zval(&t13, resource_name, &t14, PH_COPY | PH_CTOR TSRMLS_CC);
 		}
 		if (Z_TYPE_P(t14) != IS_ARRAY) {
 			convert_to_array(t14);
-			phalcon_array_update(&t13, resource_name, &t14, PH_COPY TSRMLS_CC);
+			phalcon_array_update_zval(&t13, resource_name, &t14, PH_COPY TSRMLS_CC);
 		}
-		phalcon_array_update(&t14, access, &action, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t14, access, &action, PH_COPY TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t15);
 		phalcon_read_property(&t15, this_ptr, SL("_access"), PH_NOISY_CC);
@@ -796,22 +796,22 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				phalcon_array_fetch(&t18, t17, role_name, PH_SILENT_CC);
 			}
 			if (Z_REFCOUNT_P(t18) > 1) {
-				phalcon_array_update(&t17, role_name, &t18, PH_COPY | PH_CTOR TSRMLS_CC);
+				phalcon_array_update_zval(&t17, role_name, &t18, PH_COPY | PH_CTOR TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t18) != IS_ARRAY) {
 				convert_to_array(t18);
-				phalcon_array_update(&t17, role_name, &t18, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval(&t17, role_name, &t18, PH_COPY TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t18) == IS_ARRAY) {
 				PHALCON_ALLOC_ZVAL_MM(t19);
 				phalcon_array_fetch(&t19, t18, resource_name, PH_SILENT_CC);
 			}
 			if (Z_REFCOUNT_P(t19) > 1) {
-				phalcon_array_update(&t18, resource_name, &t19, PH_COPY | PH_CTOR TSRMLS_CC);
+				phalcon_array_update_zval(&t18, resource_name, &t19, PH_COPY | PH_CTOR TSRMLS_CC);
 			}
 			if (Z_TYPE_P(t19) != IS_ARRAY) {
 				convert_to_array(t19);
-				phalcon_array_update(&t18, resource_name, &t19, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval(&t18, resource_name, &t19, PH_COPY TSRMLS_CC);
 			}
 			phalcon_array_update_string(&t19, SL("*"), &t16, PH_COPY TSRMLS_CC);
 		}
@@ -939,16 +939,19 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	PHALCON_INIT_VAR(access_roles);
 	phalcon_array_fetch(&access_roles, t4, role, PH_NOISY_CC);
-	if (phalcon_valid_foreach(access_roles TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(access_roles);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_c945_4:
+	if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(access_roles);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_c945_4:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_c945_4;
-		} else {
-			PHALCON_INIT_VAR(resource_name);
-			PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
 		}
+		
+		PHALCON_INIT_VAR(resource_name);
+		PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
 		PHALCON_INIT_VAR(resource_access);
 		ZVAL_ZVAL(resource_access, *hd, 1, 0);
 		PHALCON_INIT_VAR(r0);
@@ -969,21 +972,22 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_c945_4;
-		fee_c945_4:
-		if(0){}
-	} else {
+	fee_c945_4:
+	if(0){}
+	
+	if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
 		return;
 	}
-	if (phalcon_valid_foreach(access_roles TSRMLS_CC)) {
-		ah1 = Z_ARRVAL_P(access_roles);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		fes_c945_5:
+	
+	ah1 = Z_ARRVAL_P(access_roles);
+	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	fes_c945_5:
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 			goto fee_c945_5;
-		} else {
-			PHALCON_INIT_VAR(resource_name);
-			PHALCON_GET_FOREACH_KEY(resource_name, ah1, hp1);
 		}
+		
+		PHALCON_INIT_VAR(resource_name);
+		PHALCON_GET_FOREACH_KEY(resource_name, ah1, hp1);
 		PHALCON_INIT_VAR(resource_access);
 		ZVAL_ZVAL(resource_access, *hd, 1, 0);
 		eval_int = phalcon_array_isset_string(resource_access, SL("*")+1);
@@ -1003,11 +1007,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		}
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_c945_5;
-		fee_c945_5:
-		if(0){}
-	} else {
-		return;
-	}
+	fee_c945_5:
+	if(0){}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_LONG(0);
 }
@@ -1062,16 +1064,19 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 		}
 		PHALCON_INIT_VAR(t2);
 		phalcon_read_property(&t2, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
-		if (phalcon_valid_foreach(t2 TSRMLS_CC)) {
-			ah0 = Z_ARRVAL_P(t2);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_c945_7:
+		if (!phalcon_valid_foreach(t2 TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(t2);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_c945_7:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_c945_7;
-			} else {
-				PHALCON_INIT_VAR(role_name);
-				PHALCON_GET_FOREACH_KEY(role_name, ah0, hp0);
 			}
+			
+			PHALCON_INIT_VAR(role_name);
+			PHALCON_GET_FOREACH_KEY(role_name, ah0, hp0);
 			PHALCON_INIT_VAR(one);
 			ZVAL_ZVAL(one, *hd, 1, 0);
 			PHALCON_INIT_VAR(t3);
@@ -1082,13 +1087,17 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 				phalcon_read_property(&t4, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
 				PHALCON_INIT_VAR(r3);
 				phalcon_array_fetch(&r3, t4, role_name, PH_NOISY_CC);
-				if (phalcon_valid_foreach(r3 TSRMLS_CC)) {
-					ah1 = Z_ARRVAL_P(r3);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-					fes_c945_8:
+				if (!phalcon_valid_foreach(r3 TSRMLS_CC)) {
+					return;
+				}
+				
+				ah1 = Z_ARRVAL_P(r3);
+				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+				fes_c945_8:
 					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 						goto fee_c945_8;
 					}
+					
 					PHALCON_INIT_VAR(role_inherit);
 					ZVAL_ZVAL(role_inherit, *hd, 1, 0);
 					PHALCON_INIT_VAR(t5);
@@ -1099,28 +1108,34 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 						phalcon_read_property(&t6, this_ptr, SL("_access"), PH_NOISY_CC);
 						PHALCON_INIT_VAR(r4);
 						phalcon_array_fetch(&r4, t6, role_inherit, PH_NOISY_CC);
-						if (phalcon_valid_foreach(r4 TSRMLS_CC)) {
-							ah2 = Z_ARRVAL_P(r4);
-							zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-							fes_c945_9:
+						if (!phalcon_valid_foreach(r4 TSRMLS_CC)) {
+							return;
+						}
+						
+						ah2 = Z_ARRVAL_P(r4);
+						zend_hash_internal_pointer_reset_ex(ah2, &hp2);
+						fes_c945_9:
 							if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
 								goto fee_c945_9;
-							} else {
-								PHALCON_INIT_VAR(resource_name);
-								PHALCON_GET_FOREACH_KEY(resource_name, ah2, hp2);
 							}
+							
+							PHALCON_INIT_VAR(resource_name);
+							PHALCON_GET_FOREACH_KEY(resource_name, ah2, hp2);
 							PHALCON_INIT_VAR(access);
 							ZVAL_ZVAL(access, *hd, 1, 0);
-							if (phalcon_valid_foreach(access TSRMLS_CC)) {
-								ah3 = Z_ARRVAL_P(access);
-								zend_hash_internal_pointer_reset_ex(ah3, &hp3);
-								fes_c945_10:
+							if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+								return;
+							}
+							
+							ah3 = Z_ARRVAL_P(access);
+							zend_hash_internal_pointer_reset_ex(ah3, &hp3);
+							fes_c945_10:
 								if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
 									goto fee_c945_10;
-								} else {
-									PHALCON_INIT_VAR(name);
-									PHALCON_GET_FOREACH_KEY(name, ah3, hp3);
 								}
+								
+								PHALCON_INIT_VAR(name);
+								PHALCON_GET_FOREACH_KEY(name, ah3, hp3);
 								PHALCON_INIT_VAR(value);
 								ZVAL_ZVAL(value, *hd, 1, 0);
 								PHALCON_INIT_VAR(t7);
@@ -1130,54 +1145,46 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 									phalcon_array_fetch(&t8, t7, role_name, PH_SILENT_CC);
 								}
 								if (Z_REFCOUNT_P(t8) > 1) {
-									phalcon_array_update(&t7, role_name, &t8, PH_COPY | PH_CTOR TSRMLS_CC);
+									phalcon_array_update_zval(&t7, role_name, &t8, PH_COPY | PH_CTOR TSRMLS_CC);
 								}
 								if (Z_TYPE_P(t8) != IS_ARRAY) {
 									convert_to_array(t8);
-									phalcon_array_update(&t7, role_name, &t8, PH_COPY TSRMLS_CC);
+									phalcon_array_update_zval(&t7, role_name, &t8, PH_COPY TSRMLS_CC);
 								}
 								if (Z_TYPE_P(t8) == IS_ARRAY) {
 									PHALCON_INIT_VAR(t9);
 									phalcon_array_fetch(&t9, t8, resource_name, PH_SILENT_CC);
 								}
 								if (Z_REFCOUNT_P(t9) > 1) {
-									phalcon_array_update(&t8, resource_name, &t9, PH_COPY | PH_CTOR TSRMLS_CC);
+									phalcon_array_update_zval(&t8, resource_name, &t9, PH_COPY | PH_CTOR TSRMLS_CC);
 								}
 								if (Z_TYPE_P(t9) != IS_ARRAY) {
 									convert_to_array(t9);
-									phalcon_array_update(&t8, resource_name, &t9, PH_COPY TSRMLS_CC);
+									phalcon_array_update_zval(&t8, resource_name, &t9, PH_COPY TSRMLS_CC);
 								}
-								phalcon_array_update(&t9, name, &value, PH_COPY TSRMLS_CC);
+								phalcon_array_update_zval(&t9, name, &value, PH_COPY TSRMLS_CC);
 								zend_hash_move_forward_ex(ah3, &hp3);
 								goto fes_c945_10;
-								fee_c945_10:
-								if(0){}
-							} else {
-								return;
-							}
+							fee_c945_10:
+							if(0){}
+							
 							zend_hash_move_forward_ex(ah2, &hp2);
 							goto fes_c945_9;
-							fee_c945_9:
-							if(0){}
-						} else {
-							return;
-						}
+						fee_c945_9:
+						if(0){}
+						
 					}
 					zend_hash_move_forward_ex(ah1, &hp1);
 					goto fes_c945_8;
-					fee_c945_8:
-					if(0){}
-				} else {
-					return;
-				}
+				fee_c945_8:
+				if(0){}
+				
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_7;
-			fee_c945_7:
-			if(0){}
-		} else {
-			return;
-		}
+		fee_c945_7:
+		if(0){}
+		
 		PHALCON_SEPARATE(i);
 		increment_function(i);
 		goto fs_c945_6;

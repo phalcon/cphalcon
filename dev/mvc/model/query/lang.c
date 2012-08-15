@@ -36,7 +36,7 @@
 #include "model/query/scanner.h"
 #include "model/query/lang.h"
 
-PHP_METHOD(Phalcon_Model_Query_Lang, parseSQL){
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parseSQL){
 
 	zval *sql = NULL;
 	zval *r0 = NULL;

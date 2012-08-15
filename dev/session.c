@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Session, set){
 	phalcon_read_static_property(&t0, SL("phalcon\\session"), SL("_uniqueId") TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_VV(r0, t0, index);
-	phalcon_array_update(&g0, r0, &value, PH_COPY TSRMLS_CC);
+	phalcon_array_update_zval(&g0, r0, &value, PH_COPY TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

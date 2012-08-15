@@ -52,7 +52,7 @@
  * @param string $backendAdapter
  * @param array $frontendOptions
  * @param array $backendOptions
- * @return  Phalcon_Cache_Backend_File
+ * @return  Phalcon\Cache\Backend\File
  */
 PHP_METHOD(Phalcon_Cache, factory){
 

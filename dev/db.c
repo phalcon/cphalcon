@@ -33,11 +33,10 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Db
@@ -47,7 +46,7 @@
  * There is a different adapter class for each brand of RDBMS.
  *
  * This component is intended to lower level database operations. If you want to interact with databases using
- * high level abstraction use Phalcon\Model.
+ * higher level of abstraction use Phalcon\Mvc\Model.
  *
  * Phalcon\Db is an abstract class. You only can use it with a database adapter like Phalcon\Db\Adapter\Pdo
  *
@@ -55,7 +54,7 @@
  */
 
 /**
- * Phalcon\Db constructor, this method should not be called directly. Use Phalcon\Db::factory instead
+ * Phalcon\Db constructor
  *
  * @param stdClass $descriptor
  */
@@ -86,94 +85,22 @@ PHP_METHOD(Phalcon_Db, __construct){
 }
 
 /**
- * Sets a logger class to log all SQL operations sent to database server
+ * Sets the event manager
  *
- * @param Phalcon\Logger $logger
+ * @param Phalcon\Events\Manager $eventsManager
  */
-PHP_METHOD(Phalcon_Db, setLogger){
+PHP_METHOD(Phalcon_Db, setEventsManager){
 
-	zval *logger = NULL;
+	zval *events_manager = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &logger) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (Z_TYPE_P(logger) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Parameter \\$logger must be an Object");
-		return;
-	}
-	phalcon_update_property_zval(this_ptr, SL("_logger"), logger TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the active logger
- *
- * @return Phalcon\Logger
- */
-PHP_METHOD(Phalcon_Db, getLogger){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_logger"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
-}
-
-/**
- * Sends arbitrary text to a related logger in the instance
- *
- * @param string $sqlStatement
- * @param int $type
- */
-PHP_METHOD(Phalcon_Db, log){
-
-	zval *sql_statement = NULL, *type = NULL, *logger = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_statement, &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(logger);
-	phalcon_read_property(&logger, this_ptr, SL("_logger"), PH_NOISY_CC);
-	if (zend_is_true(logger)) {
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(logger, "log", sql_statement, type, PH_NO_CHECK);
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Sets a database profiler to the connection
- *
- * @param Phalcon\Db\Profiler $profiler
- */
-PHP_METHOD(Phalcon_Db, setProfiler){
-
-	zval *profiler = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &profiler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(profiler) == IS_OBJECT) {
-		phalcon_update_property_zval(this_ptr, SL("_profiler"), profiler TSRMLS_CC);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Profiler must be an object");
-		return;
-	}
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -283,7 +210,6 @@ PHP_METHOD(Phalcon_Db, insert){
 	zval *n = NULL, *comma = NULL, *joined_values = NULL, *insert_sql = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	zval *i0 = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -321,18 +247,21 @@ PHP_METHOD(Phalcon_Db, insert){
 		
 		PHALCON_INIT_VAR(placeholders);
 		array_init(placeholders);
-		if (phalcon_valid_foreach(values TSRMLS_CC)) {
-			ALLOC_HASHTABLE(ah0);
-			zend_hash_init(ah0, 0, NULL, NULL, 0);
-			zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_e7f0_1:
+		if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+			return;
+		}
+		
+		ALLOC_HASHTABLE(ah0);
+		zend_hash_init(ah0, 0, NULL, NULL, 0);
+		zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_e7f0_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 				goto fee_e7f0_1;
-			} else {
-				PHALCON_INIT_VAR(n);
-				PHALCON_GET_FOREACH_KEY(n, ah0, hp0);
 			}
+			
+			PHALCON_INIT_VAR(n);
+			PHALCON_GET_FOREACH_KEY(n, ah0, hp0);
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			if (Z_TYPE_P(value) == IS_OBJECT) {
@@ -342,18 +271,13 @@ PHP_METHOD(Phalcon_Db, insert){
 				PHALCON_SEPARATE_PARAM(values);
 				phalcon_array_unset(values, n);
 			} else {
-				PHALCON_INIT_VAR(t0);
-				ZVAL_STRING(t0, "?", 1);
-				phalcon_array_append(&placeholders, t0, PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_e7f0_1;
-			fee_e7f0_1:
-			zend_hash_destroy(ah0);
-			efree(ah0);
-		} else {
-			return;
-		}
+		fee_e7f0_1:
+		zend_hash_destroy(ah0);
+		efree(ah0);
 		
 		PHALCON_INIT_VAR(comma);
 		ZVAL_STRING(comma, ", ", 1);
@@ -419,18 +343,21 @@ PHP_METHOD(Phalcon_Db, update){
 	
 	PHALCON_INIT_VAR(placeholders);
 	array_init(placeholders);
-	if (phalcon_valid_foreach(values TSRMLS_CC)) {
-		ALLOC_HASHTABLE(ah0);
-		zend_hash_init(ah0, 0, NULL, NULL, 0);
-		zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_e7f0_2:
+	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+		return;
+	}
+	
+	ALLOC_HASHTABLE(ah0);
+	zend_hash_init(ah0, 0, NULL, NULL, 0);
+	zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_e7f0_2:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_e7f0_2;
-		} else {
-			PHALCON_INIT_VAR(n);
-			PHALCON_GET_FOREACH_KEY(n, ah0, hp0);
 		}
+		
+		PHALCON_INIT_VAR(n);
+		PHALCON_GET_FOREACH_KEY(n, ah0, hp0);
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
 		eval_int = phalcon_array_isset(fields, n);
@@ -454,12 +381,9 @@ PHP_METHOD(Phalcon_Db, update){
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_e7f0_2;
-		fee_e7f0_2:
-		zend_hash_destroy(ah0);
-		efree(ah0);
-	} else {
-		return;
-	}
+	fee_e7f0_2:
+	zend_hash_destroy(ah0);
+	efree(ah0);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ", ", 1);
@@ -630,67 +554,17 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 }
 
 /**
- * This method is executed before every SQL statement sent to the database system
- *
- * @param string $sqlStatement
+ * Active SQL statement in the object
  */
-PHP_METHOD(Phalcon_Db, _beforeQuery){
+PHP_METHOD(Phalcon_Db, getSQLStatement){
 
-	zval *sql_statement = NULL, *logger = NULL, *profiler = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *c0 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(logger);
-	phalcon_read_property(&logger, this_ptr, SL("_logger"), PH_NOISY_CC);
-	if (zend_is_true(logger)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_METHOD(r0, this_ptr, "getconnectionid", PH_NO_CHECK);
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVSV(r1, "[", r0, "] ", sql_statement);
-		PHALCON_INIT_VAR(c0);
-		ZVAL_LONG(c0, 7);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(logger, "log", r1, c0, PH_NO_CHECK);
-	}
-	
-	PHALCON_INIT_VAR(profiler);
-	phalcon_read_property(&profiler, this_ptr, SL("_profiler"), PH_NOISY_CC);
-	if (zend_is_true(profiler)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(profiler, "startprofile", sql_statement, PH_NO_CHECK);
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * This method is executed after every SQL statement sent to the database system
- *
- * @param string $sqlStatement
- */
-PHP_METHOD(Phalcon_Db, _afterQuery){
-
-	zval *sql_statement = NULL, *profiler = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(profiler);
-	phalcon_read_property(&profiler, this_ptr, SL("_profiler"), PH_NOISY_CC);
-	if (zend_is_true(profiler)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(profiler, "stopprofile", sql_statement, PH_NO_CHECK);
-	}
-	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -707,86 +581,5 @@ PHP_METHOD(Phalcon_Db, getInternalHandler){
 	phalcon_read_property(&t0, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(t0);
-}
-
-/**
- * Instantiates a Phalcon\Db adapter using given parameters
- *
- * @param string $dbType
- * @param stdClass $descriptor
- * @return Phalcon\Db\Adapter\Pdo
- */
-PHP_METHOD(Phalcon_Db, factory){
-
-	zval *db_type = NULL, *descriptor = NULL, *object_descriptor = NULL;
-	zval *dialect_class = NULL, *dialect = NULL, *adapter_class = NULL;
-	zval *adapter = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
-	zend_class_entry *ce0, *ce1;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &db_type, &descriptor) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_SEPARATE_PARAM(descriptor);
-	
-	if (!zend_is_true(db_type)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "A valid adapter name is required");
-		return;
-	}
-	if (Z_TYPE_P(descriptor) == IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_cast(r0, descriptor, IS_OBJECT);
-		PHALCON_CPY_WRT(object_descriptor, r0);
-	} else {
-		PHALCON_CPY_WRT(object_descriptor, descriptor);
-	}
-	
-	PHALCON_INIT_VAR(dialect_class);
-	PHALCON_CONCAT_SV(dialect_class, "Phalcon\\Db\\Dialect\\", db_type);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", dialect_class);
-	if (zend_is_true(r1)) {
-		ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
-		PHALCON_INIT_VAR(dialect);
-		object_init_ex(dialect, ce0);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dialect, "__construct", descriptor, PH_CHECK);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_db_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_SVS(r2, "Database dialect ", db_type, " doesn't exists");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r2, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
-	}
-	
-	PHALCON_INIT_VAR(adapter_class);
-	PHALCON_CONCAT_SV(adapter_class, "Phalcon\\Db\\Adapter\\Pdo\\", db_type);
-	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "class_exists", adapter_class);
-	if (zend_is_true(r3)) {
-		ce1 = phalcon_fetch_class(adapter_class TSRMLS_CC);
-		PHALCON_INIT_VAR(adapter);
-		object_init_ex(adapter, ce1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(adapter, "__construct", dialect, descriptor, PH_CHECK);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(i1);
-		object_init_ex(i1, phalcon_db_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		PHALCON_CONCAT_SVS(r4, "Database adapter ", db_type, " doesn't exists");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", r4, PH_CHECK);
-		phalcon_throw_exception(i1 TSRMLS_CC);
-		return;
-	}
-	
-	
-	RETURN_CTOR(adapter);
 }
 

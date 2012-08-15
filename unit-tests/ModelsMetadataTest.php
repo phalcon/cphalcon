@@ -18,110 +18,67 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
+class ModelsMetadataTest extends PHPUnit_Framework_TestCase
+{
 
-	private $_pdtAttributesMysql = array(
-		'cedula' => 'char(15)',
-		'tipo_documento_id' => 'int(3) unsigned',
-		'nombres' => 'varchar(100)',
-		'telefono' => 'varchar(20)',
-		'direccion' => 'varchar(100)',
-		'email' => 'varchar(50)',
-		'fecha_nacimiento' => 'date',
-		'ciudad_id' => 'int(10) unsigned',
-		'creado_at' => 'date',
-		'cupo' => 'decimal(16,2)',
-		'estado' => 'enum(\'A\',\'I\',\'X\')',
-	);
-
-	private $_pdtAttributesPostgresql = array(
-		'cedula' => 'character(15)',
-		'tipo_documento_id' => 'integer',
-		'nombres' => 'character varying(100)',
-		'telefono' => 'character varying(20)',
-		'direccion' => 'character varying(100)',
-		'email' => 'character varying(50)',
-		'fecha_nacimiento' => 'date',
-		'ciudad_id' => 'integer',
-		'creado_at' => 'date',
-		'cupo' => 'numeric(16,2)',
-		'estado' => 'character(1)',
-	);
-
-	protected function _createManagerMysql(){
-
-		require 'unit-tests/config.db.php';
-
-		Phalcon\Db\Pool::reset();
-
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
-
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
-
-		return $manager;
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
 	}
 
-	protected function _createManagerPostgresql(){
+	protected function _getDI()
+	{
 
-		require 'unit-tests/config.db.php';
+		$di = new Phalcon\DI();
 
-		Phalcon\Db\Pool::reset();
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
 
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
-
-		return $manager;
+		return $di;
 	}
 
-	public function testMetadataMysql(){
+	public function testMetadataMysql()
+	{
 
-		$manager = $this->_createManagerMysql();
+		$di = $this->_getDI();
 
-		$metaData = $manager->getMetaData();
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
 
-		$this->_executeTests($manager, $metaData, $this->_pdtAttributesMysql);
+		$this->_executeTests($di);
 
 	}
 
-	public function testMetadataMysql2(){
+	public function testMetadataPostgresql()
+	{
 
-		$manager = $this->_createManagerMysql();
+		$di = $this->_getDI();
 
-		$Personas = $manager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
 
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon\Db\Pool::getConnection());
-
-		$metaData = $manager->getMetaData();
-
-		$dtAttributes = $metaData->getDataTypes($Personas);
-		$this->assertEquals($dtAttributes, $this->_pdtAttributesMysql);
-
+		$this->_executeTests($di);
 	}
 
-	public function testMetadataPostgresql(){
+	protected function _executeTests($di)
+	{
 
-		$manager = $this->_createManagerPostgresql();
+		spl_autoload_register(array($this, 'modelsAutoloader'));
 
-		$metaData = $manager->getMetaData();
+		$metaData = $di->getShared('modelsMetadata');
 
-		$this->_executeTests($manager, $metaData, $this->_pdtAttributesPostgresql);
-
-	}
-
-	protected function _executeTests($manager, $metaData, $dataTypes){
-
-		$Personas = $manager->getModel('Personas');
-		$this->assertEquals(get_class($Personas), 'Personas');
-
-		$connection = $Personas->getConnection();
-		$this->assertEquals($connection, Phalcon\Db\Pool::getConnection());
+		$personas = new Personas($di);
 
 		$pAttributes = array(
 			0 => 'cedula',
@@ -137,14 +94,14 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			10 => 'estado',
 		);
 
-		$attributes = $metaData->getAttributes($Personas);
+		$attributes = $metaData->getAttributes($personas);
 		$this->assertEquals($attributes, $pAttributes);
 
 		$ppkAttributes = array(
 			0 => 'cedula'
 		);
 
-		$pkAttributes = $metaData->getPrimaryKeyAttributes($Personas);
+		$pkAttributes = $metaData->getPrimaryKeyAttributes($personas);
 		$this->assertEquals($ppkAttributes, $pkAttributes);
 
 		$pnpkAttributes = array(
@@ -160,7 +117,7 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			9 => 'estado',
 		);
 
-		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($Personas);
+		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($personas);
 		$this->assertEquals($pnpkAttributes, $npkAttributes);
 
 		$pnnAttributes = array(
@@ -171,10 +128,24 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			4 => 'estado'
 		);
 
-		$nnAttributes = $metaData->getNotNullAttributes($Personas);
+		$nnAttributes = $metaData->getNotNullAttributes($personas);
 		$this->assertEquals($nnAttributes, $pnnAttributes);
 
-		$dtAttributes = $metaData->getDataTypes($Personas);
+		$dataTypes = array(
+			'cedula' => 5,
+			'tipo_documento_id' => 0,
+			'nombres' => 2,
+			'telefono' => 2,
+			'direccion' => 2,
+			'email' => 2,
+			'fecha_nacimiento' => 1,
+			'ciudad_id' => 0,
+			'creado_at' => 1,
+			'cupo' => 3,
+			'estado' => 5,
+		);
+
+		$dtAttributes = $metaData->getDataTypes($personas);
 		$this->assertEquals($dtAttributes, $dataTypes);
 
 		$pndAttributes = array(
@@ -182,8 +153,10 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase {
 			'ciudad_id' => true,
 			'cupo' => true,
 		);
-		$ndAttributes = $metaData->getDataTypesNumeric($Personas);
+		$ndAttributes = $metaData->getDataTypesNumeric($personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
+
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
 }

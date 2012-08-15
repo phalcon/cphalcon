@@ -32,13 +32,13 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Model\MetaData\Apc
+ * Phalcon\Mvc\Model\MetaData\Apc
  *
  * Stores model meta-data in the APC cache. Data will erased if the web server is restarted
  *
@@ -50,15 +50,14 @@
  */
 
 /**
- * Phalcon_Model_MetaData_Apc constructor
+ * Phalcon\Mvc\Model\MetaData\Apc constructor
  *
- * @param Phalcon_Config|stdClass $options
+ * @param array $options
  */
-PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL, *adapter_options = NULL;
-	zval *r0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *options = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -68,27 +67,17 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(options);
-	
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
+	eval_int = phalcon_array_isset_string(options, SL("suffix")+1);
+	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_cast(r0, options, IS_ARRAY);
-		PHALCON_CPY_WRT(adapter_options, r0);
-	} else {
-		PHALCON_CPY_WRT(adapter_options, options);
+		phalcon_array_fetch_string(&r0, options, SL("suffix"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_suffix"), r0 TSRMLS_CC);
 	}
-	eval_int = phalcon_isset_property(adapter_options, SL("suffix") TSRMLS_CC);
+	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, adapter_options, SL("suffix"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_suffix"), t0 TSRMLS_CC);
-	}
-	
-	eval_int = phalcon_isset_property(adapter_options, SL("lifetime") TSRMLS_CC);
-	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, adapter_options, SL("lifetime"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_ttl"), t1 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		phalcon_array_fetch_string(&r1, options, SL("lifetime"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_ttl"), r1 TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -99,7 +88,7 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, __construct){
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Model_MetaData_Apc, read){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
 	zval *key = NULL, *data = NULL;
 	zval *t0 = NULL;
@@ -129,11 +118,10 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, read){
  *
  * @param array $data
  */
-PHP_METHOD(Phalcon_Model_MetaData_Apc, write){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
-	zval *data = NULL;
+	zval *data = NULL, *key = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -144,11 +132,12 @@ PHP_METHOD(Phalcon_Model_MetaData_Apc, write){
 
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_suffix"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_SV(r0, "$PMM$", t0);
+	PHALCON_INIT_VAR(key);
+	PHALCON_CONCAT_SV(key, "$PMM$", t0);
+	
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_read_property(&t1, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", r0, data, t1);
+	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", key, data, t1);
 	
 	PHALCON_MM_RESTORE();
 }

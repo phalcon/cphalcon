@@ -38,7 +38,7 @@
 
 /**
  *
- * Phalcon_View_Engine_Php
+ * Phalcon_Mvc_View_Engine_Php
  *
  * Adapter to use PHP itself as templating engine
  */
@@ -49,7 +49,7 @@
  * @param Phalcon\View $view
  * @param array $options
  */
-PHP_METHOD(Phalcon_View_Engine_Php, __construct){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Php, __construct){
 
 	zval *view = NULL, *options = NULL;
 
@@ -60,7 +60,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, __construct){
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\View\\Engine\\Php", "__construct", view, options);
+	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Mvc\\View\\Engine\\Php", "__construct", view, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_View_Engine_Php, __construct){
  * @param string $path
  * @param array $params
  */
-PHP_METHOD(Phalcon_View_Engine_Php, render){
+PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
 	zval *path = NULL, *params = NULL, *value = NULL, *key = NULL;
 	zval *t0 = NULL;
@@ -92,28 +92,29 @@ PHP_METHOD(Phalcon_View_Engine_Php, render){
 	}
 
 	PHALCON_CALL_FUNC_NORETURN("ob_clean");
-	if (phalcon_valid_foreach(params TSRMLS_CC)) {
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_4b07_0:
+	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(params);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	fes_1897_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_4b07_0;
-		} else {
-			PHALCON_INIT_VAR(key);
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+			goto fee_1897_0;
 		}
+		
+		PHALCON_INIT_VAR(key);
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
 		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 			return;
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_4b07_0;
-		fee_4b07_0:
-		if(0){}
-	} else {
-		return;
-	}
+		goto fes_1897_0;
+	fee_1897_0:
+	if(0){}
+	
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;
 	}
