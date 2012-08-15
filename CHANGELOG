@@ -13,6 +13,7 @@
  - Removed Phalcon\Db\Pool
  - ModelsManager look up based on modelsDir has been removed in favor of autoloaders
  - Phalcon\Db\Pdo::describeColumns return an array of Phalcon\Db\Columns
+ - Removed Phalcon\Controller\Front
 
 0.5.0a2
  - Removed memory leaks when reading class constants

@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	zval *method = NULL, *arguments = NULL, *services = NULL, *possible_service = NULL;
 	zval *a0 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL;
 	int eval_int;
 
@@ -367,17 +367,25 @@ PHP_METHOD(Phalcon_DI, __call){
 		eval_int = phalcon_array_isset(services, possible_service);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CALL_METHOD_PARAMS_2(r2, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
-			RETURN_CTOR(r2);
+			phalcon_fast_count(r2, arguments TSRMLS_CC);
+			if (zend_is_true(r2)) {
+				PHALCON_ALLOC_ZVAL_MM(r3);
+				PHALCON_CALL_METHOD_PARAMS_2(r3, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
+				RETURN_CTOR(r3);
+			} else {
+				PHALCON_ALLOC_ZVAL_MM(r4);
+				PHALCON_CALL_METHOD_PARAMS_1(r4, this_ptr, "get", possible_service, PH_NO_CHECK);
+				RETURN_CTOR(r4);
+			}
 		}
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_di_exception_ce);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CONCAT_SVS(r3, "Calling undefined method or service '", method, "'");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r3, PH_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r5);
+	PHALCON_CONCAT_SVS(r5, "Call to undefined method or service '", method, "'");
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PH_CHECK);
 	phalcon_throw_exception(i0 TSRMLS_CC);
 	return;
 }

@@ -5,6 +5,7 @@ php:
   - 5.3.3
 
 before_install:
+ - sudo apt-get install gdb
  - sudo apt-get install memcached
  - wget http://pecl.php.net/get/memcache-2.2.6.tgz
  - tar -xzf memcache-2.2.6.tgz
