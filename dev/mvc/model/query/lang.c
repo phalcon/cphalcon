@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
-#include "model/query/scanner.h"
-#include "model/query/lang.h"
+#include "mvc/model/query/scanner.h"
+#include "mvc/model/query/lang.h"
 
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parseSQL){
 
