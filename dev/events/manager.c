@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type = NULL, *source = NULL, *event_parts = NULL, *type = NULL;
 	zval *event_name = NULL, *events = NULL, *fire_events = NULL, *handler = NULL;
-	zval *event = NULL;
+	zval *event = NULL, *arguments = NULL;
 	zval *c0 = NULL;
 	zval *i0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
@@ -248,6 +248,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				PHALCON_INIT_VAR(r1);
 				phalcon_get_class(r1, handler TSRMLS_CC);
 				if (PHALCON_COMPARE_STRING(r1, "Closure")) {
+					PHALCON_INIT_VAR(arguments);
+					array_init(arguments);
+					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
+					PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", handler, arguments);
 				} else {
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 						PHALCON_CALL_METHOD_PARAMS_2_NORETURN(handler, Z_STRVAL_P(event_name), event, source, PH_NO_CHECK);

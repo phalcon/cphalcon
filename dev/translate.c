@@ -52,7 +52,6 @@
 PHP_METHOD(Phalcon_Translate, _){
 
 	zval *translate_key = NULL, *placeholders = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -63,9 +62,8 @@ PHP_METHOD(Phalcon_Translate, _){
 	}
 
 	if (!placeholders) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(placeholders, a0);
+		PHALCON_INIT_VAR(placeholders);
+		array_init(placeholders);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

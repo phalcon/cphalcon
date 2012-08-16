@@ -45,7 +45,6 @@
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 
 	zval *frontend_options = NULL;
-	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -55,9 +54,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(frontend_options, a0);
+		PHALCON_INIT_VAR(frontend_options);
+		array_init(frontend_options);
 	}
 	
 	

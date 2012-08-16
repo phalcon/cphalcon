@@ -415,7 +415,6 @@ PHP_METHOD(Phalcon_Db, delete){
 
 	zval *table = NULL, *where_condition = NULL, *placeholders = NULL;
 	zval *sql = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -431,9 +430,8 @@ PHP_METHOD(Phalcon_Db, delete){
 	}
 	
 	if (!placeholders) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(placeholders, a0);
+		PHALCON_INIT_VAR(placeholders);
+		array_init(placeholders);
 	}
 	
 	if (Z_TYPE_P(where_condition) != IS_NULL) {

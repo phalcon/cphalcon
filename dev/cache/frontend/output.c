@@ -51,7 +51,7 @@
 PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	zval *frontend_options = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -65,9 +65,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
-		PHALCON_CPY_WRT(frontend_options, a1);
+		PHALCON_INIT_VAR(frontend_options);
+		array_init(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);

@@ -57,7 +57,6 @@
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -68,9 +67,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	}
 
 	if (!backend_options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(backend_options, a0);
+		PHALCON_INIT_VAR(backend_options);
+		array_init(backend_options);
 	} else {
 		PHALCON_SEPARATE_PARAM(backend_options);
 	}

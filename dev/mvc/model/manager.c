@@ -147,8 +147,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *entity_name = NULL;
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	int eval_int;
 
@@ -160,9 +160,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -172,11 +171,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	phalcon_read_property(&t0, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(t0, entity_name);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t1, entity_name, &a1, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t1, entity_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_hasOne"), t1 TSRMLS_CC);
 	}
 	
@@ -200,16 +199,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 			}
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(a2);
-		array_init(a2);
-		phalcon_array_update_string(&a2, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(a1);
+		array_init(a1);
+		phalcon_array_update_string(&a1, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a2, 0 TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a1, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_hasOne"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -232,8 +231,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *model_name = NULL;
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	int eval_int;
 
@@ -245,9 +244,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -257,11 +255,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	phalcon_read_property(&t0, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(t0, model_name);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t1, model_name, &a1, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t1, model_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_belongsTo"), t1 TSRMLS_CC);
 	}
 	
@@ -285,16 +283,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 			}
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(a2);
-		array_init(a2);
-		phalcon_array_update_string(&a2, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(a1);
+		array_init(a1);
+		phalcon_array_update_string(&a1, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&t3, model_name, reference_model, &a2, 0 TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, model_name, reference_model, &a1, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_belongsTo"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -317,8 +315,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *entity_name = NULL;
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	int eval_int;
 
@@ -330,9 +328,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_INIT_VAR(entity_name);
@@ -342,11 +339,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	phalcon_read_property(&t0, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(t0, entity_name);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
 		PHALCON_ALLOC_ZVAL_MM(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t1, entity_name, &a1, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t1, entity_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_hasMany"), t1 TSRMLS_CC);
 	}
 	
@@ -370,16 +367,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 			}
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(a2);
-		array_init(a2);
-		phalcon_array_update_string(&a2, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&a2, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(a1);
+		array_init(a1);
+		phalcon_array_update_string(&a1, SL("fi"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rt"), &reference_model, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("rf"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&a1, SL("op"), &options, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);
 		phalcon_read_property(&t3, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a2, 0 TSRMLS_CC);
+		phalcon_array_update_multi_2(&t3, entity_name, reference_model, &a1, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_hasMany"), t3 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;

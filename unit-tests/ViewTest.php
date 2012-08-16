@@ -18,10 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-class ViewTest extends PHPUnit_Framework_TestCase {
+use Phalcon\Mvc\View as View;
 
-	public function testStandardRender(){
-		$view = new Phalcon\View();
+class ViewTest extends PHPUnit_Framework_TestCase
+{
+
+	public function testStandardRender()
+	{
+
+		$view = new View();
 		$view->setBasePath(__DIR__.'/../');
 
 		$view->setViewsDir('unit-tests/views/');
@@ -59,21 +64,21 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view->cleanTemplateAfter();
 
 		//Render Levels
-		$view->setRenderLevel(Phalcon\View::LEVEL_MAIN_LAYOUT);
+		$view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
 
-		$view->setRenderLevel(Phalcon\View::LEVEL_LAYOUT);
+		$view->setRenderLevel(View::LEVEL_LAYOUT);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'lolhere');
 
-		$view->setRenderLevel(Phalcon\View::LEVEL_ACTION_VIEW);
+		$view->setRenderLevel(View::LEVEL_ACTION_VIEW);
 
 		$view->start();
 		$view->render('test3', 'other');
@@ -81,7 +86,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($view->getContent(), 'here');
 
 		//Pick View
-		$view->setRenderLevel(Phalcon\View::LEVEL_MAIN_LAYOUT);
+		$view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
 		$view->start();
 		$view->pick('test3/yup');
 		$view->render('test3', 'other');

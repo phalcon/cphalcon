@@ -55,7 +55,7 @@
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 
 	zval *name = NULL, *options = NULL, *mode = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *t0 = NULL;
 	zval *i0 = NULL;
@@ -73,9 +73,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
-		PHALCON_CPY_WRT(options, a1);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	eval_int = phalcon_array_isset_string(options, SL("mode")+1);

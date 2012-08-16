@@ -1038,12 +1038,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVSVS(r0, "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '", schema_name, "' AND table_name='", table_name, "'");
+		PHALCON_CONCAT_SVSVS(r0, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", schema_name, "' AND table_name='", table_name, "'");
 		
 		RETURN_CTOR(r0);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", table_name, "'");
+		PHALCON_CONCAT_SVS(r1, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", table_name, "'");
 		
 		RETURN_CTOR(r1);
 	}
@@ -1132,10 +1132,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 	
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SHOW INDEXES FROM `", schema, "`.`", table, "`");
+		PHALCON_CONCAT_SVSVS(sql, "SELECT n.nspname as \"Schema\", c.relname as \"Name\", CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' END as \"Type\", u.usename as \"Owner\",c2.relname as \"Table\" FROM pg_catalog.pg_class c JOIN pg_catalog.pg_index i ON i.indexrelid = c.oid JOIN pg_catalog.pg_class c2 ON i.indrelid = c2.oid LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('i','') AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND pg_catalog.pg_table_is_visible(c.oid) AND n.nspname = '", schema, "' AND c2.relname = '", table, "' ORDER BY 1,2;");
 	} else {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SHOW INDEXES FROM `", table, "`");
+		PHALCON_CONCAT_SVS(sql, "SELECT n.nspname as \"Schema\", c.relname as \"Name\", CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' END as \"Type\", u.usename as \"Owner\",c2.relname as \"Table\" FROM pg_catalog.pg_class c JOIN pg_catalog.pg_index i ON i.indexrelid = c.oid JOIN pg_catalog.pg_class c2 ON i.indrelid = c2.oid LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('i','') AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND pg_catalog.pg_table_is_visible(c.oid) AND c2.relname = '", table, "' ORDER BY 1,2;");
 	}
 	
 	RETURN_CTOR(sql);

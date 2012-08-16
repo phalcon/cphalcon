@@ -238,7 +238,6 @@ PHP_METHOD(Phalcon_DI, _factory){
 PHP_METHOD(Phalcon_DI, get){
 
 	zval *alias = NULL, *parameters = NULL, *services = NULL, *service = NULL, *instance = NULL;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -249,9 +248,8 @@ PHP_METHOD(Phalcon_DI, get){
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(parameters, a0);
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 	}
 	
 	PHALCON_INIT_VAR(services);
@@ -280,7 +278,6 @@ PHP_METHOD(Phalcon_DI, getShared){
 
 	zval *alias = NULL, *parameters = NULL, *shared_instances = NULL;
 	zval *instance = NULL;
-	zval *a0 = NULL;
 	zval *t0 = NULL;
 	int eval_int;
 
@@ -292,9 +289,8 @@ PHP_METHOD(Phalcon_DI, getShared){
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(parameters, a0);
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
 	}
 	
 	PHALCON_INIT_VAR(shared_instances);
@@ -356,7 +352,6 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method = NULL, *arguments = NULL, *services = NULL, *possible_service = NULL;
-	zval *a0 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL;
@@ -370,9 +365,8 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(arguments, a0);
+		PHALCON_INIT_VAR(arguments);
+		array_init(arguments);
 	}
 	
 	PHALCON_INIT_VAR(c0);

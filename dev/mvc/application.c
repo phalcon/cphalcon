@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/require.h"
+#include "kernel/concat.h"
 
 PHP_METHOD(Phalcon_Mvc_Application, setDI){
 
@@ -101,7 +102,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *view = NULL, *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *dispatcher = NULL, *response = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *i0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -145,6 +147,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 					return;
 				}
+			} else {
+				PHALCON_ALLOC_ZVAL_MM(i0);
+				object_init_ex(i0, phalcon_mvc_application_exception_ce);
+				PHALCON_ALLOC_ZVAL_MM(r0);
+				PHALCON_CONCAT_SVS(r0, "Module definition path '", path, "\" doesn't exists");
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
+				phalcon_throw_exception(i0 TSRMLS_CC);
+				return;
 			}
 		}
 		
@@ -189,15 +199,15 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_CALL_METHOD_NORETURN(view, "start", PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(dispatcher, "dispatch", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, dispatcher, "getcontrollername", PH_NO_CHECK);
-	
 	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD(r1, dispatcher, "getactionname", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(r1, dispatcher, "getcontrollername", PH_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_METHOD(r2, dispatcher, "getparams", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", r0, r1, r2, PH_NO_CHECK);
+	PHALCON_CALL_METHOD(r2, dispatcher, "getactionname", PH_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(r3);
+	PHALCON_CALL_METHOD(r3, dispatcher, "getparams", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", r1, r2, r3, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(view, "finish", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(c3);
@@ -206,9 +216,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_INIT_VAR(response);
 	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", c3, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_METHOD(r3, view, "getcontent", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", r3, PH_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r4);
+	PHALCON_CALL_METHOD(r4, view, "getcontent", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", r4, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders", PH_NO_CHECK);
 	
 	RETURN_CCTOR(response);

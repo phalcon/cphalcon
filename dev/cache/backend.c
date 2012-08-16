@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
@@ -53,7 +54,7 @@
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -69,17 +70,21 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	}
 
 	if (!backend_options) {
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
-		PHALCON_CPY_WRT(backend_options, a1);
+		PHALCON_INIT_VAR(backend_options);
+		array_init(backend_options);
 	}
 	
+	if (Z_TYPE_P(frontend_object) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
+		return;
+	}
 	eval_int = phalcon_array_isset_string(backend_options, SL("prefix")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch_string(&r0, backend_options, SL("prefix"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_prefix"), r0 TSRMLS_CC);
 	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_frontendObject"), frontend_object TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_backendOptions"), backend_options TSRMLS_CC);
 	

@@ -18,43 +18,38 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Db\Pool as Pool;
+class ControllersTest extends PHPUnit_Framework_TestCase
+{
 
-class ControllersTest extends PHPUnit_Framework_TestCase {
+	public function testControllers()
+	{
+		$di = new Phalcon\DI();
 
-	public function testControllers(){
+		$di->set('view', function(){
+			$view = new Phalcon\Mvc\View();
+			$view->setViewsDir('unit-tests/views/');
+			return $view;
+		});
 
-		require 'unit-tests/config.db.php';
+		$di->set('request', function(){
+			return new Phalcon\Http\Request();
+		});
 
-		Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Pool::hasDefaultDescriptor());
-
-		$model = new Phalcon\Model\Manager();
-		$model->setModelsDir('unit-tests/models/');
-
-		$view = new Phalcon\View();
-		$view->setViewsDir('unit-tests/views/');
-
-		$dispatcher = new Phalcon\Dispatcher();
-
-		$request = Phalcon\Request::getInstance();
-		$response = Phalcon\Response::getInstance();
-
-		$dispatcher->setBasePath('./');
-		$dispatcher->setControllersDir('tests/controllers/');
+		$di->set('filter', function(){
+			return new Phalcon\Filter();
+		});
 
 		require 'unit-tests/controllers/Test4Controller.php';
 
-		$controller = new Test4Controller($dispatcher, $request, $response, $view, $model);
+		$controller = new Test4Controller($di);
 
 		$_POST['email'] = ';ans@ecom.com';
 		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
 
+		$view = $di->getShared('view');
+
 		$controller->viewAction();
 		$this->assertEquals(count($view->getParamsToView()), 1);
-
-		$records = $controller->modelAction();
-		$this->assertEquals(get_class($records), 'Phalcon\Model\Resultset');
 
 	}
 

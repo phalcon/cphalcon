@@ -55,7 +55,6 @@
 PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
@@ -67,9 +66,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	}
 
 	if (!backend_options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(backend_options, a0);
+		PHALCON_INIT_VAR(backend_options);
+		array_init(backend_options);
 	}
 	
 	eval_int = phalcon_array_isset_string(backend_options, SL("cacheDir")+1);
@@ -101,9 +99,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 	zval *key_name = NULL, *lifetime = NULL, *backend = NULL, *front_end = NULL;
-	zval *prefixed_key = NULL, *cache_file = NULL, *time = NULL, *ttl = NULL, *cached_content = NULL;
+	zval *prefixed_key = NULL, *cache_file = NULL, *time = NULL, *ttl = NULL, *modified_time = NULL;
+	zval *cached_content = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -148,21 +147,21 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
 		
+		PHALCON_INIT_VAR(modified_time);
+		PHALCON_CALL_FUNC_PARAMS_1(modified_time, "filemtime", cache_file);
+		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		sub_function(r2, time, ttl TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(r3);
-		PHALCON_CALL_FUNC_PARAMS_1(r3, "filemtime", cache_file);
-		
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		is_smaller_function(r4, r2, r3 TSRMLS_CC);
-		if (zend_is_true(r4)) {
+		is_smaller_function(r3, r2, modified_time TSRMLS_CC);
+		if (zend_is_true(r3)) {
 			PHALCON_INIT_VAR(cached_content);
 			PHALCON_CALL_FUNC_PARAMS_1(cached_content, "file_get_contents", cache_file);
 			
-			PHALCON_ALLOC_ZVAL_MM(r5);
-			PHALCON_CALL_METHOD_PARAMS_1(r5, front_end, "afterretrieve", cached_content, PH_NO_CHECK);
-			RETURN_CTOR(r5);
+			PHALCON_ALLOC_ZVAL_MM(r4);
+			PHALCON_CALL_METHOD_PARAMS_1(r4, front_end, "afterretrieve", cached_content, PH_NO_CHECK);
+			RETURN_CTOR(r4);
 		}
 	}
 	

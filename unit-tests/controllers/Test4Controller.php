@@ -1,17 +1,16 @@
 <?php
 
-class Test4Controller extends Phalcon\Controller {
+class Test4Controller extends Phalcon\Mvc\Controller
+{
 
-	public function requestAction(){
+	public function requestAction()
+	{
 		return $this->request->getPost('email', 'email');
 	}
 
-	public function viewAction(){
+	public function viewAction()
+	{
 		return $this->view->setParamToView('born', 'this');
-	}
-
-	public function modelAction(){
-		return $this->Personas->find("nombres LIKE '%FELIPE%'");
 	}
 
 }

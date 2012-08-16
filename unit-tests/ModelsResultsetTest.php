@@ -56,16 +56,6 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	protected function _prepareTestPostgresql()
-	{
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
-	}
-
 	protected function _prepareTestMysql()
 	{
 		$di = $this->_getDI();
@@ -76,18 +66,28 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		});
 	}
 
-	public function testResultsetPostgresql()
+	protected function _prepareTestPostgresql()
 	{
-		$this->_prepareTestPostgresql();
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+	}
+
+	public function testResultsetMysql()
+	{
+		$this->_prepareTestMysql();
 
 		$robots = Robots::find(array('order' => 'id'));
 
 		$this->_applyTests($robots);
 	}
 
-	public function testResultsetMysql()
+	public function testResultsetPostgresql()
 	{
-		$this->_prepareTestMysql();
+		$this->_prepareTestPostgresql();
 
 		$robots = Robots::find(array('order' => 'id'));
 
@@ -102,7 +102,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		//Using a foreach
 		$number = 0;
-		foreach($robots as $robot){
+		foreach ($robots as $robot) {
 			$this->assertEquals($robot->id, $number+1);
 			$number++;
 		}
@@ -111,7 +111,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		//Using a while
 		$number = 0;
 		$robots->rewind();
-		while($robots->valid()){
+		while ($robots->valid()) {
 			$robot = $robots->current();
 			$this->assertEquals($robot->id, $number+1);
 			$robots->next();

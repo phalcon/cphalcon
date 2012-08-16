@@ -366,8 +366,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 
 	zval *resource = NULL, *access_list = NULL, *resource_name = NULL;
 	zval *object = NULL;
-	zval *a0 = NULL, *a1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -379,9 +379,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	}
 
 	if (!access_list) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(access_list, a0);
+		PHALCON_INIT_VAR(access_list);
+		array_init(access_list);
 	}
 	
 	if (Z_TYPE_P(resource) == IS_OBJECT) {
@@ -405,12 +404,12 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		phalcon_array_append(&t1, object, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_resources"), t1 TSRMLS_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(a1);
-		array_init(a1);
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
 		
 		PHALCON_ALLOC_ZVAL_MM(t2);
 		phalcon_read_property(&t2, this_ptr, SL("_accessList"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t2, resource_name, &a1, PH_COPY TSRMLS_CC);
+		phalcon_array_update_zval(&t2, resource_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_accessList"), t2 TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t3);

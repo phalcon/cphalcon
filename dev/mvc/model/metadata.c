@@ -60,7 +60,6 @@
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, __construct){
 
 	zval *options = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -71,9 +70,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, __construct){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);

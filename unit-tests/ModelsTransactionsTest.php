@@ -18,39 +18,77 @@
   +------------------------------------------------------------------------+
 */
 
-class TransactionsTest extends PHPUnit_Framework_TestCase {
+class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
-	public function testTransactionsMysql(){
-
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
-
-		require 'unit-tests/config.db.php';
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-
-		$this->_executeTests();
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
 	}
 
-	public function testTransactionsPostgresql(){
-
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
-
-		require 'unit-tests/config.db.php';
-		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
-		
-		$this->_executeTests();
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
-	protected function _executeTests(){
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+	protected function _getDI()
+	{
 
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
+		Phalcon\DI::reset();
 
-		$connection = $manager->getConnection();
-		$this->assertTrue(is_object($connection));
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		$di->set('transactionManager', function(){
+			return new Phalcon\Mvc\Model\Transaction\Manager();
+		});
+
+		return $di;
+	}
+
+	public function testTransactionsMysql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	public function testTransactionsPostgresql()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	protected function _executeTests($di)
+	{
+
+		$connection = $di->getShared('db');
 
 		$success = $connection->delete("personas", "cedula LIKE 'T-Cx%'");
 		$this->assertTrue($success);
@@ -58,16 +96,18 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 		$numPersonas = Personas::count();
 		$this->assertGreaterThan(0, $numPersonas);
 
+		$transactionManager = $di->getShared('transactionManager');
+
 		try {
 
-			$transaction1 = Phalcon\Transaction\Manager::get();
-			$this->assertInstanceOf('Phalcon\Transaction', $transaction1);
+			$transaction1 = $transactionManager->get();
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Transaction', $transaction1);
 
-			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
+			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(), $connection->getConnectionId());
 
 			$p = 100;
-			for($i=0;$i<10;$i++){
-				$persona = new Personas($manager);
+			for ($i=0; $i<10; $i++) {
+				$persona = new Personas($di);
 				$persona->setTransaction($transaction1);
 				$persona->cedula = 'T-Cx'.$i;
 				$persona->tipo_documento_id = 1;
@@ -84,7 +124,7 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(FALSE, 'oh, Why?');
 
 		}
-		catch(Phalcon\Transaction\Failed $e){
+		catch(Phalcon\Mvc\Model\Transaction\Failed $e){
 			$this->assertTrue(true);
 		}
 
@@ -93,15 +133,15 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 
 		try {
 
-			$transaction2 = Phalcon\Transaction\Manager::get();
-			$this->assertInstanceOf('Phalcon\Transaction', $transaction2);
+			$transaction2 = $transactionManager->get();
+			$this->assertInstanceOf('Phalcon\Mvc\Model\Transaction', $transaction2);
 
-			$this->assertNotEquals($transaction2->getConnection()->getConnectionId(true), $connection->getConnectionId(true));
-			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(true), $transaction2->getConnection()->getConnectionId(true));
+			$this->assertNotEquals($transaction2->getConnection()->getConnectionId(), $connection->getConnectionId());
+			$this->assertNotEquals($transaction1->getConnection()->getConnectionId(), $transaction2->getConnection()->getConnectionId());
 
 			$p = 200;
-			for($i=0;$i<15;$i++){
-				$persona = new Personas($manager);
+			for ($i=0; $i<15; $i++) {
+				$persona = new Personas($di);
 				$persona->setTransaction($transaction2);
 				$persona->cedula = 'T-Cx'.$p;
 				$persona->tipo_documento_id = 1;
@@ -119,7 +159,7 @@ class TransactionsTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals($commitNumPersonas, $numPersonas+15);
 
 		}
-		catch(Phalcon\Transaction\Failed $e){
+		catch(Phalcon\Mvc\Model\Transaction\Failed $e){
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 

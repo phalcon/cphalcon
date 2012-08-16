@@ -163,6 +163,7 @@ int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
+	Z_SET_REFCOUNT_P(zvalue, 0);
 	ZVAL_LONG(zvalue, value);
 
 	return phalcon_array_append(arr, zvalue, separate TSRMLS_CC);
@@ -358,22 +359,22 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags T
 	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, value, sizeof(zval *), NULL);
 }
 
-int phalcon_array_update_long_long(zval **arr, ulong index, long value, int flags TSRMLS_DC){
-
-	zval *zvalue;
-
-	ALLOC_INIT_ZVAL(zvalue);
-	ZVAL_LONG(zvalue, value);
-
-	return phalcon_array_update_long(arr, index, &zvalue, flags TSRMLS_CC);
-}
-
 int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint value_length, int flags TSRMLS_DC){
 
 	zval *zvalue;
 
 	ALLOC_INIT_ZVAL(zvalue);
 	ZVAL_STRINGL(zvalue, value, value_length, 1);
+
+	return phalcon_array_update_long(arr, index, &zvalue, flags TSRMLS_CC);
+}
+
+int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC){
+
+	zval *zvalue;
+
+	ALLOC_INIT_ZVAL(zvalue);
+	ZVAL_BOOL(zvalue, value);
 
 	return phalcon_array_update_long(arr, index, &zvalue, flags TSRMLS_CC);
 }

@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/object.h"
 
 /**
  * Phalcon\Mvc\View\Engine
@@ -47,48 +47,78 @@
  * Phalcon\Mvc\View\Engine constructor
  *
  * @param Phalcon\Mvc\View $view
- * @param array $options
  * @param array $params
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
-	zval *view = NULL, *options = NULL;
+	zval *view = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &view) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "initialize", view, options, PH_NO_CHECK);
+	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Initializes the engine adapter
+ * Sets the dependency injection container
  *
- * @param Phalcon\Mvc\View $view
- * @param array $options
+ * @param Phalcon\DI $dependencyInjector
  */
-PHP_METHOD(Phalcon_Mvc_View_Engine, initialize){
+PHP_METHOD(Phalcon_Mvc_View_Engine, setDI){
 
-	zval *view = NULL, *options = NULL;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (Z_TYPE_P(view) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid view component provided to Phalcon_Mvc_View_Engine");
-		return;
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the dependency injection container
+ *
+ * @return Phalcon\DI
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getDI){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(t0);
+}
+
+/**
+ * Sets the event manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, setEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
-	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -155,7 +185,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, url){
 
-	zval *params = NULL;
+	zval *params = NULL, *dependency_injector = NULL, *url = NULL;
+	zval *c0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -170,14 +201,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, url){
 		ZVAL_NULL(params);
 	}
 	
-	if (Z_TYPE_P(params) == IS_ARRAY) { 
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\mvc\\url", "geturl", params);
-		RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the 'url' service");
+		return;
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "url", 1);
+	
+	PHALCON_INIT_VAR(url);
+	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, url, "get", params, PH_NO_CHECK);
+	RETURN_CTOR(r0);
 }
 
 /**
@@ -188,7 +227,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, url){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, path){
 
-	zval *params = NULL;
+	zval *params = NULL, *dependency_injector = NULL, *url = NULL;
+	zval *c0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -203,8 +243,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, path){
 		ZVAL_STRING(params, "", 1);
 	}
 	
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the 'url' service");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "url", 1);
+	
+	PHALCON_INIT_VAR(url);
+	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_STATIC_PARAMS_1(r0, "phalcon\\mvc\\url", "getlocalpath", params);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, url, "getpath", params, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 

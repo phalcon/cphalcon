@@ -20,7 +20,43 @@
 
 class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
-	public function setUp(){
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
+
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
+
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
+
+	protected function _getDI()
+	{
+
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		return $di;
+	}
+
+	public function setUp()
+	{
 		$iterator = new DirectoryIterator('unit-tests/cache/');
 		foreach($iterator as $item){
 			if(!$item->isDir()){
@@ -29,57 +65,41 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	private function _prepareTestMysql(){
+	private function _prepareTestMysql()
+	{
 
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
+		$di = $this->_getDI();
 
-		require 'unit-tests/config.db.php';
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
-
+		return $di;
 	}
 
-	private function _prepareTestPostgresql(){
+	private function _prepareTestPostgresql()
+	{
 
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
+		$di = $this->_getDI();
 
-		require 'unit-tests/config.db.php';
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configPostgresql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
-
+		return $di;
 	}
 
-	public function testCacheResultsetDirectMysql(){
-		$this->_prepareTestMysql();
-		$this->_testCacheDirect();
-	}
+	protected function _testCacheDefaultDI($di)
+	{
 
-	public function testCacheResultsetDirectPostgresql(){
-		$this->_prepareTestPostgresql();
-		$this->_testCacheDirect();
-	}
-
-	protected function _testCacheDirect(){
-
-		Phalcon\Model\Manager::reset();
-
-		$manager = new Phalcon\Model\Manager();
-		$manager->setModelsDir('unit-tests/models/');
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		$cache = Phalcon\Cache::factory('Data', 'File', null, array(
-			'cacheDir' => 'unit-tests/cache/'
-		));
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $cache);
-
-		$manager->setCache($cache);
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
+		$di->set('modelsCache', function(){
+			$frontCache = new Phalcon\Cache\Frontend\Data();
+			return new Phalcon\Cache\Backend\File($frontCache, array(
+				'cacheDir' => 'unit-tests/cache/'
+			));
+		});
 
 		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
@@ -91,10 +111,44 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testCacheResultsetConfigMysql(){
+	public function testCacheDefaultDIMysql()
+	{
+		$di = $this->_prepareTestMysql();
+		return $this->_testCacheDefaultDI($di);
+	}
 
-		$this->_prepareTestMysql();
-		$robots = $this->_testCacheResultsetConfig();
+	public function testCacheDefaultDIPostgresql()
+	{
+		$di = $this->_prepareTestPostgresql();
+		return $this->_testCacheDefaultDI($di);
+	}
+
+	protected function _testCacheOtherService($di)
+	{
+
+		$di->set('otherCache', function(){
+			$frontCache = new Phalcon\Cache\Frontend\Data();
+			return new Phalcon\Cache\Backend\File($frontCache, array(
+				'cacheDir' => 'unit-tests/cache/'
+			));
+		});
+
+		$robots = Robots::find(array('cache' => array('lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$this->assertEquals(count($robots), 3);
+		$this->assertTrue($robots->isFresh());
+
+		$robots = Robots::find(array('cache' => array('lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$this->assertEquals(count($robots), 3);
+		$this->assertFalse($robots->isFresh());
+
+		return $robots;
+	}
+
+	public function testCacheOtherServiceMysql()
+	{
+
+		$di = $this->_prepareTestMysql();
+		$robots = $this->_testCacheOtherService($di);
 
 		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
 
@@ -103,10 +157,11 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		));
 	}
 
-	public function testCacheResultsetConfigPostgresql(){
+	public function testCacheOtherServicePostgresql()
+	{
 
-		$this->_prepareTestPostgresql();
-		$robots = $this->_testCacheResultsetConfig();
+		$di = $this->_prepareTestPostgresql();
+		$robots = $this->_testCacheOtherService($di);
 
 		$this->assertEquals($robots->getCache()->getLastKey(), 'phc7b01793487150c7241316e982a3a8b83');
 
@@ -115,91 +170,49 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
 		));
 	}
 
-	protected function _testCacheResultsetConfig(){
+	public function _testCacheDirect()
+	{
 
-		$config = new stdClass();
-		$config->cache = new stdClass();
-		$config->cache->adapter = 'File';
-		$config->cache->cacheDir = 'unit-tests/cache/';
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+			'cacheDir' => 'unit-tests/cache/'
+		));
 
-		$manager = new Phalcon\Model\Manager($config);
-		$manager->setModelsDir('unit-tests/models/');
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
-
-		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
+		$robots = Robots::find(array('cache' => $cache, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
+		$robots = Robots::find(array('cache' => $cache, 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
 		return $robots;
 	}
 
-	public function testCacheResultsetNoLifetime(){
+	public function testCacheDirectMysql()
+	{
 
-		$this->_prepareTestMysql();
+		$di = $this->_prepareTestMysql();
+		$robots = $this->_testCacheDirect($di);
 
-		Phalcon\Model\Manager::reset();
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
 
-		$config = new stdClass();
-		$config->cache = new stdClass();
-		$config->cache->adapter = 'File';
-		$config->cache->cacheDir = 'unit-tests/cache/';
-
-		$manager = new Phalcon\Model\Manager($config);
-		$manager->setModelsDir('unit-tests/models/');
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
-
-		$robots = Robots::find(array('cache' => true, 'order' => 'id'));
-		$this->assertEquals(count($robots), 3);
-		$this->assertTrue($robots->isFresh());
-
-		$robots = Robots::find(array('cache' => true, 'order' => 'id'));
-		$this->assertEquals(count($robots), 3);
-		$this->assertFalse($robots->isFresh());
-
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'phcd2b64883305e92cdaf5078930d881382',
+		));
 	}
 
-	public function testCacheResultsetConfigKey(){
+	public function testCacheDirectPostgresql()
+	{
 
-		$this->_prepareTestMysql();
+		$di = $this->_prepareTestPostgresql();
+		$robots = $this->_testCacheDirect($di);
 
-		Phalcon\Model\Manager::reset();
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc7b01793487150c7241316e982a3a8b83');
 
-		$config = new stdClass();
-		$config->cache = new stdClass();
-		$config->cache->adapter = 'File';
-		$config->cache->lifetime = 86400;
-		$config->cache->cacheDir = 'unit-tests/cache/';
-
-		$manager = new Phalcon\Model\Manager($config);
-		$manager->setModelsDir('unit-tests/models/');
-
-		$success = $manager->load('Robots');
-		$this->assertTrue($success);
-
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $manager->getCache());
-
-		$params = array('cache' => array('key' => 'mykey'), 'order' => 'id');
-
-		$robots = Robots::find($params);
-		$this->assertEquals(count($robots), 3);
-		$this->assertTrue($robots->isFresh());
-
-		$robots = Robots::find($params);
-		$this->assertEquals(count($robots), 3);
-		$this->assertFalse($robots->isFresh());
-
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'phc7b01793487150c7241316e982a3a8b83',
+		));
 	}
 
 }

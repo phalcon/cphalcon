@@ -8,7 +8,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc", "router.c view.c url.c controller.c dispatcher.c model.c application.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view", "engine.c exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/view/engine", "php.c twig.c mustache.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/view/engine", "php.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/application", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/validator", "uniqueness.c exclusionin.c regex.c inclusionin.c numericality.c email.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model", "query.c exception.c validator.c row.c metadata.c message.c manager.c resultset.c transaction.c", "phalcon")

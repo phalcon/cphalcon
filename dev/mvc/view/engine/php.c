@@ -38,32 +38,10 @@
 
 /**
  *
- * Phalcon_Mvc_View_Engine_Php
+ * Phalcon\Mvc\View\Engine\Php
  *
  * Adapter to use PHP itself as templating engine
  */
-
-/**
- * Phalcon\View\Engine\Php constructor
- *
- * @param Phalcon\View $view
- * @param array $options
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Php, __construct){
-
-	zval *view = NULL, *options = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Mvc\\View\\Engine\\Php", "__construct", view, options);
-	
-	PHALCON_MM_RESTORE();
-}
 
 /**
  * Renders a view using the template engine

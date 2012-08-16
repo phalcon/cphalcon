@@ -56,7 +56,6 @@
 PHP_METHOD(Phalcon_Paginator, factory){
 
 	zval *adapter_name = NULL, *options = NULL, *class_name = NULL, *adapter = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *i0 = NULL;
 	zend_class_entry *ce0;
@@ -69,9 +68,8 @@ PHP_METHOD(Phalcon_Paginator, factory){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_INIT_VAR(class_name);

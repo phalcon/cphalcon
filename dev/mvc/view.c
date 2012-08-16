@@ -37,12 +37,11 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 /**
- * Phalcon\View
+ * Phalcon\Mvc\View
  *
- * Phalcon_Mvc_View is a class for working with the "view" portion of the model-view-controller pattern.
+ * Phalcon\Mvc\View is a class for working with the "view" portion of the model-view-controller pattern.
  * That is, it exists to help keep the view script separate from the model and controller scripts.
  * It provides a system of helpers, output filters, and variable escaping.
  *
@@ -50,13 +49,13 @@
  */
 
 /**
- * Phalcon\View constructor
+ * Phalcon\Mvc\View constructor
  *
- * @param Phalcon\Config|stClass $options
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Mvc_View, __construct){
 
-	zval *options = NULL, *view_options = NULL;
+	zval *options = NULL;
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL;
 
 	PHALCON_MM_GROW();
@@ -87,21 +86,73 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 	}
 
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(options);
-		ZVAL_NULL(options);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
-	if (zend_is_true(options)) {
-		if (Z_TYPE_P(options) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an object");
-			return;
-		}
-		PHALCON_CPY_WRT(view_options, options);
-	} else {
-		PHALCON_INIT_VAR(view_options);
-		object_init(view_options);
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
+		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_options"), view_options TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the dependency injection container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_View, setDI){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the dependency injection container
+ *
+ * @return Phalcon\DI
+ */
+PHP_METHOD(Phalcon_Mvc_View, getDI){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(t0);
+}
+
+/**
+ * Sets the event manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_View, setEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -424,12 +475,12 @@ PHP_METHOD(Phalcon_Mvc_View, start){
  */
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 
-	zval *engines = NULL, *registered_engines = NULL, *engine = NULL;
-	zval *extension = NULL, *options = NULL, *name = NULL, *class_name = NULL;
+	zval *engines = NULL, *registered_engines = NULL, *dependency_injector = NULL;
+	zval *arguments = NULL, *engine_service = NULL, *extension = NULL;
+	zval *engine_object = NULL;
 	zval *t0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *i0 = NULL, *i1 = NULL, *i2 = NULL;
-	zval *a0 = NULL;
+	zval *r0 = NULL;
+	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -437,8 +488,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	int eval_int;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
@@ -455,11 +504,19 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 		if (!zend_is_true(r0)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_mvc_view_engine_php_ce);
-			PHALCON_ALLOC_ZVAL_MM(a0);
-			array_init(a0);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", this_ptr, a0, PH_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", this_ptr, PH_CHECK);
 			phalcon_array_update_string(&engines, SL(".phtml"), &i0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
+			PHALCON_INIT_VAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view engine services");
+				return;
+			}
+			
+			PHALCON_INIT_VAR(arguments);
+			array_init(arguments);
+			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
 			if (!phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
 				return;
 			}
@@ -473,59 +530,11 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 				
 				PHALCON_INIT_VAR(extension);
 				PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
-				PHALCON_INIT_VAR(engine);
-				ZVAL_ZVAL(engine, *hd, 1, 0);
-				PHALCON_INIT_VAR(options);
-				array_init(options);
-				if (Z_TYPE_P(engine) == IS_ARRAY) { 
-					eval_int = phalcon_array_isset_long(engine, 0);
-					if (eval_int) {
-						PHALCON_INIT_VAR(name);
-						phalcon_array_fetch_long(&name, engine, 0, PH_NOISY_CC);
-					} else {
-						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The template engine name is required");
-						return;
-					}
-					eval_int = phalcon_array_isset_long(engine, 1);
-					if (eval_int) {
-						PHALCON_INIT_VAR(options);
-						phalcon_array_fetch_long(&options, engine, 1, PH_NOISY_CC);
-					}
-				} else {
-					if (Z_TYPE_P(engine) == IS_STRING) {
-						PHALCON_CPY_WRT(name, engine);
-					} else {
-						if (Z_TYPE_P(engine) == IS_OBJECT) {
-							PHALCON_CALL_METHOD_PARAMS_2_NORETURN(engine, "initialize", this_ptr, options, PH_NO_CHECK);
-							phalcon_array_update_zval(&engines, extension, &engine, PH_COPY | PH_SEPARATE TSRMLS_CC);
-							goto fes_ecde_0;
-						} else {
-							PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The template engine is invalid");
-							return;
-						}
-					}
-				}
-				
-				PHALCON_INIT_VAR(class_name);
-				PHALCON_CONCAT_SV(class_name, "Phalcon\\Mvc\\View\\Engine\\", name);
-				
-				PHALCON_INIT_VAR(r1);
-				PHALCON_CALL_FUNC_PARAMS_1(r1, "class_exists", class_name);
-				if (zend_is_true(r1)) {
-					ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
-					PHALCON_INIT_VAR(i1);
-					object_init_ex(i1, ce0);
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i1, "__construct", this_ptr, options, PH_CHECK);
-					phalcon_array_update_zval(&engines, extension, &i1, PH_COPY | PH_SEPARATE TSRMLS_CC);
-				} else {
-					PHALCON_INIT_VAR(i2);
-					object_init_ex(i2, phalcon_mvc_view_exception_ce);
-					PHALCON_INIT_VAR(r2);
-					PHALCON_CONCAT_SVS(r2, "Template engine '", class_name, "' cannot be loaded");
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i2, "__construct", r2, PH_CHECK);
-					phalcon_throw_exception(i2 TSRMLS_CC);
-					return;
-				}
+				PHALCON_INIT_VAR(engine_service);
+				ZVAL_ZVAL(engine_service, *hd, 1, 0);
+				PHALCON_INIT_VAR(engine_object);
+				PHALCON_CALL_METHOD_PARAMS_2(engine_object, dependency_injector, "getshared", engine_service, arguments, PH_NO_CHECK);
+				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_ecde_0;
 			fee_ecde_0:
@@ -553,11 +562,13 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
 	zval *engines = NULL, *view_path = NULL, *silence = NULL, *cache = NULL, *not_exists = NULL;
-	zval *view_params = NULL, *views_dir_path = NULL, *render_level = NULL;
-	zval *cache_level = NULL, *key = NULL, *view_options = NULL, *cache_options = NULL;
-	zval *cached_view = NULL, *engine = NULL, *extension = NULL, *view_engine_path = NULL;
+	zval *view_params = NULL, *views_dir_path = NULL, *events_manager = NULL;
+	zval *render_level = NULL, *cache_level = NULL, *key = NULL, *view_options = NULL;
+	zval *cache_options = NULL, *cached_view = NULL, *engine = NULL, *extension = NULL;
+	zval *view_engine_path = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *c0 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -589,6 +600,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	
 	PHALCON_INIT_VAR(views_dir_path);
 	PHALCON_CONCAT_VVV(views_dir_path, t0, t1, view_path);
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (zend_is_true(cache)) {
 		PHALCON_INIT_VAR(render_level);
 		phalcon_read_property(&render_level, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
@@ -607,15 +621,15 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				
 				PHALCON_INIT_VAR(view_options);
 				phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
-				eval_int = phalcon_isset_property(view_options, SL("cache") TSRMLS_CC);
+				eval_int = phalcon_array_isset_string(view_options, SL("cache")+1);
 				if (eval_int) {
 					PHALCON_INIT_VAR(cache_options);
-					phalcon_read_property(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
-					if (Z_TYPE_P(cache_options) == IS_OBJECT) {
-						eval_int = phalcon_isset_property(cache_options, SL("key") TSRMLS_CC);
+					phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+					if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
+						eval_int = phalcon_array_isset_string(cache_options, SL("key")+1);
 						if (eval_int) {
 							PHALCON_INIT_VAR(key);
-							phalcon_read_property(&key, cache_options, SL("key"), PH_NOISY_CC);
+							phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
 						}
 					}
 				}
@@ -661,6 +675,18 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		PHALCON_INIT_VAR(view_engine_path);
 		PHALCON_CONCAT_VV(view_engine_path, views_dir_path, extension);
 		if (phalcon_file_exists(view_engine_path TSRMLS_CC) == SUCCESS) {
+			if (zend_is_true(events_manager)) {
+				phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
+				
+				PHALCON_INIT_VAR(c0);
+				ZVAL_STRING(c0, "view:beforeRender", 1);
+				
+				PHALCON_INIT_VAR(r3);
+				PHALCON_CALL_METHOD_PARAMS_2(r3, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+				if (Z_TYPE_P(r3) == IS_BOOL && !Z_BVAL_P(r3)) {
+					goto fes_ecde_1;
+				}
+			}
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(engine, "render", view_engine_path, view_params, PH_NO_CHECK);
 			
 			PHALCON_INIT_VAR(not_exists);
@@ -676,9 +702,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		if (!zend_is_true(silence)) {
 			PHALCON_ALLOC_ZVAL_MM(i0);
 			object_init_ex(i0, phalcon_mvc_view_exception_ce);
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CONCAT_SVS(r3, "View '", views_dir_path, "' was not found in the views directory");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r3, PH_CHECK);
+			PHALCON_ALLOC_ZVAL_MM(r4);
+			PHALCON_CONCAT_SVS(r4, "View '", views_dir_path, "' was not found in the views directory");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r4, PH_CHECK);
 			phalcon_throw_exception(i0 TSRMLS_CC);
 			return;
 		}
@@ -713,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 }
 
 /**
- * Executes render process from request data
+ * Executes render process from dispatching data
  *
  * @param string $controllerName
  * @param string $actionName
@@ -726,7 +752,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *render_controller = NULL, *cache = NULL, *cache_level = NULL;
 	zval *silence = NULL, *render_level = NULL, *templates_before = NULL;
 	zval *template_before = NULL, *templates_after = NULL, *template_after = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
@@ -743,9 +768,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 
 	if (!params) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(params, a0);
+		PHALCON_INIT_VAR(params);
+		array_init(params);
 	}
 	
 	PHALCON_INIT_VAR(layouts_dir);
@@ -1035,76 +1059,46 @@ PHP_METHOD(Phalcon_Mvc_View, finish){
 }
 
 /**
- * Set the cache object or cache parameters to do the resultset caching
- *
- * @param Phalcon\Cache\Backend|object $cache
- */
-PHP_METHOD(Phalcon_Mvc_View, setCache){
-
-	zval *cache = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cache) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(cache) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Cache must be an object instance");
-		return;
-	}
-	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
  * Create a Phalcon\Cache based on the internal cache options
  *
  * @return Phalcon\Cache\Backend
  */
 PHP_METHOD(Phalcon_Mvc_View, _createCache){
 
-	zval *options = NULL, *cache_options = NULL, *array_options = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *dependency_injector = NULL, *cache_service = NULL;
+	zval *view_options = NULL, *cache_options = NULL, *view_cache = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	eval_int = phalcon_isset_property(options, SL("cache") TSRMLS_CC);
-	if (!eval_int) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Cache options aren't defined");
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view cache services");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(cache_options);
-	phalcon_read_property(&cache_options, options, SL("cache"), PH_NOISY_CC);
-	eval_int = phalcon_isset_property(cache_options, SL("adapter") TSRMLS_CC);
-	if (!eval_int) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Cache adapter isn't defined");
-		return;
+	PHALCON_INIT_VAR(cache_service);
+	ZVAL_STRING(cache_service, "viewCache", 1);
+	
+	PHALCON_INIT_VAR(view_options);
+	phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset_string(view_options, SL("cache")+1);
+	if (eval_int) {
+		PHALCON_INIT_VAR(cache_options);
+		phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+		if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
+			eval_int = phalcon_array_isset_string(cache_options, SL("key")+1);
+			if (eval_int) {
+				PHALCON_INIT_VAR(cache_service);
+				phalcon_array_fetch_string(&cache_service, cache_options, SL("key"), PH_NOISY_CC);
+			}
+		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_cast(r0, cache_options, IS_ARRAY);
-	PHALCON_CPY_WRT(array_options, r0);
+	PHALCON_INIT_VAR(view_cache);
+	PHALCON_CALL_METHOD_PARAMS_1(view_cache, dependency_injector, "getshared", cache_service, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(p0[0]);
-	ZVAL_STRING(p0[0], "Output", 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, cache_options, SL("adapter"), PH_NOISY_CC);
-	p0[1] = t0;
-	p0[2] = array_options;
-	p0[3] = array_options;
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_STATIC_PARAMS(r1, "phalcon\\cache", "factory", 4, p0);
-	RETURN_CTOR(r1);
+	RETURN_CCTOR(view_cache);
 }
 
 /**
@@ -1143,8 +1137,7 @@ PHP_METHOD(Phalcon_Mvc_View, getCache){
 PHP_METHOD(Phalcon_Mvc_View, cache){
 
 	zval *options = NULL, *view_options = NULL, *cache_options = NULL;
-	zval *value = NULL, *key = NULL;
-	zval *t0 = NULL;
+	zval *value = NULL, *key = NULL, *cache_level = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1169,13 +1162,13 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(view_options);
 		phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
-		eval_int = phalcon_isset_property(view_options, SL("cache") TSRMLS_CC);
+		eval_int = phalcon_array_isset_string(view_options, SL("cache")+1);
 		if (eval_int) {
 			PHALCON_INIT_VAR(cache_options);
-			phalcon_read_property(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
 		} else {
 			PHALCON_INIT_VAR(cache_options);
-			object_init(cache_options);
+			array_init(cache_options);
 		}
 		
 		if (!phalcon_valid_foreach(options TSRMLS_CC)) {
@@ -1193,17 +1186,17 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
-			phalcon_update_property_zval_zval(cache_options, key, value TSRMLS_CC);
+			phalcon_array_update_zval(&cache_options, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_ecde_4;
 		fee_ecde_4:
 		if(0){}
 		
-		eval_int = phalcon_isset_property(cache_options, SL("level") TSRMLS_CC);
+		eval_int = phalcon_array_isset_string(cache_options, SL("level")+1);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t0);
-			phalcon_read_property(&t0, cache_options, SL("level"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_cacheLevel"), t0 TSRMLS_CC);
+			PHALCON_INIT_VAR(cache_level);
+			phalcon_array_fetch_string(&cache_level, cache_options, SL("level"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_cacheLevel"), cache_level TSRMLS_CC);
 		} else {
 			phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 5 TSRMLS_CC);
 		}
@@ -1254,6 +1247,17 @@ PHP_METHOD(Phalcon_Mvc_View, getContent){
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_content"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(t0);
+}
+
+PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_activeRenderPath"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(t0);
 }

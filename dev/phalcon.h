@@ -27,8 +27,6 @@ extern zend_class_entry *phalcon_mvc_view_ce;
 extern zend_class_entry *phalcon_mvc_view_engine_ce;
 extern zend_class_entry *phalcon_mvc_view_exception_ce;
 extern zend_class_entry *phalcon_mvc_view_engine_php_ce;
-extern zend_class_entry *phalcon_mvc_view_engine_twig_ce;
-extern zend_class_entry *phalcon_mvc_view_engine_mustache_ce;
 extern zend_class_entry *phalcon_mvc_url_ce;
 extern zend_class_entry *phalcon_mvc_controller_ce;
 extern zend_class_entry *phalcon_mvc_application_exception_ce;
@@ -175,6 +173,9 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched);
 
 
 PHP_METHOD(Phalcon_Mvc_View, __construct);
+PHP_METHOD(Phalcon_Mvc_View, setDI);
+PHP_METHOD(Phalcon_Mvc_View, getDI);
+PHP_METHOD(Phalcon_Mvc_View, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, setBasePath);
@@ -198,16 +199,18 @@ PHP_METHOD(Phalcon_Mvc_View, render);
 PHP_METHOD(Phalcon_Mvc_View, pick);
 PHP_METHOD(Phalcon_Mvc_View, partial);
 PHP_METHOD(Phalcon_Mvc_View, finish);
-PHP_METHOD(Phalcon_Mvc_View, setCache);
 PHP_METHOD(Phalcon_Mvc_View, _createCache);
 PHP_METHOD(Phalcon_Mvc_View, getCache);
 PHP_METHOD(Phalcon_Mvc_View, cache);
 PHP_METHOD(Phalcon_Mvc_View, setContent);
 PHP_METHOD(Phalcon_Mvc_View, getContent);
+PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
 PHP_METHOD(Phalcon_Mvc_View, disable);
 
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine, initialize);
+PHP_METHOD(Phalcon_Mvc_View_Engine, setDI);
+PHP_METHOD(Phalcon_Mvc_View_Engine, getDI);
+PHP_METHOD(Phalcon_Mvc_View_Engine, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_View_Engine, getControllerName);
 PHP_METHOD(Phalcon_Mvc_View_Engine, getActionName);
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent);
@@ -216,17 +219,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, path);
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
 
 
-PHP_METHOD(Phalcon_Mvc_View_Engine_Php, __construct);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
-
-PHP_METHOD(Phalcon_Mvc_View_Engine_Twig, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Twig, render);
-
-PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __construct);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, render);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __isset);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __get);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Mustache, __call);
 
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
 PHP_METHOD(Phalcon_Mvc_Url, get);
@@ -354,6 +347,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord);
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent);
@@ -363,8 +358,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, isAutomatic);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getAutomatic);
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData);
@@ -447,9 +440,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setDependencyPointer);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, attachDependency);
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, save);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
@@ -1061,6 +1051,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventsManager)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setviewsdir, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewsDir)
 ZEND_END_ARG_INFO()
@@ -1113,10 +1111,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setcache, 0, 0, 1)
-	ZEND_ARG_INFO(0, cache)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_cache, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -1125,14 +1119,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setcontent, 0, 0, 1)
 	ZEND_ARG_INFO(0, content)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, view)
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_initialize, 0, 0, 2)
-	ZEND_ARG_INFO(0, view)
-	ZEND_ARG_INFO(0, options)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_url, 0, 0, 0)
@@ -1147,47 +1143,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_partial, 0, 0, 1)
 	ZEND_ARG_INFO(0, partialPath)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, view)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_twig___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, view)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_twig_render, 0, 0, 2)
-	ZEND_ARG_INFO(0, path)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_mustache___construct, 0, 0, 2)
-	ZEND_ARG_INFO(0, view)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_mustache_render, 0, 0, 2)
-	ZEND_ARG_INFO(0, path)
-	ZEND_ARG_INFO(0, params)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_mustache___isset, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_mustache___get, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_mustache___call, 0, 0, 2)
-	ZEND_ARG_INFO(0, method)
-	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setbaseuri, 0, 0, 1)
@@ -1406,6 +1364,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_failed___construct,
 	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_get, 0, 0, 0)
 	ZEND_ARG_INFO(0, autoBegin)
 ZEND_END_ARG_INFO()
@@ -1607,7 +1573,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_unserialize, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
 	ZEND_ARG_INFO(0, autoBegin)
 ZEND_END_ARG_INFO()
 
@@ -1626,15 +1593,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_setrollbackonabort, 0, 0, 1)
 	ZEND_ARG_INFO(0, rollbackOnAbort)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_setdependencypointer, 0, 0, 1)
-	ZEND_ARG_INFO(0, pointer)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_attachdependency, 0, 0, 2)
-	ZEND_ARG_INFO(0, pointer)
-	ZEND_ARG_INFO(0, object)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, 0, 0, 1)
@@ -2815,6 +2773,9 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, __construct, arginfo_phalcon_mvc_view___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_View, setDI, arginfo_phalcon_mvc_view_setdi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, getDI, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, setEventsManager, arginfo_phalcon_mvc_view_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setViewsDir, arginfo_phalcon_mvc_view_setviewsdir, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setBasePath, arginfo_phalcon_mvc_view_setbasepath, ZEND_ACC_PUBLIC) 
@@ -2838,19 +2799,21 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_view_pick, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, partial, arginfo_phalcon_mvc_view_partial, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, finish, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View, setCache, arginfo_phalcon_mvc_view_setcache, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, _createCache, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View, getCache, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, cache, arginfo_phalcon_mvc_view_cache, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setContent, arginfo_phalcon_mvc_view_setcontent, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getContent, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, disable, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine, __construct, arginfo_phalcon_mvc_view_engine___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_View_Engine, initialize, arginfo_phalcon_mvc_view_engine_initialize, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine, setDI, arginfo_phalcon_mvc_view_engine_setdi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine, getDI, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine, setEventsManager, arginfo_phalcon_mvc_view_engine_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine, getActionName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine, getContent, NULL, ZEND_ACC_PUBLIC) 
@@ -2861,23 +2824,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_method_entry){
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_php_method_entry){
-	PHP_ME(Phalcon_Mvc_View_Engine_Php, __construct, arginfo_phalcon_mvc_view_engine_php___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Php, render, arginfo_phalcon_mvc_view_engine_php_render, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_twig_method_entry){
-	PHP_ME(Phalcon_Mvc_View_Engine_Twig, __construct, arginfo_phalcon_mvc_view_engine_twig___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Twig, render, arginfo_phalcon_mvc_view_engine_twig_render, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_mustache_method_entry){
-	PHP_ME(Phalcon_Mvc_View_Engine_Mustache, __construct, arginfo_phalcon_mvc_view_engine_mustache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Mustache, render, arginfo_phalcon_mvc_view_engine_mustache_render, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Mustache, __isset, arginfo_phalcon_mvc_view_engine_mustache___isset, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Mustache, __get, arginfo_phalcon_mvc_view_engine_mustache___get, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Mustache, __call, arginfo_phalcon_mvc_view_engine_mustache___call, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3049,7 +2996,9 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_failed_method_entry){
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry){
-	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, __construct, arginfo_phalcon_mvc_model_transaction_manager___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, setDI, arginfo_phalcon_mvc_model_transaction_manager_setdi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, has, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, get, arginfo_phalcon_mvc_model_transaction_manager_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent, NULL, ZEND_ACC_PUBLIC) 
@@ -3059,8 +3008,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit, arginfo_phalcon_mvc_model_transaction_manager_notifycommit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction, NULL, ZEND_ACC_PRIVATE) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, isAutomatic, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getAutomatic, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3167,9 +3114,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setIsNewTransaction, arginfo_phalcon_mvc_model_transaction_setisnewtransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transaction_setrollbackonabort, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, isManaged, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction, setDependencyPointer, arginfo_phalcon_mvc_model_transaction_setdependencypointer, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction, attachDependency, arginfo_phalcon_mvc_model_transaction_attachdependency, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Transaction, save, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, getMessages, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, isValid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackedRecord, arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, ZEND_ACC_PUBLIC) 

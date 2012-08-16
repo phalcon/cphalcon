@@ -92,7 +92,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		return $di;
 	}
 
-	public function testMetadataMemory(){
+	public function testMetadataMemory()
+	{
 
 		$di = $this->_getDI();
 
@@ -112,7 +113,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testMetadataSession(){
+	public function testMetadataSession()
+	{
 
 		@session_start();
 
@@ -144,7 +146,13 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testMetadataApc(){
+	public function testMetadataApc()
+	{
+
+		if (!extension_loaded('apc')) {
+			$this->markTestAsSkipped('apc extension is not loaded');
+			return false;
+		}
 
 		apc_delete('$PMM$my-local-app');
 
@@ -153,7 +161,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Apc(array(
 				'suffix' => 'my-local-app',
-				'lifetime' =>60
+				'lifetime' => 60
 			));
 		});
 

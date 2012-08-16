@@ -55,7 +55,6 @@
 PHP_METHOD(Phalcon_Config, __construct){
 
 	zval *array_config = NULL, *value = NULL, *key = NULL;
-	zval *a0 = NULL;
 	zval *i0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -73,9 +72,8 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 
 	if (!array_config) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(array_config, a0);
+		PHALCON_INIT_VAR(array_config);
+		array_init(array_config);
 	}
 	
 	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {

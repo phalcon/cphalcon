@@ -57,7 +57,6 @@
 PHP_METHOD(Phalcon_Acl, __construct){
 
 	zval *adapter_name = NULL, *options = NULL, *adapter_class = NULL;
-	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	zval *i0 = NULL, *i1 = NULL;
 	zend_class_entry *ce0;
@@ -75,9 +74,8 @@ PHP_METHOD(Phalcon_Acl, __construct){
 	}
 	
 	if (!options) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(options, a0);
+		PHALCON_INIT_VAR(options);
+		array_init(options);
 	}
 	
 	PHALCON_INIT_VAR(adapter_class);
@@ -115,7 +113,7 @@ PHP_METHOD(Phalcon_Acl, __construct){
 PHP_METHOD(Phalcon_Acl, __call){
 
 	zval *method = NULL, *arguments = NULL;
-	zval *a0 = NULL, *a1 = NULL;
+	zval *a0 = NULL;
 	zval *t0 = NULL;
 	zval *r0 = NULL;
 
@@ -127,19 +125,18 @@ PHP_METHOD(Phalcon_Acl, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
-		PHALCON_CPY_WRT(arguments, a0);
+		PHALCON_INIT_VAR(arguments);
+		array_init(arguments);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(a1);
-	array_init(a1);
+	PHALCON_ALLOC_ZVAL_MM(a0);
+	array_init(a0);
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
-	phalcon_array_append(&a1, t0, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&a1, method, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&a0, t0, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&a0, method, PH_SEPARATE TSRMLS_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a1, arguments);
+	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a0, arguments);
 	RETURN_CTOR(r0);
 }
 

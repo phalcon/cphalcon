@@ -58,25 +58,27 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function assertGreaterThan()
+	public function assertGreaterThan($a, $b)
 	{
-		return true;
+		if ($a <= $b){
+			throw new Exception('Not greather than');
+		}
 	}
 
 	public static function main($className)
 	{
 		echo 'Testing ', $className, ' ';
-		if(class_exists($className, false)){
+		if (class_exists($className, false)) {
 			$class = new $className();
-			if(method_exists($class, 'setUp')){
+			if (method_exists($class, 'setUp')) {
 				$class->setUp();
 			}
 			$reflectionClass = new ReflectionClass($class);
 			$hasSetup = $reflectionClass->hasMethod('setUp');
-			foreach($reflectionClass->getMethods() as $method){
+			foreach ($reflectionClass->getMethods() as $method) {
 				$methodName = $method->getName();
-				if(substr($methodName, 0, 4)=='test'){
-					if($hasSetup){
+				if (substr($methodName, 0, 4) == 'test') {
+					if ($hasSetup) {
 						$class->setUp();
 					}
 					$class->$methodName();

@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -51,11 +51,12 @@
 /**
  * Phalcon\Mvc\Model\Transaction constructor
  *
+ * @param Phalcon\DI $dependencyInjector
  * @param boolean $autoBegin
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
-	zval *auto_begin = NULL, *connection = NULL;
+	zval *dependency_injector = NULL, *auto_begin = NULL, *connection = NULL;
 	zval *a0 = NULL, *a1 = NULL;
 	zval *c0 = NULL;
 
@@ -69,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	array_init(a1);
 	zend_update_property(phalcon_mvc_model_transaction_ce, this_ptr, SL("_messages"), a1 TSRMLS_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &auto_begin) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &dependency_injector, &auto_begin) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -79,10 +80,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		ZVAL_BOOL(auto_begin, 0);
 	}
 	
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(c0);
-	ZVAL_BOOL(c0, 1);
+	ZVAL_STRING(c0, "db", 1);
+	
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_STATIC_PARAMS_1(connection, "phalcon\\db\\pool", "getconnection", c0);
+	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", c0, PH_NO_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (zend_is_true(auto_begin)) {
 		PHALCON_CALL_METHOD_NORETURN(connection, "begin", PH_NO_CHECK);
@@ -111,16 +118,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 	}
 
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		if (Z_TYPE_P(manager) != IS_STRING) {
-			ce0 = zend_fetch_class(SL("Phalcon_Transaction_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, ce0);
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CONCAT_VS(r0, manager, " must be object or string");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
-			phalcon_throw_exception(i0 TSRMLS_CC);
-			return;
-		}
+		ce0 = zend_fetch_class(SL("Phalcon_Transaction_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(i0);
+		object_init_ex(i0, ce0);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CONCAT_VS(r0, manager, " must be an Object");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
+		phalcon_throw_exception(i0 TSRMLS_CC);
+		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_manager"), manager TSRMLS_CC);
 	
@@ -152,9 +157,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 
-	zval *manager = NULL;
+	zval *manager = NULL, *connection = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -171,11 +175,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_connection"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(connection);
+	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "commit", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(r0, connection, "commit", PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 
@@ -183,16 +187,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
  * Rollbacks the transaction
  *
  * @param  string $rollbackMessage
- * @param  Phalcon\Model\Base $rollbackRecord
+ * @param  Phalcon\Mvc\Model $rollbackRecord
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	zval *rollback_message = NULL, *rollback_record = NULL;
-	zval *manager = NULL, *success = NULL;
+	zval *manager = NULL, *connection = NULL, *success = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 	zval *i0 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -226,11 +230,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", a0, a1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_connection"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(connection);
+	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD(success, t0, "rollback", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(success, connection, "rollback", PH_NO_CHECK);
 	if (zend_is_true(success)) {
 		if (!zend_is_true(rollback_message)) {
 			PHALCON_INIT_VAR(rollback_message);
@@ -243,9 +247,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_ALLOC_ZVAL_MM(i0);
 		object_init_ex(i0, phalcon_mvc_model_transaction_failed_ce);
 		
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", rollback_message, t1, PH_CHECK);
+		PHALCON_ALLOC_ZVAL_MM(t0);
+		phalcon_read_property(&t0, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", rollback_message, t0, PH_CHECK);
 		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
@@ -256,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 /**
  * Returns connection related to transaction
  *
- * @return Phalcon\Db
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 
@@ -332,156 +336,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
 
+	zval *manager = NULL;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_manager"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	boolean_not_function(r0, t0 TSRMLS_CC);
+	boolean_not_function(r0, manager TSRMLS_CC);
 	
 	RETURN_NCTOR(r0);
-}
-
-/**
- * Changes dependency internal pointer
- *
- * @param int $pointer
- */
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, setDependencyPointer){
-
-	zval *pointer = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &pointer) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_pointer"), pointer TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Attaches Phalcon_Model_Base object to the active transaction
- *
- * @param int $pointer
- * @param Phalcon\Mvc\Model $object
- */
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, attachDependency){
-
-	zval *pointer = NULL, *object = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
-	int eval_int;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &pointer, &object) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_SEPARATE_PARAM(pointer);
-	
-	if (!zend_is_true(pointer)) {
-		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_pointer"), PH_NOISY_CC);
-		PHALCON_SEPARATE_NMO(t0);
-		increment_function(t0);
-		phalcon_update_property_zval(this_ptr, SL("_pointer"), t0 TSRMLS_CC);
-		PHALCON_CPY_WRT(pointer, t0);
-		
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t1, pointer, &object, PH_COPY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_dependencies"), t1 TSRMLS_CC);
-		
-		RETURN_CCTOR(pointer);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-		eval_int = phalcon_array_isset(t2, pointer);
-		if (!eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(t3);
-			phalcon_read_property(&t3, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-			phalcon_array_update_zval(&t3, pointer, &object, PH_COPY TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_dependencies"), t3 TSRMLS_CC);
-			
-			RETURN_CCTOR(pointer);
-		} else {
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, SL("_pointer"), PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(t4);
-			increment_function(t4);
-			phalcon_update_property_zval(this_ptr, SL("_pointer"), t4 TSRMLS_CC);
-			PHALCON_CPY_WRT(pointer, t4);
-			
-			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-			phalcon_array_update_zval(&t5, pointer, &object, PH_COPY TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_dependencies"), t5 TSRMLS_CC);
-			
-			RETURN_CCTOR(pointer);
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Make a bulk save on all attached objects
- *
- * @return boolean
- */
-PHP_METHOD(Phalcon_Mvc_Model_Transaction, save){
-
-	zval *dependency = NULL;
-	zval *a0 = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_messages"), a0 TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dependencies"), PH_NOISY_CC);
-	if (!phalcon_valid_foreach(t0 TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(t0);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_1ec6_0:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_1ec6_0;
-		}
-		
-		PHALCON_INIT_VAR(dependency);
-		ZVAL_ZVAL(dependency, *hd, 1, 0);
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_METHOD(r0, dependency, "save", PH_NO_CHECK);
-		if (!zend_is_true(r0)) {
-			PHALCON_INIT_VAR(r1);
-			PHALCON_CALL_METHOD(r1, dependency, "getmessages", PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("_messages"), r1 TSRMLS_CC);
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
-		}
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_1ec6_0;
-	fee_1ec6_0:
-	if(0){}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
 }
 
 /**

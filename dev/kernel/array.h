@@ -45,6 +45,7 @@ extern int phalcon_array_update_string_string(zval **arr, char *index, uint inde
 extern int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags TSRMLS_DC);
 extern int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint value_length, int flags TSRMLS_DC);
 extern int phalcon_array_update_long_long(zval **arr, ulong index, long value, int flags TSRMLS_DC);
+extern int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC);
 
 /** Update/Append multidimensional arrays */
 extern void phalcon_array_update_multi_2(zval **config, zval *index1, zval *index2, zval **value, int flags TSRMLS_DC);
