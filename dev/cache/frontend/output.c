@@ -37,7 +37,7 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon_Cache_Frontend_Output
+ * Phalcon\Cache\Frontend\Output
  *
  * Allows to cache output fragments captured with ob_* functions
  *

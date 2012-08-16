@@ -33,14 +33,14 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Cache_Frontend_None
+ * Phalcon\Cache\Frontend\None
  *
  * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
  *
  */
 
 /**
- * Phalcon_Cache_Frontend_None constructor
+ * Phalcon\Cache\Frontend\None constructor
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 

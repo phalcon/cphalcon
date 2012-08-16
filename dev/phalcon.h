@@ -75,7 +75,6 @@ extern zend_class_entry *phalcon_acl_exception_ce;
 extern zend_class_entry *phalcon_acl_adapter_memory_ce;
 extern zend_class_entry *phalcon_acl_role_ce;
 extern zend_class_entry *phalcon_acl_resource_ce;
-extern zend_class_entry *phalcon_cache_ce;
 extern zend_class_entry *phalcon_registry_ce;
 extern zend_class_entry *phalcon_paginator_exception_ce;
 extern zend_class_entry *phalcon_paginator_adapter_array_ce;
@@ -567,8 +566,6 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription);
 PHP_METHOD(Phalcon_Acl_Resource, __construct);
 PHP_METHOD(Phalcon_Acl_Resource, getName);
 PHP_METHOD(Phalcon_Acl_Resource, getDescription);
-
-PHP_METHOD(Phalcon_Cache, factory);
 
 PHP_METHOD(Phalcon_Registry, set);
 
@@ -2098,13 +2095,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_resource___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, description)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_factory, 0, 0, 2)
-	ZEND_ARG_INFO(0, frontendAdapter)
-	ZEND_ARG_INFO(0, backendAdapter)
-	ZEND_ARG_INFO(0, frontendOptions)
-	ZEND_ARG_INFO(0, backendOptions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_array___construct, 0, 0, 1)
@@ -3718,11 +3708,6 @@ PHALCON_INIT_FUNCS(phalcon_acl_resource_method_entry){
 	PHP_ME(Phalcon_Acl_Resource, __construct, arginfo_phalcon_acl_resource___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Acl_Resource, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Resource, getDescription, NULL, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_cache_method_entry){
-	PHP_ME(Phalcon_Cache, factory, arginfo_phalcon_cache_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

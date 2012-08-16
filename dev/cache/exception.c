@@ -33,7 +33,7 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Cache_Exception
+ * Phalcon\Cache\Exception
  *
  * Exceptions thrown in Phalcon_Cache will use this class
  *

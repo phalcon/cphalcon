@@ -14,6 +14,8 @@
  - ModelsManager look up based on modelsDir has been removed in favor of autoloaders
  - Phalcon\Db\Pdo::describeColumns return an array of Phalcon\Db\Columns
  - Removed Phalcon\Controller\Front
+ - Most "Factories" and "Singletons" implementations were removed
+ - Phalcon\Mvc\Model\Metadata adapters must be instantiated directly
 
 0.5.0a2
  - Removed memory leaks when reading class constants

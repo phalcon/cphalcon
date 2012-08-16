@@ -90,7 +90,6 @@ zend_class_entry *phalcon_acl_exception_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_role_ce;
 zend_class_entry *phalcon_acl_resource_ce;
-zend_class_entry *phalcon_cache_ce;
 zend_class_entry *phalcon_registry_ce;
 zend_class_entry *phalcon_paginator_exception_ce;
 zend_class_entry *phalcon_paginator_adapter_array_ce;
@@ -402,8 +401,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS(Phalcon\\Acl, Resource, acl_resource, phalcon_acl_resource_method_entry, 0);
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	PHALCON_REGISTER_CLASS(Phalcon, Cache, cache, phalcon_cache_method_entry, ZEND_ACC_ABSTRACT);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Registry, registry, phalcon_registry_method_entry, 0);
 

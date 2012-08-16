@@ -37,14 +37,14 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon_Cache_Frontend_Data
+ * Phalcon\Cache\Frontend\Data
  *
  * Allows to cache native PHP data in a serialized form
  *
  */
 
 /**
- * Phalcon_Cache_Frontend_Data constructor
+ * Phalcon\Cache\Frontend\Data constructor
  *
  * @param array $frontendOptions
  */
@@ -88,12 +88,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PH_NOISY_CC);
 		
 		RETURN_CCTOR(r0);
-	} else {
-		PHALCON_MM_RESTORE();
-		RETURN_LONG(1);
 	}
 	
 	PHALCON_MM_RESTORE();
+	RETURN_LONG(1);
 }
 
 /**
