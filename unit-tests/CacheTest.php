@@ -105,17 +105,15 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/*public function testDataFileCache(){
+	public function testDataFileCache()
+	{
 
-		$backendOptions = array(
+		$frontCache = new Phalcon\Cache\Frontend\Data();
+
+		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/'
-		);
+		));
 
-		@unlink('unit-tests/cache/testdata');
-
-		$cache = Phalcon\Cache::factory('Data', 'File', null, $backendOptions);
-		$this->assertInstanceOf('Phalcon\Cache\Backend\File', $cache);
-		$this->assertInstanceOf('Phalcon\Cache\Frontend\Data', $cache->getFrontend());
 		$this->assertFalse($cache->isStarted());
 
 		$cache->save('test-data', "nothing interesting");
@@ -134,7 +132,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	private function _prepareMemcached(){
+	/*private function _prepareMemcached(){
 
 		if(!extension_loaded('memcache')){
 			$this->markTestAsSkipped('Warning: memcache extension is not loaded');

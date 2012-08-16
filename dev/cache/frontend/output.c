@@ -44,14 +44,14 @@
  */
 
 /**
- * Phalcon_Cache_Frontend_Output constructor
+ * Phalcon\Cache\Frontend\Output constructor
  *
  * @param array $frontendOptions
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	zval *frontend_options = NULL;
-	zval *a0 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -59,11 +59,17 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	array_init(a0);
 	zend_update_property(phalcon_cache_frontend_output_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &frontend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!frontend_options) {
+		PHALCON_ALLOC_ZVAL_MM(a1);
+		array_init(a1);
+		PHALCON_CPY_WRT(frontend_options, a1);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -89,12 +95,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PH_NOISY_CC);
 		
 		RETURN_CCTOR(r0);
-	} else {
-		PHALCON_MM_RESTORE();
-		RETURN_LONG(1);
 	}
 	
 	PHALCON_MM_RESTORE();
+	RETURN_LONG(1);
 }
 
 /**

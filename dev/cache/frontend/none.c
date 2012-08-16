@@ -45,14 +45,21 @@
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 
 	zval *frontend_options = NULL;
+	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &frontend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!frontend_options) {
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(frontend_options, a0);
+	}
+	
 	
 	PHALCON_MM_RESTORE();
 }
