@@ -602,32 +602,7 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Tag, Exception, tag_exception, "phalcon\\exception", NULL, 0);
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Internal, Test, internal_test, "phalcon\\internal\\testparent", phalcon_internal_test_method_entry, 0);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_p0"), ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_p1"), ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_string(phalcon_internal_test_ce, SL("_p2"), "str", ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_double(phalcon_internal_test_ce, SL("_p3"), 4.12, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_bool(phalcon_internal_test_ce, SL("_p4"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_internal_test_ce, SL("_p5"), 1, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_string(phalcon_internal_test_ce, SL("_p6"), "12.01", ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_internal_test_ce, SL("_p7"), 128, ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_p8"), ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_p9"), ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_sp0"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_string(phalcon_internal_test_ce, SL("_sp1"), "hello", ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_null(phalcon_internal_test_ce, SL("_sp2"), ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_string(phalcon_internal_test_ce, SL("_sp3"), "11.20", ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_long(phalcon_internal_test_ce, SL("_sp4"), 128, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_bool(phalcon_internal_test_ce, SL("_sp5"), 0, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_bool(phalcon_internal_test_ce, SL("_sp6"), 1, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_property_double(phalcon_internal_test_ce, SL("_sp7"), 3.1415, ZEND_ACC_STATIC|ZEND_ACC_PRIVATE TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_internal_test_ce, SL("C1"), 0 TSRMLS_CC);
-	zend_declare_class_constant_double(phalcon_internal_test_ce, SL("C2"), 2.1 TSRMLS_CC);
-	zend_declare_class_constant_bool(phalcon_internal_test_ce, SL("C3"), 0 TSRMLS_CC);
-	zend_declare_class_constant_bool(phalcon_internal_test_ce, SL("C4"), 1 TSRMLS_CC);
-	zend_declare_class_constant_null(phalcon_internal_test_ce, SL("C5") TSRMLS_CC);
-	zend_declare_class_constant_string(phalcon_internal_test_ce, SL("C6"), "str" TSRMLS_CC);
-	zend_declare_class_constant_long(phalcon_internal_test_ce, SL("C7"), -92 TSRMLS_CC);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Internal, Test, internal_test, "phalcon\\internal\\testparent", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Exception, db_exception, "phalcon\\exception", NULL, 0);
 

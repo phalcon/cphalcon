@@ -49,7 +49,7 @@
  */
 
 /**
- * Phalcon_Backend_Adapter_Memcache constructor
+ * Phalcon\Backend\Adapter\Memcache constructor
  *
  * @param mixed $frontendObject
  * @param array $backendOptions
@@ -57,16 +57,23 @@
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
+	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &frontend_object, &backend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(backend_options);
+	if (!backend_options) {
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(backend_options, a0);
+	} else {
+		PHALCON_SEPARATE_PARAM(backend_options);
+	}
 	
 	eval_int = phalcon_array_isset_string(backend_options, SL("host")+1);
 	if (!eval_int) {

@@ -145,12 +145,9 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CALL_FUNC(r0, "ob_get_contents");
 		RETURN_CTOR(r0);
-	} else {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
 	}
-	
 	PHALCON_MM_RESTORE();
+	RETURN_NULL();
 }
 
 /**

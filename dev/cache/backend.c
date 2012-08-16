@@ -53,7 +53,7 @@
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
-	zval *a0 = NULL;
+	zval *a0 = NULL, *a1 = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -63,11 +63,17 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	array_init(a0);
 	zend_update_property(phalcon_cache_backend_ce, this_ptr, SL("_backendOptions"), a0 TSRMLS_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &frontend_object, &backend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!backend_options) {
+		PHALCON_ALLOC_ZVAL_MM(a1);
+		array_init(a1);
+		PHALCON_CPY_WRT(backend_options, a1);
+	}
+	
 	eval_int = phalcon_array_isset_string(backend_options, SL("prefix")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);

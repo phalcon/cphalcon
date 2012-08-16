@@ -132,9 +132,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/*private function _prepareMemcached(){
+	private function _prepareMemcached()
+	{
 
-		if(!extension_loaded('memcache')){
+		if (!extension_loaded('memcache')) {
 			$this->markTestAsSkipped('Warning: memcache extension is not loaded');
 			return false;
 		}
@@ -145,24 +146,23 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return $memcache;
 	}
 
-	public function testOutputMemcacheCache(){
+	public function testOutputMemcacheCache()
+	{
 
 		$memcache = $this->_prepareMemcached();
-		if(!$memcache){
+		if (!$memcache) {
 			return false;
 		}
 
 		$memcache->delete('test-output');
 
-		$frontendOptions = array(
-			'lifetime' => 2
-		);
-
 		$time = date('H:i:s');
 
-		$cache = Phalcon\Cache::factory('Output', 'Memcache', $frontendOptions, array());
-		$this->assertInstanceOf('Phalcon\Cache\Backend\Memcache', $cache);
-		$this->assertInstanceOf('Phalcon\Cache\Frontend\Output', $cache->getFrontend());
+		$frontCache = new Phalcon\Cache\Frontend\Output(array(
+			'lifetime' => 2
+		));
+
+		$cache = new Phalcon\Cache\Backend\Memcache($frontCache);
 
 		ob_start();
 
@@ -218,7 +218,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataMemcachedCache(){
+	/*public function testDataMemcachedCache(){
 
 		$memcache = $this->_prepareMemcached();
 		if(!$memcache){

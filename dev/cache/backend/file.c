@@ -39,7 +39,7 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon_Cache_Backend_File
+ * Phalcon\Cache\Backend\File
  *
  * Allows to cache output fragments using a file backend
  *
@@ -47,7 +47,7 @@
  */
 
 /**
- * Phalcon_Backend_Adapter_File constructor
+ * Phalcon\Backend\Adapter\File constructor
  *
  * @param mixed $frontendObject
  * @param array $backendOptions
@@ -55,16 +55,23 @@
 PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 
 	zval *frontend_object = NULL, *backend_options = NULL;
+	zval *a0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &frontend_object, &backend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!backend_options) {
+		PHALCON_ALLOC_ZVAL_MM(a0);
+		array_init(a0);
+		PHALCON_CPY_WRT(backend_options, a0);
+	}
+	
 	eval_int = phalcon_array_isset_string(backend_options, SL("cacheDir")+1);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
@@ -75,11 +82,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache directory does not exist or is not writable");
 			return;
 		}
+		PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend_object, backend_options);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "You must specify the cache directory with the option cacheDir");
 		return;
 	}
-	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend_object, backend_options);
 	
 	PHALCON_MM_RESTORE();
 }
