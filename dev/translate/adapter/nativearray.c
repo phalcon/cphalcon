@@ -157,12 +157,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
  * Check whether is defined a translation key in the internal array
  *
  * @param string $index
- * @return string
+ * @return bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 
-	zval *index = NULL;
-	zval *t0 = NULL;
+	zval *index = NULL, *translate = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -173,9 +172,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_traslate"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(t0, index);
+	PHALCON_INIT_VAR(translate);
+	phalcon_read_property(&translate, this_ptr, SL("_traslate"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(translate, index);
+	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
 	

@@ -68,7 +68,7 @@ class TranslateTest extends PHPUnit_Framework_TestCase
 				$this->assertTrue(isset($translate[$key]));
 				$this->assertEquals($translate->_($key, $parameters[$key]['params']), $parameters[$key]['expected']);
 			} else {
-				$this->assertTrue(isset($translate[$key]));
+				$this->assertFalse(isset($translate[$key]));
 				$this->assertEquals($translate[$key], $value);
 				$this->assertEquals($translate->_($key), $value);
 			}
