@@ -39,7 +39,7 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon_Acl_Adapter_Memory
+ * Phalcon\Acl\Adapter\Memory
  *
  * Manages ACL lists in memory
  */
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 }
 
 /**
- * Sets the default access level (Phalcon_Acl::ALLOW or Phalcon_Acl::DENY)
+ * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
  *
  * @param int $defaultAccess
  */
@@ -359,7 +359,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource){
  *
  * Example:
  * 
- * @param   Phalcon_Acl_Resource $resource
+ * @param   Phalcon\Acl\Resource $resource
  * @return  boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){

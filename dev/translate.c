@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Translate, _){
 	}
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "_query", translate_key, placeholders, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "query", translate_key, placeholders, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 
@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "_exists", translate_key, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "exists", translate_key, PH_NO_CHECK);
 	RETURN_CTOR(r0);
 }
 

@@ -38,14 +38,14 @@
 
 /**
  *
- * Phalcon_Acl_Role
+ * Phalcon\Acl\Role
  *
  * This class defines role entity and its description
  *
  */
 
 /**
- * Phalcon_Acl_Role description
+ * Phalcon\Acl\Role description
  *
  * @param string $name
  * @param string $description

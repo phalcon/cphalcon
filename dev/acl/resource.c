@@ -38,14 +38,14 @@
 
 /**
  *
- * Phalcon_Acl_Resource
+ * Phalcon\Acl\Resource
  *
  * This class defines resource entity and its description
  *
  */
 
 /**
- * Phalcon_Acl_Resource description
+ * Phalcon\Acl\Resource description
  *
  * @param string $name
  * @param string $description

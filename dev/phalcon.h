@@ -116,7 +116,7 @@ extern zend_class_entry *phalcon_events_exception_ce;
 extern zend_class_entry *phalcon_events_manager_ce;
 extern zend_class_entry *phalcon_acl_ce;
 extern zend_class_entry *phalcon_translate_exception_ce;
-extern zend_class_entry *phalcon_translate_adapter_array_ce;
+extern zend_class_entry *phalcon_translate_adapter_nativearray_ce;
 extern zend_class_entry *phalcon_logger_exception_ce;
 extern zend_class_entry *phalcon_logger_adapter_file_ce;
 extern zend_class_entry *phalcon_logger_item_ce;
@@ -222,7 +222,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
 
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, getBaseUri);
+PHP_METHOD(Phalcon_Mvc_Url, setBasePath);
+PHP_METHOD(Phalcon_Mvc_Url, getBasePath);
 PHP_METHOD(Phalcon_Mvc_Url, get);
+PHP_METHOD(Phalcon_Mvc_Url, path);
 
 PHP_METHOD(Phalcon_Mvc_Controller, __construct);
 PHP_METHOD(Phalcon_Mvc_Controller, setDI);
@@ -772,8 +776,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
 
-PHP_METHOD(Phalcon_Tag, setDispatcher);
-PHP_METHOD(Phalcon_Tag, _getDispatcher);
+PHP_METHOD(Phalcon_Tag, setDI);
+PHP_METHOD(Phalcon_Tag, getDI);
+PHP_METHOD(Phalcon_Tag, getUrlService);
+PHP_METHOD(Phalcon_Tag, getDispatcherService);
 PHP_METHOD(Phalcon_Tag, setDefault);
 PHP_METHOD(Phalcon_Tag, displayTo);
 PHP_METHOD(Phalcon_Tag, getValue);
@@ -902,13 +908,11 @@ PHP_METHOD(Phalcon_Events_Manager, dettach);
 PHP_METHOD(Phalcon_Events_Manager, dettachAll);
 PHP_METHOD(Phalcon_Events_Manager, fire);
 
-PHP_METHOD(Phalcon_Acl, __construct);
-PHP_METHOD(Phalcon_Acl, __call);
 
 
-PHP_METHOD(Phalcon_Translate_Adapter_Array, __construct);
-PHP_METHOD(Phalcon_Translate_Adapter_Array, query);
-PHP_METHOD(Phalcon_Translate_Adapter_Array, exists);
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
+PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 
 
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct);
@@ -1152,7 +1156,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setbaseuri, 0, 0, 1)
 	ZEND_ARG_INFO(0, baseUri)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setbasepath, 0, 0, 1)
+	ZEND_ARG_INFO(0, basePath)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_get, 0, 0, 0)
+	ZEND_ARG_INFO(0, uri)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_path, 0, 0, 0)
 	ZEND_ARG_INFO(0, uri)
 ZEND_END_ARG_INFO()
 
@@ -2378,8 +2390,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_tableoptions, 0, 0,
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdispatcher, 0, 0, 1)
-	ZEND_ARG_INFO(0, dispatcher)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_setdefault, 0, 0, 2)
@@ -2652,26 +2664,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 2)
 	ZEND_ARG_INFO(0, source)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, adapterName)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl___call, 0, 0, 1)
-	ZEND_ARG_INFO(0, method)
-	ZEND_ARG_INFO(0, arguments)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_array___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, options)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_array_query, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_query, 0, 0, 2)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_array_exists, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_exists, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
@@ -2830,7 +2832,11 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_php_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_url_method_entry){
 	PHP_ME(Phalcon_Mvc_Url, setBaseUri, arginfo_phalcon_mvc_url_setbaseuri, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Url, getBaseUri, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Url, setBasePath, arginfo_phalcon_mvc_url_setbasepath, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Url, getBasePath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Url, get, arginfo_phalcon_mvc_url_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Url, path, arginfo_phalcon_mvc_url_path, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3552,8 +3558,10 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry){
 };
 
 PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
-	PHP_ME(Phalcon_Tag, setDispatcher, arginfo_phalcon_tag_setdispatcher, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Tag, _getDispatcher, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, setDI, arginfo_phalcon_tag_setdi, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, getDI, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, getUrlService, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, getDispatcherService, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, setDefault, arginfo_phalcon_tag_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, displayTo, arginfo_phalcon_tag_displayto, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, getValue, arginfo_phalcon_tag_getvalue, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -3710,16 +3718,10 @@ PHALCON_INIT_FUNCS(phalcon_events_manager_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_acl_method_entry){
-	PHP_ME(Phalcon_Acl, __construct, arginfo_phalcon_acl___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Acl, __call, arginfo_phalcon_acl___call, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_translate_adapter_array_method_entry){
-	PHP_ME(Phalcon_Translate_Adapter_Array, __construct, arginfo_phalcon_translate_adapter_array___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Translate_Adapter_Array, query, arginfo_phalcon_translate_adapter_array_query, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Translate_Adapter_Array, exists, arginfo_phalcon_translate_adapter_array_exists, ZEND_ACC_PUBLIC) 
+PHALCON_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry){
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, __construct, arginfo_phalcon_translate_adapter_nativearray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, query, arginfo_phalcon_translate_adapter_nativearray_query, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Translate_Adapter_NativeArray, exists, arginfo_phalcon_translate_adapter_nativearray_exists, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

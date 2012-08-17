@@ -18,12 +18,15 @@
   +------------------------------------------------------------------------+
 */
 
-class TranslateTest extends PHPUnit_Framework_TestCase {
+class TranslateTest extends PHPUnit_Framework_TestCase
+{
 
-	protected function _getMessages($lang){
+	protected function _getMessages($lang)
+	{
 
 		require 'unit-tests/messages/'.$lang.'.php';
-		$translate = new Phalcon\Translate('Array', array(
+
+		$translate = new Phalcon\Translate\Adapter\NativeArray(array(
 			'content' => $messages
 		));
 

@@ -32,12 +32,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/concat.h"
-#include "kernel/fcall.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
-#include "kernel/array.h"
-
 /**
  * Phalcon\Acl
  *
@@ -47,96 +41,4 @@
  *
  *
  */
-
-/**
- * Phalcon\Acl Constructor
- *
- * @param string $adapterName
- * @param array $options
- */
-PHP_METHOD(Phalcon_Acl, __construct){
-
-	zval *adapter_name = NULL, *options = NULL, *adapter_class = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *i0 = NULL, *i1 = NULL;
-	zend_class_entry *ce0;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &adapter_name, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!adapter_name) {
-		PHALCON_ALLOC_ZVAL_MM(adapter_name);
-		ZVAL_STRING(adapter_name, "Memory", 1);
-	}
-	
-	if (!options) {
-		PHALCON_INIT_VAR(options);
-		array_init(options);
-	}
-	
-	PHALCON_INIT_VAR(adapter_class);
-	PHALCON_CONCAT_SV(adapter_class, "Phalcon\\Acl\\Adapter\\", adapter_name);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", adapter_class);
-	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_acl_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "Adapter '", adapter_name, "' does not exist");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r1, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
-	}
-	
-	ce0 = phalcon_fetch_class(adapter_class TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(i1);
-	object_init_ex(i1, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", options, PH_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_adapter"), i1 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Pass any call to the internal adapter object
- *
- * @param  string $method
- * @param  array $arguments
- * @return mixed
- */
-PHP_METHOD(Phalcon_Acl, __call){
-
-	zval *method = NULL, *arguments = NULL;
-	zval *a0 = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
-		array_init(arguments);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_adapter"), PH_NOISY_CC);
-	phalcon_array_append(&a0, t0, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&a0, method, PH_SEPARATE TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "call_user_func_array", a0, arguments);
-	RETURN_CTOR(r0);
-}
 

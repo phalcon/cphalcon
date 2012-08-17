@@ -1117,6 +1117,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 
 	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -1130,13 +1131,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 		ZVAL_NULL(schema);
 	}
 	
+	PHALCON_INIT_VAR(sql);
+	ZVAL_STRING(sql, "SELECT * FROM information_schema.table_constraints WHERE table_schema='public' AND constraint_type != 'CHECK' ", 1);
 	if (zend_is_true(schema)) {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSVS(sql, "SELECT n.nspname as \"Schema\", c.relname as \"Name\", CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' END as \"Type\", u.usename as \"Owner\",c2.relname as \"Table\" FROM pg_catalog.pg_class c JOIN pg_catalog.pg_index i ON i.indexrelid = c.oid JOIN pg_catalog.pg_class c2 ON i.indrelid = c2.oid LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('i','') AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND pg_catalog.pg_table_is_visible(c.oid) AND n.nspname = '", schema, "' AND c2.relname = '", table, "' ORDER BY 1,2;");
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CONCAT_SVSVS(r0, "AND table_name='", table, "' AND table_catalog='", schema, "'");
+		phalcon_concat_self(&sql, r0 TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVS(sql, "SELECT n.nspname as \"Schema\", c.relname as \"Name\", CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' END as \"Type\", u.usename as \"Owner\",c2.relname as \"Table\" FROM pg_catalog.pg_class c JOIN pg_catalog.pg_index i ON i.indexrelid = c.oid JOIN pg_catalog.pg_class c2 ON i.indrelid = c2.oid LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE c.relkind IN ('i','') AND n.nspname NOT IN ('pg_catalog', 'pg_toast') AND pg_catalog.pg_table_is_visible(c.oid) AND c2.relname = '", table, "' ORDER BY 1,2;");
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CONCAT_SVS(r1, "AND table_name='", table, "'");
+		phalcon_concat_self(&sql, r1 TSRMLS_CC);
 	}
+	
 	
 	RETURN_CTOR(sql);
 }

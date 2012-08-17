@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Acl_Exception
+ * Phalcon\Acl\Exception
  *
- * Class for exceptions thrown by Phalcon_Acl
+ * Class for exceptions thrown by Phalcon\Acl
  */
 

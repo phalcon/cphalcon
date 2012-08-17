@@ -120,7 +120,7 @@ ALTER SEQUENCE prueba_id_seq OWNED BY prueba.id;
 -- Name: prueba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('prueba_id_seq', 265, true);
+SELECT pg_catalog.setval('prueba_id_seq', 636, true);
 
 
 --
@@ -2521,6 +2521,22 @@ T-Cx211        	1	LOST LOST	1	\N	\N	\N	\N	\N	0.00	A
 T-Cx212        	1	LOST LOST	1	\N	\N	\N	\N	\N	0.00	A
 T-Cx213        	1	LOST LOST	1	\N	\N	\N	\N	\N	0.00	A
 T-Cx214        	1	LOST LOST	1	\N	\N	\N	\N	\N	0.00	A
+CELL4021       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL5255       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL5730       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL2540       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL7376       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL2614       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL5471       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL2588       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL570        	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL2854       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL6683       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL1382       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL2051       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL7086       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL9220       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
+CELL9701       	1	LOST	1	\N	\N	\N	\N	\N	20000.00	A
 \.
 
 
@@ -6828,6 +6844,20 @@ ALTER TABLE ONLY tipo_documento
 --
 
 CREATE INDEX personas_estado_idx ON personas USING btree (estado);
+
+
+--
+-- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX robots_parts_parts_id ON robots_parts USING btree (parts_id);
+
+
+--
+-- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX robots_parts_robots_id ON robots_parts USING btree (robots_id);
 
 
 --

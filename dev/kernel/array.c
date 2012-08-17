@@ -33,32 +33,39 @@
 int phalcon_array_isset(const zval *arr, zval *index){
 
 	zval *copy;
+	int exists, copied = 0;
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
 	if (Z_TYPE_P(index) == IS_NULL) {
-		ALLOC_ZVAL(copy);
+		ALLOC_INIT_ZVAL(copy);
 		ZVAL_ZVAL(copy, index, 1, 0);
 		convert_to_string(copy);
 		index = copy;
+		copied = 1;
 	} else {
 		if (Z_TYPE_P(index) == IS_BOOL || Z_TYPE_P(index) == IS_DOUBLE) {
-			ALLOC_ZVAL(copy);
+			ALLOC_INIT_ZVAL(copy);
 			ZVAL_ZVAL(copy, index, 1, 0);
 			convert_to_long(copy);
 			index = copy;
+			copied = 1;
 		}
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		return zend_hash_exists(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
+		exists = zend_hash_exists(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
 	} else {
-		return zend_hash_index_exists(Z_ARRVAL_P(arr), Z_LVAL_P(index));
+		exists = zend_hash_index_exists(Z_ARRVAL_P(arr), Z_LVAL_P(index));
 	}
 
-	return 0;
+	if (copied) {
+		zval_ptr_dtor(&copy);
+	}
+
+	return exists;
 }
 
 /**
@@ -75,7 +82,7 @@ int phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
  * Check if char index exists on an array zval
  */
 int phalcon_array_isset_long(const zval *arr, ulong index){
-	if(Z_TYPE_P(arr)!=IS_ARRAY){
+	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 	return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
@@ -87,32 +94,39 @@ int phalcon_array_isset_long(const zval *arr, ulong index){
 int phalcon_array_unset(zval *arr, zval *index){
 
 	zval *copy;
+	int exists, copied = 0;
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
 
 	if (Z_TYPE_P(index) == IS_NULL) {
-		ALLOC_ZVAL(copy);
+		ALLOC_INIT_ZVAL(copy);
 		ZVAL_ZVAL(copy, index, 1, 0);
 		convert_to_string(copy);
 		index = copy;
+		copied = 1;
 	} else {
 		if (Z_TYPE_P(index) == IS_BOOL || Z_TYPE_P(index) == IS_DOUBLE) {
-			ALLOC_ZVAL(copy);
+			ALLOC_INIT_ZVAL(copy);
 			ZVAL_ZVAL(copy, index, 1, 0);
 			convert_to_long(copy);
 			index = copy;
+			copied = 1;
 		}
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		return zend_hash_del(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
+		exists = zend_hash_del(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
 	} else {
-		return zend_hash_index_del(Z_ARRVAL_P(arr), Z_LVAL_P(index));
+		exists = zend_hash_index_del(Z_ARRVAL_P(arr), Z_LVAL_P(index));
 	}
 
-	return 0;
+	if (copied) {
+		zval_ptr_dtor(&copy);
+	}
+
+	return exists;
 }
 
 /**
@@ -140,7 +154,7 @@ int phalcon_array_unset_long(zval *arr, ulong index){
  */
 int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC){
 	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		if((flags & PH_SEPARATE) == PH_SEPARATE){
+		if ((flags & PH_SEPARATE) == PH_SEPARATE) {
 			if (Z_REFCOUNT_PP(arr) > 1) {
 				zval *new_zv;
 				Z_DELREF_PP(arr);

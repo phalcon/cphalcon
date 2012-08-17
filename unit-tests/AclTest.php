@@ -18,11 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-class AclTest extends PHPUnit_Framework_TestCase {
+class AclTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testCache(){
+	public function testAcl()
+	{
 
-		$acl = new Phalcon\Acl('Memory');
+		$acl = new Phalcon\Acl\Adapter\Memory();
 
 		$acl->setDefaultAction(Phalcon\Acl::DENY);
 
@@ -73,7 +75,7 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		file_put_contents('unit-tests/acl/acl.data', serialize($acl));
 
 		$aclObject = unserialize(file_get_contents('unit-tests/acl/acl.data'));
-		$this->assertEquals(get_class($aclObject), 'Phalcon\Acl');
+		$this->assertEquals(get_class($aclObject), 'Phalcon\Acl\Adapter\Memory');
 
 		$this->assertTrue($aclObject->isRole('Guests'));
 		$this->assertFalse($aclObject->isRole('ReadOnly'));

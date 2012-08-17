@@ -38,7 +38,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/di", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/events", "event.c exception.c manager.c", "phalcon")
   ADD_SOURCES("ext/phalcon/translate", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/translate/adapter", "array.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/translate/adapter", "nativearray.c", "phalcon")
   ADD_SOURCES("ext/phalcon/logger", "exception.c item.c", "phalcon")
   ADD_SOURCES("ext/phalcon/logger/adapter", "file.c", "phalcon")
   ADD_SOURCES("ext/phalcon/loader", "exception.c", "phalcon")
