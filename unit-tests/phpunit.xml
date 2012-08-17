@@ -55,8 +55,8 @@
 			<file>unit-tests/ViewCacheTest.php</file>
 
 			<file>unit-tests/ControllersTest.php</file>
-			<!--<file>unit-tests/ControllerFrontTest.php</file>-->
-			<file>unit-tests/TagTest.php</file>
+			<!--<file>unit-tests/ControllerFrontTest.php</file>
+			<file>unit-tests/TagTest.php</file>-->
 			<file>unit-tests/AclTest.php</file>
 
 			<!-- <file>unit-tests/PaginatorTest.php</file>-->
