@@ -100,30 +100,35 @@ if (!extension_loaded('phalcon')) {
 	throw new Exception("Sorry, but phalcon extension is not loaded");
 }
 
-if (isset($_SERVER['argv'][1])) {
-	$file = $_SERVER['argv'][1];
-	require $_SERVER['argv'][1];
-	if (isset($_SERVER['argv'][2])) {
-		$className = $_SERVER['argv'][2];
-	} else {
-		if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $_SERVER['argv'][1], $matches)) {
-			$className = $matches[1];
+try {
+	if (isset($_SERVER['argv'][1])) {
+		$file = $_SERVER['argv'][1];
+		require $_SERVER['argv'][1];
+		if (isset($_SERVER['argv'][2])) {
+			$className = $_SERVER['argv'][2];
 		} else {
-			throw new Exception("class-name plz");
-		}
-	}
-	PHPUnit_Framework_TestCase::main($className);
-} else {
-	$xml = simplexml_load_file('unit-tests/phpunit.xml');
-	foreach ($xml->testsuites as $suite) {
-		foreach ($suite->testsuite->file as $file) {
-			$fileName = (string) $file;
-			if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $fileName, $matches)) {
-				require $fileName;
-				PHPUnit_Framework_TestCase::main($matches[1]);
+			if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $_SERVER['argv'][1], $matches)) {
+				$className = $matches[1];
 			} else {
-				throw new Exception("$file plz");
+				throw new Exception("class-name plz");
+			}
+		}
+		PHPUnit_Framework_TestCase::main($className);
+	} else {
+		$xml = simplexml_load_file('unit-tests/phpunit.xml');
+		foreach ($xml->testsuites as $suite) {
+			foreach ($suite->testsuite->file as $file) {
+				$fileName = (string) $file;
+				if (preg_match('#/([a-zA-Z0-9]+)\.php$#', $fileName, $matches)) {
+					require $fileName;
+					PHPUnit_Framework_TestCase::main($matches[1]);
+				} else {
+					throw new Exception("$file plz");
+				}
 			}
 		}
 	}
+}
+catch(Exception $e){
+	print_r($e);
 }
