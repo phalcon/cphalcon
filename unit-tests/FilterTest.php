@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class FilterTest extends PHPUnit_Framework_TestCase {
+class FilterTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testSanitize(){
+	public function testSanitize()
+	{
 
 		$filter = new Phalcon\Filter();
 

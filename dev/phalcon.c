@@ -90,15 +90,14 @@ zend_class_entry *phalcon_acl_role_ce;
 zend_class_entry *phalcon_acl_resource_ce;
 zend_class_entry *phalcon_registry_ce;
 zend_class_entry *phalcon_paginator_exception_ce;
-zend_class_entry *phalcon_paginator_adapter_array_ce;
 zend_class_entry *phalcon_paginator_adapter_model_ce;
+zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 zend_class_entry *phalcon_tag_exception_ce;
 zend_class_entry *phalcon_tag_select_ce;
 zend_class_entry *phalcon_internal_test_ce;
 zend_class_entry *phalcon_internal_testparent_ce;
 zend_class_entry *phalcon_internal_testtemp_ce;
 zend_class_entry *phalcon_internal_testdummy_ce;
-zend_class_entry *phalcon_paginator_ce;
 zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_db_profiler_ce;
 zend_class_entry *phalcon_db_exception_ce;
@@ -405,15 +404,15 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS(Phalcon, Registry, registry, phalcon_registry_method_entry, 0);
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, Array, paginator_adapter_array, phalcon_paginator_adapter_array_method_entry, 0);
-	zend_declare_property_null(phalcon_paginator_adapter_array_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_paginator_adapter_array_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_paginator_adapter_array_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
 	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, Model, paginator_adapter_model, phalcon_paginator_adapter_model_method_entry, 0);
 	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, NativeArray, paginator_adapter_nativearray, phalcon_paginator_adapter_nativearray_method_entry, 0);
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Tag, Select, tag_select, phalcon_tag_select_method_entry, ZEND_ACC_ABSTRACT);
 
@@ -424,8 +423,6 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Internal, TestDummy, internal_testdummy, phalcon_internal_testdummy_method_entry, 0);
 	zend_declare_property_null(phalcon_internal_testdummy_ce, SL("_d1"), ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	PHALCON_REGISTER_CLASS(Phalcon, Paginator, paginator, phalcon_paginator_method_entry, ZEND_ACC_ABSTRACT);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, phalcon_translate_method_entry, ZEND_ACC_ABSTRACT);
 	zend_class_implements(phalcon_translate_ce TSRMLS_CC, 1, zend_ce_arrayaccess);

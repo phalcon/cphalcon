@@ -18,7 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-class ConfigTest extends PHPUnit_Framework_TestCase {
+class ConfigTest extends PHPUnit_Framework_TestCase
+{
 
 	private $_config = array(
 		"phalcon" => array(
@@ -44,38 +45,41 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		)
 	);
 
-	private function _compareConfig($c, $config){
-		foreach($c as $k => $v){
+	private function _compareConfig($c, $config)
+	{
+		foreach ($c as $k => $v) {
 			$this->assertTrue(isset($config->$k));
-			if(is_array($v)){				
-				if(isset($config->$k)){					
-					foreach($v as $kk => $vv){
+			if (is_array($v)) {
+				if (isset($config->$k)) {
+					foreach ($v as $kk => $vv) {
 						$this->assertTrue(isset($config->$k->$kk));
-						if(isset($config->$k->$kk)){							
-							if(is_array($vv)){
-								foreach($vv as $kkk => $vvv){
-									if(isset($config->$k->$kk->$kkk)){
+						if (isset($config->$k->$kk)) {
+							if (is_array($vv)) {
+								foreach ($vv as $kkk => $vvv) {
+									if (isset($config->$k->$kk->$kkk)) {
 										$this->assertTrue(isset($config->$k->$kk->$kkk));
 										$this->assertEquals($vvv, $config->$k->$kk->$kkk);
 									}
 								}
 							} else {
-								$this->assertEquals($vv, $config->$k->$kk);								
+								$this->assertEquals($vv, $config->$k->$kk);
 							}
-						} 
+						}
 					}
-				} 
+				}
 			}
 		}
 		return true;
 	}
 
-	public function testIniConfig(){
-		$config = new Phalcon\Config\Adapter\Ini('unit-tests/config/config.ini');		
+	public function testIniConfig()
+	{
+		$config = new Phalcon\Config\Adapter\Ini('unit-tests/config/config.ini');
 		$this->assertTrue($this->_compareConfig($this->_config, $config));
 	}
 
-	public function testStandarConfig(){
+	public function testStandarConfig()
+	{
 		$config = new Phalcon\Config($this->_config);
 		$this->_compareConfig($this->_config, $config);
 	}

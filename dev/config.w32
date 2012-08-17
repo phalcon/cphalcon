@@ -4,7 +4,7 @@ if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c");
   ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c operators.c concat.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "namespace.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c registry.c paginator.c translate.c tag.c session.c flash.c config.c filter.c acl.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c registry.c translate.c tag.c session.c flash.c config.c filter.c acl.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc", "router.c view.c url.c controller.c dispatcher.c model.c application.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view", "engine.c exception.c", "phalcon")
@@ -23,7 +23,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/acl", "exception.c role.c resource.c", "phalcon")
   ADD_SOURCES("ext/phalcon/acl/adapter", "memory.c", "phalcon")
   ADD_SOURCES("ext/phalcon/paginator", "exception.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/paginator/adapter", "array.c model.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/paginator/adapter", "model.c nativearray.c", "phalcon")
   ADD_SOURCES("ext/phalcon/tag", "exception.c select.c", "phalcon")
   ADD_SOURCES("ext/phalcon/internal", "test.c testparent.c testtemp.c testdummy.c", "phalcon")
   ADD_SOURCES("ext/phalcon/db", "profiler.c exception.c reference.c dialect.c rawvalue.c column.c index.c", "phalcon")

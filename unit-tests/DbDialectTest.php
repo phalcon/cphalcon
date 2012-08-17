@@ -22,9 +22,11 @@ use Phalcon\Db\Column as Column;
 use Phalcon\Db\Index as Index;
 use Phalcon\Db\Reference as Reference;
 
-class DbDialectTest extends PHPUnit_Framework_TestCase {
+class DbDialectTest extends PHPUnit_Framework_TestCase
+{
 
-	private function getColumns(){
+	private function getColumns()
+	{
 		return array(
 			'column1' => new Column("column1", array(
 				'type' => Column::TYPE_VARCHAR,
@@ -70,7 +72,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	private function getIndexes(){
+	private function getIndexes()
+	{
 		return array(
 			'index1' => new Index("index1", array('column1')),
 			'index2' => new Index("index2", array('column1', 'column2')),
@@ -78,7 +81,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	private function getReferences(){
+	private function getReferences()
+	{
 		return array(
 			'fk1' => new Reference("fk1", array(
 				'referencedTable' => 'ref_table',
@@ -93,7 +97,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testDbColumn(){
+	public function testDbColumn()
+	{
 
 		$columns = $this->getColumns();
 
@@ -178,7 +183,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($column8->isNotNull());
 	}
 
-	public function testIndexes(){
+	public function testIndexes()
+	{
 
 		$indexes = $this->getIndexes();
 
@@ -196,7 +202,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testReferences(){
+	public function testReferences()
+	{
 
 		$references = $this->getReferences();
 
@@ -214,7 +221,8 @@ class DbDialectTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testMysqlDialect(){
+	public function testMysqlDialect()
+	{
 
 		$dialect = new \Phalcon\Db\Dialect\Mysql();
 

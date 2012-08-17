@@ -11,32 +11,25 @@
 	syntaxCheck="false">
 	<testsuites>
 		<testsuite name="Phalcon PHP Framework">
-
 			<file>unit-tests/InitTest.php</file>
-
 			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/FilterTest.php</file>
 			<file>unit-tests/FlashTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
-
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
-
 			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterTest.php</file>
 			<file>unit-tests/DispatcherTest.php</file>
-
 			<file>unit-tests/CacheTest.php</file>
-
 			<file>unit-tests/DbTest.php</file>
 			<!--<file>unit-tests/DbDescribeTest.php</file>-->
 			<file>unit-tests/DbDialectTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbProfilerTest.php</file>
 			<file>unit-tests/DbLoggerTest.php</file>
-
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
@@ -47,21 +40,16 @@
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<!-- <file>unit-tests/ModelsQueryTest.php</file> -->
 			<file>unit-tests/ModelsTransactionsTest.php</file>
-
 			<file>unit-tests/CacheResultsetTest.php</file>
-
 			<file>unit-tests/ViewTest.php</file>
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
-
 			<file>unit-tests/ControllersTest.php</file>
-			<!--<file>unit-tests/ControllerFrontTest.php</file>
-			<file>unit-tests/TagTest.php</file>-->
+			<!--<file>unit-tests/ControllerFrontTest.php</file>-->
+			<file>unit-tests/TagTest.php</file>
 			<file>unit-tests/AclTest.php</file>
-
-			<!-- <file>unit-tests/PaginatorTest.php</file>-->
+			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/TranslateTest.php</file>
-
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 		</testsuite>
 	</testsuites>

@@ -20,9 +20,11 @@
 
 use Phalcon\Flash as Flash;
 
-class FlashTest extends PHPUnit_Framework_TestCase {
+class FlashTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testFlash(){
+	public function testFlash()
+	{
 
 		$message = 'sample message';
 

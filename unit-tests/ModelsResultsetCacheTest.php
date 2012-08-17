@@ -18,7 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase {
+class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
+{
 
 	public function __construct()
 	{

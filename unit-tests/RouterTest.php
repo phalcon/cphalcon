@@ -18,16 +18,19 @@
   +------------------------------------------------------------------------+
 */
 
-class RouterTest extends PHPUnit_Framework_TestCase {
+class RouterTest extends PHPUnit_Framework_TestCase
+{
 
-	private function _runTest($router, $test){
+	private function _runTest($router, $test)
+	{
 		$router->handle($test['uri']);
 		$this->assertEquals($router->getControllerName(), $test['controller']);
 		$this->assertEquals($router->getActionName(), $test['action']);
 		$this->assertEquals($router->getParams(), $test['params']);
 	}
 
-	public function testRouter(){
+	public function testRouter()
+	{
 
 		$tests = array(
 			array(
@@ -144,7 +147,7 @@ class RouterTest extends PHPUnit_Framework_TestCase {
 
 		$router->add("/posts/{year:[0-9]+}/s/{title:[a-z\-]+}", "Posts::show");
 
-		foreach($tests as $n => $test){
+		foreach ($tests as $n => $test) {
 			$this->_runTest($router, $test);
 		}
 

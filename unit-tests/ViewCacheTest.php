@@ -18,7 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-class ViewCacheTest extends PHPUnit_Framework_TestCase {
+class ViewCacheTest extends PHPUnit_Framework_TestCase
+{
 
 	public function setUp()
 	{

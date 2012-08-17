@@ -18,26 +18,51 @@
   +------------------------------------------------------------------------+
 */
 
-class PaginatorTest extends PHPUnit_Framework_TestCase {
+class PaginatorTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testModelPaginator(){
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
 
-		require 'unit-tests/config.db.php';
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
 
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
+	public function modelsAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
 
-		$modelManager = new Phalcon\Model\Manager();
-		$modelManager->setModelsDir('unit-tests/models/');
+	public function testModelPaginator()
+	{
+
+		$di = new Phalcon\DI();
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
 
 		$personnes = Personnes::find();
 
-		$paginator = Phalcon\Paginator::factory('Model', array(
+		$paginator = new Phalcon\Paginator\Adapter\Model(array(
  			'data' => $personnes,
  			'limit' => 10,
  			'page' => 1
  		));
- 		$this->assertEquals(get_class($paginator), 'Phalcon\Paginator\Adapter\Model');
 
  		//First Page
  		$page = $paginator->getPaginate();
@@ -84,7 +109,8 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testArrayPaginator(){
+	public function testArrayPaginator()
+	{
 
 		$personas = array(
 			0 => array(
@@ -143,12 +169,11 @@ class PaginatorTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$paginator = Phalcon\Paginator::factory('Array', array(
+		$paginator = new Phalcon\Paginator\Adapter\NativeArray(array(
  			'data' => $personas,
  			'limit' => 3,
  			'page' => 1
  		));
- 		$this->assertEquals(get_class($paginator), 'Phalcon\Paginator\Adapter\Array');
 
  		//First Page
  		$page = $paginator->getPaginate();

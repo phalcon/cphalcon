@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class LoggerTest extends PHPUnit_Framework_TestCase {
+class LoggerTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testFileLogger1(){
+	public function testFileLogger1()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 
@@ -38,7 +40,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testFileLogger2(){
+	public function testFileLogger2()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 
@@ -60,7 +63,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testFileLogger3(){
+	public function testFileLogger3()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 
@@ -82,7 +86,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testFileLogger4(){
+	public function testFileLogger4()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 
@@ -102,7 +107,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testFileLogger5(){
+	public function testFileLogger5()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 
@@ -125,7 +131,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testFileLogger6(){
+	public function testFileLogger6()
+	{
 
 		@unlink('unit-tests/logs/test.log');
 

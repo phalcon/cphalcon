@@ -18,7 +18,8 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase {
+class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
+{
 
 	private $_data = array(
 		'robots' => array(

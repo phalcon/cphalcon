@@ -33,6 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 
 /**
@@ -59,13 +61,64 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
-	zval *t0 = NULL;
+	zval *base_uri = NULL, *slash = NULL, *dirname = NULL, *slice = NULL, *uri = NULL;
+	zval *g0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *c0 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_baseUri"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(base_uri);
+	phalcon_read_property(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
+	if (!zend_is_true(base_uri)) {
+		PHALCON_INIT_VAR(slash);
+		ZVAL_STRING(slash, "/", 1);
+		phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
+		eval_int = phalcon_array_isset_string(g0, SL("PHP_SELF")+1);
+		if (eval_int) {
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			phalcon_array_fetch_string(&r0, g0, SL("PHP_SELF"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(dirname);
+			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", r0);
+			
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			phalcon_fast_explode(r1, slash, dirname TSRMLS_CC);
+			
+			PHALCON_INIT_VAR(c0);
+			ZVAL_LONG(c0, 1);
+			
+			PHALCON_INIT_VAR(t1);
+			ZVAL_LONG(t1, 1);
+			
+			PHALCON_INIT_VAR(t0);
+			ZVAL_LONG(t0, -1);
+			
+			PHALCON_ALLOC_ZVAL_MM(r2);
+			mul_function(r2, t0, t1 TSRMLS_CC);
+			
+			PHALCON_INIT_VAR(slice);
+			PHALCON_CALL_FUNC_PARAMS_3(slice, "array_slice", r1, c0, r2);
+			
+			PHALCON_INIT_VAR(uri);
+			phalcon_fast_join(uri, slash, slice TSRMLS_CC);
+		} else {
+			PHALCON_INIT_VAR(uri);
+			ZVAL_STRING(uri, "", 1);
+		}
+		
+		if (!zend_is_true(uri)) {
+			PHALCON_CPY_WRT(base_uri, slash);
+		} else {
+			PHALCON_INIT_VAR(base_uri);
+			PHALCON_CONCAT_VVV(base_uri, slash, uri, slash);
+		}
+		
+		phalcon_update_property_zval(this_ptr, SL("_baseUri"), base_uri TSRMLS_CC);
+	}
 	
-	RETURN_CCTOR(t0);
+	
+	RETURN_CCTOR(base_uri);
 }
 
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
@@ -119,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
-	phalcon_read_property(&base_uri, this_ptr, SL("_baseUri"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD(base_uri, this_ptr, "getbaseuri", PH_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CONCAT_VV(r0, base_uri, uri);

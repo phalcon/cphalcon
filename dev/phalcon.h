@@ -75,15 +75,14 @@ extern zend_class_entry *phalcon_acl_role_ce;
 extern zend_class_entry *phalcon_acl_resource_ce;
 extern zend_class_entry *phalcon_registry_ce;
 extern zend_class_entry *phalcon_paginator_exception_ce;
-extern zend_class_entry *phalcon_paginator_adapter_array_ce;
 extern zend_class_entry *phalcon_paginator_adapter_model_ce;
+extern zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 extern zend_class_entry *phalcon_tag_exception_ce;
 extern zend_class_entry *phalcon_tag_select_ce;
 extern zend_class_entry *phalcon_internal_test_ce;
 extern zend_class_entry *phalcon_internal_testparent_ce;
 extern zend_class_entry *phalcon_internal_testtemp_ce;
 extern zend_class_entry *phalcon_internal_testdummy_ce;
-extern zend_class_entry *phalcon_paginator_ce;
 extern zend_class_entry *phalcon_translate_ce;
 extern zend_class_entry *phalcon_db_profiler_ce;
 extern zend_class_entry *phalcon_db_exception_ce;
@@ -133,6 +132,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces);
 PHP_METHOD(Phalcon_Loader, registerDirs);
 PHP_METHOD(Phalcon_Loader, registerClasses);
 PHP_METHOD(Phalcon_Loader, register);
+PHP_METHOD(Phalcon_Loader, unregister);
 PHP_METHOD(Phalcon_Loader, autoLoad);
 PHP_METHOD(Phalcon_Loader, getFoundPath);
 PHP_METHOD(Phalcon_Loader, getCheckedPath);
@@ -564,13 +564,13 @@ PHP_METHOD(Phalcon_Acl_Resource, getDescription);
 PHP_METHOD(Phalcon_Registry, set);
 
 
-PHP_METHOD(Phalcon_Paginator_Adapter_Array, __construct);
-PHP_METHOD(Phalcon_Paginator_Adapter_Array, setCurrentPage);
-PHP_METHOD(Phalcon_Paginator_Adapter_Array, getPaginate);
-
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, __construct);
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage);
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate);
+
+PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, __construct);
+PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage);
+PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate);
 
 
 PHP_METHOD(Phalcon_Tag_Select, selectField);
@@ -599,8 +599,6 @@ PHP_METHOD(Phalcon_Internal_TestDummy, __construct);
 PHP_METHOD(Phalcon_Internal_TestDummy, f1);
 PHP_METHOD(Phalcon_Internal_TestDummy, f2);
 PHP_METHOD(Phalcon_Internal_TestDummy, f3);
-
-PHP_METHOD(Phalcon_Paginator, factory);
 
 PHP_METHOD(Phalcon_Translate, _);
 PHP_METHOD(Phalcon_Translate, offsetSet);
@@ -1860,19 +1858,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_resource___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, description)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_array___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, config)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_array_setcurrentpage, 0, 0, 1)
-	ZEND_ARG_INFO(0, page)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_model_setcurrentpage, 0, 0, 1)
+	ZEND_ARG_INFO(0, page)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_nativearray___construct, 0, 0, 1)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_nativearray_setcurrentpage, 0, 0, 1)
 	ZEND_ARG_INFO(0, page)
 ZEND_END_ARG_INFO()
 
@@ -1900,11 +1898,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testdummy_f3, 0, 0, 1)
 	ZEND_ARG_INFO(0, d1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_factory, 0, 0, 1)
-	ZEND_ARG_INFO(0, adapterName)
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate__, 0, 0, 1)
@@ -2724,6 +2717,7 @@ PHALCON_INIT_FUNCS(phalcon_loader_method_entry){
 	PHP_ME(Phalcon_Loader, registerDirs, arginfo_phalcon_loader_registerdirs, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Loader, registerClasses, arginfo_phalcon_loader_registerclasses, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Loader, register, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Loader, unregister, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Loader, autoLoad, arginfo_phalcon_loader_autoload, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Loader, getFoundPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Loader, getCheckedPath, NULL, ZEND_ACC_PUBLIC) 
@@ -3285,17 +3279,17 @@ PHALCON_INIT_FUNCS(phalcon_registry_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_paginator_adapter_array_method_entry){
-	PHP_ME(Phalcon_Paginator_Adapter_Array, __construct, arginfo_phalcon_paginator_adapter_array___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Paginator_Adapter_Array, setCurrentPage, arginfo_phalcon_paginator_adapter_array_setcurrentpage, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Paginator_Adapter_Array, getPaginate, NULL, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
 PHALCON_INIT_FUNCS(phalcon_paginator_adapter_model_method_entry){
 	PHP_ME(Phalcon_Paginator_Adapter_Model, __construct, arginfo_phalcon_paginator_adapter_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Paginator_Adapter_Model, setCurrentPage, arginfo_phalcon_paginator_adapter_model_setcurrentpage, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Paginator_Adapter_Model, getPaginate, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_paginator_adapter_nativearray_method_entry){
+	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, __construct, arginfo_phalcon_paginator_adapter_nativearray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage, arginfo_phalcon_paginator_adapter_nativearray_setcurrentpage, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Paginator_Adapter_NativeArray, getPaginate, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3334,11 +3328,6 @@ PHALCON_INIT_FUNCS(phalcon_internal_testdummy_method_entry){
 	PHP_ME(Phalcon_Internal_TestDummy, f1, arginfo_phalcon_internal_testdummy_f1, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestDummy, f2, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Internal_TestDummy, f3, arginfo_phalcon_internal_testdummy_f3, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_paginator_method_entry){
-	PHP_ME(Phalcon_Paginator, factory, arginfo_phalcon_paginator_factory, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

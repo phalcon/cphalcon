@@ -20,14 +20,67 @@
 
 use Phalcon\Tag as Tag;
 
-class TagTest extends PHPUnit_Framework_TestCase {
+class TagTest extends PHPUnit_Framework_TestCase
+{
 
-	public function setUp(){
-		$front = Phalcon\Controller\Front::getInstance();
-		$front->setBaseUri('/');
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'internalAutoloader'));
 	}
 
-	public function testTags(){
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'internalAutoloader'));
+	}
+
+	public function internalAutoloader($className)
+	{
+		if (file_exists('unit-tests/models/'.$className.'.php')) {
+			require 'unit-tests/models/'.$className.'.php';
+		}
+	}
+
+	protected function _loadDI()
+	{
+		Phalcon\DI::reset();
+
+		$di = new Phalcon\DI();
+
+		$di->set('url', function(){
+			$url = new Phalcon\Mvc\Url();
+			$url->setBaseUri('/');
+			return $url;
+		});
+
+		$di->set('dispatcher', function(){
+			$dispatcher = new Phalcon\Mvc\Dispatcher();
+			$dispatcher->setControllerName('test2');
+			$dispatcher->setActionName('other');
+			$dispatcher->setParams(array());
+			return $dispatcher;
+		});
+
+		$di->set('modelsManager', function(){
+			return new Phalcon\Mvc\Model\Manager();
+		});
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Memory();
+		});
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		return $di;
+
+	}
+
+	public function testTags()
+	{
+
+		$this->_loadDI();
 
 		Tag::displayTo('hello', 'lol');
 
@@ -113,18 +166,10 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testSelect(){
+	public function testSelect()
+	{
 
-		Phalcon\Db\Pool::reset();
-		Phalcon\Model\Manager::reset();
-
-		require 'unit-tests/config.db.php';
-
-		Phalcon\Db\Pool::setDefaultDescriptor($configMysql);
-		$this->assertTrue(Phalcon\Db\Pool::hasDefaultDescriptor());
-
-		$modelManager = new Phalcon\Model\Manager();
-		$modelManager->setModelsDir('unit-tests/models/');
+		$this->_loadDI();
 
 		$robots = Robots::find();
 
@@ -145,32 +190,10 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testForm(){
+	public function testForm()
+	{
 
-		//Dispatcher
-		$dispatcher = new Phalcon\Dispatcher();
-
-		$request = Phalcon\Request::getInstance();
-		$this->assertInstanceOf('Phalcon\Request', $request);
-
-		$response = Phalcon\Response::getInstance();
-		$this->assertInstanceOf('Phalcon\Response', $response);
-
-		$basePath = './';
-		$dispatcher->setBasePath($basePath);
-		$this->assertEquals($dispatcher->getBasePath(), $basePath);
-
-		$controllersDir = 'unit-tests/controllers/';
-		$dispatcher->setControllersDir($controllersDir);
-		$this->assertEquals($dispatcher->getControllersDir(), $controllersDir);
-
-		$dispatcher->setControllerName('test2');
-		$dispatcher->setActionName('other');
-		$dispatcher->setParams(array());
-
-		$dispatcher->dispatch($request, $response);
-
-		Tag::setDispatcher($dispatcher);
+		$this->_loadDI();
 
 		$this->assertEquals(Tag::form('controller/index'), '<form action="/controller/index/" method= "post" >');
 
@@ -178,7 +201,10 @@ class TagTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Tag::form($params), '<form action="/controller/index/" method= "get" >');
 	}
 
-	public function testStaticLinksRel(){
+	public function testStaticLinksRel()
+	{
+
+		$this->_loadDI();
 
 		//Images
 		$this->assertEquals(Tag::image("img/hello.gif"), '<img src="/img/hello.gif"/>');
@@ -194,7 +220,10 @@ class TagTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testTitle(){
+	public function testTitle()
+	{
+
+		$this->_loadDI();
 
 		Tag::setTitle('A title');
 		$this->assertEquals(Tag::getTitle(), '<title>A title</title>'.PHP_EOL);

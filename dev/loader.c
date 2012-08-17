@@ -90,6 +90,11 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets an array of extensions that the Loader must check together with the path
+ *
+ * @param array $extensions
+ */
 PHP_METHOD(Phalcon_Loader, setExtensions){
 
 	zval *extensions = NULL;
@@ -157,7 +162,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_directories"), directories TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(this_ptr);
 }
 
 /**
@@ -198,6 +203,23 @@ PHP_METHOD(Phalcon_Loader, register){
 	phalcon_array_append(&a0, this_ptr, PH_SEPARATE TSRMLS_CC);
 	add_next_index_stringl(a0, SL("autoLoad"), 1);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_register", a0);
+	
+	RETURN_CCTOR(this_ptr);
+}
+
+/**
+ * Unregister the autoload method
+ */
+PHP_METHOD(Phalcon_Loader, unregister){
+
+	zval *a0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_ALLOC_ZVAL_MM(a0);
+	array_init(a0);
+	phalcon_array_append(&a0, this_ptr, PH_SEPARATE TSRMLS_CC);
+	add_next_index_stringl(a0, SL("autoLoad"), 1);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("spl_autoload_unregister", a0);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -430,8 +452,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c8, this_ptr, PH_NO_CHECK);
 	}
 	
-	
-	RETURN_CCTOR(this_ptr);
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 
 PHP_METHOD(Phalcon_Loader, getFoundPath){

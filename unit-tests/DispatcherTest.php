@@ -18,15 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
-class DispatcherTest extends PHPUnit_Framework_TestCase {
+class DispatcherTest extends PHPUnit_Framework_TestCase
+{
 
-	public function dispatcherAutoloader($className){
-		if(file_exists('unit-tests/controllers/'.$className.'.php')){
+	public function dispatcherAutoloader($className)
+	{
+		if (file_exists('unit-tests/controllers/'.$className.'.php')){
 			require 'unit-tests/controllers/'.$className.'.php';
 		}
 	}
 
-	public function testDispatcher(){
+	public function testDispatcher()
+	{
 
 		spl_autoload_register(array($this, 'dispatcherAutoloader'));
 

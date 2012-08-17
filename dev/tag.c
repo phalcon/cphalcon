@@ -88,6 +88,11 @@ PHP_METHOD(Phalcon_Tag, getDI){
 	RETURN_CCTOR(dependency_injector);
 }
 
+/**
+ * Return a URL service from the DI
+ *
+ * @return Phalcon\Mvc\Url
+ */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
 	zval *dependency_injector = NULL, *url = NULL;
@@ -96,6 +101,11 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(dependency_injector);
 	phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_VAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	}
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
 		return;
@@ -110,6 +120,11 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 	RETURN_CCTOR(url);
 }
 
+/**
+ * Returns a Dispatcher service from the DI
+ *
+ * @return Phalcon\Mvc\Dispatcher
+ */
 PHP_METHOD(Phalcon_Tag, getDispatcherService){
 
 	zval *dependency_injector = NULL, *dispatcher = NULL;
@@ -118,6 +133,11 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(dependency_injector);
 	phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_VAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	}
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
 		return;
@@ -1222,7 +1242,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		phalcon_array_fetch_string(&r1, params, SL("href"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(href);
-		PHALCON_CALL_METHOD_PARAMS_1(href, url, "geturl", r1, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", r1, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("href"), &href, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	

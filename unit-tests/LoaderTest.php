@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class LoaderTest extends PHPUnit_Framework_TestCase {
+class LoaderTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testNamespaces(){
+	public function testNamespaces()
+	{
 
 		$loader = new Phalcon\Loader();
 
@@ -40,9 +42,12 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 
 		$leEngine = new \Example\Engines\LeEngine();
 		$this->assertEquals(get_class($leEngine), 'Example\Engines\LeEngine');
+
+		$loader->unregister();
 	}
 
-	public function testDirectories(){
+	public function testDirectories()
+	{
 
 		$loader = new Phalcon\Loader();
 
@@ -59,9 +64,11 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 		$someType = new SomeType();
 		$this->assertEquals(get_class($someType), 'SomeType');
 
+		$loader->unregister();
 	}
 
-	public function testClasses(){
+	public function testClasses()
+	{
 
 		$loader = new Phalcon\Loader();
 
@@ -78,6 +85,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase {
 		$leTest = new LeTest();
 		$this->assertEquals(get_class($leTest), 'LeTest');
 
+		$loader->unregister();
 	}
 
 }

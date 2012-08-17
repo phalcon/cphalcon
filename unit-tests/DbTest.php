@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class DbTest extends PHPUnit_Framework_TestCase {
+class DbTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testDbMysql(){
+	public function testDbMysql()
+	{
 
 		require 'unit-tests/config.db.php';
 
@@ -30,7 +32,8 @@ class DbTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testDbPostgresql(){
+	public function testDbPostgresql()
+	{
 
 		require 'unit-tests/config.db.php';
 
@@ -39,13 +42,14 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests($connection);
 	}
 
-	protected function _executeTests($connection){
+	protected function _executeTests($connection)
+	{
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
-		for($i=0;$i<3;$i++){
+		for ($i=0; $i<3; $i++){
 			$row = $result->fetchArray();
 			$this->assertEquals(count($row), 22);
 		}
@@ -58,7 +62,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$this->assertTrue(is_object($result));
 
-		while($row = $result->fetchArray()){
+		while ($row = $result->fetchArray()) {
 			$number++;
 		}
 		$this->assertEquals($number, 5);
@@ -104,7 +108,7 @@ class DbTest extends PHPUnit_Framework_TestCase {
 		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "A"), array('nombre', 'estado'));
 		$this->assertTrue($success);
 
-		for($i=0;$i<50;$i++){
+		for ($i=0; $i<50; $i++) {
 			$success = $connection->insert('prueba', array("LOL ".$i, "F"), array('nombre', 'estado'));
 			$this->assertTrue($success);
 		}

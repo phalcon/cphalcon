@@ -21,7 +21,8 @@
 /**
  * Adapter to use Mustache library as templating engine
  */
-class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine {
+class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine
+{
 
 	protected $_mustache;
 
@@ -46,7 +47,8 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine {
 /**
  * Adapter to use Twig library as templating engine
  */
-class My_Twig_Engine extends \Phalcon\Mvc\View\Engine {
+class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
+{
 
 	protected $_twig;
 
@@ -166,7 +168,8 @@ class ViewEnginesTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), 'Well, this is the view content: Hello Sonny.');
 	}
 
-	public function testTwigEngine(){
+	public function testTwigEngine()
+	{
 
 		if ($this->_loadTwig() == false) {
 			return;

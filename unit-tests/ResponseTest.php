@@ -18,19 +18,23 @@
   +------------------------------------------------------------------------+
 */
 
-class ResponseTest extends PHPUnit_Framework_TestCase {
+class ResponseTest extends PHPUnit_Framework_TestCase
+{
 
 	private $_response;
 
-	public function setUp(){
+	public function setUp()
+	{
 		$this->_response = new Phalcon\Http\Response();
 	}
 
-	public function testInstanceOf(){
+	public function testInstanceOf()
+	{
 		$this->assertInstanceOf('Phalcon\Http\Response', $this->_response);
 	}
 
-	public function testSetHeader(){
+	public function testSetHeader()
+	{
 
 		$this->_response->resetHeaders();
 
@@ -53,7 +57,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testSetStatusHeader(){
+	public function testSetStatusHeader()
+	{
 
 		$this->_response->resetHeaders();
 
@@ -68,7 +73,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testSetRawHeader(){
+	public function testSetRawHeader()
+	{
 
 		$this->_response->resetHeaders();
 
@@ -82,7 +88,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testNotModifiedHeader(){
+	public function testNotModifiedHeader()
+	{
 
 		$this->_response->resetHeaders();
 
@@ -97,7 +104,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testContent(){
+	public function testContent()
+	{
 
 		$this->_response->setContent('<h1>Hello');
 		$this->assertEquals($this->_response->getContent(), '<h1>Hello');

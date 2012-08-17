@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class TextTest extends PHPUnit_Framework_TestCase {
+class TextTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testCamelize(){
+	public function testCamelize()
+	{
 		$camelizeTests = array (
 		  'camelize' => 'Camelize',
 		  'CameLiZe' => 'Camelize',
@@ -32,13 +34,14 @@ class TextTest extends PHPUnit_Framework_TestCase {
 		  'camel_ize' => 'CamelIze',
 		  'CameLize' => 'Camelize',
 		);
-		foreach($camelizeTests as $str => $camelized){
+		foreach ($camelizeTests as $str => $camelized) {
 			$this->assertEquals($camelized, \Phalcon\Text::camelize($str));
 		}
 
 	}
 
-	public function testUncamelize(){
+	public function testUncamelize()
+	{
 		$uncamelizeTests = array (
 		  'camelize' => 'camelize',
 		  'CameLiZe' => 'came_li_ze',
@@ -50,7 +53,7 @@ class TextTest extends PHPUnit_Framework_TestCase {
 		  'camel_ize' => 'camel_ize',
 		  'CameLize' => 'came_lize',
 		);
-		foreach($uncamelizeTests as $str => $camelized){
+		foreach ($uncamelizeTests as $str => $camelized) {
 			$this->assertEquals($camelized, \Phalcon\Text::uncamelize($str));
 		}
 	}

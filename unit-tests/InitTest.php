@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class InitTest extends PHPUnit_Framework_TestCase {
+class InitTest extends PHPUnit_Framework_TestCase
+{
 
-	public function testExtensionLoaded(){
+	public function testExtensionLoaded()
+	{
 		$this->assertTrue(in_array('phalcon', get_loaded_extensions()));
 	}
 

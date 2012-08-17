@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_DI, set){
 	phalcon_array_update_zval(&t0, alias, &config, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(this_ptr);
 }
 
 PHP_METHOD(Phalcon_DI, remove){
@@ -121,7 +121,8 @@ PHP_METHOD(Phalcon_DI, attempt){
 		phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CCTOR(this_ptr);
 }
 
 PHP_METHOD(Phalcon_DI, _factory){
@@ -351,8 +352,9 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
 PHP_METHOD(Phalcon_DI, __call){
 
-	zval *method = NULL, *arguments = NULL, *services = NULL, *possible_service = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *method = NULL, *arguments = NULL, *action = NULL, *services = NULL, *possible_service = NULL;
+	zval *handler = NULL;
+	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	zval *i0 = NULL;
 	int eval_int;
@@ -373,33 +375,51 @@ PHP_METHOD(Phalcon_DI, __call){
 	ZVAL_LONG(c0, 0);
 	PHALCON_INIT_VAR(c1);
 	ZVAL_LONG(c1, 3);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_3(r0, "substr", method, c0, c1);
-	if (PHALCON_COMPARE_STRING(r0, "get")) {
+	PHALCON_INIT_VAR(action);
+	PHALCON_CALL_FUNC_PARAMS_3(action, "substr", method, c0, c1);
+	if (PHALCON_COMPARE_STRING(action, "get")) {
 		PHALCON_INIT_VAR(services);
 		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(c2);
 		ZVAL_LONG(c2, 3);
 		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_FUNC_PARAMS_2(r1, "substr", method, c2);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_FUNC_PARAMS_2(r0, "substr", method, c2);
 		
 		PHALCON_INIT_VAR(possible_service);
-		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r1);
+		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r0);
 		eval_int = phalcon_array_isset(services, possible_service);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_fast_count(r2, arguments TSRMLS_CC);
-			if (zend_is_true(r2)) {
-				PHALCON_ALLOC_ZVAL_MM(r3);
-				PHALCON_CALL_METHOD_PARAMS_2(r3, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
-				RETURN_CTOR(r3);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			phalcon_fast_count(r1, arguments TSRMLS_CC);
+			if (zend_is_true(r1)) {
+				PHALCON_ALLOC_ZVAL_MM(r2);
+				PHALCON_CALL_METHOD_PARAMS_2(r2, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
+				RETURN_CTOR(r2);
 			} else {
-				PHALCON_ALLOC_ZVAL_MM(r4);
-				PHALCON_CALL_METHOD_PARAMS_1(r4, this_ptr, "get", possible_service, PH_NO_CHECK);
-				RETURN_CTOR(r4);
+				PHALCON_ALLOC_ZVAL_MM(r3);
+				PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "get", possible_service, PH_NO_CHECK);
+				RETURN_CTOR(r3);
 			}
+		}
+	}
+	
+	if (PHALCON_COMPARE_STRING(action, "set")) {
+		eval_int = phalcon_array_isset_long(arguments, 0);
+		if (eval_int) {
+			PHALCON_INIT_VAR(c3);
+			ZVAL_LONG(c3, 3);
+			PHALCON_ALLOC_ZVAL_MM(r4);
+			PHALCON_CALL_FUNC_PARAMS_2(r4, "substr", method, c3);
+			PHALCON_INIT_VAR(possible_service);
+			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r4);
+			
+			PHALCON_INIT_VAR(handler);
+			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler, PH_NO_CHECK);
+			PHALCON_MM_RESTORE();
+			RETURN_NULL();
 		}
 	}
 	

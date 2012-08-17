@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -95,17 +95,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 		ZVAL_NULL(db_service);
 	}
 	
-	if (zend_is_true(dependency_injector)) {
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	} else {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_VAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "modelsManager", 1);
