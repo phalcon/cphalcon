@@ -1117,7 +1117,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 
 	zval *table = NULL, *schema = NULL, *sql = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -1132,17 +1131,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT * FROM information_schema.table_constraints WHERE table_schema='public' AND constraint_type != 'CHECK' ", 1);
-	if (zend_is_true(schema)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVSVS(r0, "AND table_name='", table, "' AND table_catalog='", schema, "'");
-		phalcon_concat_self(&sql, r0 TSRMLS_CC);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "AND table_name='", table, "'");
-		phalcon_concat_self(&sql, r1 TSRMLS_CC);
-	}
-	
+	PHALCON_CONCAT_SVS(sql, "SELECT t.relname as table_name, i.relname as key_name, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' ORDER BY t.relname, i.relname;");
 	
 	RETURN_CTOR(sql);
 }
@@ -1172,14 +1161,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT TABLE_NAME,COLUMN_NAME,CONSTRAINT_NAME,REFERENCED_TABLE_SCHEMA,REFERENCED_TABLE_NAME,REFERENCED_COLUMN_NAME\n\t\t\tFROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME IS NOT NULL AND ", 1);
+	ZVAL_STRING(sql, "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ", 1);
 	if (zend_is_true(schema)) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVSVS(r0, "CONSTRAINT_SCHEMA = \"", schema, "\" AND TABLE_NAME = \"", table, "\"");
+		PHALCON_CONCAT_SVSVS(r0, "tc.table_catalog = '", schema, "' AND tc.table_name='", table, "'");
 		phalcon_concat_self(&sql, r0 TSRMLS_CC);
 	} else {
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "TABLE_NAME = \"", table, "\"");
+		PHALCON_CONCAT_SVS(r1, "tc.table_name='", table, "'");
 		phalcon_concat_self(&sql, r1 TSRMLS_CC);
 	}
 	

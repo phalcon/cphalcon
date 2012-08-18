@@ -49,8 +49,8 @@
 #define PHQL_T_GREATER '>'
 #define PHQL_T_GREATEREQUAL 272
 
-#define PHQL_T_BRACKEPHQL_T_OPEN '('
-#define PHQL_T_BRACKEPHQL_T_CLOSE ')'
+#define PHQL_T_BRACKET_OPEN '('
+#define PHQL_T_BRACKET_CLOSE ')'
 
 /** Placeholders */
 #define PHQL_T_NPLACEHOLDER 273
@@ -87,6 +87,8 @@
 #define PHQL_T_ALL 352
 #define PHQL_T_DOMAINALL 353
 #define PHQL_T_EXPR 354
+#define PHQL_T_QUALIFIED 355
+#define PHQL_T_ENCLOSED 356
 
 #define PHQL_T_INNERJOIN 360
 #define PHQL_T_LEFTJOIN 361

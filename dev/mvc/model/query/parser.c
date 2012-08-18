@@ -57,7 +57,7 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B)
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
-	add_assoc_stringl(ret, "type", "qualified", strlen("qualified"), 1);
+	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
 	if (B != NULL) {
 		add_assoc_stringl(ret, "domain", A->token, A->token_len, 1);
 		add_assoc_stringl(ret, "name", B->token, B->token_len, 1);
@@ -723,7 +723,7 @@ static const char *yyTokenName[] = {
   "FROM",          "COMMA",         "IDENTIFIER",    "DOT",         
   "AS",            "JOIN",          "ON",            "INNER",       
   "LEFT",          "RIGHT",         "INSERT",        "INTO",        
-  "VALUES",        "BRACKEPHQL_T_OPEN",  "BRACKEPHQL_T_CLOSE",  "UPDATE",      
+  "VALUES",        "BRACKET_OPEN",  "BRACKET_CLOSE",  "UPDATE",      
   "SET",           "DELETE",        "WHERE",         "ORDER",       
   "BY",            "INTEGER",       "GROUP",         "HAVING",      
   "LIMIT",         "NULL",          "STRING",        "DOUBLE",      
@@ -796,8 +796,8 @@ static const char *yyRuleName[] = {
  /*  48 */ "join_clause ::= LEFT JOIN qualified_name ON expr",
  /*  49 */ "join_clause ::= RIGHT JOIN qualified_name",
  /*  50 */ "join_clause ::= RIGHT JOIN qualified_name ON expr",
- /*  51 */ "insert_statement ::= INSERT INTO qualified_name VALUES BRACKEPHQL_T_OPEN values_list BRACKEPHQL_T_CLOSE",
- /*  52 */ "insert_statement ::= INSERT INTO qualified_name BRACKEPHQL_T_OPEN field_list BRACKEPHQL_T_CLOSE VALUES BRACKEPHQL_T_OPEN values_list BRACKEPHQL_T_CLOSE",
+ /*  51 */ "insert_statement ::= INSERT INTO qualified_name VALUES BRACKET_OPEN values_list BRACKET_CLOSE",
+ /*  52 */ "insert_statement ::= INSERT INTO qualified_name BRACKET_OPEN field_list BRACKET_CLOSE VALUES BRACKET_OPEN values_list BRACKET_CLOSE",
  /*  53 */ "values_list ::= values_list COMMA value_item",
  /*  54 */ "values_list ::= value_item",
  /*  55 */ "value_item ::= expr",
@@ -846,10 +846,10 @@ static const char *yyRuleName[] = {
  /*  98 */ "expr ::= expr GREATER expr",
  /*  99 */ "expr ::= expr LIKE expr",
  /* 100 */ "expr ::= expr NOT LIKE expr",
- /* 101 */ "expr ::= expr IN BRACKEPHQL_T_OPEN argument_list BRACKEPHQL_T_CLOSE",
+ /* 101 */ "expr ::= expr IN BRACKET_OPEN argument_list BRACKET_CLOSE",
  /* 102 */ "expr ::= function_call",
- /* 103 */ "function_call ::= IDENTIFIER BRACKEPHQL_T_OPEN argument_list BRACKEPHQL_T_CLOSE",
- /* 104 */ "function_call ::= IDENTIFIER BRACKEPHQL_T_OPEN BRACKEPHQL_T_CLOSE",
+ /* 103 */ "function_call ::= IDENTIFIER BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /* 104 */ "function_call ::= IDENTIFIER BRACKET_OPEN BRACKET_CLOSE",
  /* 105 */ "argument_list ::= argument_list COMMA argument_item",
  /* 106 */ "argument_list ::= argument_item",
  /* 107 */ "argument_item ::= TIMES",
@@ -857,7 +857,7 @@ static const char *yyRuleName[] = {
  /* 109 */ "expr ::= expr IS NULL",
  /* 110 */ "expr ::= expr IS NOT NULL",
  /* 111 */ "expr ::= NOT expr",
- /* 112 */ "expr ::= BRACKEPHQL_T_OPEN expr BRACKEPHQL_T_CLOSE",
+ /* 112 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
  /* 113 */ "expr ::= qualified_name",
  /* 114 */ "expr ::= INTEGER",
  /* 115 */ "expr ::= STRING",
@@ -1836,7 +1836,7 @@ static void yy_reduce(
       case 112:
 #line 840 "parser.lemon"
 {
-	yygotominor.yy58 = yymsp[-1].minor.yy58;
+	yygotominor.yy58 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy58, NULL);
 }
 #line 1842 "parser.c"
         break;
@@ -2211,11 +2211,11 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
 
-			case PHQL_T_BRACKEPHQL_T_OPEN:
-				phql_(phql_parser, PHQL_BRACKEPHQL_T_OPEN, NULL, parser_status);
+			case PHQL_T_BRACKET_OPEN:
+				phql_(phql_parser, PHQL_BRACKET_OPEN, NULL, parser_status);
 				break;
-			case PHQL_T_BRACKEPHQL_T_CLOSE:
-				phql_(phql_parser, PHQL_BRACKEPHQL_T_CLOSE, NULL, parser_status);
+			case PHQL_T_BRACKET_CLOSE:
+				phql_(phql_parser, PHQL_BRACKET_CLOSE, NULL, parser_status);
 				break;
 
 			case PHQL_T_INTEGER:

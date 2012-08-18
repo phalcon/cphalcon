@@ -26,8 +26,8 @@
 #define PHQL_INSERT                         26
 #define PHQL_INTO                           27
 #define PHQL_VALUES                         28
-#define PHQL_BRACKEPHQL_T_OPEN              29
-#define PHQL_BRACKEPHQL_T_CLOSE             30
+#define PHQL_BRACKET_OPEN                   29
+#define PHQL_BRACKET_CLOSE                  30
 #define PHQL_UPDATE                         31
 #define PHQL_SET                            32
 #define PHQL_DELETE                         33

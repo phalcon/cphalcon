@@ -111,11 +111,11 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				phql_(phql_parser, PHQL_COMMA, NULL, parser_status);
 				break;
 
-			case PHQL_T_BRACKEPHQL_T_OPEN:
-				phql_(phql_parser, PHQL_BRACKEPHQL_T_OPEN, NULL, parser_status);
+			case PHQL_T_BRACKET_OPEN:
+				phql_(phql_parser, PHQL_BRACKET_OPEN, NULL, parser_status);
 				break;
-			case PHQL_T_BRACKEPHQL_T_CLOSE:
-				phql_(phql_parser, PHQL_BRACKEPHQL_T_CLOSE, NULL, parser_status);
+			case PHQL_T_BRACKET_CLOSE:
+				phql_(phql_parser, PHQL_BRACKET_CLOSE, NULL, parser_status);
 				break;
 
 			case PHQL_T_INTEGER:
