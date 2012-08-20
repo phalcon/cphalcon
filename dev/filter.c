@@ -33,9 +33,10 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Filter
@@ -58,7 +59,7 @@
 PHP_METHOD(Phalcon_Filter, sanitize){
 
 	zval *value = NULL, *filters = NULL, *silent = NULL, *new_value = NULL, *filter = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *filter_value = NULL, *sanizited_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -91,9 +92,9 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 				
 				PHALCON_INIT_VAR(filter);
 				ZVAL_ZVAL(filter, *hd, 1, 0);
-				PHALCON_INIT_VAR(r0);
-				PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "_sanitize", new_value, filter, silent, PH_NO_CHECK);
-				PHALCON_CPY_WRT(new_value, r0);
+				PHALCON_INIT_VAR(filter_value);
+				PHALCON_CALL_METHOD_PARAMS_3(filter_value, this_ptr, "_sanitize", new_value, filter, silent, PH_NO_CHECK);
+				PHALCON_CPY_WRT(new_value, filter_value);
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto fes_e618_0;
 			fee_e618_0:
@@ -105,9 +106,10 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		RETURN_CCTOR(new_value);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_METHOD_PARAMS_3(r1, this_ptr, "_sanitize", value, filters, silent, PH_NO_CHECK);
-	RETURN_CTOR(r1);
+	PHALCON_INIT_VAR(sanizited_value);
+	PHALCON_CALL_METHOD_PARAMS_3(sanizited_value, this_ptr, "_sanitize", value, filters, silent, PH_NO_CHECK);
+	
+	RETURN_CCTOR(sanizited_value);
 }
 
 /**
@@ -120,13 +122,10 @@ PHP_METHOD(Phalcon_Filter, sanitize){
  */
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
-	zval *value = NULL, *filter = NULL, *silent = NULL, *filtered = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL, *t11 = NULL;
+	zval *value = NULL, *filter = NULL, *silent = NULL, *filtered = NULL, *exception_message = NULL;
+	zval *exception = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 	zval *a0 = NULL;
-	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -140,89 +139,62 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		ZVAL_BOOL(silent, 0);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "email", 1);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	is_equal_function(r0, filter, t0 TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (PHALCON_COMPARE_STRING(filter, "email")) {
+		PHALCON_INIT_VAR(t0);
+		ZVAL_LONG(t0, 517);
+		PHALCON_INIT_VAR(filtered);
+		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t0);
+		goto se_e618_1;
+	}
+	if (PHALCON_COMPARE_STRING(filter, "int")) {
 		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 517);
+		ZVAL_LONG(t1, 519);
 		PHALCON_INIT_VAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t1);
 		goto se_e618_1;
 	}
-	PHALCON_INIT_VAR(t2);
-	ZVAL_STRING(t2, "int", 1);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_equal_function(r1, filter, t2 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	if (PHALCON_COMPARE_STRING(filter, "string")) {
+		PHALCON_INIT_VAR(t2);
+		ZVAL_LONG(t2, 513);
+		PHALCON_INIT_VAR(filtered);
+		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t2);
+		goto se_e618_1;
+	}
+	if (PHALCON_COMPARE_STRING(filter, "float")) {
 		PHALCON_INIT_VAR(t3);
-		ZVAL_LONG(t3, 519);
-		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t3);
-		goto se_e618_1;
-	}
-	PHALCON_INIT_VAR(t4);
-	ZVAL_STRING(t4, "string", 1);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	is_equal_function(r2, filter, t4 TSRMLS_CC);
-	if (zend_is_true(r2)) {
-		PHALCON_INIT_VAR(t5);
-		ZVAL_LONG(t5, 513);
-		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t5);
-		goto se_e618_1;
-	}
-	PHALCON_INIT_VAR(t6);
-	ZVAL_STRING(t6, "float", 1);
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	is_equal_function(r3, filter, t6 TSRMLS_CC);
-	if (zend_is_true(r3)) {
-		PHALCON_INIT_VAR(t7);
-		ZVAL_LONG(t7, 520);
+		ZVAL_LONG(t3, 520);
 		PHALCON_ALLOC_ZVAL_MM(a0);
 		array_init(a0);
-		PHALCON_INIT_VAR(t8);
-		ZVAL_LONG(t8, 4096);
-		phalcon_array_update_string(&a0, SL("flags"), &t8, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(t4);
+		ZVAL_LONG(t4, 4096);
+		phalcon_array_update_string(&a0, SL("flags"), &t4, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, t7, a0);
+		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, t3, a0);
 		goto se_e618_1;
 	}
-	PHALCON_INIT_VAR(t9);
-	ZVAL_STRING(t9, "alphanum", 1);
-	PHALCON_ALLOC_ZVAL_MM(r4);
-	is_equal_function(r4, filter, t9 TSRMLS_CC);
-	if (zend_is_true(r4)) {
+	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
 		PHALCON_INIT_VAR(filtered);
 		phalcon_filter_alphanum(filtered, value);
 		goto se_e618_1;
 	}
-	PHALCON_INIT_VAR(t10);
-	ZVAL_STRING(t10, "extraspaces", 1);
-	PHALCON_ALLOC_ZVAL_MM(r5);
-	is_equal_function(r5, filter, t10 TSRMLS_CC);
-	if (zend_is_true(r5)) {
+	if (PHALCON_COMPARE_STRING(filter, "extraspaces")) {
 		PHALCON_INIT_VAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "trim", value);
 		goto se_e618_1;
 	}
-	PHALCON_INIT_VAR(t11);
-	ZVAL_STRING(t11, "striptags", 1);
-	PHALCON_ALLOC_ZVAL_MM(r6);
-	is_equal_function(r6, filter, t11 TSRMLS_CC);
-	if (zend_is_true(r6)) {
+	if (PHALCON_COMPARE_STRING(filter, "striptags")) {
 		PHALCON_INIT_VAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strip_tags", value);
 		goto se_e618_1;
 	}
 	if (!zend_is_true(silent)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r7);
-		PHALCON_CONCAT_SVS(r7, "Sanitize filter ", filter, " is not supported");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r7, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Sanitize filter ", filter, " is not supported");
+		
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	} else {
 		PHALCON_CPY_WRT(filtered, value);

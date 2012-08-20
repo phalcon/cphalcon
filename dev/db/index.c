@@ -78,13 +78,13 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
  */
 PHP_METHOD(Phalcon_Db_Index, getName){
 
-	zval *t0 = NULL;
+	zval *index_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_indexName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(index_name);
+	phalcon_read_property(&index_name, this_ptr, SL("_indexName"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(index_name);
 }
 
 /**
@@ -94,13 +94,13 @@ PHP_METHOD(Phalcon_Db_Index, getName){
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns){
 
-	zval *t0 = NULL;
+	zval *columns = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_columns"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(columns);
+	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(columns);
 }
 
 /**
@@ -111,9 +111,7 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
-	zval *data = NULL;
-	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *data = NULL, *index_name = NULL, *columns = NULL, *index = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -134,16 +132,16 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 		return;
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_db_index_ce);
+	PHALCON_INIT_VAR(index_name);
+	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_string(&r0, data, SL("_indexName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(columns);
+	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_string(&r1, data, SL("_columns"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", r0, r1, PH_CHECK);
+	PHALCON_INIT_VAR(index);
+	object_init_ex(index, phalcon_db_index_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns, PH_CHECK);
 	
-	RETURN_CTOR(i0);
+	RETURN_CTOR(index);
 }
 

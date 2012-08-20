@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -71,8 +72,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 
 	zval *result = NULL, *object_row = NULL, *columns = NULL, *value = NULL, *field = NULL;
 	zval *i0 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -99,13 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_fast_count(r0, t0 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_equal_function(r1, r0, t1 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	if (phalcon_compare_strict_long(r0, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(columns);
 		array_init(columns);
 		if (!phalcon_valid_foreach(result TSRMLS_CC)) {
@@ -128,7 +123,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_4c15_0;
 		fee_4c15_0:
-		if(0){}
 		
 		phalcon_update_property_zval(object_row, SL("_columns"), columns TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
@@ -152,11 +146,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_4c15_1;
 		fee_4c15_1:
-		if(0){}
 		
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, SL("_columns"), PH_NOISY_CC);
-		phalcon_update_property_zval(object_row, SL("_columns"), t2 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_columns"), PH_NOISY_CC);
+		phalcon_update_property_zval(object_row, SL("_columns"), t1 TSRMLS_CC);
 	}
 	
 	

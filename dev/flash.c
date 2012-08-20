@@ -110,8 +110,7 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
  */
 PHP_METHOD(Phalcon_Flash, error){
 
-	zval *message = NULL, *classes = NULL;
-	zval *r0 = NULL;
+	zval *message = NULL, *classes = NULL, *flash_message = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -125,9 +124,10 @@ PHP_METHOD(Phalcon_Flash, error){
 		ZVAL_STRING(classes, "errorMessage", 1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(flash_message);
+	PHALCON_CALL_SELF_PARAMS_2(flash_message, this_ptr, "_showmessage", message, classes);
+	
+	RETURN_CCTOR(flash_message);
 }
 
 /**
@@ -139,8 +139,7 @@ PHP_METHOD(Phalcon_Flash, error){
  */
 PHP_METHOD(Phalcon_Flash, notice){
 
-	zval *message = NULL, *classes = NULL;
-	zval *r0 = NULL;
+	zval *message = NULL, *classes = NULL, *flash_message = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -154,9 +153,10 @@ PHP_METHOD(Phalcon_Flash, notice){
 		ZVAL_STRING(classes, "noticeMessage", 1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(flash_message);
+	PHALCON_CALL_SELF_PARAMS_2(flash_message, this_ptr, "_showmessage", message, classes);
+	
+	RETURN_CCTOR(flash_message);
 }
 
 /**
@@ -168,8 +168,7 @@ PHP_METHOD(Phalcon_Flash, notice){
  */
 PHP_METHOD(Phalcon_Flash, success){
 
-	zval *message = NULL, *classes = NULL;
-	zval *r0 = NULL;
+	zval *message = NULL, *classes = NULL, *flash_message = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -183,9 +182,10 @@ PHP_METHOD(Phalcon_Flash, success){
 		ZVAL_STRING(classes, "successMessage", 1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(flash_message);
+	PHALCON_CALL_SELF_PARAMS_2(flash_message, this_ptr, "_showmessage", message, classes);
+	
+	RETURN_CCTOR(flash_message);
 }
 
 /**
@@ -197,8 +197,7 @@ PHP_METHOD(Phalcon_Flash, success){
  */
 PHP_METHOD(Phalcon_Flash, warning){
 
-	zval *message = NULL, *classes = NULL;
-	zval *r0 = NULL;
+	zval *message = NULL, *classes = NULL, *flash_message = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -212,8 +211,9 @@ PHP_METHOD(Phalcon_Flash, warning){
 		ZVAL_STRING(classes, "warningMessage", 1);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_SELF_PARAMS_2(r0, this_ptr, "_showmessage", message, classes);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(flash_message);
+	PHALCON_CALL_SELF_PARAMS_2(flash_message, this_ptr, "_showmessage", message, classes);
+	
+	RETURN_CCTOR(flash_message);
 }
 

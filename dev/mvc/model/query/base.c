@@ -17,6 +17,64 @@
   +------------------------------------------------------------------------+
 */
 
+const phql_token_names phql_tokens[] =
+{
+  { PHQL_T_INTEGER,       "INTEGER" },
+  { PHQL_T_DOUBLE,        "DOUBLE" },
+  { PHQL_T_STRING,        "STRING" },
+  { PHQL_T_IDENTIFIER,    "IDENTIFIER" },
+  { PHQL_T_MINUS,         "MINUS"},
+  { PHQL_T_ADD,           "+" },
+  { PHQL_T_SUB,           "-" },
+  { PHQL_T_MUL,           "*" },
+  { PHQL_T_DIV,           "/" },
+  { PHQL_T_MOD,           "%%" },
+  { PHQL_T_AND,           "AND" },
+  { PHQL_T_OR,            "OR" },
+  { PHQL_T_LIKE,          "LIKE" },
+  { PHQL_T_DOT,           "DOT" },
+  { PHQL_T_COMMA,         "COMMA" },
+  { PHQL_T_EQUALS,        "EQUALS" },
+  { PHQL_T_NOTEQUALS,     "NOT EQUALS" },
+  { PHQL_T_NOT,           "NOT" },
+  { PHQL_T_LESS,          "<" },
+  { PHQL_T_LESSEQUAL,     "<=" },
+  { PHQL_T_GREATER,       ">" },
+  { PHQL_T_GREATEREQUAL,  ">=" },
+  { PHQL_T_BRACKET_OPEN,  "(" },
+  { PHQL_T_BRACKET_CLOSE, ")" },
+  { PHQL_T_NPLACEHOLDER,  "NUMERIC PLACEHOLDER" },
+  { PHQL_T_SPLACEHOLDER,  "STRING PLACEHOLDER" },
+  { PHQL_T_UPDATE,        "UPDATE" },
+  { PHQL_T_SET,           "SET" },
+  { PHQL_T_WHERE,         "WHERE" },
+  { PHQL_T_DELETE,        "DELETE" },
+  { PHQL_T_FROM,          "FROM" },
+  { PHQL_T_AS,            "AS" },
+  { PHQL_T_INSERT,        "INSERT" },
+  { PHQL_T_INTO,          "INTO" },
+  { PHQL_T_VALUES,        "VALUES" },
+  { PHQL_T_SELECT,        "SELECT" },
+  { PHQL_T_ORDER,         "ORDER" },
+  { PHQL_T_BY,            "BY" },
+  { PHQL_T_LIMIT,         "LIMIT" },
+  { PHQL_T_GROUP,         "GROUP" },
+  { PHQL_T_HAVING,        "HAVING" },
+  { PHQL_T_IN,            "IN" },
+  { PHQL_T_ON,            "ON" },
+  { PHQL_T_INNER,         "INNER" },
+  { PHQL_T_JOIN,          "JOIN" },
+  { PHQL_T_LEFT,          "LEFT" },
+  { PHQL_T_RIGHT,         "RIGHT" },
+  { PHQL_T_IS,            "IS" },
+  { PHQL_T_NULL,          "NULL" },
+  { PHQL_T_NOTIN,         "NOT IN" },
+  { PHQL_T_CROSS,         "CROSS" },
+  { PHQL_T_OUTER,         "OUTER" },
+  { PHQL_T_FULL,          "FULL" },
+  {  0, NULL }
+};
+
 static void *phql_wrapper_alloc(size_t bytes){
 	return emalloc(bytes);
 }
@@ -35,19 +93,30 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 	efree(token->value);
 }
 
-int phql_parse_sql(zval *result, zval *sql){
-	zval *error_msg;
-	return phql_internal_parse_sql(&result, Z_STRVAL_P(sql), &error_msg);
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
+
+	zval *error_msg, *exception;
+
+	if(phql_internal_parse_phql(&result, Z_STRVAL_P(phql), &error_msg TSRMLS_CC) == FAILURE){
+		PHALCON_ALLOC_ZVAL_MM(exception);
+		object_init_ex(exception, phalcon_mvc_model_exception_ce);
+		if (phalcon_call_method_one_param(NULL, exception, "__construct", strlen("__construct"), error_msg, PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
+			return FAILURE;
+		}
+		phalcon_throw_exception(exception TSRMLS_CC);
+		return FAILURE;
+	}
+
+	return SUCCESS;
 }
 
-int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
+int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phql_scanner_state *state;
 	phql_scanner_token *token;
 	int scanner_status, status = SUCCESS;
 	phql_parser_status *parser_status = NULL;
-	TSRMLS_FETCH();
 
 	void* phql_parser = phql_Alloc(phql_wrapper_alloc);
 
@@ -57,11 +126,15 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
-	state->start = sql;
+
+	state->active_token = 0;
+	state->start = phql;
 
 	state->end = state->start;
 
 	while(0 <= (scanner_status = phql_get_token(state, token))) {
+
+		state->active_token = token->opcode;
 
 		switch(token->opcode){
 
@@ -80,6 +153,9 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 			case PHQL_T_DIV:
 				phql_(phql_parser, PHQL_DIVIDE, NULL, parser_status);
 				break;
+			case PHQL_T_MOD:
+				phql_(phql_parser, PHQL_MOD, NULL, parser_status);
+				break;
 			case PHQL_T_AND:
 				phql_(phql_parser, PHQL_AND, NULL, parser_status);
 				break;
@@ -97,6 +173,12 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				break;
 			case PHQL_T_GREATER:
 				phql_(phql_parser, PHQL_GREATER, NULL, parser_status);
+				break;
+			case PHQL_T_GREATEREQUAL:
+				phql_(phql_parser, PHQL_GREATEREQUAL, NULL, parser_status);
+				break;
+			case PHQL_T_LESSEQUAL:
+				phql_(phql_parser, PHQL_LESSEQUAL, NULL, parser_status);
 				break;
 			case PHQL_T_LIKE:
 				phql_(phql_parser, PHQL_LIKE, NULL, parser_status);
@@ -128,7 +210,7 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, token, parser_status);
 				break;
 			case PHQL_T_IDENTIFIER:
-	      		phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, token, parser_status);
 				break;
 			case PHQL_T_NPLACEHOLDER:
 				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, token, parser_status);
@@ -200,6 +282,15 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 			case PHQL_T_RIGHT:
 				phql_(phql_parser, PHQL_RIGHT, NULL, parser_status);
 				break;
+			case PHQL_T_CROSS:
+				phql_(phql_parser, PHQL_CROSS, NULL, parser_status);
+				break;
+			case PHQL_T_FULL:
+				phql_(phql_parser, PHQL_FULL, NULL, parser_status);
+				break;
+			case PHQL_T_OUTER:
+				phql_(phql_parser, PHQL_OUTER, NULL, parser_status);
+				break;
 			case PHQL_T_IS:
 				phql_(phql_parser, PHQL_IS, NULL, parser_status);
 				break;
@@ -211,7 +302,8 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				error = emalloc(sizeof(char)*32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
 				PHALCON_ALLOC_ZVAL_MM(*error_msg);
-				ZVAL_STRING(*error_msg, error, 0);
+				ZVAL_STRING(*error_msg, error, 1);
+				efree(error);
 				break;
 		}
 
@@ -223,6 +315,9 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 		state->end = state->start;
 	}
 
+	state->active_token = 0;
+	state->start = NULL;
+
 	if (status != FAILURE) {
 		switch (scanner_status) {
 			case PHQL_SCANNER_RETCODE_ERR:
@@ -231,7 +326,8 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 				if (state->start) {
 					error = emalloc(sizeof(char)*(48+strlen(state->start)));
 					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-					ZVAL_STRING(*error_msg, error, 0);
+					ZVAL_STRING(*error_msg, error, 1);
+					efree(error);
 				} else {
 					ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
 				}
@@ -242,12 +338,21 @@ int phql_internal_parse_sql(zval **result, char *sql, zval **error_msg) {
 		}
 	}
 
+	if (parser_status->status != PHQL_PARSING_OK) {
+		status = FAILURE;
+		PHALCON_ALLOC_ZVAL_MM(*error_msg);
+		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+		efree(parser_status->syntax_error);
+	}
+
 	phql_Free(phql_parser, phql_wrapper_free);
 
-	if (parser_status->status == PHQL_PARSING_OK) {
-		ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-		ZVAL_NULL(parser_status->ret);
-		zval_ptr_dtor(&parser_status->ret);
+	if (status != FAILURE) {
+		if (parser_status->status == PHQL_PARSING_OK) {
+			ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+			ZVAL_NULL(parser_status->ret);
+			zval_ptr_dtor(&parser_status->ret);
+		}
 	}
 
 	efree(parser_status);

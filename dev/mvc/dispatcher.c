@@ -90,13 +90,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getDI){
 
-	zval *t0 = NULL;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(dependency_injector);
 }
 
 /**
@@ -211,13 +211,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *t0 = NULL;
+	zval *controller_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_controllerName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(controller_name);
+	phalcon_read_property(&controller_name, this_ptr, SL("_controllerName"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(controller_name);
 }
 
 /**
@@ -248,13 +248,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setActionName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActionName){
 
-	zval *t0 = NULL;
+	zval *action_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_actionName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(action_name);
+	phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(action_name);
 }
 
 /**
@@ -285,13 +285,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setParams){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getParams){
 
-	zval *t0 = NULL;
+	zval *params = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_params"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(params);
 }
 
 /**
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 
 	zval *dependency_injector = NULL, *events_manager = NULL;
 	zval *value = NULL, *controller = NULL, *number_dispatches = NULL;
-	zval *default_namespace = NULL, *controller_name = NULL;
+	zval *default_namespace = NULL, *finished = NULL, *controller_name = NULL;
 	zval *camelized_class = NULL, *controller_class = NULL;
 	zval *action_name = NULL, *params = NULL, *action_method = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL, *c5 = NULL, *c6 = NULL;
@@ -409,7 +409,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 		
 		PHALCON_INIT_VAR(t0);
 		phalcon_read_property(&t0, this_ptr, SL("_finished"), PH_NOISY_CC);
-		if (zend_is_true(t0)) {
+		PHALCON_CPY_WRT(finished, t0);
+		if (zend_is_true(finished)) {
 			goto we_1d57_0;
 		}
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
@@ -568,7 +569,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message = NULL;
+	zval *message = NULL, *dependency_injector = NULL, *response = NULL;
+	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -578,6 +580,26 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_dispatcher_exception_ce, "A dependency injection container is required to access the 'response' service");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, "response", 1);
+	
+	PHALCON_INIT_VAR(response);
+	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "get", c0, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(c1);
+	ZVAL_LONG(c1, 404);
+	
+	PHALCON_INIT_VAR(c2);
+	ZVAL_STRING(c2, "Not Found", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", c1, c2, PH_NO_CHECK);
+	
 	PHALCON_ALLOC_ZVAL_MM(i0);
 	object_init_ex(i0, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", message, PH_CHECK);
@@ -590,8 +612,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, forward){
 
-	zval *forward = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *forward = NULL, *controller_name = NULL, *action_name = NULL;
+	zval *params = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -607,23 +629,23 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, forward){
 	}
 	eval_int = phalcon_array_isset_string(forward, SL("controller")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, forward, SL("controller"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_controllerName"), r0 TSRMLS_CC);
+		PHALCON_INIT_VAR(controller_name);
+		phalcon_array_fetch_string(&controller_name, forward, SL("controller"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(forward, SL("action")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, forward, SL("action"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_actionName"), r1 TSRMLS_CC);
+		PHALCON_INIT_VAR(action_name);
+		phalcon_array_fetch_string(&action_name, forward, SL("action"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(forward, SL("params")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, forward, SL("params"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_params"), r2 TSRMLS_CC);
+		PHALCON_INIT_VAR(params);
+		phalcon_array_fetch_string(&params, forward, SL("params"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
@@ -638,13 +660,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, forward){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, isFinished){
 
-	zval *t0 = NULL;
+	zval *finished = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_finished"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(finished);
+	phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(finished);
 }
 
 /**
@@ -654,13 +676,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, isFinished){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
-	zval *t0 = NULL;
+	zval *last_controller = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_lastController"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(last_controller);
+	phalcon_read_property(&last_controller, this_ptr, SL("_lastController"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(last_controller);
 }
 
 /**
@@ -670,12 +692,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getReturnedValue){
 
-	zval *t0 = NULL;
+	zval *returned_value = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(returned_value);
+	phalcon_read_property(&returned_value, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(returned_value);
 }
 

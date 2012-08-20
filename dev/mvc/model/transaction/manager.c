@@ -445,7 +445,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_4048_2;
 		fee_4048_2:
-		if(0){}
 		
 		PHALCON_INIT_VAR(transactions);
 		array_init(transactions);

@@ -35,9 +35,9 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 PHP_METHOD(Phalcon_Events_Manager, __construct){
 
@@ -85,109 +85,14 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 	PHALCON_MM_RESTORE();
 }
 
-PHP_METHOD(Phalcon_Events_Manager, dettach){
-
-	zval *event_type = NULL, *handler = NULL, *events = NULL, *found = NULL, *events_type = NULL;
-	zval *internal_handler = NULL, *number = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
-	int eval_int;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &event_type, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(events, event_type);
-	if (eval_int) {
-		PHALCON_INIT_VAR(found);
-		ZVAL_BOOL(found, 0);
-		
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch(&r1, events, event_type, PH_NOISY_CC);
-		phalcon_cast(r0, r1, IS_ARRAY);
-		PHALCON_CPY_WRT(events_type, r0);
-		if (!phalcon_valid_foreach(events_type TSRMLS_CC)) {
-			return;
-		}
-		
-		ALLOC_HASHTABLE(ah0);
-		zend_hash_init(ah0, 0, NULL, NULL, 0);
-		zend_hash_copy(ah0, Z_ARRVAL_P(events_type), NULL, NULL, sizeof(zval*));
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_daef_0:
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_daef_0;
-			}
-			
-			PHALCON_INIT_VAR(number);
-			PHALCON_GET_FOREACH_KEY(number, ah0, hp0);
-			PHALCON_INIT_VAR(internal_handler);
-			ZVAL_ZVAL(internal_handler, *hd, 1, 0);
-			PHALCON_INIT_VAR(r2);
-			is_equal_function(r2, internal_handler, handler TSRMLS_CC);
-			if (zend_is_true(r2)) {
-				PHALCON_SEPARATE(events_type);
-				phalcon_array_unset(events_type, number);
-				
-				PHALCON_INIT_VAR(found);
-				ZVAL_BOOL(found, 1);
-			}
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_daef_0;
-		fee_daef_0:
-		zend_hash_destroy(ah0);
-		efree(ah0);
-		
-		if (zend_is_true(found)) {
-			phalcon_array_update_zval(&events, event_type, &events_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Events_Manager, dettachAll){
-
-	zval *type = NULL, *events = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(events);
-	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
-	PHALCON_SEPARATE(events);
-	phalcon_array_unset(events, type);
-	phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
 PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type = NULL, *source = NULL, *event_parts = NULL, *type = NULL;
 	zval *event_name = NULL, *events = NULL, *fire_events = NULL, *handler = NULL;
-	zval *event = NULL, *arguments = NULL;
+	zval *event = NULL, *class_name = NULL, *arguments = NULL;
 	zval *c0 = NULL;
 	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -233,9 +138,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		
 		ah0 = Z_ARRVAL_P(fire_events);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_daef_1:
+		fes_daef_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_daef_1;
+				goto fee_daef_0;
 			}
 			
 			PHALCON_INIT_VAR(handler);
@@ -245,9 +150,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				object_init_ex(event, phalcon_events_event_ce);
 				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(event, "__construct", event_name, source, PH_CHECK);
 				
-				PHALCON_INIT_VAR(r1);
-				phalcon_get_class(r1, handler TSRMLS_CC);
-				if (PHALCON_COMPARE_STRING(r1, "Closure")) {
+				PHALCON_INIT_VAR(class_name);
+				phalcon_get_class(class_name, handler TSRMLS_CC);
+				if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
 					PHALCON_INIT_VAR(arguments);
 					array_init(arguments);
 					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
@@ -260,8 +165,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_daef_1;
-		fee_daef_1:
+			goto fes_daef_0;
+		fee_daef_0:
 		if(0){}
 		
 	}

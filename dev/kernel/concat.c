@@ -449,6 +449,69 @@ void phalcon_concat_vsvs(zval *result, zval *op1, char *op2, zend_uint op2_len, 
 
 }
 
+void phalcon_concat_vsvsvsv(zval *result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, zval *op7 TSRMLS_DC){
+
+	zval op1_copy, op3_copy, op5_copy, op7_copy;
+	int use_copy1 = 0, use_copy3 = 0, use_copy5 = 0, use_copy7 = 0;
+
+	if (Z_TYPE_P(op1) != IS_STRING) {
+		zend_make_printable_zval(op1, &op1_copy, &use_copy1);
+		if (use_copy1) {
+			op1 = &op1_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op3) != IS_STRING) {
+		zend_make_printable_zval(op3, &op3_copy, &use_copy3);
+		if (use_copy3) {
+			op3 = &op3_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op5) != IS_STRING) {
+		zend_make_printable_zval(op5, &op5_copy, &use_copy5);
+		if (use_copy5) {
+			op5 = &op5_copy;
+		}
+	}
+
+	if (Z_TYPE_P(op7) != IS_STRING) {
+		zend_make_printable_zval(op7, &op7_copy, &use_copy7);
+		if (use_copy7) {
+			op7 = &op7_copy;
+		}
+	}
+
+	Z_STRLEN_P(result) = Z_STRLEN_P(op1) + op2_len + Z_STRLEN_P(op3) + op4_len + Z_STRLEN_P(op5) + op6_len + Z_STRLEN_P(op7);
+	Z_STRVAL_P(result) = (char *) emalloc(Z_STRLEN_P(result) + 1);
+	memcpy(Z_STRVAL_P(result), Z_STRVAL_P(op1), Z_STRLEN_P(op1));
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1), op2, op2_len);
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+op2_len, Z_STRVAL_P(op3), Z_STRLEN_P(op3));
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3), op4, op4_len);
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len, Z_STRVAL_P(op5), Z_STRLEN_P(op5));
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5), op6, op6_len);
+	memcpy(Z_STRVAL_P(result)+Z_STRLEN_P(op1)+op2_len+Z_STRLEN_P(op3)+op4_len+Z_STRLEN_P(op5)+op6_len, Z_STRVAL_P(op7), Z_STRLEN_P(op7));
+	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+	Z_TYPE_P(result) = IS_STRING;
+
+	if (use_copy1) {
+		zval_dtor(op1);
+	}
+
+	if (use_copy3) {
+		zval_dtor(op3);
+	}
+
+	if (use_copy5) {
+		zval_dtor(op5);
+	}
+
+	if (use_copy7) {
+		zval_dtor(op7);
+	}
+
+}
+
 void phalcon_concat_vv(zval *result, zval *op1, zval *op2 TSRMLS_DC){
 
 	zval op1_copy, op2_copy;

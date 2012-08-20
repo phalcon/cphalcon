@@ -172,7 +172,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_46b6_0;
 	fee_46b6_0:
-	if(0){}
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ", ", 1);
@@ -189,11 +188,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 
-	zval *column = NULL, *size = NULL, *column_sql = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL;
+	zval *column = NULL, *size = NULL, *column_type = NULL, *column_sql = NULL;
+	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -210,94 +206,47 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	PHALCON_INIT_VAR(size);
 	PHALCON_CALL_METHOD(size, column, "getsize", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, column, "gettype", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_equal_function(r1, r0, t0 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	PHALCON_INIT_VAR(column_type);
+	PHALCON_CALL_METHOD(column_type, column, "gettype", PH_NO_CHECK);
+	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "INT", 1);
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	is_equal_function(r2, r0, t1 TSRMLS_CC);
-	if (zend_is_true(r2)) {
+	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "DATE", 1);
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_LONG(t2, 2);
-	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	is_equal_function(r3, r0, t2 TSRMLS_CC);
-	if (zend_is_true(r3)) {
+	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t3);
-	ZVAL_LONG(t3, 3);
-	
-	PHALCON_ALLOC_ZVAL_MM(r4);
-	is_equal_function(r4, r0, t3 TSRMLS_CC);
-	if (zend_is_true(r4)) {
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CALL_METHOD(r5, column, "getscale", PH_NO_CHECK);
+	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(scale);
+		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
+		
 		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", r5, ")");
+		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t4);
-	ZVAL_LONG(t4, 4);
-	
-	PHALCON_ALLOC_ZVAL_MM(r6);
-	is_equal_function(r6, r0, t4 TSRMLS_CC);
-	if (zend_is_true(r6)) {
+	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t5);
-	ZVAL_LONG(t5, 5);
-	
-	PHALCON_ALLOC_ZVAL_MM(r7);
-	is_equal_function(r7, r0, t5 TSRMLS_CC);
-	if (zend_is_true(r7)) {
+	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t6);
-	ZVAL_LONG(t6, 6);
-	
-	PHALCON_ALLOC_ZVAL_MM(r8);
-	is_equal_function(r8, r0, t6 TSRMLS_CC);
-	if (zend_is_true(r8)) {
+	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "TEXT", 1);
 		goto se_46b6_1;
 	}
-	
-	PHALCON_INIT_VAR(t7);
-	ZVAL_LONG(t7, 7);
-	
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	is_equal_function(r9, r0, t7 TSRMLS_CC);
-	if (zend_is_true(r9)) {
+	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "FLOAT", 1);
 		goto se_46b6_1;
@@ -855,7 +804,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_46b6_2;
 	fee_46b6_2:
-	if(0){}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("indexes")+1);
 	if (eval_int) {

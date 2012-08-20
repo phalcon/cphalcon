@@ -34,6 +34,7 @@
 #define PHQL_T_SUB '-'
 #define PHQL_T_MUL '*'
 #define PHQL_T_DIV '/'
+#define PHQL_T_MOD '%'
 #define PHQL_T_AND 266
 #define PHQL_T_OR 267
 #define PHQL_T_LIKE 268
@@ -80,6 +81,10 @@
 #define PHQL_T_RIGHT 320
 #define PHQL_T_IS 321
 #define PHQL_T_NULL 322
+#define PHQL_T_NOTIN 323
+#define PHQL_T_CROSS 324
+#define PHQL_T_FULL 325
+#define PHQL_T_OUTER 326
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
@@ -93,14 +98,27 @@
 #define PHQL_T_INNERJOIN 360
 #define PHQL_T_LEFTJOIN 361
 #define PHQL_T_RIGHTJOIN 362
-#define PHQL_T_ISNULL 363
-#define PHQL_T_ISNOTNULL 364
+#define PHQL_T_CROSSJOIN 363
+#define PHQL_T_FULLOUTER 364
+#define PHQL_T_ISNULL 365
+#define PHQL_T_ISNOTNULL 366
+#define PHQL_T_MINUS 367
 
+/* list of tokens and their names */
+typedef struct _phql_token_names
+{
+    unsigned int code;
+    char *name;
+} phql_token_names;
+
+/* active token state */
 typedef struct _phql_scanner_state {
+  int active_token;
 	char* start;
 	char* end;
 } phql_scanner_state;
 
+/* extra information tokens */
 typedef struct _phql_scanner_token {
 	int opcode;
 	char *value;
@@ -109,3 +127,4 @@ typedef struct _phql_scanner_token {
 
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token);
 
+extern const phql_token_names phql_tokens[];

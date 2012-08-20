@@ -1,3 +1,3 @@
-[Fri, 17 Aug 12 19:46:39 -0500][DEBUG] SELECT * FROM personas LIMIT 3
-[Fri, 17 Aug 12 19:46:39 -0500][DEBUG] SELECT * FROM personas LIMIT 10
-[Fri, 17 Aug 12 19:46:39 -0500][DEBUG] SELECT * FROM personas LIMIT 1
+[D, d M y H:i:s O][DEBUG] SELECT * FROM personas LIMIT 3
+[D, d M y H:i:s O][DEBUG] SELECT * FROM personas LIMIT 10
+[D, d M y H:i:s O][DEBUG] SELECT * FROM personas LIMIT 1

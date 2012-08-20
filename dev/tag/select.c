@@ -326,7 +326,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_9c31_2;
 	fee_9c31_2:
-	if(0){}
 	
 	
 	RETURN_CTOR(code);

@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 
 /**
@@ -97,57 +97,6 @@ PHP_METHOD(Phalcon_Mvc_Controller, setDI){
 }
 
 /**
- * Returns a param from the dispatching params
- *
- * @param mixed $index
- */
-PHP_METHOD(Phalcon_Mvc_Controller, _getParam){
-
-	zval *index = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getparam", index, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Set a dispatching parameter
- *
- * @param mixed $index
- * @param mixed $value
- */
-PHP_METHOD(Phalcon_Mvc_Controller, _setParam){
-
-	zval *index = NULL, *value = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, t0, "setparam", index, value, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
  * Magic method __get
  *
  * @param string $propertyName
@@ -155,10 +104,10 @@ PHP_METHOD(Phalcon_Mvc_Controller, _setParam){
 PHP_METHOD(Phalcon_Mvc_Controller, __get){
 
 	zval *property_name = NULL, *dependency_injector = NULL;
+	zval *request = NULL, *response = NULL, *view = NULL, *filter = NULL, *error_msg = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL;
-	zval *i0 = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -173,85 +122,62 @@ PHP_METHOD(Phalcon_Mvc_Controller, __get){
 		if (PHALCON_COMPARE_STRING(property_name, "request")) {
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "request", 1);
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CALL_METHOD_PARAMS_1(r0, dependency_injector, "getshared", c0, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("request"), r0 TSRMLS_CC);
+			PHALCON_INIT_VAR(request);
+			PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", c0, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("request"), request TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t0);
-			phalcon_read_property(&t0, this_ptr, SL("request"), PH_NOISY_CC);
-			
-			RETURN_CCTOR(t0);
+			RETURN_CCTOR(request);
 		}
 		if (PHALCON_COMPARE_STRING(property_name, "response")) {
 			PHALCON_INIT_VAR(c1);
 			ZVAL_STRING(c1, "response", 1);
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_CALL_METHOD_PARAMS_1(r1, dependency_injector, "getshared", c1, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("response"), r1 TSRMLS_CC);
+			PHALCON_INIT_VAR(response);
+			PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", c1, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("response"), response TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, SL("response"), PH_NOISY_CC);
-			
-			RETURN_CCTOR(t1);
+			RETURN_CCTOR(response);
 		}
 		
 		if (PHALCON_COMPARE_STRING(property_name, "view")) {
 			PHALCON_INIT_VAR(c2);
 			ZVAL_STRING(c2, "view", 1);
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CALL_METHOD_PARAMS_1(r2, dependency_injector, "getshared", c2, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("view"), r2 TSRMLS_CC);
+			PHALCON_INIT_VAR(view);
+			PHALCON_CALL_METHOD_PARAMS_1(view, dependency_injector, "getshared", c2, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("view"), view TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t2);
-			phalcon_read_property(&t2, this_ptr, SL("view"), PH_NOISY_CC);
-			
-			RETURN_CCTOR(t2);
+			RETURN_CCTOR(view);
 		}
 		
 		if (PHALCON_COMPARE_STRING(property_name, "dispatcher")) {
 			PHALCON_INIT_VAR(c3);
 			ZVAL_STRING(c3, "dispatcher", 1);
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			PHALCON_CALL_METHOD_PARAMS_1(r3, dependency_injector, "getshared", c3, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("dispatcher"), r3 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			PHALCON_CALL_METHOD_PARAMS_1(r0, dependency_injector, "getshared", c3, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("dispatcher"), r0 TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t3);
-			phalcon_read_property(&t3, this_ptr, SL("dispatcher"), PH_NOISY_CC);
+			PHALCON_ALLOC_ZVAL_MM(t0);
+			phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
 			
-			RETURN_CCTOR(t3);
+			RETURN_CCTOR(t0);
 		}
 		
 		if (PHALCON_COMPARE_STRING(property_name, "filter")) {
 			PHALCON_INIT_VAR(c4);
 			ZVAL_STRING(c4, "filter", 1);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_METHOD_PARAMS_1(r4, dependency_injector, "getshared", c4, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("filter"), r4 TSRMLS_CC);
+			PHALCON_INIT_VAR(filter);
+			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", c4, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("filter"), filter TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t4);
-			phalcon_read_property(&t4, this_ptr, SL("filter"), PH_NOISY_CC);
+			PHALCON_ALLOC_ZVAL_MM(t1);
+			phalcon_read_property(&t1, this_ptr, SL("filter"), PH_NOISY_CC);
 			
-			RETURN_CCTOR(t4);
-		}
-		
-		if (PHALCON_COMPARE_STRING(property_name, "session")) {
-			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, phalcon_session_namespace_ce);
-			PHALCON_ALLOC_ZVAL_MM(r5);
-			phalcon_get_class(r5, this_ptr TSRMLS_CC);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PH_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("session"), i0 TSRMLS_CC);
-			
-			PHALCON_ALLOC_ZVAL_MM(t5);
-			phalcon_read_property(&t5, this_ptr, SL("session"), PH_NOISY_CC);
-			
-			RETURN_CCTOR(t5);
+			RETURN_CCTOR(t1);
 		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r6);
-	PHALCON_CONCAT_SV(r6, "Access to undefined property ", property_name);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", r6);
+	PHALCON_INIT_VAR(error_msg);
+	PHALCON_CONCAT_SV(error_msg, "Access to undefined property ", property_name);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", error_msg);
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }

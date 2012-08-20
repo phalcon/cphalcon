@@ -28,6 +28,8 @@ extern void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 
+extern int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
+
 extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
 

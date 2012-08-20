@@ -1,5 +1,5 @@
-[Fri, 17 Aug 12 19:46:31 -0500][DEBUG] Hello 1
-[Fri, 17 Aug 12 19:46:31 -0500][DEBUG] Hello 2
-[Fri, 17 Aug 12 19:46:31 -0500][DEBUG] Hello 3
-[Fri, 17 Aug 12 19:46:31 -0500][DEBUG] Hello 4
-[Fri, 17 Aug 12 19:46:31 -0500][DEBUG] Hello 5
+[D, d M y H:i:s O][DEBUG] Hello 1
+[D, d M y H:i:s O][DEBUG] Hello 2
+[D, d M y H:i:s O][DEBUG] Hello 3
+[D, d M y H:i:s O][DEBUG] Hello 4
+[D, d M y H:i:s O][DEBUG] Hello 5

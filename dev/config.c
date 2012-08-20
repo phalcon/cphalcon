@@ -54,8 +54,7 @@
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
-	zval *array_config = NULL, *value = NULL, *key = NULL;
-	zval *i0 = NULL;
+	zval *array_config = NULL, *value = NULL, *key = NULL, *config_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -92,10 +91,10 @@ PHP_METHOD(Phalcon_Config, __construct){
 		PHALCON_INIT_VAR(value);
 		ZVAL_ZVAL(value, *hd, 1, 0);
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, phalcon_config_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", value, PH_CHECK);
-			phalcon_update_property_zval_zval(this_ptr, key, i0 TSRMLS_CC);
+			PHALCON_INIT_VAR(config_value);
+			object_init_ex(config_value, phalcon_config_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value, PH_CHECK);
+			phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
 		} else {
 			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}

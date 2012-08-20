@@ -231,7 +231,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_0;
 	fee_0ac0_0:
-	if(0){}
 	
 	
 	RETURN_CTOR(columns);
@@ -315,7 +314,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_1;
 	fee_0ac0_1:
-	if(0){}
 	
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
@@ -341,7 +339,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_0ac0_2;
 	fee_0ac0_2:
-	if(0){}
 	
 	
 	RETURN_CTOR(index_objects);
@@ -486,7 +483,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_3;
 	fee_0ac0_3:
-	if(0){}
 	
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
@@ -526,7 +522,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_0ac0_4;
 	fee_0ac0_4:
-	if(0){}
 	
 	
 	RETURN_CTOR(reference_objects);

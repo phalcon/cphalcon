@@ -89,8 +89,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 
 	zval *index = NULL, *placeholders = NULL, *translate = NULL, *translation = NULL;
-	zval *value = NULL, *key = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *number_placeholders = NULL, *value = NULL, *key = NULL, *key_placeholder = NULL;
+	zval *replaced = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -114,9 +114,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		PHALCON_INIT_VAR(translation);
 		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
 		if (zend_is_true(placeholders)) {
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			phalcon_fast_count(r0, placeholders TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			PHALCON_INIT_VAR(number_placeholders);
+			phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
+			if (zend_is_true(number_placeholders)) {
 				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
 					return;
 				}
@@ -132,11 +132,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 					PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 					PHALCON_INIT_VAR(value);
 					ZVAL_ZVAL(value, *hd, 1, 0);
-					PHALCON_INIT_VAR(r1);
-					PHALCON_CONCAT_SVS(r1, "%", key, "%");
-					PHALCON_INIT_VAR(r2);
-					phalcon_fast_str_replace(r2, r1, value, translation TSRMLS_CC);
-					PHALCON_CPY_WRT(translation, r2);
+					PHALCON_INIT_VAR(key_placeholder);
+					PHALCON_CONCAT_SVS(key_placeholder, "%", key, "%");
+					
+					PHALCON_INIT_VAR(replaced);
+					phalcon_fast_str_replace(replaced, key_placeholder, value, translation TSRMLS_CC);
+					PHALCON_CPY_WRT(translation, replaced);
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_101a_0;
 				fee_101a_0:

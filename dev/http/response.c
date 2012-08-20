@@ -63,13 +63,13 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
 
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
-	zval *t0 = NULL;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(dependency_injector);
 }
 
 /**
@@ -81,8 +81,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
-	zval *code = NULL, *message = NULL, *headers = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *code = NULL, *message = NULL, *headers = NULL, *header_value = NULL, *status_value = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -95,16 +94,16 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_SVSV(r0, "HTTP/1.1 ", code, " ", message);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", r0, PH_NO_CHECK);
+	PHALCON_INIT_VAR(header_value);
+	PHALCON_CONCAT_SVSV(header_value, "HTTP/1.1 ", code, " ", message);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", header_value, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(status_value);
+	PHALCON_CONCAT_VSV(status_value, code, " ", message);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "Status", 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_VSV(r1, code, " ", message);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, r1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, status_value, PH_NO_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	
 	RETURN_CCTOR(this_ptr);
@@ -207,10 +206,10 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires){
 
-	zval *datetime = NULL, *headers = NULL, *date = NULL;
-	zval *i0 = NULL, *i1 = NULL;
+	zval *datetime = NULL, *headers = NULL, *date = NULL, *timezone = NULL, *utc_format = NULL;
+	zval *utc_date = NULL;
+	zval *i0 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -235,26 +234,26 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	PHALCON_CPY_WRT(date, i0);
 	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(i1);
-	object_init_ex(i1, ce0);
+	PHALCON_INIT_VAR(timezone);
+	object_init_ex(timezone, ce0);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "UTC", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c0, PH_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(date, "settimezone", i1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(timezone, "__construct", c0, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(date, "settimezone", timezone, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "Expires", 1);
+	ZVAL_STRING(c1, "D, d M Y H:i:s", 1);
+	
+	PHALCON_INIT_VAR(utc_format);
+	PHALCON_CALL_METHOD_PARAMS_1(utc_format, date, "format", c1, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(utc_date);
+	PHALCON_CONCAT_VS(utc_date, utc_format, " GMT");
 	
 	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "D, d M Y H:i:s", 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, date, "format", c2, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_VS(r1, r0, " GMT");
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c1, r1, PH_NO_CHECK);
+	ZVAL_STRING(c2, "Expires", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c2, utc_date, PH_NO_CHECK);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -464,8 +463,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *headers = NULL;
-	zval *t0 = NULL;
+	zval *headers = NULL, *content = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(headers);
@@ -474,9 +472,9 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_content"), PH_NOISY_CC);
-	zend_print_zval(t0, 1);
+	PHALCON_INIT_VAR(content);
+	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+	zend_print_zval(content, 1);
 	
 	RETURN_CCTOR(this_ptr);
 }

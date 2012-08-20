@@ -91,7 +91,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_1897_0;
 	fee_1897_0:
-	if(0){}
 	
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;

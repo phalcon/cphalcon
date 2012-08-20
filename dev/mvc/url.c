@@ -61,10 +61,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
-	zval *base_uri = NULL, *slash = NULL, *dirname = NULL, *slice = NULL, *uri = NULL;
+	zval *base_uri = NULL, *slash = NULL, *php_self = NULL, *dirname = NULL, *dir_parts = NULL;
+	zval *slice = NULL, *uri = NULL;
 	zval *g0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *c0 = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	int eval_int;
 
@@ -77,13 +78,14 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 		phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
 		eval_int = phalcon_array_isset_string(g0, SL("PHP_SELF")+1);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			phalcon_array_fetch_string(&r0, g0, SL("PHP_SELF"), PH_NOISY_CC);
-			PHALCON_INIT_VAR(dirname);
-			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", r0);
+			PHALCON_INIT_VAR(php_self);
+			phalcon_array_fetch_string(&php_self, g0, SL("PHP_SELF"), PH_NOISY_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_fast_explode(r1, slash, dirname TSRMLS_CC);
+			PHALCON_INIT_VAR(dirname);
+			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", php_self);
+			
+			PHALCON_INIT_VAR(dir_parts);
+			phalcon_fast_explode(dir_parts, slash, dirname TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(c0);
 			ZVAL_LONG(c0, 1);
@@ -94,11 +96,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			PHALCON_INIT_VAR(t0);
 			ZVAL_LONG(t0, -1);
 			
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			mul_function(r2, t0, t1 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			mul_function(r0, t0, t1 TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(slice);
-			PHALCON_CALL_FUNC_PARAMS_3(slice, "array_slice", r1, c0, r2);
+			PHALCON_CALL_FUNC_PARAMS_3(slice, "array_slice", dir_parts, c0, r0);
 			
 			PHALCON_INIT_VAR(uri);
 			phalcon_fast_join(uri, slash, slice TSRMLS_CC);

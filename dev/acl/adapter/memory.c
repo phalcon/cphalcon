@@ -650,7 +650,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c945_2;
 		fee_c945_2:
-		if(0){}
 		
 		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
 			return;
@@ -972,7 +971,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_c945_4;
 	fee_c945_4:
-	if(0){}
 	
 	if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
 		return;
@@ -1007,7 +1005,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_c945_5;
 	fee_c945_5:
-	if(0){}
 	
 	PHALCON_MM_RESTORE();
 	RETURN_LONG(0);

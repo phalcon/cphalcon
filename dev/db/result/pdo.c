@@ -35,6 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Result\Pdo
@@ -169,8 +170,6 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 	zval *fetch_mode = NULL, *pdo_statement = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 
 	PHALCON_MM_GROW();
@@ -182,33 +181,19 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 	PHALCON_INIT_VAR(pdo_statement);
 	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	is_equal_function(r0, fetch_mode, t0 TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (phalcon_compare_strict_long(fetch_mode, 1 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(c0);
 		ZVAL_LONG(c0, 2);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_statement, "setfetchmode", c0, PH_NO_CHECK);
 		phalcon_update_property_long(this_ptr, SL("_fetchMode"), 2 TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 2);
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		is_equal_function(r1, fetch_mode, t1 TSRMLS_CC);
-		if (zend_is_true(r1)) {
+		if (phalcon_compare_strict_long(fetch_mode, 2 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(c1);
 			ZVAL_LONG(c1, 4);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_statement, "setfetchmode", c1, PH_NO_CHECK);
 			phalcon_update_property_long(this_ptr, SL("_fetchMode"), 4 TSRMLS_CC);
 		} else {
-			PHALCON_INIT_VAR(t2);
-			ZVAL_LONG(t2, 3);
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			is_equal_function(r2, fetch_mode, t2 TSRMLS_CC);
-			if (zend_is_true(r2)) {
+			if (phalcon_compare_strict_long(fetch_mode, 3 TSRMLS_CC)) {
 				PHALCON_INIT_VAR(c2);
 				ZVAL_LONG(c2, 3);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_statement, "setfetchmode", c2, PH_NO_CHECK);

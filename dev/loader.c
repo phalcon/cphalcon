@@ -233,13 +233,13 @@ PHP_METHOD(Phalcon_Loader, unregister){
 PHP_METHOD(Phalcon_Loader, autoLoad){
 
 	zval *class_name = NULL, *events_manager = NULL, *classes = NULL;
-	zval *file_path = NULL, *extensions = NULL, *namespaces = NULL, *ds = NULL;
-	zval *directory = NULL, *preffix = NULL, *file_name = NULL, *extension = NULL;
-	zval *path = NULL;
+	zval *file_path = NULL, *extensions = NULL, *namespaces = NULL, *namespace_separator = NULL;
+	zval *ds = NULL, *directory = NULL, *preffix = NULL, *class_name_len = NULL;
+	zval *preffix_len = NULL, *possible_preffix = NULL, *file_name = NULL;
+	zval *extension = NULL, *path = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL, *c5 = NULL, *c6 = NULL;
-	zval *c7 = NULL, *c8 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL;
+	zval *c7 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
@@ -295,6 +295,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_fast_count(r0, namespaces TSRMLS_CC);
 	if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(namespace_separator);
+		ZVAL_STRING(namespace_separator, "\\", 1);
+		
 		PHALCON_INIT_VAR(ds);
 		zend_get_constant(SL("DIRECTORY_SEPARATOR"), ds TSRMLS_CC);
 		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
@@ -312,28 +315,29 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(preffix, ah0, hp0);
 			PHALCON_INIT_VAR(directory);
 			ZVAL_ZVAL(directory, *hd, 1, 0);
+			PHALCON_INIT_VAR(class_name_len);
+			PHALCON_CALL_FUNC_PARAMS_1(class_name_len, "strlen", class_name);
+			
+			PHALCON_INIT_VAR(preffix_len);
+			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			
 			PHALCON_INIT_VAR(r1);
-			PHALCON_CALL_FUNC_PARAMS_1(r1, "strlen", class_name);
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_1(r2, "strlen", preffix);
-			PHALCON_INIT_VAR(r3);
-			is_smaller_function(r3, r2, r1 TSRMLS_CC);
-			if (zend_is_true(r3)) {
+			is_smaller_function(r1, preffix_len, class_name_len TSRMLS_CC);
+			if (zend_is_true(r1)) {
 				PHALCON_INIT_VAR(c2);
 				ZVAL_LONG(c2, 0);
-				PHALCON_INIT_VAR(r4);
-				PHALCON_CALL_FUNC_PARAMS_1(r4, "strlen", preffix);
-				PHALCON_INIT_VAR(r5);
-				PHALCON_CALL_FUNC_PARAMS_3(r5, "substr", class_name, c2, r4);
-				PHALCON_INIT_VAR(r6);
-				is_equal_function(r6, r5, preffix TSRMLS_CC);
-				if (zend_is_true(r6)) {
-					PHALCON_INIT_VAR(r7);
-					PHALCON_CONCAT_VS(r7, preffix, "\\");
+				PHALCON_INIT_VAR(possible_preffix);
+				PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, c2, preffix_len);
+				
+				PHALCON_INIT_VAR(r2);
+				is_equal_function(r2, possible_preffix, preffix TSRMLS_CC);
+				if (zend_is_true(r2)) {
+					PHALCON_INIT_VAR(r3);
+					PHALCON_CONCAT_VV(r3, preffix, namespace_separator);
 					PHALCON_INIT_VAR(c3);
 					ZVAL_STRING(c3, "", 1);
 					PHALCON_INIT_VAR(file_name);
-					phalcon_fast_str_replace(file_name, r7, c3, class_name TSRMLS_CC);
+					phalcon_fast_str_replace(file_name, r3, c3, class_name TSRMLS_CC);
 					if (zend_is_true(file_name)) {
 						if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 							return;
@@ -348,27 +352,25 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							
 							PHALCON_INIT_VAR(extension);
 							ZVAL_ZVAL(extension, *hd, 1, 0);
-							PHALCON_INIT_VAR(c4);
-							ZVAL_STRING(c4, "\\", 1);
-							PHALCON_INIT_VAR(r8);
-							PHALCON_CONCAT_VVSV(r8, directory, file_name, ".", extension);
+							PHALCON_INIT_VAR(r4);
+							PHALCON_CONCAT_VVSV(r4, directory, file_name, ".", extension);
 							PHALCON_INIT_VAR(path);
-							phalcon_fast_str_replace(path, c4, ds, r8 TSRMLS_CC);
+							phalcon_fast_str_replace(path, namespace_separator, ds, r4 TSRMLS_CC);
 							if (zend_is_true(events_manager)) {
 								phalcon_update_property_zval(this_ptr, SL("_checkedPath"), path TSRMLS_CC);
 								
-								PHALCON_INIT_VAR(c5);
-								ZVAL_STRING(c5, "loader:beforeCheckPath", 1);
-								PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c5, this_ptr, PH_NO_CHECK);
+								PHALCON_INIT_VAR(c4);
+								ZVAL_STRING(c4, "loader:beforeCheckPath", 1);
+								PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c4, this_ptr, PH_NO_CHECK);
 							}
 							
 							if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 								if (zend_is_true(events_manager)) {
 									phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 									
-									PHALCON_INIT_VAR(c6);
-									ZVAL_STRING(c6, "loader:pathFound", 1);
-									PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c6, this_ptr, PH_NO_CHECK);
+									PHALCON_INIT_VAR(c5);
+									ZVAL_STRING(c5, "loader:pathFound", 1);
+									PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c5, this_ptr, PH_NO_CHECK);
 								}
 								if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 									return;
@@ -424,9 +426,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			if (zend_is_true(events_manager)) {
 				phalcon_update_property_zval(this_ptr, SL("_checkedPath"), path TSRMLS_CC);
 				
-				PHALCON_INIT_VAR(c7);
-				ZVAL_STRING(c7, "loader:beforeCheckPath", 1);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c7, this_ptr, PH_NO_CHECK);
+				PHALCON_INIT_VAR(c6);
+				ZVAL_STRING(c6, "loader:beforeCheckPath", 1);
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c6, this_ptr, PH_NO_CHECK);
 			}
 			
 			if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
@@ -444,12 +446,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		zend_hash_move_forward_ex(ah2, &hp2);
 		goto fes_0c08_2;
 	fee_0c08_2:
-	if(0){}
 	
 	if (zend_is_true(events_manager)) {
-		PHALCON_INIT_VAR(c8);
-		ZVAL_STRING(c8, "loader:afterCheckClass", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c8, this_ptr, PH_NO_CHECK);
+		PHALCON_INIT_VAR(c7);
+		ZVAL_STRING(c7, "loader:afterCheckClass", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c7, this_ptr, PH_NO_CHECK);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -458,23 +459,23 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 PHP_METHOD(Phalcon_Loader, getFoundPath){
 
-	zval *t0 = NULL;
+	zval *found_path = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_foundPath"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(found_path);
+	phalcon_read_property(&found_path, this_ptr, SL("_foundPath"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(found_path);
 }
 
 PHP_METHOD(Phalcon_Loader, getCheckedPath){
 
-	zval *t0 = NULL;
+	zval *checked_path = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_checkedPath"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(checked_path);
+	phalcon_read_property(&checked_path, this_ptr, SL("_checkedPath"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(checked_path);
 }
 

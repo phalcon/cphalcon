@@ -69,13 +69,13 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
 
-	zval *t0 = NULL;
+	zval *sql_statement = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(sql_statement);
+	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(sql_statement);
 }
 
 /**
@@ -127,13 +127,13 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
 
-	zval *t0 = NULL;
+	zval *initial_time = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_initialTime"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(initial_time);
+	phalcon_read_property(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(initial_time);
 }
 
 /**
@@ -143,13 +143,13 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
 
-	zval *t0 = NULL;
+	zval *final_time = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(final_time);
+	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(final_time);
 }
 
 /**
@@ -159,17 +159,18 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
+	zval *final_time = NULL, *initial_time = NULL, *elapsed = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_finalTime"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_initialTime"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	sub_function(r0, t0, t1 TSRMLS_CC);
+	PHALCON_INIT_VAR(final_time);
+	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(initial_time);
+	phalcon_read_property(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(elapsed);
+	sub_function(elapsed, final_time, initial_time TSRMLS_CC);
+	
+	RETURN_CTOR(elapsed);
 }
 

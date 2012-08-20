@@ -161,7 +161,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_8aab_1;
 	fee_8aab_1:
-	if(0){}
 	
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, " AND ", 1);

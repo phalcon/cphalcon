@@ -216,7 +216,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c40c_0;
 		fee_c40c_0:
-		if(0){}
 		
 		PHALCON_INIT_VAR(table_metadata);
 		array_init(table_metadata);

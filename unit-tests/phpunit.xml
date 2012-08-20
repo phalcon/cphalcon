@@ -25,7 +25,7 @@
 			<file>unit-tests/DispatcherTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
 			<file>unit-tests/DbTest.php</file>
-			<!--<file>unit-tests/DbDescribeTest.php</file>-->
+			<file>unit-tests/DbDescribeTest.php</file>
 			<file>unit-tests/DbDialectTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbProfilerTest.php</file>
@@ -38,7 +38,7 @@
 			<file>unit-tests/ModelsValidatorsTest.php</file>
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
-			<!-- <file>unit-tests/ModelsQueryTest.php</file> -->
+			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/ViewTest.php</file>

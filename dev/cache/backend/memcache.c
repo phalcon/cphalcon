@@ -474,7 +474,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_be7f_0;
 		fee_be7f_0:
-		if(0){}
 		
 		
 		RETURN_CTOR(prefixed_keys);

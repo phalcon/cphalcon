@@ -134,7 +134,6 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f8ee_0;
 	fee_f8ee_0:
-	if(0){}
 	
 	PHALCON_ALLOC_ZVAL_MM(r3);
 	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str);

@@ -172,7 +172,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_52be_0;
 	fee_52be_0:
-	if(0){}
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ", ", 1);
@@ -189,12 +188,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 
-	zval *column = NULL, *size = NULL, *column_sql = NULL, *scale = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL, *t9 = NULL, *t10 = NULL, *t11 = NULL;
+	zval *column = NULL, *size = NULL, *column_type = NULL, *column_sql = NULL;
+	zval *scale = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -211,17 +208,37 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	PHALCON_INIT_VAR(size);
 	PHALCON_CALL_METHOD(size, column, "getsize", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, column, "gettype", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_equal_function(r1, r0, t0 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	PHALCON_INIT_VAR(column_type);
+	PHALCON_CALL_METHOD(column_type, column, "gettype", PH_NO_CHECK);
+	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
+		
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_CALL_METHOD(r0, column, "isunsigned", PH_NO_CHECK);
+		if (zend_is_true(r0)) {
+			PHALCON_INIT_VAR(t0);
+			ZVAL_STRING(t0, " UNSIGNED", 1);
+			phalcon_concat_self(&column_sql, t0 TSRMLS_CC);
+		}
+		
+		goto se_52be_1;
+	}
+	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(column_sql);
+		ZVAL_STRING(column_sql, "DATE", 1);
+		goto se_52be_1;
+	}
+	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(column_sql);
+		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
+		goto se_52be_1;
+	}
+	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CALL_METHOD(r1, column, "getscale", PH_NO_CHECK);
+		PHALCON_INIT_VAR(column_sql);
+		PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", r1, ")");
 		
 		PHALCON_ALLOC_ZVAL_MM(r2);
 		PHALCON_CALL_METHOD(r2, column, "isunsigned", PH_NO_CHECK);
@@ -233,116 +250,48 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 		
 		goto se_52be_1;
 	}
-	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_LONG(t2, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	is_equal_function(r3, r0, t2 TSRMLS_CC);
-	if (zend_is_true(r3)) {
-		PHALCON_INIT_VAR(column_sql);
-		ZVAL_STRING(column_sql, "DATE", 1);
-		goto se_52be_1;
-	}
-	
-	PHALCON_INIT_VAR(t3);
-	ZVAL_LONG(t3, 2);
-	
-	PHALCON_ALLOC_ZVAL_MM(r4);
-	is_equal_function(r4, r0, t3 TSRMLS_CC);
-	if (zend_is_true(r4)) {
-		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
-		goto se_52be_1;
-	}
-	
-	PHALCON_INIT_VAR(t4);
-	ZVAL_LONG(t4, 3);
-	
-	PHALCON_ALLOC_ZVAL_MM(r5);
-	is_equal_function(r5, r0, t4 TSRMLS_CC);
-	if (zend_is_true(r5)) {
-		PHALCON_ALLOC_ZVAL_MM(r6);
-		PHALCON_CALL_METHOD(r6, column, "getscale", PH_NO_CHECK);
-		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", r6, ")");
-		
-		PHALCON_ALLOC_ZVAL_MM(r7);
-		PHALCON_CALL_METHOD(r7, column, "isunsigned", PH_NO_CHECK);
-		if (zend_is_true(r7)) {
-			PHALCON_INIT_VAR(t5);
-			ZVAL_STRING(t5, " UNSIGNED", 1);
-			phalcon_concat_self(&column_sql, t5 TSRMLS_CC);
-		}
-		
-		goto se_52be_1;
-	}
-	
-	PHALCON_INIT_VAR(t6);
-	ZVAL_LONG(t6, 4);
-	
-	PHALCON_ALLOC_ZVAL_MM(r8);
-	is_equal_function(r8, r0, t6 TSRMLS_CC);
-	if (zend_is_true(r8)) {
+	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "DATETIME", 1);
 		goto se_52be_1;
 	}
-	
-	PHALCON_INIT_VAR(t7);
-	ZVAL_LONG(t7, 5);
-	
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	is_equal_function(r9, r0, t7 TSRMLS_CC);
-	if (zend_is_true(r9)) {
+	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHAR(", size, ")");
 		goto se_52be_1;
 	}
-	
-	PHALCON_INIT_VAR(t8);
-	ZVAL_LONG(t8, 6);
-	
-	PHALCON_ALLOC_ZVAL_MM(r10);
-	is_equal_function(r10, r0, t8 TSRMLS_CC);
-	if (zend_is_true(r10)) {
+	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "TEXT", 1);
 		goto se_52be_1;
 	}
-	
-	PHALCON_INIT_VAR(t9);
-	ZVAL_LONG(t9, 7);
-	
-	PHALCON_ALLOC_ZVAL_MM(r11);
-	is_equal_function(r11, r0, t9 TSRMLS_CC);
-	if (zend_is_true(r11)) {
+	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "FLOAT", 1);
 		
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
 		if (zend_is_true(size)) {
-			PHALCON_ALLOC_ZVAL_MM(r12);
-			PHALCON_CONCAT_SV(r12, "(", size);
-			phalcon_concat_self(&column_sql, r12 TSRMLS_CC);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			PHALCON_CONCAT_SV(r3, "(", size);
+			phalcon_concat_self(&column_sql, r3 TSRMLS_CC);
 			if (zend_is_true(scale)) {
-				PHALCON_ALLOC_ZVAL_MM(r13);
-				PHALCON_CONCAT_SVS(r13, ",", scale, ")");
-				phalcon_concat_self(&column_sql, r13 TSRMLS_CC);
+				PHALCON_ALLOC_ZVAL_MM(r4);
+				PHALCON_CONCAT_SVS(r4, ",", scale, ")");
+				phalcon_concat_self(&column_sql, r4 TSRMLS_CC);
 			} else {
-				PHALCON_INIT_VAR(t10);
-				ZVAL_STRING(t10, ")", 1);
-				phalcon_concat_self(&column_sql, t10 TSRMLS_CC);
+				PHALCON_INIT_VAR(t2);
+				ZVAL_STRING(t2, ")", 1);
+				phalcon_concat_self(&column_sql, t2 TSRMLS_CC);
 			}
 		}
 		
-		PHALCON_ALLOC_ZVAL_MM(r14);
-		PHALCON_CALL_METHOD(r14, column, "isunsigned", PH_NO_CHECK);
-		if (zend_is_true(r14)) {
-			PHALCON_INIT_VAR(t11);
-			ZVAL_STRING(t11, " UNSIGNED", 1);
-			phalcon_concat_self(&column_sql, t11 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r5);
+		PHALCON_CALL_METHOD(r5, column, "isunsigned", PH_NO_CHECK);
+		if (zend_is_true(r5)) {
+			PHALCON_INIT_VAR(t3);
+			ZVAL_STRING(t3, " UNSIGNED", 1);
+			phalcon_concat_self(&column_sql, t3 TSRMLS_CC);
 		}
 		
 		goto se_52be_1;
@@ -996,7 +945,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_52be_2;
 	fee_52be_2:
-	if(0){}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("indexes")+1);
 	if (eval_int) {

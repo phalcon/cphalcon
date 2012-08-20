@@ -41,8 +41,8 @@
 
 PHP_METHOD(Phalcon_DI, __construct){
 
+	zval *default_di = NULL;
 	zval *a0 = NULL, *a1 = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_ALLOC_ZVAL_MM(a0);
@@ -52,9 +52,9 @@ PHP_METHOD(Phalcon_DI, __construct){
 	PHALCON_ALLOC_ZVAL_MM(a1);
 	array_init(a1);
 	zend_update_property(phalcon_di_ce, this_ptr, SL("_sharedInstances"), a1 TSRMLS_CC);
-	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_OBSERVE_VAR(default_di);
+	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
+	if (!zend_is_true(default_di)) {
 		phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), this_ptr TSRMLS_CC);
 	}
 	
@@ -127,10 +127,9 @@ PHP_METHOD(Phalcon_DI, attempt){
 
 PHP_METHOD(Phalcon_DI, _factory){
 
-	zval *service = NULL, *parameters = NULL, *found = NULL, *instance = NULL, *reflection = NULL;
-	zval *class_name = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
-	zval *i0 = NULL;
+	zval *service = NULL, *parameters = NULL, *found = NULL, *instance = NULL, *class_exists = NULL;
+	zval *reflection = NULL, *parameter_count = NULL, *is_callable = NULL;
+	zval *class_name = NULL, *exception_message = NULL, *exception = NULL;
 	int eval_int;
 	zend_class_entry *ce0, *ce1, *ce2;
 
@@ -147,17 +146,17 @@ PHP_METHOD(Phalcon_DI, _factory){
 	PHALCON_INIT_VAR(instance);
 	ZVAL_NULL(instance);
 	if (Z_TYPE_P(service) == IS_STRING) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "class_exists", service);
-		if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(class_exists);
+		PHALCON_CALL_FUNC_PARAMS_1(class_exists, "class_exists", service);
+		if (zend_is_true(class_exists)) {
 			ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(reflection);
 			object_init_ex(reflection, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", service, PH_CHECK);
 			
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_fast_count(r1, parameters TSRMLS_CC);
-			if (zend_is_true(r1)) {
+			PHALCON_INIT_VAR(parameter_count);
+			phalcon_fast_count(parameter_count, parameters TSRMLS_CC);
+			if (zend_is_true(parameter_count)) {
 				PHALCON_INIT_VAR(instance);
 				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
 			} else {
@@ -165,9 +164,9 @@ PHP_METHOD(Phalcon_DI, _factory){
 				PHALCON_CALL_METHOD(instance, reflection, "newinstance", PH_NO_CHECK);
 			}
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CALL_FUNC_PARAMS_1(r2, "is_callable", service);
-			if (zend_is_true(r2)) {
+			PHALCON_INIT_VAR(is_callable);
+			PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", service);
+			if (zend_is_true(is_callable)) {
 				PHALCON_INIT_VAR(instance);
 				PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
 			} else {
@@ -186,9 +185,9 @@ PHP_METHOD(Phalcon_DI, _factory){
 			PHALCON_INIT_VAR(class_name);
 			phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_fast_count(r3, parameters TSRMLS_CC);
-			if (zend_is_true(r3)) {
+			PHALCON_INIT_VAR(parameter_count);
+			phalcon_fast_count(parameter_count, parameters TSRMLS_CC);
+			if (zend_is_true(parameter_count)) {
 				ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 				PHALCON_INIT_VAR(reflection);
 				object_init_ex(reflection, ce1);
@@ -207,9 +206,9 @@ PHP_METHOD(Phalcon_DI, _factory){
 			RETURN_CCTOR(instance);
 		} else {
 			if (Z_TYPE_P(service) == IS_OBJECT) {
-				PHALCON_ALLOC_ZVAL_MM(r4);
-				phalcon_get_class(r4, service TSRMLS_CC);
-				if (PHALCON_COMPARE_STRING(r4, "Closure")) {
+				PHALCON_INIT_VAR(class_name);
+				phalcon_get_class(class_name, service TSRMLS_CC);
+				if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
 					PHALCON_INIT_VAR(instance);
 					PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
 				} else {
@@ -223,12 +222,13 @@ PHP_METHOD(Phalcon_DI, _factory){
 	}
 	
 	if (!zend_is_true(found)) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_di_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		PHALCON_CONCAT_SVS(r5, "Service '", service, "' wasn't found in the dependency injection container");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Service '", service, "' wasn't found in the dependency injection container");
+		
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_di_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 
 PHP_METHOD(Phalcon_DI, has){
 
-	zval *alias = NULL, *services = NULL;
+	zval *alias = NULL, *services = NULL, *is_set_service = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -335,28 +335,29 @@ PHP_METHOD(Phalcon_DI, has){
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
+	PHALCON_CPY_WRT(is_set_service, r0);
 	
-	RETURN_NCTOR(r0);
+	RETURN_NCTOR(is_set_service);
 }
 
 PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
-	zval *t0 = NULL;
+	zval *fresh_instance = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_freshInstance"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(fresh_instance);
+	phalcon_read_property(&fresh_instance, this_ptr, SL("_freshInstance"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(fresh_instance);
 }
 
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method = NULL, *arguments = NULL, *action = NULL, *services = NULL, *possible_service = NULL;
-	zval *handler = NULL;
+	zval *number_arguments = NULL, *instance = NULL, *handler = NULL;
+	zval *exception_message = NULL, *exception = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
-	zval *i0 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -391,17 +392,18 @@ PHP_METHOD(Phalcon_DI, __call){
 		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r0);
 		eval_int = phalcon_array_isset(services, possible_service);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_fast_count(r1, arguments TSRMLS_CC);
-			if (zend_is_true(r1)) {
-				PHALCON_ALLOC_ZVAL_MM(r2);
-				PHALCON_CALL_METHOD_PARAMS_2(r2, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
-				RETURN_CTOR(r2);
+			PHALCON_INIT_VAR(number_arguments);
+			phalcon_fast_count(number_arguments, arguments TSRMLS_CC);
+			if (zend_is_true(number_arguments)) {
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
 			} else {
-				PHALCON_ALLOC_ZVAL_MM(r3);
-				PHALCON_CALL_METHOD_PARAMS_1(r3, this_ptr, "get", possible_service, PH_NO_CHECK);
-				RETURN_CTOR(r3);
+				PHALCON_INIT_VAR(instance);
+				PHALCON_CALL_METHOD_PARAMS_1(instance, this_ptr, "get", possible_service, PH_NO_CHECK);
 			}
+			
+			
+			RETURN_CCTOR(instance);
 		}
 	}
 	
@@ -410,10 +412,10 @@ PHP_METHOD(Phalcon_DI, __call){
 		if (eval_int) {
 			PHALCON_INIT_VAR(c3);
 			ZVAL_LONG(c3, 3);
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			PHALCON_CALL_FUNC_PARAMS_2(r4, "substr", method, c3);
+			PHALCON_ALLOC_ZVAL_MM(r1);
+			PHALCON_CALL_FUNC_PARAMS_2(r1, "substr", method, c3);
 			PHALCON_INIT_VAR(possible_service);
-			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r4);
+			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r1);
 			
 			PHALCON_INIT_VAR(handler);
 			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
@@ -423,13 +425,13 @@ PHP_METHOD(Phalcon_DI, __call){
 		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_di_exception_ce);
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
 	
-	PHALCON_ALLOC_ZVAL_MM(r5);
-	PHALCON_CONCAT_SVS(r5, "Call to undefined method or service '", method, "'");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r5, PH_CHECK);
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_INIT_VAR(exception);
+	object_init_ex(exception, phalcon_di_exception_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
 }
 
@@ -451,13 +453,13 @@ PHP_METHOD(Phalcon_DI, setDefault){
 
 PHP_METHOD(Phalcon_DI, getDefault){
 
-	zval *t0 = NULL;
+	zval *default_di = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_OBSERVE_VAR(t0);
-	phalcon_read_static_property(&t0, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
+	PHALCON_OBSERVE_VAR(default_di);
+	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(default_di);
 }
 
 PHP_METHOD(Phalcon_DI, reset){

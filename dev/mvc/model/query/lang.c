@@ -36,20 +36,22 @@
 #include "mvc/model/query/scanner.h"
 #include "mvc/model/query/lang.h"
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parseSQL){
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
-	zval *sql = NULL;
+	zval *phql = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	phql_parse_sql(r0, sql);
+	if (phql_parse_phql(r0, phql TSRMLS_CC) == FAILURE) {
+		return;
+	}
 	RETURN_CTOR(r0);
 }
 

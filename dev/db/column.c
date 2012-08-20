@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 
 /**
@@ -54,10 +55,11 @@
  */
 PHP_METHOD(Phalcon_Db_Column, __construct){
 
-	zval *column_name = NULL, *definition = NULL, *type = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *column_name = NULL, *definition = NULL, *type = NULL, *not_null = NULL;
+	zval *primary = NULL, *size = NULL, *is_numeric = NULL, *scale = NULL, *dunsigned = NULL;
+	zval *auto_increment = NULL, *first = NULL, *after = NULL;
+	zval *t0 = NULL, *t1 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -80,41 +82,41 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 	eval_int = phalcon_array_isset_string(definition, SL("notNull")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, definition, SL("notNull"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_notNull"), r0 TSRMLS_CC);
+		PHALCON_INIT_VAR(not_null);
+		phalcon_array_fetch_string(&not_null, definition, SL("notNull"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_notNull"), not_null TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("primary")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, definition, SL("primary"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_primary"), r1 TSRMLS_CC);
+		PHALCON_INIT_VAR(primary);
+		phalcon_array_fetch_string(&primary, definition, SL("primary"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_primary"), primary TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("size")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, definition, SL("size"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_size"), r2 TSRMLS_CC);
+		PHALCON_INIT_VAR(size);
+		phalcon_array_fetch_string(&size, definition, SL("size"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("scale")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 3);
-		PHALCON_ALLOC_ZVAL_MM(r3);
-		is_equal_function(r3, type, t0 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		is_equal_function(r0, type, t0 TSRMLS_CC);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 7);
-		PHALCON_ALLOC_ZVAL_MM(r4);
-		is_equal_function(r4, type, t1 TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		ZVAL_BOOL(r5, zend_is_true(r3) || zend_is_true(r4));
-		if (zend_is_true(r5)) {
-			PHALCON_ALLOC_ZVAL_MM(r6);
-			phalcon_array_fetch_string(&r6, definition, SL("scale"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_scale"), r6 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		is_equal_function(r1, type, t1 TSRMLS_CC);
+		PHALCON_INIT_VAR(is_numeric);
+		ZVAL_BOOL(is_numeric, zend_is_true(r0) || zend_is_true(r1));
+		if (zend_is_true(is_numeric)) {
+			PHALCON_INIT_VAR(scale);
+			phalcon_array_fetch_string(&scale, definition, SL("scale"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_scale"), scale TSRMLS_CC);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type does not support scale parameter");
 			return;
@@ -123,28 +125,24 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 	eval_int = phalcon_array_isset_string(definition, SL("unsigned")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r7);
-		phalcon_array_fetch_string(&r7, definition, SL("unsigned"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_unsigned"), r7 TSRMLS_CC);
+		PHALCON_INIT_VAR(dunsigned);
+		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("isNumeric")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r8);
-		phalcon_array_fetch_string(&r8, definition, SL("isNumeric"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_isNumeric"), r8 TSRMLS_CC);
+		PHALCON_INIT_VAR(is_numeric);
+		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("autoIncrement")+1);
 	if (eval_int) {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_LONG(t2, 0);
-		PHALCON_ALLOC_ZVAL_MM(r9);
-		is_equal_function(r9, type, t2 TSRMLS_CC);
-		if (zend_is_true(r9)) {
-			PHALCON_ALLOC_ZVAL_MM(r10);
-			phalcon_array_fetch_string(&r10, definition, SL("autoIncrement"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), r10 TSRMLS_CC);
+		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+			PHALCON_INIT_VAR(auto_increment);
+			phalcon_array_fetch_string(&auto_increment, definition, SL("autoIncrement"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), auto_increment TSRMLS_CC);
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment");
 			return;
@@ -153,16 +151,16 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 	eval_int = phalcon_array_isset_string(definition, SL("first")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r11);
-		phalcon_array_fetch_string(&r11, definition, SL("first"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_first"), r11 TSRMLS_CC);
+		PHALCON_INIT_VAR(first);
+		phalcon_array_fetch_string(&first, definition, SL("first"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_first"), first TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("after")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r12);
-		phalcon_array_fetch_string(&r12, definition, SL("after"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_after"), r12 TSRMLS_CC);
+		PHALCON_INIT_VAR(after);
+		phalcon_array_fetch_string(&after, definition, SL("after"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_after"), after TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -175,13 +173,13 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName){
 
-	zval *t0 = NULL;
+	zval *schema_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_schemaName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(schema_name);
+	phalcon_read_property(&schema_name, this_ptr, SL("_schemaName"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(schema_name);
 }
 
 /**
@@ -191,13 +189,13 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName){
  */
 PHP_METHOD(Phalcon_Db_Column, getName){
 
-	zval *t0 = NULL;
+	zval *column_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_columnName"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(column_name);
+	phalcon_read_property(&column_name, this_ptr, SL("_columnName"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(column_name);
 }
 
 /**
@@ -207,13 +205,13 @@ PHP_METHOD(Phalcon_Db_Column, getName){
  */
 PHP_METHOD(Phalcon_Db_Column, getType){
 
-	zval *t0 = NULL;
+	zval *type = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(type);
+	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(type);
 }
 
 /**
@@ -223,13 +221,13 @@ PHP_METHOD(Phalcon_Db_Column, getType){
  */
 PHP_METHOD(Phalcon_Db_Column, getSize){
 
-	zval *t0 = NULL;
+	zval *size = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_size"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(size);
+	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(size);
 }
 
 /**
@@ -239,13 +237,13 @@ PHP_METHOD(Phalcon_Db_Column, getSize){
  */
 PHP_METHOD(Phalcon_Db_Column, getScale){
 
-	zval *t0 = NULL;
+	zval *scale = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_scale"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(scale);
+	phalcon_read_property(&scale, this_ptr, SL("_scale"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(scale);
 }
 
 /**
@@ -255,13 +253,13 @@ PHP_METHOD(Phalcon_Db_Column, getScale){
  */
 PHP_METHOD(Phalcon_Db_Column, isUnsigned){
 
-	zval *t0 = NULL;
+	zval *dunsigned = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_unsigned"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(dunsigned);
+	phalcon_read_property(&dunsigned, this_ptr, SL("_unsigned"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(dunsigned);
 }
 
 /**
@@ -271,13 +269,13 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned){
  */
 PHP_METHOD(Phalcon_Db_Column, isNotNull){
 
-	zval *t0 = NULL;
+	zval *not_null = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_notNull"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(not_null);
+	phalcon_read_property(&not_null, this_ptr, SL("_notNull"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(not_null);
 }
 
 /**
@@ -287,13 +285,13 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull){
  */
 PHP_METHOD(Phalcon_Db_Column, isPrimary){
 
-	zval *t0 = NULL;
+	zval *primary = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_primary"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(primary);
+	phalcon_read_property(&primary, this_ptr, SL("_primary"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(primary);
 }
 
 /**
@@ -303,13 +301,13 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary){
  */
 PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
 
-	zval *t0 = NULL;
+	zval *auto_increment = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_autoIncrement"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(auto_increment);
+	phalcon_read_property(&auto_increment, this_ptr, SL("_autoIncrement"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(auto_increment);
 }
 
 /**
@@ -319,13 +317,13 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
  */
 PHP_METHOD(Phalcon_Db_Column, isNumeric){
 
-	zval *t0 = NULL;
+	zval *is_numeric = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_isNumeric"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(is_numeric);
+	phalcon_read_property(&is_numeric, this_ptr, SL("_isNumeric"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(is_numeric);
 }
 
 /**
@@ -335,13 +333,13 @@ PHP_METHOD(Phalcon_Db_Column, isNumeric){
  */
 PHP_METHOD(Phalcon_Db_Column, isFirst){
 
-	zval *t0 = NULL;
+	zval *first = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_first"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(first);
+	phalcon_read_property(&first, this_ptr, SL("_first"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(first);
 }
 
 /**
@@ -351,13 +349,13 @@ PHP_METHOD(Phalcon_Db_Column, isFirst){
  */
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
 
-	zval *t0 = NULL;
+	zval *after = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_after"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(after);
+	phalcon_read_property(&after, this_ptr, SL("_after"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(after);
 }
 
 PHP_METHOD(Phalcon_Db_Column, __set_state){

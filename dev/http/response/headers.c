@@ -191,7 +191,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_e2ae_0;
 		fee_e2ae_0:
-		if(0){}
 		
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;

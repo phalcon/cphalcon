@@ -4,7 +4,7 @@ if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c");
   ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c operators.c concat.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "namespace.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c registry.c translate.c tag.c session.c flash.c config.c filter.c acl.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c translate.c tag.c session.c flash.c config.c filter.c acl.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc", "router.c view.c url.c controller.c dispatcher.c model.c application.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view", "engine.c exception.c", "phalcon")
