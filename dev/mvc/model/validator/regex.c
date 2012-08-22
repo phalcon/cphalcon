@@ -55,8 +55,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
 	zval *record = NULL, *field_name = NULL, *is_set = NULL, *value = NULL, *failed = NULL;
 	zval *matches = NULL, *pattern = NULL, *match_pattern = NULL, *match_zero = NULL;
+	zval *message = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -115,11 +115,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	}
 	
 	if (zend_is_true(failed)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVS(r0, "Value of field '", field_name, "' doesn't match regular expression");
+		PHALCON_INIT_VAR(message);
+		PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' doesn't match regular expression");
+		
 		PHALCON_INIT_VAR(c3);
 		ZVAL_STRING(c3, "regex", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r0, field_name, c3, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, c3, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

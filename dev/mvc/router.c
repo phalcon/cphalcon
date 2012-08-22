@@ -725,6 +725,21 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 }
 
 /**
+ * Removes all the defined routes
+ */
+PHP_METHOD(Phalcon_Mvc_Router, clear){
+
+	zval *empty_routes = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(empty_routes);
+	array_init(empty_routes);
+	phalcon_update_property_zval(this_ptr, SL("_routes"), empty_routes TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Returns proccesed module name
  *
  * @return string

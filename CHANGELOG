@@ -6,6 +6,7 @@
 - Added support for named parameters without requiring a regular expression in Phalcon\Mvc\Router
 - Added Phalcon\Mvc\Router\Route to encapsulate the information of a route
 - Added Phalcon\Mvc\Micro to create applications in a micro-framework style
+- Added Phalcon\Di\FactoryDefault that has the Phalcon Components registered as Default
 
 0.5.0a3
  - Added Phalcon\DI as dependency injector container

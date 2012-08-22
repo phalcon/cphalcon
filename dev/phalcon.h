@@ -186,6 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut);
 PHP_METHOD(Phalcon_Mvc_Router, addDelete);
 PHP_METHOD(Phalcon_Mvc_Router, addOptions);
 PHP_METHOD(Phalcon_Mvc_Router, addHead);
+PHP_METHOD(Phalcon_Mvc_Router, clear);
 PHP_METHOD(Phalcon_Mvc_Router, getModuleName);
 PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
 PHP_METHOD(Phalcon_Mvc_Router, getActionName);
@@ -205,9 +206,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, put);
 PHP_METHOD(Phalcon_Mvc_Micro, head);
 PHP_METHOD(Phalcon_Mvc_Micro, delete);
 PHP_METHOD(Phalcon_Mvc_Micro, options);
+PHP_METHOD(Phalcon_Mvc_Micro, notFound);
+PHP_METHOD(Phalcon_Mvc_Micro, getRouter);
 PHP_METHOD(Phalcon_Mvc_Micro, getService);
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService);
 PHP_METHOD(Phalcon_Mvc_Micro, handle);
+PHP_METHOD(Phalcon_Mvc_Micro, __get);
 
 
 PHP_METHOD(Phalcon_Mvc_View, __construct);
@@ -1196,12 +1200,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_options, 0, 0, 2)
 	ZEND_ARG_INFO(0, handler)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_notfound, 0, 0, 1)
+	ZEND_ARG_INFO(0, handler)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_getservice, 0, 0, 1)
 	ZEND_ARG_INFO(0, serviceName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_getsharedservice, 0, 0, 1)
 	ZEND_ARG_INFO(0, serviceName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
@@ -2925,6 +2937,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, addDelete, arginfo_phalcon_mvc_router_adddelete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, addOptions, arginfo_phalcon_mvc_router_addoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, addHead, arginfo_phalcon_mvc_router_addhead, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router, clear, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getModuleName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getActionName, NULL, ZEND_ACC_PUBLIC) 
@@ -2947,9 +2960,12 @@ PHALCON_INIT_FUNCS(phalcon_mvc_micro_method_entry){
 	PHP_ME(Phalcon_Mvc_Micro, head, arginfo_phalcon_mvc_micro_head, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, delete, arginfo_phalcon_mvc_micro_delete, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, options, arginfo_phalcon_mvc_micro_options, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Micro, notFound, arginfo_phalcon_mvc_micro_notfound, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Micro, getRouter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getService, arginfo_phalcon_mvc_micro_getservice, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getSharedService, arginfo_phalcon_mvc_micro_getsharedservice, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, handle, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Micro, __get, arginfo_phalcon_mvc_micro___get, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

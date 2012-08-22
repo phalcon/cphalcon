@@ -217,6 +217,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Micro, mvc_micro, phalcon_mvc_micro_method_entry, 0);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, View, mvc_view, phalcon_mvc_view_method_entry, 0);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
