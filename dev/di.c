@@ -353,11 +353,11 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
 PHP_METHOD(Phalcon_DI, __call){
 
-	zval *method = NULL, *arguments = NULL, *action = NULL, *services = NULL, *possible_service = NULL;
-	zval *number_arguments = NULL, *instance = NULL, *handler = NULL;
-	zval *exception_message = NULL, *exception = NULL;
+	zval *method = NULL, *arguments = NULL, *action = NULL, *services = NULL, *service_name = NULL;
+	zval *possible_service = NULL, *number_arguments = NULL;
+	zval *instance = NULL, *handler = NULL, *exception_message = NULL;
+	zval *exception = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -385,11 +385,11 @@ PHP_METHOD(Phalcon_DI, __call){
 		PHALCON_INIT_VAR(c2);
 		ZVAL_LONG(c2, 3);
 		
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "substr", method, c2);
+		PHALCON_INIT_VAR(service_name);
+		PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, c2);
 		
 		PHALCON_INIT_VAR(possible_service);
-		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r0);
+		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
 		eval_int = phalcon_array_isset(services, possible_service);
 		if (eval_int) {
 			PHALCON_INIT_VAR(number_arguments);
@@ -412,10 +412,11 @@ PHP_METHOD(Phalcon_DI, __call){
 		if (eval_int) {
 			PHALCON_INIT_VAR(c3);
 			ZVAL_LONG(c3, 3);
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_CALL_FUNC_PARAMS_2(r1, "substr", method, c3);
+			PHALCON_INIT_VAR(service_name);
+			PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, c3);
+			
 			PHALCON_INIT_VAR(possible_service);
-			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "strtolower", r1);
+			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
 			
 			PHALCON_INIT_VAR(handler);
 			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);

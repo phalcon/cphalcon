@@ -46,8 +46,8 @@
 PHP_METHOD(Phalcon_Flash, _showMessage){
 
 	zval *message = NULL, *classes = NULL, *css_classes = NULL, *eol = NULL, *msg = NULL;
+	zval *html_message = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -84,18 +84,18 @@ PHP_METHOD(Phalcon_Flash, _showMessage){
 			
 			PHALCON_INIT_VAR(msg);
 			ZVAL_ZVAL(msg, *hd, 1, 0);
-			PHALCON_INIT_VAR(r0);
-			PHALCON_CONCAT_SVSVSV(r0, "<div class=\"", css_classes, "\">", msg, "</div>", eol);
-			zend_print_zval(r0, 1);
+			PHALCON_INIT_VAR(html_message);
+			PHALCON_CONCAT_SVSVSV(html_message, "<div class=\"", css_classes, "\">", msg, "</div>", eol);
+			zend_print_zval(html_message, 1);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_3b3c_0;
 		fee_3b3c_0:
 		if(0){}
 		
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVSVSV(r1, "<div class=\"", css_classes, "\">", message, "</div>", eol);
-		zend_print_zval(r1, 1);
+		PHALCON_INIT_VAR(html_message);
+		PHALCON_CONCAT_SVSVSV(html_message, "<div class=\"", css_classes, "\">", message, "</div>", eol);
+		zend_print_zval(html_message, 1);
 	}
 	
 	PHALCON_MM_RESTORE();

@@ -104,7 +104,13 @@ class RouterTest extends PHPUnit_Framework_TestCase
 				'controller' => 'feed',
 				'action' => 'get',
 				'params' => array('lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json')
-			)
+			),
+			array(
+				'uri' => '/posts/delete/150',
+				'controller' => 'posts',
+				'action' => 'delete',
+				'params' => array('id' => '150')
+			),
 		);
 
 		$router = new Phalcon\Mvc\Router();
@@ -146,6 +152,152 @@ class RouterTest extends PHPUnit_Framework_TestCase
 		$router->add("/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}", "Feed::get");
 
 		$router->add("/posts/{year:[0-9]+}/s/{title:[a-z\-]+}", "Posts::show");
+
+		$router->add("/posts/delete/{id}", "Posts::delete");
+
+		foreach ($tests as $n => $test) {
+			$this->_runTest($router, $test);
+		}
+
+	}
+
+	public function _testRouterHttp()
+	{
+
+		$tests = array(
+			array(
+				'method' => null,
+				'uri' => '/documentation/index/hello',
+				'controller' => 'documentation',
+				'action' => 'index',
+				'params' => array('hello')
+			),
+			array(
+				'method' => 'POST',
+				'uri' => '/docs/index',
+				'controller' => 'documentation3',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'method' => 'GET',
+				'uri' => '/docs/index',
+				'controller' => 'documentation4',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'method' => 'PUT',
+				'uri' => '/docs/index',
+				'controller' => 'documentation5',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'method' => 'DELETE',
+				'uri' => '/docs/index',
+				'controller' => 'documentation6',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'method' => 'OPTIONS',
+				'uri' => '/docs/index',
+				'controller' => 'documentation7',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'method' => 'HEAD',
+				'uri' => '/docs/index',
+				'controller' => 'documentation8',
+				'action' => 'index',
+				'params' => array()
+			),
+		);
+
+		$di = new Phalcon\DI();
+
+		$di->set('request', function(){
+			return new Phalcon\Http\Request();
+		});
+
+		$router = new Phalcon\Mvc\Router();
+		$router->setDI($di);
+
+		$router->add('/docs/index', array(
+			'controller' => 'documentation2',
+			'action' => 'index'
+		));
+
+		$router->addPost('/docs/index', array(
+			'controller' => 'documentation3',
+			'action' => 'index'
+		));
+
+		$router->addGet('/docs/index', array(
+			'controller' => 'documentation4',
+			'action' => 'index'
+		));
+
+		$router->addPut('/docs/index', array(
+			'controller' => 'documentation5',
+			'action' => 'index'
+		));
+
+		$router->addDelete('/docs/index', array(
+			'controller' => 'documentation6',
+			'action' => 'index'
+		));
+
+		$router->addOptions('/docs/index', array(
+			'controller' => 'documentation7',
+			'action' => 'index'
+		));
+
+		$router->addHead('/docs/index', array(
+			'controller' => 'documentation8',
+			'action' => 'index'
+		));
+
+		foreach ($tests as $n => $test) {
+			$_SERVER['REQUEST_METHOD'] = $test['method'];
+			$this->_runTest($router, $test);
+		}
+	}
+
+	public function testRouterParams()
+	{
+
+		$router = new Phalcon\Mvc\Router();
+
+		$tests = array(
+			array(
+				'method' => null,
+				'uri' => '/some/hattie',
+				'controller' => '',
+				'action' => '',
+				'params' => array('name' => 'hattie')
+			),
+			array(
+				'method' => null,
+				'uri' => '/some/hattie/100',
+				'controller' => '',
+				'action' => '',
+				'params' => array('name' => 'hattie', 'id' => 100)
+			),
+			array(
+				'method' => null,
+				'uri' => '/some/hattie/100/2011-01-02',
+				'controller' => '',
+				'action' => '',
+				'params' => array('name' => 'hattie', 'id' => 100, 'date' => '2011-01-02')
+			),
+		);
+
+		$router->add('/some/{name}');
+		$router->add('/some/{name}/{id:[0-9]+}');
+		$router->add('/some/{name}/{id:[0-9]+}/{date}');
 
 		foreach ($tests as $n => $test) {
 			$this->_runTest($router, $test);

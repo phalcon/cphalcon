@@ -53,16 +53,18 @@ int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len T
 }
 
 /**
- * Find out function scope on parent classes
+ * Find out the function scope on parent classes
  */
 int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	while (ce) {
-		if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-			if (zend_hash_exists(&ce->function_table, lcname, method_len+1)) {
-				EG(scope) = ce;
-				efree(lcname);
-				return SUCCESS;
+		if (ce->name_length == active_class_len) {
+			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
+				if (zend_hash_exists(&ce->function_table, lcname, method_len+1)) {
+					EG(scope) = ce;
+					efree(lcname);
+					return SUCCESS;
+				}
 			}
 		}
 		ce = ce->parent;

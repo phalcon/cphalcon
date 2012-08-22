@@ -31,6 +31,7 @@ extern zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
 extern int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
 
 extern int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC);
+extern int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRMLS_DC);
 extern int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC);
 
 extern int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC);

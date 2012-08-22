@@ -160,8 +160,7 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
  */
 PHP_METHOD(Phalcon_Tag, setDefault){
 
-	zval *id = NULL, *value = NULL;
-	zval *r0 = NULL;
+	zval *id = NULL, *value = NULL, *is_scalar = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -172,9 +171,9 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	}
 
 	if (zend_is_true(value)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_scalar", value);
-		if (!zend_is_true(r0)) {
+		PHALCON_INIT_VAR(is_scalar);
+		PHALCON_CALL_FUNC_PARAMS_1(is_scalar, "is_scalar", value);
+		if (!zend_is_true(is_scalar)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
 			return;
 		}
@@ -1162,9 +1161,9 @@ PHP_METHOD(Phalcon_Tag, getTitle){
  */
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
-	zval *parameters = NULL, *local = NULL, *params = NULL, *url = NULL, *href = NULL, *code = NULL;
-	zval *value = NULL, *key = NULL, *attribute = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param = NULL;
+	zval *url = NULL, *href = NULL, *code = NULL, *value = NULL, *key = NULL, *attribute = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1206,9 +1205,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_long(params, 0);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			phalcon_array_fetch_long(&r0, params, 0, PH_NOISY_CC);
-			phalcon_array_update_string(&params, SL("href"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_INIT_VAR(first_param);
+			phalcon_array_fetch_long(&first_param, params, 0, PH_NOISY_CC);
+			phalcon_array_update_string(&params, SL("href"), &first_param, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string_string(&params, SL("href"), SL(""), PH_SEPARATE TSRMLS_CC);
 		}
@@ -1239,11 +1238,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, params, SL("href"), PH_NOISY_CC);
+		PHALCON_ALLOC_ZVAL_MM(r0);
+		phalcon_array_fetch_string(&r0, params, SL("href"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(href);
-		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", r1, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", r0, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("href"), &href, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1415,9 +1414,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
  */
 PHP_METHOD(Phalcon_Tag, image){
 
-	zval *parameters = NULL, *params = NULL, *url = NULL, *src = NULL, *code = NULL, *value = NULL;
-	zval *key = NULL, *attribute = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *parameters = NULL, *params = NULL, *first_param = NULL, *url = NULL, *src = NULL;
+	zval *code = NULL, *value = NULL, *key = NULL, *attribute = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1451,9 +1450,9 @@ PHP_METHOD(Phalcon_Tag, image){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_long(params, 0);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			phalcon_array_fetch_long(&r0, params, 0, PH_NOISY_CC);
-			phalcon_array_update_string(&params, SL("src"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_INIT_VAR(first_param);
+			phalcon_array_fetch_long(&first_param, params, 0, PH_NOISY_CC);
+			phalcon_array_update_string(&params, SL("src"), &first_param, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string_string(&params, SL("src"), SL(""), PH_SEPARATE TSRMLS_CC);
 		}
@@ -1462,11 +1461,11 @@ PHP_METHOD(Phalcon_Tag, image){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_string(&r1, params, SL("src"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_array_fetch_string(&r0, params, SL("src"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(src);
-	PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", r1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", r0, PH_NO_CHECK);
 	phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(code);

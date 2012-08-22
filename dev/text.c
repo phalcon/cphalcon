@@ -35,7 +35,7 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon_Text
+ * Phalcon\Text
  *
  * Provides utilities when working with strings
  */
@@ -48,9 +48,9 @@
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str = NULL;
+	zval *str = NULL, *lower_str = NULL, *no_under_score_str = NULL, *uc_string = NULL;
+	zval *camelized = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -59,23 +59,31 @@ PHP_METHOD(Phalcon_Text, camelize){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(lower_str);
+	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
+	
 	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, " ", 1);
+	ZVAL_STRING(c0, "_", 1);
+	
 	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "", 1);
+	ZVAL_STRING(c1, " ", 1);
+	
+	PHALCON_INIT_VAR(no_under_score_str);
+	phalcon_fast_str_replace(no_under_score_str, c0, c1, lower_str TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(uc_string);
+	PHALCON_CALL_FUNC_PARAMS_1(uc_string, "ucwords", no_under_score_str);
+	
 	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "_", 1);
+	ZVAL_STRING(c2, " ", 1);
+	
 	PHALCON_INIT_VAR(c3);
-	ZVAL_STRING(c3, " ", 1);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "strtolower", str);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_fast_str_replace(r1, c2, c3, r0 TSRMLS_CC);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CALL_FUNC_PARAMS_1(r2, "ucwords", r1);
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	phalcon_fast_str_replace(r3, c0, c1, r2 TSRMLS_CC);
-	RETURN_CTOR(r3);
+	ZVAL_STRING(c3, "", 1);
+	
+	PHALCON_INIT_VAR(camelized);
+	phalcon_fast_str_replace(camelized, c2, c3, uc_string TSRMLS_CC);
+	
+	RETURN_CTOR(camelized);
 }
 
 /**
@@ -86,8 +94,8 @@ PHP_METHOD(Phalcon_Text, camelize){
  */
 PHP_METHOD(Phalcon_Text, uncamelize){
 
-	zval *str = NULL, *patterns = NULL, *replacement = NULL, *pattern = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *str = NULL, *patterns = NULL, *replacement = NULL, *pattern = NULL, *match_pattern = NULL;
+	zval *pattern_replace = NULL, *lower_pattern = NULL, *lower_str = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -122,21 +130,24 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 		PHALCON_GET_FOREACH_KEY(pattern, ah0, hp0);
 		PHALCON_INIT_VAR(replacement);
 		ZVAL_ZVAL(replacement, *hd, 1, 0);
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_FUNC_PARAMS_2(r0, "preg_match", pattern, str);
-		if (zend_is_true(r0)) {
-			PHALCON_INIT_VAR(r1);
-			PHALCON_CALL_FUNC_PARAMS_3(r1, "preg_replace", pattern, replacement, str);
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_1(r2, "strtolower", r1);
-			RETURN_CTOR(r2);
+		PHALCON_INIT_VAR(match_pattern);
+		PHALCON_CALL_FUNC_PARAMS_2(match_pattern, "preg_match", pattern, str);
+		if (zend_is_true(match_pattern)) {
+			PHALCON_INIT_VAR(pattern_replace);
+			PHALCON_CALL_FUNC_PARAMS_3(pattern_replace, "preg_replace", pattern, replacement, str);
+			
+			PHALCON_INIT_VAR(lower_pattern);
+			PHALCON_CALL_FUNC_PARAMS_1(lower_pattern, "strtolower", pattern_replace);
+			
+			RETURN_CTOR(lower_pattern);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_f8ee_0;
 	fee_f8ee_0:
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CALL_FUNC_PARAMS_1(r3, "strtolower", str);
-	RETURN_CTOR(r3);
+	PHALCON_INIT_VAR(lower_str);
+	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
+	
+	RETURN_CTOR(lower_str);
 }
 

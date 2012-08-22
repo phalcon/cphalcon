@@ -71,6 +71,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -80,6 +81,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products'),
 			'joins' => array()
@@ -89,6 +91,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('le_products.*'),
 			'tables' => array('le_products'),
 			'joins' => array()
@@ -98,6 +101,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('p.*'),
 			'tables' => array('le_products p'),
 			'joins' => array()
@@ -107,6 +111,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -116,6 +121,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -125,6 +131,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -134,6 +141,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.id', 'r.name'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -143,6 +151,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('le_id' => 'r.id', 'le_name' => 'r.name'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -152,6 +161,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('le_id' => 'robots.id', 'le_name' => 'robots.name'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -161,6 +171,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('empty_str' => "''", 'double_number' => '10.5', 'long_number' => '1000'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -170,6 +181,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('personas.cedula'),
 			'tables' => array('personas'),
 			'joins' => array(),
@@ -179,6 +191,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('people'),
 			'columns' => array('personas.cedula'),
 			'tables' => array('personas'),
 			'joins' => array(),
@@ -188,6 +201,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('cedula' => 'p.cedula'),
 			'tables' => array('personas p'),
 			'joins' => array(),
@@ -197,6 +211,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('nombre' => 'CONCAT(personas.cedula,\'-\',personas.nombre)'),
 			'tables' => array('personas'),
 			'joins' => array(),
@@ -206,6 +221,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -221,6 +237,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -236,6 +253,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -256,6 +274,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots_parts'),
 			'joins' => array(
@@ -276,6 +295,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -291,6 +311,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -307,6 +328,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -323,6 +345,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(
@@ -338,6 +361,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots_parts'),
 			'joins' => array(
@@ -353,6 +377,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.*', 'p.*'),
 			'tables' => array('robots r'),
 			'joins' => array(
@@ -368,6 +393,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.*'),
 			'tables' => array('robots r'),
 			'joins' => array(
@@ -383,6 +409,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('(personas.cupo+100)/(products.price*0.15)'),
 			'tables' => array('personas'),
 			'joins' => array(
@@ -398,6 +425,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('price' => '(personas.cupo+100)/(le_products.price*0.15)'),
 			'tables' => array('personas'),
 			'joins' => array(
@@ -413,6 +441,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('People'),
 			'columns' => array('price' => '(p.cupo+100)/(s.price*0.15)'),
 			'tables' => array('personas p'),
 			'joins' => array(
@@ -428,6 +457,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots', 'RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots', 'robots_parts'),
 			'joins' => array()
@@ -437,6 +467,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots', 'RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots r', 'robots_parts p'),
 			'joins' => array()
@@ -446,6 +477,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots', 'RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots r', 'robots_parts p'),
 			'joins' => array()
@@ -455,6 +487,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots', 'RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots r', 'robots_parts p'),
 			'joins' => array(),
@@ -465,6 +498,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots', 'RobotsParts'),
 			'columns' => array('*'),
 			'tables' => array('robots', 'robots_parts'),
 			'joins' => array(),
@@ -475,6 +509,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -485,6 +520,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -495,6 +531,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -505,6 +542,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -515,6 +553,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -525,6 +564,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -535,6 +575,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -545,6 +586,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -555,6 +597,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products'),
 			'joins' => array(),
@@ -565,6 +608,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products'),
 			'joins' => array(),
@@ -575,6 +619,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -585,6 +630,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -595,6 +641,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -605,6 +652,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -615,6 +663,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -625,6 +674,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -635,6 +685,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -645,6 +696,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -655,6 +707,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -665,6 +718,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -675,6 +729,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -685,6 +740,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -695,6 +751,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products p'),
 			'joins' => array(),
@@ -706,6 +763,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products p'),
 			'joins' => array(),
@@ -716,6 +774,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products'),
 			'joins' => array(),
@@ -726,6 +785,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('*'),
 			'tables' => array('le_products'),
 			'joins' => array(),
@@ -736,6 +796,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -747,6 +808,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -758,6 +820,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -770,6 +833,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -780,6 +844,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -790,6 +855,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'summatory' => 'SUM(robots.price)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -800,6 +866,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('r.id', 'r.name', 'summatory' => 'SUM(r.price)', 'MIN(r.price)'),
 			'tables' => array('robots r'),
 			'joins' => array(),
@@ -810,6 +877,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -821,6 +889,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -833,6 +902,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -846,6 +916,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -857,6 +928,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('*'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -869,6 +941,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -880,6 +953,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Some\Products'),
 			'columns' => array('le_products.type', 'price' => 'SUM(le_products.price)'),
 			'tables' => array('le_products'),
 			'joins' => array(),
@@ -891,6 +965,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -903,6 +978,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -916,6 +992,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -929,6 +1006,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$query->setDI($di);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -942,6 +1020,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),
@@ -955,6 +1034,7 @@ class ModelsQueryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
 			'columns' => array('robots.name', 'COUNT(*)'),
 			'tables' => array('robots'),
 			'joins' => array(),

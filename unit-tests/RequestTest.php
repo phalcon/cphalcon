@@ -144,6 +144,26 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->_request->isGet());
 		$this->assertFalse($this->_request->isPost());
 
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		$this->assertEquals($this->_request->getMethod(), 'PUT');
+		$this->assertTrue($this->_request->isPut());
+
+		$_SERVER['REQUEST_METHOD'] = 'DELETE';
+		$this->assertEquals($this->_request->getMethod(), 'DELETE');
+		$this->assertTrue($this->_request->isDelete());
+
+		$_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+		$this->assertEquals($this->_request->getMethod(), 'OPTIONS');
+		$this->assertTrue($this->_request->isOptions());
+
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$this->assertTrue($this->_request->isMethod('POST'));
+		$this->assertTrue($this->_request->isMethod(array('GET', 'POST')));
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$this->assertTrue($this->_request->isMethod('GET'));
+		$this->assertTrue($this->_request->isMethod(array('GET', 'POST')));
+
 	}
 
 	public function testAcceptableContent()

@@ -36,8 +36,8 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Db
@@ -208,11 +208,10 @@ PHP_METHOD(Phalcon_Db, fetchAll){
  */
 PHP_METHOD(Phalcon_Db, insert){
 
-	zval *table = NULL, *values = NULL, *fields = NULL, *number_values = NULL, *placeholders = NULL;
-	zval *value = NULL, *n = NULL, *comma = NULL, *joined_values = NULL, *insert_sql = NULL;
-	zval *success = NULL;
-	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *table = NULL, *values = NULL, *fields = NULL, *number_values = NULL, *exception_message = NULL;
+	zval *exception = NULL, *placeholders = NULL, *value = NULL, *n = NULL, *str_value = NULL;
+	zval *comma = NULL, *joined_values = NULL, *joined_fields = NULL;
+	zval *insert_sql = NULL, *success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -239,12 +238,13 @@ PHP_METHOD(Phalcon_Db, insert){
 		PHALCON_INIT_VAR(number_values);
 		phalcon_fast_count(number_values, values TSRMLS_CC);
 		if (!zend_is_true(number_values)) {
-			PHALCON_ALLOC_ZVAL_MM(i0);
-			object_init_ex(i0, phalcon_db_exception_ce);
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CONCAT_SVS(r0, "Unable to insert into ", table, " without data");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
-			phalcon_throw_exception(i0 TSRMLS_CC);
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
+			
+			PHALCON_INIT_VAR(exception);
+			object_init_ex(exception, phalcon_db_exception_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+			phalcon_throw_exception(exception TSRMLS_CC);
 			return;
 		}
 		
@@ -268,9 +268,9 @@ PHP_METHOD(Phalcon_Db, insert){
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			if (Z_TYPE_P(value) == IS_OBJECT) {
-				PHALCON_INIT_VAR(r1);
-				PHALCON_CALL_FUNC_PARAMS_1(r1, "strval", value);
-				phalcon_array_append(&placeholders, r1, PH_SEPARATE TSRMLS_CC);
+				PHALCON_INIT_VAR(str_value);
+				PHALCON_CALL_FUNC_PARAMS_1(str_value, "strval", value);
+				phalcon_array_append(&placeholders, str_value, PH_SEPARATE TSRMLS_CC);
 				PHALCON_SEPARATE_PARAM(values);
 				phalcon_array_unset(values, n);
 			} else {
@@ -288,10 +288,11 @@ PHP_METHOD(Phalcon_Db, insert){
 		PHALCON_INIT_VAR(joined_values);
 		phalcon_fast_join(joined_values, comma, placeholders TSRMLS_CC);
 		if (Z_TYPE_P(fields) == IS_ARRAY) { 
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_fast_join(r2, comma, fields TSRMLS_CC);
+			PHALCON_INIT_VAR(joined_fields);
+			phalcon_fast_join(joined_fields, comma, fields TSRMLS_CC);
+			
 			PHALCON_INIT_VAR(insert_sql);
-			PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", r2, ") VALUES (", joined_values, ")");
+			PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", joined_fields, ") VALUES (", joined_values, ")");
 		} else {
 			PHALCON_INIT_VAR(insert_sql);
 			PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", table, " VALUES (", joined_values, ")");
@@ -318,9 +319,8 @@ PHP_METHOD(Phalcon_Db, insert){
 PHP_METHOD(Phalcon_Db, update){
 
 	zval *table = NULL, *fields = NULL, *values = NULL, *where_condition = NULL;
-	zval *placeholders = NULL, *value = NULL, *n = NULL, *field = NULL, *set_clause = NULL;
-	zval *update_sql = NULL, *success = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *placeholders = NULL, *value = NULL, *n = NULL, *field = NULL, *set_clause_part = NULL;
+	zval *set_clause = NULL, *update_sql = NULL, *success = NULL;
 	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -369,15 +369,15 @@ PHP_METHOD(Phalcon_Db, update){
 			PHALCON_INIT_VAR(field);
 			phalcon_array_fetch(&field, fields, n, PH_NOISY_CC);
 			if (Z_TYPE_P(value) == IS_OBJECT) {
-				PHALCON_INIT_VAR(r0);
-				PHALCON_CONCAT_VSV(r0, field, " = ", value);
-				phalcon_array_append(&placeholders, r0, PH_SEPARATE TSRMLS_CC);
+				PHALCON_INIT_VAR(set_clause_part);
+				PHALCON_CONCAT_VSV(set_clause_part, field, " = ", value);
+				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 				PHALCON_SEPARATE_PARAM(values);
 				phalcon_array_unset(values, n);
 			} else {
-				PHALCON_INIT_VAR(r1);
-				PHALCON_CONCAT_VS(r1, field, " = ?");
-				phalcon_array_append(&placeholders, r1, PH_SEPARATE TSRMLS_CC);
+				PHALCON_INIT_VAR(set_clause_part);
+				PHALCON_CONCAT_VS(set_clause_part, field, " = ?");
+				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 			}
 		} else {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");

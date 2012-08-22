@@ -85,9 +85,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 
-	zval *message = NULL, *field = NULL, *type = NULL, *model_message = NULL;
+	zval *message = NULL, *field = NULL, *type = NULL, *class_name = NULL, *model_message = NULL;
 	zval *c0 = NULL, *c1 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -116,14 +115,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		phalcon_read_property(&field, this_ptr, SL("_fieldName"), PH_NOISY_CC);
 	}
 	if (!zend_is_true(type)) {
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "Validator", 1);
+		
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, "", 1);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_get_class(r0, this_ptr TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(type);
-		phalcon_fast_str_replace(type, c0, c1, r0 TSRMLS_CC);
+		phalcon_fast_str_replace(type, c0, c1, class_name TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(model_message);
@@ -145,13 +147,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
 
-	zval *t0 = NULL;
+	zval *messages = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_messages"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(messages);
+	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(messages);
 }
 
 /**
@@ -161,13 +163,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
 
-	zval *t0 = NULL;
+	zval *options = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_options"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(options);
 }
 
 /**
@@ -211,7 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 
-	zval *option = NULL, *options = NULL;
+	zval *option = NULL, *options = NULL, *is_set = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -228,7 +230,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
+	PHALCON_CPY_WRT(is_set, r0);
 	
-	RETURN_NCTOR(r0);
+	RETURN_NCTOR(is_set);
 }
 

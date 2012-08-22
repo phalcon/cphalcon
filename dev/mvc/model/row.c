@@ -33,7 +33,6 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -70,10 +69,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 
-	zval *result = NULL, *object_row = NULL, *columns = NULL, *value = NULL, *field = NULL;
+	zval *result = NULL, *object_row = NULL, *columns = NULL, *number_columns = NULL;
+	zval *value = NULL, *field = NULL;
 	zval *i0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -95,12 +93,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 	}
 	PHALCON_CPY_WRT(object_row, i0);
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_columns"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(columns);
+	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_fast_count(r0, t0 TSRMLS_CC);
-	if (phalcon_compare_strict_long(r0, 0 TSRMLS_CC)) {
+	PHALCON_INIT_VAR(number_columns);
+	phalcon_fast_count(number_columns, columns TSRMLS_CC);
+	if (zend_is_true(number_columns)) {
 		PHALCON_INIT_VAR(columns);
 		array_init(columns);
 		if (!phalcon_valid_foreach(result TSRMLS_CC)) {
@@ -147,9 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
 			goto fes_4c15_1;
 		fee_4c15_1:
 		
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_columns"), PH_NOISY_CC);
-		phalcon_update_property_zval(object_row, SL("_columns"), t1 TSRMLS_CC);
+		phalcon_update_property_zval(object_row, SL("_columns"), columns TSRMLS_CC);
 	}
 	
 	
@@ -164,8 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute){
 
-	zval *property = NULL;
-	zval *t0 = NULL;
+	zval *property = NULL, *value = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -174,10 +169,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property_zval(&t0, this_ptr, property, PH_NOISY_CC);
+	PHALCON_INIT_VAR(value);
+	phalcon_read_property_zval(&value, this_ptr, property, PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(value);
 }
 
 /**
@@ -187,13 +182,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, sleep){
 
-	zval *a0 = NULL;
+	zval *attributes = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	add_next_index_stringl(a0, SL("_columns"), 1);
+	PHALCON_INIT_VAR(attributes);
+	array_init(attributes);
+	add_next_index_stringl(attributes, SL("_columns"), 1);
 	
-	RETURN_CTOR(a0);
+	RETURN_CTOR(attributes);
 }
 

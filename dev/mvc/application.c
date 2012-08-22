@@ -61,13 +61,13 @@ PHP_METHOD(Phalcon_Mvc_Application, setDI){
 
 PHP_METHOD(Phalcon_Mvc_Application, getDI){
 
-	zval *t0 = NULL;
+	zval *dependency_injector = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(dependency_injector);
 }
 
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
@@ -90,6 +90,17 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	PHALCON_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Mvc_Application, getModules){
+
+	zval *modules = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(modules);
+	phalcon_read_property(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(modules);
+}
+
 /**
  * Handles a MVC request
  *
@@ -107,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(dependency_injector);
-	PHALCON_CALL_METHOD(dependency_injector, this_ptr, "getdi", PH_NO_CHECK);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (!zend_is_true(dependency_injector)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;

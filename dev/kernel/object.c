@@ -52,6 +52,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
  * Check if class is instance of
  */
 int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
+
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
 		phalcon_memory_restore_stack(TSRMLS_C);
@@ -59,7 +60,20 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
     } else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
     }
+
     return SUCCESS;
+}
+
+int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	ce = Z_OBJCE_P(object);
+	if (ce->name_length == class_length) {
+		return !zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length);
+	}
+
+	return 0;
 }
 
 /**

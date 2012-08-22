@@ -32,11 +32,11 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
+#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/exception.h"
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -73,6 +73,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct){
 	zend_update_property(phalcon_mvc_model_manager_ce, this_ptr, SL("_initialized"), a3 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Error Processing Request");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
+
+	zval *dependency_injector = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(dependency_injector);
 }
 
 /**
@@ -185,9 +216,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *entity_name = NULL, *has_one = NULL, *number_fields = NULL;
-	zval *number_referenced = NULL, *relation = NULL;
+	zval *number_referenced = NULL, *diferent_fields = NULL;
+	zval *relation = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	int eval_int;
 
@@ -226,9 +258,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 			PHALCON_INIT_VAR(number_referenced);
 			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			is_not_equal_function(r1, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(r1)) {
+			PHALCON_INIT_VAR(diferent_fields);
+			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+			if (zend_is_true(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -266,9 +298,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *model_name = NULL, *belongs_to = NULL, *number_fields = NULL;
-	zval *number_referenced = NULL, *relation = NULL;
+	zval *number_referenced = NULL, *diferent_fields = NULL;
+	zval *relation = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	int eval_int;
 
@@ -307,9 +340,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 			PHALCON_INIT_VAR(number_referenced);
 			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			is_not_equal_function(r1, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(r1)) {
+			PHALCON_INIT_VAR(diferent_fields);
+			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+			if (zend_is_true(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -347,9 +380,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 
 	zval *model = NULL, *fields = NULL, *reference_model = NULL, *referenced_fields = NULL;
 	zval *options = NULL, *entity_name = NULL, *has_many = NULL, *number_fields = NULL;
-	zval *number_referenced = NULL, *relation = NULL;
+	zval *number_referenced = NULL, *diferent_fields = NULL;
+	zval *relation = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	int eval_int;
 
@@ -388,9 +422,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 			PHALCON_INIT_VAR(number_referenced);
 			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			is_not_equal_function(r1, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(r1)) {
+			PHALCON_INIT_VAR(diferent_fields);
+			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+			if (zend_is_true(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -1103,5 +1137,61 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	
 	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
+
+	zval *phql = NULL, *dependency_injector = NULL, *query = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (!zend_is_true(dependency_injector)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access ORM services");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", phql, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector, PH_NO_CHECK);
+	
+	RETURN_CTOR(query);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
+
+	zval *phql = NULL, *placeholders = NULL, *dependency_injector = NULL;
+	zval *query = NULL, *result = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &phql, &placeholders) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (!zend_is_true(dependency_injector)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access ORM services");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", phql, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_METHOD_PARAMS_1(result, query, "execute", placeholders, PH_NO_CHECK);
+	
+	RETURN_CCTOR(result);
 }
 

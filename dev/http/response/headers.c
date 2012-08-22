@@ -91,8 +91,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, set){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
-	zval *name = NULL, *headers = NULL;
-	zval *r0 = NULL;
+	zval *name = NULL, *headers = NULL, *header_value = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -106,10 +105,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(headers, name);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, headers, name, PH_NOISY_CC);
+		PHALCON_INIT_VAR(header_value);
+		phalcon_array_fetch(&header_value, headers, name, PH_NOISY_CC);
 		
-		RETURN_CCTOR(r0);
+		RETURN_CCTOR(header_value);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -146,9 +145,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *t = NULL, *value = NULL, *header = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL;
+	zval *headers_was_sent = NULL, *t = NULL, *headers = NULL, *value = NULL, *header = NULL;
+	zval *http_header = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -158,19 +156,19 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	int hash_type;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "headers_sent");
-	if (!zend_is_true(r0)) {
+	PHALCON_INIT_VAR(headers_was_sent);
+	PHALCON_CALL_FUNC(headers_was_sent, "headers_sent");
+	if (!zend_is_true(headers_was_sent)) {
 		PHALCON_INIT_VAR(t);
 		ZVAL_BOOL(t, 1);
 		
-		PHALCON_ALLOC_ZVAL_MM(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_headers"), PH_NOISY_CC);
-		if (!phalcon_valid_foreach(t0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(headers);
+		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		if (!phalcon_valid_foreach(headers TSRMLS_CC)) {
 			return;
 		}
 		
-		ah0 = Z_ARRVAL_P(t0);
+		ah0 = Z_ARRVAL_P(headers);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_e2ae_0:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
@@ -182,9 +180,9 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			PHALCON_INIT_VAR(value);
 			ZVAL_ZVAL(value, *hd, 1, 0);
 			if (zend_is_true(value)) {
-				PHALCON_INIT_VAR(r1);
-				PHALCON_CONCAT_VSV(r1, header, ": ", value);
-				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", r1, t);
+				PHALCON_INIT_VAR(http_header);
+				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
+				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", http_header, t);
 			} else {
 				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, t);
 			}
@@ -195,6 +193,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
 }
@@ -220,8 +219,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 
-	zval *data = NULL, *headers = NULL, *value = NULL, *key = NULL;
-	zval *r0 = NULL;
+	zval *data = NULL, *headers = NULL, *data_headers = NULL, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -243,13 +241,13 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
 	eval_int = phalcon_array_isset_string(data, SL("_headers")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, data, SL("_headers"), PH_NOISY_CC);
-		if (!phalcon_valid_foreach(r0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(data_headers);
+		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY_CC);
+		if (!phalcon_valid_foreach(data_headers TSRMLS_CC)) {
 			return;
 		}
 		
-		ah0 = Z_ARRVAL_P(r0);
+		ah0 = Z_ARRVAL_P(data_headers);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		fes_e2ae_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){

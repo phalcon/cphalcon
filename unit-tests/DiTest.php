@@ -120,6 +120,34 @@ class DiTest extends PHPUnit_Framework_TestCase
 
 		$request = $this->_di->getRequest8();
 		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
+
+		$this->_di->setRequest9('Phalcon\Http\Request');
+		$request = $this->_di->get('request9');
+		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
+
+	}
+
+	public function testFactoryDefault()
+	{
+		$factoryDefault = new Phalcon\DI\FactoryDefault();
+
+		$request = $factoryDefault->get('request');
+		$this->assertEquals(get_class($request), 'Phalcon\Http\Request');
+
+		$response = $factoryDefault->get('response');
+		$this->assertEquals(get_class($response), 'Phalcon\Http\Response');
+
+		$filter = $factoryDefault->get('filter');
+		$this->assertEquals(get_class($filter), 'Phalcon\Filter');
+
+		$url = $factoryDefault->get('url');
+		$this->assertEquals(get_class($url), 'Phalcon\Mvc\Url');
+
+		$dispatcher = $factoryDefault->get('dispatcher');
+		$this->assertEquals(get_class($dispatcher), 'Phalcon\Mvc\Dispatcher');
+
+		$modelsManager = $factoryDefault->get('modelsManager');
+		$this->assertEquals(get_class($modelsManager), 'Phalcon\Mvc\Model\Manager');
 	}
 
 }

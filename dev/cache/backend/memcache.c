@@ -467,6 +467,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 				PHALCON_INIT_VAR(r1);
 				is_not_equal_function(r1, r0, prefix TSRMLS_CC);
 				if (zend_is_true(r1)) {
+					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_be7f_0;
 				}
 			}

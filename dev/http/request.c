@@ -707,6 +707,63 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 }
 
 /**
+ * Check if HTTP method match any of the passed methods
+ *
+ * @param string|array
+ */
+PHP_METHOD(Phalcon_Http_Request, isMethod){
+
+	zval *methods = NULL, *http_method = NULL, *is_equals = NULL, *method = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &methods) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(http_method);
+	PHALCON_CALL_METHOD(http_method, this_ptr, "getmethod", PH_NO_CHECK);
+	if (Z_TYPE_P(methods) == IS_STRING) {
+		PHALCON_INIT_VAR(is_equals);
+		is_equal_function(is_equals, methods, http_method TSRMLS_CC);
+		
+		RETURN_NCTOR(is_equals);
+	} else {
+		if (!phalcon_valid_foreach(methods TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(methods);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		fes_ac06_0:
+			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				goto fee_ac06_0;
+			}
+			
+			PHALCON_INIT_VAR(method);
+			ZVAL_ZVAL(method, *hd, 1, 0);
+			PHALCON_INIT_VAR(is_equals);
+			is_equal_function(is_equals, method, http_method TSRMLS_CC);
+			if (zend_is_true(is_equals)) {
+				PHALCON_MM_RESTORE();
+				RETURN_TRUE;
+			}
+			zend_hash_move_forward_ex(ah0, &hp0);
+			goto fes_ac06_0;
+		fee_ac06_0:
+		if(0){}
+		
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
+}
+
+/**
  * Checks whether HTTP method is POST. if $_SERVER['REQUEST_METHOD']=='POST'
  *
  * @return boolean
@@ -901,9 +958,9 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		
 		ah0 = Z_ARRVAL_P(super_files);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_ac06_0:
+		fes_ac06_1:
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_ac06_0;
+				goto fee_ac06_1;
 			}
 			
 			PHALCON_INIT_VAR(file);
@@ -913,8 +970,8 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(request_file, "__construct", file, PH_CHECK);
 			phalcon_array_append(&files, request_file, PH_SEPARATE TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_ac06_0;
-		fee_ac06_0:
+			goto fes_ac06_1;
+		fee_ac06_1:
 		
 		
 		RETURN_CTOR(files);
@@ -995,9 +1052,9 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	
 	ah0 = Z_ARRVAL_P(parts);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_ac06_1:
+	fes_ac06_2:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_ac06_1;
+			goto fee_ac06_2;
 		}
 		
 		PHALCON_INIT_VAR(part);
@@ -1029,8 +1086,8 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		phalcon_array_update_string(&quality_part, SL("quality"), &quality, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&returned_parts, quality_part, PH_SEPARATE TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_ac06_1;
-	fee_ac06_1:
+		goto fes_ac06_2;
+	fee_ac06_2:
 	
 	
 	RETURN_CTOR(returned_parts);
@@ -1073,9 +1130,9 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	
 	ah0 = Z_ARRVAL_P(quality_parts);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_ac06_2:
+	fes_ac06_3:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_ac06_2;
+			goto fee_ac06_3;
 		}
 		
 		PHALCON_INIT_VAR(accept);
@@ -1102,8 +1159,8 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 		PHALCON_SEPARATE(i);
 		increment_function(i);
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_ac06_2;
-	fee_ac06_2:
+		goto fes_ac06_3;
+	fee_ac06_3:
 	
 	
 	RETURN_CCTOR(selected_name);

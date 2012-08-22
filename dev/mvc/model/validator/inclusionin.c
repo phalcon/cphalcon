@@ -51,9 +51,9 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 
-	zval *record = NULL, *field_name = NULL, *domain = NULL, *value = NULL;
+	zval *record = NULL, *field_name = NULL, *is_set = NULL, *domain = NULL, *value = NULL;
+	zval *is_in_array = NULL, *joined_domain = NULL, *message = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -74,9 +74,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "domain", 1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "issetoption", c1, PH_NO_CHECK);
-	if (!zend_is_true(r0)) {
+	PHALCON_INIT_VAR(is_set);
+	PHALCON_CALL_METHOD_PARAMS_1(is_set, this_ptr, "issetoption", c1, PH_NO_CHECK);
+	if (!zend_is_true(is_set)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator");
 		return;
 	}
@@ -94,18 +94,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CALL_FUNC_PARAMS_2(r1, "in_array", value, domain);
-	if (!zend_is_true(r1)) {
+	PHALCON_INIT_VAR(is_in_array);
+	PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", value, domain);
+	if (!zend_is_true(is_in_array)) {
 		PHALCON_INIT_VAR(c3);
 		ZVAL_STRING(c3, ", ", 1);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_fast_join(r2, c3, domain TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r3);
-		PHALCON_CONCAT_SVSV(r3, "Value of field '", field_name, "' must be part of list: ", r2);
+		PHALCON_INIT_VAR(joined_domain);
+		phalcon_fast_join(joined_domain, c3, domain TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(message);
+		PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must be part of list: ", joined_domain);
+		
 		PHALCON_INIT_VAR(c4);
 		ZVAL_STRING(c4, "inclusion", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r3, field_name, c4, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, c4, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

@@ -680,6 +680,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				PHALCON_INIT_VAR(status);
 				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_ecde_1;
 				}
 			}
