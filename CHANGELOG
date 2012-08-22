@@ -2,6 +2,10 @@
 - Removed support for Twig and Mustache
 - Added PhalconQL (PHQL), a high level query language directly engaged with the Phalcon\Mvc\Model component
 - Multiples refactorizations removing unused code
+- Added support to match routes on a determined individual or set of HTTP methods
+- Added support for named parameters without requiring a regular expression in Phalcon\Mvc\Router
+- Added Phalcon\Mvc\Router\Route to encapsulate the information of a route
+- Added Phalcon\Mvc\Micro to create applications in a micro-framework style
 
 0.5.0a3
  - Added Phalcon\DI as dependency injector container
