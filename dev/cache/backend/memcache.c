@@ -150,9 +150,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 
-	zval *key_name = NULL, *lifetime = NULL, *backend = NULL, *front_end = NULL;
-	zval *prefixed_key = NULL, *cached_content = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *key_name = NULL, *lifetime = NULL, *memcache = NULL, *backend = NULL;
+	zval *front_end = NULL, *prefixed_key = NULL, *cached_content = NULL;
+	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -167,10 +167,13 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 		ZVAL_NULL(lifetime);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (!zend_is_true(t0)) {
+	PHALCON_INIT_VAR(memcache);
+	phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+	if (!zend_is_true(memcache)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "_connect", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(memcache);
+		phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 	
 	PHALCON_INIT_VAR(backend);
@@ -179,18 +182,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	PHALCON_INIT_VAR(front_end);
 	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, t1, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, t0, key_name);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t2);
-	phalcon_read_property(&t2, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	
 	PHALCON_INIT_VAR(cached_content);
-	PHALCON_CALL_METHOD_PARAMS_1(cached_content, t2, "get", prefixed_key, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(cached_content, memcache, "get", prefixed_key, PH_NO_CHECK);
 	if (Z_TYPE_P(cached_content) == IS_BOOL && !Z_BVAL_P(cached_content)) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

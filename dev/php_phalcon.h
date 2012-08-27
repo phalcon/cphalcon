@@ -71,3 +71,12 @@ extern zend_module_entry phalcon_module_entry;
 #ifndef PHP_FE_END
 	#define PHP_FE_END { NULL, NULL, NULL, 0, 0 }
 #endif
+
+/** Define FASTCALL */
+#if defined(__GNUC__) && ZEND_GCC_VERSION >= 3004 && defined(__i386__)
+# define PHALCON_FASTCALL __attribute__((fastcall))
+#elif defined(_MSC_VER) && defined(_M_IX86)
+# define PHALCON_FASTCALL __fastcall
+#else
+# define PHALCON_FASTCALL
+#endif

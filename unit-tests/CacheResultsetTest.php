@@ -72,7 +72,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = $cache->get('test-resultset');
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robots), 3);
 		$this->assertEquals($robots->count(), 3);
 

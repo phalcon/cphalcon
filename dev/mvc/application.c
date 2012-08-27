@@ -51,7 +51,7 @@ PHP_METHOD(Phalcon_Mvc_Application, setDI){
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Error Processing Request");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (!zend_is_true(dependency_injector)) {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "A dependency injection object is required to access internal services");
 		return;
 	}

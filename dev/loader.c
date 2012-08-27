@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	if (zend_is_true(events_manager)) {
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "loader:beforeCheckClass", 1);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	if (eval_int) {
 		PHALCON_INIT_VAR(file_path);
 		phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY_CC);
-		if (zend_is_true(events_manager)) {
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(c1);
@@ -356,7 +356,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							PHALCON_CONCAT_VVSV(r4, directory, file_name, ".", extension);
 							PHALCON_INIT_VAR(path);
 							phalcon_fast_str_replace(path, namespace_separator, ds, r4 TSRMLS_CC);
-							if (zend_is_true(events_manager)) {
+							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 								phalcon_update_property_zval(this_ptr, SL("_checkedPath"), path TSRMLS_CC);
 								
 								PHALCON_INIT_VAR(c4);
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							}
 							
 							if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
-								if (zend_is_true(events_manager)) {
+								if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 									phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 									
 									PHALCON_INIT_VAR(c5);
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			ZVAL_ZVAL(extension, *hd, 1, 0);
 			PHALCON_INIT_VAR(path);
 			PHALCON_CONCAT_VVSV(path, directory, class_name, ".", extension);
-			if (zend_is_true(events_manager)) {
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				phalcon_update_property_zval(this_ptr, SL("_checkedPath"), path TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(c6);
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		goto fes_0c08_2;
 	fee_0c08_2:
 	
-	if (zend_is_true(events_manager)) {
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(c7);
 		ZVAL_STRING(c7, "loader:afterCheckClass", 1);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", c7, this_ptr, PH_NO_CHECK);

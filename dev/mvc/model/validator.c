@@ -99,8 +99,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	if (!field) {
 		PHALCON_ALLOC_ZVAL_MM(field);
 		ZVAL_NULL(field);
-	} else {
-		PHALCON_SEPARATE_PARAM(field);
 	}
 	
 	if (!type) {
@@ -110,10 +108,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		PHALCON_SEPARATE_PARAM(type);
 	}
 	
-	if (!zend_is_true(field)) {
-		PHALCON_INIT_VAR(field);
-		phalcon_read_property(&field, this_ptr, SL("_fieldName"), PH_NOISY_CC);
-	}
 	if (!zend_is_true(type)) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);

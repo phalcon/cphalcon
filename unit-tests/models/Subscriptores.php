@@ -6,8 +6,26 @@ use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
 use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
 
+use Phalcon\Mvc\Model\Message as Message;
+
 class Subscriptores extends Phalcon\Mvc\Model
 {
+
+	public function beforeValidation()
+	{
+		if ($this->email == 'marina@hotmail.com') {
+			$this->appendMessage(new Message('Sorry Marina, but your are not allowed here'));
+			return false;
+		}
+	}
+
+	public function beforeDelete()
+	{
+		if ($this->email == 'fuego@hotmail.com') {
+			$this->appendMessage(new Message('Sorry this cannot be deleted'));
+			return false;
+		}
+	}
 
 	public function validation()
 	{

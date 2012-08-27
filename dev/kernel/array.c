@@ -30,7 +30,7 @@
 /**
  * Check if index exists on an array zval
  */
-int phalcon_array_isset(const zval *arr, zval *index){
+int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 
 	zval *copy;
 	int exists, copied = 0;
@@ -71,7 +71,7 @@ int phalcon_array_isset(const zval *arr, zval *index){
 /**
  * Check if char index exists on an array zval
  */
-int phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
+int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
@@ -81,7 +81,7 @@ int phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
 /**
  * Check if char index exists on an array zval
  */
-int phalcon_array_isset_long(const zval *arr, ulong index){
+int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
@@ -91,7 +91,7 @@ int phalcon_array_isset_long(const zval *arr, ulong index){
 /**
  * Unsets zval index from array
  */
-int phalcon_array_unset(zval *arr, zval *index){
+int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index){
 
 	zval *copy;
 	int exists, copied = 0;
@@ -132,7 +132,7 @@ int phalcon_array_unset(zval *arr, zval *index){
 /**
  * Unsets string index from array
  */
-int phalcon_array_unset_string(zval *arr, char *index, uint index_length){
+int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
@@ -142,7 +142,7 @@ int phalcon_array_unset_string(zval *arr, char *index, uint index_length){
 /**
  * Unsets long index from array
  */
-int phalcon_array_unset_long(zval *arr, ulong index){
+int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
@@ -183,7 +183,7 @@ int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
 	return phalcon_array_append(arr, zvalue, separate TSRMLS_CC);
 }
 
-int phalcon_array_append_string(zval **arr, char *value, int value_length, int separate TSRMLS_DC){
+int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate TSRMLS_DC){
 
 	zval *zvalue;
 
@@ -587,6 +587,34 @@ void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval *
 }
 
 /**
+ * Updates multi-dimensional array with two zval indexes
+ */
+void phalcon_array_update_multi_string_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
+
+	zval *temp;
+
+	ALLOC_INIT_ZVAL(temp);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		phalcon_array_fetch(&temp, *arr, index1, PH_SILENT_CC);
+	}
+
+	if (Z_REFCOUNT_P(temp) > 1) {
+		phalcon_array_update_zval(arr, index1, &temp, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+
+	if (Z_TYPE_P(temp) != IS_ARRAY) {
+		convert_to_array(temp);
+		phalcon_array_update_zval(arr, index1, &temp, PH_COPY TSRMLS_CC);
+	}
+
+	phalcon_array_update_string(&temp, index2, index2_length, value, flags | PH_COPY TSRMLS_CC);
+
+	zval_ptr_dtor(&temp);
+
+}
+
+/**
  * Updates multi-dimensional arrays with two long indices
  *
  * $foo[10][4] = $x
@@ -619,7 +647,7 @@ void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2
  *
  * $foo[10]["lol"] = $x
  */
-void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, int index2_length, zval **value, int flags TSRMLS_DC){
+void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 

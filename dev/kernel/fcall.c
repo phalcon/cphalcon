@@ -299,6 +299,7 @@ inline int phalcon_call_method_params_normal(zval *return_value, zval *object, c
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
+		return_value = NULL;
 	}
 
 	if (EG(exception)){
@@ -348,12 +349,21 @@ int phalcon_call_method_three_params(zval *return_value, zval *object, char *met
 }
 
 /**
- * Call method on an object that requires only 3 parameters
+ * Call method on an object that requires only 4 parameters
  *
  */
 int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int check, int noreturn TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4 };
 	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, check, noreturn TSRMLS_CC);
+}
+
+/**
+ * Call method on an object that requires only 5 parameters
+ *
+ */
+int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int check, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4, param5 };
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 5, params, check, noreturn TSRMLS_CC);
 }
 
 /**

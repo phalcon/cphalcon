@@ -23,6 +23,16 @@ use Phalcon\Mvc\Model\Message as ModelMessage;
 class ModelsTest extends PHPUnit_Framework_TestCase
 {
 
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
+
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
+
 	public function modelsAutoloader($className)
 	{
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
@@ -86,8 +96,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 	}
 
 	protected function _executeTests($di){
-
-		spl_autoload_register(array($this, 'modelsAutoloader'));
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
@@ -265,7 +273,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($persona->delete());
 		$this->assertEquals($before-1, People::count());
 
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
 

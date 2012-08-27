@@ -305,4 +305,19 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testNamedRoutes()
+	{
+
+		Phalcon\Mvc\Router\Route::reset();
+
+		$router = new Phalcon\Mvc\Router(false);
+
+		$usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
+		$usersAdd = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
+
+		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
+		$this->assertEquals($usersFind, $router->getRouteById(0));
+
+	}
+
 }

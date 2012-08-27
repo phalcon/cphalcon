@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "main/php_output.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
 
@@ -48,12 +49,12 @@
  *
  * @param string $path
  * @param array $params
+ * @param bool $mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
-	zval *path = NULL, *params = NULL, *value = NULL, *key = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *path = NULL, *params = NULL, *must_clean = NULL, *value = NULL, *key = NULL, *contents = NULL;
+	zval *view = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -64,12 +65,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &path, &params) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &path, &params, &must_clean) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_CALL_FUNC_NORETURN("ob_clean");
+	if (Z_TYPE_P(must_clean) == IS_BOOL && Z_BVAL_P(must_clean)) {
+		php_end_ob_buffer(0, 1 TSRMLS_CC);
+		PHALCON_CALL_FUNC_NORETURN("ob_clean");
+	}
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
 	}
@@ -95,13 +99,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC(r0, "ob_get_contents");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "setcontent", r0, PH_NO_CHECK);
+	if (Z_TYPE_P(must_clean) == IS_BOOL && Z_BVAL_P(must_clean)) {
+		PHALCON_INIT_VAR(contents);
+		php_ob_get_buffer(contents TSRMLS_CC);
+		PHALCON_INIT_VAR(contents);
+		PHALCON_CALL_FUNC(contents, "ob_get_contents");
+		
+		PHALCON_INIT_VAR(view);
+		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);
+	}
 	
 	PHALCON_MM_RESTORE();
 }

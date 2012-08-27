@@ -32,32 +32,65 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "mvc/model/query/scanner.h"
-#include "mvc/model/query/lang.h"
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 
-	zval *phql = NULL;
-	zval *r0 = NULL;
+	zval *success = NULL, *model = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &success, &model) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (Z_TYPE_P(phql) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "PHQL statement must be string");
-		return;
+	phalcon_update_property_zval(this_ptr, SL("_success"), success TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
+
+	zval *model = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(model);
+	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(model);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
+
+	zval *model = NULL, *messages = NULL, *empty_arr = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(model);
+	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	if (Z_TYPE_P(model) != IS_NULL) {
+		PHALCON_INIT_VAR(messages);
+		PHALCON_CALL_METHOD(messages, model, "getmessages", PH_NO_CHECK);
+		
+		RETURN_CCTOR(messages);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	if (phql_parse_phql(r0, phql TSRMLS_CC) == FAILURE) {
-		return;
-	}
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(empty_arr);
+	array_init(empty_arr);
+	
+	RETURN_CTOR(empty_arr);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
+
+	zval *success = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(success);
+	phalcon_read_property(&success, this_ptr, SL("_success"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(success);
 }
 

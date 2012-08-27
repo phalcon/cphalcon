@@ -213,7 +213,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
-		tmp = zend_read_property(ce, object, property_name, property_length, 1 TSRMLS_CC);
+		tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 		Z_ADDREF_P(tmp);
 		zval_ptr_dtor(result);
 		*result = tmp;

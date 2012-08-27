@@ -78,15 +78,16 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo_statement = NULL, *row = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "fetch", PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(row);
+	PHALCON_CALL_METHOD(row, pdo_statement, "fetch", PH_NO_CHECK);
+	
+	RETURN_CCTOR(row);
 }
 
 /**
@@ -96,15 +97,16 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo_statement = NULL, *row_count = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "rowcount", PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(row_count);
+	PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount", PH_NO_CHECK);
+	
+	RETURN_CCTOR(row_count);
 }
 
 /**
@@ -213,12 +215,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 
-	zval *t0 = NULL;
+	zval *pdo_statement = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_result"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(pdo_statement);
 }
 

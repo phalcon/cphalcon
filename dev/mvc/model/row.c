@@ -33,27 +33,14 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/fcall.h"
-#include "kernel/array.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Mvc\Model\Row
  *
- * This component allows to Phalcon\Mvc\Model returns grouped resultsets.
+ * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
+ * This objects implements the ArrayAccess interfase to allow access the object as object->x or array[x].
  */
-
-PHP_METHOD(Phalcon_Mvc_Model_Row, __construct){
-
-	zval *a0 = NULL;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	zend_update_property(phalcon_mvc_model_row_ce, this_ptr, SL("_columns"), a0 TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
-}
 
 PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 
@@ -62,133 +49,99 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 }
 
 /**
- * Assigns values to a row from an array returning a new row
+ * Checks whether offset exists in the row
  *
- * @param array $result
- * @return Phalcon\Mvc\Model $result
+ * @param int $index
+ * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, dumpResult){
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
-	zval *result = NULL, *object_row = NULL, *columns = NULL, *number_columns = NULL;
-	zval *value = NULL, *field = NULL;
-	zval *i0 = NULL;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
-	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
+	zval *index = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &result) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	if (phalcon_clone(i0, this_ptr TSRMLS_CC) == FAILURE){
-		return;
+	eval_int = phalcon_isset_property_zval(this_ptr, index TSRMLS_CC);
+	if (eval_int) {
+		PHALCON_MM_RESTORE();
+		RETURN_TRUE;
 	}
-	PHALCON_CPY_WRT(object_row, i0);
-	
-	PHALCON_INIT_VAR(columns);
-	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_columns);
-	phalcon_fast_count(number_columns, columns TSRMLS_CC);
-	if (zend_is_true(number_columns)) {
-		PHALCON_INIT_VAR(columns);
-		array_init(columns);
-		if (!phalcon_valid_foreach(result TSRMLS_CC)) {
-			return;
-		}
-		
-		ah0 = Z_ARRVAL_P(result);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_4c15_0:
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_4c15_0;
-			}
-			
-			PHALCON_INIT_VAR(field);
-			PHALCON_GET_FOREACH_KEY(field, ah0, hp0);
-			PHALCON_INIT_VAR(value);
-			ZVAL_ZVAL(value, *hd, 1, 0);
-			phalcon_array_update_zval_bool(&columns, field, 1, PH_SEPARATE TSRMLS_CC);
-			phalcon_update_property_zval_zval(object_row, field, value TSRMLS_CC);
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_4c15_0;
-		fee_4c15_0:
-		
-		phalcon_update_property_zval(object_row, SL("_columns"), columns TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
-	} else {
-		if (!phalcon_valid_foreach(result TSRMLS_CC)) {
-			return;
-		}
-		
-		ah1 = Z_ARRVAL_P(result);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		fes_4c15_1:
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-				goto fee_4c15_1;
-			}
-			
-			PHALCON_INIT_VAR(field);
-			PHALCON_GET_FOREACH_KEY(field, ah1, hp1);
-			PHALCON_INIT_VAR(value);
-			ZVAL_ZVAL(value, *hd, 1, 0);
-			phalcon_update_property_zval_zval(object_row, field, value TSRMLS_CC);
-			zend_hash_move_forward_ex(ah1, &hp1);
-			goto fes_4c15_1;
-		fee_4c15_1:
-		
-		phalcon_update_property_zval(object_row, SL("_columns"), columns TSRMLS_CC);
-	}
-	
-	
-	RETURN_CCTOR(object_row);
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 
 /**
- * Reads an attribute value by its name
+ * Gets row in a specific position of the row
  *
- * @param string $property
- * @return mixed
+ * @param int $index
+ * @return string|Phalcon\Mvc\Model
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute){
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
-	zval *property = NULL, *value = NULL;
+	zval *index = NULL, *value = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(value);
-	phalcon_read_property_zval(&value, this_ptr, property, PH_NOISY_CC);
-	
-	RETURN_CCTOR(value);
+	eval_int = phalcon_isset_property_zval(this_ptr, index TSRMLS_CC);
+	if (eval_int) {
+		PHALCON_INIT_VAR(value);
+		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
+		
+		RETURN_CCTOR(value);
+	}
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
+	return;
 }
 
 /**
- * Magic method sleep
+ * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
- * @return array
+ * @param int $index
+ * @param Phalcon\Mvc\Model $value
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, sleep){
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 
-	zval *attributes = NULL;
+	zval *index = NULL, *value = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(attributes);
-	array_init(attributes);
-	add_next_index_stringl(attributes, SL("_columns"), 1);
 	
-	RETURN_CTOR(attributes);
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	return;
+}
+
+/**
+ * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
+ *
+ * @param int $offset
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
+
+	zval *offset = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
+	return;
 }
 

@@ -124,45 +124,6 @@ int phalcon_vdump(zval *uservar TSRMLS_DC){
     return SUCCESS;
 }
 
-/**
- * Internal fast zval dump
- */
-int phalcon_vpdump(const zval **uservar TSRMLS_DC){
-     if(!uservar){
-		fprintf(phalcon_log, "Null pointer");
-		return SUCCESS;
-     }
-     switch(Z_TYPE_PP(uservar)){
-        case IS_NULL:
-            fprintf(phalcon_log, "NULL\n");
-            break;
-        case IS_BOOL:
-            fprintf(phalcon_log, "Boolean: %s\n", Z_LVAL_PP(uservar) ? "TRUE" : "FALSE");
-            break;
-        case IS_LONG:
-            fprintf(phalcon_log, "Long: %ld\n", Z_LVAL_PP(uservar));
-            break;
-        case IS_DOUBLE:
-            fprintf(phalcon_log, "Double: %f\n", Z_DVAL_PP(uservar));
-            break;
-        case IS_STRING:
-            fprintf(phalcon_log, "String: %s\n", Z_STRVAL_PP(uservar));
-            break;
-        case IS_RESOURCE:
-            fprintf(phalcon_log, "Resource\n");
-            break;
-        case IS_ARRAY:
-            fprintf(phalcon_log, "Array\n");
-            break;
-        case IS_OBJECT:
-            fprintf(phalcon_log, "Object\n");
-            break;
-        default:
-            fprintf(phalcon_log, "Unknown\n");
-    }
-    return SUCCESS;
-}
-
 int phalcon_dump_ce(zend_class_entry *ce TSRMLS_DC){
 	char *message = emalloc(sizeof(char *)*120);
 	if(ce){

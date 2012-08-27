@@ -105,7 +105,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
 		$number = $robot->countRobotsParts();
@@ -115,7 +115,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEquals($part, false);
 
 		$robotsParts = $part->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset');
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
 		$number = $part->countRobotsParts();

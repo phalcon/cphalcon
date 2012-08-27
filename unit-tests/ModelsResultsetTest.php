@@ -149,7 +149,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 
 		$this->_applyTests($robots);
 
@@ -164,7 +164,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset');
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 
 		$this->_applyTests($robots);
 

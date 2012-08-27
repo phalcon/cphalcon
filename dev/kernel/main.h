@@ -35,18 +35,6 @@
 
 #define PH_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
 
-/** Experimental Features **/
-#define PH_EXPERIMENTAL_CALL 0
-
-/** Check whether we can use experimental call yet */
-#ifdef PHP_WIN32
-#define PH_EXPERIMENTAL_CALL 0
-#else
-#if PHP_VERSION_ID < 50400
-#define PH_EXPERIMENTAL_CALL 0
-#endif
-#endif
-
 #define SL(str) ZEND_STRL(str)
 
 /** SPL dependencies */

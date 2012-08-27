@@ -1,3 +1,4 @@
+<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -17,47 +18,30 @@
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+class RestHandler{
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+	public function find()
+	{
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
-#include "kernel/main.h"
-#include "kernel/memory.h"
-
-#include "kernel/exception.h"
-#include "kernel/fcall.h"
-#include "mvc/model/query/scanner.h"
-#include "mvc/model/query/lang.h"
-
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
-
-	zval *phql = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
 	}
 
-	if (Z_TYPE_P(phql) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "PHQL statement must be string");
-		return;
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	if (phql_parse_phql(r0, phql TSRMLS_CC) == FAILURE) {
-		return;
-	}
-	RETURN_CTOR(r0);
 }
 
+class MicroMvcTest extends PHPUnit_Framework_TestCase
+{
+
+	public function testMicroClass()
+	{
+
+
+		$handler = new RestHandler();
+
+		$app = new Phalcon\Mvc\Micro();
+
+		$route = $micro->get('/api/site', array($handler, 'find'));
+
+		$app->handle();
+
+	}
+
+}

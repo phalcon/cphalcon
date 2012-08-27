@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	}
 	
 	PHALCON_CPY_WRT(route_id, unique_id);
-	phalcon_update_property_zval(this_ptr, SL("_routeId"), route_id TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_id"), route_id TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(t0);
 	ZVAL_LONG(t0, 1);
@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	
 	PHALCON_INIT_VAR(have_double_dot);
 	phalcon_fast_strpos_str(have_double_dot, pattern, SL(":") TSRMLS_CC);
-	if (zend_is_true(have_double_dot)) {
+	if (Z_TYPE_P(have_double_dot) != IS_BOOL || (Z_TYPE_P(have_double_dot) == IS_BOOL && Z_BVAL_P(have_double_dot))) {
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "/:module", 1);
 		PHALCON_INIT_VAR(compiled_pattern);
@@ -176,10 +176,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern = NULL, *paths = NULL, *parts = NULL, *part_zero = NULL, *controller_name = NULL;
-	zval *route_paths = NULL, *part_one = NULL, *one = NULL, *set_order = NULL;
-	zval *first = NULL, *pcre_pattern = NULL, *have_bracket = NULL, *matches = NULL;
-	zval *match_position = NULL, *have_variables = NULL, *match = NULL;
-	zval *match_zero = NULL, *match_one = NULL, *match_two = NULL, *replace_pattern = NULL;
+	zval *route_paths = NULL, *part_one = NULL, *one = NULL, *first = NULL, *pcre_pattern = NULL;
+	zval *have_bracket = NULL, *matches = NULL, *match_position = NULL;
+	zval *set_order = NULL, *have_variables = NULL, *match = NULL, *match_zero = NULL;
+	zval *match_one = NULL, *match_two = NULL, *replace_pattern = NULL;
 	zval *new_pcre_pattern = NULL, *compiled_pattern = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
 	zval *t0 = NULL;
@@ -234,10 +234,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 2);
-	PHALCON_CPY_WRT(set_order, t0);
-	
 	PHALCON_INIT_VAR(c1);
 	ZVAL_LONG(c1, 0);
 	
@@ -253,12 +249,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		
 		PHALCON_INIT_VAR(have_bracket);
 		phalcon_fast_strpos_str(have_bracket, pcre_pattern, SL("{") TSRMLS_CC);
-		if (zend_is_true(have_bracket)) {
+		if (Z_TYPE_P(have_bracket) != IS_BOOL || (Z_TYPE_P(have_bracket) == IS_BOOL && Z_BVAL_P(have_bracket))) {
 			PHALCON_INIT_VAR(matches);
 			ZVAL_NULL(matches);
 			
 			PHALCON_INIT_VAR(match_position);
 			ZVAL_LONG(match_position, 1);
+			
+			PHALCON_INIT_VAR(t0);
+			ZVAL_LONG(t0, 2);
+			PHALCON_CPY_WRT(set_order, t0);
 			
 			PHALCON_INIT_VAR(p0[0]);
 			ZVAL_STRING(p0[0], "#{([a-zA-Z][a-zA-Z0-9\\_\\-]+)(:([^}]+))*}#", 1);
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 						PHALCON_CONCAT_SVS(replace_pattern, "(", match_two, ")");
 					} else {
 						PHALCON_INIT_VAR(replace_pattern);
-						ZVAL_STRING(replace_pattern, "(.*)", 1);
+						ZVAL_STRING(replace_pattern, "([^/]*)", 1);
 					}
 					
 					PHALCON_INIT_VAR(new_pcre_pattern);
@@ -329,13 +329,56 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	PHALCON_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Mvc_Router_Route, getName){
+
+	zval *name = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(name);
+	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(name);
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Route, setName){
+
+	zval *name = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	
+	RETURN_CCTOR(this_ptr);
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
+
+	zval *http_methods = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
+	
+	RETURN_CCTOR(this_ptr);
+}
+
 PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId){
 
 	zval *route_id = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(route_id);
-	phalcon_read_property(&route_id, this_ptr, SL("_routeId"), PH_NOISY_CC);
+	phalcon_read_property(&route_id, this_ptr, SL("_id"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(route_id);
 }
@@ -373,22 +416,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths){
 	RETURN_CCTOR(paths);
 }
 
-PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods){
-
-	zval *http_methods = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &http_methods) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_methods"), http_methods TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
 PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods){
 
 	zval *methods = NULL;
@@ -398,5 +425,17 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods){
 	phalcon_read_property(&methods, this_ptr, SL("_methods"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(methods);
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
+
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(t0);
+	ZVAL_LONG(t0, 0);
+	phalcon_update_static_property(SL("phalcon\\mvc\\router\\route"), SL("_uniqueId"), t0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
 }
 

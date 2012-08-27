@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (!zend_is_true(headers)) {
+	if (Z_TYPE_P(headers) == IS_NULL) {
 		PHALCON_INIT_VAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
 		PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
@@ -344,7 +344,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	} else {
 		PHALCON_INIT_VAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (!zend_is_true(dependency_injector)) {
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
@@ -448,7 +448,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (zend_is_true(headers)) {
+	if (Z_TYPE_P(headers) != IS_NULL) {
 		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
 	}
 	
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Http_Response, send){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (zend_is_true(headers)) {
+	if (Z_TYPE_P(headers) != IS_NULL) {
 		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
 	}
 	

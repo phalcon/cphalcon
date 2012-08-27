@@ -72,6 +72,8 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_CROSS,         "CROSS" },
   { PHQL_T_OUTER,         "OUTER" },
   { PHQL_T_FULL,          "FULL" },
+  { PHQL_T_ASC,           "ASC" },
+  { PHQL_T_DESC,          "DESC" },
   {  0, NULL }
 };
 
@@ -95,15 +97,12 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 
-	zval *error_msg, *exception;
+	zval *error_msg;
+
+	ZVAL_NULL(result);
 
 	if(phql_internal_parse_phql(&result, Z_STRVAL_P(phql), &error_msg TSRMLS_CC) == FAILURE){
-		PHALCON_ALLOC_ZVAL_MM(exception);
-		object_init_ex(exception, phalcon_mvc_model_exception_ce);
-		if (phalcon_call_method_one_param(NULL, exception, "__construct", strlen("__construct"), error_msg, PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
-			return FAILURE;
-		}
-		phalcon_throw_exception(exception TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
 
@@ -123,6 +122,11 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
 	token = emalloc(sizeof(phql_scanner_token));
+
+	if (!phql) {
+		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
+		return FAILURE;
+	}
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -263,6 +267,12 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				break;
 			case PHQL_T_HAVING:
 				phql_(phql_parser, PHQL_HAVING, NULL, parser_status);
+				break;
+			case PHQL_T_ASC:
+				phql_(phql_parser, PHQL_ASC, NULL, parser_status);
+				break;
+			case PHQL_T_DESC:
+				phql_(phql_parser, PHQL_DESC, NULL, parser_status);
 				break;
 			case PHQL_T_IN:
 				phql_(phql_parser, PHQL_IN, NULL, parser_status);

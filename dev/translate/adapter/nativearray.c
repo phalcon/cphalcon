@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 	}
 
 	PHALCON_INIT_VAR(translate);
-	phalcon_read_property(&translate, this_ptr, SL("_traslate"), PH_NOISY_CC);
+	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(translate, index);
 	
 	PHALCON_INIT_VAR(r0);

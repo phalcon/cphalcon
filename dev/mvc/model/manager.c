@@ -107,6 +107,43 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
 }
 
 /**
+ * Sets the event manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\Manager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(events_manager);
+}
+
+/**
  * Initializes a model in the model manager
  *
  * @param Phalcon\Mvc\Model $model
@@ -1028,9 +1065,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 
-	zval *model = NULL, *model_name = NULL, *has_one = NULL;
+	zval *model = NULL, *model_name = NULL, *has_one = NULL, *empty_array = NULL;
 	zval *r0 = NULL;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -1053,10 +1089,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 		RETURN_CCTOR(r0);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
 	
-	RETURN_CTOR(a0);
+	RETURN_CTOR(empty_array);
 }
 
 /**
@@ -1090,8 +1126,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
-	zval *a = NULL, *b = NULL, *belongs_to = NULL, *has_many = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *a = NULL, *b = NULL, *belongs_to = NULL, *relation = NULL, *has_many = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -1111,10 +1147,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
 			phalcon_array_fetch(&r1, belongs_to, a, PH_NOISY_CC);
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			phalcon_array_fetch(&r2, r1, b, PH_NOISY_CC);
+			PHALCON_INIT_VAR(relation);
+			phalcon_array_fetch(&relation, r1, b, PH_NOISY_CC);
 			
-			RETURN_CCTOR(r2);
+			RETURN_CCTOR(relation);
 		}
 	}
 	
@@ -1122,16 +1158,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(has_many, a);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r3);
-		phalcon_array_fetch(&r3, has_many, a, PH_NOISY_CC);
-		eval_int = phalcon_array_isset(r3, b);
+		PHALCON_ALLOC_ZVAL_MM(r2);
+		phalcon_array_fetch(&r2, has_many, a, PH_NOISY_CC);
+		eval_int = phalcon_array_isset(r2, b);
 		if (eval_int) {
-			PHALCON_ALLOC_ZVAL_MM(r4);
-			phalcon_array_fetch(&r4, has_many, a, PH_NOISY_CC);
-			PHALCON_ALLOC_ZVAL_MM(r5);
-			phalcon_array_fetch(&r5, r4, b, PH_NOISY_CC);
+			PHALCON_ALLOC_ZVAL_MM(r3);
+			phalcon_array_fetch(&r3, has_many, a, PH_NOISY_CC);
+			PHALCON_INIT_VAR(relation);
+			phalcon_array_fetch(&relation, r3, b, PH_NOISY_CC);
 			
-			RETURN_CCTOR(r5);
+			RETURN_CCTOR(relation);
 		}
 	}
 	
@@ -1172,11 +1208,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &phql, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &phql, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!placeholders) {
+		PHALCON_INIT_VAR(placeholders);
+		array_init(placeholders);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (!zend_is_true(dependency_injector)) {

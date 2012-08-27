@@ -104,10 +104,9 @@ PHP_METHOD(Phalcon_Mvc_Controller, setDI){
 PHP_METHOD(Phalcon_Mvc_Controller, __get){
 
 	zval *property_name = NULL, *dependency_injector = NULL;
-	zval *request = NULL, *response = NULL, *view = NULL, *filter = NULL, *error_msg = NULL;
+	zval *request = NULL, *response = NULL, *view = NULL, *dispatcher = NULL, *filter = NULL;
+	zval *class_name = NULL, *session = NULL, *error_msg = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL;
-	zval *r0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -151,14 +150,11 @@ PHP_METHOD(Phalcon_Mvc_Controller, __get){
 		if (PHALCON_COMPARE_STRING(property_name, "dispatcher")) {
 			PHALCON_INIT_VAR(c3);
 			ZVAL_STRING(c3, "dispatcher", 1);
-			PHALCON_ALLOC_ZVAL_MM(r0);
-			PHALCON_CALL_METHOD_PARAMS_1(r0, dependency_injector, "getshared", c3, PH_NO_CHECK);
-			phalcon_update_property_zval(this_ptr, SL("dispatcher"), r0 TSRMLS_CC);
+			PHALCON_INIT_VAR(dispatcher);
+			PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", c3, PH_NO_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("dispatcher"), dispatcher TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t0);
-			phalcon_read_property(&t0, this_ptr, SL("dispatcher"), PH_NOISY_CC);
-			
-			RETURN_CCTOR(t0);
+			RETURN_CCTOR(dispatcher);
 		}
 		
 		if (PHALCON_COMPARE_STRING(property_name, "filter")) {
@@ -168,10 +164,19 @@ PHP_METHOD(Phalcon_Mvc_Controller, __get){
 			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", c4, PH_NO_CHECK);
 			phalcon_update_property_zval(this_ptr, SL("filter"), filter TSRMLS_CC);
 			
-			PHALCON_ALLOC_ZVAL_MM(t1);
-			phalcon_read_property(&t1, this_ptr, SL("filter"), PH_NOISY_CC);
+			RETURN_CCTOR(filter);
+		}
+		
+		if (PHALCON_COMPARE_STRING(property_name, "session")) {
+			PHALCON_INIT_VAR(class_name);
+			phalcon_get_class(class_name, this_ptr TSRMLS_CC);
 			
-			RETURN_CCTOR(t1);
+			PHALCON_INIT_VAR(session);
+			object_init_ex(session, phalcon_session_namespace_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "__construct", class_name, PH_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("session"), session TSRMLS_CC);
+			
+			RETURN_CTOR(session);
 		}
 	}
 	

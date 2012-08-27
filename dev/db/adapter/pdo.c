@@ -33,10 +33,10 @@
 #include "kernel/memory.h"
 
 #include "kernel/exception.h"
-#include "kernel/array.h"
-#include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -52,10 +52,7 @@
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 
-	zval *descriptor = NULL, *dialect_type = NULL, *dialect_class = NULL;
-	zval *dialect_object = NULL;
-	int eval_int;
-	zend_class_entry *ce0;
+	zval *descriptor = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -68,25 +65,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "$descriptor must be an array");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(descriptor, SL("dialectClass")+1);
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dialect_type);
-		phalcon_read_property(&dialect_type, this_ptr, SL("_dialect"), PH_NOISY_CC);
-		
-		PHALCON_INIT_VAR(dialect_class);
-		PHALCON_CONCAT_SV(dialect_class, "phalcon\\db\\dialect\\", dialect_type);
-	} else {
-		PHALCON_INIT_VAR(dialect_class);
-		phalcon_array_fetch_string(&dialect_class, descriptor, SL("dialectClass"), PH_NOISY_CC);
-	}
-	
-	ce0 = phalcon_fetch_class(dialect_class TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(dialect_object);
-	object_init_ex(dialect_object, ce0);
-	PHALCON_CALL_METHOD_NORETURN(dialect_object, "__construct", PH_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_dialect"), dialect_object TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "connect", descriptor, PH_NO_CHECK);
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -210,7 +190,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	object_init_ex(pdo, ce0);
 	PHALCON_CALL_METHOD_PARAMS_4_NORETURN(pdo, "__construct", dsn, username, password, options, PH_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), pdo TSRMLS_CC);
-	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo", "__construct", descriptor);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -634,646 +613,94 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 }
 
 /**
- * Gets a list of columns
+ * Starts a transaction in the connection
  *
- * @param array $columnList
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, getColumnList){
-
-	zval *column_list = NULL, *dialect = NULL, *transformed_list = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(transformed_list);
-	PHALCON_CALL_METHOD_PARAMS_1(transformed_list, dialect, "getcolumnlist", column_list, PH_NO_CHECK);
-	
-	RETURN_CCTOR(transformed_list);
-}
-
-/**
- * Appends a LIMIT clause to $sqlQuery argument
- *
- * @param  string $sqlQuery
- * @param int $number
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, limit){
-
-	zval *sql_query = NULL, *number = NULL, *dialect = NULL, *sql = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &sql_query, &number) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "limit", sql_query, number, PH_NO_CHECK);
-	
-	RETURN_CCTOR(sql);
-}
-
-/**
- * Generates SQL checking for the existence of a schema.table
- *
- * @param string $tableName
- * @param string $schemaName
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, tableExists){
-
-	zval *table_name = NULL, *schema_name = NULL, *sql = NULL, *num = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "tableexists", table_name, schema_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_NUM") TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(num);
-	PHALCON_CALL_METHOD_PARAMS_2(num, this_ptr, "fetchone", sql, t1, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_long(&r0, num, 0, PH_NOISY_CC);
-	
-	RETURN_CCTOR(r0);
-}
-
-/**
- * Generates SQL checking for the existence of a schema.view
- *
- * @param string $viewName
- * @param string $schemaName
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, viewExists){
-
-	zval *view_name = NULL, *schema_name = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &view_name, &schema_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, this_ptr, "tableexists", view_name, schema_name, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Returns a SQL modified with a FOR UPDATE clause
- *
- * @param string $sqlQuery
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, forUpdate){
-
-	zval *sql_query = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "forupdate", sql_query, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Returns a SQL modified with a LOCK IN SHARE MODE clause
- *
- * @param string $sqlQuery
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, sharedLock){
-
-	zval *sql_query = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_query) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "sharedlock", sql_query, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Creates a table using MySQL SQL
- *
- * @param string $tableName
- * @param string $schemaName
- * @param array $definition
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, createTable){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 
-	zval *table_name = NULL, *schema_name = NULL, *definition = NULL;
-	zval *sql = NULL, *success = NULL;
-	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *t0 = NULL;
-	int eval_int;
+	zval *pdo = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &definition) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(definition) != IS_ARRAY) { 
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_db_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVS(r0, "Invalid definition to create the table '", table_name, "'");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
-		return;
-	}
-	eval_int = phalcon_array_isset_string(definition, SL("columns")+1);
-	if (!eval_int) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
-		return;
-	}
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD(status, pdo, "begintransaction", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_string(&r1, definition, SL("columns"), PH_NOISY_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_fast_count(r2, r1 TSRMLS_CC);
-	if (!zend_is_true(r2)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
-		return;
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "createtable", table_name, schema_name, definition, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_1(success, this_ptr, "execute", sql, PH_NO_CHECK);
-	
-	RETURN_CCTOR(success);
+	RETURN_CCTOR(status);
 }
 
 /**
- * Drops a table from a schema/database
+ * Rollbacks the active transaction in the connection
  *
- * @param string $tableName
- * @param   string $schemaName
- * @param boolean $ifExists
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropTable){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 
-	zval *table_name = NULL, *schema_name = NULL, *if_exists = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &table_name, &schema_name, &if_exists) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!if_exists) {
-		PHALCON_ALLOC_ZVAL_MM(if_exists);
-		ZVAL_BOOL(if_exists, 1);
-	}
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD(status, pdo, "rollback", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "droptable", table_name, schema_name, if_exists, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	RETURN_CCTOR(status);
 }
 
 /**
- * Adds a column to a table
+ * Commits the active transaction in the connection
  *
- * @param string $tableName
- * @param string $schemaName
- * @param Phalcon_Db_Column $column
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, addColumn){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 
-	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "addcolumn", table_name, schema_name, column, PH_NO_CHECK);
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD(status, pdo, "commit", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	RETURN_CCTOR(status);
 }
 
 /**
- * Modifies a table column based on a definition
+ * Checks whether connection is under database transaction
  *
- * @param string $tableName
- * @param string $schemaName
- * @param Phalcon\Db\Column $column
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, modifyColumn){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction){
 
-	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "modifycolumn", table_name, schema_name, column, PH_NO_CHECK);
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD(status, pdo, "intransaction", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	RETURN_CCTOR(status);
 }
 
 /**
- * Drops a column from a table
+ * Return internal PDO handler
  *
- * @param string $tableName
- * @param string $schemaName
- * @param string $columnName
- * @return boolean
+ * @return PDO
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropColumn){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
 
-	zval *table_name = NULL, *schema_name = NULL, *column_name = NULL;
-	zval *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *pdo = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo);
+	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "dropcolumn", table_name, schema_name, column_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Adds an index to a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @param DbIndex $index
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, addIndex){
-
-	zval *table_name = NULL, *schema_name = NULL, *index = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "addindex", table_name, schema_name, index, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Drop an index from a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @param string $indexName
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropIndex){
-
-	zval *table_name = NULL, *schema_name = NULL, *index_name = NULL;
-	zval *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "dropindex", table_name, schema_name, index_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Adds a primary key to a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @param Phalcon\Db\Index $index
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, addPrimaryKey){
-
-	zval *table_name = NULL, *schema_name = NULL, *index = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "addprimarykey", table_name, schema_name, index, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Drops primary key from a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @return boolean
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropPrimaryKey){
-
-	zval *table_name = NULL, *schema_name = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &table_name, &schema_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "dropprimarykey", table_name, schema_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Adds a foreign key to a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @param Phalcon\Db\Reference $reference
- * @return boolean true
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, addForeignKey){
-
-	zval *table_name = NULL, *schema_name = NULL, *reference = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "addforeignkey", table_name, schema_name, reference, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Drops a foreign key from a table
- *
- * @param string $tableName
- * @param string $schemaName
- * @param string $referenceName
- * @return boolean true
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, dropForeignKey){
-
-	zval *table_name = NULL, *schema_name = NULL, *reference_name = NULL;
-	zval *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "dropforeignkey", table_name, schema_name, reference_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * Returns the SQL column definition from a column
- *
- * @param Phalcon\Db\Column $column
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, getColumnDefinition){
-
-	zval *column = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, t0, "getcolumndefinition", column, PH_NO_CHECK);
-	RETURN_CTOR(r0);
-}
-
-/**
- * List all tables on a database
- *
- * @param string $schemaName
- * @return array
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, listTables){
-
-	zval *schema_name = NULL, *sql = NULL, *tables = NULL, *all_tables = NULL, *table = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &schema_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_1(sql, t0, "listtables", schema_name, PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_NUM") TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(tables);
-	PHALCON_CALL_METHOD_PARAMS_2(tables, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(all_tables);
-	array_init(all_tables);
-	if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_7f5d_3:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_7f5d_3;
-		}
-		
-		PHALCON_INIT_VAR(table);
-		ZVAL_ZVAL(table, *hd, 1, 0);
-		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch_long(&r0, table, 0, PH_NOISY_CC);
-		phalcon_array_append(&all_tables, r0, PH_SEPARATE TSRMLS_CC);
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_7f5d_3;
-	fee_7f5d_3:
-	
-	
-	RETURN_CTOR(all_tables);
+	RETURN_CCTOR(pdo);
 }
 

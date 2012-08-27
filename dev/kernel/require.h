@@ -17,4 +17,4 @@
   +------------------------------------------------------------------------+
 */
 
-int phalcon_require(zval *require_path TSRMLS_DC);
+int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC);

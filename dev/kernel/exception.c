@@ -55,7 +55,7 @@ void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_ui
 
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);
 
-	zend_throw_exception_object(object TSRMLS_CC);
+	zend_throw_exception_object(object TSRMLS_CC);	
 
 	phalcon_memory_restore_stack(TSRMLS_C);
 }

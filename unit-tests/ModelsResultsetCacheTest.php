@@ -151,10 +151,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		$robots = $this->_testCacheOtherService($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phcd2b64883305e92cdaf5078930d881382',
+			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
 		));
 	}
 
@@ -164,10 +164,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestPostgresql();
 		$robots = $this->_testCacheOtherService($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc7b01793487150c7241316e982a3a8b83');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc7b01793487150c7241316e982a3a8b83',
+			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
 		));
 	}
 
@@ -196,10 +196,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		$robots = $this->_testCacheDirect($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phcd2b64883305e92cdaf5078930d881382');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phcd2b64883305e92cdaf5078930d881382',
+			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
 		));
 	}
 
@@ -209,10 +209,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestPostgresql();
 		$robots = $this->_testCacheDirect($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc7b01793487150c7241316e982a3a8b83');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc7b01793487150c7241316e982a3a8b83',
+			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
 		));
 	}
 

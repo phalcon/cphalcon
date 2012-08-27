@@ -26,7 +26,7 @@ class PHPUnit_Framework_TestCase
 	public function assertInstanceOf($className, $object)
 	{
 		if (get_class($object) != $className) {
-			throw new Exception('Not instance of '.get_class($object));
+			throw new Exception('Not instance of '.$className.', actually: '.get_class($object));
 		}
 	}
 
@@ -130,5 +130,6 @@ try {
 	}
 }
 catch(Exception $e){
-	print_r($e);
+	echo $e->getMessage(), PHP_EOL;
+	echo $e->getTraceAsString();
 }

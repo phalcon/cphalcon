@@ -34,7 +34,7 @@
  * Do an internal require to a plain php file
  *
  */
-int phalcon_require(zval *require_path TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC){
 
 	int ret;
 	char *file_path;

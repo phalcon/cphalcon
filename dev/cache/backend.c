@@ -53,9 +53,8 @@
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
-	zval *frontend_object = NULL, *backend_options = NULL;
+	zval *frontend_object = NULL, *backend_options = NULL, *prefix = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -80,9 +79,9 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	}
 	eval_int = phalcon_array_isset_string(backend_options, SL("prefix")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, backend_options, SL("prefix"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_prefix"), r0 TSRMLS_CC);
+		PHALCON_INIT_VAR(prefix);
+		phalcon_array_fetch_string(&prefix, backend_options, SL("prefix"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendObject"), frontend_object TSRMLS_CC);

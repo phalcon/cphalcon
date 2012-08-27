@@ -39,6 +39,7 @@
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
+			<file>unit-tests/ModelsQueryExecuteTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/ViewTest.php</file>
@@ -46,6 +47,7 @@
 			<file>unit-tests/ViewCacheTest.php</file>
 			<file>unit-tests/ControllersTest.php</file>
 			<!--<file>unit-tests/ControllerFrontTest.php</file>-->
+			<file>unit-tests/UrlTest.php</file>
 			<file>unit-tests/TagTest.php</file>
 			<file>unit-tests/AclTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
