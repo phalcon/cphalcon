@@ -37,6 +37,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -207,10 +208,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
-	zval *sql_statement = NULL, *events_manager = NULL, *status = NULL;
-	zval *pdo = NULL, *result = NULL, *pdo_result = NULL, *error_info = NULL, *error_message = NULL;
-	zval *exception_message = NULL, *error_code = NULL, *exception = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *sql_statement = NULL, *events_manager = NULL, *event_name = NULL;
+	zval *status = NULL, *pdo = NULL, *result = NULL, *pdo_result = NULL, *error_info = NULL;
+	zval *error_message = NULL, *exception_message = NULL, *error_code = NULL;
+	zval *exception = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -221,14 +222,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	if (zend_is_true(events_manager)) {
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "db:beforeQuery", 1);
 		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "db:beforeQuery", 1);
-		
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
@@ -241,11 +241,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_1(result, pdo, "query", sql_statement, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
-		if (zend_is_true(events_manager)) {
-			PHALCON_INIT_VAR(c1);
-			ZVAL_STRING(c1, "db:afterQuery", 1);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "db:afterQuery", 1);
+			
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c1, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -315,7 +316,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	if (zend_is_true(events_manager)) {
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(c0);
@@ -334,7 +335,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 	PHALCON_INIT_VAR(number_placeholders);
 	phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
-	if (zend_is_true(number_placeholders)) {
+	if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(n);
 		ZVAL_LONG(n, 1);
 		
@@ -376,7 +377,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	if (zend_is_true(success)) {
 		if (Z_TYPE_P(affected_rows) == IS_LONG) {
 			phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
-			if (zend_is_true(events_manager)) {
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_VAR(c1);
 				ZVAL_STRING(c1, "db:afterQuery", 1);
 				PHALCON_INIT_VAR(status);

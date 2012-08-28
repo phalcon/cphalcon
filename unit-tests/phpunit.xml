@@ -15,7 +15,6 @@
 			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/FilterTest.php</file>
-			<file>unit-tests/FlashTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
@@ -46,8 +45,10 @@
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
 			<file>unit-tests/ControllersTest.php</file>
+			<file>unit-tests/SessionTest.php</file>
 			<!--<file>unit-tests/ControllerFrontTest.php</file>-->
 			<file>unit-tests/UrlTest.php</file>
+			<file>unit-tests/FlashTest.php</file>
 			<file>unit-tests/TagTest.php</file>
 			<file>unit-tests/AclTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>

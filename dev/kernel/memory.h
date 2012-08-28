@@ -20,14 +20,14 @@
 extern void phalcon_init_var(zval **var TSRMLS_DC);
 extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
 
-extern PHALCON_FASTCALL int phalcon_memory_grow_stack(TSRMLS_D);
-extern PHALCON_FASTCALL int phalcon_memory_restore_stack(TSRMLS_D);
+extern int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
+extern int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
-extern PHALCON_FASTCALL int phalcon_memory_observe(zval **var TSRMLS_DC);
-extern PHALCON_FASTCALL int phalcon_memory_remove(zval **var TSRMLS_DC);
-extern PHALCON_FASTCALL int phalcon_memory_alloc(zval **var TSRMLS_DC);
+extern int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC);
+extern int PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC);
+extern int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 
-extern PHALCON_FASTCALL int phalcon_clean_restore_stack(TSRMLS_D);
+extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)

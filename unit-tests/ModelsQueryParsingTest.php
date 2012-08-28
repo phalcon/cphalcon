@@ -1717,10 +1717,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'model' => 'Robots',
 			'table' => 'robots',
 			'fields' => array(
-				'name' => true,
-				'type' => true,
-				'year' => true,
-				'status' => true
+				'name', 'type', 'year', 'status'
 			),
 			'values' => array(
 				array("type" => 260, "value" => "a name"),

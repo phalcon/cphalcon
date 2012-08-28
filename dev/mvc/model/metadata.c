@@ -32,10 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 
@@ -53,36 +53,6 @@
  */
 
 /**
- * Phalcon\Mvc\Model\MetaData constructor
- *
- * @param string $adapter
- * @param array $options
- */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, __construct){
-
-	zval *options = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!options) {
-		PHALCON_INIT_VAR(options);
-		array_init(options);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, this_ptr, "read", PH_NO_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), r0 TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
  * Initialize the metadata for certain table
  *
  * @param Phalcon\Mvc\Model $model
@@ -91,14 +61,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 
-	zval *model = NULL, *table = NULL, *schema = NULL, *key = NULL, *connection = NULL, *exists = NULL;
-	zval *complete_table = NULL, *class_name = NULL, *exception_message = NULL;
+	zval *model = NULL, *table = NULL, *schema = NULL, *key = NULL, *meta_data = NULL, *connection = NULL;
+	zval *exists = NULL, *complete_table = NULL, *class_name = NULL, *exception_message = NULL;
 	zval *exception = NULL, *attributes = NULL, *primary_keys = NULL;
 	zval *non_primary_keys = NULL, *numeric_typed = NULL, *not_null = NULL;
 	zval *field_types = NULL, *identity_field = NULL, *columns = NULL;
 	zval *number_columns = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
 	zval *type = NULL, *table_metadata = NULL, *changed = NULL, *handler = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -114,9 +84,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, schema, table);
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_metaData"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(t0, key);
+	PHALCON_INIT_VAR(meta_data);
+	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(meta_data, key);
 	if (!eval_int) {
 		PHALCON_INIT_VAR(connection);
 		PHALCON_CALL_METHOD(connection, model, "getconnection", PH_NO_CHECK);
@@ -251,10 +221,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		phalcon_array_update_long(&table_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_long(&table_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_metaData"), PH_NOISY_CC);
-		phalcon_array_update_zval(&t1, key, &table_metadata, PH_COPY TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_metaData"), t1 TSRMLS_CC);
+		PHALCON_ALLOC_ZVAL_MM(t0);
+		phalcon_read_property(&t0, this_ptr, SL("_metaData"), PH_NOISY_CC);
+		phalcon_array_update_zval(&t0, key, &table_metadata, PH_COPY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_metaData"), t0 TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(changed);
 		phalcon_read_property(&changed, this_ptr, SL("_changed"), PH_NOISY_CC);
@@ -610,5 +580,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 	phalcon_update_property_bool(this_ptr, SL("_changed"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, write){
+
+	zval *data = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A method must be implemented by an Adapter");
+	return;
 }
 

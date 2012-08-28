@@ -1,4 +1,3 @@
-<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -18,40 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-class ControllersTest extends PHPUnit_Framework_TestCase
-{
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-	public function testControllers()
-	{
-		$di = new Phalcon\DI();
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-		$di->set('view', function(){
-			$view = new Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/views/');
-			return $view;
-		});
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
+#include "kernel/main.h"
+#include "kernel/memory.h"
 
-		$di->set('filter', function(){
-			return new Phalcon\Filter();
-		});
-
-		require 'unit-tests/controllers/Test4Controller.php';
-
-		$controller = new Test4Controller();
-		$controller->setDI($di);
-
-		$_POST['email'] = ';ans@ecom.com';
-		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
-
-		$view = $di->getShared('view');
-
-		$controller->viewAction();
-		$this->assertEquals(count($view->getParamsToView()), 1);
-
-	}
-
-}

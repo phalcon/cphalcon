@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	if (eval_int) {
 		PHALCON_INIT_VAR(schema);
 		phalcon_array_fetch_string(&schema, definition, SL("schema"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_schema"), schema TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_schemaName"), schema TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SL("referencedSchema")+1);

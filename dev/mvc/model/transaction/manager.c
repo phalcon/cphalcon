@@ -36,6 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Transaction\Manager
@@ -390,9 +391,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit){
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
-	zval *transaction = NULL, *transactions = NULL, *number = NULL, *managed_transaction = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *transaction = NULL, *transactions = NULL, *number_transactions = NULL;
+	zval *number = NULL, *managed_transaction = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -407,15 +409,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 	PHALCON_INIT_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_fast_count(r0, transactions TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_smaller_function(r1, t0, r0 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	PHALCON_INIT_VAR(number_transactions);
+	phalcon_fast_count(number_transactions, transactions TSRMLS_CC);
+	if (!phalcon_compare_strict_long(number_transactions, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(number);
 		ZVAL_LONG(number, 0);
 		if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
@@ -431,14 +427,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 			
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
-			PHALCON_INIT_VAR(r2);
-			is_equal_function(r2, managed_transaction, transaction TSRMLS_CC);
-			if (zend_is_true(r2)) {
-				PHALCON_INIT_VAR(t1);
-				phalcon_read_property(&t1, this_ptr, SL("_number"), PH_NOISY_CC);
-				PHALCON_SEPARATE_NMO(t1);
-				decrement_function(t1);
-				phalcon_update_property_zval(this_ptr, SL("_number"), t1 TSRMLS_CC);
+			PHALCON_INIT_VAR(r0);
+			is_equal_function(r0, managed_transaction, transaction TSRMLS_CC);
+			if (zend_is_true(r0)) {
+				PHALCON_INIT_VAR(t0);
+				phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
+				PHALCON_SEPARATE_NMO(t0);
+				decrement_function(t0);
+				phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
 			}
 			PHALCON_SEPARATE(number);
 			increment_function(number);
@@ -482,9 +478,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 
-	zval *transactions = NULL, *number = NULL, *managed_transaction = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *transactions = NULL, *number_transactions = NULL;
+	zval *number = NULL, *managed_transaction = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -493,15 +489,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	PHALCON_INIT_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_fast_count(r0, transactions TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_smaller_function(r1, t0, r0 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	PHALCON_INIT_VAR(number_transactions);
+	phalcon_fast_count(number_transactions, transactions TSRMLS_CC);
+	if (!phalcon_compare_strict_long(number_transactions, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(number);
 		ZVAL_LONG(number, 0);
 		if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
@@ -517,11 +507,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 			
 			PHALCON_INIT_VAR(managed_transaction);
 			ZVAL_ZVAL(managed_transaction, *hd, 1, 0);
-			PHALCON_INIT_VAR(t1);
-			phalcon_read_property(&t1, this_ptr, SL("_number"), PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(t1);
-			decrement_function(t1);
-			phalcon_update_property_zval(this_ptr, SL("_number"), t1 TSRMLS_CC);
+			PHALCON_INIT_VAR(t0);
+			phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
+			PHALCON_SEPARATE_NMO(t0);
+			decrement_function(t0);
+			phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
 			zend_hash_move_forward_ex(ah0, &hp0);

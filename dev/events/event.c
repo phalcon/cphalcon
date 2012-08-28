@@ -69,18 +69,23 @@ PHP_METHOD(Phalcon_Events_Event, setType){
 
 PHP_METHOD(Phalcon_Events_Event, getType){
 
-	zval *t0 = NULL;
+	zval *type = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(type);
+	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(type);
 }
 
-PHP_METHOD(Phalcon_Events_Event, setSource){
+PHP_METHOD(Phalcon_Events_Event, getSource){
 
+	zval *source = NULL;
 
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(source);
+	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	
+	RETURN_CCTOR(source);
 }
 

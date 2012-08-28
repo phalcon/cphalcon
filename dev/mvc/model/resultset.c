@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 		PHALCON_INIT_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
-			phalcon_update_property_long(this_ptr, SL("pointer"), 1 TSRMLS_CC);
+			phalcon_update_property_long(this_ptr, SL("_pointer"), 1 TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(c0);
 			ZVAL_LONG(c0, 0);
@@ -427,5 +427,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(cache);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
+
+
+	
 }
 

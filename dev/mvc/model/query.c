@@ -1164,8 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *type = NULL, *sql_select = NULL, *number_joins = NULL, *where = NULL;
 	zval *where_expr = NULL, *group_by = NULL, *sql_group = NULL, *having = NULL;
 	zval *having_expr = NULL, *order = NULL, *sql_order = NULL, *limit = NULL, *sql_limit = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *t0 = NULL;
+	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL };
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -1375,13 +1374,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	PHALCON_INIT_VAR(number_joins);
 	phalcon_fast_count(number_joins, sql_joins TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	is_not_equal_function(r1, number_joins, t0 TSRMLS_CC);
-	if (zend_is_true(r1)) {
+	if (!phalcon_compare_strict_long(number_joins, 0 TSRMLS_CC)) {
 		phalcon_array_update_string(&sql_select, SL("joins"), &sql_joins, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1543,7 +1536,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 			ZVAL_ZVAL(field, *hd, 1, 0);
 			PHALCON_INIT_VAR(name);
 			phalcon_array_fetch_string(&name, field, SL("name"), PH_NOISY_CC);
-			phalcon_array_update_zval_bool(&sql_fields, name, 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&sql_fields, name, PH_SEPARATE TSRMLS_CC);
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto fes_111d_14;
 		fee_111d_14:
@@ -1967,8 +1960,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *attribute = NULL, *column_alias = NULL, *dialect = NULL, *sql_select = NULL;
 	zval *result = NULL, *count = NULL, *result_data = NULL, *cache = NULL, *result_object = NULL;
 	zval *resultset = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -2202,11 +2193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(cache);
 	ZVAL_NULL(cache);
 	if (Z_TYPE_P(is_complex) == IS_BOOL && !Z_BVAL_P(is_complex)) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_BOOL(t0, 1);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		is_equal_function(r0, is_simple_std, t0 TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		if (Z_TYPE_P(is_simple_std) == IS_BOOL && Z_BVAL_P(is_simple_std)) {
 			PHALCON_INIT_VAR(result_object);
 			object_init_ex(result_object, phalcon_mvc_model_row_ce);
 		} else {
@@ -2427,7 +2414,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	phalcon_array_fetch_string(&values, intermediate, SL("values"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(null_value);
-	ZVAL_BOOL(null_value, 1);
+	ZVAL_NULL(null_value);
 	PHALCON_CALL_METHOD_NORETURN(records, "rewind", PH_NO_CHECK);
 	ws_111d_26:
 		

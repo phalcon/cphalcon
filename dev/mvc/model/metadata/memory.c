@@ -32,12 +32,43 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
+
 /**
  * Phalcon\Model\MetaData\Memory
  *
- * Stores model meta-data in memory. Data will be erased when the request finishes 
+ * Stores model meta-data in memory. Data will be erased when the request finishes
  *
  */
+
+/**
+ * Phalcon\Mvc\Model\MetaData constructor
+ *
+ * @param string $adapter
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
+
+	zval *options = NULL, *empty_array = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!options) {
+		PHALCON_INIT_VAR(options);
+		array_init(options);
+	}
+	
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
 
 /**
  * Reads the meta-data from temporal memory

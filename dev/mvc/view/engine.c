@@ -103,42 +103,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getDI){
 }
 
 /**
- * Sets the event manager
- *
- * @param Phalcon\Events\Manager $eventsManager
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine, setEventsManager){
-
-	zval *events_manager = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
  * Gets the name of the controller rendered
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getControllerName){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *view = NULL, *controller_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "getcontrollername", PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(view);
+	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(controller_name);
+	PHALCON_CALL_METHOD(controller_name, view, "getcontrollername", PH_NO_CHECK);
+	
+	RETURN_CCTOR(controller_name);
 }
 
 /**
@@ -148,15 +128,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getActionName){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *view = NULL, *action_name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "getactionname", PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(view);
+	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(action_name);
+	PHALCON_CALL_METHOD(action_name, view, "getactionname", PH_NO_CHECK);
+	
+	RETURN_CCTOR(action_name);
 }
 
 /**
@@ -166,15 +147,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getActionName){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *view = NULL, *content = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, t0, "getcontent", PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(view);
+	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(content);
+	PHALCON_CALL_METHOD(content, view, "getcontent", PH_NO_CHECK);
+	
+	RETURN_CCTOR(content);
 }
 
 /**
@@ -185,9 +167,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, url){
 
-	zval *params = NULL, *dependency_injector = NULL, *url = NULL;
+	zval *params = NULL, *dependency_injector = NULL, *url = NULL, *view_url = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -214,9 +195,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, url){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", c0, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, url, "get", params, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(view_url);
+	PHALCON_CALL_METHOD_PARAMS_1(view_url, url, "get", params, PH_NO_CHECK);
+	
+	RETURN_CCTOR(view_url);
 }
 
 /**
@@ -227,9 +209,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, url){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, path){
 
-	zval *params = NULL, *dependency_injector = NULL, *url = NULL;
+	zval *params = NULL, *dependency_injector = NULL, *url = NULL, *view_path = NULL;
 	zval *c0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -256,9 +237,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, path){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", c0, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, url, "getpath", params, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(view_path);
+	PHALCON_CALL_METHOD_PARAMS_1(view_path, url, "getpath", params, PH_NO_CHECK);
+	
+	RETURN_CCTOR(view_path);
 }
 
 /**
@@ -268,8 +250,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, path){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
-	zval *partial_path = NULL;
-	zval *t0 = NULL;
+	zval *partial_path = NULL, *view = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -278,9 +259,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_view"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(t0, "partial", partial_path, PH_NO_CHECK);
+	PHALCON_INIT_VAR(view);
+	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "partial", partial_path, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -34,8 +34,8 @@
 
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
@@ -56,16 +56,21 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL, *suffix = NULL, *ttl = NULL;
+	zval *options = NULL, *suffix = NULL, *ttl = NULL, *meta_data = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!options) {
+		PHALCON_INIT_VAR(options);
+		array_init(options);
+	}
+	
 	eval_int = phalcon_array_isset_string(options, SL("suffix")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(suffix);
@@ -78,6 +83,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 		phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 	}
+	
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, this_ptr, "read", PH_NO_CHECK);
+	phalcon_update_property_zval(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

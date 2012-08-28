@@ -54,7 +54,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "Service 'IndexController' wasn't found in the dependency injection container");
+			$this->assertEquals($e->getMessage(), "IndexController controller class cannot be loaded");
+			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
 
 		$dispatcher->setControllerName('essai');
@@ -66,7 +67,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "Service 'EssaiController' wasn't found in the dependency injection container");
+			$this->assertEquals($e->getMessage(), "EssaiController controller class cannot be loaded");
+			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
 
 		$dispatcher->setControllerName('test0');
@@ -78,7 +80,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(FALSE, 'oh, Why?');
 		}
 		catch(Phalcon\Exception $e){
-			$this->assertEquals($e->getMessage(), "Service 'Test0Controller' wasn't found in the dependency injection container");
+			$this->assertEquals($e->getMessage(), "Test0Controller controller class cannot be loaded");
+			$this->assertInstanceOf('Phalcon\Mvc\Dispatcher\Exception', $e);
 		}
 
 		$dispatcher->setControllerName('test1');

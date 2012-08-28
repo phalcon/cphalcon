@@ -318,15 +318,22 @@ int phalcon_file_exists(zval *filename TSRMLS_DC){
 int phalcon_filter_alphanum(zval *result, zval *param){
 
 	int i, ch, alloc = 0;
-	char temp[255];
+	char temp[2048];
+	zval copy;
+	int use_copy = 0;
 
-	if (Z_TYPE_P(param) == IS_STRING) {
-		for(i=0; i < Z_STRLEN_P(param) && i < 255;i++){
-			ch = Z_STRVAL_P(param)[i];
-			if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)){
-				temp[alloc] = ch;
-				alloc++;
-			}
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	for(i=0; i < Z_STRLEN_P(param) && i < 2048;i++){
+		ch = Z_STRVAL_P(param)[i];
+		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)){
+			temp[alloc] = ch;
+			alloc++;
 		}
 	}
 
@@ -338,6 +345,10 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 	} else {
 		ZVAL_STRING(result, "", 1);
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
 	}
 
 	return SUCCESS;

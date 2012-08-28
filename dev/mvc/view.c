@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "main/php_output.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -148,6 +149,22 @@ PHP_METHOD(Phalcon_Mvc_View, setEventsManager){
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\Manager
+ */
+PHP_METHOD(Phalcon_Mvc_View, getEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(events_manager);
 }
 
 /**
@@ -489,7 +506,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 		
 		PHALCON_INIT_VAR(number_engines);
 		phalcon_fast_count(number_engines, registered_engines TSRMLS_CC);
-		if (!zend_is_true(number_engines)) {
+		if (phalcon_compare_strict_long(number_engines, 0 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(php_engine);
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(php_engine, "__construct", this_ptr, PH_CHECK);
@@ -557,9 +574,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *render_level = NULL, *cache_level = NULL, *is_started = NULL;
 	zval *key = NULL, *view_options = NULL, *cache_options = NULL, *cached_view = NULL;
 	zval *is_fresh = NULL, *engine = NULL, *extension = NULL, *view_engine_path = NULL;
-	zval *status = NULL, *exception_msg = NULL, *exception = NULL;
+	zval *event_name = NULL, *status = NULL, *exception_message = NULL;
+	zval *exception = NULL;
 	zval *r0 = NULL;
-	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -668,11 +685,11 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
 				
-				PHALCON_INIT_VAR(c0);
-				ZVAL_STRING(c0, "view:beforeRender", 1);
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "view:beforeRenderView", 1);
 				
 				PHALCON_INIT_VAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto fes_ecde_1;
@@ -682,6 +699,20 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 			
 			PHALCON_INIT_VAR(not_exists);
 			ZVAL_BOOL(not_exists, 0);
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				phalcon_update_property_zval(this_ptr, SL("_activeRenderPath"), view_engine_path TSRMLS_CC);
+				
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "view:afterRenderView", 1);
+				
+				PHALCON_INIT_VAR(status);
+				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+					zend_hash_move_forward_ex(ah0, &hp0);
+					goto fes_ecde_1;
+				}
+			}
+			
 			goto fee_ecde_1;
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -690,12 +721,12 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	
 	if (Z_TYPE_P(not_exists) == IS_BOOL && Z_BVAL_P(not_exists)) {
 		if (!zend_is_true(silence)) {
-			PHALCON_INIT_VAR(exception_msg);
-			PHALCON_CONCAT_SVS(exception_msg, "View '", views_dir_path, "' was not found in the views directory");
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "View '", views_dir_path, "' was not found in the views directory");
 			
 			PHALCON_INIT_VAR(exception);
 			object_init_ex(exception, phalcon_mvc_view_exception_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_msg, PH_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
 			phalcon_throw_exception(exception TSRMLS_CC);
 			return;
 		}
@@ -741,8 +772,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	zval *controller_name = NULL, *action_name = NULL, *params = NULL;
 	zval *layouts_dir = NULL, *engines = NULL, *pick_view = NULL, *render_view = NULL;
 	zval *render_controller = NULL, *pick_view_action = NULL;
-	zval *cache = NULL, *cache_level = NULL, *contents = NULL, *must_clean = NULL;
-	zval *silence = NULL, *render_level = NULL, *enter_level = NULL, *templates_before = NULL;
+	zval *cache = NULL, *cache_level = NULL, *events_manager = NULL, *event_name = NULL;
+	zval *status = NULL, *contents = NULL, *must_clean = NULL, *silence = NULL;
+	zval *render_level = NULL, *enter_level = NULL, *templates_before = NULL;
 	zval *template_before = NULL, *view_temp_path = NULL, *templates_after = NULL;
 	zval *template_after = NULL, *main_view = NULL, *is_started = NULL;
 	zval *is_fresh = NULL;
@@ -774,7 +806,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_update_property_zval(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
-	phalcon_update_property_bool(this_ptr, SL("_initEngines"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines", PH_NO_CHECK);
@@ -806,6 +837,20 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (zend_is_true(cache_level)) {
 		PHALCON_INIT_VAR(cache);
 		PHALCON_CALL_METHOD(cache, this_ptr, "getcache", PH_NO_CHECK);
+	}
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "view:beforeRender", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
 	}
 	
 	PHALCON_INIT_VAR(contents);
@@ -937,6 +982,12 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				}
 			}
 		}
+	}
+	
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "view:afterRender", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 	}
 	
 	PHALCON_MM_RESTORE();

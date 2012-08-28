@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
@@ -53,7 +53,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
 PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *exists = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -66,6 +66,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Error Processing Request");
 		return;
 	}
+	
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "application", 1);
+	
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, dependency_injector, "has", service, PH_NO_CHECK);
+	if (!zend_is_true(exists)) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(dependency_injector, "set", service, this_ptr, PH_NO_CHECK);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -80,6 +90,43 @@ PHP_METHOD(Phalcon_Mvc_Micro, getDI){
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(dependency_injector);
+}
+
+/**
+ * Sets the events manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\Manager
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(events_manager);
 }
 
 PHP_METHOD(Phalcon_Mvc_Micro, map){
@@ -385,10 +432,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
 PHP_METHOD(Phalcon_Mvc_Micro, handle){
 
-	zval *dependency_injector = NULL, *router = NULL, *matched_route = NULL;
-	zval *handlers = NULL, *route_id = NULL, *handler = NULL, *params = NULL, *status = NULL;
+	zval *dependency_injector = NULL, *events_manager = NULL;
+	zval *event_name = NULL, *status = NULL, *service = NULL, *router = NULL, *matched_route = NULL;
+	zval *handlers = NULL, *route_id = NULL, *handler = NULL, *params = NULL, *returned_value = NULL;
 	zval *not_found_handler = NULL, *is_callable = NULL;
-	zval *c0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -399,11 +446,25 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "router", 1);
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "micro:beforeHandleRoute", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "router", 1);
 	
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(router, "handle", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(matched_route);
@@ -422,32 +483,111 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		
 		PHALCON_INIT_VAR(handler);
 		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "micro:beforeExecuteRoute", 1);
+			
+			PHALCON_INIT_VAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+				PHALCON_MM_RESTORE();
+				RETURN_FALSE;
+			} else {
+				PHALCON_INIT_VAR(handler);
+				phalcon_read_property(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
+			}
+		}
 		
 		PHALCON_INIT_VAR(params);
 		PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
 		
-		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_FUNC_PARAMS_2(status, "call_user_func_array", handler, params);
+		PHALCON_INIT_VAR(returned_value);
+		PHALCON_CALL_FUNC_PARAMS_2(returned_value, "call_user_func_array", handler, params);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);
+			
+			PHALCON_INIT_VAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+				PHALCON_MM_RESTORE();
+				RETURN_FALSE;
+			}
+		}
 		
-		RETURN_CCTOR(status);
+		
+		RETURN_CCTOR(returned_value);
 	} else {
+		PHALCON_INIT_VAR(events_manager);
+		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "micro:beforeNotFound", 1);
+			
+			PHALCON_INIT_VAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
+				PHALCON_MM_RESTORE();
+				RETURN_FALSE;
+			}
+		}
+		
 		PHALCON_INIT_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(is_callable);
 		PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", not_found_handler);
-		if (!zend_is_true(is_callable)) {
+		if (Z_TYPE_P(is_callable) == IS_BOOL && !Z_BVAL_P(is_callable)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
 		}
 		
-		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_FUNC_PARAMS_1(status, "call_user_func", not_found_handler);
+		PHALCON_INIT_VAR(returned_value);
+		PHALCON_CALL_FUNC_PARAMS_1(returned_value, "call_user_func", not_found_handler);
 		
-		RETURN_CCTOR(status);
+		RETURN_CCTOR(returned_value);
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
+
+	zval *active_handler = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &active_handler) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_activeHandler"), active_handler TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler){
+
+	zval *active_handler = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(active_handler);
+	phalcon_read_property(&active_handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(active_handler);
+}
+
+PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
+
+	zval *returned_value = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(returned_value);
+	phalcon_read_property(&returned_value, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(returned_value);
 }
 
 PHP_METHOD(Phalcon_Mvc_Micro, __get){

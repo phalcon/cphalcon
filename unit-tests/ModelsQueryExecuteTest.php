@@ -54,7 +54,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
+			return new Phalcon\Mvc\Model\Metadata\Apc();
 		});
 
 		$di->set('db', function(){
@@ -65,7 +65,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testSelectExecute()
+	public function _testSelectExecute()
 	{
 
 		$di = $this->_getDI();
@@ -231,19 +231,43 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testInsertExecute()
+	public function _testInsertExecute()
 	{
 
 		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
+		$di->get('db')->delete("subscriptores");
+
 		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", now(), "P")');
-		if($status->success()==false){
-			foreach($status->getMessages() as $message){
-				echo $message, PHP_EOL;
-			}
-		}
+		$this->assertFalse($status->success());
+		$this->assertEquals($status->getMessages(), array(
+			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+				'_type' => NULL,
+				'_message' => 'Sorry Marina, but your are not allowed here',
+				'_field' => NULL,
+			)),
+		));
+
+		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "dtmail.com", now(), "P")');
+		$this->assertFalse($status->success());
+		$this->assertEquals($status->getMessages(), array(
+			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+				'_type' => 'email',
+				'_message' => "Value of field 'email' must have a valid e-mail format",
+				'_field' => 'email',
+			)),
+		));
+
+		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "le-marina@hotmail.com", now(), "P")');
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$this->assertTrue($status->success());
 
 	}
 
@@ -253,6 +277,8 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
+
+		$di->get('db')->execute('update personas set ciudad_id = null where direccion = "COL"');
 
 		$status = $manager->executeQuery('UPDATE People SET direccion = "COL" WHERE ciudad_id IS NULL');
 		if($status->success()==false){

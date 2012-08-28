@@ -1,4 +1,3 @@
-<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -18,40 +17,37 @@
   +------------------------------------------------------------------------+
 */
 
-class ControllersTest extends PHPUnit_Framework_TestCase
-{
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-	public function testControllers()
-	{
-		$di = new Phalcon\DI();
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-		$di->set('view', function(){
-			$view = new Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/views/');
-			return $view;
-		});
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
+#include "kernel/main.h"
+#include "kernel/memory.h"
 
-		$di->set('filter', function(){
-			return new Phalcon\Filter();
-		});
+#include "kernel/fcall.h"
 
-		require 'unit-tests/controllers/Test4Controller.php';
+PHP_METHOD(Phalcon_Flash_Direct, message){
 
-		$controller = new Test4Controller();
-		$controller->setDI($di);
+	zval *type = NULL, *message = NULL, *flash_message = NULL;
 
-		$_POST['email'] = ';ans@ecom.com';
-		$this->assertEquals($controller->requestAction(), 'ans@ecom.com');
-
-		$view = $di->getShared('view');
-
-		$controller->viewAction();
-		$this->assertEquals(count($view->getParamsToView()), 1);
-
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(flash_message);
+	PHALCON_CALL_METHOD_PARAMS_2(flash_message, this_ptr, "outputmessage", type, message, PH_NO_CHECK);
+	
+	RETURN_CCTOR(flash_message);
 }
+

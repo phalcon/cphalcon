@@ -54,8 +54,9 @@
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 
 	zval *record = NULL, *field_name = NULL, *regs = NULL, *invalid = NULL, *value = NULL;
-	zval *match_pattern = NULL, *match_zero = NULL, *message = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *pattern = NULL, *match_pattern = NULL, *match_zero = NULL, *type = NULL;
+	zval *message = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -82,12 +83,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "/^[a-zA-Z0-9_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
 	Z_SET_ISREF_P(regs);
 	
 	PHALCON_INIT_VAR(match_pattern);
-	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", c1, value, regs);
+	PHALCON_CALL_FUNC_PARAMS_3(match_pattern, "preg_match", pattern, value, regs);
 	Z_UNSET_ISREF_P(regs);
 	if (zend_is_true(match_pattern)) {
 		PHALCON_INIT_VAR(match_zero);
@@ -101,12 +102,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	}
 	
 	if (zend_is_true(invalid)) {
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "email", 1);
+		
 		PHALCON_INIT_VAR(message);
 		PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid e-mail format");
-		
-		PHALCON_INIT_VAR(c2);
-		ZVAL_STRING(c2, "email", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, c2, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

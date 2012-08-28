@@ -100,24 +100,40 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getDI){
 }
 
 /**
- * Sets the event manager
+ * Sets the events manager
  *
- * @param Phalcon\Events\Manager $eventManager
+ * @param Phalcon\Events\Manager $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setEventsManager){
 
-	zval *event_manager = NULL;
+	zval *events_manager = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_manager) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_eventManager"), event_manager TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\Manager
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(events_manager);
 }
 
 /**
@@ -360,15 +376,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getParam){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 
 	zval *dependency_injector = NULL, *events_manager = NULL;
-	zval *status = NULL, *value = NULL, *controller = NULL, *number_dispatches = NULL;
+	zval *event_name = NULL, *status = NULL, *value = NULL, *controller = NULL;
+	zval *number_dispatches = NULL, *maximum_routes = NULL;
 	zval *default_namespace = NULL, *finished = NULL, *controller_name = NULL;
-	zval *camelized_class = NULL, *controller_class = NULL;
-	zval *action_name = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
-	zval *exception_message = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL, *c5 = NULL, *c6 = NULL;
-	zval *c7 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
+	zval *has_namespace = NULL, *camelized_class = NULL, *controller_class = NULL;
+	zval *has_service = NULL, *exception_message = NULL, *action_name = NULL;
+	zval *action_method = NULL, *params = NULL, *call_object = NULL, *cyclic_routing = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(dependency_injector);
@@ -379,12 +393,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 	}
 	
 	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventManager"), PH_NOISY_CC);
-	if (zend_is_true(events_manager)) {
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "dispatch:beforeDispatchLoop", 1);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeDispatchLoop", 1);
+		
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c0, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
@@ -399,6 +414,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 	
 	PHALCON_INIT_VAR(number_dispatches);
 	ZVAL_LONG(number_dispatches, 0);
+	
+	PHALCON_INIT_VAR(maximum_routes);
+	ZVAL_LONG(maximum_routes, 256);
 	
 	PHALCON_INIT_VAR(default_namespace);
 	phalcon_read_property(&default_namespace, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
@@ -421,11 +439,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
 		}
 		
-		if (zend_is_true(events_manager)) {
-			PHALCON_INIT_VAR(c1);
-			ZVAL_STRING(c1, "dispatch:beforeDispatch", 1);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:beforeDispatch", 1);
+			
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c1, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -435,14 +454,34 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 			phalcon_read_property(&controller_name, this_ptr, SL("_controllerName"), PH_NOISY_CC);
 		}
 		
-		PHALCON_INIT_VAR(camelized_class);
-		PHALCON_CALL_STATIC_PARAMS_1(camelized_class, "phalcon\\text", "camelize", controller_name);
+		PHALCON_INIT_VAR(has_namespace);
+		phalcon_fast_strpos_str(has_namespace, controller_name, SL("\\") TSRMLS_CC);
+		if (Z_TYPE_P(has_namespace) == IS_BOOL && !Z_BVAL_P(has_namespace)) {
+			PHALCON_INIT_VAR(camelized_class);
+			PHALCON_CALL_STATIC_PARAMS_1(camelized_class, "phalcon\\text", "camelize", controller_name);
+		} else {
+			PHALCON_CPY_WRT(camelized_class, controller_name);
+		}
 		
 		PHALCON_INIT_VAR(controller_class);
 		PHALCON_CONCAT_VVS(controller_class, default_namespace, camelized_class, "Controller");
 		
+		PHALCON_INIT_VAR(has_service);
+		PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", controller_class, PH_NO_CHECK);
+		if (!zend_is_true(has_service)) {
+			PHALCON_INIT_VAR(has_service);
+			PHALCON_CALL_FUNC_PARAMS_1(has_service, "class_exists", controller_class);
+		}
+		
+		if (!zend_is_true(has_service)) {
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_VS(exception_message, controller_class, " controller class cannot be loaded");
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+		}
+		
 		PHALCON_INIT_VAR(controller);
 		PHALCON_CALL_METHOD_PARAMS_1(controller, dependency_injector, "getshared", controller_class, PH_NO_CHECK);
+		phalcon_update_property_zval(this_ptr, SL("_activeController"), controller TSRMLS_CC);
 		if (phalcon_method_exists_ex(controller, SL("initialize") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_NORETURN(controller, "initialize", PH_NO_CHECK);
 		}
@@ -455,23 +494,24 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 		}
 		
-		PHALCON_INIT_VAR(params);
-		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-		
 		PHALCON_INIT_VAR(action_method);
 		PHALCON_CONCAT_VS(action_method, action_name, "Action");
 		if (phalcon_method_exists(controller, action_method TSRMLS_CC) == SUCCESS) {
-			if (zend_is_true(events_manager)) {
-				PHALCON_INIT_VAR(c2);
-				ZVAL_STRING(c2, "dispatch:beforeExecuteRoute", 1);
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
+				
 				PHALCON_INIT_VAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c2, this_ptr, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 					PHALCON_INIT_VAR(value);
 					ZVAL_BOOL(value, 0);
 					goto we_1d57_0;
 				}
 			}
+			
+			PHALCON_INIT_VAR(params);
+			phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 			
 			PHALCON_INIT_VAR(call_object);
 			array_init(call_object);
@@ -480,11 +520,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 			
 			PHALCON_INIT_VAR(value);
 			PHALCON_CALL_FUNC_PARAMS_2(value, "call_user_func_array", call_object, params);
-			if (zend_is_true(events_manager)) {
-				PHALCON_INIT_VAR(c3);
-				ZVAL_STRING(c3, "dispatch:afterExecuteRoute", 1);
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
+				
 				PHALCON_INIT_VAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c3, this_ptr, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 					PHALCON_INIT_VAR(value);
 					ZVAL_BOOL(value, 0);
@@ -492,11 +533,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 				}
 			}
 		} else {
-			if (zend_is_true(events_manager)) {
-				PHALCON_INIT_VAR(c4);
-				ZVAL_STRING(c4, "dispatch:beforeNotFoundAction", 1);
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "dispatch:beforeNotFoundAction", 1);
+				
 				PHALCON_INIT_VAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c4, this_ptr, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 					PHALCON_INIT_VAR(value);
 					ZVAL_BOOL(value, 0);
@@ -521,22 +563,20 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 		PHALCON_SEPARATE(number_dispatches);
 		increment_function(number_dispatches);
 		
-		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 256);
-		
-		PHALCON_INIT_VAR(r0);
-		is_smaller_function(r0, t1, number_dispatches TSRMLS_CC);
-		if (zend_is_true(r0)) {
-			PHALCON_INIT_VAR(c5);
-			ZVAL_STRING(c5, "Dispatcher has detected a cyclic routing causing stability problems", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", c5, PH_NO_CHECK);
+		PHALCON_INIT_VAR(cyclic_routing);
+		is_smaller_function(cyclic_routing, maximum_routes, number_dispatches TSRMLS_CC);
+		if (Z_TYPE_P(cyclic_routing) == IS_BOOL && Z_BVAL_P(cyclic_routing)) {
+			PHALCON_INIT_VAR(exception_message);
+			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
 		}
 		
-		if (zend_is_true(events_manager)) {
-			PHALCON_INIT_VAR(c6);
-			ZVAL_STRING(c6, "dispatch:afterDispatch", 1);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
+			
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c6, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -544,11 +584,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 		}
 		goto ws_1d57_0;
 	we_1d57_0:
-	if (zend_is_true(events_manager)) {
-		PHALCON_INIT_VAR(c7);
-		ZVAL_STRING(c7, "dispatch:afterDispatchLoop", 1);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:afterDispatchLoop", 1);
+		
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", c7, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
@@ -569,8 +610,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	zval *message = NULL, *dependency_injector = NULL, *response = NULL;
-	zval *exception = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *status_code = NULL, *status_message = NULL, *exception = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -592,12 +633,12 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(response);
 	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "get", c0, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_LONG(c1, 404);
+	PHALCON_INIT_VAR(status_code);
+	ZVAL_LONG(status_code, 404);
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "Not Found", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", c1, c2, PH_NO_CHECK);
+	PHALCON_INIT_VAR(status_message);
+	ZVAL_STRING(status_message, "Not Found", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
@@ -698,5 +739,21 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getReturnedValue){
 	phalcon_read_property(&returned_value, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(returned_value);
+}
+
+/**
+ * Returns the active controller in the dispatcher
+ *
+ * @return Phalcon\Mvc\Controller
+ */
+PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
+
+	zval *controller = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(controller);
+	phalcon_read_property(&controller, this_ptr, SL("_activeController"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(controller);
 }
 

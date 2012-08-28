@@ -36,6 +36,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -102,11 +103,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &index, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!placeholders) {
+		PHALCON_INIT_VAR(placeholders);
+		array_init(placeholders);
+	}
+	
 	PHALCON_INIT_VAR(translate);
 	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(translate, index);
@@ -116,7 +122,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		if (zend_is_true(placeholders)) {
 			PHALCON_INIT_VAR(number_placeholders);
 			phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
-			if (zend_is_true(number_placeholders)) {
+			if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
 				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
 					return;
 				}
@@ -162,7 +168,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 
-	zval *index = NULL, *translate = NULL;
+	zval *index = NULL, *translate = NULL, *exists = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -179,7 +185,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 	
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
+	PHALCON_CPY_WRT(exists, r0);
 	
-	RETURN_NCTOR(r0);
+	RETURN_NCTOR(exists);
 }
 

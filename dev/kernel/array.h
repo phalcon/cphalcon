@@ -18,14 +18,14 @@
 */
 
 /** Check for index existence */
-extern PHALCON_FASTCALL int phalcon_array_isset(const zval *arr, zval *index);
-extern PHALCON_FASTCALL int phalcon_array_isset_long(const zval *arr, ulong index);
-extern PHALCON_FASTCALL int phalcon_array_isset_string(const zval *arr, char *index, uint index_length);
+extern int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index);
+extern int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index);
+extern int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length);
 
 /** Unset existing indexes */
-extern PHALCON_FASTCALL int phalcon_array_unset(zval *arr, zval *index);
-extern PHALCON_FASTCALL int phalcon_array_unset_long(zval *arr, ulong index);
-extern PHALCON_FASTCALL int phalcon_array_unset_string(zval *arr, char *index, uint index_length);
+extern int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index);
+extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index);
+extern int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length);
 
 /** Append element to arrays */
 extern int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC);

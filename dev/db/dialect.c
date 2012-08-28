@@ -47,8 +47,7 @@
  */
 PHP_METHOD(Phalcon_Db_Dialect, limit){
 
-	zval *sql_query = NULL, *number = NULL, *is_numeric = NULL, *limit = NULL;
-	zval *r0 = NULL;
+	zval *sql_query = NULL, *number = NULL, *is_numeric = NULL, *limit = NULL, *sql_limit = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -63,10 +62,10 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
 		
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_VSV(r0, sql_query, " LIMIT ", limit);
+		PHALCON_INIT_VAR(sql_limit);
+		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
 		
-		RETURN_CTOR(r0);
+		RETURN_CTOR(sql_limit);
 	}
 	
 	
@@ -81,8 +80,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
  */
 PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
-	zval *sql_query = NULL;
-	zval *r0 = NULL;
+	zval *sql_query = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -91,10 +89,10 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_VS(r0, sql_query, " FOR UPDATE");
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_VS(sql, sql_query, " FOR UPDATE");
 	
-	RETURN_CTOR(r0);
+	RETURN_CTOR(sql);
 }
 
 /**
@@ -105,8 +103,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
  */
 PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 
-	zval *sql_query = NULL;
-	zval *r0 = NULL;
+	zval *sql_query = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -115,10 +112,10 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CONCAT_VS(r0, sql_query, " LOCK IN SHARE MODE");
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_VS(sql, sql_query, " LOCK IN SHARE MODE");
 	
-	RETURN_CTOR(r0);
+	RETURN_CTOR(sql);
 }
 
 PHP_METHOD(Phalcon_Db_Dialect, select){

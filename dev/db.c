@@ -311,7 +311,13 @@ PHP_METHOD(Phalcon_Db, insert){
 				PHALCON_SEPARATE_PARAM(values);
 				phalcon_array_unset(values, n);
 			} else {
-				phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(value) == IS_NULL) {
+					phalcon_array_append_string(&placeholders, SL("null"), PH_SEPARATE TSRMLS_CC);
+					PHALCON_SEPARATE_PARAM(values);
+					phalcon_array_unset(values, n);
+				} else {
+					phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
+				}
 			}
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_e7f0_1;
@@ -412,8 +418,15 @@ PHP_METHOD(Phalcon_Db, update){
 				PHALCON_SEPARATE_PARAM(values);
 				phalcon_array_unset(values, n);
 			} else {
-				PHALCON_INIT_VAR(set_clause_part);
-				PHALCON_CONCAT_VS(set_clause_part, field, " = ?");
+				if (Z_TYPE_P(value) == IS_NULL) {
+					PHALCON_INIT_VAR(set_clause_part);
+					PHALCON_CONCAT_VS(set_clause_part, field, " = null");
+					PHALCON_SEPARATE_PARAM(values);
+					phalcon_array_unset(values, n);
+				} else {
+					PHALCON_INIT_VAR(set_clause_part);
+					PHALCON_CONCAT_VS(set_clause_part, field, " = ?");
+				}
 				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 			}
 		} else {
@@ -805,9 +818,8 @@ PHP_METHOD(Phalcon_Db, addColumn){
  */
 PHP_METHOD(Phalcon_Db, modifyColumn){
 
-	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *sql = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *dialect = NULL;
+	zval *sql = NULL, *success = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -816,14 +828,16 @@ PHP_METHOD(Phalcon_Db, modifyColumn){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "modifycolumn", table_name, schema_name, column, PH_NO_CHECK);
+	PHALCON_INIT_VAR(dialect);
+	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "modifycolumn", table_name, schema_name, column, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(success);
+	PHALCON_CALL_METHOD_PARAMS_1(success, this_ptr, "execute", sql, PH_NO_CHECK);
+	
+	RETURN_CCTOR(success);
 }
 
 /**
@@ -837,8 +851,7 @@ PHP_METHOD(Phalcon_Db, modifyColumn){
 PHP_METHOD(Phalcon_Db, dropColumn){
 
 	zval *table_name = NULL, *schema_name = NULL, *column_name = NULL;
-	zval *sql = NULL;
-	zval *t0 = NULL;
+	zval *dialect = NULL, *sql = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -848,10 +861,11 @@ PHP_METHOD(Phalcon_Db, dropColumn){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(dialect);
+	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_3(sql, t0, "dropcolumn", table_name, schema_name, column_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(sql, dialect, "dropcolumn", table_name, schema_name, column_name, PH_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	PHALCON_CALL_METHOD_PARAMS_1(r0, this_ptr, "execute", sql, PH_NO_CHECK);
@@ -1232,5 +1246,17 @@ PHP_METHOD(Phalcon_Db, getDialect){
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(dialect);
+}
+
+PHP_METHOD(Phalcon_Db, query){
+
+
+	
+}
+
+PHP_METHOD(Phalcon_Db, execute){
+
+
+	
 }
 
