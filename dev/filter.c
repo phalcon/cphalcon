@@ -154,17 +154,16 @@ PHP_METHOD(Phalcon_Filter, sanitize){
  *
  * @param  mixed $value
  * @param  string $filter
- * @param  boolean $silent
  * @return mixed
  */
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value = NULL, *filter = NULL, *filters = NULL, *filter_object = NULL;
 	zval *class_name = NULL, *arguments = NULL, *filtered = NULL, *escaped = NULL;
+	zval *allow_fraction = NULL, *options = NULL, *filter_type = NULL;
 	zval *exception_message = NULL, *exception = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -230,14 +229,19 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	if (PHALCON_COMPARE_STRING(filter, "float")) {
 		PHALCON_INIT_VAR(t3);
-		ZVAL_LONG(t3, 520);
-		PHALCON_ALLOC_ZVAL_MM(a0);
-		array_init(a0);
+		ZVAL_LONG(t3, 4096);
+		PHALCON_CPY_WRT(allow_fraction, t3);
+		
+		PHALCON_INIT_VAR(options);
+		array_init(options);
+		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(t4);
-		ZVAL_LONG(t4, 4096);
-		phalcon_array_update_string(&a0, SL("flags"), &t4, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		ZVAL_LONG(t4, 520);
+		PHALCON_CPY_WRT(filter_type, t4);
+		
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, t3, a0);
+		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, filter_type, options);
 		goto se_e618_1;
 	}
 	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {

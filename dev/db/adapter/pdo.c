@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, close){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	if (zend_is_true(pdo)) {
+	if (Z_TYPE_P(pdo) == IS_OBJECT) {
 		phalcon_update_property_null(this_ptr, SL("_pdo") TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -526,7 +526,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 			ZVAL_ZVAL(bind_value, *hd, 1, 0);
 			PHALCON_INIT_VAR(is_numeric);
 			PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", bind_value);
-			if (zend_is_true(is_numeric)) {
+			if (Z_TYPE_P(is_numeric) == IS_BOOL && Z_BVAL_P(is_numeric)) {
 				PHALCON_CPY_WRT(value, bind_value);
 			} else {
 				PHALCON_INIT_VAR(value);
@@ -602,7 +602,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 	
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	if (!zend_is_true(pdo)) {
+	if (Z_TYPE_P(pdo) != IS_OBJECT) {
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

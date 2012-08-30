@@ -45,9 +45,8 @@
  * information includes execution time in miliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
- *
- *
  */
+
 
 PHP_METHOD(Phalcon_Db_Profiler, __construct){
 
@@ -107,9 +106,8 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 
 	zval *micro = NULL, *final_time = NULL, *active_profile = NULL, *initial_time = NULL;
-	zval *diference = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL;
+	zval *diference = NULL, *total_seconds = NULL, *new_total_seconds = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(micro);
@@ -128,17 +126,17 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	PHALCON_INIT_VAR(diference);
 	sub_function(diference, final_time, initial_time TSRMLS_CC);
 	
+	PHALCON_INIT_VAR(total_seconds);
+	phalcon_read_property(&total_seconds, this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(new_total_seconds);
+	phalcon_add_function(new_total_seconds, total_seconds, diference TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_totalSeconds"), new_total_seconds TSRMLS_CC);
+	
 	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_totalSeconds"), PH_NOISY_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_add_function(r0, t0, diference TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_totalSeconds"), r0 TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(t1);
-	phalcon_read_property(&t1, this_ptr, SL("_allProfiles"), PH_NOISY_CC);
-	phalcon_array_append(&t1, active_profile, 0 TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), t1 TSRMLS_CC);
+	phalcon_read_property(&t0, this_ptr, SL("_allProfiles"), PH_NOISY_CC);
+	phalcon_array_append(&t0, active_profile, 0 TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), t0 TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SL("afterendprofile") TSRMLS_CC) == SUCCESS) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", active_profile, PH_NO_CHECK);
 	}
@@ -205,12 +203,12 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles){
  */
 PHP_METHOD(Phalcon_Db_Profiler, reset){
 
-	zval *a0 = NULL;
+	zval *empty_arr = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_arr);
+	array_init(empty_arr);
+	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), empty_arr TSRMLS_CC);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -229,17 +227,5 @@ PHP_METHOD(Phalcon_Db_Profiler, getLastProfile){
 	phalcon_read_property(&active_profile, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(active_profile);
-}
-
-PHP_METHOD(Phalcon_Db_Profiler, beforeStartProfile){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Db_Profiler, afterEndProfile){
-
-
-	
 }
 

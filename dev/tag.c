@@ -95,8 +95,7 @@ PHP_METHOD(Phalcon_Tag, getDI){
  */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
-	zval *dependency_injector = NULL, *url = NULL;
-	zval *c0 = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *url = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(dependency_injector);
@@ -111,11 +110,11 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "url", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "url", 1);
 	
 	PHALCON_INIT_VAR(url);
-	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	RETURN_CCTOR(url);
 }
@@ -127,8 +126,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
  */
 PHP_METHOD(Phalcon_Tag, getDispatcherService){
 
-	zval *dependency_injector = NULL, *dispatcher = NULL;
-	zval *c0 = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *dispatcher = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(dependency_injector);
@@ -143,11 +141,11 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "dispatcher", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "dispatcher", 1);
 	
 	PHALCON_INIT_VAR(dispatcher);
-	PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	RETURN_CCTOR(dispatcher);
 }
@@ -441,9 +439,9 @@ PHP_METHOD(Phalcon_Tag, linkTo){
  */
 PHP_METHOD(Phalcon_Tag, _inputField){
 
-	zval *type = NULL, *parameters = NULL, *params = NULL, *id = NULL, *code = NULL, *value = NULL;
-	zval *key = NULL, *attribute = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *type = NULL, *parameters = NULL, *params = NULL, *id = NULL, *name = NULL, *value = NULL;
+	zval *code = NULL, *key = NULL, *attribute = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -481,9 +479,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	if (!eval_int) {
 		phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, params, SL("name"), PH_NOISY_CC);
-		if (!zend_is_true(r1)) {
+		PHALCON_INIT_VAR(name);
+		phalcon_array_fetch_string(&name, params, SL("name"), PH_NOISY_CC);
+		if (!zend_is_true(name)) {
 			phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	}
@@ -495,9 +493,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	eval_int = phalcon_array_isset_string(params, SL("value")+1);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_SELF_PARAMS_1(r2, this_ptr, "getvalue", id);
-		phalcon_array_update_string(&params, SL("value"), &r2, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(value);
+		PHALCON_CALL_SELF_PARAMS_1(value, this_ptr, "getvalue", id);
+		phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -541,8 +539,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
  */
 PHP_METHOD(Phalcon_Tag, textField){
 
-	zval *parameters = NULL, *html = NULL;
-	zval *c0 = NULL;
+	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -551,10 +548,11 @@ PHP_METHOD(Phalcon_Tag, textField){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "text", 1);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "text", 1);
+	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
 	
 	RETURN_CCTOR(html);
 }
@@ -567,8 +565,7 @@ PHP_METHOD(Phalcon_Tag, textField){
  */
 PHP_METHOD(Phalcon_Tag, passwordField){
 
-	zval *parameters = NULL, *html = NULL;
-	zval *c0 = NULL;
+	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -577,10 +574,11 @@ PHP_METHOD(Phalcon_Tag, passwordField){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "password", 1);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "password", 1);
+	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
 	
 	RETURN_CCTOR(html);
 }
@@ -593,8 +591,7 @@ PHP_METHOD(Phalcon_Tag, passwordField){
  */
 PHP_METHOD(Phalcon_Tag, hiddenField){
 
-	zval *parameters = NULL, *html = NULL;
-	zval *c0 = NULL;
+	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -603,10 +600,11 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "hidden", 1);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "hidden", 1);
+	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
 	
 	RETURN_CCTOR(html);
 }
@@ -619,8 +617,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
  */
 PHP_METHOD(Phalcon_Tag, fileField){
 
-	zval *parameters = NULL, *html = NULL;
-	zval *c0 = NULL;
+	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -629,10 +626,11 @@ PHP_METHOD(Phalcon_Tag, fileField){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "file", 1);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "file", 1);
+	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
 	
 	RETURN_CCTOR(html);
 }
@@ -645,8 +643,7 @@ PHP_METHOD(Phalcon_Tag, fileField){
  */
 PHP_METHOD(Phalcon_Tag, checkField){
 
-	zval *parameters = NULL, *html = NULL;
-	zval *c0 = NULL;
+	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -655,10 +652,11 @@ PHP_METHOD(Phalcon_Tag, checkField){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "checkbox", 1);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "checkbox", 1);
+	
 	PHALCON_INIT_VAR(html);
-	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", c0, parameters);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
 	
 	RETURN_CCTOR(html);
 }
@@ -811,9 +809,9 @@ PHP_METHOD(Phalcon_Tag, select){
  */
 PHP_METHOD(Phalcon_Tag, textArea){
 
-	zval *parameters = NULL, *params = NULL, *id = NULL, *content = NULL, *code = NULL, *avalue = NULL;
-	zval *key = NULL, *attribute = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *parameters = NULL, *params = NULL, *id = NULL, *name = NULL, *content = NULL, *code = NULL;
+	zval *avalue = NULL, *key = NULL, *attribute = NULL, *end_code = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -850,9 +848,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	if (!eval_int) {
 		phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, params, SL("name"), PH_NOISY_CC);
-		if (!zend_is_true(r1)) {
+		PHALCON_INIT_VAR(name);
+		phalcon_array_fetch_string(&name, params, SL("name"), PH_NOISY_CC);
+		if (!zend_is_true(name)) {
 			phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	}
@@ -899,9 +897,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		goto fes_9b93_4;
 	fee_9b93_4:
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CONCAT_SVS(r2, ">", content, "</textarea>");
-	phalcon_concat_self(&code, r2 TSRMLS_CC);
+	PHALCON_INIT_VAR(end_code);
+	PHALCON_CONCAT_SVS(end_code, ">", content, "</textarea>");
+	phalcon_concat_self(&code, end_code TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -915,11 +913,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 PHP_METHOD(Phalcon_Tag, form){
 
 	zval *parameters = NULL, *params = NULL, *dispatcher = NULL, *dispatch_params = NULL;
-	zval *action_parameters = NULL, *action = NULL, *controller_name = NULL;
+	zval *slash = NULL, *action_parameters = NULL, *action = NULL, *controller_name = NULL;
 	zval *action_name = NULL, *url = NULL, *form_action = NULL, *code = NULL, *avalue = NULL;
 	zval *key = NULL, *attribute = NULL;
-	zval *c0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -939,6 +936,8 @@ PHP_METHOD(Phalcon_Tag, form){
 	if (!parameters) {
 		PHALCON_ALLOC_ZVAL_MM(parameters);
 		ZVAL_NULL(parameters);
+	} else {
+		PHALCON_SEPARATE_PARAM(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
@@ -955,11 +954,11 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(dispatch_params);
 	PHALCON_CALL_METHOD(dispatch_params, dispatcher, "getparams", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "/", 1);
+	PHALCON_INIT_VAR(slash);
+	ZVAL_STRING(slash, "/", 1);
 	
 	PHALCON_INIT_VAR(action_parameters);
-	phalcon_fast_join(action_parameters, c0, dispatch_params TSRMLS_CC);
+	phalcon_fast_join(action_parameters, slash, dispatch_params TSRMLS_CC);
 	eval_int = phalcon_array_isset_long(params, 0);
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_string(params, SL("action")+1);
@@ -1002,11 +1001,12 @@ PHP_METHOD(Phalcon_Tag, form){
 	
 	eval_int = phalcon_array_isset_string(params, SL("parameters")+1);
 	if (eval_int) {
+		PHALCON_INIT_VAR(parameters);
+		phalcon_array_fetch_string(&parameters, params, SL("parameters"), PH_NOISY_CC);
+		
 		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, params, SL("parameters"), PH_NOISY_CC);
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CONCAT_SV(r2, "?", r1);
-		phalcon_concat_self(&action, r2 TSRMLS_CC);
+		PHALCON_CONCAT_SV(r1, "?", parameters);
+		phalcon_concat_self(&action, r1 TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -1035,10 +1035,10 @@ PHP_METHOD(Phalcon_Tag, form){
 		goto fes_9b93_5;
 	fee_9b93_5:
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	PHALCON_CONCAT_VS(r3, code, ">");
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	PHALCON_CONCAT_VS(r2, code, ">");
 	
-	RETURN_CTOR(r3);
+	RETURN_CTOR(r2);
 }
 
 /**
@@ -1048,10 +1048,13 @@ PHP_METHOD(Phalcon_Tag, form){
  */
 PHP_METHOD(Phalcon_Tag, endForm){
 
+	zval *end_form = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
-	RETURN_STRING("</form>", 1);
+	PHALCON_INIT_VAR(end_form);
+	ZVAL_STRING(end_form, "</form>", 1);
+	
+	RETURN_CTOR(end_form);
 }
 
 /**
@@ -1136,18 +1139,17 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
  */
 PHP_METHOD(Phalcon_Tag, getTitle){
 
-	zval *document_title = NULL, *title_html = NULL;
-	zval *t0 = NULL;
+	zval *document_title = NULL, *eol = NULL, *title_html = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	zend_get_constant(SL("PHP_EOL"), t0 TSRMLS_CC);
+	PHALCON_INIT_VAR(eol);
+	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(title_html);
-	PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", t0);
+	PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
 	
 	RETURN_CTOR(title_html);
 }

@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		is_equal_function(r1, type, t1 TSRMLS_CC);
 		PHALCON_INIT_VAR(is_numeric);
 		ZVAL_BOOL(is_numeric, zend_is_true(r0) || zend_is_true(r1));
-		if (zend_is_true(is_numeric)) {
+		if (Z_TYPE_P(is_numeric) == IS_BOOL && Z_BVAL_P(is_numeric)) {
 			PHALCON_INIT_VAR(scale);
 			phalcon_array_fetch_string(&scale, definition, SL("scale"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_scale"), scale TSRMLS_CC);
