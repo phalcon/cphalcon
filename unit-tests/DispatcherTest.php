@@ -150,7 +150,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 5);
 
-		spl_autoload_register(array($this, 'dispatcherAutoloader'));
+		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
 
 	}
 

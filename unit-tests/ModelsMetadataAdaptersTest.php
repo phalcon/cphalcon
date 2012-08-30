@@ -151,7 +151,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 	{
 
 		if (!extension_loaded('apc')) {
-			$this->markTestAsSkipped('apc extension is not loaded');
+			$this->markTestSkipped('apc extension is not loaded');
 			return false;
 		}
 

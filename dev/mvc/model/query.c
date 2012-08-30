@@ -2579,9 +2579,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *placeholders = NULL, *dependency_injector = NULL;
-	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *type = NULL;
-	zval *result = NULL, *exception_message = NULL, *exception = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *service = NULL, *manager = NULL, *meta_data = NULL, *intermediate = NULL;
+	zval *type = NULL, *result = NULL, *exception_message = NULL, *exception = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -2602,24 +2601,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "modelsManager", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsManager", 1);
 	
 	PHALCON_INIT_VAR(manager);
-	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the models-metaData service");
-		return;
-	}
-	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "modelsMetadata", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsMetadata", 1);
 	
 	PHALCON_INIT_VAR(meta_data);
-	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", c1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(intermediate);
 	PHALCON_CALL_METHOD_PARAMS_1(intermediate, this_ptr, "parse", manager, PH_NO_CHECK);

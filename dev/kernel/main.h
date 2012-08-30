@@ -68,6 +68,7 @@ extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *rep
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
+extern int phalcon_filter_identifier(zval *result, zval *param);
 
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);

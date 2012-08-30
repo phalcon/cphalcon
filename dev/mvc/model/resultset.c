@@ -239,13 +239,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 	
 	PHALCON_INIT_VAR(exists);
 	is_smaller_function(exists, index, count TSRMLS_CC);
-	if (zend_is_true(exists)) {
-		PHALCON_MM_RESTORE();
-		RETURN_TRUE;
-	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
+	RETURN_NCTOR(exists);
 }
 
 /**
@@ -270,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	
 	PHALCON_INIT_VAR(exists);
 	is_smaller_function(exists, index, count TSRMLS_CC);
-	if (zend_is_true(exists)) {
+	if (Z_TYPE_P(exists) == IS_BOOL && Z_BVAL_P(exists)) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", index, PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(valid);
@@ -427,17 +422,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(cache);
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, valid){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
-
-
-	
 }
 

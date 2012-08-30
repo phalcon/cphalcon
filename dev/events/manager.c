@@ -88,8 +88,8 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type = NULL, *source = NULL, *event_parts = NULL, *type = NULL;
-	zval *event_name = NULL, *events = NULL, *fire_events = NULL, *handler = NULL;
-	zval *event = NULL, *class_name = NULL, *arguments = NULL;
+	zval *event_name = NULL, *status = NULL, *events = NULL, *fire_events = NULL;
+	zval *handler = NULL, *event = NULL, *class_name = NULL, *arguments = NULL;
 	zval *c0 = NULL;
 	zval *i0 = NULL;
 	zval *r0 = NULL;
@@ -126,6 +126,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_INIT_VAR(event_name);
 	phalcon_array_fetch_long(&event_name, event_parts, 1, PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(status);
+	ZVAL_NULL(status);
+	
 	PHALCON_INIT_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(events, type);
@@ -157,10 +160,13 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 					array_init(arguments);
 					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
 					phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
-					PHALCON_CALL_FUNC_PARAMS_2_NORETURN("call_user_func_array", handler, arguments);
+					
+					PHALCON_INIT_VAR(status);
+					PHALCON_CALL_FUNC_PARAMS_2(status, "call_user_func_array", handler, arguments);
 				} else {
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
-						PHALCON_CALL_METHOD_PARAMS_2_NORETURN(handler, Z_STRVAL_P(event_name), event, source, PH_NO_CHECK);
+						PHALCON_INIT_VAR(status);
+						PHALCON_CALL_METHOD_PARAMS_2(status, handler, Z_STRVAL_P(event_name), event, source, PH_NO_CHECK);
 					}
 				}
 			}
@@ -171,6 +177,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CCTOR(status);
 }
 

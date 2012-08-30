@@ -28,10 +28,10 @@ class My_Mustache_Engine extends \Phalcon\Mvc\View\Engine
 
 	protected $_params;
 
-	public function __construct(Phalcon\Mvc\View $view)
+	public function __construct(Phalcon\Mvc\View $view, Phalcon\DI $di)
 	{
 		$this->_mustache = new Mustache_Engine();
-		parent::__construct($view);
+		parent::__construct($view, $di);
 	}
 
 	public function render($path, $params)
@@ -52,11 +52,11 @@ class My_Twig_Engine extends \Phalcon\Mvc\View\Engine
 
 	protected $_twig;
 
-	public function __construct(Phalcon\Mvc\View $view)
+	public function __construct(Phalcon\Mvc\View $view, Phalcon\DI $di)
 	{
 		$loader = new Twig_Loader_Filesystem($view->getViewsDir());
 		$this->_twig = new Twig_Environment($loader);
-		parent::__construct($view);
+		parent::__construct($view, $di);
 	}
 
 	public function render($path, $params)

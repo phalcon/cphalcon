@@ -259,6 +259,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -299,6 +304,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -339,6 +349,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -379,6 +394,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -419,6 +439,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -459,6 +484,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -499,6 +529,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(table);
 	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
 	
@@ -584,16 +619,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, write){
 
-	zval *data = NULL;
 
-	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A method must be implemented by an Adapter");
-	return;
 }
 

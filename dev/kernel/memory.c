@@ -107,7 +107,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 		#endif*/
 
 		if (active_memory->pointer > -1) {
-			for (i=active_memory->pointer;i>=0;i--) {
+			for (i = active_memory->pointer; i>=0; i--) {
 				if(active_memory->addresses[i] != NULL){
 					if(*active_memory->addresses[i] != NULL ){
 						if (Z_REFCOUNT_PP(active_memory->addresses[i])-1 == 0) {
@@ -148,13 +148,47 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 }
 
 /**
+ * Finishes memory stack when PHP throws a fatal error
+ */
+int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
+
+	#if !ZEND_DEBUG
+
+	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
+
+	while (active_memory != NULL) {
+
+		prev = active_memory->prev;
+		efree(active_memory);
+		active_memory = prev;
+		if (prev != NULL) {
+			active_memory->next = NULL;
+			if (active_memory == PHALCON_GLOBAL(start_memory)) {
+				efree(active_memory);
+				PHALCON_GLOBAL(start_memory) = NULL;
+				active_memory = NULL;
+			}
+		} else {
+			PHALCON_GLOBAL(start_memory) = NULL;
+			active_memory = NULL;
+		}
+
+	}
+
+	#endif
+
+	return SUCCESS;
+
+}
+
+/**
  * Observes a memory pointer to release its memory at the end of the request
  */
 int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC){
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
 	active_memory->pointer++;
 	#ifndef PHALCON_RELEASE
-	if (active_memory->pointer>=(PHALCON_MAX_MEMORY_STACK-1)) {
+	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK-1)) {
 		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d\n", PHALCON_MAX_MEMORY_STACK);
 		return FAILURE;
 	}

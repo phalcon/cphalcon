@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *status = NULL, *modules = NULL, *module = NULL, *path = NULL, *exception_msg = NULL;
 	zval *exception = NULL, *class_name = NULL, *module_object = NULL;
 	zval *view = NULL, *controller_name = NULL, *action_name = NULL, *params = NULL;
-	zval *dispatcher = NULL, *response = NULL, *content = NULL;
+	zval *dispatcher = NULL, *controller = NULL, *response = NULL, *content = NULL;
 	zval *c0 = NULL;
 	int eval_int;
 
@@ -286,7 +286,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 	}
 	
-	PHALCON_CALL_METHOD_NORETURN(dispatcher, "dispatch", PH_NO_CHECK);
+	PHALCON_INIT_VAR(controller);
+	PHALCON_CALL_METHOD(controller, dispatcher, "dispatch", PH_NO_CHECK);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "application:afterHandleRequest", 1);
@@ -299,15 +300,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 	}
 	
-	PHALCON_INIT_VAR(controller_name);
-	PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername", PH_NO_CHECK);
+	if (Z_TYPE_P(controller) == IS_OBJECT) {
+		PHALCON_INIT_VAR(controller_name);
+		PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(action_name);
+		PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(params);
+		PHALCON_CALL_METHOD(params, dispatcher, "getparams", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params, PH_NO_CHECK);
+	}
 	
-	PHALCON_INIT_VAR(action_name);
-	PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(params);
-	PHALCON_CALL_METHOD(params, dispatcher, "getparams", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(view, "finish", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(service);

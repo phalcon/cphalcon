@@ -36,7 +36,6 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "main/php_output.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
@@ -91,80 +90,6 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Sets the dependency injection container
- *
- * @param Phalcon\DI $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_View, setDI){
-
-	zval *dependency_injector = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the dependency injection container
- *
- * @return Phalcon\DI
- */
-PHP_METHOD(Phalcon_Mvc_View, getDI){
-
-	zval *t0 = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(t0);
-}
-
-/**
- * Sets the event manager
- *
- * @param Phalcon\Events\Manager $eventsManager
- */
-PHP_METHOD(Phalcon_Mvc_View, setEventsManager){
-
-	zval *events_manager = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\Manager
- */
-PHP_METHOD(Phalcon_Mvc_View, getEventsManager){
-
-	zval *events_manager = NULL;
-
-	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
 }
 
 /**
@@ -471,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_View, start){
 
 	PHALCON_MM_GROW();
 	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
-	php_start_ob_buffer(NULL, 0, 1 TSRMLS_CC);
+	PHALCON_CALL_FUNC_NORETURN("ob_start");
 	
 	PHALCON_MM_RESTORE();
 }
@@ -483,8 +408,8 @@ PHP_METHOD(Phalcon_Mvc_View, start){
  */
 PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 
-	zval *engines = NULL, *registered_engines = NULL, *number_engines = NULL;
-	zval *php_engine = NULL, *dependency_injector = NULL, *arguments = NULL;
+	zval *engines = NULL, *dependency_injector = NULL, *registered_engines = NULL;
+	zval *number_engines = NULL, *php_engine = NULL, *arguments = NULL;
 	zval *engine_service = NULL, *extension = NULL, *engine_object = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -498,6 +423,9 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	PHALCON_INIT_VAR(engines);
 	phalcon_read_property(&engines, this_ptr, SL("_engines"), PH_NOISY_CC);
 	if (Z_TYPE_P(engines) == IS_BOOL && !Z_BVAL_P(engines)) {
+		PHALCON_INIT_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		
 		PHALCON_INIT_VAR(engines);
 		array_init(engines);
 		
@@ -509,19 +437,18 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 		if (phalcon_compare_strict_long(number_engines, 0 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(php_engine);
 			object_init_ex(php_engine, phalcon_mvc_view_engine_php_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(php_engine, "__construct", this_ptr, PH_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(php_engine, "__construct", this_ptr, dependency_injector, PH_CHECK);
 			phalcon_array_update_string(&engines, SL(".phtml"), &php_engine, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the view engine services");
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "A dependency injector container is required to obtain the application services");
 				return;
 			}
 			
 			PHALCON_INIT_VAR(arguments);
 			array_init(arguments);
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
 			if (!phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
 				return;
 			}
@@ -852,9 +779,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			RETURN_FALSE;
 		}
 	}
-	
-	PHALCON_INIT_VAR(contents);
-	php_ob_get_buffer(contents TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(contents);
 	PHALCON_CALL_FUNC(contents, "ob_get_contents");

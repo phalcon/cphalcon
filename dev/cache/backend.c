@@ -100,8 +100,6 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 
 	zval *key_name = NULL, *backend = NULL, *front_end = NULL, *prefix = NULL, *prefixed_key = NULL;
 	zval *existing_cache = NULL, *fresh = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -124,13 +122,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	
 	PHALCON_INIT_VAR(existing_cache);
 	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", prefixed_key, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_NULL(t0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	is_equal_function(r0, existing_cache, t0 TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
 		PHALCON_CALL_METHOD_NORETURN(front_end, "start", PH_NO_CHECK);

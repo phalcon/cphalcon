@@ -37,7 +37,6 @@
  * Initialize globals on each request or each thread started
  */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
-    phalcon_globals->phalcon_memory_stack = 0;
     phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 	#ifndef PHALCON_RELEASE
@@ -332,6 +331,48 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 	for(i=0; i < Z_STRLEN_P(param) && i < 2048;i++){
 		ch = Z_STRVAL_P(param)[i];
 		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)){
+			temp[alloc] = ch;
+			alloc++;
+		}
+	}
+
+	if (alloc > 0) {
+		Z_TYPE_P(result) = IS_STRING;
+		Z_STRLEN_P(result) = alloc;
+		Z_STRVAL_P(result) = (char *) emalloc(alloc+1);
+		memcpy(Z_STRVAL_P(result), temp, alloc);
+		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+	} else {
+		ZVAL_STRING(result, "", 1);
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Filter identifiers string like variables or database columns/tables
+ */
+int phalcon_filter_identifier(zval *result, zval *param){
+
+	int i, ch, alloc = 0;
+	char temp[2048];
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	for(i=0; i < Z_STRLEN_P(param) && i < 2048;i++){
+		ch = Z_STRVAL_P(param)[i];
+		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)||ch==95){
 			temp[alloc] = ch;
 			alloc++;
 		}

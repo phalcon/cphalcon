@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 
 	zval *micro = NULL, *final_time = NULL, *active_profile = NULL, *initial_time = NULL;
 	zval *diference = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -140,9 +140,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	phalcon_array_append(&t1, active_profile, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), t1 TSRMLS_CC);
 	if (phalcon_method_exists_ex(this_ptr, SL("afterendprofile") TSRMLS_CC) == SUCCESS) {
-		PHALCON_ALLOC_ZVAL_MM(t2);
-		phalcon_read_property(&t2, this_ptr, SL("_activeProfile"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", t2, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "afterendprofile", active_profile, PH_NO_CHECK);
 	}
 	
 	

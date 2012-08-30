@@ -446,12 +446,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 			PHALCON_INIT_VAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
+				goto ws_1d57_0;
 			}
 			
-			PHALCON_INIT_VAR(controller_name);
-			phalcon_read_property(&controller_name, this_ptr, SL("_controllerName"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(finished);
+			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+			if (Z_TYPE_P(finished) == IS_BOOL && !Z_BVAL_P(finished)) {
+				goto ws_1d57_0;
+			}
 		}
 		
 		PHALCON_INIT_VAR(has_namespace);
@@ -504,9 +506,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 				PHALCON_INIT_VAR(status);
 				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-					PHALCON_INIT_VAR(value);
-					ZVAL_BOOL(value, 0);
-					goto we_1d57_0;
+					goto ws_1d57_0;
+				}
+				
+				PHALCON_INIT_VAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (Z_TYPE_P(finished) == IS_BOOL && !Z_BVAL_P(finished)) {
+					goto ws_1d57_0;
 				}
 			}
 			
@@ -527,9 +533,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 				PHALCON_INIT_VAR(status);
 				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-					PHALCON_INIT_VAR(value);
-					ZVAL_BOOL(value, 0);
-					goto we_1d57_0;
+					goto ws_1d57_0;
+				}
+				
+				PHALCON_INIT_VAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (Z_TYPE_P(finished) == IS_BOOL && !Z_BVAL_P(finished)) {
+					goto ws_1d57_0;
 				}
 			}
 		} else {
@@ -540,9 +550,13 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 				PHALCON_INIT_VAR(status);
 				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 				if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-					PHALCON_INIT_VAR(value);
-					ZVAL_BOOL(value, 0);
-					goto we_1d57_0;
+					goto ws_1d57_0;
+				}
+				
+				PHALCON_INIT_VAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (Z_TYPE_P(finished) == IS_BOOL && !Z_BVAL_P(finished)) {
+					goto ws_1d57_0;
 				}
 			}
 			if (phalcon_method_exists_ex(controller, SL("notfoundaction") TSRMLS_CC) == SUCCESS) {
@@ -574,26 +588,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, dispatch){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
-			
-			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
-			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
-			}
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
 		goto ws_1d57_0;
 	we_1d57_0:
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:afterDispatchLoop", 1);
-		
-		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
-		if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
-		}
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);

@@ -32,27 +32,3 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-/**
- * Phalcon\Mvc\Controller
- *
- * Every application controller should extend this class that encapsulates all the controller functionality
- *
- * The controllers provide the “flow” between models and views. Controllers are responsible
- * for processing the incoming requests from the web browser, interrogating the models for data,
- * and passing that data on to the views for presentation.
- *
- *
- */
-
-/**
- * Phalcon\Mvc\Controller constructor
- *
- */
-PHP_METHOD(Phalcon_Mvc_Controller, __construct){
-
-
-	PHALCON_MM_GROW();
-	
-	PHALCON_MM_RESTORE();
-}
-

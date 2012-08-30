@@ -54,7 +54,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Apc();
+			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
 		$di->set('db', function(){

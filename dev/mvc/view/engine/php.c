@@ -33,7 +33,6 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
-#include "main/php_output.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
 
@@ -71,7 +70,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 
 	if (Z_TYPE_P(must_clean) == IS_BOOL && Z_BVAL_P(must_clean)) {
-		php_end_ob_buffer(0, 1 TSRMLS_CC);
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
@@ -100,8 +98,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 		return;
 	}
 	if (Z_TYPE_P(must_clean) == IS_BOOL && Z_BVAL_P(must_clean)) {
-		PHALCON_INIT_VAR(contents);
-		php_ob_get_buffer(contents TSRMLS_CC);
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
 		
