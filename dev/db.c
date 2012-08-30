@@ -51,13 +51,12 @@
  *
  * Phalcon\Db is an abstract class. You only can use it with a database adapter like Phalcon\Db\Adapter\Pdo
  *
- * 
  */
 
 /**
  * Phalcon\Db constructor
  *
- * @param stdClass $descriptor
+ * @param array $descriptor
  */
 PHP_METHOD(Phalcon_Db, __construct){
 
