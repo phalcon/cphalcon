@@ -35,7 +35,6 @@
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_execute.h"
 
-
 /** Main macros */
 #define PHALCON_DEBUG 0
 
@@ -517,7 +516,7 @@ int phalcon_clean_restore_stack(TSRMLS_D);
 
 /** Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
-	ALLOC_ZVAL(z); INIT_PZVAL(z);
+	ALLOC_ZVAL(z); INIT_PZVAL(z); ZVAL_NULL(z);
 
 #ifndef PHP_WIN32
 
@@ -526,8 +525,9 @@ int phalcon_clean_restore_stack(TSRMLS_D);
 		if (Z_REFCOUNT_P(z) > 1) {\
 			Z_DELREF_P(z);\
 			ALLOC_ZVAL(z);\
-			Z_SET_REFCOUNT_P(z, 1);\
+			Z_SET_REFCOUNT_P(z, 1);\			
 			Z_UNSET_ISREF_P(z);\
+			ZVAL_NULL(z);\
 		} else {\
 			zval_ptr_dtor(&z);\
 			PHALCON_ALLOC_ZVAL(z);\
@@ -4382,6 +4382,7 @@ inline void phalcon_init_var(zval **var TSRMLS_DC){
 			ALLOC_ZVAL(*var);
 			Z_SET_REFCOUNT_PP(var, 1);
 			Z_UNSET_ISREF_PP(var);
+			ZVAL_NULL(*var);
 		} else {
 			zval_ptr_dtor(var);
 			PHALCON_ALLOC_ZVAL(*var);
@@ -4494,6 +4495,36 @@ int phalcon_memory_restore_stack(TSRMLS_D){
 }
 
 /**
+ * Finishes memory stack when PHP throws a fatal error
+ */
+int phalcon_clean_shutdown_stack(TSRMLS_D){
+
+	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
+
+	while (active_memory != NULL) {
+
+		prev = active_memory->prev;
+		efree(active_memory);
+		active_memory = prev;
+		if (prev != NULL) {
+			active_memory->next = NULL;
+			if (active_memory == PHALCON_GLOBAL(start_memory)) {
+				efree(active_memory);
+				PHALCON_GLOBAL(start_memory) = NULL;
+				active_memory = NULL;
+			}
+		} else {
+			PHALCON_GLOBAL(start_memory) = NULL;
+			active_memory = NULL;
+		}
+
+	}
+
+	return SUCCESS;
+
+}
+
+/**
  * Observes a memory pointer to release its memory at the end of the request
  */
 int phalcon_memory_observe(zval **var TSRMLS_DC){
@@ -4514,6 +4545,7 @@ int phalcon_memory_alloc(zval **var TSRMLS_DC){
 	active_memory->addresses[active_memory->pointer+1] = NULL;
 	ALLOC_ZVAL(*var);
 	INIT_PZVAL(*var);
+	ZVAL_NULL(*var);
 	return SUCCESS;
 }
 
@@ -38179,24 +38211,23 @@ PHP_MINIT_FUNCTION(phalcon){
 	return SUCCESS;
 }
 
+
 PHP_MSHUTDOWN_FUNCTION(phalcon){
+	if (PHALCON_GLOBAL(active_memory) != NULL) {
+		phalcon_clean_shutdown_stack(TSRMLS_C);
+	}
 	return SUCCESS;
 }
 
 PHP_RINIT_FUNCTION(phalcon){
-#if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_init_fcall_cache(TSRMLS_C);
-#else
 	return SUCCESS;
-#endif
 }
 
 PHP_RSHUTDOWN_FUNCTION(phalcon){
-#if PHALCON_EXPERIMENTAL_CALL
-	return phalcon_free_fcall_cache(TSRMLS_C);
-#else
+	if (PHALCON_GLOBAL(active_memory) != NULL) {
+		phalcon_clean_shutdown_stack(TSRMLS_C);
+	}
 	return SUCCESS;
-#endif
 }
 
 zend_module_entry phalcon_module_entry = {
