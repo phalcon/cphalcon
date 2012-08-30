@@ -441,7 +441,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type = NULL, *parameters = NULL, *params = NULL, *id = NULL, *name = NULL, *value = NULL;
 	zval *code = NULL, *key = NULL, *attribute = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -468,9 +467,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	}
 	eval_int = phalcon_array_isset_long(params, 0);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, params, SL("id"), PH_NOISY_CC);
-		phalcon_array_update_long(&params, 0, &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(id);
+		phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);
+		phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(id);
@@ -914,9 +913,9 @@ PHP_METHOD(Phalcon_Tag, form){
 
 	zval *parameters = NULL, *params = NULL, *dispatcher = NULL, *dispatch_params = NULL;
 	zval *slash = NULL, *action_parameters = NULL, *action = NULL, *controller_name = NULL;
-	zval *action_name = NULL, *url = NULL, *form_action = NULL, *code = NULL, *avalue = NULL;
-	zval *key = NULL, *attribute = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *action_name = NULL, *url = NULL, *form_action = NULL, *query_parameters = NULL;
+	zval *code = NULL, *avalue = NULL, *key = NULL, *attribute = NULL, *final_code = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1004,9 +1003,9 @@ PHP_METHOD(Phalcon_Tag, form){
 		PHALCON_INIT_VAR(parameters);
 		phalcon_array_fetch_string(&parameters, params, SL("parameters"), PH_NOISY_CC);
 		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SV(r1, "?", parameters);
-		phalcon_concat_self(&action, r1 TSRMLS_CC);
+		PHALCON_INIT_VAR(query_parameters);
+		PHALCON_CONCAT_SV(query_parameters, "?", parameters);
+		phalcon_concat_self(&action, query_parameters TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -1035,10 +1034,10 @@ PHP_METHOD(Phalcon_Tag, form){
 		goto fes_9b93_5;
 	fee_9b93_5:
 	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	PHALCON_CONCAT_VS(r2, code, ">");
+	PHALCON_INIT_VAR(final_code);
+	PHALCON_CONCAT_VS(final_code, code, ">");
 	
-	RETURN_CTOR(r2);
+	RETURN_CTOR(final_code);
 }
 
 /**

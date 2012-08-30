@@ -20,6 +20,13 @@
 /** Operators */
 #define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
 
+/** strict boolean comparison */
+#define PHALCON_IS_FALSE(var) Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)
+#define PHALCON_IS_TRUE(var) Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var)
+
+#define PHALCON_IS_NOT_FALSE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var))
+#define PHALCON_IS_NOT_TRUE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var))
+
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);

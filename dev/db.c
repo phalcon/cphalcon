@@ -285,6 +285,7 @@ PHP_METHOD(Phalcon_Db, insert){
 		
 		PHALCON_INIT_VAR(placeholders);
 		array_init(placeholders);
+		
 		if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 			return;
 		}
@@ -294,10 +295,10 @@ PHP_METHOD(Phalcon_Db, insert){
 		zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 		
-		ph_cycle_start_1:
+		ph_cycle_start_0:
 		
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto ph_cycle_end_1;
+				goto ph_cycle_end_0;
 			}
 			
 			PHALCON_INIT_VAR(position);
@@ -319,10 +320,11 @@ PHP_METHOD(Phalcon_Db, insert){
 					phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
 				}
 			}
+			
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto ph_cycle_start_1;
+			goto ph_cycle_start_0;
 		
-		ph_cycle_end_1:
+		ph_cycle_end_0:
 		zend_hash_destroy(ah0);
 		efree(ah0);
 		
@@ -390,6 +392,7 @@ PHP_METHOD(Phalcon_Db, update){
 	
 	PHALCON_INIT_VAR(placeholders);
 	array_init(placeholders);
+	
 	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 		return;
 	}
@@ -399,10 +402,10 @@ PHP_METHOD(Phalcon_Db, update){
 	zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_start_2:
+	ph_cycle_start_0:
 	
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto ph_cycle_end_2;
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_VAR(position);
@@ -435,10 +438,11 @@ PHP_METHOD(Phalcon_Db, update){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
 		}
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_2;
+		goto ph_cycle_start_0;
 	
-	ph_cycle_end_2:
+	ph_cycle_end_0:
 	zend_hash_destroy(ah0);
 	efree(ah0);
 	
@@ -1130,6 +1134,7 @@ PHP_METHOD(Phalcon_Db, listTables){
 	
 	PHALCON_INIT_VAR(all_tables);
 	array_init(all_tables);
+	
 	if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
 		return;
 	}
@@ -1137,10 +1142,10 @@ PHP_METHOD(Phalcon_Db, listTables){
 	ah0 = Z_ARRVAL_P(tables);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_start_3:
+	ph_cycle_start_0:
 	
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto ph_cycle_end_3;
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_GET_FOREACH_VALUE(table);
@@ -1148,10 +1153,11 @@ PHP_METHOD(Phalcon_Db, listTables){
 		PHALCON_INIT_VAR(table_name);
 		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY_CC);
 		phalcon_array_append(&all_tables, table_name, PH_SEPARATE TSRMLS_CC);
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_3;
+		goto ph_cycle_start_0;
 	
-	ph_cycle_end_3:
+	ph_cycle_end_0:
 	
 	
 	RETURN_CTOR(all_tables);

@@ -55,7 +55,6 @@ extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
-
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 
 /** Function replacement **/
@@ -146,6 +145,11 @@ extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 		}\
 	}
 
+#define PHALCON_GET_FOREACH_VALUE(var) \
+	PHALCON_INIT_VAR(var); \
+	ZVAL_ZVAL(var, *hd, 1, 0);
+
+/** class registering */
 #define PHALCON_REGISTER_CLASS(ns, classname, name, methods, flags) \
 	{ \
 		zend_class_entry ce; \
