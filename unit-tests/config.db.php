@@ -11,5 +11,6 @@ $configPostgresql = array(
 	'host' => '127.0.0.1',
 	'username' => 'postgres',
 	'password' => '',
-	'dbname' => 'phalcon_test'
+	'dbname' => 'phalcon_test',
+    'schema' => 'public'
 );
