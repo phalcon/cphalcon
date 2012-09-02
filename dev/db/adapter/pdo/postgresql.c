@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -43,6 +44,58 @@
  * Specific functions for the Postgresql database system
  * 
  */
+
+/**
+ * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
+ * Call it when you need to restore a database connection.
+ *
+ * Support set search_path after connectted if schema is specified in config.
+ *
+ * @param array $descriptor
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
+
+	zval *descriptor = NULL, *schema = NULL, *sql = NULL;
+	int has_schema;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &descriptor) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!descriptor) {
+		PHALCON_ALLOC_ZVAL_MM(descriptor);
+		ZVAL_NULL(descriptor);
+	} else {
+		PHALCON_SEPARATE_PARAM(descriptor);
+	}
+
+	if (!zend_is_true(descriptor)) {
+		PHALCON_INIT_VAR(descriptor);
+		phalcon_read_property(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
+	}
+
+	has_schema = phalcon_array_isset_string(descriptor, SL("schema")+1);
+	if (has_schema) {
+		PHALCON_INIT_VAR(schema);
+		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
+		PHALCON_SEPARATE_PARAM(descriptor);
+		phalcon_array_unset_string(descriptor, SL("schema")+1);
+	}
+
+    PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
+
+	if (has_schema) {
+        PHALCON_INIT_VAR(sql);
+        PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
+        PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", sql, PH_NO_CHECK);
+	}
+
+	PHALCON_MM_RESTORE();
+}
 
 /**
  * Returns an array of Phalcon\Db\Column objects describing a table
