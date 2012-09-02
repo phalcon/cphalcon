@@ -207,14 +207,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		
 		PHALCON_INIT_VAR(message);
 		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
-		if (zend_is_true(message)) {
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
-		} else {
+		if (!zend_is_true(message)) {
 			PHALCON_INIT_VAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		}
 		
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

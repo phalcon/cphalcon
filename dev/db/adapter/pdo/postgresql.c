@@ -32,17 +32,28 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/concat.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo\Postgresql
  *
  * Specific functions for the Postgresql database system
- * 
+ * <code>
+ *
+ * $config = array(
+ *  "host" => "192.168.0.11",
+ *  "dbname" => "blog",
+ *  "username" => "postgres",
+ *  "password" => ""
+ * );
+ *
+ * $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($config);
+ *
+ * </code>
  */
 
 /**
@@ -54,7 +65,7 @@
  * @param array $descriptor
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __connect){
 
 	zval *descriptor = NULL, *schema = NULL, *sql = NULL;
 	int has_schema;
@@ -83,15 +94,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 		PHALCON_INIT_VAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
 		PHALCON_SEPARATE_PARAM(descriptor);
-		phalcon_array_unset_string(descriptor, SL("schema")+1);
+		phalcon_array_unset(descriptor, schema);
 	}
 
-    PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
 
 	if (has_schema) {
-        PHALCON_INIT_VAR(sql);
-        PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
-        PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", sql, PH_NO_CHECK);
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SET search_path TO '", schema, "'");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "execute", sql, PH_NO_CHECK);
 	}
 
 	PHALCON_MM_RESTORE();
@@ -99,6 +110,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 
 /**
  * Returns an array of Phalcon\Db\Column objects describing a table
+ *
+ * <code>print_r($connection->describeColumns("posts") ?></code>
  *
  * @param string $table
  * @param string $schema
@@ -120,7 +133,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -130,43 +143,43 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		PHALCON_ALLOC_ZVAL_MM(schema);
 		ZVAL_NULL(schema);
 	}
-	
+
 	PHALCON_INIT_VAR(columns);
 	array_init(columns);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
+
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "describecolumns", table, schema, PH_NO_CHECK);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_ASSOC") TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
-	
+
 	PHALCON_INIT_VAR(old_column);
 	ZVAL_NULL(old_column);
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
-	
+
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	fes_0ac0_0:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_0ac0_0;
 		}
-		
+
 		PHALCON_INIT_VAR(field);
 		ZVAL_ZVAL(field, *hd, 1, 0);
 		PHALCON_INIT_VAR(definition);
 		array_init(definition);
-		
+
 		PHALCON_INIT_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
-		
+
 		PHALCON_INIT_VAR(r0);
 		phalcon_fast_strpos_str(r0, column_type, SL("int") TSRMLS_CC);
 		if (Z_TYPE_P(r0) != IS_BOOL || (Z_TYPE_P(r0) == IS_BOOL && Z_BVAL_P(r0))) {
@@ -219,17 +232,17 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 				}
 			}
 		}
-		
+
 		PHALCON_INIT_VAR(r8);
 		phalcon_fast_strpos_str(r8, column_type, SL("(") TSRMLS_CC);
 		if (Z_TYPE_P(r8) != IS_BOOL || (Z_TYPE_P(r8) == IS_BOOL && Z_BVAL_P(r8))) {
 			PHALCON_INIT_VAR(matches);
 			array_init(matches);
-			
+
 			PHALCON_INIT_VAR(c0);
 			ZVAL_STRING(c0, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
 			Z_SET_ISREF_P(matches);
-			
+
 			PHALCON_INIT_VAR(r9);
 			PHALCON_CALL_FUNC_PARAMS_3(r9, "preg_match", c0, column_type, matches);
 			Z_UNSET_ISREF_P(matches);
@@ -242,40 +255,40 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 				}
 			}
 		}
-		
+
 		PHALCON_INIT_VAR(r11);
 		phalcon_fast_strpos_str(r11, column_type, SL("unsigned") TSRMLS_CC);
 		if (zend_is_true(r11)) {
 			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		if (!zend_is_true(old_column)) {
 			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(r12);
 		phalcon_array_fetch_string(&r12, field, SL("key"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(r12, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(r13);
 		phalcon_array_fetch_string(&r13, field, SL("null"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(r13, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(r14);
 		phalcon_array_fetch_string(&r14, field, SL("extra"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(r14, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
-		
+
 		PHALCON_INIT_VAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition, PH_CHECK);
@@ -284,8 +297,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_0;
 	fee_0ac0_0:
-	
-	
+
+
 	RETURN_CTOR(columns);
 }
 
@@ -315,7 +328,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -325,31 +338,31 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 		PHALCON_ALLOC_ZVAL_MM(schema);
 		ZVAL_NULL(schema);
 	}
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "describeindexes", table, schema, PH_NO_CHECK);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_ASSOC") TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
-	
+
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
-	
+
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	fes_0ac0_1:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_0ac0_1;
 		}
-		
+
 		PHALCON_INIT_VAR(index);
 		ZVAL_ZVAL(index, *hd, 1, 0);
 		PHALCON_INIT_VAR(key_name);
@@ -360,27 +373,27 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 			array_init(a0);
 			phalcon_array_update_zval(&indexes, key_name, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch_string(&r0, index, SL("column_name"), PH_NOISY_CC);
-		phalcon_array_update_multi_append_2(&indexes, key_name, r0, 0 TSRMLS_CC);
+		phalcon_array_update_append_multi_2(&indexes, key_name, r0, 0 TSRMLS_CC);
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_1;
 	fee_0ac0_1:
-	
+
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
 		return;
 	}
-	
+
 	ah1 = Z_ARRVAL_P(indexes);
 	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	fes_0ac0_2:
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 			goto fee_0ac0_2;
 		}
-		
+
 		PHALCON_INIT_VAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
 		PHALCON_INIT_VAR(index_columns);
@@ -392,8 +405,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_0ac0_2;
 	fee_0ac0_2:
-	
-	
+
+
 	RETURN_CTOR(index_objects);
 }
 
@@ -424,7 +437,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -434,31 +447,31 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		PHALCON_ALLOC_ZVAL_MM(schema);
 		ZVAL_NULL(schema);
 	}
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "describereferences", table, schema, PH_NO_CHECK);
-	
+
 	PHALCON_INIT_VAR(references);
 	array_init(references);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_ASSOC") TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
-	
+
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	fes_0ac0_3:
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
 			goto fee_0ac0_3;
 		}
-		
+
 		PHALCON_INIT_VAR(reference);
 		ZVAL_ZVAL(reference, *hd, 1, 0);
 		PHALCON_INIT_VAR(constraint_name);
@@ -481,7 +494,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 			phalcon_array_update_string(&a0, SL("referencedColumns"), &a2, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_zval(&references, constraint_name, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+
 		PHALCON_INIT_VAR(r2);
 		phalcon_array_fetch_string(&r2, reference, SL("column_name"), PH_NOISY_CC);
 		if (Z_TYPE_P(references) == IS_ARRAY) {
@@ -507,7 +520,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 			phalcon_array_update_string(&t2, SL("columns"), &t3, PH_COPY TSRMLS_CC);
 		}
 		phalcon_array_append(&t3, r2, 0 TSRMLS_CC);
-		
+
 		PHALCON_INIT_VAR(r3);
 		phalcon_array_fetch_string(&r3, reference, SL("referenced_column_name"), PH_NOISY_CC);
 		if (Z_TYPE_P(references) == IS_ARRAY) {
@@ -536,20 +549,20 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto fes_0ac0_3;
 	fee_0ac0_3:
-	
+
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	if (!phalcon_valid_foreach(references TSRMLS_CC)) {
 		return;
 	}
-	
+
 	ah1 = Z_ARRVAL_P(references);
 	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	fes_0ac0_4:
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
 			goto fee_0ac0_4;
 		}
-		
+
 		PHALCON_INIT_VAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
 		PHALCON_INIT_VAR(array_reference);
@@ -575,8 +588,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		zend_hash_move_forward_ex(ah1, &hp1);
 		goto fes_0ac0_4;
 	fee_0ac0_4:
-	
-	
+
+
 	RETURN_CTOR(reference_objects);
 }
 
@@ -595,7 +608,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, tableOptions){
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -605,24 +618,24 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, tableOptions){
 		PHALCON_ALLOC_ZVAL_MM(schema_name);
 		ZVAL_NULL(schema_name);
 	}
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, t0, "tableoptions", table_name, schema_name, PH_NO_CHECK);
-	
+
 	PHALCON_INIT_VAR(references);
 	array_init(references);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(t1);
 	phalcon_get_class_constant(t1, phalcon_db_ce, SL("FETCH_ASSOC") TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
-	
+
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	phalcon_array_fetch_long(&r0, describe, 0, PH_NOISY_CC);
-	
+
 	RETURN_CCTOR(r0);
 }
 
