@@ -32,3 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+/**
+ * Phalcon\Flash\Exception
+ *
+ * Exceptions thrown in Phalcon\Flash will use this class
+ *
+ */
+

@@ -37,10 +37,33 @@
 #include "mvc/model/query/scanner.h"
 #include "mvc/model/query/lang.h"
 
+/**
+ * Phalcon\Mvc\Model\Query\Lang
+ *
+ * PHQL is implemented as a parser (written in C) that translates syntax in
+ * that of the target RDBMS. It allows Phalcon to offer a unified SQL language to
+ * the developer, while internally doing all the work of translating PHQL
+ * instructions to the most optimal SQL instructions depending on the
+ * RDBMS type associated with a model.
+ *
+ * To achieve the highest performance possible, we wrote a parser that uses
+ * the same technology as SQLite. This technology provides a small in-memory
+ * parser with a very low memory footprint that is also thread-safe.
+ *
+ * <code>
+ * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL("SELECT r.* FROM Robots r LIMIT 10");
+ * </code>
+ */
+
+/**
+ * Parses a PHQL statement returning an intermediate representation (IR)
+ *
+ * @param string $phsql
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
-	zval *phql = NULL;
-	zval *r0 = NULL;
+	zval *phql = NULL, *intermediate = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -54,10 +77,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 		return;
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	if (phql_parse_phql(r0, phql TSRMLS_CC) == FAILURE) {
+	PHALCON_INIT_VAR(intermediate);
+	if (phql_parse_phql(intermediate, phql TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	RETURN_CTOR(r0);
+	
+	RETURN_CCTOR(intermediate);
 }
 

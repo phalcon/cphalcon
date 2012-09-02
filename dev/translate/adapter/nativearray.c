@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	if (eval_int) {
 		PHALCON_INIT_VAR(translation);
 		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
-		if (zend_is_true(placeholders)) {
+		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(number_placeholders);
 			phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
 			if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 /**
  * Check whether is defined a translation key in the internal array
  *
- * @param string $index
+ * @param 	string $index
  * @return bool
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(translate, index);
 	
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(exists, r0);
 	

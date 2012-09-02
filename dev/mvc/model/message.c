@@ -33,15 +33,33 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Mvc\Model\Message
  *
  * Encapsulates validation info generated before save/delete records fails
  *
- * 
+ * <code>
+ * use Phalcon\Mvc\Model\Message as Message;
+ *
+ * class Robots extends Phalcon\Mvc\Model
+ *{
+ *
+ *   public function beforeSave()
+ *   {
+ *     if (this->name == 'Peter') {
+ *        $text = "A robot cannot be named Peter";
+ *        $field = "name";
+ *        $type = "InvalidValue";
+ *        $message = new Message($text, $field, $type);
+ *        $this->appendMessage($message);
+ *     }
+ *   }
+ *
+ * }
+ * </code>
  *
  */
 
@@ -108,13 +126,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getType){
 
-	zval *t0 = NULL;
+	zval *type = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(type);
+	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(type);
 }
 
 /**
@@ -145,13 +163,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage){
 
-	zval *t0 = NULL;
+	zval *message = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_message"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(message);
+	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(message);
 }
 
 /**
@@ -182,13 +200,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getField){
 
-	zval *t0 = NULL;
+	zval *field = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_field"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(field);
+	phalcon_read_property(&field, this_ptr, SL("_field"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(field);
 }
 
 /**
@@ -198,13 +216,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getField){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __toString){
 
-	zval *t0 = NULL;
+	zval *message = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_message"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(message);
+	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(message);
 }
 
 /**
@@ -215,9 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __toString){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 
-	zval *message = NULL;
-	zval *i0 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *message = NULL, *message_text = NULL, *field = NULL, *type = NULL, *message_object = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -226,16 +242,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	object_init_ex(i0, phalcon_mvc_model_message_ce);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_string(&r0, message, SL("_message"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_array_fetch_string(&r1, message, SL("_field"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	phalcon_array_fetch_string(&r2, message, SL("_type"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(i0, "__construct", r0, r1, r2, PH_CHECK);
+	PHALCON_INIT_VAR(message_text);
+	phalcon_array_fetch_string(&message_text, message, SL("_message"), PH_NOISY_CC);
 	
-	RETURN_CTOR(i0);
+	PHALCON_INIT_VAR(field);
+	phalcon_array_fetch_string(&field, message, SL("_field"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(type);
+	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(message_object);
+	object_init_ex(message_object, phalcon_mvc_model_message_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message_object, "__construct", message_text, field, type, PH_CHECK);
+	
+	RETURN_CTOR(message_object);
 }
 

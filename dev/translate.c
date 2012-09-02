@@ -74,8 +74,8 @@ PHP_METHOD(Phalcon_Translate, _){
 /**
  * Sets a translation value
  *
- * @param string $offset
- * @param string $value
+ * @param 	string $offset
+ * @param 	string $value
  */
 PHP_METHOD(Phalcon_Translate, offsetSet){
 
@@ -159,17 +159,5 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, c0, PH_NO_CHECK);
 	
 	RETURN_CCTOR(translation);
-}
-
-PHP_METHOD(Phalcon_Translate, query){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Translate, exists){
-
-
-	
 }
 

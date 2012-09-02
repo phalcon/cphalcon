@@ -44,7 +44,23 @@
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
  *
- * 
+ * <code>
+ *
+ * //Using a standard foreach
+ * $robots = $Robots::find(array("type='virtual'", "order" => "name"));
+ * foreach($robots as $robot){
+ *  echo $robot->name, "\n";
+ * }
+ *
+ * //Using a while
+ * $robots = $Robots::find(array("type='virtual'", "order" => "name"));
+ * $robots->rewind();
+ * while($robots->valid()){
+ *  $robot = $robots->current();
+ *  echo $robot->name, "\n";
+ *  $robots->next();
+ * }
+ * </code>
  *
  */
 
@@ -69,6 +85,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 /**
  * Gets pointer number of active row in the resultset
  *
+ * @return int
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
 
@@ -179,7 +196,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 
 	zval *count = NULL, *type = NULL, *result = NULL, *number_rows = NULL, *rows = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(count);
@@ -211,10 +227,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 		phalcon_update_property_zval(this_ptr, SL("_count"), count TSRMLS_CC);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_count"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(count);
 }
 
 /**

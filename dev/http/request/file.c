@@ -42,7 +42,23 @@
  *
  * Provides OO wrappers to the $_FILES superglobal
  *
+ *<code>
+ *	class PostsController extends \Phalcon\Mvc\Controller
+ *	{
  *
+ *	public function uploadAction()
+ *	{
+ *		//Check if the user has uploaded files
+ *		if ($this->request->hasFiles() == true) {
+ *			//Print the real file names and their sizes
+ *			foreach ($this->request->getUploadedFiles() as $file){
+ *				echo $file->getName(), " ", $file->getSize(), "\n";
+ *			}
+ *		}
+ *	}
+ *
+ *}
+ *</code>
  */
 
 /**
@@ -52,8 +68,7 @@
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
-	zval *file = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *file = NULL, *name = NULL, *temp_name = NULL, *size = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -69,23 +84,23 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
 	}
 	eval_int = phalcon_array_isset_string(file, SL("name")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, file, SL("name"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_name"), r0 TSRMLS_CC);
+		PHALCON_INIT_VAR(name);
+		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(file, SL("tmp_name")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		phalcon_array_fetch_string(&r1, file, SL("tmp_name"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_tmp"), r1 TSRMLS_CC);
+		PHALCON_INIT_VAR(temp_name);
+		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(file, SL("size")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch_string(&r2, file, SL("size"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_size"), r2 TSRMLS_CC);
+		PHALCON_INIT_VAR(size);
+		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -98,13 +113,13 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getSize){
 
-	zval *t0 = NULL;
+	zval *size = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_size"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(size);
+	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(size);
 }
 
 /**
@@ -114,13 +129,13 @@ PHP_METHOD(Phalcon_Http_Request_File, getSize){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getName){
 
-	zval *t0 = NULL;
+	zval *name = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_name"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(name);
+	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(name);
 }
 
 /**
@@ -130,13 +145,13 @@ PHP_METHOD(Phalcon_Http_Request_File, getName){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 
-	zval *t0 = NULL;
+	zval *temp_file = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_tmp"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(temp_file);
+	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(temp_file);
 }
 
 /**
@@ -146,9 +161,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName){
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 
-	zval *destination = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *destination = NULL, *temp_file = NULL, *success = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -157,10 +170,12 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_tmp"), PH_NOISY_CC);
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "move_uploaded_file", t0, destination);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(temp_file);
+	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(success);
+	PHALCON_CALL_FUNC_PARAMS_2(success, "move_uploaded_file", temp_file, destination);
+	
+	RETURN_CCTOR(success);
 }
 

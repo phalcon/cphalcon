@@ -85,8 +85,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 
-	zval *message = NULL, *field = NULL, *type = NULL, *class_name = NULL, *model_message = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *message = NULL, *field = NULL, *type = NULL, *class_name = NULL, *suffix = NULL;
+	zval *empty_string = NULL, *model_message = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -112,14 +112,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "Validator", 1);
+		PHALCON_INIT_VAR(suffix);
+		ZVAL_STRING(suffix, "Validator", 1);
 		
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "", 1);
+		PHALCON_INIT_VAR(empty_string);
+		ZVAL_STRING(empty_string, "", 1);
 		
 		PHALCON_INIT_VAR(type);
-		phalcon_fast_str_replace(type, c0, c1, class_name TSRMLS_CC);
+		phalcon_fast_str_replace(type, suffix, empty_string, class_name TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(model_message);
@@ -174,8 +174,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 
-	zval *option = NULL, *options = NULL;
-	zval *r0 = NULL;
+	zval *option = NULL, *options = NULL, *value = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -189,10 +188,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(options, option);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, options, option, PH_NOISY_CC);
+		PHALCON_INIT_VAR(value);
+		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
 		
-		RETURN_CCTOR(r0);
+		RETURN_CCTOR(value);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -222,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(options, option);
 	
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(is_set, r0);
 	

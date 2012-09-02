@@ -35,6 +35,17 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 
+/**
+ * Phalcon\DI\FactoryDefault
+ *
+ * This is a variant of the standard Phalcon\DI. By default it automatically
+ * registers all the services provided by the framework. Thanks to this, the developer does not need
+ * to register each service individually.
+ */
+
+/**
+ * Phalcon\DI\FactoryDefault constructor
+ */
 PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *services = NULL;

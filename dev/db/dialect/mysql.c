@@ -53,8 +53,7 @@
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 
 	zval *column_list = NULL, *str_list = NULL, *column = NULL, *column_quoted = NULL;
-	zval *joined_list = NULL;
-	zval *c0 = NULL;
+	zval *comma = NULL, *joined_list = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -88,11 +87,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 		goto fes_52be_0;
 	fee_52be_0:
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, ", ", 1);
+	PHALCON_INIT_VAR(comma);
+	ZVAL_STRING(comma, ", ", 1);
 	
 	PHALCON_INIT_VAR(joined_list);
-	phalcon_fast_join(joined_list, c0, str_list TSRMLS_CC);
+	phalcon_fast_join(joined_list, comma, str_list TSRMLS_CC);
 	
 	RETURN_CTOR(joined_list);
 }
@@ -230,9 +229,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 
-	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *sql = NULL, *column_definition = NULL;
-	zval *is_not_null = NULL, *is_first = NULL, *after_position = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *table_name = NULL, *schema_name = NULL, *column = NULL, *sql = NULL, *name = NULL;
+	zval *column_definition = NULL, *is_not_null = NULL, *is_first = NULL;
+	zval *after_position = NULL, *after_sql = NULL;
+	zval *r0 = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -254,15 +254,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		PHALCON_CONCAT_SVS(sql, "ALTER TABLE `", table_name, "` ADD ");
 	}
 	
+	PHALCON_INIT_VAR(name);
+	PHALCON_CALL_METHOD(name, column, "getname", PH_NO_CHECK);
+	
 	PHALCON_INIT_VAR(column_definition);
 	PHALCON_CALL_METHOD_PARAMS_1(column_definition, this_ptr, "getcolumndefinition", column, PH_NO_CHECK);
 	
 	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD(r0, column, "getname", PH_NO_CHECK);
-	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	PHALCON_CONCAT_SVSV(r1, "`", r0, "` ", column_definition);
-	phalcon_concat_self(&sql, r1 TSRMLS_CC);
+	PHALCON_CONCAT_SVSV(r0, "`", name, "` ", column_definition);
+	phalcon_concat_self(&sql, r0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_not_null);
 	PHALCON_CALL_METHOD(is_not_null, column, "isnotnull", PH_NO_CHECK);
@@ -282,9 +282,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
 		PHALCON_INIT_VAR(after_position);
 		PHALCON_CALL_METHOD(after_position, column, "getafterposition", PH_NO_CHECK);
 		if (zend_is_true(after_position)) {
-			PHALCON_ALLOC_ZVAL_MM(r2);
-			PHALCON_CONCAT_SV(r2, " AFTER ", after_position);
-			phalcon_concat_self(&sql, r2 TSRMLS_CC);
+			PHALCON_INIT_VAR(after_sql);
+			PHALCON_CONCAT_SV(after_sql, " AFTER ", after_position);
+			phalcon_concat_self(&sql, after_sql TSRMLS_CC);
 		}
 	}
 	
@@ -354,7 +354,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
  * @param string $tableName
  * @param string $schemaName
  * @param string $columnName
- * @return string
+ * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn){
 
@@ -744,7 +744,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 	
 	PHALCON_INIT_VAR(number_options);
 	phalcon_fast_count(number_options, table_options TSRMLS_CC);
-	if (zend_is_true(number_options)) {
+	if (!phalcon_compare_strict_long(number_options, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, " ", 1);
 		PHALCON_INIT_VAR(sql_table_options);
@@ -760,10 +760,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 /**
  * Generates SQL to create a table in MySQL
  *
- * @param string $tableName
+ * @param 	string $tableName
  * @param string $schemaName
  * @param array $definition
- * @return string
+ * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 
@@ -1037,6 +1037,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
+ * <code>echo $dialect->tableExists("posts", "blog")</code>
+ * <code>echo $dialect->tableExists("posts")</code>
+ *
  * @param string $tableName
  * @param string $schemaName
  * @return string
@@ -1071,6 +1074,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 /**
  * Generates SQL describing a table
  *
+ * <code>print_r($dialect->describeColumns("posts") ?></code>
+ *
  * @param string $table
  * @param string $schema
  * @return string
@@ -1104,6 +1109,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns){
 
 /**
  * List all tables on database
+ *
+ * <code>print_r($dialect->listTables("blog") ?></code>
  *
  * @param       string $schemaName
  * @return      array

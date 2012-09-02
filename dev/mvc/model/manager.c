@@ -46,7 +46,15 @@
  *
  * A ModelsManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
  *
- * 
+ * <code>
+ * $dependencyInjector = new Phalcon\DI();
+ *
+ * $dependencyInjector->set('modelsManager', function(){
+ *      return new Phalcon\Mvc\Model\Manager();
+ * });
+ *
+ * $robot = new Robots($dependencyInjector);
+ * </code>
  */
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct){
@@ -208,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(initialized, model_name);
 	
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(is_intitialized, r0);
 	
@@ -264,7 +272,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 /**
  * Setup a 1-1 relation between two models
  *
- * @param Phalcon\Mvc\Model $model
+ * @param 	Phalcon\Mvc\Model $model
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
@@ -346,7 +354,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 /**
  * Setup a relation reverse 1-1  between two models
  *
- * @param Phalcon\Mvc\Model $model
+ * @param 	Phalcon\Mvc\Model $model
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
@@ -428,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 /**
  * Setup a relation 1-n between two models
  *
- * @param Phalcon\Mvc\Model $model
+ * @param 	Phalcon\Mvc\Model $model
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
@@ -510,9 +518,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 /**
  * Checks whether a model has a belongsTo relation with another model
  *
- * @param string $modelName
- * @param string $modelRelation
- * @return boolean
+ * @param 	string $modelName
+ * @param 	string $modelRelation
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 
@@ -567,9 +575,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 /**
  * Checks whether a model has a hasMany relation with another model
  *
- * @param string $modelName
- * @param string $modelRelation
- * @return boolean
+ * @param 	string $modelName
+ * @param 	string $modelRelation
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 
@@ -624,9 +632,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 /**
  * Checks whether a model has a hasOne relation with another model
  *
- * @param string $modelName
- * @param string $modelRelation
- * @return boolean
+ * @param 	string $modelName
+ * @param 	string $modelRelation
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 

@@ -34,6 +34,19 @@
 
 #include "kernel/fcall.h"
 
+/**
+ * Phalcon\Flash\Direct
+ *
+ * This is a variant of the Phalcon\Flash that inmediately flush to the output any message passed to it
+ */
+
+/**
+ * Outputs a message
+ *
+ * @param  string $type
+ * @param  string $message
+ * @return string
+ */
 PHP_METHOD(Phalcon_Flash_Direct, message){
 
 	zval *type = NULL, *message = NULL, *flash_message = NULL;

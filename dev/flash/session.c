@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 		phalcon_array_update_zval(&messages, type, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	phalcon_array_update_multi_append_2(&messages, type, message, 0 TSRMLS_CC);
+	phalcon_array_update_append_multi_2(&messages, type, message, 0 TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_setsessionmessages", messages, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();

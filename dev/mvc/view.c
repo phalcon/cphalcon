@@ -46,7 +46,19 @@
  * That is, it exists to help keep the view script separate from the model and controller scripts.
  * It provides a system of helpers, output filters, and variable escaping.
  *
- * 
+ * <code>
+ * //Setting views directory
+ * $view = new Phalcon\Mvc\View();
+ * $view->setViewsDir('app/views/');
+ *
+ * $view->start();
+ * //Shows recent posts view (app/views/posts/recent.phtml)
+ * $view->render('posts', 'recent');
+ * $view->finish();
+ *
+ * //Printing views output
+ * echo $view->getContent();
+ * </code>
  */
 
 /**
@@ -132,6 +144,10 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
 /**
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
  *
+ * <code>
+ * $view->setBasePath(__DIR__.'/');
+ * </code>
+ *
  * @param string $basePath
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath){
@@ -153,6 +169,11 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
 /**
  * Sets the render level for the view
  *
+ * <code>
+ * //Render the view related to the controller only
+ * $this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
+ * </code>
+ *
  * @param string $level
  */
 PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
@@ -173,6 +194,11 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
 
 /**
  * Sets default view name. Must be a file without extension in the views directory
+ *
+ * <code>
+ * //Renders as main view views-dir/inicio.phtml
+ * $this->view->setMainView('inicio');
+ * </code>
  *
  * @param string $name
  */
@@ -665,6 +691,13 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 /**
  * Register templating engines
  *
+ *<code>
+ *$this->view->registerEngines(array(
+ *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
+ *  ".mhtml" => "MyMustacheEngine"
+ *));
+ *</code>
+ *
  * @param array $engines
  */
 PHP_METHOD(Phalcon_Mvc_View, registerEngines){
@@ -689,6 +722,13 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 
 /**
  * Executes render process from dispatching data
+ *
+ *<code>
+ * $view->start();
+ * //Shows recent posts view (app/views/posts/recent.phtml)
+ * $view->render('posts', 'recent');
+ * $view->finish();
+ *</code>
  *
  * @param string $controllerName
  * @param string $actionName
@@ -920,6 +960,21 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 /**
  * Choose a view different to render than last-controller/last-action
  *
+ * <code>
+ * class ProductsController extends Phalcon\Mvc\Controller
+ * {
+ *
+ *    public function saveAction()
+ *    {
+ *
+ *         //Do some save stuff...
+ *
+ *         //Then show the list view
+ *         $this->view->pick("products/list");
+ *    }
+ * }
+ * </code>
+ *
  * @param string $renderView
  */
 PHP_METHOD(Phalcon_Mvc_View, pick){
@@ -967,6 +1022,11 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 
 /**
  * Renders a partial view
+ *
+ * <code>
+ * //Show a partial inside another view
+ * $this->partial('shared/footer');
+ * </code>
  *
  * @param string $partialPath
  */
@@ -1160,6 +1220,8 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 
 /**
  * Externally sets the view content
+ *
+ *<code>$this->view->setContent("<h1>hello</h1>");</code>
  *
  * @param string $content
  */

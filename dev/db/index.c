@@ -44,7 +44,9 @@
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index.
  *
- * 
+ * <code>
+ *
+ * </code>
  *
  */
 

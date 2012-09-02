@@ -37,15 +37,33 @@
 #include "kernel/concat.h"
 
 /**
- * ExclusionInValidator
+ * Phalcon\Mvc\Model\Validator\ExclusionIn
  *
  * Check if a value is not included into a list of values
  *
+ *<code>
+ *	use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
  *
+ *	class Subscriptors extends Phalcon\Mvc\Model
+ *	{
+ *
+ *		public function validation()
+ *		{
+ *			$this->validate(new ExclusionInValidator(array(
+ *				'field' => 'status',
+ *				'domain' => array('A', 'I')
+ *			)));
+ *			if ($this->validationHasFailed() == true) {
+ *				return false;
+ *			}
+ *		}
+ *
+ *	}
+ *</code>
  */
 
 /**
- * Executes validator
+ * Executes the validator
  *
  * @return boolean
  */
@@ -76,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	
 	PHALCON_INIT_VAR(is_set);
 	PHALCON_CALL_METHOD_PARAMS_1(is_set, this_ptr, "issetoption", c1, PH_NO_CHECK);
-	if (!zend_is_true(is_set)) {
+	if (Z_TYPE_P(is_set) == IS_BOOL && !Z_BVAL_P(is_set)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'domain' is required for this validator");
 		return;
 	}
@@ -96,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	
 	PHALCON_INIT_VAR(is_in_array);
 	PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", value, domain);
-	if (zend_is_true(is_in_array)) {
+	if (Z_TYPE_P(is_in_array) == IS_BOOL && Z_BVAL_P(is_in_array)) {
 		PHALCON_INIT_VAR(c3);
 		ZVAL_STRING(c3, ", ", 1);
 		PHALCON_INIT_VAR(joined_domain);

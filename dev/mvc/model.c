@@ -42,19 +42,33 @@
 /**
  * Phalcon\Mvc\Model
  *
- * Phalcon\Mvc\Model connects business objects and database tables to create
+ * <p>Phalcon\Mvc\Model connects business objects and database tables to create
  * a persistable domain model where logic and data are presented in one wrapping.
- * It‘s an implementation of the object-relational mapping (ORM).
+ * It‘s an implementation of the object-relational mapping (ORM).</p>
  *
- * A model represents the information (data) of the application and the rules to manipulate that data.
+ * <p>A model represents the information (data) of the application and the rules to manipulate that data.
  * Models are primarily used for managing the rules of interaction with a corresponding database table.
  * In most cases, each table in your database will correspond to one model in your application.
- * The bulk of your application’s business logic will be concentrated in the models.
+ * The bulk of your application’s business logic will be concentrated in the models.</p>
  *
- * Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
- * when interacting with databases while is also easy to use.
+ * <p>Phalcon\Mvc\Model is the first ORM written in C-language for PHP, giving to developers high performance
+ * when interacting with databases while is also easy to use.</p>
  *
- * 
+ * <code>
+ *
+ * $robot = new Robots();
+ * $robot->type = 'mechanical'
+ * $robot->name = 'Astro Boy';
+ * $robot->year = 1952;
+ * if ($robot->save() == false) {
+ *  echo "Umh, We can store robots: ";
+ *  foreach ($robot->getMessages() as $message) {
+ *    echo $message;
+ *  }
+ * } else {
+ *  echo "Great, a new robot was saved successfully!";
+ * }
+ * </code>
  *
  */
 
@@ -540,6 +554,37 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 /**
  * Sets a transaction related to the Model instance
  *
+ *<code>
+ *try {
+ *
+ *  $transactionManager = new Phalcon\Mvc\Model\Transaction\Manager();
+ *
+ *  $transaction = $transactionManager->get();
+ *
+ *  $robot = new Robots();
+ *  $robot->setTransaction($transaction);
+ *  $robot->name = 'WALL·E';
+ *  $robot->created_at = date('Y-m-d');
+ *  if($robot->save()==false){
+ *    $transaction->rollback("Can't save robot");
+ *  }
+ *
+ *  $robotPart = new RobotParts();
+ *  $robotPart->setTransaction($transaction);
+ *  $robotPart->type = 'head';
+ *  if ($robotPart->save() == false) {
+ *    $transaction->rollback("Can't save robot part");
+ *  }
+ *
+ *  $transaction->commit();
+ *
+ *}
+ *catch(Phalcon\Mvc\Model\Transaction\Failed $e){
+ *  echo 'Failed, reason: ', $e->getMessage();
+ *}
+ *
+ *</code>
+ *
  * @param Phalcon\Mvc\Model\Transaction $transaction
  * @return Phalcon\Mvc\Model
  */
@@ -744,6 +789,14 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
 /**
  * Assigns values to a model from an array returning a new model
  *
+ *<code>
+ *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
+ *  'type' => 'mechanical',
+ *  'name' => 'Astro Boy',
+ *  'year' => 1952
+ *));
+ *</code>
+ *
  * @param array $result
  * @param Phalcon\Mvc\Model\Base $base
  * @return Phalcon\Mvc\Model\Base $result
@@ -808,7 +861,30 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 /**
  * Allows to query a set of records that match the specified conditions
  *
- * @param array $parameters
+ * <code>
+ *
+ * //How many robots are there?
+ * $robots = Robots::find();
+ * echo "There are ", count($robots);
+ *
+ * //How many mechanical robots are there?
+ * $robots = Robots::find("type='mechanical'");
+ * echo "There are ", count($robots);
+ *
+ * //Get and print virtual robots ordered by name
+  * $robots = Robots::find(array("type='virtual'", "order" => "name"));
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
+ * }
+ *
+  * //Get first 100 virtual robots ordered by name
+  * $robots = Robots::find(array("type='virtual'", "order" => "name", "limit" => 100));
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
+ * }
+ * </code>
+ *
+ * @param 	array $parameters
  * @return  Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model, find){
@@ -854,6 +930,22 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 
 /**
  * Allows to query the first record that match the specified conditions
+ *
+ * <code>
+ *
+ * //What's the first robot in robots table?
+ * $robot = Robots::findFirst();
+ * echo "The robot name is ", $robot->name;
+ *
+ * //What's the first mechanical robot in robots table?
+ * $robot = Robots::findFirst("type='mechanical'");
+ * echo "The first mechanical robot name is ", $robot->name;
+ *
+ * //Get first virtual robot ordered by name
+  * $robot = Robots::findFirst(array("type='virtual'", "order" => "name"));
+ * echo "The first virtual robot name is ", $robot->name;
+ *
+ * </code>
  *
  * @param array $parameters
  * @return Phalcon\Mvc\Model
@@ -1315,6 +1407,18 @@ PHP_METHOD(Phalcon_Mvc_Model, _getGroupResult){
 /**
  * Allows to count how many records match the specified conditions
  *
+ * <code>
+ *
+ * //How many robots are there?
+ * $number = Robots::count();
+ * echo "There are ", $number;
+ *
+ * //How many mechanical robots are there?
+ * $number = Robots::count("type='mechanical'");
+ * echo "There are ", $number, " mechanical robots";
+ *
+ * </code>
+ *
  * @param array $parameters
  * @return int
  */
@@ -1347,6 +1451,18 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 
 /**
  * Allows to a calculate a summatory on a column that match the specified conditions
+ *
+ * <code>
+ *
+ * //How much are all robots?
+ * $sum = Robots::sum(array('column' => 'price'));
+ * echo "The total price of robots is ", $sum;
+ *
+ * //How much are mechanical robots?
+ * $sum = Robots::sum(array("type='mechanical'", 'column' => 'price'));
+ * echo "The total price of mechanical robots is  ", $sum;
+ *
+ * </code>
  *
  * @param array $parameters
  * @return double
@@ -1381,6 +1497,18 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 /**
  * Allows to get the maximum value of a column that match the specified conditions
  *
+ * <code>
+ *
+ * //What is the maximum robot id?
+ * $id = Robots::maximum(array('column' => 'id'));
+ * echo "The maximum robot id is: ", $id;
+ *
+ * //What is the maximum id of mechanical robots?
+ * $sum = Robots::maximum(array("type='mechanical'", 'column' => 'id'));
+ * echo "The maximum robot id of mechanical robots is ", $id;
+ *
+ * </code>
+ *
  * @param array $parameters
  * @return mixed
  */
@@ -1414,6 +1542,18 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 /**
  * Allows to get the minimum value of a column that match the specified conditions
  *
+ * <code>
+ *
+ * //What is the minimum robot id?
+ * $id = Robots::minimum(array('column' => 'id'));
+ * echo "The minimum robot id is: ", $id;
+ *
+ * //What is the minimum id of mechanical robots?
+ * $sum = Robots::minimum(array("type='mechanical'", 'column' => 'id'));
+ * echo "The minimum robot id of mechanical robots is ", $id;
+ *
+ * </code>
+ *
  * @param array $parameters
  * @return mixed
  */
@@ -1446,6 +1586,18 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 
 /**
  * Allows to calculate the average value on a column matching the specified conditions
+ *
+ * <code>
+ *
+ * //What's the average price of robots?
+ * $average = Robots::average(array('column' => 'price'));
+ * echo "The average price is ", $average;
+ *
+ * //What's the average price of mechanical robots?
+ * $average = Robots::average(array("type='mechanical'", 'column' => 'price'));
+ * echo "The average price of mechanical robots is ", $average;
+ *
+ * </code>
  *
  * @param array $parameters
  * @return double
@@ -1589,6 +1741,22 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
 /**
  * Appends a customized message on the validation process
  *
+ * <code>
+ * use \Phalcon\Mvc\Model\Message as Message;
+ *
+ * class Robots extends Phalcon\Mvc\Model
+ * {
+ *
+ *   public function beforeSave()
+ *   {
+ *     if (this->name == 'Peter') {
+ *        $message = new Message("Sorry, but a robot cannot be named Peter");
+ *        $this->appendMessage($message);
+ *     }
+ *   }
+ * }
+ * </code>
+ *
  * @param Phalcon\Mvc\Model\Message $message
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
@@ -1627,6 +1795,26 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
 /**
  * Executes validators on every validation call
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
  *
  * @param object $validator
  * @param array $options
@@ -1686,6 +1874,26 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 /**
  * Check whether validation process has generated any messages
  *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
@@ -1709,6 +1917,21 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
 
 /**
  * Returns all the validation messages
+ *
+ * <code>
+ *$robot = new Robots();
+ *$robot->type = 'mechanical';
+ *$robot->name = 'Astro Boy';
+ *$robot->year = 1952;
+ *if ($robot->save() == false) {
+ *  echo "Umh, We can't store robots right now ";
+ *  foreach ($robot->getMessages() as $message) {
+ *    echo $message;
+ *  }
+ *} else {
+ *  echo "Great, a new robot was saved successfully!";
+ *}
+ * </code>
  *
  * @return Phalcon\Mvc\Model\Message[]
  */
@@ -2623,6 +2846,20 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 /**
  * Inserts or updates a model instance. Returning true on success or false otherwise.
  *
+ * <code>
+ * //Creating a new robot
+ *$robot = new Robots();
+ *$robot->type = 'mechanical'
+ *$robot->name = 'Astro Boy';
+ *$robot->year = 1952;
+ *$robot->save();
+ *
+ * //Updating a robot name
+ *$robot = Robots::findFirst("id=100");
+ *$robot->name = "Biomass";
+ *$robot->save();
+ * </code>
+ *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
@@ -2811,6 +3048,15 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 /**
  * Deletes a model instance. Returning true on success or false otherwise.
  *
+ * <code>
+ *$robot = Robots::findFirst("id=100");
+ *$robot->delete();
+ *
+ *foreach(Robots::find("type = 'mechanical'") as $robot){
+ *   $robot->delete();
+ *}
+ * </code>
+ *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, delete){
@@ -2937,6 +3183,8 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 /**
  * Reads an attribute value by its name
  *
+ * <code> echo $robot->readAttribute('name');</code>
+ *
  * @param string $attribute
  * @return mixed
  */
@@ -2966,6 +3214,8 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
 /**
  * Writes an attribute value by its name
  *
+ * <code>$robot->writeAttribute('name', 'Rosey');</code>
+ *
  * @param string $attribute
  * @param mixed $value
  */
@@ -2987,6 +3237,18 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
 
 /**
  * Setup a 1-1 relation between two models
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize(){
+ *       $this->hasOne('id', 'RobotsDescription', 'robots_id');
+ *   }
+ *
+ *}
+ *</code>
  *
  * @param mixed $fields
  * @param string $referenceModel
@@ -3030,6 +3292,18 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 
 /**
  * Setup a relation reverse 1-1  between two models
+ *
+ *<code>
+ *
+ *class RobotsParts extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize(){
+ *       $this->belongsTo('robots_id', 'Robots', 'id');
+ *   }
+ *
+ *}
+ *</code>
  *
  * @param mixed $fields
  * @param string $referenceModel
@@ -3078,6 +3352,19 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 
 /**
  * Setup a relation 1-n between two models
+ *
+ *<code>
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize()
+ *   {
+ *       $this->hasMany('id', 'RobotsParts', 'robots_id');
+ *   }
+ *
+ *}
+ *</code>
  *
  * @param mixed $fields
  * @param string $referenceModel

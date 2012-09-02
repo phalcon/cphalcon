@@ -32,3 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+/**
+ * Phalcon\DI\Exception
+ *
+ * Exceptions thrown in Phalcon\DI will use this class
+ *
+ */
+

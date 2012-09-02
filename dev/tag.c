@@ -153,6 +153,14 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 /**
  * Assigns default values to generated tags by helpers
  *
+ * <code>
+ * //Assigning "peter" to "name" component
+ * Phalcon\Tag::setDefault("name", "peter");
+ *
+ * //Later in the view
+ * echo Phalcon\Tag::textField("name"); //Will have the value "peter" by default
+ * </code>
+ *
  * @param string $id
  * @param string $value
  */
@@ -171,7 +179,7 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 	if (zend_is_true(value)) {
 		PHALCON_INIT_VAR(is_scalar);
 		PHALCON_CALL_FUNC_PARAMS_1(is_scalar, "is_scalar", value);
-		if (!zend_is_true(is_scalar)) {
+		if (Z_TYPE_P(is_scalar) == IS_BOOL && !Z_BVAL_P(is_scalar)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
 			return;
 		}
@@ -318,6 +326,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
 
 /**
  * Builds a HTML A tag using framework conventions
+ *
+ * <code>echo Phalcon\Tag::linkTo('signup/register', 'Register Here!')</code>
  *
  * @param array $parameters
  * @return string
@@ -533,6 +543,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 /**
  * Builds a HTML input[type="text"] tag
  *
+ * <code>echo Phalcon\Tag::textField(array("name", "size" => 30))</code>
+ *
  * @param array $parameters
  * @return string
  */
@@ -558,6 +570,8 @@ PHP_METHOD(Phalcon_Tag, textField){
 
 /**
  * Builds a HTML input[type="password"] tag
+ *
+ * <code>echo Phalcon\Tag::passwordField(array("name", "size" => 30))</code>
  *
  * @param array $parameters
  * @return string
@@ -585,6 +599,8 @@ PHP_METHOD(Phalcon_Tag, passwordField){
 /**
  * Builds a HTML input[type="hidden"] tag
  *
+ * <code>echo Phalcon\Tag::hiddenField(array("name", "value" => "mike"))</code>
+ *
  * @param array $parameters
  * @return string
  */
@@ -610,6 +626,8 @@ PHP_METHOD(Phalcon_Tag, hiddenField){
 
 /**
  * Builds a HTML input[type="file"] tag
+ *
+ * <code>echo Phalcon\Tag::fileField("file")</code>
  *
  * @param array $parameters
  * @return string
@@ -637,6 +655,8 @@ PHP_METHOD(Phalcon_Tag, fileField){
 /**
  * Builds a HTML input[type="check"] tag
  *
+ * <code>echo Phalcon\Tag::checkField(array("name", "size" => 30))</code>
+ *
  * @param array $parameters
  * @return string
  */
@@ -662,6 +682,8 @@ PHP_METHOD(Phalcon_Tag, checkField){
 
 /**
  * Builds a HTML input[type="submit"] tag
+ *
+ * <code>echo Phalcon\Tag::submitButton("Save")</code>
  *
  * @param array $params
  * @return string
@@ -747,6 +769,8 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 /**
  * Builds a HTML SELECT tag using a PHP array for options
  *
+ * <code>echo Phalcon\Tag::selectStatic("status", array("A" => "Active", "I" => "Inactive"))</code>
+ *
  * @param array $parameters
  * @return string
  */
@@ -775,6 +799,12 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 /**
  * Builds a HTML SELECT tag using a Phalcon_Model resultset as options
  *
+ * <code>echo Phalcon\Tag::selectStatic(array(
+ *	"robotId",
+ *	Robots::find("type = 'mechanical'"),
+ *	"using" => array("id", "name")
+ * ))</code>
+ *
  * @param array $params
  * @return string
  */
@@ -802,6 +832,8 @@ PHP_METHOD(Phalcon_Tag, select){
 
 /**
  * Builds a HTML TEXTAREA tag
+ *
+ * <code>echo Phalcon\Tag::textArea(array("comments", "cols" => 10, "rows" => 4))</code>
  *
  * @param array $parameters
  * @return string
@@ -905,6 +937,11 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 /**
  * Builds a HTML FORM tag
+ *
+ * <code>
+ * echo Phalcon\Tag::form("posts/save");
+ * echo Phalcon\Tag::form(array("posts/save", "method" => "post"));
+ * </code>
  *
  * @param array $parameters
  * @return string
@@ -1156,6 +1193,11 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 /**
  * Builds a LINK[rel="stylesheet"] tag
  *
+ * <code>
+ * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+ * echo Phalcon\Tag::stylesheetLink("css/style.css");
+ * </code>
+ *
  * @param array $parameters
  * @param   boolean $local
  * @return string
@@ -1282,6 +1324,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 /**
  * Builds a SCRIPT[type="javascript"] tag
+ *
+ * <code>
+ * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+ * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+ * </code>
  *
  * @param array $parameters
  * @param   boolean $local

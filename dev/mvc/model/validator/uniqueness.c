@@ -36,6 +36,7 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Validator\Uniqueness
@@ -43,7 +44,24 @@
  * Validates that a field or a combination of a set of fields are not
  * present more than once in the existing records of the related table
  *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
  *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *  public function validation()
+ *  {
+ *      $this->validate(new UniquenessValidator(array(
+ *          'field' => 'email'
+ *      )));
+ *      if ($this->validationHasFailed() == true) {
+ *          return false;
+ *      }
+ *  }
+ *
+ *}
+ *</code>
  *
  */
 
@@ -54,13 +72,13 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 
-	zval *record = NULL, *field = NULL, *conditions = NULL, *placeholders = NULL;
-	zval *number = NULL, *compose_field = NULL, *value = NULL, *dependency_injector = NULL;
-	zval *meta_data = NULL, *primary_fields = NULL, *primary_field = NULL;
-	zval *params = NULL, *class_name = NULL, *message = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL, *c5 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *t0 = NULL;
+	zval *record = NULL, *option = NULL, *field = NULL, *conditions = NULL, *placeholders = NULL;
+	zval *number = NULL, *compose_field = NULL, *value = NULL, *condition = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *meta_data = NULL;
+	zval *primary_fields = NULL, *primary_field = NULL, *params = NULL;
+	zval *class_name = NULL, *type = NULL, *message = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *c0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -72,10 +90,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "field", 1);
+	
 	PHALCON_INIT_VAR(field);
-	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init(conditions);
@@ -117,9 +136,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
 		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_VS(r1, field, " = ?0");
-		phalcon_array_append(&conditions, r1, PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(condition);
+		PHALCON_CONCAT_VS(condition, field, " = ?0");
+		phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 		PHALCON_SEPARATE(number);
 		increment_function(number);
@@ -128,11 +147,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	PHALCON_INIT_VAR(dependency_injector);
 	PHALCON_CALL_METHOD(dependency_injector, record, "getdi", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "modelsMetadata", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsMetadata", 1);
 	
 	PHALCON_INIT_VAR(meta_data);
-	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", c1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(primary_fields);
 	PHALCON_CALL_METHOD_PARAMS_1(primary_fields, meta_data, "getprimarykeyattributes", record, PH_NO_CHECK);
@@ -152,9 +171,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", primary_field, PH_NO_CHECK);
 		
-		PHALCON_INIT_VAR(r2);
-		PHALCON_CONCAT_VSV(r2, primary_field, " <> ?", number);
-		phalcon_array_append(&conditions, r2, PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(r1);
+		PHALCON_CONCAT_VSV(r1, primary_field, " <> ?", number);
+		phalcon_array_append(&conditions, r1, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 		PHALCON_SEPARATE(number);
 		increment_function(number);
@@ -162,12 +181,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		goto fes_8aab_1;
 	fee_8aab_1:
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, " AND ", 1);
+	PHALCON_INIT_VAR(c0);
+	ZVAL_STRING(c0, " AND ", 1);
 	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	phalcon_fast_join(r3, c2, conditions TSRMLS_CC);
-	PHALCON_CPY_WRT(conditions, r3);
+	PHALCON_ALLOC_ZVAL_MM(r2);
+	phalcon_fast_join(r2, c0, conditions TSRMLS_CC);
+	PHALCON_CPY_WRT(conditions, r2);
 	
 	PHALCON_INIT_VAR(params);
 	array_init(params);
@@ -177,29 +196,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	PHALCON_INIT_VAR(class_name);
 	phalcon_get_class(class_name, record TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r4);
-	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(r4, class_name, "count", params);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r5);
-	is_smaller_function(r5, t0, r4 TSRMLS_CC);
-	if (zend_is_true(r5)) {
-		PHALCON_INIT_VAR(c3);
-		ZVAL_STRING(c3, "message", 1);
+	PHALCON_INIT_VAR(number);
+	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(number, class_name, "count", params);
+	if (!phalcon_compare_strict_long(number, 0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "unique", 1);
+		
+		PHALCON_INIT_VAR(option);
+		ZVAL_STRING(option, "message", 1);
+		
 		PHALCON_INIT_VAR(message);
-		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", c3, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
 		if (zend_is_true(message)) {
-			PHALCON_INIT_VAR(c4);
-			ZVAL_STRING(c4, "unique", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, c4, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(r6);
-			PHALCON_CONCAT_SVS(r6, "Value of field '", field, "' is already present in another record");
-			PHALCON_INIT_VAR(c5);
-			ZVAL_STRING(c5, "unique", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r6, field, c5, PH_NO_CHECK);
+			PHALCON_INIT_VAR(message);
+			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		}
 		
 		PHALCON_MM_RESTORE();

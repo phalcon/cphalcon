@@ -34,6 +34,11 @@
 
 #include "kernel/object.h"
 
+/**
+ * Phalcon\Events\Event
+ *
+ */
+
 PHP_METHOD(Phalcon_Events_Event, __construct){
 
 	zval *type = NULL, *source = NULL;

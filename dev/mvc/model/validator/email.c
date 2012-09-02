@@ -42,7 +42,24 @@
  *
  * Allows to validate if email fields has correct values
  *
+ *<code>
+ *	use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
  *
+ *	class Subscriptors extends Phalcon\Mvc\Model
+ *	{
+ *
+ *		public function validation()
+ *		{
+ *			$this->validate(new EmailValidator(array(
+ *          	'field' => 'electronic_mail'
+ *      	)));
+ *      	if ($this->validationHasFailed() == true) {
+ *          	return false;
+ *      	}
+ *  	}
+ *
+ *	}
+ *</code>
  *
  */
 
@@ -53,10 +70,9 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 
-	zval *record = NULL, *field_name = NULL, *regs = NULL, *invalid = NULL, *value = NULL;
-	zval *pattern = NULL, *match_pattern = NULL, *match_zero = NULL, *type = NULL;
-	zval *message = NULL;
-	zval *c0 = NULL;
+	zval *record = NULL, *option = NULL, *field_name = NULL, *regs = NULL, *invalid = NULL;
+	zval *value = NULL, *pattern = NULL, *match_pattern = NULL, *match_zero = NULL;
+	zval *type = NULL, *message = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -65,10 +81,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "field", 1);
+	
 	PHALCON_INIT_VAR(field_name);
-	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", option, PH_NO_CHECK);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -101,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 		ZVAL_BOOL(invalid, 1);
 	}
 	
-	if (zend_is_true(invalid)) {
+	if (Z_TYPE_P(invalid) == IS_BOOL && Z_BVAL_P(invalid)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "email", 1);
 		

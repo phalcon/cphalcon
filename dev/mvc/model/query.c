@@ -42,13 +42,20 @@
 /**
  * Phalcon\Mvc\Model\Query
  *
- * Phalcon\Mvc\Model\Query is designed to simplify building of search on models.
- * It provides a set of helpers to generate searchs in a dynamic way to support differents databases.
+ * This class takes a PHQL intermediate representation and executes it.
  *
- * 
+ * <code>
+ *
+ *
+ * </code>
  *
  */
 
+/**
+ * Phalcon\Mvc\Model\Query constructor
+ *
+ * @param string $phql
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 
 	zval *phql = NULL, *ast = NULL;
@@ -104,6 +111,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
 	RETURN_CCTOR(dependency_injector);
 }
 
+/**
+ * Replaces the model's name to its source name in a qualifed-name expression
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 
 	zval *expr = NULL, *sql_aliases = NULL, *column_domain = NULL, *exception_message = NULL;
@@ -151,6 +163,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 	RETURN_CCTOR(column_name);
 }
 
+/**
+ * Resolves a expression in a single call argument
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 
 	zval *argument = NULL, *sql_aliases = NULL, *argument_type = NULL;
@@ -177,6 +194,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 	RETURN_CCTOR(argument_expr);
 }
 
+/**
+ * Resolves a expression in a single call argument
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 
 	zval *expr = NULL, *sql_aliases = NULL, *name = NULL, *arguments = NULL, *arguments_expr = NULL;
@@ -247,6 +269,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 	RETURN_CTOR(function_call);
 }
 
+/**
+ * Resolves an expression from its intermediate code into a string
+ *
+ * @param array $expr
+ * @param array $sqlAliases
+ * @param boolean $quoting
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 
 	zval *expr = NULL, *sql_aliases = NULL, *quoting = NULL, *expr_left = NULL;
@@ -525,6 +555,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	return;
 }
 
+/**
+ * Resolves a column from its intermediate representation into an array used to determine
+ * if the resulset produced will be simple or complex
+ *
+ * @param array $column
+ * @param array $models
+ * @param array $sqlAliases
+ * @param array $sqlAliasesModels
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 
 	zval *column = NULL, *models = NULL, *sql_aliases = NULL, *sql_aliases_models = NULL;
@@ -669,6 +709,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	return;
 }
 
+/**
+ * Resolves a table in a SELECT statement checking if the model exists
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $qualifiedName
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable){
 
 	zval *manager = NULL, *qualified_name = NULL, *model_name = NULL;
@@ -699,6 +746,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getTable){
 	return;
 }
 
+/**
+ * Resolves a JOIN clause checking if the associated models exist
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $join
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 
 	zval *manager = NULL, *join = NULL, *qualified = NULL, *qualified_type = NULL;
@@ -741,6 +795,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 	return;
 }
 
+/**
+ * Resolves a JOIN type
+ *
+ * @param array $join
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 
 	zval *join = NULL, *type = NULL, *join_type = NULL, *exception_message = NULL;
@@ -800,6 +860,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 	RETURN_CTOR(join_type);
 }
 
+/**
+ * Resolves all the JOINS in a SELECT statement
+ *
+ * @param array $select
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $models
+ * @param array $sqlModels
+ * @param array $sqlAliases
+ * @param array $sqlAliasesModels
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 
 	zval *select = NULL, *manager = NULL, *models = NULL, *sql_models = NULL, *sql_aliases = NULL;
@@ -1006,6 +1077,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	RETURN_CTOR(sql_joins);
 }
 
+/**
+ * Returns a processed limit clause for a SELECT statement
+ *
+ * @param array $limit
+ * @param array $sqlAliases
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause){
 
 	zval *limit = NULL, *sql_aliases = NULL, *limit_expr = NULL;
@@ -1023,6 +1101,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getLimitClause){
 	RETURN_CCTOR(limit_expr);
 }
 
+/**
+ * Returns a processed order clause for a SELECT statement
+ *
+ * @param array $order
+ * @param array $sqlAliases
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 
 	zval *order = NULL, *sql_aliases = NULL, *order_columns = NULL, *order_parts = NULL;
@@ -1099,6 +1184,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	RETURN_CTOR(order_expr);
 }
 
+/**
+ * Returns a processed group clause for a SELECT statement
+ *
+ * @param array $order
+ * @param array $sqlAliases
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 
 	zval *order = NULL, *sql_aliases = NULL, *order_parts = NULL, *order_item = NULL;
@@ -1153,6 +1245,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 	RETURN_CCTOR(order_expr);
 }
 
+/**
+ * Analyzes a SELECT intermediate code and produces an array to be executed later
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $ast
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 
 	zval *manager = NULL, *ast = NULL, *select = NULL, *sql_models = NULL, *sql_tables = NULL;
@@ -1432,6 +1530,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	RETURN_CTOR(sql_select);
 }
 
+/**
+ * Analyzes an INSERT intermediate code and produces an array to be executed later
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $ast
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 
 	zval *manager = NULL, *ast = NULL, *qualified_name = NULL, *model_name = NULL;
@@ -1549,6 +1654,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	RETURN_CTOR(sql_insert);
 }
 
+/**
+ * Analyzes an UPDATE intermediate code and produces an array to be executed later
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $ast
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 
 	zval *manager = NULL, *ast = NULL, *update = NULL, *models = NULL, *sql_aliases = NULL;
@@ -1738,6 +1850,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	RETURN_CTOR(sql_update);
 }
 
+/**
+ * Analyzes a DELETE intermediate code and produces an array to be executed later
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param array $ast
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 
 	zval *manager = NULL, *ast = NULL, *delete = NULL, *models = NULL, *sql_aliases = NULL;
@@ -1859,6 +1978,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	RETURN_CTOR(sql_delete);
 }
 
+/**
+ * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
+ * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 
 	zval *manager = NULL, *parsedph_ql = NULL, *ast = NULL, *dependency_injector = NULL;
@@ -1948,6 +2074,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	RETURN_CCTOR(parsedph_ql);
 }
 
+/**
+ * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Query\Resultset
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param array $intermediate
+ * @return Phalcon\Mvc\Query\Resultset
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 
 	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *models_instances = NULL;
@@ -2148,8 +2282,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 					goto fes_111d_22;
 				fee_111d_22:
 				
-				phalcon_array_update_multi_string_2(&columns, alias, SL("instance"), &instance, 0 TSRMLS_CC);
-				phalcon_array_update_multi_string_2(&columns, alias, SL("attributes"), &attributes, 0 TSRMLS_CC);
+				phalcon_array_update_string_multi_2(&columns, alias, SL("instance"), &instance, 0 TSRMLS_CC);
+				phalcon_array_update_string_multi_2(&columns, alias, SL("attributes"), &attributes, 0 TSRMLS_CC);
 			} else {
 				PHALCON_INIT_VAR(column_alias);
 				PHALCON_CONCAT_VS(column_alias, sql_column, ".*");
@@ -2214,6 +2348,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	RETURN_CTOR(resultset);
 }
 
+/**
+ * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Query\Status
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param array $intermediate
+ * @return Phalcon\Mvc\Query\Status
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 
 	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *model_name = NULL;
@@ -2358,6 +2500,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	RETURN_CTOR(status);
 }
 
+/**
+ * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Query\Status
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param array $intermediate
+ * @return Phalcon\Mvc\Query\Status
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
 	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *models = NULL;
@@ -2498,6 +2648,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	RETURN_CTOR(status);
 }
 
+/**
+ * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Query\Status
+ *
+ * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param array $intermediate
+ * @return Phalcon\Mvc\Query\Status
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 
 	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *models = NULL;
@@ -2576,6 +2734,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 	RETURN_CTOR(status);
 }
 
+/**
+ * Executes a parsed PHQL statement
+ *
+ * @param array $placeholders
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
 	zval *placeholders = NULL, *dependency_injector = NULL;

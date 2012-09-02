@@ -43,7 +43,16 @@
  * Phalcon\Db\Adapter\Pdo
  *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect to a database
- * 
+ *
+ * <code>
+ * $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *  'host' => '192.168.0.11',
+ *  'username' => 'sigma',
+ *  'password' => 'secret',
+ *  'dbname' => 'blog',
+ *  'port' => '3306',
+ * ));
+ * </code>
  */
 
 /**
@@ -76,8 +85,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
  * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection
  *
- * @param array $descriptor
- * @return boolean
+ * @param 	array $descriptor
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
@@ -199,9 +208,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
  * Sends SQL statements to the database server returning the success state.
  * Use this method only when the SQL statement sent to the server return rows
  *
- * //Querying data
- * $resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
- * $resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
+ *<code>
+ *	//Querying data
+ *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");</code>
+ *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
+ *</code>
  *
  * @param  string $sqlStatement
  * @return Phalcon\Db\Result\Pdo
@@ -283,9 +294,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
  * Sends SQL statements to the database server returning the success state.
  * Use this method only when the SQL statement sent to the server don't return any row
  *
- * //Inserting data
- * $success = $connection->execute("INSERT INTO robots VALUES (1, 'Astro Boy')");
- * $success = $connection->execute("INSERT INTO robots VALUES (?, ?)", array(1, 'Astro Boy'));
+ *<code>
+ *	//Inserting data
+ *	$success = $connection->execute("INSERT INTO robots VALUES (1, 'Astro Boy')");
+ *	$success = $connection->execute("INSERT INTO robots VALUES (?, ?)", array(1, 'Astro Boy'));
+ *</code>
  *
  * @param  string $sqlStatement
  * @param  array $placeholders
@@ -414,6 +427,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 /**
  * Returns the number of affected rows by the last INSERT/UPDATE/DELETE repoted by the database system
+ *
+ *<code>
+ *	$connection->query("DELETE FROM robots");
+ *	echo $connection->affectedRows(), ' were deleted';
+ *</code>
  *
  * @return int
  */

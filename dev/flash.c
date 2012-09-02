@@ -35,16 +35,19 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Flash
  *
  * Shows HTML notifications related to different circumstances. Classes can be stylized using CSS
  *
- *
+ *<code>
+ * $flash->success("The record was successfully deleted");
+ * $flash->error("Cannot open the file");
+ *</code>
  */
 
 PHP_METHOD(Phalcon_Flash, __construct){
@@ -134,6 +137,8 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 /**
  * Shows a HTML error message
  *
+ * <code>$flash->error('This is an error'); </code>
+ *
  * @param string $message
  * @return string
  */
@@ -159,6 +164,8 @@ PHP_METHOD(Phalcon_Flash, error){
 
 /**
  * Shows a HTML notice/information message
+ *
+ * <code>$flash->notice('This is an information'); </code>
  *
  * @param string $message
  * @return string
@@ -186,6 +193,8 @@ PHP_METHOD(Phalcon_Flash, notice){
 /**
  * Shows a HTML success message
  *
+ * <code>$flash->success('The process was finished successfully'); </code>
+ *
  * @param string $message
  * @param string $classes
  * @return string
@@ -212,6 +221,8 @@ PHP_METHOD(Phalcon_Flash, success){
 
 /**
  * Shows a HTML warning message
+ *
+ * <code>$flash->warning('Hey, this is important'); </code>
  *
  * @param string $message
  * @param string $classes
@@ -243,8 +254,6 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	zval *type_classes = NULL, *joined_classes = NULL, *css_classes = NULL;
 	zval *eol = NULL, *implicit_flush = NULL, *content = NULL, *msg = NULL, *html_message = NULL;
 	zval *c0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -259,7 +268,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	PHALCON_INIT_VAR(automatic_html);
 	phalcon_read_property(&automatic_html, this_ptr, SL("_automaticHtml"), PH_NOISY_CC);
-	if (Z_TYPE_P(automatic_html) == IS_BOOL && Z_BVAL_P(automatic_html)) {
+	if (PHALCON_IS_TRUE(automatic_html)) {
 		PHALCON_INIT_VAR(classes);
 		phalcon_read_property(&classes, this_ptr, SL("_cssClasses"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(classes, type);
@@ -290,11 +299,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	PHALCON_INIT_VAR(implicit_flush);
 	phalcon_read_property(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(t0);
-		ZVAL_BOOL(t0, 0);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		is_equal_function(r0, implicit_flush, t0 TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		if (PHALCON_IS_FALSE(implicit_flush)) {
 			PHALCON_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
@@ -311,13 +316,13 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			
 			PHALCON_INIT_VAR(msg);
 			ZVAL_ZVAL(msg, *hd, 1, 0);
-			if (Z_TYPE_P(automatic_html) == IS_BOOL && Z_BVAL_P(automatic_html)) {
+			if (PHALCON_IS_TRUE(automatic_html)) {
 				PHALCON_INIT_VAR(html_message);
 				PHALCON_CONCAT_SVSVSV(html_message, "<div", css_classes, ">", msg, "</div>", eol);
 			} else {
 				PHALCON_CPY_WRT(html_message, msg);
 			}
-			if (Z_TYPE_P(implicit_flush) == IS_BOOL && Z_BVAL_P(implicit_flush)) {
+			if (PHALCON_IS_TRUE(implicit_flush)) {
 				zend_print_zval(html_message, 1);
 			} else {
 				phalcon_concat_self(&content, html_message TSRMLS_CC);
@@ -326,23 +331,18 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			goto fes_3b3c_0;
 		fee_3b3c_0:
 		
-		PHALCON_INIT_VAR(t1);
-		ZVAL_BOOL(t1, 0);
-		
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		is_equal_function(r1, implicit_flush, t1 TSRMLS_CC);
-		if (zend_is_true(r1)) {
+		if (PHALCON_IS_FALSE(implicit_flush)) {
 			
 			RETURN_CTOR(content);
 		}
 	} else {
-		if (Z_TYPE_P(automatic_html) == IS_BOOL && Z_BVAL_P(automatic_html)) {
+		if (PHALCON_IS_TRUE(automatic_html)) {
 			PHALCON_INIT_VAR(html_message);
 			PHALCON_CONCAT_SVSVSV(html_message, "<div", css_classes, ">", message, "</div>", eol);
 		} else {
 			PHALCON_CPY_WRT(html_message, message);
 		}
-		if (Z_TYPE_P(implicit_flush) == IS_BOOL && Z_BVAL_P(implicit_flush)) {
+		if (PHALCON_IS_TRUE(implicit_flush)) {
 			zend_print_zval(html_message, 1);
 		} else {
 			
@@ -351,11 +351,5 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	}
 	
 	PHALCON_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Flash, message){
-
-
-	
 }
 

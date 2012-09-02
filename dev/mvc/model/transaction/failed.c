@@ -76,23 +76,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 
-	zval *record = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *record = NULL, *messages = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(record);
 	phalcon_read_property(&record, this_ptr, SL("_record"), PH_NOISY_CC);
-	if (zend_is_true(record)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_METHOD(r0, record, "getmessages", PH_NO_CHECK);
-		RETURN_CTOR(r0);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CALL_METHOD(r1, this_ptr, "getmessage", PH_NO_CHECK);
-		RETURN_CTOR(r1);
+	if (Z_TYPE_P(record) != IS_NULL) {
+		PHALCON_INIT_VAR(record);
+		PHALCON_CALL_METHOD(record, record, "getmessages", PH_NO_CHECK);
+		
+		RETURN_CCTOR(record);
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(messages);
+	PHALCON_CALL_METHOD(messages, this_ptr, "getmessage", PH_NO_CHECK);
+	
+	RETURN_CCTOR(messages);
 }
 
 /**
@@ -102,12 +101,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord){
 
-	zval *t0 = NULL;
+	zval *record = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_record"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(record);
+	phalcon_read_property(&record, this_ptr, SL("_record"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(record);
 }
 

@@ -39,6 +39,13 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
+/**
+ * Phalcon\Mvc\Model\Criteria
+ *
+ * This class allows to build the array parameter required by Phalcon\Mvc\Model::find
+ * and Phalcon\Mvc\Model::findFirst, using an object-oriented interfase
+ */
+
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct){
 
 	zval *a0 = NULL;
@@ -52,6 +59,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Adds the bind parameter to the criteria
+ *
+ * @param string $bindParams
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
 	zval *bind_params = NULL;
@@ -77,6 +90,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the conditions parameter to the criteria
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 
 	zval *conditions = NULL;
@@ -102,6 +121,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the conditions parameter to the criteria
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
 	zval *conditions = NULL;
@@ -127,6 +152,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the order-by parameter to the criteria
+ *
+ * @param string $orderColumns
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 
 	zval *order_columns = NULL;
@@ -152,6 +183,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the limit parameter to the criteria
+ *
+ * @param string $orderColumns
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 
 	zval *limit = NULL;
@@ -180,6 +217,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the "for_update" parameter to the criteria
+ *
+ * @param string $orderColumns
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 
 	zval *for_update = NULL;
@@ -205,6 +248,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Adds the "shared_lock" parameter to the criteria
+ *
+ * @param string $orderColumns
+ * @return Phalcon\Mvc\Model\Criteria
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 
 	zval *shared_lock = NULL;
@@ -230,6 +279,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Returns the conditions parameter in the criteria
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 
 	zval *params = NULL, *conditions = NULL;
@@ -250,6 +304,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getWhere){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the conditions parameter in the criteria
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
 
 	zval *params = NULL, *conditions = NULL;
@@ -270,6 +329,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getConditions){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the limit parameter in the criteria
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 
 	zval *params = NULL, *conditions = NULL;
@@ -290,6 +354,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getLimit){
 	RETURN_NULL();
 }
 
+/**
+ * Returns the order parameter in the criteria
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
 
 	zval *params = NULL, *conditions = NULL;
@@ -310,6 +379,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
 	RETURN_NULL();
 }
 
+/**
+ * Returns all the parameters defined in the criteria
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 
 	zval *params = NULL;
@@ -321,6 +395,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 	RETURN_CCTOR(params);
 }
 
+/**
+ * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
+ *
+ * @param Phalcon\DI $dependencyInjector
+ * @param string $modelName
+ * @param array $data
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	zval *dependency_injector = NULL, *model_name = NULL, *data = NULL;

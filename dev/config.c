@@ -42,7 +42,20 @@
  * It provides a nested object property based user interface for accessing this configuration data within
  * application code.
  *
- * 
+ * <code>$config = new Phalcon\Config(array(
+ *  "database" => array(
+ *    "adapter" => "Mysql",
+ *    "host" => "localhost",
+ *    "username" => "scott",
+ *    "password" => "cheetah",
+ *    "name" => "test_db"
+ *  ),
+ *  "phalcon" => array(
+ *    "controllersDir" => "../app/controllers/",
+ *    "modelsDir" => "../app/models/",
+ *    "viewsDir" => "../app/views/"
+ *  )
+ * ));</code>
  *
  */
 
@@ -75,21 +88,24 @@ PHP_METHOD(Phalcon_Config, __construct){
 		array_init(array_config);
 	}
 	
+	
 	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
 		return;
 	}
 	
 	ah0 = Z_ARRVAL_P(array_config);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_9656_0:
+	
+	ph_cycle_start_0:
+	
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_9656_0;
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_VAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_INIT_VAR(value);
-		ZVAL_ZVAL(value, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(value);
+		
 		if (Z_TYPE_P(value) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(config_value);
 			object_init_ex(config_value, phalcon_config_ce);
@@ -98,9 +114,11 @@ PHP_METHOD(Phalcon_Config, __construct){
 		} else {
 			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 		}
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_9656_0;
-	fee_9656_0:
+		goto ph_cycle_start_0;
+	
+	ph_cycle_end_0:
 	if(0){}
 	
 	

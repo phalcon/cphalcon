@@ -46,7 +46,12 @@
  *
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-local-app')
  *
- *
+ *<code>
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
+ *    'suffix' => 'my-app-id',
+ *    'lifetime' => 86400
+ * ));
+ *</code>
  */
 
 /**

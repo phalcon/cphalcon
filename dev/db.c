@@ -51,6 +51,29 @@
  *
  * Phalcon\Db is an abstract class. You only can use it with a database adapter like Phalcon\Db\Adapter\Pdo
  *
+ * <code>
+ *
+ *try {
+ *
+ *  $connection = new Phalcon\Db\Adapter\Pdo\Mysql(array(
+ *     'host' => '192.168.0.11',
+ *     'username' => 'sigma',
+ *     'password' => 'secret',
+ *     'dbname' => 'blog',
+ *     'port' => '3306',
+ *  ));
+ *
+ *  $result = $connection->query("SELECT * FROM robots LIMIT 5");
+ *  $result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *  while($robot = $result->fetchArray()){
+ *    print_r($robot);
+ *  }
+ *
+ *} catch(Phalcon\Db\Exception $e){
+ *	echo $e->getMessage(), PHP_EOL;
+ *}
+ *
+ * </code>
  */
 
 
@@ -146,6 +169,16 @@ PHP_METHOD(Phalcon_Db, getEventsManager){
 /**
  * Returns the first row in a SQL query result
  *
+ * <code>
+ * //Getting first robot
+ * $robot = $connection->fecthOne("SELECT * FROM robots");
+ * print_r($robot);
+ *
+ * //Getting first robot with associative indexes only
+ * $robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ * print_r($robot);
+ * </code>
+ *
  * @param string $sqlQuery
  * @param int $fetchMode
  * @return array
@@ -185,6 +218,20 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 
 /**
  * Dumps the complete result of a query into an array
+ *
+ * <code>
+ * //Getting all robots
+ * $robots = $connection->fetchAll("SELECT * FROM robots");
+ * foreach($robots as $robot){
+ *    print_r($robot);
+ * }
+ *
+ * //Getting all robots with associative indexes only
+ * $robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ * foreach($robots as $robot){
+ *    print_r($robot);
+ * }
+ * </code>
  *
  * @param string $sqlQuery
  * @param int $fetchMode
@@ -236,10 +283,22 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 /**
  * Inserts data into a table using custom RBDM SQL syntax
  *
- * @param string $table
- * @param array $values
- * @param array $fields
- * @return boolean
+ * <code>
+ * //Inserting a new robot
+ * $success = $connection->insert(
+ *     "robots",
+ *     array("Astro Boy", 1952),
+ *     array("name", "year")
+ * );
+ *
+ * //Next SQL sentence is sent to the database system
+ * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
+ * </code>
+ *
+ * @param 	string $table
+ * @param 	array $values
+ * @param 	array $fields
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, insert){
 
@@ -356,11 +415,24 @@ PHP_METHOD(Phalcon_Db, insert){
 /**
  * Updates data on a table using custom RBDM SQL syntax
  *
- * @param string $table
- * @param array $fields
- * @param array $values
- * @param string $whereCondition
- * @return boolean
+ * <code>
+ * //Updating existing robot
+ * $success = $connection->update(
+ *     "robots",
+ *     array("name")
+ *     array("New Astro Boy"),
+ *     "id = 101"
+ * );
+ *
+ * //Next SQL sentence is sent to the database system
+ * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
+ * </code>
+ *
+ * @param 	string $table
+ * @param 	array $fields
+ * @param 	array $values
+ * @param 	string $whereCondition
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, update){
 
@@ -468,6 +540,17 @@ PHP_METHOD(Phalcon_Db, update){
 /**
  * Deletes data from a table using custom RBDM SQL syntax
  *
+ * <code>
+ * //Deleting existing robot
+ * $success = $connection->delete(
+ *     "robots",
+ *     "id = 101"
+ * );
+ *
+ * //Next SQL sentence is generated
+ * DELETE FROM `robots` WHERE `id` = 101
+ * </code>
+ *
  * @param  string $table
  * @param  string $whereCondition
  * @param  array $placeholders
@@ -538,9 +621,11 @@ PHP_METHOD(Phalcon_Db, getColumnList){
 /**
  * Appends a LIMIT clause to $sqlQuery argument
  *
- * @param  string $sqlQuery
- * @param int $number
- * @return string
+ * <code>$connection->limit("SELECT * FROM robots", 5);</code>
+ *
+ * @param  	string $sqlQuery
+ * @param 	int $number
+ * @return 	string
  */
 PHP_METHOD(Phalcon_Db, limit){
 
@@ -564,6 +649,8 @@ PHP_METHOD(Phalcon_Db, limit){
 
 /**
  * Generates SQL checking for the existence of a schema.table
+ *
+ * <code>$connection->tableExists("blog", "posts")</code>
  *
  * @param string $tableName
  * @param string $schemaName
@@ -606,6 +693,8 @@ PHP_METHOD(Phalcon_Db, tableExists){
 
 /**
  * Generates SQL checking for the existence of a schema.view
+ *
+ * <code>$connection->viewExists("active_users", "posts")</code>
  *
  * @param string $viewName
  * @param string $schemaName
@@ -786,7 +875,7 @@ PHP_METHOD(Phalcon_Db, dropTable){
  * Adds a column to a table
  *
  * @param string $tableName
- * @param string $schemaName
+ * @param 	string $schemaName
  * @param Phalcon\Db\Column $column
  * @return boolean
  */
@@ -820,7 +909,7 @@ PHP_METHOD(Phalcon_Db, addColumn){
  * @param string $tableName
  * @param string $schemaName
  * @param Phalcon\Db\Column $column
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, modifyColumn){
 
@@ -852,7 +941,7 @@ PHP_METHOD(Phalcon_Db, modifyColumn){
  * @param string $tableName
  * @param string $schemaName
  * @param string $columnName
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, dropColumn){
 
@@ -884,7 +973,7 @@ PHP_METHOD(Phalcon_Db, dropColumn){
  * @param string $tableName
  * @param string $schemaName
  * @param DbIndex $index
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, addIndex){
 
@@ -916,7 +1005,7 @@ PHP_METHOD(Phalcon_Db, addIndex){
  * @param string $tableName
  * @param string $schemaName
  * @param string $indexName
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, dropIndex){
 
@@ -948,7 +1037,7 @@ PHP_METHOD(Phalcon_Db, dropIndex){
  * @param string $tableName
  * @param string $schemaName
  * @param Phalcon\Db\Index $index
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, addPrimaryKey){
 
@@ -978,7 +1067,7 @@ PHP_METHOD(Phalcon_Db, addPrimaryKey){
  *
  * @param string $tableName
  * @param string $schemaName
- * @return boolean
+ * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, dropPrimaryKey){
 
@@ -1096,6 +1185,8 @@ PHP_METHOD(Phalcon_Db, getColumnDefinition){
 
 /**
  * List all tables on a database
+ *
+ * <code> print_r($connection->listTables("blog") ?></code>
  *
  * @param string $schemaName
  * @return array

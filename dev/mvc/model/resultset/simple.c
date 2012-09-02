@@ -38,7 +38,14 @@
 #include "kernel/exception.h"
 
 /**
- * Phalcon\Mvc\Model\Resultset constructor
+ * Phalcon\Mvc\Model\Resultset\Simple
+ *
+ * Simple resultsets only contains a complete object.
+ * This class builds every complete object as it's required
+ */
+
+/**
+ * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
  * @param Phalcon\Mvc\Model $model
  * @param Phalcon\Mvc\Model\Result $result

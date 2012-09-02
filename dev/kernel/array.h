@@ -27,7 +27,7 @@ extern int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index);
 extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index);
 extern int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length);
 
-/** Append element to arrays */
+/** Append elements to arrays */
 extern int phalcon_array_append(zval **arr, zval *value, int separate TSRMLS_DC);
 extern int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC);
 extern int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate TSRMLS_DC);
@@ -47,12 +47,17 @@ extern int phalcon_array_update_long_string(zval **arr, ulong index, char *value
 extern int phalcon_array_update_long_long(zval **arr, ulong index, long value, int flags TSRMLS_DC);
 extern int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC);
 
-/** Update/Append multidimensional arrays */
+/** Update/Append two dimension arrays */
 extern void phalcon_array_update_multi_2(zval **config, zval *index1, zval *index2, zval **value, int flags TSRMLS_DC);
-extern void phalcon_array_update_multi_string_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
-extern void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2, zval **value, int flags TSRMLS_DC);
-extern void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
-extern void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, int flags TSRMLS_DC);
+extern void phalcon_array_update_string_multi_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_long_long_multi_2(zval **arr, long index1, long index2, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_long_string_multi_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *value, int flags TSRMLS_DC);
+
+/** Update/Append three dimension arrays */
+extern void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags TSRMLS_DC);
 
 /** Fetch items from arrays */
 extern int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC);

@@ -40,7 +40,14 @@
 #include "kernel/exception.h"
 
 /**
- * Phalcon\Mvc\Model\Resultset constructor
+ * Phalcon\Mvc\Model\Resultset\Complex
+ *
+ * Complex resultsets may include complete objects and scalar values.
+ * This class builds every complex row as the're required
+ */
+
+/**
+ * Phalcon\Mvc\Model\Resultset\Complex constructor
  *
  * @param array $columnsTypes
  * @param Phalcon\Db\Result $result

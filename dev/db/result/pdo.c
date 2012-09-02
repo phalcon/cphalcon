@@ -42,7 +42,13 @@
  *
  * Encapsulates the resultset internals
  *
- * 
+ * <code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while($robot = $result->fetchArray()){
+ *		print_r($robot);
+ *	}
+ * </code>
  */
 
 /**
@@ -74,6 +80,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
  * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
+ *<code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *	while($robot = $result->fetchArray()){
+ *		print_r($robot);
+ *	}
+ *</code>
+ *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
@@ -92,6 +106,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
 /**
  * Gets number of rows returned by a resulset
+ *
+ *<code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	echo 'There are ', $result->numRows(), ' rows in the resulset';
+ *</code>
  *
  * @return int
  */
@@ -112,7 +131,13 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 /**
  * Moves internal resulset cursor to another position letting us to fetch a certain row
  *
- * @param int $number 
+ *<code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->dataSeek(2); // Move to third row on result
+ *	$row = $result->fetchArray(); // Fetch third row
+ *</code>
+ *
+ * @param int $number
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 
@@ -166,6 +191,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 
 /**
  * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetchArray
+ *
+ *<code>
+ *	//Return array with integer indexes
+ *	$result->setFetchMode(Phalcon\Db::FETCH_NUM);
+ *
+ *	//Return associative array without integer indexes
+ *	$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+ *
+ *	//Return associative array together with integer indexes
+ *	$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
+ *</code>
  *
  * @param int $fetchMode
  */

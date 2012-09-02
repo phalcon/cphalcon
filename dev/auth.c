@@ -32,10 +32,18 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-/**
- * Phalcon\Db\Exception
- *
- * Exceptions thrown in Phalcon\Db will use this class
- *
- */
+PHP_METHOD(Phalcon_Auth, __construct){
+
+	zval *options = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	
+	PHALCON_MM_RESTORE();
+}
 

@@ -45,7 +45,21 @@
  * controller name, action name, and optional parameters contained in it, and then
  * instantiating a controller and calling an action of that controller.
  *
- * 
+ *<code>
+ *
+ *	$di = new Phalcon\DI();
+ *
+ *	$dispatcher = new Phalcon\Mvc\Dispatcher();
+ *
+ *  $dispatcher->setDI($di);
+ *
+ *	$dispatcher->setControllerName('posts');
+ *	$dispatcher->setActionName('index');
+ *	$dispatcher->setParams(array());
+ *
+ *	$controller = $dispatcher->dispatch();
+ *
+ *</code>
  */
 
 PHP_METHOD(Phalcon_Mvc_Dispatcher, __construct){

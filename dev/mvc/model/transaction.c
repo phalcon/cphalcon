@@ -45,7 +45,34 @@
  * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
  * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
  *
+ *<code>
+ *try {
  *
+ *  $transaction = Phalcon\Mvc\Model\Transaction\Manager::get();
+ *
+ *  $robot = new Robots();
+ *  $robot->setTransaction($transaction);
+ *  $robot->name = 'WALL·E';
+ *  $robot->created_at = date('Y-m-d');
+ *  if($robot->save()==false){
+ *    $transaction->rollback("Can't save robot");
+ *  }
+ *
+ *  $robotPart = new RobotParts();
+ *  $robotPart->setTransaction($transaction);
+ *  $robotPart->type = 'head';
+ *  if($robotPart->save()==false){
+ *    $transaction->rollback("Can't save robot part");
+ *  }
+ *
+ *  $transaction->commit();
+ *
+ *}
+ *catch(Phalcon\Mvc\Model\Transaction\Failed $e){
+ *  echo 'Failed, reason: ', $e->getMessage();
+ *}
+ *
+ *</code>
  */
 
 /**

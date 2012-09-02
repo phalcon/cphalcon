@@ -45,7 +45,11 @@
  *
  * You can query the meta-data by printing $_SESSION['$PMM$']
  *
- *
+ *<code>
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Session(array(
+ *    'suffix' => 'my-app-id'
+ * ));
+ *</code>
  */
 
 /**

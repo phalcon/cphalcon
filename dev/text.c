@@ -43,6 +43,10 @@
 /**
  * Converts strings to camelize style
  *
+ *<code>
+ *	Phalcon\Text::camelize('coco_bongo'); //CocoBongo
+ *</code>
+ *
  * @param string $str
  * @return string
  */
@@ -88,6 +92,10 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 /**
  * Uncamelize strings which are camelized
+ *
+ *<code>
+ *	Phalcon\Text::camelize('CocoBongo'); //coco_bongo
+ *</code>
  *
  * @param string $str
  * @return string

@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn){
  * @param string $tableName
  * @param string $schemaName
  * @param string $columnName
- * @return string
+ * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn){
 
@@ -246,8 +246,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex){
 /**
  * Generates SQL to add the primary key to a table
  *
- * @param string\$tableName
- * @param string\$schemaName
+ * @param string $tableName
+ * @param string $schemaName
  * @param Phalcon\Db\Index $index
  * @return string
  */
@@ -325,10 +325,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions){
 /**
  * Generates SQL to create a table in PostgreSQL
  *
- * @param string $tableName
+ * @param 	string $tableName
  * @param string $schemaName
  * @param array $definition
- * @return string
+ * @return 	string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable){
 
@@ -382,6 +382,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
+ * <code>echo $dialect->tableExists("posts", "blog")</code>
+ * <code>echo $dialect->tableExists("posts")</code>
+ *
  * @param string $tableName
  * @param string $schemaName
  * @return string
@@ -416,6 +419,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
 /**
  * Generates a SQL describing a table
  *
+ * <code>print_r($dialect->describeColumns("posts") ?></code>
+ *
  * @param string $table
  * @param string $schema
  * @return string
@@ -444,6 +449,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 
 /**
  * List all tables on database
+ *
+ * <code>print_r($dialect->listTables("blog") ?></code>
  *
  * @param       string $schemaName
  * @return      array

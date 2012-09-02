@@ -39,6 +39,10 @@
 #include "kernel/operators.h"
 
 /**
+ * Phalcon\Db\Dialect
+ */
+
+/**
  * Generates the SQL for LIMIT clause
  *
  * @param string $sqlQuery
@@ -58,7 +62,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 
 	PHALCON_INIT_VAR(is_numeric);
 	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", number);
-	if (zend_is_true(is_numeric)) {
+	if (Z_TYPE_P(is_numeric) == IS_BOOL && Z_BVAL_P(is_numeric)) {
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
 		
@@ -118,6 +122,12 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 	RETURN_CTOR(sql);
 }
 
+/**
+ * Builds a SELECT statement
+ *
+ * @param array $definition
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
 	zval *definition = NULL, *columns = NULL, *columns_sql = NULL, *tables = NULL;

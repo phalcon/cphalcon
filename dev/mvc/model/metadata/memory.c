@@ -35,7 +35,7 @@
 #include "kernel/object.h"
 
 /**
- * Phalcon\Model\MetaData\Memory
+ * Phalcon\Mvc\Model\MetaData\Memory
  *
  * Stores model meta-data in memory. Data will be erased when the request finishes
  *

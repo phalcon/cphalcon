@@ -39,6 +39,12 @@
 #include "kernel/require.h"
 #include "kernel/concat.h"
 
+/**
+ * Phalcon\Mvc\Application
+ *
+ *
+ */
+
 PHP_METHOD(Phalcon_Mvc_Application, setDI){
 
 	zval *dependency_injector = NULL;

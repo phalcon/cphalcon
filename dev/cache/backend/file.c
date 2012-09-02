@@ -43,7 +43,27 @@
  *
  * Allows to cache output fragments using a file backend
  *
+ *<code>
+ *	//Cache the file for 2 days
+ *	$frontendOptions = array(
+ *		'lifetime' => 172800
+ *	);
  *
+ *	//Set the cache directory
+ *	$backendOptions = array(
+ *		'cacheDir' => '../app/cache/'
+ *	);
+ *
+ *	$cache = Phalcon_Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
+ *
+ *	$content = $cache->start('my-cache');
+ *	if($content===null){
+ *  	echo '<h1>', time(), '</h1>';
+ *  	$cache->save();
+ *	} else {
+ *		echo $content;
+ *	}
+ *</code>
  */
 
 /**
@@ -77,7 +97,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 		
 		PHALCON_INIT_VAR(is_writable);
 		PHALCON_CALL_FUNC_PARAMS_1(is_writable, "is_writable", cache_dir);
-		if (!zend_is_true(is_writable)) {
+		if (Z_TYPE_P(is_writable) == IS_BOOL && !Z_BVAL_P(is_writable)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache directory does not exist or is not writable");
 			return;
 		}
@@ -262,11 +282,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	
 	PHALCON_INIT_VAR(is_buffering);
 	PHALCON_CALL_METHOD(is_buffering, front_end, "isbuffering", PH_NO_CHECK);
-	if (zend_is_true(stop_buffer)) {
+	if (Z_TYPE_P(stop_buffer) == IS_BOOL && Z_BVAL_P(stop_buffer)) {
 		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PH_NO_CHECK);
 	}
 	
-	if (zend_is_true(is_buffering)) {
+	if (Z_TYPE_P(is_buffering) == IS_BOOL && Z_BVAL_P(is_buffering)) {
 		zend_print_zval(cached_content, 1);
 	}
 	
@@ -283,9 +303,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 
-	zval *key_name = NULL, *backend = NULL, *prefix = NULL, *prefixed_key = NULL;
+	zval *key_name = NULL, *backend = NULL, *prefix = NULL, *filtered = NULL, *prefixed_key = NULL;
 	zval *cache_dir = NULL, *cache_file = NULL, *success = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -300,11 +319,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_INIT_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_filter_alphanum(r0, key_name);
+	PHALCON_INIT_VAR(filtered);
+	phalcon_filter_alphanum(filtered, key_name);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, r0);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
@@ -332,8 +351,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 
 	zval *prefix = NULL, *start = NULL, *keys = NULL, *backend = NULL, *prefix_length = NULL;
 	zval *cache_dir = NULL, *iterator = NULL, *item = NULL, *is_directory = NULL;
-	zval *key = NULL, *part = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *key = NULL, *part = NULL, *is_different = NULL;
+	zval *r0 = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -380,16 +399,16 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 		
 		PHALCON_INIT_VAR(is_directory);
 		PHALCON_CALL_METHOD(is_directory, item, "isdir", PH_NO_CHECK);
-		if (!zend_is_true(is_directory)) {
+		if (Z_TYPE_P(is_directory) == IS_BOOL && !Z_BVAL_P(is_directory)) {
 			PHALCON_INIT_VAR(key);
 			PHALCON_CALL_METHOD(key, item, "getfilename", PH_NO_CHECK);
 			if (zend_is_true(prefix)) {
 				PHALCON_INIT_VAR(part);
 				PHALCON_CALL_FUNC_PARAMS_3(part, "substr", key, start, prefix_length);
 				
-				PHALCON_INIT_VAR(r1);
-				is_not_equal_function(r1, part, prefix TSRMLS_CC);
-				if (zend_is_true(r1)) {
+				PHALCON_INIT_VAR(is_different);
+				is_not_equal_function(is_different, part, prefix TSRMLS_CC);
+				if (Z_TYPE_P(is_different) == IS_BOOL && Z_BVAL_P(is_different)) {
 					goto ws_469d_0;
 				}
 			}

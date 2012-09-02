@@ -32,3 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+/**
+ * Phalcon\Filter\Exception
+ *
+ * Exceptions thrown in Phalcon\Filter will use this class
+ *
+ */
+

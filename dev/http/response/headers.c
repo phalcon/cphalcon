@@ -204,12 +204,12 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 
-	zval *a0 = NULL;
+	zval *empty_array = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_headers"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_headers"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

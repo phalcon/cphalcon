@@ -39,6 +39,11 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 
+/**
+ * Phalcon\Events\Manager
+ *
+ */
+
 PHP_METHOD(Phalcon_Events_Manager, __construct){
 
 	zval *a0 = NULL;
@@ -52,6 +57,12 @@ PHP_METHOD(Phalcon_Events_Manager, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Attach a listener to the events manager
+ *
+ * @param string $eventType
+ * @param object $handler
+ */
 PHP_METHOD(Phalcon_Events_Manager, attach){
 
 	zval *event_type = NULL, *handler = NULL, *events = NULL;
@@ -79,20 +90,25 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		phalcon_array_update_zval(&events, event_type, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	phalcon_array_update_multi_append_2(&events, event_type, handler, 0 TSRMLS_CC);
+	phalcon_array_update_append_multi_2(&events, event_type, handler, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_events"), events TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Fires a event in the events manager causing that the acive listeners will be notified about it
+ *
+ * @param string $eventType
+ * @param object $source
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Events_Manager, fire){
 
-	zval *event_type = NULL, *source = NULL, *event_parts = NULL, *type = NULL;
-	zval *event_name = NULL, *status = NULL, *events = NULL, *fire_events = NULL;
-	zval *handler = NULL, *event = NULL, *class_name = NULL, *arguments = NULL;
-	zval *c0 = NULL;
-	zval *i0 = NULL;
-	zval *r0 = NULL;
+	zval *event_type = NULL, *source = NULL, *colon = NULL, *event_parts = NULL;
+	zval *exception_message = NULL, *exception = NULL, *type = NULL, *event_name = NULL;
+	zval *status = NULL, *events = NULL, *fire_events = NULL, *handler = NULL, *event = NULL;
+	zval *class_name = NULL, *arguments = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -105,18 +121,20 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, ":", 1);
+	PHALCON_INIT_VAR(colon);
+	ZVAL_STRING(colon, ":", 1);
+	
 	PHALCON_INIT_VAR(event_parts);
-	phalcon_fast_explode(event_parts, c0, event_type TSRMLS_CC);
+	phalcon_fast_explode(event_parts, colon, event_type TSRMLS_CC);
 	eval_int = phalcon_array_isset_long(event_parts, 1);
 	if (!eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, phalcon_events_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SV(r0, "Invalid event type ", event_type);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "Invalid event type ", event_type);
+		
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_events_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
@@ -135,19 +153,22 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	if (eval_int) {
 		PHALCON_INIT_VAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
+		
 		if (!phalcon_valid_foreach(fire_events TSRMLS_CC)) {
 			return;
 		}
 		
 		ah0 = Z_ARRVAL_P(fire_events);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_daef_0:
+		
+		ph_cycle_start_0:
+		
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_daef_0;
+				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_VAR(handler);
-			ZVAL_ZVAL(handler, *hd, 1, 0);
+			PHALCON_GET_FOREACH_VALUE(handler);
+			
 			if (Z_TYPE_P(handler) == IS_OBJECT) {
 				PHALCON_INIT_VAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
@@ -170,9 +191,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 					}
 				}
 			}
+			
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_daef_0;
-		fee_daef_0:
+			goto ph_cycle_start_0;
+		
+		ph_cycle_end_0:
 		if(0){}
 		
 	}

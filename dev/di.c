@@ -39,6 +39,11 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
+/**
+ * Phalcon_DI
+ *
+ */
+
 PHP_METHOD(Phalcon_DI, __construct){
 
 	zval *default_di = NULL;
@@ -316,6 +321,11 @@ PHP_METHOD(Phalcon_DI, getShared){
 	RETURN_CCTOR(instance);
 }
 
+/**
+ * Check whether the DI contains a service by a name
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_DI, has){
 
 	zval *alias = NULL, *services = NULL, *is_set_service = NULL;
@@ -333,13 +343,18 @@ PHP_METHOD(Phalcon_DI, has){
 	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(services, alias);
 	
-	PHALCON_INIT_VAR(r0);
+	PHALCON_ALLOC_ZVAL_MM(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(is_set_service, r0);
 	
 	RETURN_NCTOR(is_set_service);
 }
 
+/**
+ * Check whether the last service obtained via getShared produced a fresh instance or an existing one
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
 	zval *fresh_instance = NULL;
@@ -351,6 +366,13 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 	RETURN_CCTOR(fresh_instance);
 }
 
+/**
+ * Magic method to get or set services using setters/getters
+ *
+ * @param string $method
+ * @param array $arguments
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method = NULL, *arguments = NULL, *action = NULL, *services = NULL, *service_name = NULL;
@@ -405,24 +427,24 @@ PHP_METHOD(Phalcon_DI, __call){
 			
 			RETURN_CCTOR(instance);
 		}
-	}
-	
-	if (PHALCON_COMPARE_STRING(action, "set")) {
-		eval_int = phalcon_array_isset_long(arguments, 0);
-		if (eval_int) {
-			PHALCON_INIT_VAR(c3);
-			ZVAL_LONG(c3, 3);
-			PHALCON_INIT_VAR(service_name);
-			PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, c3);
-			
-			PHALCON_INIT_VAR(possible_service);
-			PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
-			
-			PHALCON_INIT_VAR(handler);
-			phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler, PH_NO_CHECK);
-			PHALCON_MM_RESTORE();
-			RETURN_NULL();
+	} else {
+		if (PHALCON_COMPARE_STRING(action, "set")) {
+			eval_int = phalcon_array_isset_long(arguments, 0);
+			if (eval_int) {
+				PHALCON_INIT_VAR(c3);
+				ZVAL_LONG(c3, 3);
+				PHALCON_INIT_VAR(service_name);
+				PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, c3);
+				
+				PHALCON_INIT_VAR(possible_service);
+				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
+				
+				PHALCON_INIT_VAR(handler);
+				phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler, PH_NO_CHECK);
+				PHALCON_MM_RESTORE();
+				RETURN_NULL();
+			}
 		}
 	}
 	
@@ -452,6 +474,11 @@ PHP_METHOD(Phalcon_DI, setDefault){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Return the last DI created
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_DI, getDefault){
 
 	zval *default_di = NULL;
@@ -463,6 +490,9 @@ PHP_METHOD(Phalcon_DI, getDefault){
 	RETURN_CCTOR(default_di);
 }
 
+/**
+ * Resets the internal default DI
+ */
 PHP_METHOD(Phalcon_DI, reset){
 
 	zval *t0 = NULL;

@@ -589,7 +589,7 @@ void phalcon_array_update_multi_2(zval **arr, zval *index1, zval *index2, zval *
 /**
  * Updates multi-dimensional array with two zval indexes
  */
-void phalcon_array_update_multi_string_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
+void phalcon_array_update_string_multi_2(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
@@ -619,7 +619,7 @@ void phalcon_array_update_multi_string_2(zval **arr, zval *index1, char *index2,
  *
  * $foo[10][4] = $x
  */
-void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2, zval **value, int flags TSRMLS_DC){
+void phalcon_array_update_long_long_multi_2(zval **arr, long index1, long index2, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
@@ -647,7 +647,7 @@ void phalcon_array_update_multi_long_long_2(zval **arr, long index1, long index2
  *
  * $foo[10]["lol"] = $x
  */
-void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
+void phalcon_array_update_long_string_multi_2(zval **arr, long index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
 
 	zval *temp;
 
@@ -671,9 +671,9 @@ void phalcon_array_update_multi_long_str_2(zval **arr, long index1, char *index2
 }
 
 /**
- *
+ * $x[$a][] = 1
  */
-void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, int flags TSRMLS_DC){
+void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *value, int flags TSRMLS_DC){
 
 	zval *temp;
 
@@ -692,5 +692,124 @@ void phalcon_array_update_multi_append_2(zval **arr, zval *index1, zval *value, 
 	phalcon_array_append(&temp, value, flags TSRMLS_CC);
 
 	zval_ptr_dtor(&temp);
+
+}
+
+/**
+ * $x[$a]["hello"][] = $v
+ */
+void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC){
+
+	zval *temp1 = NULL, *temp2 = NULL;
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp1);
+		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp1) > 1) {
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) != IS_ARRAY) {
+		convert_to_array(temp1);
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp2);
+		phalcon_array_fetch_string(&temp2, temp1, index2, index2_length, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp2) > 1) {
+		phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp2) != IS_ARRAY) {
+		convert_to_array(temp2);
+		phalcon_array_update_string(&temp1, index2, index2_length, &temp2, PH_COPY TSRMLS_CC);
+	}
+	phalcon_array_append(&temp1, *value, flags TSRMLS_CC);
+
+	if (temp1 != NULL) {
+		zval_ptr_dtor(&temp1);
+	}
+	if (temp2 != NULL) {
+		zval_ptr_dtor(&temp2);
+	}
+
+}
+
+/**
+ * $x[$a][$b][$c] = $v
+ */
+void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags TSRMLS_DC){
+
+	zval *temp1 = NULL, *temp2 = NULL;
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp1);
+		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp1) > 1) {
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) != IS_ARRAY) {
+		convert_to_array(temp1);
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp2);
+		phalcon_array_fetch(&temp2, temp1, index2, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp2) > 1) {
+		phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp2) != IS_ARRAY) {
+		convert_to_array(temp2);
+		phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY TSRMLS_CC);
+	}
+	phalcon_array_update_zval(&temp2, index3, value, flags TSRMLS_CC);
+
+	if (temp1 != NULL) {
+		zval_ptr_dtor(&temp1);
+	}
+	if (temp2 != NULL) {
+		zval_ptr_dtor(&temp2);
+	}
+
+}
+
+/**
+ * $x[$a][$b]["str"] = $v
+ */
+void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags TSRMLS_DC){
+
+	zval *temp1, *temp2;
+
+	ALLOC_INIT_ZVAL(temp1);
+	ALLOC_INIT_ZVAL(temp2);
+
+	if (Z_TYPE_PP(arr) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp1);
+		phalcon_array_fetch(&temp1, *arr, index1, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp1) > 1) {
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) != IS_ARRAY) {
+		convert_to_array(temp1);
+		phalcon_array_update_zval(arr, index1, &temp1, PH_COPY TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp1) == IS_ARRAY) {
+		ALLOC_INIT_ZVAL(temp2);
+		phalcon_array_fetch(&temp2, temp1, index2, PH_SILENT_CC);
+	}
+	if (Z_REFCOUNT_P(temp2) > 1) {
+		phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY | PH_CTOR TSRMLS_CC);
+	}
+	if (Z_TYPE_P(temp2) != IS_ARRAY) {
+		convert_to_array(temp2);
+		phalcon_array_update_zval(&temp1, index2, &temp2, PH_COPY TSRMLS_CC);
+	}
+	phalcon_array_update_string(&temp2, index3, index3_length, value, PH_COPY TSRMLS_CC);
+
+	zval_ptr_dtor(&temp1);
+	zval_ptr_dtor(&temp2);
 
 }

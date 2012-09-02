@@ -44,7 +44,13 @@
  *
  * Adapter to store logs in plain text files
  *
- *
+ *<code>
+ *$logger = new Phalcon\Logger\Adapter\File("app/logs/test.log");
+ *$logger->log("This is a message");
+ *$logger->log("This is an error", Phalcon\Logger::ERROR);
+ *$logger->error("This is another error");
+ *$logger->close();
+ *</code>
  */
 
 /**
@@ -261,7 +267,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	ZVAL_STRING(c0, "%date%", 1);
 	
 	PHALCON_INIT_VAR(new_format);
-	phalcon_fast_str_replace(new_format, c0, date_format, format TSRMLS_CC);
+	phalcon_fast_str_replace(new_format, c0, date, format TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(type_string);
 	PHALCON_CALL_METHOD_PARAMS_1(type_string, this_ptr, "gettypestring", type, PH_NO_CHECK);
