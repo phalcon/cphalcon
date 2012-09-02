@@ -56,6 +56,7 @@
  * </code>
  */
 
+
 /**
  * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection.
@@ -65,7 +66,7 @@
  * @param array $descriptor
  * @return boolean
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __connect){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 
 	zval *descriptor = NULL, *schema = NULL, *sql = NULL;
 	int has_schema;
@@ -94,7 +95,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __connect){
 		PHALCON_INIT_VAR(schema);
 		phalcon_array_fetch_string(&schema, descriptor, SL("schema"), PH_NOISY_CC);
 		PHALCON_SEPARATE_PARAM(descriptor);
-		phalcon_array_unset(descriptor, schema);
+		phalcon_array_unset_string(descriptor, SL("schema")+1);
 	}
 
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Db\\Adapter\\Pdo\\Postgresql", "connect", descriptor);
@@ -120,13 +121,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __connect){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
 	zval *table = NULL, *schema = NULL, *columns = NULL, *sql = NULL, *describe = NULL, *old_column = NULL;
-	zval *field = NULL, *definition = NULL, *column_type = NULL, *matches = NULL;
-	zval *column_name = NULL, *column = NULL;
+	zval *field = NULL, *definition = NULL, *column_type = NULL, *status = NULL;
+	zval *matches = NULL, *pattern = NULL, *column_name = NULL, *column = NULL;
 	zval *t0 = NULL, *t1 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL;
-	zval *c0 = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -161,65 +159,68 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
 	PHALCON_INIT_VAR(old_column);
 	ZVAL_NULL(old_column);
+
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
 
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_0ac0_0:
+
+	ph_cycle_start_0:
+
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_0ac0_0;
+			goto ph_cycle_end_0;
 		}
 
-		PHALCON_INIT_VAR(field);
-		ZVAL_ZVAL(field, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(field);
+
 		PHALCON_INIT_VAR(definition);
 		array_init(definition);
 
 		PHALCON_INIT_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
 
-		PHALCON_INIT_VAR(r0);
-		phalcon_fast_strpos_str(r0, column_type, SL("int") TSRMLS_CC);
-		if (Z_TYPE_P(r0) != IS_BOOL || (Z_TYPE_P(r0) == IS_BOOL && Z_BVAL_P(r0))) {
+		PHALCON_INIT_VAR(status);
+		phalcon_fast_strpos_str(status, column_type, SL("int") TSRMLS_CC);
+		if (PHALCON_IS_NOT_FALSE(status)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
-			PHALCON_INIT_VAR(r1);
-			phalcon_fast_strpos_str(r1, column_type, SL("varying") TSRMLS_CC);
-			if (Z_TYPE_P(r1) != IS_BOOL || (Z_TYPE_P(r1) == IS_BOOL && Z_BVAL_P(r1))) {
+			PHALCON_INIT_VAR(status);
+			phalcon_fast_strpos_str(status, column_type, SL("varying") TSRMLS_CC);
+			if (PHALCON_IS_NOT_FALSE(status)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
 			} else {
-				PHALCON_INIT_VAR(r2);
-				phalcon_fast_strpos_str(r2, column_type, SL("date") TSRMLS_CC);
-				if (Z_TYPE_P(r2) != IS_BOOL || (Z_TYPE_P(r2) == IS_BOOL && Z_BVAL_P(r2))) {
+				PHALCON_INIT_VAR(status);
+				phalcon_fast_strpos_str(status, column_type, SL("date") TSRMLS_CC);
+				if (PHALCON_IS_NOT_FALSE(status)) {
 					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
 				} else {
-					PHALCON_INIT_VAR(r3);
-					phalcon_fast_strpos_str(r3, column_type, SL("numeric") TSRMLS_CC);
-					if (Z_TYPE_P(r3) != IS_BOOL || (Z_TYPE_P(r3) == IS_BOOL && Z_BVAL_P(r3))) {
+					PHALCON_INIT_VAR(status);
+					phalcon_fast_strpos_str(status, column_type, SL("numeric") TSRMLS_CC);
+					if (PHALCON_IS_NOT_FALSE(status)) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_VAR(r4);
-						phalcon_fast_strpos_str(r4, column_type, SL("char") TSRMLS_CC);
-						if (Z_TYPE_P(r4) != IS_BOOL || (Z_TYPE_P(r4) == IS_BOOL && Z_BVAL_P(r4))) {
+						PHALCON_INIT_VAR(status);
+						phalcon_fast_strpos_str(status, column_type, SL("char") TSRMLS_CC);
+						if (PHALCON_IS_NOT_FALSE(status)) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 						} else {
-							PHALCON_INIT_VAR(r5);
-							phalcon_fast_strpos_str(r5, column_type, SL("timestamp") TSRMLS_CC);
-							if (Z_TYPE_P(r5) != IS_BOOL || (Z_TYPE_P(r5) == IS_BOOL && Z_BVAL_P(r5))) {
+							PHALCON_INIT_VAR(status);
+							phalcon_fast_strpos_str(status, column_type, SL("timestamp") TSRMLS_CC);
+							if (PHALCON_IS_NOT_FALSE(status)) {
 								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
 							} else {
-								PHALCON_INIT_VAR(r6);
-								phalcon_fast_strpos_str(r6, column_type, SL("text") TSRMLS_CC);
-								if (Z_TYPE_P(r6) != IS_BOOL || (Z_TYPE_P(r6) == IS_BOOL && Z_BVAL_P(r6))) {
+								PHALCON_INIT_VAR(status);
+								phalcon_fast_strpos_str(status, column_type, SL("text") TSRMLS_CC);
+								if (PHALCON_IS_NOT_FALSE(status)) {
 									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
 								} else {
-									PHALCON_INIT_VAR(r7);
-									phalcon_fast_strpos_str(r7, column_type, SL("float") TSRMLS_CC);
-									if (Z_TYPE_P(r7) != IS_BOOL || (Z_TYPE_P(r7) == IS_BOOL && Z_BVAL_P(r7))) {
+									PHALCON_INIT_VAR(status);
+									phalcon_fast_strpos_str(status, column_type, SL("float") TSRMLS_CC);
+									if (PHALCON_IS_NOT_FALSE(status)) {
 										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 									} else {
@@ -233,56 +234,56 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			}
 		}
 
-		PHALCON_INIT_VAR(r8);
-		phalcon_fast_strpos_str(r8, column_type, SL("(") TSRMLS_CC);
-		if (Z_TYPE_P(r8) != IS_BOOL || (Z_TYPE_P(r8) == IS_BOOL && Z_BVAL_P(r8))) {
+		PHALCON_INIT_VAR(status);
+		phalcon_fast_strpos_str(status, column_type, SL("(") TSRMLS_CC);
+		if (PHALCON_IS_NOT_FALSE(status)) {
 			PHALCON_INIT_VAR(matches);
 			array_init(matches);
 
-			PHALCON_INIT_VAR(c0);
-			ZVAL_STRING(c0, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
+			PHALCON_INIT_VAR(pattern);
+			ZVAL_STRING(pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
 			Z_SET_ISREF_P(matches);
 
-			PHALCON_INIT_VAR(r9);
-			PHALCON_CALL_FUNC_PARAMS_3(r9, "preg_match", c0, column_type, matches);
+			PHALCON_INIT_VAR(r0);
+			PHALCON_CALL_FUNC_PARAMS_3(r0, "preg_match", pattern, column_type, matches);
 			Z_UNSET_ISREF_P(matches);
-			if (zend_is_true(r9)) {
+			if (zend_is_true(r0)) {
 				eval_int = phalcon_array_isset_long(matches, 1);
 				if (eval_int) {
-					PHALCON_INIT_VAR(r10);
-					phalcon_array_fetch_long(&r10, matches, 1, PH_NOISY_CC);
-					phalcon_array_update_string(&definition, SL("size"), &r10, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					PHALCON_INIT_VAR(r1);
+					phalcon_array_fetch_long(&r1, matches, 1, PH_NOISY_CC);
+					phalcon_array_update_string(&definition, SL("size"), &r1, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				}
 			}
 		}
 
-		PHALCON_INIT_VAR(r11);
-		phalcon_fast_strpos_str(r11, column_type, SL("unsigned") TSRMLS_CC);
-		if (zend_is_true(r11)) {
+		PHALCON_INIT_VAR(status);
+		phalcon_fast_strpos_str(status, column_type, SL("unsigned") TSRMLS_CC);
+		if (PHALCON_IS_NOT_FALSE(status)) {
 			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 
-		if (!zend_is_true(old_column)) {
+		if (Z_TYPE_P(old_column) == IS_NULL) {
 			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 
-		PHALCON_INIT_VAR(r12);
-		phalcon_array_fetch_string(&r12, field, SL("key"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(r12, "PRI")) {
+		PHALCON_INIT_VAR(r2);
+		phalcon_array_fetch_string(&r2, field, SL("key"), PH_NOISY_CC);
+		if (PHALCON_COMPARE_STRING(r2, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 
-		PHALCON_INIT_VAR(r13);
-		phalcon_array_fetch_string(&r13, field, SL("null"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(r13, "NO")) {
+		PHALCON_INIT_VAR(r3);
+		phalcon_array_fetch_string(&r3, field, SL("null"), PH_NOISY_CC);
+		if (PHALCON_COMPARE_STRING(r3, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 
-		PHALCON_INIT_VAR(r14);
-		phalcon_array_fetch_string(&r14, field, SL("extra"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(r14, "auto_increment")) {
+		PHALCON_INIT_VAR(r4);
+		phalcon_array_fetch_string(&r4, field, SL("extra"), PH_NOISY_CC);
+		if (PHALCON_COMPARE_STRING(r4, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 
@@ -294,9 +295,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition, PH_CHECK);
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
+
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_0ac0_0;
-	fee_0ac0_0:
+		goto ph_cycle_start_0;
+
+	ph_cycle_end_0:
 
 
 	RETURN_CTOR(columns);
@@ -352,19 +355,22 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
+
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
 
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_0ac0_1:
+
+	ph_cycle_start_0:
+
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_0ac0_1;
+			goto ph_cycle_end_0;
 		}
 
-		PHALCON_INIT_VAR(index);
-		ZVAL_ZVAL(index, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(index);
+
 		PHALCON_INIT_VAR(key_name);
 		phalcon_array_fetch_string(&key_name, index, SL("key_name"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(indexes, key_name);
@@ -377,34 +383,41 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeIndexes){
 		PHALCON_INIT_VAR(r0);
 		phalcon_array_fetch_string(&r0, index, SL("column_name"), PH_NOISY_CC);
 		phalcon_array_update_append_multi_2(&indexes, key_name, r0, 0 TSRMLS_CC);
+
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_0ac0_1;
-	fee_0ac0_1:
+		goto ph_cycle_start_0;
+
+	ph_cycle_end_0:
 
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
+
 	if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
 		return;
 	}
 
 	ah1 = Z_ARRVAL_P(indexes);
 	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-	fes_0ac0_2:
+
+	ph_cycle_start_1:
+
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-			goto fee_0ac0_2;
+			goto ph_cycle_end_1;
 		}
 
 		PHALCON_INIT_VAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
-		PHALCON_INIT_VAR(index_columns);
-		ZVAL_ZVAL(index_columns, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(index_columns);
+
 		PHALCON_INIT_VAR(i0);
 		object_init_ex(i0, phalcon_db_index_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", name, index_columns, PH_CHECK);
 		phalcon_array_update_zval(&index_objects, name, &i0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+
 		zend_hash_move_forward_ex(ah1, &hp1);
-		goto fes_0ac0_2;
-	fee_0ac0_2:
+		goto ph_cycle_start_1;
+
+	ph_cycle_end_1:
 
 
 	RETURN_CTOR(index_objects);
@@ -461,19 +474,22 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, t1, PH_NO_CHECK);
+
 	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
 		return;
 	}
 
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_0ac0_3:
+
+	ph_cycle_start_0:
+
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_0ac0_3;
+			goto ph_cycle_end_0;
 		}
 
-		PHALCON_INIT_VAR(reference);
-		ZVAL_ZVAL(reference, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(reference);
+
 		PHALCON_INIT_VAR(constraint_name);
 		phalcon_array_fetch_string(&constraint_name, reference, SL("constraint_name"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(references, constraint_name);
@@ -546,27 +562,32 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 			phalcon_array_update_string(&t4, SL("referencedColumns"), &t5, PH_COPY TSRMLS_CC);
 		}
 		phalcon_array_append(&t5, r3, 0 TSRMLS_CC);
+
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_0ac0_3;
-	fee_0ac0_3:
+		goto ph_cycle_start_0;
+
+	ph_cycle_end_0:
 
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
+
 	if (!phalcon_valid_foreach(references TSRMLS_CC)) {
 		return;
 	}
 
 	ah1 = Z_ARRVAL_P(references);
 	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-	fes_0ac0_4:
+
+	ph_cycle_start_1:
+
 		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
-			goto fee_0ac0_4;
+			goto ph_cycle_end_1;
 		}
 
 		PHALCON_INIT_VAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
-		PHALCON_INIT_VAR(array_reference);
-		ZVAL_ZVAL(array_reference, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(array_reference);
+
 		PHALCON_INIT_VAR(i0);
 		object_init_ex(i0, phalcon_db_reference_ce);
 		PHALCON_INIT_VAR(a3);
@@ -585,9 +606,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences){
 		phalcon_array_update_string(&a3, SL("referencedColumns"), &r7, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", name, a3, PH_CHECK);
 		phalcon_array_update_zval(&reference_objects, name, &i0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+
 		zend_hash_move_forward_ex(ah1, &hp1);
-		goto fes_0ac0_4;
-	fee_0ac0_4:
+		goto ph_cycle_start_1;
+
+	ph_cycle_end_1:
 
 
 	RETURN_CTOR(reference_objects);
