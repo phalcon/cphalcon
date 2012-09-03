@@ -234,28 +234,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			}
 		}
 
-		PHALCON_INIT_VAR(status);
-		phalcon_fast_strpos_str(status, column_type, SL("(") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(status)) {
-			PHALCON_INIT_VAR(matches);
-			array_init(matches);
-
-			PHALCON_INIT_VAR(pattern);
-			ZVAL_STRING(pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
-			Z_SET_ISREF_P(matches);
-
-			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_FUNC_PARAMS_3(r0, "preg_match", pattern, column_type, matches);
-			Z_UNSET_ISREF_P(matches);
-			if (zend_is_true(r0)) {
-				eval_int = phalcon_array_isset_long(matches, 1);
-				if (eval_int) {
-					PHALCON_INIT_VAR(r1);
-					phalcon_array_fetch_long(&r1, matches, 1, PH_NOISY_CC);
-					phalcon_array_update_string(&definition, SL("size"), &r1, PH_COPY | PH_SEPARATE TSRMLS_CC);
-				}
-			}
-		}
+        PHALCON_INIT_VAR(r0);
+        phalcon_array_fetch_string(&r0, field, SL("size"), PH_NOISY_CC);
+        phalcon_array_update_string(&definition, SL("size"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 
 		PHALCON_INIT_VAR(status);
 		phalcon_fast_strpos_str(status, column_type, SL("unsigned") TSRMLS_CC);
@@ -289,6 +270,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 
 		PHALCON_INIT_VAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
+
+        // support uuid type and force size to 36
+        if (PHALCON_COMPARE_STRING(column_type, "uuid")) {
+            phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+            phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+        }
 
 		PHALCON_INIT_VAR(column);
 		object_init_ex(column, phalcon_db_column_ce);

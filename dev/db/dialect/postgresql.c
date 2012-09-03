@@ -442,8 +442,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVSVS(sql, "SELECT a.attname AS Field, format_type(a.atttypid, a.atttypmod) AS Type, CASE WHEN attnotnull=false THEN 'YES' ELSE 'NO' END AS Null, CASE WHEN (select cc.contype FROM pg_catalog.pg_constraint cc WHERE cc.conrelid = c.oid AND cc.conkey[1] = a.attnum)='p' THEN 'PRI' ELSE '' END AS Key, CASE WHEN t.typname LIKE '%int%' AND (SELECT column_default FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '", table, "' AND column_name = a.attname) LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra FROM pg_catalog.pg_Class c, pg_catalog.pg_attribute a, pg_catalog.pg_type t WHERE c.relname = '", table, "' AND c.oid = a.attrelid AND a.attnum > 0 AND c.relhaspkey = 't' AND t.oid = a.atttypid ORDER BY a.attnum");
-	
+	if (zend_is_true(schema)) {
+	    PHALCON_CONCAT_SVSVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+	} else {
+	    PHALCON_CONCAT_SVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+	}
+
 	RETURN_CTOR(sql);
 }
 
@@ -470,10 +474,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 		PHALCON_ALLOC_ZVAL_MM(schema_name);
 		ZVAL_NULL(schema_name);
 	}
-	
+
 	PHALCON_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT c.relname AS table_name FROM pg_Class c, pg_user u WHERE c.relowner = u.usesysid AND c.relkind = 'r' AND NOT EXISTS (SELECT 1 FROM pg_views WHERE viewname = c.relname) AND c.relname !~ '^(pg_|sql_)' UNION SELECT c.relname AS table_name FROM pg_Class c WHERE c.relkind = 'r' AND NOT EXISTS (SELECT 1 FROM pg_views WHERE viewname = c.relname)  AND NOT EXISTS (SELECT 1 FROM pg_user WHERE usesysid = c.relowner)  AND c.relname !~ '^pg_' ORDER BY 1", 1);
-	
+	if (zend_is_true(schema_name)) {
+		PHALCON_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schema_name, "'");
+	} else {
+		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'", 1);
+	}
+
 	RETURN_CTOR(sql);
 }
 
@@ -501,8 +509,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVS(sql, "SELECT t.relname as table_name, i.relname as key_name, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' ORDER BY t.relname, i.relname;");
-	
+	if (zend_is_true(schema)) {
+        PHALCON_CONCAT_SVSVS(sql, "SELECT table_name,constraint_name AS key_name,column_name FROM information_schema.key_column_usage WHERE table_name='", table, "' AND table_schema='", schema, "' ORDER BY ordinal_position");
+	} else {
+	    PHALCON_CONCAT_SVS(sql, "SELECT table_name,constraint_name AS key_name,column_name FROM information_schema.key_column_usage WHERE table_name='", table, "' AND table_schema='public' ORDER BY ordinal_position");
+	}
+
 	RETURN_CTOR(sql);
 }
 
