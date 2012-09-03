@@ -442,7 +442,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$tables = $connection->listTables();
 		$this->assertEquals($tables, $expectedTables);
 
-		$tables = $connection->listTables('phalcon_test');
+		$tables = $connection->listTables('public');
 		$this->assertEquals($tables, $expectedTables);
 
 		//Table exist
@@ -479,7 +479,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describeIndexes = $connection->describeIndexes('robots_parts');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
-		$describeIndexes = $connection->describeIndexes('robots_parts', 'phalcon_test');
+		$describeIndexes = $connection->describeIndexes('robots_parts', 'public');
 		$this->assertEquals($describeIndexes, $expectedIndexes);
 
 		//References
@@ -503,7 +503,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);
 
-		$describeReferences = $connection->describeReferences('robots_parts', 'phalcon_test');
+		$describeReferences = $connection->describeReferences('robots_parts', 'public');
 		$this->assertEquals($describeReferences, $expectedReferences);
 
 		/**/
