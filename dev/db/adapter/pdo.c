@@ -39,6 +39,14 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 
+#define PDO_ATTR_ERRMODE 3
+#define PDO_ERRMODE_SILENT 0
+#define PDO_ATTR_CASE 8
+#define PDO_CASE_LOWER 2
+#define PDO_ATTR_CURSOR 10
+#define PDO_CURSOR_SCROLL 1
+#define PDO_ATTR_PERSISTENT 12
+
 /**
  * Phalcon\Db\Adapter\Pdo
  *
@@ -182,15 +190,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	
 	PHALCON_INIT_VAR(options);
 	array_init(options);
-	add_index_long(options, 3, 0);
-	add_index_long(options, 8, 2);
-	add_index_long(options, 10, 1);
+	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_SILENT);
+	add_index_long(options, PDO_ATTR_CASE, PDO_CASE_LOWER);
+	add_index_long(options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL);
 	eval_int = phalcon_array_isset_string(descriptor, SL("persistent")+1);
 	if (eval_int) {
 		PHALCON_INIT_VAR(persistent);
 		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
-			phalcon_array_update_long_bool(&options, 12, 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_long_bool(&options, PDO_ATTR_PERSISTENT, 1, PH_SEPARATE TSRMLS_CC);
 		}
 	}
 	
