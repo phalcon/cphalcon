@@ -158,4 +158,25 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
+    public function testFileLoggerTimeFormat()
+    {
+
+        @unlink('unit-tests/logs/test.log');
+        $logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+
+        $logger->debug("Hello 1");
+
+        $lines = file('unit-tests/logs/test.log');
+        $this->assertEquals(count($lines), 1);
+
+        preg_match('#^\[(.*?)\]#', $lines[0], $match);
+
+        $this->assertTrue(count($match)===2);
+
+        $date = new DateTime($match[1]);
+
+        $this->assertTrue($date->format('Y-m-d') === date('Y-m-d'));
+
+    }
+
 }
