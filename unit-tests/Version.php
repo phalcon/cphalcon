@@ -1,7 +1,7 @@
 <?php
 /**
- * UnitTest.php
- * \Phalcon\Version
+ * VersionTest.php
+ * VersionTest
  *
  * Tests the \Phalcon\Version component
  *
@@ -20,11 +20,9 @@
  * so that we can send you a copy immediately.
  */
 
-namespace Version;
-
 use \Phalcon\Version as Version;
 
-class UnitTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests the get
