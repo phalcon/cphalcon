@@ -111,6 +111,12 @@ class RouterTest extends PHPUnit_Framework_TestCase
 				'action' => 'delete',
 				'params' => array('id' => '150')
 			),
+			array(
+				'uri' => '/very/static/route',
+				'controller' => 'static',
+				'action' => 'route',
+				'params' => array()
+			),
 		);
 
 		$router = new Phalcon\Mvc\Router();
@@ -147,6 +153,11 @@ class RouterTest extends PHPUnit_Framework_TestCase
 			'action' => 'show',
 			'language' => 1,
 			'file' => 2
+		));
+
+		$router->add('/very/static/route', array(
+			'controller' => 'static',
+			'action' => 'route'
 		));
 
 		$router->add("/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}", "Feed::get");

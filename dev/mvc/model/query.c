@@ -2088,11 +2088,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *models = NULL, *number_models = NULL, *model_name = NULL, *model = NULL;
 	zval *connection = NULL, *connections = NULL, *type = NULL, *connection_types = NULL;
 	zval *columns = NULL, *have_objects = NULL, *have_scalars = NULL;
-	zval *number_objects = NULL, *column = NULL, *column_type = NULL;
-	zval *is_complex = NULL, *is_simple_std = NULL, *select_columns = NULL;
-	zval *alias = NULL, *sql_column = NULL, *instance = NULL, *attributes = NULL;
-	zval *attribute = NULL, *column_alias = NULL, *dialect = NULL, *sql_select = NULL;
-	zval *result = NULL, *count = NULL, *result_data = NULL, *cache = NULL, *result_object = NULL;
+	zval *is_complex = NULL, *number_objects = NULL, *column = NULL, *column_type = NULL;
+	zval *is_simple_std = NULL, *select_columns = NULL, *alias = NULL;
+	zval *sql_column = NULL, *instance = NULL, *attributes = NULL, *attribute = NULL;
+	zval *column_alias = NULL, *dialect = NULL, *sql_select = NULL, *result = NULL;
+	zval *count = NULL, *result_data = NULL, *cache = NULL, *result_object = NULL;
 	zval *resultset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
@@ -2101,6 +2101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
@@ -2179,6 +2180,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(have_scalars);
 	ZVAL_BOOL(have_scalars, 0);
 	
+	PHALCON_INIT_VAR(is_complex);
+	ZVAL_BOOL(is_complex, 0);
+	
 	PHALCON_INIT_VAR(number_objects);
 	ZVAL_LONG(number_objects, 0);
 	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
@@ -2197,6 +2201,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(column_type, "scalar")) {
+			eval_int = phalcon_array_isset_string(column, SL("balias")+1);
+			if (!eval_int) {
+				PHALCON_INIT_VAR(is_complex);
+				ZVAL_BOOL(is_complex, 1);
+			}
+			
 			PHALCON_INIT_VAR(have_scalars);
 			ZVAL_BOOL(have_scalars, 1);
 		} else {
@@ -2209,24 +2219,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		goto fes_111d_20;
 	fee_111d_20:
 	
-	PHALCON_INIT_VAR(is_complex);
-	ZVAL_BOOL(is_complex, 0);
-	if (Z_TYPE_P(have_objects) == IS_BOOL && Z_BVAL_P(have_objects)) {
-		if (Z_TYPE_P(have_scalars) == IS_BOOL && Z_BVAL_P(have_scalars)) {
-			PHALCON_INIT_VAR(is_complex);
-			ZVAL_BOOL(is_complex, 1);
-		} else {
-			if (phalcon_compare_strict_long(number_objects, 1 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(is_simple_std);
-				ZVAL_BOOL(is_simple_std, 0);
-			} else {
+	if (Z_TYPE_P(is_complex) == IS_BOOL && !Z_BVAL_P(is_complex)) {
+		if (Z_TYPE_P(have_objects) == IS_BOOL && Z_BVAL_P(have_objects)) {
+			if (Z_TYPE_P(have_scalars) == IS_BOOL && Z_BVAL_P(have_scalars)) {
 				PHALCON_INIT_VAR(is_complex);
 				ZVAL_BOOL(is_complex, 1);
+			} else {
+				if (phalcon_compare_strict_long(number_objects, 1 TSRMLS_CC)) {
+					PHALCON_INIT_VAR(is_simple_std);
+					ZVAL_BOOL(is_simple_std, 0);
+				} else {
+					PHALCON_INIT_VAR(is_complex);
+					ZVAL_BOOL(is_complex, 1);
+				}
 			}
+		} else {
+			PHALCON_INIT_VAR(is_simple_std);
+			ZVAL_BOOL(is_simple_std, 1);
 		}
-	} else {
-		PHALCON_INIT_VAR(is_simple_std);
-		ZVAL_BOOL(is_simple_std, 1);
 	}
 	
 	PHALCON_INIT_VAR(select_columns);

@@ -53,6 +53,7 @@
 			<file>unit-tests/AclTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/TranslateTest.php</file>
+			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 		</testsuite>
 	</testsuites>

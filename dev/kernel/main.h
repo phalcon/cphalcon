@@ -36,6 +36,7 @@
 #define PH_FETCH_CLASS_SILENT (zend_bool) ZEND_FETCH_CLASS_SILENT TSRMLS_CC
 
 #define SL(str) ZEND_STRL(str)
+#define SS(str) ZEND_STRS(str)
 
 /** SPL dependencies */
 #if defined(HAVE_SPL) && ((PHP_MAJOR_VERSION > 5) || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 1))

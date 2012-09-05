@@ -6,7 +6,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/model/query", "scanner.c parser.c status.c lang.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "bag.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c translate.c tag.c session.c flash.c config.c filter.c acl.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c test.c exception.c db.c logger.c translate.c tag.c session.c version.c flash.c config.c filter.c acl.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/router", "exception.c route.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc", "router.c micro.c view.c url.c controller.c user.c dispatcher.c model.c application.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")

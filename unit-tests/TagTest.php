@@ -136,28 +136,28 @@ class TagTest extends PHPUnit_Framework_TestCase
 			'T' => 'Tonight',
 			'C' => 'Crystal'
 		);
-		$this->assertEquals(Tag::selectStatic('horror', $values), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic('horror', $values), '<select name="horror" id="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C');
-		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'dummyText' => 'more');
-		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror">
+		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
 		$params = array('horror', $values, 'value' => 'C', 'useDummy' => true);
-		$this->assertEquals(Tag::selectStatic($params), '<select id="horror" name="horror" useDummy="1">
+		$this->assertEquals(Tag::selectStatic($params), '<select useDummy="1" name="horror" id="horror">
 	<option value="">Choose...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
@@ -174,14 +174,14 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$robots = Robots::find();
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'));
-		$this->assertEquals(Tag::select($params), '<select id="nice" name="nice">
+		$this->assertEquals(Tag::select($params), '<select name="nice" id="nice">
 	<option value="1">Robotina</option>
 	<option value="2">Astro Boy</option>
 	<option value="3">Terminator</option>
 </select>');
 
 		$params = array('nice', $robots, 'using' => array('id', 'name'), 'value' => '2');
-		$this->assertEquals(Tag::select($params), '<select id="nice" name="nice">
+		$this->assertEquals(Tag::select($params), '<select name="nice" id="nice">
 	<option value="1">Robotina</option>
 	<option selected="selected" value="2">Astro Boy</option>
 	<option value="3">Terminator</option>

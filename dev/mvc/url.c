@@ -42,9 +42,14 @@
 /**
  * Phalcon\Mvc\Url
  *
- * Generates internal URIs and Paths
+ * This components aids in the generation off: URIs, URLs and Paths
  */
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_Url, setDI){
 
 	zval *dependency_injector = NULL;
@@ -65,6 +70,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Mvc_Url, getDI){
 
 	zval *dependency_injector = NULL;
@@ -76,6 +86,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
 	RETURN_CCTOR(dependency_injector);
 }
 
+/**
+ * Sets a prefix to all the urls generated
+ *
+ * @param string $baseUri
+ */
 PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 	zval *base_uri = NULL;
@@ -92,6 +107,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the prefix for all the generated urls. By default /
+ *
+ * @param string
+ */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
 	zval *base_uri = NULL, *slash = NULL, *php_self = NULL, *dirname = NULL, *dir_parts = NULL;
@@ -156,6 +176,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	RETURN_CCTOR(base_uri);
 }
 
+/**
+ * Sets a base paths for all the generated paths
+ *
+ * @return string $basePath
+ */
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
 	zval *base_path = NULL;
@@ -172,6 +197,11 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns a base path
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
 
 	zval *base_path = NULL;
@@ -184,9 +214,9 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
 }
 
 /**
- * Gets a public URL prepending the application URI
+ * Generates a URL
  *
- * @param string $uri
+ * @param string|array $uri
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
@@ -194,11 +224,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	zval *uri = NULL, *base_uri = NULL, *dependency_injector = NULL, *router = NULL;
 	zval *route_name = NULL, *route = NULL, *exception_message = NULL;
 	zval *exception = NULL, *pattern = NULL, *replaced_pattern = NULL;
-	zval *controller_name = NULL, *action_name = NULL, *have_bracket = NULL;
-	zval *matches = NULL, *match_position = NULL, *set_order = NULL, *have_variables = NULL;
+	zval *controller_name = NULL, *wildcard = NULL, *action_name = NULL;
+	zval *have_bracket = NULL, *matches = NULL, *match_position = NULL;
+	zval *set_order = NULL, *names_pattern = NULL, *have_variables = NULL;
 	zval *match = NULL, *match_zero = NULL, *match_one = NULL, *value = NULL, *new_pcre_pattern = NULL;
 	zval *final_uri = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *c0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
@@ -265,11 +296,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_INIT_VAR(controller_name);
 			phalcon_array_fetch_string(&controller_name, uri, SL("controller"), PH_NOISY_CC);
 			
-			PHALCON_INIT_VAR(c1);
-			ZVAL_STRING(c1, ":controller", 1);
+			PHALCON_INIT_VAR(wildcard);
+			ZVAL_STRING(wildcard, ":controller", 1);
 			
 			PHALCON_ALLOC_ZVAL_MM(r0);
-			phalcon_fast_str_replace(r0, c1, controller_name, replaced_pattern TSRMLS_CC);
+			phalcon_fast_str_replace(r0, wildcard, controller_name, replaced_pattern TSRMLS_CC);
 			PHALCON_CPY_WRT(replaced_pattern, r0);
 		}
 		
@@ -278,11 +309,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_INIT_VAR(action_name);
 			phalcon_array_fetch_string(&action_name, uri, SL("action"), PH_NOISY_CC);
 			
-			PHALCON_INIT_VAR(c2);
-			ZVAL_STRING(c2, ":action", 1);
+			PHALCON_INIT_VAR(wildcard);
+			ZVAL_STRING(wildcard, ":action", 1);
 			
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_fast_str_replace(r1, c2, action_name, replaced_pattern TSRMLS_CC);
+			phalcon_fast_str_replace(r1, wildcard, action_name, replaced_pattern TSRMLS_CC);
 			PHALCON_CPY_WRT(replaced_pattern, r1);
 		}
 		
@@ -299,8 +330,9 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			ZVAL_LONG(t0, 2);
 			PHALCON_CPY_WRT(set_order, t0);
 			
-			PHALCON_INIT_VAR(p0[0]);
-			ZVAL_STRING(p0[0], "#{([a-zA-Z][a-zA-Z0-9\\_\\-]+)(:([^}]+))*}#", 1);
+			PHALCON_INIT_VAR(names_pattern);
+			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]+)(:([^}]+))*}#", 1);
+			p0[0] = names_pattern;
 			p0[1] = replaced_pattern;
 			Z_SET_ISREF_P(matches);
 			p0[2] = matches;
@@ -310,7 +342,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_CALL_FUNC_PARAMS(r2, "preg_match_all", 4, p0);
 			Z_UNSET_ISREF_P(p0[2]);
 			PHALCON_CPY_WRT(have_variables, r2);
-			if (Z_TYPE_P(have_variables) != IS_BOOL || (Z_TYPE_P(have_variables) == IS_BOOL && Z_BVAL_P(have_variables))) {
+			if (zend_is_true(have_variables)) {
 				if (!phalcon_valid_foreach(matches TSRMLS_CC)) {
 					return;
 				}
@@ -358,27 +390,32 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Generates a local path
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Url, path){
 
-	zval *uri = NULL, *base_path = NULL, *final_path = NULL;
+	zval *path = NULL, *base_path = NULL, *final_path = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &path) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!uri) {
-		PHALCON_ALLOC_ZVAL_MM(uri);
-		ZVAL_NULL(uri);
+	if (!path) {
+		PHALCON_ALLOC_ZVAL_MM(path);
+		ZVAL_NULL(path);
 	}
 	
 	PHALCON_INIT_VAR(base_path);
 	phalcon_read_property(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(final_path);
-	PHALCON_CONCAT_VV(final_path, base_path, uri);
+	PHALCON_CONCAT_VV(final_path, base_path, path);
 	
 	RETURN_CTOR(final_path);
 }

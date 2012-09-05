@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Kenji Minamoto <kenji.minamoto@gmail.com>                     |
   +------------------------------------------------------------------------+
 */
 
@@ -37,6 +38,12 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 
+/**
+ * Phalcon\Mvc\Micro
+ *
+ *
+ */
+
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
 	zval *a0 = NULL;
@@ -51,6 +58,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
 	zval *dependency_injector = NULL, *service = NULL, *exists = NULL;
@@ -63,7 +75,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Error Processing Request");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "The dependency injector must be an object");
 		return;
 	}
 	
@@ -81,6 +93,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getDI){
 
 	zval *dependency_injector = NULL;
@@ -129,6 +146,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager){
 	RETURN_CCTOR(events_manager);
 }
 
+/**
+ * Maps a route to a handler without any HTTP method constraint
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, map){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -159,6 +182,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, map){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is GET
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, get){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -189,6 +218,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, get){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is POST
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, post){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -219,6 +254,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, post){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is PUT
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, put){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -249,6 +290,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is HEAD
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, head){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -279,6 +326,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, head){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is DELETE
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, delete){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -309,6 +362,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, delete){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Maps a route to a handler that only matches if the HTTP method is GET
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, options){
 
 	zval *route_pattern = NULL, *handler = NULL, *router = NULL, *route = NULL;
@@ -339,6 +398,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 	RETURN_CCTOR(route);
 }
 
+/**
+ * Sets a handler that will be called when the router doesn't match any of the defined routes
+ *
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 
 	zval *handler = NULL;
@@ -355,19 +419,24 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the internal router used by the application
+ *
+ * @return Phalcon\Mvc\Router
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 
-	zval *router = NULL;
-	zval *c0 = NULL;
+	zval *router = NULL, *service_name = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(router);
 	phalcon_read_property(&router, this_ptr, SL("_router"), PH_NOISY_CC);
 	if (Z_TYPE_P(router) != IS_OBJECT) {
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "router", 1);
+		PHALCON_INIT_VAR(service_name);
+		ZVAL_STRING(service_name, "router", 1);
+		
 		PHALCON_INIT_VAR(router);
-		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", c0, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", service_name, PH_NO_CHECK);
 		PHALCON_CALL_METHOD_NORETURN(router, "clear", PH_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("_router"), router TSRMLS_CC);
 	}
@@ -376,6 +445,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	RETURN_CCTOR(router);
 }
 
+/**
+ * Obtains a service from the DI
+ *
+ * @return object
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getService){
 
 	zval *service_name = NULL, *dependency_injector = NULL;
@@ -403,6 +477,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 	RETURN_CCTOR(service);
 }
 
+/**
+ * Obtains a shared service from the DI
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
 	zval *service_name = NULL, *dependency_injector = NULL;
@@ -430,6 +507,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 	RETURN_CCTOR(service);
 }
 
+/**
+ * Handle the whole request
+ *
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, handle){
 
 	zval *dependency_injector = NULL, *events_manager = NULL;
@@ -507,13 +589,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);
-			
-			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
-			if (Z_TYPE_P(status) == IS_BOOL && !Z_BVAL_P(status)) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
-			}
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
 		
 		
@@ -552,6 +628,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets externally the handler that must be called by the matched route
+ *
+ * @param callable $activeHandler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
 
 	zval *active_handler = NULL;
@@ -568,6 +649,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Return the handler that will be called for the matched route
+ *
+ * @return callable
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler){
 
 	zval *active_handler = NULL;
@@ -579,6 +665,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler){
 	RETURN_CCTOR(active_handler);
 }
 
+/**
+ * Returns the value returned by the executed handler
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 
 	zval *returned_value = NULL;
@@ -588,23 +677,5 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 	phalcon_read_property(&returned_value, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(returned_value);
-}
-
-PHP_METHOD(Phalcon_Mvc_Micro, __get){
-
-	zval *property = NULL, *service = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(service);
-	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getservice", property, PH_NO_CHECK);
-	phalcon_update_property_zval_zval(this_ptr, property, service TSRMLS_CC);
-	
-	RETURN_CCTOR(service);
 }
 

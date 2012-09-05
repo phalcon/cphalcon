@@ -122,6 +122,7 @@ extern zend_class_entry *phalcon_http_response_headers_ce;
 extern zend_class_entry *phalcon_http_response_ce;
 extern zend_class_entry *phalcon_http_request_ce;
 extern zend_class_entry *phalcon_session_ce;
+extern zend_class_entry *phalcon_version_ce;
 extern zend_class_entry *phalcon_flash_ce;
 extern zend_class_entry *phalcon_config_ce;
 extern zend_class_entry *phalcon_filter_ce;
@@ -240,7 +241,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle);
 PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
 PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
-PHP_METHOD(Phalcon_Mvc_Micro, __get);
 
 
 PHP_METHOD(Phalcon_Mvc_View, __construct);
@@ -1013,6 +1013,10 @@ PHP_METHOD(Phalcon_Session, getId);
 PHP_METHOD(Phalcon_Session, isStarted);
 PHP_METHOD(Phalcon_Session, destroy);
 
+PHP_METHOD(Phalcon_Version, _getVersion);
+PHP_METHOD(Phalcon_Version, get);
+PHP_METHOD(Phalcon_Version, getId);
+
 PHP_METHOD(Phalcon_Flash, __construct);
 PHP_METHOD(Phalcon_Flash, setImplicitFlush);
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml);
@@ -1178,7 +1182,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_via, 0, 0, 1)
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_reconfigure, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_reconfigure, 0, 0, 1)
 	ZEND_ARG_INFO(0, pattern)
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
@@ -1322,10 +1326,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_setactivehandler, 0, 0, 1)
 	ZEND_ARG_INFO(0, activeHandler)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro___get, 0, 0, 1)
-	ZEND_ARG_INFO(0, property)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -1422,7 +1422,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_get, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_path, 0, 0, 0)
-	ZEND_ARG_INFO(0, uri)
+	ZEND_ARG_INFO(0, path)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_user_setdi, 0, 0, 1)
@@ -3134,7 +3134,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_micro_method_entry){
 	PHP_ME(Phalcon_Mvc_Micro, setActiveHandler, arginfo_phalcon_mvc_micro_setactivehandler, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getActiveHandler, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Micro, __get, arginfo_phalcon_mvc_micro___get, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4110,6 +4109,13 @@ PHALCON_INIT_FUNCS(phalcon_session_method_entry){
 	PHP_ME(Phalcon_Session, getId, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session, isStarted, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session, destroy, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_version_method_entry){
+	PHP_ME(Phalcon_Version, _getVersion, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Version, get, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Version, getId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

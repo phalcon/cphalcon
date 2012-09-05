@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Antonio Lopez <alantonilopez@gmail.com>                       |
   +------------------------------------------------------------------------+
 */
 
@@ -42,9 +43,51 @@
 /**
  * Phalcon\Mvc\Application
  *
+ * This component encapsulates all the complex operations behind instantiating every component
+ * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
  *
+ *<code>
+ *
+ * class Application extends \Phalcon\Mvc\Application
+ * {
+ *
+ *		/**
+ *		 * Register the services here to make them general or register in the ModuleDefinition to make them module-specific
+ *		 *\/
+ *		protected function _registerServices()
+ *		{
+ *
+ *		}
+ *
+ *		/**
+ *		 * This method execute the right module
+ *		 *\/
+ *		public function main()
+ *		{
+ *			$this->registerModules(array(
+ *				'frontend' => array(
+ *					'className' => 'Multiple\Frontend\Module',
+ *					'path' => '../apps/frontend/Module.php'
+ *				),
+ *				'backend' => array(
+ *					'className' => 'Multiple\Backend\Module',
+ *					'path' => '../apps/backend/Module.php'
+ *				)
+ *			));
+ *		}
+ *	}
+ *
+ *	$application = new Application();
+ *	$application->main();
+ *
+ *</code>
  */
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_Application, setDI){
 
 	zval *dependency_injector = NULL;
@@ -65,6 +108,11 @@ PHP_METHOD(Phalcon_Mvc_Application, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Mvc_Application, getDI){
 
 	zval *dependency_injector = NULL;
@@ -113,6 +161,24 @@ PHP_METHOD(Phalcon_Mvc_Application, getEventsManager){
 	RETURN_CCTOR(events_manager);
 }
 
+/**
+ * Register an array of modules present in the application
+ *
+ *<code>
+ *	$this->registerModules(array(
+ *		'frontend' => array(
+ *			'className' => 'Multiple\Frontend\Module',
+ *			'path' => '../apps/frontend/Module.php'
+ *		),
+ *		'backend' => array(
+ *			'className' => 'Multiple\Backend\Module',
+ *			'path' => '../apps/backend/Module.php'
+ *		)
+ *	));
+ *</code>
+ *
+ * @param array $modules
+ */
 PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 
 	zval *modules = NULL;
@@ -133,6 +199,11 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Return the modules registered in the application
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Application, getModules){
 
 	zval *modules = NULL;

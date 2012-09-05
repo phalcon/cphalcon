@@ -289,12 +289,11 @@ PHP_METHOD(Phalcon_Loader, unregister){
 PHP_METHOD(Phalcon_Loader, autoLoad){
 
 	zval *class_name = NULL, *events_manager = NULL, *event_name = NULL;
-	zval *classes = NULL, *file_path = NULL, *extensions = NULL, *ds = NULL, *namespaces = NULL;
-	zval *empty_str = NULL, *namespace_separator = NULL, *directory = NULL;
-	zval *preffix = NULL, *preffix_len = NULL, *possible_preffix = NULL;
-	zval *prefix_namespace = NULL, *file_name = NULL, *extension = NULL;
-	zval *complete_path = NULL, *path = NULL, *ds_class_name = NULL, *prefixes = NULL;
-	zval *directories = NULL;
+	zval *classes = NULL, *file_path = NULL, *extensions = NULL, *ds = NULL, *namespace_separator = NULL;
+	zval *namespaces = NULL, *empty_str = NULL, *directory = NULL, *preffix = NULL;
+	zval *preffix_len = NULL, *possible_preffix = NULL, *prefix_namespace = NULL;
+	zval *file_name = NULL, *extension = NULL, *complete_path = NULL;
+	zval *path = NULL, *ds_class_name = NULL, *prefixes = NULL, *directories = NULL;
 	zval *c0 = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
@@ -350,14 +349,14 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	PHALCON_INIT_VAR(ds);
 	zend_get_constant(SL("DIRECTORY_SEPARATOR"), ds TSRMLS_CC);
 	
+	PHALCON_INIT_VAR(namespace_separator);
+	ZVAL_STRING(namespace_separator, "\\", 1);
+	
 	PHALCON_INIT_VAR(namespaces);
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(empty_str);
 		ZVAL_STRING(empty_str, "", 1);
-		
-		PHALCON_INIT_VAR(namespace_separator);
-		ZVAL_STRING(namespace_separator, "\\", 1);
 		
 		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
 			return;

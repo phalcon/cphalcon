@@ -43,7 +43,8 @@
  * Phalcon\Filter
  *
  * The Phalcon\Filter component provides a set of commonly needed data filters. It provides
- * object oriented wrappers to the php filter extension
+ * object oriented wrappers to the php filter extension. Also allows the developer to
+ * define his/her own filters
  *
  *<code>
  *$filter = new Phalcon\Filter();
@@ -165,11 +166,11 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value = NULL, *filter = NULL, *filters = NULL, *filter_object = NULL;
-	zval *class_name = NULL, *arguments = NULL, *filtered = NULL, *escaped = NULL;
-	zval *allow_fraction = NULL, *options = NULL, *filter_type = NULL;
-	zval *exception_message = NULL, *exception = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *class_name = NULL, *arguments = NULL, *filtered = NULL, *type = NULL;
+	zval *escaped = NULL, *allow_fraction = NULL, *options = NULL, *exception_message = NULL;
+	zval *exception = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -205,32 +206,39 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
+		PHALCON_INIT_VAR(t0);
+		ZVAL_LONG(t0, 517);
+		PHALCON_CPY_WRT(type, t0);
+		
 		PHALCON_INIT_VAR(c0);
 		ZVAL_STRING(c0, "'", 1);
+		
 		PHALCON_INIT_VAR(c1);
 		ZVAL_STRING(c1, "", 1);
+		
 		PHALCON_INIT_VAR(escaped);
 		phalcon_fast_str_replace(escaped, c0, c1, value TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(t0);
-		ZVAL_LONG(t0, 517);
-		
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", escaped, t0);
+		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", escaped, type);
 		goto se_e618_1;
 	}
 	if (PHALCON_COMPARE_STRING(filter, "int")) {
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 519);
+		PHALCON_CPY_WRT(type, t1);
+		
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t1);
+		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
 		goto se_e618_1;
 	}
 	if (PHALCON_COMPARE_STRING(filter, "string")) {
 		PHALCON_INIT_VAR(t2);
 		ZVAL_LONG(t2, 513);
+		PHALCON_CPY_WRT(type, t2);
+		
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, t2);
+		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
 		goto se_e618_1;
 	}
 	if (PHALCON_COMPARE_STRING(filter, "float")) {
@@ -244,10 +252,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		
 		PHALCON_INIT_VAR(t4);
 		ZVAL_LONG(t4, 520);
-		PHALCON_CPY_WRT(filter_type, t4);
+		PHALCON_CPY_WRT(type, t4);
 		
 		PHALCON_INIT_VAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, filter_type, options);
+		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, type, options);
 		goto se_e618_1;
 	}
 	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
@@ -288,6 +296,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	RETURN_CCTOR(filtered);
 }
 
+/**
+ * Return the user-defined filters in the instance
+ *
+ * @return object[]
+ */
 PHP_METHOD(Phalcon_Filter, getFilters){
 
 	zval *filters = NULL;

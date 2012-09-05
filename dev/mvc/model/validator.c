@@ -40,7 +40,7 @@
 /**
  * Phalcon\Mvc\Model\Validator
  *
- * This is the base class for all the Phalcon\Mvc\Model buit-in validators
+ * This is a base class for Phalcon\Mvc\Model validators
  */
 
 /**

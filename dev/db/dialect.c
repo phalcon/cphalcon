@@ -130,14 +130,14 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
  */
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
-	zval *definition = NULL, *columns = NULL, *columns_sql = NULL, *tables = NULL;
-	zval *tables_sql = NULL, *sql = NULL, *joins = NULL, *join = NULL, *type = NULL, *source = NULL;
-	zval *sql_join = NULL, *join_conditions_array = NULL, *join_conditions = NULL;
-	zval *on_join = NULL, *where_conditions = NULL, *where_clause = NULL;
-	zval *group_fields = NULL, *group_clause = NULL, *having_conditions = NULL;
-	zval *having_clause = NULL, *order_fields = NULL, *order_clause = NULL;
-	zval *limit_value = NULL, *limit_clause = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *definition = NULL, *columns = NULL, *comma = NULL, *columns_sql = NULL;
+	zval *tables = NULL, *tables_sql = NULL, *sql = NULL, *joins = NULL, *join = NULL, *type = NULL;
+	zval *source = NULL, *sql_join = NULL, *join_conditions_array = NULL;
+	zval *join_conditions = NULL, *on_join = NULL, *where_conditions = NULL;
+	zval *where_clause = NULL, *group_fields = NULL, *group_clause = NULL;
+	zval *having_conditions = NULL, *having_clause = NULL, *order_fields = NULL;
+	zval *order_clause = NULL, *limit_value = NULL, *limit_clause = NULL;
+	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -164,10 +164,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	PHALCON_INIT_VAR(columns);
 	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
 	if (Z_TYPE_P(columns) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, ",", 1);
+		PHALCON_INIT_VAR(comma);
+		ZVAL_STRING(comma, ",", 1);
+		
 		PHALCON_INIT_VAR(columns_sql);
-		phalcon_fast_join(columns_sql, c0, columns TSRMLS_CC);
+		phalcon_fast_join(columns_sql, comma, columns TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(columns_sql, columns);
 	}
@@ -175,10 +176,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	PHALCON_INIT_VAR(tables);
 	phalcon_array_fetch_string(&tables, definition, SL("tables"), PH_NOISY_CC);
 	if (Z_TYPE_P(tables) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, ",", 1);
+		PHALCON_INIT_VAR(comma);
+		ZVAL_STRING(comma, ",", 1);
+		
 		PHALCON_INIT_VAR(tables_sql);
-		phalcon_fast_join(tables_sql, c1, tables TSRMLS_CC);
+		phalcon_fast_join(tables_sql, comma, tables TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(tables_sql, tables);
 	}
@@ -215,11 +217,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 				PHALCON_INIT_VAR(join_conditions_array);
 				phalcon_array_fetch_string(&join_conditions_array, join, SL("conditions"), PH_NOISY_CC);
 				
-				PHALCON_INIT_VAR(c2);
-				ZVAL_STRING(c2, " AND ", 1);
+				PHALCON_INIT_VAR(c0);
+				ZVAL_STRING(c0, " AND ", 1);
 				
 				PHALCON_INIT_VAR(join_conditions);
-				phalcon_fast_join(join_conditions, c2, join_conditions_array TSRMLS_CC);
+				phalcon_fast_join(join_conditions, c0, join_conditions_array TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(on_join);
 				PHALCON_CONCAT_SV(on_join, " ON ", join_conditions);
