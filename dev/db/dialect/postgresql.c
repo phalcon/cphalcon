@@ -14,6 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -44,6 +45,7 @@
  * Generates database specific SQL for the PostgreSQL RBDM
  */
 
+
 /**
  * Gets a list of columns
  *
@@ -68,25 +70,30 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 
 	PHALCON_INIT_VAR(str_list);
 	array_init(str_list);
+	
 	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
 		return;
 	}
 	
 	ah0 = Z_ARRVAL_P(column_list);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_46b6_0:
+	
+	ph_cycle_start_0:
+	
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_46b6_0;
+			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_VAR(column);
-		ZVAL_ZVAL(column, *hd, 1, 0);
+		PHALCON_GET_FOREACH_VALUE(column);
+		
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CONCAT_SVS(r0, "\"", column, "\"");
 		phalcon_array_append(&str_list, r0, PH_SEPARATE TSRMLS_CC);
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_46b6_0;
-	fee_46b6_0:
+		goto ph_cycle_start_0;
+	
+	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, ", ", 1);
@@ -123,52 +130,62 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	
 	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(column_type, column, "gettype", PH_NO_CHECK);
+	
 	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "INT", 1);
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "DATE", 1);
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "TEXT", 1);
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
 		ZVAL_STRING(column_sql, "FLOAT", 1);
-		goto se_46b6_1;
+		goto ph_end_0;
 	}
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
 	return;
-	se_46b6_1:
+	
+	ph_end_0:
 	
 	RETURN_CTOR(column_sql);
 }
@@ -441,13 +458,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 		ZVAL_NULL(schema);
 	}
 	
-	PHALCON_INIT_VAR(sql);
 	if (zend_is_true(schema)) {
-	    PHALCON_CONCAT_SVSVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVSVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
 	} else {
-	    PHALCON_CONCAT_SVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
+		PHALCON_INIT_VAR(sql);
+		PHALCON_CONCAT_SVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
 	}
-
+	
 	RETURN_CTOR(sql);
 }
 
@@ -474,14 +492,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 		PHALCON_ALLOC_ZVAL_MM(schema_name);
 		ZVAL_NULL(schema_name);
 	}
-
-	PHALCON_INIT_VAR(sql);
+	
 	if (zend_is_true(schema_name)) {
+		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schema_name, "' ORDER BY table_name");
 	} else {
+		PHALCON_INIT_VAR(sql);
 		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
 	}
-
+	
 	RETURN_CTOR(sql);
 }
 
@@ -509,12 +528,8 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 	}
 	
 	PHALCON_INIT_VAR(sql);
-	if (zend_is_true(schema)) {
-        PHALCON_CONCAT_SVSVS(sql, "SELECT n.nspname as table_schema, t.relname as table_name, i.relname as key_name, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a, pg_namespace n WHERE t.relnamespace=n.oid AND t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' AND n.nspname = '", schema, "' ORDER BY t.relname, i.relname");
-	} else {
-	    PHALCON_CONCAT_SVS(sql, "SELECT n.nspname as table_schema, t.relname as table_name, i.relname as key_name, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a, pg_namespace n WHERE t.relnamespace=n.oid AND t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' AND n.nspname = 'public' ORDER BY t.relname, i.relname");
-	}
-
+	PHALCON_CONCAT_SVS(sql, "SELECT t.relname as table_name, i.relname as key_name, a.attname as column_name FROM pg_class t, pg_class i, pg_index ix, pg_attribute a WHERE t.oid = ix.indrelid AND i.oid = ix.indexrelid AND a.attrelid = t.oid AND a.attnum = ANY(ix.indkey) AND t.relkind = 'r' AND t.relname = '", table, "' ORDER BY t.relname, i.relname;");
+	
 	RETURN_CTOR(sql);
 }
 
@@ -527,8 +542,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *table = NULL, *schema = NULL, *sql = NULL, *final_sql = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -545,15 +559,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
 	PHALCON_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ", 1);
 	if (zend_is_true(schema)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVSVS(r0, "tc.table_schema = '", schema, "' AND tc.table_name='", table, "'");
-		phalcon_concat_self(&sql, r0 TSRMLS_CC);
+		PHALCON_INIT_VAR(final_sql);
+		PHALCON_CONCAT_SVSVS(final_sql, "tc.table_schema = '", schema, "' AND tc.table_name='", table, "'");
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "tc.table_name='", table, "'");
-		phalcon_concat_self(&sql, r1 TSRMLS_CC);
+		PHALCON_INIT_VAR(final_sql);
+		PHALCON_CONCAT_SVS(final_sql, "tc.table_name='", table, "'");
 	}
-
+	
+	phalcon_concat_self(&sql, final_sql TSRMLS_CC);
+	
 	RETURN_CTOR(sql);
 }
 

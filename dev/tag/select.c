@@ -252,8 +252,8 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset = NULL, *using = NULL, *value = NULL, *close_option = NULL;
 	zval *code = NULL, *using_zero = NULL, *using_one = NULL, *option = NULL, *option_value = NULL;
-	zval *option_text = NULL, *option_html = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *option_text = NULL, *is_equals = NULL, *option_html = NULL;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -287,9 +287,9 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		PHALCON_INIT_VAR(option_text);
 		PHALCON_CALL_METHOD_PARAMS_1(option_text, option, "readattribute", using_one, PH_NO_CHECK);
 		
-		PHALCON_INIT_VAR(r1);
-		is_equal_function(r1, value, option_value TSRMLS_CC);
-		if (zend_is_true(r1)) {
+		PHALCON_INIT_VAR(is_equals);
+		is_equal_function(is_equals, value, option_value TSRMLS_CC);
+		if (PHALCON_IS_TRUE(is_equals)) {
 			PHALCON_INIT_VAR(option_html);
 			PHALCON_CONCAT_SVSVV(option_html, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 		} else {
@@ -308,8 +308,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 
 	zval *data = NULL, *value = NULL, *close_option = NULL, *code = NULL, *option_text = NULL;
-	zval *option_value = NULL, *option_html = NULL;
-	zval *r0 = NULL;
+	zval *option_value = NULL, *is_equals = NULL, *option_html = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -345,15 +344,16 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(option_text);
 		
-		PHALCON_INIT_VAR(r0);
-		is_equal_function(r0, option_value, value TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(is_equals);
+		is_equal_function(is_equals, value, option_value TSRMLS_CC);
+		if (PHALCON_IS_TRUE(is_equals)) {
 			PHALCON_INIT_VAR(option_html);
 			PHALCON_CONCAT_SVSVV(option_html, "\t<option selected=\"selected\" value=\"", option_value, "\">", option_text, close_option);
 		} else {
 			PHALCON_INIT_VAR(option_html);
 			PHALCON_CONCAT_SVSVV(option_html, "\t<option value=\"", option_value, "\">", option_text, close_option);
 		}
+		
 		phalcon_concat_self(&code, option_html TSRMLS_CC);
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
