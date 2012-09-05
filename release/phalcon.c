@@ -525,7 +525,7 @@ int phalcon_clean_restore_stack(TSRMLS_D);
 		if (Z_REFCOUNT_P(z) > 1) {\
 			Z_DELREF_P(z);\
 			ALLOC_ZVAL(z);\
-			Z_SET_REFCOUNT_P(z, 1);\			
+			Z_SET_REFCOUNT_P(z, 1);\
 			Z_UNSET_ISREF_P(z);\
 			ZVAL_NULL(z);\
 		} else {\
