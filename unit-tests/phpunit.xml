@@ -55,6 +55,7 @@
 			<file>unit-tests/TranslateTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
+			<file>unit-tests/VersionTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>
