@@ -145,46 +145,53 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		ZVAL_NULL(password);
 	}
 
-	PHALCON_INIT_VAR(dsn_parts);
-	array_init(dsn_parts);
+    // if dsn specified
+    eval_int = phalcon_array_isset_string(descriptor, SS("dsn"));
+    if (eval_int) {
+        PHALCON_INIT_VAR(dsn);
+        phalcon_array_fetch_string(&dsn, descriptor, SL("dsn"), PH_NOISY_CC);
+    } else {
+        PHALCON_INIT_VAR(dsn_parts);
+        array_init(dsn_parts);
 
-	if (!phalcon_valid_foreach(descriptor TSRMLS_CC)) {
-		return;
-	}
+        if (!phalcon_valid_foreach(descriptor TSRMLS_CC)) {
+                return;
+        }
 
-	ah0 = Z_ARRVAL_P(descriptor);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+        ah0 = Z_ARRVAL_P(descriptor);
+        zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 
-	ph_cycle_start_0:
+        ph_cycle_start_0:
 
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto ph_cycle_end_0;
-		}
+                if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+                        goto ph_cycle_end_0;
+                }
 
-		PHALCON_INIT_VAR(key);
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
+                PHALCON_INIT_VAR(key);
+                PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+                PHALCON_GET_FOREACH_VALUE(value);
 
-		PHALCON_INIT_VAR(dsn_attribute);
-		PHALCON_CONCAT_VSV(dsn_attribute, key, "=", value);
-		phalcon_array_append(&dsn_parts, dsn_attribute, PH_SEPARATE TSRMLS_CC);
+                PHALCON_INIT_VAR(dsn_attribute);
+                PHALCON_CONCAT_VSV(dsn_attribute, key, "=", value);
+                phalcon_array_append(&dsn_parts, dsn_attribute, PH_SEPARATE TSRMLS_CC);
 
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
+                zend_hash_move_forward_ex(ah0, &hp0);
+                goto ph_cycle_start_0;
 
-	ph_cycle_end_0:
+        ph_cycle_end_0:
 
-	PHALCON_INIT_VAR(dot_comma);
-	ZVAL_STRING(dot_comma, ";", 1);
+        PHALCON_INIT_VAR(dot_comma);
+        ZVAL_STRING(dot_comma, ";", 1);
 
-	PHALCON_INIT_VAR(dsn_attributes);
-	phalcon_fast_join(dsn_attributes, dot_comma, dsn_parts TSRMLS_CC);
+        PHALCON_INIT_VAR(dsn_attributes);
+        phalcon_fast_join(dsn_attributes, dot_comma, dsn_parts TSRMLS_CC);
 
-	PHALCON_INIT_VAR(pdo_type);
-	phalcon_read_property(&pdo_type, this_ptr, SL("_type"), PH_NOISY_CC);
+        PHALCON_INIT_VAR(pdo_type);
+        phalcon_read_property(&pdo_type, this_ptr, SL("_type"), PH_NOISY_CC);
 
-	PHALCON_INIT_VAR(dsn);
-	PHALCON_CONCAT_VSV(dsn, pdo_type, ":", dsn_attributes);
+        PHALCON_INIT_VAR(dsn);
+        PHALCON_CONCAT_VSV(dsn, pdo_type, ":", dsn_attributes);
+    }
 
 	PHALCON_INIT_VAR(options);
 	array_init(options);

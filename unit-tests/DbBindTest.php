@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -44,6 +45,17 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($connection);
 		$this->_executeTestsPostgresql($connection);
 	}
+
+    public function testDbBindSqlite()
+   	{
+
+   		require 'unit-tests/config.db.php';
+
+   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+
+   		$this->_executeTests($connection);
+   		$this->_executeTestsSqlite($connection);
+   	}
 
 	protected function _executeTests($connection)
 	{
@@ -95,4 +107,12 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
 	}
 
+    protected function _executeTestsSqlite($connection)
+   	{
+   		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:)", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'"));
+   		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+
+   		$conditions = $connection->bindParams("column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2", array('val1' => 'hello', 'val2' => 100, 'val3' => "'hahaha'", 2 => 'le-nice'));
+   		$this->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
+   	}
 }
