@@ -140,6 +140,12 @@ extern zend_class_entry *phalcon_logger_exception_ce;
 extern zend_class_entry *phalcon_logger_adapter_file_ce;
 extern zend_class_entry *phalcon_logger_item_ce;
 extern zend_class_entry *phalcon_loader_exception_ce;
+extern zend_class_entry *phalcon_cli_task_ce;
+extern zend_class_entry *phalcon_cli_console_ce;
+extern zend_class_entry *phalcon_cli_console_exception_ce;
+extern zend_class_entry *phalcon_cli_router_ce;
+extern zend_class_entry *phalcon_cli_dispatcher_ce;
+extern zend_class_entry *phalcon_cli_dispatcher_exception_ce;
 
 
 PHP_METHOD(Phalcon_Session_Bag, __construct);
@@ -1105,6 +1111,51 @@ PHP_METHOD(Phalcon_Logger_Item, __construct);
 PHP_METHOD(Phalcon_Logger_Item, getMessage);
 PHP_METHOD(Phalcon_Logger_Item, getType);
 PHP_METHOD(Phalcon_Logger_Item, getTime);
+
+
+PHP_METHOD(Phalcon_CLI_Task, __construct);
+
+PHP_METHOD(Phalcon_CLI_Console, __construct);
+PHP_METHOD(Phalcon_CLI_Console, setDI);
+PHP_METHOD(Phalcon_CLI_Console, getDI);
+PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
+PHP_METHOD(Phalcon_CLI_Console, getEventsManager);
+PHP_METHOD(Phalcon_CLI_Console, registerModules);
+PHP_METHOD(Phalcon_CLI_Console, getModules);
+PHP_METHOD(Phalcon_CLI_Console, handle);
+
+PHP_METHOD(Phalcon_CLI_Router, __construct);
+PHP_METHOD(Phalcon_CLI_Router, setDI);
+PHP_METHOD(Phalcon_CLI_Router, getDI);
+PHP_METHOD(Phalcon_CLI_Router, setDefaultModule);
+PHP_METHOD(Phalcon_CLI_Router, setDefaultTask);
+PHP_METHOD(Phalcon_CLI_Router, setDefaultAction);
+PHP_METHOD(Phalcon_CLI_Router, handle);
+PHP_METHOD(Phalcon_CLI_Router, getModuleName);
+PHP_METHOD(Phalcon_CLI_Router, getTaskName);
+PHP_METHOD(Phalcon_CLI_Router, getActionName);
+PHP_METHOD(Phalcon_CLI_Router, getParams);
+
+PHP_METHOD(Phalcon_CLI_Dispatcher, __construct);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setDI);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getDI);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setEventsManager);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getEventsManager);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultNamespace);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultAction);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setActionName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getActionName);
+PHP_METHOD(Phalcon_CLI_Dispatcher, setParams);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getParams);
+PHP_METHOD(Phalcon_CLI_Dispatcher, dispatch);
+PHP_METHOD(Phalcon_CLI_Dispatcher, forward);
+PHP_METHOD(Phalcon_CLI_Dispatcher, isFinished);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getReturnedValue);
+PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask);
 
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag_setdi, 0, 0, 1)
@@ -3116,6 +3167,79 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_item___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, time)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventsManager)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_registermodules, 0, 0, 1)
+	ZEND_ARG_INFO(0, modules)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_handle, 0, 0, 1)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaultmodule, 0, 0, 1)
+	ZEND_ARG_INFO(0, moduleName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaulttask, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 0, 1)
+	ZEND_ARG_INFO(0, actionName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_handle, 0, 0, 0)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventsManager)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setdefaultnamespace, 0, 0, 1)
+	ZEND_ARG_INFO(0, namespace)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setdefaulttask, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setdefaultaction, 0, 0, 1)
+	ZEND_ARG_INFO(0, actionName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_settaskname, 0, 0, 1)
+	ZEND_ARG_INFO(0, taskName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setactionname, 0, 0, 1)
+	ZEND_ARG_INFO(0, actionName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_setparams, 0, 0, 1)
+	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcher_forward, 0, 0, 1)
+	ZEND_ARG_INFO(0, forward)
+ZEND_END_ARG_INFO()
+
+
 PHALCON_INIT_FUNCS(phalcon_session_bag_method_entry){
 	PHP_ME(Phalcon_Session_Bag, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Session_Bag, setDI, arginfo_phalcon_session_bag_setdi, ZEND_ACC_PUBLIC)
@@ -4336,6 +4460,62 @@ PHALCON_INIT_FUNCS(phalcon_logger_item_method_entry){
 	PHP_ME(Phalcon_Logger_Item, getMessage, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Item, getType, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Item, getTime, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_cli_task_method_entry){
+	PHP_ME(Phalcon_CLI_Task, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_cli_console_method_entry){
+	PHP_ME(Phalcon_CLI_Console, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_CLI_Console, setDI, arginfo_phalcon_cli_console_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, getDI, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, setEventsManager, arginfo_phalcon_cli_console_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, getEventsManager, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, registerModules, arginfo_phalcon_cli_console_registermodules, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, getModules, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Console, handle, arginfo_phalcon_cli_console_handle, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_cli_router_method_entry){
+	PHP_ME(Phalcon_CLI_Router, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_CLI_Router, setDI, arginfo_phalcon_cli_router_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, getDI, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, setDefaultModule, arginfo_phalcon_cli_router_setdefaultmodule, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, setDefaultTask, arginfo_phalcon_cli_router_setdefaulttask, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, setDefaultAction, arginfo_phalcon_cli_router_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, handle, arginfo_phalcon_cli_router_handle, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, getModuleName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, getTaskName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Router, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_cli_dispatcher_method_entry){
+	PHP_ME(Phalcon_CLI_Dispatcher, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_CLI_Dispatcher, setDI, arginfo_phalcon_cli_dispatcher_setdi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getDI, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setEventsManager, arginfo_phalcon_cli_dispatcher_seteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getEventsManager, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setDefaultNamespace, arginfo_phalcon_cli_dispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setDefaultTask, arginfo_phalcon_cli_dispatcher_setdefaulttask, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setDefaultAction, arginfo_phalcon_cli_dispatcher_setdefaultaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setTaskName, arginfo_phalcon_cli_dispatcher_settaskname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getTaskName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setActionName, arginfo_phalcon_cli_dispatcher_setactionname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getActionName, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, setParams, arginfo_phalcon_cli_dispatcher_setparams, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getParams, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, forward, arginfo_phalcon_cli_dispatcher_forward, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getLastTask, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_CLI_Dispatcher, getActiveTask, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
