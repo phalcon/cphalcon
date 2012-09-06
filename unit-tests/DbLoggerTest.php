@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Rack Lin <racklin@gmail.com>                         |
   +------------------------------------------------------------------------+
 */
 
@@ -61,6 +62,15 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		$this->_executeTests($connection);
 	}
+
+    public function testDbLoggerSqlite(){
+
+   		require 'unit-tests/config.db.php';
+
+   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+
+   		$this->_executeTests($connection);
+   	}
 
 	protected function _executeTests($connection){
 

@@ -15,6 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Rack Lin <racklin@gmail.com>                         |
   +------------------------------------------------------------------------+
 */
 
@@ -42,7 +43,17 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($connection);
 	}
 
-	protected function _executeTests($connection)
+    public function testDbSqlite()
+   	{
+
+   		require 'unit-tests/config.db.php';
+
+   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+
+   		$this->_executeTests($connection, "sqlite");
+   	}
+
+	protected function _executeTests($connection, $adapter="")
 	{
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
@@ -56,7 +67,11 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
-		$this->assertEquals($result->numRows(), 3);
+        if ($adapter == "sqlite") {
+            $this->assertEquals($result->numRows(), 0); //sqlite not support rowCount in PDO
+        }else {
+            $this->assertEquals($result->numRows(), 3);
+        }
 
 		$number = 0;
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
