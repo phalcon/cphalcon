@@ -14,3 +14,10 @@ $configPostgresql = array(
 	'dbname' => 'phalcon_test',
     'schema' => 'public'
 );
+
+$configSqlite = array(
+	'host' => '',
+	'username' => '',
+	'password' => '',
+	'dbname' => '/tmp/phalcon_test.sqlite',
+);
