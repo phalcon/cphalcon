@@ -30,3 +30,4 @@ release/modules/
 release/phalcon.la
 release/phalcon.lo
 release/run-tests.php
+.idea
