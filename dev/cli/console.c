@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
  */
 PHP_METHOD(Phalcon_CLI_Console, registerModules){
 
-	zval *modules = NULL;
+	zval *modules = NULL, *org_modules = NULL, *merged_modules = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -180,7 +180,17 @@ PHP_METHOD(Phalcon_CLI_Console, registerModules){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cli_console_exception_ce, "Modules must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);
+    
+    // merge registered modules
+	PHALCON_INIT_VAR(org_modules);
+	phalcon_read_property(&org_modules, this_ptr, SL("_modules"), PH_NOISY_CC);
+    if (Z_TYPE_P(org_modules) == IS_ARRAY) {        
+		PHALCON_INIT_VAR(merged_modules);
+		PHALCON_CALL_FUNC_PARAMS_2(merged_modules, "array_merge", org_modules, modules);
+        phalcon_update_property_zval(this_ptr, SL("_modules"), merged_modules TSRMLS_CC);        
+    } else {    
+    	phalcon_update_property_zval(this_ptr, SL("_modules"), modules TSRMLS_CC);        
+    }
 
 	PHALCON_MM_RESTORE();
 }
@@ -363,7 +373,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
     
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "application:afterHandleTask", 1);
+		ZVAL_STRING(event_name, "console:afterHandleTask", 1);
 		
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
