@@ -121,6 +121,7 @@ zend_class_entry *phalcon_db_reference_ce;
 zend_class_entry *phalcon_db_dialect_ce;
 zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
 zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
+zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
 zend_class_entry *phalcon_db_profiler_item_ce;
 zend_class_entry *phalcon_db_rawvalue_ce;
@@ -129,6 +130,7 @@ zend_class_entry *phalcon_db_index_ce;
 zend_class_entry *phalcon_db_result_pdo_ce;
 zend_class_entry *phalcon_db_dialect_mysql_ce;
 zend_class_entry *phalcon_db_dialect_postgresql_ce;
+zend_class_entry *phalcon_db_dialect_sqlite_ce;
 zend_class_entry *phalcon_tag_ce;
 zend_class_entry *phalcon_http_request_exception_ce;
 zend_class_entry *phalcon_http_request_file_ce;
@@ -153,6 +155,13 @@ zend_class_entry *phalcon_logger_exception_ce;
 zend_class_entry *phalcon_logger_adapter_file_ce;
 zend_class_entry *phalcon_logger_item_ce;
 zend_class_entry *phalcon_loader_exception_ce;
+zend_class_entry *phalcon_cli_task_ce;
+zend_class_entry *phalcon_cli_console_ce;
+zend_class_entry *phalcon_cli_console_exception_ce;
+zend_class_entry *phalcon_cli_router_ce;
+zend_class_entry *phalcon_cli_dispatcher_ce;
+zend_class_entry *phalcon_cli_dispatcher_exception_ce;
+
 
 ZEND_DECLARE_MODULE_GLOBALS(phalcon)
 
@@ -696,9 +705,15 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_type"), "pgsql", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_db_adapter_pdo_postgresql_ce, SL("_dialectType"), "postgresql", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Sqlite, db_adapter_pdo_sqlite, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_sqlite_method_entry, 0);
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_type"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_dialectType"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Mysql, db_dialect_mysql, "phalcon\\db\\dialect", phalcon_db_dialect_mysql_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, "phalcon\\db\\dialect", phalcon_db_dialect_postgresql_method_entry, 0);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Sqlite, db_dialect_sqlite, "phalcon\\db\\dialect", phalcon_db_dialect_sqlite_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Http\\Request, Exception, http_request_exception, "phalcon\\exception", NULL, 0);
 
@@ -726,6 +741,44 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_string(phalcon_logger_adapter_file_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Loader, Exception, loader_exception, "phalcon\\exception", NULL, 0);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Task, cli_task, "phalcon\\mvc\\user", phalcon_cli_task_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Console, cli_console, phalcon_cli_console_method_entry, 0);
+	zend_declare_property_null(phalcon_cli_console_ce, SL("_arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_console_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_console_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_console_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+    PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Console, Exception, cli_console_exception, "phalcon\\exception", NULL, 0);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Router, cli_router, phalcon_cli_router_method_entry, 0);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_task"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultTask"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Dispatcher, cli_dispatcher, phalcon_cli_dispatcher_method_entry, 0);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_finished"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_activeTask"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_taskName"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_actionName"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_returnedValue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_dispatcher_ce, SL("_lastTask"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultNamespace"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultTask"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+    
+    PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Dispatcher, Exception, cli_dispatcher_exception, "phalcon\\exception", NULL, 0);
+    
 	return SUCCESS;
 }
 
