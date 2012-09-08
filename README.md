@@ -39,7 +39,7 @@ Compilation
 Follow these instructions to generate a binary extension for your platform:
 
      # git clone git://github.com/phalcon/cphalcon.git
-     # cd cphalcon/release
+     # cd cphalcon/ext
      # export CFLAGS="-O2 -fno-delete-null-pointer-checks"
      # phpize
      # ./configure --enable-phalcon
