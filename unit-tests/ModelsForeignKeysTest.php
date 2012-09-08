@@ -18,70 +18,41 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
-{
+class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
+	public function testForeignKeysMysql(){
+
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
 	}
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	public function testForeignKeysPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
 	}
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+	public function _executeTests(){
 
-	protected function _getDI()
-	{
+		Phalcon_Model_Manager::reset();
 
-		$di = new Phalcon\DI();
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		return $di;
-	}
-
-	public function testForeignKeysMysql()
-	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
-
-		$this->_executeTests($di);
-	}
-
-	public function testForeignKeysPostgresql()
-	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
-
-		$this->_executeTests($di);
-	}
-
-	public function _executeTests($di)
-	{
+		$success = $manager->load('RobotsParts');
+		$this->assertTrue($success);
 
 		//Normal foreign keys
 		$robotsParts = new RobotsParts();
@@ -90,7 +61,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($robotsParts->save());
 
 		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Value of field "parts_id" does not exist on referenced table',
 				'_field' => 'parts_id',
@@ -104,7 +75,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($robotsParts->save());
 
 		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'The robot code does not exist',
 				'_field' => 'robots_id',
@@ -114,6 +85,8 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($robotsParts->getMessages(), $messages);
 
 		//Reverse foreign keys
+		$success = $manager->load('Robots');
+		$this->assertTrue($success);
 
 		$robot = Robots::findFirst();
 		$this->assertNotEquals($robot, false);
@@ -121,7 +94,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($robot->delete());
 
 		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Record is referenced by model RobotsParts',
 				'_field' => 'id',
@@ -130,13 +103,16 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($robot->getMessages(), $messages);
 
+		$success = $manager->load('Parts');
+		$this->assertTrue($success);
+
 		$part = Parts::findFirst();
 		$this->assertNotEquals($part, false);
 
 		$this->assertFalse($part->delete());
 
 		$messages = array(
-			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'ConstraintViolation',
 				'_message' => 'Parts cannot be deleted because is referenced by a Robot',
 				'_field' => 'id',

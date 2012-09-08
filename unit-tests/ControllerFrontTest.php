@@ -18,16 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Controller\Front as ControllerFront;
-use Phalcon\Config as Config;
-
 class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
 	public function testControllerNoDbFront(){
 
-		ControllerFront::reset();
+		Phalcon_Controller_Front::reset();
 
-		$config = new Config(array(
+		$config = new Phalcon_Config(array(
 			'phalcon' => array(
 				'controllersDir' => 'unit-tests/controllers/',
 				'modelsDir' => 'unit-tests/models/',
@@ -36,7 +33,7 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 			)
 		));
 
-		$front = ControllerFront::getInstance();
+		$front = Phalcon_Controller_Front::getInstance();
 
 		$_GET['_url'] = 'test3/other';
 
@@ -49,9 +46,9 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
 	public function testControllerDbFront(){
 
-		ControllerFront::reset();
+		Phalcon_Controller_Front::reset();
 
-		$config = new Config(array(
+		$config = new Phalcon_Config(array(
 			'database' => array(
 				'adapter' => 'Mysql',
 				'host' => '127.0.0.1',
@@ -67,7 +64,7 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 			)
 		));
 
-		$front = ControllerFront::getInstance();
+		$front = Phalcon_Controller_Front::getInstance();
 
 		$_GET['_url'] = 'test3/query';
 		$front->setConfig($config);
@@ -79,9 +76,9 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
 	public function testControllerRouterRewriteFront(){
 
-		ControllerFront::reset();
+		Phalcon_Controller_Front::reset();
 
-		$config = new Config(array(
+		$config = new Phalcon_Config(array(
 			'phalcon' => array(
 				'controllersDir' => 'unit-tests/controllers/',
 				'modelsDir' => 'unit-tests/models/',
@@ -90,9 +87,9 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 			)
 		));
 
-		$front = ControllerFront::getInstance();
+		$front = Phalcon_Controller_Front::getInstance();
 
-		$router = new Phalcon\Router\Rewrite();
+		$router = new Phalcon_Router_Rewrite();
 
 		$router->handle('test3/coolVar');
 
@@ -107,9 +104,9 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 
 	public function testControllerRouterRegexFront(){
 
-		ControllerFront::reset();
+		Phalcon_Controller_Front::reset();
 
-		$config = new Config(array(
+		$config = new Phalcon_Config(array(
 			'phalcon' => array(
 				'controllersDir' => 'unit-tests/controllers/',
 				'modelsDir' => 'unit-tests/models/',
@@ -118,9 +115,9 @@ class ControllerFrontTest extends PHPUnit_Framework_TestCase {
 			)
 		));
 
-		$front = ControllerFront::getInstance();
+		$front = Phalcon_Controller_Front::getInstance();
 
-		$router = new Phalcon\Router\Regex();
+		$router = new Phalcon_Router_Regex();
 
 		$router->handle('/test3/coolVar');
 

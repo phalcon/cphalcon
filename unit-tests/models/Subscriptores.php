@@ -1,53 +1,27 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
-use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
-use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
-use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
-use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+class Subscriptores extends Phalcon_Model_Base {
 
-use Phalcon\Mvc\Model\Message as Message;
-
-class Subscriptores extends Phalcon\Mvc\Model
-{
-
-	public function beforeValidation()
-	{
-		if ($this->email == 'marina@hotmail.com') {
-			$this->appendMessage(new Message('Sorry Marina, but your are not allowed here'));
-			return false;
-		}
-	}
-
-	public function beforeDelete()
-	{
-		if ($this->email == 'fuego@hotmail.com') {
-			$this->appendMessage(new Message('Sorry this cannot be deleted'));
-			return false;
-		}
-	}
-
-	public function validation()
-	{
-		$this->validate(new EmailValidator(array(
+	public function validation(){
+		$this->validate('Email', array(
 			'field' => 'email'
-		)));
-		$this->validate(new ExclusionInValidator(array(
+		));
+		$this->validate('ExclusionIn', array(
 			'field' => 'status',
 			'domain' => array('X', 'Z')
-		)));
-		$this->validate(new InclusionInValidator(array(
+		));
+		$this->validate('InclusionIn', array(
 			'field' => 'status',
 			'domain' => array('P', 'I', 'w')
-		)));
-		$this->validate(new UniquenessValidator(array(
+		));
+		$this->validate('Uniqueness', array(
 			'field' => 'email'
-		)));
-		$this->validate(new RegexValidator(array(
+		));
+		$this->validate('Regex', array(
 			'field' => 'status',
 			'pattern' => '/[A-Z]/'
-		)));
-		if ($this->validationHasFailed() == true) {
+		));
+		if($this->validationHasFailed()==true){
 			return false;
 		}
 	}

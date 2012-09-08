@@ -18,25 +18,33 @@
   +------------------------------------------------------------------------+
 */
 
-class SessionTest extends PHPUnit_Framework_TestCase {
+class ModelsManagerTest extends PHPUnit_Framework_TestCase {
 
-  public function testSession(){
+	public function testManager(){
 
-    Phalcon_Session::start();    
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
 
-    Phalcon_Session::set('lol', 'value');
+		$modelsDir = 'unit-tests/models/';
 
-    $this->assertEquals(Phalcon_Session::get('lol'), 'value');
+		$modelManager = new Phalcon_Model_Manager();
+		$modelManager->setModelsDir($modelsDir);
+		$modelManager->setAutoConnection(false);
 
-    Phalcon_Session::setOptions(array(
-      'uniqueId' => 'unique-session'
-    ));
+		$this->assertEquals($modelManager->getModelsDir(), $modelsDir);
 
-    $this->assertEquals(Phalcon_Session::get('lol'), '');
+		$isModel = $modelManager->isModel('NoExiste');
+		$this->assertFalse($isModel);
 
-    Phalcon_Session::set('lol', 'another-value');
-    $this->assertEquals(Phalcon_Session::get('lol'), 'another-value');    
+		$isModel = $modelManager->isModel('Personas');
+		$this->assertTrue($isModel);
 
-  }
+		$Personas = $modelManager->getModel('Personas');
+		$this->assertEquals(get_class($Personas), 'Personas');
+
+		$prueba = new Prueba($modelManager);
+		$this->assertEquals(get_class($prueba), 'Prueba');
+
+	}
 
 }

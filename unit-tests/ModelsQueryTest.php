@@ -18,9 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
+class ModelsQueryTest extends PHPUnit_Framework_TestCase {
 
-	public function testModelsMysql(){
+	public function testQueryMysql(){
+
+		Phalcon_Db_Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
@@ -28,10 +30,11 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
-
 	}
 
-	public function testModelsPostgresql(){
+	public function testQueryPostgresql(){
+
+		Phalcon_Db_Pool::reset();
 
 		require 'unit-tests/config.db.php';
 
@@ -39,7 +42,6 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
 		$this->_executeTests();
-
 	}
 
 	public function _executeTests(){
@@ -52,53 +54,22 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase {
 		$success = $manager->load('Robots');
 		$this->assertTrue($success);
 
-		$success = $manager->load('Parts');
-		$this->assertTrue($success);
+		$query = new Phalcon_Model_Query();
+		$query->setManager($manager);
+		$query->from('Robots');
+		$query->where('id = ?0');
+		$query->where('name LIKE ?1');
+		$query->setParameters(array(0 => '10', 1 => '%Astro%'));
 
-		$success = $manager->load('RobotsParts');
-		$this->assertTrue($success);
+		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE \'%Astro%\'');
 
-		$success = $manager->existsBelongsTo('RobotsParts', 'Robots');
-		$this->assertTrue($success);
-
-		$success = $manager->existsBelongsTo('RobotsParts', 'Parts');
-		$this->assertTrue($success);
-
-		$success = $manager->existsHasMany('Robots', 'RobotsParts');
-		$this->assertTrue($success);
-
-		$success = $manager->existsHasMany('Parts', 'RobotsParts');
-		$this->assertTrue($success);
-
-		$robot = Robots::findFirst();
-		$this->assertNotEquals($robot, false);
-
-		$robotsParts = $robot->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
-		$this->assertEquals(count($robotsParts), 3);
-
-		$number = $robot->countRobotsParts();
-		$this->assertEquals($number, 3);
-
-		$part = Parts::findFirst();
-		$this->assertNotEquals($part, false);
-
-		$robotsParts = $part->getRobotsParts();
-		$this->assertEquals(get_class($robotsParts), 'Phalcon_Model_Resultset');
-		$this->assertEquals(count($robotsParts), 1);
-
-		$number = $part->countRobotsParts();
-		$this->assertEquals($number, 1);
-
-		$robotPart = RobotsParts::findFirst();
-		$this->assertNotEquals($robotPart, false);
-
-		$robot = $robotPart->getRobots();
-		$this->assertEquals(get_class($robot), 'Robots');
-
-		$part = $robotPart->getParts();
-		$this->assertEquals(get_class($part), 'Parts');
+		$query = Phalcon_Model_Query::fromInput('Robots', array(
+			'id' => 10,
+			'name' => 'Astro'
+		));
+		$this->assertEquals($query->getConditions(), 'id = 10 AND name LIKE \'%Astro%\'');
 
 	}
+
 
 }

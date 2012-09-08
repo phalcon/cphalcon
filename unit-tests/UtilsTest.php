@@ -18,25 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
-class SessionTest extends PHPUnit_Framework_TestCase {
+class UtilsTest extends PHPUnit_Framework_TestCase {
 
-  public function testSession(){
+	public function testNone(){
 
-    Phalcon_Session::start();    
-
-    Phalcon_Session::set('lol', 'value');
-
-    $this->assertEquals(Phalcon_Session::get('lol'), 'value');
-
-    Phalcon_Session::setOptions(array(
-      'uniqueId' => 'unique-session'
-    ));
-
-    $this->assertEquals(Phalcon_Session::get('lol'), '');
-
-    Phalcon_Session::set('lol', 'another-value');
-    $this->assertEquals(Phalcon_Session::get('lol'), 'another-value');    
-
-  }
+	}
 
 }

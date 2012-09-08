@@ -1,6 +1,5 @@
 <?php
 
-class Prueba extends Phalcon\Mvc\Model
-{
+class Prueba extends Phalcon_Model_Base {
 
 }

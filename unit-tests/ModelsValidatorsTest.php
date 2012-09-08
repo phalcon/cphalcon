@@ -18,60 +18,39 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
-{
+class ModelsValidatorsTest extends PHPUnit_Framework_TestCase {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+	public function testModels(){
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+		require 'unit-tests/config.db.php';
 
-	public function testModels()
-	{
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
-		Phalcon\DI::reset();
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
 
-		$di = new Phalcon\DI();
+		$success = $manager->load('Subscriptores');
+		$this->assertTrue($success);
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
-
-		$connection = $di->getShared('db');
+		$connection = Phalcon_Db_Pool::getConnection();
+		$this->assertTrue(is_object($connection));
 
 		$success = $connection->delete("subscriptores");
 		$this->assertTrue($success);
 
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego@hotmail.com';
-		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
+		$subscriptor->created_at = new Phalcon_Db_RawValue('now()');
 		$subscriptor->status = 'P';
 		$this->assertTrue($subscriptor->save());
 
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego?=';
-		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
+		$subscriptor->created_at = new Phalcon_Db_RawValue('now()');
 		$subscriptor->status = 'P';
 		$this->assertFalse($subscriptor->save());
 
@@ -80,7 +59,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$messages = $subscriptor->getMessages();
 		$this->assertEquals($messages[0]->getType(), "email");
 		$this->assertEquals($messages[0]->getField(), "email");
-		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' should be a valid e-mail");
 
 		$subscriptor->email = 'le_fuego@hotmail.com';
 		$subscriptor->status = 'X';

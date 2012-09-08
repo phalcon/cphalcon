@@ -18,95 +18,58 @@
   +------------------------------------------------------------------------+
 */
 
-class DbProfiler extends Phalcon\Db\Profiler
-{
+class DbProfiler extends Phalcon_Db_Profiler {
 
 	private $_points = 0;
 
-	public function beforeStartProfile($profile)
-	{
+	public function beforeStartProfile($profile){
 		$this->_points++;
 	}
 
-	public function afterEndProfile($profile)
-	{
+	public function afterEndProfile($profile){
 		$this->_points--;
 	}
 
-	public function getPoints()
-	{
+	public function getPoints(){
 		return $this->_points;
 	}
 
 }
 
-class DbProfilerListener
-{
+class DbProfilerTest extends PHPUnit_Framework_TestCase {
 
-	protected $_profiler;
-
-	public function __construct(){
-		$this->_profiler = new DbProfiler();
-	}
-
-	public function beforeQuery($event, $connection)
-	{
-		 $this->_profiler->startProfile($connection->getSQLStatement());
-	}
-
-	public function afterQuery($event, $connection)
-	{
-		$this->_profiler->stopProfile();
-	}
-
-	public function getProfiler(){
-		return $this->_profiler;
-	}
-
-}
-
-class DbProfilerTest extends PHPUnit_Framework_TestCase
-{
-
-	public function testDbMysql()
-	{
+	public function testDbMysql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
 	}
 
-	public function testDbPostgresql()
-	{
+	public function testDbPostgresql(){
 
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
 	}
 
-	public function _executeTests($connection)
-	{
+	public function _executeTests($connection){
 
-		$eventsManager = new Phalcon\Events\Manager();
+		$profiler = new DbProfiler();
 
-		$listener = new DbProfilerListener();
-
-		$eventsManager->attach('db', $listener);
-
-		$connection->setEventsManager($eventsManager);
+		$connection->setProfiler($profiler);
 
 		$connection->query("SELECT * FROM personas LIMIT 3");
-
-		$profiler = $listener->getProfiler();
 
 		$this->assertEquals($profiler->getNumberTotalStatements(), 1);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
+		$this->assertEquals(get_class($profile), 'Phalcon_Db_Profiler_Item');
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 3");
 		$this->assertEquals(gettype($profile->getInitialTime()), "double");
@@ -119,10 +82,10 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($profiler->getNumberTotalStatements(), 2);
 
 		$profile = $profiler->getLastProfile();
-		$this->assertEquals(get_class($profile), 'Phalcon\Db\Profiler\Item');
+		$this->assertEquals(get_class($profile), 'Phalcon_Db_Profiler_Item');
 
 		$this->assertEquals($profile->getSQLStatement(), "SELECT * FROM personas LIMIT 100");
-		$this->assertTrue($profile->getFinalTime() > $profile->getInitialTime());
+		$this->assertTrue($profile->getFinalTime()>$profile->getInitialTime());
 
 		$connection->query("SELECT * FROM personas LIMIT 5");
 		$connection->query("SELECT * FROM personas LIMIT 10");

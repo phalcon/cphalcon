@@ -18,91 +18,64 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsResultsetTest extends PHPUnit_Framework_TestCase
-{
+class ModelsResultsetTest extends PHPUnit_Framework_TestCase {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
+	private function _prepareTestPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		$success = $manager->load('Robots');
+		$this->assertTrue($success);
+
 	}
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
-
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
-
-	protected function _getDI()
-	{
-
-		Phalcon\DI::reset();
-
-		$di = new Phalcon\DI();
-
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		return $di;
-	}
-
-	protected function _prepareTestMysql()
-	{
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
-	}
-
-	protected function _prepareTestPostgresql()
-	{
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
-	}
-
-	public function testResultsetMysql()
-	{
-		$this->_prepareTestMysql();
-
-		$robots = Robots::find(array('order' => 'id'));
-
-		$this->_applyTests($robots);
-	}
-
-	public function testResultsetPostgresql()
-	{
+	public function testResultsetPostgresql(){
 		$this->_prepareTestPostgresql();
-
 		$robots = Robots::find(array('order' => 'id'));
-
 		$this->_applyTests($robots);
 	}
 
-	public function _applyTests($robots)
-	{
+	private function _prepareTestMysql(){
+
+		Phalcon_Db_Pool::reset();
+		Phalcon_Model_Manager::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		$success = $manager->load('Robots');
+		$this->assertTrue($success);
+
+	}
+
+	public function testResultsetMysql(){
+		$this->_prepareTestMysql();
+		$robots = Robots::find(array('order' => 'id'));
+		$this->_applyTests($robots);
+	}
+
+	public function _applyTests($robots){
 
 		$this->assertEquals(count($robots), 3);
 		$this->assertEquals($robots->count(), 3);
 
 		//Using a foreach
 		$number = 0;
-		foreach ($robots as $robot) {
+		foreach($robots as $robot){
 			$this->assertEquals($robot->id, $number+1);
 			$number++;
 		}
@@ -111,7 +84,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		//Using a while
 		$number = 0;
 		$robots->rewind();
-		while ($robots->valid()) {
+		while($robots->valid()){
 			$robot = $robots->current();
 			$this->assertEquals($robot->id, $number+1);
 			$robots->next();
@@ -140,8 +113,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testSerializeMysql()
-	{
+	public function testSerializeMysql(){
 
 		$this->_prepareTestMysql();
 
@@ -149,14 +121,13 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
 
 		$this->_applyTests($robots);
 
 	}
 
-	public function testSerializePostgresql()
-	{
+	public function testSerializePostgresql(){
 
 		$this->_prepareTestPostgresql();
 
@@ -164,7 +135,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = unserialize($data);
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
 
 		$this->_applyTests($robots);
 

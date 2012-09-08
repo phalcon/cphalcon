@@ -17,12 +17,8 @@ Building Phalcon In Windows
 5. Select configuration that matches your thread safety
 6. Build and enjoy
 
+
 Updating the project when files are added or removed from /dev
 ==============================================================
 
-In the /win32/scripts directory, there is an update-project.bat batch file that will scan the /dev directory and update cphalcon.vproj.
-
-Building the Release configs
-==============================================================
-
-Do not edit the files in the /release directory.  Instead edit the files in the dev directory.  When you want to build the release config, run the create-release-src-files.bat batch file in /win32/scripts.  That will rejoin (almost) all the files in /dev and create the files in /release.
+In the /win32/scripts directory, there is a batch file that will scan the /dev directory and update cphalcon.vproj.

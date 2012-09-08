@@ -1,6 +1,6 @@
 <?php
 
-class Test6Controller extends Phalcon\Controller {
+class Test6Controller extends Phalcon_Controller {
 
 	public function beforeDispatch(){		
 		return false;

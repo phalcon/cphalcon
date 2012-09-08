@@ -18,15 +18,10 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Mvc\View as View;
+class ViewTest extends PHPUnit_Framework_TestCase {
 
-class ViewTest extends PHPUnit_Framework_TestCase
-{
-
-	public function testStandardRender()
-	{
-
-		$view = new View();
+	public function testStandardRender(){
+		$view = new Phalcon_View();
 		$view->setBasePath(__DIR__.'/../');
 
 		$view->setViewsDir('unit-tests/views/');
@@ -64,21 +59,21 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->cleanTemplateAfter();
 
 		//Render Levels
-		$view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
+		$view->setRenderLevel(Phalcon_View::LEVEL_MAIN_LAYOUT);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolhere</html>'.PHP_EOL);
 
-		$view->setRenderLevel(View::LEVEL_LAYOUT);
+		$view->setRenderLevel(Phalcon_View::LEVEL_LAYOUT);
 
 		$view->start();
 		$view->render('test3', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'lolhere');
 
-		$view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+		$view->setRenderLevel(Phalcon_View::LEVEL_ACTION_VIEW);
 
 		$view->start();
 		$view->render('test3', 'other');
@@ -86,7 +81,7 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), 'here');
 
 		//Pick View
-		$view->setRenderLevel(View::LEVEL_MAIN_LAYOUT);
+		$view->setRenderLevel(Phalcon_View::LEVEL_MAIN_LAYOUT);
 		$view->start();
 		$view->pick('test3/yup');
 		$view->render('test3', 'other');
@@ -95,10 +90,9 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testPartials()
-	{
+	/*public function testPartials(){
 
-		$view = new Phalcon\Mvc\View();
+		$view = new Phalcon_View();
 		$view->setBasePath(__DIR__.'/../');
 
 		$view->setViewsDir('unit-tests/views/');
@@ -118,6 +112,6 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>'.PHP_EOL);
 
-	}
+	}*/
 
 }

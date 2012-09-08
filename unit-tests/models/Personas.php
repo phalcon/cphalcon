@@ -1,6 +1,5 @@
 <?php
 
-class Personas extends Phalcon\Mvc\Model
-{
+class Personas extends Phalcon_Model_Base {
 
 }

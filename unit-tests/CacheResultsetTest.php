@@ -18,53 +18,29 @@
   +------------------------------------------------------------------------+
 */
 
-class CacheResultsetTest extends PHPUnit_Framework_TestCase
-{
+class CacheResultsetTest extends PHPUnit_Framework_TestCase {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
+	public function testCacheResultset(){
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
+		require 'unit-tests/config.db.php';
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
-	public function testCacheResultset()
-	{
+		$manager = new Phalcon_Model_Manager();
+		$manager->setModelsDir('unit-tests/models/');
+
+		$success = $manager->load('Robots');
+		$this->assertTrue($success);
+
+		$backendOptions = array(
+			'cacheDir' => 'unit-tests/cache/'
+		);
 
 		@unlink('unit-tests/cache/testresultset');
 
-		Phalcon\DI::reset();
-
-		$di = new Phalcon\DI();
-
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
-
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
-
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
-		));
+		$cache = Phalcon_Cache::factory('Data', 'File', null, $backendOptions);
+		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
 
 		$cache->save('test-resultset', Robots::find(array('order' => 'id')));
 
@@ -72,7 +48,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$robots = $cache->get('test-resultset');
 
-		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(get_class($robots), 'Phalcon_Model_Resultset');
 		$this->assertEquals(count($robots), 3);
 		$this->assertEquals($robots->count(), 3);
 

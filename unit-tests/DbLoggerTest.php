@@ -15,33 +15,8 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                         |
   +------------------------------------------------------------------------+
 */
-
-class DbLoggerListener
-{
-
-	protected $_logger;
-
-	public function __construct(){
-		$this->_logger = new \Phalcon\Logger\Adapter\File('unit-tests/logs/test-db.log');
-	}
-
-	public function afterQuery($event, $connection)
-	{
-		$this->_logger->log($connection->getSQLStatement());
-	}
-
-	public function getProfiler(){
-		return $this->_profiler;
-	}
-
-	public function getLogger(){
-		return $this->_logger;
-	}
-
-}
 
 class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
@@ -49,7 +24,8 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		$connection = Phalcon_Db::factory('Mysql', $configMysql);
+		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
 	}
@@ -58,31 +34,21 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		require 'unit-tests/config.db.php';
 
-		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		$connection = Phalcon_Db::factory('Postgresql', $configPostgresql);
+		$this->assertTrue(is_object($connection));
 
 		$this->_executeTests($connection);
 	}
-
-    public function testDbLoggerSqlite(){
-
-   		require 'unit-tests/config.db.php';
-
-   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-
-   		$this->_executeTests($connection);
-   	}
 
 	protected function _executeTests($connection){
 
 		@unlink('unit-tests/logs/test-db.log');
 
-		$eventsManager = new Phalcon\Events\Manager();
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test-db.log');
+		$connection->setLogger($logger);
 
-		$listener = new DbLoggerListener();
-
-		$eventsManager->attach('db', $listener);
-
-		$connection->setEventsManager($eventsManager);
+		$this->assertTrue(is_object($connection->getLogger()));
+		$this->assertEquals(get_class($connection->getLogger()), 'Phalcon_Logger');
 
 		$connection->query("SELECT * FROM personas LIMIT 3");
 		$connection->query("SELECT * FROM personas LIMIT 10");
@@ -90,7 +56,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($connection->close());
 
-		$listener->getLogger()->close();
+		$logger->close();
 
 		$lines = file('unit-tests/logs/test-db.log');
 		$this->assertEquals(count($lines), 3);

@@ -1,7 +1,7 @@
 Phalcon PHP Framework
 =====================
 
-Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption.
+Phalcon PHP is a web framework delivered as a C extension providing high performance and lower resource consumption
 
 Get Started
 -----------
@@ -9,7 +9,7 @@ Get Started
 Phalcon PHP is written in C with platform independence in mind. As a result, Phalcon PHP is available on Microsoft Windows, GNU/Linux, Mac OS X, You can either download a binary package for the system of your choice or build it from sources.
 ### Windows
 
-For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/download). Edit your php.ini file and then add:
+For use phalcon on windows you only should to download a DLL library (http://phalconphp.com/downloads). Edit your php.ini file and then add:
 
      extension=php_phalcon.dll
 
@@ -27,7 +27,7 @@ We need some packages previously installed.
 
 Ubuntu:
 
-    sudo apt-get install php5-devel php5-mysql gcc make
+    sudo apt-get install php5-dev php5-mysql gcc make
 
 Suse:
 
@@ -36,10 +36,10 @@ Suse:
 Compilation
 -----------
 
-Follow these instructions to generate a binary extension for your platform:
+Follow this instructions to generate a binrary extension for your platform:
 
      # git clone git://github.com/phalcon/cphalcon.git
-     # cd cphalcon/release
+     # cd cphalcon/target/release
      # export CFLAGS="-O2 -fno-delete-null-pointer-checks"
      # phpize
      # ./configure --enable-phalcon

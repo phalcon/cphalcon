@@ -1,23 +1,15 @@
 <?php
 
-$configMysql = array(
-	'host' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'dbname' => 'phalcon_test'
-);
+$configMysql = new stdClass();
+$configMysql->adapter = 'Mysql';
+$configMysql->host = '127.0.0.1';
+$configMysql->username = 'root';
+$configMysql->password = '1234';
+$configMysql->name = 'phalcon_test';
 
-$configPostgresql = array(
-	'host' => '127.0.0.1',
-	'username' => 'postgres',
-	'password' => '',
-	'dbname' => 'phalcon_test',
-    'schema' => 'public'
-);
-
-$configSqlite = array(
-	'host' => '',
-	'username' => '',
-	'password' => '',
-	'dbname' => '/tmp/phalcon_test.sqlite',
-);
+$configPostgresql = new stdClass();
+$configPostgresql->adapter = 'Postgresql';
+$configPostgresql->host = '127.0.0.1';
+$configPostgresql->username = 'postgres';
+$configPostgresql->password = '';
+$configPostgresql->name = 'phalcon_test';

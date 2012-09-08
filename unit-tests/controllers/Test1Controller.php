@@ -1,5 +1,5 @@
 <?php
 
-class Test1Controller extends \Phalcon\Mvc\Controller {
+class Test1Controller extends Phalcon_Controller {
 
 }

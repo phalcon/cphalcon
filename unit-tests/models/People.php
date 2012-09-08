@@ -1,11 +1,9 @@
 <?php
 
-class People extends Phalcon\Mvc\Model
-{
+class People extends Phalcon_Model_Base {
 
-	public function getSource()
-	{
-		return 'personas';
+	public function initialize(){
+		$this->setSource('personas');
 	}
 
 }

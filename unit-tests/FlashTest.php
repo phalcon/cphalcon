@@ -18,151 +18,52 @@
   +------------------------------------------------------------------------+
 */
 
-class FlashTest extends PHPUnit_Framework_TestCase
-{
+class FlashTest extends PHPUnit_Framework_TestCase {
 
-	public function testFlashDirectImplicitFlushHtml()
-	{
+	public function testFlash(){
 
-		$messageText = 'sample message';
-
-		$flash = new Phalcon\Flash\Direct();
+		$message = 'sample message';
 
 		ob_start();
-		$flash->error($messageText);
-		$flash->success($messageText);
-		$flash->notice($messageText);
-		$flash->warning($messageText);
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertEquals($content,
-			'<div class="errorMessage">sample message</div>'.PHP_EOL.
-			'<div class="successMessage">sample message</div>'.PHP_EOL.
-			'<div class="noticeMessage">sample message</div>'.PHP_EOL.
-			'<div class="warningMessage">sample message</div>'.PHP_EOL
-		);
-
-	}
-
-	public function testFlashDirectImplicitFlushHtmlArray()
-	{
-
-		$messageText = array('sample message 1', 'sample message 2');
-
-		$flash = new Phalcon\Flash\Direct();
+		Phalcon_Flash::error($message);
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="errorMessage">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		$flash->error($messageText);
-		$flash->success($messageText);
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertEquals($content,
-			'<div class="errorMessage">sample message 1</div>'.PHP_EOL.
-			'<div class="errorMessage">sample message 2</div>'.PHP_EOL.
-			'<div class="successMessage">sample message 1</div>'.PHP_EOL.
-			'<div class="successMessage">sample message 2</div>'.PHP_EOL
-		);
-
-	}
-
-	public function testFlashDirectNoImplicitFlushHtml()
-	{
-
-		$messageText = 'sample message';
-
-		$flash = new Phalcon\Flash\Direct();
-		$flash->setImplicitFlush(false);
-
-		$message = $flash->error($messageText);
-		$this->assertEquals($message, '<div class="errorMessage">sample message</div>'.PHP_EOL);
-
-		$message = $flash->success($messageText);
-		$this->assertEquals($message, '<div class="successMessage">sample message</div>'.PHP_EOL);
-
-		$message = $flash->notice($messageText);
-		$this->assertEquals($message, '<div class="noticeMessage">sample message</div>'.PHP_EOL);
-
-		$message = $flash->warning($messageText);
-		$this->assertEquals($message, '<div class="warningMessage">sample message</div>'.PHP_EOL);
-
-	}
-
-	public function testFlashDirectNoImplicitFlushHtmlArray()
-	{
-
-		$messageText = array('sample message 1', 'sample message 2');
-
-		$flash = new Phalcon\Flash\Direct();
-		$flash->setImplicitFlush(false);
-
-		$message = $flash->error($messageText);
-		$this->assertEquals($message,
-			'<div class="errorMessage">sample message 1</div>'.PHP_EOL.
-			'<div class="errorMessage">sample message 2</div>'.PHP_EOL
-		);
-
-		$message = $flash->success($messageText);
-		$this->assertEquals($message,
-			'<div class="successMessage">sample message 1</div>'.PHP_EOL.
-			'<div class="successMessage">sample message 2</div>'.PHP_EOL
-		);
-
-	}
-
-	public function testFlashDirectNoImplicitFlushNoHtml()
-	{
-
-		$messageText = 'sample message';
-
-		$flash = new Phalcon\Flash\Direct();
-		$flash->setImplicitFlush(false);
-		$flash->setAutomaticHtml(false);
-
-		$message = $flash->error($messageText);
-		$this->assertEquals($message, 'sample message');
-
-		$message = $flash->success($messageText);
-		$this->assertEquals($message, 'sample message');
-
-		$message = $flash->notice($messageText);
-		$this->assertEquals($message, 'sample message');
-
-		$message = $flash->warning($messageText);
-		$this->assertEquals($message, 'sample message');
-
-	}
-
-	public function testFlashDirectCssClasses()
-	{
-
-		$messageText = 'sample message';
-
-		$flash = new Phalcon\Flash\Direct(array(
-			'error' => 'alert alert-error',
-			'success' => 'alert alert-success',
-			'notice' => 'alert alert-notice',
-			'warning' => 'alert alert-warning'
-		));
+		Phalcon_Flash::error($message, 'alert alert-error');
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="alert alert-error">sample message</div>'.PHP_EOL);
 
 		ob_start();
-		$flash->error($messageText);
-		$flash->success($messageText);
-		$flash->notice($messageText);
-		$flash->warning($messageText);
-		$content = ob_get_contents();
-		ob_end_clean();
+		Phalcon_Flash::success($message);
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="successMessage">sample message</div>'.PHP_EOL);
 
-		$this->assertEquals($content,
-			'<div class="alert alert-error">sample message</div>'.PHP_EOL.
-			'<div class="alert alert-success">sample message</div>'.PHP_EOL.
-			'<div class="alert alert-notice">sample message</div>'.PHP_EOL.
-			'<div class="alert alert-warning">sample message</div>'.PHP_EOL
-		);
+		ob_start();
+		Phalcon_Flash::success($message, 'alert alert-success');
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="alert alert-success">sample message</div>'.PHP_EOL);
+
+		ob_start();
+		Phalcon_Flash::notice($message);
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="noticeMessage">sample message</div>'.PHP_EOL);
+
+		ob_start();
+		Phalcon_Flash::notice($message, 'alert alert-notice');
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="alert alert-notice">sample message</div>'.PHP_EOL);
+
+		ob_start();
+		Phalcon_Flash::warning($message);
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="warningMessage">sample message</div>'.PHP_EOL);
+
+		ob_start();
+		Phalcon_Flash::warning($message, 'alert alert-warning');
+		$flash = ob_get_clean();
+		$this->assertEquals($flash, '<div class="alert alert-warning">sample message</div>'.PHP_EOL);
 
 	}
-
-
 
 }

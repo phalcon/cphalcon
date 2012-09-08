@@ -18,32 +18,34 @@
   +------------------------------------------------------------------------+
 */
 
-class CacheTest extends PHPUnit_Framework_TestCase
-{
+class CacheTest extends PHPUnit_Framework_TestCase {
 
-	public function setUp()
-	{
+	public function setUp(){
 		$iterator = new DirectoryIterator('unit-tests/cache/');
-		foreach ($iterator as $item) {
-			if (!$item->isDir()) {
+		foreach($iterator as $item){
+			if(!$item->isDir()){
 				unlink($item->getPathname());
 			}
 		}
 	}
 
-	public function testOutputFileCache()
-	{
+	public function testOutputFileCache(){
+
+		$frontendOptions = array(
+			'lifetime' => 2
+		);
+
+		$backendOptions = array(
+			'cacheDir' => 'unit-tests/cache/'
+		);
+
+		@unlink('unit-tests/cache/testoutput');
 
 		$time = date('H:i:s');
 
-		$frontCache = new Phalcon\Cache\Frontend\Output(array(
-			'lifetime' => 2
-		));
-
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
-		));
-
+		$cache = Phalcon_Cache::factory('Output', 'File', $frontendOptions, $backendOptions);
+		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Output', $cache->getFrontend());
 		$this->assertFalse($cache->isStarted());
 
 		ob_start();
@@ -52,10 +54,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$content = $cache->start('testoutput');
 		$this->assertTrue($cache->isStarted());
 
-		if ($content !== null) {
+		if($content!==null){
 			$this->assertTrue(false);
 		}
-
 		echo $time;
 		$cache->save(null, null, null, true);
 
@@ -69,7 +70,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$content = $cache->start('testoutput');
 		$this->assertTrue($cache->isStarted());
 
-		if ($content === null) {
+		if($content===null){
 			$this->assertTrue(false);
 		}
 
@@ -85,10 +86,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$content = $cache->start('testoutput');
 		$this->assertTrue($cache->isStarted());
 
-		if ($content !== null) {
+		if($content!==null){
 			$this->assertTrue(false);
 		}
-
 		echo $time2;
 		$cache->save(null, null, null, true);
 
@@ -107,15 +107,17 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataFileCache()
-	{
+	public function testDataFileCache(){
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+		$backendOptions = array(
 			'cacheDir' => 'unit-tests/cache/'
-		));
+		);
 
+		@unlink('unit-tests/cache/testdata');
+
+		$cache = Phalcon_Cache::factory('Data', 'File', null, $backendOptions);
+		$this->assertInstanceOf('Phalcon_Cache_Backend_File', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Data', $cache->getFrontend());
 		$this->assertFalse($cache->isStarted());
 
 		$cache->save('test-data', "nothing interesting");
@@ -134,11 +136,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	private function _prepareMemcached()
-	{
+	private function _prepareMemcached(){
 
-		if (!extension_loaded('memcache')) {
-			$this->markTestSkipped('Warning: memcache extension is not loaded');
+		if(!extension_loaded('memcache')){
+			echo 'Warning: memcache extension is not loaded', PHP_EOL;
 			return false;
 		}
 
@@ -148,29 +149,30 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return $memcache;
 	}
 
-	public function testOutputMemcacheCache()
-	{
+	public function testOutputMemcacheCache(){
 
 		$memcache = $this->_prepareMemcached();
-		if (!$memcache) {
+		if(!$memcache){
 			return false;
 		}
 
 		$memcache->delete('test-output');
 
+		$frontendOptions = array(
+			'lifetime' => 2
+		);
+
 		$time = date('H:i:s');
 
-		$frontCache = new Phalcon\Cache\Frontend\Output(array(
-			'lifetime' => 2
-		));
-
-		$cache = new Phalcon\Cache\Backend\Memcache($frontCache);
+		$cache = Phalcon_Cache::factory('Output', 'Memcache', $frontendOptions, array());
+		$this->assertInstanceOf('Phalcon_Cache_Backend_Memcache', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Output', $cache->getFrontend());
 
 		ob_start();
 
 		//First time cache
 		$content = $cache->start('test-output');
-		if ($content !== null) {
+		if($content!==null){
 			$this->assertTrue(false);
 		}
 
@@ -186,7 +188,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Expect same cache
 		$content = $cache->start('test-output');
-		if ($content === null) {
+		if($content===null){
 			$this->assertTrue(false);
 		}
 
@@ -220,22 +222,23 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataMemcachedCache()
-	{
+	public function testDataMemcachedCache(){
 
 		$memcache = $this->_prepareMemcached();
-		if (!$memcache) {
+		if(!$memcache){
 			return false;
 		}
 
 		$memcache->delete('test-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-
-		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+		$backendOptions = array(
 			'host' => 'localhost',
 			'port' => '11211'
-		));
+		);
+
+		$cache = Phalcon_Cache::factory('Data', 'Memcache', array(), $backendOptions);
+		$this->assertInstanceOf('Phalcon_Cache_Backend_Memcache', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Data', $cache->getFrontend());
 
 		$data = array(1, 2, 3, 4, 5);
 
@@ -257,40 +260,40 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	protected function _prepareApc()
-	{
+	protected function _prepareApc(){
 
-		if (!extension_loaded('apc')) {
-			$this->markTestSkipped('apc extension is not loaded');
+		if(!extension_loaded('apc')){
+			$this->markTestAsSkipped('apc extension is not loaded');
 			return false;
 		}
 
 		return true;
 	}
 
-	public function testOutputApcCache()
-	{
+	public function testOutputApcCache(){
 
 		$ready = $this->_prepareApc();
-		if (!$ready) {
+		if(!$ready){
 			return false;
 		}
 
 		apc_delete('_PHCAtest-output');
 
+		$frontendOptions = array(
+			'lifetime' => 2
+		);
+
 		$time = date('H:i:s');
 
-		$frontCache = new Phalcon\Cache\Frontend\Output(array(
-			'lifetime' => 2
-		));
-
-		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
+		$cache = Phalcon_Cache::factory('Output', 'Apc', $frontendOptions, array());
+		$this->assertInstanceOf('Phalcon_Cache_Backend_Apc', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Output', $cache->getFrontend());
 
 		ob_start();
 
 		//First time cache
 		$content = $cache->start('test-output');
-		if ($content !== null) {
+		if($content!==null){
 			$this->assertTrue(false);
 		}
 
@@ -306,7 +309,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		//Expect same cache
 		$content = $cache->start('test-output');
-		if ($content === null) {
+		if($content===null){
 			$this->assertTrue(false);
 		}
 
@@ -324,19 +327,18 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataApcCache()
-	{
+	public function testDataApcCache(){
 
 		$ready = $this->_prepareApc();
-		if (!$ready) {
+		if(!$ready){
 			return false;
 		}
 
 		apc_delete('_PHCAtest-data');
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-
-		$cache = new Phalcon\Cache\Backend\Apc($frontCache);
+		$cache = Phalcon_Cache::factory('Data', 'Apc');
+		$this->assertInstanceOf('Phalcon_Cache_Backend_Apc', $cache);
+		$this->assertInstanceOf('Phalcon_Cache_Frontend_Data', $cache->getFrontend());
 
 		$data = array(1, 2, 3, 4, 5);
 

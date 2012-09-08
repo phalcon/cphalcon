@@ -18,15 +18,13 @@
   +------------------------------------------------------------------------+
 */
 
-class LoggerTest extends PHPUnit_Framework_TestCase
-{
+class LoggerTest extends PHPUnit_Framework_TestCase {
 
-	public function testFileLogger1()
-	{
+	public function testFileLogger1(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
 		$logger->log("Hello");
 
@@ -40,15 +38,14 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testFileLogger2()
-	{
+	public function testFileLogger2(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
-		$logger->log("Hello 1", Phalcon\Logger::NOTICE);
-		$logger->log("Hello 2", Phalcon\Logger::ERROR);
+		$logger->log("Hello 1", Phalcon_Logger::NOTICE);
+		$logger->log("Hello 2", Phalcon_Logger::ERROR);
 
 		$logger->close();
 
@@ -63,12 +60,11 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testFileLogger3()
-	{
+	public function testFileLogger3(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
 		$logger->notice("Hello 1");
 		$logger->error("Hello 2");
@@ -86,12 +82,11 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testFileLogger4()
-	{
+	public function testFileLogger4(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
 		$logger->setFormat('/%date%/%type%/ %message%');
 
@@ -107,12 +102,11 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testFileLogger5()
-	{
+	public function testFileLogger5(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
 		$logger->begin();
 
@@ -131,12 +125,11 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testFileLogger6()
-	{
+	public function testFileLogger6(){
 
 		@unlink('unit-tests/logs/test.log');
 
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
+		$logger = new Phalcon_Logger('File', 'unit-tests/logs/test.log');
 
 		$logger->begin();
 
@@ -155,27 +148,6 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
 		$lines = file('unit-tests/logs/test.log');
 		$this->assertEquals(count($lines), 5);
-
-	}
-
-	public function testFileLoggerTimeFormat()
-	{
-
-		@unlink('unit-tests/logs/test.log');
-		$logger = new Phalcon\Logger\Adapter\File('unit-tests/logs/test.log');
-
-		$logger->debug("Hello 1");
-
-		$lines = file('unit-tests/logs/test.log');
-		$this->assertEquals(count($lines), 1);
-
-		preg_match('#^\[(.*?)\]#', $lines[0], $match);
-
-		$this->assertTrue(count($match)===2);
-
-		$date = new DateTime($match[1]);
-
-		$this->assertTrue($date->format('Y-m-d') === date('Y-m-d'));
 
 	}
 

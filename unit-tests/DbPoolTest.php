@@ -18,25 +18,24 @@
   +------------------------------------------------------------------------+
 */
 
-class SessionTest extends PHPUnit_Framework_TestCase {
+class DbPoolTest extends PHPUnit_Framework_TestCase {
 
-  public function testSession(){
+	public function testPoolMysql(){
 
-    Phalcon_Session::start();    
+		require 'unit-tests/config.db.php';
 
-    Phalcon_Session::set('lol', 'value');
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
 
-    $this->assertEquals(Phalcon_Session::get('lol'), 'value');
+		$connection = Phalcon_Db_Pool::getConnection();
+		$this->assertTrue(is_object($connection));
 
-    Phalcon_Session::setOptions(array(
-      'uniqueId' => 'unique-session'
-    ));
+		$connection2 = Phalcon_Db_Pool::getConnection(true);
+		$this->assertNotEquals($connection->getConnectionId(true), $connection2->getConnectionId(true));
 
-    $this->assertEquals(Phalcon_Session::get('lol'), '');
-
-    Phalcon_Session::set('lol', 'another-value');
-    $this->assertEquals(Phalcon_Session::get('lol'), 'another-value');    
-
-  }
+	}
 
 }
+
+
+

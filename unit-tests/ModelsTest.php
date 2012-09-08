@@ -18,84 +18,53 @@
   +------------------------------------------------------------------------+
 */
 
-use Phalcon\Mvc\Model\Message as ModelMessage;
+class ModelsTest extends PHPUnit_Framework_TestCase {
 
-class ModelsTest extends PHPUnit_Framework_TestCase
-{
+	public function testModelsMysql(){
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configMysql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
 	}
 
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	public function testModelsPostgresql(){
+
+		Phalcon_Db_Pool::reset();
+
+		require 'unit-tests/config.db.php';
+
+		Phalcon_Db_Pool::setDefaultDescriptor($configPostgresql);
+		$this->assertTrue(Phalcon_Db_Pool::hasDefaultDescriptor());
+
+		$this->_executeTests();
 	}
 
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
-		}
-	}
+	protected function _executeTests(){
 
-	protected function _getDI()
-	{
+		Phalcon_Model_Manager::reset();
 
-		Phalcon\DI::reset();
+		$modelManager = new Phalcon_Model_Manager();
+		$modelManager->setModelsDir('unit-tests/models/');
 
-		$di = new Phalcon\DI();
+		$Personas = $modelManager->getModel('Personas');
+		$this->assertEquals(get_class($Personas), 'Personas');
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
+		$People = $modelManager->getModel('People');
+		$this->assertEquals(get_class($People), 'People');
 
-		$di->set('modelsMetadata', function(){
-			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+		$Robots = $modelManager->getModel('Robots');
+		$this->assertEquals(get_class($Robots), 'Robots');
 
-		return $di;
-	}
+		$connection = $Personas->getConnection();
+		$this->assertEquals($connection, Phalcon_Db_Pool::getConnection());
 
-	public function testModelsMysql()
-	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-
-			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
-		});
-
-		$this->_executeTests($di);
-	}
-
-	public function testModelsPostgresql()
-	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
-		});
-
-		$this->_executeTests($di);
-	}
-
-	protected function _executeTests($di){
+		$manager = $Personas->getManager();
+		$this->assertEquals(get_class($manager), 'Phalcon_Model_Manager');
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
@@ -122,11 +91,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($people->estado, $persona->estado);
 
 		$people = People::findFirst("estado='I'");
-		$this->assertTrue(is_object($people));
-
 		$persona = Personas::findFirst("estado='I'");
-		$this->assertTrue(is_object($persona));
-
 		$this->assertEquals($people->nombres, $persona->nombres);
 		$this->assertEquals($people->estado, $persona->estado);
 
@@ -206,7 +171,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals($number, 20);
 
-		$persona = new Personas($di);
+		$persona = new Personas($modelManager);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$this->assertFalse($persona->save());
 
@@ -214,22 +179,22 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($persona->getMessages()), 4);
 
 		$messages = array(
-			0 => ModelMessage::__set_state(array(
+			0 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'tipo_documento_id is required',
 				'_field' => 'tipo_documento_id',
 			)),
-			1 => ModelMessage::__set_state(array(
+			1 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'nombres is required',
 				'_field' => 'nombres',
 			)),
-			2 => ModelMessage::__set_state(array(
+			2 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'cupo is required',
 				'_field' => 'cupo',
 			)),
-			3 => ModelMessage::__set_state(array(
+			3 => Phalcon_Model_Message::__set_state(array(
 				'_type' => 'PresenceOf',
 				'_message' => 'estado is required',
 				'_field' => 'estado',
@@ -238,7 +203,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($persona->getMessages(), $messages);
 
 		//Save
-		$persona = new Personas($di);
+		$persona = new Personas($modelManager);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
@@ -247,7 +212,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'A';
 		$this->assertTrue($persona->save());
 
-		$persona = new Personas($di);
+		$persona = new Personas($modelManager);
 		$persona->cedula = 'CELL'.mt_rand(0, 9999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
@@ -272,7 +237,6 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$before = People::count();
 		$this->assertTrue($persona->delete());
 		$this->assertEquals($before-1, People::count());
-
 	}
 
 
