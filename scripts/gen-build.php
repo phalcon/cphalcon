@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Build_Generator script
+ *
+ * Use this script to generate the build files in build/
+ *
+ * Usage: php scripts/gen-build.php
+ *
+ * Build scripts join the whole framework into a single file called phalcon.c
+ * External symbol declarations are removed in order to produce a smaller compilation object
+ */
+
 class Build_Generator {
 
 	private $_fileHandler;
@@ -78,17 +89,23 @@ class Build_Generator {
 			$this->_appendSource($path.$source);
 		}
 
+		/** C-files are scanned looking for headers */
 		$this->_recursiveAction($path, array($this, '_checkHeaders'));
 
+		/** Found headers are included at the beginning of the file */
 		foreach ($this->_headers as $source => $one) {
 			if(!in_array($source, $this->_kernelHeaders)){
 				$this->_appendSource($path.$source);
 			}
 		}
 
+		/** Scan all c-files again and append it to phalcon.c */
 		$this->_recursiveAction($path, array($this, '_appendSource'));
 	}
 
+	/**
+	 * Creates the phalcon.c removing extern declaration
+	 */
 	private function _createHeader($path)
 	{
 
@@ -100,6 +117,9 @@ class Build_Generator {
 		fclose($fp);
 	}
 
+	/**
+	 * Scans recursively a directory and apply an action to each c-file found
+	 */
 	private function _recursiveAction($path, $handler)
 	{
 		$iterator = new DirectoryIterator($path);
@@ -128,6 +148,9 @@ class Build_Generator {
 		}
 	}
 
+	/**
+	 * Appends the source to phalcon.c removing some directives, external symbol declarations and most comments
+	 */
 	private function _appendSource($path)
 	{
 		$openComment = false;
@@ -155,6 +178,9 @@ class Build_Generator {
 		fputs($fileHandler, PHP_EOL.PHP_EOL);
 	}
 
+	/**
+	 * Check for headers in the c-files different than kernel or zend ones
+	 */
 	private function _checkHeaders($path)
 	{
 		$exceptions = array('php.h', 'config.h', 'php_phalcon.h', 'phalcon.h');
@@ -184,5 +210,6 @@ class Build_Generator {
 
 }
 
+//Create the builds files based on the following directory
 $build = new Build_Generator('ext/');
 
