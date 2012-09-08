@@ -43,6 +43,40 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($connection);
 	}
 
+	public function testDbPostgresqlSchemas()
+	{
+
+		require 'unit-tests/config.db.php';
+
+                $configPostgresqlDefault = array_merge(array(), $configPostgresql);
+                unset($configPostgresqlDefault['schema']);
+
+                $configPostgresqlNonExists = array_merge(array(), $configPostgresql);
+                $configPostgresqlNonExists['schema'] = 'nonexists';
+
+                try {
+                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+                  $this->assertTrue(is_object($connection));
+                } catch(Exception $e) {
+                  $this->assertTrue(false);
+                }
+
+                try {
+                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
+                  $this->assertTrue(is_object($connection));
+                } catch(Exception $e) {
+                  $this->assertTrue(false);
+                }
+
+                try {
+                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
+                  $this->assertFalse(is_object($connection));
+                } catch(Exception $e) {
+                  $this->assertTrue(true);
+                }
+
+	}
+
     public function testDbSqlite()
    	{
 
