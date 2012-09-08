@@ -1,5 +1,4 @@
 .settings/
 .idea
-build/*
 unit-tests/engines/*
 unit-tests/cache/*
