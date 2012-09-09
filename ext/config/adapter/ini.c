@@ -83,7 +83,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	zval *exception = NULL, *dot = NULL, *directives = NULL, *section = NULL, *value = NULL;
 	zval *key = NULL, *have_dot = NULL, *directive_parts = NULL, *left_part = NULL;
 	zval *right_part = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -170,29 +169,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				
 				PHALCON_INIT_VAR(right_part);
 				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY_CC);
-				if (Z_TYPE_P(config) == IS_ARRAY) {
-					PHALCON_INIT_VAR(t0);
-					phalcon_array_fetch(&t0, config, section, PH_SILENT_CC);
-				}
-				if (Z_REFCOUNT_P(t0) > 1) {
-					phalcon_array_update_zval(&config, section, &t0, PH_COPY | PH_CTOR TSRMLS_CC);
-				}
-				if (Z_TYPE_P(t0) != IS_ARRAY) {
-					convert_to_array(t0);
-					phalcon_array_update_zval(&config, section, &t0, PH_COPY TSRMLS_CC);
-				}
-				if (Z_TYPE_P(t0) == IS_ARRAY) {
-					PHALCON_INIT_VAR(t1);
-					phalcon_array_fetch(&t1, t0, left_part, PH_SILENT_CC);
-				}
-				if (Z_REFCOUNT_P(t1) > 1) {
-					phalcon_array_update_zval(&t0, left_part, &t1, PH_COPY | PH_CTOR TSRMLS_CC);
-				}
-				if (Z_TYPE_P(t1) != IS_ARRAY) {
-					convert_to_array(t1);
-					phalcon_array_update_zval(&t0, left_part, &t1, PH_COPY TSRMLS_CC);
-				}
-				phalcon_array_update_zval(&t1, right_part, &value, PH_COPY TSRMLS_CC);
+				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0 TSRMLS_CC);
 			} else {
 				phalcon_array_update_multi_2(&config, section, key, &value, 0 TSRMLS_CC);
 			}
@@ -201,7 +178,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			goto ph_cycle_start_1;
 		
 		ph_cycle_end_1:
-		if(0){}
 		
 		
 		zend_hash_move_forward_ex(ah0, &hp0);

@@ -560,7 +560,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				goto ph_cycle_start_4;
 			
 			ph_cycle_end_4:
-			if(0){}
 			
 			
 			zend_hash_move_forward_ex(ah3, &hp3);

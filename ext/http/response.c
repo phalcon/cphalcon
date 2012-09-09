@@ -221,7 +221,6 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 
 	zval *datetime = NULL, *headers = NULL, *date = NULL, *timezone = NULL, *utc_format = NULL;
 	zval *utc_date = NULL;
-	zval *i0 = NULL;
 	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
 	zend_class_entry *ce0;
 
@@ -240,11 +239,10 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	if (phalcon_clone(i0, datetime TSRMLS_CC) == FAILURE){
+	PHALCON_INIT_VAR(date);
+	if (phalcon_clone(date, datetime TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	PHALCON_CPY_WRT(date, i0);
 	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(timezone);

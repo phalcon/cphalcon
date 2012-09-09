@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
@@ -63,6 +64,7 @@
  * </code>
  *
  */
+
 
 /**
  * Moves cursor to next row in the resultset
@@ -113,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 	if (zend_is_true(type)) {
 		PHALCON_INIT_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
+		if (PHALCON_IS_NOT_FALSE(result)) {
 			phalcon_update_property_long(this_ptr, SL("_pointer"), 1 TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(c0);
@@ -168,20 +170,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 		
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 0);
-		fs_ebc1_0:
+		ph_cycle_start_0:
 			
 			PHALCON_INIT_VAR(r0);
 			is_smaller_function(r0, i, position TSRMLS_CC);
 			if (!zend_is_true(r0)) {
-				goto fe_ebc1_0;
+				goto ph_cycle_end_0;
 			}
 			Z_SET_ISREF_P(rows);
 			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
 			Z_UNSET_ISREF_P(rows);
 			PHALCON_SEPARATE(i);
 			increment_function(i);
-			goto fs_ebc1_0;
-		fe_ebc1_0:
+			goto ph_cycle_start_0;
+		ph_cycle_end_0:
 		if(0){}
 	}
 	
@@ -209,7 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 		if (zend_is_true(type)) {
 			PHALCON_INIT_VAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (Z_TYPE_P(result) != IS_BOOL || (Z_TYPE_P(result) == IS_BOOL && Z_BVAL_P(result))) {
+			if (PHALCON_IS_NOT_FALSE(result)) {
 				PHALCON_INIT_VAR(number_rows);
 				PHALCON_CALL_METHOD(number_rows, result, "numrows", PH_NO_CHECK);
 				
@@ -279,12 +281,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	
 	PHALCON_INIT_VAR(exists);
 	is_smaller_function(exists, index, count TSRMLS_CC);
-	if (Z_TYPE_P(exists) == IS_BOOL && Z_BVAL_P(exists)) {
+	if (PHALCON_IS_TRUE(exists)) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", index, PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(valid);
 		PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
-		if (Z_TYPE_P(valid) != IS_BOOL || (Z_TYPE_P(valid) == IS_BOOL && Z_BVAL_P(valid))) {
+		if (PHALCON_IS_NOT_FALSE(valid)) {
 			PHALCON_INIT_VAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 			
@@ -354,7 +356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 	
 	PHALCON_INIT_VAR(valid);
 	PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
-	if (Z_TYPE_P(valid) != IS_BOOL || (Z_TYPE_P(valid) == IS_BOOL && Z_BVAL_P(valid))) {
+	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 		
@@ -388,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 	
 	PHALCON_INIT_VAR(valid);
 	PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
-	if (Z_TYPE_P(valid) != IS_BOOL || (Z_TYPE_P(valid) == IS_BOOL && Z_BVAL_P(valid))) {
+	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 		

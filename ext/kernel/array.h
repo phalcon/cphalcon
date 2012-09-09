@@ -58,6 +58,7 @@ extern void phalcon_array_update_append_multi_2(zval **arr, zval *index1, zval *
 extern void phalcon_array_update_zval_string_append_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, zval **value, int flags TSRMLS_DC);
 extern void phalcon_array_update_zval_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, zval *index3, zval **value, int flags TSRMLS_DC);
 extern void phalcon_array_update_string_zval_zval_multi_3(zval **arr, zval *index1, zval *index2, char *index3, uint index3_length, zval **value, int flags TSRMLS_DC);
+extern void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *index1, char *index2, uint index2_length, char *index3, uint index3_length, zval **value, int flags TSRMLS_DC);
 
 /** Fetch items from arrays */
 extern int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC);

@@ -467,11 +467,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	RETURN_CTOR(index_objects);}
 
 /**
- * Generates SQL to query foreign keys on a table
+ * Lists table references
  *
  * @param string $table
  * @param string $schema
- * @return string
+ * @return Phalcon\Db\Reference[]
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 

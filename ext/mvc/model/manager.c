@@ -83,6 +83,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI){
 
 	zval *dependency_injector = NULL;
@@ -103,6 +108,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
 
 	zval *dependency_injector = NULL;
@@ -199,6 +209,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Check of a model is already initialized
+ *
+ * @param string $modelName
+ * @return bool
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 
 	zval *model_name = NULL, *initialized = NULL, *is_intitialized = NULL;
@@ -223,6 +239,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 	RETURN_NCTOR(is_intitialized);
 }
 
+/**
+ * Get last initialized model
+ *
+ * @return Phalcon\Mvc\Model
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 
 	zval *initialized = NULL;
@@ -234,11 +255,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 	RETURN_CCTOR(initialized);
 }
 
+/**
+ * Loads a model throwing an exception if it doesn't exist
+ *
+ * @return Phalcon\Mvc\Model
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
-	zval *model_name = NULL, *model_exists = NULL, *exception_message = NULL;
+	zval *model_name = NULL, *model_exists = NULL, *model = NULL, *exception_message = NULL;
 	zval *exception = NULL;
-	zval *i0 = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -252,11 +277,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 	PHALCON_CALL_FUNC_PARAMS_1(model_exists, "class_exists", model_name);
 	if (zend_is_true(model_exists)) {
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, ce0);
-		PHALCON_CALL_METHOD_NORETURN(i0, "__construct", PH_CHECK);
+		PHALCON_INIT_VAR(model);
+		object_init_ex(model, ce0);
+		PHALCON_CALL_METHOD_NORETURN(model, "__construct", PH_CHECK);
 		
-		RETURN_CTOR(i0);
+		RETURN_CTOR(model);
 	}
 	
 	PHALCON_INIT_VAR(exception_message);
@@ -1133,8 +1158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 
-	zval *model = NULL, *has_one = NULL, *has_many = NULL;
-	zval *r0 = NULL;
+	zval *model = NULL, *has_one = NULL, *has_many = NULL, *merge = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -1149,36 +1173,45 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 	PHALCON_INIT_VAR(has_many);
 	PHALCON_CALL_METHOD_PARAMS_1(has_many, this_ptr, "gethasmany", model, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_2(r0, "array_merge", has_one, has_many);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(merge);
+	PHALCON_CALL_FUNC_PARAMS_2(merge, "array_merge", has_one, has_many);
+	
+	RETURN_CCTOR(merge);
 }
 
+/**
+ * Query the relations between two models
+ *
+ * @param string $first
+ * @param string $second
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
-	zval *a = NULL, *b = NULL, *belongs_to = NULL, *relation = NULL, *has_many = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *first = NULL, *second = NULL, *belongs_to = NULL, *relation = NULL, *has_many = NULL;
+	zval *has_one = NULL;
+	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &a, &b) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &first, &second) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(belongs_to);
 	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(belongs_to, a);
+	eval_int = phalcon_array_isset(belongs_to, first);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch(&r0, belongs_to, a, PH_NOISY_CC);
-		eval_int = phalcon_array_isset(r0, b);
+		phalcon_array_fetch(&r0, belongs_to, first, PH_NOISY_CC);
+		eval_int = phalcon_array_isset(r0, second);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r1);
-			phalcon_array_fetch(&r1, belongs_to, a, PH_NOISY_CC);
+			phalcon_array_fetch(&r1, belongs_to, first, PH_NOISY_CC);
 			PHALCON_INIT_VAR(relation);
-			phalcon_array_fetch(&relation, r1, b, PH_NOISY_CC);
+			phalcon_array_fetch(&relation, r1, second, PH_NOISY_CC);
 			
 			RETURN_CCTOR(relation);
 		}
@@ -1186,16 +1219,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	
 	PHALCON_INIT_VAR(has_many);
 	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(has_many, a);
+	eval_int = phalcon_array_isset(has_many, first);
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r2);
-		phalcon_array_fetch(&r2, has_many, a, PH_NOISY_CC);
-		eval_int = phalcon_array_isset(r2, b);
+		phalcon_array_fetch(&r2, has_many, first, PH_NOISY_CC);
+		eval_int = phalcon_array_isset(r2, second);
 		if (eval_int) {
 			PHALCON_ALLOC_ZVAL_MM(r3);
-			phalcon_array_fetch(&r3, has_many, a, PH_NOISY_CC);
+			phalcon_array_fetch(&r3, has_many, first, PH_NOISY_CC);
 			PHALCON_INIT_VAR(relation);
-			phalcon_array_fetch(&relation, r3, b, PH_NOISY_CC);
+			phalcon_array_fetch(&relation, r3, second, PH_NOISY_CC);
+			
+			RETURN_CCTOR(relation);
+		}
+	}
+	
+	PHALCON_INIT_VAR(has_one);
+	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(has_one, first);
+	if (eval_int) {
+		PHALCON_ALLOC_ZVAL_MM(r4);
+		phalcon_array_fetch(&r4, has_one, first, PH_NOISY_CC);
+		eval_int = phalcon_array_isset(r4, second);
+		if (eval_int) {
+			PHALCON_ALLOC_ZVAL_MM(r5);
+			phalcon_array_fetch(&r5, has_one, first, PH_NOISY_CC);
+			PHALCON_INIT_VAR(relation);
+			phalcon_array_fetch(&relation, r5, second, PH_NOISY_CC);
 			
 			RETURN_CCTOR(relation);
 		}
@@ -1205,6 +1255,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	RETURN_FALSE;
 }
 
+/**
+ * Creates a Phalcon\Mvc\Model\Query without execute it
+ *
+ * @param string $phql
+ * @return Phalcon\Mvc\Model\Query
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 
 	zval *phql = NULL, *dependency_injector = NULL, *query = NULL;
@@ -1231,6 +1287,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 	RETURN_CTOR(query);
 }
 
+/**
+ * Creates a Phalcon\Mvc\Model\Query and execute it
+ *
+ * @param string $phql
+ * @param array $placeholders
+ * @return Phalcon\Mvc\Model\Query
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 
 	zval *phql = NULL, *placeholders = NULL, *dependency_injector = NULL;

@@ -95,7 +95,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	zval *model = NULL, *row_model = NULL, *attribute = NULL, *column_alias = NULL;
 	zval *value = NULL, *model_attribute = NULL, *model_name = NULL, *n_alias = NULL;
 	zval *rows = NULL;
-	zval *i0 = NULL;
 	zval *c0 = NULL, *c1 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -148,11 +147,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 						PHALCON_INIT_VAR(attributes);
 						phalcon_array_fetch_string(&attributes, column, SL("attributes"), PH_NOISY_CC);
 						
-						PHALCON_INIT_VAR(i0);
-						if (phalcon_clone(i0, instance TSRMLS_CC) == FAILURE){
+						PHALCON_INIT_VAR(model);
+						if (phalcon_clone(model, instance TSRMLS_CC) == FAILURE) {
 							return;
 						}
-						PHALCON_CPY_WRT(model, i0);
 						
 						PHALCON_INIT_VAR(row_model);
 						array_init(row_model);

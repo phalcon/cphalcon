@@ -83,9 +83,9 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
-	zval *dependency_injector = NULL, *auto_begin = NULL, *connection = NULL;
+	zval *dependency_injector = NULL, *auto_begin = NULL, *service = NULL;
+	zval *connection = NULL;
 	zval *a0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -108,11 +108,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "db", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "db", 1);
 	
 	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", service, PH_NO_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	if (zend_is_true(auto_begin)) {
 		PHALCON_CALL_METHOD_NORETURN(connection, "begin", PH_NO_CHECK);
@@ -131,7 +131,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 	zval *manager = NULL;
 	zval *i0 = NULL;
 	zval *r0 = NULL;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 	
@@ -141,9 +140,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 	}
 
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		ce0 = zend_fetch_class(SL("Phalcon_Transaction_Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		PHALCON_ALLOC_ZVAL_MM(i0);
-		object_init_ex(i0, ce0);
+		object_init_ex(i0, phalcon_mvc_model_transaction_exception_ce);
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		PHALCON_CONCAT_VS(r0, manager, " must be an Object");
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", r0, PH_CHECK);

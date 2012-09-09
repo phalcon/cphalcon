@@ -803,7 +803,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
 PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 
 	zval *base = NULL, *result = NULL, *object = NULL, *value = NULL, *key = NULL;
-	zval *i0 = NULL;
 	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -820,11 +819,10 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(i0);
-	if (phalcon_clone(i0, base TSRMLS_CC) == FAILURE){
+	PHALCON_INIT_VAR(object);
+	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	PHALCON_CPY_WRT(object, i0);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_BOOL(c0, 1);
@@ -2528,12 +2526,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 0);
-		fs_0:
+		ph_cycle_start_0:
 			
 			PHALCON_INIT_VAR(r0);
 			is_smaller_function(r0, i, num_fields TSRMLS_CC);
 			if (!zend_is_true(r0)) {
-				goto fe_0;
+				goto ph_cycle_end_0;
 			}
 			PHALCON_INIT_VAR(is_null);
 			ZVAL_BOOL(is_null, 0);
@@ -2577,7 +2575,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 					PHALCON_INIT_VAR(is_identity_field);
 					is_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
 					if (zend_is_true(is_identity_field)) {
-						goto fi_0;
+						goto ph_cycle_incr_0;
 					}
 				}
 				
@@ -2599,11 +2597,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 				PHALCON_INIT_VAR(error);
 				ZVAL_BOOL(error, 1);
 			}
-			fi_0:
+			ph_cycle_incr_0:
 			PHALCON_SEPARATE(i);
 			increment_function(i);
-			goto fs_0;
-		fe_0:
+			goto ph_cycle_start_0;
+		ph_cycle_end_0:
 		if (zend_is_true(error)) {
 			if (!zend_is_true(disable_events)) {
 				PHALCON_INIT_VAR(event_name);

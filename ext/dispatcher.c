@@ -372,9 +372,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *events_manager = NULL, *event_name = NULL, *status = NULL, *value = NULL;
 	zval *handler = NULL, *number_dispatches = NULL, *maximum_routes = NULL;
 	zval *handler_suffix = NULL, *action_suffix = NULL, *default_namespace = NULL;
-	zval *finished = NULL, *handler_name = NULL, *has_namespace = NULL;
-	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
-	zval *action_name = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
+	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
+	zval *has_namespace = NULL, *camelized_class = NULL, *handler_class = NULL;
+	zval *has_service = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
 	zval *cyclic_routing = NULL;
 	zval *t0 = NULL;
 
@@ -440,6 +440,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
 		}
 		
+		PHALCON_INIT_VAR(action_name);
+		phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+		if (!zend_is_true(action_name)) {
+			PHALCON_INIT_VAR(action_name);
+			phalcon_read_property(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
+		}
+		
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:beforeDispatch", 1);
@@ -487,14 +495,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 		if (phalcon_method_exists_ex(handler, SL("initialize") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_NORETURN(handler, "initialize", PH_NO_CHECK);
-		}
-		
-		PHALCON_INIT_VAR(action_name);
-		phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
-		if (!zend_is_true(action_name)) {
-			PHALCON_INIT_VAR(action_name);
-			phalcon_read_property(&action_name, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 		}
 		
 		PHALCON_INIT_VAR(action_method);
