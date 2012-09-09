@@ -3,7 +3,8 @@
 class MainTask extends \Phalcon\CLI\Task
 {
 
-    public function mainAction() {
+    public function mainAction()
+    {
         return "mainAction";
     }
 
@@ -12,7 +13,8 @@ class MainTask extends \Phalcon\CLI\Task
         return $this->di->get('data') ;
     }
 
-    public function helloAction($world = "", $symbol = "!") {
+    public function helloAction($world = "", $symbol = "!")
+    {
         return "Hello " . $world . $symbol;
     }
 }

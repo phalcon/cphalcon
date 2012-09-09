@@ -1,3 +1,4 @@
+<?php
 
 /*
   +------------------------------------------------------------------------+
@@ -14,65 +15,49 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+class TasksCliTest extends PHPUnit_Framework_TestCase
+{
 
-#include "php.h"
-#include "php_phalcon.h"
-#include "phalcon.h"
+	public function dispatcherAutoloader($className)
+	{
+		if (file_exists('unit-tests/tasks/'.$className.'.php')) {
+			require 'unit-tests/tasks/'.$className.'.php';
+		}
+	}
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'dispatcherAutoloader'));
+	}
 
-#include "kernel/main.h"
-#include "kernel/memory.h"
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
+	}
 
-/**
- * Phalcon\CLI\Task
- *
- * Every command-line task should extend this class that encapsulates all the task functionality
- *
- * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
- * The Task class should at least have a "runAction" method
- *
- *<code>
- *
- *
- *class HelloTask extends \Phalcon\CLI\Task
- *{
- *
- *  //This action will be executed by default
- *  public function runAction()
- *  {
- *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *  //This action will be executed when a non existent action is requested
- *  public function notFoundAction()
- *  {
- *
- *  }
- *
- *}
- *
- *</code>
- */
+	public function testTasks()
+	{
 
-PHP_METHOD(Phalcon_CLI_Task, __construct){
+		$di = new \Phalcon\DI\FactoryDefault\CLI();
 
+		$di->set('data', function(){
+			return "data";
+		});
 
-	PHALCON_MM_GROW();
-	
-	PHALCON_MM_RESTORE();
+		$task = new MainTask();
+		$task->setDI($di);
+
+		$this->assertEquals($task->requestDiAction(), 'data');
+		$this->assertEquals($task->helloAction(), 'Hello !');
+		$this->assertEquals($task->helloAction('World'), 'Hello World!');
+
+		$task2 = new EchoTask();
+		$task2->setDI($di);
+		$this->assertEquals($task2->mainAction(), 'echoMainAction');
+	}
+
 }
-

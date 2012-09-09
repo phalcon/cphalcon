@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class RouterTest extends PHPUnit_Framework_TestCase
+class RouterMvcTest extends PHPUnit_Framework_TestCase
 {
 
 	private function _runTest($router, $test)

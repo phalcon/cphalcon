@@ -33,11 +33,11 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Db\Dialect\Sqlite
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon_Db_Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon\\Db\\Column");
 		return;
 	}
 	
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	
 	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
+		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
 		goto ph_end_0;
 	}
 	
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 		goto ph_end_0;
 	}
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Sqlite data type");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
 	return;
 	
 	ph_end_0:
@@ -323,8 +323,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 
-	zval *definition = NULL;
-	zval *a0 = NULL;
+	zval *definition = NULL, *empty_array = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -333,14 +332,14 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
 	
-	RETURN_CTOR(a0);
+	RETURN_CTOR(empty_array);
 }
 
 /**
- * Generates SQL to create a table in Sqlite
+ * Generates SQL to create a table in PostgreSQL
  *
  * @param 	string $tableName
  * @param string $schemaName
@@ -422,9 +421,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists){
 		ZVAL_NULL(schema_name);
 	}
 	
-    PHALCON_INIT_VAR(sql);
-    PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='", table_name, "'");
-
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM sqlite_master WHERE type='table' AND tbl_name='", table_name, "'");
+	
 	RETURN_CTOR(sql);
 }
 
@@ -453,9 +452,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns){
 		ZVAL_NULL(schema);
 	}
 	
-    PHALCON_INIT_VAR(sql);
-    PHALCON_CONCAT_SVS(sql, "PRAGMA table_info('", table, "')");
-
+	PHALCON_INIT_VAR(sql);
+	PHALCON_CONCAT_SVS(sql, "PRAGMA table_info('", table, "')");
+	
 	RETURN_CTOR(sql);
 }
 
@@ -483,9 +482,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables){
 		ZVAL_NULL(schema_name);
 	}
 	
-    PHALCON_INIT_VAR(sql);
-    ZVAL_STRING(sql, "SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name", 1);
-
+	PHALCON_INIT_VAR(sql);
+	ZVAL_STRING(sql, "SELECT tbl_name FROM sqlite_master WHERE type = 'table' ORDER BY tbl_name", 1);
+	
 	RETURN_CTOR(sql);
 }
 
@@ -521,24 +520,23 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes){
 /**
  * Generates SQL to query indexes detail on a table
  *
- * @param string $table
- * @param string $schema
+ * @param string $indexName
  * @return string
  */
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _describeIndexes){
+PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex){
 
-	zval *indexName = NULL, *sql = NULL;
+	zval *index_name = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &indexName) == FAILURE) {
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CONCAT_SVS(sql, "PRAGMA index_info('", indexName, "')");
-
+	PHALCON_CONCAT_SVS(sql, "PRAGMA index_info('", index_name, "')");
+	
 	RETURN_CTOR(sql);
 }
 
@@ -567,7 +565,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences){
 	
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CONCAT_SVS(sql, "PRAGMA foreign_key_list('", table, "')");
-
+	
 	RETURN_CTOR(sql);
 }
 
@@ -580,8 +578,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *table = NULL, *schema = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -595,19 +592,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 		ZVAL_NULL(schema);
 	}
 	
-	PHALCON_INIT_VAR(sql);
-	ZVAL_STRING(sql, "SELECT TABLES.TABLE_TYPE,TABLES.AUTO_INCREMENT,TABLES.ENGINE,TABLES.TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE ", 1);
-	if (zend_is_true(schema)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVSVS(r0, "TABLES.TABLE_SCHEMA = \"", schema, "\" AND TABLES.TABLE_NAME = \"", table, "\"");
-		phalcon_concat_self(&sql, r0 TSRMLS_CC);
-	} else {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "TABLES.TABLE_NAME = \"", table, "\"");
-		phalcon_concat_self(&sql, r1 TSRMLS_CC);
-	}
-	
-	
-	RETURN_CTOR(sql);
+	PHALCON_MM_RESTORE();
+	RETURN_STRING("", 1);
 }
 

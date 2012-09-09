@@ -52,11 +52,108 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct){
 
 	PHALCON_MM_GROW();
 
+	
 	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	zend_update_property(phalcon_mvc_model_criteria_ce, this_ptr, SL("_params"), a0 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
+
+	zval *dependency_injector = NULL;
+	zval *t0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
+		return;
+	}
+	
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_params"), PH_NOISY_CC);
+	phalcon_array_update_string(&t0, SL("di"), &dependency_injector, PH_COPY TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_params"), t0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
+
+	zval *params = NULL, *dependency_injector = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset_string(params, SL("di")+1);
+	if (eval_int) {
+		PHALCON_INIT_VAR(dependency_injector);
+		phalcon_array_fetch_string(&dependency_injector, params, SL("di"), PH_NOISY_CC);
+		
+		RETURN_CCTOR(dependency_injector);
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
+ * Set a model on which the query will be executed
+ *
+ * @param string $modelName
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
+
+	zval *model_name = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(model_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_model"), model_name TSRMLS_CC);
+	
+	RETURN_CCTOR(this_ptr);
+}
+
+/**
+ * Returns an internal model name on which the criteria will be applied
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
+
+	zval *model = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(model);
+	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(model);
 }
 
 /**
@@ -408,8 +505,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	zval *conditions = NULL, *number_data = NULL, *service = NULL, *meta_data = NULL;
 	zval *model = NULL, *data_types = NULL, *bind = NULL, *value = NULL, *field = NULL, *type = NULL;
 	zval *condition = NULL, *value_pattern = NULL, *criteria = NULL, *number_conditions = NULL;
-	zval *join_conditions = NULL;
-	zval *c0 = NULL;
+	zval *sql_and = NULL, *join_conditions = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -510,15 +606,37 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	PHALCON_INIT_VAR(number_conditions);
 	phalcon_fast_count(number_conditions, conditions TSRMLS_CC);
 	if (!phalcon_compare_strict_long(number_conditions, 0 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, " AND ", 1);
+		PHALCON_INIT_VAR(sql_and);
+		ZVAL_STRING(sql_and, " AND ", 1);
+		
 		PHALCON_INIT_VAR(join_conditions);
-		phalcon_fast_join(join_conditions, c0, conditions TSRMLS_CC);
+		phalcon_fast_join(join_conditions, sql_and, conditions TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(criteria, "where", join_conditions, PH_NO_CHECK);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(criteria, "bind", bind, PH_NO_CHECK);
 	}
 	
 	
 	RETURN_CTOR(criteria);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
+
+	zval *model = NULL, *params = NULL, *x = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(model);
+	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
+	if (Z_TYPE_P(model) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Model name must be string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(params);
+	array_init(params);
+	
+	PHALCON_INIT_VAR(x);
+	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(x, model, "find", params);
+	
+	PHALCON_MM_RESTORE();
 }
 

@@ -41,7 +41,7 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon_DI
+ * Phalcon\DI
  *
  */
 

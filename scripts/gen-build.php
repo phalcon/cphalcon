@@ -8,7 +8,7 @@
  * Usage: php scripts/gen-build.php
  *
  * Build scripts join the whole framework into a single file called phalcon.c
- * External symbol declarations are removed in order to produce a smaller compilation object
+ * External symbol declarations are removed in order to produce a smaller compilation object in some old compilers
  */
 
 class Build_Generator {

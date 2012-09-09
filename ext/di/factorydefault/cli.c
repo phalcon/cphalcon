@@ -32,46 +32,38 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/fcall.h"
+#include "kernel/object.h"
+
 /**
- * Phalcon\CLI\Task
+ * Phalcon\DI\FactoryDefault\CLI
  *
- * Every command-line task should extend this class that encapsulates all the task functionality
- *
- * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
- * The Task class should at least have a "runAction" method
- *
- *<code>
- *
- *
- *class HelloTask extends \Phalcon\CLI\Task
- *{
- *
- *  //This action will be executed by default
- *  public function runAction()
- *  {
- *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *  //This action will be executed when a non existent action is requested
- *  public function notFoundAction()
- *  {
- *
- *  }
- *
- *}
- *
- *</code>
+ * This is a variant of the standard Phalcon\DI. By default it automatically
+ * registers all the services provided by the framework.
+ * Thanks to this, the developer does not need to register each service individually.
+ * This class is specially suitable for CLI applications
  */
 
-PHP_METHOD(Phalcon_CLI_Task, __construct){
+/**
+ * Phalcon\DI\FactoryDefault\CLI constructor
+ */
+PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
+	zval *services = NULL;
 
 	PHALCON_MM_GROW();
+	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\DI\\FactoryDefault\\CLI", "__construct");
+	
+	PHALCON_INIT_VAR(services);
+	array_init(services);
+	add_assoc_stringl_ex(services, SL("router")+1, SL("Phalcon\\CLI\\Router"), 1);
+	add_assoc_stringl_ex(services, SL("dispatcher")+1, SL("Phalcon\\CLI\\Dispatcher"), 1);
+	add_assoc_stringl_ex(services, SL("modelsManager")+1, SL("Phalcon\\Mvc\\Model\\Manager"), 1);
+	add_assoc_stringl_ex(services, SL("modelsMetadata")+1, SL("Phalcon\\Mvc\\Model\\Metadata\\Memory"), 1);
+	add_assoc_stringl_ex(services, SL("filter")+1, SL("Phalcon\\Filter"), 1);
+	add_assoc_stringl_ex(services, SL("flash")+1, SL("Phalcon\\Flash\\Direct"), 1);
+	add_assoc_stringl_ex(services, SL("eventsManager")+1, SL("Phalcon\\Events\\Manager"), 1);
+	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

@@ -33,46 +33,9 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon\CLI\Task
+ * Phalcon\CLI\Dispatcher\Exception
  *
- * Every command-line task should extend this class that encapsulates all the task functionality
+ * Exceptions thrown in Phalcon\CLI\Dispatcher will use this class
  *
- * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
- * The Task class should at least have a "runAction" method
- *
- *<code>
- *
- *
- *class HelloTask extends \Phalcon\CLI\Task
- *{
- *
- *  //This action will be executed by default
- *  public function runAction()
- *  {
- *
- *  }
- *
- *  public function findAction()
- *  {
- *
- *  }
- *
- *  //This action will be executed when a non existent action is requested
- *  public function notFoundAction()
- *  {
- *
- *  }
- *
- *}
- *
- *</code>
  */
-
-PHP_METHOD(Phalcon_CLI_Task, __construct){
-
-
-	PHALCON_MM_GROW();
-	
-	PHALCON_MM_RESTORE();
-}
 

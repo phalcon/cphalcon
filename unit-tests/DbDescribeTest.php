@@ -652,8 +652,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describeReferences = $connection->describeReferences('robots_parts', 'public');
 		$this->assertEquals($describeReferences, $expectedReferences);
 
-		/**/
-
 	}
 
     public function testDbSqlite()
@@ -736,8 +734,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
    		$describeReferences = $connection->describeReferences('robots_parts', 'public');
    		$this->assertEquals($describeReferences, $expectedReferences);
-
-   		/**/
 
    	}
 

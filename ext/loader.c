@@ -79,6 +79,11 @@ PHP_METHOD(Phalcon_Loader, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets the events manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
 PHP_METHOD(Phalcon_Loader, setEventsManager){
 
 	zval *events_manager = NULL;
@@ -290,12 +295,12 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 
 	zval *class_name = NULL, *events_manager = NULL, *event_name = NULL;
 	zval *classes = NULL, *file_path = NULL, *extensions = NULL, *ds = NULL, *namespace_separator = NULL;
-	zval *namespaces = NULL, *empty_str = NULL, *directory = NULL, *preffix = NULL;
-	zval *preffix_len = NULL, *possible_preffix = NULL, *prefix_namespace = NULL;
-	zval *file_name = NULL, *extension = NULL, *complete_path = NULL;
-	zval *path = NULL, *ds_class_name = NULL, *prefixes = NULL, *directories = NULL;
-	zval *c0 = NULL;
-	zval *r0 = NULL;
+	zval *empty_str = NULL, *zero = NULL, *namespaces = NULL, *directory = NULL;
+	zval *preffix = NULL, *preffix_len = NULL, *possible_preffix = NULL;
+	zval *prefix_namespace = NULL, *file_name = NULL, *extension = NULL;
+	zval *complete_path = NULL, *path = NULL, *prefixes = NULL, *ds_class_name = NULL;
+	zval *directories = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
 	HashPosition hp0, hp1, hp2, hp3, hp4;
 	zval **hd;
@@ -352,11 +357,15 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	PHALCON_INIT_VAR(namespace_separator);
 	ZVAL_STRING(namespace_separator, "\\", 1);
 	
+	PHALCON_INIT_VAR(empty_str);
+	ZVAL_STRING(empty_str, "", 1);
+	
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
 	PHALCON_INIT_VAR(namespaces);
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(empty_str);
-		ZVAL_STRING(empty_str, "", 1);
 		
 		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
 			return;
@@ -378,11 +387,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_VAR(preffix_len);
 			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
 			
-			PHALCON_INIT_VAR(c0);
-			ZVAL_LONG(c0, 0);
-			
 			PHALCON_INIT_VAR(possible_preffix);
-			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, c0, preffix_len);
+			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
 			
 			PHALCON_INIT_VAR(r0);
 			is_equal_function(r0, possible_preffix, preffix TSRMLS_CC);
@@ -454,9 +460,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		
 	}
 	
-	PHALCON_INIT_VAR(ds_class_name);
-	phalcon_fast_str_replace(ds_class_name, namespace_separator, ds, class_name TSRMLS_CC);
-	
 	PHALCON_INIT_VAR(prefixes);
 	phalcon_read_property(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
@@ -478,6 +481,16 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(preffix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
+			PHALCON_INIT_VAR(preffix_len);
+			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			
+			PHALCON_INIT_VAR(possible_preffix);
+			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
+			
+			PHALCON_INIT_VAR(r1);
+			is_equal_function(r1, possible_preffix, preffix TSRMLS_CC);
+			if (zend_is_true(r1)) {
+			}
 			
 			zend_hash_move_forward_ex(ah2, &hp2);
 			goto ph_cycle_start_2;
@@ -486,6 +499,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		if(0){}
 		
 	}
+	
+	PHALCON_INIT_VAR(ds_class_name);
+	phalcon_fast_str_replace(ds_class_name, namespace_separator, ds, class_name TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(directories);
 	phalcon_read_property(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
@@ -565,6 +581,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	RETURN_FALSE;
 }
 
+/**
+ * Get the path when a class was found
+ *
+ * @param string
+ */
 PHP_METHOD(Phalcon_Loader, getFoundPath){
 
 	zval *found_path = NULL;
@@ -576,6 +597,11 @@ PHP_METHOD(Phalcon_Loader, getFoundPath){
 	RETURN_CCTOR(found_path);
 }
 
+/**
+ * Get the path the loader is checking
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Loader, getCheckedPath){
 
 	zval *checked_path = NULL;

@@ -45,8 +45,6 @@
 	 phalcon_concat_vsvsvsv(result, op1, op2, strlen(op2), op3, op4, strlen(op4), op5, op6, strlen(op6), op7 TSRMLS_CC);
 #define PHALCON_CONCAT_VV(result, op1, op2) \
 	 phalcon_concat_vv(result, op1, op2 TSRMLS_CC);
-#define PHALCON_CONCAT_VVS(result, op1, op2, op3) \
-	 phalcon_concat_vvs(result, op1, op2, op3, strlen(op3) TSRMLS_CC);
 #define PHALCON_CONCAT_VVSV(result, op1, op2, op3, op4) \
 	 phalcon_concat_vvsv(result, op1, op2, op3, strlen(op3), op4 TSRMLS_CC);
 #define PHALCON_CONCAT_VVV(result, op1, op2, op3) \
@@ -68,7 +66,6 @@ extern void phalcon_concat_vsvs(zval *result, zval *op1, char *op2, zend_uint op
 extern void phalcon_concat_vsvsvs(zval *result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len TSRMLS_DC);
 extern void phalcon_concat_vsvsvsv(zval *result, zval *op1, char *op2, zend_uint op2_len, zval *op3, char *op4, zend_uint op4_len, zval *op5, char *op6, zend_uint op6_len, zval *op7 TSRMLS_DC);
 extern void phalcon_concat_vv(zval *result, zval *op1, zval *op2 TSRMLS_DC);
-extern void phalcon_concat_vvs(zval *result, zval *op1, zval *op2, char *op3, zend_uint op3_len TSRMLS_DC);
 extern void phalcon_concat_vvsv(zval *result, zval *op1, zval *op2, char *op3, zend_uint op3_len, zval *op4 TSRMLS_DC);
 extern void phalcon_concat_vvv(zval *result, zval *op1, zval *op2, zval *op3 TSRMLS_DC);
 extern void phalcon_concat_vvvvv(zval *result, zval *op1, zval *op2, zval *op3, zval *op4, zval *op5 TSRMLS_DC);
