@@ -82,7 +82,6 @@ zend_class_entry *phalcon_mvc_model_transaction_ce;
 zend_class_entry *phalcon_mvc_user_plugin_ce;
 zend_class_entry *phalcon_mvc_user_component_ce;
 zend_class_entry *phalcon_mvc_application_ce;
-zend_class_entry *phalcon_test_ce;
 zend_class_entry *phalcon_config_exception_ce;
 zend_class_entry *phalcon_config_adapter_ini_ce;
 zend_class_entry *phalcon_exception_ce;
@@ -105,10 +104,6 @@ zend_class_entry *phalcon_paginator_adapter_model_ce;
 zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 zend_class_entry *phalcon_tag_exception_ce;
 zend_class_entry *phalcon_tag_select_ce;
-zend_class_entry *phalcon_internal_test_ce;
-zend_class_entry *phalcon_internal_testparent_ce;
-zend_class_entry *phalcon_internal_testtemp_ce;
-zend_class_entry *phalcon_internal_testdummy_ce;
 zend_class_entry *phalcon_filter_exception_ce;
 zend_class_entry *phalcon_flash_direct_ce;
 zend_class_entry *phalcon_flash_exception_ce;
@@ -348,8 +343,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	PHALCON_REGISTER_CLASS(Phalcon, Test, test, phalcon_test_method_entry, 0);
-
 	PHALCON_REGISTER_CLASS(Phalcon, Db, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	zend_declare_property_null(phalcon_db_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -411,14 +404,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Tag, Select, tag_select, phalcon_tag_select_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Internal, TestParent, internal_testparent, phalcon_internal_testparent_method_entry, 0);
-	zend_declare_property_long(phalcon_internal_testparent_ce, SL("_pp0"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Internal, TestTemp, internal_testtemp, phalcon_internal_testtemp_method_entry, 0);
-
-	PHALCON_REGISTER_CLASS(Phalcon\\Internal, TestDummy, internal_testdummy, phalcon_internal_testdummy_method_entry, 0);
-	zend_declare_property_null(phalcon_internal_testdummy_ce, SL("_d1"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Dispatcher, dispatcher, phalcon_dispatcher_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -711,8 +696,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Paginator, Exception, paginator_exception, "phalcon\\exception", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Tag, Exception, tag_exception, "phalcon\\exception", NULL, 0);
-
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Internal, Test, internal_test, "phalcon\\internal\\testparent", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Filter, Exception, filter_exception, "phalcon\\exception", NULL, 0);
 

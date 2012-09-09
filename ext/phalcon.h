@@ -67,7 +67,6 @@ extern zend_class_entry *phalcon_mvc_model_transaction_ce;
 extern zend_class_entry *phalcon_mvc_user_plugin_ce;
 extern zend_class_entry *phalcon_mvc_user_component_ce;
 extern zend_class_entry *phalcon_mvc_application_ce;
-extern zend_class_entry *phalcon_test_ce;
 extern zend_class_entry *phalcon_config_exception_ce;
 extern zend_class_entry *phalcon_config_adapter_ini_ce;
 extern zend_class_entry *phalcon_exception_ce;
@@ -90,10 +89,6 @@ extern zend_class_entry *phalcon_paginator_adapter_model_ce;
 extern zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 extern zend_class_entry *phalcon_tag_exception_ce;
 extern zend_class_entry *phalcon_tag_select_ce;
-extern zend_class_entry *phalcon_internal_test_ce;
-extern zend_class_entry *phalcon_internal_testparent_ce;
-extern zend_class_entry *phalcon_internal_testtemp_ce;
-extern zend_class_entry *phalcon_internal_testdummy_ce;
 extern zend_class_entry *phalcon_filter_exception_ce;
 extern zend_class_entry *phalcon_flash_direct_ce;
 extern zend_class_entry *phalcon_flash_exception_ce;
@@ -578,8 +573,6 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules);
 PHP_METHOD(Phalcon_Mvc_Application, getModules);
 PHP_METHOD(Phalcon_Mvc_Application, handle);
 
-PHP_METHOD(Phalcon_Test, nice);
-
 
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct);
 
@@ -722,29 +715,6 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate);
 PHP_METHOD(Phalcon_Tag_Select, selectField);
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset);
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray);
-
-
-PHP_METHOD(Phalcon_Internal_TestParent, mp1);
-PHP_METHOD(Phalcon_Internal_TestParent, mp2);
-PHP_METHOD(Phalcon_Internal_TestParent, mp7);
-PHP_METHOD(Phalcon_Internal_TestParent, smp1);
-PHP_METHOD(Phalcon_Internal_TestParent, smp3);
-PHP_METHOD(Phalcon_Internal_TestParent, smp6);
-
-PHP_METHOD(Phalcon_Internal_TestTemp, e5a);
-PHP_METHOD(Phalcon_Internal_TestTemp, e9a);
-PHP_METHOD(Phalcon_Internal_TestTemp, e10a);
-PHP_METHOD(Phalcon_Internal_TestTemp, e13a);
-PHP_METHOD(Phalcon_Internal_TestTemp, e13b);
-PHP_METHOD(Phalcon_Internal_TestTemp, e13c);
-PHP_METHOD(Phalcon_Internal_TestTemp, e13d);
-PHP_METHOD(Phalcon_Internal_TestTemp, e14);
-PHP_METHOD(Phalcon_Internal_TestTemp, e15);
-
-PHP_METHOD(Phalcon_Internal_TestDummy, __construct);
-PHP_METHOD(Phalcon_Internal_TestDummy, f1);
-PHP_METHOD(Phalcon_Internal_TestDummy, f2);
-PHP_METHOD(Phalcon_Internal_TestDummy, f3);
 
 
 PHP_METHOD(Phalcon_Flash_Direct, message);
@@ -1120,6 +1090,8 @@ PHP_METHOD(Phalcon_CLI_Router, getParams);
 
 PHP_METHOD(Phalcon_CLI_Console, setDI);
 PHP_METHOD(Phalcon_CLI_Console, getDI);
+PHP_METHOD(Phalcon_CLI_Console, setEventsManager);
+PHP_METHOD(Phalcon_CLI_Console, getEventsManager);
 PHP_METHOD(Phalcon_CLI_Console, registerModules);
 PHP_METHOD(Phalcon_CLI_Console, addModules);
 PHP_METHOD(Phalcon_CLI_Console, getModules);
@@ -2367,27 +2339,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_select_selectfield, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testparent_mp2, 0, 0, 2)
-	ZEND_ARG_INFO(0, a)
-	ZEND_ARG_INFO(0, b)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testtemp_e14, 0, 0, 1)
-	ZEND_ARG_INFO(0, val)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testdummy___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, p1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testdummy_f1, 0, 0, 1)
-	ZEND_ARG_INFO(0, p1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_internal_testdummy_f3, 0, 0, 1)
-	ZEND_ARG_INFO(0, d1)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_direct_message, 0, 0, 2)
 	ZEND_ARG_INFO(0, type)
 	ZEND_ARG_INFO(0, message)
@@ -2404,6 +2355,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_getmessages, 0, 0, 0)
 	ZEND_ARG_INFO(0, type)
+	ZEND_ARG_INFO(0, remove)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash_session_output, 0, 0, 0)
+	ZEND_ARG_INFO(0, remove)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdi, 0, 0, 1)
@@ -3141,6 +3097,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_seteventsmanager, 0, 0, 1)
+	ZEND_ARG_INFO(0, eventsManager)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_registermodules, 0, 0, 1)
 	ZEND_ARG_INFO(0, modules)
 ZEND_END_ARG_INFO()
@@ -3727,11 +3687,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_application_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_test_method_entry){
-	PHP_ME(Phalcon_Test, nice, NULL, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
 PHALCON_INIT_FUNCS(phalcon_config_adapter_ini_method_entry){
 	PHP_ME(Phalcon_Config_Adapter_Ini, __construct, arginfo_phalcon_config_adapter_ini___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_FE_END
@@ -3917,37 +3872,6 @@ PHALCON_INIT_FUNCS(phalcon_tag_select_method_entry){
 	PHP_FE_END
 };
 
-PHALCON_INIT_FUNCS(phalcon_internal_testparent_method_entry){
-	PHP_ME(Phalcon_Internal_TestParent, mp1, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestParent, mp2, arginfo_phalcon_internal_testparent_mp2, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestParent, mp7, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestParent, smp1, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Internal_TestParent, smp3, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Internal_TestParent, smp6, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_internal_testtemp_method_entry){
-	PHP_ME(Phalcon_Internal_TestTemp, e5a, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e9a, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e10a, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e13a, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e13b, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e13c, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e13d, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e14, arginfo_phalcon_internal_testtemp_e14, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestTemp, e15, NULL, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_internal_testdummy_method_entry){
-	PHP_ME(Phalcon_Internal_TestDummy, __construct, arginfo_phalcon_internal_testdummy___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Internal_TestDummy, f1, arginfo_phalcon_internal_testdummy_f1, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestDummy, f2, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Internal_TestDummy, f3, arginfo_phalcon_internal_testdummy_f3, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
 PHALCON_INIT_FUNCS(phalcon_flash_direct_method_entry){
 	PHP_ME(Phalcon_Flash_Direct, message, arginfo_phalcon_flash_direct_message, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
@@ -3960,7 +3884,7 @@ PHALCON_INIT_FUNCS(phalcon_flash_session_method_entry){
 	PHP_ME(Phalcon_Flash_Session, _setSessionMessages, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Flash_Session, message, arginfo_phalcon_flash_session_message, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Flash_Session, getMessages, arginfo_phalcon_flash_session_getmessages, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Flash_Session, output, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Flash_Session, output, arginfo_phalcon_flash_session_output, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4427,6 +4351,8 @@ PHALCON_INIT_FUNCS(phalcon_cli_router_method_entry){
 PHALCON_INIT_FUNCS(phalcon_cli_console_method_entry){
 	PHP_ME(Phalcon_CLI_Console, setDI, arginfo_phalcon_cli_console_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, getDI, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_CLI_Console, setEventsManager, arginfo_phalcon_cli_console_seteventsmanager, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_CLI_Console, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, registerModules, arginfo_phalcon_cli_console_registermodules, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, addModules, arginfo_phalcon_cli_console_addmodules, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Console, getModules, NULL, ZEND_ACC_PUBLIC) 

@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	
 	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
+		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
 		goto ph_end_0;
 	}
 	
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 		goto ph_end_0;
 	}
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Sqlite data type");
 	return;
 	
 	ph_end_0:

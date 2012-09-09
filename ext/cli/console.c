@@ -89,6 +89,43 @@ PHP_METHOD(Phalcon_CLI_Console, getDI){
 }
 
 /**
+ * Sets the events manager
+ *
+ * @param Phalcon\Events\Manager $eventsManager
+ */
+PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\Manager
+ */
+PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
+
+	zval *events_manager = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(events_manager);
+}
+
+/**
  * Register an array of modules present in the console
  *
  *<code>
@@ -223,7 +260,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	if (zend_is_true(module_name)) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "application:beforeStartModule", 1);
+			ZVAL_STRING(event_name, "console:beforeStartModule", 1);
 			
 			PHALCON_INIT_VAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
@@ -291,7 +328,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "application:afterStartModule", 1);
+			ZVAL_STRING(event_name, "console:afterStartModule", 1);
 			
 			PHALCON_INIT_VAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
@@ -321,7 +358,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setparams", params, PH_NO_CHECK);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "application:beforeHandleTask", 1);
+		ZVAL_STRING(event_name, "console:beforeHandleTask", 1);
 		
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
@@ -335,7 +372,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	PHALCON_CALL_METHOD(task, dispatcher, "dispatch", PH_NO_CHECK);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
-		ZVAL_STRING(event_name, "application:afterHandleTask", 1);
+		ZVAL_STRING(event_name, "console:afterHandleTask", 1);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 	}
 	
