@@ -101,6 +101,8 @@ class Build_Generator {
 
 		/** Scan all c-files again and append it to phalcon.c */
 		$this->_recursiveAction($path, array($this, '_appendSource'));
+
+		$this->_appendSource($path."phalcon.c");
 	}
 
 	/**
@@ -168,8 +170,16 @@ class Build_Generator {
 				if (preg_match('/^#line /', $line)) {
 					continue;
 				}
-				$line = preg_replace('/^extern /', '', $line);
-				fputs($fileHandler, $line);
+				if (preg_match('/^extern ([A-Za-z\_]+)/', $line, $matches)) {
+					if ($matches[1] == 'ZEND_API' || $matches[1] == 'PHPAPI') {
+						fputs($fileHandler, $line);
+					} else {
+						$line = str_replace("extern ", "", $line);
+						fputs($fileHandler, $line);
+					}
+				} else {
+					fputs($fileHandler, $line);
+				}
 			}
 			if($trimLine=='*/'){
 				$openComment = false;
