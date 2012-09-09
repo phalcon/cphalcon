@@ -89,7 +89,7 @@ class AclTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testNegationOfInheritedRoles()
+	public function testNegationOfInheritedRoles_T65()
 	{
 		$acl = new \Phalcon\Acl\Adapter\Memory;
 		$acl->setDefaultAction(\Phalcon\Acl::DENY);
