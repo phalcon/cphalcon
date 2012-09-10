@@ -1018,10 +1018,16 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	if (!dependency_injector) {
 		PHALCON_ALLOC_ZVAL_MM(dependency_injector);
 		ZVAL_NULL(dependency_injector);
+	} else {
+		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
 	PHALCON_CALL_FUNC(model_name, "get_called_class");
+	if (Z_TYPE_P(dependency_injector) == IS_NULL) {
+		PHALCON_INIT_VAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	}
 	
 	PHALCON_INIT_VAR(criteria);
 	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);

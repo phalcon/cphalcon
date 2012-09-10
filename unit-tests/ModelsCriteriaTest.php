@@ -62,14 +62,8 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-
 			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
 		$this->_executeTests($di);
@@ -82,18 +76,76 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
 		$this->_executeTests($di);
 	}
 
-	protected function _executeTests($di){
+	public function testModelsSQLite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\SQLite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+	}
+
+
+	protected function _executeTests($di)
+	{
+
+		$personas = Personas::query()->where("estado='I'")->execute();
+		$people = People::find("estado='I'");
+		$this->assertEquals(count($personas), count($people));
+
+		$personas = Personas::query()->conditions("estado='I'")->execute();
+		$people = People::find("estado='I'");
+		$this->assertEquals(count($personas), count($people));
+
+		$personas = Personas::query()->where("estado='A'")->order("nombres")->execute();
+		$people = People::find(array("estado='A'", "order" => "nombres"));
+		$this->assertEquals(count($personas), count($people));
+
+		$somePersona = $personas->getFirst();
+		$somePeople = $people->getFirst();
+		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
+
+		$personas = Personas::query()->where("estado='A'")->order("nombres")->limit(100)->execute();
+		$people = People::find(array("estado='A'", "order" => "nombres", "limit" => 100));
+		$this->assertEquals(count($personas), count($people));
+
+		$somePersona = $personas->getFirst();
+		$somePeople = $people->getFirst();
+		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
+
+		$personas = Personas::query()
+			->where("estado=?1")
+			->bind(array(1 => "A"))
+			->order("nombres")
+			->limit(100)->execute();
+		$people = People::find(array("estado=?1", "bind" => array(1 => "A"), "order" => "nombres", "limit" => 100));
+		$this->assertEquals(count($personas), count($people));
+
+		$somePersona = $personas->getFirst();
+		$somePeople = $people->getFirst();
+		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
+
+		$personas = Personas::query()
+			->where("estado=:estado:")
+			->bind(array("estado" => "A"))
+			->order("nombres")
+			->limit(100)->execute();
+		$people = People::find(array("estado=:estado:", "bind" => array("estado" => "A"), "order" => "nombres", "limit" => 100));
+		$this->assertEquals(count($personas), count($people));
+
+		$somePersona = $personas->getFirst();
+		$somePeople = $people->getFirst();
+		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
 	}
 

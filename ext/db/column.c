@@ -62,6 +62,7 @@
  *
  */
 
+
 /**
  * Phalcon\Db\Column constructor
  *
@@ -85,7 +86,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_columnName"), column_name TSRMLS_CC);
-	eval_int = phalcon_array_isset_string(definition, SL("type")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("type"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(type);
 		phalcon_array_fetch_string(&type, definition, SL("type"), PH_NOISY_CC);
@@ -95,28 +96,28 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		return;
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("notNull")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("notNull"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(not_null);
 		phalcon_array_fetch_string(&not_null, definition, SL("notNull"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_notNull"), not_null TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("primary")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("primary"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(primary);
 		phalcon_array_fetch_string(&primary, definition, SL("primary"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_primary"), primary TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("size")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("size"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(size);
 		phalcon_array_fetch_string(&size, definition, SL("size"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("scale")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("scale"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 3);
@@ -128,7 +129,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		is_equal_function(r1, type, t1 TSRMLS_CC);
 		PHALCON_INIT_VAR(is_numeric);
 		ZVAL_BOOL(is_numeric, zend_is_true(r0) || zend_is_true(r1));
-		if (Z_TYPE_P(is_numeric) == IS_BOOL && Z_BVAL_P(is_numeric)) {
+		if (PHALCON_IS_TRUE(is_numeric)) {
 			PHALCON_INIT_VAR(scale);
 			phalcon_array_fetch_string(&scale, definition, SL("scale"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_scale"), scale TSRMLS_CC);
@@ -138,21 +139,21 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		}
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("unsigned")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("unsigned"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(dunsigned);
 		phalcon_array_fetch_string(&dunsigned, definition, SL("unsigned"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_unsigned"), dunsigned TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("isNumeric")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("isNumeric"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("autoIncrement")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("autoIncrement"));
 	if (eval_int) {
 		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(auto_increment);
@@ -164,14 +165,14 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		}
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("first")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("first"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(first);
 		phalcon_array_fetch_string(&first, definition, SL("first"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_first"), first TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(definition, SL("after")+1);
+	eval_int = phalcon_array_isset_string(definition, SS("after"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(after);
 		phalcon_array_fetch_string(&after, definition, SL("after"), PH_NOISY_CC);
@@ -389,62 +390,62 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	PHALCON_INIT_VAR(definition);
 	array_init(definition);
-	eval_int = phalcon_array_isset_string(data, SL("_columnName")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_columnName"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(column_name);
 		phalcon_array_fetch_string(&column_name, data, SL("_columnName"), PH_NOISY_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_type")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_type"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, data, SL("_type"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("type"), &column_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_notNull")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_notNull"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(not_null);
 		phalcon_array_fetch_string(&not_null, data, SL("_notNull"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("notNull"), &not_null, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_primary")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_primary"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(primary);
 		phalcon_array_fetch_string(&primary, data, SL("_primary"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("primary"), &primary, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_size")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_size"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(size);
 		phalcon_array_fetch_string(&size, data, SL("_size"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_unsigned")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_unsigned"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(dunsigned);
 		phalcon_array_fetch_string(&dunsigned, data, SL("_unsigned"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_after")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_after"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(after);
 		phalcon_array_fetch_string(&after, data, SL("_after"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("after"), &after, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_isNumeric")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_isNumeric"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, data, SL("_isNumeric"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("isNumeric"), &is_numeric, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(data, SL("_first")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_first"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(first);
 		phalcon_array_fetch_string(&first, data, SL("_first"), PH_NOISY_CC);

@@ -39,6 +39,7 @@
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
+			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/ViewTest.php</file>
