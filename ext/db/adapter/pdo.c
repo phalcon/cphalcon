@@ -226,22 +226,31 @@ zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts = NULL;
  *</code>
  *
  * @param  string $sqlStatement
+ * @param  array $placeholders
  * @return Phalcon\Db\Result\Pdo
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 
-	zval *sql_statement = NULL, *events_manager = NULL, *event_name = NULL;
-	zval *status = NULL, *pdo = NULL, *result = NULL, *pdo_result = NULL, *error_info = NULL;
-	zval *error_message = NULL, *exception_message = NULL, *error_code = NULL;
-	zval *exception = NULL;
+	zval *sql_statement = NULL, *placeholders = NULL, *events_manager = NULL;
+	zval *event_name = NULL, *status = NULL, *pdo = NULL, *n = NULL, *statement = NULL, *value = NULL;
+	zval *result = NULL, *pdo_result = NULL, *error_info = NULL, *error_message = NULL;
+	zval *exception_message = NULL, *error_code = NULL, *exception = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &sql_statement, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!placeholders) {
+		PHALCON_ALLOC_ZVAL_MM(placeholders);
+		ZVAL_NULL(placeholders);
+	}
+	
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -259,9 +268,44 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(n);
+		ZVAL_LONG(n, 1);
+		
+		PHALCON_INIT_VAR(statement);
+		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
+		
+		if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(placeholders);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		
+		ph_cycle_start_0:
+		
+			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				goto ph_cycle_end_0;
+			}
+			
+			PHALCON_GET_FOREACH_VALUE(value);
+			
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(statement, "bindparam", n, value, PH_NO_CHECK);
+			PHALCON_SEPARATE(n);
+			increment_function(n);
+			
+			zend_hash_move_forward_ex(ah0, &hp0);
+			goto ph_cycle_start_0;
+		
+		ph_cycle_end_0:
+		
+		PHALCON_INIT_VAR(result);
+		PHALCON_CALL_METHOD(result, statement, "execute", PH_NO_CHECK);
+	} else {
+		PHALCON_INIT_VAR(result);
+		PHALCON_CALL_METHOD_PARAMS_1(result, pdo, "query", sql_statement, PH_NO_CHECK);
+	}
 	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_1(result, pdo, "query", sql_statement, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
@@ -277,7 +321,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		
 		PHALCON_INIT_VAR(pdo_result);
 		object_init_ex(pdo_result, phalcon_db_result_pdo_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(pdo_result, "__construct", this_ptr, result, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(pdo_result, "__construct", this_ptr, result, sql_statement, placeholders, PH_CHECK);
 		
 		RETURN_CTOR(pdo_result);
 	}
@@ -313,14 +357,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
  *
  * @param  string $sqlStatement
  * @param  array $placeholders
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 
 	zval *sql_statement = NULL, *placeholders = NULL, *events_manager = NULL;
-	zval *event_name = NULL, *status = NULL, *pdo = NULL, *number_placeholders = NULL;
-	zval *n = NULL, *statement = NULL, *value = NULL, *success = NULL, *affected_rows = NULL;
-	zval *error_info = NULL, *error_message = NULL, *exception_message = NULL;
-	zval *error_code = NULL, *exception = NULL;
+	zval *event_name = NULL, *status = NULL, *pdo = NULL, *n = NULL, *statement = NULL, *value = NULL;
+	zval *success = NULL, *affected_rows = NULL, *error_info = NULL, *error_message = NULL;
+	zval *exception_message = NULL, *error_code = NULL, *exception = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -333,8 +377,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_VAR(placeholders);
-		array_init(placeholders);
+		PHALCON_ALLOC_ZVAL_MM(placeholders);
+		ZVAL_NULL(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(events_manager);
@@ -354,10 +398,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 	PHALCON_INIT_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_placeholders);
-	phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
+	if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(n);
 		ZVAL_LONG(n, 1);
 		

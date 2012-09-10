@@ -18,20 +18,28 @@
   +------------------------------------------------------------------------+
 */
 
-class DispatcherTest extends PHPUnit_Framework_TestCase
+class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 {
 
 	public function dispatcherAutoloader($className)
 	{
-		if (file_exists('unit-tests/controllers/'.$className.'.php')){
+		if (file_exists('unit-tests/controllers/'.$className.'.php')) {
 			require 'unit-tests/controllers/'.$className.'.php';
 		}
 	}
 
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'dispatcherAutoloader'));
+	}
+
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
+	}
+
 	public function testDispatcher()
 	{
-
-		spl_autoload_register(array($this, 'dispatcherAutoloader'));
 
 		$di = new Phalcon\DI();
 
@@ -149,8 +157,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 		$dispatcher->dispatch();
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 5);
-
-		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
 
 	}
 

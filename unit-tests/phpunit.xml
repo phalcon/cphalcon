@@ -22,6 +22,7 @@
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
+			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
 			<file>unit-tests/DbTest.php</file>
 			<file>unit-tests/DbDescribeTest.php</file>

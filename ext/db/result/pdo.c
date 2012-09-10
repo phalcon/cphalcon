@@ -37,6 +37,8 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Db\Result\Pdo
@@ -57,25 +59,39 @@
  * Phalcon\Db\Result\Pdo constructor
  *
  * @param Phalcon\Db\Adapter\Pdo $connection
+ * @param string $sqlStatement
+ * @param array $placeholders
  * @param PDOStatement $result
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 
-	zval *connection = NULL, *result = NULL;
+	zval *connection = NULL, *result = NULL, *sql_statement = NULL, *placeholders = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &connection, &result) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &connection, &result, &sql_statement, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!sql_statement) {
+		PHALCON_ALLOC_ZVAL_MM(sql_statement);
+		ZVAL_NULL(sql_statement);
+	}
+	
+	if (!placeholders) {
+		PHALCON_ALLOC_ZVAL_MM(placeholders);
+		ZVAL_NULL(placeholders);
+	}
+	
 	if (Z_TYPE_P(result) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid PDOStatement supplied to Phalcon\\Db\\Result\\Pdo");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_pdoStatement"), result TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_placeholders"), placeholders TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -120,53 +136,64 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 
-	long number;
-	zval *pdo_statement = NULL, *connection = NULL, *type = NULL, *row_count = NULL;
-	pdo_stmt_t *stmt;
+	zval *row_count = NULL, *connection = NULL, *type = NULL, *matches = NULL, *sql_statement = NULL;
+	zval *pattern = NULL, *match = NULL, *pdo = NULL, *else_clauses = NULL, *sql = NULL, *fetch_num = NULL;
+	zval *stmt = NULL, *pdo_statement = NULL;
 
 	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-
 	PHALCON_INIT_VAR(row_count);
 	phalcon_read_property(&row_count, this_ptr, SL("_rowCount"), PH_NOISY_CC);
-
 	if (PHALCON_IS_FALSE(row_count)) {
-
-		PHALCON_INIT_VAR(row_count);
-
 		PHALCON_INIT_VAR(connection);
 		phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-
+		
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype", PH_NO_CHECK);
 		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
-
-			stmt = (pdo_stmt_t*) zend_object_store_get_object(pdo_statement TSRMLS_CC);
-			if (!stmt->dbh) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
+			PHALCON_INIT_VAR(matches);
+			ZVAL_NULL(matches);
+			
+			PHALCON_INIT_VAR(sql_statement);
+			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+			
+			PHALCON_INIT_VAR(pattern);
+			ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
+			Z_SET_ISREF_P(matches);
+			
+			PHALCON_INIT_VAR(match);
+			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);
+			Z_UNSET_ISREF_P(matches);
+			if (zend_is_true(match)) {
+				PHALCON_INIT_VAR(pdo);
+				PHALCON_CALL_METHOD(pdo, connection, "getinternalhandler", PH_NO_CHECK);
+				
+				PHALCON_INIT_VAR(else_clauses);
+				phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
+				
+				PHALCON_INIT_VAR(sql);
+				PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
+				
+				PHALCON_INIT_VAR(fetch_num);
+				ZVAL_LONG(fetch_num, 3);
+				
+				PHALCON_INIT_VAR(stmt);
+				PHALCON_CALL_METHOD_PARAMS_2(stmt, pdo, "query", sql, fetch_num, PH_NO_CHECK);
+				
+				PHALCON_INIT_VAR(row_count);
+				PHALCON_CALL_METHOD(row_count, stmt, "fetchcolumn", PH_NO_CHECK);
 			}
-
-			number = 0;
-			if (stmt->methods->executer(stmt TSRMLS_CC)) {
-				stmt->executed = 1;
-				while (stmt->methods->fetcher(stmt, PDO_FETCH_ORI_NEXT, 0 TSRMLS_CC)) {
-					number++;
-				}
-				stmt->methods->executer(stmt TSRMLS_CC);
-			}
-
-			ZVAL_LONG(row_count, number);
-
 		} else {
+			PHALCON_INIT_VAR(pdo_statement);
+			phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+			
+			PHALCON_INIT_VAR(row_count);
 			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount", PH_NO_CHECK);
 		}
-
+		
 		phalcon_update_property_zval(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
-
+	
+	
 	RETURN_CCTOR(row_count);
 }
 
