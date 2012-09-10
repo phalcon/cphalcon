@@ -44,6 +44,7 @@
 /**
  * Phalcon\CLI\Console
  *
+ * This component allows to create CLI applications using Phalcon
  */
 
 

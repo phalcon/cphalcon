@@ -619,9 +619,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	RETURN_CTOR(criteria);
 }
 
+/**
+ * Executes a find using the parameters built with the criteria
+ *
+ * @return Phalcon\Mvc\Model\Resultset
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 
-	zval *model = NULL, *params = NULL, *x = NULL;
+	zval *model = NULL, *params = NULL, *resultset = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(model);
@@ -632,11 +637,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 	}
 	
 	PHALCON_INIT_VAR(params);
-	array_init(params);
+	PHALCON_CALL_METHOD(params, this_ptr, "getparams", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(x);
-	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(x, model, "find", params);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(resultset, model, "find", params);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(resultset);
 }
 

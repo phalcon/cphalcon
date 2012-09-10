@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		
 		PHALCON_INIT_VAR(pdo_result);
 		object_init_ex(pdo_result, phalcon_db_result_pdo_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_result, "__construct", result, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(pdo_result, "__construct", this_ptr, result, PH_CHECK);
 		
 		RETURN_CTOR(pdo_result);
 	}

@@ -219,10 +219,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect){
 	zval *params = NULL, *service_name = NULL, *meta_data = NULL, *source = NULL;
 	zval *schema = NULL, *select = NULL, *attributes = NULL, *table = NULL, *conditions = NULL;
 	zval *no_primary = NULL, *primary_keys = NULL, *first_primary_key = NULL;
-	zval *bind_params = NULL, *bind_conditions = NULL, *group_clause = NULL;
-	zval *order_clause = NULL, *limit_clause = NULL, *for_update = NULL;
-	zval *shared_lock = NULL, *dialect = NULL, *sql = NULL;
-	zval *r0 = NULL;
+	zval *primary_key_condition = NULL, *bind_params = NULL;
+	zval *bind_conditions = NULL, *group_clause = NULL, *order_clause = NULL;
+	zval *limit_clause = NULL, *for_update = NULL, *shared_lock = NULL;
+	zval *dialect = NULL, *sql = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -280,9 +280,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect){
 					PHALCON_INIT_VAR(first_primary_key);
 					phalcon_array_fetch_long(&first_primary_key, primary_keys, 0, PH_NOISY_CC);
 					
-					PHALCON_ALLOC_ZVAL_MM(r0);
-					PHALCON_CONCAT_VSV(r0, first_primary_key, " = ", conditions);
-					PHALCON_CPY_WRT(conditions, r0);
+					PHALCON_INIT_VAR(primary_key_condition);
+					PHALCON_CONCAT_VSV(primary_key_condition, first_primary_key, " = ", conditions);
+					PHALCON_CPY_WRT(conditions, primary_key_condition);
 				} else {
 					PHALCON_INIT_VAR(no_primary);
 					ZVAL_BOOL(no_primary, 1);
@@ -802,8 +802,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
  */
 PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 
-	zval *base = NULL, *result = NULL, *object = NULL, *value = NULL, *key = NULL;
-	zval *c0 = NULL;
+	zval *base = NULL, *result = NULL, *object = NULL, *force_exists = NULL, *value = NULL;
+	zval *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -819,15 +819,15 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(object);
-	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
-		return;
-	}
-	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_BOOL(c0, 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setforceexists", c0, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(object);
+		if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
+			return;
+		}
+		
+		PHALCON_INIT_VAR(force_exists);
+		ZVAL_BOOL(force_exists, 1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setforceexists", force_exists, PH_NO_CHECK);
 		
 		if (!phalcon_valid_foreach(result TSRMLS_CC)) {
 			return;
@@ -852,12 +852,12 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 			goto ph_cycle_start_0;
 		
 		ph_cycle_end_0:
-		if(0){}
 		
+		
+		RETURN_CCTOR(object);
 	}
-	
-	
-	RETURN_CCTOR(object);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
+	return;
 }
 
 /**
