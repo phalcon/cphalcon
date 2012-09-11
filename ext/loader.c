@@ -583,7 +583,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 /**
  * Get the path when a class was found
  *
- * @param string
+ * @return string
  */
 PHP_METHOD(Phalcon_Loader, getFoundPath){
 

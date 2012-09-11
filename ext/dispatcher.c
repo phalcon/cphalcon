@@ -374,8 +374,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *handler_suffix = NULL, *action_suffix = NULL, *default_namespace = NULL;
 	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *has_namespace = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *action_method = NULL, *params = NULL, *call_object = NULL;
-	zval *cyclic_routing = NULL;
+	zval *has_service = NULL, *was_fresh = NULL, *action_method = NULL;
+	zval *params = NULL, *call_object = NULL, *cyclic_routing = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -493,8 +493,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_VAR(handler);
 		PHALCON_CALL_METHOD_PARAMS_1(handler, dependency_injector, "getshared", handler_class, PH_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
-		if (phalcon_method_exists_ex(handler, SL("initialize") TSRMLS_CC) == SUCCESS) {
-			PHALCON_CALL_METHOD_NORETURN(handler, "initialize", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(was_fresh);
+		PHALCON_CALL_METHOD(was_fresh, dependency_injector, "wasfreshinstance", PH_NO_CHECK);
+		if (PHALCON_IS_TRUE(was_fresh)) {
+			if (phalcon_method_exists_ex(handler, SL("initialize") TSRMLS_CC) == SUCCESS) {
+				PHALCON_CALL_METHOD_NORETURN(handler, "initialize", PH_NO_CHECK);
+			}
 		}
 		
 		PHALCON_INIT_VAR(action_method);

@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 /**
  * Returns the prefix for all the generated urls. By default /
  *
- * @param string
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
@@ -221,15 +221,14 @@ PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
  */
 PHP_METHOD(Phalcon_Mvc_Url, get){
 
-	zval *uri = NULL, *base_uri = NULL, *dependency_injector = NULL, *router = NULL;
-	zval *route_name = NULL, *route = NULL, *exception_message = NULL;
+	zval *uri = NULL, *base_uri = NULL, *dependency_injector = NULL, *service = NULL;
+	zval *router = NULL, *route_name = NULL, *route = NULL, *exception_message = NULL;
 	zval *exception = NULL, *pattern = NULL, *replaced_pattern = NULL;
 	zval *controller_name = NULL, *wildcard = NULL, *action_name = NULL;
 	zval *have_bracket = NULL, *matches = NULL, *match_position = NULL;
 	zval *set_order = NULL, *names_pattern = NULL, *have_variables = NULL;
 	zval *match = NULL, *match_zero = NULL, *match_one = NULL, *value = NULL, *new_pcre_pattern = NULL;
 	zval *final_uri = NULL;
-	zval *c0 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *t0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
@@ -266,11 +265,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			return;
 		}
 		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "router", 1);
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "router", 1);
 		
 		PHALCON_INIT_VAR(router);
-		PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", c0, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service, PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(route_name);
 		phalcon_array_fetch_string(&route_name, uri, SL("for"), PH_NOISY_CC);

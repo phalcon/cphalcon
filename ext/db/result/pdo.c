@@ -97,6 +97,26 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 }
 
 /**
+ * Allows to executes the statement again. Some database systems don't support scrollable cursors,
+ * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
+
+	zval *pdo_statement = NULL, *status = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD(status, pdo_statement, "execute", PH_NO_CHECK);
+	
+	RETURN_CCTOR(status);
+}
+
+/**
  * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
@@ -122,6 +142,31 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 	PHALCON_CALL_METHOD(row, pdo_statement, "fetch", PH_NO_CHECK);
 	
 	RETURN_CCTOR(row);
+}
+
+/**
+ * Returns an array of arrays containing all the records in the result
+ * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ *
+ *<code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$robots = $result->fetchAll();
+ *</code>
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll){
+
+	zval *pdo_statement = NULL, *rows = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(rows);
+	PHALCON_CALL_METHOD(rows, pdo_statement, "fetchall", PH_NO_CHECK);
+	
+	RETURN_CCTOR(rows);
 }
 
 /**

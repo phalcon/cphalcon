@@ -1307,8 +1307,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_VAR(placeholders);
-		array_init(placeholders);
+		PHALCON_ALLOC_ZVAL_MM(placeholders);
+		ZVAL_NULL(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(dependency_injector);

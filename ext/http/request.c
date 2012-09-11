@@ -58,6 +58,11 @@
  *
  */
 
+/**
+ * Sets the dependency injector
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Http_Request, setDI){
 
 	zval *dependency_injector = NULL;
@@ -74,6 +79,11 @@ PHP_METHOD(Phalcon_Http_Request, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the internal dependency injector
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Http_Request, getDI){
 
 	zval *dependency_injector = NULL;

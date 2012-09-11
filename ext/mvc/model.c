@@ -371,9 +371,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 	zval *model_name = NULL, *params = NULL, *unique = NULL, *dependency_injector = NULL;
 	zval *cache = NULL, *select = NULL, *key = NULL, *lifetime = NULL, *cache_service = NULL;
 	zval *cache_options = NULL, *model = NULL, *connection = NULL, *md5select = NULL;
-	zval *resultset = NULL, *result = NULL, *count = NULL, *fetch_assoc = NULL;
+	zval *resultset = NULL, *is_fresh = NULL, *result = NULL, *count = NULL, *fetch_assoc = NULL;
 	zval *row = NULL, *fetch_both = NULL, *dumped_result = NULL, *result_data = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL }, *p1[] = { NULL, NULL, NULL, NULL };
 	int eval_int;
 	zend_class_entry *ce0;
@@ -412,10 +412,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 		
 		PHALCON_INIT_VAR(cache_options);
 		phalcon_array_fetch_string(&cache_options, params, SL("cache"), PH_NOISY_CC);
-		
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_bool", cache_options);
-		if (zend_is_true(r0)) {
+		if (Z_TYPE_P(cache_options) == IS_BOOL) {
 			if (zend_is_true(cache_options)) {
 				PHALCON_INIT_VAR(lifetime);
 				ZVAL_LONG(lifetime, 3600);
@@ -475,9 +472,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 			p0[1] = model;
 			p0[2] = connection;
 			p0[3] = params;
-			PHALCON_ALLOC_ZVAL_MM(r1);
-			PHALCON_CALL_SELF_PARAMS(r1, this_ptr, "_createsqlselect", 4, p0);
-			PHALCON_CPY_WRT(select, r1);
+			PHALCON_ALLOC_ZVAL_MM(r0);
+			PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_createsqlselect", 4, p0);
+			PHALCON_CPY_WRT(select, r0);
 			
 			PHALCON_INIT_VAR(md5select);
 			PHALCON_CALL_FUNC_PARAMS_1(md5select, "md5", select);
@@ -489,6 +486,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 		PHALCON_INIT_VAR(resultset);
 		PHALCON_CALL_METHOD_PARAMS_2(resultset, cache, "get", key, lifetime, PH_NO_CHECK);
 		if (Z_TYPE_P(resultset) != IS_NULL) {
+			PHALCON_INIT_VAR(is_fresh);
+			ZVAL_BOOL(is_fresh, 0);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(resultset, "setisfresh", is_fresh, PH_NO_CHECK);
 			
 			RETURN_CCTOR(resultset);
 		}
@@ -499,9 +499,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 		p1[1] = model;
 		p1[2] = connection;
 		p1[3] = params;
-		PHALCON_ALLOC_ZVAL_MM(r2);
-		PHALCON_CALL_SELF_PARAMS(r2, this_ptr, "_createsqlselect", 4, p1);
-		PHALCON_CPY_WRT(select, r2);
+		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_CALL_SELF_PARAMS(r1, this_ptr, "_createsqlselect", 4, p1);
+		PHALCON_CPY_WRT(select, r1);
 	}
 	
 	PHALCON_INIT_VAR(result);
@@ -1054,7 +1054,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	zval *pk_condition = NULL, *where_pk_count = NULL, *sql_and = NULL;
 	zval *join_where = NULL, *force_exists = NULL, *schema = NULL, *source = NULL;
 	zval *select = NULL, *num = NULL, *row_count = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1126,9 +1125,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 					PHALCON_INIT_VAR(not_null);
 					phalcon_and_function(not_null, is_not_null, is_not_empty);
 					if (zend_is_true(not_null)) {
-						PHALCON_INIT_VAR(r0);
-						PHALCON_CALL_FUNC_PARAMS_1(r0, "is_long", value);
-						if (!zend_is_true(r0)) {
+						if (Z_TYPE_P(value) != IS_LONG) {
 							PHALCON_INIT_VAR(sanitized_value);
 							PHALCON_CALL_METHOD_PARAMS_1(sanitized_value, connection, "escapestring", value, PH_NO_CHECK);
 						} else {
