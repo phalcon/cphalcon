@@ -195,10 +195,10 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 		$this->_loadDI();
 
-		$this->assertEquals(Tag::form('controller/index'), '<form action="/controller/index/" method= "post" >');
+		$this->assertEquals(Tag::form('controller/index'), '<form action="/controller/index/" method="post" >');
 
 		$params = array('controller/index', 'method' => 'get');
-		$this->assertEquals(Tag::form($params), '<form action="/controller/index/" method= "get" >');
+		$this->assertEquals(Tag::form($params), '<form action="/controller/index/" method="get" >');
 	}
 
 	public function testStaticLinksRel()
