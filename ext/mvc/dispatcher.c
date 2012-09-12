@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	ZVAL_STRING(c0, "response", 1);
 	
 	PHALCON_INIT_VAR(response);
-	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "get", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", c0, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);

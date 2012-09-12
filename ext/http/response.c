@@ -307,13 +307,13 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  * Sets the response content-type mime, optionally the charset
  *
  *<code>
+ *$response->setContentType('application/pdf');
  *$response->setContentType('text/plain', 'UTF-8');
  *</code>
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 
-	zval *content_type = NULL, *charset = NULL, *headers = NULL;
-	zval *c0 = NULL;
+	zval *content_type = NULL, *charset = NULL, *headers = NULL, *name = NULL, *header_value = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -330,9 +330,15 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Content-Type", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, content_type, PH_NO_CHECK);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "Content-Type", 1);
+	if (Z_TYPE_P(charset) == IS_NULL) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, content_type, PH_NO_CHECK);
+	} else {
+		PHALCON_INIT_VAR(header_value);
+		PHALCON_CONCAT_VSV(header_value, content_type, "; charset=", charset);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, header_value, PH_NO_CHECK);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -388,7 +394,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		ZVAL_STRING(service, "url", 1);
 		
 		PHALCON_INIT_VAR(url);
-		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "get", service, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(header);
 		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
