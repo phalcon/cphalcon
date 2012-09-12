@@ -33,9 +33,9 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon\Logger\Exception
+ * Phalcon\Session\Exception
  *
- * Exceptions thrown in Phalcon\Logger will use this class
+ * Exceptions thrown in Phalcon\Session will use this class
  *
  */
 

@@ -35,7 +35,7 @@
 /**
  * Phalcon\Paginator\Exception
  *
- * Exceptions thrown in Phalcon_Paginator will use this class
+ * Exceptions thrown in Phalcon\Paginator will use this class
  *
  */
 

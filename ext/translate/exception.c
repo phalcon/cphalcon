@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon_Translate_Exception
+ * Phalcon\Translate\Exception
  *
- * Class for exceptions thrown by Phalcon_Translate
+ * Class for exceptions thrown by Phalcon\Translate
  */
 

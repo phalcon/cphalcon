@@ -44,7 +44,7 @@
  * Converts strings to camelize style
  *
  *<code>
- *	Phalcon\Text::camelize('coco_bongo'); //CocoBongo
+ *	echo Phalcon\Text::camelize('coco_bongo'); //CocoBongo
  *</code>
  *
  * @param string $str
@@ -52,9 +52,9 @@
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str = NULL, *lower_str = NULL, *no_under_score_str = NULL, *uc_string = NULL;
-	zval *camelized = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	zval *str = NULL, *space = NULL, *lower_str = NULL, *no_under_score_str = NULL;
+	zval *uc_string = NULL, *camelized = NULL;
+	zval *c0 = NULL, *c1 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -63,29 +63,26 @@ PHP_METHOD(Phalcon_Text, camelize){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(space);
+	ZVAL_STRING(space, " ", 1);
+	
 	PHALCON_INIT_VAR(lower_str);
 	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
 	
 	PHALCON_INIT_VAR(c0);
 	ZVAL_STRING(c0, "_", 1);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, " ", 1);
-	
 	PHALCON_INIT_VAR(no_under_score_str);
-	phalcon_fast_str_replace(no_under_score_str, c0, c1, lower_str TSRMLS_CC);
+	phalcon_fast_str_replace(no_under_score_str, c0, space, lower_str TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(uc_string);
 	PHALCON_CALL_FUNC_PARAMS_1(uc_string, "ucwords", no_under_score_str);
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, " ", 1);
-	
-	PHALCON_INIT_VAR(c3);
-	ZVAL_STRING(c3, "", 1);
+	PHALCON_INIT_VAR(c1);
+	ZVAL_STRING(c1, "", 1);
 	
 	PHALCON_INIT_VAR(camelized);
-	phalcon_fast_str_replace(camelized, c2, c3, uc_string TSRMLS_CC);
+	phalcon_fast_str_replace(camelized, space, c1, uc_string TSRMLS_CC);
 	
 	RETURN_CTOR(camelized);
 }
@@ -94,7 +91,7 @@ PHP_METHOD(Phalcon_Text, camelize){
  * Uncamelize strings which are camelized
  *
  *<code>
- *	Phalcon\Text::camelize('CocoBongo'); //coco_bongo
+ *	echo Phalcon\Text::camelize('CocoBongo'); //coco_bongo
  *</code>
  *
  * @param string $str

@@ -797,8 +797,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
  *</code>
  *
  * @param array $result
- * @param Phalcon\Mvc\Model\Base $base
- * @return Phalcon\Mvc\Model\Base $result
+ * @param Phalcon\Mvc\Model $base
+ * @return Phalcon\Mvc\Model $result
  */
 PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 

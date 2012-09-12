@@ -33,9 +33,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 
 /**
@@ -59,16 +60,16 @@
  * </code>
  */
 
+/**
+ * Phalcon\Session construtor
+ *
+ * @param array $options
+ */
 PHP_METHOD(Phalcon_Session, __construct){
 
 	zval *options = NULL;
-	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
-	
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	zend_update_property(phalcon_session_ce, this_ptr, SL("_options"), a0 TSRMLS_CC);
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
@@ -76,11 +77,13 @@ PHP_METHOD(Phalcon_Session, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(options);
-		array_init(options);
+		PHALCON_ALLOC_ZVAL_MM(options);
+		ZVAL_NULL(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "setoptions", options, PH_NO_CHECK);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -125,16 +128,27 @@ PHP_METHOD(Phalcon_Session, setOptions){
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(options, SL("uniqueId")+1);
-	if (eval_int) {
-		PHALCON_INIT_VAR(unique_id);
-		phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SL("uniqueId")+1);
+		if (eval_int) {
+			PHALCON_INIT_VAR(unique_id);
+			phalcon_array_fetch_string(&unique_id, options, SL("uniqueId"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_uniqueId"), unique_id TSRMLS_CC);
+		}
+		phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "Options must be an Array");
+		return;
 	}
 	
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Get internal options
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Session, getOptions){
 
 	zval *options = NULL;
@@ -289,6 +303,11 @@ PHP_METHOD(Phalcon_Session, getId){
 	RETURN_CCTOR(session_id);
 }
 
+/**
+ * Check whether the session has been started
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Session, isStarted){
 
 	zval *started = NULL;
@@ -300,6 +319,11 @@ PHP_METHOD(Phalcon_Session, isStarted){
 	RETURN_CCTOR(started);
 }
 
+/**
+ * Destroys the active session
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Session, destroy){
 
 	zval *destroyed = NULL;

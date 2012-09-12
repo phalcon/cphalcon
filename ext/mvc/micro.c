@@ -44,6 +44,18 @@
  * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
  * write a minimal amount of code to create a PHP application. Micro applications are suitable
  * to small applications, APIs and prototypes in a practical way.
+ *
+ *<code>
+ *
+ * $app = new Phalcon\Mvc\Micro();
+ *
+ * $app->get('/say/welcome/{name}', function ($name) {
+ *    echo "<h1>Welcome $name!</h1>";
+ * });
+ *
+ * $app->handle();
+ *
+ *</code>
  */
 
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){

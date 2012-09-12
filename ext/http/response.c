@@ -43,10 +43,10 @@
  * Encapsulates the HTTP response message.
  *
  *<code>
- *$response = new Phalcon\Http\Response();
- *$response->setStatusCode(200, "OK");
- *$response->setContent("<html><body>Hello</body></html>");
- *$response->send();
+ *	$response = new Phalcon\Http\Response();
+ *	$response->setStatusCode(200, "OK");
+ *	$response->setContent("<html><body>Hello</body></html>");
+ *	$response->send();
  *</code>
  */
 
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
  * Overwrites a header in the response
  *
  *<code>
- *$response->setHeader("Content-Type", "text/plain");
+ *	$response->setHeader("Content-Type", "text/plain");
  *</code>
  *
  * @param string $name
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
  * Send a raw header to the response
  *
  *<code>
- *$response->setRawHeader("HTTP/1.1 404 Not Found");
+ *	$response->setRawHeader("HTTP/1.1 404 Not Found");
  *</code>
  *
  * @param string $header
@@ -307,8 +307,8 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  * Sets the response content-type mime, optionally the charset
  *
  *<code>
- *$response->setContentType('application/pdf');
- *$response->setContentType('text/plain', 'UTF-8');
+ *	$response->setContentType('application/pdf');
+ *	$response->setContentType('text/plain', 'UTF-8');
  *</code>
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
@@ -347,9 +347,9 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  * Redirect by HTTP to another action or URL
  *
  *<code>
- *$response->redirect("posts/index");
- *$response->redirect("http://en.wikipedia.org", true);
- *$response->redirect("http://www.example.com/new-location", true, 301);
+ *	$response->redirect("posts/index");
+ *	$response->redirect("http://en.wikipedia.org", true);
+ *	$response->redirect("http://www.example.com/new-location", true, 301);
  *</code>
  *
  * @param string $location
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
  * Sets HTTP response body
  *
  *<code>
- *$response->setContent("<h1>Hello!</h1>");
+ *	$response->setContent("<h1>Hello!</h1>");
  *</code>
  *
  * @param string $content

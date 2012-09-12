@@ -37,8 +37,15 @@
 /**
  * Phalcon\Events\Event
  *
+ * This class offers contextual information of a fired event in the EventsManager
  */
 
+/**
+ * Phalcon\Events\Event constructor
+ *
+ * @param string $type
+ * @param object $source
+ */
 PHP_METHOD(Phalcon_Events_Event, __construct){
 
 	zval *type = NULL, *source = NULL;
@@ -56,6 +63,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Set the event's type
+ *
+ * @param string $eventType
+ */
 PHP_METHOD(Phalcon_Events_Event, setType){
 
 	zval *event_type = NULL;
@@ -72,6 +84,11 @@ PHP_METHOD(Phalcon_Events_Event, setType){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the event's type
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Events_Event, getType){
 
 	zval *type = NULL;
@@ -83,6 +100,11 @@ PHP_METHOD(Phalcon_Events_Event, getType){
 	RETURN_CCTOR(type);
 }
 
+/**
+ * Returns the event's source
+ *
+ * @return object
+ */
 PHP_METHOD(Phalcon_Events_Event, getSource){
 
 	zval *source = NULL;

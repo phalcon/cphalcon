@@ -51,7 +51,7 @@
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
  * @param Phalcon\Mvc\Model $model
- * @param Phalcon\Mvc\Model\Result $result
+ * @param Phalcon\Db\Result\Pdo $result
  * @param Phalcon\Cache\Backend $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){

@@ -17,6 +17,7 @@
   +------------------------------------------------------------------------+
 */
 
+extern zend_class_entry *phalcon_session_exception_ce;
 extern zend_class_entry *phalcon_session_adapter_files_ce;
 extern zend_class_entry *phalcon_session_bag_ce;
 extern zend_class_entry *phalcon_loader_ce;
@@ -146,12 +147,14 @@ extern zend_class_entry *phalcon_logger_item_ce;
 extern zend_class_entry *phalcon_loader_exception_ce;
 
 
+
 PHP_METHOD(Phalcon_Session_Bag, __construct);
 PHP_METHOD(Phalcon_Session_Bag, setDI);
 PHP_METHOD(Phalcon_Session_Bag, getDI);
 PHP_METHOD(Phalcon_Session_Bag, initialize);
 PHP_METHOD(Phalcon_Session_Bag, __set);
 PHP_METHOD(Phalcon_Session_Bag, __get);
+PHP_METHOD(Phalcon_Session_Bag, __isset);
 
 PHP_METHOD(Phalcon_Loader, __construct);
 PHP_METHOD(Phalcon_Loader, setEventsManager);
@@ -1065,6 +1068,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource);
 PHP_METHOD(Phalcon_Events_Manager, __construct);
 PHP_METHOD(Phalcon_Events_Manager, attach);
 PHP_METHOD(Phalcon_Events_Manager, fire);
+PHP_METHOD(Phalcon_Events_Manager, getListeners);
 
 PHP_METHOD(Phalcon_Acl, setEventsManager);
 PHP_METHOD(Phalcon_Acl, getEventsManager);
@@ -1139,6 +1143,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___set, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_bag___isset, 0, 0, 1)
 	ZEND_ARG_INFO(0, property)
 ZEND_END_ARG_INFO()
 
@@ -3085,6 +3093,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 2)
 	ZEND_ARG_INFO(0, source)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_getlisteners, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_seteventsmanager, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventsManager)
 ZEND_END_ARG_INFO()
@@ -3116,6 +3128,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaultaction, 0, 0, 1)
 	ZEND_ARG_INFO(0, actionName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_handle, 0, 0, 0)
+	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_console_setdi, 0, 0, 1)
@@ -3185,6 +3201,7 @@ PHALCON_INIT_FUNCS(phalcon_session_bag_method_entry){
 	PHP_ME(Phalcon_Session_Bag, initialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session_Bag, __set, arginfo_phalcon_session_bag___set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Session_Bag, __get, arginfo_phalcon_session_bag___get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Session_Bag, __isset, arginfo_phalcon_session_bag___isset, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4339,6 +4356,7 @@ PHALCON_INIT_FUNCS(phalcon_events_manager_method_entry){
 	PHP_ME(Phalcon_Events_Manager, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_manager_attach, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_manager_fire, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_manager_getlisteners, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4367,7 +4385,7 @@ PHALCON_INIT_FUNCS(phalcon_cli_router_method_entry){
 	PHP_ME(Phalcon_CLI_Router, setDefaultModule, arginfo_phalcon_cli_router_setdefaultmodule, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Router, setDefaultTask, arginfo_phalcon_cli_router_setdefaulttask, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Router, setDefaultAction, arginfo_phalcon_cli_router_setdefaultaction, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_CLI_Router, handle, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_CLI_Router, handle, arginfo_phalcon_cli_router_handle, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Router, getModuleName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Router, getTaskName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_CLI_Router, getActionName, NULL, ZEND_ACC_PUBLIC) 

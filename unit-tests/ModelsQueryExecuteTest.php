@@ -65,7 +65,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testSelectExecute()
+	/*public function testSelectExecute()
 	{
 
 		$di = $this->_getDI();
@@ -252,7 +252,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->delete("subscriptores");
+		$di->getShared('db')->delete("subscriptores");
 
 		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", now(), "P")');
 		$this->assertFalse($status->success());
@@ -283,7 +283,14 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
 		$this->assertTrue($status->success());
 
-	}
+		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)', array(
+			"email" => "yeahyeah@hotmail.com",
+			"created_at" => "2010-02-01 13:21:00",
+			"status" => "P"
+		));
+		$this->assertTrue($status->success());
+
+	}*/
 
 	public function testUpdateExecute()
 	{
@@ -292,11 +299,21 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->execute('update personas set ciudad_id = null where direccion = "COL"');
+		$di->getShared('db')->execute('UPDATE personas SET ciudad_id = NULL WHERE direccion = "COL"');
 
 		$status = $manager->executeQuery('UPDATE People SET direccion = "COL" WHERE ciudad_id IS NULL');
 		$this->assertTrue($status->success());
 
+		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL', array(
+			"direccion" => "MXN"
+		));
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE Subscriptores SET status = :status: WHERE email = :email:', array(
+			"status" => "I",
+			"email" => "le-marina@hotmail.com"
+		));
+		$this->assertTrue($status->success());
 
 	}
 
@@ -308,6 +325,12 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$manager = $di->getShared('modelsManager');
 
 		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE email = "marina@hotmail.com"');
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:', array(
+			'status' => "P",
+			'email' => 'fuego@hotmail.com'
+		));
 		$this->assertTrue($status->success());
 
 	}

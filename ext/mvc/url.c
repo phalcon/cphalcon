@@ -42,7 +42,17 @@
 /**
  * Phalcon\Mvc\Url
  *
- * This components aids in the generation off: URIs, URLs and Paths
+ * This components aids in the generation of: URIs, URLs and Paths
+ *
+ *<code>
+ *
+ * //Generate a url appending a uri to the base Uri
+ * echo $url->get('products/edit/1');
+ *
+ * //Generate a url for a predefined route
+ * echo $url->get(array('for' => 'blog-post', 'title' => 'some-cool-stuff', 'year' => '2012'));
+ *
+ *</code>
  */
 
 /**
@@ -71,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 }
 
 /**
- * Sets the DependencyInjector container
+ * Returns the DependencyInjector container
  *
  * @return Phalcon\DI
  */
@@ -88,6 +98,10 @@ PHP_METHOD(Phalcon_Mvc_Url, getDI){
 
 /**
  * Sets a prefix to all the urls generated
+ *
+ *<code>
+ *$url->setBasePath('/invo/');
+ *</code>
  *
  * @param string $baseUri
  */
@@ -179,7 +193,11 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 /**
  * Sets a base paths for all the generated paths
  *
- * @return string $basePath
+ *<code>
+ *$url->setBasePath('/var/www/');
+ *</code>
+ *
+ * @param string $basePath
  */
 PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
 
@@ -392,6 +410,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 /**
  * Generates a local path
  *
+ * @param string $path
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Url, path){

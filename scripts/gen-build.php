@@ -94,7 +94,6 @@ class Build_Generator {
 		$this->_recursiveAction($path, array($this, '_checkHeaders'));
 
 		/** Found headers are included at the beginning of the file */
-		print_r($this->_headers);
 		foreach ($this->_headers as $source => $one) {
 			if(!in_array($source, $this->_kernelHeaders)){
 				$this->_appendSource($path.$source);

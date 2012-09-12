@@ -40,8 +40,14 @@
 /**
  * Phalcon\Session\Bag
  *
- * This component helps to separate session data into namespaces. Working by this way
+ * This component helps to separate session data into "namespaces". Working by this way
  * you can easily create groups of session variables into the application
+ *
+ *<code>
+ * $user = new Phalcon\Session\Bag();
+ * $user->name = "Kimbra Johnson";
+ * $user->age = 22;
+ *</code>
  */
 
 PHP_METHOD(Phalcon_Session_Bag, __construct){
@@ -58,6 +64,11 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Sets the DependencyInjector container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Session_Bag, setDI){
 
 	zval *dependency_injector = NULL;
@@ -70,7 +81,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The dependency injector is invalid");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -78,6 +89,11 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the DependencyInjector container
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Session_Bag, getDI){
 
 	zval *dependency_injector = NULL;
@@ -89,6 +105,9 @@ PHP_METHOD(Phalcon_Session_Bag, getDI){
 	RETURN_CCTOR(dependency_injector);
 }
 
+/**
+ * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
+ */
 PHP_METHOD(Phalcon_Session_Bag, initialize){
 
 	zval *dependency_injector = NULL, *service = NULL, *session = NULL;
@@ -204,5 +223,41 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
 	
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
+}
+
+/**
+ * Isset property
+ *
+ * @param string $property
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session_Bag, __isset){
+
+	zval *property = NULL, *initalized = NULL, *data = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(initalized);
+	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
+	}
+	
+	PHALCON_INIT_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(data, property);
+	if (eval_int) {
+		PHALCON_MM_RESTORE();
+		RETURN_TRUE;
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 

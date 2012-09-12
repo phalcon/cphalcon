@@ -147,9 +147,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message = NULL, *dependency_injector = NULL, *response = NULL;
-	zval *status_code = NULL, *status_message = NULL, *exception = NULL;
-	zval *c0 = NULL;
+	zval *message = NULL, *dependency_injector = NULL, *service = NULL;
+	zval *response = NULL, *status_code = NULL, *status_message = NULL;
+	zval *exception = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -165,11 +165,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "response", 1);
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "response", 1);
 	
 	PHALCON_INIT_VAR(response);
-	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);

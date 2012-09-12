@@ -301,8 +301,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *complete_path = NULL, *path = NULL, *prefixes = NULL, *ds_class_name = NULL;
 	zval *directories = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
-	HashPosition hp0, hp1, hp2, hp3, hp4;
+	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
+	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
 	char *hash_index;
 	uint hash_index_len;
@@ -490,6 +490,60 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_VAR(r1);
 			is_equal_function(r1, possible_preffix, preffix TSRMLS_CC);
 			if (zend_is_true(r1)) {
+				PHALCON_INIT_VAR(file_name);
+				phalcon_fast_str_replace(file_name, preffix, empty_str, class_name TSRMLS_CC);
+				if (zend_is_true(file_name)) {
+					
+					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+						return;
+					}
+					
+					ah3 = Z_ARRVAL_P(extensions);
+					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
+					
+					ph_cycle_start_3:
+					
+						if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
+							goto ph_cycle_end_3;
+						}
+						
+						PHALCON_GET_FOREACH_VALUE(extension);
+						
+						PHALCON_INIT_VAR(complete_path);
+						PHALCON_CONCAT_VVSV(complete_path, directory, file_name, ".", extension);
+						
+						PHALCON_INIT_VAR(path);
+						phalcon_fast_str_replace(path, namespace_separator, ds, complete_path TSRMLS_CC);
+						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), path TSRMLS_CC);
+							
+							PHALCON_INIT_VAR(event_name);
+							ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
+							PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+						}
+						
+						if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
+							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
+								
+								PHALCON_INIT_VAR(event_name);
+								ZVAL_STRING(event_name, "loader:pathFound", 1);
+								PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+							}
+							if (phalcon_require(path TSRMLS_CC) == FAILURE) {
+								return;
+							}
+							PHALCON_MM_RESTORE();
+							RETURN_TRUE;
+						}
+						
+						zend_hash_move_forward_ex(ah3, &hp3);
+						goto ph_cycle_start_3;
+					
+					ph_cycle_end_3:
+					if(0){}
+					
+				}
 			}
 			
 			zend_hash_move_forward_ex(ah2, &hp2);
@@ -511,13 +565,13 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			return;
 		}
 		
-		ah3 = Z_ARRVAL_P(directories);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
+		ah4 = Z_ARRVAL_P(directories);
+		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 		
-		ph_cycle_start_3:
+		ph_cycle_start_4:
 		
-			if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
-				goto ph_cycle_end_3;
+			if(zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS){
+				goto ph_cycle_end_4;
 			}
 			
 			PHALCON_GET_FOREACH_VALUE(directory);
@@ -527,13 +581,13 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				return;
 			}
 			
-			ah4 = Z_ARRVAL_P(extensions);
-			zend_hash_internal_pointer_reset_ex(ah4, &hp4);
+			ah5 = Z_ARRVAL_P(extensions);
+			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 			
-			ph_cycle_start_4:
+			ph_cycle_start_5:
 			
-				if(zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS){
-					goto ph_cycle_end_4;
+				if(zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) != SUCCESS){
+					goto ph_cycle_end_5;
 				}
 				
 				PHALCON_GET_FOREACH_VALUE(extension);
@@ -556,16 +610,16 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					RETURN_TRUE;
 				}
 				
-				zend_hash_move_forward_ex(ah4, &hp4);
-				goto ph_cycle_start_4;
+				zend_hash_move_forward_ex(ah5, &hp5);
+				goto ph_cycle_start_5;
 			
-			ph_cycle_end_4:
+			ph_cycle_end_5:
 			
 			
-			zend_hash_move_forward_ex(ah3, &hp3);
-			goto ph_cycle_start_3;
+			zend_hash_move_forward_ex(ah4, &hp4);
+			goto ph_cycle_start_4;
 		
-		ph_cycle_end_3:
+		ph_cycle_end_4:
 		if(0){}
 		
 	}

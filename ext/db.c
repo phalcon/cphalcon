@@ -169,15 +169,15 @@ PHP_METHOD(Phalcon_Db, getEventsManager){
 /**
  * Returns the first row in a SQL query result
  *
- * <code>
- * //Getting first robot
- * $robot = $connection->fecthOne("SELECT * FROM robots");
- * print_r($robot);
+ *<code>
+ *	//Getting first robot
+ *	$robot = $connection->fecthOne("SELECT * FROM robots");
+ *	print_r($robot);
  *
- * //Getting first robot with associative indexes only
- * $robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
- * print_r($robot);
- * </code>
+ *	//Getting first robot with associative indexes only
+ *	$robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	print_r($robot);
+ *</code>
  *
  * @param string $sqlQuery
  * @param int $fetchMode
@@ -219,19 +219,19 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 /**
  * Dumps the complete result of a query into an array
  *
- * <code>
- * //Getting all robots
- * $robots = $connection->fetchAll("SELECT * FROM robots");
- * foreach($robots as $robot){
- *    print_r($robot);
- * }
+ *<code>
+ *	//Getting all robots
+ *	$robots = $connection->fetchAll("SELECT * FROM robots");
+ *	foreach($robots as $robot){
+ *		print_r($robot);
+ *	}
  *
- * //Getting all robots with associative indexes only
- * $robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
- * foreach($robots as $robot){
- *    print_r($robot);
- * }
- * </code>
+ *	//Getting all robots with associative indexes only
+ *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	foreach($robots as $robot){
+ *		print_r($robot);
+ *	}
+ *</code>
  *
  * @param string $sqlQuery
  * @param int $fetchMode

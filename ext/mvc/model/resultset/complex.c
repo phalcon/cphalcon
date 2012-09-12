@@ -50,7 +50,7 @@
  * Phalcon\Mvc\Model\Resultset\Complex constructor
  *
  * @param array $columnsTypes
- * @param Phalcon\Db\Result $result
+ * @param Phalcon\Db\Result\Pdo $result
  * @param Phalcon\Cache\Backend $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){

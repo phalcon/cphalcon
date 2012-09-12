@@ -51,10 +51,10 @@
  *		public function validation()
  *		{
  *			$this->validate(new EmailValidator(array(
- *          	'field' => 'electronic_mail'
+ *				'field' => 'electronic_mail'
  *      	)));
  *      	if ($this->validationHasFailed() == true) {
- *          	return false;
+ *				return false;
  *      	}
  *  	}
  *
