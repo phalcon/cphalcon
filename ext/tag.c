@@ -280,54 +280,26 @@ PHP_METHOD(Phalcon_Tag, getValue){
  */
 PHP_METHOD(Phalcon_Tag, resetInput){
 
-	zval *value = NULL, *key = NULL;
-	zval *a0 = NULL;
-	zval *g0 = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
+	zval *empty_array = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	phalcon_update_static_property(SL("phalcon\\tag"), SL("_displayValues"), a0 TSRMLS_CC);
-	phalcon_get_global(&g0, SL("_POST")+1 TSRMLS_CC);
-	if (!phalcon_valid_foreach(g0 TSRMLS_CC)) {
-		return;
-	}
-	
-	ALLOC_HASHTABLE(ah0);
-	zend_hash_init(ah0, 0, NULL, NULL, 0);
-	zend_hash_copy(ah0, Z_ARRVAL_P(g0), NULL, NULL, sizeof(zval*));
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_9b93_0:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_9b93_0;
-		}
-		
-		PHALCON_INIT_VAR(key);
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_INIT_VAR(value);
-		ZVAL_ZVAL(value, *hd, 1, 0);
-		phalcon_array_unset(g0, key);
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_9b93_0;
-	fee_9b93_0:
-	zend_hash_destroy(ah0);
-	efree(ah0);
-	
-	
+
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+
+	phalcon_update_static_property(SL("phalcon\\tag"), SL("_displayValues"), empty_array TSRMLS_CC);
+
+	phalcon_set_symbol_str(SS("_POST"), empty_array TSRMLS_CC);
+
 	PHALCON_MM_RESTORE();
 }
 
 /**
  * Builds a HTML A tag using framework conventions
  *
- * <code>echo Phalcon\Tag::linkTo('signup/register', 'Register Here!')</code>
+ *<code>
+ *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
+ *</code>
  *
  * @param array $parameters
  * @return string

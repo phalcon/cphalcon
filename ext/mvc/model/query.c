@@ -2555,8 +2555,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *manager = NULL, *meta_data = NULL, *intermediate = NULL, *placeholders = NULL;
 	zval *model_name = NULL, *model = NULL, *connection = NULL, *attributes = NULL;
 	zval *fields = NULL, *values = NULL, *number_fields = NULL, *number_values = NULL;
-	zval *not_equal = NULL, *null_value = NULL, *insert_values = NULL;
-	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
+	zval *not_equal = NULL, *double_colon = NULL, *empty_string = NULL;
+	zval *null_value = NULL, *insert_values = NULL, *value = NULL, *number = NULL;
+	zval *type = NULL, *expr_value = NULL, *insert_value = NULL, *wildcard = NULL;
 	zval *exception_message = NULL, *exception = NULL, *field_name = NULL;
 	zval *attribute = NULL, *insert_model = NULL, *success = NULL, *status = NULL;
 	HashTable *ah0, *ah1;
@@ -2610,6 +2611,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 		return;
 	}
 	
+	PHALCON_INIT_VAR(double_colon);
+	ZVAL_STRING(double_colon, ":", 1);
+	
+	PHALCON_INIT_VAR(empty_string);
+	ZVAL_STRING(empty_string, "", 1);
+	
 	PHALCON_INIT_VAR(null_value);
 	ZVAL_NULL(null_value);
 	
@@ -2661,13 +2668,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 		
 		if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
 			if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
-				eval_int = phalcon_array_isset(placeholders, expr_value);
+				PHALCON_INIT_VAR(wildcard);
+				phalcon_fast_str_replace(wildcard, double_colon, empty_string, expr_value TSRMLS_CC);
+				eval_int = phalcon_array_isset(placeholders, wildcard);
 				if (eval_int) {
 					PHALCON_INIT_VAR(insert_value);
-					phalcon_array_fetch(&insert_value, placeholders, expr_value, PH_NOISY_CC);
+					phalcon_array_fetch(&insert_value, placeholders, wildcard, PH_NOISY_CC);
 				} else {
 					PHALCON_INIT_VAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", expr_value, "' cannot be replaced because it's not in the placeholders list");
+					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
 					
 					PHALCON_INIT_VAR(exception);
 					object_init_ex(exception, phalcon_mvc_model_exception_ce);

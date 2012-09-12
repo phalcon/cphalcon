@@ -76,6 +76,7 @@ extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
 /** Export symbols to active symbol table */
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE

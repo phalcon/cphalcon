@@ -83,6 +83,7 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
 			}
 		}
 	}
+
 	if (!*arr) {
 		PHALCON_INIT_VAR(*arr);
 		array_init(*arr);
@@ -199,7 +200,7 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 
 	found = php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
 
-	if(found){
+	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
 	} else {
 		ZVAL_BOOL(return_value, 0);
@@ -222,7 +223,7 @@ void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, i
 
 	found = php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
 
-	if(found){
+	if (found) {
 		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
 	} else {
 		ZVAL_BOOL(return_value, 0);
@@ -328,9 +329,9 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 		}
 	}
 
-	for(i=0; i < Z_STRLEN_P(param) && i < 2048;i++){
+	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)){
+		if ((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)) {
 			temp[alloc] = ch;
 			alloc++;
 		}
@@ -370,7 +371,7 @@ int phalcon_filter_identifier(zval *result, zval *param){
 		}
 	}
 
-	for(i=0; i < Z_STRLEN_P(param) && i < 2048;i++){
+	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)||ch==95){
 			temp[alloc] = ch;
@@ -411,6 +412,26 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 			if (EG(exception)) {
 				return FAILURE;
 			}
+		}
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Exports a string symbol to the active symbol table
+ */
+int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC){
+
+	if (!EG(active_symbol_table)) {
+		zend_rebuild_symbol_table(TSRMLS_C);
+	}
+
+	if (&EG(symbol_table)) {
+		Z_ADDREF_P(value);
+		zend_hash_update(&EG(symbol_table), key_name, key_length, &value, sizeof(zval *), NULL);
+		if (EG(exception)) {
+			return FAILURE;
 		}
 	}
 

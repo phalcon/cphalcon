@@ -236,4 +236,37 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testResetInput()
+	{
+		$this->_loadDI();
+
+		$options  = 'some_field_name';
+
+		$expectedWithValue = '<input type="text" name="some_field_name" id="some_field_name" value="Wall-E"/>';
+		$expectedWithoutValue = '<input type="text" name="some_field_name" id="some_field_name" value=""/>';
+
+		//With setDefault
+		Tag::setDefault('some_field_name', 'Wall-E');
+		$actual = Tag::textField($options);
+		$this->assertEquals($expectedWithValue, $actual);
+
+		//Reset input
+		Tag::resetInput();
+
+		$actual = Tag::textField($options);
+		$this->assertEquals($expectedWithoutValue, $actual);
+
+
+		$_POST['some_field_name'] = 'Wall-E';
+		$actual = Tag::textField($options);
+		$this->assertEquals($expectedWithValue, $actual);
+
+		//Reset input
+		Tag::resetInput();
+
+		$actual = Tag::textField($options);
+		$this->assertEquals($expectedWithoutValue, $actual);
+
+	}
+
 }
