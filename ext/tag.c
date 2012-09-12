@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	ZVAL_STRING(code, "<textarea ", 1);
+	ZVAL_STRING(code, "<textarea", 1);
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
 	}
