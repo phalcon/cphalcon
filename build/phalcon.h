@@ -407,13 +407,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current);
 
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize);
-PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current);
 
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel);
@@ -547,8 +545,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache);
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, current);
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
@@ -838,7 +838,9 @@ PHP_METHOD(Phalcon_Db_Index, getColumns);
 PHP_METHOD(Phalcon_Db_Index, __set_state);
 
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
+PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek);
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode);
@@ -1880,8 +1882,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 0, 2)
-	ZEND_ARG_INFO(0, a)
-	ZEND_ARG_INFO(0, b)
+	ZEND_ARG_INFO(0, first)
+	ZEND_ARG_INFO(0, second)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_createquery, 0, 0, 1)
@@ -1932,6 +1934,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_offsetunset, 0, 0, 1)
 	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_setisfresh, 0, 0, 1)
+	ZEND_ARG_INFO(0, isFresh)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
@@ -2473,6 +2479,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_connect, 0, 0, 0)
 	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describecolumns, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describeindexes, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_sqlite_describereferences, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, schema)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, descriptor)
 ZEND_END_ARG_INFO()
@@ -2483,6 +2504,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_query, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_pdo_execute, 0, 0, 1)
@@ -2554,8 +2576,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_index___set_state, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo___construct, 0, 0, 2)
+	ZEND_ARG_INFO(0, connection)
 	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, sqlStatement)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_dataseek, 0, 0, 1)
@@ -3472,7 +3497,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_resultset_complex_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, valid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, unserialize, arginfo_phalcon_mvc_model_resultset_complex_unserialize, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Resultset_Complex, current, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3481,7 +3505,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_resultset_simple_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, valid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, unserialize, arginfo_phalcon_mvc_model_resultset_simple_unserialize, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Resultset_Simple, current, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3655,8 +3678,10 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_resultset_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Resultset, offsetUnset, arginfo_phalcon_mvc_model_resultset_offsetunset, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getFirst, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getLast, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Resultset, setIsFresh, arginfo_phalcon_mvc_model_resultset_setisfresh, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset, isFresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Resultset, getCache, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Resultset, current, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3964,9 +3989,9 @@ PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_postgresql_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_db_adapter_pdo_sqlite_method_entry){
 	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, connect, arginfo_phalcon_db_adapter_pdo_sqlite_connect, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns, arginfo_phalcon_db_adapter_pdo_sqlite_describecolumns, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes, arginfo_phalcon_db_adapter_pdo_sqlite_describeindexes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences, arginfo_phalcon_db_adapter_pdo_sqlite_describereferences, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4037,7 +4062,9 @@ PHALCON_INIT_FUNCS(phalcon_db_index_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_db_result_pdo_method_entry){
 	PHP_ME(Phalcon_Db_Result_Pdo, __construct, arginfo_phalcon_db_result_pdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Db_Result_Pdo, execute, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, numRows, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, dataSeek, arginfo_phalcon_db_result_pdo_dataseek, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC) 
