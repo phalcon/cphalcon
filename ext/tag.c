@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	fee_9b93_2:
 	
 	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "/>", 1);
+	ZVAL_STRING(t0, " />", 1);
 	phalcon_concat_self(&code, t0 TSRMLS_CC);
 	
 	RETURN_CTOR(code);
@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CONCAT_SVS(code, "<input type=\"submit\" value=\"", value, "\" ");
+	PHALCON_CONCAT_SVS(code, "<input type=\"submit\" value=\"", value, "\"");
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
 	}
@@ -724,7 +724,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_VSVS(attribute, key, "=\"", avalue, "\" ");
+			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", avalue, "\"");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -893,7 +893,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_VSVS(attribute, key, "=\"", avalue, "\" ");
+			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", avalue, "\"");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1018,7 +1018,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CONCAT_SVS(code, "<form action=\"", action, "\" ");
+	PHALCON_CONCAT_SVS(code, "<form action=\"", action, "\"");
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
 	}
@@ -1036,7 +1036,7 @@ PHP_METHOD(Phalcon_Tag, form){
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_VSVS(attribute, key, "=\"", avalue, "\" ");
+			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", avalue, "\"");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1288,7 +1288,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	fee_9b93_6:
 	
 	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "/>", 1);
+	ZVAL_STRING(t0, " />", 1);
 	phalcon_concat_self(&code, t0 TSRMLS_CC);
 	
 	RETURN_CTOR(code);
@@ -1412,7 +1412,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		ZVAL_ZVAL(value, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", value, "\" ");
+			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", value, "\"");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1515,7 +1515,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	fee_9b93_8:
 	
 	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "/>", 1);
+	ZVAL_STRING(t0, " />", 1);
 	phalcon_concat_self(&code, t0 TSRMLS_CC);
 	
 	RETURN_CTOR(code);
