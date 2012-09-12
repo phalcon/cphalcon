@@ -1,6 +1,8 @@
 .settings/
 .idea
 unit-tests/engines/*
+unit-tests/cache/*
+unit-tests/logs/*
 build/.deps
 build/.libs/
 build/Makefile
