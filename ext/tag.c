@@ -1036,7 +1036,7 @@ PHP_METHOD(Phalcon_Tag, form){
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_VSVS(attribute, key, "= \"", avalue, "\" ");
+			PHALCON_CONCAT_VSVS(attribute, key, "=\"", avalue, "\" ");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);
