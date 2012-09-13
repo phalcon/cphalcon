@@ -35,7 +35,6 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/concat.h"
 #include "kernel/fcall.h"
 
 /**
@@ -98,8 +97,8 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
-	zval *key_name = NULL, *backend = NULL, *front_end = NULL, *prefix = NULL, *prefixed_key = NULL;
-	zval *existing_cache = NULL, *fresh = NULL;
+	zval *key_name = NULL, *backend = NULL, *front_end = NULL, *existing_cache = NULL;
+	zval *fresh = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -114,14 +113,8 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	PHALCON_INIT_VAR(front_end);
 	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(prefix);
-	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
-	
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", prefixed_key, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", key_name, PH_NO_CHECK);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);

@@ -41,7 +41,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		));
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
+			'cacheDir' => 'unit-tests/cache/',
+			'prefix' => 'unit'
 		));
 
 		$this->assertFalse($cache->isStarted());
@@ -63,7 +64,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		ob_end_clean();
 
 		$this->assertEquals($time, $obContent);
-		$this->assertTrue(file_exists('unit-tests/cache/testoutput'));
+		$this->assertTrue(file_exists('unit-tests/cache/unittestoutput'));
 
 		//Same cache
 		$content = $cache->start('testoutput');
@@ -100,7 +101,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 		$keys = $cache->queryKeys();
 		$this->assertEquals($keys, array(
-			0 => 'testoutput',
+			0 => 'unittestoutput',
 		));
 
 		$this->assertTrue($cache->delete('testoutput'));

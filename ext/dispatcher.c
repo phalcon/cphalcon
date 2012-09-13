@@ -301,28 +301,56 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
  * Gets a param by its name or numeric index
  *
  * @param  mixed $param
+ * @param  string|array $filter
  * @return mixed
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
-	zval *param = NULL, *params = NULL, *param_value = NULL;
+	zval *param = NULL, *filters = NULL, *params = NULL, *param_value = NULL, *dependency_injector = NULL;
+	zval *exception_message = NULL, *service = NULL, *filter = NULL, *sanitized_value = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &param) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &param, &filters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!filters) {
+		PHALCON_ALLOC_ZVAL_MM(filters);
+		ZVAL_NULL(filters);
+	}
+	
 	PHALCON_INIT_VAR(params);
 	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(params, param);
 	if (eval_int) {
 		PHALCON_INIT_VAR(param_value);
 		phalcon_array_fetch(&param_value, params, param, PH_NOISY_CC);
-		
-		RETURN_CCTOR(param_value);
+		if (Z_TYPE_P(filters) != IS_NULL) {
+			PHALCON_INIT_VAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_INIT_VAR(exception_message);
+				ZVAL_STRING(exception_message, "A dependency injection object is required to access the 'filter' service", 1);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			}
+			
+			PHALCON_INIT_VAR(service);
+			ZVAL_STRING(service, "filter", 1);
+			
+			PHALCON_INIT_VAR(filter);
+			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+			
+			PHALCON_INIT_VAR(sanitized_value);
+			PHALCON_CALL_METHOD_PARAMS_2(sanitized_value, filter, "sanitize", param_value, filters, PH_NO_CHECK);
+			
+			RETURN_CCTOR(sanitized_value);
+		} else {
+			
+			RETURN_CCTOR(param_value);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -565,6 +593,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
+			if (Z_TYPE_P(params) != IS_ARRAY) { 
+				PHALCON_INIT_VAR(exception_message);
+				ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			}
+			
 			if (phalcon_method_exists_ex(handler, SL("notfoundaction") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_VAR(call_object);
 				array_init(call_object);
@@ -611,6 +645,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 }
 
 /**
+ * Forwards the execution flow to another controller/action
+ *
  * @param array $forward
  */
 PHP_METHOD(Phalcon_Dispatcher, forward){
