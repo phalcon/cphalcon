@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
  * Gets a param by its name or numeric index
  *
  * @param  mixed $param
- * @param  string|array $filter
+ * @param  string|array $filters
  * @return mixed
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
@@ -402,8 +402,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *handler_suffix = NULL, *action_suffix = NULL, *default_namespace = NULL;
 	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *has_namespace = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *was_fresh = NULL, *action_method = NULL;
-	zval *params = NULL, *call_object = NULL, *cyclic_routing = NULL;
+	zval *has_service = NULL, *was_fresh = NULL, *params = NULL, *action_method = NULL;
+	zval *call_object = NULL, *cyclic_routing = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -530,6 +530,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		
+		PHALCON_INIT_VAR(params);
+		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+		if (Z_TYPE_P(params) != IS_ARRAY) { 
+			PHALCON_INIT_VAR(exception_message);
+			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+		}
+		
 		PHALCON_INIT_VAR(action_method);
 		PHALCON_CONCAT_VV(action_method, action_name, action_suffix);
 		if (phalcon_method_exists(handler, action_method TSRMLS_CC) == SUCCESS) {
@@ -549,9 +557,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
-			
-			PHALCON_INIT_VAR(params);
-			phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 			
 			PHALCON_INIT_VAR(call_object);
 			array_init(call_object);
@@ -593,12 +598,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
-			if (Z_TYPE_P(params) != IS_ARRAY) { 
-				PHALCON_INIT_VAR(exception_message);
-				ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
-			}
-			
 			if (phalcon_method_exists_ex(handler, SL("notfoundaction") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_VAR(call_object);
 				array_init(call_object);

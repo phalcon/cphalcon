@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(backend_options, SL("prefix")+1);
+	eval_int = phalcon_array_isset_string(backend_options, SS("prefix"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(prefix);
 		phalcon_array_fetch_string(&prefix, backend_options, SL("prefix"), PH_NOISY_CC);
