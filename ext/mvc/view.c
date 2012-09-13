@@ -402,6 +402,8 @@ PHP_METHOD(Phalcon_Mvc_View, getActionName){
 
 /**
  * Gets extra parameters of the action rendered
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Mvc_View, getParams){
 
@@ -575,7 +577,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		if (zend_is_true(r0)) {
 			PHALCON_INIT_VAR(is_started);
 			PHALCON_CALL_METHOD(is_started, cache, "isstarted", PH_NO_CHECK);
-			if (!zend_is_true(is_started)) {
+			if (Z_TYPE_P(is_started) == IS_BOOL && !Z_BVAL_P(is_started)) {
 				PHALCON_INIT_VAR(key);
 				ZVAL_NULL(key);
 				
@@ -938,10 +940,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		if (Z_TYPE_P(cache) == IS_OBJECT) {
 			PHALCON_INIT_VAR(is_started);
 			PHALCON_CALL_METHOD(is_started, cache, "isstarted", PH_NO_CHECK);
-			if (zend_is_true(is_started)) {
+			if (Z_TYPE_P(is_started) == IS_BOOL && Z_BVAL_P(is_started)) {
 				PHALCON_INIT_VAR(is_fresh);
 				PHALCON_CALL_METHOD(is_fresh, cache, "isfresh", PH_NO_CHECK);
-				if (zend_is_true(is_fresh)) {
+				if (Z_TYPE_P(is_started) == IS_BOOL && Z_BVAL_P(is_started)) {
 					PHALCON_CALL_METHOD_NORETURN(cache, "save", PH_NO_CHECK);
 				}
 			}
@@ -1029,10 +1031,11 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * </code>
  *
  * @param string $partialPath
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path = NULL, *zfalse = NULL, *engines = NULL;
+	zval *partial_path = NULL, *zfalse = NULL, *engines = NULL, *content = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -1046,9 +1049,11 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, partial_path, zfalse, zfalse, zfalse, PH_NO_CHECK);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(content);
+	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, partial_path, zfalse, zfalse, zfalse, PH_NO_CHECK);
+	
+	RETURN_CCTOR(content);
 }
 
 /**
@@ -1092,10 +1097,10 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		PHALCON_INIT_VAR(cache_options);
 		phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
 		if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
-			eval_int = phalcon_array_isset_string(cache_options, SL("key")+1);
+			eval_int = phalcon_array_isset_string(cache_options, SL("service")+1);
 			if (eval_int) {
 				PHALCON_INIT_VAR(cache_service);
-				phalcon_array_fetch_string(&cache_service, cache_options, SL("key"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
 			}
 		}
 	}
@@ -1167,6 +1172,11 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(view_options);
 		phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
+		if (Z_TYPE_P(view_options) != IS_ARRAY) { 
+			PHALCON_INIT_VAR(view_options);
+			array_init(view_options);
+		}
+		
 		eval_int = phalcon_array_isset_string(view_options, SL("cache")+1);
 		if (eval_int) {
 			PHALCON_INIT_VAR(cache_options);
@@ -1205,7 +1215,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 5 TSRMLS_CC);
 		}
 		
-		phalcon_update_property_zval(view_options, SL("cache"), cache_options TSRMLS_CC);
+		phalcon_array_update_string(&view_options, SL("cache"), &cache_options, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_options"), view_options TSRMLS_CC);
 	} else {
 		if (zend_is_true(options)) {
@@ -1221,7 +1231,9 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 /**
  * Externally sets the view content
  *
- *<code>$this->view->setContent("<h1>hello</h1>");</code>
+ *<code>
+ *$this->view->setContent("<h1>hello</h1>");
+ *</code>
  *
  * @param string $content
  */
@@ -1257,6 +1269,11 @@ PHP_METHOD(Phalcon_Mvc_View, getContent){
 	RETURN_CCTOR(content);
 }
 
+/**
+ * Returns the path of the view that is currently rendered
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath){
 
 	zval *active_render_path = NULL;
