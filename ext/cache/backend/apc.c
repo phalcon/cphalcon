@@ -46,18 +46,23 @@
  *
  *<code>
  *
- * //Cache data for 2 days
- *$frontendOptions = array(
- *	'lifetime' => 172800
- *);
+ *	//Cache data for 2 days
+ *	$frontendOptions = array(
+ *		'lifetime' => 172800
+ *	);
  *
- *$cache = Phalcon_Cache::factory('Data', 'Apc', $frontendOptions, array());
+ *	//Cache data for 2 days
+ *	$frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *		'lifetime' => 172800
+ *	));
  *
- * //Cache arbitrary data
- *$cache->store('my-data', array(1, 2, 3, 4, 5));
+ *  $cache = new Phalcon\Cache\Backend\Apc($frontCache);
  *
- * //Get data
- *$data = $cache->get('my-data');
+ *	//Cache arbitrary data
+ *	$cache->store('my-data', array(1, 2, 3, 4, 5));
+ *
+ *	//Get data
+ *	$data = $cache->get('my-data');
  *
  *</code>
  */

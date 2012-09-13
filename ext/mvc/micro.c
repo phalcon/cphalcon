@@ -41,7 +41,21 @@
 /**
  * Phalcon\Mvc\Micro
  *
+ * With Phalcon you can create "Micro-Framework like" applications. By doing this, you only need to
+ * write a minimal amount of code to create a PHP application. Micro applications are suitable
+ * to small applications, APIs and prototypes in a practical way.
  *
+ *<code>
+ *
+ * $app = new Phalcon\Mvc\Micro();
+ *
+ * $app->get('/say/welcome/{name}', function ($name) {
+ *    echo "<h1>Welcome $name!</h1>";
+ * });
+ *
+ * $app->handle();
+ *
+ *</code>
  */
 
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
@@ -591,9 +605,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
-		
-		
-		RETURN_CCTOR(returned_value);
 	} else {
 		PHALCON_INIT_VAR(events_manager);
 		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
@@ -625,7 +636,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		RETURN_CCTOR(returned_value);
 	}
 	
-	PHALCON_MM_RESTORE();
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "micro:afterHandleRoute", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+	}
+	
+	
+	RETURN_CCTOR(returned_value);
 }
 
 /**

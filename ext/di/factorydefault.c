@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	add_assoc_stringl_ex(services, SL("request")+1, SL("Phalcon\\Http\\Request"), 1);
 	add_assoc_stringl_ex(services, SL("filter")+1, SL("Phalcon\\Filter"), 1);
 	add_assoc_stringl_ex(services, SL("flash")+1, SL("Phalcon\\Flash\\Direct"), 1);
+	add_assoc_stringl_ex(services, SL("flashSession")+1, SL("Phalcon\\Flash\\Session"), 1);
 	add_assoc_stringl_ex(services, SL("session")+1, SL("Phalcon\\Session\\Adapter\\Files"), 1);
 	add_assoc_stringl_ex(services, SL("sessionBag")+1, SL("Phalcon\\Session\\Bag"), 1);
 	add_assoc_stringl_ex(services, SL("eventsManager")+1, SL("Phalcon\\Events\\Manager"), 1);

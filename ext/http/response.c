@@ -43,13 +43,18 @@
  * Encapsulates the HTTP response message.
  *
  *<code>
- *$response = new Phalcon\Http\Response();
- *$response->setStatusCode(200, "OK");
- *$response->setContent("<html><body>Hello</body></html>");
- *$response->send();
+ *	$response = new Phalcon\Http\Response();
+ *	$response->setStatusCode(200, "OK");
+ *	$response->setContent("<html><body>Hello</body></html>");
+ *	$response->send();
  *</code>
  */
 
+/**
+ * Sets the dependency injector
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Http_Response, setDI){
 
 	zval *dependency_injector = NULL;
@@ -66,6 +71,11 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the internal dependency injector
+ *
+ * @return Phalcon\DI
+ */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
 	zval *dependency_injector = NULL;
@@ -79,6 +89,10 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
 
 /**
  * Sets the HTTP response code
+ *
+ *<code>
+ *$response->setStatusCode(404, "Not Found");
+ *</code>
  *
  * @param int $code
  * @param string $message
@@ -141,7 +155,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
  * Overwrites a header in the response
  *
  *<code>
- *$response->setHeader("Content-Type", "text/plain");
+ *	$response->setHeader("Content-Type", "text/plain");
  *</code>
  *
  * @param string $name
@@ -170,7 +184,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
  * Send a raw header to the response
  *
  *<code>
- *$response->setRawHeader("HTTP/1.1 404 Not Found");
+ *	$response->setRawHeader("HTTP/1.1 404 Not Found");
  *</code>
  *
  * @param string $header
@@ -276,14 +290,15 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
  */
 PHP_METHOD(Phalcon_Http_Response, setNotModified){
 
-	zval *c0 = NULL, *c1 = NULL;
+	zval *code = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(c0);
-	ZVAL_LONG(c0, 304);
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "Not modified", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", c0, c1, PH_NO_CHECK);
+	PHALCON_INIT_VAR(code);
+	ZVAL_LONG(code, 304);
+	
+	PHALCON_INIT_VAR(status);
+	ZVAL_STRING(status, "Not modified", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", code, status, PH_NO_CHECK);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -292,13 +307,13 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  * Sets the response content-type mime, optionally the charset
  *
  *<code>
- *$response->setContentType('text/plain', 'UTF-8');
+ *	$response->setContentType('application/pdf');
+ *	$response->setContentType('text/plain', 'UTF-8');
  *</code>
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 
-	zval *content_type = NULL, *charset = NULL, *headers = NULL;
-	zval *c0 = NULL;
+	zval *content_type = NULL, *charset = NULL, *headers = NULL, *name = NULL, *header_value = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -315,9 +330,15 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Content-Type", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, content_type, PH_NO_CHECK);
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "Content-Type", 1);
+	if (Z_TYPE_P(charset) == IS_NULL) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, content_type, PH_NO_CHECK);
+	} else {
+		PHALCON_INIT_VAR(header_value);
+		PHALCON_CONCAT_VSV(header_value, content_type, "; charset=", charset);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, header_value, PH_NO_CHECK);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -326,9 +347,9 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  * Redirect by HTTP to another action or URL
  *
  *<code>
- *$response->redirect("posts/index");
- *$response->redirect("http://en.wikipedia.org", true);
- *$response->redirect("http://www.example.com/new-location", true, 301);
+ *	$response->redirect("posts/index");
+ *	$response->redirect("http://en.wikipedia.org", true);
+ *	$response->redirect("http://www.example.com/new-location", true, 301);
  *</code>
  *
  * @param string $location
@@ -339,8 +360,8 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
 	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
-	zval *header = NULL, *dependency_injector = NULL, *url = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *header = NULL, *dependency_injector = NULL, *service = NULL;
+	zval *url = NULL, *status_text = NULL, *header_name = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -369,23 +390,23 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 			return;
 		}
 		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "url", 1);
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "url", 1);
 		
 		PHALCON_INIT_VAR(url);
-		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "get", c0, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(header);
 		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
 	}
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "Redirect", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", status_code, c1, PH_NO_CHECK);
+	PHALCON_INIT_VAR(status_text);
+	ZVAL_STRING(status_text, "Redirect", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", status_code, status_text, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "Location", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c2, header, PH_NO_CHECK);
+	PHALCON_INIT_VAR(header_name);
+	ZVAL_STRING(header_name, "Location", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", header_name, header, PH_NO_CHECK);
 	
 	RETURN_CCTOR(this_ptr);
 }
@@ -394,7 +415,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
  * Sets HTTP response body
  *
  *<code>
- *$response->setContent("<h1>Hello!</h1>");
+ *	$response->setContent("<h1>Hello!</h1>");
  *</code>
  *
  * @param string $content
@@ -451,13 +472,13 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
  */
 PHP_METHOD(Phalcon_Http_Response, getContent){
 
-	zval *t0 = NULL;
+	zval *content = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_content"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(content);
+	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(content);
 }
 
 /**

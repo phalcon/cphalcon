@@ -61,9 +61,9 @@
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 
-	zval *name = NULL, *options = NULL, *mode = NULL, *handler = NULL, *exception = NULL;
+	zval *name = NULL, *options = NULL, *mode = NULL, *handler = NULL, *exception_message = NULL;
+	zval *exception = NULL;
 	zval *a0 = NULL;
-	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -94,15 +94,18 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	PHALCON_INIT_VAR(handler);
 	PHALCON_CALL_FUNC_PARAMS_2(handler, "fopen", name, mode);
 	if (!zend_is_true(handler)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Can't open log file at '", name, "'");
+		
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_logger_exception_ce);
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CONCAT_SVS(r0, "Can't open log file at '", name, "'");
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", r0, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
 		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
+	phalcon_update_property_zval(this_ptr, SL("_path"), name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_fileHandler"), handler TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -516,18 +519,26 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 
-	zval *path = NULL, *file_handler = NULL;
-	zval *c0 = NULL;
+	zval *path = NULL, *options = NULL, *mode = NULL, *file_handler = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(path);
 	phalcon_read_property(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "ab", 1);
+	PHALCON_INIT_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset_string(options, SL("mode")+1);
+	if (eval_int) {
+		PHALCON_INIT_VAR(mode);
+		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_VAR(mode);
+		ZVAL_STRING(mode, "ab", 1);
+	}
 	
 	PHALCON_INIT_VAR(file_handler);
-	PHALCON_CALL_FUNC_PARAMS_2(file_handler, "fopen", path, c0);
+	PHALCON_CALL_FUNC_PARAMS_2(file_handler, "fopen", path, mode);
 	phalcon_update_property_zval(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

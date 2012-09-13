@@ -40,6 +40,13 @@
 #include "kernel/concat.h"
 
 /**
+ * Phalcon\DI\Injectable
+ *
+ * This class allows to access services in the services container by just only accessing a public property
+ * with the same name of a registered service
+ */
+
+/**
  * Sets the dependency injector
  *
  * @param Phalcon\DI $dependencyInjector

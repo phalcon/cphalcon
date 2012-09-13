@@ -32,3 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+/**
+ * Phalcon\Mvc\User\Plugin
+ *
+ * This class can be used to provide user components easy access to services
+ * in the application
+ */
+

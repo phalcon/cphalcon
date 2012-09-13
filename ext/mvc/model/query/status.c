@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	if (Z_TYPE_P(model) != IS_NULL) {
+	if (Z_TYPE_P(model) == IS_OBJECT) {
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, model, "getmessages", PH_NO_CHECK);
 		

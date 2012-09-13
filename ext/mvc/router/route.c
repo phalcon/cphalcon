@@ -39,6 +39,20 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 
+/**
+ * Phalcon\Mvc\Router\Route
+ *
+ * This class represents every route defined in the router.
+ */
+
+
+/**
+ * Phalcon\Mvc\Router\Route constructor
+ *
+ * @param string $pattern
+ * @param array $paths
+ * @param array|string $httpMethods
+ */
 PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 
 	zval *pattern = NULL, *paths = NULL, *http_methods = NULL, *unique_id = NULL;
@@ -186,6 +200,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	RETURN_CCTOR(final_pattern);
 }
 
+/**
+ * Set one or more HTTP methods that constraint the matching of the route
+ *
+ * @param string|array $httpMethods
+ */
 PHP_METHOD(Phalcon_Mvc_Router_Route, via){
 
 	zval *http_methods = NULL;

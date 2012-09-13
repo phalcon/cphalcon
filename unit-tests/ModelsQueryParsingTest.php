@@ -211,12 +211,12 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'column' => 'r.id',
-					'balias' => 'id'
+					'balias' => 'le_id'
 				),
 				'le_name' => array(
 					'type' => 'scalar',
 					'column' => 'r.name',
-					'balias' => 'name'
+					'balias' => 'le_name'
 				)
 			),
 			'tables' => array('robots r'),
@@ -232,12 +232,12 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'column' => 'robots.id',
-					'balias' => 'id'
+					'balias' => 'le_id'
 				),
 				'le_name' => array(
 					'type' => 'scalar',
 					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'le_name'
 				)
 			),
 			'tables' => array('robots'),
@@ -252,15 +252,18 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'columns' => array(
 				'empty_str' => array(
 					'type' => 'scalar',
-					'column' => "''"
+					'column' => "''",
+					'balias' => 'empty_str'
 				),
 				'double_number' => array(
 					'type' => 'scalar',
-					'column' => '10.5'
+					'column' => '10.5',
+					'balias' => 'double_number'
 				),
 				'long_number' => array(
 					'type' => 'scalar',
-					'column' => '1000'
+					'column' => '1000',
+					'balias' => 'long_number'
 				)
 			),
 			'tables' => array('robots'),
@@ -323,7 +326,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'columns' => array(
 				'nombre' => array(
 					'type' => 'scalar',
-					'column' => 'CONCAT(personas.cedula,\'-\',personas.nombre)'
+					'column' => 'CONCAT(personas.cedula,\'-\',personas.nombre)',
+					'balias' => 'nombre'
 				),
 			),
 			'tables' => array('personas'),
@@ -339,7 +343,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				0 => array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				)
 			),
 			'tables' => array('robots'),
@@ -640,7 +644,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'columns' => array(
 				'price' => array(
 					'type' => 'scalar',
-					'column' => '(personas.cupo+100)/(le_products.price*0.15)'
+					'column' => '(personas.cupo+100)/(le_products.price*0.15)',
+					'balias' => 'price'
 				),
 			),
 			'tables' => array('personas'),
@@ -661,7 +666,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'columns' => array(
 				'price' => array(
 					'type' => 'scalar',
-					'column' => '(p.cupo+100)/(s.price*0.15)'
+					'column' => '(p.cupo+100)/(s.price*0.15)',
+					'balias' => 'price'
 				),
 			),
 			'tables' => array('personas p'),
@@ -888,7 +894,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'tables' => array('robots'),
-			'where' => 'LIKE \'as%\''
+			'where' => 'robots.name LIKE \'as%\''
 		);
 		$query = new Query("SELECT * FROM Robots WHERE Robots.name LIKE 'as%'");
 		$query->setDI($di);
@@ -904,7 +910,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'tables' => array('robots'),
-			'where' => 'NOT LIKE \'as%\''
+			'where' => 'robots.name NOT LIKE \'as%\''
 		);
 		$query = new Query("SELECT * FROM Robots WHERE Robots.name NOT LIKE 'as%'");
 		$query->setDI($di);
@@ -1345,7 +1351,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 				'summatory' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(robots.price)'
+					'column' => 'SUM(robots.price)',
+					'balias' => 'summatory'
 				),
 			),
 			'tables' => array('robots'),
@@ -1370,7 +1377,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 				'summatory' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(r.price)'
+					'column' => 'SUM(r.price)',
+					'balias' => 'summatory'
 				),
 				'_3' => array(
 					'type' => 'scalar',
@@ -1504,7 +1512,8 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 				'price' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(le_products.price)'
+					'column' => 'SUM(le_products.price)',
+					'balias' => 'price'
 				)
 			),
 			'tables' => array('le_products'),

@@ -46,6 +46,7 @@
  * Phalcon\Mvc\View\Engine constructor
  *
  * @param Phalcon\Mvc\View $view
+ * @param Phalcon\DI $dependencyInjector
  * @param array $params
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
@@ -88,10 +89,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
  * Renders a partial inside another view
  *
  * @param string $partialPath
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
-	zval *partial_path = NULL, *view = NULL;
+	zval *partial_path = NULL, *view = NULL, *content = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -102,8 +104,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 
 	PHALCON_INIT_VAR(view);
 	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "partial", partial_path, PH_NO_CHECK);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(content);
+	PHALCON_CALL_METHOD_PARAMS_1(content, view, "partial", partial_path, PH_NO_CHECK);
+	
+	RETURN_CCTOR(content);
 }
 

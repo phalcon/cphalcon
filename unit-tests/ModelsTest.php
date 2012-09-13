@@ -77,7 +77,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($di);
 	}
 
-	public function testModelsPostgresql()
+	/*public function testModelsPostgresql()
 	{
 
 		$di = $this->_getDI();
@@ -111,7 +111,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		});
 
 		$this->_executeTests($di);
-	}
+	}*/
 
 	protected function _executeTests($di){
 

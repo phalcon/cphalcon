@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, set){
 }
 
 /**
- * Sets a header value from the internal bag
+ * Gets a header value from the internal bag
  *
  * @param string $name
  * @return string
@@ -142,6 +142,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
 /**
  * Sends the headers to the client
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
@@ -216,6 +218,8 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 
 /**
  * Restore a Phalcon\Http\Response\Headers object
+ *
+ * @return Phalcon\Http\Response\Headers
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 

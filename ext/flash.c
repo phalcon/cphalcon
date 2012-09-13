@@ -50,6 +50,11 @@
  *</code>
  */
 
+/**
+ * Phalcon\Flash constructor
+ *
+ * @param array $cssClasses
+ */
 PHP_METHOD(Phalcon_Flash, __construct){
 
 	zval *css_classes = NULL;
@@ -81,6 +86,11 @@ PHP_METHOD(Phalcon_Flash, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Set the if the output must be implictly flushed to the output or returned as string
+ *
+ * @param boolean $implicitFlash
+ */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 
 	zval *implicit_flush = NULL;
@@ -97,6 +107,11 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Set the if the output must be implictly formatted with HTML
+ *
+ * @param boolean $automaticHtml
+ */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 
 	zval *automatic_html = NULL;
@@ -113,6 +128,11 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 	RETURN_CCTOR(this_ptr);
 }
 
+/**
+ * Set an array with CSS classes to format the messages
+ *
+ * @param array $cssClasses
+ */
 PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	zval *css_classes = NULL;
@@ -137,7 +157,9 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 /**
  * Shows a HTML error message
  *
- * <code>$flash->error('This is an error'); </code>
+ *<code>
+ * $flash->error('This is an error');
+ *</code>
  *
  * @param string $message
  * @return string
@@ -165,7 +187,9 @@ PHP_METHOD(Phalcon_Flash, error){
 /**
  * Shows a HTML notice/information message
  *
- * <code>$flash->notice('This is an information'); </code>
+ *<code>
+ * $flash->notice('This is an information');
+ *</code>
  *
  * @param string $message
  * @return string
@@ -193,7 +217,9 @@ PHP_METHOD(Phalcon_Flash, notice){
 /**
  * Shows a HTML success message
  *
- * <code>$flash->success('The process was finished successfully'); </code>
+ *<code>
+ * $flash->success('The process was finished successfully');
+ *</code>
  *
  * @param string $message
  * @param string $classes
@@ -222,7 +248,9 @@ PHP_METHOD(Phalcon_Flash, success){
 /**
  * Shows a HTML warning message
  *
- * <code>$flash->warning('Hey, this is important'); </code>
+ *<code>
+ * $flash->warning('Hey, this is important');
+ *</code>
  *
  * @param string $message
  * @param string $classes
@@ -248,6 +276,12 @@ PHP_METHOD(Phalcon_Flash, warning){
 	RETURN_CCTOR(flash_message);
 }
 
+/**
+ * Outputs a message formatting it with HTML
+ *
+ * @param string $type
+ * @param string $message
+ */
 PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	zval *type = NULL, *message = NULL, *automatic_html = NULL, *classes = NULL;

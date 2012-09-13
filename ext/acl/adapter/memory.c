@@ -43,6 +43,58 @@
  * Phalcon\Acl\Adapter\Memory
  *
  * Manages ACL lists in memory
+ *
+ *<code>
+ *
+ *	$acl = new Phalcon\Acl\Adapter\Memory();
+ *
+ *	$acl->setDefaultAction(Phalcon\Acl::DENY);
+ *
+ *	//Register roles
+ *	$roles = array(
+ *		'users' => new Phalcon\Acl\Role('Users'),
+ *		'guests' => new Phalcon\Acl\Role('Guests')
+ *	);
+ *	foreach($roles as $role){
+ *		$acl->addRole($role);
+ *	}
+ *
+ *	//Private area resources
+ *  $privateResources = array(
+ *		'companies' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+ *		'products' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+ *		'invoices' => array('index', 'profile')
+ *	);
+ *	foreach($privateResources as $resource => $actions){
+ *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
+ *	}
+ *
+ *	//Private area resources
+ *	$publicResources = array(
+ *		'index' => array('index'),
+ *		'about' => array('index'),
+ *		'session' => array('index', 'register', 'start', 'end'),
+ *		'contact' => array('index', 'send')
+ *	);
+ *  foreach($publicResources as $resource => $actions){
+ *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
+ *	}
+ *
+ *  //Grant access to public areas to both users and guests
+ *	foreach($roles as $role){
+ *		foreach($publicResources as $resource => $actions){
+ *			$acl->allow($role->getName(), $resource, '*');
+ *		}
+ *	}
+ *
+ *	//Grant acess to private area to role Users
+ *  foreach($privateResources as $resource => $actions){
+ * 		foreach($actions as $action){
+ *			$acl->allow('Users', $resource, $action);
+ *		}
+ *	}
+ *
+ *</code>
  */
 
 
@@ -129,8 +181,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
  * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
  *
  * Example:
- * <code>$acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultant');</code>
- * <code>$acl->addRole('administrator', 'consultant');</code>
+ * <code>
+ * $acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultant');
+ * $acl->addRole('administrator', 'consultant');
+ * </code>
  *
  * @param  string $roleObject
  * @param  array $accessInherits

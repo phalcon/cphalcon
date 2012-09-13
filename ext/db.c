@@ -169,15 +169,15 @@ PHP_METHOD(Phalcon_Db, getEventsManager){
 /**
  * Returns the first row in a SQL query result
  *
- * <code>
- * //Getting first robot
- * $robot = $connection->fecthOne("SELECT * FROM robots");
- * print_r($robot);
+ *<code>
+ *	//Getting first robot
+ *	$robot = $connection->fecthOne("SELECT * FROM robots");
+ *	print_r($robot);
  *
- * //Getting first robot with associative indexes only
- * $robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
- * print_r($robot);
- * </code>
+ *	//Getting first robot with associative indexes only
+ *	$robot = $connection->fecthOne("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	print_r($robot);
+ *</code>
  *
  * @param string $sqlQuery
  * @param int $fetchMode
@@ -219,19 +219,19 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 /**
  * Dumps the complete result of a query into an array
  *
- * <code>
- * //Getting all robots
- * $robots = $connection->fetchAll("SELECT * FROM robots");
- * foreach($robots as $robot){
- *    print_r($robot);
- * }
+ *<code>
+ *	//Getting all robots
+ *	$robots = $connection->fetchAll("SELECT * FROM robots");
+ *	foreach($robots as $robot){
+ *		print_r($robot);
+ *	}
  *
- * //Getting all robots with associative indexes only
- * $robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
- * foreach($robots as $robot){
- *    print_r($robot);
- * }
- * </code>
+ *	//Getting all robots with associative indexes only
+ *	$robots = $connection->fetchAll("SELECT * FROM robots", Phalcon\Db::FETCH_ASSOC);
+ *	foreach($robots as $robot){
+ *		print_r($robot);
+ *	}
+ *</code>
  *
  * @param string $sqlQuery
  * @param int $fetchMode
@@ -303,16 +303,12 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 PHP_METHOD(Phalcon_Db, insert){
 
 	zval *table = NULL, *values = NULL, *fields = NULL, *number_values = NULL, *exception_message = NULL;
-	zval *exception = NULL, *placeholders = NULL, *value = NULL, *position = NULL;
-	zval *str_value = NULL, *comma = NULL, *joined_values = NULL, *joined_fields = NULL;
-	zval *insert_sql = NULL, *success = NULL;
+	zval *exception = NULL, *placeholders = NULL, *insert_values = NULL;
+	zval *value = NULL, *str_value = NULL, *comma = NULL, *joined_values = NULL;
+	zval *joined_fields = NULL, *insert_sql = NULL, *success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 	
@@ -321,95 +317,88 @@ PHP_METHOD(Phalcon_Db, insert){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(values);
-	
 	if (!fields) {
 		PHALCON_ALLOC_ZVAL_MM(fields);
 		ZVAL_NULL(fields);
 	}
 	
-	if (Z_TYPE_P(values) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(number_values);
-		phalcon_fast_count(number_values, values TSRMLS_CC);
-		if (phalcon_compare_strict_long(number_values, 0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
-			
-			PHALCON_INIT_VAR(exception);
-			object_init_ex(exception, phalcon_db_exception_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
-			phalcon_throw_exception(exception TSRMLS_CC);
-			return;
-		}
-		
-		PHALCON_INIT_VAR(placeholders);
-		array_init(placeholders);
-		
-		if (!phalcon_valid_foreach(values TSRMLS_CC)) {
-			return;
-		}
-		
-		ALLOC_HASHTABLE(ah0);
-		zend_hash_init(ah0, 0, NULL, NULL, 0);
-		zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
-		ph_cycle_start_0:
-		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto ph_cycle_end_0;
-			}
-			
-			PHALCON_INIT_VAR(position);
-			PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
-			
-			if (Z_TYPE_P(value) == IS_OBJECT) {
-				PHALCON_INIT_VAR(str_value);
-				PHALCON_CALL_FUNC_PARAMS_1(str_value, "strval", value);
-				phalcon_array_append(&placeholders, str_value, PH_SEPARATE TSRMLS_CC);
-				PHALCON_SEPARATE_PARAM(values);
-				phalcon_array_unset(values, position);
-			} else {
-				if (Z_TYPE_P(value) == IS_NULL) {
-					phalcon_array_append_string(&placeholders, SL("null"), PH_SEPARATE TSRMLS_CC);
-					PHALCON_SEPARATE_PARAM(values);
-					phalcon_array_unset(values, position);
-				} else {
-					phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
-				}
-			}
-			
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto ph_cycle_start_0;
-		
-		ph_cycle_end_0:
-		zend_hash_destroy(ah0);
-		efree(ah0);
-		
-		PHALCON_INIT_VAR(comma);
-		ZVAL_STRING(comma, ", ", 1);
-		
-		PHALCON_INIT_VAR(joined_values);
-		phalcon_fast_join(joined_values, comma, placeholders TSRMLS_CC);
-		if (Z_TYPE_P(fields) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(joined_fields);
-			phalcon_fast_join(joined_fields, comma, fields TSRMLS_CC);
-			
-			PHALCON_INIT_VAR(insert_sql);
-			PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", joined_fields, ") VALUES (", joined_values, ")");
-		} else {
-			PHALCON_INIT_VAR(insert_sql);
-			PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", table, " VALUES (", joined_values, ")");
-		}
-		
-		PHALCON_INIT_VAR(success);
-		PHALCON_CALL_METHOD_PARAMS_2(success, this_ptr, "execute", insert_sql, values, PH_NO_CHECK);
-		
-		RETURN_CCTOR(success);
+	if (Z_TYPE_P(values) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
+		return;
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
-	return;
+	
+	PHALCON_INIT_VAR(number_values);
+	phalcon_fast_count(number_values, values TSRMLS_CC);
+	if (phalcon_compare_strict_long(number_values, 0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
+		
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_db_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
+		return;
+	}
+	
+	PHALCON_INIT_VAR(placeholders);
+	array_init(placeholders);
+	
+	PHALCON_INIT_VAR(insert_values);
+	array_init(insert_values);
+	
+	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(values);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+	ph_cycle_start_0:
+	
+		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			goto ph_cycle_end_0;
+		}
+		
+		PHALCON_GET_FOREACH_VALUE(value);
+		
+		if (Z_TYPE_P(value) == IS_OBJECT) {
+			PHALCON_INIT_VAR(str_value);
+			PHALCON_CALL_FUNC_PARAMS_1(str_value, "strval", value);
+			phalcon_array_append(&placeholders, str_value, PH_SEPARATE TSRMLS_CC);
+		} else {
+			if (Z_TYPE_P(value) == IS_NULL) {
+				phalcon_array_append_string(&placeholders, SL("null"), PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_append_string(&placeholders, SL("?"), PH_SEPARATE TSRMLS_CC);
+				phalcon_array_append(&insert_values, value, PH_SEPARATE TSRMLS_CC);
+			}
+		}
+		
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto ph_cycle_start_0;
+	
+	ph_cycle_end_0:
+	
+	PHALCON_INIT_VAR(comma);
+	ZVAL_STRING(comma, ", ", 1);
+	
+	PHALCON_INIT_VAR(joined_values);
+	phalcon_fast_join(joined_values, comma, placeholders TSRMLS_CC);
+	if (Z_TYPE_P(fields) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(joined_fields);
+		phalcon_fast_join(joined_fields, comma, fields TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(insert_sql);
+		PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", joined_fields, ") VALUES (", joined_values, ")");
+	} else {
+		PHALCON_INIT_VAR(insert_sql);
+		PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", table, " VALUES (", joined_values, ")");
+	}
+	
+	PHALCON_INIT_VAR(success);
+	PHALCON_CALL_METHOD_PARAMS_2(success, this_ptr, "execute", insert_sql, insert_values, PH_NO_CHECK);
+	
+	RETURN_CCTOR(success);
 }
 
 /**
@@ -437,8 +426,9 @@ PHP_METHOD(Phalcon_Db, insert){
 PHP_METHOD(Phalcon_Db, update){
 
 	zval *table = NULL, *fields = NULL, *values = NULL, *where_condition = NULL;
-	zval *placeholders = NULL, *value = NULL, *position = NULL, *field = NULL, *set_clause_part = NULL;
-	zval *comma = NULL, *set_clause = NULL, *update_sql = NULL, *success = NULL;
+	zval *placeholders = NULL, *update_values = NULL, *value = NULL, *position = NULL;
+	zval *field = NULL, *set_clause_part = NULL, *comma = NULL, *set_clause = NULL;
+	zval *update_sql = NULL, *success = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -455,8 +445,6 @@ PHP_METHOD(Phalcon_Db, update){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(values);
-	
 	if (!where_condition) {
 		PHALCON_ALLOC_ZVAL_MM(where_condition);
 		ZVAL_NULL(where_condition);
@@ -465,13 +453,14 @@ PHP_METHOD(Phalcon_Db, update){
 	PHALCON_INIT_VAR(placeholders);
 	array_init(placeholders);
 	
+	PHALCON_INIT_VAR(update_values);
+	array_init(update_values);
+	
 	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 		return;
 	}
 	
-	ALLOC_HASHTABLE(ah0);
-	zend_hash_init(ah0, 0, NULL, NULL, 0);
-	zend_hash_copy(ah0, Z_ARRVAL_P(values), NULL, NULL, sizeof(zval*));
+	ah0 = Z_ARRVAL_P(values);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	ph_cycle_start_0:
@@ -492,17 +481,14 @@ PHP_METHOD(Phalcon_Db, update){
 				PHALCON_INIT_VAR(set_clause_part);
 				PHALCON_CONCAT_VSV(set_clause_part, field, " = ", value);
 				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
-				PHALCON_SEPARATE_PARAM(values);
-				phalcon_array_unset(values, position);
 			} else {
 				if (Z_TYPE_P(value) == IS_NULL) {
 					PHALCON_INIT_VAR(set_clause_part);
 					PHALCON_CONCAT_VS(set_clause_part, field, " = null");
-					PHALCON_SEPARATE_PARAM(values);
-					phalcon_array_unset(values, position);
 				} else {
 					PHALCON_INIT_VAR(set_clause_part);
 					PHALCON_CONCAT_VS(set_clause_part, field, " = ?");
+					phalcon_array_append(&update_values, value, PH_SEPARATE TSRMLS_CC);
 				}
 				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 			}
@@ -515,8 +501,6 @@ PHP_METHOD(Phalcon_Db, update){
 		goto ph_cycle_start_0;
 	
 	ph_cycle_end_0:
-	zend_hash_destroy(ah0);
-	efree(ah0);
 	
 	PHALCON_INIT_VAR(comma);
 	ZVAL_STRING(comma, ", ", 1);
@@ -532,7 +516,7 @@ PHP_METHOD(Phalcon_Db, update){
 	}
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_2(success, this_ptr, "execute", update_sql, values, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(success, this_ptr, "execute", update_sql, update_values, PH_NO_CHECK);
 	
 	RETURN_CCTOR(success);
 }
@@ -574,8 +558,8 @@ PHP_METHOD(Phalcon_Db, delete){
 	}
 	
 	if (!placeholders) {
-		PHALCON_INIT_VAR(placeholders);
-		array_init(placeholders);
+		PHALCON_ALLOC_ZVAL_MM(placeholders);
+		ZVAL_NULL(placeholders);
 	}
 	
 	if (Z_TYPE_P(where_condition) != IS_NULL) {

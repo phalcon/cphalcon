@@ -65,7 +65,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function _testSelectExecute()
+	/*public function testSelectExecute()
 	{
 
 		$di = $this->_getDI();
@@ -133,6 +133,20 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[0]->new_name, '1Robotina');
 
 		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = 1');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextid));
+		$this->assertEquals($result[0]->nextid, 2);
+
+		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = ?0', array(0 => 1));
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextid));
+		$this->assertEquals($result[0]->nextid, 2);
+
+		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = :id:', array('id' => 1));
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
@@ -231,14 +245,14 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function _testInsertExecute()
+	public function testInsertExecute()
 	{
 
 		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->delete("subscriptores");
+		$di->getShared('db')->delete("subscriptores");
 
 		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", now(), "P")');
 		$this->assertFalse($status->success());
@@ -269,7 +283,14 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
 		$this->assertTrue($status->success());
 
-	}
+		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)', array(
+			"email" => "yeahyeah@hotmail.com",
+			"created_at" => "2010-02-01 13:21:00",
+			"status" => "P"
+		));
+		$this->assertTrue($status->success());
+
+	}*/
 
 	public function testUpdateExecute()
 	{
@@ -278,14 +299,21 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->execute('update personas set ciudad_id = null where direccion = "COL"');
+		$di->getShared('db')->execute('UPDATE personas SET ciudad_id = NULL WHERE direccion = "COL"');
 
 		$status = $manager->executeQuery('UPDATE People SET direccion = "COL" WHERE ciudad_id IS NULL');
-		if($status->success()==false){
-			foreach($status->getMessages() as $message){
-				echo $message, PHP_EOL;
-			}
-		}
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL', array(
+			"direccion" => "MXN"
+		));
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE Subscriptores SET status = :status: WHERE email = :email:', array(
+			"status" => "I",
+			"email" => "le-marina@hotmail.com"
+		));
+		$this->assertTrue($status->success());
 
 	}
 
@@ -297,11 +325,13 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$manager = $di->getShared('modelsManager');
 
 		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE email = "marina@hotmail.com"');
-		if($status->success()==false){
-			foreach($status->getMessages() as $message){
-				echo $message, PHP_EOL;
-			}
-		}
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:', array(
+			'status' => "P",
+			'email' => 'fuego@hotmail.com'
+		));
+		$this->assertTrue($status->success());
 
 	}
 

@@ -32,3 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+/**
+ * Phalcon\Events\Exception
+ *
+ * Exceptions thrown in Phalcon\Events will use this class
+ *
+ */
+

@@ -58,7 +58,7 @@
 /**
  * Parses a PHQL statement returning an intermediate representation (IR)
  *
- * @param string $phsql
+ * @param string $phql
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){

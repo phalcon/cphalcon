@@ -42,6 +42,10 @@
 /**
  * Phalcon\Events\Manager
  *
+ * The new Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
+ * the normal flow of operation. With the EventsManager the developer can create hooks or
+ * plugins that will offer monitoring of data, manipulation, conditional execution and much more.
+ *
  */
 
 PHP_METHOD(Phalcon_Events_Manager, __construct){
@@ -202,5 +206,36 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	
 	
 	RETURN_CCTOR(status);
+}
+
+/**
+ * Returns all the attached listeners of a certain type
+ *
+ * @param string $type
+ * @return array
+ */
+PHP_METHOD(Phalcon_Events_Manager, getListeners){
+
+	zval *type = NULL, *events = NULL, *fire_events = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(events);
+	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(events, type);
+	if (eval_int) {
+		PHALCON_INIT_VAR(fire_events);
+		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
+		
+		RETURN_CCTOR(fire_events);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 

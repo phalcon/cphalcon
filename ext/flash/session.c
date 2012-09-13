@@ -38,6 +38,12 @@
 #include "kernel/array.h"
 
 /**
+ * Phalcon\Flash\Session
+ *
+ * Temporarily stores the messages in session, then messages can be printed in the next request
+ */
+
+/**
  * Sets the dependency injector
  *
  * @param Phalcon\DI $dependencyInjector
@@ -74,6 +80,12 @@ PHP_METHOD(Phalcon_Flash_Session, getDI){
 	RETURN_CCTOR(dependency_injector);
 }
 
+/**
+ * Returns the messages stored in session
+ *
+ * @param boolean $remove
+ * @return array
+ */
 PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 
 	zval *remove = NULL, *dependency_injector = NULL, *service = NULL;
@@ -112,6 +124,11 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	RETURN_CCTOR(messages);
 }
 
+/**
+ * Stores the messages in session
+ *
+ * @param array $messages
+ */
 PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
 	zval *messages = NULL, *dependency_injector = NULL, *service = NULL;
@@ -150,6 +167,12 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	RETURN_CCTOR(messages);
 }
 
+/**
+ * Adds a message to the session flasher
+ *
+ * @param string $type
+ * @param string $message
+ */
 PHP_METHOD(Phalcon_Flash_Session, message){
 
 	zval *type = NULL, *message = NULL, *remove = NULL, *messages = NULL;
@@ -186,6 +209,13 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the messages in the session flasher
+ *
+ * @param string $type
+ * @param boolean $remove
+ * @return array
+ */
 PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	zval *type = NULL, *remove = NULL, *messages = NULL, *return_messages = NULL;
@@ -231,6 +261,12 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	RETURN_CTOR(empty_arr);
 }
 
+/**
+ * Prints the messages in the session flasher
+ *
+ * @param string $type
+ * @param boolean $remove
+ */
 PHP_METHOD(Phalcon_Flash_Session, output){
 
 	zval *remove = NULL, *messages = NULL, *message = NULL, *type = NULL;
