@@ -45,6 +45,7 @@ extern zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_email_ce;
+extern zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 extern zend_class_entry *phalcon_mvc_model_query_ce;
 extern zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
 extern zend_class_entry *phalcon_mvc_model_resultset_simple_ce;
@@ -399,6 +400,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate);
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate);
 
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
+
+PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setDI);
@@ -1665,6 +1668,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_numericality_validate
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_email_validate, 0, 0, 1)
+	ZEND_ARG_INFO(0, record)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_stringlength_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
@@ -3546,6 +3553,11 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_numericality_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_email_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Validator_Email, validate, arginfo_phalcon_mvc_model_validator_email_validate, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_stringlength_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_Validator_StringLength, validate, arginfo_phalcon_mvc_model_validator_stringlength_validate, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
