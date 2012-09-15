@@ -678,6 +678,34 @@ PHP_METHOD(Phalcon_Tag, checkField){
 }
 
 /**
+ * Builds a HTML input[type="radio"] tag
+ *
+ * <code>echo Phalcon\Tag::radioField(array("name", "size" => 30))</code>
+ *
+ * @param array $parameters
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, radioField){
+
+	zval *parameters = NULL, *name = NULL, *html = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(name);
+	ZVAL_STRING(name, "radio", 1);
+
+	PHALCON_INIT_VAR(html);
+	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
+
+	RETURN_CCTOR(html);
+}
+
+/**
  * Builds a HTML input[type="submit"] tag
  *
  *<code>

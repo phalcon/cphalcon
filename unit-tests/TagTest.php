@@ -113,6 +113,10 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" name="hello" id="hello" value="lol" />');
 		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" name="hello" id="hello" value="lol" />');
 
+		//radioField
+		$this->assertEquals(Tag::radioField('hello'), '<input type="radio" name="hello" id="hello" value="lol" />');
+		$this->assertEquals(Tag::radioField(array('hello')), '<input type="radio" name="hello" id="hello" value="lol" />');
+
 		//Links
 		$this->assertEquals(Tag::linkTo('', 'home'), '<a href="/">home</a>');
 		$this->assertEquals(Tag::linkTo('index', 'home'), '<a href="/index">home</a>');
