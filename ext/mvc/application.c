@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			ZVAL_STRING(event_name, "application:beforeStartModule", 1);
 			
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			ZVAL_STRING(event_name, "application:afterStartModule", 1);
 			
 			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
 				PHALCON_MM_RESTORE();
 				RETURN_FALSE;
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		ZVAL_STRING(event_name, "application:beforeHandleRequest", 1);
 		
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, dispatcher, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
 			PHALCON_MM_RESTORE();
 			RETURN_FALSE;
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "application:afterHandleRequest", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, controller, PH_NO_CHECK);
 	}
 	
 	if (Z_TYPE_P(controller) == IS_OBJECT) {
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "application:beforeSendResponse", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, response, PH_NO_CHECK);
 	}
 	
 	PHALCON_CALL_METHOD_NORETURN(response, "sendheaders", PH_NO_CHECK);
