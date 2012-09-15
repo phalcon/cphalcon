@@ -116,6 +116,26 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($messages[0]->getType(), "regex");
 		$this->assertEquals($messages[0]->getField(), "status");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' doesn't match regular expression");
+		
+		//too_long
+		$subscriptor->email = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
+		$subscriptor->status = 'P';
+		$this->assertFalse($subscriptor->save());
+
+		$messages = $subscriptor->getMessages();
+		$this->assertEquals($messages[0]->getType(), "too_long");
+		$this->assertEquals($messages[0]->getField(), "email");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' exceeds the maximum 50 characters");
+
+		//too_short
+		$subscriptor->email = 'a@b.co';
+		$subscriptor->status = 'P';
+		$this->assertFalse($subscriptor->save());
+
+		$messages = $subscriptor->getMessages();
+		$this->assertEquals($messages[0]->getType(), "too_short");
+		$this->assertEquals($messages[0]->getField(), "email");
+		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is less than the minimum 7 characters");
 
 	}
 
