@@ -113,6 +113,10 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" name="hello" id="hello" value="lol" />');
 		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" name="hello" id="hello" value="lol" />');
 
+		//radioField
+		$this->assertEquals(Tag::radioField('hello'), '<input type="radio" name="hello" id="hello" value="lol" />');
+		$this->assertEquals(Tag::radioField(array('hello')), '<input type="radio" name="hello" id="hello" value="lol" />');
+
 		//Links
 		$this->assertEquals(Tag::linkTo('', 'home'), '<a href="/">home</a>');
 		$this->assertEquals(Tag::linkTo('index', 'home'), '<a href="/index">home</a>');
@@ -267,6 +271,22 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$actual = Tag::textField($options);
 		$this->assertEquals($expectedWithoutValue, $actual);
 
+	}
+
+	public function testTextarea()
+	{
+
+		$options = 'some_field_name';
+        $expected = '<textarea name="some_field_name" id="some_field_name"></textarea>';
+        $actual = Tag::textArea($options);
+        $this->assertEquals($expected, $actual);
+
+        $options = array('some_field_name', 'class' => 'some_class');
+        $expected = '<textarea class="some_class" name="some_field_name" '
+                  . 'id="some_field_name"></textarea>';
+        $actual = Tag::textArea($options);
+
+        $this->assertEquals($expected, $actual);
 	}
 
 }

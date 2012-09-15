@@ -325,7 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			PHALCON_CPY_WRT(set_order, t0);
 			
 			PHALCON_INIT_VAR(names_pattern);
-			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]+)(:([^}]+))*}#", 1);
+			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]*)(:([^}]+))*}#", 1);
 			p0[0] = names_pattern;
 			p0[1] = pcre_pattern;
 			Z_SET_ISREF_P(matches);
