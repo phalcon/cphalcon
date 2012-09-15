@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
  */
 PHP_METHOD(Phalcon_Events_Manager, fire){
 
-	zval *event_type = NULL, *source = NULL, *colon = NULL, *event_parts = NULL;
+	zval *event_type = NULL, *source = NULL, *data = NULL, *colon = NULL, *event_parts = NULL;
 	zval *exception_message = NULL, *exception = NULL, *type = NULL, *event_name = NULL;
 	zval *status = NULL, *events = NULL, *fire_events = NULL, *handler = NULL, *event = NULL;
 	zval *class_name = NULL, *arguments = NULL;
@@ -120,9 +120,14 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &event_type, &source) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &event_type, &source, &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
+	}
+
+	if (!data) {
+		PHALCON_INIT_VAR(data);
+		ZVAL_NULL(data);
 	}
 
 	PHALCON_INIT_VAR(colon);
@@ -176,7 +181,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			if (Z_TYPE_P(handler) == IS_OBJECT) {
 				PHALCON_INIT_VAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(event, "__construct", event_name, source, PH_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
 				
 				PHALCON_INIT_VAR(class_name);
 				phalcon_get_class(class_name, handler TSRMLS_CC);
@@ -185,13 +190,14 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 					array_init(arguments);
 					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
 					phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
 					
 					PHALCON_INIT_VAR(status);
 					PHALCON_CALL_FUNC_PARAMS_2(status, "call_user_func_array", handler, arguments);
 				} else {
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 						PHALCON_INIT_VAR(status);
-						PHALCON_CALL_METHOD_PARAMS_2(status, handler, Z_STRVAL_P(event_name), event, source, PH_NO_CHECK);
+						PHALCON_CALL_METHOD_PARAMS_3(status, handler, Z_STRVAL_P(event_name), event, source, data, PH_NO_CHECK);
 					}
 				}
 			}

@@ -45,20 +45,27 @@
  *
  * @param string $type
  * @param object $source
+ * @param object $data
  */
 PHP_METHOD(Phalcon_Events_Event, __construct){
 
-	zval *type = NULL, *source = NULL;
+	zval *type = NULL, *source = NULL, *data = NULL;
 
 	PHALCON_MM_GROW();
 	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &source) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &type, &source, &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!data) {
+		PHALCON_ALLOC_ZVAL_MM(data);
+		ZVAL_NULL(data);
+	}
+
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -80,6 +87,32 @@ PHP_METHOD(Phalcon_Events_Event, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), event_type TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Set the event's data
+ *
+ * @param object $data
+ */
+PHP_METHOD(Phalcon_Events_Event, setData){
+
+	zval *data = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!data) {
+		PHALCON_ALLOC_ZVAL_MM(data);
+		ZVAL_NULL(data);
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -114,5 +147,21 @@ PHP_METHOD(Phalcon_Events_Event, getSource){
 	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(source);
+}
+
+/**
+ * Returns the event's data
+ *
+ * @return object
+ */
+PHP_METHOD(Phalcon_Events_Event, getData){
+
+	zval *data = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(data);
 }
 
