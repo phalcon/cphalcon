@@ -84,6 +84,20 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testModelsSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+
+	}
+
 	public function _executeTests($di)
 	{
 

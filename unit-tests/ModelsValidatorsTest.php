@@ -38,7 +38,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testModels()
+	public function testValidators()
 	{
 
 		Phalcon\DI::reset();

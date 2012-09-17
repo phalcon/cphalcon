@@ -48,64 +48,60 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 
-                $configPostgresqlDefault = array_merge(array(), $configPostgresql);
-                unset($configPostgresqlDefault['schema']);
+		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
+		unset($configPostgresqlDefault['schema']);
 
-                $configPostgresqlNonExists = array_merge(array(), $configPostgresql);
-                $configPostgresqlNonExists['schema'] = 'nonexists';
+		$configPostgresqlNonExists = array_merge(array(), $configPostgresql);
+		$configPostgresqlNonExists['schema'] = 'nonexists';
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-                  $this->assertTrue(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(false);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+			$this->assertTrue(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(false);
+		}
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
-                  $this->assertTrue(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(false);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
+			$this->assertTrue(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(false);
+		}
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
-                  $this->assertFalse(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(true);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
+			$this->assertFalse(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(true);
+		}
 
 	}
 
-    public function testDbSqlite()
-   	{
+	public function testDbSqlite()
+	{
 
-   		require 'unit-tests/config.db.php';
+		require 'unit-tests/config.db.php';
 
-   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
-   		$this->_executeTests($connection, "sqlite");
-   	}
+		$this->_executeTests($connection);
+	}
 
-	protected function _executeTests($connection, $adapter="")
+	protected function _executeTests($connection)
 	{
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
-		for ($i=0; $i<3; $i++){
+		for ($i=0; $i<3; $i++) {
 			$row = $result->fetchArray();
 			$this->assertEquals(count($row), 22);
 		}
 
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
-        if ($adapter == "sqlite") {
-            $this->assertEquals($result->numRows(), 0); //sqlite not support rowCount in PDO
-        }else {
-            $this->assertEquals($result->numRows(), 3);
-        }
+		$this->assertEquals($result->numRows(), 3);
 
 		$number = 0;
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");

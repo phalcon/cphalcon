@@ -3,7 +3,8 @@
 class EchoTask extends \Phalcon\CLI\Task
 {
 
-    public function mainAction() {
+    public function mainAction()
+    {
         return "echoMainAction";
     }
 
