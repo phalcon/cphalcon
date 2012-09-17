@@ -25,12 +25,17 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->_response = new Phalcon\Http\Response();
-	}
+		$di = new Phalcon\DI();
 
-	public function testInstanceOf()
-	{
-		$this->assertInstanceOf('Phalcon\Http\Response', $this->_response);
+		$di->set('url', function(){
+			$url = new Phalcon\Mvc\Url();
+			$url->setBaseUri('/');
+			return $url;
+		});
+
+		$this->_response = new Phalcon\Http\Response();
+
+		$this->_response->setDI($di);
 	}
 
 	public function testSetHeader()
@@ -88,6 +93,32 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testSetContentType()
+	{
+
+		//Without charset
+		$this->_response->resetHeaders();
+
+		$this->_response->setContentType('application/json');
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'Content-Type' => 'application/json'
+			)
+		)), $this->_response->getHeaders());
+
+		//With charset
+		$this->_response->resetHeaders();
+
+		$this->_response->setContentType('application/json', 'utf-8');
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'Content-Type' => 'application/json; charset=utf-8'
+			)
+		)), $this->_response->getHeaders());
+	}
+
 	public function testNotModifiedHeader()
 	{
 
@@ -99,6 +130,51 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 			'_headers' => array(
 				'HTTP/1.1 304 Not modified' => false,
 				'Status' => '304 Not modified'
+			)
+		)), $this->_response->getHeaders());
+
+	}
+
+	public function testRedirect()
+	{
+
+
+		//local URI
+		$this->_response->resetHeaders();
+
+		$this->_response->redirect("some/local/uri");
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'HTTP/1.1 302 Redirect' => false,
+				'Status' => '302 Redirect',
+				'Location' => '/some/local/uri'
+			)
+		)), $this->_response->getHeaders());
+
+		//Full URL
+		$this->_response->resetHeaders();
+
+		$this->_response->redirect("http://google.com", true);
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'HTTP/1.1 302 Redirect' => false,
+				'Status' => '302 Redirect',
+				'Location' => 'http://google.com'
+			)
+		)), $this->_response->getHeaders());
+
+		//HTTP code
+		$this->_response->resetHeaders();
+
+		$this->_response->redirect("http://google.com", true, 301);
+
+		$this->assertEquals(Phalcon\Http\Response\Headers::__set_state(array(
+			'_headers' => array(
+				'HTTP/1.1 301 Redirect' => false,
+				'Status' => '301 Redirect',
+				'Location' => 'http://google.com'
 			)
 		)), $this->_response->getHeaders());
 

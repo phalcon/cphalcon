@@ -175,6 +175,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 	{
 
 		$frontCache = new Phalcon\Cache\Frontend\Data();
+
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/'
 		));

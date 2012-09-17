@@ -16,8 +16,5 @@ $configPostgresql = array(
 );
 
 $configSqlite = array(
-	'host' => '',
-	'username' => '',
-	'password' => '',
 	'dbname' => '/tmp/phalcon_test.sqlite',
 );

@@ -87,13 +87,16 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('viewCache', function(){
+		$di->set('otherCache', function(){
+
 			$frontend = new Phalcon\Cache\Frontend\Output(array(
 				'lifetime' => 60
 			));
+
 			return new Phalcon\Cache\Backend\File($frontend, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
+
 		});
 
 		$view = new Phalcon\Mvc\View($config);
@@ -124,41 +127,5 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($view->getContent(), $content);
 
 	}
-
-	/*public function testCacheOptions(){
-
-		$view = new Phalcon\View();
-		$view->setViewsDir('unit-tests/views/');
-
-		$options = array(
-			'adapter' => 'File',
-			'lifetime' => 86400,
-			'cacheDir' => 'unit-tests/cache/',
-			'key' => 'my-view-cache',
-		);
-
-		$date = date("r");
-
-		$content = '<html>'.$date.'</html>'.PHP_EOL;
-
-		$view->setVar("date", $date);
-
-		$view->start();
-		$view->cache($options);
-		$view->render('test8', 'leother');
-		$view->finish();
-		$this->assertEquals($view->getContent(), $content);
-
-		sleep(1);
-
-		$view->setVar("date", date("r"));
-
-		$view->start();
-		$view->cache($options);
-		$view->render('test8', 'leother');
-		$view->finish();
-		$this->assertEquals($view->getContent(), $content);
-
-	}*/
 
 }

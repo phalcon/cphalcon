@@ -20,8 +20,9 @@
 			<file>unit-tests/EventsTest.php</file>
 			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
-			<file>unit-tests/RouterTest.php</file>
-			<file>unit-tests/DispatcherTest.php</file>
+			<file>unit-tests/RouterMvcTest.php</file>
+			<file>unit-tests/DispatcherMvcTest.php</file>
+			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
 			<file>unit-tests/DbTest.php</file>
 			<file>unit-tests/DbDescribeTest.php</file>
@@ -39,6 +40,7 @@
 			<file>unit-tests/ModelsMetadataAdaptersTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
+			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 			<file>unit-tests/CacheResultsetTest.php</file>
 			<file>unit-tests/ViewTest.php</file>
@@ -56,7 +58,11 @@
 			<file>unit-tests/LoaderTest.php</file>
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 			<file>unit-tests/VersionTest.php</file>
-			<file>unit-tests/CliTest.php</file>
+
+			<file>unit-tests/RouterCliTest.php</file>
+			<file>unit-tests/DispatcherCliTest.php</file>
+			<file>unit-tests/TasksCliTest.php</file>
+			<file>unit-tests/ConsoleCliTest.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>
