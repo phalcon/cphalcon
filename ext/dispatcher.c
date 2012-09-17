@@ -398,12 +398,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
 	zval *dependency_injector = NULL, *exception_message = NULL;
 	zval *events_manager = NULL, *event_name = NULL, *status = NULL, *value = NULL;
-	zval *handler = NULL, *number_dispatches = NULL, *maximum_routes = NULL;
-	zval *handler_suffix = NULL, *action_suffix = NULL, *default_namespace = NULL;
-	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
-	zval *has_namespace = NULL, *camelized_class = NULL, *handler_class = NULL;
-	zval *has_service = NULL, *was_fresh = NULL, *params = NULL, *action_method = NULL;
-	zval *call_object = NULL, *cyclic_routing = NULL;
+	zval *handler = NULL, *number_dispatches = NULL, *handler_suffix = NULL;
+	zval *action_suffix = NULL, *default_namespace = NULL, *finished = NULL;
+	zval *handler_name = NULL, *action_name = NULL, *has_namespace = NULL;
+	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
+	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -438,9 +437,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_INIT_VAR(number_dispatches);
 	ZVAL_LONG(number_dispatches, 0);
 	
-	PHALCON_INIT_VAR(maximum_routes);
-	ZVAL_LONG(maximum_routes, 256);
-	
 	PHALCON_INIT_VAR(handler_suffix);
 	phalcon_read_property(&handler_suffix, this_ptr, SL("_handlerSuffix"), PH_NOISY_CC);
 	
@@ -457,6 +453,11 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_CPY_WRT(finished, t0);
 		if (zend_is_true(finished)) {
 			goto ph_cycle_end_0;
+		}
+		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+			PHALCON_INIT_VAR(exception_message);
+			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
 		}
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
 		
@@ -613,22 +614,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		
-		PHALCON_SEPARATE(number_dispatches);
-		increment_function(number_dispatches);
-		
-		PHALCON_INIT_VAR(cyclic_routing);
-		is_smaller_function(cyclic_routing, maximum_routes, number_dispatches TSRMLS_CC);
-		if (PHALCON_IS_TRUE(cyclic_routing)) {
-			PHALCON_INIT_VAR(exception_message);
-			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
-		}
-		
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
+		
+		PHALCON_SEPARATE(number_dispatches);
+		increment_function(number_dispatches);
 		goto ph_cycle_start_0;
 	ph_cycle_end_0:
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {

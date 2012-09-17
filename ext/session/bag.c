@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -52,15 +52,27 @@
 
 PHP_METHOD(Phalcon_Session_Bag, __construct){
 
+	zval *name = NULL;
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
-
 	
 	PHALCON_ALLOC_ZVAL_MM(a0);
 	array_init(a0);
 	zend_update_property(phalcon_session_bag_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
 
+	if (Z_TYPE_P(name) == IS_STRING) {
+		phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
+		return;
+	}
+	
 	PHALCON_MM_RESTORE();
 }
 
@@ -81,7 +93,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_url_exception_ce, "The dependency injector must be an Object");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "The dependency injector must be an Object");
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -117,7 +129,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access the 'session' service");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
 		return;
 	}
 	
@@ -140,6 +152,30 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_session"), session TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_initalized"), 1 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Destroyes the session bag
+ */
+PHP_METHOD(Phalcon_Session_Bag, destroy){
+
+	zval *initalized = NULL, *name = NULL, *session = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(initalized);
+	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
+	}
+	
+	PHALCON_INIT_VAR(name);
+	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(session);
+	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", name, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

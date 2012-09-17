@@ -45,7 +45,6 @@ extern zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_email_ce;
-extern zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 extern zend_class_entry *phalcon_mvc_model_query_ce;
 extern zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
 extern zend_class_entry *phalcon_mvc_model_resultset_simple_ce;
@@ -380,8 +379,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate);
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate);
 
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate);
-
-PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate);
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Query, setDI);
@@ -931,7 +928,6 @@ PHP_METHOD(Phalcon_Tag, passwordField);
 PHP_METHOD(Phalcon_Tag, hiddenField);
 PHP_METHOD(Phalcon_Tag, fileField);
 PHP_METHOD(Phalcon_Tag, checkField);
-PHP_METHOD(Phalcon_Tag, radioField);
 PHP_METHOD(Phalcon_Tag, submitButton);
 PHP_METHOD(Phalcon_Tag, selectStatic);
 PHP_METHOD(Phalcon_Tag, select);
@@ -1065,10 +1061,8 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct);
 
 PHP_METHOD(Phalcon_Events_Event, __construct);
 PHP_METHOD(Phalcon_Events_Event, setType);
-PHP_METHOD(Phalcon_Events_Event, setData);
 PHP_METHOD(Phalcon_Events_Event, getType);
 PHP_METHOD(Phalcon_Events_Event, getSource);
-PHP_METHOD(Phalcon_Events_Event, getData);
 
 
 PHP_METHOD(Phalcon_Events_Manager, __construct);
@@ -1609,10 +1603,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_numericality_validate
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_email_validate, 0, 0, 1)
-	ZEND_ARG_INFO(0, record)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_stringlength_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
@@ -2845,10 +2835,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_checkfield, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_radiofield, 0, 0, 1)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_submitbutton, 0, 0, 1)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
@@ -3096,10 +3082,6 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_settype, 0, 0, 1)
 	ZEND_ARG_INFO(0, eventType)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_event_setdata, 0, 0, 1)
-	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 0, 2)
@@ -3496,11 +3478,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_numericality_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_email_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Validator_Email, validate, arginfo_phalcon_mvc_model_validator_email_validate, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
-PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_stringlength_method_entry){
-	PHP_ME(Phalcon_Mvc_Model_Validator_StringLength, validate, arginfo_phalcon_mvc_model_validator_stringlength_validate, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -4372,10 +4349,8 @@ PHALCON_INIT_FUNCS(phalcon_di_factorydefault_method_entry){
 PHALCON_INIT_FUNCS(phalcon_events_event_method_entry){
 	PHP_ME(Phalcon_Events_Event, __construct, arginfo_phalcon_events_event___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Events_Event, setType, arginfo_phalcon_events_event_settype, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Events_Event, setData, arginfo_phalcon_events_event_setdata, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Event, getType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Event, getSource, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Events_Event, getData, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

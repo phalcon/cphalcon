@@ -78,7 +78,7 @@ int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int acti
 /**
  * This is a function to call PHP functions in a old-style secure way
  */
-inline int phalcon_call_func_normal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_normal(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -127,7 +127,7 @@ int phalcon_call_func(zval *return_value, char *func_name, int func_length, int 
 /**
  * This is an experimental function to call PHP functions that requires parameters in a faster way
  */
-inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_func_params_normal(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -200,7 +200,7 @@ int phalcon_call_func_three_params(zval *return_value, char *func_name, int func
 /**
  * This function implements a secure old-style way to call functions
  */
-inline int phalcon_call_method_normal(zval *return_value, zval *object, char *method_name, int method_len, int check, int noreturn TSRMLS_DC){
+static inline int phalcon_call_method_normal(zval *return_value, zval *object, char *method_name, int method_len, int check, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -260,7 +260,7 @@ int phalcon_call_method(zval *return_value, zval *object, char *method_name, int
 /**
  * Call methods that require parameters in a old-style secure way
  */
-inline int phalcon_call_method_params_normal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
+static inline int phalcon_call_method_params_normal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int check, int noreturn TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;

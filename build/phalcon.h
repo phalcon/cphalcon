@@ -928,7 +928,6 @@ PHP_METHOD(Phalcon_Tag, passwordField);
 PHP_METHOD(Phalcon_Tag, hiddenField);
 PHP_METHOD(Phalcon_Tag, fileField);
 PHP_METHOD(Phalcon_Tag, checkField);
-PHP_METHOD(Phalcon_Tag, radioField);
 PHP_METHOD(Phalcon_Tag, submitButton);
 PHP_METHOD(Phalcon_Tag, selectStatic);
 PHP_METHOD(Phalcon_Tag, select);

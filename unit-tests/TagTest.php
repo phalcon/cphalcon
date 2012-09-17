@@ -273,4 +273,20 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testTextarea()
+	{
+
+		$options = 'some_field_name';
+        $expected = '<textarea name="some_field_name" id="some_field_name"></textarea>';
+        $actual = Tag::textArea($options);
+        $this->assertEquals($expected, $actual);
+
+        $options = array('some_field_name', 'class' => 'some_class');
+        $expected = '<textarea class="some_class" name="some_field_name" '
+                  . 'id="some_field_name"></textarea>';
+        $actual = Tag::textArea($options);
+
+        $this->assertEquals($expected, $actual);
+	}
+
 }
