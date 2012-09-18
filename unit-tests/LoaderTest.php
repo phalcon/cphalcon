@@ -138,6 +138,26 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->unregister();
 	}
 
+	public function testPrefixes()
+	{
+
+		$loader = new Phalcon\Loader();
+
+		$loader->registerPrefixes(array(
+			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
+		));
+
+		$loader->register();
+
+		$pseudoClass = new Pseudo_Some_Something();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Some_Something');
+
+		$pseudoClass = new Pseudo_Base();
+		$this->assertEquals(get_class($pseudoClass), 'Pseudo_Base');
+
+		$loader->unregister();
+	}
+
 	public function testEvents()
 	{
 
@@ -184,6 +204,9 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 				0 => NULL,
 			),
 			'beforeCheckPath' => array(
+				0 => 'unit-tests/vendor/example/other/VousTest.php',
+			),
+			'pathFound' => array(
 				0 => 'unit-tests/vendor/example/other/VousTest.php',
 			),
 		));

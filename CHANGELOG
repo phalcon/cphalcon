@@ -1,3 +1,11 @@
+0.5.1
+ - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered
+ - Added throwing exception in Phalcon\Loader when trying to write in a read only file
+ - Now Phalcon\Loader replaces _ by DIRECTORY_SEPARATOR
+
+0.5.0
+- Added Phalcon\CLI components to create CLI applications
+
 0.5.0a4
 - Removed support for Twig and Mustache
 - Added PhalconQL (PHQL), a high level query language directly engaged with the Phalcon\Mvc\Model component
