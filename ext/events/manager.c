@@ -105,6 +105,7 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
  *
  * @param string $eventType
  * @param object $source
+ * @param mixed  $data
  * @return mixed
  */
 PHP_METHOD(Phalcon_Events_Manager, fire){
@@ -126,10 +127,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	}
 
 	if (!data) {
-		PHALCON_INIT_VAR(data);
+		PHALCON_ALLOC_ZVAL_MM(data);
 		ZVAL_NULL(data);
 	}
-
+	
 	PHALCON_INIT_VAR(colon);
 	ZVAL_STRING(colon, ":", 1);
 	

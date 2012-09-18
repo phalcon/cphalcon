@@ -680,7 +680,9 @@ PHP_METHOD(Phalcon_Tag, checkField){
 /**
  * Builds a HTML input[type="radio"] tag
  *
- * <code>echo Phalcon\Tag::radioField(array("name", "size" => 30))</code>
+ *<code>
+ * echo Phalcon\Tag::radioField(array("name", "size" => 30))
+ *</code>
  *
  * @param array $parameters
  * @return string
@@ -690,7 +692,7 @@ PHP_METHOD(Phalcon_Tag, radioField){
 	zval *parameters = NULL, *name = NULL, *html = NULL;
 
 	PHALCON_MM_GROW();
-
+	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &parameters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -698,10 +700,10 @@ PHP_METHOD(Phalcon_Tag, radioField){
 
 	PHALCON_INIT_VAR(name);
 	ZVAL_STRING(name, "radio", 1);
-
+	
 	PHALCON_INIT_VAR(html);
 	PHALCON_CALL_SELF_PARAMS_2(html, this_ptr, "_inputfield", name, parameters);
-
+	
 	RETURN_CCTOR(html);
 }
 
@@ -881,7 +883,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	ZVAL_STRING(code, "<textarea ", 1);
+	ZVAL_STRING(code, "<textarea", 1);
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
 	}
@@ -899,7 +901,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		ZVAL_ZVAL(avalue, *hd, 1, 0);
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_INIT_VAR(attribute);
-			PHALCON_CONCAT_VSVS(attribute, key, "=\"", avalue, "\" ");
+			PHALCON_CONCAT_SVSVS(attribute, " ", key, "=\"", avalue, "\"");
 			phalcon_concat_self(&code, attribute TSRMLS_CC);
 		}
 		zend_hash_move_forward_ex(ah0, &hp0);

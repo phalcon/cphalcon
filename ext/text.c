@@ -52,9 +52,8 @@
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str = NULL, *space = NULL, *lower_str = NULL, *no_under_score_str = NULL;
-	zval *uc_string = NULL, *camelized = NULL;
-	zval *c0 = NULL, *c1 = NULL;
+	zval *str = NULL, *space = NULL, *lower_str = NULL, *underscore = NULL, *no_under_score_str = NULL;
+	zval *uc_string = NULL, *empty_str = NULL, *camelized = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -69,20 +68,20 @@ PHP_METHOD(Phalcon_Text, camelize){
 	PHALCON_INIT_VAR(lower_str);
 	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "_", 1);
+	PHALCON_INIT_VAR(underscore);
+	ZVAL_STRING(underscore, "_", 1);
 	
 	PHALCON_INIT_VAR(no_under_score_str);
-	phalcon_fast_str_replace(no_under_score_str, c0, space, lower_str TSRMLS_CC);
+	phalcon_fast_str_replace(no_under_score_str, underscore, space, lower_str TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(uc_string);
 	PHALCON_CALL_FUNC_PARAMS_1(uc_string, "ucwords", no_under_score_str);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "", 1);
+	PHALCON_INIT_VAR(empty_str);
+	ZVAL_STRING(empty_str, "", 1);
 	
 	PHALCON_INIT_VAR(camelized);
-	phalcon_fast_str_replace(camelized, space, c1, uc_string TSRMLS_CC);
+	phalcon_fast_str_replace(camelized, space, empty_str, uc_string TSRMLS_CC);
 	
 	RETURN_CTOR(camelized);
 }

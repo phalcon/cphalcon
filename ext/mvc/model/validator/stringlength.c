@@ -14,7 +14,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Jason Rice                                                    | 
+  |          Jason Rice                                                    |
   +------------------------------------------------------------------------+
 */
 
@@ -39,32 +39,32 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon\Mvc\Model\Validator\StringLength
- *
- * Simply validates specified string length constraints
- *
- *<code>
- *use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
- *
- *class Subscriptors extends Phalcon\Mvc\Model
- *{
- *
- *  public function validation()
- *  {
- *      $this->validate(new StringLengthValidator(array(
- *          'field' => 'name_last',
-			'max' => 50,  //we don't like really long names
-			'min' => 2,   //we want more than just their initials
- *      )));
- *      if ($this->validationHasFailed() == true) {
- *          return false;
- *      }
- *  }
- *
- *}
- *</code>
- *
- */
+* Phalcon\Mvc\Model\Validator\StringLength
+*
+* Simply validates specified string length constraints
+*
+*<code>
+*use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
+*
+*class Subscriptors extends Phalcon\Mvc\Model
+*{
+*
+*	public function validation()
+*	{
+*		$this->validate(new StringLengthValidator(array(
+*			'field' => 'name_last',
+*			'max' => 50, //we don't like really long names
+*			'min' => 2, //we want more than just their initials
+*		)));
+*		if ($this->validationHasFailed() == true) {
+*			return false;
+*		}
+*	}
+*
+*}
+*</code>
+*
+*/
 
 /**
  * Executes the validator
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -98,13 +98,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
 	PHALCON_INIT_VAR(c1);
 	ZVAL_STRING(c1, "max", 1);
-	
+
 	PHALCON_INIT_VAR(max_is_set);
 	PHALCON_CALL_METHOD_PARAMS_1(max_is_set, this_ptr, "issetoption", c1, PH_NO_CHECK);
 
 	PHALCON_INIT_VAR(c2);
 	ZVAL_STRING(c2, "min", 1);
-	
+
 	PHALCON_INIT_VAR(min_is_set);
 	PHALCON_CALL_METHOD_PARAMS_1(min_is_set, this_ptr, "issetoption", c2, PH_NO_CHECK);
 	if (!zend_is_true(max_is_set) && !zend_is_true(min_is_set)) {
@@ -115,13 +115,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
-	
+
 	PHALCON_INIT_VAR(value_length);
 	PHALCON_CALL_FUNC_PARAMS_1(value_length, "strlen", value);
-	
+
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 0);
-	
+
 
 	if (zend_is_true(max_is_set)) {
 		//validate the max
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			PHALCON_INIT_VAR(failed);
 			ZVAL_BOOL(failed, 1);
 		}
-	} 
+	}
 
 	if (zend_is_true(min_is_set)) {
 		//validate the min
@@ -159,12 +159,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			ZVAL_BOOL(failed, 1);
 		}
 	}
-	
+
 	if (zend_is_true(failed)) {
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
-	
+
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }

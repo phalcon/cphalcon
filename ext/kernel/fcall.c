@@ -737,7 +737,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
-#if PHP_VERSION_ID <= 50308
+#if PHP_VERSION_ID <= 50309
 
 int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 	zval ***params_array;
