@@ -34,7 +34,7 @@ We need some packages previously installed.
 
 Ubuntu:
 
-    sudo apt-get install php5-devel php5-mysql gcc make
+    sudo apt-get install php5-dev php5-mysql gcc make
 
 Suse:
 
