@@ -34,8 +34,8 @@
 
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 
 /**
@@ -108,15 +108,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, setCurrentPage){
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 
-	zval *show = NULL, *config = NULL, *items = NULL, *page_number = NULL, *n = NULL, *page = NULL;
-	zval *start = NULL, *total_pages = NULL, *pitems = NULL, *i = NULL, *valid = NULL, *current = NULL;
-	zval *next = NULL, *before = NULL, *pages_total = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL, *t8 = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL, *r12 = NULL, *r13 = NULL;
-	zval *r14 = NULL, *r15 = NULL, *r16 = NULL, *r17 = NULL, *r18 = NULL;
-	zval *c0 = NULL;
+	zval *show = NULL, *config = NULL, *items = NULL, *page_number = NULL, *zero = NULL, *one = NULL;
+	zval *smaller = NULL, *n = NULL, *page = NULL, *last_show_page = NULL, *start = NULL;
+	zval *last_page = NULL, *possible_pages = NULL, *total_pages = NULL;
+	zval *compare = NULL, *page_items = NULL, *i = NULL, *valid = NULL, *current = NULL, *maximum_pages = NULL;
+	zval *next = NULL, *additional_page = NULL, *before = NULL, *remainder = NULL;
+	zval *pages_total = NULL;
+	zval *r0 = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	PHALCON_INIT_VAR(show);
@@ -135,32 +134,39 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		ZVAL_LONG(page_number, 1);
 	}
 	
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
+	PHALCON_INIT_VAR(smaller);
+	is_smaller_function(smaller, show, zero TSRMLS_CC);
+	if (Z_TYPE_P(smaller) == IS_BOOL && Z_BVAL_P(smaller)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The start page number is zero or less");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(n);
 	phalcon_fast_count(n, items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(page);
 	object_init(page);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	sub_function(r0, page_number, t0 TSRMLS_CC);
+	PHALCON_INIT_VAR(last_show_page);
+	sub_function(last_show_page, page_number, one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(start);
-	mul_function(start, show, r0 TSRMLS_CC);
+	mul_function(start, show, last_show_page TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 1);
+	PHALCON_INIT_VAR(last_page);
+	sub_function(last_page, n, one TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	sub_function(r1, n, t1 TSRMLS_CC);
-	
-	PHALCON_ALLOC_ZVAL_MM(r2);
-	div_function(r2, r1, show TSRMLS_CC);
+	PHALCON_INIT_VAR(possible_pages);
+	div_function(possible_pages, last_page, show TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(total_pages);
-	PHALCON_CALL_FUNC_PARAMS_1(total_pages, "ceil", r2);
+	PHALCON_CALL_FUNC_PARAMS_1(total_pages, "ceil", possible_pages);
 	if (Z_TYPE_P(items) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
@@ -171,33 +177,25 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		ZVAL_LONG(page_number, 0);
 	}
 	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_LONG(t2, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r3);
-	is_smaller_function(r3, start, t2 TSRMLS_CC);
-	if (zend_is_true(r3)) {
+	PHALCON_INIT_VAR(compare);
+	is_smaller_function(compare, start, zero TSRMLS_CC);
+	if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "The start page number is zero or less");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(pitems);
-	array_init(pitems);
+	PHALCON_INIT_VAR(page_items);
+	array_init(page_items);
 	
-	PHALCON_INIT_VAR(t3);
-	ZVAL_LONG(t3, 0);
-	
-	PHALCON_ALLOC_ZVAL_MM(r4);
-	is_smaller_function(r4, t3, n TSRMLS_CC);
-	if (zend_is_true(r4)) {
-		PHALCON_ALLOC_ZVAL_MM(r5);
-		is_smaller_or_equal_function(r5, start, n TSRMLS_CC);
-		if (zend_is_true(r5)) {
+	PHALCON_INIT_VAR(compare);
+	is_smaller_function(compare, zero, n TSRMLS_CC);
+	if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
+		PHALCON_INIT_VAR(compare);
+		is_smaller_or_equal_function(compare, start, n TSRMLS_CC);
+		if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", start, PH_NO_CHECK);
 		} else {
-			PHALCON_INIT_VAR(c0);
-			ZVAL_LONG(c0, 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", c0, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", one, PH_NO_CHECK);
 			
 			PHALCON_INIT_VAR(page_number);
 			ZVAL_LONG(page_number, 1);
@@ -207,19 +205,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		ZVAL_LONG(i, 1);
 		ws_e435_0:
 			
-			PHALCON_INIT_VAR(r6);
-			PHALCON_CALL_METHOD(r6, items, "valid", PH_NO_CHECK);
-			PHALCON_CPY_WRT(valid, r6);
+			PHALCON_INIT_VAR(r0);
+			PHALCON_CALL_METHOD(r0, items, "valid", PH_NO_CHECK);
+			PHALCON_CPY_WRT(valid, r0);
 			if (Z_TYPE_P(valid) != IS_BOOL || (Z_TYPE_P(valid) == IS_BOOL && !Z_BVAL_P(valid))) {
 				goto we_e435_0;
 			}
 			PHALCON_INIT_VAR(current);
 			PHALCON_CALL_METHOD(current, items, "current", PH_NO_CHECK);
-			phalcon_array_append(&pitems, current, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_append(&page_items, current, PH_SEPARATE TSRMLS_CC);
 			
-			PHALCON_INIT_VAR(r7);
-			is_smaller_or_equal_function(r7, show, i TSRMLS_CC);
-			if (zend_is_true(r7)) {
+			PHALCON_INIT_VAR(compare);
+			is_smaller_or_equal_function(compare, show, i TSRMLS_CC);
+			if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 				goto we_e435_0;
 			}
 			
@@ -230,56 +228,49 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		if(0){}
 	}
 	
-	phalcon_update_property_zval(page, SL("items"), pitems TSRMLS_CC);
+	phalcon_update_property_zval(page, SL("items"), page_items TSRMLS_CC);
 	phalcon_update_property_long(page, SL("first"), 1 TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r8);
-	phalcon_add_function(r8, start, show TSRMLS_CC);
+	PHALCON_INIT_VAR(maximum_pages);
+	phalcon_add_function(maximum_pages, start, show TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r9);
-	is_smaller_function(r9, r8, n TSRMLS_CC);
-	if (zend_is_true(r9)) {
-		PHALCON_INIT_VAR(t4);
-		ZVAL_LONG(t4, 1);
+	PHALCON_INIT_VAR(compare);
+	is_smaller_function(compare, maximum_pages, n TSRMLS_CC);
+	if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
+		PHALCON_INIT_VAR(t0);
+		ZVAL_LONG(t0, 1);
 		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, page_number, t4 TSRMLS_CC);
+		phalcon_add_function(next, page_number, t0 TSRMLS_CC);
 	} else {
-		PHALCON_ALLOC_ZVAL_MM(r10);
-		phalcon_add_function(r10, start, show TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r11);
-		is_equal_function(r11, r10, n TSRMLS_CC);
-		if (zend_is_true(r11)) {
+		PHALCON_INIT_VAR(compare);
+		is_equal_function(compare, maximum_pages, n TSRMLS_CC);
+		if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 			PHALCON_CPY_WRT(next, n);
 		} else {
-			PHALCON_ALLOC_ZVAL_MM(r12);
-			div_function(r12, n, show TSRMLS_CC);
-			PHALCON_ALLOC_ZVAL_MM(r13);
-			PHALCON_CALL_FUNC_PARAMS_1(r13, "intval", r12);
-			PHALCON_INIT_VAR(t5);
-			ZVAL_LONG(t5, 1);
+			PHALCON_INIT_VAR(possible_pages);
+			div_function(possible_pages, n, show TSRMLS_CC);
+			
+			PHALCON_INIT_VAR(additional_page);
+			phalcon_add_function(additional_page, possible_pages, one TSRMLS_CC);
+			
 			PHALCON_INIT_VAR(next);
-			phalcon_add_function(next, r13, t5 TSRMLS_CC);
+			PHALCON_CALL_FUNC_PARAMS_1(next, "intval", additional_page);
 		}
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r14);
-	is_smaller_function(r14, total_pages, next TSRMLS_CC);
-	if (zend_is_true(r14)) {
+	PHALCON_INIT_VAR(compare);
+	is_smaller_function(compare, total_pages, next TSRMLS_CC);
+	if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 		PHALCON_CPY_WRT(next, total_pages);
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t6);
-	ZVAL_LONG(t6, 1);
-	
-	PHALCON_ALLOC_ZVAL_MM(r15);
-	is_smaller_function(r15, t6, page_number TSRMLS_CC);
-	if (zend_is_true(r15)) {
-		PHALCON_INIT_VAR(t7);
-		ZVAL_LONG(t7, 1);
+	PHALCON_INIT_VAR(compare);
+	is_smaller_function(compare, one, page_number TSRMLS_CC);
+	if (Z_TYPE_P(compare) == IS_BOOL && Z_BVAL_P(compare)) {
 		PHALCON_INIT_VAR(before);
-		sub_function(before, page_number, t7 TSRMLS_CC);
+		sub_function(before, page_number, one TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(before);
 		ZVAL_LONG(before, 1);
@@ -288,20 +279,19 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	phalcon_update_property_zval(page, SL("before"), before TSRMLS_CC);
 	phalcon_update_property_zval(page, SL("current"), page_number TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r16);
-	mod_function(r16, n, show TSRMLS_CC);
-	if (zend_is_true(r16)) {
-		PHALCON_ALLOC_ZVAL_MM(r17);
-		div_function(r17, n, show TSRMLS_CC);
-		PHALCON_ALLOC_ZVAL_MM(r18);
-		PHALCON_CALL_FUNC_PARAMS_1(r18, "intval", r17);
-		PHALCON_INIT_VAR(t8);
-		ZVAL_LONG(t8, 1);
+	PHALCON_INIT_VAR(remainder);
+	mod_function(remainder, n, show TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(possible_pages);
+	div_function(possible_pages, n, show TSRMLS_CC);
+	if (!phalcon_compare_strict_long(remainder, 0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(next);
+		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
+		
 		PHALCON_INIT_VAR(pages_total);
-		phalcon_add_function(pages_total, r18, t8 TSRMLS_CC);
+		PHALCON_CALL_FUNC_PARAMS_1(pages_total, "intval", possible_pages);
 	} else {
-		PHALCON_INIT_VAR(pages_total);
-		div_function(pages_total, n, show TSRMLS_CC);
+		PHALCON_CPY_WRT(pages_total, possible_pages);
 	}
 	
 	phalcon_update_property_zval(page, SL("last"), pages_total TSRMLS_CC);

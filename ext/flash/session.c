@@ -71,13 +71,13 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
  */
 PHP_METHOD(Phalcon_Flash_Session, getDI){
 
-	zval *dependency_injector = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	PHALCON_ALLOC_ZVAL_MM(t0);
+	phalcon_read_property(&t0, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_CCTOR(t0);
 }
 
 /**
@@ -133,7 +133,6 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
 	zval *messages = NULL, *dependency_injector = NULL, *service = NULL;
 	zval *session = NULL, *index_name = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -142,8 +141,6 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(messages);
-	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -159,12 +156,9 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", index_name, messages, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, session, "set", index_name, messages, PH_NO_CHECK);
-	PHALCON_CPY_WRT(messages, r0);
-	
-	RETURN_CCTOR(messages);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -218,8 +212,9 @@ PHP_METHOD(Phalcon_Flash_Session, message){
  */
 PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
-	zval *type = NULL, *remove = NULL, *messages = NULL, *return_messages = NULL;
-	zval *empty_arr = NULL;
+	zval *type = NULL, *remove = NULL, *messages = NULL;
+	zval *r0 = NULL;
+	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -245,20 +240,20 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 		if (Z_TYPE_P(type) == IS_STRING) {
 			eval_int = phalcon_array_isset(messages, type);
 			if (eval_int) {
-				PHALCON_INIT_VAR(return_messages);
-				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY_CC);
+				PHALCON_ALLOC_ZVAL_MM(r0);
+				phalcon_array_fetch(&r0, messages, type, PH_NOISY_CC);
 				
-				RETURN_CCTOR(return_messages);
+				RETURN_CCTOR(r0);
 			}
 		}
 		
 		RETURN_CCTOR(messages);
 	}
 	
-	PHALCON_INIT_VAR(empty_arr);
-	array_init(empty_arr);
+	PHALCON_ALLOC_ZVAL_MM(a0);
+	array_init(a0);
 	
-	RETURN_CTOR(empty_arr);
+	RETURN_CTOR(a0);
 }
 
 /**

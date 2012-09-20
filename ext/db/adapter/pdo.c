@@ -194,7 +194,7 @@ zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts = NULL;
 
 	PHALCON_INIT_VAR(options);
 	array_init(options);
-	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_SILENT);
+	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_WARNING);
 	add_index_long(options, PDO_ATTR_CASE, PDO_CASE_LOWER);
 	add_index_long(options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL);
 	eval_int = phalcon_array_isset_string(descriptor, SS("persistent"));
@@ -354,9 +354,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	
 	PHALCON_INIT_VAR(error_message);
 	phalcon_array_fetch_long(&error_message, error_info, 2, PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_VSV(exception_message, error_message, " when executing ", sql_statement);
+	if (zend_is_true(error_message)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_VSV(exception_message, error_message, " when executing ", sql_statement);
+	} else {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "[Unknown generic database error] when executing ", sql_statement);
+	}
 	
 	PHALCON_INIT_VAR(error_code);
 	phalcon_array_fetch_long(&error_code, error_info, 1, PH_NOISY_CC);
@@ -508,9 +512,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	
 	PHALCON_INIT_VAR(error_message);
 	phalcon_array_fetch_long(&error_message, error_info, 2, PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_VSV(exception_message, error_message, " when executing ", sql_statement);
+	if (zend_is_true(error_message)) {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_VSV(exception_message, error_message, " when executing ", sql_statement);
+	} else {
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "[Unknown generic database error] when executing ", sql_statement);
+	}
 	
 	PHALCON_INIT_VAR(error_code);
 	phalcon_array_fetch_long(&error_code, error_info, 1, PH_NOISY_CC);

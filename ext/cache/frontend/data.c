@@ -80,8 +80,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
-	zval *options = NULL;
-	zval *r0 = NULL;
+	zval *options = NULL, *lifetime = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -89,10 +88,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(lifetime);
+		phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
 		
-		RETURN_CCTOR(r0);
+		RETURN_CCTOR(lifetime);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -148,8 +147,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 
-	zval *data = NULL;
-	zval *r0 = NULL;
+	zval *data = NULL, *serialized = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -158,9 +156,10 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "serialize", data);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(serialized);
+	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
+	
+	RETURN_CCTOR(serialized);
 }
 
 /**
@@ -170,8 +169,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 
-	zval *data = NULL;
-	zval *r0 = NULL;
+	zval *data = NULL, *unserialized = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -180,8 +178,9 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "unserialize", data);
-	RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(unserialized);
+	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "unserialize", data);
+	
+	RETURN_CCTOR(unserialized);
 }
 

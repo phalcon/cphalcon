@@ -105,13 +105,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 
-	zval *t0 = NULL;
+	zval *buffering = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(buffering);
 }
 
 /**
@@ -134,17 +134,18 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *buffering = NULL, *content = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	if (zend_is_true(t0)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "ob_get_contents");
-		RETURN_CTOR(r0);
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (Z_TYPE_P(buffering) == IS_BOOL && Z_BVAL_P(buffering)) {
+		PHALCON_INIT_VAR(content);
+		PHALCON_CALL_FUNC(content, "ob_get_contents");
+		
+		RETURN_CCTOR(content);
 	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -154,14 +155,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
-	zval *t0 = NULL;
+	zval *buffering = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	if (zend_is_true(t0)) {
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (Z_TYPE_P(buffering) == IS_BOOL && Z_BVAL_P(buffering)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
 	}
+	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

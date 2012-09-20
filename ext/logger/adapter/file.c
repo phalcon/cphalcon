@@ -34,10 +34,10 @@
 
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
-#include "kernel/exception.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "kernel/concat.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Logger\Adapter\File
@@ -62,8 +62,8 @@
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 
-	zval *name = NULL, *options = NULL, *mode = NULL, *handler = NULL, *exception_message = NULL;
-	zval *exception = NULL;
+	zval *name = NULL, *options = NULL, *mode = NULL, *read_mode = NULL, *handler = NULL;
+	zval *exception_message = NULL, *exception = NULL;
 	zval *a0 = NULL;
 	int eval_int;
 
@@ -90,6 +90,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	} else {
 		PHALCON_INIT_VAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
+	}
+	
+	PHALCON_INIT_VAR(read_mode);
+	phalcon_fast_strpos_str(read_mode, mode, SL("r") TSRMLS_CC);
+	if (PHALCON_IS_NOT_FALSE(read_mode)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(handler);
@@ -157,7 +164,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormat){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
 
-	zval *type = NULL;
+	zval *type = NULL, *type_str = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -166,75 +173,73 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(type);
-	
 	
 	if (phalcon_compare_strict_long(type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "DEBUG", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "DEBUG", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "ERROR", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "ERROR", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "WARNING", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "WARNING", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "CRITICAL", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "CRITICAL", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 8 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "CUSTOM", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "CUSTOM", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "ALERT", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "ALERT", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "NOTICE", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "NOTICE", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "INFO", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "INFO", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "EMERGENCE", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "EMERGENCE", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(type, 9 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "SPECIAL", 1);
+		PHALCON_INIT_VAR(type_str);
+		ZVAL_STRING(type_str, "SPECIAL", 1);
 		goto ph_end_0;
 	}
 	
-	PHALCON_INIT_VAR(type);
-	ZVAL_STRING(type, "CUSTOM", 1);
+	PHALCON_INIT_VAR(type_str);
+	ZVAL_STRING(type_str, "CUSTOM", 1);
 	
 	ph_end_0:
 	
-	RETURN_CCTOR(type);
+	RETURN_CTOR(type_str);
 }
 
 /**
@@ -248,8 +253,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
 PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 
 	zval *message = NULL, *type = NULL, *time = NULL, *format = NULL, *date_format = NULL;
-	zval *date = NULL, *new_format = NULL, *type_string = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *date = NULL, *date_wildcard = NULL, *new_format = NULL, *type_string = NULL;
+	zval *type_wildcard = NULL, *message_wildcard = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -279,26 +284,26 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, _applyFormat){
 	PHALCON_INIT_VAR(date);
 	PHALCON_CALL_FUNC_PARAMS_2(date, "date", date_format, time);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "%date%", 1);
+	PHALCON_INIT_VAR(date_wildcard);
+	ZVAL_STRING(date_wildcard, "%date%", 1);
 	
 	PHALCON_INIT_VAR(new_format);
-	phalcon_fast_str_replace(new_format, c0, date, format TSRMLS_CC);
+	phalcon_fast_str_replace(new_format, date_wildcard, date, format TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(type_string);
 	PHALCON_CALL_METHOD_PARAMS_1(type_string, this_ptr, "gettypestring", type, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "%type%", 1);
+	PHALCON_INIT_VAR(type_wildcard);
+	ZVAL_STRING(type_wildcard, "%type%", 1);
 	
 	PHALCON_INIT_VAR(format);
-	phalcon_fast_str_replace(format, c1, type_string, new_format TSRMLS_CC);
+	phalcon_fast_str_replace(format, type_wildcard, type_string, new_format TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "%message%", 1);
+	PHALCON_INIT_VAR(message_wildcard);
+	ZVAL_STRING(message_wildcard, "%message%", 1);
 	
 	PHALCON_INIT_VAR(new_format);
-	phalcon_fast_str_replace(new_format, c2, message, format TSRMLS_CC);
+	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
 	
 	RETURN_CTOR(new_format);
 }
@@ -349,9 +354,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getDateFormat){
 PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 
 	zval *message = NULL, *type = NULL, *file_handler = NULL, *transaction = NULL;
-	zval *time = NULL, *quenue_item = NULL, *applied_format = NULL, *applied_eol = NULL;
-	zval *status = NULL;
-	zval *t0 = NULL, *t1 = NULL;
+	zval *time = NULL, *quenue_item = NULL, *applied_format = NULL, *eol = NULL;
+	zval *applied_eol = NULL;
+	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -390,18 +395,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 		PHALCON_INIT_VAR(applied_format);
 		PHALCON_CALL_METHOD_PARAMS_2(applied_format, this_ptr, "_applyformat", message, type, PH_NO_CHECK);
 		
-		PHALCON_ALLOC_ZVAL_MM(t1);
-		zend_get_constant(SL("PHP_EOL"), t1 TSRMLS_CC);
+		PHALCON_INIT_VAR(eol);
+		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(applied_eol);
-		PHALCON_CONCAT_VV(applied_eol, applied_format, t1);
-		
-		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_FUNC_PARAMS_2(status, "fwrite", file_handler, applied_eol);
-		if (PHALCON_IS_FALSE(status)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot write to the logger maybe the file handler is opened in read only mode");
-			return;
-		}
+		PHALCON_CONCAT_VV(applied_eol, applied_format, eol);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", file_handler, applied_eol);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -482,7 +481,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		
 		PHALCON_INIT_VAR(applied_eol);
 		PHALCON_CONCAT_VV(applied_eol, applied_format, t0);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fputs", file_handler, applied_eol);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", file_handler, applied_eol);
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;

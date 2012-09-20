@@ -203,8 +203,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key = NULL, *prefix = NULL, *filtered = NULL, *front_end = NULL;
-	zval *backend = NULL, *cache_dir = NULL, *is_writable = NULL, *cache_file = NULL;
-	zval *cached_content = NULL, *prepared_content = NULL, *is_buffering = NULL;
+	zval *backend = NULL, *cache_dir = NULL, *cache_file = NULL, *cached_content = NULL;
+	zval *prepared_content = NULL, *is_buffering = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -259,13 +259,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(is_writable);
-	PHALCON_CALL_FUNC_PARAMS_1(is_writable, "is_writable", cache_dir);
-	if (!zend_is_true(is_writable)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache file is not writable");
-		return;
-	}
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
