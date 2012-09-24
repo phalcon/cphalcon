@@ -1,8 +1,10 @@
 <?php
 
-class Test5Controller extends Phalcon\Controller {
+class Test5Controller extends Phalcon\Mvc\Controller
+{
 
-	public function notFoundAction(){
+	public function notFoundAction()
+	{
 		return 'not-found';
 	}
 

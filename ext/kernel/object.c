@@ -371,6 +371,7 @@ int phalcon_update_property_zval_zval(zval *obj, zval *property, zval *value TSR
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 
 	char *lcname;
+	zend_class_entry *ce;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		return FAILURE;
@@ -380,10 +381,14 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 		return FAILURE;
 	}
 
+	ce = Z_OBJCE_P(object);
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
-	if (zend_hash_exists(&Z_OBJCE_P(object)->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
-		efree(lcname);
-		return SUCCESS;
+	while (ce) {
+		if (zend_hash_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
+			efree(lcname);
+			return SUCCESS;
+		}
+		ce = ce->parent;
 	}
 
 	efree(lcname);
@@ -395,12 +400,18 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
  */
 int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC){
 
+	zend_class_entry *ce;
+
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		return FAILURE;
 	}
 
-	if (zend_hash_exists(&Z_OBJCE_P(object)->function_table, method_name, method_len+1)) {
-		return SUCCESS;
+	ce = Z_OBJCE_P(object);
+	while (ce) {
+		if (zend_hash_exists(&ce->function_table, method_name, method_len+1)) {
+			return SUCCESS;
+		}
+		ce = ce->parent;
 	}
 
 	return FAILURE;

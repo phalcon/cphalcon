@@ -1224,9 +1224,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 	zval *function = NULL, *alias = NULL, *parameters = NULL, *params = NULL, *group_column = NULL;
 	zval *dependency_injector = NULL, *class_name = NULL, *model = NULL;
 	zval *connection = NULL, *schema = NULL, *source = NULL, *table = NULL, *bound_params = NULL;
-	zval *select = NULL, *distinct_column = NULL, *columns = NULL, *group_columns = NULL;
-	zval *conditions = NULL, *bind_params = NULL, *converted_params = NULL;
-	zval *converted_sql = NULL, *bind_types = NULL, *group_clause = NULL;
+	zval *bind_types = NULL, *select = NULL, *distinct_column = NULL;
+	zval *columns = NULL, *group_columns = NULL, *conditions = NULL, *bind_params = NULL;
+	zval *converted_params = NULL, *converted_sql = NULL, *group_clause = NULL;
 	zval *having_clause = NULL, *order_clause = NULL, *limit_clause = NULL;
 	zval *dialect = NULL, *sql = NULL, *statement = NULL, *resultset = NULL;
 	zval *r0 = NULL;
@@ -1290,6 +1290,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 	
 	PHALCON_INIT_VAR(bound_params);
 	ZVAL_NULL(bound_params);
+	
+	PHALCON_INIT_VAR(bind_types);
+	ZVAL_NULL(bind_types);
 	
 	PHALCON_INIT_VAR(select);
 	array_init(select);
