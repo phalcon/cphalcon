@@ -20,7 +20,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/model/resultset", "complex.c simple.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/transaction", "exception.c failed.c manager.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata", "memory.c apc.c session.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/user", "plugin.c component.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/user", "plugin.c module.c component.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config/adapter", "ini.c", "phalcon")
   ADD_SOURCES("ext/phalcon/cache", "exception.c backend.c", "phalcon")

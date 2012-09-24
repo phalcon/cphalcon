@@ -120,6 +120,7 @@ PHP_METHOD(Phalcon_Loader, getEventsManager){
  * Sets an array of extensions that the Loader must check together with the path
  *
  * @param array $extensions
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, setExtensions){
 
@@ -145,6 +146,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
  * Register namespaces and their related directories
  *
  * @param array $namespaces
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces){
 
@@ -170,6 +172,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
  * Register directories on which "not found" classes could be found
  *
  * @param array $directories
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes){
 
@@ -195,6 +198,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
  * Register directories on which "not found" classes could be found
  *
  * @param array $directories
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerDirs){
 
@@ -220,6 +224,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
  * Register classes and their locations
  *
  * @param array $directories
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerClasses){
 
@@ -243,6 +248,8 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 
 /**
  * Register the autoload method
+ *
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, register){
 

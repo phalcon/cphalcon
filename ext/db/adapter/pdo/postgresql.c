@@ -178,6 +178,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		
 		PHALCON_INIT_VAR(definition);
 		array_init(definition);
+		add_assoc_long_ex(definition, SS("bindType"), 2);
 		
 		PHALCON_INIT_VAR(char_size);
 		phalcon_array_fetch_string(&char_size, field, SL("size"), PH_NOISY_CC);
@@ -194,6 +195,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			PHALCON_INIT_VAR(status);
 			phalcon_fast_strpos_str(status, column_type, SL("varying") TSRMLS_CC);
@@ -213,6 +215,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 						phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 					} else {
 						PHALCON_INIT_VAR(status);
 						phalcon_fast_strpos_str(status, column_type, SL("char") TSRMLS_CC);
@@ -238,6 +241,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 									} else {
 										PHALCON_INIT_VAR(status);
 										phalcon_fast_strpos_str(status, column_type, SL("uuid") TSRMLS_CC);
@@ -303,5 +307,38 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 	
 	RETURN_CTOR(columns);
+}
+
+/**
+ * Return the default identity value to insert in an identity column
+ *
+ * @return Phalcon\Db\RawValue
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue){
+
+	zval *null_value = NULL, *default_value = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(null_value);
+	ZVAL_STRING(null_value, "default", 1);
+	
+	PHALCON_INIT_VAR(default_value);
+	object_init_ex(default_value, phalcon_db_rawvalue_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(default_value, "__construct", null_value, PH_CHECK);
+	
+	RETURN_CTOR(default_value);
+}
+
+/**
+ * Check whether the database system requires a sequence to produce auto-numeric values
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences){
+
+
+	PHALCON_MM_GROW();
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
 }
 

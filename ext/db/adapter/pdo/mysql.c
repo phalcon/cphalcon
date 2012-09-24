@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		
 		PHALCON_INIT_VAR(definition);
 		array_init(definition);
+		add_assoc_long_ex(definition, SS("bindType"), 2);
 		
 		PHALCON_INIT_VAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
@@ -136,6 +137,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		if (PHALCON_IS_NOT_FALSE(pos)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			PHALCON_INIT_VAR(pos);
 			phalcon_fast_strpos_str(pos, column_type, SL("varchar") TSRMLS_CC);
@@ -152,6 +154,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 					if (PHALCON_IS_NOT_FALSE(pos)) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
 						phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
+						phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 					} else {
 						PHALCON_INIT_VAR(pos);
 						phalcon_fast_strpos_str(pos, column_type, SL("char") TSRMLS_CC);
@@ -173,6 +176,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 									if (PHALCON_IS_NOT_FALSE(pos)) {
 										phalcon_array_update_string_long(&definition, SL("type"), 7, PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
+										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 									} else {
 										PHALCON_INIT_VAR(pos);
 										phalcon_fast_strpos_str(pos, column_type, SL("enum") TSRMLS_CC);

@@ -49,26 +49,51 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('modelsManager', function(){
+		$di->set('modelsManager', function() {
 			return new Phalcon\Mvc\Model\Manager();
 		});
 
-		$di->set('modelsMetadata', function(){
+		$di->set('modelsMetadata', function() {
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
 		return $di;
 	}
 
-	/*public function testSelectExecute()
-	{
+	public function testExecuteMysql(){
 
 		$di = $this->_getDI();
+
+		$di->set('db', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_testSelectExecute($di);
+		$this->_testInsertExecute($di);
+		$this->_testUpdateExecute($di);
+		$this->_testDeleteExecute($di);
+
+	}
+
+	public function testExecutePostgresql(){
+
+		$di = $this->_getDI();
+
+		$di->set('db', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+
+		$this->_testSelectExecute($di);
+		$this->_testInsertExecute($di);
+		$this->_testUpdateExecute($di);
+		$this->_testDeleteExecute($di);
+
+	}
+
+	public function _testSelectExecute($di)
+	{
 
 		$manager = $di->getShared('modelsManager');
 
@@ -160,7 +185,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->nextid));
 		$this->assertEquals($result[0]->nextid, 2);
 
-		$result = $manager->executeQuery('SELECT r.year FROM Robots r WHERE r.year < YEAR(current_date)');
+		$result = $manager->executeQuery('SELECT r.year FROM Robots r WHERE TRIM(name) != "Robotina"');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
@@ -206,11 +231,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals($result[1]->number, 2);
 
-		$result = $manager->executeQuery('SELECT r.type, SUM(YEAR(current_date)-r.year) age FROM Robots r GROUP BY 1 ORDER BY 2 DESC');
+		$result = $manager->executeQuery('SELECT r.type, SUM(r.year-1000) age FROM Robots r GROUP BY 1 ORDER BY 2 DESC');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
-		$this->assertEquals($result[0]->age, 100);
+		$this->assertEquals($result[0]->age, 1924);
 
 		$result = $manager->executeQuery('SELECT r.type, COUNT(*) number FROM Robots r GROUP BY 1 HAVING COUNT(*) = 2');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
@@ -226,12 +251,12 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-		$this->assertEquals(gettype($result[0]->id), 'string');
+		$this->assertNotEquals(gettype($result[0]->id), 'object');
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->id, 1);
 
-		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(get_class($result[0]->robots), 'Robots');
@@ -245,10 +270,8 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testInsertExecute()
+	public function _testInsertExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
@@ -290,18 +313,18 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		));
 		$this->assertTrue($status->success());
 
-	}*/
+		$this->assertTrue($status->getModel()->id > 0);
 
-	public function testUpdateExecute()
+	}
+
+	public function _testUpdateExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->getShared('db')->execute('UPDATE personas SET ciudad_id = NULL WHERE direccion = "COL"');
+		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
 
-		$status = $manager->executeQuery('UPDATE People SET direccion = "COL" WHERE ciudad_id IS NULL');
+		$status = $manager->executeQuery("UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL");
 		$this->assertTrue($status->success());
 
 		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL', array(
@@ -317,10 +340,8 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDeleteExecute()
+	public function _testDeleteExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 

@@ -14,18 +14,28 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
-#define PDO_ATTR_ERRMODE 3
-#define PDO_ATTR_CASE 8
-#define PDO_ATTR_CURSOR 10
-#define PDO_ATTR_PERSISTENT 12
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#define PDO_ERRMODE_SILENT 0
-#define PDO_ERRMODE_WARNING 1
-#define PDO_ERRMODE_EXCEPTION 2
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-#define PDO_CASE_LOWER 2
-#define PDO_CURSOR_SCROLL 1
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+/**
+ * Phalcon\Mvc\User\Module
+ *
+ * This class can be used to provide user components easy access to services
+ * in the application
+ */
+

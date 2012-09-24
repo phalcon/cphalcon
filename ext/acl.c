@@ -106,12 +106,12 @@ PHP_METHOD(Phalcon_Acl, setEventsManager){
  */
 PHP_METHOD(Phalcon_Acl, getEventsManager){
 
-	zval *t0 = NULL;
+	zval *events_manager = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(events_manager);
 }
 

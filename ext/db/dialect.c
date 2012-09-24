@@ -132,12 +132,11 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 
 	zval *definition = NULL, *columns = NULL, *comma = NULL, *columns_sql = NULL;
 	zval *tables = NULL, *tables_sql = NULL, *sql = NULL, *joins = NULL, *join = NULL, *type = NULL;
-	zval *source = NULL, *sql_join = NULL, *join_conditions_array = NULL;
+	zval *source = NULL, *sql_join = NULL, *and_word = NULL, *join_conditions_array = NULL;
 	zval *join_conditions = NULL, *on_join = NULL, *where_conditions = NULL;
 	zval *where_clause = NULL, *group_fields = NULL, *group_clause = NULL;
 	zval *having_conditions = NULL, *having_clause = NULL, *order_fields = NULL;
 	zval *order_clause = NULL, *limit_value = NULL, *limit_clause = NULL;
-	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -214,14 +213,14 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			PHALCON_CONCAT_SVSV(sql_join, " ", type, " JOIN ", source);
 			eval_int = phalcon_array_isset_string(join, SL("conditions")+1);
 			if (eval_int) {
+				PHALCON_INIT_VAR(and_word);
+				ZVAL_STRING(and_word, " AND ", 1);
+				
 				PHALCON_INIT_VAR(join_conditions_array);
 				phalcon_array_fetch_string(&join_conditions_array, join, SL("conditions"), PH_NOISY_CC);
 				
-				PHALCON_INIT_VAR(c0);
-				ZVAL_STRING(c0, " AND ", 1);
-				
 				PHALCON_INIT_VAR(join_conditions);
-				phalcon_fast_join(join_conditions, c0, join_conditions_array TSRMLS_CC);
+				phalcon_fast_join(join_conditions, and_word, join_conditions_array TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(on_join);
 				PHALCON_CONCAT_SV(on_join, " ON ", join_conditions);
