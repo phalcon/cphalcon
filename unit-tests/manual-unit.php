@@ -75,6 +75,10 @@ class PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function markTestSkipped()
+	{
+	}
+
 	public static function main($className)
 	{
 		echo 'Testing ', $className, ' ';
