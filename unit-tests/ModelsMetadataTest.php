@@ -176,6 +176,23 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		);
 		$ndAttributes = $metaData->getDataTypesNumeric($personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
+
+		$bindTypes = array(
+			'cedula' => 2,
+			'tipo_documento_id' => 1,
+			'nombres' => 2,
+			'telefono' => 2,
+			'direccion' => 2,
+			'email' => 2,
+			'fecha_nacimiento' => 2,
+			'ciudad_id' => 1,
+			'creado_at' => 2,
+			'cupo' => 32,
+			'estado' => 2,
+		);
+
+		$btAttributes = $metaData->getBindTypes($personas);
+		$this->assertEquals($btAttributes, $bindTypes);
 	}
 
 }

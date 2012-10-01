@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -33,11 +33,13 @@ class DbLoggerListener
 		$this->_logger->log($connection->getSQLStatement());
 	}
 
-	public function getProfiler(){
+	public function getProfiler()
+	{
 		return $this->_profiler;
 	}
 
-	public function getLogger(){
+	public function getLogger()
+	{
 		return $this->_logger;
 	}
 

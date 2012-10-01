@@ -33,7 +33,17 @@ class PHPUnit_Framework_TestCase
 	public function assertEquals($a, $b)
 	{
 		if ($a != $b) {
-			throw new Exception('Not equals '.print_r($a, true).' != '.print_r($b, true));
+			if(is_array($a) && is_array($b)){
+				foreach($a as $k => $v){
+					if ($v != $b[$k]) {
+						print_r($v);
+						print_r($b[$k]);
+					}
+				}
+				throw new Exception('Not equals');
+			} else {
+				throw new Exception('Not equals '.print_r($a, true).' != '.print_r($b, true));
+			}
 		}
 	}
 
@@ -63,6 +73,10 @@ class PHPUnit_Framework_TestCase
 		if ($a <= $b){
 			throw new Exception('Not greather than');
 		}
+	}
+
+	public function markTestSkipped()
+	{
 	}
 
 	public static function main($className)
@@ -131,5 +145,6 @@ try {
 }
 catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;
-	echo $e->getTraceAsString();
+	//echo $e->getTraceAsString();
+	print_r($e->getTrace());
 }

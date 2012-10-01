@@ -137,7 +137,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload, zend_class_entry ***ce TSRMLS_DC);
 int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***ce TSRMLS_DC);
 
-#if PHP_VERSION_ID <= 50308
+#if PHP_VERSION_ID <= 50309
 #define PHALCON_CALL_USER_FUNCTION phalcon_call_user_function
 #else
 #define PHALCON_CALL_USER_FUNCTION call_user_function

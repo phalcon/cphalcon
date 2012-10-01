@@ -69,9 +69,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 	zval *exists = NULL, *complete_table = NULL, *class_name = NULL, *exception_message = NULL;
 	zval *exception = NULL, *attributes = NULL, *primary_keys = NULL;
 	zval *non_primary_keys = NULL, *numeric_typed = NULL, *not_null = NULL;
-	zval *field_types = NULL, *identity_field = NULL, *columns = NULL;
-	zval *number_columns = NULL, *column = NULL, *field_name = NULL, *feature = NULL;
-	zval *type = NULL, *table_metadata = NULL, *changed = NULL, *handler = NULL;
+	zval *field_types = NULL, *field_bind_types = NULL, *identity_field = NULL;
+	zval *columns = NULL, *number_columns = NULL, *column = NULL, *field_name = NULL;
+	zval *feature = NULL, *type = NULL, *bind_type = NULL, *table_metadata = NULL;
+	zval *changed = NULL, *registered = NULL, *handler = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -136,6 +137,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		PHALCON_INIT_VAR(field_types);
 		array_init(field_types);
 		
+		PHALCON_INIT_VAR(field_bind_types);
+		array_init(field_bind_types);
+		
 		PHALCON_INIT_VAR(identity_field);
 		ZVAL_BOOL(identity_field, 0);
 		
@@ -184,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			
 			PHALCON_INIT_VAR(feature);
 			PHALCON_CALL_METHOD(feature, column, "isprimary", PH_NO_CHECK);
-			if (zend_is_true(feature)) {
+			if (Z_TYPE_P(feature) == IS_BOOL && Z_BVAL_P(feature)) {
 				phalcon_array_append(&primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
 			} else {
 				phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
@@ -192,25 +196,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			
 			PHALCON_INIT_VAR(feature);
 			PHALCON_CALL_METHOD(feature, column, "isnumeric", PH_NO_CHECK);
-			if (zend_is_true(feature)) {
+			if (Z_TYPE_P(feature) == IS_BOOL && Z_BVAL_P(feature)) {
 				phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE TSRMLS_CC);
 			}
 			
 			PHALCON_INIT_VAR(feature);
 			PHALCON_CALL_METHOD(feature, column, "isnotnull", PH_NO_CHECK);
-			if (zend_is_true(feature)) {
+			if (Z_TYPE_P(feature) == IS_BOOL && Z_BVAL_P(feature)) {
 				phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
 			}
 			
 			PHALCON_INIT_VAR(feature);
 			PHALCON_CALL_METHOD(feature, column, "isautoincrement", PH_NO_CHECK);
-			if (zend_is_true(feature)) {
+			if (Z_TYPE_P(feature) == IS_BOOL && Z_BVAL_P(feature)) {
 				PHALCON_CPY_WRT(identity_field, field_name);
 			}
 			
 			PHALCON_INIT_VAR(type);
 			PHALCON_CALL_METHOD(type, column, "gettype", PH_NO_CHECK);
 			phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			
+			PHALCON_INIT_VAR(bind_type);
+			PHALCON_CALL_METHOD(bind_type, column, "getbindtype", PH_NO_CHECK);
+			phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto fes_c40c_0;
 		fee_c40c_0:
@@ -224,6 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		phalcon_array_update_long(&table_metadata, 4, &field_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_long(&table_metadata, 5, &numeric_typed, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_long(&table_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_long(&table_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_ALLOC_ZVAL_MM(t0);
 		phalcon_read_property(&t0, this_ptr, SL("_metaData"), PH_NOISY_CC);
@@ -233,11 +242,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		PHALCON_INIT_VAR(changed);
 		phalcon_read_property(&changed, this_ptr, SL("_changed"), PH_NOISY_CC);
 		if (!zend_is_true(changed)) {
-			PHALCON_INIT_VAR(handler);
-			array_init(handler);
-			phalcon_array_append(&handler, this_ptr, PH_SEPARATE TSRMLS_CC);
-			add_next_index_stringl(handler, SL("storeMetaData"), 1);
-			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", handler);
+			PHALCON_INIT_VAR(registered);
+			phalcon_read_property(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
+			if (Z_TYPE_P(registered) == IS_BOOL && !Z_BVAL_P(registered)) {
+				PHALCON_INIT_VAR(handler);
+				array_init(handler);
+				phalcon_array_append(&handler, this_ptr, PH_SEPARATE TSRMLS_CC);
+				add_next_index_stringl(handler, SL("storeMetaData"), 1);
+				PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", handler);
+				phalcon_update_property_bool(this_ptr, SL("_registered"), 1 TSRMLS_CC);
+			}
+			
 			phalcon_update_property_bool(this_ptr, SL("_changed"), 1 TSRMLS_CC);
 		}
 	}
@@ -466,6 +481,51 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 	
 	PHALCON_INIT_VAR(attributes);
 	phalcon_array_fetch_long(&attributes, r0, 4, PH_NOISY_CC);
+	
+	RETURN_CCTOR(attributes);
+}
+
+/**
+ * Returns attributes and their bind data types
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
+
+	zval *model = NULL, *table = NULL, *schema = NULL, *key = NULL, *meta_data = NULL, *attributes = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(model) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A model instance is required to retrieve the meta-data");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(table);
+	PHALCON_CALL_METHOD(table, model, "getsource", PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(schema);
+	PHALCON_CALL_METHOD(schema, model, "getschema", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "_initializemetadata", model, table, schema, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(key);
+	PHALCON_CONCAT_VV(key, schema, table);
+	
+	PHALCON_INIT_VAR(meta_data);
+	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	
+	PHALCON_ALLOC_ZVAL_MM(r0);
+	phalcon_array_fetch(&r0, meta_data, key, PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(attributes);
+	phalcon_array_fetch_long(&attributes, r0, 9, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }

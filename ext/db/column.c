@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 
 	zval *column_name = NULL, *definition = NULL, *type = NULL, *not_null = NULL;
 	zval *primary = NULL, *size = NULL, *is_numeric = NULL, *scale = NULL, *dunsigned = NULL;
-	zval *auto_increment = NULL, *first = NULL, *after = NULL;
+	zval *auto_increment = NULL, *first = NULL, *after = NULL, *bind_type = NULL;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
@@ -177,6 +177,13 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 		PHALCON_INIT_VAR(after);
 		phalcon_array_fetch_string(&after, definition, SL("after"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_after"), after TSRMLS_CC);
+	}
+	
+	eval_int = phalcon_array_isset_string(definition, SS("bindType"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(bind_type);
+		phalcon_array_fetch_string(&bind_type, definition, SL("bindType"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_bindType"), bind_type TSRMLS_CC);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -374,11 +381,25 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
 	RETURN_CCTOR(after);
 }
 
+/**
+ * Returns the type of bind handling
+ */
+PHP_METHOD(Phalcon_Db_Column, getBindType){
+
+	zval *bind_type = NULL;
+
+	PHALCON_MM_GROW();
+	PHALCON_INIT_VAR(bind_type);
+	phalcon_read_property(&bind_type, this_ptr, SL("_bindType"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(bind_type);
+}
+
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data = NULL, *definition = NULL, *column_name = NULL, *column_type = NULL;
 	zval *not_null = NULL, *primary = NULL, *size = NULL, *dunsigned = NULL, *after = NULL;
-	zval *is_numeric = NULL, *first = NULL, *column = NULL;
+	zval *is_numeric = NULL, *first = NULL, *bind_type = NULL, *column = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -450,6 +471,13 @@ PHP_METHOD(Phalcon_Db_Column, __set_state){
 		PHALCON_INIT_VAR(first);
 		phalcon_array_fetch_string(&first, data, SL("_first"), PH_NOISY_CC);
 		phalcon_array_update_string(&definition, SL("first"), &first, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
+	eval_int = phalcon_array_isset_string(data, SS("_bindType"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(bind_type);
+		phalcon_array_fetch_string(&bind_type, data, SL("_bindType"), PH_NOISY_CC);
+		phalcon_array_update_string(&definition, SL("bindType"), &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(column);

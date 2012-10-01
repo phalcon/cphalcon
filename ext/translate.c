@@ -143,8 +143,7 @@ PHP_METHOD(Phalcon_Translate, offsetUnset){
  */
 PHP_METHOD(Phalcon_Translate, offsetGet){
 
-	zval *traslate_key = NULL, *translation = NULL;
-	zval *c0 = NULL;
+	zval *traslate_key = NULL, *null_value = NULL, *translation = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -153,10 +152,11 @@ PHP_METHOD(Phalcon_Translate, offsetGet){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_NULL(c0);
+	PHALCON_INIT_VAR(null_value);
+	ZVAL_NULL(null_value);
+	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value, PH_NO_CHECK);
 	
 	RETURN_CCTOR(translation);
 }

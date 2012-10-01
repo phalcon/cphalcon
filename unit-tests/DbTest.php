@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -132,7 +132,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);
 
-		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES (?, ?, ?)', array('0', "LOL 1", "A"));
+		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)', array("LOL 1", "A"));
 		$this->assertTrue($success);
 
 		$success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', array("LOL 11", "R"));
@@ -141,7 +141,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->execute('DELETE FROM prueba WHERE estado = ?', array("R"));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array('0', "LOL 1", "A"));
+		$success = $connection->insert('prueba', array($connection->getDefaultIdValue(), "LOL 1", "A"));
 		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array("LOL 2", "E"), array('nombre', 'estado'));
@@ -186,6 +186,14 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
+
+		//Auto-Increment/Serial Columns
+		$sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES ('.$connection->getDefaultIdValue().', ?, ?, ?)';
+		$success = $connection->execute($sql, array('shirley@garbage.com', "2011-01-01 12:59:13", "P"));
+		$this->assertTrue($success);
+
+		//Check for auto-increment column
+		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
 	}
 

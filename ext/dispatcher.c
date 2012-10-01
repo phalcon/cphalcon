@@ -454,11 +454,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		if (zend_is_true(finished)) {
 			goto ph_cycle_end_0;
 		}
+		PHALCON_SEPARATE(number_dispatches);
+		increment_function(number_dispatches);
 		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
 			PHALCON_INIT_VAR(exception_message);
 			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
 		}
+		
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(handler_name);
@@ -619,9 +622,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
-		
-		PHALCON_SEPARATE(number_dispatches);
-		increment_function(number_dispatches);
 		goto ph_cycle_start_0;
 	ph_cycle_end_0:
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {

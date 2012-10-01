@@ -172,6 +172,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 		PHALCON_INIT_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 
+		if (Z_TYPE_P(rows) == IS_NULL) {
+			PHALCON_INIT_VAR(result);
+			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+			if (PHALCON_IS_NOT_FALSE(result)) {
+				PHALCON_INIT_VAR(rows);
+				PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
+				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+			}
+		}
+
 		if(Z_TYPE_P(rows) == IS_ARRAY){
 
 			ah0 = Z_ARRVAL_P(rows);

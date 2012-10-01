@@ -158,6 +158,13 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 		$value = $dispatcher->getReturnedValue();
 		$this->assertEquals($value, 5);
 
+		$dispatcher->setControllerName('test7');
+		$dispatcher->setActionName('service');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch();
+		$value = $dispatcher->getReturnedValue();
+		$this->assertEquals($value, "hello");
+
 	}
 
 }

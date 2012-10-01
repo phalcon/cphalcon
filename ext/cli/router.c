@@ -178,6 +178,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultAction){
  */
 PHP_METHOD(Phalcon_CLI_Router, handle){
 
+	int i;
 	zval *arguments = NULL, *arguments_count = NULL, *params = NULL, *arg = NULL;
 	zval *module_name = NULL, *default_module = NULL;
 	zval *task_name = NULL, *default_task = NULL, *task_name_tmp = NULL, *task_name_parts = NULL;
@@ -231,7 +232,6 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 		phalcon_array_fetch_long(&action_name, arguments, 2, PH_NOISY_CC);
 
 		// process params
-		int i;
 		for (i = 3; i < Z_LVAL_P(arguments_count); i++) {
 			PHALCON_INIT_VAR(arg);
 			phalcon_array_fetch_long(&arg, arguments, i, PH_NOISY_CC);

@@ -285,9 +285,9 @@ PHP_METHOD(Phalcon_Flash, warning){
 PHP_METHOD(Phalcon_Flash, outputMessage){
 
 	zval *type = NULL, *message = NULL, *automatic_html = NULL, *classes = NULL;
-	zval *type_classes = NULL, *joined_classes = NULL, *css_classes = NULL;
-	zval *eol = NULL, *implicit_flush = NULL, *content = NULL, *msg = NULL, *html_message = NULL;
-	zval *c0 = NULL;
+	zval *type_classes = NULL, *space = NULL, *joined_classes = NULL;
+	zval *css_classes = NULL, *eol = NULL, *implicit_flush = NULL, *content = NULL;
+	zval *msg = NULL, *html_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -310,10 +310,11 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			PHALCON_INIT_VAR(type_classes);
 			phalcon_array_fetch(&type_classes, classes, type, PH_NOISY_CC);
 			if (Z_TYPE_P(type_classes) == IS_ARRAY) { 
-				PHALCON_INIT_VAR(c0);
-				ZVAL_STRING(c0, " ", 1);
+				PHALCON_INIT_VAR(space);
+				ZVAL_STRING(space, " ", 1);
+				
 				PHALCON_INIT_VAR(joined_classes);
-				phalcon_fast_join(joined_classes, c0, type_classes TSRMLS_CC);
+				phalcon_fast_join(joined_classes, space, type_classes TSRMLS_CC);
 				
 				PHALCON_INIT_VAR(css_classes);
 				PHALCON_CONCAT_SVS(css_classes, " class=\"", joined_classes, "\"");
