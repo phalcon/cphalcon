@@ -1,7 +1,14 @@
 <?php
 
-class RobotsParts extends Phalcon\Mvc\Model
+namespace Some;
+
+class RobotsParts extends \Phalcon\Mvc\Model
 {
+
+	public function getSource()
+	{
+		return 'robots_parts';
+	}
 
 	public function initialize()
 	{
