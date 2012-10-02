@@ -42,10 +42,6 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 #endif
 ZEND_END_MODULE_GLOBALS(phalcon)
 
-#ifdef ZTS
-#include "TSRM.h"
-#endif
-
 ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
@@ -56,10 +52,6 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
-
-#ifdef PHP_WIN32
-#include "stdafx.h"
-#endif
 
 #endif
 
