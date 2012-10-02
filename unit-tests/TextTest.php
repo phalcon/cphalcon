@@ -33,6 +33,8 @@ class TextTest extends PHPUnit_Framework_TestCase
 		  'Camelize' => 'Camelize',
 		  'camel_ize' => 'CamelIze',
 		  'CameLize' => 'Camelize',
+		  'c-a-m-e-l-i-z-e' => 'CAMELIZE',
+		  'camel-ize' => 'CamelIze',
 		);
 		foreach ($camelizeTests as $str => $camelized) {
 			$this->assertEquals($camelized, \Phalcon\Text::camelize($str));
