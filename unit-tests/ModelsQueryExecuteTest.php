@@ -256,7 +256,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->id, 1);
 
-		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id');
+		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id, RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(get_class($result[0]->robots), 'Robots');

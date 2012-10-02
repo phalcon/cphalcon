@@ -16,6 +16,8 @@
  - Added bindTypes param to Phalcon\Mvc\Model::find and Phalcon\Mvc\Model::findFirst
  - Due to the new agressive type-casting when binding parameters, Phalcon\Mvc\Model isn't capable anymore of generate reliable automatic keys for the cache
  - Fixed bug that makes actions and events implemented in a parent class innaccessibles for Phalcon
+ - Now Phalcon\Text::camelize checks for underscores and dashes
+ - Added Phalcon\Mvc\Model::getRelated to return related relation models on namespaced models
 
 0.5.0
 - Added Phalcon\CLI components to create CLI applications
