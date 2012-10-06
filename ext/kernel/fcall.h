@@ -84,10 +84,6 @@
 int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC);
 int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC);
 
-/** Lookups and cache fci data **/
-int phalcon_cache_lookup_method(char *func_name, int func_name_length TSRMLS_DC);
-int phalcon_cache_lookup_function(char *func_name, int func_name_length, int fcache_pointer TSRMLS_DC);
-
 /** Call single functions */
 extern int phalcon_call_func(zval *return_value, char *func_name, int func_length, int noreturn TSRMLS_DC);
 extern int phalcon_call_func_params(zval *return_value, char *func_name, int func_length, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC);

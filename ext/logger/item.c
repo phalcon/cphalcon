@@ -50,17 +50,17 @@
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct){
 
-	zval *message = NULL, *type = NULL, *time = NULL;
+	zval *message, *type, *time = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &message, &type, &time) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!time) {
-		PHALCON_ALLOC_ZVAL_MM(time);
+		PHALCON_INIT_NVAR(time);
 		ZVAL_LONG(time, 0);
 	}
 	
@@ -78,13 +78,14 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
  */
 PHP_METHOD(Phalcon_Logger_Item, getMessage){
 
-	zval *t0 = NULL;
+	zval *message;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_message"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(message);
+	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(message);
 }
 
 /**
@@ -94,13 +95,14 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage){
  */
 PHP_METHOD(Phalcon_Logger_Item, getType){
 
-	zval *t0 = NULL;
+	zval *type;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_type"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(type);
+	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(type);
 }
 
 /**
@@ -110,12 +112,13 @@ PHP_METHOD(Phalcon_Logger_Item, getType){
  */
 PHP_METHOD(Phalcon_Logger_Item, getTime){
 
-	zval *t0 = NULL;
+	zval *time;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_time"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(time);
+	phalcon_read_property(&time, this_ptr, SL("_time"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(time);
 }
 

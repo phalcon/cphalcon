@@ -70,8 +70,8 @@ class PHPUnit_Framework_TestCase
 
 	public function assertGreaterThan($a, $b)
 	{
-		if ($a <= $b){
-			throw new Exception('Not greather than');
+		if ($b <= $a){
+			throw new Exception('Not greater than');
 		}
 	}
 

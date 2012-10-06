@@ -119,7 +119,6 @@ static zval *phql_ret_select_clause(zval *columns, zval *tables, zval *join_list
 	return ret;
 }
 
-
 static zval *phql_ret_order_item(zval *column, int sort){
 
 	zval *ret;
@@ -373,7 +372,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 }
 
 
-#line 377 "parser.c"
+#line 376 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -492,57 +491,57 @@ typedef union {
 **  yy_default[]       Default action for each state.
 */
 static YYACTIONTYPE yy_action[] = {
- /*     0 */    65,   68,   71,   39,   36,   43,   41,   45,   63,   47,
- /*    10 */    49,   51,   53,   55,   57,   59,   61,    7,  113,  115,
- /*    20 */   192,  123,  190,    9,   65,   68,   71,   39,   36,   43,
- /*    30 */    41,   45,   63,   47,   49,   51,   53,   55,   57,   59,
- /*    40 */    61,   65,   68,   71,   39,   36,   43,   41,   45,   63,
- /*    50 */    47,   49,   51,   53,   55,   57,   59,   61,  238,   90,
- /*    60 */    43,   41,   45,   63,   47,   49,   51,   53,   55,   57,
- /*    70 */    59,   61,   86,   77,   70,  239,   37,  240,   85,   91,
- /*    80 */   241,  379,    1,    2,    3,    4,    5,    6,   70,   76,
- /*    90 */    25,   28,   79,   91,   86,   75,   78,   84,   37,  242,
- /*   100 */    85,   19,   30,   22,   80,  252,   88,   83,  216,   81,
- /*   110 */    78,   84,  231,  130,   79,  245,   92,  181,  132,  133,
- /*   120 */    95,   93,   94,   96,   97,  129,   70,   25,   88,  182,
- /*   130 */    86,   91,  203,  177,   37,   11,  185,   91,   92,   21,
- /*   140 */    22,  202,   95,   93,   94,   96,   97,  101,   78,   84,
- /*   150 */   186,  175,   86,   27,   78,  137,   37,  141,  146,  149,
- /*   160 */   339,  159,  169,   10,   88,   51,   53,   55,   57,   59,
- /*   170 */    61,   27,   79,   31,   92,   13,   33,   26,   95,   93,
- /*   180 */    94,   96,   97,  243,  110,   14,   88,  137,   16,  141,
- /*   190 */   146,  149,  150,  159,  169,  111,   92,  154,  107,  112,
- /*   200 */    95,   93,   94,   96,   97,   15,   63,   47,   49,   51,
- /*   210 */    53,   55,   57,   59,   61,   47,   49,   51,   53,   55,
- /*   220 */    57,   59,   61,  124,   17,  244,  128,  183,  203,  105,
- /*   230 */   110,   10,  127,   91,  199,  193,  189,  204,  203,  246,
- /*   240 */   126,   91,  261,   91,  210,  109,   70,  204,   35,  260,
- /*   250 */    78,   91,  103,   91,  194,  247,  254,   91,   78,  220,
- /*   260 */    78,  235,   23,   24,    8,   12,   17,  104,   78,   98,
- /*   270 */    78,  105,   18,   10,   78,  131,  132,  133,  184,  189,
- /*   280 */    17,  176,   29,   17,   91,  177,   34,   10,  229,   34,
- /*   290 */    10,  250,   38,   91,   40,   42,   17,   91,   99,   91,
- /*   300 */    91,   78,  228,   10,   44,   66,   46,   48,   50,   91,
- /*   310 */    78,   91,   91,   91,   78,   52,   78,   78,   54,   56,
- /*   320 */    91,  263,   58,   91,   91,  248,   78,   91,   78,   78,
- /*   330 */    78,   60,  116,   62,  118,  122,   91,   78,   91,   10,
- /*   340 */    78,   78,   64,   67,   78,   87,   89,   91,   91,  140,
- /*   350 */    91,   91,  125,   78,   91,   78,  145,   91,  153,  307,
- /*   360 */   316,   91,   17,   91,   78,   78,   73,   78,   78,   10,
- /*   370 */    77,   78,  158,   10,   78,  255,  163,   91,   78,  168,
- /*   380 */    78,   91,  174,  226,   91,  256,   82,   91,  257,   77,
- /*   390 */   223,  230,  119,  187,   78,  121,   28,  160,   78,  124,
- /*   400 */   124,   78,  164,  188,   78,  102,   80,   10,   10,  308,
- /*   410 */   136,  180,  134,  178,   72,  197,  205,   29,  201,  206,
- /*   420 */   226,  212,  215,   10,  201,  217,  221,  317,  225,  219,
- /*   430 */   177,   20,   32,   10,  200,  249,   10,  207,  232,  237,
- /*   440 */   211,  253,  234,  177,   74,   69,  251,  100,  106,  108,
- /*   450 */   114,  258,  117,  259,  265,  264,  262,   10,  120,  266,
- /*   460 */    27,  135,  139,  138,  195,  170,  142,  143,  144,  147,
- /*   470 */   148,  299,  152,  151,  155,   10,  156,  157,  161,  166,
- /*   480 */   300,  172,  162,  167,  165,  171,  214,  173,  179,  191,
- /*   490 */   196,  218,  310,  309,  213,  224,  227,  319,  198,  209,
- /*   500 */   208,  318,  236,  237,  233,  237,  237,  222,
+ /*     0 */    51,   53,   55,   57,   59,   61,   47,   49,   63,   43,
+ /*    10 */    41,   45,   39,   36,   71,   68,   65,    7,  113,  115,
+ /*    20 */   192,  123,  190,    9,   51,   53,   55,   57,   59,   61,
+ /*    30 */    47,   49,   63,   43,   41,   45,   39,   36,   71,   68,
+ /*    40 */    65,   51,   53,   55,   57,   59,   61,   47,   49,   63,
+ /*    50 */    43,   41,   45,   39,   36,   71,   68,   65,   85,   90,
+ /*    60 */    31,   37,   13,   33,   86,  131,  132,  133,   79,   47,
+ /*    70 */    49,   63,   43,   41,   45,   39,   36,   71,   68,   65,
+ /*    80 */   203,   85,   88,   83,   37,   91,  199,   86,  247,  204,
+ /*    90 */    27,   79,   92,   71,   68,   65,   95,   93,   94,   96,
+ /*   100 */    97,   14,   78,  185,   16,   88,   37,  119,  127,   86,
+ /*   110 */   121,  193,  189,  186,   26,   92,  238,   91,  110,   95,
+ /*   120 */    93,   94,   96,   97,   77,   70,   25,   88,   37,   17,
+ /*   130 */    91,   86,  107,  112,   78,   79,   10,   92,   21,   22,
+ /*   140 */    76,   95,   93,   94,   96,   97,   75,   78,   84,   88,
+ /*   150 */    23,   24,  379,    1,    2,    3,    4,    5,    6,   92,
+ /*   160 */   128,  183,   77,   95,   93,   94,   96,   97,   63,   43,
+ /*   170 */    41,   45,   39,   36,   71,   68,   65,  243,   82,  216,
+ /*   180 */   197,  205,   25,  231,   43,   41,   45,   39,   36,   71,
+ /*   190 */    68,   65,  175,   19,   30,   22,  137,  244,  141,  146,
+ /*   200 */   149,  129,  159,  169,  137,  182,  141,  146,  149,  177,
+ /*   210 */   159,  169,   39,   36,   71,   68,   65,  124,   17,   70,
+ /*   220 */   246,   11,  339,  105,   91,   10,   70,  116,  203,  118,
+ /*   230 */   122,   91,  126,   91,  210,  245,   77,  204,   17,  261,
+ /*   240 */    81,   78,   84,  105,  239,   10,  194,  101,   78,   84,
+ /*   250 */    78,  220,  102,  235,   70,  110,  176,   27,  130,   91,
+ /*   260 */   177,   17,  181,  132,  133,  184,  189,   34,   10,  203,
+ /*   270 */   109,   91,    8,   12,   91,  104,   78,   98,  202,  229,
+ /*   280 */    17,  111,  240,   10,   91,   73,   34,   10,   78,   35,
+ /*   290 */   103,   78,   38,  228,   91,   91,   15,   91,   40,   66,
+ /*   300 */    42,   78,  150,   91,   44,   91,   99,  154,  226,   91,
+ /*   310 */   241,   78,   78,   46,   78,  223,  230,   72,   91,   48,
+ /*   320 */    78,  263,   78,   50,   91,   52,   78,  160,   91,   20,
+ /*   330 */    91,   54,  164,   56,   58,   78,   91,   60,   91,   91,
+ /*   340 */   188,   78,   91,   62,   64,   78,   67,   78,   91,   91,
+ /*   350 */    29,   91,   87,   78,  307,   78,   78,   91,   89,   78,
+ /*   360 */   242,  252,   17,   91,  316,   78,   78,  125,   78,   10,
+ /*   370 */   140,  250,   91,  145,   78,   91,  153,  158,   91,  248,
+ /*   380 */    78,   91,   91,  163,  255,  168,  174,   28,   91,   78,
+ /*   390 */    91,   91,   78,  256,  124,   78,  257,  187,   78,   78,
+ /*   400 */    80,  136,   10,  134,  124,   78,  201,   78,   78,  180,
+ /*   410 */    80,  178,   10,  206,  212,  201,  215,  217,  308,   10,
+ /*   420 */   221,  219,  200,  317,  177,  226,  260,   10,  254,   18,
+ /*   430 */   207,  211,   10,  225,  232,  237,   28,   29,  234,  177,
+ /*   440 */    32,   10,  249,  253,   10,   69,   65,   74,  100,  251,
+ /*   450 */   106,  108,  258,  259,  265,  114,  117,  120,  264,  262,
+ /*   460 */   266,   27,  135,  139,  144,  170,   10,  195,  138,  142,
+ /*   470 */   147,   10,  152,  143,  155,  148,  151,  156,  161,  166,
+ /*   480 */   157,  162,  167,  172,  299,  165,  171,  179,  173,  214,
+ /*   490 */   191,  196,  300,  213,  310,  309,  218,  224,  227,  198,
+ /*   500 */   209,  208,  319,  233,  318,  236,  237,  237,  222,
 };
 static YYCODETYPE yy_lookahead[] = {
  /*     0 */     1,    2,    3,    4,    5,    6,    7,    8,    9,   10,
@@ -550,106 +549,106 @@ static YYCODETYPE yy_lookahead[] = {
  /*    20 */    21,   66,   23,   66,    1,    2,    3,    4,    5,    6,
  /*    30 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
  /*    40 */    17,    1,    2,    3,    4,    5,    6,    7,    8,    9,
- /*    50 */    10,   11,   12,   13,   14,   15,   16,   17,    0,   36,
- /*    60 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*    70 */    16,   17,    1,   20,   71,    0,    5,    0,    7,   76,
- /*    80 */     0,   55,   56,   57,   58,   59,   60,   61,   71,   36,
- /*    90 */    76,   22,   21,   76,    1,   92,   93,   94,    5,    0,
- /*   100 */     7,   87,   88,   89,   35,    0,   35,   36,   82,   92,
- /*   110 */    93,   94,   86,   69,   21,    0,   45,   73,   74,   75,
- /*   120 */    49,   50,   51,   52,   53,   68,   71,   76,   35,   72,
- /*   130 */     1,   76,   71,   76,    5,   45,    7,   76,   45,   88,
- /*   140 */    89,   80,   49,   50,   51,   52,   53,   92,   93,   94,
- /*   150 */    21,   20,    1,   21,   93,   24,    5,   26,   27,   28,
- /*   160 */     0,   30,   31,   48,   35,   12,   13,   14,   15,   16,
- /*   170 */    17,   21,   21,   63,   45,   65,   66,   45,   49,   50,
- /*   180 */    51,   52,   53,    0,   76,   63,   35,   24,   66,   26,
- /*   190 */    27,   28,   24,   30,   31,   45,   45,   29,   90,   91,
- /*   200 */    49,   50,   51,   52,   53,   66,    9,   10,   11,   12,
- /*   210 */    13,   14,   15,   16,   17,   10,   11,   12,   13,   14,
- /*   220 */    15,   16,   17,   40,   41,    0,   19,   20,   71,   46,
- /*   230 */    76,   48,   67,   76,   77,   70,   71,   80,   71,    0,
- /*   240 */    18,   76,    0,   76,   77,   91,   71,   80,   71,    0,
- /*   250 */    93,   76,   71,   76,   32,    0,    0,   76,   93,   37,
- /*   260 */    93,   39,   43,   44,   63,   64,   41,   66,   93,   94,
- /*   270 */    93,   46,   42,   48,   93,   73,   74,   75,   70,   71,
- /*   280 */    41,   72,   21,   41,   76,   76,   47,   48,   71,   47,
- /*   290 */    48,    0,   71,   76,   71,   71,   41,   76,    2,   76,
- /*   300 */    76,   93,   85,   48,   71,    9,   71,   71,   71,   76,
- /*   310 */    93,   76,   76,   76,   93,   71,   93,   93,   71,   71,
- /*   320 */    76,    0,   71,   76,   76,    0,   93,   76,   93,   93,
- /*   330 */    93,   71,   63,   71,   65,   66,   76,   93,   76,   48,
- /*   340 */    93,   93,   71,   71,   93,   71,   71,   76,   76,   71,
- /*   350 */    76,   76,   71,   93,   76,   93,   71,   76,   71,    0,
- /*   360 */     0,   76,   41,   76,   93,   93,    1,   93,   93,   48,
- /*   370 */    20,   93,   71,   48,   93,    0,   71,   76,   93,   71,
- /*   380 */    93,   76,   71,   76,   76,    0,   36,   76,    0,   20,
- /*   390 */    83,   84,   63,   22,   93,   66,   22,   24,   93,   40,
- /*   400 */    40,   93,   29,    7,   93,   36,   35,   48,   48,    0,
- /*   410 */    21,   21,   23,   23,   49,   34,   35,   21,   20,   78,
- /*   420 */    76,   20,   81,   48,   20,   62,   72,    0,   84,   66,
- /*   430 */    76,   20,   66,   48,   36,    0,   48,   36,   62,   72,
- /*   440 */    36,    0,   66,   76,   49,   35,    0,   35,   42,   20,
- /*   450 */    66,    0,   66,    0,    0,    0,    0,   48,   66,    0,
- /*   460 */    21,   21,   25,   76,   33,   29,   24,   76,   25,   24,
- /*   470 */    76,    0,   25,   76,   24,   48,   76,   25,   76,   76,
- /*   480 */     0,   76,   25,   25,   24,   24,   21,   25,   21,   21,
- /*   490 */    76,   66,    0,    0,   81,   20,   12,    0,   35,   35,
- /*   500 */    34,    0,   19,   95,   66,   95,   95,   38,
+ /*    50 */    10,   11,   12,   13,   14,   15,   16,   17,   11,   36,
+ /*    60 */    63,   14,   65,   66,   17,   73,   74,   75,   21,    7,
+ /*    70 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*    80 */    71,   11,   35,   36,   14,   76,   77,   17,    0,   80,
+ /*    90 */    21,   21,   45,   15,   16,   17,   49,   50,   51,   52,
+ /*   100 */    53,   63,   93,   11,   66,   35,   14,   63,   67,   17,
+ /*   110 */    66,   70,   71,   21,   45,   45,    0,   76,   76,   49,
+ /*   120 */    50,   51,   52,   53,   20,   71,   76,   35,   14,   41,
+ /*   130 */    76,   17,   90,   91,   93,   21,   48,   45,   88,   89,
+ /*   140 */    36,   49,   50,   51,   52,   53,   92,   93,   94,   35,
+ /*   150 */    43,   44,   55,   56,   57,   58,   59,   60,   61,   45,
+ /*   160 */    19,   20,   20,   49,   50,   51,   52,   53,    9,   10,
+ /*   170 */    11,   12,   13,   14,   15,   16,   17,    0,   36,   82,
+ /*   180 */    34,   35,   76,   86,   10,   11,   12,   13,   14,   15,
+ /*   190 */    16,   17,   20,   87,   88,   89,   24,    0,   26,   27,
+ /*   200 */    28,   68,   30,   31,   24,   72,   26,   27,   28,   76,
+ /*   210 */    30,   31,   13,   14,   15,   16,   17,   40,   41,   71,
+ /*   220 */     0,   45,    0,   46,   76,   48,   71,   63,   71,   65,
+ /*   230 */    66,   76,   18,   76,   77,    0,   20,   80,   41,    0,
+ /*   240 */    92,   93,   94,   46,    0,   48,   32,   92,   93,   94,
+ /*   250 */    93,   37,   36,   39,   71,   76,   72,   21,   69,   76,
+ /*   260 */    76,   41,   73,   74,   75,   70,   71,   47,   48,   71,
+ /*   270 */    91,   76,   63,   64,   76,   66,   93,   94,   80,   71,
+ /*   280 */    41,   45,    0,   48,   76,   17,   47,   48,   93,   71,
+ /*   290 */    71,   93,   71,   85,   76,   76,   66,   76,   71,    9,
+ /*   300 */    71,   93,   24,   76,   71,   76,   16,   29,   76,   76,
+ /*   310 */     0,   93,   93,   71,   93,   83,   84,   49,   76,   71,
+ /*   320 */    93,    0,   93,   71,   76,   71,   93,   24,   76,   20,
+ /*   330 */    76,   71,   29,   71,   71,   93,   76,   71,   76,   76,
+ /*   340 */    11,   93,   76,   71,   71,   93,   71,   93,   76,   76,
+ /*   350 */    21,   76,   71,   93,    0,   93,   93,   76,   71,   93,
+ /*   360 */     0,    0,   41,   76,    0,   93,   93,   71,   93,   48,
+ /*   370 */    71,    0,   76,   71,   93,   76,   71,   71,   76,    0,
+ /*   380 */    93,   76,   76,   71,    0,   71,   71,   22,   76,   93,
+ /*   390 */    76,   76,   93,    0,   40,   93,    0,   22,   93,   93,
+ /*   400 */    35,   21,   48,   23,   40,   93,   20,   93,   93,   21,
+ /*   410 */    35,   23,   48,   78,   20,   20,   81,   62,    0,   48,
+ /*   420 */    72,   66,   36,    0,   76,   76,    0,   48,    0,   42,
+ /*   430 */    36,   36,   48,   84,   62,   72,   22,   21,   66,   76,
+ /*   440 */    66,   48,    0,    0,   48,   35,   17,   49,   35,    0,
+ /*   450 */    42,   20,    0,    0,    0,   66,   66,   66,    0,    0,
+ /*   460 */     0,   21,   21,   25,   25,   29,   48,   33,   76,   24,
+ /*   470 */    24,   48,   25,   76,   24,   76,   76,   76,   76,   76,
+ /*   480 */    25,   25,   25,   76,    0,   24,   24,   21,   25,   21,
+ /*   490 */    21,   76,    0,   81,    0,    0,   66,   20,    1,   35,
+ /*   500 */    35,   34,    0,   66,    0,   19,   95,   95,   38,
 };
 #define YY_SHIFT_USE_DFLT (-2)
 static short yy_shift_ofst[] = {
- /*     0 */   222,   58,   75,   77,   80,   99,  183,  225,  115,  105,
- /*    10 */    90,  160,  239,  255,  291,  249,  256,  230,  132,  411,
- /*    20 */   132,   -2,  219,   -2,   -2,   -2,   -2,  374,  261,   -2,
- /*    30 */    -2,  325,  435,  441,  151,   40,  151,  151,   54,  151,
- /*    40 */    54,  151,  197,  151,  197,  151,  197,  151,  153,  151,
- /*    50 */   153,  151,   -2,  151,   -2,  151,   -2,  151,   -2,  151,
- /*    60 */    -2,  151,   -2,  151,  205,  296,  151,   40,  410,   93,
- /*    70 */    40,  365,   -2,  395,   -2,   53,   -2,   93,   -2,   69,
- /*    80 */    71,  350,   -2,   -2,   -2,   -2,  151,   40,  151,   23,
- /*    90 */    -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,  412,
- /*   100 */    93,  369,   -2,   54,  446,  406,  150,  429,  150,   -2,
- /*   110 */    -2,   -2,   -2,  375,  451,  242,  385,  453,  321,  388,
- /*   120 */   454,  455,  456,  459,  151,   40,  129,  207,  439,  131,
- /*   130 */   163,   -2,   -2,  389,  440,   -2,   -2,  439,  437,  151,
- /*   140 */    40,  442,  439,  443,  151,   40,  445,  439,   -2,  168,
- /*   150 */   439,  447,  151,   40,  450,  439,  452,  151,   40,  373,
- /*   160 */   439,  457,  151,   40,  460,  439,  458,  151,   40,  436,
- /*   170 */   461,  439,  462,  151,   40,  439,   -2,  390,  467,   -2,
- /*   180 */    -2,   -2,   -2,  129,   -2,   -2,  371,  396,   -2,   -1,
- /*   190 */   468,   -2,   -2,   -2,  431,  439,  381,  463,  151,  398,
- /*   200 */   471,  151,   -2,   40,   -2,  465,  401,  466,  464,  151,
- /*   210 */   404,  480,  465,   -2,   -2,   -2,  359,  409,  492,  493,
- /*   220 */   439,  469,  439,  475,  439,   -2,  484,  151,   -2,   40,
- /*   230 */    -2,  360,  427,  497,  501,  483,  439,   -2,
+ /*     0 */   214,  116,  244,  282,  310,  360,  177,  197,  235,  361,
+ /*    10 */   176,  222,  220,   88,  371,  426,  428,  387,   69,  309,
+ /*    20 */    69,   -2,  107,   -2,   -2,   -2,   -2,  414,  416,   -2,
+ /*    30 */    -2,  379,  442,  443,  114,   40,  114,  114,   78,  114,
+ /*    40 */    78,  114,  199,  114,  199,  114,  199,  114,  159,  114,
+ /*    50 */   159,  114,   62,  114,   62,  114,   62,  114,   62,  114,
+ /*    60 */    62,  114,   62,  114,  174,  290,  114,  429,  410,   70,
+ /*    70 */    40,  268,   -2,  398,   -2,  104,   -2,   70,   -2,  365,
+ /*    80 */    47,  142,   -2,   -2,   -2,   -2,  114,  429,  114,   23,
+ /*    90 */    -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,   -2,  413,
+ /*   100 */    70,  216,   -2,   78,  449,  408,  236,  431,  236,   -2,
+ /*   110 */    -2,   -2,   -2,  384,  452,  239,  393,  453,  321,  396,
+ /*   120 */   454,  458,  459,  460,  114,   40,   92,  141,  440,  172,
+ /*   130 */   180,   -2,   -2,  380,  441,   -2,   -2,  440,  438,  114,
+ /*   140 */    40,  445,  440,  439,  114,   40,  446,  440,   -2,  278,
+ /*   150 */   440,  447,  114,   40,  450,  440,  455,  114,   40,  303,
+ /*   160 */   440,  456,  114,   40,  461,  440,  457,  114,   40,  436,
+ /*   170 */   462,  440,  463,  114,   40,  440,   -2,  388,  466,   -2,
+ /*   180 */    -2,   -2,   -2,   92,   -2,   -2,  375,  329,   -2,   -1,
+ /*   190 */   469,   -2,   -2,   -2,  434,  440,  146,  464,  114,  386,
+ /*   200 */   484,  114,   -2,   40,   -2,  468,  394,  467,  465,  114,
+ /*   210 */   395,  492,  468,   -2,   -2,   -2,  354,  418,  494,  495,
+ /*   220 */   440,  470,  440,  477,  440,   -2,  497,  114,   -2,   40,
+ /*   230 */    -2,  364,  423,  502,  504,  486,  440,   -2,
 };
 #define YY_REDUCE_USE_DFLT (-46)
 static short yy_reduce_ofst[] = {
- /*     0 */    26,  -46,  -46,  -46,  -46,  -46,  -45,  201,  -43,  -46,
- /*    10 */   -46,  -46,  110,  122,  139,  -46,  -46,  -46,   14,  -46,
- /*    20 */    51,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
- /*    30 */   -46,  366,  -46,  -46,  177,  -46,  181,  221,  -46,  223,
- /*    40 */   -46,  224,  -46,  233,  -46,  235,  -46,  236,  -46,  237,
- /*    50 */   -46,  244,  -46,  247,  -46,  248,  -46,  251,  -46,  260,
- /*    60 */   -46,  262,  -46,  271,  -46,  -46,  272,  -46,  -46,    3,
- /*    70 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  175,  -46,  -46,
- /*    80 */    17,  -46,  -46,  -46,  -46,  -46,  274,  -46,  275,  -46,
+ /*     0 */    97,  -46,  -46,  -46,  -46,  -46,  -45,  209,  -43,  -46,
+ /*    10 */   -46,  -46,   -3,   38,  230,  -46,  -46,  -46,  106,  -46,
+ /*    20 */    50,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
+ /*    30 */   -46,  374,  -46,  -46,  218,  -46,  219,  221,  -46,  227,
+ /*    40 */   -46,  229,  -46,  233,  -46,  242,  -46,  248,  -46,  252,
+ /*    50 */   -46,  254,  -46,  260,  -46,  262,  -46,  263,  -46,  266,
+ /*    60 */   -46,  272,  -46,  273,  -46,  -46,  275,  -46,  -46,   54,
+ /*    70 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  183,  -46,  -46,
+ /*    80 */   148,  -46,  -46,  -46,  -46,  -46,  281,  -46,  287,  -46,
  /*    90 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
- /*   100 */    55,  -46,  -46,  -46,  -46,  -46,  108,  -46,  154,  -46,
- /*   110 */   -46,  -46,  -46,  384,  -46,  269,  386,  -46,  329,  392,
- /*   120 */   -46,  -46,  -46,  -46,  281,  -46,  165,  -46,   57,   44,
- /*   130 */   202,  -46,  -46,  -46,  -46,  -46,  -46,  387,  -46,  278,
- /*   140 */   -46,  -46,  391,  -46,  285,  -46,  -46,  394,  -46,  -46,
- /*   150 */   397,  -46,  287,  -46,  -46,  400,  -46,  301,  -46,  -46,
- /*   160 */   402,  -46,  305,  -46,  -46,  403,  -46,  308,  -46,  -46,
- /*   170 */   -46,  405,  -46,  311,  -46,  209,  -46,  -46,  -46,  -46,
- /*   180 */   -46,  -46,  -46,  208,  -46,  -46,  -46,  -46,  -46,  -46,
- /*   190 */   -46,  -46,  -46,  -46,  -46,  414,  -46,  -46,  157,  -46,
- /*   200 */   -46,   61,  -46,  -46,  -46,  341,  -46,  -46,  -46,  167,
- /*   210 */   -46,  -46,  413,  -46,  -46,  -46,  363,  425,  -46,  -46,
- /*   220 */   354,  -46,  307,  -46,  344,  -46,  -46,  217,  -46,  -46,
- /*   230 */   -46,  376,  438,  -46,  -46,  -46,  367,  -46,
+ /*   100 */   155,  -46,  -46,  -46,  -46,  -46,   42,  -46,  179,  -46,
+ /*   110 */   -46,  -46,  -46,  389,  -46,  164,  390,  -46,   44,  391,
+ /*   120 */   -46,  -46,  -46,  -46,  296,  -46,   41,  -46,  133,  189,
+ /*   130 */    -8,  -46,  -46,  -46,  -46,  -46,  -46,  392,  -46,  299,
+ /*   140 */   -46,  -46,  397,  -46,  302,  -46,  -46,  399,  -46,  -46,
+ /*   150 */   400,  -46,  305,  -46,  -46,  401,  -46,  306,  -46,  -46,
+ /*   160 */   402,  -46,  312,  -46,  -46,  403,  -46,  314,  -46,  -46,
+ /*   170 */   -46,  407,  -46,  315,  -46,  184,  -46,  -46,  -46,  -46,
+ /*   180 */   -46,  -46,  -46,  195,  -46,  -46,  -46,  -46,  -46,  -46,
+ /*   190 */   -46,  -46,  -46,  -46,  -46,  415,  -46,  -46,    9,  -46,
+ /*   200 */   -46,  198,  -46,  -46,  -46,  335,  -46,  -46,  -46,  157,
+ /*   210 */   -46,  -46,  412,  -46,  -46,  -46,  355,  430,  -46,  -46,
+ /*   220 */   348,  -46,  232,  -46,  349,  -46,  -46,  208,  -46,  -46,
+ /*   230 */   -46,  372,  437,  -46,  -46,  -46,  363,  -46,
 };
 static YYACTIONTYPE yy_default[] = {
  /*     0 */   378,  378,  378,  378,  378,  378,  378,  378,  378,  378,
@@ -761,11 +760,11 @@ void phql_Trace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *yyTokenName[] = { 
-  "$",             "NOT",           "IN",            "IS",          
-  "PLUS",          "MINUS",         "DIVIDE",        "TIMES",       
-  "MOD",           "LIKE",          "AND",           "OR",          
-  "EQUALS",        "NOTEQUALS",     "LESS",          "GREATER",     
-  "GREATEREQUAL",  "LESSEQUAL",     "SELECT",        "FROM",        
+  "$",             "EQUALS",        "NOTEQUALS",     "LESS",        
+  "GREATER",       "GREATEREQUAL",  "LESSEQUAL",     "AND",         
+  "OR",            "LIKE",          "DIVIDE",        "TIMES",       
+  "MOD",           "PLUS",          "MINUS",         "IS",          
+  "IN",            "NOT",           "SELECT",        "FROM",        
   "COMMA",         "IDENTIFIER",    "DOT",           "AS",          
   "JOIN",          "ON",            "INNER",         "CROSS",       
   "LEFT",          "OUTER",         "RIGHT",         "FULL",        
@@ -1042,14 +1041,14 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 51:
     case 52:
     case 53:
-#line 447 "parser.lemon"
+#line 453 "parser.lemon"
 {
 	if ((yypminor->yy0)) {
 		efree((yypminor->yy0)->token);
 		efree((yypminor->yy0));
 	}
 }
-#line 1053 "parser.c"
+#line 1052 "parser.c"
       break;
     case 56:
     case 57:
@@ -1086,9 +1085,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 92:
     case 93:
     case 94:
-#line 458 "parser.lemon"
+#line 464 "parser.lemon"
 { zval_ptr_dtor(&(yypminor->yy48)); }
-#line 1092 "parser.c"
+#line 1091 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1441,11 +1440,11 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 454 "parser.lemon"
+#line 460 "parser.lemon"
 {
 	status->ret = yymsp[0].minor.yy48;
 }
-#line 1449 "parser.c"
+#line 1448 "parser.c"
         break;
       case 1:
       case 2:
@@ -1468,197 +1467,197 @@ static void yy_reduce(
       case 124:
       case 126:
       case 131:
-#line 460 "parser.lemon"
+#line 466 "parser.lemon"
 {
 	yygotominor.yy48 = yymsp[0].minor.yy48;
 }
-#line 1476 "parser.c"
+#line 1475 "parser.c"
         break;
       case 5:
-#line 478 "parser.lemon"
+#line 484 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[0].minor.yy48, NULL, NULL, NULL, NULL, NULL);
 }
-#line 1483 "parser.c"
+#line 1482 "parser.c"
         break;
       case 6:
-#line 482 "parser.lemon"
+#line 488 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL, NULL);
 }
-#line 1490 "parser.c"
+#line 1489 "parser.c"
         break;
       case 7:
-#line 486 "parser.lemon"
+#line 492 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL, NULL, NULL);
 }
-#line 1497 "parser.c"
+#line 1496 "parser.c"
         break;
       case 8:
-#line 490 "parser.lemon"
+#line 496 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48, NULL, NULL);
 }
-#line 1504 "parser.c"
+#line 1503 "parser.c"
         break;
       case 9:
-#line 494 "parser.lemon"
+#line 500 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-#line 1511 "parser.c"
+#line 1510 "parser.c"
         break;
       case 10:
-#line 498 "parser.lemon"
+#line 504 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL);
 }
-#line 1518 "parser.c"
+#line 1517 "parser.c"
         break;
       case 11:
-#line 502 "parser.lemon"
+#line 508 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1525 "parser.c"
+#line 1524 "parser.c"
         break;
       case 12:
-#line 506 "parser.lemon"
+#line 512 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, yymsp[0].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL);
 }
-#line 1532 "parser.c"
+#line 1531 "parser.c"
         break;
       case 13:
-#line 510 "parser.lemon"
+#line 516 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, NULL, yymsp[0].minor.yy48);
 }
-#line 1539 "parser.c"
+#line 1538 "parser.c"
         break;
       case 14:
-#line 514 "parser.lemon"
+#line 520 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48);
 }
-#line 1546 "parser.c"
+#line 1545 "parser.c"
         break;
       case 15:
-#line 518 "parser.lemon"
+#line 524 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1553 "parser.c"
+#line 1552 "parser.c"
         break;
       case 16:
-#line 522 "parser.lemon"
+#line 528 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, yymsp[-3].minor.yy48, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1560 "parser.c"
+#line 1559 "parser.c"
         break;
       case 17:
-#line 526 "parser.lemon"
+#line 532 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48, NULL, NULL, NULL);
 }
-#line 1567 "parser.c"
+#line 1566 "parser.c"
         break;
       case 18:
-#line 530 "parser.lemon"
+#line 536 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48, yymsp[-1].minor.yy48, NULL, NULL);
 }
-#line 1574 "parser.c"
+#line 1573 "parser.c"
         break;
       case 19:
-#line 534 "parser.lemon"
+#line 540 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, yymsp[0].minor.yy48, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, NULL);
 }
-#line 1581 "parser.c"
+#line 1580 "parser.c"
         break;
       case 20:
-#line 538 "parser.lemon"
+#line 544 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48);
 }
-#line 1588 "parser.c"
+#line 1587 "parser.c"
         break;
       case 21:
-#line 542 "parser.lemon"
+#line 548 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1595 "parser.c"
+#line 1594 "parser.c"
         break;
       case 22:
-#line 546 "parser.lemon"
+#line 552 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-5].minor.yy48, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1602 "parser.c"
+#line 1601 "parser.c"
         break;
       case 23:
-#line 550 "parser.lemon"
+#line 556 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, NULL, yymsp[0].minor.yy48, NULL, NULL);
 }
-#line 1609 "parser.c"
+#line 1608 "parser.c"
         break;
       case 24:
-#line 554 "parser.lemon"
+#line 560 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, NULL, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1616 "parser.c"
+#line 1615 "parser.c"
         break;
       case 25:
-#line 558 "parser.lemon"
+#line 564 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-2].minor.yy48, NULL, NULL, yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-#line 1623 "parser.c"
+#line 1622 "parser.c"
         break;
       case 26:
-#line 562 "parser.lemon"
+#line 568 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-3].minor.yy48, NULL, NULL, yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1630 "parser.c"
+#line 1629 "parser.c"
         break;
       case 27:
-#line 566 "parser.lemon"
+#line 572 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48, yymsp[-3].minor.yy48, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1637 "parser.c"
+#line 1636 "parser.c"
         break;
       case 28:
-#line 570 "parser.lemon"
+#line 576 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_statement(yymsp[-1].minor.yy48, NULL, NULL, NULL, NULL, yymsp[0].minor.yy48);
 }
-#line 1644 "parser.c"
+#line 1643 "parser.c"
         break;
       case 29:
-#line 576 "parser.lemon"
+#line 582 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48, NULL);
   yy_destructor(18,&yymsp[-3].minor);
   yy_destructor(19,&yymsp[-1].minor);
 }
-#line 1653 "parser.c"
+#line 1652 "parser.c"
         break;
       case 30:
-#line 580 "parser.lemon"
+#line 586 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_select_clause(yymsp[-3].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(18,&yymsp[-4].minor);
   yy_destructor(19,&yymsp[-2].minor);
 }
-#line 1662 "parser.c"
+#line 1661 "parser.c"
         break;
       case 31:
       case 38:
@@ -1668,158 +1667,158 @@ static void yy_reduce(
       case 88:
       case 96:
       case 123:
-#line 586 "parser.lemon"
+#line 592 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_zval_list(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(20,&yymsp[-1].minor);
 }
-#line 1677 "parser.c"
+#line 1676 "parser.c"
         break;
       case 33:
       case 125:
-#line 596 "parser.lemon"
+#line 602 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
-  yy_destructor(7,&yymsp[0].minor);
+  yy_destructor(11,&yymsp[0].minor);
 }
-#line 1686 "parser.c"
+#line 1685 "parser.c"
         break;
       case 34:
-#line 600 "parser.lemon"
+#line 606 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
   yy_destructor(22,&yymsp[-1].minor);
-  yy_destructor(7,&yymsp[0].minor);
+  yy_destructor(11,&yymsp[0].minor);
 }
-#line 1695 "parser.c"
+#line 1694 "parser.c"
         break;
       case 35:
-#line 604 "parser.lemon"
+#line 610 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy48, NULL, yymsp[0].minor.yy0);
   yy_destructor(23,&yymsp[-1].minor);
 }
-#line 1703 "parser.c"
+#line 1702 "parser.c"
         break;
       case 36:
-#line 608 "parser.lemon"
+#line 614 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy0);
 }
-#line 1710 "parser.c"
+#line 1709 "parser.c"
         break;
       case 37:
-#line 612 "parser.lemon"
+#line 618 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy48, NULL, NULL);
 }
-#line 1717 "parser.c"
+#line 1716 "parser.c"
         break;
       case 40:
-#line 628 "parser.lemon"
+#line 634 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_zval_list(yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1724 "parser.c"
+#line 1723 "parser.c"
         break;
       case 43:
-#line 644 "parser.lemon"
+#line 650 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_item(yymsp[0].minor.yy48, NULL);
 }
-#line 1731 "parser.c"
+#line 1730 "parser.c"
         break;
       case 44:
-#line 648 "parser.lemon"
+#line 654 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_item(yymsp[-2].minor.yy48, yymsp[0].minor.yy0);
   yy_destructor(23,&yymsp[-1].minor);
 }
-#line 1739 "parser.c"
+#line 1738 "parser.c"
         break;
       case 45:
-#line 652 "parser.lemon"
+#line 658 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_item(yymsp[-1].minor.yy48, yymsp[0].minor.yy0);
 }
-#line 1746 "parser.c"
+#line 1745 "parser.c"
         break;
       case 46:
-#line 658 "parser.lemon"
+#line 664 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_INNERJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1754 "parser.c"
+#line 1753 "parser.c"
         break;
       case 47:
-#line 662 "parser.lemon"
+#line 668 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_INNERJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1763 "parser.c"
+#line 1762 "parser.c"
         break;
       case 48:
-#line 666 "parser.lemon"
+#line 672 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_INNERJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(26,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1772 "parser.c"
+#line 1771 "parser.c"
         break;
       case 49:
-#line 670 "parser.lemon"
+#line 676 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_INNERJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(26,&yymsp[-4].minor);
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1782 "parser.c"
+#line 1781 "parser.c"
         break;
       case 50:
-#line 674 "parser.lemon"
+#line 680 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_CROSSJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(27,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1791 "parser.c"
+#line 1790 "parser.c"
         break;
       case 51:
-#line 678 "parser.lemon"
+#line 684 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_LEFTJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(28,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1800 "parser.c"
+#line 1799 "parser.c"
         break;
       case 52:
-#line 682 "parser.lemon"
+#line 688 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_LEFTJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(28,&yymsp[-3].minor);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1810 "parser.c"
+#line 1809 "parser.c"
         break;
       case 53:
-#line 686 "parser.lemon"
+#line 692 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_LEFTJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(28,&yymsp[-4].minor);
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1820 "parser.c"
+#line 1819 "parser.c"
         break;
       case 54:
-#line 690 "parser.lemon"
+#line 696 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_LEFTJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(28,&yymsp[-5].minor);
@@ -1827,39 +1826,39 @@ static void yy_reduce(
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1831 "parser.c"
+#line 1830 "parser.c"
         break;
       case 55:
-#line 694 "parser.lemon"
+#line 700 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_RIGHTJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(30,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1840 "parser.c"
+#line 1839 "parser.c"
         break;
       case 56:
-#line 698 "parser.lemon"
+#line 704 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_RIGHTJOIN, yymsp[0].minor.yy48, NULL);
   yy_destructor(30,&yymsp[-3].minor);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1850 "parser.c"
+#line 1849 "parser.c"
         break;
       case 57:
-#line 702 "parser.lemon"
+#line 708 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_RIGHTJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(30,&yymsp[-4].minor);
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1860 "parser.c"
+#line 1859 "parser.c"
         break;
       case 58:
-#line 706 "parser.lemon"
+#line 712 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_RIGHTJOIN, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(30,&yymsp[-5].minor);
@@ -1867,20 +1866,20 @@ static void yy_reduce(
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1871 "parser.c"
+#line 1870 "parser.c"
         break;
       case 59:
-#line 710 "parser.lemon"
+#line 716 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_FULLOUTER, yymsp[0].minor.yy48, NULL);
   yy_destructor(31,&yymsp[-3].minor);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(24,&yymsp[-1].minor);
 }
-#line 1881 "parser.c"
+#line 1880 "parser.c"
         break;
       case 60:
-#line 714 "parser.lemon"
+#line 720 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_join_clause(PHQL_T_FULLOUTER, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(31,&yymsp[-5].minor);
@@ -1888,10 +1887,10 @@ static void yy_reduce(
   yy_destructor(24,&yymsp[-3].minor);
   yy_destructor(25,&yymsp[-1].minor);
 }
-#line 1892 "parser.c"
+#line 1891 "parser.c"
         break;
       case 61:
-#line 721 "parser.lemon"
+#line 727 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-4].minor.yy48, NULL, yymsp[-1].minor.yy48);
   yy_destructor(32,&yymsp[-6].minor);
@@ -1900,10 +1899,10 @@ static void yy_reduce(
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 1904 "parser.c"
+#line 1903 "parser.c"
         break;
       case 62:
-#line 725 "parser.lemon"
+#line 731 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_insert_statement(yymsp[-7].minor.yy48, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
   yy_destructor(32,&yymsp[-9].minor);
@@ -1914,441 +1913,441 @@ static void yy_reduce(
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 1918 "parser.c"
+#line 1917 "parser.c"
         break;
       case 68:
       case 139:
-#line 755 "parser.lemon"
+#line 761 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
 }
-#line 1926 "parser.c"
+#line 1925 "parser.c"
         break;
       case 69:
-#line 763 "parser.lemon"
+#line 769 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
-#line 1933 "parser.c"
+#line 1932 "parser.c"
         break;
       case 70:
-#line 767 "parser.lemon"
+#line 773 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-#line 1940 "parser.c"
+#line 1939 "parser.c"
         break;
       case 71:
-#line 771 "parser.lemon"
+#line 777 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1947 "parser.c"
+#line 1946 "parser.c"
         break;
       case 72:
-#line 775 "parser.lemon"
+#line 781 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1954 "parser.c"
+#line 1953 "parser.c"
         break;
       case 73:
-#line 781 "parser.lemon"
+#line 787 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_clause(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(37,&yymsp[-3].minor);
   yy_destructor(38,&yymsp[-1].minor);
 }
-#line 1963 "parser.c"
+#line 1962 "parser.c"
         break;
       case 76:
-#line 797 "parser.lemon"
+#line 803 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_update_item(yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(12,&yymsp[-1].minor);
+  yy_destructor(1,&yymsp[-1].minor);
 }
-#line 1971 "parser.c"
+#line 1970 "parser.c"
         break;
       case 78:
-#line 809 "parser.lemon"
+#line 815 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_delete_statement(yymsp[0].minor.yy48, NULL, NULL);
 }
-#line 1978 "parser.c"
+#line 1977 "parser.c"
         break;
       case 79:
-#line 813 "parser.lemon"
+#line 819 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-1].minor.yy48, yymsp[0].minor.yy48, NULL);
 }
-#line 1985 "parser.c"
+#line 1984 "parser.c"
         break;
       case 80:
-#line 817 "parser.lemon"
+#line 823 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-1].minor.yy48, NULL, yymsp[0].minor.yy48);
 }
-#line 1992 "parser.c"
+#line 1991 "parser.c"
         break;
       case 81:
-#line 821 "parser.lemon"
+#line 827 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_delete_statement(yymsp[-2].minor.yy48, yymsp[-1].minor.yy48, yymsp[0].minor.yy48);
 }
-#line 1999 "parser.c"
+#line 1998 "parser.c"
         break;
       case 82:
-#line 827 "parser.lemon"
+#line 833 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_delete_clause(yymsp[0].minor.yy48);
   yy_destructor(39,&yymsp[-2].minor);
   yy_destructor(19,&yymsp[-1].minor);
 }
-#line 2008 "parser.c"
+#line 2007 "parser.c"
         break;
       case 83:
-#line 833 "parser.lemon"
+#line 839 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-2].minor.yy48, yymsp[0].minor.yy0);
   yy_destructor(23,&yymsp[-1].minor);
 }
-#line 2016 "parser.c"
+#line 2015 "parser.c"
         break;
       case 84:
-#line 837 "parser.lemon"
+#line 843 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_assoc_name(yymsp[-1].minor.yy48, yymsp[0].minor.yy0);
 }
-#line 2023 "parser.c"
+#line 2022 "parser.c"
         break;
       case 85:
-#line 841 "parser.lemon"
+#line 847 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_assoc_name(yymsp[0].minor.yy48, NULL);
 }
-#line 2030 "parser.c"
+#line 2029 "parser.c"
         break;
       case 86:
-#line 847 "parser.lemon"
+#line 853 "parser.lemon"
 {
 	yygotominor.yy48 = yymsp[0].minor.yy48;
   yy_destructor(40,&yymsp[-1].minor);
 }
-#line 2038 "parser.c"
+#line 2037 "parser.c"
         break;
       case 87:
-#line 853 "parser.lemon"
+#line 859 "parser.lemon"
 {
 	yygotominor.yy48 = yymsp[0].minor.yy48;
   yy_destructor(41,&yymsp[-2].minor);
   yy_destructor(42,&yymsp[-1].minor);
 }
-#line 2047 "parser.c"
+#line 2046 "parser.c"
         break;
       case 90:
-#line 869 "parser.lemon"
+#line 875 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_order_item(yymsp[0].minor.yy48, 0);
 }
-#line 2054 "parser.c"
+#line 2053 "parser.c"
         break;
       case 91:
-#line 873 "parser.lemon"
+#line 879 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_order_item(yymsp[-1].minor.yy48, PHQL_T_ASC);
   yy_destructor(43,&yymsp[0].minor);
 }
-#line 2062 "parser.c"
+#line 2061 "parser.c"
         break;
       case 92:
-#line 877 "parser.lemon"
+#line 883 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_order_item(yymsp[-1].minor.yy48, PHQL_T_DESC);
   yy_destructor(44,&yymsp[0].minor);
 }
-#line 2070 "parser.c"
+#line 2069 "parser.c"
         break;
       case 94:
       case 99:
       case 132:
-#line 885 "parser.lemon"
+#line 891 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
 }
-#line 2079 "parser.c"
+#line 2078 "parser.c"
         break;
       case 95:
-#line 891 "parser.lemon"
+#line 897 "parser.lemon"
 {
 	yygotominor.yy48 = yymsp[0].minor.yy48;
   yy_destructor(46,&yymsp[-2].minor);
   yy_destructor(42,&yymsp[-1].minor);
 }
-#line 2088 "parser.c"
+#line 2087 "parser.c"
         break;
       case 100:
-#line 917 "parser.lemon"
+#line 923 "parser.lemon"
 {
 	yygotominor.yy48 = yymsp[0].minor.yy48;
   yy_destructor(47,&yymsp[-1].minor);
 }
-#line 2096 "parser.c"
+#line 2095 "parser.c"
         break;
       case 101:
-#line 923 "parser.lemon"
+#line 929 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
   yy_destructor(48,&yymsp[-1].minor);
 }
-#line 2104 "parser.c"
+#line 2103 "parser.c"
         break;
       case 102:
-#line 929 "parser.lemon"
+#line 935 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy48);
-  yy_destructor(5,&yymsp[-1].minor);
-}
-#line 2112 "parser.c"
-        break;
-      case 103:
-#line 933 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(5,&yymsp[-1].minor);
-}
-#line 2120 "parser.c"
-        break;
-      case 104:
-#line 937 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(4,&yymsp[-1].minor);
-}
-#line 2128 "parser.c"
-        break;
-      case 105:
-#line 941 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(7,&yymsp[-1].minor);
-}
-#line 2136 "parser.c"
-        break;
-      case 106:
-#line 945 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(6,&yymsp[-1].minor);
-}
-#line 2144 "parser.c"
-        break;
-      case 107:
-#line 949 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(8,&yymsp[-1].minor);
-}
-#line 2152 "parser.c"
-        break;
-      case 108:
-#line 953 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(10,&yymsp[-1].minor);
-}
-#line 2160 "parser.c"
-        break;
-      case 109:
-#line 957 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(11,&yymsp[-1].minor);
-}
-#line 2168 "parser.c"
-        break;
-      case 110:
-#line 961 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(12,&yymsp[-1].minor);
-}
-#line 2176 "parser.c"
-        break;
-      case 111:
-#line 965 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(13,&yymsp[-1].minor);
-}
-#line 2184 "parser.c"
-        break;
-      case 112:
-#line 969 "parser.lemon"
-{
-	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(14,&yymsp[-1].minor);
 }
-#line 2192 "parser.c"
+#line 2111 "parser.c"
+        break;
+      case 103:
+#line 939 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(14,&yymsp[-1].minor);
+}
+#line 2119 "parser.c"
+        break;
+      case 104:
+#line 943 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(13,&yymsp[-1].minor);
+}
+#line 2127 "parser.c"
+        break;
+      case 105:
+#line 947 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(11,&yymsp[-1].minor);
+}
+#line 2135 "parser.c"
+        break;
+      case 106:
+#line 951 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(10,&yymsp[-1].minor);
+}
+#line 2143 "parser.c"
+        break;
+      case 107:
+#line 955 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(12,&yymsp[-1].minor);
+}
+#line 2151 "parser.c"
+        break;
+      case 108:
+#line 959 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(7,&yymsp[-1].minor);
+}
+#line 2159 "parser.c"
+        break;
+      case 109:
+#line 963 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(8,&yymsp[-1].minor);
+}
+#line 2167 "parser.c"
+        break;
+      case 110:
+#line 967 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(1,&yymsp[-1].minor);
+}
+#line 2175 "parser.c"
+        break;
+      case 111:
+#line 971 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(2,&yymsp[-1].minor);
+}
+#line 2183 "parser.c"
+        break;
+      case 112:
+#line 975 "parser.lemon"
+{
+	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
+  yy_destructor(3,&yymsp[-1].minor);
+}
+#line 2191 "parser.c"
         break;
       case 113:
-#line 973 "parser.lemon"
+#line 979 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(15,&yymsp[-1].minor);
+  yy_destructor(4,&yymsp[-1].minor);
 }
-#line 2200 "parser.c"
+#line 2199 "parser.c"
         break;
       case 114:
-#line 977 "parser.lemon"
+#line 983 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(16,&yymsp[-1].minor);
+  yy_destructor(5,&yymsp[-1].minor);
 }
-#line 2208 "parser.c"
+#line 2207 "parser.c"
         break;
       case 115:
-#line 981 "parser.lemon"
+#line 987 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(17,&yymsp[-1].minor);
+  yy_destructor(6,&yymsp[-1].minor);
 }
-#line 2216 "parser.c"
+#line 2215 "parser.c"
         break;
       case 116:
-#line 985 "parser.lemon"
+#line 991 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy48, yymsp[0].minor.yy48);
   yy_destructor(9,&yymsp[-1].minor);
 }
-#line 2224 "parser.c"
+#line 2223 "parser.c"
         break;
       case 117:
-#line 989 "parser.lemon"
+#line 995 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy48, yymsp[0].minor.yy48);
-  yy_destructor(1,&yymsp[-2].minor);
+  yy_destructor(17,&yymsp[-2].minor);
   yy_destructor(9,&yymsp[-1].minor);
 }
-#line 2233 "parser.c"
+#line 2232 "parser.c"
         break;
       case 118:
-#line 993 "parser.lemon"
+#line 999 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy48, yymsp[-1].minor.yy48);
-  yy_destructor(2,&yymsp[-3].minor);
+  yy_destructor(16,&yymsp[-3].minor);
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 2243 "parser.c"
+#line 2242 "parser.c"
         break;
       case 119:
-#line 997 "parser.lemon"
+#line 1003 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy48, yymsp[-1].minor.yy48);
-  yy_destructor(1,&yymsp[-4].minor);
-  yy_destructor(2,&yymsp[-3].minor);
+  yy_destructor(17,&yymsp[-4].minor);
+  yy_destructor(16,&yymsp[-3].minor);
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 2254 "parser.c"
+#line 2253 "parser.c"
         break;
       case 121:
-#line 1007 "parser.lemon"
+#line 1013 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy48);
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 2263 "parser.c"
+#line 2262 "parser.c"
         break;
       case 122:
-#line 1011 "parser.lemon"
+#line 1017 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_func_call(yymsp[-2].minor.yy0, NULL);
   yy_destructor(35,&yymsp[-1].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 2272 "parser.c"
+#line 2271 "parser.c"
         break;
       case 127:
-#line 1035 "parser.lemon"
+#line 1041 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy48, NULL);
-  yy_destructor(3,&yymsp[-1].minor);
+  yy_destructor(15,&yymsp[-1].minor);
   yy_destructor(49,&yymsp[0].minor);
 }
-#line 2281 "parser.c"
+#line 2280 "parser.c"
         break;
       case 128:
-#line 1039 "parser.lemon"
+#line 1045 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy48, NULL);
-  yy_destructor(3,&yymsp[-2].minor);
-  yy_destructor(1,&yymsp[-1].minor);
+  yy_destructor(15,&yymsp[-2].minor);
+  yy_destructor(17,&yymsp[-1].minor);
   yy_destructor(49,&yymsp[0].minor);
 }
-#line 2291 "parser.c"
+#line 2290 "parser.c"
         break;
       case 129:
-#line 1043 "parser.lemon"
+#line 1049 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy48);
-  yy_destructor(1,&yymsp[-1].minor);
+  yy_destructor(17,&yymsp[-1].minor);
 }
-#line 2299 "parser.c"
+#line 2298 "parser.c"
         break;
       case 130:
-#line 1047 "parser.lemon"
+#line 1053 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy48, NULL);
   yy_destructor(35,&yymsp[-2].minor);
   yy_destructor(36,&yymsp[0].minor);
 }
-#line 2308 "parser.c"
+#line 2307 "parser.c"
         break;
       case 133:
-#line 1059 "parser.lemon"
+#line 1065 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
 }
-#line 2315 "parser.c"
+#line 2314 "parser.c"
         break;
       case 134:
-#line 1063 "parser.lemon"
+#line 1069 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
 }
-#line 2322 "parser.c"
+#line 2321 "parser.c"
         break;
       case 135:
-#line 1067 "parser.lemon"
+#line 1073 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
   yy_destructor(49,&yymsp[0].minor);
 }
-#line 2330 "parser.c"
+#line 2329 "parser.c"
         break;
       case 136:
-#line 1071 "parser.lemon"
+#line 1077 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
 }
-#line 2337 "parser.c"
+#line 2336 "parser.c"
         break;
       case 137:
-#line 1075 "parser.lemon"
+#line 1081 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
 }
-#line 2344 "parser.c"
+#line 2343 "parser.c"
         break;
       case 138:
-#line 1081 "parser.lemon"
+#line 1087 "parser.lemon"
 {
 	yygotominor.yy48 = phql_ret_qualified_name(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(22,&yymsp[-1].minor);
 }
-#line 2352 "parser.c"
+#line 2351 "parser.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -2390,12 +2389,13 @@ static void yy_syntax_error(
 ){
   phql_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-#line 404 "parser.lemon"
+#line 403 "parser.lemon"
 
 	if (status->scanner_state->start) {
 		{
 
-			char *token_name;
+			char *token_name = NULL;
+			int token_found = 0;
 			const phql_token_names *tokens = phql_tokens;
 			int active_token = status->scanner_state->active_token;
 			int near_length = strlen(status->scanner_state->start);
@@ -2405,13 +2405,17 @@ static void yy_syntax_error(
 				do {
 					if (tokens->code == active_token) {
 						token_name = tokens->name;
+						token_found = 1;
 						break;
 					}
 					++tokens;
 				} while (tokens[0].code != 0);
 
-			} else {
+			}
+
+			if (!token_name) {
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+				token_found = 0;
 			}
 
 			status->syntax_error_len = 64 + strlen(token_name) + near_length;
@@ -2422,8 +2426,10 @@ static void yy_syntax_error(
 				sprintf(status->syntax_error, "Syntax error, unexpected token %s, at the end of query", token_name);
 			}
 
-			if (!active_token) {
-				efree(token_name);
+			if (!token_found) {
+				if (token_name) {
+					efree(token_name);
+				}
 			}
 		}
 	} else {
@@ -2433,7 +2439,7 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-#line 2437 "parser.c"
+#line 2443 "parser.c"
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

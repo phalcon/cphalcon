@@ -55,18 +55,14 @@
  */
 PHP_METHOD(Phalcon_Db_RawValue, __construct){
 
-	zval *value = NULL;
+	zval *value;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -76,9 +72,10 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
  */
 PHP_METHOD(Phalcon_Db_RawValue, getValue){
 
-	zval *value = NULL;
+	zval *value;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(value);
 	phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	
@@ -90,9 +87,10 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue){
  */
 PHP_METHOD(Phalcon_Db_RawValue, __toString){
 
-	zval *value = NULL;
+	zval *value;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(value);
 	phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
 	

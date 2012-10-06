@@ -61,6 +61,7 @@ extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 /** Function replacement **/
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
+extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
 extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
@@ -116,6 +117,18 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	return;
 
 /**
+ * Return zval checking if it's needed to ctor, without restoring the memory stack
+ */
+#define RETURN_CCTORW(var) { \
+		*(return_value) = *(var); \
+		if (Z_TYPE_P(var) > IS_BOOL) { \
+			zval_copy_ctor(return_value); \
+		} \
+		INIT_PZVAL(return_value) \
+	} \
+	return;
+
+/**
  * Return zval with always ctor
  */
 #define RETURN_CTOR(var) { \
@@ -127,6 +140,16 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	return;
 
 /**
+ * Return zval with always ctor, without restoring the memory stack
+ */
+#define RETURN_CTORW(var) { \
+		*(return_value) = *(var); \
+		zval_copy_ctor(return_value); \
+		INIT_PZVAL(return_value) \
+	} \
+	return;
+
+/**
  * Returns variables without ctor
  */
 #define RETURN_NCTOR(var) { \
@@ -134,6 +157,34 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Returns variables without ctor, without restoring the memory stack
+ */
+#define RETURN_NCTORW(var) { \
+		*(return_value) = *(var); \
+		INIT_PZVAL(return_value) \
+	} \
+	return;
+
+/**
+ * Check for ctor on the same return_value
+ */
+#define RETURN_SCTOR() \
+	if (Z_TYPE_P(return_value) > IS_BOOL) { \
+		zval_copy_ctor(return_value); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Check for ctor on the same return_value, without restoring the memory stack
+ */
+#define RETURN_SCTORW() \
+	if (Z_TYPE_P(return_value) > IS_BOOL) { \
+		zval_copy_ctor(return_value); \
+	} \
 	return;
 
 /** Foreach */
@@ -148,7 +199,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	}
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_INIT_VAR(var); \
+	PHALCON_INIT_NVAR(var); \
 	ZVAL_ZVAL(var, *hd, 1, 0);
 
 /** class registering */

@@ -56,19 +56,18 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *model = NULL, *result = NULL, *cache = NULL, *fetch_assoc = NULL, *limit = NULL;
-	zval *row_count = NULL, *big_resultset = NULL;
+	zval *model, *result, *cache = NULL, *fetch_assoc, *limit;
+	zval *row_count, *big_resultset;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &model, &result, &cache) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!cache) {
-		PHALCON_ALLOC_ZVAL_MM(cache);
-		ZVAL_NULL(cache);
+		PHALCON_INIT_NVAR(cache);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -106,9 +105,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
-	zval *type = NULL, *result = NULL, *row = NULL, *rows = NULL, *model = NULL, *active_row = NULL;
+	zval *type, *result = NULL, *row = NULL, *rows = NULL, *model, *active_row;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
@@ -118,17 +118,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 			PHALCON_INIT_VAR(row);
 			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetcharray", result, PH_NO_CHECK);
 		} else {
-			PHALCON_INIT_VAR(row);
+			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
 		}
 	} else {
 		PHALCON_INIT_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 		if (Z_TYPE_P(rows) == IS_NULL) {
-			PHALCON_INIT_VAR(result);
+			PHALCON_INIT_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (PHALCON_IS_NOT_FALSE(result)) {
-				PHALCON_INIT_VAR(rows);
+				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 			Z_SET_ISREF_P(rows);
-			PHALCON_INIT_VAR(row);
+			PHALCON_INIT_NVAR(row);
 			PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
 			Z_UNSET_ISREF_P(rows);
 			if (PHALCON_IS_NOT_FALSE(row)) {
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 				Z_UNSET_ISREF_P(rows);
 			}
 		} else {
-			PHALCON_INIT_VAR(row);
+			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
 		}
 	}
@@ -174,10 +174,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *type = NULL, *result = NULL, *records = NULL, *row_count = NULL, *model = NULL;
-	zval *cache = NULL, *data = NULL, *serialized = NULL;
+	zval *type, *result = NULL, *records = NULL, *row_count, *model;
+	zval *cache, *data, *serialized;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
@@ -189,17 +190,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 			PHALCON_INIT_VAR(records);
 			PHALCON_CALL_METHOD(records, result, "fetchall", PH_NO_CHECK);
 		} else {
-			PHALCON_INIT_VAR(records);
+			PHALCON_INIT_NVAR(records);
 			array_init(records);
 		}
 	} else {
-		PHALCON_INIT_VAR(records);
+		PHALCON_INIT_NVAR(records);
 		phalcon_read_property(&records, this_ptr, SL("_rows"), PH_NOISY_CC);
 		if (Z_TYPE_P(records) == IS_NULL) {
-			PHALCON_INIT_VAR(result);
+			PHALCON_INIT_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (PHALCON_IS_NOT_FALSE(result)) {
-				PHALCON_INIT_VAR(records);
+				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall", PH_NO_CHECK);
 				
 				PHALCON_INIT_VAR(row_count);
@@ -234,10 +235,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 
-	zval *data = NULL, *resultset = NULL, *model = NULL, *rows = NULL, *cache = NULL;
+	zval *data, *resultset, *model, *rows, *cache;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

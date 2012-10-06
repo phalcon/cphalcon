@@ -413,7 +413,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	zval **zv;
 	int result = FAILURE, type;
 
-	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
+ 	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 		ZVAL_NULL(*return_value);
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
@@ -438,8 +438,8 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		return FAILURE;
 	}
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
+ 	if (Z_TYPE_P(index) == IS_STRING) {
+       	if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
 			if (type == IS_LONG) {
 				convert_to_long(index);
 			}

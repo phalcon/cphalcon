@@ -52,12 +52,12 @@
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str = NULL, *space = NULL, *lower_str = NULL, *underscore = NULL, *no_underscore_str = NULL;
-	zval *dash = NULL, *no_dash_str = NULL, *empty_str = NULL, *uc_string = NULL;
-	zval *camelized = NULL;
+	zval *str, *space, *lower_str, *underscore, *no_underscore_str;
+	zval *dash, *no_dash_str, *empty_str, *uc_string;
+	zval *camelized;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -105,8 +105,8 @@ PHP_METHOD(Phalcon_Text, camelize){
  */
 PHP_METHOD(Phalcon_Text, uncamelize){
 
-	zval *str = NULL, *patterns = NULL, *replacement = NULL, *pattern = NULL, *match_pattern = NULL;
-	zval *pattern_replace = NULL, *lower_pattern = NULL, *lower_str = NULL;
+	zval *str, *patterns, *replacement = NULL, *pattern = NULL, *match_pattern = NULL;
+	zval *pattern_replace = NULL, *lower_pattern = NULL, *lower_str;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 	int hash_type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -124,37 +124,42 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	PHALCON_INIT_VAR(patterns);
 	array_init(patterns);
-	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, SL("\\1_\\2"), 1);
-	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[a-z]))([A-Z])/")+1, SL("_\\1"), 1);
+	add_assoc_stringl_ex(patterns, SS("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/"), SL("\\1_\\2"), 1);
+	add_assoc_stringl_ex(patterns, SS("/(?<=(?:[a-z]))([A-Z])/"), SL("_\\1"), 1);
+	
 	if (!phalcon_valid_foreach(patterns TSRMLS_CC)) {
 		return;
 	}
 	
 	ah0 = Z_ARRVAL_P(patterns);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_f8ee_0:
+	
+	ph_cycle_start_0:
+	
 		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_f8ee_0;
+			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_VAR(pattern);
+		PHALCON_INIT_NVAR(pattern);
 		PHALCON_GET_FOREACH_KEY(pattern, ah0, hp0);
-		PHALCON_INIT_VAR(replacement);
-		ZVAL_ZVAL(replacement, *hd, 1, 0);
-		PHALCON_INIT_VAR(match_pattern);
+		PHALCON_GET_FOREACH_VALUE(replacement);
+		
+		PHALCON_INIT_NVAR(match_pattern);
 		PHALCON_CALL_FUNC_PARAMS_2(match_pattern, "preg_match", pattern, str);
 		if (zend_is_true(match_pattern)) {
-			PHALCON_INIT_VAR(pattern_replace);
+			PHALCON_INIT_NVAR(pattern_replace);
 			PHALCON_CALL_FUNC_PARAMS_3(pattern_replace, "preg_replace", pattern, replacement, str);
 			
-			PHALCON_INIT_VAR(lower_pattern);
+			PHALCON_INIT_NVAR(lower_pattern);
 			PHALCON_CALL_FUNC_PARAMS_1(lower_pattern, "strtolower", pattern_replace);
 			
 			RETURN_CTOR(lower_pattern);
 		}
+		
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_f8ee_0;
-	fee_f8ee_0:
+		goto ph_cycle_start_0;
+		
+	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(lower_str);
 	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);

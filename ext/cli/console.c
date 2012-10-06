@@ -55,10 +55,10 @@
  */
 PHP_METHOD(Phalcon_CLI_Console, setDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -80,9 +80,10 @@ PHP_METHOD(Phalcon_CLI_Console, setDI){
  */
 PHP_METHOD(Phalcon_CLI_Console, getDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
@@ -96,18 +97,14 @@ PHP_METHOD(Phalcon_CLI_Console, getDI){
  */
 PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -117,9 +114,10 @@ PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
  */
 PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
@@ -146,10 +144,10 @@ PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
  */
 PHP_METHOD(Phalcon_CLI_Console, registerModules){
 
-	zval *modules = NULL;
+	zval *modules;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &modules) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -171,10 +169,10 @@ PHP_METHOD(Phalcon_CLI_Console, registerModules){
  */
 PHP_METHOD(Phalcon_CLI_Console, addModules){
 
-	zval *modules = NULL, *original_modules = NULL, *register_modules = NULL;
+	zval *modules, *original_modules, *register_modules;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &modules) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -202,9 +200,10 @@ PHP_METHOD(Phalcon_CLI_Console, addModules){
  */
 PHP_METHOD(Phalcon_CLI_Console, getModules){
 
-	zval *modules = NULL;
+	zval *modules;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(modules);
 	phalcon_read_property(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 	
@@ -219,23 +218,22 @@ PHP_METHOD(Phalcon_CLI_Console, getModules){
  */
 PHP_METHOD(Phalcon_CLI_Console, handle){
 
-	zval *arguments = NULL, *dependency_injector = NULL, *events_manager = NULL;
-	zval *service = NULL, *router = NULL, *module_name = NULL, *event_name = NULL;
-	zval *status = NULL, *modules = NULL, *exception_msg = NULL, *exception = NULL;
-	zval *module = NULL, *path = NULL, *class_name = NULL, *module_object = NULL;
-	zval *task_name = NULL, *action_name = NULL, *params = NULL, *dispatcher = NULL;
-	zval *task = NULL;
+	zval *arguments = NULL, *dependency_injector, *events_manager;
+	zval *service = NULL, *router, *module_name, *event_name = NULL;
+	zval *status = NULL, *modules, *exception_msg = NULL, *module;
+	zval *path, *class_name = NULL, *module_object, *task_name;
+	zval *action_name, *params, *dispatcher, *task;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &arguments) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_VAR(arguments);
+		PHALCON_INIT_NVAR(arguments);
 		array_init(arguments);
 	}
 	
@@ -277,11 +275,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		if (!eval_int) {
 			PHALCON_INIT_VAR(exception_msg);
 			PHALCON_CONCAT_SVS(exception_msg, "Module '", module_name, "' isn't registered in the console container");
-			
-			PHALCON_INIT_VAR(exception);
-			object_init_ex(exception, phalcon_cli_console_exception_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_msg, PH_CHECK);
-			phalcon_throw_exception(exception TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_console_exception_ce, exception_msg);
 			return;
 		}
 		
@@ -301,13 +295,9 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 					return;
 				}
 			} else {
-				PHALCON_INIT_VAR(exception_msg);
+				PHALCON_INIT_NVAR(exception_msg);
 				PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exists");
-				
-				PHALCON_INIT_VAR(exception);
-				object_init_ex(exception, phalcon_cli_console_exception_ce);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_msg, PH_CHECK);
-				phalcon_throw_exception(exception TSRMLS_CC);
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_console_exception_ce, exception_msg);
 				return;
 			}
 		}
@@ -317,7 +307,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 			PHALCON_INIT_VAR(class_name);
 			phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY_CC);
 		} else {
-			PHALCON_INIT_VAR(class_name);
+			PHALCON_INIT_NVAR(class_name);
 			ZVAL_STRING(class_name, "Module", 1);
 		}
 		
@@ -328,10 +318,10 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
 			
-			PHALCON_INIT_VAR(event_name);
+			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "console:afterStartModule", 1);
 			
-			PHALCON_INIT_VAR(status);
+			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
 				PHALCON_MM_RESTORE();
@@ -349,7 +339,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	PHALCON_INIT_VAR(params);
 	PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(service);
+	PHALCON_INIT_NVAR(service);
 	ZVAL_STRING(service, "dispatcher", 1);
 	
 	PHALCON_INIT_VAR(dispatcher);
@@ -358,10 +348,10 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setactionname", action_name, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setparams", params, PH_NO_CHECK);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_INIT_VAR(event_name);
+		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "console:beforeHandleTask", 1);
 		
-		PHALCON_INIT_VAR(status);
+		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, dispatcher, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
 			PHALCON_MM_RESTORE();
@@ -372,7 +362,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	PHALCON_INIT_VAR(task);
 	PHALCON_CALL_METHOD(task, dispatcher, "dispatch", PH_NO_CHECK);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-		PHALCON_INIT_VAR(event_name);
+		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "console:afterHandleTask", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, task, PH_NO_CHECK);
 	}

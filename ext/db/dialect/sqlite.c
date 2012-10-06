@@ -54,15 +54,14 @@
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList){
 
-	zval *column_list = NULL, *str_list = NULL, *column = NULL;
-	zval *r0 = NULL, *r1 = NULL;
-	zval *c0 = NULL;
+	zval *column_list, *str_list, *column = NULL, *quoted_column = NULL;
+	zval *joined_list;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -86,21 +85,19 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList){
 		
 		PHALCON_GET_FOREACH_VALUE(column);
 		
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CONCAT_SVS(r0, "\"", column, "\"");
-		phalcon_array_append(&str_list, r0, PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_NVAR(quoted_column);
+		PHALCON_CONCAT_SVS(quoted_column, "\"", column, "\"");
+		phalcon_array_append(&str_list, quoted_column, PH_SEPARATE TSRMLS_CC);
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-	
+		
 	ph_cycle_end_0:
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, ", ", 1);
+	PHALCON_INIT_VAR(joined_list);
+	phalcon_fast_join_str(joined_list, SL(", "), column_list TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(r1);
-	phalcon_fast_join(r1, c0, column_list TSRMLS_CC);
-	RETURN_CTOR(r1);
+	RETURN_CTOR(joined_list);
 }
 
 /**
@@ -110,11 +107,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 
-	zval *column = NULL, *size = NULL, *column_type = NULL, *column_sql = NULL;
-	zval *scale = NULL;
+	zval *column, *size, *column_type, *column_sql = NULL;
+	zval *scale;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -138,13 +135,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "DATE", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
 		goto ph_end_0;
 	}
@@ -153,31 +150,31 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
 		
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "TEXT", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "FLOAT", 1);
 		goto ph_end_0;
 	}
@@ -323,10 +320,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 
-	zval *definition = NULL, *empty_array = NULL;
+	zval *definition, *empty_array;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -362,18 +359,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
 
-	zval *table_name = NULL, *schema_name = NULL, *if_exists = NULL, *table = NULL;
+	zval *table_name, *schema_name, *if_exists = NULL, *table = NULL;
 	zval *sql = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &table_name, &schema_name, &if_exists) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!if_exists) {
-		PHALCON_ALLOC_ZVAL_MM(if_exists);
+		PHALCON_INIT_NVAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -387,7 +384,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
-		PHALCON_INIT_VAR(sql);
+		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	
@@ -407,18 +404,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists){
 
-	zval *table_name = NULL, *schema_name = NULL, *sql = NULL;
+	zval *table_name, *schema_name = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
+		PHALCON_INIT_NVAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -438,18 +434,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -468,18 +463,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables){
 
-	zval *schema_name = NULL, *sql = NULL;
+	zval *schema_name = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &schema_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
+		PHALCON_INIT_NVAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -497,18 +491,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -525,10 +518,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex){
 
-	zval *index_name = NULL, *sql = NULL;
+	zval *index_name, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -549,18 +542,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -578,18 +570,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 
-	zval *table = NULL, *schema = NULL;
+	zval *table, *schema = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_MM_RESTORE();

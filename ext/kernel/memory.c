@@ -91,19 +91,19 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 
 	register int i;
-	phalcon_memory_entry *prev;
-	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
 	if(active_memory != NULL){
 
 		/*#ifndef PHALCON_RELEASE
-		if(!PHALCON_GLOBAL(phalcon_stack_stats)){
-			PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
-		} else {
-			if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
-				PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
-			}
-		}
+		//if(!PHALCON_GLOBAL(phalcon_stack_stats)){
+			PHALCON_GLOBAL(phalcon_stack_stats) += active_memory->pointer;
+			PHALCON_GLOBAL(phalcon_number_grows)++;
+		//} else {
+		//	if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
+		//		PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
+		//	}
+		//}
 		#endif*/
 
 		if (active_memory->pointer > -1) {
@@ -112,7 +112,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 					if(*active_memory->addresses[i] != NULL ){
 						if (Z_REFCOUNT_PP(active_memory->addresses[i])-1 == 0) {
 							zval_ptr_dtor(active_memory->addresses[i]);
-							*active_memory->addresses[i] = NULL;
+							//*active_memory->addresses[i] = NULL;
 							active_memory->addresses[i] = NULL;
 						} else {
 							Z_DELREF_PP(active_memory->addresses[i]);

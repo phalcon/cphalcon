@@ -25,7 +25,7 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "ext/standard/php_string.h"
-  
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -45,6 +45,7 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
  * Throws a exception with a single string parameter
  */
 void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+
 	zval *object, *msg;
 
 	ALLOC_INIT_ZVAL(object);
@@ -55,7 +56,24 @@ void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_ui
 
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);
 
-	zend_throw_exception_object(object TSRMLS_CC);	
+	zend_throw_exception_object(object TSRMLS_CC);
+
+	phalcon_memory_restore_stack(TSRMLS_C);
+}
+
+/**
+ * Throws a exception with a single zval parameter
+ */
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
+
+	zval *object;
+
+	ALLOC_INIT_ZVAL(object);
+	object_init_ex(object, ce);
+
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", message, PH_CHECK);
+
+	zend_throw_exception_object(object TSRMLS_CC);
 
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
@@ -91,6 +109,6 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 	EG(opline_before_exception) = EG(current_execute_data)->opline;
 	EG(current_execute_data)->opline = EG(exception_op);
-	
+
 }
 

@@ -34,7 +34,6 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/exception.h"
 
 /**
@@ -69,18 +68,14 @@
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix){
 
-	zval *task_suffix = NULL;
+	zval *task_suffix;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &task_suffix) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), task_suffix TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -90,18 +85,14 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskSuffix){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask){
 
-	zval *task_name = NULL;
+	zval *task_name;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &task_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), task_name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -111,18 +102,14 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setDefaultTask){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
 
-	zval *task_name = NULL;
+	zval *task_name;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &task_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_handlerName"), task_name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -132,9 +119,10 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
 
-	zval *task_name = NULL;
+	zval *task_name;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(task_name);
 	phalcon_read_property(&task_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 	
@@ -148,19 +136,16 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 
-	zval *message = NULL, *exception = NULL;
+	zval *message;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(exception);
-	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", message, PH_CHECK);
-	phalcon_throw_exception(exception TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_dispatcher_exception_ce, message);
 	return;
 }
 
@@ -171,9 +156,10 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
 
-	zval *last_controller = NULL;
+	zval *last_controller;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(last_controller);
 	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
 	
@@ -187,9 +173,10 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask){
 
-	zval *task = NULL;
+	zval *task;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(task);
 	phalcon_read_property(&task, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 	

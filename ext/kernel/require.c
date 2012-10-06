@@ -61,7 +61,7 @@ int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC){
 		ret = php_stream_open_for_zend_ex(file_path, &file_handle, ENFORCE_SAFE_MODE|USE_PATH|STREAM_OPEN_FOR_INCLUDE TSRMLS_CC);
 		if (ret == SUCCESS) {
 
-			if(!file_handle.opened_path){
+			if (!file_handle.opened_path) {
 				file_handle.opened_path = estrndup(file_path, file_path_length);
 			}
 

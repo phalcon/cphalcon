@@ -61,28 +61,28 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL, *suffix = NULL, *ttl = NULL, *meta_data = NULL;
+	zval *options = NULL, *suffix, *ttl, *meta_data;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		PHALCON_INIT_NVAR(options);
 		array_init(options);
 	}
 	
-	eval_int = phalcon_array_isset_string(options, SL("suffix")+1);
+	eval_int = phalcon_array_isset_string(options, SS("suffix"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(suffix);
 		phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
 	}
-	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
+	eval_int = phalcon_array_isset_string(options, SS("lifetime"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(ttl);
 		phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
@@ -103,10 +103,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
-	zval *suffix = NULL, *key = NULL, *data = NULL;
-	zval *a0 = NULL;
+	zval *suffix, *key, *data, *empty_array;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
@@ -120,10 +120,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 		RETURN_CCTOR(data);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
 	
-	RETURN_CTOR(a0);
+	RETURN_CTOR(empty_array);
 }
 
 /**
@@ -133,10 +133,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 
-	zval *data = NULL, *suffix = NULL, *key = NULL, *ttl = NULL;
+	zval *data, *suffix, *key, *ttl;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

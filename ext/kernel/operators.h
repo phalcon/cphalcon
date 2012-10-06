@@ -27,11 +27,15 @@
 #define PHALCON_IS_NOT_FALSE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && Z_BVAL_P(var))
 #define PHALCON_IS_NOT_TRUE(var) Z_TYPE_P(var) != IS_BOOL || (Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var))
 
+/** SQL null empty **/
+#define PHALCON_IS_EMPTY(var) Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))
+
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
-extern void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
+extern void phalcon_concat_self(zval *left, zval *right TSRMLS_DC);
+extern void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 
@@ -39,8 +43,5 @@ extern int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
-
-extern void phalcon_increment_function(zval **var, int separate TSRMLS_DC);
-extern void phalcon_decrement_function(zval **var, int separate TSRMLS_DC);
 
 extern void phalcon_cast(zval *result, zval *var, zend_uint type);

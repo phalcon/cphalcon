@@ -82,8 +82,6 @@
 PHP_METHOD(Phalcon_Mvc_Controller, __construct){
 
 
-	PHALCON_MM_GROW();
 	
-	PHALCON_MM_RESTORE();
 }
 

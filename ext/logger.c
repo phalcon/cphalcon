@@ -60,17 +60,17 @@
   */
 PHP_METHOD(Phalcon_Logger, debug){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("DEBUG") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("DEBUG") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -84,17 +84,17 @@ PHP_METHOD(Phalcon_Logger, debug){
   */
 PHP_METHOD(Phalcon_Logger, error){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("ERROR") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ERROR") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -108,17 +108,17 @@ PHP_METHOD(Phalcon_Logger, error){
   */
 PHP_METHOD(Phalcon_Logger, info){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("INFO") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("INFO") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -132,17 +132,17 @@ PHP_METHOD(Phalcon_Logger, info){
   */
 PHP_METHOD(Phalcon_Logger, notice){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("NOTICE") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("NOTICE") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -156,17 +156,17 @@ PHP_METHOD(Phalcon_Logger, notice){
   */
 PHP_METHOD(Phalcon_Logger, warning){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("WARNING") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("WARNING") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -180,17 +180,17 @@ PHP_METHOD(Phalcon_Logger, warning){
   */
 PHP_METHOD(Phalcon_Logger, alert){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(type);
-	phalcon_get_class_constant(type, phalcon_logger_ce, SL("ALERT") TSRMLS_CC);
+	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ALERT") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
@@ -198,10 +198,10 @@ PHP_METHOD(Phalcon_Logger, alert){
 
 PHP_METHOD(Phalcon_Logger, log){
 
-	zval *message = NULL, *type = NULL;
+	zval *message, *type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &message, &type) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

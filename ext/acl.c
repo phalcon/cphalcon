@@ -85,18 +85,14 @@
  */
 PHP_METHOD(Phalcon_Acl, setEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -106,9 +102,10 @@ PHP_METHOD(Phalcon_Acl, setEventsManager){
  */
 PHP_METHOD(Phalcon_Acl, getEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	

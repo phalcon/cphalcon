@@ -49,20 +49,21 @@
  */
 PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){
 
-	zval *services = NULL;
+	zval *services;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\DI\\FactoryDefault\\CLI", "__construct");
 	
 	PHALCON_INIT_VAR(services);
 	array_init(services);
-	add_assoc_stringl_ex(services, SL("router")+1, SL("Phalcon\\CLI\\Router"), 1);
-	add_assoc_stringl_ex(services, SL("dispatcher")+1, SL("Phalcon\\CLI\\Dispatcher"), 1);
-	add_assoc_stringl_ex(services, SL("modelsManager")+1, SL("Phalcon\\Mvc\\Model\\Manager"), 1);
-	add_assoc_stringl_ex(services, SL("modelsMetadata")+1, SL("Phalcon\\Mvc\\Model\\Metadata\\Memory"), 1);
-	add_assoc_stringl_ex(services, SL("filter")+1, SL("Phalcon\\Filter"), 1);
-	add_assoc_stringl_ex(services, SL("flash")+1, SL("Phalcon\\Flash\\Direct"), 1);
-	add_assoc_stringl_ex(services, SL("eventsManager")+1, SL("Phalcon\\Events\\Manager"), 1);
+	add_assoc_stringl_ex(services, SS("router"), SL("Phalcon\\CLI\\Router"), 1);
+	add_assoc_stringl_ex(services, SS("dispatcher"), SL("Phalcon\\CLI\\Dispatcher"), 1);
+	add_assoc_stringl_ex(services, SS("modelsManager"), SL("Phalcon\\Mvc\\Model\\Manager"), 1);
+	add_assoc_stringl_ex(services, SS("modelsMetadata"), SL("Phalcon\\Mvc\\Model\\Metadata\\Memory"), 1);
+	add_assoc_stringl_ex(services, SS("filter"), SL("Phalcon\\Filter"), 1);
+	add_assoc_stringl_ex(services, SS("flash"), SL("Phalcon\\Flash\\Direct"), 1);
+	add_assoc_stringl_ex(services, SS("eventsManager"), SL("Phalcon\\Events\\Manager"), 1);
 	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

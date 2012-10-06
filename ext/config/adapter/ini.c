@@ -78,11 +78,10 @@
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
-	zval *file_path = NULL, *config = NULL, *process_sections = NULL;
-	zval *ini_config = NULL, *base_path = NULL, *exception_message = NULL;
-	zval *exception = NULL, *dot = NULL, *directives = NULL, *section = NULL, *value = NULL;
-	zval *key = NULL, *have_dot = NULL, *directive_parts = NULL, *left_part = NULL;
-	zval *right_part = NULL;
+	zval *file_path, *config, *process_sections;
+	zval *ini_config, *base_path, *exception_message;
+	zval *dot, *directives = NULL, *section = NULL, *value = NULL, *key = NULL, *have_dot = NULL;
+	zval *directive_parts = NULL, *left_part = NULL, *right_part = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -92,7 +91,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	int hash_type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &file_path) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -112,11 +111,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", base_path, " can't be loaded");
-		
-		PHALCON_INIT_VAR(exception);
-		object_init_ex(exception, phalcon_config_exception_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
-		phalcon_throw_exception(exception TSRMLS_CC);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
 		return;
 	}
 	
@@ -136,7 +131,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_VAR(section);
+		PHALCON_INIT_NVAR(section);
 		PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(directives);
 		
@@ -154,20 +149,20 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				goto ph_cycle_end_1;
 			}
 			
-			PHALCON_INIT_VAR(key);
+			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
-			PHALCON_INIT_VAR(have_dot);
+			PHALCON_INIT_NVAR(have_dot);
 			phalcon_fast_strpos(have_dot, key, dot TSRMLS_CC);
 			if (PHALCON_IS_NOT_FALSE(have_dot)) {
-				PHALCON_INIT_VAR(directive_parts);
+				PHALCON_INIT_NVAR(directive_parts);
 				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
 				
-				PHALCON_INIT_VAR(left_part);
+				PHALCON_INIT_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);
 				
-				PHALCON_INIT_VAR(right_part);
+				PHALCON_INIT_NVAR(right_part);
 				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY_CC);
 				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0 TSRMLS_CC);
 			} else {
@@ -176,13 +171,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-		
+			
 		ph_cycle_end_1:
 		
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-	
+		
 	ph_cycle_end_0:
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);

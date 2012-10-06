@@ -57,9 +57,10 @@
  */
 PHP_METHOD(Phalcon_Version, _getVersion){
 
-	zval *version = NULL;
+	zval *version;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(version);
 	array_init(version);
 	add_next_index_long(version, 0);
@@ -78,10 +79,11 @@ PHP_METHOD(Phalcon_Version, _getVersion){
  */
 PHP_METHOD(Phalcon_Version, get){
 
-	zval *version = NULL, *major = NULL, *medium = NULL, *minor = NULL, *special = NULL, *special_number = NULL;
-	zval *result = NULL, *suffix = NULL, *final_version = NULL;
+	zval *version, *major, *medium, *minor, *special, *special_number;
+	zval *result, *suffix = NULL, *final_version;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
 	
@@ -110,23 +112,23 @@ PHP_METHOD(Phalcon_Version, get){
 	}
 	
 	if (phalcon_compare_strict_long(special, 2 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(suffix);
+		PHALCON_INIT_NVAR(suffix);
 		PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(special, 1 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(suffix);
+		PHALCON_INIT_NVAR(suffix);
 		PHALCON_CONCAT_SV(suffix, "RC ", special_number);
 		goto ph_end_0;
 	}
 	
-	PHALCON_INIT_VAR(suffix);
+	PHALCON_INIT_NVAR(suffix);
 	ZVAL_STRING(suffix, "", 1);
 	goto ph_end_0;
 	
 	ph_end_0:
-	phalcon_concat_self(&result, suffix TSRMLS_CC);
+	phalcon_concat_self(result, suffix TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(final_version);
 	PHALCON_CALL_FUNC_PARAMS_1(final_version, "trim", result);
@@ -141,10 +143,11 @@ PHP_METHOD(Phalcon_Version, get){
  */
 PHP_METHOD(Phalcon_Version, getId){
 
-	zval *version = NULL, *major = NULL, *medium = NULL, *minor = NULL, *special = NULL, *special_number = NULL;
-	zval *format = NULL, *real_medium = NULL, *real_minor = NULL;
+	zval *version = NULL, *major, *medium, *minor, *special, *special_number;
+	zval *format, *real_medium, *real_minor;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(version);
 	PHALCON_CALL_SELF(version, this_ptr, "_getversion");
 	
@@ -172,7 +175,7 @@ PHP_METHOD(Phalcon_Version, getId){
 	PHALCON_INIT_VAR(real_minor);
 	PHALCON_CALL_FUNC_PARAMS_2(real_minor, "sprintf", format, minor);
 	
-	PHALCON_INIT_VAR(version);
+	PHALCON_INIT_NVAR(version);
 	PHALCON_CONCAT_VVVVV(version, major, real_medium, real_minor, special, special_number);
 	
 	RETURN_CCTOR(version);

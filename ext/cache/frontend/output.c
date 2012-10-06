@@ -54,18 +54,18 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
+
 	
-	PHALCON_ALLOC_ZVAL_MM(a0);
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_cache_frontend_output_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
+		PHALCON_INIT_NVAR(frontend_options);
 		array_init(frontend_options);
 	}
 	
@@ -81,19 +81,19 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 
-	zval *options = NULL;
-	zval *r0 = NULL;
+	zval *options, *lifetime;
 	int eval_int;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
+	eval_int = phalcon_array_isset_string(options, SS("lifetime"));
 	if (eval_int) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		phalcon_array_fetch_string(&r0, options, SL("lifetime"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(lifetime);
+		phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
 		
-		RETURN_CCTOR(r0);
+		RETURN_CCTOR(lifetime);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -105,13 +105,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 
-	zval *t0 = NULL;
+	zval *buffering;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(buffering);
 }
 
 /**
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
 
 
 	PHALCON_MM_GROW();
+
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 1 TSRMLS_CC);
 	PHALCON_CALL_FUNC_NORETURN("ob_start");
 	
@@ -134,17 +136,19 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, start){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
-	zval *t0 = NULL;
-	zval *r0 = NULL;
+	zval *buffering, *contents;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	if (zend_is_true(t0)) {
-		PHALCON_ALLOC_ZVAL_MM(r0);
-		PHALCON_CALL_FUNC(r0, "ob_get_contents");
-		RETURN_CTOR(r0);
+
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (zend_is_true(buffering)) {
+		PHALCON_INIT_VAR(contents);
+		PHALCON_CALL_FUNC(contents, "ob_get_contents");
+		
+		RETURN_CCTOR(contents);
 	}
+	
 	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
@@ -154,14 +158,16 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
-	zval *t0 = NULL;
+	zval *buffering;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	if (zend_is_true(t0)) {
+
+	PHALCON_INIT_VAR(buffering);
+	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
+	if (zend_is_true(buffering)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
 	}
+	
 	phalcon_update_property_bool(this_ptr, SL("_buffering"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -174,17 +180,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 
-	zval *data = NULL;
+	zval *data;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	RETURN_CCTOR(data);
+	RETURN_CCTORW(data);
 }
 
 /**
@@ -194,16 +197,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 
-	zval *data = NULL;
+	zval *data;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	RETURN_CCTOR(data);
+	RETURN_CCTORW(data);
 }
 

@@ -49,17 +49,17 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 
-	zval *options = NULL, *empty_array = NULL;
+	zval *options = NULL, *empty_array;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(options);
+		PHALCON_INIT_NVAR(options);
 		array_init(options);
 	}
 	
@@ -77,13 +77,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){
 
-	zval *a0 = NULL;
+	zval *empty_array;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
+
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
 	
-	RETURN_CTOR(a0);
+	RETURN_CTOR(empty_array);
 }
 
 /**

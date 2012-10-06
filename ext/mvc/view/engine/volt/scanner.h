@@ -1,0 +1,130 @@
+
+/*
+	+------------------------------------------------------------------------+
+	| Phalcon Framework                                                      |
+	+------------------------------------------------------------------------+
+	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	+------------------------------------------------------------------------+
+	| This source file is subject to the New BSD License that is bundled     |
+	| with this package in the file docs/LICENSE.txt.                        |
+	|                                                                        |
+	| If you did not receive a copy of the license and are unable to         |
+	| obtain it through the world-wide-web, please send an email             |
+	| to license@phalconphp.com so we can send you a copy immediately.       |
+	+------------------------------------------------------------------------+
+	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+	|          Eduar Carvajal <eduar@phalconphp.com>                         |
+	+------------------------------------------------------------------------+
+*/
+
+#define PHVOLT_RAW_BUFFER_SIZE 256
+
+#define PHVOLT_SCANNER_RETCODE_EOF -1
+#define PHVOLT_SCANNER_RETCODE_ERR -2
+#define PHVOLT_SCANNER_RETCODE_IMPOSSIBLE -3
+
+/** Modes */
+#define PHVOLT_MODE_RAW 0
+#define PHVOLT_MODE_CODE 1
+
+#define PHVOLT_T_IGNORE 257
+
+/* Literals & Identifiers */
+#define PHVOLT_T_INTEGER 258
+#define PHVOLT_T_DOUBLE 259
+#define PHVOLT_T_STRING 260
+#define PHVOLT_T_NULL 261
+#define PHVOLT_T_FALSE 262
+#define PHVOLT_T_TRUE 263
+#define PHVOLT_T_IDENTIFIER 265
+
+/* Operators */
+#define PHVOLT_T_ADD '+'
+#define PHVOLT_T_SUB '-'
+#define PHVOLT_T_MUL '*'
+#define PHVOLT_T_DIV '/'
+#define PHVOLT_T_MOD '%'
+#define PHVOLT_T_AND 266
+#define PHVOLT_T_OR 267
+#define PHVOLT_T_CONCAT '~'
+#define PHVOLT_T_PIPE '|'
+
+#define PHVOLT_T_DOT '.'
+#define PHVOLT_T_COMMA 269
+
+#define PHVOLT_T_NOT '!'
+#define PHVOLT_T_LESS '<'
+#define PHVOLT_T_LESSEQUAL 270
+#define PHVOLT_T_GREATER '>'
+#define PHVOLT_T_GREATEREQUAL 271
+#define PHVOLT_T_EQUALS 272
+#define PHVOLT_T_NOTEQUALS 273
+#define PHVOLT_T_IDENTICAL 274
+#define PHVOLT_T_NOTIDENTICAL 275
+#define PHVOLT_T_RANGE 276
+#define PHVOLT_T_ASSIGN '='
+#define PHVOLT_T_DOUBLECOLON 277
+
+#define PHVOLT_T_BRACKET_OPEN '('
+#define PHVOLT_T_BRACKET_CLOSE ')'
+#define PHVOLT_T_SBRACKET_OPEN '['
+#define PHVOLT_T_SBRACKET_CLOSE ']'
+
+/** Reserved words */
+#define PHVOLT_T_IF 300
+#define PHVOLT_T_ELSE 301
+#define PHVOLT_T_ENDIF 303
+#define PHVOLT_T_FOR 304
+#define PHVOLT_T_ENDFOR 305
+#define PHVOLT_T_SET 306
+#define PHVOLT_T_BLOCK 307
+#define PHVOLT_T_ENDBLOCK 308
+#define PHVOLT_T_IN 309
+
+/** Delimiters */
+#define PHVOLT_T_OPEN_DELIMITER  330
+#define PHVOLT_T_CLOSE_DELIMITER  331
+#define PHVOLT_T_OPEN_EDELIMITER  332
+#define PHVOLT_T_CLOSE_EDELIMITER  333
+
+/** Special Tokens */
+#define PHVOLT_T_FCALL 350
+#define PHVOLT_T_EXPR 354
+#define PHVOLT_T_QUALIFIED 355
+#define PHVOLT_T_ENCLOSED 356
+#define PHVOLT_T_RAW_FRAGMENT 357
+#define PHVOLT_T_EMPTY 358
+#define PHVOLT_T_ECHO 359
+#define PHVOLT_T_ARRAY 360
+#define PHVOLT_T_ARRAYACCESS 361
+
+#define PHVOLT_T_MINUS 367
+
+/* list of tokens and their names */
+typedef struct _phvolt_token_names
+{
+	unsigned int code;
+	char *name;
+} phvolt_token_names;
+
+/* active token state */
+typedef struct _phvolt_scanner_state {
+	int active_token;
+	char* start;
+	char* end;
+	int mode;
+	char *raw_buffer;
+	unsigned int raw_buffer_cursor;
+	unsigned int raw_buffer_size;
+} phvolt_scanner_state;
+
+/* extra information tokens */
+typedef struct _phvolt_scanner_token {
+	int opcode;
+	char *value;
+	int len;
+} phvolt_scanner_token;
+
+int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
+
+extern const phvolt_token_names phvolt_tokens[];

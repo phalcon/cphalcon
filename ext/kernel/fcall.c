@@ -36,7 +36,7 @@
 /**
  * Finds the correct scope to execute the function
  */
-int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
+inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	while (ce) {
 		if (zend_hash_exists(&ce->function_table, lcname, method_len+1)) {
@@ -55,7 +55,7 @@ int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len T
 /**
  * Find out the function scope on parent classes
  */
-int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
 	while (ce) {
 		if (ce->name_length == active_class_len) {

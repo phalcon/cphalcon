@@ -75,7 +75,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
+
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_pointer"), PH_NOISY_CC);
 	PHALCON_SEPARATE_NMO(t0);
 	increment_function(t0);
@@ -91,9 +92,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
 
-	zval *pointer = NULL;
+	zval *pointer;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(pointer);
 	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
 	
@@ -106,9 +108,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 
-	zval *type = NULL, *result = NULL, *active_row = NULL, *zero = NULL, *rows = NULL;
+	zval *type, *result, *active_row, *zero, *rows;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
@@ -145,7 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 
-	zval *numeric_position = NULL, *type = NULL, *result = NULL, *rows = NULL;
+	zval *numeric_position, *type, *result, *rows;
 	long i, position = 0;
 	HashTable *ah0;
 
@@ -176,7 +179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 			PHALCON_INIT_VAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (PHALCON_IS_NOT_FALSE(result)) {
-				PHALCON_INIT_VAR(rows);
+				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 			}
@@ -212,13 +215,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 
-	zval *count = NULL, *type = NULL, *result = NULL, *number_rows = NULL, *rows = NULL;
+	zval *count = NULL, *type, *result = NULL, *number_rows, *rows = NULL;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(count);
 	phalcon_read_property(&count, this_ptr, SL("_count"), PH_NOISY_CC);
 	if (Z_TYPE_P(count) == IS_NULL) {
-		PHALCON_INIT_VAR(count);
+		PHALCON_INIT_NVAR(count);
 		ZVAL_LONG(count, 0);
 		
 		PHALCON_INIT_VAR(type);
@@ -230,23 +234,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 				PHALCON_INIT_VAR(number_rows);
 				PHALCON_CALL_METHOD(number_rows, result, "numrows", PH_NO_CHECK);
 				
-				PHALCON_INIT_VAR(count);
+				PHALCON_INIT_NVAR(count);
 				PHALCON_CALL_FUNC_PARAMS_1(count, "intval", number_rows);
 			}
 		} else {
 			PHALCON_INIT_VAR(rows);
 			phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 			if (Z_TYPE_P(rows) == IS_NULL) {
-				PHALCON_INIT_VAR(result);
+				PHALCON_INIT_NVAR(result);
 				phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 				if (PHALCON_IS_NOT_FALSE(result)) {
-					PHALCON_INIT_VAR(rows);
+					PHALCON_INIT_NVAR(rows);
 					PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
 					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
 			
-			PHALCON_INIT_VAR(count);
+			PHALCON_INIT_NVAR(count);
 			phalcon_fast_count(count, rows TSRMLS_CC);
 		}
 		
@@ -265,10 +269,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 
-	zval *index = NULL, *count = NULL, *exists = NULL;
+	zval *index, *count, *exists;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -291,10 +295,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index = NULL, *count = NULL, *exists = NULL, *valid = NULL, *current = NULL;
+	zval *index, *count, *exists, *valid, *current;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -333,10 +337,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
 
-	zval *index = NULL, *value = NULL;
+	zval *index, *value;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -353,10 +357,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 
-	zval *offset = NULL;
+	zval *offset;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -373,9 +377,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
-	zval *valid = NULL, *current = NULL;
+	zval *valid, *current;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(valid);
@@ -398,10 +403,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 
-	zval *count = NULL, *pre_count = NULL, *valid = NULL, *current = NULL;
+	zval *count, *pre_count, *valid, *current;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD(count, this_ptr, "count", PH_NO_CHECK);
 	
@@ -432,18 +438,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
 
-	zval *is_fresh = NULL;
+	zval *is_fresh;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &is_fresh) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_isFresh"), is_fresh TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -453,9 +455,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
-	zval *is_fresh = NULL;
+	zval *is_fresh;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(is_fresh);
 	phalcon_read_property(&is_fresh, this_ptr, SL("_isFresh"), PH_NOISY_CC);
 	
@@ -469,9 +472,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 
-	zval *cache = NULL;
+	zval *cache;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(cache);
 	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	
@@ -485,9 +489,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
-	zval *active_row = NULL;
+	zval *active_row;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(active_row);
 	phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
 	

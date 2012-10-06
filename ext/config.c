@@ -78,14 +78,14 @@ PHP_METHOD(Phalcon_Config, __construct){
 	int hash_type;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &array_config) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!array_config) {
-		PHALCON_INIT_VAR(array_config);
+		PHALCON_INIT_NVAR(array_config);
 		array_init(array_config);
 	}
 	
@@ -104,12 +104,12 @@ PHP_METHOD(Phalcon_Config, __construct){
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_VAR(key);
+			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				PHALCON_INIT_VAR(config_value);
+				PHALCON_INIT_NVAR(config_value);
 				object_init_ex(config_value, phalcon_config_ce);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value, PH_CHECK);
 				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 			
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-		
+			
 		ph_cycle_end_0:
 		if(0){}
 		

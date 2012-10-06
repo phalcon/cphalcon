@@ -48,18 +48,14 @@
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
 
-	zval *sql_statement = NULL;
+	zval *sql_statement;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &sql_statement) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -69,9 +65,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
 
-	zval *sql_statement = NULL;
+	zval *sql_statement;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(sql_statement);
 	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
@@ -85,18 +82,14 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime){
 
-	zval *initial_time = NULL;
+	zval *initial_time;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &initial_time) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_initialTime"), initial_time TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -106,18 +99,14 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
 
-	zval *final_time = NULL;
+	zval *final_time;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &final_time) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_finalTime"), final_time TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -127,9 +116,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
 
-	zval *initial_time = NULL;
+	zval *initial_time;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(initial_time);
 	phalcon_read_property(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	
@@ -143,9 +133,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
 
-	zval *final_time = NULL;
+	zval *final_time;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(final_time);
 	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	
@@ -159,9 +150,10 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
-	zval *final_time = NULL, *initial_time = NULL, *elapsed = NULL;
+	zval *final_time, *initial_time, *elapsed;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(final_time);
 	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	

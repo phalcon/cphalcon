@@ -69,21 +69,21 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 
-	zval *record = NULL, *field = NULL, *value = NULL;
-	zval *c0 = NULL, *c1 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *record, *option, *field, *value, *type, *message;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "field", 1);
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "field", 1);
+	
 	PHALCON_INIT_VAR(field);
-	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", c0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option, PH_NO_CHECK);
 	if (Z_TYPE_P(field) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -92,14 +92,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", value);
 	if (!zend_is_true(r0)) {
-		PHALCON_ALLOC_ZVAL_MM(r1);
-		PHALCON_CONCAT_SVS(r1, "Value of field '", field, "' must be numeric");
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "numericality", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", r1, field, c1, PH_NO_CHECK);
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "numericality", 1);
+		
+		PHALCON_INIT_VAR(message);
+		PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

@@ -68,18 +68,14 @@
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix){
 
-	zval *controller_suffix = NULL;
+	zval *controller_suffix;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_suffix) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_handlerSuffix"), controller_suffix TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -89,18 +85,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
 
-	zval *controller_name = NULL;
+	zval *controller_name;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_defaultHandler"), controller_name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -110,18 +102,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
 
-	zval *controller_name = NULL;
+	zval *controller_name;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &controller_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_handlerName"), controller_name TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -131,9 +119,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *controller_name = NULL;
+	zval *controller_name;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(controller_name);
 	phalcon_read_property(&controller_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 	
@@ -147,12 +136,11 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message = NULL, *dependency_injector = NULL, *service = NULL;
-	zval *response = NULL, *status_code = NULL, *status_message = NULL;
-	zval *exception = NULL;
+	zval *message, *dependency_injector, *service;
+	zval *response, *status_code, *status_message;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -177,11 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(status_message);
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(exception);
-	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", message, PH_CHECK);
-	phalcon_throw_exception(exception TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_dispatcher_exception_ce, message);
 	return;
 }
 
@@ -192,9 +176,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
-	zval *last_controller = NULL;
+	zval *last_controller;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(last_controller);
 	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
 	
@@ -208,9 +193,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 
-	zval *controller = NULL;
+	zval *controller;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(controller);
 	phalcon_read_property(&controller, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 	

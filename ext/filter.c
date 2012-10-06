@@ -62,7 +62,7 @@ PHP_METHOD(Phalcon_Filter, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_ALLOC_ZVAL_MM(a0);
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_filter_ce, this_ptr, SL("_filters"), a0 TSRMLS_CC);
 
@@ -71,11 +71,11 @@ PHP_METHOD(Phalcon_Filter, __construct){
 
 PHP_METHOD(Phalcon_Filter, add){
 
-	zval *name = NULL, *handler = NULL;
+	zval *name, *handler;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &handler) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -90,12 +90,12 @@ PHP_METHOD(Phalcon_Filter, add){
 		return;
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_filters"), PH_NOISY_CC);
 	phalcon_array_update_zval(&t0, name, &handler, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_filters"), t0 TSRMLS_CC);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -107,14 +107,14 @@ PHP_METHOD(Phalcon_Filter, add){
  */
 PHP_METHOD(Phalcon_Filter, sanitize){
 
-	zval *value = NULL, *filters = NULL, *new_value = NULL, *filter = NULL, *filter_value = NULL;
-	zval *sanizited_value = NULL;
+	zval *value, *filters, *new_value = NULL, *filter = NULL, *filter_value = NULL;
+	zval *sanizited_value;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -123,25 +123,30 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	if (Z_TYPE_P(filters) == IS_ARRAY) { 
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
+			
 			if (!phalcon_valid_foreach(filters TSRMLS_CC)) {
 				return;
 			}
 			
 			ah0 = Z_ARRVAL_P(filters);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			fes_e618_0:
+			
+			ph_cycle_start_0:
+			
 				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-					goto fee_e618_0;
+					goto ph_cycle_end_0;
 				}
 				
-				PHALCON_INIT_VAR(filter);
-				ZVAL_ZVAL(filter, *hd, 1, 0);
-				PHALCON_INIT_VAR(filter_value);
+				PHALCON_GET_FOREACH_VALUE(filter);
+				
+				PHALCON_INIT_NVAR(filter_value);
 				PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", new_value, filter, PH_NO_CHECK);
 				PHALCON_CPY_WRT(new_value, filter_value);
+				
 				zend_hash_move_forward_ex(ah0, &hp0);
-				goto fes_e618_0;
-			fee_e618_0:
+				goto ph_cycle_start_0;
+				
+			ph_cycle_end_0:
 			if(0){}
 			
 		}
@@ -165,16 +170,15 @@ PHP_METHOD(Phalcon_Filter, sanitize){
  */
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
-	zval *value = NULL, *filter = NULL, *filters = NULL, *filter_object = NULL;
-	zval *class_name = NULL, *arguments = NULL, *filtered = NULL, *type = NULL;
-	zval *escaped = NULL, *allow_fraction = NULL, *options = NULL, *exception_message = NULL;
-	zval *exception = NULL;
+	zval *value, *filter, *filters, *filter_object;
+	zval *class_name, *arguments, *filtered = NULL, *type = NULL;
+	zval *quote, *empty_str, *escaped, *allow_fraction = NULL;
+	zval *options, *exception_message;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filter) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -197,7 +201,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			PHALCON_INIT_VAR(filtered);
 			PHALCON_CALL_FUNC_PARAMS_2(filtered, "call_user_func_array", filter_object, arguments);
 		} else {
-			PHALCON_INIT_VAR(filtered);
+			PHALCON_INIT_NVAR(filtered);
 			PHALCON_CALL_METHOD_PARAMS_1(filtered, filter_object, "filter", value, PH_NO_CHECK);
 		}
 		
@@ -205,42 +209,46 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_CCTOR(filtered);
 	}
 	
+	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 517);
 		PHALCON_CPY_WRT(type, t0);
 		
-		PHALCON_INIT_VAR(c0);
-		ZVAL_STRING(c0, "'", 1);
+		PHALCON_INIT_VAR(quote);
+		ZVAL_STRING(quote, "'", 1);
 		
-		PHALCON_INIT_VAR(c1);
-		ZVAL_STRING(c1, "", 1);
+		PHALCON_INIT_VAR(empty_str);
+		ZVAL_STRING(empty_str, "", 1);
 		
 		PHALCON_INIT_VAR(escaped);
-		phalcon_fast_str_replace(escaped, c0, c1, value TSRMLS_CC);
+		phalcon_fast_str_replace(escaped, quote, empty_str, value TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", escaped, type);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "int")) {
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 519);
 		PHALCON_CPY_WRT(type, t1);
 		
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "string")) {
 		PHALCON_INIT_VAR(t2);
 		ZVAL_LONG(t2, 513);
 		PHALCON_CPY_WRT(type, t2);
 		
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "float")) {
 		PHALCON_INIT_VAR(t3);
 		ZVAL_LONG(t3, 4096);
@@ -254,44 +262,47 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		ZVAL_LONG(t4, 520);
 		PHALCON_CPY_WRT(type, t4);
 		
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, type, options);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		phalcon_filter_alphanum(filtered, value);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "trim")) {
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "trim", value);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "striptags")) {
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strip_tags", value);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "lower")) {
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtolower", value);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	if (PHALCON_COMPARE_STRING(filter, "upper")) {
-		PHALCON_INIT_VAR(filtered);
+		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtoupper", value);
-		goto se_e618_1;
+		goto ph_end_0;
 	}
+	
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "Sanitize filter ", filter, " is not supported");
-	
-	PHALCON_INIT_VAR(exception);
-	object_init_ex(exception, phalcon_filter_exception_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", exception_message, PH_CHECK);
-	phalcon_throw_exception(exception TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_filter_exception_ce, exception_message);
 	return;
-	se_e618_1:
+	
+	ph_end_0:
 	
 	RETURN_CCTOR(filtered);
 }
@@ -303,9 +314,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
  */
 PHP_METHOD(Phalcon_Filter, getFilters){
 
-	zval *filters = NULL;
+	zval *filters;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(filters);
 	phalcon_read_property(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
 	

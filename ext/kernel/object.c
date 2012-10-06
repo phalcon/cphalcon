@@ -37,7 +37,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 
 	zval **result_ptr;
 
-	if (zend_hash_find(&ce->constants_table, constant_name, constant_length+1, (void **) &result_ptr) != SUCCESS) {
+	if (zend_hash_find(&ce->constants_table, constant_name, constant_length, (void **) &result_ptr) != SUCCESS) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -57,11 +57,11 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
-    } else {
+	} else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
-    }
+	}
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRMLS_DC){
@@ -102,7 +102,7 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
-		return zend_fetch_class("stdclass", strlen("strlen"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	}
 }
 
@@ -153,10 +153,10 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
  */
 int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length+1)){
+		if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)){
 			return 1;
 		} else {
-			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length+1);
+			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length);
 		}
 	} else {
 		return 0;
@@ -186,7 +186,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
  * Lookup exact class where a property is defined
  *
  */
-zend_class_entry *phalcon_lookup_class_ce(zval *object, char *property_name, int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zval *object, char *property_name, int property_length TSRMLS_DC){
 
 	zend_class_entry *ce, *original_ce;
 
@@ -208,8 +208,6 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
-
-	ZVAL_NULL((*result));
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
@@ -233,8 +231,6 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
-
-	ZVAL_NULL((*result));
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
@@ -373,15 +369,21 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	char *lcname;
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		return FAILURE;
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+	} else {
+		if (Z_TYPE_P(object) == IS_STRING) {
+			ce = zend_fetch_class(Z_STRVAL_P(object), Z_STRLEN_P(object), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		} else {
+			return FAILURE;
+		}
 	}
 
 	if (Z_TYPE_P(method_name) != IS_STRING) {
 		return FAILURE;
 	}
 
-	ce = Z_OBJCE_P(object);
+
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
 	while (ce) {
 		if (zend_hash_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
@@ -402,13 +404,19 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
-		return FAILURE;
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+	} else {
+		if (Z_TYPE_P(object) == IS_STRING) {
+			ce = zend_fetch_class(Z_STRVAL_P(object), Z_STRLEN_P(object), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+		} else {
+			return FAILURE;
+		}
 	}
 
 	ce = Z_OBJCE_P(object);
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, method_name, method_len+1)) {
+		if (zend_hash_exists(&ce->function_table, method_name, method_len)) {
 			return SUCCESS;
 		}
 		ce = ce->parent;

@@ -24,6 +24,7 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
+#include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_string.h"
 
 #include "kernel/main.h"
@@ -41,6 +42,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	phalcon_globals->active_memory = NULL;
 	#ifndef PHALCON_RELEASE
 	phalcon_globals->phalcon_stack_stats = 0;
+	phalcon_globals->phalcon_number_grows = 0;
 	#endif
 }
 
@@ -152,6 +154,104 @@ void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 	php_implode(glue, pieces, result TSRMLS_CC);
 }
 
+/**
+ * Fast join function
+ * This function is an adaption of the php_implode function
+ *
+ */
+void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC){
+
+	zval         **tmp;
+	HashTable      *arr;
+	HashPosition   pos;
+	smart_str      implstr = {0};
+	int            str_len, numelems, i = 0;
+	zval tmp_val;
+
+	if (Z_TYPE_P(pieces) != IS_ARRAY){
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_join()");
+		return;
+	}
+
+	arr = Z_ARRVAL_P(pieces);
+	numelems = zend_hash_num_elements(arr);
+
+	if (numelems == 0) {
+		RETURN_EMPTY_STRING();
+	}
+
+	zend_hash_internal_pointer_reset_ex(arr, &pos);
+
+	while (zend_hash_get_current_data_ex(arr, (void **) &tmp, &pos) == SUCCESS) {
+		switch ((*tmp)->type) {
+			case IS_STRING:
+				smart_str_appendl(&implstr, Z_STRVAL_PP(tmp), Z_STRLEN_PP(tmp));
+				break;
+
+			case IS_LONG: {
+				char stmp[MAX_LENGTH_OF_LONG + 1];
+				str_len = slprintf(stmp, sizeof(stmp), "%ld", Z_LVAL_PP(tmp));
+				smart_str_appendl(&implstr, stmp, str_len);
+			}
+				break;
+
+			case IS_BOOL:
+				if (Z_LVAL_PP(tmp) == 1) {
+					smart_str_appendl(&implstr, "1", sizeof("1")-1);
+				}
+				break;
+
+			case IS_NULL:
+				break;
+
+			case IS_DOUBLE: {
+				char *stmp;
+				str_len = spprintf(&stmp, 0, "%.*G", (int) EG(precision), Z_DVAL_PP(tmp));
+				smart_str_appendl(&implstr, stmp, str_len);
+				efree(stmp);
+			}
+				break;
+
+			case IS_OBJECT: {
+				int copy;
+				zval expr;
+				zend_make_printable_zval(*tmp, &expr, &copy);
+				smart_str_appendl(&implstr, Z_STRVAL(expr), Z_STRLEN(expr));
+				if (copy) {
+					zval_dtor(&expr);
+				}
+			}
+				break;
+
+			default:
+				tmp_val = **tmp;
+				zval_copy_ctor(&tmp_val);
+				convert_to_string(&tmp_val);
+				smart_str_appendl(&implstr, Z_STRVAL(tmp_val), Z_STRLEN(tmp_val));
+				zval_dtor(&tmp_val);
+				break;
+
+		}
+
+		if (++i != numelems) {
+			smart_str_appendl(&implstr, glue, glue_length);
+		}
+		zend_hash_move_forward_ex(arr, &pos);
+	}
+	smart_str_0(&implstr);
+
+	if (implstr.len) {
+		RETURN_STRINGL(implstr.c, implstr.len, 0);
+	} else {
+		smart_str_free(&implstr);
+		RETURN_EMPTY_STRING();
+	}
+}
+
+/**
+ * Fast call to explode php function
+ **/
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING){
@@ -162,22 +262,6 @@ void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 
 	array_init(result);
 	php_explode(delimiter, str, result, LONG_MAX);
-}
-
-/**
- * Inmediate function resolution for addslaches function
- */
-void phalcon_fast_addslashes(zval *return_value, zval *param TSRMLS_DC){
-
-	if (Z_TYPE_P(param) != IS_STRING) {
-		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
-		return;
-	}
-
-	//php_addslashes_ex(Z_STRVAL_P(param), Z_STRLEN_P(param), return_value, 0 TSRMLS_CC)
-
-	return;
 }
 
 /**
@@ -373,7 +457,7 @@ int phalcon_filter_identifier(zval *result, zval *param){
 
 	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)||ch==95){
+		if ((ch>96 && ch<123) || (ch>64 && ch<91) || (ch>47 && ch<58) || ch==95) {
 			temp[alloc] = ch;
 			alloc++;
 		}
@@ -406,7 +490,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 	}
 
 	if (EG(active_symbol_table)) {
-		if (Z_TYPE_P(key_name) == IS_STRING){
+		if (Z_TYPE_P(key_name) == IS_STRING) {
 			Z_ADDREF_P(value);
 			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name)+1, &value, sizeof(zval *), NULL);
 			if (EG(exception)) {

@@ -50,7 +50,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __construct){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_ALLOC_ZVAL_MM(a0);
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_http_response_headers_ce, this_ptr, SL("_headers"), a0 TSRMLS_CC);
 
@@ -65,17 +65,17 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __construct){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, set){
 
-	zval *name = NULL, *value = NULL;
+	zval *name, *value;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_headers"), PH_NOISY_CC);
 	phalcon_array_update_zval(&t0, name, &value, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), t0 TSRMLS_CC);
@@ -91,11 +91,11 @@ PHP_METHOD(Phalcon_Http_Response_Headers, set){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, get){
 
-	zval *name = NULL, *headers = NULL, *header_value = NULL;
+	zval *name, *headers, *header_value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -122,17 +122,17 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
 
-	zval *header = NULL;
+	zval *header;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &header) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_headers"), PH_NOISY_CC);
 	phalcon_array_update_zval_bool(&t0, header, 0, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), t0 TSRMLS_CC);
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, setRaw){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, send){
 
-	zval *headers_was_sent = NULL, *t = NULL, *headers = NULL, *value = NULL, *header = NULL;
+	zval *headers_was_sent, *t, *headers, *value = NULL, *header = NULL;
 	zval *http_header = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -158,6 +158,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	int hash_type;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(headers_was_sent);
 	PHALCON_CALL_FUNC(headers_was_sent, "headers_sent");
 	if (!zend_is_true(headers_was_sent)) {
@@ -166,31 +167,36 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 		
 		PHALCON_INIT_VAR(headers);
 		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		
 		if (!phalcon_valid_foreach(headers TSRMLS_CC)) {
 			return;
 		}
 		
 		ah0 = Z_ARRVAL_P(headers);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_e2ae_0:
+		
+		ph_cycle_start_0:
+		
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_e2ae_0;
+				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_VAR(header);
+			PHALCON_INIT_NVAR(header);
 			PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
-			PHALCON_INIT_VAR(value);
-			ZVAL_ZVAL(value, *hd, 1, 0);
+			PHALCON_GET_FOREACH_VALUE(value);
+			
 			if (zend_is_true(value)) {
-				PHALCON_INIT_VAR(http_header);
+				PHALCON_INIT_NVAR(http_header);
 				PHALCON_CONCAT_VSV(http_header, header, ": ", value);
 				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", http_header, t);
 			} else {
 				PHALCON_CALL_FUNC_PARAMS_2_NORETURN("header", header, t);
 			}
+			
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_e2ae_0;
-		fee_e2ae_0:
+			goto ph_cycle_start_0;
+			
+		ph_cycle_end_0:
 		
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -206,9 +212,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 
-	zval *empty_array = NULL;
+	zval *empty_array;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), empty_array TSRMLS_CC);
@@ -223,7 +230,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 
-	zval *data = NULL, *headers = NULL, *data_headers = NULL, *value = NULL, *key = NULL;
+	zval *data, *headers, *data_headers, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -234,7 +241,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -243,29 +250,34 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	PHALCON_INIT_VAR(headers);
 	object_init_ex(headers, phalcon_http_response_headers_ce);
 	PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
-	eval_int = phalcon_array_isset_string(data, SL("_headers")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_headers"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(data_headers);
 		phalcon_array_fetch_string(&data_headers, data, SL("_headers"), PH_NOISY_CC);
+		
 		if (!phalcon_valid_foreach(data_headers TSRMLS_CC)) {
 			return;
 		}
 		
 		ah0 = Z_ARRVAL_P(data_headers);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		fes_e2ae_1:
+		
+		ph_cycle_start_0:
+		
 			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto fee_e2ae_1;
+				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_VAR(key);
+			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_INIT_VAR(value);
-			ZVAL_ZVAL(value, *hd, 1, 0);
+			PHALCON_GET_FOREACH_VALUE(value);
+			
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", key, value, PH_NO_CHECK);
+			
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_e2ae_1;
-		fee_e2ae_1:
+			goto ph_cycle_start_0;
+			
+		ph_cycle_end_0:
 		if(0){}
 		
 	}

@@ -47,6 +47,8 @@ zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_view_engine_ce;
 zend_class_entry *phalcon_mvc_view_exception_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 zend_class_entry *phalcon_mvc_url_ce;
 zend_class_entry *phalcon_mvc_controller_ce;
 zend_class_entry *phalcon_mvc_application_exception_ce;
@@ -241,6 +243,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultController"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\View\\Engine\\Volt, Compiler, mvc_view_engine_volt_compiler, phalcon_mvc_view_engine_volt_compiler_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Url, mvc_url, phalcon_mvc_url_method_entry, 0);
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -627,6 +631,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Exception, mvc_view_exception, "phalcon\\exception", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, mvc_view_engine_php, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_php_method_entry, 0);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Controller, mvc_controller, "phalcon\\di\\injectable", phalcon_mvc_controller_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 

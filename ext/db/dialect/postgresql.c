@@ -54,14 +54,14 @@
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 
-	zval *column_list = NULL, *str_list = NULL, *column = NULL, *column_quoted = NULL;
-	zval *comma = NULL, *joined_list = NULL;
+	zval *column_list, *str_list, *column = NULL, *column_quoted = NULL;
+	zval *joined_list;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -85,20 +85,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 		
 		PHALCON_GET_FOREACH_VALUE(column);
 		
-		PHALCON_INIT_VAR(column_quoted);
+		PHALCON_INIT_NVAR(column_quoted);
 		PHALCON_CONCAT_SVS(column_quoted, "\"", column, "\"");
 		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-	
+		
 	ph_cycle_end_0:
 	
-	PHALCON_INIT_VAR(comma);
-	ZVAL_STRING(comma, ", ", 1);
-	
 	PHALCON_INIT_VAR(joined_list);
-	phalcon_fast_join(joined_list, comma, str_list TSRMLS_CC);
+	phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
 	
 	RETURN_CTOR(joined_list);
 }
@@ -110,11 +107,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 
-	zval *column = NULL, *size = NULL, *column_type = NULL, *column_sql = NULL;
-	zval *scale = NULL;
+	zval *column, *size, *column_type, *column_sql = NULL;
+	zval *scale;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -138,13 +135,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "DATE", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
 		goto ph_end_0;
 	}
@@ -153,31 +150,31 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
 		
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "TEXT", 1);
 		goto ph_end_0;
 	}
 	
 	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
+		PHALCON_INIT_NVAR(column_sql);
 		ZVAL_STRING(column_sql, "FLOAT", 1);
 		goto ph_end_0;
 	}
@@ -323,10 +320,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions){
 
-	zval *definition = NULL, *empty_array = NULL;
+	zval *definition, *empty_array;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &definition) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -362,18 +359,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 
-	zval *table_name = NULL, *schema_name = NULL, *if_exists = NULL, *table = NULL;
+	zval *table_name, *schema_name, *if_exists = NULL, *table = NULL;
 	zval *sql = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &table_name, &schema_name, &if_exists) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!if_exists) {
-		PHALCON_ALLOC_ZVAL_MM(if_exists);
+		PHALCON_INIT_NVAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -387,7 +384,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE IF EXISTS ", table);
 	} else {
-		PHALCON_INIT_VAR(sql);
+		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SV(sql, "DROP TABLE ", table);
 	}
 	
@@ -407,25 +404,24 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
 
-	zval *table_name = NULL, *schema_name = NULL, *sql = NULL;
+	zval *table_name, *schema_name = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table_name, &schema_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
+		PHALCON_INIT_NVAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '", schema_name, "' AND table_name='", table_name, "'");
 	} else {
-		PHALCON_INIT_VAR(sql);
+		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='", table_name, "'");
 	}
 	
@@ -443,25 +439,24 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *table, *schema = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='", schema, "' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
 	} else {
-		PHALCON_INIT_VAR(sql);
+		PHALCON_INIT_NVAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='", table, "' ORDER BY c.ordinal_position");
 	}
 	
@@ -481,22 +476,21 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 	zval *schema_name = NULL, *sql = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &schema_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema_name) {
-		PHALCON_ALLOC_ZVAL_MM(schema_name);
-		ZVAL_NULL(schema_name);
+		PHALCON_INIT_NVAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = '", schema_name, "' ORDER BY table_name");
 	} else {
-		PHALCON_INIT_VAR(sql);
+		PHALCON_INIT_NVAR(sql);
 		ZVAL_STRING(sql, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name", 1);
 	}
 	
@@ -512,18 +506,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL;
+	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -541,31 +534,27 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
 
-	zval *table = NULL, *schema = NULL, *sql = NULL, *final_sql = NULL;
+	zval *table, *schema = NULL, *sql;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
 	ZVAL_STRING(sql, "SELECT tc.table_name as TABLE_NAME, kcu.column_name as COLUMN_NAME, tc.constraint_name as CONSTRAINT_NAME, tc.table_catalog as REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name WHERE constraint_type = 'FOREIGN KEY' AND ", 1);
 	if (zend_is_true(schema)) {
-		PHALCON_INIT_VAR(final_sql);
-		PHALCON_CONCAT_SVSVS(final_sql, "tc.table_schema = '", schema, "' AND tc.table_name='", table, "'");
+		PHALCON_SCONCAT_SVSVS(sql, "tc.table_schema = '", schema, "' AND tc.table_name='", table, "'");
 	} else {
-		PHALCON_INIT_VAR(final_sql);
-		PHALCON_CONCAT_SVS(final_sql, "tc.table_name='", table, "'");
+		PHALCON_SCONCAT_SVS(sql, "tc.table_name='", table, "'");
 	}
 	
-	phalcon_concat_self(&sql, final_sql TSRMLS_CC);
 	
 	RETURN_CTOR(sql);
 }
@@ -579,18 +568,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions){
 
-	zval *table = NULL, *schema = NULL;
+	zval *table, *schema = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_ALLOC_ZVAL_MM(schema);
-		ZVAL_NULL(schema);
+		PHALCON_INIT_NVAR(schema);
 	}
 	
 	PHALCON_MM_RESTORE();
