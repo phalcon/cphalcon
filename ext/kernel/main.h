@@ -109,7 +109,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 #define RETURN_CCTOR(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
-			zval_copy_ctor(return_value); \
+			phalcon_copy_ctor(return_value, var); \
 		} \
 		INIT_PZVAL(return_value) \
 	} \
@@ -122,7 +122,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 #define RETURN_CCTORW(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
-			zval_copy_ctor(return_value); \
+			phalcon_copy_ctor(return_value, var); \
 		} \
 		INIT_PZVAL(return_value) \
 	} \
@@ -133,7 +133,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
  */
 #define RETURN_CTOR(var) { \
 		*(return_value) = *(var); \
-		zval_copy_ctor(return_value); \
+		phalcon_copy_ctor(return_value, var); \
 		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
@@ -144,7 +144,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
  */
 #define RETURN_CTORW(var) { \
 		*(return_value) = *(var); \
-		zval_copy_ctor(return_value); \
+		phalcon_copy_ctor(return_value, var); \
 		INIT_PZVAL(return_value) \
 	} \
 	return;

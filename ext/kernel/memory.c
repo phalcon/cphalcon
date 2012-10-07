@@ -236,3 +236,11 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D){
 	}
 	return SUCCESS;
 }
+
+void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin){
+	if (Z_REFCOUNT_P(origin) > 1) {
+		zval_copy_ctor(destiny);
+	} else {
+		ZVAL_NULL(origin);
+	}
+}

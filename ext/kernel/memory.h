@@ -30,6 +30,8 @@ extern int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 extern int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
+extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
+
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 

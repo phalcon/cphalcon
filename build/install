@@ -1,0 +1,8 @@
+make clean
+phpize --clean
+export CC="gcc"
+export CFLAGS="-O2 -fno-delete-null-pointer-checks"
+phpize
+./configure --enable-phalcon
+make
+sudo make install

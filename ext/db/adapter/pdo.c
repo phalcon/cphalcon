@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 	PHALCON_INIT_VAR(options);
 	array_init(options);
-	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_SILENT);
+	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION);
 	add_index_long(options, PDO_ATTR_CASE, PDO_CASE_LOWER);
 	add_index_long(options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL);
 	eval_int = phalcon_array_isset_string(descriptor, SS("persistent"));
