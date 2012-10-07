@@ -1520,3 +1520,57 @@ PHP_METHOD(Phalcon_Tag, image){
 	RETURN_CTOR(code);
 }
 
+/**
+ * Converts texts into URL-friendly titles
+ *
+ * @param string $text
+ * @param string $separator
+ * @param boolean $lowercase
+ * @return text
+ */
+PHP_METHOD(Phalcon_Tag, friendlyTitle){
+
+	zval *text, *separator = NULL, *lowercase = NULL, *pattern, *friendly;
+	zval *friendly_text = NULL;
+	zval *t0 = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &text, &separator, &lowercase) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!separator) {
+		PHALCON_INIT_NVAR(separator);
+		ZVAL_STRING(separator, "-", 1);
+	}
+	
+	if (!lowercase) {
+		PHALCON_INIT_NVAR(lowercase);
+		ZVAL_BOOL(lowercase, 0);
+	}
+	
+	PHALCON_INIT_VAR(pattern);
+	ZVAL_STRING(pattern, "~[ \\t]+~", 1);
+	
+	PHALCON_INIT_VAR(friendly);
+	PHALCON_CALL_FUNC_PARAMS_3(friendly, "preg_replace", pattern, separator, text);
+	
+	PHALCON_INIT_VAR(t0);
+	ZVAL_BOOL(t0, 0);
+	
+	PHALCON_INIT_VAR(r0);
+	is_equal_function(r0, lowercase, t0 TSRMLS_CC);
+	if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(friendly_text);
+		PHALCON_CALL_FUNC_PARAMS_1(friendly_text, "strtolower", friendly);
+	} else {
+		PHALCON_CPY_WRT(friendly_text, friendly);
+	}
+	
+	
+	RETURN_CTOR(friendly_text);
+}
+

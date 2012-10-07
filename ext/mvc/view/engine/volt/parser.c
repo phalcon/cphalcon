@@ -1784,10 +1784,9 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
 	phvolt_parser_token *pToken;
 	pToken = emalloc(sizeof(phvolt_parser_token));
 	pToken->opcode = opcode;
-	pToken->token = estrndup(token->value, token->len);
+	pToken->token = token->value;
 	pToken->token_len = token->len;
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
-	efree(token->value);
 }
 
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
@@ -1825,6 +1824,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
+	parser_status->ret = NULL;
 
 	/** Initialize the scanner state */
 	state->active_token = 0;
@@ -2045,9 +2045,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHVOLT_PARSING_OK) {
-			ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-			ZVAL_NULL(parser_status->ret);
-			zval_ptr_dtor(&parser_status->ret);
+			if (parser_status->ret) {
+				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+				ZVAL_NULL(parser_status->ret);
+				zval_ptr_dtor(&parser_status->ret);
+			} else {
+				array_init(*result);
+			}
 		}
 	}
 

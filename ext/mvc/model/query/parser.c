@@ -2742,6 +2742,7 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
+	parser_status->ret = NULL;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -2971,9 +2972,13 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
-			ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-			ZVAL_NULL(parser_status->ret);
-			zval_ptr_dtor(&parser_status->ret);
+			if (parser_status->ret) {
+				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+				ZVAL_NULL(parser_status->ret);
+				zval_ptr_dtor(&parser_status->ret);
+			} else {
+				efree(parser_status->ret);
+			}
 		}
 	}
 
