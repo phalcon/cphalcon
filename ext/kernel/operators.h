@@ -29,6 +29,7 @@
 
 /** SQL null empty **/
 #define PHALCON_IS_EMPTY(var) Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))
+#define PHALCON_IS_NOT_EMPTY(var) !(Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)))
 
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);

@@ -1025,11 +1025,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
 	zval *meta_data, *connection = NULL, *table = NULL, *unique_key = NULL;
 	zval *primary_keys, *primary_keys_count, *where_pk;
-	zval *null_value, *empty_str, *field = NULL, *value = NULL, *is_not_null = NULL;
-	zval *is_not_empty = NULL, *not_null = NULL, *sanitized_value = NULL;
-	zval *pk_condition = NULL, *where_pk_count, *join_where;
-	zval *force_exists, *schema, *source, *select, *num;
-	zval *row_count;
+	zval *field = NULL, *value = NULL, *sanitized_value = NULL, *pk_condition = NULL;
+	zval *where_pk_count, *join_where, *force_exists;
+	zval *schema, *source, *select, *num, *row_count;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1065,11 +1063,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			PHALCON_INIT_NVAR(connection);
 			PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
 			
-			PHALCON_INIT_VAR(null_value);
-			
-			PHALCON_INIT_VAR(empty_str);
-			ZVAL_STRING(empty_str, "", 1);
-			
 			if (!phalcon_valid_foreach(primary_keys TSRMLS_CC)) {
 				return;
 			}
@@ -1089,16 +1082,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
-					
-					PHALCON_INIT_NVAR(is_not_null);
-					is_not_identical_function(is_not_null, null_value, value TSRMLS_CC);
-					
-					PHALCON_INIT_NVAR(is_not_empty);
-					is_not_identical_function(is_not_empty, empty_str, value TSRMLS_CC);
-					
-					PHALCON_INIT_NVAR(not_null);
-					phalcon_and_function(not_null, is_not_null, is_not_empty);
-					if (zend_is_true(not_null)) {
+					if (PHALCON_IS_NOT_EMPTY(value)) {
 						if (Z_TYPE_P(value) != IS_LONG) {
 							PHALCON_INIT_NVAR(sanitized_value);
 							PHALCON_CALL_METHOD_PARAMS_1(sanitized_value, connection, "escapestring", value, PH_NO_CHECK);
@@ -3099,6 +3083,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		array_init(messages);
 		phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -3167,6 +3153,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			array_init(messages);
 			phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
 		}
 	}
 	

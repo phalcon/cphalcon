@@ -2552,10 +2552,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *model_name, *model, *connection, *attributes;
 	zval *fields = NULL, *values, *number_fields, *number_values;
 	zval *not_equal, *double_colon, *empty_string;
-	zval *null_value, *insert_values, *value = NULL, *number = NULL;
-	zval *type = NULL, *expr_value = NULL, *insert_value = NULL, *wildcard = NULL;
-	zval *exception_message = NULL, *field_name = NULL, *attribute = NULL;
-	zval *insert_model, *success, *status;
+	zval *null_value, *not_exists, *insert_values;
+	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
+	zval *wildcard = NULL, *exception_message = NULL, *field_name = NULL;
+	zval *attribute = NULL, *insert_model, *success, *status;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -2615,8 +2615,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(null_value);
 	
+	PHALCON_INIT_VAR(not_exists);
+	ZVAL_BOOL(not_exists, 0);
+	
 	PHALCON_INIT_VAR(insert_values);
 	array_init(insert_values);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setforceexists", not_exists, PH_NO_CHECK);
 	
 	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 		return;
