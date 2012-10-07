@@ -22,7 +22,7 @@
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testVoltParser()
+	public function _testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -230,6 +230,45 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$intermediate = $volt->parse('{% set a.x = 1.2+1*(20/b) and c %}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 3);
+
+	}
+
+	public function testVoltCompiler(){
+
+		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+
+		$volt->compile('unit-tests/views/layouts/test10/index.volt', 'unit-tests/views/layouts/test10/index.volt.php');
+
+	}
+
+	public function testVoltEngine()
+	{
+
+		/*$di = new Phalcon\DI();
+
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines(array(
+			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
+		));
+
+		$view->setParamToView('song', 'Rock n roll');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		$view->render('test10', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Hello Rock n roll!');
+
+		$view->setParamToView('some_eval', true);
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test10', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");*/
 
 	}
 

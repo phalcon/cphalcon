@@ -2728,17 +2728,18 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 	phql_scanner_token *token;
 	int scanner_status, status = SUCCESS;
 	phql_parser_status *parser_status = NULL;
-
-	void* phql_parser = phql_Alloc(phql_wrapper_alloc);
-
-	parser_status = emalloc(sizeof(phql_parser_status));
-	state = emalloc(sizeof(phql_scanner_state));
-	token = emalloc(sizeof(phql_scanner_token));
+	void* phql_parser;
 
 	if (!phql) {
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
 		return FAILURE;
 	}
+
+	phql_parser = phql_Alloc(phql_wrapper_alloc);
+
+	parser_status = emalloc(sizeof(phql_parser_status));
+	state = emalloc(sizeof(phql_scanner_state));
+	token = emalloc(sizeof(phql_scanner_token));
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;

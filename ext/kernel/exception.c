@@ -51,7 +51,7 @@ void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_ui
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_ALLOC_ZVAL_MM(msg);
+	PHALCON_INIT_VAR(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);

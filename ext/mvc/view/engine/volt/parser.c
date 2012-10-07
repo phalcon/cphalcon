@@ -1810,17 +1810,18 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	phvolt_scanner_token *token;
 	int scanner_status, status = SUCCESS;
 	phvolt_parser_status *parser_status = NULL;
-
-	void* phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
-
-	parser_status = emalloc(sizeof(phvolt_parser_status));
-	state = emalloc(sizeof(phvolt_scanner_state));
-	token = emalloc(sizeof(phvolt_scanner_token));
+	void* phvolt_parser;
 
 	if (!view_code) {
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}
+
+	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
+
+	parser_status = emalloc(sizeof(phvolt_parser_status));
+	state = emalloc(sizeof(phvolt_scanner_state));
+	token = emalloc(sizeof(phvolt_scanner_token));
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;

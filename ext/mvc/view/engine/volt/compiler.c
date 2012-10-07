@@ -34,17 +34,17 @@
 
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 
 	zval *expr, *func_arguments, *arguments, *name;
-	zval *camelized, *method, *class_name, *code, *exception_message;
+	zval *code = NULL, *camelized, *method, *class_name, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -61,6 +61,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 	
 	PHALCON_INIT_VAR(name);
 	phalcon_array_fetch_string(&name, expr, SL("name"), PH_NOISY_CC);
+	if (PHALCON_COMPARE_STRING(name, "content")) {
+		PHALCON_INIT_VAR(code);
+		ZVAL_STRING(code, "$this->getContent()", 1);
+		
+		RETURN_CTOR(code);
+	}
 	
 	PHALCON_INIT_VAR(camelized);
 	PHALCON_CALL_STATIC_PARAMS_1(camelized, "phalcon\\text", "camelize", name);
@@ -71,7 +77,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 	PHALCON_INIT_VAR(class_name);
 	ZVAL_STRING(class_name, "Phalcon\\Tag", 1);
 	if (phalcon_method_exists(class_name, method TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(code);
+		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVSVS(code, "Phalcon\\Tag::", method, "(", arguments, ")");
 		
 		RETURN_CTOR(code);
@@ -304,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	
 	if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
-		ZVAL_LONG(expr_code, 0);
+		phalcon_array_fetch_string(&expr_code, expr, SL("value"), PH_NOISY_CC);
 		goto ph_end_1;
 	}
 	
@@ -540,6 +546,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 
 	zval *path, *compiled_path, *view_code, *intermediate;
 	zval *compilation;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -548,6 +555,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(r0);
+	is_equal_function(r0, path, compiled_path TSRMLS_CC);
+	if (zend_is_true(r0)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Template path and compilation path cannot be the same");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(view_code);
 	PHALCON_CALL_FUNC_PARAMS_1(view_code, "file_get_contents", path);
 	
@@ -556,7 +570,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(compilation);
 		PHALCON_CALL_METHOD_PARAMS_1(compilation, this_ptr, "_statementlist", intermediate, PH_NO_CHECK);
-		zend_print_zval(compilation, 1);
+		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", compiled_path, compilation);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid intermediate representation");
 		return;

@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
 	zval *path, *params, *must_clean, *value = NULL, *key = NULL, *compiled_path;
 	zval *template_modified, *compiled_modified;
-	zval *modified, *compiler, *contents, *view;
+	zval *modified, *compiler = NULL, *contents, *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -117,6 +117,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
 		}
+	} else {
+		PHALCON_INIT_NVAR(compiler);
+		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
 	}
 	
 	if (phalcon_require(compiled_path TSRMLS_CC) == FAILURE) {
