@@ -2600,10 +2600,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *model_name = NULL, *model = NULL, *connection = NULL, *attributes = NULL;
 	zval *fields = NULL, *values = NULL, *number_fields = NULL, *number_values = NULL;
 	zval *not_equal = NULL, *double_colon = NULL, *empty_string = NULL;
-	zval *null_value = NULL, *insert_values = NULL, *value = NULL, *number = NULL;
-	zval *type = NULL, *expr_value = NULL, *insert_value = NULL, *wildcard = NULL;
-	zval *exception_message = NULL, *exception = NULL, *field_name = NULL;
-	zval *attribute = NULL, *insert_model = NULL, *success = NULL, *status = NULL;
+	zval *not_exists = NULL, *null_value = NULL, *insert_values = NULL;
+	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
+	zval *wildcard = NULL, *exception_message = NULL, *exception = NULL;
+	zval *field_name = NULL, *attribute = NULL, *insert_model = NULL;
+	zval *success = NULL, *status = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -2660,6 +2661,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(empty_string);
 	ZVAL_STRING(empty_string, "", 1);
+	
+	PHALCON_INIT_VAR(not_exists);
+	ZVAL_BOOL(not_exists, 0);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setforceexists", not_exists, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(null_value);
 	ZVAL_NULL(null_value);
