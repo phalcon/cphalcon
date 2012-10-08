@@ -237,14 +237,14 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
-		$volt->compile('unit-tests/views/layouts/test10/index.volt', 'unit-tests/views/layouts/test10/index.volt.php');
+		$volt->compile('unit-tests/views/layouts/test10.volt', 'unit-tests/views/layouts/test10.volt.php');
 
 	}
 
 	public function testVoltEngine()
 	{
 
-		/*$di = new Phalcon\DI();
+		$di = new Phalcon\DI();
 
 		$view = new Phalcon\Mvc\View();
 		$view->setDI($di);
@@ -268,7 +268,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
 		$view->render('test10', 'index');
 		$view->finish();
-		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");*/
+		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");
 
 	}
 
