@@ -21,6 +21,9 @@ class Build_Generator {
 		'mvc/model/query/parser.h',
 		'mvc/model/query/scanner.h',
 		'mvc/model/query/lang.h',
+		'mvc/view/engine/volt/parser.h',
+		'mvc/view/engine/volt/scanner.h',
+		'mvc/view/engine/volt/compiler.h',
 		'kernel/main.h',
 		'kernel/memory.h',
 		'kernel/fcall.h',
@@ -48,6 +51,9 @@ class Build_Generator {
 		'ext/mvc/model/query/base.c' => true,
 		'ext/mvc/model/query/lemon.c' => true,
 		'ext/mvc/model/query/lempar.c' => true,
+		'ext/mvc/view/engine/volt/base.c' => true,
+		'ext/mvc/view/engine/volt/lemon.c' => true,
+		'ext/mvc/view/engine/volt/lempar.c' => true,
 	);
 
 	public function __construct($path)
