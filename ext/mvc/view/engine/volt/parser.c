@@ -230,58 +230,58 @@ static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
 #endif
 /* The next thing included is series of defines which control
 ** various aspects of the generated parser.
-**    YYCODETYPE         is the data type used for storing terminal
+**    KKCODETYPE         is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 terminals
 **                       and nonterminals.  "int" is used otherwise.
-**    YYNOCODE           is a number of type YYCODETYPE which corresponds
+**    KKNOCODE           is a number of type KKCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
 **                       number is used to fill in empty slots of the hash 
 **                       table.
-**    YYFALLBACK         If defined, this indicates that one or more tokens
+**    KKFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
 **                       original value of the token will not parse.
-**    YYACTIONTYPE       is the data type used for storing terminal
+**    KKACTIONTYPE       is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
 **    phvolt_TOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
-**    YYMINORTYPE        is the data type used for all minor tokens.
+**    KKMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
 **                       which is phvolt_TOKENTYPE.  The entry in the union
-**                       for base tokens is called "yy0".
-**    YYSTACKDEPTH       is the maximum depth of the parser's stack.
+**                       for base tokens is called "kk0".
+**    KKSTACKDEPTH       is the maximum depth of the parser's stack.
 **    phvolt_ARG_SDECL     A static variable declaration for the %extra_argument
 **    phvolt_ARG_PDECL     A parameter declaration for the %extra_argument
-**    phvolt_ARG_STORE     Code to store %extra_argument into yypParser
-**    phvolt_ARG_FETCH     Code to extract %extra_argument from yypParser
-**    YYNSTATE           the combined number of states.
-**    YYNRULE            the number of rules in the grammar
-**    YYERRORSYMBOL      is the code number of the error symbol.  If not
+**    phvolt_ARG_STORE     Code to store %extra_argument into kkpParser
+**    phvolt_ARG_FETCH     Code to extract %extra_argument from kkpParser
+**    KKNSTATE           the combined number of states.
+**    KKNRULE            the number of rules in the grammar
+**    KKERRORSYMBOL      is the code number of the error symbol.  If not
 **                       defined, then do no error processing.
 */
-#define YYCODETYPE unsigned char
-#define YYNOCODE 66
-#define YYACTIONTYPE unsigned char
+#define KKCODETYPE unsigned char
+#define KKNOCODE 66
+#define KKACTIONTYPE unsigned char
 #define phvolt_TOKENTYPE phvolt_parser_token*
 typedef union {
-  phvolt_TOKENTYPE yy0;
-  zval* yy98;
-  int yy131;
-} YYMINORTYPE;
-#define YYSTACKDEPTH 100
+  phvolt_TOKENTYPE kk0;
+  zval* kk98;
+  int kk131;
+} KKMINORTYPE;
+#define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
-#define phvolt_ARG_FETCH phvolt_parser_status *status = yypParser->status
-#define phvolt_ARG_STORE yypParser->status = status
-#define YYNSTATE 123
-#define YYNRULE 60
-#define YYERRORSYMBOL 47
-#define YYERRSYMDT yy131
-#define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
-#define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
-#define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
+#define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
+#define phvolt_ARG_STORE kkpParser->status = status
+#define KKNSTATE 123
+#define KKNRULE 60
+#define KKERRORSYMBOL 47
+#define KKERRSYMDT kk131
+#define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
+#define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
+#define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
 
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
@@ -291,46 +291,46 @@ typedef union {
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
 **
-**   0 <= N < YYNSTATE                  Shift N.  That is, push the lookahead
+**   0 <= N < KKNSTATE                  Shift N.  That is, push the lookahead
 **                                      token onto the stack and goto state N.
 **
-**   YYNSTATE <= N < YYNSTATE+YYNRULE   Reduce by rule N-YYNSTATE.
+**   KKNSTATE <= N < KKNSTATE+KKNRULE   Reduce by rule N-KKNSTATE.
 **
-**   N == YYNSTATE+YYNRULE              A syntax error has occurred.
+**   N == KKNSTATE+KKNRULE              A syntax error has occurred.
 **
-**   N == YYNSTATE+YYNRULE+1            The parser accepts its input.
+**   N == KKNSTATE+KKNRULE+1            The parser accepts its input.
 **
-**   N == YYNSTATE+YYNRULE+2            No such action.  Denotes unused
-**                                      slots in the yy_action[] table.
+**   N == KKNSTATE+KKNRULE+2            No such action.  Denotes unused
+**                                      slots in the kk_action[] table.
 **
-** The action table is constructed as a single large table named yy_action[].
+** The action table is constructed as a single large table named kk_action[].
 ** Given state S and lookahead X, the action is computed as
 **
-**      yy_action[ yy_shift_ofst[S] + X ]
+**      kk_action[ kk_shift_ofst[S] + X ]
 **
-** If the index value yy_shift_ofst[S]+X is out of range or if the value
-** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
-** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that yy_default[S] should be used instead.  
+** If the index value kk_shift_ofst[S]+X is out of range or if the value
+** kk_lookahead[kk_shift_ofst[S]+X] is not equal to X or if kk_shift_ofst[S]
+** is equal to KK_SHIFT_USE_DFLT, it means that the action is not in the table
+** and that kk_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
-** a reduce action) then the yy_reduce_ofst[] array is used in place of
-** the yy_shift_ofst[] array and YY_REDUCE_USE_DFLT is used in place of
-** YY_SHIFT_USE_DFLT.
+** a reduce action) then the kk_reduce_ofst[] array is used in place of
+** the kk_shift_ofst[] array and KK_REDUCE_USE_DFLT is used in place of
+** KK_SHIFT_USE_DFLT.
 **
 ** The following are the tables generated in this section:
 **
-**  yy_action[]        A single table containing all actions.
-**  yy_lookahead[]     A table containing the lookahead for each entry in
-**                     yy_action.  Used to detect hash collisions.
-**  yy_shift_ofst[]    For each state, the offset into yy_action for
+**  kk_action[]        A single table containing all actions.
+**  kk_lookahead[]     A table containing the lookahead for each entry in
+**                     kk_action.  Used to detect hash collisions.
+**  kk_shift_ofst[]    For each state, the offset into kk_action for
 **                     shifting terminals.
-**  yy_reduce_ofst[]   For each state, the offset into yy_action for
+**  kk_reduce_ofst[]   For each state, the offset into kk_action for
 **                     shifting non-terminals after a reduce.
-**  yy_default[]       Default action for each state.
+**  kk_default[]       Default action for each state.
 */
-static YYACTIONTYPE yy_action[] = {
+static KKACTIONTYPE kk_action[] = {
  /*     0 */    75,   57,   59,   61,   67,   69,   71,   73,   63,   65,
  /*    10 */    49,   51,   55,   45,   43,   47,   41,   38,   53,  123,
  /*    20 */    17,   84,  103,   13,   88,   92,   75,   57,   59,   61,
@@ -381,7 +381,7 @@ static YYACTIONTYPE yy_action[] = {
  /*   470 */   127,   81,  103,   91,  103,   92,  127,   92,  102,  103,
  /*   480 */   119,  103,   92,  127,   92,
 };
-static YYCODETYPE yy_lookahead[] = {
+static KKCODETYPE kk_lookahead[] = {
  /*     0 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
  /*    10 */    12,   13,   14,   15,   16,   17,   18,   19,   20,    0,
  /*    20 */    25,   58,   59,   25,   61,   62,    2,    3,    4,    5,
@@ -432,8 +432,8 @@ static YYCODETYPE yy_lookahead[] = {
  /*   470 */    65,   58,   59,   58,   59,   62,   65,   62,   58,   59,
  /*   480 */    58,   59,   62,   65,   62,
 };
-#define YY_SHIFT_USE_DFLT (-6)
-static short yy_shift_ofst[] = {
+#define KK_SHIFT_USE_DFLT (-6)
+static short kk_shift_ofst[] = {
  /*     0 */   273,   19,  327,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
  /*    10 */   314,  245,   -2,  273,  318,  122,   -5,   -6,   20,  273,
  /*    20 */   324,  251,   23,   -6,   10,  256,  245,   24,  273,  332,
@@ -448,8 +448,8 @@ static short yy_shift_ofst[] = {
  /*   110 */    -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,  245,  153,
  /*   120 */    -6,   -6,   -6,
 };
-#define YY_REDUCE_USE_DFLT (-38)
-static short yy_reduce_ofst[] = {
+#define KK_REDUCE_USE_DFLT (-38)
+static short kk_reduce_ofst[] = {
  /*     0 */    88,  -38,  203,  -38,  -38,  -38,  -38,  -38,  -38,  -38,
  /*    10 */   -38,  -12,  -38,  160,  203,  -38,  -38,  -38,  -38,  168,
  /*    20 */   203,  -38,  -38,  -38,   12,  -38,   14,  -38,  179,  203,
@@ -464,7 +464,7 @@ static short yy_reduce_ofst[] = {
  /*   110 */   -38,  -38,  -38,  -38,  -38,  -38,  -38,  -38,  422,  -38,
  /*   120 */   -38,  -38,  -38,
 };
-static YYACTIONTYPE yy_default[] = {
+static KKACTIONTYPE kk_default[] = {
  /*     0 */   183,  183,  183,  125,  127,  128,  129,  130,  131,  132,
  /*    10 */   183,  183,  183,  183,  183,  183,  183,  133,  183,  183,
  /*    20 */   183,  183,  183,  134,  183,  183,  183,  183,  183,  183,
@@ -479,7 +479,7 @@ static YYACTIONTYPE yy_default[] = {
  /*   110 */   179,  180,  168,  170,  163,  141,  182,  137,  183,  183,
  /*   120 */   138,  139,  126,
 };
-#define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
+#define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -491,10 +491,10 @@ static YYACTIONTYPE yy_default[] = {
 ** but it does not parse, the type of the token is changed to ID and
 ** the parse is retried before an error is thrown.
 */
-#ifdef YYFALLBACK
-static const YYCODETYPE yyFallback[] = {
+#ifdef KKFALLBACK
+static const KKCODETYPE kkFallback[] = {
 };
-#endif /* YYFALLBACK */
+#endif /* KKFALLBACK */
 
 /* The following structure represents a single element of the
 ** parser's stack.  Information stored includes:
@@ -508,29 +508,29 @@ static const YYCODETYPE yyFallback[] = {
 **      the information used by the action routines in the grammar.
 **      It is sometimes called the "minor" token.
 */
-struct yyStackEntry {
+struct kkStackEntry {
   int stateno;       /* The state-number */
   int major;         /* The major token value.  This is the code
                      ** number for the token at this stack level */
-  YYMINORTYPE minor; /* The user-supplied minor token value.  This
+  KKMINORTYPE minor; /* The user-supplied minor token value.  This
                      ** is the value of the token  */
 };
-typedef struct yyStackEntry yyStackEntry;
+typedef struct kkStackEntry kkStackEntry;
 
 /* The state of the parser is completely contained in an instance of
 ** the following structure */
-struct yyParser {
-  int yyidx;                    /* Index of top element in stack */
-  int yyerrcnt;                 /* Shifts left before out of the error */
+struct kkParser {
+  int kkidx;                    /* Index of top element in stack */
+  int kkerrcnt;                 /* Shifts left before out of the error */
   phvolt_ARG_SDECL                /* A place to hold %extra_argument */
-  yyStackEntry yystack[YYSTACKDEPTH];  /* The parser's stack */
+  kkStackEntry kkstack[KKSTACKDEPTH];  /* The parser's stack */
 };
-typedef struct yyParser yyParser;
+typedef struct kkParser kkParser;
 
 #ifndef NDEBUG
 #include <stdio.h>
-static FILE *yyTraceFILE = 0;
-static char *yyTracePrompt = 0;
+static FILE *kkTraceFILE = 0;
+static char *kkTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
@@ -552,17 +552,17 @@ static char *yyTracePrompt = 0;
 ** None.
 */
 void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
-  yyTraceFILE = TraceFILE;
-  yyTracePrompt = zTracePrompt;
-  if( yyTraceFILE==0 ) yyTracePrompt = 0;
-  else if( yyTracePrompt==0 ) yyTraceFILE = 0;
+  kkTraceFILE = TraceFILE;
+  kkTracePrompt = zTracePrompt;
+  if( kkTraceFILE==0 ) kkTracePrompt = 0;
+  else if( kkTracePrompt==0 ) kkTraceFILE = 0;
 }
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *yyTokenName[] = { 
+static const char *kkTokenName[] = { 
   "$",             "COMMA",         "SBRACKET_OPEN",  "RANGE",       
   "EQUALS",        "NOTEQUALS",     "LESS",          "GREATER",     
   "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",
@@ -586,7 +586,7 @@ static const char *yyTokenName[] = {
 #ifndef NDEBUG
 /* For tracing reduce actions, the names of all rules are required.
 */
-static const char *yyRuleName[] = {
+static const char *kkRuleName[] = {
  /*   0 */ "program ::= volt_language",
  /*   1 */ "volt_language ::= statement_list",
  /*   2 */ "statement_list ::= statement_list statement",
@@ -656,8 +656,8 @@ static const char *yyRuleName[] = {
 */
 const char *phvolt_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
-    return yyTokenName[tokenType];
+  if( tokenType>0 && tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
+    return kkTokenName[tokenType];
   }else{
     return "Unknown";
   }
@@ -679,21 +679,21 @@ const char *phvolt_TokenName(int tokenType){
 ** to phvolt_ and phvolt_Free.
 */
 void *phvolt_Alloc(void *(*mallocProc)(size_t)){
-  yyParser *pParser;
-  pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
+  kkParser *pParser;
+  pParser = (kkParser*)(*mallocProc)( (size_t)sizeof(kkParser) );
   if( pParser ){
-    pParser->yyidx = -1;
+    pParser->kkidx = -1;
   }
   return pParser;
 }
 
 /* The following function deletes the value associated with a
 ** symbol.  The symbol can be either a terminal or nonterminal.
-** "yymajor" is the symbol code, and "yypminor" is a pointer to
+** "kkmajor" is the symbol code, and "kkpminor" is a pointer to
 ** the value.
 */
-static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
-  switch( yymajor ){
+static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
+  switch( kkmajor ){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
@@ -752,9 +752,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 46:
 // 295 "parser.lemon"
 {
-	if ((yypminor->yy0)) {
-		efree((yypminor->yy0)->token);
-		efree((yypminor->yy0));
+	if ((kkpminor->kk0)) {
+		efree((kkpminor->kk0)->token);
+		efree((kkpminor->kk0));
 	}
 }
 // 761 "parser.c"
@@ -774,7 +774,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 63:
     case 64:
 // 310 "parser.lemon"
-{ zval_ptr_dtor(&(yypminor->yy98)); }
+{ zval_ptr_dtor(&(kkpminor->kk98)); }
 // 779 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
@@ -789,22 +789,22 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 **
 ** Return the major token number for the symbol popped.
 */
-static int yy_pop_parser_stack(yyParser *pParser){
-  YYCODETYPE yymajor;
-  yyStackEntry *yytos = &pParser->yystack[pParser->yyidx];
+static int kk_pop_parser_stack(kkParser *pParser){
+  KKCODETYPE kkmajor;
+  kkStackEntry *kktos = &pParser->kkstack[pParser->kkidx];
 
-  if( pParser->yyidx<0 ) return 0;
+  if( pParser->kkidx<0 ) return 0;
 #ifndef NDEBUG
-  if( yyTraceFILE && pParser->yyidx>=0 ){
-    fprintf(yyTraceFILE,"%sPopping %s\n",
-      yyTracePrompt,
-      yyTokenName[yytos->major]);
+  if( kkTraceFILE && pParser->kkidx>=0 ){
+    fprintf(kkTraceFILE,"%sPopping %s\n",
+      kkTracePrompt,
+      kkTokenName[kktos->major]);
   }
 #endif
-  yymajor = yytos->major;
-  yy_destructor( yymajor, &yytos->minor);
-  pParser->yyidx--;
-  return yymajor;
+  kkmajor = kktos->major;
+  kk_destructor( kkmajor, &kktos->minor);
+  pParser->kkidx--;
+  return kkmajor;
 }
 
 /* 
@@ -823,9 +823,9 @@ void phvolt_Free(
   void *p,                    /* The parser to be deleted */
   void (*freeProc)(void*)     /* Function used to reclaim memory */
 ){
-  yyParser *pParser = (yyParser*)p;
+  kkParser *pParser = (kkParser*)p;
   if( pParser==0 ) return;
-  while( pParser->yyidx>=0 ) yy_pop_parser_stack(pParser);
+  while( pParser->kkidx>=0 ) kk_pop_parser_stack(pParser);
   (*freeProc)((void*)pParser);
 }
 
@@ -833,43 +833,43 @@ void phvolt_Free(
 ** Find the appropriate action for a parser given the terminal
 ** look-ahead token iLookAhead.
 **
-** If the look-ahead token is YYNOCODE, then check to see if the action is
+** If the look-ahead token is KKNOCODE, then check to see if the action is
 ** independent of the look-ahead.  If it is, return the action, otherwise
-** return YY_NO_ACTION.
+** return KK_NO_ACTION.
 */
-static int yy_find_shift_action(
-  yyParser *pParser,        /* The parser */
+static int kk_find_shift_action(
+  kkParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->kkstack[pParser->kkidx].stateno;
  
-  /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
-  i = yy_shift_ofst[stateno];
-  if( i==YY_SHIFT_USE_DFLT ){
-    return yy_default[stateno];
+  /* if( pParser->kkidx<0 ) return KK_NO_ACTION;  */
+  i = kk_shift_ofst[stateno];
+  if( i==KK_SHIFT_USE_DFLT ){
+    return kk_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==KKNOCODE ){
+    return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-#ifdef YYFALLBACK
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+#ifdef KKFALLBACK
     int iFallback;            /* Fallback token */
-    if( iLookAhead<sizeof(yyFallback)/sizeof(yyFallback[0])
-           && (iFallback = yyFallback[iLookAhead])!=0 ){
+    if( iLookAhead<sizeof(kkFallback)/sizeof(kkFallback[0])
+           && (iFallback = kkFallback[iLookAhead])!=0 ){
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE, "%sFALLBACK %s => %s\n",
-           yyTracePrompt, yyTokenName[iLookAhead], yyTokenName[iFallback]);
+      if( kkTraceFILE ){
+        fprintf(kkTraceFILE, "%sFALLBACK %s => %s\n",
+           kkTracePrompt, kkTokenName[iLookAhead], kkTokenName[iFallback]);
       }
 #endif
-      return yy_find_shift_action(pParser, iFallback);
+      return kk_find_shift_action(pParser, iFallback);
     }
 #endif
-    return yy_default[stateno];
+    return kk_default[stateno];
   }else{
-    return yy_action[i];
+    return kk_action[i];
   }
 }
 
@@ -877,69 +877,69 @@ static int yy_find_shift_action(
 ** Find the appropriate action for a parser given the non-terminal
 ** look-ahead token iLookAhead.
 **
-** If the look-ahead token is YYNOCODE, then check to see if the action is
+** If the look-ahead token is KKNOCODE, then check to see if the action is
 ** independent of the look-ahead.  If it is, return the action, otherwise
-** return YY_NO_ACTION.
+** return KK_NO_ACTION.
 */
-static int yy_find_reduce_action(
-  yyParser *pParser,        /* The parser */
+static int kk_find_reduce_action(
+  kkParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->kkstack[pParser->kkidx].stateno;
  
-  i = yy_reduce_ofst[stateno];
-  if( i==YY_REDUCE_USE_DFLT ){
-    return yy_default[stateno];
+  i = kk_reduce_ofst[stateno];
+  if( i==KK_REDUCE_USE_DFLT ){
+    return kk_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==KKNOCODE ){
+    return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-    return yy_default[stateno];
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+    return kk_default[stateno];
   }else{
-    return yy_action[i];
+    return kk_action[i];
   }
 }
 
 /*
 ** Perform a shift action.
 */
-static void yy_shift(
-  yyParser *yypParser,          /* The parser to be shifted */
-  int yyNewState,               /* The new state to shift in */
-  int yyMajor,                  /* The major token to shift in */
-  YYMINORTYPE *yypMinor         /* Pointer ot the minor token to shift in */
+static void kk_shift(
+  kkParser *kkpParser,          /* The parser to be shifted */
+  int kkNewState,               /* The new state to shift in */
+  int kkMajor,                  /* The major token to shift in */
+  KKMINORTYPE *kkpMinor         /* Pointer ot the minor token to shift in */
 ){
-  yyStackEntry *yytos;
-  yypParser->yyidx++;
-  if( yypParser->yyidx>=YYSTACKDEPTH ){
+  kkStackEntry *kktos;
+  kkpParser->kkidx++;
+  if( kkpParser->kkidx>=KKSTACKDEPTH ){
      phvolt_ARG_FETCH;
-     yypParser->yyidx--;
+     kkpParser->kkidx--;
 #ifndef NDEBUG
-     if( yyTraceFILE ){
-       fprintf(yyTraceFILE,"%sStack Overflow!\n",yyTracePrompt);
+     if( kkTraceFILE ){
+       fprintf(kkTraceFILE,"%sStack Overflow!\n",kkTracePrompt);
      }
 #endif
-     while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+     while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
      phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
-  yytos = &yypParser->yystack[yypParser->yyidx];
-  yytos->stateno = yyNewState;
-  yytos->major = yyMajor;
-  yytos->minor = *yypMinor;
+  kktos = &kkpParser->kkstack[kkpParser->kkidx];
+  kktos->stateno = kkNewState;
+  kktos->major = kkMajor;
+  kktos->minor = *kkpMinor;
 #ifndef NDEBUG
-  if( yyTraceFILE && yypParser->yyidx>0 ){
+  if( kkTraceFILE && kkpParser->kkidx>0 ){
     int i;
-    fprintf(yyTraceFILE,"%sShift %d\n",yyTracePrompt,yyNewState);
-    fprintf(yyTraceFILE,"%sStack:",yyTracePrompt);
-    for(i=1; i<=yypParser->yyidx; i++)
-      fprintf(yyTraceFILE," %s",yyTokenName[yypParser->yystack[i].major]);
-    fprintf(yyTraceFILE,"\n");
+    fprintf(kkTraceFILE,"%sShift %d\n",kkTracePrompt,kkNewState);
+    fprintf(kkTraceFILE,"%sStack:",kkTracePrompt);
+    for(i=1; i<=kkpParser->kkidx; i++)
+      fprintf(kkTraceFILE," %s",kkTokenName[kkpParser->kkstack[i].major]);
+    fprintf(kkTraceFILE,"\n");
   }
 #endif
 }
@@ -948,9 +948,9 @@ static void yy_shift(
 ** is used during the reduce.
 */
 static struct {
-  YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
+  KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
-} yyRuleInfo[] = {
+} kkRuleInfo[] = {
   { 48, 1 },
   { 49, 1 },
   { 50, 2 },
@@ -1013,32 +1013,32 @@ static struct {
   { 59, 1 },
 };
 
-static void yy_accept(yyParser*);  /* Forward Declaration */
+static void kk_accept(kkParser*);  /* Forward Declaration */
 
 /*
 ** Perform a reduce action and the shift that must immediately
 ** follow the reduce.
 */
-static void yy_reduce(
-  yyParser *yypParser,         /* The parser */
-  int yyruleno                 /* Number of the rule by which to reduce */
+static void kk_reduce(
+  kkParser *kkpParser,         /* The parser */
+  int kkruleno                 /* Number of the rule by which to reduce */
 ){
-  int yygoto;                     /* The next state */
-  int yyact;                      /* The next action */
-  YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
-  yyStackEntry *yymsp;            /* The top of the parser's stack */
-  int yysize;                     /* Amount to pop the stack */
+  int kkgoto;                     /* The next state */
+  int kkact;                      /* The next action */
+  KKMINORTYPE kkgotominor;        /* The LHS of the rule reduced */
+  kkStackEntry *kkmsp;            /* The top of the parser's stack */
+  int kksize;                     /* Amount to pop the stack */
   phvolt_ARG_FETCH;
-  yymsp = &yypParser->yystack[yypParser->yyidx];
+  kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
-  if( yyTraceFILE && yyruleno>=0 
-        && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
-    fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
-      yyRuleName[yyruleno]);
+  if( kkTraceFILE && kkruleno>=0 
+        && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
+    fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
+      kkRuleName[kkruleno]);
   }
 #endif /* NDEBUG */
 
-  switch( yyruleno ){
+  switch( kkruleno ){
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
@@ -1050,7 +1050,7 @@ static void yy_reduce(
       case 0:
 // 302 "parser.lemon"
 {
-	status->ret = yymsp[0].minor.yy98;
+	status->ret = kkmsp[0].minor.kk98;
 }
 // 1056 "parser.c"
         break;
@@ -1068,271 +1068,271 @@ static void yy_reduce(
       case 50:
 // 306 "parser.lemon"
 {
-	yygotominor.yy98 = yymsp[0].minor.yy98;
+	kkgotominor.kk98 = kkmsp[0].minor.kk98;
 }
 // 1074 "parser.c"
         break;
       case 2:
 // 312 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_zval_list(yymsp[-1].minor.yy98, yymsp[0].minor.yy98);
+	kkgotominor.kk98 = phvolt_ret_zval_list(kkmsp[-1].minor.kk98, kkmsp[0].minor.kk98);
 }
 // 1081 "parser.c"
         break;
       case 10:
 // 348 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_if_statement(yymsp[-5].minor.yy98, yymsp[-3].minor.yy98, NULL);
-  yy_destructor(23,&yymsp[-7].minor);
-  yy_destructor(24,&yymsp[-6].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(26,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_if_statement(kkmsp[-5].minor.kk98, kkmsp[-3].minor.kk98, NULL);
+  kk_destructor(23,&kkmsp[-7].minor);
+  kk_destructor(24,&kkmsp[-6].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1094 "parser.c"
         break;
       case 11:
 // 352 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_if_statement(yymsp[-9].minor.yy98, yymsp[-7].minor.yy98, yymsp[-3].minor.yy98);
-  yy_destructor(23,&yymsp[-11].minor);
-  yy_destructor(24,&yymsp[-10].minor);
-  yy_destructor(25,&yymsp[-8].minor);
-  yy_destructor(23,&yymsp[-6].minor);
-  yy_destructor(27,&yymsp[-5].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(26,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_if_statement(kkmsp[-9].minor.kk98, kkmsp[-7].minor.kk98, kkmsp[-3].minor.kk98);
+  kk_destructor(23,&kkmsp[-11].minor);
+  kk_destructor(24,&kkmsp[-10].minor);
+  kk_destructor(25,&kkmsp[-8].minor);
+  kk_destructor(23,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-5].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1110 "parser.c"
         break;
       case 12:
 // 358 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_for_statement(yymsp[-7].minor.yy98, yymsp[-5].minor.yy98, yymsp[-3].minor.yy98);
-  yy_destructor(23,&yymsp[-9].minor);
-  yy_destructor(28,&yymsp[-8].minor);
-  yy_destructor(29,&yymsp[-6].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(30,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_for_statement(kkmsp[-7].minor.kk98, kkmsp[-5].minor.kk98, kkmsp[-3].minor.kk98);
+  kk_destructor(23,&kkmsp[-9].minor);
+  kk_destructor(28,&kkmsp[-8].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1124 "parser.c"
         break;
       case 13:
 // 364 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_set_statement(yymsp[-3].minor.yy98, yymsp[-1].minor.yy98);
-  yy_destructor(23,&yymsp[-5].minor);
-  yy_destructor(31,&yymsp[-4].minor);
-  yy_destructor(32,&yymsp[-2].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_set_statement(kkmsp[-3].minor.kk98, kkmsp[-1].minor.kk98);
+  kk_destructor(23,&kkmsp[-5].minor);
+  kk_destructor(31,&kkmsp[-4].minor);
+  kk_destructor(32,&kkmsp[-2].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1135 "parser.c"
         break;
       case 14:
 // 370 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_empty_statement();
-  yy_destructor(23,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_empty_statement();
+  kk_destructor(23,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1144 "parser.c"
         break;
       case 15:
 // 376 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_echo_statement(yymsp[-1].minor.yy98);
-  yy_destructor(33,&yymsp[-2].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk98);
+  kk_destructor(33,&kkmsp[-2].minor);
+  kk_destructor(34,&kkmsp[0].minor);
 }
 // 1153 "parser.c"
         break;
       case 16:
 // 382 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
 }
 // 1160 "parser.c"
         break;
       case 17:
 // 388 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, yymsp[0].minor.yy98);
-  yy_destructor(19,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk98);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
 // 1168 "parser.c"
         break;
       case 18:
 // 392 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_SUB, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(19,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
 // 1176 "parser.c"
         break;
       case 19:
 // 396 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ADD, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(18,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(18,&kkmsp[-1].minor);
 }
 // 1184 "parser.c"
         break;
       case 20:
 // 400 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MUL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(16,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(16,&kkmsp[-1].minor);
 }
 // 1192 "parser.c"
         break;
       case 21:
 // 404 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_DIV, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(15,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(15,&kkmsp[-1].minor);
 }
 // 1200 "parser.c"
         break;
       case 22:
 // 408 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MOD, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(17,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(17,&kkmsp[-1].minor);
 }
 // 1208 "parser.c"
         break;
       case 23:
 // 412 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_AND, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(12,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(12,&kkmsp[-1].minor);
 }
 // 1216 "parser.c"
         break;
       case 24:
 // 416 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_OR, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(13,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(13,&kkmsp[-1].minor);
 }
 // 1224 "parser.c"
         break;
       case 25:
 // 420 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_CONCAT, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(20,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(20,&kkmsp[-1].minor);
 }
 // 1232 "parser.c"
         break;
       case 26:
 // 424 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_PIPE, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(14,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(14,&kkmsp[-1].minor);
 }
 // 1240 "parser.c"
         break;
       case 27:
 // 428 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_RANGE, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(3,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(3,&kkmsp[-1].minor);
 }
 // 1248 "parser.c"
         break;
       case 28:
 // 432 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_EQUALS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(4,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(4,&kkmsp[-1].minor);
 }
 // 1256 "parser.c"
         break;
       case 29:
 // 436 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(5,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(5,&kkmsp[-1].minor);
 }
 // 1264 "parser.c"
         break;
       case 30:
 // 440 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(10,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(10,&kkmsp[-1].minor);
 }
 // 1272 "parser.c"
         break;
       case 31:
 // 444 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(11,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(11,&kkmsp[-1].minor);
 }
 // 1280 "parser.c"
         break;
       case 32:
 // 448 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_LESS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(6,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(6,&kkmsp[-1].minor);
 }
 // 1288 "parser.c"
         break;
       case 33:
 // 452 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_GREATER, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(7,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(7,&kkmsp[-1].minor);
 }
 // 1296 "parser.c"
         break;
       case 34:
 // 456 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(8,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(8,&kkmsp[-1].minor);
 }
 // 1304 "parser.c"
         break;
       case 35:
 // 460 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(9,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(9,&kkmsp[-1].minor);
 }
 // 1312 "parser.c"
         break;
       case 36:
 // 464 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, yymsp[0].minor.yy98);
-  yy_destructor(21,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk98);
+  kk_destructor(21,&kkmsp[-1].minor);
 }
 // 1320 "parser.c"
         break;
       case 37:
 // 468 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, yymsp[-1].minor.yy98, NULL);
-  yy_destructor(36,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk98, NULL);
+  kk_destructor(36,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1329 "parser.c"
         break;
       case 38:
 // 472 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ARRAY, yymsp[-1].minor.yy98, NULL);
-  yy_destructor(2,&yymsp[-2].minor);
-  yy_destructor(38,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk98, NULL);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[0].minor);
 }
 // 1338 "parser.c"
         break;
@@ -1340,8 +1340,8 @@ static void yy_reduce(
       case 46:
 // 478 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_zval_list(yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(1,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_zval_list(kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(1,&kkmsp[-1].minor);
 }
 // 1347 "parser.c"
         break;
@@ -1349,8 +1349,8 @@ static void yy_reduce(
       case 49:
 // 486 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_named_item(yymsp[-2].minor.yy0, yymsp[0].minor.yy98);
-  yy_destructor(40,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk98);
+  kk_destructor(40,&kkmsp[-1].minor);
 }
 // 1356 "parser.c"
         break;
@@ -1358,122 +1358,122 @@ static void yy_reduce(
       case 48:
 // 490 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_named_item(NULL, yymsp[0].minor.yy98);
+	kkgotominor.kk98 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk98);
 }
 // 1364 "parser.c"
         break;
       case 44:
 // 500 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy98);
-  yy_destructor(36,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk98);
+  kk_destructor(36,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1373 "parser.c"
         break;
       case 45:
 // 504 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_func_call(yymsp[-2].minor.yy0, NULL);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
+  kk_destructor(36,&kkmsp[-1].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1382 "parser.c"
         break;
       case 51:
 // 532 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, yymsp[-3].minor.yy98, yymsp[-1].minor.yy98);
-  yy_destructor(2,&yymsp[-2].minor);
-  yy_destructor(38,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk98, kkmsp[-1].minor.kk98);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[0].minor);
 }
 // 1391 "parser.c"
         break;
       case 52:
 // 536 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
 }
 // 1398 "parser.c"
         break;
       case 53:
 // 540 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_STRING, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
 }
 // 1405 "parser.c"
         break;
       case 54:
 // 544 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
 }
 // 1412 "parser.c"
         break;
       case 55:
 // 548 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
-  yy_destructor(44,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
+  kk_destructor(44,&kkmsp[0].minor);
 }
 // 1420 "parser.c"
         break;
       case 56:
 // 552 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
-  yy_destructor(45,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
+  kk_destructor(45,&kkmsp[0].minor);
 }
 // 1428 "parser.c"
         break;
       case 57:
 // 556 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
-  yy_destructor(46,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
+  kk_destructor(46,&kkmsp[0].minor);
 }
 // 1436 "parser.c"
         break;
       case 58:
 // 562 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_qualified_name(yymsp[-2].minor.yy98, yymsp[0].minor.yy0);
-  yy_destructor(22,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk98, kkmsp[0].minor.kk0);
+  kk_destructor(22,&kkmsp[-1].minor);
 }
 // 1444 "parser.c"
         break;
       case 59:
 // 566 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_qualified_name(NULL, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
 }
 // 1451 "parser.c"
         break;
   };
-  yygoto = yyRuleInfo[yyruleno].lhs;
-  yysize = yyRuleInfo[yyruleno].nrhs;
-  yypParser->yyidx -= yysize;
-  yyact = yy_find_reduce_action(yypParser,yygoto);
-  if( yyact < YYNSTATE ){
-    yy_shift(yypParser,yyact,yygoto,&yygotominor);
-  }else if( yyact == YYNSTATE + YYNRULE + 1 ){
-    yy_accept(yypParser);
+  kkgoto = kkRuleInfo[kkruleno].lhs;
+  kksize = kkRuleInfo[kkruleno].nrhs;
+  kkpParser->kkidx -= kksize;
+  kkact = kk_find_reduce_action(kkpParser,kkgoto);
+  if( kkact < KKNSTATE ){
+    kk_shift(kkpParser,kkact,kkgoto,&kkgotominor);
+  }else if( kkact == KKNSTATE + KKNRULE + 1 ){
+    kk_accept(kkpParser);
   }
 }
 
 /*
 ** The following code executes when the parse fails
 */
-static void yy_parse_failed(
-  yyParser *yypParser           /* The parser */
+static void kk_parse_failed(
+  kkParser *kkpParser           /* The parser */
 ){
   phvolt_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sFail!\n",kkTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
@@ -1482,13 +1482,13 @@ static void yy_parse_failed(
 /*
 ** The following code executes when a syntax error first occurs.
 */
-static void yy_syntax_error(
-  yyParser *yypParser,           /* The parser */
-  int yymajor,                   /* The major type of the error token */
-  YYMINORTYPE yyminor            /* The minor type of the error token */
+static void kk_syntax_error(
+  kkParser *kkpParser,           /* The parser */
+  int kkmajor,                   /* The major type of the error token */
+  KKMINORTYPE kkminor            /* The minor type of the error token */
 ){
   phvolt_ARG_FETCH;
-#define TOKEN (yyminor.yy0)
+#define TOKEN (kkminor.kk0)
 // 245 "parser.lemon"
 
 	if (status->scanner_state->start) {
@@ -1546,16 +1546,16 @@ static void yy_syntax_error(
 /*
 ** The following is executed when the parser accepts
 */
-static void yy_accept(
-  yyParser *yypParser           /* The parser */
+static void kk_accept(
+  kkParser *kkpParser           /* The parser */
 ){
   phvolt_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sAccept!\n",kkTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
@@ -1581,56 +1581,56 @@ static void yy_accept(
 ** None.
 */
 void phvolt_(
-  void *yyp,                   /* The parser */
-  int yymajor,                 /* The major token code number */
-  phvolt_TOKENTYPE yyminor       /* The value for the token */
+  void *kkp,                   /* The parser */
+  int kkmajor,                 /* The major token code number */
+  phvolt_TOKENTYPE kkminor       /* The value for the token */
   phvolt_ARG_PDECL               /* Optional %extra_argument parameter */
 ){
-  YYMINORTYPE yyminorunion;
-  int yyact;            /* The parser action. */
-  int yyendofinput;     /* True if we are at the end of input */
-  int yyerrorhit = 0;   /* True if yymajor has invoked an error */
-  yyParser *yypParser;  /* The parser */
+  KKMINORTYPE kkminorunion;
+  int kkact;            /* The parser action. */
+  int kkendofinput;     /* True if we are at the end of input */
+  int kkerrorhit = 0;   /* True if kkmajor has invoked an error */
+  kkParser *kkpParser;  /* The parser */
 
   /* (re)initialize the parser, if necessary */
-  yypParser = (yyParser*)yyp;
-  if( yypParser->yyidx<0 ){
-    if( yymajor==0 ) return;
-    yypParser->yyidx = 0;
-    yypParser->yyerrcnt = -1;
-    yypParser->yystack[0].stateno = 0;
-    yypParser->yystack[0].major = 0;
+  kkpParser = (kkParser*)kkp;
+  if( kkpParser->kkidx<0 ){
+    if( kkmajor==0 ) return;
+    kkpParser->kkidx = 0;
+    kkpParser->kkerrcnt = -1;
+    kkpParser->kkstack[0].stateno = 0;
+    kkpParser->kkstack[0].major = 0;
   }
-  yyminorunion.yy0 = yyminor;
-  yyendofinput = (yymajor==0);
+  kkminorunion.kk0 = kkminor;
+  kkendofinput = (kkmajor==0);
   phvolt_ARG_STORE;
 
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sInput %s\n",yyTracePrompt,yyTokenName[yymajor]);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sInput %s\n",kkTracePrompt,kkTokenName[kkmajor]);
   }
 #endif
 
   do{
-    yyact = yy_find_shift_action(yypParser,yymajor);
-    if( yyact<YYNSTATE ){
-      yy_shift(yypParser,yyact,yymajor,&yyminorunion);
-      yypParser->yyerrcnt--;
-      if( yyendofinput && yypParser->yyidx>=0 ){
-        yymajor = 0;
+    kkact = kk_find_shift_action(kkpParser,kkmajor);
+    if( kkact<KKNSTATE ){
+      kk_shift(kkpParser,kkact,kkmajor,&kkminorunion);
+      kkpParser->kkerrcnt--;
+      if( kkendofinput && kkpParser->kkidx>=0 ){
+        kkmajor = 0;
       }else{
-        yymajor = YYNOCODE;
+        kkmajor = KKNOCODE;
       }
-    }else if( yyact < YYNSTATE + YYNRULE ){
-      yy_reduce(yypParser,yyact-YYNSTATE);
-    }else if( yyact == YY_ERROR_ACTION ){
-      int yymx;
+    }else if( kkact < KKNSTATE + KKNRULE ){
+      kk_reduce(kkpParser,kkact-KKNSTATE);
+    }else if( kkact == KK_ERROR_ACTION ){
+      int kkmx;
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE,"%sSyntax Error!\n",yyTracePrompt);
+      if( kkTraceFILE ){
+        fprintf(kkTraceFILE,"%sSyntax Error!\n",kkTracePrompt);
       }
 #endif
-#ifdef YYERRORSYMBOL
+#ifdef KKERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
       ** grammar defines an error token "ERROR".  
@@ -1650,40 +1650,40 @@ void phvolt_(
       **    shifted successfully.
       **
       */
-      if( yypParser->yyerrcnt<0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( kkpParser->kkerrcnt<0 ){
+        kk_syntax_error(kkpParser,kkmajor,kkminorunion);
       }
-      yymx = yypParser->yystack[yypParser->yyidx].major;
-      if( yymx==YYERRORSYMBOL || yyerrorhit ){
+      kkmx = kkpParser->kkstack[kkpParser->kkidx].major;
+      if( kkmx==KKERRORSYMBOL || kkerrorhit ){
 #ifndef NDEBUG
-        if( yyTraceFILE ){
-          fprintf(yyTraceFILE,"%sDiscard input token %s\n",
-             yyTracePrompt,yyTokenName[yymajor]);
+        if( kkTraceFILE ){
+          fprintf(kkTraceFILE,"%sDiscard input token %s\n",
+             kkTracePrompt,kkTokenName[kkmajor]);
         }
 #endif
-        yy_destructor(yymajor,&yyminorunion);
-        yymajor = YYNOCODE;
+        kk_destructor(kkmajor,&kkminorunion);
+        kkmajor = KKNOCODE;
       }else{
          while(
-          yypParser->yyidx >= 0 &&
-          yymx != YYERRORSYMBOL &&
-          (yyact = yy_find_shift_action(yypParser,YYERRORSYMBOL)) >= YYNSTATE
+          kkpParser->kkidx >= 0 &&
+          kkmx != KKERRORSYMBOL &&
+          (kkact = kk_find_shift_action(kkpParser,KKERRORSYMBOL)) >= KKNSTATE
         ){
-          yy_pop_parser_stack(yypParser);
+          kk_pop_parser_stack(kkpParser);
         }
-        if( yypParser->yyidx < 0 || yymajor==0 ){
-          yy_destructor(yymajor,&yyminorunion);
-          yy_parse_failed(yypParser);
-          yymajor = YYNOCODE;
-        }else if( yymx!=YYERRORSYMBOL ){
-          YYMINORTYPE u2;
-          u2.YYERRSYMDT = 0;
-          yy_shift(yypParser,yyact,YYERRORSYMBOL,&u2);
+        if( kkpParser->kkidx < 0 || kkmajor==0 ){
+          kk_destructor(kkmajor,&kkminorunion);
+          kk_parse_failed(kkpParser);
+          kkmajor = KKNOCODE;
+        }else if( kkmx!=KKERRORSYMBOL ){
+          KKMINORTYPE u2;
+          u2.KKERRSYMDT = 0;
+          kk_shift(kkpParser,kkact,KKERRORSYMBOL,&u2);
         }
       }
-      yypParser->yyerrcnt = 3;
-      yyerrorhit = 1;
-#else  /* YYERRORSYMBOL is not defined */
+      kkpParser->kkerrcnt = 3;
+      kkerrorhit = 1;
+#else  /* KKERRORSYMBOL is not defined */
       /* This is what we do if the grammar does not define ERROR:
       **
       **  * Report an error message, and throw away the input token.
@@ -1693,21 +1693,21 @@ void phvolt_(
       ** As before, subsequent error messages are suppressed until
       ** three input tokens have been successfully shifted.
       */
-      if( yypParser->yyerrcnt<=0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( kkpParser->kkerrcnt<=0 ){
+        kk_syntax_error(kkpParser,kkmajor,kkminorunion);
       }
-      yypParser->yyerrcnt = 3;
-      yy_destructor(yymajor,&yyminorunion);
-      if( yyendofinput ){
-        yy_parse_failed(yypParser);
+      kkpParser->kkerrcnt = 3;
+      kk_destructor(kkmajor,&kkminorunion);
+      if( kkendofinput ){
+        kk_parse_failed(kkpParser);
       }
-      yymajor = YYNOCODE;
+      kkmajor = KKNOCODE;
 #endif
     }else{
-      yy_accept(yypParser);
-      yymajor = YYNOCODE;
+      kk_accept(kkpParser);
+      kkmajor = KKNOCODE;
     }
-  }while( yymajor!=YYNOCODE && yypParser->yyidx>=0 );
+  }while( kkmajor!=KKNOCODE && kkpParser->kkidx>=0 );
   return;
 }
 
