@@ -15,6 +15,7 @@
 			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
 			<file>unit-tests/FilterTest.php</file>
+			<file>unit-tests/EscaperTest.php</file>
 			<file>unit-tests/LoggerTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>

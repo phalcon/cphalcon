@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 
-	zval *filter, *left, *exists = NULL, *type, *name, *code = NULL, *exception_message;
+	zval *filter, *left, *exists = NULL, *type, *code = NULL, *name, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -129,10 +129,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 	PHALCON_INIT_VAR(type);
 	phalcon_array_fetch_string(&type, filter, SL("type"), PH_NOISY_CC);
 	if (phalcon_compare_strict_long(type, 355 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(code);
+		
 		PHALCON_INIT_VAR(name);
 		phalcon_array_fetch_string(&name, filter, SL("name"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(name, "length")) {
-			PHALCON_INIT_VAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->count(", left, ")");
 			
 			ZVAL_BOOL(exists, 1);
@@ -152,9 +153,56 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 		
+		if (PHALCON_COMPARE_STRING(name, "trim")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "trim(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "striptags")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "striptags(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "slashes")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "addslashes(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "stripslashes")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "stripslashes(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "lowercase")) {
+			if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CONCAT_SVS(code, "mb_strtolower(", left, ")");
+			} else {
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CONCAT_SVS(code, "strtolower(", left, ")");
+			}
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "lowercase")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "strtolower(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
 		if (PHALCON_IS_TRUE(exists)) {
 			
-			RETURN_CTOR(code);
+			RETURN_CCTOR(code);
 		}
 		
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "fak u filter");
@@ -441,6 +489,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CONCAT_VSV(expr_code, left_code, " != ", right_code);
+		goto ph_end_1;
+	}
+	
+	if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_VSV(expr_code, left_code, " === ", right_code);
+		goto ph_end_1;
+	}
+	
+	if (phalcon_compare_strict_long(type, 275 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_VSV(expr_code, left_code, " !== ", right_code);
 		goto ph_end_1;
 	}
 	

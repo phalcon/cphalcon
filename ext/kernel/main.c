@@ -397,6 +397,18 @@ int phalcon_file_exists(zval *filename TSRMLS_DC){
 }
 
 /**
+ * Check if method exists on certain object using explicit char param
+ */
+int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC){
+
+	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
+/**
  * Filter alphanum string
  */
 int phalcon_filter_alphanum(zval *result, zval *param){

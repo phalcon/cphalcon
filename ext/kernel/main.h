@@ -57,6 +57,7 @@ extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
+extern int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC);
 
 /** Function replacement **/
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);

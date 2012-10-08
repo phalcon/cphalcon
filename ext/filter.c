@@ -172,9 +172,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value, *filter, *filters, *filter_object;
 	zval *class_name, *arguments, *filtered = NULL, *type = NULL;
-	zval *quote, *empty_str, *escaped, *allow_fraction = NULL;
+	zval *quote, *empty_str, *escaped, *allow_fraction;
 	zval *options, *exception_message;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -209,11 +208,11 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_CCTOR(filtered);
 	}
 	
+	PHALCON_INIT_NVAR(filtered);
 	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_LONG(t0, 517);
-		PHALCON_CPY_WRT(type, t0);
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 517);
 		
 		PHALCON_INIT_VAR(quote);
 		ZVAL_STRING(quote, "'", 1);
@@ -230,9 +229,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "int")) {
-		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 519);
-		PHALCON_CPY_WRT(type, t1);
+		PHALCON_INIT_NVAR(type);
+		ZVAL_LONG(type, 519);
 		
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
@@ -240,9 +238,8 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "string")) {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_LONG(t2, 513);
-		PHALCON_CPY_WRT(type, t2);
+		PHALCON_INIT_NVAR(type);
+		ZVAL_LONG(type, 513);
 		
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_2(filtered, "filter_var", value, type);
@@ -250,17 +247,15 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "float")) {
-		PHALCON_INIT_VAR(t3);
-		ZVAL_LONG(t3, 4096);
-		PHALCON_CPY_WRT(allow_fraction, t3);
+		PHALCON_INIT_VAR(allow_fraction);
+		ZVAL_LONG(allow_fraction, 4096);
 		
 		PHALCON_INIT_VAR(options);
 		array_init(options);
 		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(t4);
-		ZVAL_LONG(t4, 520);
-		PHALCON_CPY_WRT(type, t4);
+		PHALCON_INIT_NVAR(type);
+		ZVAL_LONG(type, 520);
 		
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_3(filtered, "filter_var", value, type, options);
@@ -286,14 +281,24 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "lower")) {
-		PHALCON_INIT_NVAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtolower", value);
+		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_NVAR(filtered);
+			PHALCON_CALL_FUNC_PARAMS_1(filtered, "mb_strtolower", value);
+		} else {
+			PHALCON_INIT_NVAR(filtered);
+			PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtolower", value);
+		}
 		goto ph_end_0;
 	}
 	
 	if (PHALCON_COMPARE_STRING(filter, "upper")) {
-		PHALCON_INIT_NVAR(filtered);
-		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtoupper", value);
+		if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_NVAR(filtered);
+			PHALCON_CALL_FUNC_PARAMS_1(filtered, "mb_strtoupper", value);
+		} else {
+			PHALCON_INIT_NVAR(filtered);
+			PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtoupper", value);
+		}
 		goto ph_end_0;
 	}
 	

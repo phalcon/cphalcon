@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 /**
@@ -41,23 +41,6 @@
  *
  * Escapes different kinds of text securing them
  */
-
-PHP_METHOD(Phalcon_Escaper, __construct){
-
-	zval *map;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(map);
-	array_init(map);
-	add_index_stringl(map, 34, SL("quot"), 1);
-	add_index_stringl(map, 38, SL("amp"), 1);
-	add_index_stringl(map, 60, SL("lt"), 1);
-	add_index_stringl(map, 62, SL("gt"), 1);
-	phalcon_update_property_zval(this_ptr, SL("_escapeMap"), map TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
 
 /**
  * Sets the encoding to be used by the escaper
@@ -109,7 +92,7 @@ PHP_METHOD(Phalcon_Escaper, getEncoding){
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
-	zval *text, *escape_map, *encoding, *escaped;
+	zval *text, *html_quote_type, *encoding, *escaped;
 
 	PHALCON_MM_GROW();
 
@@ -118,16 +101,42 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(escape_map);
-	phalcon_read_property(&escape_map, this_ptr, SL("_escapeMap"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(html_quote_type);
+	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(encoding);
 	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(escaped);
-	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, escape_map, encoding);
+	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
 	
 	RETURN_CCTOR(escaped);
+}
+
+PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
+
+	zval *text, *html_map = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &text) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(html_map);
+	phalcon_read_property(&html_map, this_ptr, SL("_htmlEscapeMap"), PH_NOISY_CC);
+	if (Z_TYPE_P(html_map) == IS_NULL) {
+		PHALCON_INIT_NVAR(html_map);
+		array_init(html_map);
+		add_index_stringl(html_map, 34, SL("quot"), 1);
+		add_index_stringl(html_map, 38, SL("amp"), 1);
+		add_index_stringl(html_map, 60, SL("lt"), 1);
+		add_index_stringl(html_map, 62, SL("gt"), 1);
+		phalcon_update_property_zval(this_ptr, SL("_htmlEscapeMap"), html_map TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**

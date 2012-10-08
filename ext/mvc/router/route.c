@@ -227,11 +227,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	zval *controller_name, *route_paths = NULL, *part_one;
 	zval *one, *zero, *first, *have_bracket, *sharp, *escaped_sharp;
 	zval *pcre_pattern = NULL, *matches, *match_position;
-	zval *set_order = NULL, *names_pattern, *have_variables = NULL;
+	zval *set_order, *names_pattern, *have_variables = NULL;
 	zval *match = NULL, *match_zero = NULL, *match_one = NULL, *match_two = NULL;
 	zval *replace_pattern = NULL, *new_pcre_pattern = NULL;
 	zval *compiled_pattern = NULL;
-	zval *t0 = NULL;
 	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
@@ -311,9 +310,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 			PHALCON_INIT_VAR(match_position);
 			ZVAL_LONG(match_position, 1);
 			
-			PHALCON_INIT_VAR(t0);
-			ZVAL_LONG(t0, 2);
-			PHALCON_CPY_WRT(set_order, t0);
+			PHALCON_INIT_VAR(set_order);
+			ZVAL_LONG(set_order, 2);
 			
 			PHALCON_INIT_VAR(names_pattern);
 			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]*)(:([^}]+))*}#", 1);

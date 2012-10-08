@@ -1114,10 +1114,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 
-PHP_METHOD(Phalcon_Escaper, __construct);
 PHP_METHOD(Phalcon_Escaper, setEnconding);
 PHP_METHOD(Phalcon_Escaper, getEncoding);
 PHP_METHOD(Phalcon_Escaper, escapeHtml);
+PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr);
 PHP_METHOD(Phalcon_Escaper, escapeUrl);
 
 PHP_METHOD(Phalcon_CLI_Task, __construct);
@@ -3230,6 +3230,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtmlattr, 0, 0, 1)
+	ZEND_ARG_INFO(0, text)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 0, 1)
 	ZEND_ARG_INFO(0, url)
 ZEND_END_ARG_INFO()
@@ -4531,10 +4535,10 @@ PHALCON_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry){
 };
 
 PHALCON_INIT_FUNCS(phalcon_escaper_method_entry){
-	PHP_ME(Phalcon_Escaper, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Escaper, setEnconding, arginfo_phalcon_escaper_setenconding, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, getEncoding, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, escapeHtml, arginfo_phalcon_escaper_escapehtml, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, escapeHtmlAttr, arginfo_phalcon_escaper_escapehtmlattr, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, escapeUrl, arginfo_phalcon_escaper_escapeurl, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

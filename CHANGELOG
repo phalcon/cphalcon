@@ -4,11 +4,13 @@
  - Removed initialization of the memory stack frame when isn't needed
  - Inlining of scope locating functions to make read/write on objects faster
  - Array joins are now faster because a zval needle isn't needed anymore
+ - Implemented fast copy/ctor to return_value reducing the overall memory usage
  - Added Phalcon\Tag::friendlyTitle to create friendly titles
  - Added a new C-based template engine highly coupled with Phalcon called Volt
  - Registered Phalcon\Mvc\Model\Transaction\Manager in Phalcon\DI\FactoryDefault as 'transactionManager'
  - Added Phalcon\Escaper to add contextual escaping of different kinds of texts
  - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
+ - Phalcon\Tag now caches resolved services such as 'url' and 'dispatcher' making the view generation faster
 
 0.5.2
 - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail

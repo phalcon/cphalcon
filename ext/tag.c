@@ -96,27 +96,33 @@ PHP_METHOD(Phalcon_Tag, getDI){
  */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
-	zval *dependency_injector = NULL, *service, *url;
+	zval *url = NULL, *dependency_injector = NULL, *service;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBSERVE_VAR(dependency_injector);
-	phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	PHALCON_OBSERVE_VAR(url);
+	phalcon_read_static_property(&url, SL("phalcon\\tag"), SL("_urlService") TSRMLS_CC);
+	if (Z_TYPE_P(url) == IS_NULL) {
+		PHALCON_OBSERVE_VAR(dependency_injector);
+		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_INIT_NVAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		}
+		
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
+			return;
+		}
+		
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "url", 1);
+		
+		PHALCON_INIT_NVAR(url);
+		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
+		phalcon_update_static_property(SL("phalcon\\tag"), SL("_urlService"), url TSRMLS_CC);
 	}
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
-		return;
-	}
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "url", 1);
-	
-	PHALCON_INIT_VAR(url);
-	PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	RETURN_CCTOR(url);
 }
@@ -128,27 +134,33 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
  */
 PHP_METHOD(Phalcon_Tag, getDispatcherService){
 
-	zval *dependency_injector = NULL, *service, *dispatcher;
+	zval *dispatcher = NULL, *dependency_injector = NULL, *service;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBSERVE_VAR(dependency_injector);
-	phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	PHALCON_OBSERVE_VAR(dispatcher);
+	phalcon_read_static_property(&dispatcher, SL("phalcon\\tag"), SL("_dispatcherService") TSRMLS_CC);
+	if (Z_TYPE_P(dispatcher) == IS_NULL) {
+		PHALCON_OBSERVE_VAR(dependency_injector);
+		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_INIT_NVAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		}
+		
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
+			return;
+		}
+		
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "dispatcher", 1);
+		
+		PHALCON_INIT_NVAR(dispatcher);
+		PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service, PH_NO_CHECK);
+		phalcon_update_static_property(SL("phalcon\\tag"), SL("_dispatcherService"), dispatcher TSRMLS_CC);
 	}
 	
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
-		return;
-	}
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "dispatcher", 1);
-	
-	PHALCON_INIT_VAR(dispatcher);
-	PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 	RETURN_CCTOR(dispatcher);
 }
