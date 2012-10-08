@@ -39480,58 +39480,58 @@ static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
 #endif
 /* The next thing included is series of defines which control
 ** various aspects of the generated parser.
-**    YYCODETYPE         is the data type used for storing terminal
+**    KKCODETYPE         is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 terminals
 **                       and nonterminals.  "int" is used otherwise.
-**    YYNOCODE           is a number of type YYCODETYPE which corresponds
+**    KKNOCODE           is a number of type KKCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
 **                       number is used to fill in empty slots of the hash 
 **                       table.
-**    YYFALLBACK         If defined, this indicates that one or more tokens
+**    KKFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
 **                       original value of the token will not parse.
-**    YYACTIONTYPE       is the data type used for storing terminal
+**    KKACTIONTYPE       is the data type used for storing terminal
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
 **    phvolt_TOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
-**    YYMINORTYPE        is the data type used for all minor tokens.
+**    KKMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
 **                       which is phvolt_TOKENTYPE.  The entry in the union
-**                       for base tokens is called "yy0".
-**    YYSTACKDEPTH       is the maximum depth of the parser's stack.
+**                       for base tokens is called "kk0".
+**    KKSTACKDEPTH       is the maximum depth of the parser's stack.
 **    phvolt_ARG_SDECL     A static variable declaration for the %extra_argument
 **    phvolt_ARG_PDECL     A parameter declaration for the %extra_argument
-**    phvolt_ARG_STORE     Code to store %extra_argument into yypParser
-**    phvolt_ARG_FETCH     Code to extract %extra_argument from yypParser
-**    YYNSTATE           the combined number of states.
-**    YYNRULE            the number of rules in the grammar
-**    YYERRORSYMBOL      is the code number of the error symbol.  If not
+**    phvolt_ARG_STORE     Code to store %extra_argument into kkpParser
+**    phvolt_ARG_FETCH     Code to extract %extra_argument from kkpParser
+**    KKNSTATE           the combined number of states.
+**    KKNRULE            the number of rules in the grammar
+**    KKERRORSYMBOL      is the code number of the error symbol.  If not
 **                       defined, then do no error processing.
 */
-#define YYCODETYPE unsigned char
-#define YYNOCODE 66
-#define YYACTIONTYPE unsigned char
+#define KKCODETYPE unsigned char
+#define KKNOCODE 66
+#define KKACTIONTYPE unsigned char
 #define phvolt_TOKENTYPE phvolt_parser_token*
 typedef union {
-  phvolt_TOKENTYPE yy0;
-  zval* yy98;
-  int yy131;
-} YYMINORTYPE;
-#define YYSTACKDEPTH 100
+  phvolt_TOKENTYPE kk0;
+  zval* kk98;
+  int kk131;
+} KKMINORTYPE;
+#define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
-#define phvolt_ARG_FETCH phvolt_parser_status *status = yypParser->status
-#define phvolt_ARG_STORE yypParser->status = status
-#define YYNSTATE 123
-#define YYNRULE 60
-#define YYERRORSYMBOL 47
-#define YYERRSYMDT yy131
-#define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
-#define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
-#define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
+#define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
+#define phvolt_ARG_STORE kkpParser->status = status
+#define KKNSTATE 123
+#define KKNRULE 60
+#define KKERRORSYMBOL 47
+#define KKERRSYMDT kk131
+#define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
+#define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
+#define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
 
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
@@ -39541,46 +39541,46 @@ typedef union {
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
 **
-**   0 <= N < YYNSTATE                  Shift N.  That is, push the lookahead
+**   0 <= N < KKNSTATE                  Shift N.  That is, push the lookahead
 **                                      token onto the stack and goto state N.
 **
-**   YYNSTATE <= N < YYNSTATE+YYNRULE   Reduce by rule N-YYNSTATE.
+**   KKNSTATE <= N < KKNSTATE+KKNRULE   Reduce by rule N-KKNSTATE.
 **
-**   N == YYNSTATE+YYNRULE              A syntax error has occurred.
+**   N == KKNSTATE+KKNRULE              A syntax error has occurred.
 **
-**   N == YYNSTATE+YYNRULE+1            The parser accepts its input.
+**   N == KKNSTATE+KKNRULE+1            The parser accepts its input.
 **
-**   N == YYNSTATE+YYNRULE+2            No such action.  Denotes unused
-**                                      slots in the yy_action[] table.
+**   N == KKNSTATE+KKNRULE+2            No such action.  Denotes unused
+**                                      slots in the kk_action[] table.
 **
-** The action table is constructed as a single large table named yy_action[].
+** The action table is constructed as a single large table named kk_action[].
 ** Given state S and lookahead X, the action is computed as
 **
-**      yy_action[ yy_shift_ofst[S] + X ]
+**      kk_action[ kk_shift_ofst[S] + X ]
 **
-** If the index value yy_shift_ofst[S]+X is out of range or if the value
-** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
-** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that yy_default[S] should be used instead.  
+** If the index value kk_shift_ofst[S]+X is out of range or if the value
+** kk_lookahead[kk_shift_ofst[S]+X] is not equal to X or if kk_shift_ofst[S]
+** is equal to KK_SHIFT_USE_DFLT, it means that the action is not in the table
+** and that kk_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
-** a reduce action) then the yy_reduce_ofst[] array is used in place of
-** the yy_shift_ofst[] array and YY_REDUCE_USE_DFLT is used in place of
-** YY_SHIFT_USE_DFLT.
+** a reduce action) then the kk_reduce_ofst[] array is used in place of
+** the kk_shift_ofst[] array and KK_REDUCE_USE_DFLT is used in place of
+** KK_SHIFT_USE_DFLT.
 **
 ** The following are the tables generated in this section:
 **
-**  yy_action[]        A single table containing all actions.
-**  yy_lookahead[]     A table containing the lookahead for each entry in
-**                     yy_action.  Used to detect hash collisions.
-**  yy_shift_ofst[]    For each state, the offset into yy_action for
+**  kk_action[]        A single table containing all actions.
+**  kk_lookahead[]     A table containing the lookahead for each entry in
+**                     kk_action.  Used to detect hash collisions.
+**  kk_shift_ofst[]    For each state, the offset into kk_action for
 **                     shifting terminals.
-**  yy_reduce_ofst[]   For each state, the offset into yy_action for
+**  kk_reduce_ofst[]   For each state, the offset into kk_action for
 **                     shifting non-terminals after a reduce.
-**  yy_default[]       Default action for each state.
+**  kk_default[]       Default action for each state.
 */
-static YYACTIONTYPE yy_action[] = {
+static KKACTIONTYPE kk_action[] = {
  /*     0 */    75,   57,   59,   61,   67,   69,   71,   73,   63,   65,
  /*    10 */    49,   51,   55,   45,   43,   47,   41,   38,   53,  123,
  /*    20 */    17,   84,  103,   13,   88,   92,   75,   57,   59,   61,
@@ -39631,7 +39631,7 @@ static YYACTIONTYPE yy_action[] = {
  /*   470 */   127,   81,  103,   91,  103,   92,  127,   92,  102,  103,
  /*   480 */   119,  103,   92,  127,   92,
 };
-static YYCODETYPE yy_lookahead[] = {
+static KKCODETYPE kk_lookahead[] = {
  /*     0 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
  /*    10 */    12,   13,   14,   15,   16,   17,   18,   19,   20,    0,
  /*    20 */    25,   58,   59,   25,   61,   62,    2,    3,    4,    5,
@@ -39682,8 +39682,8 @@ static YYCODETYPE yy_lookahead[] = {
  /*   470 */    65,   58,   59,   58,   59,   62,   65,   62,   58,   59,
  /*   480 */    58,   59,   62,   65,   62,
 };
-#define YY_SHIFT_USE_DFLT (-6)
-static short yy_shift_ofst[] = {
+#define KK_SHIFT_USE_DFLT (-6)
+static short kk_shift_ofst[] = {
  /*     0 */   273,   19,  327,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
  /*    10 */   314,  245,   -2,  273,  318,  122,   -5,   -6,   20,  273,
  /*    20 */   324,  251,   23,   -6,   10,  256,  245,   24,  273,  332,
@@ -39698,8 +39698,8 @@ static short yy_shift_ofst[] = {
  /*   110 */    -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,  245,  153,
  /*   120 */    -6,   -6,   -6,
 };
-#define YY_REDUCE_USE_DFLT (-38)
-static short yy_reduce_ofst[] = {
+#define KK_REDUCE_USE_DFLT (-38)
+static short kk_reduce_ofst[] = {
  /*     0 */    88,  -38,  203,  -38,  -38,  -38,  -38,  -38,  -38,  -38,
  /*    10 */   -38,  -12,  -38,  160,  203,  -38,  -38,  -38,  -38,  168,
  /*    20 */   203,  -38,  -38,  -38,   12,  -38,   14,  -38,  179,  203,
@@ -39714,7 +39714,7 @@ static short yy_reduce_ofst[] = {
  /*   110 */   -38,  -38,  -38,  -38,  -38,  -38,  -38,  -38,  422,  -38,
  /*   120 */   -38,  -38,  -38,
 };
-static YYACTIONTYPE yy_default[] = {
+static KKACTIONTYPE kk_default[] = {
  /*     0 */   183,  183,  183,  125,  127,  128,  129,  130,  131,  132,
  /*    10 */   183,  183,  183,  183,  183,  183,  183,  133,  183,  183,
  /*    20 */   183,  183,  183,  134,  183,  183,  183,  183,  183,  183,
@@ -39729,7 +39729,7 @@ static YYACTIONTYPE yy_default[] = {
  /*   110 */   179,  180,  168,  170,  163,  141,  182,  137,  183,  183,
  /*   120 */   138,  139,  126,
 };
-#define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
+#define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -39741,10 +39741,10 @@ static YYACTIONTYPE yy_default[] = {
 ** but it does not parse, the type of the token is changed to ID and
 ** the parse is retried before an error is thrown.
 */
-#ifdef YYFALLBACK
-static const YYCODETYPE yyFallback[] = {
+#ifdef KKFALLBACK
+static const KKCODETYPE kkFallback[] = {
 };
-#endif /* YYFALLBACK */
+#endif /* KKFALLBACK */
 
 /* The following structure represents a single element of the
 ** parser's stack.  Information stored includes:
@@ -39758,43 +39758,43 @@ static const YYCODETYPE yyFallback[] = {
 **      the information used by the action routines in the grammar.
 **      It is sometimes called the "minor" token.
 */
-struct yyStackEntry {
+struct kkStackEntry {
   int stateno;       /* The state-number */
   int major;         /* The major token value.  This is the code
                      ** number for the token at this stack level */
-  YYMINORTYPE minor; /* The user-supplied minor token value.  This
+  KKMINORTYPE minor; /* The user-supplied minor token value.  This
                      ** is the value of the token  */
 };
-typedef struct yyStackEntry yyStackEntry;
+typedef struct kkStackEntry kkStackEntry;
 
 /* The state of the parser is completely contained in an instance of
 ** the following structure */
-struct yyParser {
-  int yyidx;                    /* Index of top element in stack */
-  int yyerrcnt;                 /* Shifts left before out of the error */
+struct kkParser {
+  int kkidx;                    /* Index of top element in stack */
+  int kkerrcnt;                 /* Shifts left before out of the error */
   phvolt_ARG_SDECL                /* A place to hold %extra_argument */
-  yyStackEntry yystack[YYSTACKDEPTH];  /* The parser's stack */
+  kkStackEntry kkstack[KKSTACKDEPTH];  /* The parser's stack */
 };
-typedef struct yyParser yyParser;
+typedef struct kkParser kkParser;
 
 #ifndef NDEBUG
-static FILE *yyTraceFILE = 0;
-static char *yyTracePrompt = 0;
+static FILE *kkTraceFILE = 0;
+static char *kkTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
 void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
-  yyTraceFILE = TraceFILE;
-  yyTracePrompt = zTracePrompt;
-  if( yyTraceFILE==0 ) yyTracePrompt = 0;
-  else if( yyTracePrompt==0 ) yyTraceFILE = 0;
+  kkTraceFILE = TraceFILE;
+  kkTracePrompt = zTracePrompt;
+  if( kkTraceFILE==0 ) kkTracePrompt = 0;
+  else if( kkTracePrompt==0 ) kkTraceFILE = 0;
 }
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *yyTokenName[] = { 
+static const char *kkTokenName[] = { 
   "$",             "COMMA",         "SBRACKET_OPEN",  "RANGE",       
   "EQUALS",        "NOTEQUALS",     "LESS",          "GREATER",     
   "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",
@@ -39818,7 +39818,7 @@ static const char *yyTokenName[] = {
 #ifndef NDEBUG
 /* For tracing reduce actions, the names of all rules are required.
 */
-static const char *yyRuleName[] = {
+static const char *kkRuleName[] = {
  /*   0 */ "program ::= volt_language",
  /*   1 */ "volt_language ::= statement_list",
  /*   2 */ "statement_list ::= statement_list statement",
@@ -39884,8 +39884,8 @@ static const char *yyRuleName[] = {
 
 const char *phvolt_TokenName(int tokenType){
 #ifndef NDEBUG
-  if( tokenType>0 && tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
-    return yyTokenName[tokenType];
+  if( tokenType>0 && tokenType<(sizeof(kkTokenName)/sizeof(kkTokenName[0])) ){
+    return kkTokenName[tokenType];
   }else{
     return "Unknown";
   }
@@ -39895,21 +39895,21 @@ const char *phvolt_TokenName(int tokenType){
 }
 
 void *phvolt_Alloc(void *(*mallocProc)(size_t)){
-  yyParser *pParser;
-  pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
+  kkParser *pParser;
+  pParser = (kkParser*)(*mallocProc)( (size_t)sizeof(kkParser) );
   if( pParser ){
-    pParser->yyidx = -1;
+    pParser->kkidx = -1;
   }
   return pParser;
 }
 
 /* The following function deletes the value associated with a
 ** symbol.  The symbol can be either a terminal or nonterminal.
-** "yymajor" is the symbol code, and "yypminor" is a pointer to
+** "kkmajor" is the symbol code, and "kkpminor" is a pointer to
 ** the value.
 */
-static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
-  switch( yymajor ){
+static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
+  switch( kkmajor ){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
@@ -39968,9 +39968,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 46:
 // 295 "parser.lemon"
 {
-	if ((yypminor->yy0)) {
-		efree((yypminor->yy0)->token);
-		efree((yypminor->yy0));
+	if ((kkpminor->kk0)) {
+		efree((kkpminor->kk0)->token);
+		efree((kkpminor->kk0));
 	}
 }
 // 761 "parser.c"
@@ -39990,133 +39990,133 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 63:
     case 64:
 // 310 "parser.lemon"
-{ zval_ptr_dtor(&(yypminor->yy98)); }
+{ zval_ptr_dtor(&(kkpminor->kk98)); }
 // 779 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
 }
 
-static int yy_pop_parser_stack(yyParser *pParser){
-  YYCODETYPE yymajor;
-  yyStackEntry *yytos = &pParser->yystack[pParser->yyidx];
+static int kk_pop_parser_stack(kkParser *pParser){
+  KKCODETYPE kkmajor;
+  kkStackEntry *kktos = &pParser->kkstack[pParser->kkidx];
 
-  if( pParser->yyidx<0 ) return 0;
+  if( pParser->kkidx<0 ) return 0;
 #ifndef NDEBUG
-  if( yyTraceFILE && pParser->yyidx>=0 ){
-    fprintf(yyTraceFILE,"%sPopping %s\n",
-      yyTracePrompt,
-      yyTokenName[yytos->major]);
+  if( kkTraceFILE && pParser->kkidx>=0 ){
+    fprintf(kkTraceFILE,"%sPopping %s\n",
+      kkTracePrompt,
+      kkTokenName[kktos->major]);
   }
 #endif
-  yymajor = yytos->major;
-  yy_destructor( yymajor, &yytos->minor);
-  pParser->yyidx--;
-  return yymajor;
+  kkmajor = kktos->major;
+  kk_destructor( kkmajor, &kktos->minor);
+  pParser->kkidx--;
+  return kkmajor;
 }
 
 void phvolt_Free(
   void *p,                    /* The parser to be deleted */
   void (*freeProc)(void*)     /* Function used to reclaim memory */
 ){
-  yyParser *pParser = (yyParser*)p;
+  kkParser *pParser = (kkParser*)p;
   if( pParser==0 ) return;
-  while( pParser->yyidx>=0 ) yy_pop_parser_stack(pParser);
+  while( pParser->kkidx>=0 ) kk_pop_parser_stack(pParser);
   (*freeProc)((void*)pParser);
 }
 
-static int yy_find_shift_action(
-  yyParser *pParser,        /* The parser */
+static int kk_find_shift_action(
+  kkParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->kkstack[pParser->kkidx].stateno;
  
-  /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
-  i = yy_shift_ofst[stateno];
-  if( i==YY_SHIFT_USE_DFLT ){
-    return yy_default[stateno];
+  /* if( pParser->kkidx<0 ) return KK_NO_ACTION;  */
+  i = kk_shift_ofst[stateno];
+  if( i==KK_SHIFT_USE_DFLT ){
+    return kk_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==KKNOCODE ){
+    return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-#ifdef YYFALLBACK
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+#ifdef KKFALLBACK
     int iFallback;            /* Fallback token */
-    if( iLookAhead<sizeof(yyFallback)/sizeof(yyFallback[0])
-           && (iFallback = yyFallback[iLookAhead])!=0 ){
+    if( iLookAhead<sizeof(kkFallback)/sizeof(kkFallback[0])
+           && (iFallback = kkFallback[iLookAhead])!=0 ){
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE, "%sFALLBACK %s => %s\n",
-           yyTracePrompt, yyTokenName[iLookAhead], yyTokenName[iFallback]);
+      if( kkTraceFILE ){
+        fprintf(kkTraceFILE, "%sFALLBACK %s => %s\n",
+           kkTracePrompt, kkTokenName[iLookAhead], kkTokenName[iFallback]);
       }
 #endif
-      return yy_find_shift_action(pParser, iFallback);
+      return kk_find_shift_action(pParser, iFallback);
     }
 #endif
-    return yy_default[stateno];
+    return kk_default[stateno];
   }else{
-    return yy_action[i];
+    return kk_action[i];
   }
 }
 
-static int yy_find_reduce_action(
-  yyParser *pParser,        /* The parser */
+static int kk_find_reduce_action(
+  kkParser *pParser,        /* The parser */
   int iLookAhead            /* The look-ahead token */
 ){
   int i;
-  int stateno = pParser->yystack[pParser->yyidx].stateno;
+  int stateno = pParser->kkstack[pParser->kkidx].stateno;
  
-  i = yy_reduce_ofst[stateno];
-  if( i==YY_REDUCE_USE_DFLT ){
-    return yy_default[stateno];
+  i = kk_reduce_ofst[stateno];
+  if( i==KK_REDUCE_USE_DFLT ){
+    return kk_default[stateno];
   }
-  if( iLookAhead==YYNOCODE ){
-    return YY_NO_ACTION;
+  if( iLookAhead==KKNOCODE ){
+    return KK_NO_ACTION;
   }
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
-    return yy_default[stateno];
+  if( i<0 || i>=KK_SZ_ACTTAB || kk_lookahead[i]!=iLookAhead ){
+    return kk_default[stateno];
   }else{
-    return yy_action[i];
+    return kk_action[i];
   }
 }
 
-static void yy_shift(
-  yyParser *yypParser,          /* The parser to be shifted */
-  int yyNewState,               /* The new state to shift in */
-  int yyMajor,                  /* The major token to shift in */
-  YYMINORTYPE *yypMinor         /* Pointer ot the minor token to shift in */
+static void kk_shift(
+  kkParser *kkpParser,          /* The parser to be shifted */
+  int kkNewState,               /* The new state to shift in */
+  int kkMajor,                  /* The major token to shift in */
+  KKMINORTYPE *kkpMinor         /* Pointer ot the minor token to shift in */
 ){
-  yyStackEntry *yytos;
-  yypParser->yyidx++;
-  if( yypParser->yyidx>=YYSTACKDEPTH ){
+  kkStackEntry *kktos;
+  kkpParser->kkidx++;
+  if( kkpParser->kkidx>=KKSTACKDEPTH ){
      phvolt_ARG_FETCH;
-     yypParser->yyidx--;
+     kkpParser->kkidx--;
 #ifndef NDEBUG
-     if( yyTraceFILE ){
-       fprintf(yyTraceFILE,"%sStack Overflow!\n",yyTracePrompt);
+     if( kkTraceFILE ){
+       fprintf(kkTraceFILE,"%sStack Overflow!\n",kkTracePrompt);
      }
 #endif
-     while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+     while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
      /* Here code is inserted which will execute if the parser
      ** stack every overflows */
      phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument var */
      return;
   }
-  yytos = &yypParser->yystack[yypParser->yyidx];
-  yytos->stateno = yyNewState;
-  yytos->major = yyMajor;
-  yytos->minor = *yypMinor;
+  kktos = &kkpParser->kkstack[kkpParser->kkidx];
+  kktos->stateno = kkNewState;
+  kktos->major = kkMajor;
+  kktos->minor = *kkpMinor;
 #ifndef NDEBUG
-  if( yyTraceFILE && yypParser->yyidx>0 ){
+  if( kkTraceFILE && kkpParser->kkidx>0 ){
     int i;
-    fprintf(yyTraceFILE,"%sShift %d\n",yyTracePrompt,yyNewState);
-    fprintf(yyTraceFILE,"%sStack:",yyTracePrompt);
-    for(i=1; i<=yypParser->yyidx; i++)
-      fprintf(yyTraceFILE," %s",yyTokenName[yypParser->yystack[i].major]);
-    fprintf(yyTraceFILE,"\n");
+    fprintf(kkTraceFILE,"%sShift %d\n",kkTracePrompt,kkNewState);
+    fprintf(kkTraceFILE,"%sStack:",kkTracePrompt);
+    for(i=1; i<=kkpParser->kkidx; i++)
+      fprintf(kkTraceFILE," %s",kkTokenName[kkpParser->kkstack[i].major]);
+    fprintf(kkTraceFILE,"\n");
   }
 #endif
 }
@@ -40125,9 +40125,9 @@ static void yy_shift(
 ** is used during the reduce.
 */
 static struct {
-  YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
+  KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
-} yyRuleInfo[] = {
+} kkRuleInfo[] = {
   { 48, 1 },
   { 49, 1 },
   { 50, 2 },
@@ -40190,28 +40190,28 @@ static struct {
   { 59, 1 },
 };
 
-static void yy_accept(yyParser*);  /* Forward Declaration */
+static void kk_accept(kkParser*);  /* Forward Declaration */
 
-static void yy_reduce(
-  yyParser *yypParser,         /* The parser */
-  int yyruleno                 /* Number of the rule by which to reduce */
+static void kk_reduce(
+  kkParser *kkpParser,         /* The parser */
+  int kkruleno                 /* Number of the rule by which to reduce */
 ){
-  int yygoto;                     /* The next state */
-  int yyact;                      /* The next action */
-  YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
-  yyStackEntry *yymsp;            /* The top of the parser's stack */
-  int yysize;                     /* Amount to pop the stack */
+  int kkgoto;                     /* The next state */
+  int kkact;                      /* The next action */
+  KKMINORTYPE kkgotominor;        /* The LHS of the rule reduced */
+  kkStackEntry *kkmsp;            /* The top of the parser's stack */
+  int kksize;                     /* Amount to pop the stack */
   phvolt_ARG_FETCH;
-  yymsp = &yypParser->yystack[yypParser->yyidx];
+  kkmsp = &kkpParser->kkstack[kkpParser->kkidx];
 #ifndef NDEBUG
-  if( yyTraceFILE && yyruleno>=0 
-        && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
-    fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
-      yyRuleName[yyruleno]);
+  if( kkTraceFILE && kkruleno>=0 
+        && kkruleno<sizeof(kkRuleName)/sizeof(kkRuleName[0]) ){
+    fprintf(kkTraceFILE, "%sReduce [%s].\n", kkTracePrompt,
+      kkRuleName[kkruleno]);
   }
 #endif /* NDEBUG */
 
-  switch( yyruleno ){
+  switch( kkruleno ){
   /* Beginning here are the reduction cases.  A typical example
   ** follows:
   **   case 0:
@@ -40223,7 +40223,7 @@ static void yy_reduce(
       case 0:
 // 302 "parser.lemon"
 {
-	status->ret = yymsp[0].minor.yy98;
+	status->ret = kkmsp[0].minor.kk98;
 }
 // 1056 "parser.c"
         break;
@@ -40241,271 +40241,271 @@ static void yy_reduce(
       case 50:
 // 306 "parser.lemon"
 {
-	yygotominor.yy98 = yymsp[0].minor.yy98;
+	kkgotominor.kk98 = kkmsp[0].minor.kk98;
 }
 // 1074 "parser.c"
         break;
       case 2:
 // 312 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_zval_list(yymsp[-1].minor.yy98, yymsp[0].minor.yy98);
+	kkgotominor.kk98 = phvolt_ret_zval_list(kkmsp[-1].minor.kk98, kkmsp[0].minor.kk98);
 }
 // 1081 "parser.c"
         break;
       case 10:
 // 348 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_if_statement(yymsp[-5].minor.yy98, yymsp[-3].minor.yy98, NULL);
-  yy_destructor(23,&yymsp[-7].minor);
-  yy_destructor(24,&yymsp[-6].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(26,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_if_statement(kkmsp[-5].minor.kk98, kkmsp[-3].minor.kk98, NULL);
+  kk_destructor(23,&kkmsp[-7].minor);
+  kk_destructor(24,&kkmsp[-6].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1094 "parser.c"
         break;
       case 11:
 // 352 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_if_statement(yymsp[-9].minor.yy98, yymsp[-7].minor.yy98, yymsp[-3].minor.yy98);
-  yy_destructor(23,&yymsp[-11].minor);
-  yy_destructor(24,&yymsp[-10].minor);
-  yy_destructor(25,&yymsp[-8].minor);
-  yy_destructor(23,&yymsp[-6].minor);
-  yy_destructor(27,&yymsp[-5].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(26,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_if_statement(kkmsp[-9].minor.kk98, kkmsp[-7].minor.kk98, kkmsp[-3].minor.kk98);
+  kk_destructor(23,&kkmsp[-11].minor);
+  kk_destructor(24,&kkmsp[-10].minor);
+  kk_destructor(25,&kkmsp[-8].minor);
+  kk_destructor(23,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-5].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1110 "parser.c"
         break;
       case 12:
 // 358 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_for_statement(yymsp[-7].minor.yy98, yymsp[-5].minor.yy98, yymsp[-3].minor.yy98);
-  yy_destructor(23,&yymsp[-9].minor);
-  yy_destructor(28,&yymsp[-8].minor);
-  yy_destructor(29,&yymsp[-6].minor);
-  yy_destructor(25,&yymsp[-4].minor);
-  yy_destructor(23,&yymsp[-2].minor);
-  yy_destructor(30,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_for_statement(kkmsp[-7].minor.kk98, kkmsp[-5].minor.kk98, kkmsp[-3].minor.kk98);
+  kk_destructor(23,&kkmsp[-9].minor);
+  kk_destructor(28,&kkmsp[-8].minor);
+  kk_destructor(29,&kkmsp[-6].minor);
+  kk_destructor(25,&kkmsp[-4].minor);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(30,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1124 "parser.c"
         break;
       case 13:
 // 364 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_set_statement(yymsp[-3].minor.yy98, yymsp[-1].minor.yy98);
-  yy_destructor(23,&yymsp[-5].minor);
-  yy_destructor(31,&yymsp[-4].minor);
-  yy_destructor(32,&yymsp[-2].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_set_statement(kkmsp[-3].minor.kk98, kkmsp[-1].minor.kk98);
+  kk_destructor(23,&kkmsp[-5].minor);
+  kk_destructor(31,&kkmsp[-4].minor);
+  kk_destructor(32,&kkmsp[-2].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1135 "parser.c"
         break;
       case 14:
 // 370 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_empty_statement();
-  yy_destructor(23,&yymsp[-1].minor);
-  yy_destructor(25,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_empty_statement();
+  kk_destructor(23,&kkmsp[-1].minor);
+  kk_destructor(25,&kkmsp[0].minor);
 }
 // 1144 "parser.c"
         break;
       case 15:
 // 376 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_echo_statement(yymsp[-1].minor.yy98);
-  yy_destructor(33,&yymsp[-2].minor);
-  yy_destructor(34,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk98);
+  kk_destructor(33,&kkmsp[-2].minor);
+  kk_destructor(34,&kkmsp[0].minor);
 }
 // 1153 "parser.c"
         break;
       case 16:
 // 382 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
 }
 // 1160 "parser.c"
         break;
       case 17:
 // 388 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, yymsp[0].minor.yy98);
-  yy_destructor(19,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk98);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
 // 1168 "parser.c"
         break;
       case 18:
 // 392 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_SUB, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(19,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
 // 1176 "parser.c"
         break;
       case 19:
 // 396 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ADD, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(18,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(18,&kkmsp[-1].minor);
 }
 // 1184 "parser.c"
         break;
       case 20:
 // 400 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MUL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(16,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(16,&kkmsp[-1].minor);
 }
 // 1192 "parser.c"
         break;
       case 21:
 // 404 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_DIV, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(15,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(15,&kkmsp[-1].minor);
 }
 // 1200 "parser.c"
         break;
       case 22:
 // 408 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_MOD, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(17,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(17,&kkmsp[-1].minor);
 }
 // 1208 "parser.c"
         break;
       case 23:
 // 412 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_AND, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(12,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(12,&kkmsp[-1].minor);
 }
 // 1216 "parser.c"
         break;
       case 24:
 // 416 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_OR, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(13,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(13,&kkmsp[-1].minor);
 }
 // 1224 "parser.c"
         break;
       case 25:
 // 420 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_CONCAT, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(20,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(20,&kkmsp[-1].minor);
 }
 // 1232 "parser.c"
         break;
       case 26:
 // 424 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_PIPE, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(14,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(14,&kkmsp[-1].minor);
 }
 // 1240 "parser.c"
         break;
       case 27:
 // 428 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_RANGE, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(3,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(3,&kkmsp[-1].minor);
 }
 // 1248 "parser.c"
         break;
       case 28:
 // 432 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_EQUALS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(4,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(4,&kkmsp[-1].minor);
 }
 // 1256 "parser.c"
         break;
       case 29:
 // 436 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(5,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(5,&kkmsp[-1].minor);
 }
 // 1264 "parser.c"
         break;
       case 30:
 // 440 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(10,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(10,&kkmsp[-1].minor);
 }
 // 1272 "parser.c"
         break;
       case 31:
 // 444 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(11,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(11,&kkmsp[-1].minor);
 }
 // 1280 "parser.c"
         break;
       case 32:
 // 448 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_LESS, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(6,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(6,&kkmsp[-1].minor);
 }
 // 1288 "parser.c"
         break;
       case 33:
 // 452 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_GREATER, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(7,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(7,&kkmsp[-1].minor);
 }
 // 1296 "parser.c"
         break;
       case 34:
 // 456 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(8,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(8,&kkmsp[-1].minor);
 }
 // 1304 "parser.c"
         break;
       case 35:
 // 460 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(9,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(9,&kkmsp[-1].minor);
 }
 // 1312 "parser.c"
         break;
       case 36:
 // 464 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, yymsp[0].minor.yy98);
-  yy_destructor(21,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk98);
+  kk_destructor(21,&kkmsp[-1].minor);
 }
 // 1320 "parser.c"
         break;
       case 37:
 // 468 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, yymsp[-1].minor.yy98, NULL);
-  yy_destructor(36,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk98, NULL);
+  kk_destructor(36,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1329 "parser.c"
         break;
       case 38:
 // 472 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ARRAY, yymsp[-1].minor.yy98, NULL);
-  yy_destructor(2,&yymsp[-2].minor);
-  yy_destructor(38,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk98, NULL);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[0].minor);
 }
 // 1338 "parser.c"
         break;
@@ -40513,8 +40513,8 @@ static void yy_reduce(
       case 46:
 // 478 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_zval_list(yymsp[-2].minor.yy98, yymsp[0].minor.yy98);
-  yy_destructor(1,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_zval_list(kkmsp[-2].minor.kk98, kkmsp[0].minor.kk98);
+  kk_destructor(1,&kkmsp[-1].minor);
 }
 // 1347 "parser.c"
         break;
@@ -40522,8 +40522,8 @@ static void yy_reduce(
       case 49:
 // 486 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_named_item(yymsp[-2].minor.yy0, yymsp[0].minor.yy98);
-  yy_destructor(40,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk98);
+  kk_destructor(40,&kkmsp[-1].minor);
 }
 // 1356 "parser.c"
         break;
@@ -40531,131 +40531,131 @@ static void yy_reduce(
       case 48:
 // 490 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_named_item(NULL, yymsp[0].minor.yy98);
+	kkgotominor.kk98 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk98);
 }
 // 1364 "parser.c"
         break;
       case 44:
 // 500 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy98);
-  yy_destructor(36,&yymsp[-2].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk98);
+  kk_destructor(36,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1373 "parser.c"
         break;
       case 45:
 // 504 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_func_call(yymsp[-2].minor.yy0, NULL);
-  yy_destructor(36,&yymsp[-1].minor);
-  yy_destructor(37,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
+  kk_destructor(36,&kkmsp[-1].minor);
+  kk_destructor(37,&kkmsp[0].minor);
 }
 // 1382 "parser.c"
         break;
       case 51:
 // 532 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, yymsp[-3].minor.yy98, yymsp[-1].minor.yy98);
-  yy_destructor(2,&yymsp[-2].minor);
-  yy_destructor(38,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk98, kkmsp[-1].minor.kk98);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[0].minor);
 }
 // 1391 "parser.c"
         break;
       case 52:
 // 536 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
 }
 // 1398 "parser.c"
         break;
       case 53:
 // 540 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_STRING, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
 }
 // 1405 "parser.c"
         break;
       case 54:
 // 544 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
 }
 // 1412 "parser.c"
         break;
       case 55:
 // 548 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
-  yy_destructor(44,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
+  kk_destructor(44,&kkmsp[0].minor);
 }
 // 1420 "parser.c"
         break;
       case 56:
 // 552 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
-  yy_destructor(45,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
+  kk_destructor(45,&kkmsp[0].minor);
 }
 // 1428 "parser.c"
         break;
       case 57:
 // 556 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
-  yy_destructor(46,&yymsp[0].minor);
+	kkgotominor.kk98 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
+  kk_destructor(46,&kkmsp[0].minor);
 }
 // 1436 "parser.c"
         break;
       case 58:
 // 562 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_qualified_name(yymsp[-2].minor.yy98, yymsp[0].minor.yy0);
-  yy_destructor(22,&yymsp[-1].minor);
+	kkgotominor.kk98 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk98, kkmsp[0].minor.kk0);
+  kk_destructor(22,&kkmsp[-1].minor);
 }
 // 1444 "parser.c"
         break;
       case 59:
 // 566 "parser.lemon"
 {
-	yygotominor.yy98 = phvolt_ret_qualified_name(NULL, yymsp[0].minor.yy0);
+	kkgotominor.kk98 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
 }
 // 1451 "parser.c"
         break;
   };
-  yygoto = yyRuleInfo[yyruleno].lhs;
-  yysize = yyRuleInfo[yyruleno].nrhs;
-  yypParser->yyidx -= yysize;
-  yyact = yy_find_reduce_action(yypParser,yygoto);
-  if( yyact < YYNSTATE ){
-    yy_shift(yypParser,yyact,yygoto,&yygotominor);
-  }else if( yyact == YYNSTATE + YYNRULE + 1 ){
-    yy_accept(yypParser);
+  kkgoto = kkRuleInfo[kkruleno].lhs;
+  kksize = kkRuleInfo[kkruleno].nrhs;
+  kkpParser->kkidx -= kksize;
+  kkact = kk_find_reduce_action(kkpParser,kkgoto);
+  if( kkact < KKNSTATE ){
+    kk_shift(kkpParser,kkact,kkgoto,&kkgotominor);
+  }else if( kkact == KKNSTATE + KKNRULE + 1 ){
+    kk_accept(kkpParser);
   }
 }
 
-static void yy_parse_failed(
-  yyParser *yypParser           /* The parser */
+static void kk_parse_failed(
+  kkParser *kkpParser           /* The parser */
 ){
   phvolt_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sFail!\n",kkTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
-static void yy_syntax_error(
-  yyParser *yypParser,           /* The parser */
-  int yymajor,                   /* The major type of the error token */
-  YYMINORTYPE yyminor            /* The minor type of the error token */
+static void kk_syntax_error(
+  kkParser *kkpParser,           /* The parser */
+  int kkmajor,                   /* The major type of the error token */
+  KKMINORTYPE kkminor            /* The minor type of the error token */
 ){
   phvolt_ARG_FETCH;
-#define TOKEN (yyminor.yy0)
+#define TOKEN (kkminor.kk0)
 // 245 "parser.lemon"
 
 	if (status->scanner_state->start) {
@@ -40710,16 +40710,16 @@ static void yy_syntax_error(
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
-static void yy_accept(
-  yyParser *yypParser           /* The parser */
+static void kk_accept(
+  kkParser *kkpParser           /* The parser */
 ){
   phvolt_ARG_FETCH;
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sAccept!\n",kkTracePrompt);
   }
 #endif
-  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  while( kkpParser->kkidx>=0 ) kk_pop_parser_stack(kkpParser);
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
@@ -40745,56 +40745,56 @@ static void yy_accept(
 ** None.
 */
 void phvolt_(
-  void *yyp,                   /* The parser */
-  int yymajor,                 /* The major token code number */
-  phvolt_TOKENTYPE yyminor       /* The value for the token */
+  void *kkp,                   /* The parser */
+  int kkmajor,                 /* The major token code number */
+  phvolt_TOKENTYPE kkminor       /* The value for the token */
   phvolt_ARG_PDECL               /* Optional %extra_argument parameter */
 ){
-  YYMINORTYPE yyminorunion;
-  int yyact;            /* The parser action. */
-  int yyendofinput;     /* True if we are at the end of input */
-  int yyerrorhit = 0;   /* True if yymajor has invoked an error */
-  yyParser *yypParser;  /* The parser */
+  KKMINORTYPE kkminorunion;
+  int kkact;            /* The parser action. */
+  int kkendofinput;     /* True if we are at the end of input */
+  int kkerrorhit = 0;   /* True if kkmajor has invoked an error */
+  kkParser *kkpParser;  /* The parser */
 
   /* (re)initialize the parser, if necessary */
-  yypParser = (yyParser*)yyp;
-  if( yypParser->yyidx<0 ){
-    if( yymajor==0 ) return;
-    yypParser->yyidx = 0;
-    yypParser->yyerrcnt = -1;
-    yypParser->yystack[0].stateno = 0;
-    yypParser->yystack[0].major = 0;
+  kkpParser = (kkParser*)kkp;
+  if( kkpParser->kkidx<0 ){
+    if( kkmajor==0 ) return;
+    kkpParser->kkidx = 0;
+    kkpParser->kkerrcnt = -1;
+    kkpParser->kkstack[0].stateno = 0;
+    kkpParser->kkstack[0].major = 0;
   }
-  yyminorunion.yy0 = yyminor;
-  yyendofinput = (yymajor==0);
+  kkminorunion.kk0 = kkminor;
+  kkendofinput = (kkmajor==0);
   phvolt_ARG_STORE;
 
 #ifndef NDEBUG
-  if( yyTraceFILE ){
-    fprintf(yyTraceFILE,"%sInput %s\n",yyTracePrompt,yyTokenName[yymajor]);
+  if( kkTraceFILE ){
+    fprintf(kkTraceFILE,"%sInput %s\n",kkTracePrompt,kkTokenName[kkmajor]);
   }
 #endif
 
   do{
-    yyact = yy_find_shift_action(yypParser,yymajor);
-    if( yyact<YYNSTATE ){
-      yy_shift(yypParser,yyact,yymajor,&yyminorunion);
-      yypParser->yyerrcnt--;
-      if( yyendofinput && yypParser->yyidx>=0 ){
-        yymajor = 0;
+    kkact = kk_find_shift_action(kkpParser,kkmajor);
+    if( kkact<KKNSTATE ){
+      kk_shift(kkpParser,kkact,kkmajor,&kkminorunion);
+      kkpParser->kkerrcnt--;
+      if( kkendofinput && kkpParser->kkidx>=0 ){
+        kkmajor = 0;
       }else{
-        yymajor = YYNOCODE;
+        kkmajor = KKNOCODE;
       }
-    }else if( yyact < YYNSTATE + YYNRULE ){
-      yy_reduce(yypParser,yyact-YYNSTATE);
-    }else if( yyact == YY_ERROR_ACTION ){
-      int yymx;
+    }else if( kkact < KKNSTATE + KKNRULE ){
+      kk_reduce(kkpParser,kkact-KKNSTATE);
+    }else if( kkact == KK_ERROR_ACTION ){
+      int kkmx;
 #ifndef NDEBUG
-      if( yyTraceFILE ){
-        fprintf(yyTraceFILE,"%sSyntax Error!\n",yyTracePrompt);
+      if( kkTraceFILE ){
+        fprintf(kkTraceFILE,"%sSyntax Error!\n",kkTracePrompt);
       }
 #endif
-#ifdef YYERRORSYMBOL
+#ifdef KKERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
       ** grammar defines an error token "ERROR".  
@@ -40814,40 +40814,40 @@ void phvolt_(
       **    shifted successfully.
       **
       */
-      if( yypParser->yyerrcnt<0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( kkpParser->kkerrcnt<0 ){
+        kk_syntax_error(kkpParser,kkmajor,kkminorunion);
       }
-      yymx = yypParser->yystack[yypParser->yyidx].major;
-      if( yymx==YYERRORSYMBOL || yyerrorhit ){
+      kkmx = kkpParser->kkstack[kkpParser->kkidx].major;
+      if( kkmx==KKERRORSYMBOL || kkerrorhit ){
 #ifndef NDEBUG
-        if( yyTraceFILE ){
-          fprintf(yyTraceFILE,"%sDiscard input token %s\n",
-             yyTracePrompt,yyTokenName[yymajor]);
+        if( kkTraceFILE ){
+          fprintf(kkTraceFILE,"%sDiscard input token %s\n",
+             kkTracePrompt,kkTokenName[kkmajor]);
         }
 #endif
-        yy_destructor(yymajor,&yyminorunion);
-        yymajor = YYNOCODE;
+        kk_destructor(kkmajor,&kkminorunion);
+        kkmajor = KKNOCODE;
       }else{
          while(
-          yypParser->yyidx >= 0 &&
-          yymx != YYERRORSYMBOL &&
-          (yyact = yy_find_shift_action(yypParser,YYERRORSYMBOL)) >= YYNSTATE
+          kkpParser->kkidx >= 0 &&
+          kkmx != KKERRORSYMBOL &&
+          (kkact = kk_find_shift_action(kkpParser,KKERRORSYMBOL)) >= KKNSTATE
         ){
-          yy_pop_parser_stack(yypParser);
+          kk_pop_parser_stack(kkpParser);
         }
-        if( yypParser->yyidx < 0 || yymajor==0 ){
-          yy_destructor(yymajor,&yyminorunion);
-          yy_parse_failed(yypParser);
-          yymajor = YYNOCODE;
-        }else if( yymx!=YYERRORSYMBOL ){
-          YYMINORTYPE u2;
-          u2.YYERRSYMDT = 0;
-          yy_shift(yypParser,yyact,YYERRORSYMBOL,&u2);
+        if( kkpParser->kkidx < 0 || kkmajor==0 ){
+          kk_destructor(kkmajor,&kkminorunion);
+          kk_parse_failed(kkpParser);
+          kkmajor = KKNOCODE;
+        }else if( kkmx!=KKERRORSYMBOL ){
+          KKMINORTYPE u2;
+          u2.KKERRSYMDT = 0;
+          kk_shift(kkpParser,kkact,KKERRORSYMBOL,&u2);
         }
       }
-      yypParser->yyerrcnt = 3;
-      yyerrorhit = 1;
-#else  /* YYERRORSYMBOL is not defined */
+      kkpParser->kkerrcnt = 3;
+      kkerrorhit = 1;
+#else  /* KKERRORSYMBOL is not defined */
       /* This is what we do if the grammar does not define ERROR:
       **
       **  * Report an error message, and throw away the input token.
@@ -40857,21 +40857,21 @@ void phvolt_(
       ** As before, subsequent error messages are suppressed until
       ** three input tokens have been successfully shifted.
       */
-      if( yypParser->yyerrcnt<=0 ){
-        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      if( kkpParser->kkerrcnt<=0 ){
+        kk_syntax_error(kkpParser,kkmajor,kkminorunion);
       }
-      yypParser->yyerrcnt = 3;
-      yy_destructor(yymajor,&yyminorunion);
-      if( yyendofinput ){
-        yy_parse_failed(yypParser);
+      kkpParser->kkerrcnt = 3;
+      kk_destructor(kkmajor,&kkminorunion);
+      if( kkendofinput ){
+        kk_parse_failed(kkpParser);
       }
-      yymajor = YYNOCODE;
+      kkmajor = KKNOCODE;
 #endif
     }else{
-      yy_accept(yypParser);
-      yymajor = YYNOCODE;
+      kk_accept(kkpParser);
+      kkmajor = KKNOCODE;
     }
-  }while( yymajor!=YYNOCODE && yypParser->yyidx>=0 );
+  }while( kkmajor!=KKNOCODE && kkpParser->kkidx>=0 );
   return;
 }
 
@@ -41211,7 +41211,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Sun Oct  7 21:15:40 2012 */
+/* Generated by re2c 0.13.5 on Sun Oct  7 22:43:37 2012 */
 // 1 "scanner.re"
 
 
@@ -41220,21 +41220,21 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 
 
-#define YYCTYPE char
-#define YYCURSOR (s->start)
-#define YYLIMIT (s->end)
-#define YYMARKER q
+#define KKCTYPE char
+#define KKCURSOR (s->start)
+#define KKLIMIT (s->end)
+#define KKMARKER q
 
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
-	char *q = YYCURSOR, *start = YYCURSOR;
+	char *q = KKCURSOR, *start = KKCURSOR;
 	int status = PHVOLT_SCANNER_RETCODE_IMPOSSIBLE;
 
 	while(PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		if (s->mode == PHVOLT_MODE_RAW) {
 
-			if (*YYCURSOR == '\0' || (*YYCURSOR == '{' && (*(YYCURSOR+1) == '%' || *(YYCURSOR+1) == '{'))) {
+			if (*KKCURSOR == '\0' || (*KKCURSOR == '{' && (*(KKCURSOR+1) == '%' || *(KKCURSOR+1) == '{'))) {
 
 				s->mode = PHVOLT_MODE_CODE;
 
@@ -41245,7 +41245,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					token->value[s->raw_buffer_cursor] = 0;
 					token->len = s->raw_buffer_cursor;
 					s->raw_buffer_cursor = 0;
-					q = YYCURSOR;
+					q = KKCURSOR;
 				} else {
 					token->opcode = PHVOLT_T_IGNORE;
 				}
@@ -41259,10 +41259,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					s->raw_buffer = erealloc(s->raw_buffer, s->raw_buffer_size);
 				}
 
-				memcpy(s->raw_buffer+s->raw_buffer_cursor, YYCURSOR, 1);
+				memcpy(s->raw_buffer+s->raw_buffer_cursor, KKCURSOR, 1);
 				s->raw_buffer_cursor++;
 
-				++YYCURSOR;
+				++KKCURSOR;
 			}
 
 		} else {
@@ -41270,28 +41270,28 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		
 // 80 "scanner.c"
 		{
-			YYCTYPE yych;
-			unsigned int yyaccept = 0;
+			KKCTYPE kkch;
+			unsigned int kkaccept = 0;
 
-			yych = *YYCURSOR;
-			switch (yych) {
-			case 0x00:	goto yy57;
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case 0x00:	goto kk57;
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy55;
-			case '!':	goto yy49;
-			case '"':	goto yy18;
-			case '%':	goto yy15;
-			case '\'':	goto yy19;
-			case '(':	goto yy35;
-			case ')':	goto yy37;
-			case '*':	goto yy25;
-			case '+':	goto yy21;
-			case ',':	goto yy33;
-			case '-':	goto yy23;
-			case '.':	goto yy31;
-			case '/':	goto yy27;
+			case ' ':	goto kk55;
+			case '!':	goto kk49;
+			case '"':	goto kk18;
+			case '%':	goto kk15;
+			case '\'':	goto kk19;
+			case '(':	goto kk35;
+			case ')':	goto kk37;
+			case '*':	goto kk25;
+			case '+':	goto kk21;
+			case ',':	goto kk33;
+			case '-':	goto kk23;
+			case '.':	goto kk31;
+			case '/':	goto kk27;
 			case '0':
 			case '1':
 			case '2':
@@ -41301,13 +41301,13 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy2;
-			case ':':	goto yy53;
-			case '<':	goto yy43;
-			case '=':	goto yy45;
-			case '>':	goto yy47;
+			case '9':	goto kk2;
+			case ':':	goto kk53;
+			case '<':	goto kk43;
+			case '=':	goto kk45;
+			case '>':	goto kk47;
 			case 'A':
-			case 'a':	goto yy11;
+			case 'a':	goto kk11;
 			case 'B':
 			case 'C':
 			case 'D':
@@ -41343,435 +41343,435 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy20;
+			case 'z':	goto kk20;
 			case 'E':
-			case 'e':	goto yy6;
+			case 'e':	goto kk6;
 			case 'F':
-			case 'f':	goto yy7;
+			case 'f':	goto kk7;
 			case 'I':
-			case 'i':	goto yy4;
+			case 'i':	goto kk4;
 			case 'N':
-			case 'n':	goto yy9;
+			case 'n':	goto kk9;
 			case 'O':
-			case 'o':	goto yy12;
+			case 'o':	goto kk12;
 			case 'S':
-			case 's':	goto yy8;
+			case 's':	goto kk8;
 			case 'T':
-			case 't':	goto yy10;
-			case '[':	goto yy39;
-			case ']':	goto yy41;
-			case '{':	goto yy13;
-			case '|':	goto yy51;
-			case '}':	goto yy17;
-			case '~':	goto yy29;
-			default:	goto yy59;
+			case 't':	goto kk10;
+			case '[':	goto kk39;
+			case ']':	goto kk41;
+			case '{':	goto kk13;
+			case '|':	goto kk51;
+			case '}':	goto kk17;
+			case '~':	goto kk29;
+			default:	goto kk59;
 			}
-yy2:
-			yyaccept = 0;
-			yych = *(YYMARKER = ++YYCURSOR);
-			goto yy140;
-yy3:
+kk2:
+			kkaccept = 0;
+			kkch = *(KKMARKER = ++KKCURSOR);
+			goto kk140;
+kk3:
 // 81 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_INTEGER;
-			token->value = estrndup(start, YYCURSOR - start);
-			token->len = YYCURSOR - start;
-			q = YYCURSOR;
+			token->value = estrndup(start, KKCURSOR - start);
+			token->len = KKCURSOR - start;
+			q = KKCURSOR;
 			return 0;
 		}
 // 191 "scanner.c"
-yy4:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk4:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case 'F':
-			case 'f':	goto yy134;
+			case 'f':	goto kk134;
 			case 'N':
-			case 'n':	goto yy136;
-			default:	goto yy79;
+			case 'n':	goto kk136;
+			default:	goto kk79;
 			}
-yy5:
+kk5:
 // 190 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTIFIER;
-			token->value = estrndup(start, YYCURSOR - start);
-			token->len = YYCURSOR - start;
-			q = YYCURSOR;
+			token->value = estrndup(start, KKCURSOR - start);
+			token->len = KKCURSOR - start;
+			q = KKCURSOR;
 			return 0;
 		}
 // 210 "scanner.c"
-yy6:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk6:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'L':
-			case 'l':	goto yy121;
+			case 'l':	goto kk121;
 			case 'N':
-			case 'n':	goto yy122;
-			default:	goto yy79;
+			case 'n':	goto kk122;
+			default:	goto kk79;
 			}
-yy7:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk7:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'A':
-			case 'a':	goto yy113;
+			case 'a':	goto kk113;
 			case 'O':
-			case 'o':	goto yy114;
-			default:	goto yy79;
+			case 'o':	goto kk114;
+			default:	goto kk79;
 			}
-yy8:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk8:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'e':	goto yy110;
-			default:	goto yy79;
+			case 'e':	goto kk110;
+			default:	goto kk79;
 			}
-yy9:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk9:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'U':
-			case 'u':	goto yy106;
-			default:	goto yy79;
+			case 'u':	goto kk106;
+			default:	goto kk79;
 			}
-yy10:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk10:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'R':
-			case 'r':	goto yy102;
-			default:	goto yy79;
+			case 'r':	goto kk102;
+			default:	goto kk79;
 			}
-yy11:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk11:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'N':
-			case 'n':	goto yy99;
-			default:	goto yy79;
+			case 'n':	goto kk99;
+			default:	goto kk79;
 			}
-yy12:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk12:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'R':
-			case 'r':	goto yy97;
-			default:	goto yy79;
+			case 'r':	goto kk97;
+			default:	goto kk79;
 			}
-yy13:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '%':	goto yy95;
-			case '{':	goto yy93;
-			default:	goto yy14;
+kk13:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '%':	goto kk95;
+			case '{':	goto kk93;
+			default:	goto kk14;
 			}
-yy14:
+kk14:
 // 338 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}
 // 277 "scanner.c"
-yy15:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '}':	goto yy91;
-			default:	goto yy16;
+kk15:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '}':	goto kk91;
+			default:	goto kk16;
 			}
-yy16:
+kk16:
 // 218 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MOD;
 			return 0;
 		}
 // 290 "scanner.c"
-yy17:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case '}':	goto yy89;
-			default:	goto yy14;
+kk17:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case '}':	goto kk89;
+			default:	goto kk14;
 			}
-yy18:
-			yyaccept = 1;
-			yych = *(YYMARKER = ++YYCURSOR);
-			if (yych <= 0x00) goto yy14;
-			goto yy87;
-yy19:
-			yyaccept = 1;
-			yych = *(YYMARKER = ++YYCURSOR);
-			if (yych <= 0x00) goto yy14;
-			goto yy81;
-yy20:
-			yych = *++YYCURSOR;
-			goto yy79;
-yy21:
-			++YYCURSOR;
+kk18:
+			kkaccept = 1;
+			kkch = *(KKMARKER = ++KKCURSOR);
+			if (kkch <= 0x00) goto kk14;
+			goto kk87;
+kk19:
+			kkaccept = 1;
+			kkch = *(KKMARKER = ++KKCURSOR);
+			if (kkch <= 0x00) goto kk14;
+			goto kk81;
+kk20:
+			kkch = *++KKCURSOR;
+			goto kk79;
+kk21:
+			++KKCURSOR;
 // 198 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ADD;
 			return 0;
 		}
 // 317 "scanner.c"
-yy23:
-			++YYCURSOR;
+kk23:
+			++KKCURSOR;
 // 203 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SUB;
 			return 0;
 		}
 // 325 "scanner.c"
-yy25:
-			++YYCURSOR;
+kk25:
+			++KKCURSOR;
 // 208 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MUL;
 			return 0;
 		}
 // 333 "scanner.c"
-yy27:
-			++YYCURSOR;
+kk27:
+			++KKCURSOR;
 // 213 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DIV;
 			return 0;
 		}
 // 341 "scanner.c"
-yy29:
-			++YYCURSOR;
+kk29:
+			++KKCURSOR;
 // 223 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_CONCAT;
 			return 0;
 		}
 // 349 "scanner.c"
-yy31:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '.':	goto yy76;
-			default:	goto yy32;
+kk31:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '.':	goto kk76;
+			default:	goto kk32;
 			}
-yy32:
+kk32:
 // 233 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOT;
 			return 0;
 		}
 // 362 "scanner.c"
-yy33:
-			++YYCURSOR;
+kk33:
+			++KKCURSOR;
 // 238 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COMMA;
 			return 0;
 		}
 // 370 "scanner.c"
-yy35:
-			++YYCURSOR;
+kk35:
+			++KKCURSOR;
 // 243 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_OPEN;
 			return 0;
 		}
 // 378 "scanner.c"
-yy37:
-			++YYCURSOR;
+kk37:
+			++KKCURSOR;
 // 248 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_CLOSE;
 			return 0;
 		}
 // 386 "scanner.c"
-yy39:
-			++YYCURSOR;
+kk39:
+			++KKCURSOR;
 // 253 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_OPEN;
 			return 0;
 		}
 // 394 "scanner.c"
-yy41:
-			++YYCURSOR;
+kk41:
+			++KKCURSOR;
 // 258 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_CLOSE;
 			return 0;
 		}
 // 402 "scanner.c"
-yy43:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy74;
-			case '>':	goto yy72;
-			default:	goto yy44;
+kk43:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk74;
+			case '>':	goto kk72;
+			default:	goto kk44;
 			}
-yy44:
+kk44:
 // 308 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESS;
 			return 0;
 		}
 // 416 "scanner.c"
-yy45:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy68;
-			default:	goto yy46;
+kk45:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk68;
+			default:	goto kk46;
 			}
-yy46:
+kk46:
 // 268 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ASSIGN;
 			return 0;
 		}
 // 429 "scanner.c"
-yy47:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy66;
-			default:	goto yy48;
+kk47:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk66;
+			default:	goto kk48;
 			}
-yy48:
+kk48:
 // 313 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATER;
 			return 0;
 		}
 // 442 "scanner.c"
-yy49:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy62;
-			default:	goto yy50;
+kk49:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk62;
+			default:	goto kk50;
 			}
-yy50:
+kk50:
 // 303 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
 // 455 "scanner.c"
-yy51:
-			++YYCURSOR;
+kk51:
+			++KKCURSOR;
 // 318 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_PIPE;
 			return 0;
 		}
 // 463 "scanner.c"
-yy53:
-			++YYCURSOR;
+kk53:
+			++KKCURSOR;
 // 323 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLECOLON;
 			return 0;
 		}
 // 471 "scanner.c"
-yy55:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-			goto yy61;
-yy56:
+kk55:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+			goto kk61;
+kk56:
 // 328 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
 // 482 "scanner.c"
-yy57:
-			++YYCURSOR;
+kk57:
+			++KKCURSOR;
 // 333 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_EOF;
 			break;
 		}
 // 490 "scanner.c"
-yy59:
-			yych = *++YYCURSOR;
-			goto yy14;
-yy60:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy61:
-			switch (yych) {
+kk59:
+			kkch = *++KKCURSOR;
+			goto kk14;
+kk60:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+kk61:
+			switch (kkch) {
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy60;
-			default:	goto yy56;
+			case ' ':	goto kk60;
+			default:	goto kk56;
 			}
-yy62:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy64;
-			default:	goto yy63;
+kk62:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk64;
+			default:	goto kk63;
 			}
-yy63:
+kk63:
 // 283 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
 // 517 "scanner.c"
-yy64:
-			++YYCURSOR;
+kk64:
+			++KKCURSOR;
 // 298 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTIDENTICAL;
 			return 0;
 		}
 // 525 "scanner.c"
-yy66:
-			++YYCURSOR;
+kk66:
+			++KKCURSOR;
 // 273 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATEREQUAL;
 			return 0;
 		}
 // 533 "scanner.c"
-yy68:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy70;
-			default:	goto yy69;
+kk68:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk70;
+			default:	goto kk69;
 			}
-yy69:
+kk69:
 // 278 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_EQUALS;
 			return 0;
 		}
 // 546 "scanner.c"
-yy70:
-			++YYCURSOR;
+kk70:
+			++KKCURSOR;
 // 293 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTICAL;
 			return 0;
 		}
 // 554 "scanner.c"
-yy72:
-			++YYCURSOR;
+kk72:
+			++KKCURSOR;
 // 288 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
 // 562 "scanner.c"
-yy74:
-			++YYCURSOR;
+kk74:
+			++KKCURSOR;
 // 263 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESSEQUAL;
 			return 0;
 		}
 // 570 "scanner.c"
-yy76:
-			++YYCURSOR;
+kk76:
+			++KKCURSOR;
 // 228 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_RANGE;
 			return 0;
 		}
 // 578 "scanner.c"
-yy78:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy79:
-			switch (yych) {
+kk78:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+kk79:
+			switch (kkch) {
 			case '0':
 			case '1':
 			case '2':
@@ -41835,62 +41835,62 @@ yy79:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy5;
+			case 'z':	goto kk78;
+			default:	goto kk5;
 			}
-yy80:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy81:
-			switch (yych) {
-			case 0x00:	goto yy82;
-			case '\'':	goto yy84;
-			case '\\':	goto yy83;
-			default:	goto yy80;
+kk80:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+kk81:
+			switch (kkch) {
+			case 0x00:	goto kk82;
+			case '\'':	goto kk84;
+			case '\\':	goto kk83;
+			default:	goto kk80;
 			}
-yy82:
-			YYCURSOR = YYMARKER;
-			switch (yyaccept) {
-			case 0: 	goto yy3;
-			case 1: 	goto yy14;
+kk82:
+			KKCURSOR = KKMARKER;
+			switch (kkaccept) {
+			case 0: 	goto kk3;
+			case 1: 	goto kk14;
 			}
-yy83:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-			switch (yych) {
-			case '\n':	goto yy82;
-			default:	goto yy80;
+kk83:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case '\n':	goto kk82;
+			default:	goto kk80;
 			}
-yy84:
-			++YYCURSOR;
+kk84:
+			++KKCURSOR;
 // 181 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_STRING;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
-			q = YYCURSOR;
+			token->value = estrndup(q, KKCURSOR - q - 1);
+			token->len = KKCURSOR - q - 1;
+			q = KKCURSOR;
 			return 0;
 		}
 // 683 "scanner.c"
-yy86:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-yy87:
-			switch (yych) {
-			case 0x00:	goto yy82;
-			case '"':	goto yy84;
-			case '\\':	goto yy88;
-			default:	goto yy86;
+kk86:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+kk87:
+			switch (kkch) {
+			case 0x00:	goto kk82;
+			case '"':	goto kk84;
+			case '\\':	goto kk88;
+			default:	goto kk86;
 			}
-yy88:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-			switch (yych) {
-			case '\n':	goto yy82;
-			default:	goto yy86;
+kk88:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case '\n':	goto kk82;
+			default:	goto kk86;
 			}
-yy89:
-			++YYCURSOR;
+kk89:
+			++KKCURSOR;
 // 174 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
@@ -41898,8 +41898,8 @@ yy89:
 			return 0;
 		}
 // 709 "scanner.c"
-yy91:
-			++YYCURSOR;
+kk91:
+			++KKCURSOR;
 // 163 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
@@ -41907,25 +41907,25 @@ yy91:
 			return 0;
 		}
 // 718 "scanner.c"
-yy93:
-			++YYCURSOR;
+kk93:
+			++KKCURSOR;
 // 169 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
 // 726 "scanner.c"
-yy95:
-			++YYCURSOR;
+kk95:
+			++KKCURSOR;
 // 158 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
 // 734 "scanner.c"
-yy97:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk97:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -41989,26 +41989,26 @@ yy97:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy98;
+			case 'z':	goto kk78;
+			default:	goto kk98;
 			}
-yy98:
+kk98:
 // 153 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OR;
 			return 0;
 		}
 // 810 "scanner.c"
-yy99:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk99:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'D':
-			case 'd':	goto yy100;
-			default:	goto yy79;
+			case 'd':	goto kk100;
+			default:	goto kk79;
 			}
-yy100:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk100:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42072,33 +42072,33 @@ yy100:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy101;
+			case 'z':	goto kk78;
+			default:	goto kk101;
 			}
-yy101:
+kk101:
 // 148 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_AND;
 			return 0;
 		}
 // 893 "scanner.c"
-yy102:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk102:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'U':
-			case 'u':	goto yy103;
-			default:	goto yy79;
+			case 'u':	goto kk103;
+			default:	goto kk79;
 			}
-yy103:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk103:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'e':	goto yy104;
-			default:	goto yy79;
+			case 'e':	goto kk104;
+			default:	goto kk79;
 			}
-yy104:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk104:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42162,33 +42162,33 @@ yy104:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy105;
+			case 'z':	goto kk78;
+			default:	goto kk105;
 			}
-yy105:
+kk105:
 // 143 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
 // 983 "scanner.c"
-yy106:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk106:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'L':
-			case 'l':	goto yy107;
-			default:	goto yy79;
+			case 'l':	goto kk107;
+			default:	goto kk79;
 			}
-yy107:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk107:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'L':
-			case 'l':	goto yy108;
-			default:	goto yy79;
+			case 'l':	goto kk108;
+			default:	goto kk79;
 			}
-yy108:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk108:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42252,26 +42252,26 @@ yy108:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy109;
+			case 'z':	goto kk78;
+			default:	goto kk109;
 			}
-yy109:
+kk109:
 // 133 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
 // 1073 "scanner.c"
-yy110:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk110:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'T':
-			case 't':	goto yy111;
-			default:	goto yy79;
+			case 't':	goto kk111;
+			default:	goto kk79;
 			}
-yy111:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk111:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42335,33 +42335,33 @@ yy111:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy112;
+			case 'z':	goto kk78;
+			default:	goto kk112;
 			}
-yy112:
+kk112:
 // 128 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
 // 1156 "scanner.c"
-yy113:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk113:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'L':
-			case 'l':	goto yy117;
-			default:	goto yy79;
+			case 'l':	goto kk117;
+			default:	goto kk79;
 			}
-yy114:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk114:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'R':
-			case 'r':	goto yy115;
-			default:	goto yy79;
+			case 'r':	goto kk115;
+			default:	goto kk79;
 			}
-yy115:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk115:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42425,33 +42425,33 @@ yy115:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy116;
+			case 'z':	goto kk78;
+			default:	goto kk116;
 			}
-yy116:
+kk116:
 // 113 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
 // 1246 "scanner.c"
-yy117:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk117:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'S':
-			case 's':	goto yy118;
-			default:	goto yy79;
+			case 's':	goto kk118;
+			default:	goto kk79;
 			}
-yy118:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk118:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'e':	goto yy119;
-			default:	goto yy79;
+			case 'e':	goto kk119;
+			default:	goto kk79;
 			}
-yy119:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk119:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42515,56 +42515,56 @@ yy119:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy120;
+			case 'z':	goto kk78;
+			default:	goto kk120;
 			}
-yy120:
+kk120:
 // 138 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FALSE;
 			return 0;
 		}
 // 1336 "scanner.c"
-yy121:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk121:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'S':
-			case 's':	goto yy131;
-			default:	goto yy79;
+			case 's':	goto kk131;
+			default:	goto kk79;
 			}
-yy122:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk122:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'D':
-			case 'd':	goto yy123;
-			default:	goto yy79;
+			case 'd':	goto kk123;
+			default:	goto kk79;
 			}
-yy123:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk123:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'F':
-			case 'f':	goto yy124;
+			case 'f':	goto kk124;
 			case 'I':
-			case 'i':	goto yy125;
-			default:	goto yy79;
+			case 'i':	goto kk125;
+			default:	goto kk79;
 			}
-yy124:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk124:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'O':
-			case 'o':	goto yy128;
-			default:	goto yy79;
+			case 'o':	goto kk128;
+			default:	goto kk79;
 			}
-yy125:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk125:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'F':
-			case 'f':	goto yy126;
-			default:	goto yy79;
+			case 'f':	goto kk126;
+			default:	goto kk79;
 			}
-yy126:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk126:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42628,26 +42628,26 @@ yy126:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy127;
+			case 'z':	goto kk78;
+			default:	goto kk127;
 			}
-yy127:
+kk127:
 // 108 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
 		}
 // 1449 "scanner.c"
-yy128:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk128:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'R':
-			case 'r':	goto yy129;
-			default:	goto yy79;
+			case 'r':	goto kk129;
+			default:	goto kk79;
 			}
-yy129:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk129:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42711,26 +42711,26 @@ yy129:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy130;
+			case 'z':	goto kk78;
+			default:	goto kk130;
 			}
-yy130:
+kk130:
 // 118 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDFOR;
 			return 0;
 		}
 // 1532 "scanner.c"
-yy131:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk131:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'E':
-			case 'e':	goto yy132;
-			default:	goto yy79;
+			case 'e':	goto kk132;
+			default:	goto kk79;
 			}
-yy132:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk132:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42794,19 +42794,19 @@ yy132:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy133;
+			case 'z':	goto kk78;
+			default:	goto kk133;
 			}
-yy133:
+kk133:
 // 103 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ELSE;
 			return 0;
 		}
 // 1615 "scanner.c"
-yy134:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk134:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42870,19 +42870,19 @@ yy134:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy135;
+			case 'z':	goto kk78;
+			default:	goto kk135;
 			}
-yy135:
+kk135:
 // 98 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IF;
 			return 0;
 		}
 // 1691 "scanner.c"
-yy136:
-			++YYCURSOR;
-			switch ((yych = *YYCURSOR)) {
+kk136:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
 			case '0':
 			case '1':
 			case '2':
@@ -42946,19 +42946,19 @@ yy136:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy78;
-			default:	goto yy137;
+			case 'z':	goto kk78;
+			default:	goto kk137;
 			}
-yy137:
+kk137:
 // 123 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IN;
 			return 0;
 		}
 // 1767 "scanner.c"
-yy138:
-			yych = *++YYCURSOR;
-			switch (yych) {
+kk138:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case '0':
 			case '1':
 			case '2':
@@ -42968,16 +42968,16 @@ yy138:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy141;
-			default:	goto yy82;
+			case '9':	goto kk141;
+			default:	goto kk82;
 			}
-yy139:
-			yyaccept = 0;
-			YYMARKER = ++YYCURSOR;
-			yych = *YYCURSOR;
-yy140:
-			switch (yych) {
-			case '.':	goto yy138;
+kk139:
+			kkaccept = 0;
+			KKMARKER = ++KKCURSOR;
+			kkch = *KKCURSOR;
+kk140:
+			switch (kkch) {
+			case '.':	goto kk138;
 			case '0':
 			case '1':
 			case '2':
@@ -42987,13 +42987,13 @@ yy140:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy139;
-			default:	goto yy3;
+			case '9':	goto kk139;
+			default:	goto kk3;
 			}
-yy141:
-			++YYCURSOR;
-			yych = *YYCURSOR;
-			switch (yych) {
+kk141:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+			switch (kkch) {
 			case '0':
 			case '1':
 			case '2':
@@ -43003,16 +43003,16 @@ yy141:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy141;
-			default:	goto yy143;
+			case '9':	goto kk141;
+			default:	goto kk143;
 			}
-yy143:
+kk143:
 // 90 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLE;
-			token->value = estrndup(start, YYCURSOR - start);
-			token->len = YYCURSOR - start;
-			q = YYCURSOR;
+			token->value = estrndup(start, KKCURSOR - start);
+			token->len = KKCURSOR - start;
+			q = KKCURSOR;
 			return 0;
 		}
 // 1827 "scanner.c"
