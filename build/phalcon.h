@@ -32,6 +32,8 @@ zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_view_engine_ce;
 zend_class_entry *phalcon_mvc_view_exception_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 zend_class_entry *phalcon_mvc_url_ce;
 zend_class_entry *phalcon_mvc_controller_ce;
 zend_class_entry *phalcon_mvc_application_exception_ce;
@@ -293,6 +295,15 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
 
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
 
 PHP_METHOD(Phalcon_Mvc_Url, setDI);
 PHP_METHOD(Phalcon_Mvc_Url, getDI);
@@ -958,6 +969,7 @@ PHP_METHOD(Phalcon_Tag, getTitle);
 PHP_METHOD(Phalcon_Tag, stylesheetLink);
 PHP_METHOD(Phalcon_Tag, javascriptInclude);
 PHP_METHOD(Phalcon_Tag, image);
+PHP_METHOD(Phalcon_Tag, friendlyTitle);
 
 
 PHP_METHOD(Phalcon_Http_Request_File, __construct);
@@ -1486,6 +1498,25 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php_render, 0, 0, 3)
 	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, mustClean)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_render, 0, 0, 3)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_INFO(0, mustClean)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__expression, 0, 0, 1)
+	ZEND_ARG_INFO(0, expr)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0, 0, 2)
+	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, compiledPath)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_parse, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewCode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_url_setdi, 0, 0, 1)
@@ -2927,6 +2958,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_image, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_tag_friendlytitle, 0, 0, 1)
+	ZEND_ARG_INFO(0, text)
+	ZEND_ARG_INFO(0, separator)
+	ZEND_ARG_INFO(0, lowercase)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_file___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, file)
 ZEND_END_ARG_INFO()
@@ -3413,6 +3450,21 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_php_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Php, render, arginfo_phalcon_mvc_view_engine_php_render, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engine_volt_render, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry){
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression, arginfo_phalcon_mvc_view_engine_volt_compiler__expression, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compile, arginfo_phalcon_mvc_view_engine_volt_compiler_compile, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, parse, arginfo_phalcon_mvc_view_engine_volt_compiler_parse, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4259,6 +4311,7 @@ PHALCON_INIT_FUNCS(phalcon_tag_method_entry){
 	PHP_ME(Phalcon_Tag, stylesheetLink, arginfo_phalcon_tag_stylesheetlink, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, javascriptInclude, arginfo_phalcon_tag_javascriptinclude, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Tag, image, arginfo_phalcon_tag_image, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Tag, friendlyTitle, arginfo_phalcon_tag_friendlytitle, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

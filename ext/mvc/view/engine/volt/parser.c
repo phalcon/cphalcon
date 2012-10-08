@@ -1813,6 +1813,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	void* phvolt_parser;
 
 	if (!view_code) {
+		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}

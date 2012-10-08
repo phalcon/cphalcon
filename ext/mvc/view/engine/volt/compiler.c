@@ -43,8 +43,9 @@
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 
-	zval *expr, *func_arguments, *arguments, *name;
+	zval *expr, *func_arguments, *arguments = NULL, *name;
 	zval *code = NULL, *camelized, *method, *class_name, *exception_message;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -53,11 +54,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(func_arguments);
-	phalcon_array_fetch_string(&func_arguments, expr, SL("arguments"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(arguments);
-	PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "_expression", func_arguments, PH_NO_CHECK);
+	eval_int = phalcon_array_isset_string(expr, SS("arguments"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(func_arguments);
+		phalcon_array_fetch_string(&func_arguments, expr, SL("arguments"), PH_NOISY_CC);
+		
+		PHALCON_INIT_VAR(arguments);
+		PHALCON_CALL_METHOD_PARAMS_1(arguments, this_ptr, "_expression", func_arguments, PH_NO_CHECK);
+	} else {
+		PHALCON_INIT_NVAR(arguments);
+		ZVAL_STRING(arguments, "", 1);
+	}
 	
 	PHALCON_INIT_VAR(name);
 	phalcon_array_fetch_string(&name, expr, SL("name"), PH_NOISY_CC);

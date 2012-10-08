@@ -70,6 +70,7 @@ class Build_Generator {
 
 #include "main/php_main.h"
 #include "ext/standard/php_string.h"
+#include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
 
 #include "Zend/zend_API.h"

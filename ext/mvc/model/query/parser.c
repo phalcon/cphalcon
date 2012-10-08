@@ -2731,6 +2731,7 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 	void* phql_parser;
 
 	if (!phql) {
+		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
 		return FAILURE;
 	}
