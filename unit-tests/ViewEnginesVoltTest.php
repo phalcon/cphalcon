@@ -251,7 +251,193 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
-		$volt->compile('unit-tests/views/layouts/test10.volt', 'unit-tests/views/layouts/test10.volt.php');
+		$compilation = $volt->compileString('');
+		$this->assertEquals($compilation, '');
+
+		//Comments
+		$compilation = $volt->compileString('{# hello #}');
+		$this->assertEquals($compilation, '');
+
+		$compilation = $volt->compileString('{# hello #}{# other comment #}');
+		$this->assertEquals($compilation, '');
+
+		//Common Expressions
+		$compilation = $volt->compileString('hello');
+		$this->assertEquals($compilation, 'hello');
+
+		$compilation = $volt->compileString('{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
+
+		$compilation = $volt->compileString('{{ "hello" }}{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo 'hello'; ?><?php echo 'hello'; ?>");
+
+		$compilation = $volt->compileString('{{ "hello" }}-{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo 'hello'; ?>-<?php echo 'hello'; ?>");
+
+		$compilation = $volt->compileString('-{{ "hello" }}{{ "hello" }}-');
+		$this->assertEquals($compilation, "-<?php echo 'hello'; ?><?php echo 'hello'; ?>-");
+
+		$compilation = $volt->compileString('-{{ "hello" }}-{{ "hello" }}-');
+		$this->assertEquals($compilation, "-<?php echo 'hello'; ?>-<?php echo 'hello'; ?>-");
+
+		$compilation = $volt->compileString('Some = {{ 100+50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 + 50; ?>");
+
+		$compilation = $volt->compileString('Some = {{ 100-50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 - 50; ?>");
+
+		$compilation = $volt->compileString('Some = {{ 100*50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 * 50; ?>");
+
+		$compilation = $volt->compileString('Some = {{ 100/50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 / 50; ?>");
+
+		$compilation = $volt->compileString('Some = {{ 100%50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 % 50; ?>");
+
+		$compilation = $volt->compileString('Some = {{ 100~50 }}');
+		$this->assertEquals($compilation, "Some = <?php echo 100 . 50; ?>");
+
+		//Array acccess
+		$compilation = $volt->compileString('{{ a[0 ]}}');
+		$this->assertEquals($compilation, '<?php echo $a[0]; ?>');
+
+		$compilation = $volt->compileString('{{ a[0 ] [ 1]}}');
+		$this->assertEquals($compilation, '<?php echo $a[0][1]; ?>');
+
+		$compilation = $volt->compileString('{{ a[0]  [ "hello"] }}');
+		$this->assertEquals($compilation, '<?php echo $a[0][\'hello\']; ?>');
+
+		$compilation = $volt->compileString('{{ a[0] [1.2] [false] [true] }}');
+		$this->assertEquals($compilation, '<?php echo $a[0][1.2][false][true]; ?>');
+
+		//Attribute access
+		$compilation = $volt->compileString('{{ a.b }}');
+		$this->assertEquals($compilation, '<?php echo $a->b; ?>');
+
+		$compilation = $volt->compileString('{{ a.b.c }}');
+		$this->assertEquals($compilation, '<?php echo $a->b->c; ?>');
+
+		//Ranges
+		$compilation = $volt->compileString('{{ 1..100 }}');
+		$this->assertEquals($compilation, '<?php echo range(1, 100); ?>');
+
+		$compilation = $volt->compileString('{{ "Z".."A" }}');
+		$this->assertEquals($compilation, '<?php echo range(\'Z\', \'A\'); ?>');
+
+		$compilation = $volt->compileString("{{ 'a'..'z' }}");
+		$this->assertEquals($compilation, '<?php echo range(\'a\', \'z\'); ?>');
+
+		$compilation = $volt->compileString("{{ 'a' .. 'z' }}");
+		$this->assertEquals($compilation, '<?php echo range(\'a\', \'z\'); ?>');
+
+		//Calling functions
+		$compilation = $volt->compileString("{{ content() }}");
+		$this->assertEquals($compilation, '<?php echo $this->getContent(); ?>');
+
+		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
+		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::linkTo(array(\'hello\', \'some-link\')); ?>');
+
+		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
+		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
+
+		//if statement
+		/*$intermediate = $volt->compileString('{% if a==b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a!=b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a<b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a>b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a<=b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a>=b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a===b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a!==b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a==b and c==d %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a==b or c==d %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% if a==b %} hello {% else %} not hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		//for statement
+		$intermediate = $volt->compileString('{% for a in b %} hello {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% for a in b[0] %} hello {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% for a in b.c %} hello {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% for a in 1..10 %} hello {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		$intermediate = $volt->compileString('{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 4);
+
+		//set statement
+		$intermediate = $volt->compileString('{% set a = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% set a.x = 1 %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% set a.x = 1.2 %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->compileString('{% set a.x = 1.2+1*(20/b) and c %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		//Mixed
+		$intermediate = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$volt->compile('unit-tests/views/layouts/test10.volt', 'unit-tests/views/layouts/test10.volt.php');*/
 
 	}
 

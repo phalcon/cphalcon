@@ -113,6 +113,7 @@ zend_class_entry *phalcon_filter_exception_ce;
 zend_class_entry *phalcon_flash_direct_ce;
 zend_class_entry *phalcon_flash_exception_ce;
 zend_class_entry *phalcon_flash_session_ce;
+zend_class_entry *phalcon_escaper_exception_ce;
 zend_class_entry *phalcon_dispatcher_ce;
 zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_db_profiler_ce;
@@ -153,6 +154,7 @@ zend_class_entry *phalcon_events_manager_ce;
 zend_class_entry *phalcon_acl_ce;
 zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_adapter_nativearray_ce;
+zend_class_entry *phalcon_escaper_ce;
 zend_class_entry *phalcon_cli_task_ce;
 zend_class_entry *phalcon_cli_router_exception_ce;
 zend_class_entry *phalcon_cli_router_ce;
@@ -549,6 +551,10 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);
 
+	PHALCON_REGISTER_CLASS(Phalcon, Escaper, escaper, phalcon_escaper_method_entry, 0);
+	zend_declare_property_string(phalcon_escaper_ce, SL("_encoding"), "utf8", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_escapeMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Router, cli_router, phalcon_cli_router_method_entry, 0);
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -736,6 +742,8 @@ PHP_MINIT_FUNCTION(phalcon){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Session, flash_session, "phalcon\\flash", phalcon_flash_session_method_entry, 0);
 	zend_declare_property_null(phalcon_flash_session_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, escaper_exception, "phalcon\\exception", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Exception, db_exception, "phalcon\\exception", NULL, 0);
 

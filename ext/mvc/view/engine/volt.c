@@ -138,3 +138,31 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Length filter
+ *
+ * @param mixed $item
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
+
+	zval *item, *length = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &item) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(item) == IS_STRING) {
+		PHALCON_INIT_VAR(length);
+		PHALCON_CALL_FUNC_PARAMS_1(length, "strlen", item);
+	} else {
+		PHALCON_INIT_NVAR(length);
+		phalcon_fast_count(length, item TSRMLS_CC);
+	}
+	
+	RETURN_CCTOR(length);
+}
+

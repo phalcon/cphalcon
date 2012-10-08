@@ -65,11 +65,13 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	add_assoc_stringl_ex(services, SS("response"), SL("Phalcon\\Http\\Response"), 1);
 	add_assoc_stringl_ex(services, SS("request"), SL("Phalcon\\Http\\Request"), 1);
 	add_assoc_stringl_ex(services, SS("filter"), SL("Phalcon\\Filter"), 1);
+	add_assoc_stringl_ex(services, SS("escaper"), SL("Phalcon\\Escaper"), 1);
 	add_assoc_stringl_ex(services, SS("flash"), SL("Phalcon\\Flash\\Direct"), 1);
 	add_assoc_stringl_ex(services, SS("flashSession"), SL("Phalcon\\Flash\\Session"), 1);
 	add_assoc_stringl_ex(services, SS("session"), SL("Phalcon\\Session\\Adapter\\Files"), 1);
 	add_assoc_stringl_ex(services, SS("sessionBag"), SL("Phalcon\\Session\\Bag"), 1);
 	add_assoc_stringl_ex(services, SS("eventsManager"), SL("Phalcon\\Events\\Manager"), 1);
+	add_assoc_stringl_ex(services, SS("transactionManager"), SL("Phalcon\\Mvc\\Model\\Transaction\\Manager"), 1);
 	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

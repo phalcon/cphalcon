@@ -6,6 +6,9 @@
  - Array joins are now faster because a zval needle isn't needed anymore
  - Added Phalcon\Tag::friendlyTitle to create friendly titles
  - Added a new C-based template engine highly coupled with Phalcon called Volt
+ - Registered Phalcon\Mvc\Model\Transaction\Manager in Phalcon\DI\FactoryDefault as 'transactionManager'
+ - Added Phalcon\Escaper to add contextual escaping of different kinds of texts
+ - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
 
 0.5.2
 - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail

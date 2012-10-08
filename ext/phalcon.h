@@ -98,6 +98,7 @@ extern zend_class_entry *phalcon_filter_exception_ce;
 extern zend_class_entry *phalcon_flash_direct_ce;
 extern zend_class_entry *phalcon_flash_exception_ce;
 extern zend_class_entry *phalcon_flash_session_ce;
+extern zend_class_entry *phalcon_escaper_exception_ce;
 extern zend_class_entry *phalcon_dispatcher_ce;
 extern zend_class_entry *phalcon_translate_ce;
 extern zend_class_entry *phalcon_db_profiler_ce;
@@ -138,6 +139,7 @@ extern zend_class_entry *phalcon_events_manager_ce;
 extern zend_class_entry *phalcon_acl_ce;
 extern zend_class_entry *phalcon_translate_exception_ce;
 extern zend_class_entry *phalcon_translate_adapter_nativearray_ce;
+extern zend_class_entry *phalcon_escaper_ce;
 extern zend_class_entry *phalcon_cli_task_ce;
 extern zend_class_entry *phalcon_cli_router_exception_ce;
 extern zend_class_entry *phalcon_cli_router_ce;
@@ -297,11 +299,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
 
@@ -751,6 +755,7 @@ PHP_METHOD(Phalcon_Flash_Session, message);
 PHP_METHOD(Phalcon_Flash_Session, getMessages);
 PHP_METHOD(Phalcon_Flash_Session, output);
 
+
 PHP_METHOD(Phalcon_Dispatcher, __construct);
 PHP_METHOD(Phalcon_Dispatcher, setDI);
 PHP_METHOD(Phalcon_Dispatcher, getDI);
@@ -1108,6 +1113,12 @@ PHP_METHOD(Phalcon_Acl, getEventsManager);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
+
+PHP_METHOD(Phalcon_Escaper, __construct);
+PHP_METHOD(Phalcon_Escaper, setEnconding);
+PHP_METHOD(Phalcon_Escaper, getEncoding);
+PHP_METHOD(Phalcon_Escaper, escapeHtml);
+PHP_METHOD(Phalcon_Escaper, escapeUrl);
 
 PHP_METHOD(Phalcon_CLI_Task, __construct);
 
@@ -1506,8 +1517,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_render, 0, 0, 3)
 	ZEND_ARG_INFO(0, mustClean)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_length, 0, 0, 1)
+	ZEND_ARG_INFO(0, item)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__expression, 0, 0, 1)
 	ZEND_ARG_INFO(0, expr)
+	ZEND_ARG_INFO(0, prependDollar)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, 0, 0, 1)
+	ZEND_ARG_INFO(0, viewCode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0, 0, 2)
@@ -3202,6 +3222,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_exists, 0, 
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setenconding, 0, 0, 1)
+	ZEND_ARG_INFO(0, encoding)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, 1)
+	ZEND_ARG_INFO(0, text)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 0, 1)
+	ZEND_ARG_INFO(0, url)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
@@ -3455,6 +3487,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_php_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engine_volt_render, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -3463,6 +3496,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression, arginfo_phalcon_mvc_view_engine_volt_compiler__expression, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString, arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compile, arginfo_phalcon_mvc_view_engine_volt_compiler_compile, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, parse, arginfo_phalcon_mvc_view_engine_volt_compiler_parse, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
@@ -4493,6 +4527,15 @@ PHALCON_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry){
 	PHP_ME(Phalcon_Translate_Adapter_NativeArray, __construct, arginfo_phalcon_translate_adapter_nativearray___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Translate_Adapter_NativeArray, query, arginfo_phalcon_translate_adapter_nativearray_query, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Translate_Adapter_NativeArray, exists, arginfo_phalcon_translate_adapter_nativearray_exists, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_escaper_method_entry){
+	PHP_ME(Phalcon_Escaper, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Escaper, setEnconding, arginfo_phalcon_escaper_setenconding, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, getEncoding, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, escapeHtml, arginfo_phalcon_escaper_escapehtml, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, escapeUrl, arginfo_phalcon_escaper_escapeurl, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

@@ -41,6 +41,17 @@
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
 
+/**
+ * Phalcon\Mvc\View\Engine\Volt\Compiler
+ *
+ * This class reads and compiles volt templates into PHP plain code
+ */
+
+/**
+ * Resolves function intermediate code into PHP function calls
+ *
+ * @param array $expr
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 
 	zval *expr, *func_arguments, *arguments = NULL, *name;
@@ -96,9 +107,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 	return;
 }
 
+/**
+ * Resolves filter intermediate code into PHP function calls
+ *
+ * @param array $expr
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 
-	zval *filter, *left, *type, *name, *code;
+	zval *filter, *left, *exists = NULL, *type, *name, *code = NULL, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -107,6 +123,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(exists);
+	ZVAL_BOOL(exists, 0);
+	
 	PHALCON_INIT_VAR(type);
 	phalcon_array_fetch_string(&type, filter, SL("type"), PH_NOISY_CC);
 	if (phalcon_compare_strict_long(type, 355 TSRMLS_CC)) {
@@ -116,25 +135,46 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			PHALCON_INIT_VAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->count(", left, ")");
 			
-			RETURN_CTOR(code);
-		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "fak u filter");
-			return;
+			ZVAL_BOOL(exists, 1);
 		}
+		
+		if (PHALCON_COMPARE_STRING(name, "e")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "escape")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_IS_TRUE(exists)) {
+			
+			RETURN_CTOR(code);
+		}
+		
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "fak u filter");
+		return;
 	}
 	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "fak u filter type");
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SV(exception_message, "Unknown filter type ", type);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 	return;
 }
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 
-	zval *expr, *expr_code = NULL, *items, *exprs = NULL, *single_expr = NULL;
-	zval *single_expr_expr = NULL, *single_expr_code = NULL;
-	zval *name = NULL, *parameter = NULL, *joined_items, *type, *left;
-	zval *left_code, *right_code = NULL, *right, *applied_filter;
-	zval *qualified, *qualified_code, *qualified_arrow;
-	zval *value, *exception_message;
+	zval *expr, *prepend_dollar = NULL, *expr_code = NULL, *items;
+	zval *exprs = NULL, *single_expr = NULL, *single_expr_expr = NULL;
+	zval *single_expr_code = NULL, *name = NULL, *parameter = NULL, *joined_items;
+	zval *type, *left, *left_code, *right_code = NULL, *right;
+	zval *applied_filter, *qualified, *qualified_code;
+	zval *qualified_arrow, *value, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -142,11 +182,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &expr, &prepend_dollar) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!prepend_dollar) {
+		PHALCON_INIT_NVAR(prepend_dollar);
+		ZVAL_BOOL(prepend_dollar, 1);
+	} else {
+		PHALCON_SEPARATE_PARAM(prepend_dollar);
+	}
+	
 	PHALCON_INIT_VAR(expr_code);
 	eval_int = phalcon_array_isset_string(expr, SS("type"));
 	if (!eval_int) {
@@ -265,6 +312,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 		goto ph_end_1;
 	}
 	
+	if (phalcon_compare_strict_long(type, 37 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_VSV(expr_code, left_code, " % ", right_code);
+		goto ph_end_1;
+	}
+	
 	if (phalcon_compare_strict_long(type, 60 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CONCAT_VSV(expr_code, left_code, " < ", right_code);
@@ -283,6 +336,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 		goto ph_end_1;
 	}
 	
+	if (phalcon_compare_strict_long(type, 126 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_VSV(expr_code, left_code, " . ", right_code);
+		goto ph_end_1;
+	}
+	
 	if (phalcon_compare_strict_long(type, 124 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(applied_filter);
 		PHALCON_CALL_METHOD_PARAMS_2(applied_filter, this_ptr, "_filter", right_code, left_code, PH_NO_CHECK);
@@ -291,13 +350,20 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	}
 	
 	if (phalcon_compare_strict_long(type, 355 TSRMLS_CC)) {
+		if (PHALCON_IS_TRUE(prepend_dollar)) {
+			PHALCON_INIT_NVAR(expr_code);
+			ZVAL_STRING(expr_code, "$", 1);
+			
+			PHALCON_INIT_NVAR(prepend_dollar);
+			ZVAL_BOOL(prepend_dollar, 0);
+		}
 		eval_int = phalcon_array_isset_string(expr, SS("qualified"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(qualified);
 			phalcon_array_fetch_string(&qualified, expr, SL("qualified"), PH_NOISY_CC);
 			
 			PHALCON_INIT_VAR(qualified_code);
-			PHALCON_CALL_METHOD_PARAMS_1(qualified_code, this_ptr, "_expression", qualified, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(qualified_code, this_ptr, "_expression", qualified, prepend_dollar, PH_NO_CHECK);
 			
 			PHALCON_INIT_VAR(qualified_arrow);
 			PHALCON_CONCAT_VS(qualified_arrow, qualified_code, "->");
@@ -306,7 +372,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 		
 		PHALCON_INIT_NVAR(name);
 		phalcon_array_fetch_string(&name, expr, SL("name"), PH_NOISY_CC);
-		PHALCON_SCONCAT_SV(expr_code, "$", name);
+		phalcon_concat_self(expr_code, name TSRMLS_CC);
 		goto ph_end_1;
 	}
 	
@@ -414,9 +480,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 
-	zval *statements, *compilation, *exec_statements = NULL;
-	zval *statement = NULL, *expr = NULL, *expr_code = NULL, *type = NULL, *code = NULL, *block_statements = NULL;
-	zval *qualified = NULL, *qualified_code = NULL, *exception_message = NULL;
+	zval *statements, *number_elements, *compilation;
+	zval *exec_statements = NULL, *statement = NULL, *expr = NULL, *expr_code = NULL;
+	zval *type = NULL, *code = NULL, *block_statements = NULL, *qualified = NULL;
+	zval *qualified_code = NULL, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -429,6 +496,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(number_elements);
+	phalcon_fast_count(number_elements, statements TSRMLS_CC);
+	if (phalcon_compare_strict_long(number_elements, 0 TSRMLS_CC)) {
+		PHALCON_MM_RESTORE();
+		RETURN_STRING("", 1);
+	}
+	
 	PHALCON_INIT_VAR(compilation);
 	ZVAL_STRING(compilation, "", 1);
 	eval_int = phalcon_array_isset_long(statements, 0);
@@ -463,6 +537,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 			
 			PHALCON_INIT_NVAR(expr_code);
 			PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "_expression", expr, PH_NO_CHECK);
+		}
+		eval_int = phalcon_array_isset_string(statement, SS("type"));
+		if (!eval_int) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid statement");
+			return;
 		}
 		
 		PHALCON_INIT_NVAR(type);
@@ -547,6 +626,35 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 	
 	RETURN_CTOR(compilation);
+}
+
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
+
+	zval *view_code, *intermediate, *compilation;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &view_code) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(view_code) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The code must be string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(intermediate);
+	PHALCON_CALL_METHOD_PARAMS_1(intermediate, this_ptr, "parse", view_code, PH_NO_CHECK);
+	if (Z_TYPE_P(intermediate) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(compilation);
+		PHALCON_CALL_METHOD_PARAMS_1(compilation, this_ptr, "_statementlist", intermediate, PH_NO_CHECK);
+		
+		RETURN_CCTOR(compilation);
+	}
+	
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Invalid intermediate representation");
+	return;
 }
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
