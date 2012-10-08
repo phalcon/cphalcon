@@ -1,3 +1,15 @@
+0.6.0
+ - Concatenation on the same variable is now faster by using realloc instead of zval duplication
+ - Some internal macros like PHALCON_INIT_VAR now produces less C-code making the extension lighter
+ - Removed initialization of the memory stack frame when isn't needed
+ - Inlining of scope locating functions to make read/write on objects faster
+ - Array joins are now faster because a zval needle isn't needed anymore
+ - Added Phalcon\Tag::friendlyTitle to create friendly titles
+ - Added a new C-based template engine highly coupled with Phalcon called Volt
+
+0.5.2
+- Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
+
 0.5.1
  - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered
  - Added throwing exception in Phalcon\Loader when trying to write in a read only file

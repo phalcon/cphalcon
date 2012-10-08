@@ -22,12 +22,21 @@
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function _testVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
 		$intermediate = $volt->parse('');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 0);
+
+		//Comments
+		$intermediate = $volt->parse('{# hello #}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 0);
+
+		$intermediate = $volt->parse('{# hello #}{# other comment #}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 0);
 
@@ -230,6 +239,11 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$intermediate = $volt->parse('{% set a.x = 1.2+1*(20/b) and c %}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 3);
+
+		//Mixed
+		$intermediate = $volt->parse('{# some comment #}{{ "hello" }}{# other comment }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
 
 	}
 
