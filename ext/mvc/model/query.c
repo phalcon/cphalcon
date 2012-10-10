@@ -1334,7 +1334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *position, *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
 	zval *type = NULL, *sql_select, *number_joins, *where;
 	zval *where_expr, *group_by, *sql_group, *having;
-	zval *having_expr, *order, *sql_order, *limit, *sql_limit;
+	zval *having_expr, *order, *sql_order, *limit;
 	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL };
 	HashTable *ah0, *ah1, *ah2;
@@ -1607,10 +1607,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	if (eval_int) {
 		PHALCON_INIT_VAR(limit);
 		phalcon_array_fetch_string(&limit, ast, SL("limit"), PH_NOISY_CC);
-		
-		PHALCON_INIT_VAR(sql_limit);
-		PHALCON_CALL_METHOD_PARAMS_2(sql_limit, this_ptr, "_getlimitclause", limit, sql_aliases, PH_NO_CHECK);
-		phalcon_array_update_string(&sql_select, SL("limit"), &sql_limit, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&sql_select, SL("limit"), &limit, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	

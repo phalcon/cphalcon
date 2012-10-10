@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 
-	zval *filter, *left, *exists = NULL, *type, *code = NULL, *name, *exception_message;
+	zval *filter, *left, *exists = NULL, *type, *code = NULL, *name, *exception_message = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -193,9 +193,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 		
-		if (PHALCON_COMPARE_STRING(name, "lowercase")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "strtolower(", left, ")");
+		if (PHALCON_COMPARE_STRING(name, "uppercase")) {
+			if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CONCAT_SVS(code, "mb_strtoupper(", left, ")");
+			} else {
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CONCAT_SVS(code, "strtoupper(", left, ")");
+			}
 			
 			ZVAL_BOOL(exists, 1);
 		}
@@ -205,11 +210,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			RETURN_CCTOR(code);
 		}
 		
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "fak u filter");
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SV(exception_message, "Unknown filter ", name);
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 		return;
 	}
 	
-	PHALCON_INIT_VAR(exception_message);
+	PHALCON_INIT_NVAR(exception_message);
 	PHALCON_CONCAT_SV(exception_message, "Unknown filter type ", type);
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 	return;

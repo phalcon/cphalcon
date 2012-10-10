@@ -350,8 +350,21 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString("{{ form('action': 'save/products', 'method': 'post') }}");
 		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
 
+		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
+		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::stylesheetLink(array($config->cdn->css->bootstrap, $config->cdn->local)); ?>');
+
+		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
+		$this->assertEquals($compilation, "<?php echo Phalcon\Tag::image(array('img/logo.png', 'width' => 80)); ?>");
+
+		//Filters
 		$compilation = $volt->compileString('{{ "hello"|e }}');
 		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
+
+		$compilation = $volt->compileString('{{ "hello"|trim }}');
+		$this->assertEquals($compilation, '<?php echo trim(\'hello\'); ?>');
+
+		$compilation = $volt->compileString('{{ "hello"|uppercase }}');
+		$this->assertEquals($compilation, '<?php echo strtoupper(\'hello\'); ?>');
 
 		$compilation = $volt->compileString('{{ ("hello" ~ "lol")|e|length }}');
 		$this->assertEquals($compilation, '<?php echo $this->count($this->escaper->escapeHtml((\'hello\' . \'lol\'))); ?>');

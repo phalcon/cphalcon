@@ -1134,7 +1134,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'tables' => array('robots r'),
-			'limit' => 100
+			'limit' => array('number' => 100)
 		);
 		$query = new Query("SELECT * FROM Robots r LIMIT 100");
 		$query->setDI($di);
@@ -1151,7 +1151,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			),
 			'tables' => array('le_products p'),
 			'where' => 'p.name=\'Artichoke\'',
-			'limit' => 100
+			'limit' => array('number' => 100)
 		);
 		$query = new Query('SELECT * FROM Some\Products p WHERE p.name = "Artichoke" LIMIT 100');
 		$query->setDI($di);
@@ -1285,7 +1285,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'tables' => array('robots r'),
 			'where' => 'r.name<>\'shaggy\'',
 			'order' => '1,2',
-			'limit' => 5
+			'limit' => array('number' => 5)
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1, 2 LIMIT 5');
 		$query->setDI($di);
@@ -1303,7 +1303,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'tables' => array('robots r'),
 			'where' => 'r.name<>\'shaggy\'',
 			'order' => '1 ASC,2 DESC',
-			'limit' => 5
+			'limit' => array('number' => 5)
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5');
 		$query->setDI($di);
@@ -1421,7 +1421,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'tables' => array('robots'),
 			'where' => 'robots.id>5',
 			'group' => 'robots.name',
-			'limit' => 10
+			'limit' => array('number' => 10)
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name LIMIT 10');
 		$query->setDI($di);
@@ -1440,7 +1440,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'where' => 'robots.id>5',
 			'group' => 'robots.name',
 			'order' => 'robots.id',
-			'limit' => 10
+			'limit' => array('number' => 10)
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name ORDER BY Robots.id LIMIT 10');
 		$query->setDI($di);
@@ -1587,7 +1587,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'having' => 'COUNT(*)>100',
 			'group' => 'robots.name',
 			'order' => '2',
-			'limit' => 15
+			'limit' => array('number' => 15)
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
 		$query->setDI($di);
@@ -1609,7 +1609,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'having' => 'COUNT(*)>100',
 			'group' => 'robots.name',
 			'order' => '2',
-			'limit' => 15
+			'limit' => array('number' => 15)
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
 		$query->setDI($di);
@@ -1632,7 +1632,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'where' => 'robots.type=\'virtual\'',
 			'having' => 'COUNT(*)>100',
 			'group' => 'robots.name',
-			'limit' => 15
+			'limit' => array('number' => 15)
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
 		$query->setDI($di);
@@ -1654,7 +1654,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'tables' => array('robots'),
 			'having' => 'COUNT(*)>100',
 			'group' => 'robots.name',
-			'limit' => 15
+			'limit' => array('number' => 15)
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
 		$query->setDI($di);

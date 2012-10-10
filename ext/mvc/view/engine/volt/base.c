@@ -229,6 +229,29 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				phvolt_(phvolt_parser, PHVOLT_CLOSE_EDELIMITER, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_NULL:
+				phvolt_(phvolt_parser, PHVOLT_NULL, NULL, parser_status);
+				break;
+			case PHVOLT_T_TRUE:
+				phvolt_(phvolt_parser, PHVOLT_TRUE, NULL, parser_status);
+				break;
+			case PHVOLT_T_FALSE:
+				phvolt_(phvolt_parser, PHVOLT_FALSE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_INTEGER:
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
+				break;
+			case PHVOLT_T_DOUBLE:
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
+				break;
+			case PHVOLT_T_STRING:
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
+				break;
+			case PHVOLT_T_IDENTIFIER:
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+				break;
+
 			case PHVOLT_T_IF:
 				phvolt_(phvolt_parser, PHVOLT_IF, NULL, parser_status);
 				break;
@@ -259,27 +282,14 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				phvolt_(phvolt_parser, PHVOLT_ASSIGN, NULL, parser_status);
 				break;
 
-			case PHVOLT_T_NULL:
-				phvolt_(phvolt_parser, PHVOLT_NULL, NULL, parser_status);
+			case PHVOLT_T_BLOCK:
+				phvolt_(phvolt_parser, PHVOLT_BLOCK, NULL, parser_status);
 				break;
-			case PHVOLT_T_TRUE:
-				phvolt_(phvolt_parser, PHVOLT_TRUE, NULL, parser_status);
+			case PHVOLT_T_ENDBLOCK:
+				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
-			case PHVOLT_T_FALSE:
-				phvolt_(phvolt_parser, PHVOLT_FALSE, NULL, parser_status);
-				break;
-
-			case PHVOLT_T_INTEGER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
-				break;
-			case PHVOLT_T_DOUBLE:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
-				break;
-			case PHVOLT_T_STRING:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
-				break;
-			case PHVOLT_T_IDENTIFIER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+			case PHVOLT_T_EXTENDS:
+				phvolt_(phvolt_parser, PHVOLT_EXTENDS, NULL, parser_status);
 				break;
 
 			default:

@@ -135,6 +135,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	zval *sql_join = NULL, *join_conditions_array = NULL, *join_conditions = NULL;
 	zval *where_conditions, *group_fields, *group_clause;
 	zval *having_conditions, *order_fields, *limit_value;
+	zval *number, *offset;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -260,7 +261,20 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	if (eval_int) {
 		PHALCON_INIT_VAR(limit_value);
 		phalcon_array_fetch_string(&limit_value, definition, SL("limit"), PH_NOISY_CC);
-		PHALCON_SCONCAT_SV(sql, " LIMIT ", limit_value);
+		if (Z_TYPE_P(limit_value) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(number);
+			phalcon_array_fetch_string(&number, limit_value, SL("number"), PH_NOISY_CC);
+			eval_int = phalcon_array_isset_string(limit_value, SS("offset"));
+			if (eval_int) {
+				PHALCON_INIT_VAR(offset);
+				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
+				PHALCON_SCONCAT_SVSV(sql, " LIMIT ", number, ",", offset);
+			} else {
+				PHALCON_SCONCAT_SV(sql, " LIMIT ", number);
+			}
+		} else {
+			PHALCON_SCONCAT_SV(sql, " LIMIT ", limit_value);
+		}
 	}
 	
 	

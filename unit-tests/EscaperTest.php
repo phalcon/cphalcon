@@ -26,7 +26,7 @@ class EscaperTest extends PHPUnit_Framework_TestCase
 
 		$escaper = new Phalcon\Escaper();
 
-		$this->assertEquals($escaper->escapeHtml("<h1></h1>"), '&lt;h1&gt;&lt;/h1&gt;'));
+		$this->assertEquals($escaper->escapeHtml("<h1></h1>"), '&lt;h1&gt;&lt;/h1&gt;');
 
 	}
 

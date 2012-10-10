@@ -81,6 +81,7 @@
 #define PHVOLT_T_BLOCK 307
 #define PHVOLT_T_ENDBLOCK 308
 #define PHVOLT_T_IN 309
+#define PHVOLT_T_EXTENDS 310
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
