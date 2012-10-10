@@ -364,7 +364,11 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php echo trim(\'hello\'); ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|uppercase }}');
-		$this->assertEquals($compilation, '<?php echo strtoupper(\'hello\'); ?>');
+		if(function_exists('mb_strtoupper')){
+			$this->assertEquals($compilation, '<?php echo mb_strtoupper(\'hello\'); ?>');
+		} else {
+			$this->assertEquals($compilation, '<?php echo strtoupper(\'hello\'); ?>');
+		}
 
 		$compilation = $volt->compileString('{{ ("hello" ~ "lol")|e|length }}');
 		$this->assertEquals($compilation, '<?php echo $this->count($this->escaper->escapeHtml((\'hello\' . \'lol\'))); ?>');
