@@ -144,7 +144,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		}
 
 		$memcache = new Memcache();
-		$this->assertFalse(!$memcache->connect('localhost', 11211));
+		$this->assertFalse(!$memcache->connect('127.0.0.1', 11211));
 
 		return $memcache;
 	}
@@ -234,7 +234,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
-			'host' => 'localhost',
+			'host' => '127.0.0.1',
 			'port' => '11211'
 		));
 
