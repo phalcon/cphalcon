@@ -47,8 +47,8 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_BRACKET_CLOSE, 	")" },
   { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
   { PHVOLT_T_CLOSE_DELIMITER, 	"%}" },
-  { PHVOLT_T_OPEN_DELIMITER, 	"{{" },
-  { PHVOLT_T_CLOSE_DELIMITER, 	"}}" },
+  { PHVOLT_T_OPEN_EDELIMITER, 	"{{" },
+  { PHVOLT_T_CLOSE_EDELIMITER, 	"}}" },
   { PHVOLT_T_IF,           		"IF" },
   { PHVOLT_T_ELSE,           	"ELSE" },
   { PHVOLT_T_ENDIF,           	"ENDIF" },
@@ -57,17 +57,29 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_ENDFOR,           	"ENDFOR" },
   { PHVOLT_T_SET,           	"SET" },
   { PHVOLT_T_ASSIGN,           	"ASSIGN" },
+  { PHVOLT_T_BLOCK,           	"BLOCK" },
+  { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
+  { PHVOLT_T_EXTENDS,			"EXTENDS" },
   {  0, NULL }
 };
 
+/**
+ * Wrapper to alloc memory within the parser
+ */
 static void *phvolt_wrapper_alloc(size_t bytes){
 	return emalloc(bytes);
 }
 
+/**
+ * Wrapper to free memory within the parser
+ */
 static void phvolt_wrapper_free(void *pointer){
 	efree(pointer);
 }
 
+/**
+ * Creates a parser_token to be passed to the parser
+ */
 static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parsercode, phvolt_scanner_token *token, phvolt_parser_status *parser_status){
 	phvolt_parser_token *pToken;
 	pToken = emalloc(sizeof(phvolt_parser_token));
@@ -77,6 +89,9 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
 }
 
+/**
+ * Receives the volt code and tokenizes/parses it
+ */
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 
 	zval *error_msg;
@@ -91,6 +106,9 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 	return SUCCESS;
 }
 
+/**
+ * Parses a volt template returning an intermediate array representation
+ */
 int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg TSRMLS_DC) {
 
 	char *error;
@@ -123,6 +141,8 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	state->raw_buffer = emalloc(sizeof(char) * PHVOLT_RAW_BUFFER_SIZE);
 	state->raw_buffer_size = PHVOLT_RAW_BUFFER_SIZE;
 	state->raw_buffer_cursor = 0;
+	state->active_line = 1;
+	state->statement_position = 0;
 
 	state->end = state->start;
 
@@ -289,6 +309,11 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
 			case PHVOLT_T_EXTENDS:
+				if (state->statement_position != 1) {
+					parser_status->syntax_error = estrndup("Extends statement must be placed at the first line in the template", 66);
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}
 				phvolt_(phvolt_parser, PHVOLT_EXTENDS, NULL, parser_status);
 				break;
 
@@ -296,7 +321,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				status = FAILURE;
 				error = emalloc(sizeof(char) * 32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -318,9 +343,9 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				if (state->start) {
-					error = emalloc(sizeof(char)*(48+strlen(state->start)));
+					error = emalloc(sizeof(char) *(48 + strlen(state->start)));
 					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
@@ -336,7 +361,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_ALLOC_ZVAL_MM(*error_msg);
+		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 		efree(parser_status->syntax_error);
 	}

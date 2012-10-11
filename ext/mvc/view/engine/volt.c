@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_CALL_FUNC_PARAMS_1(compiled_modified, "filemtime", compiled_path);
 		
 		PHALCON_INIT_VAR(modified);
-		is_smaller_function(modified, compiled_modified, template_modified TSRMLS_CC);
+		is_smaller_or_equal_function(modified, compiled_modified, template_modified TSRMLS_CC);
 		if (PHALCON_IS_TRUE(modified)) {
 			PHALCON_INIT_VAR(compiler);
 			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);

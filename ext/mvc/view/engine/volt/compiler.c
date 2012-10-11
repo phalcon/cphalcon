@@ -546,6 +546,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	RETURN_CCTOR(expr_code);
 }
 
+/**
+ * Traverses a statement list compiling each of its nodes
+ *
+ * @param array $statement
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 
 	zval *statements, *number_elements, *compilation;
@@ -696,6 +702,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	RETURN_CTOR(compilation);
 }
 
+/**
+ * Compiles a template in a string
+ *
+ * @param string $viewCode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 
 	zval *view_code, *intermediate, *compilation;
@@ -725,11 +737,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 	return;
 }
 
+/**
+ * Compiles a template into a file
+ *
+ * @param string $path
+ * @param string $compiledPath
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 
-	zval *path, *compiled_path, *view_code, *intermediate;
+	zval *path, *compiled_path, *same, *view_code, *intermediate;
 	zval *compilation;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -738,9 +755,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, path, compiled_path TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	PHALCON_INIT_VAR(same);
+	is_equal_function(same, path, compiled_path TSRMLS_CC);
+	if (PHALCON_IS_TRUE(same)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Template path and compilation path cannot be the same");
 		return;
 	}
@@ -762,6 +779,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Parses a volt template returning an intermediate representation
+ *
+ * @param array $viewCode
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 
 	zval *view_code, *intermediate;

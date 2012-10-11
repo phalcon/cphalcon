@@ -249,11 +249,113 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 3);
 
+		//Blocks
+		$intermediate = $volt->parse('{% block hello %} {% endblock %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		//Extends
+		$intermediate = $volt->parse('{% extends "some/file.volt" %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
 		//Mixed
 		$intermediate = $volt->parse('{# some comment #}{{ "hello" }}{# other comment }}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
 
+	}
+
+	public function testVoltSyntaxError()
+	{
+		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+
+		try {
+			$volt->parse('{{');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected EOF');
+		}
+
+		try {
+			$volt->parse('{{ }}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token }} on line 1');
+		}
+
+		try {
+			$volt->parse('{{ v++ }}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token + on line 1');
+		}
+
+		try {
+			$volt->parse('{{
+				v++ }}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token + on line 2');
+		}
+
+		try {
+			$volt->parse('{{
+
+
+				if
+			for }}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token IF on line 4');
+		}
+
+		try {
+			$volt->parse('{% block some %}
+				{% for x in y %}
+					{{ "hello".y }}
+				{% endfor %}
+			{% endblock %}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token DOT on line 3');
+		}
+
+		try {
+			$volt->parse('{#
+
+				This is a multi-line comment
+
+			#}{% block some %}
+				{# This is a single-line comment #}
+				{% for x in y %}
+					{{ "hello".y }}
+				{% endfor %}
+			{% endblock %}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token DOT on line 8');
+		}
+	}
+
+	public function testVoltExtendsError()
+	{
+
+		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
+
+		try {
+			$volt->parse('{{ "hello"}}{% extends "some/file.volt" %}');
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Extends statement must be placed at the first line in the template');
+		}
 	}
 
 	public function testVoltCompiler(){
@@ -462,6 +564,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		@unlink('unit-tests/views/layouts/test10.volt.php');
 		@unlink('unit-tests/views/test10/index.volt.php');
+		@unlink('unit-tests/views/test10/other.volt.php');
 
 		$di = new Phalcon\DI();
 
@@ -488,6 +591,32 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$view->render('test10', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");
+
+		//Refreshing generated view
+		file_put_contents('unit-tests/views/test10/other.volt', '{{song}} {{song}}');
+
+		$view->setParamToView('song', 'Le Song');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		$view->render('test10', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Le Song Le Song');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test10', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Clearly, the song is: Le Song Le Song.'."\n");
+
+		//Change the view
+		file_put_contents('unit-tests/views/test10/other.volt', 'Two songs: {{song}} {{song}}');
+
+		$view->start();
+		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);
+		$view->render('test10', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), 'Clearly, the song is: Two songs: Le Song Le Song.'."\n");
 
 	}
 

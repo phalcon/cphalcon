@@ -134,7 +134,7 @@ int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload,
 int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***ce TSRMLS_DC);
 
 #if PHP_VERSION_ID <= 50309
-#define PHALCON_CALL_USER_FUNCTION phalcon_call_user_function
+#define PHALCON_CALL_USER_FUNCTION_EX phalcon_call_user_function_ex
 #else
-#define PHALCON_CALL_USER_FUNCTION call_user_function
+#define PHALCON_CALL_USER_FUNCTION_EX call_user_function_ex
 #endif

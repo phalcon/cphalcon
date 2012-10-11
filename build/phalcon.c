@@ -396,6 +396,8 @@ typedef struct _phvolt_scanner_state {
 	char* start;
 	char* end;
 	int mode;
+	unsigned int active_line;
+	unsigned int statement_position;
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
@@ -891,9 +893,9 @@ int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload,
 int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***ce TSRMLS_DC);
 
 #if PHP_VERSION_ID <= 50309
-#define PHALCON_CALL_USER_FUNCTION phalcon_call_user_function
+#define PHALCON_CALL_USER_FUNCTION_EX phalcon_call_user_function_ex
 #else
-#define PHALCON_CALL_USER_FUNCTION call_user_function
+#define PHALCON_CALL_USER_FUNCTION_EX call_user_function_ex
 #endif
 
 
@@ -1681,7 +1683,7 @@ static inline int phalcon_call_func_normal(zval *return_value, char *func_name, 
 	PHALCON_ALLOC_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 1);
 
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
@@ -1724,7 +1726,7 @@ static inline int phalcon_call_func_params_normal(zval *return_value, char *func
 	PHALCON_ALLOC_ZVAL(fn);
 	ZVAL_STRINGL(fn, func_name, func_length, 1);
 
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
@@ -1791,7 +1793,7 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
 		phalcon_find_scope(Z_OBJCE_P(object), method_name, method_len TSRMLS_CC);
-		status = PHALCON_CALL_USER_FUNCTION(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
+		status = phalcon_call_user_function(&Z_OBJCE_P(object)->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 		if (status == FAILURE) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", Z_STRVAL_P(fn));
 		}
@@ -1845,7 +1847,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 		active_scope = EG(scope);
 		ce = Z_OBJCE_P(object);
 		phalcon_find_scope(ce, method_name, method_len TSRMLS_CC);
-		status = PHALCON_CALL_USER_FUNCTION(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
+		status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 		if (status == FAILURE) {
 			EG(scope) = active_scope;
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", Z_STRVAL_P(fn), Z_OBJCE_P(object)->name);
@@ -1966,7 +1968,7 @@ int phalcon_call_self_func(zval *return_value, zval *object, char *method_name, 
 		phalcon_find_scope(Z_OBJCE_P(object), method_name, method_len TSRMLS_CC);
 	}
 
-	success = phalcon_call_static_func(return_value, "self", strlen("self"), method_name, method_len, noreturn TSRMLS_CC);
+	success = phalcon_call_static_func(return_value, SL("self"), method_name, method_len, noreturn TSRMLS_CC);
 
 	if (object) {
 		EG(scope) = active_scope;
@@ -1975,7 +1977,7 @@ int phalcon_call_self_func(zval *return_value, zval *object, char *method_name, 
 	return success;
 }
 
-int phalcon_call_self_func_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+inline int phalcon_call_self_func_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	int success;
 	zend_class_entry *active_scope = NULL;
@@ -1985,7 +1987,7 @@ int phalcon_call_self_func_params(zval *return_value, zval *object, char *method
 		phalcon_find_scope(Z_OBJCE_P(object), method_name, method_len TSRMLS_CC);
 	}
 
-	success = phalcon_call_static_func_params(return_value, "self", strlen("self"), method_name, method_len, param_count, params, noreturn TSRMLS_CC);
+	success = phalcon_call_static_func_params(return_value, SL("self"), method_name, method_len, param_count, params, noreturn TSRMLS_CC);
 	if (object) {
 		EG(scope) = active_scope;
 	}
@@ -2021,7 +2023,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 	array_init(fn);
 	add_next_index_stringl(fn, class_name, class_length, 1);
 	add_next_index_stringl(fn, method_name, method_len, 1);
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
@@ -2043,7 +2045,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 	return status;
 }
 
-int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+inline int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status;
@@ -2057,7 +2059,7 @@ int phalcon_call_static_func_params(zval *return_value, char *class_name, int cl
 	add_next_index_stringl(fn, class_name, class_length, 1);
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
@@ -2107,7 +2109,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	array_init(fn);
 	add_next_index_zval(fn, mixed_name);
 	add_next_index_stringl(fn, method_name, method_len, 1);
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
@@ -2133,7 +2135,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	return status;
 }
 
-int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
 
 	zval *fn;
 	int status = FAILURE;
@@ -2146,7 +2148,7 @@ int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_name, c
 	array_init(fn);
 	add_next_index_zval(fn, mixed_name);
 	add_next_index_stringl(fn, method_name, method_len, 1);
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
@@ -2200,7 +2202,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	array_init(fn);
 	add_next_index_stringl(fn, ce->name, ce->name_length, 0);
 	add_next_index_stringl(fn, method_name, method_len, 0);
-	status = PHALCON_CALL_USER_FUNCTION(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
@@ -2221,9 +2223,8 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
-#if PHP_VERSION_ID <= 50309
-
 int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
+
 	zval ***params_array;
 	zend_uint i;
 	int ex_retval;
@@ -2231,26 +2232,31 @@ int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval
 
 	if (param_count) {
 		params_array = (zval ***) emalloc(sizeof(zval **)*param_count);
-		for (i=0; i<param_count; i++) {
+		for (i=0; i < param_count; i++) {
 			params_array[i] = &params[i];
 		}
 	} else {
 		params_array = NULL;
 	}
 
-	ex_retval = phalcon_call_user_function_ex(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
+	ex_retval = PHALCON_CALL_USER_FUNCTION_EX(function_table, object_pp, function_name, &local_retval_ptr, param_count, params_array, 1, NULL TSRMLS_CC);
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
 	} else {
 		INIT_ZVAL(*retval_ptr);
 	}
+
 	if (params_array) {
 		efree(params_array);
 	}
+
 	return ex_retval;
 }
 
+#if PHP_VERSION_ID <= 50309
+
 int phalcon_call_user_function_ex(HashTable *function_table, zval **object_pp, zval *function_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], int no_separation, HashTable *symbol_table TSRMLS_DC) {
+
 	zend_fcall_info fci;
 
 	fci.size = sizeof(fci);
@@ -34108,7 +34114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_CALL_FUNC_PARAMS_1(compiled_modified, "filemtime", compiled_path);
 		
 		PHALCON_INIT_VAR(modified);
-		is_smaller_function(modified, compiled_modified, template_modified TSRMLS_CC);
+		is_smaller_or_equal_function(modified, compiled_modified, template_modified TSRMLS_CC);
 		if (PHALCON_IS_TRUE(modified)) {
 			PHALCON_INIT_VAR(compiler);
 			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
@@ -34914,9 +34920,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 
-	zval *path, *compiled_path, *view_code, *intermediate;
+	zval *path, *compiled_path, *same, *view_code, *intermediate;
 	zval *compilation;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -34925,9 +34930,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, path, compiled_path TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	PHALCON_INIT_VAR(same);
+	is_equal_function(same, path, compiled_path TSRMLS_CC);
+	if (PHALCON_IS_TRUE(same)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Template path and compilation path cannot be the same");
 		return;
 	}
@@ -35726,7 +35731,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 47:
     case 48:
     case 49:
-// 329 "parser.lemon"
+// 324 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
 		efree((kkpminor->kk0)->token);
@@ -35751,7 +35756,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 67:
     case 68:
     case 69:
-// 344 "parser.lemon"
+// 339 "parser.lemon"
 { zval_ptr_dtor(&(kkpminor->kk8)); }
 // 838 "parser.c"
       break;
@@ -35987,7 +35992,7 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 336 "parser.lemon"
+// 331 "parser.lemon"
 {
 	status->ret = kkmsp[0].minor.kk8;
 }
@@ -36007,21 +36012,21 @@ static void kk_reduce(
       case 47:
       case 51:
       case 54:
-// 340 "parser.lemon"
+// 335 "parser.lemon"
 {
 	kkgotominor.kk8 = kkmsp[0].minor.kk8;
 }
 // 1139 "parser.c"
         break;
       case 2:
-// 346 "parser.lemon"
+// 341 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_zval_list(kkmsp[-1].minor.kk8, kkmsp[0].minor.kk8);
 }
 // 1146 "parser.c"
         break;
       case 12:
-// 390 "parser.lemon"
+// 385 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_if_statement(kkmsp[-5].minor.kk8, kkmsp[-3].minor.kk8, NULL);
   kk_destructor(23,&kkmsp[-7].minor);
@@ -36034,7 +36039,7 @@ static void kk_reduce(
 // 1159 "parser.c"
         break;
       case 13:
-// 394 "parser.lemon"
+// 389 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_if_statement(kkmsp[-9].minor.kk8, kkmsp[-7].minor.kk8, kkmsp[-3].minor.kk8);
   kk_destructor(23,&kkmsp[-11].minor);
@@ -36050,7 +36055,7 @@ static void kk_reduce(
 // 1175 "parser.c"
         break;
       case 14:
-// 400 "parser.lemon"
+// 395 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_for_statement(kkmsp[-7].minor.kk8, kkmsp[-5].minor.kk8, kkmsp[-3].minor.kk8);
   kk_destructor(23,&kkmsp[-9].minor);
@@ -36064,7 +36069,7 @@ static void kk_reduce(
 // 1189 "parser.c"
         break;
       case 15:
-// 406 "parser.lemon"
+// 401 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_set_statement(kkmsp[-3].minor.kk8, kkmsp[-1].minor.kk8);
   kk_destructor(23,&kkmsp[-5].minor);
@@ -36075,7 +36080,7 @@ static void kk_reduce(
 // 1200 "parser.c"
         break;
       case 16:
-// 412 "parser.lemon"
+// 407 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_empty_statement();
   kk_destructor(23,&kkmsp[-1].minor);
@@ -36084,7 +36089,7 @@ static void kk_reduce(
 // 1209 "parser.c"
         break;
       case 17:
-// 418 "parser.lemon"
+// 413 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk8);
   kk_destructor(33,&kkmsp[-2].minor);
@@ -36093,7 +36098,7 @@ static void kk_reduce(
 // 1218 "parser.c"
         break;
       case 18:
-// 424 "parser.lemon"
+// 419 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk8);
   kk_destructor(23,&kkmsp[-7].minor);
@@ -36106,7 +36111,7 @@ static void kk_reduce(
 // 1231 "parser.c"
         break;
       case 19:
-// 430 "parser.lemon"
+// 425 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0);
   kk_destructor(23,&kkmsp[-3].minor);
@@ -36116,14 +36121,14 @@ static void kk_reduce(
 // 1241 "parser.c"
         break;
       case 20:
-// 436 "parser.lemon"
+// 431 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
 }
 // 1248 "parser.c"
         break;
       case 21:
-// 442 "parser.lemon"
+// 437 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk8);
   kk_destructor(19,&kkmsp[-1].minor);
@@ -36131,7 +36136,7 @@ static void kk_reduce(
 // 1256 "parser.c"
         break;
       case 22:
-// 446 "parser.lemon"
+// 441 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(19,&kkmsp[-1].minor);
@@ -36139,7 +36144,7 @@ static void kk_reduce(
 // 1264 "parser.c"
         break;
       case 23:
-// 450 "parser.lemon"
+// 445 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(18,&kkmsp[-1].minor);
@@ -36147,7 +36152,7 @@ static void kk_reduce(
 // 1272 "parser.c"
         break;
       case 24:
-// 454 "parser.lemon"
+// 449 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(16,&kkmsp[-1].minor);
@@ -36155,7 +36160,7 @@ static void kk_reduce(
 // 1280 "parser.c"
         break;
       case 25:
-// 458 "parser.lemon"
+// 453 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(15,&kkmsp[-1].minor);
@@ -36163,7 +36168,7 @@ static void kk_reduce(
 // 1288 "parser.c"
         break;
       case 26:
-// 462 "parser.lemon"
+// 457 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(17,&kkmsp[-1].minor);
@@ -36171,7 +36176,7 @@ static void kk_reduce(
 // 1296 "parser.c"
         break;
       case 27:
-// 466 "parser.lemon"
+// 461 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(12,&kkmsp[-1].minor);
@@ -36179,7 +36184,7 @@ static void kk_reduce(
 // 1304 "parser.c"
         break;
       case 28:
-// 470 "parser.lemon"
+// 465 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(13,&kkmsp[-1].minor);
@@ -36187,7 +36192,7 @@ static void kk_reduce(
 // 1312 "parser.c"
         break;
       case 29:
-// 474 "parser.lemon"
+// 469 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(20,&kkmsp[-1].minor);
@@ -36195,7 +36200,7 @@ static void kk_reduce(
 // 1320 "parser.c"
         break;
       case 30:
-// 478 "parser.lemon"
+// 473 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(14,&kkmsp[-1].minor);
@@ -36203,7 +36208,7 @@ static void kk_reduce(
 // 1328 "parser.c"
         break;
       case 31:
-// 482 "parser.lemon"
+// 477 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(3,&kkmsp[-1].minor);
@@ -36211,7 +36216,7 @@ static void kk_reduce(
 // 1336 "parser.c"
         break;
       case 32:
-// 486 "parser.lemon"
+// 481 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(4,&kkmsp[-1].minor);
@@ -36219,7 +36224,7 @@ static void kk_reduce(
 // 1344 "parser.c"
         break;
       case 33:
-// 490 "parser.lemon"
+// 485 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(5,&kkmsp[-1].minor);
@@ -36227,7 +36232,7 @@ static void kk_reduce(
 // 1352 "parser.c"
         break;
       case 34:
-// 494 "parser.lemon"
+// 489 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(10,&kkmsp[-1].minor);
@@ -36235,7 +36240,7 @@ static void kk_reduce(
 // 1360 "parser.c"
         break;
       case 35:
-// 498 "parser.lemon"
+// 493 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(11,&kkmsp[-1].minor);
@@ -36243,7 +36248,7 @@ static void kk_reduce(
 // 1368 "parser.c"
         break;
       case 36:
-// 502 "parser.lemon"
+// 497 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(6,&kkmsp[-1].minor);
@@ -36251,7 +36256,7 @@ static void kk_reduce(
 // 1376 "parser.c"
         break;
       case 37:
-// 506 "parser.lemon"
+// 501 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(7,&kkmsp[-1].minor);
@@ -36259,7 +36264,7 @@ static void kk_reduce(
 // 1384 "parser.c"
         break;
       case 38:
-// 510 "parser.lemon"
+// 505 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(8,&kkmsp[-1].minor);
@@ -36267,7 +36272,7 @@ static void kk_reduce(
 // 1392 "parser.c"
         break;
       case 39:
-// 514 "parser.lemon"
+// 509 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(9,&kkmsp[-1].minor);
@@ -36275,7 +36280,7 @@ static void kk_reduce(
 // 1400 "parser.c"
         break;
       case 40:
-// 518 "parser.lemon"
+// 513 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk8);
   kk_destructor(21,&kkmsp[-1].minor);
@@ -36283,7 +36288,7 @@ static void kk_reduce(
 // 1408 "parser.c"
         break;
       case 41:
-// 522 "parser.lemon"
+// 517 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk8, NULL);
   kk_destructor(41,&kkmsp[-2].minor);
@@ -36292,7 +36297,7 @@ static void kk_reduce(
 // 1417 "parser.c"
         break;
       case 42:
-// 526 "parser.lemon"
+// 521 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk8, NULL);
   kk_destructor(2,&kkmsp[-2].minor);
@@ -36302,7 +36307,7 @@ static void kk_reduce(
         break;
       case 43:
       case 50:
-// 532 "parser.lemon"
+// 527 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_zval_list(kkmsp[-2].minor.kk8, kkmsp[0].minor.kk8);
   kk_destructor(1,&kkmsp[-1].minor);
@@ -36311,7 +36316,7 @@ static void kk_reduce(
         break;
       case 45:
       case 53:
-// 540 "parser.lemon"
+// 535 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk8);
   kk_destructor(44,&kkmsp[-1].minor);
@@ -36320,14 +36325,14 @@ static void kk_reduce(
         break;
       case 46:
       case 52:
-// 544 "parser.lemon"
+// 539 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk8);
 }
 // 1452 "parser.c"
         break;
       case 48:
-// 554 "parser.lemon"
+// 549 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk8);
   kk_destructor(41,&kkmsp[-2].minor);
@@ -36336,7 +36341,7 @@ static void kk_reduce(
 // 1461 "parser.c"
         break;
       case 49:
-// 558 "parser.lemon"
+// 553 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
   kk_destructor(41,&kkmsp[-1].minor);
@@ -36345,7 +36350,7 @@ static void kk_reduce(
 // 1470 "parser.c"
         break;
       case 55:
-// 586 "parser.lemon"
+// 581 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk8, kkmsp[-1].minor.kk8);
   kk_destructor(2,&kkmsp[-2].minor);
@@ -36354,28 +36359,28 @@ static void kk_reduce(
 // 1479 "parser.c"
         break;
       case 56:
-// 590 "parser.lemon"
+// 585 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
 }
 // 1486 "parser.c"
         break;
       case 57:
-// 594 "parser.lemon"
+// 589 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
 }
 // 1493 "parser.c"
         break;
       case 58:
-// 598 "parser.lemon"
+// 593 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
 }
 // 1500 "parser.c"
         break;
       case 59:
-// 602 "parser.lemon"
+// 597 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
   kk_destructor(47,&kkmsp[0].minor);
@@ -36383,7 +36388,7 @@ static void kk_reduce(
 // 1508 "parser.c"
         break;
       case 60:
-// 606 "parser.lemon"
+// 601 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
   kk_destructor(48,&kkmsp[0].minor);
@@ -36391,7 +36396,7 @@ static void kk_reduce(
 // 1516 "parser.c"
         break;
       case 61:
-// 610 "parser.lemon"
+// 605 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
   kk_destructor(49,&kkmsp[0].minor);
@@ -36399,7 +36404,7 @@ static void kk_reduce(
 // 1524 "parser.c"
         break;
       case 62:
-// 616 "parser.lemon"
+// 611 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk8, kkmsp[0].minor.kk0);
   kk_destructor(22,&kkmsp[-1].minor);
@@ -36407,7 +36412,7 @@ static void kk_reduce(
 // 1532 "parser.c"
         break;
       case 63:
-// 620 "parser.lemon"
+// 615 "parser.lemon"
 {
 	kkgotominor.kk8 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
 }
@@ -36456,7 +36461,6 @@ static void kk_syntax_error(
 			const phvolt_token_names *tokens = phvolt_tokens;
 			int token_found = 0;
 			int active_token = status->scanner_state->active_token;
-			int near_length = strlen(status->scanner_state->start);
 
 			if (active_token) {
 
@@ -36476,13 +36480,9 @@ static void kk_syntax_error(
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + near_length;
+			status->syntax_error_len = 64 + strlen(token_name);
 			status->syntax_error = emalloc(sizeof(char)*status->syntax_error_len);
-			if (near_length > 0) {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, near to %s", token_name, status->scanner_state->start);
-			} else {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, at the end of query", token_name);
-			}
+			sprintf(status->syntax_error, "Syntax error, unexpected token %s on line %d", token_name, status->scanner_state->active_line);
 
 			if (!token_found) {
 				if (token_name) {
@@ -36497,7 +36497,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 1631 "parser.c"
+// 1626 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -36697,8 +36697,8 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_BRACKET_CLOSE, 	")" },
   { PHVOLT_T_OPEN_DELIMITER, 	"{%" },
   { PHVOLT_T_CLOSE_DELIMITER, 	"%}" },
-  { PHVOLT_T_OPEN_DELIMITER, 	"{{" },
-  { PHVOLT_T_CLOSE_DELIMITER, 	"}}" },
+  { PHVOLT_T_OPEN_EDELIMITER, 	"{{" },
+  { PHVOLT_T_CLOSE_EDELIMITER, 	"}}" },
   { PHVOLT_T_IF,           		"IF" },
   { PHVOLT_T_ELSE,           	"ELSE" },
   { PHVOLT_T_ENDIF,           	"ENDIF" },
@@ -36707,6 +36707,9 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_ENDFOR,           	"ENDFOR" },
   { PHVOLT_T_SET,           	"SET" },
   { PHVOLT_T_ASSIGN,           	"ASSIGN" },
+  { PHVOLT_T_BLOCK,           	"BLOCK" },
+  { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
+  { PHVOLT_T_EXTENDS,			"EXTENDS" },
   {  0, NULL }
 };
 
@@ -36773,6 +36776,8 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	state->raw_buffer = emalloc(sizeof(char) * PHVOLT_RAW_BUFFER_SIZE);
 	state->raw_buffer_size = PHVOLT_RAW_BUFFER_SIZE;
 	state->raw_buffer_cursor = 0;
+	state->active_line = 1;
+	state->statement_position = 0;
 
 	state->end = state->start;
 
@@ -36939,6 +36944,11 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
 			case PHVOLT_T_EXTENDS:
+				if (state->statement_position != 1) {
+					parser_status->syntax_error = estrndup("Extends statement must be placed at the first line in the template", 66);
+					parser_status->status = PHVOLT_PARSING_FAILED;
+					break;
+				}
 				phvolt_(phvolt_parser, PHVOLT_EXTENDS, NULL, parser_status);
 				break;
 
@@ -36946,7 +36956,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				status = FAILURE;
 				error = emalloc(sizeof(char) * 32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -36968,7 +36978,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				if (state->start) {
 					error = emalloc(sizeof(char)*(48+strlen(state->start)));
 					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
@@ -36986,7 +36996,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_ALLOC_ZVAL_MM(*error_msg);
+		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 		efree(parser_status->syntax_error);
 	}
@@ -37012,7 +37022,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Tue Oct  9 22:12:16 2012 */
+/* Generated by re2c 0.13.5 on Thu Oct 11 15:57:19 2012 */
 // 1 "scanner.re"
 
 
@@ -37034,6 +37044,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 	while (PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		if (s->mode == PHVOLT_MODE_RAW || s->mode == PHVOLT_MODE_COMMENT) {
+
+			if (*KKCURSOR == '\n') {
+				s->active_line++;
+			}
 
 			next = *(KKCURSOR+1);
 			if (*KKCURSOR == '\0' || (*KKCURSOR == '{' && (next == '%' || next == '{' || next == '#'))) {
@@ -37061,6 +37075,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 							KKCURSOR+=2;
 							token->opcode = PHVOLT_T_IGNORE;
 							return 0;
+						} else {
+							if (next == '\n') {
+								s->active_line++;
+							}
 						}
 					}
 
@@ -37086,18 +37104,18 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		} else {
 
 		
-// 97 "scanner.c"
+// 105 "scanner.c"
 		{
 			KKCTYPE kkch;
 			unsigned int kkaccept = 0;
 
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case 0x00:	goto kk58;
+			case 0x00:	goto kk60;
 			case '\t':
-			case '\n':
 			case '\r':
 			case ' ':	goto kk56;
+			case '\n':	goto kk58;
 			case '!':	goto kk50;
 			case '"':	goto kk19;
 			case '%':	goto kk16;
@@ -37182,14 +37200,14 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case '|':	goto kk52;
 			case '}':	goto kk18;
 			case '~':	goto kk30;
-			default:	goto kk60;
+			default:	goto kk62;
 			}
 kk2:
 			kkaccept = 0;
 			kkch = *(KKMARKER = ++KKCURSOR);
-			goto kk159;
+			goto kk161;
 kk3:
-// 98 "scanner.re"
+// 106 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_INTEGER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -37197,18 +37215,18 @@ kk3:
 			q = KKCURSOR;
 			return 0;
 		}
-// 208 "scanner.c"
+// 216 "scanner.c"
 kk4:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case 'F':
-			case 'f':	goto kk153;
+			case 'f':	goto kk155;
 			case 'N':
-			case 'n':	goto kk155;
-			default:	goto kk80;
+			case 'n':	goto kk157;
+			default:	goto kk82;
 			}
 kk5:
-// 222 "scanner.re"
+// 235 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -37216,388 +37234,396 @@ kk5:
 			q = KKCURSOR;
 			return 0;
 		}
-// 227 "scanner.c"
+// 235 "scanner.c"
 kk6:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk127;
+			case 'l':	goto kk129;
 			case 'N':
-			case 'n':	goto kk128;
+			case 'n':	goto kk130;
 			case 'X':
-			case 'x':	goto kk129;
-			default:	goto kk80;
+			case 'x':	goto kk131;
+			default:	goto kk82;
 			}
 kk7:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
-			case 'a':	goto kk119;
+			case 'a':	goto kk121;
 			case 'O':
-			case 'o':	goto kk120;
-			default:	goto kk80;
+			case 'o':	goto kk122;
+			default:	goto kk82;
 			}
 kk8:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk116;
-			default:	goto kk80;
+			case 'e':	goto kk118;
+			default:	goto kk82;
 			}
 kk9:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'U':
-			case 'u':	goto kk112;
-			default:	goto kk80;
+			case 'u':	goto kk114;
+			default:	goto kk82;
 			}
 kk10:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk108;
-			default:	goto kk80;
+			case 'r':	goto kk110;
+			default:	goto kk82;
 			}
 kk11:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'N':
-			case 'n':	goto kk105;
-			default:	goto kk80;
+			case 'n':	goto kk107;
+			default:	goto kk82;
 			}
 kk12:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk103;
-			default:	goto kk80;
+			case 'r':	goto kk105;
+			default:	goto kk82;
 			}
 kk13:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk98;
-			default:	goto kk80;
+			case 'l':	goto kk100;
+			default:	goto kk82;
 			}
 kk14:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '%':	goto kk96;
-			case '{':	goto kk94;
+			case '%':	goto kk98;
+			case '{':	goto kk96;
 			default:	goto kk15;
 			}
 kk15:
-// 370 "scanner.re"
+// 389 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 303 "scanner.c"
+// 311 "scanner.c"
 kk16:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '}':	goto kk92;
+			case '}':	goto kk94;
 			default:	goto kk17;
 			}
 kk17:
-// 250 "scanner.re"
+// 263 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MOD;
 			return 0;
 		}
-// 316 "scanner.c"
+// 324 "scanner.c"
 kk18:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case '}':	goto kk90;
+			case '}':	goto kk92;
 			default:	goto kk15;
 			}
 kk19:
 			kkaccept = 1;
 			kkch = *(KKMARKER = ++KKCURSOR);
 			if (kkch <= 0x00) goto kk15;
-			goto kk88;
+			goto kk90;
 kk20:
 			kkaccept = 1;
 			kkch = *(KKMARKER = ++KKCURSOR);
 			if (kkch <= 0x00) goto kk15;
-			goto kk82;
+			goto kk84;
 kk21:
 			kkch = *++KKCURSOR;
-			goto kk80;
+			goto kk82;
 kk22:
 			++KKCURSOR;
-// 230 "scanner.re"
+// 243 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ADD;
 			return 0;
 		}
-// 343 "scanner.c"
+// 351 "scanner.c"
 kk24:
 			++KKCURSOR;
-// 235 "scanner.re"
+// 248 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SUB;
 			return 0;
 		}
-// 351 "scanner.c"
+// 359 "scanner.c"
 kk26:
 			++KKCURSOR;
-// 240 "scanner.re"
+// 253 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MUL;
 			return 0;
 		}
-// 359 "scanner.c"
+// 367 "scanner.c"
 kk28:
 			++KKCURSOR;
-// 245 "scanner.re"
+// 258 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DIV;
 			return 0;
 		}
-// 367 "scanner.c"
+// 375 "scanner.c"
 kk30:
 			++KKCURSOR;
-// 255 "scanner.re"
+// 268 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_CONCAT;
 			return 0;
 		}
-// 375 "scanner.c"
+// 383 "scanner.c"
 kk32:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '.':	goto kk77;
+			case '.':	goto kk79;
 			default:	goto kk33;
 			}
 kk33:
-// 265 "scanner.re"
+// 278 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOT;
 			return 0;
 		}
-// 388 "scanner.c"
+// 396 "scanner.c"
 kk34:
 			++KKCURSOR;
-// 270 "scanner.re"
+// 283 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COMMA;
 			return 0;
 		}
-// 396 "scanner.c"
+// 404 "scanner.c"
 kk36:
 			++KKCURSOR;
-// 275 "scanner.re"
+// 288 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 404 "scanner.c"
+// 412 "scanner.c"
 kk38:
 			++KKCURSOR;
-// 280 "scanner.re"
+// 293 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 412 "scanner.c"
+// 420 "scanner.c"
 kk40:
 			++KKCURSOR;
-// 285 "scanner.re"
+// 298 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 420 "scanner.c"
+// 428 "scanner.c"
 kk42:
 			++KKCURSOR;
-// 290 "scanner.re"
+// 303 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 428 "scanner.c"
+// 436 "scanner.c"
 kk44:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk75;
-			case '>':	goto kk73;
+			case '=':	goto kk77;
+			case '>':	goto kk75;
 			default:	goto kk45;
 			}
 kk45:
-// 340 "scanner.re"
+// 353 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESS;
 			return 0;
 		}
-// 442 "scanner.c"
+// 450 "scanner.c"
 kk46:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk69;
+			case '=':	goto kk71;
 			default:	goto kk47;
 			}
 kk47:
-// 300 "scanner.re"
+// 313 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ASSIGN;
 			return 0;
 		}
-// 455 "scanner.c"
+// 463 "scanner.c"
 kk48:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk67;
+			case '=':	goto kk69;
 			default:	goto kk49;
 			}
 kk49:
-// 345 "scanner.re"
+// 358 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATER;
 			return 0;
 		}
-// 468 "scanner.c"
+// 476 "scanner.c"
 kk50:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk63;
+			case '=':	goto kk65;
 			default:	goto kk51;
 			}
 kk51:
-// 335 "scanner.re"
+// 348 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 481 "scanner.c"
+// 489 "scanner.c"
 kk52:
 			++KKCURSOR;
-// 350 "scanner.re"
+// 363 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_PIPE;
 			return 0;
 		}
-// 489 "scanner.c"
+// 497 "scanner.c"
 kk54:
 			++KKCURSOR;
-// 355 "scanner.re"
+// 368 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLECOLON;
 			return 0;
 		}
-// 497 "scanner.c"
+// 505 "scanner.c"
 kk56:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-			goto kk62;
+			goto kk64;
 kk57:
-// 360 "scanner.re"
+// 373 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 508 "scanner.c"
+// 516 "scanner.c"
 kk58:
 			++KKCURSOR;
-// 365 "scanner.re"
+// 378 "scanner.re"
+			{
+			s->active_line++;
+			token->opcode = PHVOLT_T_IGNORE;
+			return 0;
+		}
+// 525 "scanner.c"
+kk60:
+			++KKCURSOR;
+// 384 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 516 "scanner.c"
-kk60:
+// 533 "scanner.c"
+kk62:
 			kkch = *++KKCURSOR;
 			goto kk15;
-kk61:
-			++KKCURSOR;
-			kkch = *KKCURSOR;
-kk62:
-			switch (kkch) {
-			case '\t':
-			case '\n':
-			case '\r':
-			case ' ':	goto kk61;
-			default:	goto kk57;
-			}
 kk63:
 			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk65;
-			default:	goto kk64;
-			}
+			kkch = *KKCURSOR;
 kk64:
-// 315 "scanner.re"
+			switch (kkch) {
+			case '\t':
+			case '\r':
+			case ' ':	goto kk63;
+			default:	goto kk57;
+			}
+kk65:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk67;
+			default:	goto kk66;
+			}
+kk66:
+// 328 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 543 "scanner.c"
-kk65:
+// 559 "scanner.c"
+kk67:
 			++KKCURSOR;
-// 330 "scanner.re"
+// 343 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTIDENTICAL;
 			return 0;
 		}
-// 551 "scanner.c"
-kk67:
+// 567 "scanner.c"
+kk69:
 			++KKCURSOR;
-// 305 "scanner.re"
+// 318 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATEREQUAL;
 			return 0;
 		}
-// 559 "scanner.c"
-kk69:
+// 575 "scanner.c"
+kk71:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk71;
-			default:	goto kk70;
+			case '=':	goto kk73;
+			default:	goto kk72;
 			}
-kk70:
-// 310 "scanner.re"
+kk72:
+// 323 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_EQUALS;
 			return 0;
 		}
-// 572 "scanner.c"
-kk71:
+// 588 "scanner.c"
+kk73:
 			++KKCURSOR;
-// 325 "scanner.re"
+// 338 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTICAL;
 			return 0;
 		}
-// 580 "scanner.c"
-kk73:
+// 596 "scanner.c"
+kk75:
 			++KKCURSOR;
-// 320 "scanner.re"
+// 333 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 588 "scanner.c"
-kk75:
+// 604 "scanner.c"
+kk77:
 			++KKCURSOR;
-// 295 "scanner.re"
+// 308 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESSEQUAL;
 			return 0;
 		}
-// 596 "scanner.c"
-kk77:
+// 612 "scanner.c"
+kk79:
 			++KKCURSOR;
-// 260 "scanner.re"
+// 273 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_RANGE;
 			return 0;
 		}
-// 604 "scanner.c"
-kk79:
+// 620 "scanner.c"
+kk81:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk80:
+kk82:
 			switch (kkch) {
 			case '0':
 			case '1':
@@ -37662,35 +37688,35 @@ kk80:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
+			case 'z':	goto kk81;
 			default:	goto kk5;
 			}
-kk81:
+kk83:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk82:
+kk84:
 			switch (kkch) {
-			case 0x00:	goto kk83;
-			case '\'':	goto kk85;
-			case '\\':	goto kk84;
-			default:	goto kk81;
+			case 0x00:	goto kk85;
+			case '\'':	goto kk87;
+			case '\\':	goto kk86;
+			default:	goto kk83;
 			}
-kk83:
+kk85:
 			KKCURSOR = KKMARKER;
 			switch (kkaccept) {
 			case 0: 	goto kk3;
 			case 1: 	goto kk15;
 			}
-kk84:
+kk86:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case '\n':	goto kk83;
-			default:	goto kk81;
+			case '\n':	goto kk85;
+			default:	goto kk83;
 			}
-kk85:
+kk87:
 			++KKCURSOR;
-// 213 "scanner.re"
+// 226 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_STRING;
 			token->value = estrndup(q, KKCURSOR - q - 1);
@@ -37698,155 +37724,80 @@ kk85:
 			q = KKCURSOR;
 			return 0;
 		}
-// 709 "scanner.c"
-kk87:
-			++KKCURSOR;
-			kkch = *KKCURSOR;
-kk88:
-			switch (kkch) {
-			case 0x00:	goto kk83;
-			case '"':	goto kk85;
-			case '\\':	goto kk89;
-			default:	goto kk87;
-			}
+// 725 "scanner.c"
 kk89:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-			switch (kkch) {
-			case '\n':	goto kk83;
-			default:	goto kk87;
-			}
 kk90:
+			switch (kkch) {
+			case 0x00:	goto kk85;
+			case '"':	goto kk87;
+			case '\\':	goto kk91;
+			default:	goto kk89;
+			}
+kk91:
 			++KKCURSOR;
-// 206 "scanner.re"
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case '\n':	goto kk85;
+			default:	goto kk89;
+			}
+kk92:
+			++KKCURSOR;
+// 219 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
-// 735 "scanner.c"
-kk92:
+// 751 "scanner.c"
+kk94:
 			++KKCURSOR;
-// 195 "scanner.re"
+// 207 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
 		}
-// 744 "scanner.c"
-kk94:
+// 760 "scanner.c"
+kk96:
 			++KKCURSOR;
-// 201 "scanner.re"
+// 213 "scanner.re"
 			{
+			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
-// 752 "scanner.c"
-kk96:
+// 769 "scanner.c"
+kk98:
 			++KKCURSOR;
-// 190 "scanner.re"
+// 202 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-// 760 "scanner.c"
-kk98:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk99;
-			default:	goto kk80;
-			}
-kk99:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk100;
-			default:	goto kk80;
-			}
+// 777 "scanner.c"
 kk100:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk101;
-			default:	goto kk80;
+			case 'O':
+			case 'o':	goto kk101;
+			default:	goto kk82;
 			}
 kk101:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
+			kkch = *++KKCURSOR;
+			switch (kkch) {
 			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk102;
+			case 'c':	goto kk102;
+			default:	goto kk82;
 			}
 kk102:
-// 175 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_BLOCK;
-			return 0;
-		}
-// 857 "scanner.c"
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk103;
+			default:	goto kk82;
+			}
 kk103:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -37913,24 +37864,101 @@ kk103:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
+			case 'z':	goto kk81;
 			default:	goto kk104;
 			}
 kk104:
-// 170 "scanner.re"
+// 185 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_BLOCK;
+			return 0;
+		}
+// 875 "scanner.c"
+kk105:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk81;
+			default:	goto kk106;
+			}
+kk106:
+// 180 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OR;
 			return 0;
 		}
-// 933 "scanner.c"
-kk105:
+// 951 "scanner.c"
+kk107:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'D':
-			case 'd':	goto kk106;
-			default:	goto kk80;
+			case 'd':	goto kk108;
+			default:	goto kk82;
 			}
-kk106:
+kk108:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -37996,31 +38024,31 @@ kk106:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk107;
+			case 'z':	goto kk81;
+			default:	goto kk109;
 			}
-kk107:
-// 165 "scanner.re"
+kk109:
+// 175 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_AND;
 			return 0;
 		}
-// 1016 "scanner.c"
-kk108:
+// 1034 "scanner.c"
+kk110:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'U':
-			case 'u':	goto kk109;
-			default:	goto kk80;
+			case 'u':	goto kk111;
+			default:	goto kk82;
 			}
-kk109:
+kk111:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk110;
-			default:	goto kk80;
+			case 'e':	goto kk112;
+			default:	goto kk82;
 			}
-kk110:
+kk112:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38086,31 +38114,31 @@ kk110:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk111;
+			case 'z':	goto kk81;
+			default:	goto kk113;
 			}
-kk111:
-// 160 "scanner.re"
+kk113:
+// 170 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
-// 1106 "scanner.c"
-kk112:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk113;
-			default:	goto kk80;
-			}
-kk113:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk114;
-			default:	goto kk80;
-			}
+// 1124 "scanner.c"
 kk114:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'L':
+			case 'l':	goto kk115;
+			default:	goto kk82;
+			}
+kk115:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'L':
+			case 'l':	goto kk116;
+			default:	goto kk82;
+			}
+kk116:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38176,24 +38204,24 @@ kk114:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk115;
+			case 'z':	goto kk81;
+			default:	goto kk117;
 			}
-kk115:
-// 150 "scanner.re"
+kk117:
+// 160 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
-// 1196 "scanner.c"
-kk116:
+// 1214 "scanner.c"
+kk118:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'T':
-			case 't':	goto kk117;
-			default:	goto kk80;
+			case 't':	goto kk119;
+			default:	goto kk82;
 			}
-kk117:
+kk119:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38259,31 +38287,31 @@ kk117:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk118;
+			case 'z':	goto kk81;
+			default:	goto kk120;
 			}
-kk118:
-// 145 "scanner.re"
+kk120:
+// 155 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
-// 1279 "scanner.c"
-kk119:
+// 1297 "scanner.c"
+kk121:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk123;
-			default:	goto kk80;
+			case 'l':	goto kk125;
+			default:	goto kk82;
 			}
-kk120:
+kk122:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk121;
-			default:	goto kk80;
+			case 'r':	goto kk123;
+			default:	goto kk82;
 			}
-kk121:
+kk123:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38349,31 +38377,32 @@ kk121:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk122;
+			case 'z':	goto kk81;
+			default:	goto kk124;
 			}
-kk122:
-// 130 "scanner.re"
+kk124:
+// 139 "scanner.re"
 			{
+			s->statement_position++;
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
-// 1369 "scanner.c"
-kk123:
+// 1388 "scanner.c"
+kk125:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'S':
-			case 's':	goto kk124;
-			default:	goto kk80;
+			case 's':	goto kk126;
+			default:	goto kk82;
 			}
-kk124:
+kk126:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk125;
-			default:	goto kk80;
+			case 'e':	goto kk127;
+			default:	goto kk82;
 			}
-kk125:
+kk127:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38439,66 +38468,66 @@ kk125:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk126;
+			case 'z':	goto kk81;
+			default:	goto kk128;
 			}
-kk126:
-// 155 "scanner.re"
+kk128:
+// 165 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FALSE;
 			return 0;
 		}
-// 1459 "scanner.c"
-kk127:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'S':
-			case 's':	goto kk150;
-			default:	goto kk80;
-			}
-kk128:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk136;
-			default:	goto kk80;
-			}
+// 1478 "scanner.c"
 kk129:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'T':
-			case 't':	goto kk130;
-			default:	goto kk80;
+			case 'S':
+			case 's':	goto kk152;
+			default:	goto kk82;
 			}
 kk130:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk131;
-			default:	goto kk80;
+			case 'D':
+			case 'd':	goto kk138;
+			default:	goto kk82;
 			}
 kk131:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk132;
-			default:	goto kk80;
+			case 'T':
+			case 't':	goto kk132;
+			default:	goto kk82;
 			}
 kk132:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk133;
-			default:	goto kk80;
+			case 'E':
+			case 'e':	goto kk133;
+			default:	goto kk82;
 			}
 kk133:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'S':
-			case 's':	goto kk134;
-			default:	goto kk80;
+			case 'N':
+			case 'n':	goto kk134;
+			default:	goto kk82;
 			}
 kk134:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'D':
+			case 'd':	goto kk135;
+			default:	goto kk82;
+			}
+kk135:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'S':
+			case 's':	goto kk136;
+			default:	goto kk82;
+			}
+kk136:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38564,49 +38593,50 @@ kk134:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk135;
+			case 'z':	goto kk81;
+			default:	goto kk137;
 			}
-kk135:
-// 185 "scanner.re"
+kk137:
+// 196 "scanner.re"
 			{
+			s->statement_position++;
 			token->opcode = PHVOLT_T_EXTENDS;
 			return 0;
 		}
-// 1584 "scanner.c"
-kk136:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'B':
-			case 'b':	goto kk137;
-			case 'F':
-			case 'f':	goto kk138;
-			case 'I':
-			case 'i':	goto kk139;
-			default:	goto kk80;
-			}
-kk137:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk145;
-			default:	goto kk80;
-			}
+// 1604 "scanner.c"
 kk138:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk142;
-			default:	goto kk80;
+			case 'B':
+			case 'b':	goto kk139;
+			case 'F':
+			case 'f':	goto kk140;
+			case 'I':
+			case 'i':	goto kk141;
+			default:	goto kk82;
 			}
 kk139:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'F':
-			case 'f':	goto kk140;
-			default:	goto kk80;
+			case 'L':
+			case 'l':	goto kk147;
+			default:	goto kk82;
 			}
 kk140:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'O':
+			case 'o':	goto kk144;
+			default:	goto kk82;
+			}
+kk141:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'F':
+			case 'f':	goto kk142;
+			default:	goto kk82;
+			}
+kk142:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38672,24 +38702,24 @@ kk140:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk141;
+			case 'z':	goto kk81;
+			default:	goto kk143;
 			}
-kk141:
-// 125 "scanner.re"
+kk143:
+// 134 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
 		}
-// 1692 "scanner.c"
-kk142:
+// 1712 "scanner.c"
+kk144:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk143;
-			default:	goto kk80;
+			case 'r':	goto kk145;
+			default:	goto kk82;
 			}
-kk143:
+kk145:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38755,38 +38785,38 @@ kk143:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk144;
+			case 'z':	goto kk81;
+			default:	goto kk146;
 			}
-kk144:
-// 135 "scanner.re"
+kk146:
+// 145 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDFOR;
 			return 0;
 		}
-// 1775 "scanner.c"
-kk145:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk146;
-			default:	goto kk80;
-			}
-kk146:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk147;
-			default:	goto kk80;
-			}
+// 1795 "scanner.c"
 kk147:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk148;
-			default:	goto kk80;
+			case 'O':
+			case 'o':	goto kk148;
+			default:	goto kk82;
 			}
 kk148:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'C':
+			case 'c':	goto kk149;
+			default:	goto kk82;
+			}
+kk149:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk150;
+			default:	goto kk82;
+			}
+kk150:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -38852,99 +38882,23 @@ kk148:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk149;
+			case 'z':	goto kk81;
+			default:	goto kk151;
 			}
-kk149:
-// 180 "scanner.re"
+kk151:
+// 191 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDBLOCK;
 			return 0;
 		}
-// 1872 "scanner.c"
-kk150:
+// 1892 "scanner.c"
+kk152:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk151;
-			default:	goto kk80;
+			case 'e':	goto kk153;
+			default:	goto kk82;
 			}
-kk151:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto kk79;
-			default:	goto kk152;
-			}
-kk152:
-// 120 "scanner.re"
-			{
-			token->opcode = PHVOLT_T_ELSE;
-			return 0;
-		}
-// 1955 "scanner.c"
 kk153:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -39011,16 +38965,16 @@ kk153:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
+			case 'z':	goto kk81;
 			default:	goto kk154;
 			}
 kk154:
-// 115 "scanner.re"
+// 129 "scanner.re"
 			{
-			token->opcode = PHVOLT_T_IF;
+			token->opcode = PHVOLT_T_ELSE;
 			return 0;
 		}
-// 2031 "scanner.c"
+// 1975 "scanner.c"
 kk155:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -39087,17 +39041,94 @@ kk155:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk79;
+			case 'z':	goto kk81;
 			default:	goto kk156;
 			}
 kk156:
-// 140 "scanner.re"
+// 123 "scanner.re"
+			{
+			s->statement_position++;
+			token->opcode = PHVOLT_T_IF;
+			return 0;
+		}
+// 2052 "scanner.c"
+kk157:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk81;
+			default:	goto kk158;
+			}
+kk158:
+// 150 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IN;
 			return 0;
 		}
-// 2107 "scanner.c"
-kk157:
+// 2128 "scanner.c"
+kk159:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case '0':
@@ -39109,16 +39140,16 @@ kk157:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk160;
-			default:	goto kk83;
+			case '9':	goto kk162;
+			default:	goto kk85;
 			}
-kk158:
+kk160:
 			kkaccept = 0;
 			KKMARKER = ++KKCURSOR;
 			kkch = *KKCURSOR;
-kk159:
+kk161:
 			switch (kkch) {
-			case '.':	goto kk157;
+			case '.':	goto kk159;
 			case '0':
 			case '1':
 			case '2':
@@ -39128,10 +39159,10 @@ kk159:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk158;
+			case '9':	goto kk160;
 			default:	goto kk3;
 			}
-kk160:
+kk162:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
@@ -39144,11 +39175,11 @@ kk160:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk160;
-			default:	goto kk162;
+			case '9':	goto kk162;
+			default:	goto kk164;
 			}
-kk162:
-// 107 "scanner.re"
+kk164:
+// 115 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -39156,9 +39187,9 @@ kk162:
 			q = KKCURSOR;
 			return 0;
 		}
-// 2167 "scanner.c"
+// 2188 "scanner.c"
 		}
-// 375 "scanner.re"
+// 394 "scanner.re"
 
 
 		}
@@ -50931,7 +50962,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		
-		if (phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
+		if (!phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(camelized_class);
 			PHALCON_CALL_STATIC_PARAMS_1(camelized_class, "phalcon\\text", "camelize", handler_name);
 		} else {
