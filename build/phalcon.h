@@ -64,6 +64,7 @@ zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_mvc_model_message_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
+zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
 zend_class_entry *phalcon_mvc_model_metadata_session_ce;
 zend_class_entry *phalcon_mvc_model_resultset_ce;
@@ -498,17 +499,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions);
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField);
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, storeMetaData);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticDefault);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, write);
 
 PHP_METHOD(Phalcon_Mvc_Model_Message, __construct);
@@ -551,6 +554,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write);
+
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read);
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write);
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read);
@@ -1821,6 +1828,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_manager_notifycommi
 	ZEND_ARG_INFO(0, transaction)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_readmetadataindex, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getattributes, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
@@ -1841,15 +1853,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdatatypes, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getbindtypes, 0, 0, 1)
-	ZEND_ARG_INFO(0, model)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getdatatypesnumeric, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getidentityfield, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getbindtypes, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_getautomaticdefault, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
@@ -1989,11 +2005,28 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_memory___construct, 0,
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_memory_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_files___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_files_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc_write, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apc_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
@@ -2001,7 +2034,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session___construct, 0
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session_write, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session_read, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_session_write, 0, 0, 2)
+	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
@@ -3754,17 +3792,19 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_MetaData, _initializeMetaData, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaDataIndex, arginfo_phalcon_mvc_model_metadata_readmetadataindex, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getAttributes, arginfo_phalcon_mvc_model_metadata_getattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadata_getprimarykeyattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes, arginfo_phalcon_mvc_model_metadata_getnonprimarykeyattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getNotNullAttributes, arginfo_phalcon_mvc_model_metadata_getnotnullattributes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypes, arginfo_phalcon_mvc_model_metadata_getdatatypes, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadata_getbindtypes, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric, arginfo_phalcon_mvc_model_metadata_getdatatypesnumeric, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, getIdentityField, arginfo_phalcon_mvc_model_metadata_getidentityfield, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_MetaData, storeMetaData, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getBindTypes, arginfo_phalcon_mvc_model_metadata_getbindtypes, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, getAutomaticDefault, arginfo_phalcon_mvc_model_metadata_getautomaticdefault, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, isEmpty, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, reset, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData, read, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData, write, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
 	PHP_FE_END
 };
@@ -3814,21 +3854,28 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_memory_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, __construct, arginfo_phalcon_mvc_model_metadata_memory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, read, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, read, arginfo_phalcon_mvc_model_metadata_memory_read, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Memory, write, NULL, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_files_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, __construct, arginfo_phalcon_mvc_model_metadata_files___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, read, arginfo_phalcon_mvc_model_metadata_files_read, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Files, write, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_apc_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, __construct, arginfo_phalcon_mvc_model_metadata_apc___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, read, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, read, arginfo_phalcon_mvc_model_metadata_apc_read, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Apc, write, arginfo_phalcon_mvc_model_metadata_apc_write, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_session_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Session, __construct, arginfo_phalcon_mvc_model_metadata_session___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Mvc_Model_MetaData_Session, read, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Session, read, arginfo_phalcon_mvc_model_metadata_session_read, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_MetaData_Session, write, arginfo_phalcon_mvc_model_metadata_session_write, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

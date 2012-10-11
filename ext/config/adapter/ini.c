@@ -36,6 +36,7 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
@@ -80,8 +81,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
 	zval *file_path, *config, *process_sections;
 	zval *ini_config, *base_path, *exception_message;
-	zval *dot, *directives = NULL, *section = NULL, *value = NULL, *key = NULL, *have_dot = NULL;
-	zval *directive_parts = NULL, *left_part = NULL, *right_part = NULL;
+	zval *dot, *directives = NULL, *section = NULL, *value = NULL, *key = NULL, *directive_parts = NULL;
+	zval *left_part = NULL, *right_part = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -153,9 +154,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
-			PHALCON_INIT_NVAR(have_dot);
-			phalcon_fast_strpos(have_dot, key, dot TSRMLS_CC);
-			if (PHALCON_IS_NOT_FALSE(have_dot)) {
+			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(directive_parts);
 				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
 				

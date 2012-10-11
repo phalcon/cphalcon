@@ -58,8 +58,9 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				'id' => 1,
 				'name' => 2,
 				'type' => 2,
-				'year' => 1,	
-			)
+				'year' => 1,
+			),
+			10 => array()
 		)
 	);
 
@@ -141,7 +142,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$metaData->storeMetaData();
+		//$metaData->storeMetaData();
 
 		$expectedSession = array(
 			'$PMM$my-local-app' => $this->_data
@@ -180,9 +181,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$metaData->storeMetaData();
-
-		$this->assertEquals(apc_fetch('$PMM$my-local-app'), $this->_data);
+		$this->assertEquals(apc_fetch('$PMM$my-local-approbots'), $this->_data['robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 

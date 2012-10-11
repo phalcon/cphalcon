@@ -2,7 +2,7 @@ ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
 
 if (PHP_PHALCON != "no") {
   EXTENSION("phalcon", "phalcon.c");
-  ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c operators.c concat.c exception.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/kernel", "main.c fcall.c require.c debug.c assert.c object.c array.c memory.c string.c operators.c concat.c exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/query", "scanner.c parser.c status.c lang.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/view/engine/volt", "scanner.c parser.c compiler.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session", "exception.c bag.c", "phalcon")
@@ -20,7 +20,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/model", "query.c exception.c criteria.c validator.c row.c metadata.c message.c manager.c resultset.c transaction.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/resultset", "complex.c simple.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/transaction", "exception.c failed.c manager.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/metadata", "memory.c apc.c session.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/model/metadata", "memory.c files.c apc.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/user", "plugin.c module.c component.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config/adapter", "ini.c", "phalcon")

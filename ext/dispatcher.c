@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/concat.h"
 
 /**
@@ -377,9 +378,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *events_manager, *event_name = NULL, *status = NULL, *value = NULL;
 	zval *handler = NULL, *number_dispatches, *handler_suffix;
 	zval *action_suffix, *default_namespace, *finished = NULL;
-	zval *handler_name = NULL, *action_name = NULL, *has_namespace = NULL;
-	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
-	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
+	zval *handler_name = NULL, *action_name = NULL, *camelized_class = NULL;
+	zval *handler_class = NULL, *has_service = NULL, *was_fresh = NULL;
+	zval *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -473,9 +474,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		
-		PHALCON_INIT_NVAR(has_namespace);
-		phalcon_fast_strpos_str(has_namespace, handler_name, SL("\\") TSRMLS_CC);
-		if (PHALCON_IS_FALSE(has_namespace)) {
+		if (phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(camelized_class);
 			PHALCON_CALL_STATIC_PARAMS_1(camelized_class, "phalcon\\text", "camelize", handler_name);
 		} else {

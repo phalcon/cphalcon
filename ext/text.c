@@ -33,6 +33,7 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Text

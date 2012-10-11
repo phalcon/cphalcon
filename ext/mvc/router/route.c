@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
@@ -103,10 +104,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 
-	zval *pattern, *compiled_pattern = NULL, *have_double_dot;
-	zval *id_pattern, *have_wildcard = NULL, *wildcard = NULL;
-	zval *pattern_copy = NULL, *params_pattern, *int_pattern;
-	zval *have_parenthesis, *final_pattern = NULL;
+	zval *pattern, *compiled_pattern = NULL, *id_pattern;
+	zval *wildcard = NULL, *pattern_copy = NULL, *params_pattern;
+	zval *int_pattern, *final_pattern = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -116,16 +116,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	}
 
 	PHALCON_CPY_WRT(compiled_pattern, pattern);
-	
-	PHALCON_INIT_VAR(have_double_dot);
-	phalcon_fast_strpos_str(have_double_dot, pattern, SL(":") TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(have_double_dot)) {
+	if (phalcon_memnstr_str(pattern, SL(":") TSRMLS_CC)) {
 		PHALCON_INIT_VAR(id_pattern);
 		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9\\_]+)", 1);
-		
-		PHALCON_INIT_VAR(have_wildcard);
-		phalcon_fast_strpos_str(have_wildcard, pattern, SL("/:module") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_wildcard)) {
+		if (phalcon_memnstr_str(pattern, SL("/:module") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(wildcard);
 			ZVAL_STRING(wildcard, "/:module", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
@@ -134,9 +128,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
 		
-		PHALCON_INIT_NVAR(have_wildcard);
-		phalcon_fast_strpos_str(have_wildcard, pattern, SL("/:controller") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_wildcard)) {
+		if (phalcon_memnstr_str(pattern, SL("/:controller") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:controller", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
@@ -145,9 +137,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
 		
-		PHALCON_INIT_NVAR(have_wildcard);
-		phalcon_fast_strpos_str(have_wildcard, pattern, SL("/:action") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_wildcard)) {
+		if (phalcon_memnstr_str(pattern, SL("/:action") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:action", 1);
 			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
@@ -156,9 +146,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
 		
-		PHALCON_INIT_NVAR(have_wildcard);
-		phalcon_fast_strpos_str(have_wildcard, pattern, SL("/:params") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_wildcard)) {
+		if (phalcon_memnstr_str(pattern, SL("/:params") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:params", 1);
 			
@@ -170,9 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			phalcon_fast_str_replace(compiled_pattern, wildcard, params_pattern, pattern_copy TSRMLS_CC);
 		}
 		
-		PHALCON_INIT_NVAR(have_wildcard);
-		phalcon_fast_strpos_str(have_wildcard, pattern, SL("/:int") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_wildcard)) {
+		if (phalcon_memnstr_str(pattern, SL("/:int") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(wildcard);
 			ZVAL_STRING(wildcard, "/:int", 1);
 			
@@ -185,9 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 		}
 	}
 	
-	PHALCON_INIT_VAR(have_parenthesis);
-	phalcon_fast_strpos_str(have_parenthesis, compiled_pattern, SL("(") TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(have_parenthesis)) {
+	if (phalcon_memnstr_str(compiled_pattern, SL("(") TSRMLS_CC)) {
 		PHALCON_INIT_VAR(final_pattern);
 		PHALCON_CONCAT_SVS(final_pattern, "#^", compiled_pattern, "$#");
 	} else {

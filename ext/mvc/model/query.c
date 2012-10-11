@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Model\Query

@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
@@ -230,10 +231,10 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	zval *uri = NULL, *base_uri, *dependency_injector, *service;
 	zval *router, *route_name, *route, *exception_message;
 	zval *pattern, *replaced_pattern = NULL, *controller_name;
-	zval *wildcard = NULL, *action_name, *have_bracket;
-	zval *matches, *match_position, *set_order, *names_pattern;
-	zval *have_variables = NULL, *match = NULL, *match_zero = NULL, *match_one = NULL;
-	zval *value = NULL, *new_pcre_pattern = NULL, *final_uri;
+	zval *wildcard = NULL, *action_name, *matches, *match_position;
+	zval *set_order, *names_pattern, *have_variables = NULL;
+	zval *match = NULL, *match_zero = NULL, *match_one = NULL, *value = NULL, *new_pcre_pattern = NULL;
+	zval *final_uri;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
@@ -315,9 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			PHALCON_CPY_WRT(replaced_pattern, r1);
 		}
 		
-		PHALCON_INIT_VAR(have_bracket);
-		phalcon_fast_strpos_str(have_bracket, replaced_pattern, SL("{") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_bracket)) {
+		if (phalcon_memnstr_str(replaced_pattern, SL("{") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(matches);
 			
 			PHALCON_INIT_VAR(match_position);

@@ -38,6 +38,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\View
@@ -977,7 +978,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 PHP_METHOD(Phalcon_Mvc_View, pick){
 
 	zval *render_view, *separator, *pick_view = NULL, *layout = NULL;
-	zval *have_separator, *parts;
+	zval *parts;
 
 	PHALCON_MM_GROW();
 
@@ -992,10 +993,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 		PHALCON_CPY_WRT(pick_view, render_view);
 	} else {
 		PHALCON_INIT_VAR(layout);
-		
-		PHALCON_INIT_VAR(have_separator);
-		phalcon_fast_strpos(have_separator, render_view, separator TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_separator)) {
+		if (phalcon_memnstr(render_view, separator TSRMLS_CC)) {
 			PHALCON_INIT_VAR(parts);
 			phalcon_fast_explode(parts, separator, render_view TSRMLS_CC);
 			

@@ -38,6 +38,7 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Tag

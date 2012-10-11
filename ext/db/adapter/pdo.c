@@ -38,6 +38,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/operators.h"
 
 /**

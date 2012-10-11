@@ -17,5 +17,15 @@
   +------------------------------------------------------------------------+
 */
 
-int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC);
-int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path TSRMLS_DC);
+/** Fast char position */
+extern int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
+extern int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
+
+/** Function replacement */
+extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
+extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
+extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
+extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
+extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
+extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
+extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);

@@ -33,11 +33,12 @@
 #include "kernel/memory.h"
 
 #include "kernel/array.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Logger\Adapter\File
@@ -62,8 +63,7 @@
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 
-	zval *name, *options = NULL, *mode = NULL, *read_mode, *handler;
-	zval *exception_message;
+	zval *name, *options = NULL, *mode = NULL, *handler, *exception_message;
 	zval *a0 = NULL;
 	int eval_int;
 
@@ -91,10 +91,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 		PHALCON_INIT_NVAR(mode);
 		ZVAL_STRING(mode, "ab", 1);
 	}
-	
-	PHALCON_INIT_VAR(read_mode);
-	phalcon_fast_strpos_str(read_mode, mode, SL("r") TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(read_mode)) {
+	if (phalcon_memnstr_str(mode, SL("r") TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Logger must be opened in append or write mode");
 		return;
 	}

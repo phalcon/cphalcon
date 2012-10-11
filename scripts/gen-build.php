@@ -29,6 +29,7 @@ class Build_Generator {
 		'kernel/fcall.h',
 		'kernel/array.h',
 		'kernel/object.h',
+		'kernel/string.h',
 		'kernel/operators.h',
 		'kernel/concat.h',
 		'kernel/exception.h',
@@ -41,6 +42,7 @@ class Build_Generator {
 		'kernel/fcall.c',
 		'kernel/array.c',
 		'kernel/object.c',
+		'kernel/string.c',
 		'kernel/operators.c',
 		'kernel/concat.c',
 		'kernel/exception.c',
@@ -142,15 +144,19 @@ class Build_Generator {
 			} else {
 				$itemPath = $item->getPathname();
 				if (!preg_match('/\.c$/', $itemPath)) {
+					//echo $itemPath, PHP_EOL;
 					continue;
 				}
 				if (strpos($itemPath, '/kernel/') !== false) {
+					//echo $itemPath, PHP_EOL;
 					continue;
 				}
 				if (strpos($itemPath, '/phalcon.c') !== false) {
+					//echo $itemPath, PHP_EOL;
 					continue;
 				}
 				if (isset($this->_exclusions[$itemPath])){
+					//echo $itemPath, PHP_EOL;
 					continue;
 				}
 				call_user_func_array($handler, array($itemPath));
@@ -173,9 +179,11 @@ class Build_Generator {
 			}
 			if($openComment===false){
 				if (preg_match('/^#include /', $line)) {
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if (preg_match('/^#line /', $line)) {
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if (preg_match('/^extern ([A-Za-z\_]+)/', $line, $matches)) {
@@ -189,7 +197,7 @@ class Build_Generator {
 					fputs($fileHandler, $line);
 				}
 			}
-			if($trimLine=='*/'){
+			if($trimLine=='*/'||$trimLine=='**/'){
 				$openComment = false;
 			}
 		}
@@ -205,15 +213,19 @@ class Build_Generator {
 		foreach (file($path) as $line) {
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 				if (strpos($line, 'Zend/') !== false) {
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if (strpos($line, 'kernel/') !== false) {
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if (strpos($line, 'php_') !== false) {
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if(in_array($matches[1], $exceptions)){
+					//echo $line, PHP_EOL;
 					continue;
 				}
 				if(strpos($matches[1], '/')===false){

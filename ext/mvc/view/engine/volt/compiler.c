@@ -38,6 +38,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
 

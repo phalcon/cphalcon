@@ -79,6 +79,7 @@ zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_mvc_model_message_ce;
 zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
+zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
 zend_class_entry *phalcon_mvc_model_metadata_session_ce;
 zend_class_entry *phalcon_mvc_model_resultset_ce;
@@ -303,8 +304,6 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_transactions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, MetaData, mvc_model_metadata, phalcon_mvc_model_metadata_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-	zend_declare_property_bool(phalcon_mvc_model_metadata_ce, SL("_changed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_mvc_model_metadata_ce, SL("_registered"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_ATTRIBUTES"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_PRIMARY_KEY"), 1 TSRMLS_CC);
@@ -316,6 +315,7 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_IN"), 7 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_IDENTITY_FIELD"), 8 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPE_BIND"), 9 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT"), 10 TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Message, mvc_model_message, phalcon_mvc_model_message_method_entry, 0);
 	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -684,6 +684,9 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_mvc_model_transaction_failed_ce, SL("_record"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Memory, mvc_model_metadata_memory, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_memory_method_entry, 0);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Files, mvc_model_metadata_files, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_files_method_entry, 0);
+	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("_metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_apc_method_entry, 0);
 	zend_declare_property_string(phalcon_mvc_model_metadata_apc_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);

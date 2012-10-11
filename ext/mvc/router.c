@@ -37,6 +37,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Router
@@ -291,9 +292,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *uri = NULL, *real_uri = NULL, *request = NULL, *route_found = NULL, *parts = NULL;
 	zval *params = NULL, *matches, *routes, *reversed_routes;
 	zval *route = NULL, *methods = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *match_method = NULL, *pattern = NULL, *have_parenthesis = NULL;
-	zval *paths = NULL, *position = NULL, *part = NULL, *match_position = NULL;
-	zval *module, *default_module = NULL, *controller, *default_controller = NULL;
+	zval *service = NULL, *match_method = NULL, *pattern = NULL, *paths = NULL;
+	zval *position = NULL, *part = NULL, *match_position = NULL, *module;
+	zval *default_module = NULL, *controller, *default_controller = NULL;
 	zval *action, *default_action = NULL, *params_str, *one;
 	zval *str_params, *slash, *params_merge, *default_params;
 	HashTable *ah0, *ah1;
@@ -386,10 +387,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		
 		PHALCON_INIT_NVAR(pattern);
 		PHALCON_CALL_METHOD(pattern, route, "getcompiledpattern", PH_NO_CHECK);
-		
-		PHALCON_INIT_NVAR(have_parenthesis);
-		phalcon_fast_strpos_str(have_parenthesis, pattern, SL("(") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_parenthesis)) {
+		if (phalcon_memnstr_str(pattern, SL("(") TSRMLS_CC)) {
 			Z_SET_ISREF_P(matches);
 			PHALCON_INIT_NVAR(route_found);
 			PHALCON_CALL_FUNC_PARAMS_3(route_found, "preg_match", pattern, real_uri, matches);

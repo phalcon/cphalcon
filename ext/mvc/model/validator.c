@@ -35,6 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**

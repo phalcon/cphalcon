@@ -38,6 +38,7 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\Model

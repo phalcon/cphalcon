@@ -38,6 +38,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Http\Request
@@ -440,9 +441,8 @@ PHP_METHOD(Phalcon_Http_Request, isAjax){
  */
 PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 
-	zval *server = NULL, *position, *have_content_type;
+	zval *server = NULL, *content_type, *position, *have_content_type;
 	zval *g0 = NULL;
-	zval *r0 = NULL;
 	zval *t0 = NULL;
 	int eval_int;
 
@@ -457,10 +457,11 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 	} else {
 		eval_int = phalcon_array_isset_string(server, SS("CONTENT_TYPE"));
 		if (eval_int) {
-			PHALCON_INIT_VAR(r0);
-			phalcon_array_fetch_string(&r0, server, SL("CONTENT_TYPE"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(content_type);
+			phalcon_array_fetch_string(&content_type, server, SL("CONTENT_TYPE"), PH_NOISY_CC);
+			
 			PHALCON_INIT_VAR(position);
-			phalcon_fast_strpos_str(position, r0, SL("application/soap+xml") TSRMLS_CC);
+			phalcon_fast_strpos_str(position, content_type, SL("application/soap+xml") TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(t0);
 			ZVAL_BOOL(t0, 0);

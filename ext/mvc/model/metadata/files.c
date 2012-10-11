@@ -32,23 +32,32 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/concat.h"
+#include "kernel/require.h"
 
 /**
- * Phalcon\Mvc\Model\MetaData\Memory
+ * Phalcon\Mvc\Model\MetaData\Files
  *
- * Stores model meta-data in memory. Data will be erased when the request finishes
+ * Stores model meta-data in PHP files.
  *
+ *<code>
+ * $metaData = new Phalcon\Mvc\Model\Metadata\Files(array(
+ *    'metaDataDir' => 'app/cache/metadata/'
+ * ));
+ *</code>
  */
 
 /**
- * Phalcon\Mvc\Model\MetaData\Memory constructor
+ * Phalcon\Mvc\Model\MetaData\Files constructor
  *
  * @param array $options
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 
-	zval *options = NULL, *empty_array;
+	zval *options = NULL, *meta_data_dir, *empty_array;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -61,6 +70,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 		PHALCON_INIT_NVAR(options);
 	}
 	
+	eval_int = phalcon_array_isset_string(options, SS("metaDataDir"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(meta_data_dir);
+		phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
+	}
+	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
@@ -69,28 +85,44 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 }
 
 /**
- * Reads the meta-data from temporal memory
+ * Reads meta-data from $_SESSION
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 
-	zval *key;
+	zval *key, *meta_data_dir, *path, *data;
+
+	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(meta_data_dir);
+	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(path);
+	PHALCON_CONCAT_VV(path, meta_data_dir, key);
+	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(data);
+		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
+			return;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
 	RETURN_NULL();
 }
 
 /**
- * Writes the meta-data to temporal memory
+ * Writes the meta-data to $_SESSION
  *
  * @param string $key
- * @param array $metaData
+ * @param array $data
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
 
 	

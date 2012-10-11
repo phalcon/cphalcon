@@ -59,14 +59,8 @@ extern int phalcon_get_global_by_index(char *global, char *index, zval *result T
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC);
 
-/** Function replacement **/
+/** Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
-extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
-extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
-extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
-extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
-extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
-extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);

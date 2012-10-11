@@ -37,9 +37,13 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Db\Dialect
+ *
+ * This is the base class to each database dialect. This implements
+ * common methods to transform intermediate code into its RDBM related syntax
  */
 
 /**
@@ -268,7 +272,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			if (eval_int) {
 				PHALCON_INIT_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit_value, SL("offset"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSV(sql, " LIMIT ", number, ",", offset);
+				PHALCON_SCONCAT_SVSV(sql, " LIMIT ", number, " OFFSET ", offset);
 			} else {
 				PHALCON_SCONCAT_SV(sql, " LIMIT ", number);
 			}

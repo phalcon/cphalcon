@@ -11,6 +11,9 @@
  - Added Phalcon\Escaper to add contextual escaping of different kinds of texts
  - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
  - Phalcon\Tag now caches resolved services such as 'url' and 'dispatcher' making the view generation faster
+ - Added support to the OFFSET clause in PHQL
+ - Optimized Phalcon\Mvc\Model\Metadata to use less memory when using a high number of tables
+ - Changed the use of strpos by phalcon_memnstr to search for strings into other strings reducing unnecessary zval allocations
 
 0.5.2
 - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
