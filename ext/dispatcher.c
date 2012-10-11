@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 		
-		if (phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
+		if (!phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(camelized_class);
 			PHALCON_CALL_STATIC_PARAMS_1(camelized_class, "phalcon\\text", "camelize", handler_name);
 		} else {
