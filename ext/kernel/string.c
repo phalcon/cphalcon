@@ -136,7 +136,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 }
 
 /**
- * Convert dash texts returning camelized
+ * Convert dash/underscored texts returning camelized
  */
 void phalcon_camelize(zval *return_value, zval *str){
 
@@ -177,6 +177,38 @@ void phalcon_camelize(zval *return_value, zval *str){
 
 	ZVAL_STRINGL(return_value, camelize_str.c, camelize_str.len, 0);
 
+}
+
+/**
+ * Convert dash/underscored texts returning camelized
+ */
+void phalcon_uncamelize(zval *return_value, zval *str){
+
+	int i;
+	smart_str uncamelize_str = {0};
+	char *marker, ch;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for camelize()");
+		return;
+	}
+
+	marker = Z_STRVAL_P(str);
+	for (i = 0; i < Z_STRLEN_P(str); i++) {
+		ch = *marker;
+		if (ch >= 'A' && ch <= 'Z') {
+			if (i > 0){
+				smart_str_appendc(&uncamelize_str, '_');
+			}
+			smart_str_appendc(&uncamelize_str, (*marker)+32);
+		} else {
+			smart_str_appendc(&uncamelize_str, (*marker));
+		}
+		marker++;
+	}
+	smart_str_0(&uncamelize_str);
+
+	ZVAL_STRINGL(return_value, uncamelize_str.c, uncamelize_str.len, 0);
 }
 
 /**

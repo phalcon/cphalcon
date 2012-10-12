@@ -29,3 +29,7 @@ extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle
 extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
 extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
 extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
+
+/** Camelize/Uncamelize */
+extern void phalcon_camelize(zval *return_value, zval *str);
+extern void phalcon_uncamelize(zval *return_value, zval *str);
