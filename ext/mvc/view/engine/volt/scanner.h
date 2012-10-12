@@ -117,6 +117,8 @@ typedef struct _phvolt_scanner_state {
 	int mode;
 	unsigned int active_line;
 	unsigned int statement_position;
+	unsigned int extends_mode;
+	unsigned int block_level;
 	char *raw_buffer;
 	unsigned int raw_buffer_cursor;
 	unsigned int raw_buffer_size;
@@ -132,3 +134,4 @@ typedef struct _phvolt_scanner_token {
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
+

@@ -38,7 +38,6 @@
 #include "kernel/object.h"
 
 /**
- *
  * Phalcon\Mvc\View\Engine\Php
  *
  * Adapter to use PHP itself as templating engine

@@ -35,10 +35,10 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/string.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
 
@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 	}
 	
 	PHALCON_INIT_VAR(camelized);
-	PHALCON_CALL_STATIC_PARAMS_1(camelized, "phalcon\\text", "camelize", name);
+	phalcon_camelize(camelized, name TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_FUNC_PARAMS_1(method, "lcfirst", camelized);
@@ -682,6 +682,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 		
 		if (phalcon_compare_strict_long(type, 359 TSRMLS_CC)) {
 			PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
+			goto ph_end_1;
+		}
+		
+		if (phalcon_compare_strict_long(type, 307 TSRMLS_CC)) {
+			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", statement);
+			goto ph_end_1;
+		}
+		
+		if (phalcon_compare_strict_long(type, 310 TSRMLS_CC)) {
+			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", statement);
 			goto ph_end_1;
 		}
 		

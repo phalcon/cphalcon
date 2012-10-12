@@ -37,3 +37,4 @@ typedef struct _phvolt_parser_status {
 
 extern int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC);
 extern int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg TSRMLS_DC);
+

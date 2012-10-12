@@ -138,7 +138,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 /**
  * Convert dash/underscored texts returning camelized
  */
-void phalcon_camelize(zval *return_value, zval *str){
+void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
 	int i;
 	smart_str camelize_str = {0};
@@ -182,7 +182,7 @@ void phalcon_camelize(zval *return_value, zval *str){
 /**
  * Convert dash/underscored texts returning camelized
  */
-void phalcon_uncamelize(zval *return_value, zval *str){
+void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 
 	int i;
 	smart_str uncamelize_str = {0};

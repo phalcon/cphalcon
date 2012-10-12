@@ -633,7 +633,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource){
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
 		
 		PHALCON_INIT_NVAR(source);
-		PHALCON_CALL_STATIC_PARAMS_1(source, "phalcon\\text", "uncamelize", class_name);
+		phalcon_uncamelize(source, class_name TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
 	}
 	
