@@ -257,3 +257,8 @@ ext/translate/adapter/.libs/
 ext/translate/adapter/nativearray.lo
 ext/translate/exception.lo
 ext/version.lo
+ext/escaper.lo
+ext/escaper/.libs/
+ext/escaper/exception.lo
+ext/kernel/string.lo
+ext/mvc/model/metadata/files.lo
