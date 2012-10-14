@@ -3218,6 +3218,8 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		array_init(messages);
 		phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -3286,6 +3288,8 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			array_init(messages);
 			phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
 		}
 	}
 	
