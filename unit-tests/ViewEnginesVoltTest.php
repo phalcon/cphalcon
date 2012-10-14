@@ -45,6 +45,26 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
 
+		$intermediate = $volt->parse('{{ 1 }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ 1.2 }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ false }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ true }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ null }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
 		$intermediate = $volt->parse('{{ "hello" }}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
@@ -146,6 +166,23 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($intermediate), 2);
 
 		$intermediate = $volt->parse("{{ form('action': 'save/products', 'method': other_func(1, 2, 3)) }}");
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		//Arrays
+		$intermediate = $volt->parse("{{ [1, 2, 3, 4] }}");
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ ["hello", 2, 1.3, false, true, null] }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ ["hello", 2, 3, false, true, null, [1, 2, "hola"]] }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse("{{ ['first': 1, 'second': 2, 'third': 3] }}");
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
 
@@ -254,6 +291,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 3);
 
+		$intermediate = $volt->parse('{% block hello %}{% endblock %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
 		//Extends
 		$intermediate = $volt->parse('{% extends "some/file.volt" %}');
 		$this->assertTrue(is_array($intermediate));
@@ -352,11 +393,47 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		try {
 			$volt->parse('{{ "hello"}}{% extends "some/file.volt" %}');
+			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Extends statement must be placed at the first line in the template');
+			$this->assertEquals($e->getMessage(), 'Extends statement must be placed at the first line in the template on line 1');
 		}
+
+		try {
+			$volt->parse('{% extends "some/file.volt" %}{{ "hello"}}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Child templates only may contain blocks on line 1');
+		}
+
+		try {
+			$volt->parse('{% extends "some/file.volt" %}{{% if true %}} {%endif%}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Child templates only may contain blocks on line 1');
+		}
+
+		try {
+			$volt->parse('{% extends "some/file.volt" %}{{% set a = 1 %}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Child templates only may contain blocks on line 1');
+		}
+
+		try {
+			$volt->parse('{% extends "some/file.volt" %}{{% set a = 1 %}');
+			$this->assertTrue(false);
+		}
+		catch(Phalcon\Mvc\View\Exception $e){
+			$this->assertEquals($e->getMessage(), 'Child templates only may contain blocks on line 1');
+		}
+
 	}
+
+
 
 	public function testVoltCompiler(){
 
@@ -409,6 +486,19 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('Some = {{ 100~50 }}');
 		$this->assertEquals($compilation, "Some = <?php echo 100 . 50; ?>");
 
+		//Arrays
+		$compilation = $volt->compileString("{% set a = [1, 2, 3, 4] %}");
+		$this->assertEquals($compilation, '<?php $a = array(1, 2, 3, 4); ?>');
+
+		$compilation = $volt->compileString('{% set a = ["hello", 2, 1.3, false, true, null] %}');
+		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 1.3, false, true, null); ?>');
+
+		$compilation = $volt->compileString('{% set a = ["hello", 2, 3, false, true, null, [1, 2, "hola"]] %}');
+		$this->assertEquals($compilation, '<?php $a = array(\'hello\', 2, 3, false, true, null, array(1, 2, \'hola\')); ?>');
+
+		$compilation = $volt->compileString("{% set a = ['first': 1, 'second': 2, 'third': 3] %}");
+		$this->assertEquals($compilation, '<?php $a = array(\'first\' => 1, \'second\' => 2, \'third\' => 3); ?>');
+
 		//Array acccess
 		$compilation = $volt->compileString('{{ a[0 ]}}');
 		$this->assertEquals($compilation, '<?php echo $a[0]; ?>');
@@ -446,6 +536,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString("{{ content() }}");
 		$this->assertEquals($compilation, '<?php echo $this->getContent(); ?>');
 
+		//Phalcon\Tag helpers
 		$compilation = $volt->compileString("{{ link_to('hello', 'some-link') }}");
 		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::linkTo(array(\'hello\', \'some-link\')); ?>');
 
@@ -453,7 +544,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::form(array(\'action\' => \'save/products\', \'method\' => \'post\')); ?>');
 
 		$compilation = $volt->compileString("{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}");
-		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::stylesheetLink(array($config->cdn->css->bootstrap, $config->cdn->local)); ?>');
+		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local); ?>');
+
+		$compilation = $volt->compileString("{{ javascript_include('js/some.js') }}");
+		$this->assertEquals($compilation, '<?php echo Phalcon\Tag::javascriptInclude(\'js/some.js\'); ?>');
 
 		$compilation = $volt->compileString("{{ image('img/logo.png', 'width': 80) }}");
 		$this->assertEquals($compilation, "<?php echo Phalcon\Tag::image(array('img/logo.png', 'width' => 80)); ?>");
@@ -462,14 +556,27 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{{ "hello"|e }}');
 		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
 
+		$compilation = $volt->compileString('{{ "hello"|escape }}');
+		$this->assertEquals($compilation, '<?php echo $this->escaper->escapeHtml(\'hello\'); ?>');
+
 		$compilation = $volt->compileString('{{ "hello"|trim }}');
 		$this->assertEquals($compilation, '<?php echo trim(\'hello\'); ?>');
+
+		$compilation = $volt->compileString('{{ "hello"|striptags }}');
+		$this->assertEquals($compilation, '<?php echo striptags(\'hello\'); ?>');
 
 		$compilation = $volt->compileString('{{ "hello"|uppercase }}');
 		if(function_exists('mb_strtoupper')){
 			$this->assertEquals($compilation, '<?php echo mb_strtoupper(\'hello\'); ?>');
 		} else {
 			$this->assertEquals($compilation, '<?php echo strtoupper(\'hello\'); ?>');
+		}
+
+		$compilation = $volt->compileString('{{ "hello"|lowercase }}');
+		if(function_exists('mb_strtolower')){
+			$this->assertEquals($compilation, '<?php echo mb_strtolower(\'hello\'); ?>');
+		} else {
+			$this->assertEquals($compilation, '<?php echo strtolower(\'hello\'); ?>');
 		}
 
 		$compilation = $volt->compileString('{{ ("hello" ~ "lol")|e|length }}');
@@ -556,7 +663,20 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
+		//Simple file
 		$volt->compile('unit-tests/views/layouts/test10.volt', 'unit-tests/views/layouts/test10.volt.php');
+
+		$compilation = file_get_contents('unit-tests/views/layouts/test10.volt.php');
+		$this->assertEquals($compilation, '<?php if ($some_eval) { ?>
+Clearly, the song is: <?php echo $this->getContent(); ?>.
+<?php } ?>');
+
+		//With blocks and extending
+		$volt->compile('unit-tests/views/test10/children.volt', 'unit-tests/views/test10/children.volt.php');
+
+		$compilation = file_get_contents('unit-tests/views/test10/children.volt.php');
+		$this->assertEquals($compilation, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"><html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css">.important { color: #336699; }</style><title>Index - My Webpage</title></head><body><div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.</div></body>');
+
 	}
 
 	public function testVoltEngine()

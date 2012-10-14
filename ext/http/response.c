@@ -40,7 +40,9 @@
 /**
  * Phalcon\Http\Response
  *
- * Encapsulates the HTTP response message.
+ * Part of the HTTP cycle is return responses to the clients.
+ * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
+ * HTTP responses are usually composed by headers and body.
  *
  *<code>
  *	$response = new Phalcon\Http\Response();
@@ -309,6 +311,9 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  *	$response->setContentType('application/pdf');
  *	$response->setContentType('text/plain', 'UTF-8');
  *</code>
+ *
+ * @param string $contentType
+ * @param string $charset
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 

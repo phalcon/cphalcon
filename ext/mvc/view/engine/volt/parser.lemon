@@ -137,7 +137,9 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 	efree(name->token);
 	efree(name);
 
-	add_assoc_zval(ret, "block_statements", block_statements);
+	if (block_statements) {
+		add_assoc_zval(ret, "block_statements", block_statements);
+	}
 
 	return ret;
 }
@@ -418,6 +420,10 @@ echo_statement(R) ::= OPEN_EDELIMITER expr(E) CLOSE_EDELIMITER . {
 
 block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
 	R = phvolt_ret_block_statement(I, T);
+}
+
+block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
+	R = phvolt_ret_block_statement(I, NULL);
 }
 
 %destructor extends_statement { zval_ptr_dtor(&$$); }

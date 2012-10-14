@@ -90,6 +90,16 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
 }
 
 /**
+ * Creates an error message
+ */
+static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
+	char *str = emalloc(sizeof(char) * 128);
+	sprintf(str, "%s on line %d", message, parser_status->scanner_state->active_line);
+	parser_status->syntax_error = estrndup(str, strlen(str));
+	efree(str);
+}
+
+/**
  * Receives the volt code and tokenizes/parses it
  */
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
@@ -104,6 +114,22 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 	}
 
 	return SUCCESS;
+}
+
+/**
+ * Checks if token contains only black characters
+ */
+int phvolt_is_blank_string(phvolt_scanner_token *token){
+	int i;
+	char ch, *marker = token->value;
+	for (i = 0; i<token->len; i++) {
+		ch = *marker;
+		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r') {
+			return 0;
+		}
+		marker++;
+	}
+	return 1;
 }
 
 /**
@@ -246,7 +272,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_OPEN_EDELIMITER:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					parser_status->syntax_error = estrndup("Child templates only may contain blocks", strlen("Child templates only may contain blocks"));
+					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				}
@@ -281,7 +307,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_IF:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					parser_status->syntax_error = estrndup("Child templates only may contain blocks", strlen("Child templates only may contain blocks"));
+					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
@@ -299,7 +325,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_FOR:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					parser_status->syntax_error = estrndup("Child templates only may contain blocks", strlen("Child templates only may contain blocks"));
+					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
@@ -317,8 +343,12 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					parser_status->syntax_error = estrndup("Child templates only may contain blocks", strlen("Child templates only may contain blocks"));
-					parser_status->status = PHVOLT_PARSING_FAILED;
+					if(!phvolt_is_blank_string(token)){
+						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
+						parser_status->status = PHVOLT_PARSING_FAILED;
+					} else {
+						efree(token->value);
+					}
 					break;
 				}
 				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
@@ -326,7 +356,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_SET:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					parser_status->syntax_error = estrndup("Child templates only may contain blocks", strlen("Child templates only may contain blocks"));
+					phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				}
@@ -338,7 +368,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_BLOCK:
 				if(state->block_level > 0){
-					parser_status->syntax_error = estrndup("Embedding blocks into other blocks is not supported", strlen("Embedding blocks into other blocks is not supported"));
+					phvolt_create_error_msg(parser_status, "Embedding blocks into other blocks is not supported");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {
@@ -353,7 +383,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 			case PHVOLT_T_EXTENDS:
 				if (state->statement_position != 1) {
-					parser_status->syntax_error = estrndup("Extends statement must be placed at the first line in the template", strlen("Extends statement must be placed at the first line in the template"));
+					phvolt_create_error_msg(parser_status, "Extends statement must be placed at the first line in the template");
 					parser_status->status = PHVOLT_PARSING_FAILED;
 					break;
 				} else {

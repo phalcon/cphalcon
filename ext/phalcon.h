@@ -302,10 +302,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
@@ -1528,13 +1531,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_length, 0, 0, 1)
 	ZEND_ARG_INFO(0, item)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__expression, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_setdi, 0, 0, 1)
+	ZEND_ARG_INFO(0, di)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__expression, 0, 0, 2)
 	ZEND_ARG_INFO(0, expr)
+	ZEND_ARG_INFO(0, extendsMode)
 	ZEND_ARG_INFO(0, prependDollar)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, 0, 0, 1)
 	ZEND_ARG_INFO(0, viewCode)
+	ZEND_ARG_INFO(0, extendsMode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0, 0, 2)
@@ -3534,10 +3543,13 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 };
 
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry){
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI, arginfo_phalcon_mvc_view_engine_volt_compiler_setdi, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression, arginfo_phalcon_mvc_view_engine_volt_compiler__expression, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString, arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compile, arginfo_phalcon_mvc_view_engine_volt_compiler_compile, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, parse, arginfo_phalcon_mvc_view_engine_volt_compiler_parse, ZEND_ACC_PUBLIC) 

@@ -175,7 +175,11 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	}
 	smart_str_0(&camelize_str);
 
-	ZVAL_STRINGL(return_value, camelize_str.c, camelize_str.len, 0);
+	if (camelize_str.len) {
+		ZVAL_STRINGL(return_value, camelize_str.c, camelize_str.len, 0);
+	} else {
+		ZVAL_STRING(return_value, "", 1);
+	}
 
 }
 
@@ -208,7 +212,11 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	}
 	smart_str_0(&uncamelize_str);
 
-	ZVAL_STRINGL(return_value, uncamelize_str.c, uncamelize_str.len, 0);
+	if (uncamelize_str.len) {
+		ZVAL_STRINGL(return_value, uncamelize_str.c, uncamelize_str.len, 0);
+	} else {
+		ZVAL_STRING(return_value, "", 1);
+	}
 }
 
 /**

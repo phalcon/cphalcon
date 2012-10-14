@@ -1192,8 +1192,7 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *href, *code, *value = NULL, *key = NULL;
-	zval *r0 = NULL;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1266,11 +1265,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 		
-		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch_string(&r0, params, SL("href"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(url_href);
+		phalcon_array_fetch_string(&url_href, params, SL("href"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(href);
-		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", r0, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", url_href, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("href"), &href, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1314,6 +1313,12 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
  * <code>
  * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
  * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+ * </code>
+ *
+ * Volt syntax:
+ * <code>
+ * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false) }}
+ * {{ javascript_include("javascript/jquery.js") }}
  * </code>
  *
  * @param array $parameters
@@ -1447,9 +1452,8 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
  */
 PHP_METHOD(Phalcon_Tag, image){
 
-	zval *parameters = NULL, *params = NULL, *first_param, *url, *src;
-	zval *code, *value = NULL, *key = NULL;
-	zval *r0 = NULL;
+	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
+	zval *src, *code, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1492,11 +1496,11 @@ PHP_METHOD(Phalcon_Tag, image){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
-	PHALCON_INIT_VAR(r0);
-	phalcon_array_fetch_string(&r0, params, SL("src"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(url_src);
+	phalcon_array_fetch_string(&url_src, params, SL("src"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(src);
-	PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", r0, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", url_src, PH_NO_CHECK);
 	phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(code);
