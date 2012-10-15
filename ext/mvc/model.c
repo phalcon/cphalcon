@@ -2503,7 +2503,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 				} else {
 					PHALCON_INIT_NVAR(is_numeric);
 					PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
-					if (!zend_is_true(is_numeric)) {
+					if (PHALCON_IS_FALSE(is_numeric)) {
 						PHALCON_INIT_NVAR(is_null);
 						ZVAL_BOOL(is_null, 1);
 					}
@@ -2513,11 +2513,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 				ZVAL_BOOL(is_null, 1);
 			}
 			
-			if (zend_is_true(is_null)) {
+			if (PHALCON_IS_TRUE(is_null)) {
 				if (PHALCON_IS_FALSE(exists)) {
 					PHALCON_INIT_NVAR(is_identity_field);
 					is_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
-					if (zend_is_true(is_identity_field)) {
+					if (PHALCON_IS_TRUE(is_identity_field)) {
 						goto ph_cycle_incr_0;
 					}
 				}
@@ -2545,7 +2545,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			increment_function(i);
 			goto ph_cycle_start_0;
 		ph_cycle_end_0:
-		if (zend_is_true(error)) {
+		if (PHALCON_IS_TRUE(error)) {
 			if (!zend_is_true(disable_events)) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "onValidationFails", 1);
@@ -2691,9 +2691,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *meta_data, *connection, *table, *identity_field;
 	zval *null_value, *bind_skip, *fields, *values;
 	zval *bind_types, *attributes, *bind_data_types;
-	zval *field = NULL, *exception_message = NULL, *value = NULL, *bind_type = NULL;
-	zval *default_value, *id, *success, *sequence_name = NULL;
-	zval *support_sequences, *source, *last_insert_id;
+	zval *automatic_attributes, *field = NULL, *exception_message = NULL;
+	zval *value = NULL, *bind_type = NULL, *default_value, *id, *success;
+	zval *sequence_name = NULL, *support_sequences, *source;
+	zval *last_insert_id;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2727,6 +2728,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD_PARAMS_1(bind_data_types, meta_data, "getbindtypes", this_ptr, PH_NO_CHECK);
 	
+	PHALCON_INIT_VAR(automatic_attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(automatic_attributes, meta_data, "getautomaticattributes", this_ptr, PH_NO_CHECK);
+	
 	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 		return;
 	}
@@ -2742,30 +2746,33 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		
 		PHALCON_GET_FOREACH_VALUE(field);
 		
-		PHALCON_INIT_NVAR(r0);
-		is_not_equal_function(r0, field, identity_field TSRMLS_CC);
-		if (zend_is_true(r0)) {
-			phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
-			eval_int = phalcon_isset_property_zval(this_ptr, field TSRMLS_CC);
-			if (eval_int) {
-				eval_int = phalcon_array_isset(bind_data_types, field);
-				if (!eval_int) {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Column '", field, "\" isn't part of the table columns");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
+		eval_int = phalcon_array_isset(automatic_attributes, field);
+		if (!eval_int) {
+			PHALCON_INIT_NVAR(r0);
+			is_not_equal_function(r0, field, identity_field TSRMLS_CC);
+			if (zend_is_true(r0)) {
+				phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
+				eval_int = phalcon_isset_property_zval(this_ptr, field TSRMLS_CC);
+				if (eval_int) {
+					eval_int = phalcon_array_isset(bind_data_types, field);
+					if (!eval_int) {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Column '", field, "\" isn't part of the table columns");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+					
+					PHALCON_INIT_NVAR(value);
+					phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
+					phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
+					
+					PHALCON_INIT_NVAR(bind_type);
+					phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
+					phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_array_append(&values, null_value, PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE TSRMLS_CC);
 				}
-				
-				PHALCON_INIT_NVAR(value);
-				phalcon_read_property_zval(&value, this_ptr, field, PH_NOISY_CC);
-				phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
-				
-				PHALCON_INIT_NVAR(bind_type);
-				phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
-				phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
-			} else {
-				phalcon_array_append(&values, null_value, PH_SEPARATE TSRMLS_CC);
-				phalcon_array_append(&bind_types, bind_skip, PH_SEPARATE TSRMLS_CC);
 			}
 		}
 		
@@ -3398,6 +3405,46 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
 }
 
 /**
+ * Sets a list of attributes that must be skipped from the
+ * generated INSERT/UPDATE statement
+ *
+ * @param array $attributes
+ */
+PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
+
+	zval *attributes, *dependency_injector, *service;
+	zval *meta_data;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsMetadata", 1);
+	
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) == IS_OBJECT) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(meta_data, "setautomaticattributes", attributes, PH_NO_CHECK);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+		return;
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Setup a 1-1 relation between two models
  *
  *<code>
@@ -3405,7 +3452,8 @@ PHP_METHOD(Phalcon_Mvc_Model, writeAttribute){
  *class Robots extends \Phalcon\Mvc\Model
  *{
  *
- *   public function initialize(){
+ *   public function initialize()
+ *   {
  *       $this->hasOne('id', 'RobotsDescription', 'robots_id');
  *   }
  *
@@ -3460,7 +3508,8 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
  *class RobotsParts extends \Phalcon\Mvc\Model
  *{
  *
- *   public function initialize(){
+ *   public function initialize()
+ *   {
  *       $this->belongsTo('robots_id', 'Robots', 'id');
  *   }
  *
