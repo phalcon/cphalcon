@@ -1,5 +1,7 @@
-make clean
-phpize --clean
+if [ -f Makefile ]; then
+	make clean
+	phpize --clean
+fi
 export CC="gcc"
 export CFLAGS="-O2 -fno-delete-null-pointer-checks"
 phpize

@@ -17,8 +17,9 @@
   +------------------------------------------------------------------------+
 */
 
-extern void phalcon_init_var(zval **var TSRMLS_DC);
+extern void phalcon_init_nvar(zval **var TSRMLS_DC);
 extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
+extern void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
 extern int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
@@ -88,8 +89,9 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 #else
 
-#define PHALCON_INIT_VAR(z) phalcon_init_var(&z TSRMLS_CC)
+#define PHALCON_INIT_NVAR(z) phalcon_init_nvar(&z TSRMLS_CC)
 #define PHALCON_CPY_WRT(d, v) phalcon_cpy_wrt(&d, v TSRMLS_CC)
+#define PHALCON_CPY_WRT_CTOR(d, v) phalcon_cpy_wrt_ctor(&d, v TSRMLS_CC)
 
 #endif
 

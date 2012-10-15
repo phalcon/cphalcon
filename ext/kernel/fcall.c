@@ -24,14 +24,14 @@
 #include "php.h"
 #include "php_phalcon.h"
 
+#include "Zend/zend_API.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_execute.h"
+
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-
-#include "Zend/zend_API.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_execute.h"
 
 /**
  * Finds the correct scope to execute the function
@@ -388,6 +388,45 @@ int phalcon_call_parent_func(zval *return_value, zval *object, char *active_clas
 }
 
 /**
+ * Call single static function that requires an arbitrary number of parameters
+ */
+inline int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+
+	zval *fn;
+	int status;
+
+	if (!noreturn) {
+		ALLOC_INIT_ZVAL(return_value);
+	}
+
+	ALLOC_INIT_ZVAL(fn);
+	array_init(fn);
+	add_next_index_stringl(fn, class_name, class_length, 1);
+	add_next_index_stringl(fn, method_name, method_len, 1);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
+	}
+
+	zval_ptr_dtor(&fn);
+
+	if (!noreturn) {
+		zval_ptr_dtor(&return_value);
+	}
+
+	if (EG(exception)){
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
+/**
  * Call parent static function that requires an arbitrary number of parameters
  */
 int phalcon_call_parent_func_params(zval *return_value, zval *object, char *active_class, int active_class_len, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
@@ -508,45 +547,6 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 	add_next_index_stringl(fn, class_name, class_length, 1);
 	add_next_index_stringl(fn, method_name, method_len, 1);
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
-	}
-
-	zval_ptr_dtor(&fn);
-
-	if (!noreturn) {
-		zval_ptr_dtor(&return_value);
-	}
-
-	if (EG(exception)){
-		status = FAILURE;
-	}
-
-	if (status == FAILURE) {
-		phalcon_memory_restore_stack(TSRMLS_C);
-	}
-
-	return status;
-}
-
-/**
- * Call single static function that requires an arbitrary number of parameters
- */
-inline int phalcon_call_static_func_params(zval *return_value, char *class_name, int class_length, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
-
-	zval *fn;
-	int status;
-
-	if (!noreturn) {
-		ALLOC_INIT_ZVAL(return_value);
-	}
-
-	ALLOC_INIT_ZVAL(fn);
-	array_init(fn);
-	add_next_index_stringl(fn, class_name, class_length, 1);
-	add_next_index_stringl(fn, method_name, method_len, 1);
-
-	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}

@@ -3736,10 +3736,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 
 	zval *model_name, *method, *arguments, *dependency_injector;
-	zval *service, *manager, *manager_method = NULL, *zero;
-	zval *three, *action = NULL, *requested_relation = NULL, *exists = NULL;
-	zval *query_method = NULL, *five, *model_args, *arguments_merge;
-	zval *call_object, *result;
+	zval *service, *manager, *zero, *three, *manager_method = NULL;
+	zval *action = NULL, *requested_relation = NULL, *exists = NULL, *query_method = NULL;
+	zval *five, *call_args, *call_object, *result;
 
 	PHALCON_MM_GROW();
 
@@ -3765,14 +3764,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(manager_method);
-	ZVAL_BOOL(manager_method, 0);
-	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(three);
 	ZVAL_LONG(three, 3);
+	
+	PHALCON_INIT_VAR(manager_method);
+	ZVAL_BOOL(manager_method, 0);
 	
 	PHALCON_INIT_VAR(action);
 	PHALCON_CALL_FUNC_PARAMS_3(action, "substr", method, zero, three);
@@ -3810,7 +3809,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		}
 	}
 	
-	if (!zend_is_true(manager_method)) {
+	if (PHALCON_IS_FALSE(manager_method)) {
 		PHALCON_INIT_VAR(five);
 		ZVAL_LONG(five, 5);
 		
@@ -3847,15 +3846,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	}
 	
 	if (PHALCON_IS_NOT_FALSE(manager_method)) {
-		PHALCON_INIT_VAR(model_args);
-		array_init(model_args);
-		phalcon_array_append(&model_args, query_method, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&model_args, model_name, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&model_args, requested_relation, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-		
-		PHALCON_INIT_VAR(arguments_merge);
-		PHALCON_CALL_FUNC_PARAMS_2(arguments_merge, "array_merge", model_args, arguments);
+		PHALCON_INIT_VAR(call_args);
+		array_init(call_args);
+		phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, requested_relation, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, arguments, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
@@ -3863,7 +3860,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		phalcon_array_append(&call_object, manager_method, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(result);
-		PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, arguments_merge);
+		PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, call_args);
 		
 		RETURN_CCTOR(result);
 	}
@@ -3912,6 +3909,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	return;
 }
 
+/**
+ * Serializes the object ignoring connections or static properties
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model, serialize){
 
 	zval *dependency_injector, *service, *meta_data;
@@ -3980,6 +3982,11 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	RETURN_CCTOR(serialize);
 }
 
+/**
+ * Unserializes the object from a serialized string
+ *
+ * @param string $data
+ */
 PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 
 	zval *data, *attributes, *value = NULL, *key = NULL;
@@ -3998,40 +4005,40 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(attributes);
-	PHALCON_CALL_FUNC_PARAMS_1(attributes, "unserialize", data);
-	if (Z_TYPE_P(attributes) == IS_ARRAY) { 
-		
-		if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
-			return;
-		}
-		
-		ah0 = Z_ARRVAL_P(attributes);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
-		ph_cycle_start_0:
-		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-				goto ph_cycle_end_0;
+	if (Z_TYPE_P(data) == IS_STRING) {
+		PHALCON_INIT_VAR(attributes);
+		PHALCON_CALL_FUNC_PARAMS_1(attributes, "unserialize", data);
+		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
+			
+			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				return;
 			}
 			
-			PHALCON_INIT_NVAR(key);
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+			ah0 = Z_ARRVAL_P(attributes);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 			
-			phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+			ph_cycle_start_0:
 			
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto ph_cycle_start_0;
+				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+					goto ph_cycle_end_0;
+				}
+				
+				PHALCON_INIT_NVAR(key);
+				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(value);
+				
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				
+				zend_hash_move_forward_ex(ah0, &hp0);
+				goto ph_cycle_start_0;
+				
+			ph_cycle_end_0:
 			
-		ph_cycle_end_0:
-		if(0){}
-		
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
-		return;
+			PHALCON_MM_RESTORE();
+			RETURN_NULL();
+		}
 	}
-	
-	PHALCON_MM_RESTORE();
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
+	return;
 }
 

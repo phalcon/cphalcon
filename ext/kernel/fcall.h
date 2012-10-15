@@ -138,3 +138,7 @@ int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***
 #else
 #define PHALCON_CALL_USER_FUNCTION_EX call_user_function_ex
 #endif
+
+#ifndef zend_error_noreturn
+#define zend_error_noreturn zend_error
+#endif
