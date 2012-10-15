@@ -126,7 +126,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 		if (Z_TYPE_P(array_helpers) != IS_ARRAY) { 
 			PHALCON_INIT_NVAR(array_helpers);
 			array_init(array_helpers);
-			add_assoc_bool_ex(array_helpers, SS("text_area"), 1);
+			add_assoc_bool_ex(array_helpers, SS("link_to"), 1);
+			add_assoc_bool_ex(array_helpers, SS("image"), 1);
 			add_assoc_bool_ex(array_helpers, SS("form"), 1);
 			add_assoc_bool_ex(array_helpers, SS("select"), 1);
 			add_assoc_bool_ex(array_helpers, SS("select_static"), 1);
@@ -136,9 +137,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 			add_assoc_bool_ex(array_helpers, SS("file_field"), 1);
 			add_assoc_bool_ex(array_helpers, SS("hidden_field"), 1);
 			add_assoc_bool_ex(array_helpers, SS("password_field"), 1);
+			add_assoc_bool_ex(array_helpers, SS("text_area"), 1);
 			add_assoc_bool_ex(array_helpers, SS("text_field"), 1);
-			add_assoc_bool_ex(array_helpers, SS("link_to"), 1);
-			add_assoc_bool_ex(array_helpers, SS("image"), 1);
 			phalcon_update_property_zval(this_ptr, SL("_arrayHelpers"), array_helpers TSRMLS_CC);
 		}
 		
@@ -276,6 +276,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 	return;
 }
 
+/**
+ * Resolves an expression node in an AST volt tree
+ *
+ * @param array $expr
+ * @param bool $extendsMode
+ * @param bool $prependDollar
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 
 	zval *expr, *extends_mode, *prepend_dollar = NULL, *expr_code = NULL;
@@ -822,7 +829,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	zval *compilation = NULL, *views_dir = NULL, *dependency_injector;
 	zval *service, *view, *path, *view_path, *exception_message;
 	zval *extended, *extends_view_code;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -870,10 +876,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 				
 				PHALCON_INIT_VAR(view_path);
 				PHALCON_CONCAT_VV(view_path, views_dir, path);
-				
-				PHALCON_INIT_VAR(r0);
-				PHALCON_CALL_FUNC_PARAMS_1(r0, "file_exists", view_path);
-				if (!zend_is_true(r0)) {
+				if (phalcon_file_exists(view_path TSRMLS_CC) == FAILURE) {
 					PHALCON_INIT_VAR(exception_message);
 					PHALCON_CONCAT_SVS(exception_message, "Template view to extend '", view_path, "' doesn't exists");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);

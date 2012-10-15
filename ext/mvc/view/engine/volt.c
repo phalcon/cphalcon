@@ -41,7 +41,7 @@
 /**
  * Phalcon\Mvc\View\Engine\Volt
  *
- * Easy and fast template engine for PHP written in C
+ * Designer friendly and fast template engine for PHP written in C
  */
 
 /**

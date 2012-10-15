@@ -152,7 +152,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
  */
 int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 
-	#if !ZEND_DEBUG
+	#if !ZEND_DEBUG && PHP_VERSION_ID <= 50400
 
 	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
@@ -174,6 +174,11 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 		}
 
 	}
+
+	#else
+
+	PHALCON_GLOBAL(active_memory) = NULL;
+	PHALCON_GLOBAL(start_memory) = NULL;
 
 	#endif
 

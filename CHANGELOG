@@ -14,6 +14,10 @@
  - Added support to the OFFSET clause in PHQL
  - Optimized Phalcon\Mvc\Model\Metadata to use less memory when using a high number of tables
  - Changed the use of strpos by phalcon_memnstr to search for strings into other strings reducing unnecessary zval allocations
+ - Added faster camelize/uncamelize functions
+ - Now a model can implement the method metaData to return the model meta-data insteaf of leave Phalcon do it automatically
+ - Phalcon\Mvc\Model::skipAttributes allows to set a group of attributes that must be skipped from the INSERT/UPDATE SQL generation
+ -
 
 0.5.2
 - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail

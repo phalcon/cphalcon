@@ -638,7 +638,7 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				ZVAL_STRING(event_name, "view:beforeRenderView", 1);
 				
 				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, view_engine_path, PH_NO_CHECK);
 				if (PHALCON_IS_FALSE(status)) {
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto ph_cycle_start_0;
