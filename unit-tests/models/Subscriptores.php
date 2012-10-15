@@ -5,6 +5,7 @@ use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionInValidator;
 use Phalcon\Mvc\Model\Validator\InclusionIn as InclusionInValidator;
 use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
+use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
 
 use Phalcon\Mvc\Model\Message as Message;
 
@@ -29,6 +30,11 @@ class Subscriptores extends Phalcon\Mvc\Model
 
 	public function validation()
 	{
+		$this->validate(new StringLengthValidator(array(
+			'field' => 'email',
+			'min' => '7',
+			'max' => '50'
+		)));
 		$this->validate(new EmailValidator(array(
 			'field' => 'email'
 		)));

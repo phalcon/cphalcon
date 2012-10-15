@@ -95,6 +95,24 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($di);
 	}
 
+	public function testModelsSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+
+			$db = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+
+			$db->delete("personas", "estado='X'");
+
+			return $db;
+		});
+
+		$this->_executeTests($di);
+	}
+
 	protected function _executeTests($di){
 
 		//Count tests

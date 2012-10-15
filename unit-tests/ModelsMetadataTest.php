@@ -21,6 +21,16 @@
 class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 {
 
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
+
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
+
 	public function modelsAutoloader($className)
 	{
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
@@ -71,10 +81,21 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$this->_executeTests($di);
 	}
 
-	protected function _executeTests($di)
+	public function testMetadataSqlite()
 	{
 
-		spl_autoload_register(array($this, 'modelsAutoloader'));
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	protected function _executeTests($di)
+	{
 
 		$metaData = $di->getShared('modelsMetadata');
 
@@ -156,7 +177,22 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 		$ndAttributes = $metaData->getDataTypesNumeric($personas);
 		$this->assertEquals($ndAttributes, $pndAttributes);
 
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+		$bindTypes = array(
+			'cedula' => 2,
+			'tipo_documento_id' => 1,
+			'nombres' => 2,
+			'telefono' => 2,
+			'direccion' => 2,
+			'email' => 2,
+			'fecha_nacimiento' => 2,
+			'ciudad_id' => 1,
+			'creado_at' => 2,
+			'cupo' => 32,
+			'estado' => 2,
+		);
+
+		$btAttributes = $metaData->getBindTypes($personas);
+		$this->assertEquals($btAttributes, $bindTypes);
 	}
 
 }

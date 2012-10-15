@@ -1,8 +1,33 @@
+0.5.1
+ - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered
+ - Added throwing exception in Phalcon\Loader when trying to write in a read only file
+ - Now Phalcon\Loader replaces _ by DIRECTORY_SEPARATOR in most strategies
+ - Fixed bug in Phalcon\Mvc\Model\Resultset::seek that doesn't allow to paginate results in Phalcon\Paginator
+ - Fixed bug in Phalcon\Mvc\Dispatcher that doesn't throws an exception when an infinite forward is produced
+ - PDO error mode was changed to PDO::ERRMODE_EXCEPTION producing exceptions instead of silent error messages
+ - Fixed wrong precedence in PHQL operators
+ - Fixed bug that makes that the correct value for SERIAL columns wasn't filled for PostgreSQL
+ - Added an extra parameter "data" to an event triggering in Phalcon\Events allowing to get more information about certain event
+ - Added an extra parameter to Phalcon\Db::query and Phalcon\Db::execute to bind parameters by their data type
+ - Added recognition of the related sequence for PostgreSQL when inserting data into tables with SERIAL columns Phalcon\Mvc\Model
+ - Phalcon\Db\Adapter\*::describeColumns try to find the best bind param type for every column
+ - Added bindType to Phalcon\Db\Column to know what its best bind param to cast according to its data type
+ - Added getDefaultValue() to Phalcon\Db\Adapter\* in order the best value to insert in an auto-increment or serial column
+ - Added bindTypes param to Phalcon\Mvc\Model::find and Phalcon\Mvc\Model::findFirst
+ - Due to the new agressive type-casting when binding parameters, Phalcon\Mvc\Model isn't capable anymore of generate reliable automatic keys for the cache
+ - Fixed bug that makes actions and events implemented in a parent class innaccessibles for Phalcon
+ - Now Phalcon\Text::camelize checks for underscores and dashes
+ - Added Phalcon\Mvc\Model::getRelated to return related relation models on namespaced models
+
+0.5.0
+- Added Phalcon\CLI components to create CLI applications
+- Added SQLite support
+
 0.5.0a4
 - Removed support for Twig and Mustache
 - Added PhalconQL (PHQL), a high level query language directly engaged with the Phalcon\Mvc\Model component
 - Multiples refactorizations removing unused code
-- Added support to match routes on a determined individual or set of HTTP methods
+- Added support to match routes on a determined individual or a set of HTTP methods
 - Added support for named parameters without requiring a regular expression in Phalcon\Mvc\Router
 - Added Phalcon\Mvc\Router\Route to encapsulate the information of a route
 - Added Phalcon\Mvc\Micro to create applications in a micro-framework style

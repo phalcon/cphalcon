@@ -49,26 +49,51 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('modelsManager', function(){
+		$di->set('modelsManager', function() {
 			return new Phalcon\Mvc\Model\Manager();
 		});
 
-		$di->set('modelsMetadata', function(){
+		$di->set('modelsMetadata', function() {
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
-
-		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
-			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
 		return $di;
 	}
 
-	public function _testSelectExecute()
-	{
+	public function testExecuteMysql(){
 
 		$di = $this->_getDI();
+
+		$di->set('db', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
+
+		$this->_testSelectExecute($di);
+		$this->_testInsertExecute($di);
+		$this->_testUpdateExecute($di);
+		$this->_testDeleteExecute($di);
+
+	}
+
+	public function testExecutePostgresql(){
+
+		$di = $this->_getDI();
+
+		$di->set('db', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+		});
+
+		$this->_testSelectExecute($di);
+		$this->_testInsertExecute($di);
+		$this->_testUpdateExecute($di);
+		$this->_testDeleteExecute($di);
+
+	}
+
+	public function _testSelectExecute($di)
+	{
 
 		$manager = $di->getShared('modelsManager');
 
@@ -139,6 +164,20 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->nextid));
 		$this->assertEquals($result[0]->nextid, 2);
 
+		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = ?0', array(0 => 1));
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextid));
+		$this->assertEquals($result[0]->nextid, 2);
+
+		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = :id:', array('id' => 1));
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 1);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->nextid));
+		$this->assertEquals($result[0]->nextid, 2);
+
 		$result = $manager->executeQuery('SELECT Robots.id+1 AS nextId FROM Robots WHERE id = "1"');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 1);
@@ -146,7 +185,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->nextid));
 		$this->assertEquals($result[0]->nextid, 2);
 
-		$result = $manager->executeQuery('SELECT r.year FROM Robots r WHERE r.year < YEAR(current_date)');
+		$result = $manager->executeQuery('SELECT r.year FROM Robots r WHERE TRIM(name) != "Robotina"');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
@@ -192,11 +231,11 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
 		$this->assertEquals($result[1]->number, 2);
 
-		$result = $manager->executeQuery('SELECT r.type, SUM(YEAR(current_date)-r.year) age FROM Robots r GROUP BY 1 ORDER BY 2 DESC');
+		$result = $manager->executeQuery('SELECT r.type, SUM(r.year-1000) age FROM Robots r GROUP BY 1 ORDER BY 2 DESC');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
-		$this->assertEquals($result[0]->age, 100);
+		$this->assertEquals($result[0]->age, 1924);
 
 		$result = $manager->executeQuery('SELECT r.type, COUNT(*) number FROM Robots r GROUP BY 1 HAVING COUNT(*) = 2');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
@@ -212,12 +251,12 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-		$this->assertEquals(gettype($result[0]->id), 'string');
+		$this->assertNotEquals(gettype($result[0]->id), 'object');
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->id, 1);
 
-		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		$result = $manager->executeQuery('SELECT Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts ORDER BY Robots.id, RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->robots), 'object');
 		$this->assertEquals(get_class($result[0]->robots), 'Robots');
@@ -231,14 +270,12 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function _testInsertExecute()
+	public function _testInsertExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->delete("subscriptores");
+		$di->getShared('db')->delete("subscriptores");
 
 		$status = $manager->executeQuery('INSERT INTO Subscriptores VALUES (NULL, "marina@hotmail.com", now(), "P")');
 		$this->assertFalse($status->success());
@@ -269,39 +306,53 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
 		$this->assertTrue($status->success());
 
+		$status = $manager->executeQuery('INSERT INTO Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)', array(
+			"email" => "yeahyeah@hotmail.com",
+			"created_at" => "2010-02-01 13:21:00",
+			"status" => "P"
+		));
+		$this->assertTrue($status->success());
+
+		$this->assertTrue($status->getModel()->id > 0);
+
 	}
 
-	public function testUpdateExecute()
+	public function _testUpdateExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
-		$di->get('db')->execute('update personas set ciudad_id = null where direccion = "COL"');
+		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
 
-		$status = $manager->executeQuery('UPDATE People SET direccion = "COL" WHERE ciudad_id IS NULL');
-		if($status->success()==false){
-			foreach($status->getMessages() as $message){
-				echo $message, PHP_EOL;
-			}
-		}
+		$status = $manager->executeQuery("UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL");
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL', array(
+			"direccion" => "MXN"
+		));
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE Subscriptores SET status = :status: WHERE email = :email:', array(
+			"status" => "I",
+			"email" => "le-marina@hotmail.com"
+		));
+		$this->assertTrue($status->success());
 
 	}
 
-	public function testDeleteExecute()
+	public function _testDeleteExecute($di)
 	{
-
-		$di = $this->_getDI();
 
 		$manager = $di->getShared('modelsManager');
 
 		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE email = "marina@hotmail.com"');
-		if($status->success()==false){
-			foreach($status->getMessages() as $message){
-				echo $message, PHP_EOL;
-			}
-		}
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:', array(
+			'status' => "P",
+			'email' => 'fuego@hotmail.com'
+		));
+		$this->assertTrue($status->success());
 
 	}
 

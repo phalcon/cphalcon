@@ -21,6 +21,16 @@
 class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 {
 
+	public function __construct()
+	{
+		spl_autoload_register(array($this, 'modelsAutoloader'));
+	}
+
+	public function __destruct()
+	{
+		spl_autoload_unregister(array($this, 'modelsAutoloader'));
+	}
+
 	public function modelsAutoloader($className)
 	{
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
@@ -73,10 +83,21 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	protected function _executeTests()
+	public function testCalculationsSqlite()
 	{
 
-		spl_autoload_register(array($this, 'modelsAutoloader'));
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+	}
+
+	protected function _executeTests()
+	{
 
 		//Count calculations
 		$rowcount = Personnes::count();
@@ -186,7 +207,6 @@ class ModelsCalculationsTest extends PHPUnit_Framework_TestCase
 		$group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado", "order" => "minimum ASC"));
 		$this->assertEquals($group[0]->minimum, 20404);
 
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
 	}
 
 

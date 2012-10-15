@@ -93,6 +93,14 @@ class ViewTest extends PHPUnit_Framework_TestCase
 		$view->finish();
 		$this->assertEquals($view->getContent(), '<html>lolyup</html>'.PHP_EOL);
 
+		//No Render
+		$view->setRenderLevel(View::LEVEL_NO_RENDER);
+		$view->start();
+		$view->pick('test3/yup');
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '');
+
 	}
 
 	public function testPartials()

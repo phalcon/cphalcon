@@ -33,6 +33,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
+		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
 		if (file_exists('unit-tests/models/'.$className.'.php')) {
 			require 'unit-tests/models/'.$className.'.php';
 		}
@@ -84,6 +85,20 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testModelsSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+
+	}
+
 	public function _executeTests($di)
 	{
 
@@ -129,6 +144,13 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 
 		$part = $robotPart->getParts();
 		$this->assertEquals(get_class($part), 'Parts');
+
+		$robot = Some\Robots::findFirst();
+		$this->assertNotEquals($robot, false);
+
+		$robotsParts = $robot->getRobotsParts();
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 3);
 
 	}
 

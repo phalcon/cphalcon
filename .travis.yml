@@ -3,20 +3,16 @@ language: php
 php:
   - 5.3
   - 5.3.3
+  - 5.4
 
 before_install:
  - sudo apt-get install gdb
  - sudo apt-get install memcached
  - sudo apt-get install sqlite3
- - wget http://pecl.php.net/get/memcache-2.2.6.tgz
- - tar -xzf memcache-2.2.6.tgz
- - sh -c "cd memcache-2.2.6 && phpize && ./configure --enable-memcache && make && sudo make install"
- - echo "extension=memcache.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
- - wget http://pecl.php.net/get/apc-3.1.9.tgz
- - tar -xzf apc-3.1.9.tgz
- - sh -c "cd APC-3.1.9 && phpize && ./configure --enable-apc && make && sudo make install"
- - echo "extension=apc.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
- - echo "apc.enable_cli = On" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+ - chmod +x unit-tests/ci/install_memcached
+ - chmod +x unit-tests/ci/install_apc
+ - sudo ./unit-tests/ci/install_memcached
+ - sudo ./unit-tests/ci/install_apc
 
 before_script:
  - mkdir -p unit-tests/engines
@@ -24,7 +20,7 @@ before_script:
  - git clone https://github.com/bobthecow/mustache.php.git
  - git clone git://github.com/fabpot/Twig.git
  - cd ../..
- - cd dev/
+ - cd ext/
  - export CFLAGS="-g -O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`

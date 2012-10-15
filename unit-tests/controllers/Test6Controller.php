@@ -1,13 +1,7 @@
 <?php
 
-class Test6Controller extends Phalcon\Controller {
+class Test6Controller extends Phalcon\Mvc\Controller
+{
 
-	public function beforeDispatch(){		
-		return false;
-	}
-
-	public function indexAction(){
-		return 'index';
-	}
 
 }

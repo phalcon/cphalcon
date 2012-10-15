@@ -102,11 +102,11 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
+		$robots = Robots::find(array('cache' => array('key' => 'some'), 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array('cache' => 60, 'order' => 'id'));
+		$robots = Robots::find(array('cache' => array('key' => 'some'), 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
@@ -134,11 +134,11 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		$robots = Robots::find(array('cache' => array('lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$robots = Robots::find(array('cache' => array('key' => 'other-some', 'lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array('cache' => array('lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$robots = Robots::find(array('cache' => array('key' => 'other-some', 'lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
@@ -151,68 +151,23 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_prepareTestMysql();
 		$robots = $this->_testCacheOtherService($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
+			0 => 'othersome',
 		));
 	}
 
 	public function testCacheOtherServicePostgresql()
 	{
 
-		$di = $this->_prepareTestPostgresql();
+		$di = $this->_prepareTestMysql();
 		$robots = $this->_testCacheOtherService($di);
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
-		));
-	}
-
-	public function _testCacheDirect()
-	{
-
-		$frontCache = new Phalcon\Cache\Frontend\Data();
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
-		));
-
-		$robots = Robots::find(array('cache' => $cache, 'order' => 'id'));
-		$this->assertEquals(count($robots), 3);
-		$this->assertTrue($robots->isFresh());
-
-		$robots = Robots::find(array('cache' => $cache, 'order' => 'id'));
-		$this->assertEquals(count($robots), 3);
-		$this->assertFalse($robots->isFresh());
-
-		return $robots;
-	}
-
-	public function testCacheDirectMysql()
-	{
-
-		$di = $this->_prepareTestMysql();
-		$robots = $this->_testCacheDirect($di);
-
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
-
-		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
-		));
-	}
-
-	public function testCacheDirectPostgresql()
-	{
-
-		$di = $this->_prepareTestPostgresql();
-		$robots = $this->_testCacheDirect($di);
-
-		$this->assertEquals($robots->getCache()->getLastKey(), 'phc10a424bfabc2bb4f98e03d4ead2682a3');
-
-		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'phc10a424bfabc2bb4f98e03d4ead2682a3',
+			0 => 'othersome',
 		));
 	}
 

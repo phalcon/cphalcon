@@ -3,7 +3,8 @@
 class RobotsParts extends Phalcon\Mvc\Model
 {
 
-	function initialize(){
+	public function initialize()
+	{
 		$this->belongsTo('parts_id', 'Parts', 'id', array(
 			'foreignKey' => true
 		));

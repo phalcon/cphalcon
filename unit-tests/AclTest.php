@@ -89,4 +89,20 @@ class AclTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testNegationOfInheritedRoles_T65()
+	{
+		$acl = new \Phalcon\Acl\Adapter\Memory;
+		$acl->setDefaultAction(\Phalcon\Acl::DENY);
+
+		$acl->addRole('Guests');
+		$acl->addRole('Members', 'Guests');
+
+		$acl->addResource('Login', array('index'));
+
+		$acl->allow('Guests', 'Login', 'index');
+		$acl->deny('Members', 'Login', 'index');
+
+		$this->assertFalse((bool) $acl->isAllowed('Members', 'Login', 'index'));
+	}
+
 }

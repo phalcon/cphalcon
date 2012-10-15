@@ -15,7 +15,7 @@
   +------------------------------------------------------------------------+
   | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
   |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  |          Rack Lin <racklin@gmail.com>                         |
+  |          Rack Lin <racklin@gmail.com>                                  |
   +------------------------------------------------------------------------+
 */
 
@@ -48,64 +48,60 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 		require 'unit-tests/config.db.php';
 
-                $configPostgresqlDefault = array_merge(array(), $configPostgresql);
-                unset($configPostgresqlDefault['schema']);
+		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
+		unset($configPostgresqlDefault['schema']);
 
-                $configPostgresqlNonExists = array_merge(array(), $configPostgresql);
-                $configPostgresqlNonExists['schema'] = 'nonexists';
+		$configPostgresqlNonExists = array_merge(array(), $configPostgresql);
+		$configPostgresqlNonExists['schema'] = 'nonexists';
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-                  $this->assertTrue(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(false);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+			$this->assertTrue(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(false);
+		}
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
-                  $this->assertTrue(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(false);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlDefault);
+			$this->assertTrue(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(false);
+		}
 
-                try {
-                  $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
-                  $this->assertFalse(is_object($connection));
-                } catch(Exception $e) {
-                  $this->assertTrue(true);
-                }
+		try {
+			$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresqlNonExists);
+			$this->assertFalse(is_object($connection));
+		} catch(Exception $e) {
+			$this->assertTrue(true);
+		}
 
 	}
 
-    public function testDbSqlite()
-   	{
+	public function testDbSqlite()
+	{
 
-   		require 'unit-tests/config.db.php';
+		require 'unit-tests/config.db.php';
 
-   		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
-   		$this->_executeTests($connection, "sqlite");
-   	}
+		$this->_executeTests($connection);
+	}
 
-	protected function _executeTests($connection, $adapter="")
+	protected function _executeTests($connection)
 	{
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
-		for ($i=0; $i<3; $i++){
+		for ($i=0; $i<3; $i++) {
 			$row = $result->fetchArray();
 			$this->assertEquals(count($row), 22);
 		}
 
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
-        if ($adapter == "sqlite") {
-            $this->assertEquals($result->numRows(), 0); //sqlite not support rowCount in PDO
-        }else {
-            $this->assertEquals($result->numRows(), 3);
-        }
+		$this->assertEquals($result->numRows(), 3);
 
 		$number = 0;
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
@@ -136,7 +132,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);
 
-		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES (?, ?, ?)', array('0', "LOL 1", "A"));
+		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)', array("LOL 1", "A"));
 		$this->assertTrue($success);
 
 		$success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', array("LOL 11", "R"));
@@ -145,7 +141,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$success = $connection->execute('DELETE FROM prueba WHERE estado = ?', array("R"));
 		$this->assertTrue($success);
 
-		$success = $connection->insert('prueba', array('0', "LOL 1", "A"));
+		$success = $connection->insert('prueba', array($connection->getDefaultIdValue(), "LOL 1", "A"));
 		$this->assertTrue($success);
 
 		$success = $connection->insert('prueba', array("LOL 2", "E"), array('nombre', 'estado'));
@@ -190,6 +186,14 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
+
+		//Auto-Increment/Serial Columns
+		$sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES ('.$connection->getDefaultIdValue().', ?, ?, ?)';
+		$success = $connection->execute($sql, array('shirley@garbage.com', "2011-01-01 12:59:13", "P"));
+		$this->assertTrue($success);
+
+		//Check for auto-increment column
+		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
 
 	}
 
