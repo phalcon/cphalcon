@@ -123,6 +123,10 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
+		$robotsParts = $robot->getRobotsParts("parts_id = 1");
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 1);
+
 		$number = $robot->countRobotsParts();
 		$this->assertEquals($number, 3);
 

@@ -2691,11 +2691,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *meta_data, *connection, *table, *identity_field;
 	zval *null_value, *bind_skip, *fields, *values;
 	zval *bind_types, *attributes, *bind_data_types;
-	zval *automatic_attributes, *field = NULL, *exception_message = NULL;
-	zval *value = NULL, *bind_type = NULL, *default_value, *id, *success;
-	zval *sequence_name = NULL, *support_sequences, *source;
-	zval *last_insert_id;
-	zval *r0 = NULL;
+	zval *automatic_attributes, *field = NULL, *is_identity_field = NULL;
+	zval *exception_message = NULL, *value = NULL, *bind_type = NULL;
+	zval *default_value, *id, *success, *sequence_name = NULL;
+	zval *support_sequences, *source, *last_insert_id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2729,7 +2728,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	PHALCON_CALL_METHOD_PARAMS_1(bind_data_types, meta_data, "getbindtypes", this_ptr, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(automatic_attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(automatic_attributes, meta_data, "getautomaticattributes", this_ptr, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(automatic_attributes, meta_data, "getautomaticcreateattributes", this_ptr, PH_NO_CHECK);
 	
 	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 		return;
@@ -2748,9 +2747,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		
 		eval_int = phalcon_array_isset(automatic_attributes, field);
 		if (!eval_int) {
-			PHALCON_INIT_NVAR(r0);
-			is_not_equal_function(r0, field, identity_field TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			PHALCON_INIT_NVAR(is_identity_field);
+			is_not_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
+			if (PHALCON_IS_TRUE(is_identity_field)) {
 				phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
 				eval_int = phalcon_isset_property_zval(this_ptr, field TSRMLS_CC);
 				if (eval_int) {

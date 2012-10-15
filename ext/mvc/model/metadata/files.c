@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/require.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Files
@@ -124,7 +125,22 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
+	zval *key, *data, *meta_data_dir, *path;
 
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(meta_data_dir);
+	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(path);
+	PHALCON_CONCAT_VV(path, meta_data_dir, key);
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", path, data);
+	
+	PHALCON_MM_RESTORE();
 }
 

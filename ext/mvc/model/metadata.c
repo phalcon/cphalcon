@@ -253,6 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			phalcon_array_update_long(&table_metadata, 8, &identity_field, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_long(&table_metadata, 9, &field_bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_long(&table_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_long(&table_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 		
 		PHALCON_INIT_VAR(t0);
@@ -448,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
  * Returns an arrau of fields which are not part of the primary key
  *
  * @param Phalcon\Mvc\Model $model
- * @return array
+ * @return 	array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
 
@@ -626,12 +627,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
 }
 
 /**
- * Returns attributes that must be ignored from the INSERT/UPDATE list
+ * Returns attributes that must be ignored from the INSERT SQL generation
  *
  * @param Phalcon\Mvc\Model $model
  * @return array
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticAttributes){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
 
 	zval *model, *index, *data;
 
@@ -657,14 +658,45 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticAttributes){
 }
 
 /**
- * Set the attributes that must be ignored from the insert/update sql generation
+ * Returns attributes that must be ignored from the UPDATE SQL generation
+ *
+ * @param Phalcon\Mvc\Model $model
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
+
+	zval *model, *index, *data;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(index);
+	ZVAL_LONG(index, 11);
+	
+	PHALCON_INIT_VAR(data);
+	PHALCON_CALL_METHOD_PARAMS_2(data, this_ptr, "readmetadataindex", model, index, PH_NO_CHECK);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupted");
+		return;
+	}
+	
+	
+	RETURN_CCTOR(data);
+}
+
+/**
+ * Set the attributes that must be ignored from both INSERT/UPDATE SQL generation
  *
  * @param  Phalcon\Mvc\Model $model
  * @param  array $attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticAttributes){
 
-	zval *model, *attributes, *index;
+	zval *model, *attributes, *create_index, *update_index;
 
 	PHALCON_MM_GROW();
 
@@ -673,9 +705,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticAttributes){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(index);
-	ZVAL_LONG(index, 10);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, index, attributes, PH_NO_CHECK);
+	PHALCON_INIT_VAR(create_index);
+	ZVAL_LONG(create_index, 10);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, create_index, attributes, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(update_index);
+	ZVAL_LONG(update_index, 11);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, update_index, attributes, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

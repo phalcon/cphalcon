@@ -60,7 +60,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 				'type' => 2,
 				'year' => 1,
 			),
-			10 => array()
+			10 => array(),
+			11 => array()
 		)
 	);
 
