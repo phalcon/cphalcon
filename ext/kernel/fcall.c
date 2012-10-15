@@ -24,14 +24,14 @@
 #include "php.h"
 #include "php_phalcon.h"
 
+#include "Zend/zend_API.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_execute.h"
+
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/exception.h"
-
-#include "Zend/zend_API.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_execute.h"
 
 /**
  * Finds the correct scope to execute the function
