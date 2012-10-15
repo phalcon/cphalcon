@@ -24698,12 +24698,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 
 	zval *relation = NULL, *method = NULL, *record = NULL, *parameters = NULL, *placeholders = NULL;
-	zval *pre_conditions = NULL, *conditions = NULL, *field = NULL, *value = NULL;
-	zval *referenced_field = NULL, *condition = NULL, *i = NULL, *fields = NULL;
-	zval *join_conditions = NULL, *find_params = NULL, *arguments = NULL;
-	zval *reference_table = NULL, *referenced_entity = NULL;
-	zval *connection_service = NULL, *call_object = NULL, *records = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *pre_conditions = NULL, *conditions = NULL, *fields = NULL, *field = NULL;
+	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *i = NULL;
+	zval *referenced_fields = NULL, *join_conditions = NULL;
+	zval *find_params = NULL, *arguments = NULL, *reference_table = NULL;
+	zval *referenced_entity = NULL, *connection_service = NULL;
+	zval *call_object = NULL, *records = NULL;
 	zval *c0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -24728,6 +24728,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		if (eval_int) {
 			PHALCON_INIT_VAR(placeholders);
 			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_VAR(placeholders);
+			array_init(placeholders);
 		}
 	} else {
 		PHALCON_INIT_VAR(placeholders);
@@ -24763,11 +24766,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		array_init(conditions);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
-	phalcon_array_fetch_string(&r0, relation, SL("fi"), PH_NOISY_CC);
-	if (Z_TYPE_P(r0) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(field);
-		phalcon_array_fetch_string(&field, relation, SL("fi"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(fields);
+	phalcon_array_fetch_string(&fields, relation, SL("fi"), PH_NOISY_CC);
+	if (Z_TYPE_P(fields) != IS_ARRAY) { 
+		PHALCON_CPY_WRT(field, fields);
 		
 		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
@@ -24783,8 +24785,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 0);
 		
-		PHALCON_INIT_VAR(fields);
-		phalcon_array_fetch_string(&fields, relation, SL("fi"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(referenced_fields);
+		phalcon_array_fetch_string(&referenced_fields, relation, SL("rf"), PH_NOISY_CC);
 		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
 			return;
 		}
@@ -24801,11 +24803,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 			PHALCON_INIT_VAR(value);
 			PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
 			
-			PHALCON_INIT_VAR(r1);
-			phalcon_array_fetch_string(&r1, relation, SL("rf"), PH_NOISY_CC);
-			
 			PHALCON_INIT_VAR(referenced_field);
-			phalcon_array_fetch(&referenced_field, r1, i, PH_NOISY_CC);
+			phalcon_array_fetch(&referenced_field, referenced_fields, i, PH_NOISY_CC);
 			
 			PHALCON_INIT_VAR(condition);
 			PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", i);
