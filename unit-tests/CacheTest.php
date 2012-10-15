@@ -143,6 +143,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
+		return false;
+
 		$memcache = new Memcache();
 		$this->assertFalse(!$memcache->connect('localhost', 11211));
 
