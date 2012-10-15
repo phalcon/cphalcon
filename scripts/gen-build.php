@@ -182,7 +182,7 @@ class Build_Generator {
 					fputs($fileHandler, $line);
 				}
 			}
-			if($trimLine=='*/'){
+			if($trimLine=='*/'||$trimLine=='**/'){
 				$openComment = false;
 			}
 		}

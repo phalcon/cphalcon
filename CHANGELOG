@@ -1,3 +1,7 @@
+0.5.2
+ - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
+ - Fixed bug in Phalcon\Mvc\Model making that a magic method call doesn't accept extra parameters
+
 0.5.1
  - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered
  - Added throwing exception in Phalcon\Loader when trying to write in a read only file
