@@ -722,9 +722,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	zval *pre_conditions = NULL, *conditions = NULL, *fields, *field = NULL;
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *i;
 	zval *referenced_fields, *join_conditions;
-	zval *find_params, *arguments, *reference_table;
-	zval *referenced_entity, *connection_service;
-	zval *call_object, *records;
+	zval *find_params, *find_arguments = NULL, *arguments;
+	zval *reference_table, *referenced_entity;
+	zval *connection_service, *call_object, *records;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -740,6 +740,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
+	} else {
+		PHALCON_SEPARATE_PARAM(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -747,6 +749,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		if (eval_int) {
 			PHALCON_INIT_VAR(placeholders);
 			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
+			PHALCON_SEPARATE_PARAM(parameters);
+			phalcon_array_unset_string(parameters, SS("bind"));
 		} else {
 			PHALCON_INIT_NVAR(placeholders);
 			array_init(placeholders);
@@ -761,11 +765,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		eval_int = phalcon_array_isset_long(parameters, 0);
 		if (eval_int) {
 			phalcon_array_fetch_long(&pre_conditions, parameters, 0, PH_NOISY_CC);
+			PHALCON_SEPARATE_PARAM(parameters);
+			phalcon_array_unset_long(parameters, 0);
 		} else {
 			eval_int = phalcon_array_isset_string(parameters, SS("conditions"));
 			if (eval_int) {
 				PHALCON_INIT_NVAR(pre_conditions);
 				phalcon_array_fetch_string(&pre_conditions, parameters, SL("conditions"), PH_NOISY_CC);
+				PHALCON_SEPARATE_PARAM(parameters);
+				phalcon_array_unset_string(parameters, SS("conditions"));
 			}
 		}
 	} else {
@@ -848,10 +856,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	array_init(find_params);
 	phalcon_array_append(&find_params, join_conditions, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&find_params, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(find_arguments);
+		PHALCON_CALL_FUNC_PARAMS_2(find_arguments, "array_merge", find_params, parameters);
+	} else {
+		PHALCON_CPY_WRT(find_arguments, find_params);
+	}
 	
 	PHALCON_INIT_VAR(arguments);
 	array_init(arguments);
-	phalcon_array_append(&arguments, find_params, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&arguments, find_arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reference_table);
 	phalcon_array_fetch_string(&reference_table, relation, SL("rt"), PH_NOISY_CC);

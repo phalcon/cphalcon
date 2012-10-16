@@ -17,9 +17,9 @@ class Robots extends \Phalcon\Mvc\Model
 		));
 	}
 
-	public function getRobotsParts()
+	public function getRobotsParts($arguments=null)
 	{
-		return $this->getRelated('Some\RobotsParts');
+		return $this->getRelated('Some\RobotsParts', $arguments);
 	}
 
 }

@@ -3637,7 +3637,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	zval *model_name, *arguments = NULL, *dependency_injector;
 	zval *service, *manager, *class_name, *exists = NULL, *manager_method = NULL;
 	zval *query_method = NULL, *exception_message, *call_object;
-	zval *model_args, *arguments_merge = NULL, *result;
+	zval *model_args, *result;
 
 	PHALCON_MM_GROW();
 
@@ -3716,15 +3716,10 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_array_append(&model_args, class_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, model_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-	if (Z_TYPE_P(arguments) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(arguments_merge);
-		PHALCON_CALL_FUNC_PARAMS_2(arguments_merge, "array_merge", model_args, arguments);
-	} else {
-		PHALCON_CPY_WRT(arguments_merge, model_args);
-	}
+	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, arguments_merge);
+	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, model_args);
 	
 	RETURN_CCTOR(result);
 }
