@@ -1989,10 +1989,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	zval *error = NULL, *relation = NULL, *options = NULL, *foreign_key = NULL;
 	zval *conditions = NULL, *relation_class = NULL, *referenced_model = NULL;
 	zval *fields = NULL, *referenced_fields = NULL, *field = NULL, *n = NULL, *value = NULL;
-	zval *referenced_field = NULL, *condition = NULL, *connection_service = NULL;
-	zval *join_conditions = NULL, *rowcount = NULL, *user_message = NULL;
-	zval *joined_fields = NULL, *type = NULL, *message = NULL, *event_name;
-	zval *r0 = NULL;
+	zval *referenced_field = NULL, *condition = NULL, *extra_conditions = NULL;
+	zval *connection_service = NULL, *join_conditions = NULL;
+	zval *rowcount = NULL, *user_message = NULL, *joined_fields = NULL;
+	zval *type = NULL, *message = NULL, *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -2121,9 +2121,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 						
 						eval_int = phalcon_array_isset_string(foreign_key, SS("conditions"));
 						if (eval_int) {
-							PHALCON_INIT_NVAR(r0);
-							phalcon_array_fetch_string(&r0, foreign_key, SL("conditions"), PH_NOISY_CC);
-							phalcon_array_append(&conditions, r0, PH_SEPARATE TSRMLS_CC);
+							PHALCON_INIT_NVAR(extra_conditions);
+							phalcon_array_fetch_string(&extra_conditions, foreign_key, SL("conditions"), PH_NOISY_CC);
+							phalcon_array_append(&conditions, extra_conditions, PH_SEPARATE TSRMLS_CC);
 						}
 						
 						PHALCON_INIT_NVAR(connection_service);
@@ -2174,7 +2174,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			
 		ph_cycle_end_0:
 		
-		if (zend_is_true(error)) {
+		if (PHALCON_IS_TRUE(error)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "onValidationFails", 1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
@@ -3355,7 +3355,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getOperationMade){
 /**
  * Reads an attribute value by its name
  *
- * <code> echo $robot->readAttribute('name');</code>
+ * <code>
+ * echo $robot->readAttribute('name');
+ * </code>
  *
  * @param string $attribute
  * @return mixed
@@ -3386,7 +3388,9 @@ PHP_METHOD(Phalcon_Mvc_Model, readAttribute){
 /**
  * Writes an attribute value by its name
  *
- * <code>$robot->writeAttribute('name', 'Rosey');</code>
+ * <code>
+ * $robot->writeAttribute('name', 'Rosey');
+ * </code>
  *
  * @param string $attribute
  * @param mixed $value
@@ -3738,7 +3742,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	zval *model_name, *method, *arguments, *dependency_injector;
 	zval *service, *manager, *zero, *three, *manager_method = NULL;
 	zval *action = NULL, *requested_relation = NULL, *exists = NULL, *query_method = NULL;
-	zval *five, *call_args, *call_object, *result;
+	zval *five, *extra_args = NULL, *call_args, *call_object;
+	zval *result;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -3846,13 +3852,21 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	}
 	
 	if (PHALCON_IS_NOT_FALSE(manager_method)) {
+		eval_int = phalcon_array_isset_long(arguments, 0);
+		if (eval_int) {
+			PHALCON_INIT_VAR(extra_args);
+			phalcon_array_fetch_long(&extra_args, arguments, 0, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(extra_args);
+		}
+		
 		PHALCON_INIT_VAR(call_args);
 		array_init(call_args);
 		phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, requested_relation, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, arguments, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, extra_args, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);

@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 
 /**
@@ -346,7 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -428,7 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -510,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}

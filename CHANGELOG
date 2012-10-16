@@ -1,4 +1,7 @@
-0.6.0
+0.6.0a2
+ - 
+
+0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication
  - Some internal macros like PHALCON_INIT_VAR now produces less C-code making the extension lighter
  - Removed initialization of the memory stack frame when isn't needed
@@ -17,10 +20,11 @@
  - Added faster camelize/uncamelize functions
  - Now a model can implement the method metaData to return the model meta-data insteaf of leave Phalcon do it automatically
  - Phalcon\Mvc\Model::skipAttributes allows to set a group of attributes that must be skipped from the INSERT/UPDATE SQL generation
- -
+ - Added Phalcon\Mvc\Collection to manage non-structured data models, for example: MongoDB
 
 0.5.2
-- Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
+ - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
+ - Fixed bug passing extra parameters to Phalcon\Mvc\Model magic methods
 
 0.5.1
  - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered
