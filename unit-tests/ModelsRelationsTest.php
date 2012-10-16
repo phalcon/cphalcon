@@ -123,6 +123,29 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
 
+		/** Passing parameters to magic methods **/
+		$robotsParts = $robot->getRobotsParts("parts_id = 1");
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 1);
+
+		$robotsParts = $robot->getRobotsParts(array(
+			"parts_id > :parts_id:",
+			"bind" => array("parts_id" => 1)
+		));
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 2);
+		$this->assertEquals($robotsParts->getFirst()->parts_id, 2);
+
+		$robotsParts = $robot->getRobotsParts(array(
+			"parts_id > :parts_id:",
+			"bind" => array("parts_id" => 1),
+			"order" => "parts_id DESC"
+		));
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 2);
+		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
+
+		/** Magic counting */
 		$number = $robot->countRobotsParts();
 		$this->assertEquals($number, 3);
 
@@ -145,12 +168,17 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$part = $robotPart->getParts();
 		$this->assertEquals(get_class($part), 'Parts');
 
+		/** Relations in namespaced models */
 		$robot = Some\Robots::findFirst();
 		$this->assertNotEquals($robot, false);
 
 		$robotsParts = $robot->getRobotsParts();
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 3);
+
+		$robotsParts = $robot->getRobotsParts("parts_id = 1");
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 1);
 
 	}
 
