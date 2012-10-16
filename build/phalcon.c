@@ -25471,7 +25471,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -25544,7 +25544,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -25617,7 +25617,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 			
 			PHALCON_INIT_VAR(diferent_fields);
 			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (zend_is_true(diferent_fields)) {
+			if (PHALCON_IS_TRUE(diferent_fields)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
 				return;
 			}
@@ -25798,9 +25798,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	zval *pre_conditions = NULL, *conditions = NULL, *fields, *field = NULL;
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *i;
 	zval *referenced_fields, *join_conditions;
-	zval *find_params, *arguments, *reference_table;
-	zval *referenced_entity, *connection_service;
-	zval *call_object, *records;
+	zval *find_params, *find_arguments = NULL, *arguments;
+	zval *reference_table, *referenced_entity;
+	zval *connection_service, *call_object, *records;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -25816,6 +25816,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
+	} else {
+		PHALCON_SEPARATE_PARAM(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -25823,6 +25825,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		if (eval_int) {
 			PHALCON_INIT_VAR(placeholders);
 			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
+			PHALCON_SEPARATE_PARAM(parameters);
+			phalcon_array_unset_string(parameters, SS("bind"));
 		} else {
 			PHALCON_INIT_NVAR(placeholders);
 			array_init(placeholders);
@@ -25837,11 +25841,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		eval_int = phalcon_array_isset_long(parameters, 0);
 		if (eval_int) {
 			phalcon_array_fetch_long(&pre_conditions, parameters, 0, PH_NOISY_CC);
+			PHALCON_SEPARATE_PARAM(parameters);
+			phalcon_array_unset_long(parameters, 0);
 		} else {
 			eval_int = phalcon_array_isset_string(parameters, SS("conditions"));
 			if (eval_int) {
 				PHALCON_INIT_NVAR(pre_conditions);
 				phalcon_array_fetch_string(&pre_conditions, parameters, SL("conditions"), PH_NOISY_CC);
+				PHALCON_SEPARATE_PARAM(parameters);
+				phalcon_array_unset_string(parameters, SS("conditions"));
 			}
 		}
 	} else {
@@ -25924,10 +25932,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	array_init(find_params);
 	phalcon_array_append(&find_params, join_conditions, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&find_params, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(find_arguments);
+		PHALCON_CALL_FUNC_PARAMS_2(find_arguments, "array_merge", find_params, parameters);
+	} else {
+		PHALCON_CPY_WRT(find_arguments, find_params);
+	}
 	
 	PHALCON_INIT_VAR(arguments);
 	array_init(arguments);
-	phalcon_array_append(&arguments, find_params, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&arguments, find_arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reference_table);
 	phalcon_array_fetch_string(&reference_table, relation, SL("rt"), PH_NOISY_CC);
@@ -44163,10 +44177,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	zval *error = NULL, *relation = NULL, *options = NULL, *foreign_key = NULL;
 	zval *conditions = NULL, *relation_class = NULL, *referenced_model = NULL;
 	zval *fields = NULL, *referenced_fields = NULL, *field = NULL, *n = NULL, *value = NULL;
-	zval *referenced_field = NULL, *condition = NULL, *connection_service = NULL;
-	zval *join_conditions = NULL, *rowcount = NULL, *user_message = NULL;
-	zval *joined_fields = NULL, *type = NULL, *message = NULL, *event_name;
-	zval *r0 = NULL;
+	zval *referenced_field = NULL, *condition = NULL, *extra_conditions = NULL;
+	zval *connection_service = NULL, *join_conditions = NULL;
+	zval *rowcount = NULL, *user_message = NULL, *joined_fields = NULL;
+	zval *type = NULL, *message = NULL, *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -44295,9 +44309,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 						
 						eval_int = phalcon_array_isset_string(foreign_key, SS("conditions"));
 						if (eval_int) {
-							PHALCON_INIT_NVAR(r0);
-							phalcon_array_fetch_string(&r0, foreign_key, SL("conditions"), PH_NOISY_CC);
-							phalcon_array_append(&conditions, r0, PH_SEPARATE TSRMLS_CC);
+							PHALCON_INIT_NVAR(extra_conditions);
+							phalcon_array_fetch_string(&extra_conditions, foreign_key, SL("conditions"), PH_NOISY_CC);
+							phalcon_array_append(&conditions, extra_conditions, PH_SEPARATE TSRMLS_CC);
 						}
 						
 						PHALCON_INIT_NVAR(connection_service);
@@ -44348,7 +44362,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			
 		ph_cycle_end_0:
 		
-		if (zend_is_true(error)) {
+		if (PHALCON_IS_TRUE(error)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "onValidationFails", 1);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
@@ -45609,7 +45623,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	zval *model_name, *arguments = NULL, *dependency_injector;
 	zval *service, *manager, *class_name, *exists = NULL, *manager_method = NULL;
 	zval *query_method = NULL, *exception_message, *call_object;
-	zval *model_args, *arguments_merge = NULL, *result;
+	zval *model_args, *result;
 
 	PHALCON_MM_GROW();
 
@@ -45688,15 +45702,10 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_array_append(&model_args, class_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, model_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-	if (Z_TYPE_P(arguments) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(arguments_merge);
-		PHALCON_CALL_FUNC_PARAMS_2(arguments_merge, "array_merge", model_args, arguments);
-	} else {
-		PHALCON_CPY_WRT(arguments_merge, model_args);
-	}
+	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, arguments_merge);
+	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, model_args);
 	
 	RETURN_CCTOR(result);
 }
@@ -45706,7 +45715,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	zval *model_name, *method, *arguments, *dependency_injector;
 	zval *service, *manager, *zero, *three, *manager_method = NULL;
 	zval *action = NULL, *requested_relation = NULL, *exists = NULL, *query_method = NULL;
-	zval *five, *call_args, *call_object, *result;
+	zval *five, *extra_args = NULL, *call_args, *call_object;
+	zval *result;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -45814,13 +45825,21 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	}
 	
 	if (PHALCON_IS_NOT_FALSE(manager_method)) {
+		eval_int = phalcon_array_isset_long(arguments, 0);
+		if (eval_int) {
+			PHALCON_INIT_VAR(extra_args);
+			phalcon_array_fetch_long(&extra_args, arguments, 0, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(extra_args);
+		}
+		
 		PHALCON_INIT_VAR(call_args);
 		array_init(call_args);
 		phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, requested_relation, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, arguments, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, extra_args, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
