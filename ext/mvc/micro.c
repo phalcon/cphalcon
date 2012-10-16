@@ -59,6 +59,7 @@
  *</code>
  */
 
+
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
 	zval *a0 = NULL;

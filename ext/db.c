@@ -366,11 +366,10 @@ PHP_METHOD(Phalcon_Db, insert){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(position);
 		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -498,11 +497,10 @@ PHP_METHOD(Phalcon_Db, update){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(position);
 		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -1256,7 +1254,7 @@ PHP_METHOD(Phalcon_Db, listTables){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		

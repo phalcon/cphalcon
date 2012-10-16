@@ -44,6 +44,7 @@
  * Temporarily stores the messages in session, then messages can be printed in the next request
  */
 
+
 /**
  * Sets the dependency injector
  *
@@ -300,11 +301,10 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(type);
 			PHALCON_GET_FOREACH_KEY(type, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(message);
 			

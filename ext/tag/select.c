@@ -161,11 +161,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(avalue);
 			
@@ -323,11 +322,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(option_value);
 		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(option_text);
 		

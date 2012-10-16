@@ -41,6 +41,7 @@
  *
  */
 
+
 /**
  * Sets the SQL statement related to the profile
  *

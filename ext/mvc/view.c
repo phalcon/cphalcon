@@ -476,11 +476,10 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				
-				PHALCON_INIT_NVAR(extension);
 				PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(engine_service);
 				
@@ -620,11 +619,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(extension);
 		PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(engine);
 		
@@ -853,7 +851,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				
 				ph_cycle_start_0:
 				
-					if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 						goto ph_cycle_end_0;
 					}
 					
@@ -903,7 +901,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 				
 				ph_cycle_start_1:
 				
-					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_1;
 					}
 					
@@ -1190,11 +1188,10 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			

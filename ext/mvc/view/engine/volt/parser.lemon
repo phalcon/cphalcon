@@ -160,6 +160,22 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P)
 	return ret;
 }
 
+static zval *phvolt_ret_include_statement(phvolt_parser_token *P)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
+
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
+	efree(P->token);
+	efree(P);
+
+	return ret;
+}
+
 static zval *phvolt_ret_empty_statement()
 {
 	zval *ret;
@@ -378,6 +394,10 @@ statement(R) ::= extends_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= include_statement(E) . {
+	R = E;
+}
+
 statement(R) ::= empty_statement(E) . {
 	R = E;
 }
@@ -430,6 +450,12 @@ block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER OPEN_D
 
 extends_statement(R) ::= OPEN_DELIMITER EXTENDS STRING(S) CLOSE_DELIMITER . {
 	R = phvolt_ret_extends_statement(S);
+}
+
+%destructor include_statement { zval_ptr_dtor(&$$); }
+
+include_statement(R) ::= OPEN_DELIMITER INCLUDE STRING(S) CLOSE_DELIMITER . {
+	R = phvolt_ret_include_statement(S);
 }
 
 %destructor raw_fragment { zval_ptr_dtor(&$$); }
@@ -486,6 +512,14 @@ expr(R) ::= expr(O1) RANGE expr(O2) . {
 
 expr(R) ::= expr(O1) EQUALS expr(O2) . {
 	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2);
+}
+
+expr(R) ::= expr(O1) EQUALS NOT DEFINED . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL);
+}
+
+expr(R) ::= expr(O1) EQUALS DEFINED . {
+	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL);
 }
 
 expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {

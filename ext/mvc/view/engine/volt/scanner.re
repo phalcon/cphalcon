@@ -199,6 +199,30 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		'is' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_IS;
+			return 0;
+		}
+
+		'not' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_NOT;
+			return 0;
+		}
+
+		'defined' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_DEFINED;
+			return 0;
+		}
+
+		'include' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_INCLUDE;
+			return 0;
+		}
+
 		"{%" {
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;

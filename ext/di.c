@@ -45,6 +45,7 @@
  *
  */
 
+
 PHP_METHOD(Phalcon_DI, __construct){
 
 	zval *default_di = NULL;

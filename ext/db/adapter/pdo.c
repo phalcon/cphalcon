@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
 
 	zval *statement = NULL, *placeholders = NULL, *data_types = NULL;
-	zval *one = NULL, *value = NULL, *wildcard = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
+	zval *one, *value = NULL, *wildcard = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -259,7 +259,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
 			goto ph_cycle_end_0;
 		}
 
-		PHALCON_INIT_NVAR(wildcard);
 		PHALCON_GET_FOREACH_KEY(wildcard, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 
@@ -281,6 +280,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
 				PHALCON_INIT_NVAR(type);
 				phalcon_array_fetch(&type, data_types, wildcard, PH_NOISY_CC);
 				if (phalcon_compare_strict_long(type, 32 TSRMLS_CC)) {
+
 					PHALCON_INIT_NVAR(cast_value);
 					PHALCON_CALL_FUNC_PARAMS_1(cast_value, "doubleval", value);
 
@@ -298,7 +298,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
 				return;
 			}
 		} else {
+			Z_SET_ISREF_P(value);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(statement, "bindparam", parameter, value, PH_NO_CHECK);
+			Z_UNSET_ISREF_P(value);
 		}
 
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -593,11 +595,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				
-				PHALCON_INIT_NVAR(index);
 				PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(bind_value);
 				
@@ -705,7 +706,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -948,7 +949,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -984,11 +985,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
-		PHALCON_INIT_NVAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
 		PHALCON_GET_FOREACH_VALUE(index_columns);
 		
@@ -1068,7 +1068,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1118,11 +1118,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
-		PHALCON_INIT_NVAR(name);
 		PHALCON_GET_FOREACH_KEY(name, ah1, hp1);
 		PHALCON_GET_FOREACH_VALUE(array_reference);
 		

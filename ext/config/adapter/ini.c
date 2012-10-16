@@ -128,11 +128,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(section);
 		PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(directives);
 		
@@ -146,11 +145,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(value);
 			

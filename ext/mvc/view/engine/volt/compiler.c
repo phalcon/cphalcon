@@ -48,6 +48,7 @@
  * This class reads and compiles volt templates into PHP plain code
  */
 
+
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI){
 
 	zval *di;
@@ -336,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -666,7 +667,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		

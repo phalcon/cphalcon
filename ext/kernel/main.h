@@ -184,6 +184,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
+	PHALCON_INIT_NVAR(var); \
 	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
 	if (hash_type == HASH_KEY_IS_STRING) { \
 		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
@@ -194,8 +195,9 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	}
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_INIT_NVAR(var); \
-	ZVAL_ZVAL(var, *hd, 1, 0);
+	PHALCON_OBSERVE_VAR(var); \
+	var = *hd; \
+	Z_ADDREF_P(var);
 
 /** class registering */
 #define PHALCON_REGISTER_CLASS(ns, classname, name, methods, flags) \

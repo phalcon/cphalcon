@@ -43,7 +43,6 @@
  *
  *<code>
  *
- *
  *class HelloTask extends \Phalcon\CLI\Task
  *{
  *
@@ -68,6 +67,7 @@
  *
  *</code>
  */
+
 
 PHP_METHOD(Phalcon_CLI_Task, __construct){
 

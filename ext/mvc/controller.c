@@ -43,7 +43,6 @@
  *
  *<code>
  *
- *
  *class PeopleController extends \Phalcon\Mvc\Controller
  *{
  *
@@ -74,6 +73,7 @@
  *
  *</code>
  */
+
 
 /**
  * Phalcon\Mvc\Controller constructor

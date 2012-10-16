@@ -45,6 +45,7 @@
  *
  */
 
+
 /**
  * Phalcon\Paginator\Adapter\NativeArray constructor
   *

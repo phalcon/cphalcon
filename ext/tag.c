@@ -48,6 +48,7 @@
  * This component is an abstract class that you can extend to add more helpers.
  */
 
+
 /**
  * Sets the dependency injector container.
  *
@@ -405,11 +406,10 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -520,11 +520,10 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -907,11 +906,10 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(avalue);
 		
@@ -1044,11 +1042,10 @@ PHP_METHOD(Phalcon_Tag, form){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(avalue);
 		
@@ -1285,11 +1282,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -1422,11 +1418,10 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -1515,11 +1510,10 @@ PHP_METHOD(Phalcon_Tag, image){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		

@@ -42,6 +42,7 @@
  * Escapes different kinds of text securing them
  */
 
+
 /**
  * Sets the encoding to be used by the escaper
  *

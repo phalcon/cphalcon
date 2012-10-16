@@ -818,11 +818,10 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
@@ -1073,7 +1072,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				
@@ -1878,7 +1877,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -2039,7 +2038,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -2080,11 +2079,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 							
 							ph_cycle_start_1:
 							
-								if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+								if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 									goto ph_cycle_end_1;
 								}
 								
-								PHALCON_INIT_NVAR(n);
 								PHALCON_GET_FOREACH_KEY(n, ah1, hp1);
 								PHALCON_GET_FOREACH_VALUE(field);
 								
@@ -2250,7 +2248,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -2292,11 +2290,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 							
 							ph_cycle_start_1:
 							
-								if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+								if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 									goto ph_cycle_end_1;
 								}
 								
-								PHALCON_INIT_NVAR(n);
 								PHALCON_GET_FOREACH_KEY(n, ah1, hp1);
 								PHALCON_GET_FOREACH_VALUE(field);
 								
@@ -2739,7 +2736,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -2895,7 +2892,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -3257,7 +3254,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -3965,7 +3962,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -4028,11 +4025,10 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				
-				PHALCON_INIT_NVAR(key);
 				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(value);
 				

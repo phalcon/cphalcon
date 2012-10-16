@@ -59,6 +59,7 @@
  * </code>
  */
 
+
 PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct){
 
 	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL;
@@ -822,7 +823,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			

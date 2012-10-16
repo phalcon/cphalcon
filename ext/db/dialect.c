@@ -46,6 +46,7 @@
  * common methods to transform intermediate code into its RDBM related syntax
  */
 
+
 /**
  * Generates the SQL for LIMIT clause
  *
@@ -197,7 +198,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			

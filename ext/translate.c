@@ -42,6 +42,7 @@
  * different adapters for translation lists.
  */
 
+
 /**
  * Returns the translation string of the given key
  *

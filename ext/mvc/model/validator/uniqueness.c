@@ -67,6 +67,7 @@
  *
  */
 
+
 /**
  * Executes the validator
  *
@@ -134,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -207,7 +208,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			

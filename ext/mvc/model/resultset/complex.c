@@ -47,6 +47,7 @@
  * This class builds every complex row as the're required
  */
 
+
 /**
  * Phalcon\Mvc\Model\Resultset\Complex constructor
  *
@@ -154,11 +155,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(alias);
 			PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(column);
 			
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 				
 				ph_cycle_start_1:
 				
-					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_1;
 					}
 					

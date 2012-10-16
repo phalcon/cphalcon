@@ -163,7 +163,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	}
 
 #define PHALCON_OBSERVE_VAR(var) \
-	if(!var){ \
+	if (!var) { \
 		phalcon_memory_observe(&var TSRMLS_CC); \
 	} else { \
 		zval_ptr_dtor(&var); \

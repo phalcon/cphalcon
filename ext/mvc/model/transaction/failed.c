@@ -42,6 +42,7 @@
  *
  */
 
+
 /**
  * Phalcon\Mvc\Model\Transaction\Failed constructor
  *

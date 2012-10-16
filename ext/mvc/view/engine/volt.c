@@ -44,6 +44,7 @@
  * Designer friendly and fast template engine for PHP written in C
  */
 
+
 /**
  * Renders a view using the template engine
  *
@@ -84,11 +85,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(key);
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		

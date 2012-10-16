@@ -39,6 +39,7 @@
  *
  */
 
+
 /**
  * Phalcon\Cache\Frontend\None constructor
  */

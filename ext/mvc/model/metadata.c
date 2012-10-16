@@ -56,6 +56,7 @@
  *
  */
 
+
 /**
  * Initialize the metadata for certain table
  *
@@ -193,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				

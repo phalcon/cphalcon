@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -675,7 +675,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -706,7 +706,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
@@ -992,11 +992,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(resource_name);
 		PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(resource_access);
 		
@@ -1031,11 +1030,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
-			PHALCON_INIT_NVAR(resource_name);
 			PHALCON_GET_FOREACH_KEY(resource_name, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(resource_access);
 			
@@ -1197,11 +1195,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
-			PHALCON_INIT_NVAR(role_name);
 			PHALCON_GET_FOREACH_KEY(role_name, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(one);
 			
@@ -1219,7 +1216,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 				
 				ph_cycle_start_2:
 				
-					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_2;
 					}
 					
@@ -1239,11 +1236,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 						
 						ph_cycle_start_3:
 						
-							if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+							if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 								goto ph_cycle_end_3;
 							}
 							
-							PHALCON_INIT_NVAR(resource_name);
 							PHALCON_GET_FOREACH_KEY(resource_name, ah2, hp2);
 							PHALCON_GET_FOREACH_VALUE(access);
 							
@@ -1257,11 +1253,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 							
 							ph_cycle_start_4:
 							
-								if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
+								if (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS) {
 									goto ph_cycle_end_4;
 								}
 								
-								PHALCON_INIT_NVAR(name);
 								PHALCON_GET_FOREACH_KEY(name, ah3, hp3);
 								PHALCON_GET_FOREACH_VALUE(value);
 								

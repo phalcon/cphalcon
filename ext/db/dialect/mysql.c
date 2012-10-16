@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -795,7 +795,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -843,7 +843,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
@@ -889,7 +889,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		
 		ph_cycle_start_2:
 		
-			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 				goto ph_cycle_end_2;
 			}
 			

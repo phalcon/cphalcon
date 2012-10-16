@@ -47,6 +47,7 @@
  * and Phalcon\Mvc\Model::findFirst, using an object-oriented interfase
  */
 
+
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct){
 
 	zval *a0 = NULL;
@@ -572,11 +573,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(field);
 			PHALCON_GET_FOREACH_KEY(field, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			

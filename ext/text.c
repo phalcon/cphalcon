@@ -41,6 +41,7 @@
  * Provides utilities when working with strings
  */
 
+
 /**
  * Converts strings to camelize style
  *

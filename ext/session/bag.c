@@ -51,6 +51,7 @@
  *</code>
  */
 
+
 PHP_METHOD(Phalcon_Session_Bag, __construct){
 
 	zval *name;

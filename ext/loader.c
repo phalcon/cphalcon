@@ -385,11 +385,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(preffix);
 			PHALCON_GET_FOREACH_KEY(preffix, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
@@ -418,7 +417,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					
 					ph_cycle_start_1:
 					
-						if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+						if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 							goto ph_cycle_end_1;
 						}
 						
@@ -485,11 +484,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		
 		ph_cycle_start_2:
 		
-			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 				goto ph_cycle_end_2;
 			}
 			
-			PHALCON_INIT_NVAR(preffix);
 			PHALCON_GET_FOREACH_KEY(preffix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
@@ -518,7 +516,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					
 					ph_cycle_start_3:
 					
-						if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
+						if (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS) {
 							goto ph_cycle_end_3;
 						}
 						
@@ -588,7 +586,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		
 		ph_cycle_start_4:
 		
-			if(zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS) {
 				goto ph_cycle_end_4;
 			}
 			
@@ -604,7 +602,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			
 			ph_cycle_start_5:
 			
-				if(zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) != SUCCESS) {
 					goto ph_cycle_end_5;
 				}
 				

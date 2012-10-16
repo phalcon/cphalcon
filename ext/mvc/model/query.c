@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 			
 			ph_cycle_start_0:
 			
-				if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
 				
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
@@ -673,11 +673,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(model_name);
 			PHALCON_GET_FOREACH_KEY(model_name, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(source);
 			
@@ -720,7 +719,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		phalcon_array_fetch(&source, sql_aliases, column_domain, PH_NOISY_CC);
 		PHALCON_CPY_WRT(sql_column_alias, source);
 		
-		PHALCON_INIT_NVAR(model_name);
+		PHALCON_INIT_VAR(model_name);
 		phalcon_array_fetch(&model_name, sql_aliases_models, column_domain, PH_NOISY_CC);
 		
 		PHALCON_INIT_NVAR(sql_column);
@@ -999,7 +998,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1064,11 +1063,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
-		PHALCON_INIT_NVAR(join_model);
 		PHALCON_GET_FOREACH_KEY(join_model, ah1, hp1);
 		PHALCON_GET_FOREACH_VALUE(join_alias);
 		
@@ -1084,11 +1082,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		
 		ph_cycle_start_2:
 		
-			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 				goto ph_cycle_end_2;
 			}
 			
-			PHALCON_INIT_NVAR(model_name);
 			PHALCON_GET_FOREACH_KEY(model_name, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(source);
 			
@@ -1219,7 +1216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1295,7 +1292,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -1401,7 +1398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1491,7 +1488,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
@@ -1509,7 +1506,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		
 		ph_cycle_start_2:
 		
-			if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 				goto ph_cycle_end_2;
 			}
 			
@@ -1683,7 +1680,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1727,7 +1724,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
@@ -1829,7 +1826,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -1896,7 +1893,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
@@ -2032,7 +2029,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -2266,7 +2263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
@@ -2323,7 +2320,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	ph_cycle_start_1:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_1;
 		}
 		
@@ -2384,11 +2381,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	ph_cycle_start_2:
 	
-		if(zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 			goto ph_cycle_end_2;
 		}
 		
-		PHALCON_INIT_NVAR(alias);
 		PHALCON_GET_FOREACH_KEY(alias, ah2, hp2);
 		PHALCON_GET_FOREACH_VALUE(column);
 		
@@ -2416,7 +2412,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				
 				ph_cycle_start_3:
 				
-					if(zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS) {
 						goto ph_cycle_end_3;
 					}
 					
@@ -2475,11 +2471,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		
 		ph_cycle_start_4:
 		
-			if(zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS) {
 				goto ph_cycle_end_4;
 			}
 			
-			PHALCON_INIT_NVAR(wildcard);
 			PHALCON_GET_FOREACH_KEY(wildcard, ah4, hp4);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
@@ -2630,11 +2625,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
-		PHALCON_INIT_NVAR(number);
 		PHALCON_GET_FOREACH_KEY(number, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
@@ -2711,7 +2705,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	ph_cycle_start_2:
 	
-		if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 			goto ph_cycle_end_2;
 		}
 		
@@ -2840,11 +2834,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		
 		ph_cycle_start_1:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
 			
-			PHALCON_INIT_NVAR(number);
 			PHALCON_GET_FOREACH_KEY(number, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(field);
 			

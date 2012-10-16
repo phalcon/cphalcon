@@ -353,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -412,11 +412,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				
 				ph_cycle_start_1:
 				
-					if(zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS){
+					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_1;
 					}
 					
-					PHALCON_INIT_NVAR(part);
 					PHALCON_GET_FOREACH_KEY(part, ah1, hp1);
 					PHALCON_GET_FOREACH_VALUE(position);
 					
@@ -940,7 +939,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		
@@ -996,7 +995,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	
 	ph_cycle_start_0:
 	
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
 		

@@ -35,6 +35,7 @@
 
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/string.h"
 #include "kernel/object.h"
 
 /**
@@ -52,6 +53,7 @@
  *</code>
  *
  */
+
 
 PHP_METHOD(Phalcon_CLI_Router, __construct){
 

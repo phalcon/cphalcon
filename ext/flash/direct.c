@@ -40,6 +40,7 @@
  * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
  */
 
+
 /**
  * Outputs a message
  *

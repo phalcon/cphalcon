@@ -7,4 +7,4 @@ export CFLAGS="-O2 -fno-delete-null-pointer-checks"
 phpize
 ./configure --enable-phalcon
 make
-sudo make install
+make install

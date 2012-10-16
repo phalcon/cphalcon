@@ -47,7 +47,7 @@ Follow these instructions to generate a binary extension for your platform:
 
      # git clone git://github.com/phalcon/cphalcon.git
      # cd cphalcon/build
-     # ./install
+     # sudo ./install
  
 Add extension to your php.ini
 

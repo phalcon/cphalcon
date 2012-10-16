@@ -42,6 +42,7 @@
  * This objects implements the ArrayAccess interfase to allow access the object as object->x or array[x].
  */
 
+
 PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 
 

@@ -29,6 +29,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_MUL,           	"*" },
   { PHVOLT_T_DIV,           	"/" },
   { PHVOLT_T_MOD,           	"%%" },
+  { PHVOLT_T_NOT,           	"!" },
   { PHVOLT_T_AND,           	"AND" },
   { PHVOLT_T_OR,            	"OR" },
   { PHVOLT_T_DOT,           	"DOT" },
@@ -60,6 +61,9 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_BLOCK,           	"BLOCK" },
   { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
   { PHVOLT_T_EXTENDS,			"EXTENDS" },
+  { PHVOLT_T_IS,				"IS" },
+  { PHVOLT_T_DEFINED,			"DEFINED" },
+  { PHVOLT_T_INCLUDE,			"INCLUDE" },
   {  0, NULL }
 };
 
@@ -379,6 +383,14 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 			case PHVOLT_T_ENDBLOCK:
 				state->block_level--;
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_INCLUDE:
+				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_DEFINED:
+				phvolt_(phvolt_parser, PHVOLT_DEFINED, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_EXTENDS:

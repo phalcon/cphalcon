@@ -44,6 +44,7 @@
  *
  */
 
+
 PHP_METHOD(Phalcon_Http_Response_Headers, __construct){
 
 	zval *a0 = NULL;
@@ -177,11 +178,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(header);
 			PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
@@ -264,11 +264,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 		
 		ph_cycle_start_0:
 		
-			if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 			
