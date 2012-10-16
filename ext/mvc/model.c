@@ -3728,7 +3728,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	zval *model_name = NULL, *arguments = NULL, *dependency_injector = NULL;
 	zval *service = NULL, *manager = NULL, *class_name = NULL, *exists = NULL, *manager_method = NULL;
 	zval *query_method = NULL, *exception_message = NULL, *exception = NULL;
-	zval *call_object = NULL, *call_args = NULL, *result = NULL;
+	zval *call_object = NULL, *model_args = NULL, *result = NULL;
 
 	PHALCON_MM_GROW();
 	
@@ -3806,16 +3806,16 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&call_object, manager_method, PH_SEPARATE TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(call_args);
-	array_init(call_args);
-	phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&call_args, class_name, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&call_args, arguments, PH_SEPARATE TSRMLS_CC);
+	PHALCON_INIT_VAR(model_args);
+	array_init(model_args);
+	phalcon_array_append(&model_args, query_method, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&model_args, class_name, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&model_args, model_name, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, call_args);
+	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, model_args);
 	
 	RETURN_CCTOR(result);
 }
@@ -3833,8 +3833,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	zval *model_name = NULL, *method = NULL, *arguments = NULL, *dependency_injector = NULL;
 	zval *service = NULL, *manager = NULL, *manager_method = NULL, *zero = NULL;
 	zval *three = NULL, *action = NULL, *requested_relation = NULL, *exists = NULL;
-	zval *query_method = NULL, *five = NULL, *call_args = NULL, *call_object = NULL;
-	zval *result = NULL;
+	zval *query_method = NULL, *five = NULL, *extra_args = NULL, *call_args = NULL;
+	zval *call_object = NULL, *result = NULL;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 	
@@ -3943,13 +3944,22 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 	}
 	
 	if (PHALCON_IS_NOT_FALSE(manager_method)) {
+		eval_int = phalcon_array_isset_long(arguments, 0);
+		if (eval_int) {
+			PHALCON_INIT_VAR(extra_args);
+			phalcon_array_fetch_long(&extra_args, arguments, 0, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_VAR(extra_args);
+			ZVAL_NULL(extra_args);
+		}
+		
 		PHALCON_INIT_VAR(call_args);
 		array_init(call_args);
 		phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, requested_relation, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, arguments, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_append(&call_args, extra_args, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
