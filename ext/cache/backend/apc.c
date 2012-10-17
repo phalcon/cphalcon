@@ -294,3 +294,50 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	RETURN_CTOR(keys);
 }
 
+/**
+ * Checks if cache exists.
+ *
+ * @param string $keyName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
+
+	zval *key_name = NULL, *last_key = NULL, *prefix;
+	zval *cache_exists;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	if (!key_name) {
+		PHALCON_INIT_NVAR(key_name);
+	}
+
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_INIT_VAR(last_key);
+		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_SVV(last_key, "_PHCA", prefix, key_name);
+	}
+
+	if (!zend_is_true(last_key)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	PHALCON_INIT_VAR(cache_exists);
+	PHALCON_CALL_FUNC_PARAMS_1(cache_exists, "apc_exists", last_key);
+	if (PHALCON_IS_FALSE(cache_exists)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
+}

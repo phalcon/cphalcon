@@ -413,3 +413,61 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	RETURN_CTOR(keys);
 }
 
+/**
+ * Checks if cache exists.
+ *
+ * @param string $keyName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Cache_Backend_File, exists){
+
+	zval *key_name = NULL, *last_key = NULL, *prefix;
+	zval *filtered, *backend, *cache_dir, *cache_file;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	if (!key_name) {
+		PHALCON_INIT_NVAR(key_name);
+	}
+
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_INIT_VAR(last_key);
+		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		
+		PHALCON_INIT_VAR(filtered);
+		phalcon_filter_alphanum(filtered, key_name);
+		
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, filtered);
+	}
+
+	if (!zend_is_true(last_key)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	PHALCON_INIT_VAR(backend);
+	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(cache_dir);
+	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(cache_file);
+	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
+	if (phalcon_file_exists(cache_file TSRMLS_CC) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
+}
+
