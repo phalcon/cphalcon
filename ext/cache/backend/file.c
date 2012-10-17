@@ -449,25 +449,22 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_CONCAT_VV(last_key, prefix, filtered);
 	}
 
-	if (!zend_is_true(last_key)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
-	}
+	if (zend_is_true(last_key)) {
+		PHALCON_INIT_VAR(backend);
+		phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
 
-	PHALCON_INIT_VAR(backend);
-	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
-
-	PHALCON_INIT_VAR(cache_dir);
-	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(cache_dir);
+		phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(cache_file);
-	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
-	if (phalcon_file_exists(cache_file TSRMLS_CC) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+		PHALCON_INIT_VAR(cache_file);
+		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
+		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
 	}
 
 	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	RETURN_FALSE;
 }
 

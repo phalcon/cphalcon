@@ -567,27 +567,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 
-	if (!zend_is_true(last_key)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
-	}
-
-	PHALCON_INIT_VAR(memcache);
-	phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (!zend_is_true(memcache)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "_connect", PH_NO_CHECK);
-
-		PHALCON_INIT_NVAR(memcache);
+	if (zend_is_true(last_key)) {
+		PHALCON_INIT_VAR(memcache);
 		phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	}
+		if (!zend_is_true(memcache)) {
+			PHALCON_CALL_METHOD_NORETURN(this_ptr, "_connect", PH_NO_CHECK);
 
-	PHALCON_INIT_VAR(cache_exists);
-	PHALCON_CALL_METHOD_PARAMS_1(cache_exists, memcache, "get", last_key, PH_NO_CHECK);
-	if (PHALCON_IS_FALSE(cache_exists)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+			PHALCON_INIT_NVAR(memcache);
+			phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
+		}
+
+		PHALCON_INIT_VAR(cache_exists);
+		PHALCON_CALL_METHOD_PARAMS_1(cache_exists, memcache, "get", last_key, PH_NO_CHECK);
+		if (PHALCON_IS_NOT_FALSE(cache_exists)) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
 	}
 
 	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	RETURN_FALSE;
 }

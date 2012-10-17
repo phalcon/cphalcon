@@ -326,18 +326,15 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 		PHALCON_CONCAT_SVV(last_key, "_PHCA", prefix, key_name);
 	}
 
-	if (!zend_is_true(last_key)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
-	}
-
-	PHALCON_INIT_VAR(cache_exists);
-	PHALCON_CALL_FUNC_PARAMS_1(cache_exists, "apc_exists", last_key);
-	if (PHALCON_IS_FALSE(cache_exists)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+	if (zend_is_true(last_key)) {
+		PHALCON_INIT_VAR(cache_exists);
+		PHALCON_CALL_FUNC_PARAMS_1(cache_exists, "apc_exists", last_key);
+		if (PHALCON_IS_NOT_FALSE(cache_exists)) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
 	}
 
 	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	RETURN_FALSE;
 }
