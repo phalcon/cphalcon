@@ -447,6 +447,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
+	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -536,7 +537,16 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		
 	ph_cycle_end_0:
 	
-	phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	PHALCON_INIT_VAR(doctype);
+	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
+	PHALCON_INIT_VAR(is_xhtml);
+	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
+	
+	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
+		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	}
+	
+	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -1198,6 +1208,7 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
+	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -1298,7 +1309,16 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		
 	ph_cycle_end_0:
 	
-	phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	PHALCON_INIT_VAR(doctype);
+	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
+	PHALCON_INIT_VAR(is_xhtml);
+	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
+	
+	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
+		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	}
+	
+	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -1457,6 +1477,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
+	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -1526,7 +1547,16 @@ PHP_METHOD(Phalcon_Tag, image){
 		
 	ph_cycle_end_0:
 	
-	phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	PHALCON_INIT_VAR(doctype);
+	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
+	PHALCON_INIT_VAR(is_xhtml);
+	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
+	
+	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
+		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	}
+
+	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -1585,3 +1615,80 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	RETURN_CTOR(friendly_text);
 }
 
+/**
+ * Set the document type of content
+ *
+ * @param string $doctype
+ */
+PHP_METHOD(Phalcon_Tag, setDoctype){
+
+	zval *doctype;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &doctype) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_static_property(SL("phalcon\\tag"), SL("_documentType"), doctype TSRMLS_CC);
+}
+
+/**
+ * Get the document type declaration of content
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Tag, getDoctype){
+
+	zval *doctype = NULL, *declaration, *eol, *doctype_html;
+
+	PHALCON_MM_GROW();
+	PHALCON_OBSERVE_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(eol);
+	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(declaration);
+	if (phalcon_compare_strict_long(doctype, 1 TSRMLS_CC)) {
+		ZVAL_STRING(declaration, " PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\"", 1);
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 2 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD HTML 4.01//EN\"", eol, "\t\"http://www.w3.org/TR/html4/strict.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 3 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"", eol, "\t\"http://www.w3.org/TR/html4/loose.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 4 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\"", eol, "\t\"http://www.w3.org/TR/html4/frameset.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 6 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"", eol, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 7 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"", eol, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 8 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"", eol, "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 9 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"", eol, "\t\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"");
+		goto ph_end_0;
+	}
+	if (phalcon_compare_strict_long(doctype, 10 TSRMLS_CC)) {
+		PHALCON_CONCAT_SVS(declaration, " PUBLIC \"-//W3C//DTD XHTML 2.0//EN\"", eol, "\t\"http://www.w3.org/MarkUp/DTD/xhtml2.dtd\"");
+		goto ph_end_0;
+	}
+
+	ph_end_0:
+
+	PHALCON_INIT_VAR(doctype_html);
+	PHALCON_CONCAT_SVSV(doctype_html, "<!DOCTYPE html", declaration, ">", eol);
+
+	RETURN_CTOR(doctype_html);
+}
