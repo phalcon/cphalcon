@@ -44,7 +44,7 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	PHALCON_ALLOC_ZVAL(z); \
 	phalcon_memory_observe(&z TSRMLS_CC);
 
-#ifndef PHP_WIN32
+//#ifndef PHP_WIN32
 
 #define PHALCON_INIT_NVAR(z)\
 	if (z) { \
@@ -87,13 +87,13 @@ extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 	Z_SET_REFCOUNT_P(d, 1); \
 	Z_UNSET_ISREF_P(d);
 
-#else
+//#else
 
-#define PHALCON_INIT_NVAR(z) phalcon_init_nvar(&z TSRMLS_CC)
-#define PHALCON_CPY_WRT(d, v) phalcon_cpy_wrt(&d, v TSRMLS_CC)
-#define PHALCON_CPY_WRT_CTOR(d, v) phalcon_cpy_wrt_ctor(&d, v TSRMLS_CC)
+//#define PHALCON_INIT_NVAR(z) phalcon_init_nvar(&z TSRMLS_CC)
+//#define PHALCON_CPY_WRT(d, v) phalcon_cpy_wrt(&d, v TSRMLS_CC)
+//#define PHALCON_CPY_WRT_CTOR(d, v) phalcon_cpy_wrt_ctor(&d, v TSRMLS_CC)
 
-#endif
+//#endif
 
 #define PHALCON_ALLOC_ZVAL_MM(z) \
 	PHALCON_ALLOC_ZVAL(z); \

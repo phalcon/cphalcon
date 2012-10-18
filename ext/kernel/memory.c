@@ -73,9 +73,9 @@ inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
 	}
 	Z_ADDREF_P(var);
 	*dest = var;
-	zval_copy_ctor(*dest);
-	Z_SET_REFCOUNT_P(*dest, 1);
-	Z_UNSET_ISREF_P(*dest);
+	zval_copy_ctor(dest);
+	Z_SET_REFCOUNT_PP(dest, 1);
+	Z_UNSET_ISREF_PP(dest);
 }
 
 

@@ -1,6 +1,8 @@
 0.6.0a2
  - Removing unnecesarry duplications in zval PHALCON_GET_FOREACH_VALUE
  - Merging PHALCON_INIT_NVAR into PHALCON_GET_FOREACH_KEY
+ - Added HTML/XHTML document type support in Phalcon\Tag
+ - Added "exists" method to every backend in Phalcon\Cache\Backend
 
 0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication

@@ -246,8 +246,7 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 PHP_METHOD(Phalcon_Tag, getValue){
 
 	zval *name, *display_values = NULL, *default_value;
-	zval *post = NULL, *le_post_name, *have_magic_quotes;
-	zval *post_name = NULL, *striped;
+	zval *post = NULL, *post_name;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -271,21 +270,10 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		PHALCON_CPY_WRT(post, g0);
 		eval_int = phalcon_array_isset(post, name);
 		if (eval_int) {
-			PHALCON_INIT_VAR(le_post_name);
-			phalcon_array_fetch(&le_post_name, post, name, PH_NOISY_CC);
+			PHALCON_INIT_VAR(post_name);
+			phalcon_array_fetch(&post_name, post, name, PH_NOISY_CC);
 			
-			PHALCON_INIT_VAR(have_magic_quotes);
-			PHALCON_CALL_FUNC(have_magic_quotes, "get_magic_quotes_gpc");
-			if (!zend_is_true(have_magic_quotes)) {
-				PHALCON_CPY_WRT(post_name, le_post_name);
-				
-				RETURN_CCTOR(post_name);
-			} else {
-				PHALCON_INIT_VAR(striped);
-				PHALCON_CALL_FUNC_PARAMS_1(striped, "stripslashes", le_post_name);
-				
-				RETURN_CCTOR(striped);
-			}
+			RETURN_CCTOR(post_name);
 		}
 	}
 	
@@ -438,7 +426,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type, *parameters, *as_value = NULL, *params = NULL, *id = NULL, *name;
-	zval *value = NULL, *code, *key = NULL;
+	zval *value = NULL, *code, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -447,7 +435,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
-	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -539,14 +526,12 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	PHALCON_INIT_VAR(doctype);
 	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	PHALCON_INIT_VAR(is_xhtml);
-	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
-	
-	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
-		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+		phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	} else {
+		phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	}
 	
-	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -1199,7 +1184,7 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1208,7 +1193,6 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
-	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -1311,14 +1295,12 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	
 	PHALCON_INIT_VAR(doctype);
 	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	PHALCON_INIT_VAR(is_xhtml);
-	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
-	
-	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
-		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+		phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	} else {
+		phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	}
 	
-	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	
 	RETURN_CTOR(code);
 }
@@ -1468,7 +1450,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
-	zval *src, *code, *value = NULL, *key = NULL;
+	zval *src, *code, *value = NULL, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1477,7 +1459,6 @@ PHP_METHOD(Phalcon_Tag, image){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
-	zval *doctype, *is_xhtml;
 
 	PHALCON_MM_GROW();
 
@@ -1549,14 +1530,12 @@ PHP_METHOD(Phalcon_Tag, image){
 	
 	PHALCON_INIT_VAR(doctype);
 	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	PHALCON_INIT_VAR(is_xhtml);
-	phalcon_fast_strpos_str(is_xhtml, doctype, SL("XHTML") TSRMLS_CC);
-	
-	if (PHALCON_IS_NOT_FALSE(is_xhtml)) {
-		phalcon_concat_self_str(code, SL(" /") TSRMLS_CC);
+	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+		phalcon_concat_self_str(code, SL(" />") TSRMLS_CC);
+	} else {
+		phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
 	}
-
-	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
+	
 	
 	RETURN_CTOR(code);
 }
@@ -1573,8 +1552,6 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 
 	zval *text, *separator = NULL, *lowercase = NULL, *pattern, *friendly;
 	zval *friendly_text = NULL;
-	zval *t0 = NULL;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -1598,13 +1575,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	
 	PHALCON_INIT_VAR(friendly);
 	PHALCON_CALL_FUNC_PARAMS_3(friendly, "preg_replace", pattern, separator, text);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_BOOL(t0, 0);
-	
-	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, lowercase, t0 TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (PHALCON_IS_FALSE(lowercase)) {
 		PHALCON_INIT_VAR(friendly_text);
 		PHALCON_CALL_FUNC_PARAMS_1(friendly_text, "strtolower", friendly);
 	} else {
@@ -1620,7 +1591,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
  *
  * @param string $doctype
  */
-PHP_METHOD(Phalcon_Tag, setDoctype){
+PHP_METHOD(Phalcon_Tag, setDocType){
 
 	zval *doctype;
 
@@ -1629,6 +1600,7 @@ PHP_METHOD(Phalcon_Tag, setDoctype){
 	}
 
 	phalcon_update_static_property(SL("phalcon\\tag"), SL("_documentType"), doctype TSRMLS_CC);
+	
 }
 
 /**
@@ -1636,17 +1608,17 @@ PHP_METHOD(Phalcon_Tag, setDoctype){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Tag, getDoctype){
+PHP_METHOD(Phalcon_Tag, getDocType){
 
 	zval *doctype = NULL, *declaration, *eol, *doctype_html;
 
 	PHALCON_MM_GROW();
 	PHALCON_OBSERVE_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(eol);
 	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
-	
+
 	PHALCON_INIT_VAR(declaration);
 	if (phalcon_compare_strict_long(doctype, 1 TSRMLS_CC)) {
 		ZVAL_STRING(declaration, " PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\"", 1);
@@ -1692,3 +1664,4 @@ PHP_METHOD(Phalcon_Tag, getDoctype){
 
 	RETURN_CTOR(doctype_html);
 }
+

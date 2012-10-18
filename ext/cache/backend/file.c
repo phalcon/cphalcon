@@ -421,20 +421,20 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
-	zval *key_name = NULL, *last_key = NULL, *prefix;
-	zval *filtered, *backend, *cache_dir, *cache_file;
+	zval *key_name = NULL, *last_key = NULL, *prefix, *filtered, *backend_options;
+	zval *cache_dir, *cache_file;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+		RETURN_NULL();
 	}
 
 	if (!key_name) {
 		PHALCON_INIT_NVAR(key_name);
 	}
-
+	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
 		PHALCON_INIT_VAR(last_key);
 		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
@@ -448,14 +448,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_INIT_NVAR(last_key);
 		PHALCON_CONCAT_VV(last_key, prefix, filtered);
 	}
-
 	if (zend_is_true(last_key)) {
-		PHALCON_INIT_VAR(backend);
-		phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
-
+		PHALCON_INIT_VAR(backend_options);
+		phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
+		
 		PHALCON_INIT_VAR(cache_dir);
-		phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
-	
+		phalcon_array_fetch_string(&cache_dir, backend_options, SL("cacheDir"), PH_NOISY_CC);
+		
 		PHALCON_INIT_VAR(cache_file);
 		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
@@ -463,7 +462,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 			RETURN_TRUE;
 		}
 	}
-
+	
 	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
 }
