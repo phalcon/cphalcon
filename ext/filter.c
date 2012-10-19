@@ -71,6 +71,12 @@ PHP_METHOD(Phalcon_Filter, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Adds a user-defined filter
+ *
+ * @param string $name
+ * @param callable $handler
+ */
 PHP_METHOD(Phalcon_Filter, add){
 
 	zval *name, *handler;

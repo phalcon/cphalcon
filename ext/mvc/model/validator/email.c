@@ -68,6 +68,7 @@
 /**
  * Executes the validator
  *
+ * @param Phalcon\Mvc\Model $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){

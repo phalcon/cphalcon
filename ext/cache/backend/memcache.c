@@ -176,9 +176,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 
 	zval *key_name, *lifetime = NULL, *memcache = NULL, *backend;
-	zval *front_end, *prefixed_key, *cached_content;
+	zval *front_end, *prefix, *prefixed_key, *cached_content;
 	zval *content;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -206,11 +205,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	PHALCON_INIT_VAR(front_end);
 	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, t0, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(cached_content);
@@ -237,11 +236,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval *last_key = NULL, *front_end, *backend_options;
+	zval *last_key = NULL, *prefix, *front_end, *backend_options;
 	zval *memcache = NULL, *cached_content = NULL, *prepared_content;
-	zval *ttl = NULL, *success, *special_key, *keys = NULL, *is_buffering;
-	zval *t0 = NULL;
-	zval *c0 = NULL;
+	zval *ttl = NULL, *flags, *success, *special_key, *keys = NULL, *is_buffering;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -272,10 +269,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_INIT_VAR(last_key);
 		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, t0, key_name);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -313,11 +311,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_CPY_WRT(ttl, lifetime);
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_BOOL(c0, 0);
+	PHALCON_INIT_VAR(flags);
+	ZVAL_LONG(flags, 0);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_4(success, memcache, "set", last_key, prepared_content, c0, ttl, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_4(success, memcache, "set", last_key, prepared_content, flags, ttl, PH_NO_CHECK);
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed storing data in memcached");
 		return;
@@ -362,9 +360,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 
-	zval *key_name, *memcache = NULL, *prefixed_key, *backend_options;
-	zval *special_key, *keys, *success;
-	zval *t0 = NULL;
+	zval *key_name, *memcache = NULL, *prefix, *prefixed_key;
+	zval *backend_options, *special_key, *keys, *success;
 
 	PHALCON_MM_GROW();
 
@@ -382,11 +379,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 		phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, t0, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	
 	PHALCON_INIT_VAR(backend_options);
 	phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);

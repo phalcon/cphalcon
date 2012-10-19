@@ -112,3 +112,36 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 
 }
 
+/*void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC){
+
+	zval *fn = NULL;
+	int status = FAILURE;
+	zval *func_params[] = { call_object, params };
+
+	PHALCON_ALLOC_ZVAL(fn);
+	ZVAL_STRING(fn, "call_user_func_array", 0);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 2, func_params TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function call_user_func_array()");
+	}
+
+	ZVAL_NULL(fn);
+	zval_ptr_dtor(&fn);
+
+	if (status == SUCCESS){
+		zend_exception_restore(TSRMLS_C);
+		if (EG(exception)){
+			zval_ptr_dtor(exception);
+			*exception = EG(exception);
+			EG(exception) = NULL;
+			EG(current_execute_data)->opline->opcode = 40;
+			ZVAL_BOOL(success, 0);
+		} else {
+			ZVAL_BOOL(success, 1);
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+
+}*/

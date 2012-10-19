@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Dispatcher
@@ -133,23 +134,43 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
  * Throws an internal exception
  *
  * @param string $message
+ * @param int $exceptionCode
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message, *dependency_injector, *service;
-	zval *response, *status_code, *status_message;
+	zval *message, *exception_code = NULL, *dependency_injector;
+	zval *exception_message, *service, *response;
+	zval *status_code, *status_message, *exception;
+	zval *events_manager, *event_name, *status;
+	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &exception_code) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!exception_code) {
+		PHALCON_INIT_NVAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+	} else {
+		PHALCON_SEPARATE_PARAM(exception_code);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_dispatcher_exception_ce, "A dependency injection container is required to access the 'response' service");
+		PHALCON_INIT_NVAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+		
+		PHALCON_INIT_VAR(exception_message);
+		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
+		
+		PHALCON_INIT_VAR(i0);
+		object_init_ex(i0, phalcon_mvc_dispatcher_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", exception_message, exception_code, PH_CHECK);
+		phalcon_throw_exception(i0 TSRMLS_CC);
 		return;
 	}
 	
@@ -165,7 +186,26 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(status_message);
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message, PH_NO_CHECK);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_dispatcher_exception_ce, message);
+	
+	PHALCON_INIT_VAR(exception);
+	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code, PH_CHECK);
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
 }
 

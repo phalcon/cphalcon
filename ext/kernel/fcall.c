@@ -82,25 +82,21 @@ static inline int phalcon_call_func_normal(zval *return_value, char *func_name, 
 
 	zval *fn = NULL;
 	int status = FAILURE;
-	zval *local_retval_ptr = NULL;
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, func_name, func_length, 1);
+	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
-
-	if (local_retval_ptr) {
-		COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-	}
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
@@ -131,25 +127,21 @@ static inline int phalcon_call_func_params_normal(zval *return_value, char *func
 
 	zval *fn = NULL;
 	int status = FAILURE;
-	zval *local_retval_ptr = NULL;
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, func_name, func_length, 1);
+	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
-
-	if (local_retval_ptr) {
-		COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-	}
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
@@ -217,7 +209,7 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 1);
+	ZVAL_STRINGL(fn, method_name, method_len, 0);
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
@@ -232,6 +224,7 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 		status = FAILURE;
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
@@ -277,7 +270,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 1);
+	ZVAL_STRINGL(fn, method_name, method_len, 0);
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
@@ -295,6 +288,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 		status = FAILURE;
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {

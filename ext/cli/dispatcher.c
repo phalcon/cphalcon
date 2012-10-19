@@ -34,6 +34,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 /**
@@ -136,7 +138,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 
-	zval *message;
+	zval *message, *exception, *events_manager, *event_name;
+	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -145,7 +148,25 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 		RETURN_NULL();
 	}
 
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_dispatcher_exception_ce, message);
+	PHALCON_INIT_VAR(exception);
+	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(exception, "__construct", message, PH_CHECK);
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_NULL();
+		}
+	}
+	
+	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
 }
 

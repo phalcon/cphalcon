@@ -284,7 +284,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
 	zval *param, *filters = NULL, *params, *param_value, *dependency_injector;
-	zval *exception_message, *service, *filter, *sanitized_value;
+	zval *exception_code, *exception_message;
+	zval *service, *filter, *sanitized_value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -308,9 +309,12 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 			PHALCON_INIT_VAR(dependency_injector);
 			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_INIT_VAR(exception_code);
+				ZVAL_LONG(exception_code, 0);
+				
 				PHALCON_INIT_VAR(exception_message);
 				ZVAL_STRING(exception_message, "A dependency injection object is required to access the 'filter' service", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
 			}
 			
 			PHALCON_INIT_VAR(service);
@@ -374,23 +378,29 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
  */
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
-	zval *dependency_injector, *exception_message = NULL;
-	zval *events_manager, *event_name = NULL, *status = NULL, *value = NULL;
-	zval *handler = NULL, *number_dispatches, *handler_suffix;
-	zval *action_suffix, *default_namespace, *finished = NULL;
-	zval *handler_name = NULL, *action_name = NULL, *camelized_class = NULL;
-	zval *handler_class = NULL, *has_service = NULL, *was_fresh = NULL;
-	zval *params = NULL, *action_method = NULL, *call_object = NULL;
+	zval *dependency_injector, *exception_code = NULL;
+	zval *exception_message = NULL, *events_manager;
+	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL, *number_dispatches;
+	zval *handler_suffix, *action_suffix, *default_namespace;
+	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
+	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
+	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
+	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_VAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+		
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access related dispatching services", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(events_manager);
@@ -434,9 +444,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_SEPARATE(number_dispatches);
 		increment_function(number_dispatches);
 		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 1);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			goto ph_cycle_end_0;
 		}
 		
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
@@ -492,9 +506,26 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		
 		if (!zend_is_true(has_service)) {
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 2);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_VS(exception_message, handler_class, " handler class cannot be loaded");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(c0);
+			ZVAL_LONG(c0, 2);
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, c0, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
+			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_NVAR(handler);
@@ -512,9 +543,23 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_NVAR(params);
 		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 3);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
+			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_NVAR(action_method);
@@ -577,19 +622,24 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
-			if (phalcon_method_exists_ex(handler, SS("notfoundaction") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(call_object);
-				array_init(call_object);
-				phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
-				add_next_index_stringl(call_object, SL("notFoundAction"), 1);
-				
-				PHALCON_INIT_NVAR(value);
-				PHALCON_CALL_FUNC_PARAMS_2(value, "call_user_func_array", call_object, params);
-			} else {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 4);
+			
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
 			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {

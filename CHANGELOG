@@ -1,8 +1,11 @@
 0.6.0a2
- - Removing unnecesarry duplications in zval PHALCON_GET_FOREACH_VALUE
+ - Removing unnecessary duplications in zval PHALCON_GET_FOREACH_VALUE
  - Merging PHALCON_INIT_NVAR into PHALCON_GET_FOREACH_KEY
  - Added HTML/XHTML document type support in Phalcon\Tag
  - Added "exists" method to every backend in Phalcon\Cache\Backend
+ - Now is required pass true as parameter to Phalcon\Http\Request::getClientAddress if the user want to check the client address in the $_SERVER['HTTP_X_FORWARDED_FOR'] header
+ - Removed unnessary duplication of function names when calling function and methods
+ - Added beforeException event triggered from Phalcon\Dispatcher before launch an exception allowing to inject code before launch a real exception modifing the behavior of the component
 
 0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication
