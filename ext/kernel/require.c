@@ -64,7 +64,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval **return_value, zval *require
 			EG(exit_status) = 0;
 			PG(during_request_startup) = 0;
 
-			if (file_handle.filename){
+			if (file_handle.filename) {
 				if ((file_handle.filename[0] != '-' || file_handle.filename[1] != 0) && file_handle.opened_path == NULL && file_handle.type != ZEND_HANDLE_FILENAME) {
 					char realfile[MAXPATHLEN];
 					int realfile_len;

@@ -53,7 +53,7 @@ void phalcon_fast_strlen(zval *return_value, zval *str){
  */
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 
-	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY){
+	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(result);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for join()");
 		return;
@@ -76,7 +76,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	int            str_len, numelems, i = 0;
 	zval tmp_val;
 
-	if (Z_TYPE_P(pieces) != IS_ARRAY){
+	if (Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_join()");
 		return;
@@ -175,7 +175,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
-			if (ch == '-' || ch == '_'){
+			if (ch == '-' || ch == '_') {
 				i++;
 				marker++;
 				ch = *marker;
@@ -223,7 +223,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
 		if (ch >= 'A' && ch <= 'Z') {
-			if (i > 0){
+			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
 			}
 			smart_str_appendc(&uncamelize_str, (*marker)+32);
@@ -246,7 +246,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
  */
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 
-	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING){
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING) {
 		ZVAL_NULL(result);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
 		return;

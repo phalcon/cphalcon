@@ -112,7 +112,7 @@ void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC
  */
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
 			if (!Z_STRLEN_P(op1) && !op2_length) {
 				return 1;
@@ -142,7 +142,7 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) == op2;
 		case IS_DOUBLE:
@@ -177,7 +177,7 @@ int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) < op2;
 		case IS_DOUBLE:
@@ -211,7 +211,7 @@ int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) <= op2;
 		case IS_DOUBLE:
@@ -257,7 +257,7 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 
 	ZVAL_ZVAL(result, var, 1, 0);
 
-	switch(type){
+	switch (type) {
 		case IS_STRING:
 			convert_to_string(result);
 			break;

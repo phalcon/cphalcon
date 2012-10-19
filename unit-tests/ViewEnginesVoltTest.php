@@ -668,6 +668,12 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}');
 		$this->assertEquals($compilation, '<?php if ($a == $b) { ?> hello <?php } else { ?> <?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>');
 
+		$compilation = $volt->compileString('{% if a is defined %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (isset($a)) { ?> hello <?php } ?>');
+
+		$compilation = $volt->compileString('{% if a is not defined %} hello {% endif %}');
+		$this->assertEquals($compilation, '<?php if (!isset($a)) { ?> hello <?php } ?>');
+
 		//for statement
 		$compilation = $volt->compileString('{% for a in b %} hello {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach ($b as $a) { ?> hello <?php } ?>');

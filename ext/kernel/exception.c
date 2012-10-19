@@ -129,9 +129,9 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
-	if (status == SUCCESS){
+	if (status == SUCCESS) {
 		zend_exception_restore(TSRMLS_C);
-		if (EG(exception)){
+		if (EG(exception)) {
 			zval_ptr_dtor(exception);
 			*exception = EG(exception);
 			EG(exception) = NULL;

@@ -87,7 +87,7 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 #endif
 
 /** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\
+#define PHALCON_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
 	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
 			var = *auxarr; \
 		} else { \

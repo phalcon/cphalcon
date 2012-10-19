@@ -45,6 +45,7 @@ class Build_Generator {
 		'kernel/string.c',
 		'kernel/operators.c',
 		'kernel/concat.c',
+		'kernel/file.c',
 		'kernel/exception.c',
 		'kernel/require.c',
 	);
@@ -77,9 +78,11 @@ class Build_Generator {
 #include "phalcon.h"
 
 #include "main/php_main.h"
+#include "main/php_streams.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
+#include "ext/standard/php_filestat.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"

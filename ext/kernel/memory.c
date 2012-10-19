@@ -73,11 +73,10 @@ inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
 	}
 	Z_ADDREF_P(var);
 	*dest = var;
-	zval_copy_ctor(dest);
+	zval_copy_ctor(*dest);
 	Z_SET_REFCOUNT_PP(dest, 1);
 	Z_UNSET_ISREF_PP(dest);
 }
-
 
 /**
  * Initializes memory stack for the active function
@@ -86,7 +85,7 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 
 	phalcon_memory_entry *entry;
 
-	if(!PHALCON_GLOBAL(start_memory)){
+	if (!PHALCON_GLOBAL(start_memory)) {
 		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
 		PHALCON_GLOBAL(start_memory)->pointer = -1;
 		PHALCON_GLOBAL(start_memory)->prev = NULL;
@@ -112,7 +111,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 	register int i;
 	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
-	if(active_memory != NULL){
+	if (active_memory != NULL) {
 
 		/*#ifndef PHALCON_RELEASE
 		//if(!PHALCON_GLOBAL(phalcon_stack_stats)){

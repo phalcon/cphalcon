@@ -58,7 +58,7 @@ int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
 
 	php_stream_statbuf statbuffer1, statbuffer2;
 
-	if (Z_TYPE_P(filename1) != IS_STRING || Z_TYPE_P(filename2) != IS_STRING){
+	if (Z_TYPE_P(filename1) != IS_STRING || Z_TYPE_P(filename2) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for compare_mtime()");
 		return 0;
 	}
@@ -81,7 +81,7 @@ int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
  */
 void phalcon_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
 
-	if (Z_TYPE_P(filename) != IS_STRING){
+	if (Z_TYPE_P(filename) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_filemtime()");
 		return;
 	}

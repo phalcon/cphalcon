@@ -254,7 +254,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 		Z_ADDREF_PP(value);
 	}
 
- 	if(Z_TYPE_P(index) == IS_STRING){
+ 	if (Z_TYPE_P(index) == IS_STRING) {
 		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval *), NULL);
 	} else {
 		if (Z_TYPE_P(index) == IS_LONG) {
@@ -463,7 +463,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
  	if (Z_TYPE_P(index) == IS_STRING) {
-       	if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
+       	if ((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))) {
 			if (type == IS_LONG) {
 				convert_to_long(index);
 			}
@@ -475,7 +475,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
  	if (Z_TYPE_P(index) == IS_STRING) {
-		if((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS){
+		if ((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
 			zval_ptr_dtor(return_value);
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);

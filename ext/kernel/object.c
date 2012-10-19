@@ -81,7 +81,7 @@ int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRM
  */
 void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
 	zend_class_entry *ce;
-	if (Z_TYPE_P(object) == IS_OBJECT){
+	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
 		Z_STRLEN_P(result) = ce->name_length;
 		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
@@ -98,7 +98,7 @@ void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
  * Fetches a zend class entry from a zval value
  */
 zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
-	if (Z_TYPE_P(class_name) == IS_STRING){
+	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
@@ -129,12 +129,12 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 			}
 			status = FAILURE;
 		} else {
-			if(!EG(exception)){
+			if (!EG(exception)) {
 				Z_OBJVAL_P(destiny) = clone_call(obj TSRMLS_CC);
 				Z_TYPE_P(destiny) = IS_OBJECT;
 				Z_SET_REFCOUNT_P(destiny, 1);
 				Z_SET_ISREF_P(destiny);
-				if(EG(exception)){
+				if (EG(exception)) {
 					zval_ptr_dtor(&destiny);
 				}
 			}
@@ -153,7 +153,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
  */
 int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)){
+		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
 			return 1;
 		} else {
 			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length);
@@ -169,7 +169,7 @@ int phalcon_isset_property(zval *object, char *property_name, int property_lengt
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
-			if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)){
+			if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)) {
 				return 1;
 			} else {
 				return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
@@ -382,7 +382,6 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	if (Z_TYPE_P(method_name) != IS_STRING) {
 		return FAILURE;
 	}
-
 
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
 	while (ce) {

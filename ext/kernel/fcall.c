@@ -102,7 +102,7 @@ static inline int phalcon_call_func_normal(zval *return_value, char *func_name, 
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -147,7 +147,7 @@ static inline int phalcon_call_func_params_normal(zval *return_value, char *func
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -204,7 +204,7 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 		}
 	}
 
-	if(!noreturn){
+	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
@@ -231,7 +231,7 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -296,7 +296,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 		return_value = NULL;
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -409,7 +409,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -551,7 +551,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -617,7 +617,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -659,7 +659,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -719,7 +719,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 

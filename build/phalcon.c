@@ -39,9 +39,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "phalcon.h"
 
 #include "main/php_main.h"
+#include "main/php_streams.h"
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
+#include "ext/standard/php_filestat.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
@@ -248,54 +250,55 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 #define PHVOLT_COMMA                           1
 #define PHVOLT_SBRACKET_OPEN                   2
 #define PHVOLT_RANGE                           3
-#define PHVOLT_EQUALS                          4
-#define PHVOLT_NOTEQUALS                       5
-#define PHVOLT_LESS                            6
-#define PHVOLT_GREATER                         7
-#define PHVOLT_GREATEREQUAL                    8
-#define PHVOLT_LESSEQUAL                       9
-#define PHVOLT_IDENTICAL                      10
-#define PHVOLT_NOTIDENTICAL                   11
-#define PHVOLT_AND                            12
-#define PHVOLT_OR                             13
-#define PHVOLT_PIPE                           14
-#define PHVOLT_DIVIDE                         15
-#define PHVOLT_TIMES                          16
-#define PHVOLT_MOD                            17
-#define PHVOLT_PLUS                           18
-#define PHVOLT_MINUS                          19
-#define PHVOLT_CONCAT                         20
-#define PHVOLT_NOT                            21
-#define PHVOLT_DOT                            22
-#define PHVOLT_OPEN_DELIMITER                 23
-#define PHVOLT_IF                             24
-#define PHVOLT_CLOSE_DELIMITER                25
-#define PHVOLT_ENDIF                          26
-#define PHVOLT_ELSE                           27
-#define PHVOLT_FOR                            28
-#define PHVOLT_IN                             29
-#define PHVOLT_ENDFOR                         30
-#define PHVOLT_SET                            31
-#define PHVOLT_ASSIGN                         32
-#define PHVOLT_OPEN_EDELIMITER                33
-#define PHVOLT_CLOSE_EDELIMITER               34
-#define PHVOLT_BLOCK                          35
-#define PHVOLT_IDENTIFIER                     36
-#define PHVOLT_ENDBLOCK                       37
-#define PHVOLT_EXTENDS                        38
-#define PHVOLT_STRING                         39
-#define PHVOLT_INCLUDE                        40
-#define PHVOLT_RAW_FRAGMENT                   41
-#define PHVOLT_DEFINED                        42
-#define PHVOLT_BRACKET_OPEN                   43
-#define PHVOLT_BRACKET_CLOSE                  44
-#define PHVOLT_SBRACKET_CLOSE                 45
-#define PHVOLT_DOUBLECOLON                    46
-#define PHVOLT_INTEGER                        47
-#define PHVOLT_DOUBLE                         48
-#define PHVOLT_NULL                           49
-#define PHVOLT_FALSE                          50
-#define PHVOLT_TRUE                           51
+#define PHVOLT_IS                              4
+#define PHVOLT_EQUALS                          5
+#define PHVOLT_NOTEQUALS                       6
+#define PHVOLT_LESS                            7
+#define PHVOLT_GREATER                         8
+#define PHVOLT_GREATEREQUAL                    9
+#define PHVOLT_LESSEQUAL                      10
+#define PHVOLT_IDENTICAL                      11
+#define PHVOLT_NOTIDENTICAL                   12
+#define PHVOLT_AND                            13
+#define PHVOLT_OR                             14
+#define PHVOLT_PIPE                           15
+#define PHVOLT_DIVIDE                         16
+#define PHVOLT_TIMES                          17
+#define PHVOLT_MOD                            18
+#define PHVOLT_PLUS                           19
+#define PHVOLT_MINUS                          20
+#define PHVOLT_CONCAT                         21
+#define PHVOLT_NOT                            22
+#define PHVOLT_DOT                            23
+#define PHVOLT_OPEN_DELIMITER                 24
+#define PHVOLT_IF                             25
+#define PHVOLT_CLOSE_DELIMITER                26
+#define PHVOLT_ENDIF                          27
+#define PHVOLT_ELSE                           28
+#define PHVOLT_FOR                            29
+#define PHVOLT_IN                             30
+#define PHVOLT_ENDFOR                         31
+#define PHVOLT_SET                            32
+#define PHVOLT_ASSIGN                         33
+#define PHVOLT_OPEN_EDELIMITER                34
+#define PHVOLT_CLOSE_EDELIMITER               35
+#define PHVOLT_BLOCK                          36
+#define PHVOLT_IDENTIFIER                     37
+#define PHVOLT_ENDBLOCK                       38
+#define PHVOLT_EXTENDS                        39
+#define PHVOLT_STRING                         40
+#define PHVOLT_INCLUDE                        41
+#define PHVOLT_RAW_FRAGMENT                   42
+#define PHVOLT_DEFINED                        43
+#define PHVOLT_BRACKET_OPEN                   44
+#define PHVOLT_BRACKET_CLOSE                  45
+#define PHVOLT_SBRACKET_CLOSE                 46
+#define PHVOLT_DOUBLECOLON                    47
+#define PHVOLT_INTEGER                        48
+#define PHVOLT_DOUBLE                         49
+#define PHVOLT_NULL                           50
+#define PHVOLT_FALSE                          51
+#define PHVOLT_TRUE                           52
 
 
 
@@ -446,7 +449,7 @@ typedef struct _phvolt_parser_status {
 #define PHVOLT_PARSING_FAILED 0
 
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC);
-int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg TSRMLS_DC);
+int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC);
 
 
 
@@ -487,12 +490,11 @@ extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 
 /** Globals functions */
-int phalcon_init_global(char *global, int global_length TSRMLS_DC);
-int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
-int phalcon_file_exists(zval *filename TSRMLS_DC);
-int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC);
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
 
 /** Count */
 void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
@@ -507,7 +509,7 @@ int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
 /** Export symbols to active symbol table */
 int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC);
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -523,7 +525,7 @@ int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC
 #endif
 
 /** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\
+#define PHALCON_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
 	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
 			var = *auxarr; \
 		} else { \
@@ -1017,6 +1019,7 @@ int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
 int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
 
 /** Function replacement */
+void phalcon_fast_strlen(zval *return_value, zval *str);
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
@@ -1188,10 +1191,14 @@ void phalcon_concat_vvvvv(zval *result, zval *op1, zval *op2, zval *op3, zval *o
 #define PHALCON_THROW_EXCEPTION_STR(class_entry, message) phalcon_throw_exception_string(class_entry, message, strlen(message) TSRMLS_CC);
 #define PHALCON_THROW_EXCEPTION_ZVAL(class_entry, message) phalcon_throw_exception_zval(class_entry, message TSRMLS_CC);
 
+/** Throw Exceptions */
 void phalcon_throw_exception(zval *object TSRMLS_DC);
 void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC);
 void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC);
 void phalcon_throw_exception_internal(zval *exception TSRMLS_DC);
+
+/** Catch Exceptions */
+void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC);
 
 
 
@@ -1216,7 +1223,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	#endif
 }
 
-int phalcon_init_global(char *global, int global_length TSRMLS_DC){
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -1230,7 +1237,7 @@ int phalcon_init_global(char *global, int global_length TSRMLS_DC){
 	return SUCCESS;
 }
 
-int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC){
 
 	zval **gv;
 
@@ -1301,20 +1308,7 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
 	ZVAL_LONG(result, 1);
 }
 
-int phalcon_file_exists(zval *filename TSRMLS_DC){
-
-	if (Z_TYPE_P(filename) != IS_STRING) {
-		return FAILURE;
-	}
-
-	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK) == 0) {
-		return SUCCESS;
-	}
-
-	return FAILURE;
-}
-
-int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC){
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC){
 
 	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
 		return SUCCESS;
@@ -1420,7 +1414,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 	return SUCCESS;
 }
 
-int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC){
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC){
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -1495,17 +1489,16 @@ inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
 	}
 	Z_ADDREF_P(var);
 	*dest = var;
-	zval_copy_ctor(dest);
+	zval_copy_ctor(*dest);
 	Z_SET_REFCOUNT_PP(dest, 1);
 	Z_UNSET_ISREF_PP(dest);
 }
-
 
 int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 
 	phalcon_memory_entry *entry;
 
-	if(!PHALCON_GLOBAL(start_memory)){
+	if (!PHALCON_GLOBAL(start_memory)) {
 		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
 		PHALCON_GLOBAL(start_memory)->pointer = -1;
 		PHALCON_GLOBAL(start_memory)->prev = NULL;
@@ -1528,7 +1521,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 	register int i;
 	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
-	if(active_memory != NULL){
+	if (active_memory != NULL) {
 
 		/*#ifndef PHALCON_RELEASE
 		//if(!PHALCON_GLOBAL(phalcon_stack_stats)){
@@ -1718,31 +1711,27 @@ static inline int phalcon_call_func_normal(zval *return_value, char *func_name, 
 
 	zval *fn = NULL;
 	int status = FAILURE;
-	zval *local_retval_ptr = NULL;
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, func_name, func_length, 1);
+	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
-
-	if (local_retval_ptr) {
-		COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-	}
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -1761,31 +1750,27 @@ static inline int phalcon_call_func_params_normal(zval *return_value, char *func
 
 	zval *fn = NULL;
 	int status = FAILURE;
-	zval *local_retval_ptr = NULL;
 
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, func_name, func_length, 1);
+	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
 	if (status == FAILURE) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
-
-	if (local_retval_ptr) {
-		COPY_PZVAL_TO_ZVAL(*return_value, local_retval_ptr);
-	}
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -1827,12 +1812,12 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 		}
 	}
 
-	if(!noreturn){
+	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 1);
+	ZVAL_STRINGL(fn, method_name, method_len, 0);
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
@@ -1847,13 +1832,14 @@ static inline int phalcon_call_method_normal(zval *return_value, zval *object, c
 		status = FAILURE;
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -1885,7 +1871,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 	}
 
 	PHALCON_ALLOC_ZVAL(fn);
-	ZVAL_STRINGL(fn, method_name, method_len, 1);
+	ZVAL_STRINGL(fn, method_name, method_len, 0);
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		active_scope = EG(scope);
@@ -1903,6 +1889,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 		status = FAILURE;
 	}
 
+	ZVAL_NULL(fn);
 	zval_ptr_dtor(&fn);
 
 	if (!noreturn) {
@@ -1910,7 +1897,7 @@ static inline int phalcon_call_method_params_normal(zval *return_value, zval *ob
 		return_value = NULL;
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -1993,7 +1980,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -2114,7 +2101,7 @@ int phalcon_call_static_func(zval *return_value, char *class_name, int class_len
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -2168,7 +2155,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -2207,7 +2194,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -2255,7 +2242,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		zval_ptr_dtor(&return_value);
 	}
 
-	if (EG(exception)){
+	if (EG(exception)) {
 		status = FAILURE;
 	}
 
@@ -2912,7 +2899,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 		Z_ADDREF_PP(value);
 	}
 
- 	if(Z_TYPE_P(index) == IS_STRING){
+ 	if (Z_TYPE_P(index) == IS_STRING) {
 		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval *), NULL);
 	} else {
 		if (Z_TYPE_P(index) == IS_LONG) {
@@ -3091,7 +3078,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
  	if (Z_TYPE_P(index) == IS_STRING) {
-       	if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
+       	if ((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))) {
 			if (type == IS_LONG) {
 				convert_to_long(index);
 			}
@@ -3103,7 +3090,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
  	if (Z_TYPE_P(index) == IS_STRING) {
-		if((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS){
+		if ((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
 			zval_ptr_dtor(return_value);
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);
@@ -3519,7 +3506,7 @@ int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRM
 
 void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
 	zend_class_entry *ce;
-	if (Z_TYPE_P(object) == IS_OBJECT){
+	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
 		Z_STRLEN_P(result) = ce->name_length;
 		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
@@ -3533,7 +3520,7 @@ void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
 }
 
 zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
-	if (Z_TYPE_P(class_name) == IS_STRING){
+	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
@@ -3561,12 +3548,12 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 			}
 			status = FAILURE;
 		} else {
-			if(!EG(exception)){
+			if (!EG(exception)) {
 				Z_OBJVAL_P(destiny) = clone_call(obj TSRMLS_CC);
 				Z_TYPE_P(destiny) = IS_OBJECT;
 				Z_SET_REFCOUNT_P(destiny, 1);
 				Z_SET_ISREF_P(destiny);
-				if(EG(exception)){
+				if (EG(exception)) {
 					zval_ptr_dtor(&destiny);
 				}
 			}
@@ -3582,7 +3569,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 
 int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)){
+		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
 			return 1;
 		} else {
 			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length);
@@ -3595,7 +3582,7 @@ int phalcon_isset_property(zval *object, char *property_name, int property_lengt
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
-			if(zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)){
+			if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)) {
 				return 1;
 			} else {
 				return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
@@ -3778,7 +3765,6 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 		return FAILURE;
 	}
 
-
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
 	while (ce) {
 		if (zend_hash_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
@@ -3842,9 +3828,28 @@ int phalcon_update_static_property(char *class_name, int class_length, char *nam
 
 
 
+void phalcon_fast_strlen(zval *return_value, zval *str){
+
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_LONG(return_value, Z_STRLEN_P(str));
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+}
+
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 
-	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY){
+	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(result);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for join()");
 		return;
@@ -3862,7 +3867,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	int            str_len, numelems, i = 0;
 	zval tmp_val;
 
-	if (Z_TYPE_P(pieces) != IS_ARRAY){
+	if (Z_TYPE_P(pieces) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_join()");
 		return;
@@ -3958,7 +3963,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
 		if (i == 0 || ch == '-' || ch == '_') {
-			if (ch == '-' || ch == '_'){
+			if (ch == '-' || ch == '_') {
 				i++;
 				marker++;
 				ch = *marker;
@@ -4003,7 +4008,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	for (i = 0; i < Z_STRLEN_P(str); i++) {
 		ch = *marker;
 		if (ch >= 'A' && ch <= 'Z') {
-			if (i > 0){
+			if (i > 0) {
 				smart_str_appendc(&uncamelize_str, '_');
 			}
 			smart_str_appendc(&uncamelize_str, (*marker)+32);
@@ -4023,7 +4028,7 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 
 void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
 
-	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING){
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING) {
 		ZVAL_NULL(result);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
 		return;
@@ -4287,7 +4292,7 @@ void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC
 
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
 			if (!Z_STRLEN_P(op1) && !op2_length) {
 				return 1;
@@ -4314,7 +4319,7 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) == op2;
 		case IS_DOUBLE:
@@ -4346,7 +4351,7 @@ int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) < op2;
 		case IS_DOUBLE:
@@ -4377,7 +4382,7 @@ int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) <= op2;
 		case IS_DOUBLE:
@@ -4417,7 +4422,7 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 
 	ZVAL_ZVAL(result, var, 1, 0);
 
-	switch(type){
+	switch (type) {
 		case IS_STRING:
 			convert_to_string(result);
 			break;
@@ -5719,6 +5724,60 @@ void phalcon_concat_vvvvv(zval *result, zval *op1, zval *op2, zval *op3, zval *o
 
 
 
+
+int phalcon_file_exists(zval *filename TSRMLS_DC){
+
+	if (Z_TYPE_P(filename) != IS_STRING) {
+		return FAILURE;
+	}
+
+	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK) == 0) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
+int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
+
+	php_stream_statbuf statbuffer1, statbuffer2;
+
+	if (Z_TYPE_P(filename1) != IS_STRING || Z_TYPE_P(filename2) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for compare_mtime()");
+		return 0;
+	}
+
+	if (php_stream_stat_path_ex(Z_STRVAL_P(filename1), 0, &statbuffer1, NULL)) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "mstat failed for %s", Z_STRVAL_P(filename1));
+		return 0;
+	}
+
+	if (php_stream_stat_path_ex(Z_STRVAL_P(filename2), 0, &statbuffer2, NULL)) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "mstat failed for %s", Z_STRVAL_P(filename2));
+		return 0;
+	}
+
+	return (int) (statbuffer1.sb.st_mtime >= statbuffer2.sb.st_mtime);
+}
+
+void phalcon_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
+
+	if (Z_TYPE_P(filename) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for fast_filemtime()");
+		return;
+	}
+
+	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_MTIME, return_value TSRMLS_CC);
+}
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
 void phalcon_throw_exception(zval *object TSRMLS_DC){
 	Z_ADDREF_P(object);
 	zend_throw_exception_object(object TSRMLS_CC);
@@ -5787,7 +5846,39 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 
 }
 
+/*void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC){
 
+	zval *fn = NULL;
+	int status = FAILURE;
+	zval *func_params[] = { call_object, params };
+
+	PHALCON_ALLOC_ZVAL(fn);
+	ZVAL_STRING(fn, "call_user_func_array", 0);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 2, func_params TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function call_user_func_array()");
+	}
+
+	ZVAL_NULL(fn);
+	zval_ptr_dtor(&fn);
+
+	if (status == SUCCESS) {
+		zend_exception_restore(TSRMLS_C);
+		if (EG(exception)) {
+			zval_ptr_dtor(exception);
+			*exception = EG(exception);
+			EG(exception) = NULL;
+			EG(current_execute_data)->opline->opcode = 40;
+			ZVAL_BOOL(success, 0);
+		} else {
+			ZVAL_BOOL(success, 1);
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+
+}*/
 
 
 
@@ -5829,7 +5920,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval **return_value, zval *require
 			EG(exit_status) = 0;
 			PG(during_request_startup) = 0;
 
-			if (file_handle.filename){
+			if (file_handle.filename) {
 				if ((file_handle.filename[0] != '-' || file_handle.filename[1] != 0) && file_handle.opened_path == NULL && file_handle.type != ZEND_HANDLE_FILENAME) {
 					char realfile[MAXPATHLEN];
 					int realfile_len;
@@ -6204,7 +6295,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
 			PHALCON_INIT_NVAR(preffix_len);
-			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			phalcon_fast_strlen(preffix_len, preffix);
 			
 			PHALCON_INIT_NVAR(possible_preffix);
 			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
@@ -6303,7 +6394,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
 			PHALCON_INIT_NVAR(preffix_len);
-			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			phalcon_fast_strlen(preffix_len, preffix);
 			
 			PHALCON_INIT_NVAR(possible_preffix);
 			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
@@ -6949,7 +7040,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefix_length);
-	PHALCON_CALL_FUNC_PARAMS_1(prefix_length, "strlen", prefix);
+	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
@@ -7394,9 +7485,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, _connect){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 
 	zval *key_name, *lifetime = NULL, *memcache = NULL, *backend;
-	zval *front_end, *prefixed_key, *cached_content;
+	zval *front_end, *prefix, *prefixed_key, *cached_content;
 	zval *content;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -7424,11 +7514,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	PHALCON_INIT_VAR(front_end);
 	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, t0, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(cached_content);
@@ -7447,11 +7537,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval *last_key = NULL, *front_end, *backend_options;
+	zval *last_key = NULL, *prefix, *front_end, *backend_options;
 	zval *memcache = NULL, *cached_content = NULL, *prepared_content;
-	zval *ttl = NULL, *success, *special_key, *keys = NULL, *is_buffering;
-	zval *t0 = NULL;
-	zval *c0 = NULL;
+	zval *ttl = NULL, *flags, *success, *special_key, *keys = NULL, *is_buffering;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -7482,10 +7570,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_INIT_VAR(last_key);
 		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, t0, key_name);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -7523,11 +7612,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_CPY_WRT(ttl, lifetime);
 	}
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_BOOL(c0, 0);
+	PHALCON_INIT_VAR(flags);
+	ZVAL_LONG(flags, 0);
 	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_4(success, memcache, "set", last_key, prepared_content, c0, ttl, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_4(success, memcache, "set", last_key, prepared_content, flags, ttl, PH_NO_CHECK);
 	if (!zend_is_true(success)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Failed storing data in memcached");
 		return;
@@ -7566,9 +7655,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 
-	zval *key_name, *memcache = NULL, *prefixed_key, *backend_options;
-	zval *special_key, *keys, *success;
-	zval *t0 = NULL;
+	zval *key_name, *memcache = NULL, *prefix, *prefixed_key;
+	zval *backend_options, *special_key, *keys, *success;
 
 	PHALCON_MM_GROW();
 
@@ -7586,11 +7674,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 		phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_prefix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(prefix);
+	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, t0, key_name);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	
 	PHALCON_INIT_VAR(backend_options);
 	phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
@@ -7649,7 +7737,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	ZVAL_LONG(start, 0);
 	
 	PHALCON_INIT_VAR(prefix_length);
-	PHALCON_CALL_FUNC_PARAMS_1(prefix_length, "strlen", prefix);
+	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(backend_options);
 	phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
@@ -14946,31 +15034,30 @@ PHP_METHOD(Phalcon_Http_Request, getScheme){
 
 PHP_METHOD(Phalcon_Http_Request, isAjax){
 
-	zval *requested_header, *requested_with, *is_ajax;
-	zval *t0 = NULL;
+	zval *requested_header, *xml_http_request;
+	zval *requested_with, *is_ajax;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(requested_header);
 	ZVAL_STRING(requested_header, "HTTP_X_REQUESTED_WITH", 1);
 	
+	PHALCON_INIT_VAR(xml_http_request);
+	ZVAL_STRING(xml_http_request, "XMLHttpRequest", 1);
+	
 	PHALCON_INIT_VAR(requested_with);
 	PHALCON_CALL_METHOD_PARAMS_1(requested_with, this_ptr, "getheader", requested_header, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "XMLHttpRequest", 1);
-	
 	PHALCON_INIT_VAR(is_ajax);
-	is_equal_function(is_ajax, requested_with, t0 TSRMLS_CC);
+	is_equal_function(is_ajax, requested_with, xml_http_request TSRMLS_CC);
 	
 	RETURN_NCTOR(is_ajax);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 
-	zval *server = NULL, *content_type, *position, *have_content_type;
+	zval *server = NULL, *content_type;
 	zval *g0 = NULL;
-	zval *t0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -14986,17 +15073,10 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 		if (eval_int) {
 			PHALCON_INIT_VAR(content_type);
 			phalcon_array_fetch_string(&content_type, server, SL("CONTENT_TYPE"), PH_NOISY_CC);
-			
-			PHALCON_INIT_VAR(position);
-			phalcon_fast_strpos_str(position, content_type, SL("application/soap+xml") TSRMLS_CC);
-			
-			PHALCON_INIT_VAR(t0);
-			ZVAL_BOOL(t0, 0);
-			
-			PHALCON_INIT_VAR(have_content_type);
-			is_not_identical_function(have_content_type, t0, position TSRMLS_CC);
-			
-			RETURN_NCTOR(have_content_type);
+			if (phalcon_memnstr_str(content_type, SL("application/soap+xml") TSRMLS_CC)) {
+				PHALCON_MM_RESTORE();
+				RETURN_TRUE;
+			}
 		}
 	}
 	
@@ -15159,30 +15239,44 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
-	zval *address = NULL, *server = NULL;
+	zval *trust_forwarded_header = NULL, *server = NULL, *address = NULL;
 	zval *g0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(address);
-	ZVAL_STRING(address, "", 1);
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &trust_forwarded_header) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!trust_forwarded_header) {
+		PHALCON_INIT_NVAR(trust_forwarded_header);
+		ZVAL_BOOL(trust_forwarded_header, 0);
+	}
+	
 	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(server, g0);
-	eval_int = phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"));
-	if (eval_int) {
-		PHALCON_INIT_NVAR(address);
-		phalcon_array_fetch_string(&address, server, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY_CC);
-	} else {
-		eval_int = phalcon_array_isset_string(server, SS("REMOTE_ADDR"));
+	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
+		eval_int = phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"));
 		if (eval_int) {
-			PHALCON_INIT_NVAR(address);
-			phalcon_array_fetch_string(&address, server, SL("REMOTE_ADDR"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(address);
+			phalcon_array_fetch_string(&address, server, SL("HTTP_X_FORWARDED_FOR"), PH_NOISY_CC);
+			
+			RETURN_CCTOR(address);
 		}
 	}
 	
+	eval_int = phalcon_array_isset_string(server, SS("REMOTE_ADDR"));
+	if (eval_int) {
+		PHALCON_INIT_NVAR(address);
+		phalcon_array_fetch_string(&address, server, SL("REMOTE_ADDR"), PH_NOISY_CC);
+		
+		RETURN_CCTOR(address);
+	}
 	
-	RETURN_CCTOR(address);
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 
 PHP_METHOD(Phalcon_Http_Request, getMethod){
@@ -15290,114 +15384,108 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 
 PHP_METHOD(Phalcon_Http_Request, isPost){
 
-	zval *method, *is_post;
-	zval *t0 = NULL;
+	zval *post, *method, *is_post;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(post);
+	ZVAL_STRING(post, "POST", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "POST", 1);
-	
 	PHALCON_INIT_VAR(is_post);
-	is_equal_function(is_post, method, t0 TSRMLS_CC);
+	is_equal_function(is_post, method, post TSRMLS_CC);
 	
 	RETURN_NCTOR(is_post);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isGet){
 
-	zval *method, *is_get;
-	zval *t0 = NULL;
+	zval *get, *method, *is_get;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(get);
+	ZVAL_STRING(get, "GET", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "GET", 1);
-	
 	PHALCON_INIT_VAR(is_get);
-	is_equal_function(is_get, method, t0 TSRMLS_CC);
+	is_equal_function(is_get, method, get TSRMLS_CC);
 	
 	RETURN_NCTOR(is_get);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isPut){
 
-	zval *method, *is_put;
-	zval *t0 = NULL;
+	zval *put, *method, *is_put;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(put);
+	ZVAL_STRING(put, "PUT", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "PUT", 1);
-	
 	PHALCON_INIT_VAR(is_put);
-	is_equal_function(is_put, method, t0 TSRMLS_CC);
+	is_equal_function(is_put, method, put TSRMLS_CC);
 	
 	RETURN_NCTOR(is_put);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isHead){
 
-	zval *method, *is_head;
-	zval *t0 = NULL;
+	zval *head, *method, *is_head;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(head);
+	ZVAL_STRING(head, "HEAD", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "HEAD", 1);
-	
 	PHALCON_INIT_VAR(is_head);
-	is_equal_function(is_head, method, t0 TSRMLS_CC);
+	is_equal_function(is_head, method, head TSRMLS_CC);
 	
 	RETURN_NCTOR(is_head);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isDelete){
 
-	zval *method, *is_delete;
-	zval *t0 = NULL;
+	zval *delete, *method, *is_delete;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(delete);
+	ZVAL_STRING(delete, "DELETE", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "DELETE", 1);
-	
 	PHALCON_INIT_VAR(is_delete);
-	is_equal_function(is_delete, method, t0 TSRMLS_CC);
+	is_equal_function(is_delete, method, delete TSRMLS_CC);
 	
 	RETURN_NCTOR(is_delete);
 }
 
 PHP_METHOD(Phalcon_Http_Request, isOptions){
 
-	zval *method, *is_options;
-	zval *t0 = NULL;
+	zval *options, *method, *is_options;
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(options);
+	ZVAL_STRING(options, "OPTIONS", 1);
+	
 	PHALCON_INIT_VAR(method);
 	PHALCON_CALL_METHOD(method, this_ptr, "getmethod", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "OPTIONS", 1);
-	
 	PHALCON_INIT_VAR(is_options);
-	is_equal_function(is_options, method, t0 TSRMLS_CC);
+	is_equal_function(is_options, method, options TSRMLS_CC);
 	
 	RETURN_NCTOR(is_options);
 }
@@ -15588,8 +15676,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 
 	zval *quality_parts, *name, *i, *quality = NULL, *selected_name = NULL;
-	zval *accept = NULL, *accept_quality = NULL;
-	zval *r0 = NULL;
+	zval *accept = NULL, *accept_quality = NULL, *best_quality = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -15635,9 +15722,9 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 			PHALCON_INIT_NVAR(accept_quality);
 			phalcon_array_fetch_string(&accept_quality, accept, SL("quality"), PH_NOISY_CC);
 			
-			PHALCON_INIT_NVAR(r0);
-			is_smaller_function(r0, quality, accept_quality TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			PHALCON_INIT_NVAR(best_quality);
+			is_smaller_function(best_quality, quality, accept_quality TSRMLS_CC);
+			if (PHALCON_IS_TRUE(best_quality)) {
 				PHALCON_CPY_WRT(quality, accept_quality);
 				
 				PHALCON_INIT_NVAR(selected_name);
@@ -29050,7 +29137,7 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 
-	zval *error_msg;
+	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
@@ -29086,6 +29173,7 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->syntax_error = NULL;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -29264,10 +29352,10 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				phql_(phql_parser, PHQL_NULL, NULL, parser_status);
 				break;
 			default:
-				status = FAILURE;
+				parser_status->status = PHQL_PARSING_FAILED;
 				error = emalloc(sizeof(char)*32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -29288,14 +29376,16 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 		switch (scanner_status) {
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
-				if (state->start) {
-					error = emalloc(sizeof(char)*(48+strlen(state->start)));
-					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-					ZVAL_STRING(*error_msg, error, 1);
-					efree(error);
-				} else {
-					ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+				if (!*error_msg) {
+					PHALCON_INIT_VAR(*error_msg);
+					if (state->start) {
+						error = emalloc(sizeof(char)*(48+strlen(state->start)));
+						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
+						ZVAL_STRING(*error_msg, error, 1);
+						efree(error);
+					} else {
+						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+					}
 				}
 				status = FAILURE;
 				break;
@@ -29306,9 +29396,13 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	if (parser_status->status != PHQL_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_ALLOC_ZVAL_MM(*error_msg);
-		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-		efree(parser_status->syntax_error);
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
 	}
 
 	phql_Free(phql_parser, phql_wrapper_free);
@@ -29369,7 +29463,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
 
 
-/* Generated by re2c 0.13.5 on Tue Oct  9 13:59:30 2012 */
+/* Generated by re2c 0.13.5 on Fri Oct 19 16:20:51 2012 */
 
 
 #ifdef HAVE_CONFIG_H
@@ -34563,9 +34657,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval *path, *params, *must_clean, *value = NULL, *key = NULL, *compiled_path;
-	zval *template_modified, *compiled_modified;
-	zval *modified, *compiler = NULL, *contents, *view;
+	zval *path, *params, *must_clean, *compiled_path;
+	zval *compiler = NULL, *value = NULL, *key = NULL, *contents, *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -34584,6 +34677,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
+	
+	PHALCON_INIT_VAR(compiled_path);
+	PHALCON_CONCAT_VS(compiled_path, path, ".php");
+	if (phalcon_file_exists(compiled_path TSRMLS_CC) == SUCCESS) {
+		if (phalcon_compare_mtime(path, compiled_path TSRMLS_CC)) {
+			PHALCON_INIT_VAR(compiler);
+			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+		}
+	} else {
+		PHALCON_INIT_NVAR(compiler);
+		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+	}
+	
 	
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
@@ -34609,28 +34717,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		goto ph_cycle_start_0;
 		
 	ph_cycle_end_0:
-	
-	PHALCON_INIT_VAR(compiled_path);
-	PHALCON_CONCAT_VS(compiled_path, path, ".php");
-	if (phalcon_file_exists(compiled_path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(template_modified);
-		PHALCON_CALL_FUNC_PARAMS_1(template_modified, "filemtime", path);
-		
-		PHALCON_INIT_VAR(compiled_modified);
-		PHALCON_CALL_FUNC_PARAMS_1(compiled_modified, "filemtime", compiled_path);
-		
-		PHALCON_INIT_VAR(modified);
-		is_smaller_or_equal_function(modified, compiled_modified, template_modified TSRMLS_CC);
-		if (PHALCON_IS_TRUE(modified)) {
-			PHALCON_INIT_VAR(compiler);
-			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
-		}
-	} else {
-		PHALCON_INIT_NVAR(compiler);
-		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
-	}
 	
 	if (phalcon_require(compiled_path TSRMLS_CC) == FAILURE) {
 		return;
@@ -34660,7 +34746,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 
 	if (Z_TYPE_P(item) == IS_STRING) {
 		PHALCON_INIT_VAR(length);
-		PHALCON_CALL_FUNC_PARAMS_1(length, "strlen", item);
+		phalcon_fast_strlen(length, item);
 	} else {
 		PHALCON_INIT_NVAR(length);
 		phalcon_fast_count(length, item TSRMLS_CC);
@@ -35293,6 +35379,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	if (phalcon_compare_strict_long(type, 361 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CONCAT_VSVS(expr_code, left_code, "[", right_code, "]");
+		goto ph_end_1;
+	}
+	
+	if (phalcon_compare_strict_long(type, 367 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_SV(expr_code, "-", right_code);
 		goto ph_end_1;
 	}
 	
@@ -35962,23 +36054,23 @@ static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
 **                       defined, then do no error processing.
 */
 #define KKCODETYPE unsigned char
-#define KKNOCODE 74
+#define KKNOCODE 75
 #define KKACTIONTYPE unsigned char
 #define phvolt_KTOKENTYPE phvolt_parser_token*
 typedef union {
   phvolt_KTOKENTYPE kk0;
-  zval* kk92;
-  int kk147;
+  zval* kk96;
+  int kk149;
 } KKMINORTYPE;
 #define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
 #define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
 #define phvolt_ARG_STORE kkpParser->status = status
-#define KKNSTATE 145
-#define KKNRULE 69
-#define KKERRORSYMBOL 52
-#define KKERRSYMDT kk147
+#define KKNSTATE 147
+#define KKNRULE 70
+#define KKERRORSYMBOL 53
+#define KKERRSYMDT kk149
 #define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
 #define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
 #define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
@@ -36031,175 +36123,181 @@ typedef union {
 **  kk_default[]       Default action for each state.
 */
 static KKACTIONTYPE kk_action[] = {
- /*     0 */    78,   60,   62,   64,   70,   72,   74,   76,   66,   68,
- /*    10 */    52,   54,   58,   48,   46,   50,   44,   41,   56,  145,
- /*    20 */    20,   87,  106,   16,   91,   95,   78,   60,   62,   64,
- /*    30 */    70,   72,   74,   76,   66,   68,   52,   54,   58,   48,
- /*    40 */    46,   50,   44,   41,   56,   22,   15,  106,   26,   31,
- /*    50 */    95,  122,   78,   60,   62,   64,   70,   72,   74,   76,
- /*    60 */    66,   68,   52,   54,   58,   48,   46,   50,   44,   41,
- /*    70 */    56,   28,   30,  106,   35,   40,   95,   37,   78,   60,
- /*    80 */    62,   64,   70,   72,   74,   76,   66,   68,   52,   54,
- /*    90 */    58,   48,   46,   50,   44,   41,   56,   78,   60,   62,
- /*   100 */    64,   70,   72,   74,   76,   66,   68,   52,   54,   58,
- /*   110 */    48,   46,   50,   44,   41,   56,   44,   41,   56,   93,
- /*   120 */    97,   80,  215,    1,    2,  141,    4,    5,    6,    7,
- /*   130 */     8,    9,   10,   11,   12,  104,   39,  106,  107,   85,
- /*   140 */    95,  108,   78,   60,   62,   64,   70,   72,   74,   76,
- /*   150 */    66,   68,   52,   54,   58,   48,   46,   50,   44,   41,
- /*   160 */    56,   17,  141,    4,    5,    6,    7,    8,    9,   10,
- /*   170 */    11,   12,  125,  126,  139,  130,  132,   78,   60,   62,
- /*   180 */    64,   70,   72,   74,   76,   66,   68,   52,   54,   58,
- /*   190 */    48,   46,   50,   44,   41,   56,   62,   64,   70,   72,
- /*   200 */    74,   76,   66,   68,   52,   54,   58,   48,   46,   50,
- /*   210 */    44,   41,   56,   86,   23,  141,    4,    5,    6,    7,
- /*   220 */     8,    9,   10,   11,   12,  133,  135,  121,  106,  136,
- /*   230 */    42,   95,  118,   32,  141,    4,    5,    6,    7,    8,
- /*   240 */     9,   10,   11,   12,  144,   98,  106,   96,  101,   95,
- /*   250 */   110,  102,  144,  120,   83,  144,   86,  144,  109,  111,
- /*   260 */   112,  113,  114,    3,    4,    5,    6,    7,    8,    9,
- /*   270 */    10,   11,   12,   42,  144,   81,  127,  141,    4,    5,
- /*   280 */     6,    7,    8,    9,   10,   11,   12,  107,   43,  106,
- /*   290 */    96,  100,   95,  103,   29,  144,   86,   83,  115,  146,
- /*   300 */   144,  109,  111,  112,  113,  114,  144,   14,  123,   19,
- /*   310 */    21,   27,  144,   42,   36,   81,   45,  106,  124,  144,
- /*   320 */    95,  131,   13,  134,   48,   46,   50,   44,   41,   56,
- /*   330 */    96,   90,  137,  110,   47,  106,  119,   83,   95,   86,
- /*   340 */   140,  109,  111,  112,  113,  114,   52,   54,   58,   48,
- /*   350 */    46,   50,   44,   41,   56,  144,   42,  144,   81,   58,
- /*   360 */    48,   46,   50,   44,   41,   56,  144,   14,  123,   25,
- /*   370 */   144,   27,   13,   96,   36,   89,  110,  144,  124,   86,
- /*   380 */    83,  131,  137,  134,  109,  111,  112,  113,  114,  144,
- /*   390 */   140,   49,  106,   14,  123,   95,   42,   27,   81,   34,
- /*   400 */    36,   51,  106,  144,  124,   95,  144,  131,  144,  134,
- /*   410 */    53,  106,  144,   96,   95,  144,   92,   98,  106,   86,
- /*   420 */    83,   95,   99,  116,  109,  111,  112,  113,  114,   87,
- /*   430 */   106,   88,  117,   95,  144,  144,   42,   18,   81,   55,
- /*   440 */   106,   24,  144,   95,   33,   57,  106,  137,  144,   95,
- /*   450 */   144,  137,  144,   96,  137,  140,  103,   59,  106,  140,
- /*   460 */    83,   95,  140,  144,  109,  111,  112,  113,  114,   61,
- /*   470 */   106,   63,  106,   95,  107,   95,   65,  106,   14,  123,
- /*   480 */    95,  144,   27,  144,   38,   36,   67,  106,  144,  124,
- /*   490 */    95,  129,  131,  144,  134,   69,  106,   71,  106,   95,
- /*   500 */   144,   95,  144,   14,  123,   73,  106,   27,  144,   95,
- /*   510 */    36,   75,  106,  144,  124,   95,  143,  131,  144,  134,
- /*   520 */   142,   77,  106,   79,  106,   95,  144,   95,   14,  123,
- /*   530 */   137,  128,   27,   82,  106,   36,  144,   95,  140,  124,
- /*   540 */   144,  137,  131,  144,  134,  144,   84,  106,  144,  140,
- /*   550 */    95,  144,   94,  106,  105,  106,   95,  144,   95,  138,
- /*   560 */   106,  144,  144,   95,
+ /*     0 */    80,   60,   64,   62,   66,   72,   74,   76,   78,   68,
+ /*    10 */    70,   52,   54,   58,   48,   46,   50,   44,   41,   56,
+ /*    20 */   147,   20,   89,  108,   16,   93,   97,   80,   60,   64,
+ /*    30 */    62,   66,   72,   74,   76,   78,   68,   70,   52,   54,
+ /*    40 */    58,   48,   46,   50,   44,   41,   56,   22,   15,  108,
+ /*    50 */    26,   31,   97,  124,   80,   60,   64,   62,   66,   72,
+ /*    60 */    74,   76,   78,   68,   70,   52,   54,   58,   48,   46,
+ /*    70 */    50,   44,   41,   56,   28,   30,  108,   35,   40,   97,
+ /*    80 */    37,   80,   60,   64,   62,   66,   72,   74,   76,   78,
+ /*    90 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
+ /*   100 */    56,   80,   60,   64,   62,   66,   72,   74,   76,   78,
+ /*   110 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
+ /*   120 */    56,   44,   41,   56,   95,   82,  218,    1,    2,  143,
+ /*   130 */     4,    5,    6,    7,    8,    9,   10,   11,   12,  109,
+ /*   140 */    99,   39,  108,  109,   87,   97,   29,   80,   60,   64,
+ /*   150 */    62,   66,   72,   74,   76,   78,   68,   70,   52,   54,
+ /*   160 */    58,   48,   46,   50,   44,   41,   56,   17,  143,    4,
+ /*   170 */     5,    6,    7,    8,    9,   10,   11,   12,  106,  110,
+ /*   180 */   141,  127,  128,   80,   60,   64,   62,   66,   72,   74,
+ /*   190 */    76,   78,   68,   70,   52,   54,   58,   48,   46,   50,
+ /*   200 */    44,   41,   56,   64,   62,   66,   72,   74,   76,   78,
+ /*   210 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
+ /*   220 */    56,   88,   23,  143,    4,    5,    6,    7,    8,    9,
+ /*   230 */    10,   11,   12,   48,   46,   50,   44,   41,   56,   42,
+ /*   240 */   132,  120,   32,  143,    4,    5,    6,    7,    8,    9,
+ /*   250 */    10,   11,   12,  103,  100,  108,   98,  146,   97,  112,
+ /*   260 */   104,  134,  122,   85,  135,   88,  137,  111,  113,  114,
+ /*   270 */   115,  116,  129,  143,    4,    5,    6,    7,    8,    9,
+ /*   280 */    10,   11,   12,   42,   92,   83,   88,    3,    4,    5,
+ /*   290 */     6,    7,    8,    9,   10,   11,   12,  102,  123,  108,
+ /*   300 */    98,  138,   97,  105,   42,  146,   83,   85,  117,  146,
+ /*   310 */   146,  111,  113,  114,  115,  116,   89,  108,   90,  119,
+ /*   320 */    97,   98,   43,  108,  112,  146,   97,  121,   85,   91,
+ /*   330 */    88,  146,  111,  113,  114,  115,  116,  146,   14,  125,
+ /*   340 */    19,   21,   27,   45,  108,   36,  146,   97,   42,  126,
+ /*   350 */    83,   88,  133,  146,  136,   52,   54,   58,   48,   46,
+ /*   360 */    50,   44,   41,   56,  146,   98,   47,  108,  112,   42,
+ /*   370 */    97,   83,   85,  146,   88,  146,  111,  113,  114,  115,
+ /*   380 */   116,   49,  108,   51,  108,   97,   98,   97,  146,   94,
+ /*   390 */   146,  146,   42,   85,   83,  146,  109,  111,  113,  114,
+ /*   400 */   115,  116,  146,   14,  125,   25,   38,   27,  146,   98,
+ /*   410 */    36,  148,  105,  146,  126,  146,   85,  133,  146,  136,
+ /*   420 */   111,  113,  114,  115,  116,   14,  125,  146,  146,   27,
+ /*   430 */   146,   34,   36,   14,  125,   13,  126,   27,  146,  133,
+ /*   440 */    36,  136,   13,  146,  126,  139,  131,  133,  146,  136,
+ /*   450 */    14,  125,  139,  142,   27,  146,  146,   36,   14,  125,
+ /*   460 */   142,  126,   27,  145,  133,   36,  136,  146,  146,  126,
+ /*   470 */   146,  146,  133,  146,  136,   58,   48,   46,   50,   44,
+ /*   480 */    41,   56,  100,  108,  146,   18,   97,  101,  118,   24,
+ /*   490 */    33,  146,  146,   53,  108,  139,  146,   97,  146,  139,
+ /*   500 */   139,   55,  108,  142,  146,   97,  146,  142,  142,   57,
+ /*   510 */   108,  146,  146,   97,   59,  108,  146,  146,   97,   61,
+ /*   520 */   108,   63,  108,   97,  146,   97,   65,  108,  146,  146,
+ /*   530 */    97,   67,  108,  146,  146,   97,  146,   69,  108,  146,
+ /*   540 */   146,   97,   71,  108,   73,  108,   97,  146,   97,   75,
+ /*   550 */   108,   77,  108,   97,  146,   97,   79,  108,   81,  108,
+ /*   560 */    97,  146,   97,   84,  108,   86,  108,   97,  144,   97,
+ /*   570 */    96,  108,  146,  130,   97,  107,  108,  146,  139,   97,
+ /*   580 */   146,  140,  108,  139,  146,   97,  142,  146,  146,  146,
+ /*   590 */   146,  142,
 };
 static KKCODETYPE kk_lookahead[] = {
  /*     0 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
- /*    10 */    12,   13,   14,   15,   16,   17,   18,   19,   20,    0,
- /*    20 */    25,   66,   67,   25,   69,   70,    2,    3,    4,    5,
- /*    30 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
- /*    40 */    16,   17,   18,   19,   20,   25,   66,   67,   25,   25,
- /*    50 */    70,   36,    2,    3,    4,    5,    6,    7,    8,    9,
- /*    60 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*    70 */    20,   67,   66,   67,   25,   25,   70,   67,    2,    3,
- /*    80 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
- /*    90 */    14,   15,   16,   17,   18,   19,   20,    2,    3,    4,
- /*   100 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   110 */    15,   16,   17,   18,   19,   20,   18,   19,   20,   46,
- /*   120 */    43,   45,   53,   54,   55,   56,   57,   58,   59,   60,
- /*   130 */    61,   62,   63,   64,   65,   46,   66,   67,   22,   44,
- /*   140 */    70,   36,    2,    3,    4,    5,    6,    7,    8,    9,
- /*   150 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
- /*   160 */    20,   55,   56,   57,   58,   59,   60,   61,   62,   63,
- /*   170 */    64,   65,   36,   25,   34,   25,   39,    2,    3,    4,
- /*   180 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   190 */    15,   16,   17,   18,   19,   20,    4,    5,    6,    7,
- /*   200 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*   210 */    18,   19,   20,    2,   55,   56,   57,   58,   59,   60,
- /*   220 */    61,   62,   63,   64,   65,   25,   39,   66,   67,   25,
- /*   230 */    19,   70,   21,   55,   56,   57,   58,   59,   60,   61,
- /*   240 */    62,   63,   64,   65,   25,   66,   67,   36,    1,   70,
- /*   250 */    39,   72,   73,   42,   43,   73,    2,   73,   47,   48,
- /*   260 */    49,   50,   51,   56,   57,   58,   59,   60,   61,   62,
- /*   270 */    63,   64,   65,   19,   73,   21,   55,   56,   57,   58,
- /*   280 */    59,   60,   61,   62,   63,   64,   65,   22,   66,   67,
- /*   290 */    36,   44,   70,   39,   29,   73,    2,   43,   44,    0,
- /*   300 */    73,   47,   48,   49,   50,   51,   73,   24,   25,   26,
- /*   310 */    27,   28,   73,   19,   31,   21,   66,   67,   35,   73,
- /*   320 */    70,   38,   23,   40,   15,   16,   17,   18,   19,   20,
- /*   330 */    36,    1,   33,   39,   66,   67,   42,   43,   70,    2,
- /*   340 */    41,   47,   48,   49,   50,   51,   12,   13,   14,   15,
- /*   350 */    16,   17,   18,   19,   20,   73,   19,   73,   21,   14,
- /*   360 */    15,   16,   17,   18,   19,   20,   73,   24,   25,   26,
- /*   370 */    73,   28,   23,   36,   31,   45,   39,   73,   35,    2,
- /*   380 */    43,   38,   33,   40,   47,   48,   49,   50,   51,   73,
- /*   390 */    41,   66,   67,   24,   25,   70,   19,   28,   21,   30,
- /*   400 */    31,   66,   67,   73,   35,   70,   73,   38,   73,   40,
- /*   410 */    66,   67,   73,   36,   70,   73,   39,   66,   67,    2,
- /*   420 */    43,   70,   71,   72,   47,   48,   49,   50,   51,   66,
- /*   430 */    67,   68,   69,   70,   73,   73,   19,   23,   21,   66,
- /*   440 */    67,   23,   73,   70,   23,   66,   67,   33,   73,   70,
- /*   450 */    73,   33,   73,   36,   33,   41,   39,   66,   67,   41,
- /*   460 */    43,   70,   41,   73,   47,   48,   49,   50,   51,   66,
- /*   470 */    67,   66,   67,   70,   22,   70,   66,   67,   24,   25,
- /*   480 */    70,   73,   28,   73,   32,   31,   66,   67,   73,   35,
- /*   490 */    70,   37,   38,   73,   40,   66,   67,   66,   67,   70,
- /*   500 */    73,   70,   73,   24,   25,   66,   67,   28,   73,   70,
- /*   510 */    31,   66,   67,   73,   35,   70,   37,   38,   73,   40,
- /*   520 */    23,   66,   67,   66,   67,   70,   73,   70,   24,   25,
- /*   530 */    33,   23,   28,   66,   67,   31,   73,   70,   41,   35,
- /*   540 */    73,   33,   38,   73,   40,   73,   66,   67,   73,   41,
- /*   550 */    70,   73,   66,   67,   66,   67,   70,   73,   70,   66,
- /*   560 */    67,   73,   73,   70,
+ /*    10 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*    20 */     0,   26,   67,   68,   26,   70,   71,    2,    3,    4,
+ /*    30 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*    40 */    15,   16,   17,   18,   19,   20,   21,   26,   67,   68,
+ /*    50 */    26,   26,   71,   37,    2,    3,    4,    5,    6,    7,
+ /*    60 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*    70 */    18,   19,   20,   21,   68,   67,   68,   26,   26,   71,
+ /*    80 */    68,    2,    3,    4,    5,    6,    7,    8,    9,   10,
+ /*    90 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   100 */    21,    2,    3,    4,    5,    6,    7,    8,    9,   10,
+ /*   110 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   120 */    21,   19,   20,   21,   47,   46,   54,   55,   56,   57,
+ /*   130 */    58,   59,   60,   61,   62,   63,   64,   65,   66,   23,
+ /*   140 */    44,   67,   68,   23,   45,   71,   30,    2,    3,    4,
+ /*   150 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   160 */    15,   16,   17,   18,   19,   20,   21,   56,   57,   58,
+ /*   170 */    59,   60,   61,   62,   63,   64,   65,   66,   47,   37,
+ /*   180 */    35,   37,   26,    2,    3,    4,    5,    6,    7,    8,
+ /*   190 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   200 */    19,   20,   21,    4,    5,    6,    7,    8,    9,   10,
+ /*   210 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   220 */    21,    2,   56,   57,   58,   59,   60,   61,   62,   63,
+ /*   230 */    64,   65,   66,   16,   17,   18,   19,   20,   21,   20,
+ /*   240 */    26,   22,   56,   57,   58,   59,   60,   61,   62,   63,
+ /*   250 */    64,   65,   66,    1,   67,   68,   37,   74,   71,   40,
+ /*   260 */    73,   40,   43,   44,   26,    2,   40,   48,   49,   50,
+ /*   270 */    51,   52,   56,   57,   58,   59,   60,   61,   62,   63,
+ /*   280 */    64,   65,   66,   20,    1,   22,    2,   57,   58,   59,
+ /*   290 */    60,   61,   62,   63,   64,   65,   66,   45,   67,   68,
+ /*   300 */    37,   26,   71,   40,   20,   26,   22,   44,   45,   74,
+ /*   310 */    74,   48,   49,   50,   51,   52,   67,   68,   69,   70,
+ /*   320 */    71,   37,   67,   68,   40,   74,   71,   43,   44,   46,
+ /*   330 */     2,   74,   48,   49,   50,   51,   52,   74,   25,   26,
+ /*   340 */    27,   28,   29,   67,   68,   32,   74,   71,   20,   36,
+ /*   350 */    22,    2,   39,   74,   41,   13,   14,   15,   16,   17,
+ /*   360 */    18,   19,   20,   21,   74,   37,   67,   68,   40,   20,
+ /*   370 */    71,   22,   44,   74,    2,   74,   48,   49,   50,   51,
+ /*   380 */    52,   67,   68,   67,   68,   71,   37,   71,   74,   40,
+ /*   390 */    74,   74,   20,   44,   22,   74,   23,   48,   49,   50,
+ /*   400 */    51,   52,   74,   25,   26,   27,   33,   29,   74,   37,
+ /*   410 */    32,    0,   40,   74,   36,   74,   44,   39,   74,   41,
+ /*   420 */    48,   49,   50,   51,   52,   25,   26,   74,   74,   29,
+ /*   430 */    74,   31,   32,   25,   26,   24,   36,   29,   74,   39,
+ /*   440 */    32,   41,   24,   74,   36,   34,   38,   39,   74,   41,
+ /*   450 */    25,   26,   34,   42,   29,   74,   74,   32,   25,   26,
+ /*   460 */    42,   36,   29,   38,   39,   32,   41,   74,   74,   36,
+ /*   470 */    74,   74,   39,   74,   41,   15,   16,   17,   18,   19,
+ /*   480 */    20,   21,   67,   68,   74,   24,   71,   72,   73,   24,
+ /*   490 */    24,   74,   74,   67,   68,   34,   74,   71,   74,   34,
+ /*   500 */    34,   67,   68,   42,   74,   71,   74,   42,   42,   67,
+ /*   510 */    68,   74,   74,   71,   67,   68,   74,   74,   71,   67,
+ /*   520 */    68,   67,   68,   71,   74,   71,   67,   68,   74,   74,
+ /*   530 */    71,   67,   68,   74,   74,   71,   74,   67,   68,   74,
+ /*   540 */    74,   71,   67,   68,   67,   68,   71,   74,   71,   67,
+ /*   550 */    68,   67,   68,   71,   74,   71,   67,   68,   67,   68,
+ /*   560 */    71,   74,   71,   67,   68,   67,   68,   71,   24,   71,
+ /*   570 */    67,   68,   74,   24,   71,   67,   68,   74,   34,   71,
+ /*   580 */    74,   67,   68,   34,   74,   71,   42,   74,   74,   74,
+ /*   590 */    74,   42,
 };
 #define KK_SHIFT_USE_DFLT (-6)
 static short kk_shift_ofst[] = {
- /*     0 */   349,   19,  299,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
- /*    10 */    -6,   -6,   -6,  504,  337,   -2,  349,  414,  283,   -5,
- /*    20 */    -6,   20,  349,  418,  343,   23,   -6,   15,  265,  337,
- /*    30 */    24,  349,  421,  369,   49,   -6,   15,  452,  337,   50,
- /*    40 */    -6,  337,  337,   -6,  337,   -6,  337,   98,  337,   98,
- /*    50 */   337,   98,  337,  345,  337,  345,  337,   -6,  337,  309,
- /*    60 */   337,  192,  211,  334,  337,  334,  337,  334,  337,  334,
- /*    70 */   337,  334,  337,  334,  337,  334,  337,  334,  337,   76,
- /*    80 */    -6,  337,   -6,  337,   95,   -6,  377,  175,  330,   -6,
- /*    90 */   377,   -6,   73,  337,  175,   -6,   77,  254,  175,  247,
- /*   100 */    -6,  417,   -6,   89,  337,  175,  116,  105,   -6,   -6,
- /*   110 */    -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,  294,   -6,
- /*   120 */    -6,   -6,   -6,   -6,  136,  148,  497,  508,  454,  150,
- /*   130 */    -6,  137,  200,   -6,  187,  204,   -6,  337,  140,   -6,
- /*   140 */    -6,   -6,  479,  219,   -6,
+ /*     0 */   418,   20,  411,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
+ /*    10 */    -6,   -6,   -6,  433,  328,   -2,  418,  461,  313,   -5,
+ /*    20 */    -6,   21,  418,  465,  378,   24,   -6,   16,  116,  328,
+ /*    30 */    25,  418,  466,  400,   51,   -6,   16,  373,  328,   52,
+ /*    40 */    -6,  328,  328,   -6,  328,   -6,  328,  102,  328,  102,
+ /*    50 */   328,  102,  328,  460,  328,  460,  328,   -6,  328,  217,
+ /*    60 */   328,  199,  328,  342,  219,  342,  328,  342,  328,  342,
+ /*    70 */   328,  342,  328,  342,  328,  342,  328,  342,  328,  342,
+ /*    80 */   328,   79,   -6,  328,   -6,  328,   99,   -6,  349,  181,
+ /*    90 */   283,   -6,  349,   -6,   77,  328,  181,   -6,   96,  263,
+ /*   100 */   181,  252,   -6,  372,   -6,  131,  328,  181,  120,  142,
+ /*   110 */    -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
+ /*   120 */   284,   -6,   -6,   -6,   -6,   -6,  144,  156,  544,  549,
+ /*   130 */   408,  214,   -6,  221,  238,   -6,  226,  275,   -6,  328,
+ /*   140 */   145,   -6,   -6,   -6,  425,  279,   -6,
 };
 #define KK_REDUCE_USE_DFLT (-46)
 static short kk_reduce_ofst[] = {
- /*     0 */    69,  -46,  207,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
- /*    10 */   -46,  -46,  -46,  -46,  -20,  -46,  106,  207,  -46,  -46,
- /*    20 */   -46,  -46,  159,  207,  -46,  -46,  -46,    4,  -46,    6,
- /*    30 */   -46,  178,  207,  -46,  -46,  -46,   10,  -46,   70,  -46,
- /*    40 */   -46,  161,  222,  -46,  250,  -46,  268,  -46,  325,  -46,
- /*    50 */   335,  -46,  344,  -46,  373,  -46,  379,  -46,  391,  -46,
- /*    60 */   403,  -46,  405,  -46,  410,  -46,  420,  -46,  429,  -46,
- /*    70 */   431,  -46,  439,  -46,  445,  -46,  455,  -46,  457,  -46,
- /*    80 */   -46,  467,  -46,  480,  -46,  -46,  363,  -46,  -46,  -46,
- /*    90 */   -45,  -46,  -46,  486,  -46,  -46,  -46,  351,  -46,  -46,
- /*   100 */   -46,  179,  -46,  -46,  488,  -46,  -46,  -46,  -46,  -46,
- /*   110 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  467,  -46,
- /*   120 */   -46,  -46,  -46,  -46,  -46,  -46,  221,  207,  -46,  -46,
- /*   130 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  493,  -46,  -46,
- /*   140 */   -46,  -46,  -46,  -46,  -46,
+ /*     0 */    72,  -46,  230,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
+ /*    10 */   -46,  -46,  -46,  -46,  -19,  -46,  111,  230,  -46,  -46,
+ /*    20 */   -46,  -46,  166,  230,  -46,  -46,  -46,    6,  -46,    8,
+ /*    30 */   -46,  186,  230,  -46,  -46,  -46,   12,  -46,   74,  -46,
+ /*    40 */   -46,  231,  255,  -46,  276,  -46,  299,  -46,  314,  -46,
+ /*    50 */   316,  -46,  426,  -46,  434,  -46,  442,  -46,  447,  -46,
+ /*    60 */   452,  -46,  454,  -46,  459,  -46,  464,  -46,  470,  -46,
+ /*    70 */   475,  -46,  477,  -46,  482,  -46,  484,  -46,  489,  -46,
+ /*    80 */   491,  -46,  -46,  496,  -46,  498,  -46,  -46,  249,  -46,
+ /*    90 */   -46,  -46,  -45,  -46,  -46,  503,  -46,  -46,  -46,  415,
+ /*   100 */   -46,  -46,  -46,  187,  -46,  -46,  508,  -46,  -46,  -46,
+ /*   110 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
+ /*   120 */   496,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  216,  230,
+ /*   130 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  514,
+ /*   140 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,
 };
 static KKACTIONTYPE kk_default[] = {
- /*     0 */   214,  214,  214,  147,  149,  150,  151,  152,  153,  154,
- /*    10 */   155,  156,  157,  214,  214,  214,  214,  214,  214,  214,
- /*    20 */   158,  214,  214,  214,  214,  214,  159,  214,  214,  214,
- /*    30 */   214,  214,  214,  214,  214,  160,  214,  214,  214,  214,
- /*    40 */   161,  214,  214,  169,  214,  171,  214,  172,  214,  173,
- /*    50 */   214,  174,  214,  175,  214,  176,  214,  177,  214,  178,
- /*    60 */   214,  179,  214,  180,  214,  183,  214,  184,  214,  185,
- /*    70 */   214,  186,  214,  187,  214,  188,  214,  189,  214,  214,
- /*    80 */   205,  214,  190,  214,  214,  191,  214,  196,  214,  192,
- /*    90 */   214,  193,  207,  214,  195,  197,  213,  214,  202,  214,
- /*   100 */   198,  214,  200,  207,  214,  203,  204,  214,  212,  206,
- /*   110 */   207,  208,  209,  210,  211,  199,  201,  194,  214,  181,
- /*   120 */   182,  170,  213,  162,  214,  214,  214,  214,  214,  214,
- /*   130 */   164,  214,  214,  166,  214,  214,  167,  214,  214,  163,
- /*   140 */   168,  148,  214,  214,  165,
+ /*     0 */   217,  217,  217,  149,  151,  152,  153,  154,  155,  156,
+ /*    10 */   157,  158,  159,  217,  217,  217,  217,  217,  217,  217,
+ /*    20 */   160,  217,  217,  217,  217,  217,  161,  217,  217,  217,
+ /*    30 */   217,  217,  217,  217,  217,  162,  217,  217,  217,  217,
+ /*    40 */   163,  217,  217,  171,  217,  173,  217,  174,  217,  175,
+ /*    50 */   217,  176,  217,  177,  217,  178,  217,  179,  217,  180,
+ /*    60 */   217,  181,  217,  182,  217,  185,  217,  186,  217,  187,
+ /*    70 */   217,  188,  217,  189,  217,  190,  217,  191,  217,  192,
+ /*    80 */   217,  217,  208,  217,  193,  217,  217,  194,  217,  199,
+ /*    90 */   217,  195,  217,  196,  210,  217,  198,  200,  216,  217,
+ /*   100 */   205,  217,  201,  217,  203,  210,  217,  206,  207,  217,
+ /*   110 */   215,  209,  210,  211,  212,  213,  214,  202,  204,  197,
+ /*   120 */   217,  183,  184,  172,  216,  164,  217,  217,  217,  217,
+ /*   130 */   217,  217,  166,  217,  217,  168,  217,  217,  169,  217,
+ /*   140 */   217,  165,  170,  150,  217,  217,  167,
 };
 #define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
@@ -36268,24 +36366,24 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 ** are required.  The following table supplies these names */
 static const char *kkTokenName[] = { 
   "$",             "COMMA",         "SBRACKET_OPEN",  "RANGE",       
-  "EQUALS",        "NOTEQUALS",     "LESS",          "GREATER",     
-  "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",
-  "AND",           "OR",            "PIPE",          "DIVIDE",      
-  "TIMES",         "MOD",           "PLUS",          "MINUS",       
-  "CONCAT",        "NOT",           "DOT",           "OPEN_DELIMITER",
-  "IF",            "CLOSE_DELIMITER",  "ENDIF",         "ELSE",        
-  "FOR",           "IN",            "ENDFOR",        "SET",         
-  "ASSIGN",        "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",       
-  "IDENTIFIER",    "ENDBLOCK",      "EXTENDS",       "STRING",      
-  "INCLUDE",       "RAW_FRAGMENT",  "DEFINED",       "BRACKET_OPEN",
-  "BRACKET_CLOSE",  "SBRACKET_CLOSE",  "DOUBLECOLON",   "INTEGER",     
-  "DOUBLE",        "NULL",          "FALSE",         "TRUE",        
-  "error",         "program",       "volt_language",  "statement_list",
-  "statement",     "raw_fragment",  "if_statement",  "for_statement",
-  "set_statement",  "echo_statement",  "block_statement",  "extends_statement",
-  "include_statement",  "empty_statement",  "expr",          "qualified_name",
-  "array_list",    "array_item",    "function_call",  "argument_list",
-  "argument_item",
+  "IS",            "EQUALS",        "NOTEQUALS",     "LESS",        
+  "GREATER",       "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",   
+  "NOTIDENTICAL",  "AND",           "OR",            "PIPE",        
+  "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
+  "MINUS",         "CONCAT",        "NOT",           "DOT",         
+  "OPEN_DELIMITER",  "IF",            "CLOSE_DELIMITER",  "ENDIF",       
+  "ELSE",          "FOR",           "IN",            "ENDFOR",      
+  "SET",           "ASSIGN",        "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",
+  "BLOCK",         "IDENTIFIER",    "ENDBLOCK",      "EXTENDS",     
+  "STRING",        "INCLUDE",       "RAW_FRAGMENT",  "DEFINED",     
+  "BRACKET_OPEN",  "BRACKET_CLOSE",  "SBRACKET_CLOSE",  "DOUBLECOLON", 
+  "INTEGER",       "DOUBLE",        "NULL",          "FALSE",       
+  "TRUE",          "error",         "program",       "volt_language",
+  "statement_list",  "statement",     "raw_fragment",  "if_statement",
+  "for_statement",  "set_statement",  "echo_statement",  "block_statement",
+  "extends_statement",  "include_statement",  "empty_statement",  "expr",        
+  "qualified_name",  "array_list",    "array_item",    "function_call",
+  "argument_list",  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -36329,39 +36427,40 @@ static const char *kkRuleName[] = {
  /*  33 */ "expr ::= expr PIPE expr",
  /*  34 */ "expr ::= expr RANGE expr",
  /*  35 */ "expr ::= expr EQUALS expr",
- /*  36 */ "expr ::= expr EQUALS NOT DEFINED",
- /*  37 */ "expr ::= expr EQUALS DEFINED",
- /*  38 */ "expr ::= expr NOTEQUALS expr",
- /*  39 */ "expr ::= expr IDENTICAL expr",
- /*  40 */ "expr ::= expr NOTIDENTICAL expr",
- /*  41 */ "expr ::= expr LESS expr",
- /*  42 */ "expr ::= expr GREATER expr",
- /*  43 */ "expr ::= expr GREATEREQUAL expr",
- /*  44 */ "expr ::= expr LESSEQUAL expr",
- /*  45 */ "expr ::= NOT expr",
- /*  46 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
- /*  47 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
- /*  48 */ "array_list ::= array_list COMMA array_item",
- /*  49 */ "array_list ::= array_item",
- /*  50 */ "array_item ::= STRING DOUBLECOLON expr",
- /*  51 */ "array_item ::= expr",
- /*  52 */ "expr ::= function_call",
- /*  53 */ "function_call ::= IDENTIFIER BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  54 */ "function_call ::= IDENTIFIER BRACKET_OPEN BRACKET_CLOSE",
- /*  55 */ "argument_list ::= argument_list COMMA argument_item",
- /*  56 */ "argument_list ::= argument_item",
- /*  57 */ "argument_item ::= expr",
- /*  58 */ "argument_item ::= STRING DOUBLECOLON expr",
- /*  59 */ "expr ::= qualified_name",
- /*  60 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
- /*  61 */ "expr ::= INTEGER",
- /*  62 */ "expr ::= STRING",
- /*  63 */ "expr ::= DOUBLE",
- /*  64 */ "expr ::= NULL",
- /*  65 */ "expr ::= FALSE",
- /*  66 */ "expr ::= TRUE",
- /*  67 */ "qualified_name ::= qualified_name DOT IDENTIFIER",
- /*  68 */ "qualified_name ::= IDENTIFIER",
+ /*  36 */ "expr ::= expr IS NOT DEFINED",
+ /*  37 */ "expr ::= expr IS DEFINED",
+ /*  38 */ "expr ::= expr IS expr",
+ /*  39 */ "expr ::= expr NOTEQUALS expr",
+ /*  40 */ "expr ::= expr IDENTICAL expr",
+ /*  41 */ "expr ::= expr NOTIDENTICAL expr",
+ /*  42 */ "expr ::= expr LESS expr",
+ /*  43 */ "expr ::= expr GREATER expr",
+ /*  44 */ "expr ::= expr GREATEREQUAL expr",
+ /*  45 */ "expr ::= expr LESSEQUAL expr",
+ /*  46 */ "expr ::= NOT expr",
+ /*  47 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
+ /*  48 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
+ /*  49 */ "array_list ::= array_list COMMA array_item",
+ /*  50 */ "array_list ::= array_item",
+ /*  51 */ "array_item ::= STRING DOUBLECOLON expr",
+ /*  52 */ "array_item ::= expr",
+ /*  53 */ "expr ::= function_call",
+ /*  54 */ "function_call ::= IDENTIFIER BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  55 */ "function_call ::= IDENTIFIER BRACKET_OPEN BRACKET_CLOSE",
+ /*  56 */ "argument_list ::= argument_list COMMA argument_item",
+ /*  57 */ "argument_list ::= argument_item",
+ /*  58 */ "argument_item ::= expr",
+ /*  59 */ "argument_item ::= STRING DOUBLECOLON expr",
+ /*  60 */ "expr ::= qualified_name",
+ /*  61 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
+ /*  62 */ "expr ::= INTEGER",
+ /*  63 */ "expr ::= STRING",
+ /*  64 */ "expr ::= DOUBLE",
+ /*  65 */ "expr ::= NULL",
+ /*  66 */ "expr ::= FALSE",
+ /*  67 */ "expr ::= TRUE",
+ /*  68 */ "qualified_name ::= qualified_name DOT IDENTIFIER",
+ /*  69 */ "qualified_name ::= IDENTIFIER",
 };
 #endif /* NDEBUG */
 
@@ -36454,6 +36553,7 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 49:
     case 50:
     case 51:
+    case 52:
 // 342 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
@@ -36461,9 +36561,8 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
 		efree((kkpminor->kk0));
 	}
 }
-// 851 "parser.c"
+// 859 "parser.c"
       break;
-    case 55:
     case 56:
     case 57:
     case 58:
@@ -36477,12 +36576,13 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 66:
     case 67:
     case 68:
-    case 70:
+    case 69:
     case 71:
     case 72:
+    case 73:
 // 357 "parser.lemon"
-{ zval_ptr_dtor(&(kkpminor->kk92)); }
-// 872 "parser.c"
+{ zval_ptr_dtor(&(kkpminor->kk96)); }
+// 880 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -36619,75 +36719,76 @@ static struct {
   KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } kkRuleInfo[] = {
-  { 53, 1 },
   { 54, 1 },
-  { 55, 2 },
   { 55, 1 },
+  { 56, 2 },
   { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 56, 1 },
-  { 58, 8 },
-  { 58, 12 },
-  { 59, 10 },
-  { 60, 6 },
-  { 65, 2 },
-  { 61, 3 },
-  { 62, 8 },
-  { 62, 7 },
-  { 63, 4 },
-  { 64, 4 },
   { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 57, 1 },
+  { 59, 8 },
+  { 59, 12 },
+  { 60, 10 },
+  { 61, 6 },
   { 66, 2 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 4 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 3 },
-  { 66, 2 },
-  { 66, 3 },
-  { 66, 3 },
-  { 68, 3 },
-  { 68, 1 },
+  { 62, 3 },
+  { 63, 8 },
+  { 63, 7 },
+  { 64, 4 },
+  { 65, 4 },
+  { 58, 1 },
+  { 67, 2 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 4 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 3 },
+  { 67, 2 },
+  { 67, 3 },
+  { 67, 3 },
   { 69, 3 },
   { 69, 1 },
-  { 66, 1 },
-  { 70, 4 },
   { 70, 3 },
-  { 71, 3 },
-  { 71, 1 },
-  { 72, 1 },
-  { 72, 3 },
-  { 66, 1 },
-  { 66, 4 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 66, 1 },
-  { 67, 3 },
+  { 70, 1 },
   { 67, 1 },
+  { 71, 4 },
+  { 71, 3 },
+  { 72, 3 },
+  { 72, 1 },
+  { 73, 1 },
+  { 73, 3 },
+  { 67, 1 },
+  { 67, 4 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 67, 1 },
+  { 68, 3 },
+  { 68, 1 },
 };
 
 static void kk_accept(kkParser*);  /* Forward Declaration */
@@ -36723,9 +36824,9 @@ static void kk_reduce(
       case 0:
 // 349 "parser.lemon"
 {
-	status->ret = kkmsp[0].minor.kk92;
+	status->ret = kkmsp[0].minor.kk96;
 }
-// 1158 "parser.c"
+// 1167 "parser.c"
         break;
       case 1:
       case 3:
@@ -36738,457 +36839,465 @@ static void kk_reduce(
       case 10:
       case 11:
       case 12:
-      case 49:
-      case 52:
-      case 56:
-      case 59:
+      case 50:
+      case 53:
+      case 57:
+      case 60:
 // 353 "parser.lemon"
 {
-	kkgotominor.kk92 = kkmsp[0].minor.kk92;
+	kkgotominor.kk96 = kkmsp[0].minor.kk96;
 }
-// 1179 "parser.c"
+// 1188 "parser.c"
         break;
       case 2:
 // 359 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_zval_list(kkmsp[-1].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_zval_list(kkmsp[-1].minor.kk96, kkmsp[0].minor.kk96);
 }
-// 1186 "parser.c"
+// 1195 "parser.c"
         break;
       case 13:
 // 407 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_if_statement(kkmsp[-5].minor.kk92, kkmsp[-3].minor.kk92, NULL);
-  kk_destructor(23,&kkmsp[-7].minor);
-  kk_destructor(24,&kkmsp[-6].minor);
-  kk_destructor(25,&kkmsp[-4].minor);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_if_statement(kkmsp[-5].minor.kk96, kkmsp[-3].minor.kk96, NULL);
+  kk_destructor(24,&kkmsp[-7].minor);
+  kk_destructor(25,&kkmsp[-6].minor);
+  kk_destructor(26,&kkmsp[-4].minor);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1199 "parser.c"
+// 1208 "parser.c"
         break;
       case 14:
 // 411 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_if_statement(kkmsp[-9].minor.kk92, kkmsp[-7].minor.kk92, kkmsp[-3].minor.kk92);
-  kk_destructor(23,&kkmsp[-11].minor);
-  kk_destructor(24,&kkmsp[-10].minor);
-  kk_destructor(25,&kkmsp[-8].minor);
-  kk_destructor(23,&kkmsp[-6].minor);
-  kk_destructor(27,&kkmsp[-5].minor);
-  kk_destructor(25,&kkmsp[-4].minor);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_if_statement(kkmsp[-9].minor.kk96, kkmsp[-7].minor.kk96, kkmsp[-3].minor.kk96);
+  kk_destructor(24,&kkmsp[-11].minor);
+  kk_destructor(25,&kkmsp[-10].minor);
+  kk_destructor(26,&kkmsp[-8].minor);
+  kk_destructor(24,&kkmsp[-6].minor);
+  kk_destructor(28,&kkmsp[-5].minor);
+  kk_destructor(26,&kkmsp[-4].minor);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1215 "parser.c"
+// 1224 "parser.c"
         break;
       case 15:
 // 417 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_for_statement(kkmsp[-7].minor.kk92, kkmsp[-5].minor.kk92, kkmsp[-3].minor.kk92);
-  kk_destructor(23,&kkmsp[-9].minor);
-  kk_destructor(28,&kkmsp[-8].minor);
-  kk_destructor(29,&kkmsp[-6].minor);
-  kk_destructor(25,&kkmsp[-4].minor);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(30,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_for_statement(kkmsp[-7].minor.kk96, kkmsp[-5].minor.kk96, kkmsp[-3].minor.kk96);
+  kk_destructor(24,&kkmsp[-9].minor);
+  kk_destructor(29,&kkmsp[-8].minor);
+  kk_destructor(30,&kkmsp[-6].minor);
+  kk_destructor(26,&kkmsp[-4].minor);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(31,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1229 "parser.c"
+// 1238 "parser.c"
         break;
       case 16:
 // 423 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_set_statement(kkmsp[-3].minor.kk92, kkmsp[-1].minor.kk92);
-  kk_destructor(23,&kkmsp[-5].minor);
-  kk_destructor(31,&kkmsp[-4].minor);
-  kk_destructor(32,&kkmsp[-2].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_set_statement(kkmsp[-3].minor.kk96, kkmsp[-1].minor.kk96);
+  kk_destructor(24,&kkmsp[-5].minor);
+  kk_destructor(32,&kkmsp[-4].minor);
+  kk_destructor(33,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1240 "parser.c"
+// 1249 "parser.c"
         break;
       case 17:
 // 429 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_empty_statement();
-  kk_destructor(23,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_empty_statement();
+  kk_destructor(24,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1249 "parser.c"
+// 1258 "parser.c"
         break;
       case 18:
 // 435 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk92);
-  kk_destructor(33,&kkmsp[-2].minor);
-  kk_destructor(34,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk96);
+  kk_destructor(34,&kkmsp[-2].minor);
+  kk_destructor(35,&kkmsp[0].minor);
 }
-// 1258 "parser.c"
+// 1267 "parser.c"
         break;
       case 19:
 // 441 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk92);
-  kk_destructor(23,&kkmsp[-7].minor);
-  kk_destructor(35,&kkmsp[-6].minor);
-  kk_destructor(25,&kkmsp[-4].minor);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk96);
+  kk_destructor(24,&kkmsp[-7].minor);
+  kk_destructor(36,&kkmsp[-6].minor);
+  kk_destructor(26,&kkmsp[-4].minor);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1271 "parser.c"
+// 1280 "parser.c"
         break;
       case 20:
 // 445 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL);
-  kk_destructor(23,&kkmsp[-6].minor);
-  kk_destructor(35,&kkmsp[-5].minor);
-  kk_destructor(25,&kkmsp[-3].minor);
-  kk_destructor(23,&kkmsp[-2].minor);
-  kk_destructor(37,&kkmsp[-1].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL);
+  kk_destructor(24,&kkmsp[-6].minor);
+  kk_destructor(36,&kkmsp[-5].minor);
+  kk_destructor(26,&kkmsp[-3].minor);
+  kk_destructor(24,&kkmsp[-2].minor);
+  kk_destructor(38,&kkmsp[-1].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1284 "parser.c"
+// 1293 "parser.c"
         break;
       case 21:
 // 451 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0);
-  kk_destructor(23,&kkmsp[-3].minor);
-  kk_destructor(38,&kkmsp[-2].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0);
+  kk_destructor(24,&kkmsp[-3].minor);
+  kk_destructor(39,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1294 "parser.c"
+// 1303 "parser.c"
         break;
       case 22:
 // 457 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0);
-  kk_destructor(23,&kkmsp[-3].minor);
-  kk_destructor(40,&kkmsp[-2].minor);
-  kk_destructor(25,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0);
+  kk_destructor(24,&kkmsp[-3].minor);
+  kk_destructor(41,&kkmsp[-2].minor);
+  kk_destructor(26,&kkmsp[0].minor);
 }
-// 1304 "parser.c"
+// 1313 "parser.c"
         break;
       case 23:
 // 463 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
 }
-// 1311 "parser.c"
+// 1320 "parser.c"
         break;
       case 24:
 // 469 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk92);
-  kk_destructor(19,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk96);
+  kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1319 "parser.c"
+// 1328 "parser.c"
         break;
       case 25:
 // 473 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(19,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1327 "parser.c"
+// 1336 "parser.c"
         break;
       case 26:
 // 477 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(18,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(19,&kkmsp[-1].minor);
 }
-// 1335 "parser.c"
+// 1344 "parser.c"
         break;
       case 27:
 // 481 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(16,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(17,&kkmsp[-1].minor);
 }
-// 1343 "parser.c"
+// 1352 "parser.c"
         break;
       case 28:
 // 485 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(15,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(16,&kkmsp[-1].minor);
 }
-// 1351 "parser.c"
+// 1360 "parser.c"
         break;
       case 29:
 // 489 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(17,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(18,&kkmsp[-1].minor);
 }
-// 1359 "parser.c"
+// 1368 "parser.c"
         break;
       case 30:
 // 493 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(12,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(13,&kkmsp[-1].minor);
 }
-// 1367 "parser.c"
+// 1376 "parser.c"
         break;
       case 31:
 // 497 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(13,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(14,&kkmsp[-1].minor);
 }
-// 1375 "parser.c"
+// 1384 "parser.c"
         break;
       case 32:
 // 501 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(20,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(21,&kkmsp[-1].minor);
 }
-// 1383 "parser.c"
+// 1392 "parser.c"
         break;
       case 33:
 // 505 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(14,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(15,&kkmsp[-1].minor);
 }
-// 1391 "parser.c"
+// 1400 "parser.c"
         break;
       case 34:
 // 509 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(3,&kkmsp[-1].minor);
 }
-// 1399 "parser.c"
+// 1408 "parser.c"
         break;
       case 35:
 // 513 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(4,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(5,&kkmsp[-1].minor);
 }
-// 1407 "parser.c"
+// 1416 "parser.c"
         break;
       case 36:
 // 517 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk92, NULL);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk96, NULL);
   kk_destructor(4,&kkmsp[-2].minor);
-  kk_destructor(21,&kkmsp[-1].minor);
-  kk_destructor(42,&kkmsp[0].minor);
+  kk_destructor(22,&kkmsp[-1].minor);
+  kk_destructor(43,&kkmsp[0].minor);
 }
-// 1417 "parser.c"
+// 1426 "parser.c"
         break;
       case 37:
 // 521 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk92, NULL);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk96, NULL);
   kk_destructor(4,&kkmsp[-1].minor);
-  kk_destructor(42,&kkmsp[0].minor);
+  kk_destructor(43,&kkmsp[0].minor);
 }
-// 1426 "parser.c"
+// 1435 "parser.c"
         break;
       case 38:
 // 525 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(5,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(4,&kkmsp[-1].minor);
 }
-// 1434 "parser.c"
+// 1443 "parser.c"
         break;
       case 39:
 // 529 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(10,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(6,&kkmsp[-1].minor);
 }
-// 1442 "parser.c"
+// 1451 "parser.c"
         break;
       case 40:
 // 533 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(11,&kkmsp[-1].minor);
 }
-// 1450 "parser.c"
+// 1459 "parser.c"
         break;
       case 41:
 // 537 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
-  kk_destructor(6,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(12,&kkmsp[-1].minor);
 }
-// 1458 "parser.c"
+// 1467 "parser.c"
         break;
       case 42:
 // 541 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(7,&kkmsp[-1].minor);
 }
-// 1466 "parser.c"
+// 1475 "parser.c"
         break;
       case 43:
 // 545 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(8,&kkmsp[-1].minor);
 }
-// 1474 "parser.c"
+// 1483 "parser.c"
         break;
       case 44:
 // 549 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(9,&kkmsp[-1].minor);
 }
-// 1482 "parser.c"
+// 1491 "parser.c"
         break;
       case 45:
 // 553 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk92);
-  kk_destructor(21,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
+  kk_destructor(10,&kkmsp[-1].minor);
 }
-// 1490 "parser.c"
+// 1499 "parser.c"
         break;
       case 46:
 // 557 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk92, NULL);
-  kk_destructor(43,&kkmsp[-2].minor);
-  kk_destructor(44,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk96);
+  kk_destructor(22,&kkmsp[-1].minor);
 }
-// 1499 "parser.c"
+// 1507 "parser.c"
         break;
       case 47:
 // 561 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk92, NULL);
-  kk_destructor(2,&kkmsp[-2].minor);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk96, NULL);
+  kk_destructor(44,&kkmsp[-2].minor);
   kk_destructor(45,&kkmsp[0].minor);
 }
-// 1508 "parser.c"
+// 1516 "parser.c"
         break;
       case 48:
-      case 55:
-// 567 "parser.lemon"
+// 565 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_zval_list(kkmsp[-2].minor.kk92, kkmsp[0].minor.kk92);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk96, NULL);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(46,&kkmsp[0].minor);
+}
+// 1525 "parser.c"
+        break;
+      case 49:
+      case 56:
+// 571 "parser.lemon"
+{
+	kkgotominor.kk96 = phvolt_ret_zval_list(kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
   kk_destructor(1,&kkmsp[-1].minor);
-}
-// 1517 "parser.c"
-        break;
-      case 50:
-      case 58:
-// 575 "parser.lemon"
-{
-	kkgotominor.kk92 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk92);
-  kk_destructor(46,&kkmsp[-1].minor);
-}
-// 1526 "parser.c"
-        break;
-      case 51:
-      case 57:
-// 579 "parser.lemon"
-{
-	kkgotominor.kk92 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk92);
 }
 // 1534 "parser.c"
         break;
-      case 53:
-// 589 "parser.lemon"
+      case 51:
+      case 59:
+// 579 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk92);
-  kk_destructor(43,&kkmsp[-2].minor);
-  kk_destructor(44,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk96);
+  kk_destructor(47,&kkmsp[-1].minor);
 }
 // 1543 "parser.c"
+        break;
+      case 52:
+      case 58:
+// 583 "parser.lemon"
+{
+	kkgotominor.kk96 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk96);
+}
+// 1551 "parser.c"
         break;
       case 54:
 // 593 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
-  kk_destructor(43,&kkmsp[-1].minor);
-  kk_destructor(44,&kkmsp[0].minor);
-}
-// 1552 "parser.c"
-        break;
-      case 60:
-// 621 "parser.lemon"
-{
-	kkgotominor.kk92 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk92, kkmsp[-1].minor.kk92);
-  kk_destructor(2,&kkmsp[-2].minor);
+	kkgotominor.kk96 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk96);
+  kk_destructor(44,&kkmsp[-2].minor);
   kk_destructor(45,&kkmsp[0].minor);
 }
-// 1561 "parser.c"
+// 1560 "parser.c"
+        break;
+      case 55:
+// 597 "parser.lemon"
+{
+	kkgotominor.kk96 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
+  kk_destructor(44,&kkmsp[-1].minor);
+  kk_destructor(45,&kkmsp[0].minor);
+}
+// 1569 "parser.c"
         break;
       case 61:
 // 625 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
+	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk96, kkmsp[-1].minor.kk96);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(46,&kkmsp[0].minor);
 }
-// 1568 "parser.c"
+// 1578 "parser.c"
         break;
       case 62:
 // 629 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
 }
-// 1575 "parser.c"
+// 1585 "parser.c"
         break;
       case 63:
 // 633 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
 }
-// 1582 "parser.c"
+// 1592 "parser.c"
         break;
       case 64:
 // 637 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
-  kk_destructor(49,&kkmsp[0].minor);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
 }
-// 1590 "parser.c"
+// 1599 "parser.c"
         break;
       case 65:
 // 641 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
   kk_destructor(50,&kkmsp[0].minor);
 }
-// 1598 "parser.c"
+// 1607 "parser.c"
         break;
       case 66:
 // 645 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
   kk_destructor(51,&kkmsp[0].minor);
 }
-// 1606 "parser.c"
+// 1615 "parser.c"
         break;
       case 67:
-// 651 "parser.lemon"
+// 649 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk92, kkmsp[0].minor.kk0);
-  kk_destructor(22,&kkmsp[-1].minor);
+	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
+  kk_destructor(52,&kkmsp[0].minor);
 }
-// 1614 "parser.c"
+// 1623 "parser.c"
         break;
       case 68:
 // 655 "parser.lemon"
 {
-	kkgotominor.kk92 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
+	kkgotominor.kk96 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk96, kkmsp[0].minor.kk0);
+  kk_destructor(23,&kkmsp[-1].minor);
 }
-// 1621 "parser.c"
+// 1631 "parser.c"
+        break;
+      case 69:
+// 659 "parser.lemon"
+{
+	kkgotominor.kk96 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
+}
+// 1638 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -37269,7 +37378,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 1708 "parser.c"
+// 1725 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -37515,11 +37624,16 @@ static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *m
 
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 
-	zval *error_msg;
+	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
-	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
+	if (Z_TYPE_P(view_code) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		return FAILURE;
+	}
+
+	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), Z_STRLEN_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
 		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -37530,9 +37644,9 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 	int i;
 	char ch, *marker = token->value;
-	for (i = 0; i<token->len; i++) {
+	for (i = 0; i < token->len; i++) {
 		ch = *marker;
-		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r') {
+		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}
 		marker++;
@@ -37540,7 +37654,7 @@ int phvolt_is_blank_string(phvolt_scanner_token *token){
 	return 1;
 }
 
-int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg TSRMLS_DC) {
+int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phvolt_scanner_state *state;
@@ -37555,6 +37669,11 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		return FAILURE;
 	}
 
+	if (!view_length) {
+		array_init(*result);
+		return SUCCESS;
+	}
+
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
@@ -37564,6 +37683,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->syntax_error = NULL;
 
 	/** Initialize the scanner state */
 	state->active_token = 0;
@@ -37608,6 +37728,9 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				break;
 			case PHVOLT_T_OR:
 				phvolt_(phvolt_parser, PHVOLT_OR, NULL, parser_status);
+				break;
+			case PHVOLT_T_IS:
+				phvolt_(phvolt_parser, PHVOLT_IS, NULL, parser_status);
 				break;
 			case PHVOLT_T_EQUALS:
 				phvolt_(phvolt_parser, PHVOLT_EQUALS, NULL, parser_status);
@@ -37806,9 +37929,9 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				break;
 
 			default:
-				status = FAILURE;
+				parser_status->status = PHVOLT_PARSING_FAILED;
 				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "scanner: unknown opcode %c", token->opcode);
+				sprintf(error, "Scanner: unknown opcode %c", token->opcode);
 				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
@@ -37831,14 +37954,16 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_INIT_VAR(*error_msg);
-				if (state->start) {
-					error = emalloc(sizeof(char) *(48 + strlen(state->start)));
-					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-					ZVAL_STRING(*error_msg, error, 1);
-					efree(error);
-				} else {
-					ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+				if (!*error_msg) {
+					PHALCON_INIT_VAR(*error_msg);
+					if (state->start) {
+						error = emalloc(sizeof(char) *(48 + strlen(state->start)));
+						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
+						ZVAL_STRING(*error_msg, error, 1);
+						efree(error);
+					} else {
+						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+					}
 				}
 				status = FAILURE;
 				break;
@@ -37849,9 +37974,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_INIT_VAR(*error_msg);
-		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-		efree(parser_status->syntax_error);
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_INIT_VAR(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
 	}
 
 	phvolt_Free(phvolt_parser, phvolt_wrapper_free);
@@ -37875,7 +38004,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Tue Oct 16 18:14:31 2012 */
+/* Generated by re2c 0.13.5 on Fri Oct 19 16:26:14 2012 */
 // 1 "scanner.re"
 
 
@@ -46797,20 +46926,38 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
-	zval *message, *dependency_injector, *service;
+	zval *message, *exception_code = NULL, *dependency_injector;
+	zval *exception_message, *exception = NULL, *service;
 	zval *response, *status_code, *status_message;
+	zval *events_manager, *event_name, *status;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &exception_code) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!exception_code) {
+		PHALCON_INIT_NVAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+	} else {
+		PHALCON_SEPARATE_PARAM(exception_code);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_dispatcher_exception_ce, "A dependency injection container is required to access the 'response' service");
+		PHALCON_INIT_NVAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+		
+		PHALCON_INIT_VAR(exception_message);
+		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
+		
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", exception_message, exception_code, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
@@ -46826,7 +46973,26 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(status_message);
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message, PH_NO_CHECK);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_dispatcher_exception_ce, message);
+	
+	PHALCON_INIT_NVAR(exception);
+	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code, PH_CHECK);
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
 }
 
@@ -49756,16 +49922,40 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
 
 PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 
-	zval *message;
+	zval *message, *exception_code = NULL, *exception, *events_manager;
+	zval *event_name, *status;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &exception_code) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_dispatcher_exception_ce, message);
+	if (!exception_code) {
+		PHALCON_INIT_NVAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+	}
+	
+	PHALCON_INIT_VAR(exception);
+	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code, PH_CHECK);
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
+		
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	phalcon_throw_exception(exception TSRMLS_CC);
 	return;
 }
 
@@ -52784,7 +52974,8 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
 	zval *param, *filters = NULL, *params, *param_value, *dependency_injector;
-	zval *exception_message, *service, *filter, *sanitized_value;
+	zval *exception_code, *exception_message;
+	zval *service, *filter, *sanitized_value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -52808,9 +52999,12 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 			PHALCON_INIT_VAR(dependency_injector);
 			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_INIT_VAR(exception_code);
+				ZVAL_LONG(exception_code, 0);
+				
 				PHALCON_INIT_VAR(exception_message);
 				ZVAL_STRING(exception_message, "A dependency injection object is required to access the 'filter' service", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
 			}
 			
 			PHALCON_INIT_VAR(service);
@@ -52859,13 +53053,13 @@ PHP_METHOD(Phalcon_Dispatcher, getReturnedValue){
 
 PHP_METHOD(Phalcon_Dispatcher, dispatch){
 
-	zval *dependency_injector, *exception_message = NULL;
-	zval *events_manager, *event_name = NULL, *status = NULL, *value = NULL;
-	zval *handler = NULL, *number_dispatches, *handler_suffix;
-	zval *action_suffix, *default_namespace, *finished = NULL;
-	zval *handler_name = NULL, *action_name = NULL, *camelized_class = NULL;
-	zval *handler_class = NULL, *has_service = NULL, *was_fresh = NULL;
-	zval *params = NULL, *action_method = NULL, *call_object = NULL;
+	zval *dependency_injector, *exception_code = NULL;
+	zval *exception_message = NULL, *events_manager;
+	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL, *number_dispatches;
+	zval *handler_suffix, *action_suffix, *default_namespace;
+	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
+	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
+	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -52873,9 +53067,14 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_VAR(exception_code);
+		ZVAL_LONG(exception_code, 0);
+		
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access related dispatching services", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(events_manager);
@@ -52919,9 +53118,13 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_SEPARATE(number_dispatches);
 		increment_function(number_dispatches);
 		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 1);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			ZVAL_STRING(exception_message, "Dispatcher has detected a cyclic routing causing stability problems", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			goto ph_cycle_end_0;
 		}
 		
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
@@ -52977,9 +53180,23 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		
 		if (!zend_is_true(has_service)) {
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 2);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_VS(exception_message, handler_class, " handler class cannot be loaded");
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
+			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_NVAR(handler);
@@ -52997,9 +53214,23 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_NVAR(params);
 		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 3);
+			
 			PHALCON_INIT_NVAR(exception_message);
 			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
+			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		PHALCON_INIT_NVAR(action_method);
@@ -53062,19 +53293,24 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
-			if (phalcon_method_exists_ex(handler, SS("notfoundaction") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(call_object);
-				array_init(call_object);
-				phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
-				add_next_index_stringl(call_object, SL("notFoundAction"), 1);
-				
-				PHALCON_INIT_NVAR(value);
-				PHALCON_CALL_FUNC_PARAMS_2(value, "call_user_func_array", call_object, params);
-			} else {
-				PHALCON_INIT_NVAR(exception_message);
-				PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(exception_code);
+			ZVAL_LONG(exception_code, 4);
+			
+			PHALCON_INIT_NVAR(exception_message);
+			PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
+			
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_INIT_NVAR(finished);
+				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
+				if (PHALCON_IS_FALSE(finished)) {
+					goto ph_cycle_start_0;
+				}
 			}
+			
+			goto ph_cycle_end_0;
 		}
 		
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -53576,6 +53812,11 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_defaultAction"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_handlerSuffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_NO_DI"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_CYCLIC_ROUTING"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_HANDLER_NOT_FOUND"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_INVALID_PARAMS"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 4 TSRMLS_CC);
 
 	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, phalcon_translate_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	zend_class_implements(phalcon_translate_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
