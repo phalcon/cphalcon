@@ -27,7 +27,11 @@ class DispatcherListener
 
 	protected $_stop = '';
 
+	protected $_controllerName;
+
 	protected $_actionName;
+
+	protected $_exceptionMessage;
 
 	public function __construct($test)
 	{
@@ -45,10 +49,29 @@ class DispatcherListener
 		$this->_actionName = $actionName;
 	}
 
+	public function setControllerName($controllerName)
+	{
+		$this->_controllerName = $controllerName;
+	}
+
+	public function setExceptionMessage($exceptionMessage)
+	{
+		$this->_exceptionMessage = $exceptionMessage;
+	}
+
+	public function setExceptionType($exceptionType)
+	{
+		$this->_exceptionType = $exceptionType;
+	}
+
+	public function resetStop(){
+		$this->_stop = '';
+	}
+
 	public function beforeDispatch(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'beforeDispatch';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
 		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
 		if ($this->_stop == 'beforeDispatch') {
 			return false;
@@ -58,7 +81,7 @@ class DispatcherListener
 	public function beforeExecuteRoute(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'beforeExecuteRoute';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
 		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
 		if ($this->_stop == 'beforeExecuteRoute') {
 			return false;
@@ -68,22 +91,32 @@ class DispatcherListener
 	public function afterExecuteRoute(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'afterExecuteRoute';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
 		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
 	}
 
 	public function afterDispatch(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'afterDispatch';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
 		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
 	}
 
 	public function beforeNotFoundAction(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
 	{
 		$this->_trace[] = 'beforeNotFoundAction';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
 		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
+		return false;
+	}
+
+	public function beforeException(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher, Exception $e)
+	{
+		$this->_trace[] = 'beforeException';
+		$this->_test->assertEquals($this->_controllerName, $dispatcher->getControllerName());
+		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
+		$this->_test->assertEquals($e->getMessage(), $this->_exceptionMessage);
+		$this->_test->assertEquals(get_class($e), $this->_exceptionType);
 		return false;
 	}
 
@@ -119,25 +152,36 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 		spl_autoload_unregister(array($this, 'dispatcherAutoloader'));
 	}
 
-	public function testEvents()
+	protected function _getDispatcher()
 	{
-
 		$di = new Phalcon\DI();
 
 		$di->set('response', function(){
 			return new \Phalcon\Http\Response();
 		});
 
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+		$dispatcher->setDI($di);
+
+		return $dispatcher;
+	}
+
+	public function testEvents()
+	{
+
+		$dispatcher = $this->_getDispatcher();
+
 		$listener = new DispatcherListener($this);
 
 		$eventsManager = new Phalcon\Events\Manager();
 		$eventsManager->attach('dispatch', $listener);
 
-		$dispatcher = new Phalcon\Mvc\Dispatcher();
-		$dispatcher->setDI($di);
 		$dispatcher->setEventsManager($eventsManager);
 
+		//Normal flow events
+		/*$listener->setControllerName('test2');
 		$listener->setActionName('index');
+
 		$dispatcher->setControllerName('test2');
 		$dispatcher->setActionName('index');
 		$dispatcher->setParams(array());
@@ -171,6 +215,63 @@ class DispatcherMvcEventsTest extends PHPUnit_Framework_TestCase
 
 		$trace = join('-', $listener->getTrace());
 		$this->assertEquals($trace, 'beforeDispatch-beforeNotFoundAction');
+
+		$listener->clearTrace();
+
+		//Dispatching exceptions
+		$listener->setControllerName('nonController');
+		$listener->setActionName('index');
+		$listener->setExceptionMessage('NoncontrollerController handler class cannot be loaded');
+		$listener->setExceptionType('Phalcon\Mvc\Dispatcher\Exception');
+
+		$dispatcher->setControllerName('nonController');
+		$dispatcher->setActionName('index');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch();
+
+		$trace = join('-', $listener->getTrace());
+		$this->assertEquals($trace, 'beforeDispatch-beforeException');*/
+
+		$listener->clearTrace();
+		$listener->resetStop();
+
+		//Uncaught exception
+		$listener->setControllerName('test8');
+		$listener->setActionName('buggy');
+		$listener->setExceptionMessage("This is an uncatched exception");
+		$listener->setExceptionType("Exception");
+
+		$dispatcher->setControllerName('test8');
+		$dispatcher->setActionName('buggy');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch();
+
+		$trace = join('-', $listener->getTrace());
+		$this->assertEquals($trace, 'beforeDispatch-beforeExecuteRoute-beforeException');
+
+	}
+
+	public function testEventsExceptions()
+	{
+
+		$dispatcher = $this->_getDispatcher();
+
+		$listener = new DispatcherListener($this);
+
+		$eventsManager = new Phalcon\Events\Manager();
+		$eventsManager->attach('dispatch',
+			function(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher, $e){
+				//var_dump($event);
+				return false;
+			}
+		);
+
+		$dispatcher->setEventsManager($eventsManager);
+
+		$dispatcher->setControllerName('test8');
+		$dispatcher->setActionName('buggy');
+		$dispatcher->setParams(array());
+		$dispatcher->dispatch();
 
 	}
 
