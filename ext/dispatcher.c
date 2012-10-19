@@ -386,7 +386,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
-	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -512,11 +511,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_VS(exception_message, handler_class, " handler class cannot be loaded");
 			
-			PHALCON_INIT_NVAR(c0);
-			ZVAL_LONG(c0, 2);
-			
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, c0, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
 				PHALCON_INIT_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);

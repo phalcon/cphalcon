@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 
 /**
@@ -139,10 +139,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 
 	zval *message, *exception_code = NULL, *dependency_injector;
-	zval *exception_message, *service, *response;
-	zval *status_code, *status_message, *exception;
+	zval *exception_message, *exception = NULL, *service;
+	zval *response, *status_code, *status_message;
 	zval *events_manager, *event_name, *status;
-	zval *i0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -167,10 +166,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
 		
-		PHALCON_INIT_VAR(i0);
-		object_init_ex(i0, phalcon_mvc_dispatcher_exception_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", exception_message, exception_code, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", exception_message, exception_code, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
@@ -187,7 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(exception);
+	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code, PH_CHECK);
 	
