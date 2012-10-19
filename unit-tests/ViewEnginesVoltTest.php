@@ -152,6 +152,23 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
 
+		//Unary operators
+		$intermediate = $volt->parse('{{ -10 }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ !10 }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ !a }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse('{{ not a }}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
 		//Calling functions
 		$intermediate = $volt->parse("{{ contents() }}");
 		$this->assertTrue(is_array($intermediate));
@@ -225,6 +242,22 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($intermediate), 3);
 
 		$intermediate = $volt->parse('{% if a!==b %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->parse('{% if a is defined %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->parse('{% if a is not defined %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->parse('{% if a is 100 %} hello {% endif %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 3);
+
+		$intermediate = $volt->parse('{% if a is not 100 %} hello {% endif %}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 3);
 
@@ -485,6 +518,19 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		$compilation = $volt->compileString('Some = {{ 100~50 }}');
 		$this->assertEquals($compilation, "Some = <?php echo 100 . 50; ?>");
+
+		//Unary operators
+		$compilation = $volt->compileString('{{ -10 }}');
+		$this->assertEquals($compilation, "<?php echo -10; ?>");
+
+		$compilation = $volt->compileString('{{ !10 }}');
+		$this->assertEquals($compilation, "<?php echo !10; ?>");
+
+		$compilation = $volt->compileString('{{ !a }}');
+		$this->assertEquals($compilation, '<?php echo !$a; ?>');
+
+		$compilation = $volt->compileString('{{ not a }}');
+		$this->assertEquals($compilation, '<?php echo !$a; ?>');
 
 		//Arrays
 		$compilation = $volt->compileString("{% set a = [1, 2, 3, 4] %}");

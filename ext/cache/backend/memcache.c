@@ -38,6 +38,7 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Cache\Backend\Memcache
@@ -448,7 +449,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	ZVAL_LONG(start, 0);
 	
 	PHALCON_INIT_VAR(prefix_length);
-	PHALCON_CALL_FUNC_PARAMS_1(prefix_length, "strlen", prefix);
+	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(backend_options);
 	phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);

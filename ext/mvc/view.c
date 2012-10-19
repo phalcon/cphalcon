@@ -38,6 +38,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 #include "kernel/string.h"
 
 /**

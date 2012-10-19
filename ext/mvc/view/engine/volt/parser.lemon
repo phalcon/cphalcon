@@ -26,7 +26,7 @@
 %left COMMA .
 %right SBRACKET_OPEN .
 %left RANGE .
-%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL IDENTICAL NOTIDENTICAL .
+%left IS EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL IDENTICAL NOTIDENTICAL .
 %left AND OR .
 %left PIPE .
 %left DIVIDE TIMES MOD .
@@ -514,12 +514,16 @@ expr(R) ::= expr(O1) EQUALS expr(O2) . {
 	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2);
 }
 
-expr(R) ::= expr(O1) EQUALS NOT DEFINED . {
+expr(R) ::= expr(O1) IS NOT DEFINED . {
 	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL);
 }
 
-expr(R) ::= expr(O1) EQUALS DEFINED . {
+expr(R) ::= expr(O1) IS DEFINED . {
 	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL);
+}
+
+expr(R) ::= expr(O1) IS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2);
 }
 
 expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {

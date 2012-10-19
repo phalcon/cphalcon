@@ -35,8 +35,10 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
 #include "kernel/require.h"
 #include "kernel/object.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt
@@ -54,9 +56,8 @@
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval *path, *params, *must_clean, *value = NULL, *key = NULL, *compiled_path;
-	zval *template_modified, *compiled_modified;
-	zval *modified, *compiler = NULL, *contents, *view;
+	zval *path, *params, *must_clean, *compiled_path;
+	zval *compiler = NULL, *value = NULL, *key = NULL, *contents, *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -75,6 +76,21 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
+	
+	PHALCON_INIT_VAR(compiled_path);
+	PHALCON_CONCAT_VS(compiled_path, path, ".php");
+	if (phalcon_file_exists(compiled_path TSRMLS_CC) == SUCCESS) {
+		if (phalcon_compare_mtime(path, compiled_path TSRMLS_CC)) {
+			PHALCON_INIT_VAR(compiler);
+			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+		}
+	} else {
+		PHALCON_INIT_NVAR(compiler);
+		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+	}
+	
 	
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
@@ -100,28 +116,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		goto ph_cycle_start_0;
 		
 	ph_cycle_end_0:
-	
-	PHALCON_INIT_VAR(compiled_path);
-	PHALCON_CONCAT_VS(compiled_path, path, ".php");
-	if (phalcon_file_exists(compiled_path TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(template_modified);
-		PHALCON_CALL_FUNC_PARAMS_1(template_modified, "filemtime", path);
-		
-		PHALCON_INIT_VAR(compiled_modified);
-		PHALCON_CALL_FUNC_PARAMS_1(compiled_modified, "filemtime", compiled_path);
-		
-		PHALCON_INIT_VAR(modified);
-		is_smaller_or_equal_function(modified, compiled_modified, template_modified TSRMLS_CC);
-		if (PHALCON_IS_TRUE(modified)) {
-			PHALCON_INIT_VAR(compiler);
-			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
-		}
-	} else {
-		PHALCON_INIT_NVAR(compiler);
-		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
-	}
 	
 	if (phalcon_require(compiled_path TSRMLS_CC) == FAILURE) {
 		return;
@@ -157,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 
 	if (Z_TYPE_P(item) == IS_STRING) {
 		PHALCON_INIT_VAR(length);
-		PHALCON_CALL_FUNC_PARAMS_1(length, "strlen", item);
+		phalcon_fast_strlen(length, item);
 	} else {
 		PHALCON_INIT_NVAR(length);
 		phalcon_fast_count(length, item TSRMLS_CC);

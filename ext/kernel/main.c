@@ -47,7 +47,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 /**
  * Initilializes super global variables if doesn't
  */
-int phalcon_init_global(char *global, int global_length TSRMLS_DC){
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -64,7 +64,7 @@ int phalcon_init_global(char *global, int global_length TSRMLS_DC){
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC){
 
 	zval **gv;
 
@@ -139,26 +139,9 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
 }
 
 /**
- * Checks if a file exists
- *
- */
-int phalcon_file_exists(zval *filename TSRMLS_DC){
-
-	if (Z_TYPE_P(filename) != IS_STRING) {
-		return FAILURE;
-	}
-
-	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK) == 0) {
-		return SUCCESS;
-	}
-
-	return FAILURE;
-}
-
-/**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC){
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC){
 
 	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
 		return SUCCESS;
@@ -276,7 +259,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 /**
  * Exports a string symbol to the active symbol table
  */
-int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC){
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC){
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);

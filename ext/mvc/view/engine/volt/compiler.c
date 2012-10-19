@@ -41,6 +41,7 @@
 #include "kernel/exception.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -601,6 +602,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 	if (phalcon_compare_strict_long(type, 361 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CONCAT_VSVS(expr_code, left_code, "[", right_code, "]");
+		goto ph_end_1;
+	}
+	
+	if (phalcon_compare_strict_long(type, 367 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_SV(expr_code, "-", right_code);
 		goto ph_end_1;
 	}
 	

@@ -108,11 +108,16 @@ static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *m
  */
 int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 
-	zval *error_msg;
+	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
-	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
+	if (Z_TYPE_P(view_code) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		return FAILURE;
+	}
+
+	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), Z_STRLEN_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
 		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -126,9 +131,9 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 int phvolt_is_blank_string(phvolt_scanner_token *token){
 	int i;
 	char ch, *marker = token->value;
-	for (i = 0; i<token->len; i++) {
+	for (i = 0; i < token->len; i++) {
 		ch = *marker;
-		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r') {
+		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
 			return 0;
 		}
 		marker++;
@@ -139,7 +144,7 @@ int phvolt_is_blank_string(phvolt_scanner_token *token){
 /**
  * Parses a volt template returning an intermediate array representation
  */
-int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg TSRMLS_DC) {
+int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phvolt_scanner_state *state;
@@ -154,6 +159,11 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		return FAILURE;
 	}
 
+	if (!view_length) {
+		array_init(*result);
+		return SUCCESS;
+	}
+
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
@@ -163,6 +173,7 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->syntax_error = NULL;
 
 	/** Initialize the scanner state */
 	state->active_token = 0;
@@ -207,6 +218,9 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				break;
 			case PHVOLT_T_OR:
 				phvolt_(phvolt_parser, PHVOLT_OR, NULL, parser_status);
+				break;
+			case PHVOLT_T_IS:
+				phvolt_(phvolt_parser, PHVOLT_IS, NULL, parser_status);
 				break;
 			case PHVOLT_T_EQUALS:
 				phvolt_(phvolt_parser, PHVOLT_EQUALS, NULL, parser_status);
@@ -405,9 +419,9 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 				break;
 
 			default:
-				status = FAILURE;
+				parser_status->status = PHVOLT_PARSING_FAILED;
 				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "scanner: unknown opcode %c", token->opcode);
+				sprintf(error, "Scanner: unknown opcode %c", token->opcode);
 				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
@@ -430,14 +444,16 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_INIT_VAR(*error_msg);
-				if (state->start) {
-					error = emalloc(sizeof(char) *(48 + strlen(state->start)));
-					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-					ZVAL_STRING(*error_msg, error, 1);
-					efree(error);
-				} else {
-					ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+				if (!*error_msg) {
+					PHALCON_INIT_VAR(*error_msg);
+					if (state->start) {
+						error = emalloc(sizeof(char) *(48 + strlen(state->start)));
+						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
+						ZVAL_STRING(*error_msg, error, 1);
+						efree(error);
+					} else {
+						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+					}
 				}
 				status = FAILURE;
 				break;
@@ -448,9 +464,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, zval **error_msg 
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_INIT_VAR(*error_msg);
-		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-		efree(parser_status->syntax_error);
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_INIT_VAR(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
 	}
 
 	phvolt_Free(phvolt_parser, phvolt_wrapper_free);

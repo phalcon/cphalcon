@@ -17,24 +17,5 @@
   +------------------------------------------------------------------------+
 */
 
-typedef struct _phvolt_parser_token {
-	int opcode;
-	char *token;
-	int token_len;
-	int free_flag;
-} phvolt_parser_token;
-
-typedef struct _phvolt_parser_status {
-	int status;
-	zval *ret;
-	phvolt_scanner_state *scanner_state;
-	char *syntax_error;
-	zend_uint syntax_error_len;
-} phvolt_parser_status;
-
-#define PHVOLT_PARSING_OK 1
-#define PHVOLT_PARSING_FAILED 0
-
-extern int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC);
-extern int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC);
-
+extern int phalcon_file_exists(zval *filename TSRMLS_DC);
+extern int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);

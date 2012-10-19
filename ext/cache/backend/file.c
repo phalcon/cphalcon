@@ -38,6 +38,8 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/concat.h"
+#include "kernel/file.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Cache\Backend\File
@@ -367,7 +369,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefix_length);
-	PHALCON_CALL_FUNC_PARAMS_1(prefix_length, "strlen", prefix);
+	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);

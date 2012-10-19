@@ -22,6 +22,7 @@ extern int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
 extern int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
 
 /** Function replacement */
+extern void phalcon_fast_strlen(zval *return_value, zval *str);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);

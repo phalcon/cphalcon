@@ -38,8 +38,9 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/require.h"
-#include "kernel/concat.h"
 #include "kernel/string.h"
+#include "kernel/concat.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Loader
@@ -393,7 +394,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
 			PHALCON_INIT_NVAR(preffix_len);
-			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			phalcon_fast_strlen(preffix_len, preffix);
 			
 			PHALCON_INIT_NVAR(possible_preffix);
 			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
@@ -492,7 +493,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
 			PHALCON_INIT_NVAR(preffix_len);
-			PHALCON_CALL_FUNC_PARAMS_1(preffix_len, "strlen", preffix);
+			phalcon_fast_strlen(preffix_len, preffix);
 			
 			PHALCON_INIT_NVAR(possible_preffix);
 			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);

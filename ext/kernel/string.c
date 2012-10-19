@@ -27,6 +27,28 @@
 #include "kernel/memory.h"
 
 /**
+ * Fast call to join php strlen
+ */
+void phalcon_fast_strlen(zval *return_value, zval *str){
+
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	ZVAL_LONG(return_value, Z_STRLEN_P(str));
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+}
+
+/**
  * Fast call to join php function
  */
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){

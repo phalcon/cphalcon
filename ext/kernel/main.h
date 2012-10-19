@@ -52,12 +52,11 @@ extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 
 /** Globals functions */
-extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
+extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
+extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
-extern int phalcon_file_exists(zval *filename TSRMLS_DC);
-extern int phalcon_function_exists_ex(char *method_name, uint method_len TSRMLS_DC);
+extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
 
 /** Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
@@ -72,7 +71,7 @@ extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
 /** Export symbols to active symbol table */
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC);
+extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
