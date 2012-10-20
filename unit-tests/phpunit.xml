@@ -11,6 +11,8 @@
 	syntaxCheck="false">
 	<testsuites>
 		<testsuite name="Phalcon PHP Framework">
+
+			<!-- Basic Components -->
 			<file>unit-tests/InitTest.php</file>
 			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
@@ -25,12 +27,16 @@
 			<file>unit-tests/DispatcherMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcEventsTest.php</file>
 			<file>unit-tests/CacheTest.php</file>
+
+			<!-- Database tests -->
 			<file>unit-tests/DbTest.php</file>
 			<file>unit-tests/DbDescribeTest.php</file>
 			<file>unit-tests/DbDialectTest.php</file>
 			<file>unit-tests/DbBindTest.php</file>
 			<file>unit-tests/DbProfilerTest.php</file>
 			<file>unit-tests/DbLoggerTest.php</file>
+
+			<!-- ORM tests -->
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
@@ -44,14 +50,20 @@
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
 			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
+
+			<!-- NoSQL tests -->
+			<file>unit-tests/CollectionsTest.php</file>
+
 			<file>unit-tests/CacheResultsetTest.php</file>
+
+			<!-- View/Templating tests -->
 			<file>unit-tests/ViewTest.php</file>
 			<file>unit-tests/ViewEnginesTest.php</file>
 			<file>unit-tests/ViewEnginesVoltTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
+
 			<file>unit-tests/ControllersTest.php</file>
 			<file>unit-tests/SessionTest.php</file>
-			<!--<file>unit-tests/ControllerFrontTest.php</file>-->
 			<file>unit-tests/UrlTest.php</file>
 			<file>unit-tests/FlashTest.php</file>
 			<file>unit-tests/TagTest.php</file>
@@ -59,9 +71,13 @@
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/TranslateTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
-			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 			<file>unit-tests/VersionTest.php</file>
 
+			<!-- Complex components/Integral tests -->
+			<file>unit-tests/ModelsResultsetCacheTest.php</file>
+			<file>unit-tests/MicroMvcTest.php</file>
+
+			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>
 			<file>unit-tests/DispatcherCliTest.php</file>
 			<file>unit-tests/TasksCliTest.php</file>

@@ -18,11 +18,33 @@
   +------------------------------------------------------------------------+
 */
 
-class RestHandler{
+class RestHandler
+{
+
+	protected $_access = 0;
+
+	protected $_trace = array();
 
 	public function find()
 	{
+		$this->_access++;
+		$this->_trace[] = 'find';
+	}
 
+	public function save()
+	{
+		$this->_access++;
+		$this->_trace[] = 'save';
+	}
+
+	public function getNumberAccess()
+	{
+		return $this->_access;
+	}
+
+	public function getTrace()
+	{
+		return $this->_trace;
 	}
 
 }
@@ -33,15 +55,28 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 	public function testMicroClass()
 	{
 
-
-		$handler = new RestHandler();
+		$handler = new RestHandler($this);
 
 		$app = new Phalcon\Mvc\Micro();
 
-		$route = $micro->get('/api/site', array($handler, 'find'));
+		$app->get('/api/site', array($handler, 'find'));
+		$app->post('/api/site/save', array($handler, 'save'));
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['_url'] = '/api/site';
 
 		$app->handle();
 
+		$this->assertEquals($handler->getNumberAccess(), 1);
+		$this->assertEquals($handler->getTrace(), array('find'));
+
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_GET['_url'] = '/api/site/save';
+
+		$app->handle();
+
+		$this->assertEquals($handler->getNumberAccess(), 2);
+		$this->assertEquals($handler->getTrace(), array('find', 'save'));
 	}
 
 }
