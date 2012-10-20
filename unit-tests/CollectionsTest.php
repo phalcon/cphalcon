@@ -43,6 +43,8 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 	public function testCollections()
 	{
 
+		Phalcon\DI::reset();
+
 		$di = new Phalcon\DI();
 
 		$di->set('mongo', function(){
