@@ -39,7 +39,21 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 
+/**
+ * Phalcon\Mvc\Collection
+ *
+ * This component implements a high level abstraction for NoSQL databases which
+ * works with documents
+ */
+
+
+/**
+ * Phalcon\Mvc\Collection
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 
 	zval *dependency_injector = NULL, *service_name;
@@ -77,6 +91,43 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(manager, "initialize", this_ptr, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Collection, setId){
+
+	zval *id, *mongo_id = NULL;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &id) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(id) != IS_OBJECT) {
+		ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		PHALCON_INIT_VAR(mongo_id);
+		object_init_ex(mongo_id, ce0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id, PH_CHECK);
+	} else {
+		PHALCON_CPY_WRT(mongo_id, id);
+	}
+	phalcon_update_property_zval(this_ptr, SL("_id"), mongo_id TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Collection, getId){
+
+	zval *id;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(id);
+	phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(id);
 }
 
 /**
@@ -167,6 +218,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 		add_assoc_bool_ex(reserved, SS("_dependencyInjector"), 1);
 		add_assoc_bool_ex(reserved, SS("_eventsManager"), 1);
 		add_assoc_bool_ex(reserved, SS("_source"), 1);
+		add_assoc_bool_ex(reserved, SS("_operationMade"), 1);
+		add_assoc_bool_ex(reserved, SS("_errorMessages"), 1);
 		phalcon_update_static_property(SL("phalcon\\mvc\\collection"), SL("_reserved"), reserved TSRMLS_CC);
 	}
 	
@@ -221,7 +274,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource){
 
 PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
 
+	zval *connection_service;
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &connection_service) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_connectionService"), connection_service TSRMLS_CC);
 	
 }
 
@@ -245,7 +304,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 		phalcon_read_property(&connection_service, this_ptr, SL("_connectionService"), PH_NOISY_CC);
 		
 		PHALCON_INIT_NVAR(connection);
-		PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", connection_service, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "getshared", connection_service, PH_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
 	}
 	
@@ -456,23 +515,21 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 }
 
 /**
- * Executes internal hooks before save a record
+ * Executes internal hooks before save a document
  *
  * @param Phalcon\DI $dependencyInjector
- * @param Phalcon\Mvc\Model\Metadata $metaData
  * @param boolean $disableEvents
  * @param boolean $exists
- * @param string $identityField
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 
-	zval *dependency_injector, *meta_data, *disable_events;
-	zval *exists, *identity_field, *event_name = NULL, *status = NULL;
+	zval *dependency_injector, *disable_events;
+	zval *exists, *event_name = NULL, *status = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzzz", &dependency_injector, &meta_data, &disable_events, &exists, &identity_field) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &dependency_injector, &disable_events, &exists) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -575,10 +632,191 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 	RETURN_TRUE;
 }
 
+/**
+ * Executes internal events after save a document
+ *
+ * @param boolean $disableEvents
+ * @param boolean $success
+ * @param boolean $exists
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
+
+	zval *disable_events, *success, *exists, *event_name = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &disable_events, &success, &exists) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (PHALCON_IS_TRUE(success)) {
+		if (!zend_is_true(disable_events)) {
+			if (PHALCON_IS_TRUE(exists)) {
+				PHALCON_INIT_VAR(event_name);
+				ZVAL_STRING(event_name, "afterUpdate", 1);
+			} else {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "afterCreate", 1);
+			}
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+			
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "afterSave", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+		}
+		
+		RETURN_CCTOR(success);
+	} else {
+		if (!zend_is_true(disable_events)) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "notSave", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+		}
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_canceloperation", disable_events, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
+}
+
+/**
+ * Fires an internal event
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _callEvent){
+
+	zval *event_name, *events_manager, *fire_event_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, Z_STRVAL_P(event_name), PH_NO_CHECK);
+	}
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(fire_event_name);
+		PHALCON_CONCAT_SV(fire_event_name, "collection:", event_name);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", fire_event_name, this_ptr, PH_NO_CHECK);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Fires an internal event that cancels the operation
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _callEventCancel){
+
+	zval *event_name, *status = NULL, *events_manager, *fire_event_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (phalcon_method_exists(this_ptr, event_name TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD(status, this_ptr, Z_STRVAL_P(event_name), PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	PHALCON_INIT_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(fire_event_name);
+		PHALCON_CONCAT_SV(fire_event_name, "collection:", event_name);
+		
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", fire_event_name, this_ptr, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
+}
+
+/**
+ * Checks if the document exists in the collection
+ *
+ * @param MongoCollection $collection
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _exists){
+
+	zval *collection, *id, *mongo_id = NULL, *parameters, *document_count;
+	zval *zero, *exist;
+	int eval_int;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	eval_int = phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC);
+	if (eval_int) {
+		PHALCON_INIT_VAR(id);
+		phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+		if (Z_TYPE_P(id) == IS_OBJECT) {
+			PHALCON_CPY_WRT(mongo_id, id);
+		} else {
+			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			PHALCON_INIT_VAR(mongo_id);
+			object_init_ex(mongo_id, ce0);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id, PH_CHECK);
+			phalcon_update_property_zval(this_ptr, SL("_id"), mongo_id TSRMLS_CC);
+		}
+		
+		PHALCON_INIT_VAR(parameters);
+		array_init(parameters);
+		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(document_count);
+		PHALCON_CALL_METHOD_PARAMS_1(document_count, collection, "count", parameters, PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(zero);
+		ZVAL_LONG(zero, 0);
+		
+		PHALCON_INIT_VAR(exist);
+		is_smaller_function(exist, zero, document_count TSRMLS_CC);
+		
+		RETURN_NCTOR(exist);
+	}
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
+}
+
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
-	zval *data, *reserved, *properties, *value = NULL, *key = NULL, *source;
-	zval *connection, *collection, *success;
+	zval *dependency_injector, *source, *connection;
+	zval *collection, *exists, *disable_events = NULL, *status = NULL;
+	zval *data, *reserved, *properties, *value = NULL, *key = NULL, *success = NULL;
+	zval *options, *ok, *id, *post_success;
+	zval *a0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -590,6 +828,43 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	PHALCON_MM_GROW();
 
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, this_ptr, "getsource", PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(connection);
+	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(collection);
+	phalcon_read_property_zval(&collection, connection, source, PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "_exists", collection, PH_NO_CHECK);
+	if (PHALCON_IS_FALSE(exists)) {
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
+	} else {
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), 2 TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_VAR(a0);
+	array_init(a0);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), a0 TSRMLS_CC);
+	PHALCON_OBSERVE_VAR(disable_events);
+	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD_PARAMS_3(status, this_ptr, "_presave", dependency_injector, disable_events, exists, PH_NO_CHECK);
+	if (PHALCON_IS_FALSE(status)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+	
 	PHALCON_INIT_VAR(data);
 	array_init(data);
 	
@@ -615,9 +890,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 		
-		eval_int = phalcon_array_isset(reserved, key);
-		if (!eval_int) {
-			phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		if (PHALCON_COMPARE_STRING(key, "_id")) {
+			if (Z_TYPE_P(value) != IS_NULL) {
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
+		} else {
+			eval_int = phalcon_array_isset(reserved, key);
+			if (!eval_int) {
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
 		}
 		
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -625,19 +906,40 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		
 	ph_cycle_end_0:
 	
-	PHALCON_INIT_VAR(source);
-	PHALCON_CALL_METHOD(source, this_ptr, "getsource", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(collection);
-	phalcon_read_property_zval(&collection, connection, source, PH_NOISY_CC);
-	
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_1(success, collection, "save", data, PH_NO_CHECK);
+	ZVAL_BOOL(success, 0);
 	
-	RETURN_CCTOR(success);
+	PHALCON_INIT_VAR(options);
+	array_init(options);
+	add_assoc_bool_ex(options, SS("safe"), 1);
+	
+	PHALCON_INIT_NVAR(status);
+	PHALCON_CALL_METHOD_PARAMS_2(status, collection, "save", data, options, PH_NO_CHECK);
+	if (Z_TYPE_P(status) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(status, SS("ok"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(ok);
+			phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY_CC);
+			if (zend_is_true(ok)) {
+				ZVAL_BOOL(success, 1);
+				if (PHALCON_IS_FALSE(exists)) {
+					eval_int = phalcon_array_isset_string(data, SS("_id"));
+					if (eval_int) {
+						PHALCON_INIT_VAR(id);
+						phalcon_array_fetch_string(&id, data, SL("_id"), PH_NOISY_CC);
+						phalcon_update_property_zval(this_ptr, SL("_id"), id TSRMLS_CC);
+					}
+				}
+			}
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+	
+	PHALCON_INIT_VAR(post_success);
+	PHALCON_CALL_METHOD_PARAMS_3(post_success, this_ptr, "_postsave", disable_events, success, exists, PH_NO_CHECK);
+	
+	RETURN_CCTOR(post_success);
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
@@ -756,14 +1058,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 
 PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
-	zval *id, *connection, *source, *collection, *id_condition;
-	zval *success;
+	zval *id, *connection, *source, *collection, *mongo_id = NULL;
+	zval *id_condition, *success;
+	int eval_int;
+	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(id);
-	phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
-	if (Z_TYPE_P(id) == IS_OBJECT) {
+	eval_int = phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC);
+	if (eval_int) {
+		PHALCON_INIT_VAR(id);
+		phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+		
 		PHALCON_INIT_VAR(connection);
 		PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
 		
@@ -772,18 +1078,25 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		
 		PHALCON_INIT_VAR(collection);
 		phalcon_read_property_zval(&collection, connection, source, PH_NOISY_CC);
+		if (Z_TYPE_P(id) != IS_OBJECT) {
+			PHALCON_CPY_WRT(mongo_id, id);
+		} else {
+			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			PHALCON_INIT_VAR(mongo_id);
+			object_init_ex(mongo_id, ce0);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id, PH_CHECK);
+		}
 		
 		PHALCON_INIT_VAR(id_condition);
 		array_init(id_condition);
-		phalcon_array_update_string(&id_condition, SL("_id"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_METHOD_PARAMS_1(success, collection, "remove", id_condition, PH_NO_CHECK);
 		
 		RETURN_CCTOR(success);
 	}
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be removed because it doesn't exists");
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
 	return;
 }
 
