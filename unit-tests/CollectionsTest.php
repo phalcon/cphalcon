@@ -83,7 +83,7 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$success = $song->save();
 		$this->assertTrue($success);
 		$this->assertInstanceOf('MongoId', $song->_id);
-		$this->assertNotEquals($firstSongId, $song->_id);
+		$this->assertNotEquals($firstSongId->{'$id'}, $song->_id->{'$id'});
 		$secondSongId = $song->_id;
 
 		$songs = Songs::find();
@@ -100,8 +100,8 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$success = $song->save();
 		$this->assertTrue($success);
 		$this->assertInstanceOf('MongoId', $song->_id);
-		$this->assertNotEquals($firstSongId, $song->_id);
-		$this->assertNotEquals($secondSongId, $song->_id);
+		$this->assertNotEquals($firstSongId->{'$id'}, $song->_id->{'$id'});
+		$this->assertNotEquals($secondSongId->{'$id'}, $song->_id->{'$id'});
 
 		$songs = Songs::find();
 		$this->assertTrue(is_array($songs));
