@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
 
 	PHALCON_INIT_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
-	if (zend_is_true(manager)) {
+	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
 		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	
 	PHALCON_INIT_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
-	if (zend_is_true(manager)) {
+	if (Z_TYPE_P(manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
 		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
@@ -266,7 +266,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 			PHALCON_INIT_NVAR(rollback_message);
 			ZVAL_STRING(rollback_message, "Transaction aborted", 1);
 		}
-		if (zend_is_true(rollback_record)) {
+		if (Z_TYPE_P(rollback_record) == IS_OBJECT) {
 			phalcon_update_property_zval(this_ptr, SL("_rollbackRecord"), rollback_record TSRMLS_CC);
 		}
 		

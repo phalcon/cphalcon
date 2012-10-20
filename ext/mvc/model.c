@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Model
@@ -1024,9 +1025,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
 	zval *meta_data, *connection = NULL, *table = NULL, *unique_key = NULL;
-	zval *primary_keys, *primary_keys_count, *where_pk;
-	zval *field = NULL, *value = NULL, *sanitized_value = NULL, *pk_condition = NULL;
-	zval *where_pk_count, *join_where, *force_exists;
+	zval *primary_keys, *where_pk, *field = NULL, *value = NULL, *sanitized_value = NULL;
+	zval *pk_condition = NULL, *join_where, *force_exists;
 	zval *schema, *source, *select, *num, *row_count;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1053,10 +1053,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	if (Z_TYPE_P(unique_key) == IS_NULL) {
 		PHALCON_INIT_VAR(primary_keys);
 		PHALCON_CALL_METHOD_PARAMS_1(primary_keys, meta_data, "getprimarykeyattributes", this_ptr, PH_NO_CHECK);
-		
-		PHALCON_INIT_VAR(primary_keys_count);
-		phalcon_fast_count(primary_keys_count, primary_keys TSRMLS_CC);
-		if (!phalcon_compare_strict_long(primary_keys_count, 0 TSRMLS_CC)) {
+		if (phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
 			PHALCON_INIT_VAR(where_pk);
 			array_init(where_pk);
 			
@@ -1101,9 +1098,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				
 			ph_cycle_end_0:
 			
-			PHALCON_INIT_VAR(where_pk_count);
-			phalcon_fast_count(where_pk_count, where_pk TSRMLS_CC);
-			if (zend_is_true(where_pk_count)) {
+			if (phalcon_fast_count_ev(where_pk TSRMLS_CC)) {
 				PHALCON_INIT_VAR(join_where);
 				phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);

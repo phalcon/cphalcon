@@ -38,6 +38,7 @@
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 #include "kernel/string.h"
 
 /**
@@ -301,11 +302,11 @@ PHP_METHOD(Phalcon_Db, fetchAll){
  */
 PHP_METHOD(Phalcon_Db, insert){
 
-	zval *table, *values, *fields = NULL, *data_types = NULL, *number_values;
-	zval *exception_message, *placeholders, *insert_values;
-	zval *bind_data_types = NULL, *value = NULL, *position = NULL, *str_value = NULL;
-	zval *bind_type = NULL, *joined_values, *joined_fields;
-	zval *insert_sql = NULL, *success;
+	zval *table, *values, *fields = NULL, *data_types = NULL, *exception_message;
+	zval *placeholders, *insert_values, *bind_data_types = NULL;
+	zval *value = NULL, *position = NULL, *str_value = NULL, *bind_type = NULL;
+	zval *joined_values, *joined_fields, *insert_sql = NULL;
+	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -334,10 +335,7 @@ PHP_METHOD(Phalcon_Db, insert){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(number_values);
-	phalcon_fast_count(number_values, values TSRMLS_CC);
-	if (phalcon_compare_strict_long(number_values, 0 TSRMLS_CC)) {
+	if (!phalcon_fast_count_ev(values TSRMLS_CC)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_db_exception_ce, exception_message);
@@ -809,8 +807,8 @@ PHP_METHOD(Phalcon_Db, sharedLock){
 PHP_METHOD(Phalcon_Db, createTable){
 
 	zval *table_name, *schema_name, *definition;
-	zval *exception_message, *columns, *number_columns;
-	zval *dialect, *sql, *success;
+	zval *exception_message, *columns, *dialect;
+	zval *sql, *success;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -834,10 +832,7 @@ PHP_METHOD(Phalcon_Db, createTable){
 	
 	PHALCON_INIT_VAR(columns);
 	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_columns);
-	phalcon_fast_count(number_columns, columns TSRMLS_CC);
-	if (phalcon_compare_strict_long(number_columns, 0 TSRMLS_CC)) {
+	if (!phalcon_fast_count_ev(columns TSRMLS_CC)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The table must contain at least one column");
 		return;
 	}

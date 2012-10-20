@@ -40,6 +40,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -1331,9 +1332,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *model_name = NULL, *source = NULL, *alias = NULL, *source_alias = NULL;
 	zval *sql_joins = NULL, *sql_columns, *columns, *select_columns = NULL;
 	zval *position, *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
-	zval *type = NULL, *sql_select, *number_joins, *where;
-	zval *where_expr, *group_by, *sql_group, *having;
-	zval *having_expr, *order, *sql_order, *limit;
+	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
+	zval *sql_group, *having, *having_expr, *order;
+	zval *sql_order, *limit;
 	zval *r0 = NULL;
 	zval *p0[] = { NULL, NULL, NULL, NULL, NULL, NULL };
 	HashTable *ah0, *ah1, *ah2;
@@ -1555,10 +1556,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	phalcon_array_update_string(&sql_select, SL("models"), &sql_models, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&sql_select, SL("tables"), &sql_tables, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&sql_select, SL("columns"), &sql_columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(number_joins);
-	phalcon_fast_count(number_joins, sql_joins TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_joins, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(sql_joins TSRMLS_CC)) {
 		phalcon_array_update_string(&sql_select, SL("joins"), &sql_joins, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	

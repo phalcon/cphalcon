@@ -36,7 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Model\Transaction\Manager
@@ -443,8 +443,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit){
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
-	zval *transaction, *transactions = NULL, *number_transactions;
-	zval *number, *managed_transaction = NULL;
+	zval *transaction, *transactions = NULL, *number, *managed_transaction = NULL;
 	zval *r0 = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
@@ -460,10 +459,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	PHALCON_INIT_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_transactions);
-	phalcon_fast_count(number_transactions, transactions TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_transactions, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(number);
 		ZVAL_LONG(number, 0);
 		
@@ -540,8 +536,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 
-	zval *transactions, *number_transactions;
-	zval *number, *managed_transaction = NULL;
+	zval *transactions, *number, *managed_transaction = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -551,10 +546,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 
 	PHALCON_INIT_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_transactions);
-	phalcon_fast_count(number_transactions, transactions TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_transactions, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(number);
 		ZVAL_LONG(number, 0);
 		

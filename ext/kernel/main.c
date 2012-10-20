@@ -95,27 +95,27 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 /**
  * Makes fast count on implicit array types
  */
-void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
-	if (Z_TYPE_P(array) == IS_ARRAY) {
-		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(array)));
+void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
 	} else {
-		if (Z_TYPE_P(array) == IS_OBJECT) {
+		if (Z_TYPE_P(value) == IS_OBJECT) {
 
 			#ifdef HAVE_SPL
-			zval *retval;
+			zval *retval = NULL;
 			#endif
 
-			if (Z_OBJ_HT_P(array)->count_elements) {
+			if (Z_OBJ_HT_P(value)->count_elements) {
 				ZVAL_LONG(result, 1);
-				if (SUCCESS == Z_OBJ_HT(*array)->count_elements(array, &Z_LVAL_P(result) TSRMLS_CC)) {
+				if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
 					return;
 				}
 			}
 
 			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(array)->get_class_entry && instanceof_function(Z_OBJCE_P(array), spl_ce_Countable TSRMLS_CC)) {
-    			zend_call_method_with_0_params(&array, NULL, NULL, "count", &retval);
+			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
 				if (retval) {
 					convert_to_long_ex(&retval);
 					ZVAL_LONG(result, Z_LVAL_P(retval));
@@ -129,13 +129,57 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
 			return;
 
 		} else {
-			if (Z_TYPE_P(array) == IS_NULL) {
+			if (Z_TYPE_P(value) == IS_NULL) {
 				ZVAL_LONG(result, 0);
 				return;
 			}
 		}
 	}
 	ZVAL_LONG(result, 1);
+}
+
+/**
+ * Makes fast count on implicit array types without creating a return zval value
+ */
+int phalcon_fast_count_ev(zval *value TSRMLS_DC){
+
+	long count = 0;
+
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
+	} else {
+		if (Z_TYPE_P(value) == IS_OBJECT) {
+
+			#ifdef HAVE_SPL
+			zval *retval = NULL;
+			#endif
+
+			if (Z_OBJ_HT_P(value)->count_elements) {
+				Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+				return (int) count > 0;
+			}
+
+			#ifdef HAVE_SPL
+			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+				if (retval) {
+					convert_to_long_ex(&retval);
+					count = Z_LVAL_P(retval);
+					zval_ptr_dtor(&retval);
+					return (int) count > 0;
+				}
+				return 0;
+			}
+			#endif
+
+			return 0;
+		} else {
+			if (Z_TYPE_P(value) == IS_NULL) {
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
 /**

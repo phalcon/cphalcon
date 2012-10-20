@@ -39,9 +39,9 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler
@@ -665,11 +665,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 
-	zval *statements, *extends_mode, *number_elements;
-	zval *exec_statements = NULL, *compilation, *statement = NULL;
-	zval *expr = NULL, *expr_code = NULL, *type = NULL, *code = NULL, *block_statements = NULL;
-	zval *qualified = NULL, *qualified_code = NULL, *block_name = NULL;
-	zval *blocks = NULL, *exception_message = NULL;
+	zval *statements, *extends_mode, *exec_statements = NULL;
+	zval *compilation, *statement = NULL, *expr = NULL, *expr_code = NULL;
+	zval *type = NULL, *code = NULL, *block_statements = NULL, *qualified = NULL;
+	zval *qualified_code = NULL, *block_name = NULL, *blocks = NULL, *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -682,13 +681,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(number_elements);
-	phalcon_fast_count(number_elements, statements TSRMLS_CC);
-	if (phalcon_compare_strict_long(number_elements, 0 TSRMLS_CC)) {
+	if (!phalcon_fast_count_ev(statements TSRMLS_CC)) {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("", 1);
 	}
-	
 	eval_int = phalcon_array_isset_long(statements, 0);
 	if (!eval_int) {
 		PHALCON_INIT_VAR(exec_statements);

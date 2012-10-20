@@ -35,9 +35,9 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/file.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 #include "kernel/string.h"
 
 /**
@@ -92,8 +92,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 
 	zval *index, *placeholders = NULL, *translate, *translation = NULL;
-	zval *number_placeholders, *value = NULL, *key = NULL, *key_placeholder = NULL;
-	zval *replaced = NULL;
+	zval *value = NULL, *key = NULL, *key_placeholder = NULL, *replaced = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -121,9 +120,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		PHALCON_INIT_VAR(translation);
 		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(number_placeholders);
-			phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
-			if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
+			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
 				
 				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
 					return;

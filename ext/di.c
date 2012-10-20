@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/file.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -185,7 +186,6 @@ PHP_METHOD(Phalcon_DI, _factory){
 	zval *service, *parameters, *found = NULL, *instance = NULL, *class_exists;
 	zval *reflection = NULL, *is_callable, *class_name = NULL;
 	zval *exception_message;
-	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 	zend_class_entry *ce0, *ce1, *ce2;
 
@@ -208,10 +208,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 			PHALCON_INIT_VAR(reflection);
 			object_init_ex(reflection, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", service, PH_CHECK);
-			
-			PHALCON_INIT_VAR(r0);
-			phalcon_fast_count(r0, parameters TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
 				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
 			} else {
 				PHALCON_INIT_NVAR(instance);
@@ -247,10 +244,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 				
 				PHALCON_INIT_NVAR(class_name);
 				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
-				
-				PHALCON_INIT_VAR(r1);
-				phalcon_fast_count(r1, parameters TSRMLS_CC);
-				if (zend_is_true(r1)) {
+				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
 					ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 					PHALCON_INIT_NVAR(reflection);
 					object_init_ex(reflection, ce1);
@@ -434,8 +428,8 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 PHP_METHOD(Phalcon_DI, __call){
 
 	zval *method, *arguments = NULL, *zero, *three, *action, *services;
-	zval *service_name = NULL, *possible_service = NULL, *number_arguments;
-	zval *instance = NULL, *handler, *exception_message;
+	zval *service_name = NULL, *possible_service = NULL, *instance = NULL;
+	zval *handler, *exception_message;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -469,16 +463,13 @@ PHP_METHOD(Phalcon_DI, __call){
 		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
 		eval_int = phalcon_array_isset(services, possible_service);
 		if (eval_int) {
-			PHALCON_INIT_VAR(number_arguments);
-			phalcon_fast_count(number_arguments, arguments TSRMLS_CC);
-			if (zend_is_true(number_arguments)) {
+			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
 				PHALCON_INIT_VAR(instance);
 				PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
 			} else {
 				PHALCON_INIT_NVAR(instance);
 				PHALCON_CALL_METHOD_PARAMS_1(instance, this_ptr, "get", possible_service, PH_NO_CHECK);
 			}
-			
 			
 			RETURN_CCTOR(instance);
 		}
@@ -546,12 +537,12 @@ PHP_METHOD(Phalcon_DI, getDefault){
  */
 PHP_METHOD(Phalcon_DI, reset){
 
-	zval *t0 = NULL;
+	zval *null_value;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(t0);
-	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), t0 TSRMLS_CC);
+	PHALCON_INIT_VAR(null_value);
+	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), null_value TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

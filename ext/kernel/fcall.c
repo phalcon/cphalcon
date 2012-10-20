@@ -731,6 +731,9 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
+/**
+ * Replaces call_user_func_array avoiding function lookup
+ */
 int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC){
 
 	zval *retval_ptr = NULL;
@@ -785,6 +788,9 @@ int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params
 	return status;
 }
 
+/**
+ * Calls a function/method in the PHP userland
+ */
 int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
 	zval ***params_array;

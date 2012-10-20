@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/file.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -511,10 +512,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 
 	zval *dependency_injector, *model_name, *data;
-	zval *conditions, *number_data, *service, *meta_data;
-	zval *model, *data_types, *bind, *value = NULL, *field = NULL, *type = NULL;
-	zval *condition = NULL, *value_pattern = NULL, *criteria, *number_conditions;
-	zval *join_conditions;
+	zval *conditions, *service, *meta_data, *model;
+	zval *data_types, *bind, *value = NULL, *field = NULL, *type = NULL, *condition = NULL;
+	zval *value_pattern = NULL, *criteria, *join_conditions;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -543,10 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init(conditions);
-	
-	PHALCON_INIT_VAR(number_data);
-	phalcon_fast_count(number_data, data TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_data, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(data TSRMLS_CC)) {
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "modelsMetadata", 1);
 		
@@ -615,10 +612,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	PHALCON_INIT_VAR(criteria);
 	object_init_ex(criteria, phalcon_mvc_model_criteria_ce);
 	PHALCON_CALL_METHOD_NORETURN(criteria, "__construct", PH_CHECK);
-	
-	PHALCON_INIT_VAR(number_conditions);
-	phalcon_fast_count(number_conditions, conditions TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_conditions, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(conditions TSRMLS_CC)) {
 		PHALCON_INIT_VAR(join_conditions);
 		phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(criteria, "where", join_conditions, PH_NO_CHECK);

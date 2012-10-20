@@ -38,6 +38,7 @@
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Db\Dialect\Mysql
@@ -521,10 +522,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey){
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 
 	zval *table_name, *schema_name, *reference, *sql = NULL;
-	zval *columns, *quoted_column_list, *referenced_schema;
-	zval *referenced_columns, *quoted_columns;
-	zval *referenced_table;
-	zval *r0 = NULL;
+	zval *columns, *quoted_column_list, *reference_name;
+	zval *referenced_schema, *referenced_columns;
+	zval *quoted_columns, *referenced_table;
 
 	PHALCON_MM_GROW();
 
@@ -551,9 +551,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 	PHALCON_INIT_VAR(quoted_column_list);
 	PHALCON_CALL_METHOD_PARAMS_1(quoted_column_list, this_ptr, "getcolumnlist", columns, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_METHOD(r0, reference, "getname", PH_NO_CHECK);
-	PHALCON_SCONCAT_SVSVS(sql, "`", r0, "`(", quoted_column_list, ") REFERENCES ");
+	PHALCON_INIT_VAR(reference_name);
+	PHALCON_CALL_METHOD(reference_name, reference, "getname", PH_NO_CHECK);
+	PHALCON_SCONCAT_SVSVS(sql, "`", reference_name, "`(", quoted_column_list, ") REFERENCES ");
 	
 	PHALCON_INIT_VAR(referenced_schema);
 	PHALCON_CALL_METHOD(referenced_schema, reference, "getreferencedschema", PH_NO_CHECK);
@@ -617,8 +617,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 	zval *definition, *table_options, *engine, *sql_engine;
 	zval *auto_increment, *sql_autoincrement;
 	zval *table_collation, *under_score, *collation_parts;
-	zval *sql_charset, *sql_collate, *number_options;
-	zval *sql_table_options;
+	zval *sql_charset, *sql_collate, *sql_table_options;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
 	zval *r7 = NULL, *r8 = NULL;
 	int eval_int;
@@ -697,9 +696,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		}
 	}
 	
-	PHALCON_INIT_VAR(number_options);
-	phalcon_fast_count(number_options, table_options TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_options, 0 TSRMLS_CC)) {
+	if (phalcon_fast_count_ev(table_options TSRMLS_CC)) {
 		PHALCON_INIT_VAR(sql_table_options);
 		phalcon_fast_join_str(sql_table_options, SL(" "), table_options TSRMLS_CC);
 		

@@ -40,6 +40,7 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Db\Adapter\Pdo
@@ -197,6 +198,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION);
 	add_index_long(options, PDO_ATTR_CASE, PDO_CASE_LOWER);
 	add_index_long(options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL);
+
 	eval_int = phalcon_array_isset_string(descriptor, SS("persistent"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(persistent);
@@ -559,9 +561,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 
-	zval *sql_statement, *params, *number_params;
-	zval *sql = NULL, *pdo, *bind_value = NULL, *index = NULL, *is_numeric = NULL;
-	zval *value = NULL, *place_key = NULL, *replaced_sql = NULL;
+	zval *sql_statement, *params, *sql = NULL, *pdo, *bind_value = NULL;
+	zval *index = NULL, *is_numeric = NULL, *value = NULL, *place_key = NULL, *replaced_sql = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -578,9 +579,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 	}
 
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(number_params);
-		phalcon_fast_count(number_params, params TSRMLS_CC);
-		if (zend_is_true(number_params)) {
+		if (phalcon_fast_count_ev(params TSRMLS_CC)) {
 			PHALCON_CPY_WRT(sql, sql_statement);
 			
 			PHALCON_INIT_VAR(pdo);

@@ -37,6 +37,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/file.h"
 #include "kernel/operators.h"
 
 /**
@@ -73,8 +74,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 	zval *primary_keys, *non_primary_keys, *numeric_typed;
 	zval *not_null, *field_types, *field_bind_types;
 	zval *automatic_default, *identity_field = NULL;
-	zval *columns, *number_columns, *column = NULL, *field_name = NULL;
-	zval *feature = NULL, *type = NULL, *bind_type = NULL;
+	zval *columns, *column = NULL, *field_name = NULL, *feature = NULL, *type = NULL;
+	zval *bind_type = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -164,10 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			
 			PHALCON_INIT_VAR(columns);
 			PHALCON_CALL_METHOD_PARAMS_2(columns, connection, "describecolumns", table, schema, PH_NO_CHECK);
-			
-			PHALCON_INIT_VAR(number_columns);
-			phalcon_fast_count(number_columns, columns TSRMLS_CC);
-			if (phalcon_compare_strict_long(number_columns, 0 TSRMLS_CC)) {
+			if (!phalcon_fast_count_ev(columns TSRMLS_CC)) {
 				if (zend_is_true(schema)) {
 					PHALCON_INIT_NVAR(complete_table);
 					PHALCON_CONCAT_VSV(complete_table, schema, "\".\"", table);

@@ -60,6 +60,7 @@ extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len
 
 /** Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
+extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
