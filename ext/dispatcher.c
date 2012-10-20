@@ -584,7 +584,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_array_append(&call_object, action_method, PH_SEPARATE TSRMLS_CC);
 			
 			PHALCON_INIT_NVAR(value);
-			PHALCON_CALL_FUNC_PARAMS_2(value, "call_user_func_array", call_object, params);
+			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);

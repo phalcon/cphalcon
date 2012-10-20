@@ -2957,9 +2957,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 
 	zval *dependency_injector, *service, *meta_data;
 	zval *schema, *source, *table = NULL, *connection, *exists;
-	zval *disable_events = NULL, *identity_field, *status;
-	zval *success = NULL, *post_success;
-	zval *a0 = NULL;
+	zval *empty_array, *disable_events = NULL, *identity_field;
+	zval *status, *success = NULL, *post_success;
 
 	PHALCON_MM_GROW();
 
@@ -2999,9 +2998,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 2 TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	PHALCON_OBSERVE_VAR(disable_events);
 	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\model"), SL("_disableEvents") TSRMLS_CC);
 	
@@ -3716,7 +3715,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, model_args);
+	PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, model_args);
 	
 	RETURN_CCTOR(result);
 }
@@ -3866,7 +3865,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		phalcon_array_append(&call_object, manager_method, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(result);
-		PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, call_args);
+		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
 		
 		RETURN_CCTOR(result);
 	}

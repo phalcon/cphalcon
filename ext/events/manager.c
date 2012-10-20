@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 					phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
 					
 					PHALCON_INIT_NVAR(status);
-					PHALCON_CALL_FUNC_PARAMS_2(status, "call_user_func_array", handler, arguments);
+					PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 				} else {
 					if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 						PHALCON_INIT_NVAR(status);

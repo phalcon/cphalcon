@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
 		
 		PHALCON_INIT_VAR(returned_value);
-		PHALCON_CALL_FUNC_PARAMS_2(returned_value, "call_user_func_array", handler, params);
+		PHALCON_CALL_USER_FUNC_ARRAY(returned_value, handler, params);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);

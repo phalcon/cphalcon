@@ -759,6 +759,39 @@ PHP_METHOD(Phalcon_Mvc_Collection, _callEventCancel){
 }
 
 /**
+ * Cancel the current operation
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
+
+	zval *disable_events, *operation_made, *event_name = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &disable_events) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!zend_is_true(disable_events)) {
+		PHALCON_INIT_VAR(operation_made);
+		phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
+		if (phalcon_compare_strict_long(operation_made, 3 TSRMLS_CC)) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "notDeleted", 1);
+		} else {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "notSaved", 1);
+		}
+		
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+	}
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
+}
+
+/**
  * Checks if the document exists in the collection
  *
  * @param MongoCollection $collection
@@ -813,10 +846,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	zval *dependency_injector, *source, *connection;
-	zval *collection, *exists, *disable_events = NULL, *status = NULL;
-	zval *data, *reserved, *properties, *value = NULL, *key = NULL, *success = NULL;
-	zval *options, *ok, *id, *post_success;
-	zval *a0 = NULL;
+	zval *collection, *exists, *empty_array, *disable_events = NULL;
+	zval *status = NULL, *data, *reserved, *properties, *value = NULL;
+	zval *key = NULL, *success = NULL, *options, *ok, *id, *post_success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -852,9 +884,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 2 TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	PHALCON_OBSERVE_VAR(disable_events);
 	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
 	
@@ -1058,7 +1090,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 
 PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
-	zval *id, *connection, *source, *collection, *mongo_id = NULL;
+	zval *disable_events = NULL, *event_name = NULL, *status, *id;
+	zval *connection, *source, *collection, *mongo_id = NULL;
 	zval *id_condition, *success;
 	int eval_int;
 	zend_class_entry *ce0;
@@ -1067,6 +1100,20 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	eval_int = phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC);
 	if (eval_int) {
+		PHALCON_OBSERVE_VAR(disable_events);
+		phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
+		if (!zend_is_true(disable_events)) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "beforeDelete", 1);
+			
+			PHALCON_INIT_VAR(status);
+			PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+			if (PHALCON_IS_FALSE(status)) {
+				PHALCON_MM_RESTORE();
+				RETURN_FALSE;
+			}
+		}
+		
 		PHALCON_INIT_VAR(id);
 		phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
 		
@@ -1093,6 +1140,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		
 		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_METHOD_PARAMS_1(success, collection, "remove", id_condition, PH_NO_CHECK);
+		if (zend_is_true(success)) {
+			if (!zend_is_true(disable_events)) {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "afterDelete", 1);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+			}
+		}
+		
 		
 		RETURN_CCTOR(success);
 	}

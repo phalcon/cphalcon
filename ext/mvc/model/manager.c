@@ -886,7 +886,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	phalcon_array_append(&call_object, method, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_FUNC_PARAMS_2(records, "call_user_func_array", call_object, arguments);
+	PHALCON_CALL_USER_FUNC_ARRAY(records, call_object, arguments);
 	
 	RETURN_CCTOR(records);
 }

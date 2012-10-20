@@ -32,12 +32,13 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "kernel/object.h"
 #include "kernel/string.h"
 
 /**
@@ -46,6 +47,47 @@
  * Designer friendly and fast template engine for PHP written in C
  */
 
+
+/**
+ * Set Volt's options
+ *
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
+		return;
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Return Volt's options
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(options);
+}
 
 /**
  * Renders a view using the template engine

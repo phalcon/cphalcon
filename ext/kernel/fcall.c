@@ -731,6 +731,60 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 
 }
 
+int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params TSRMLS_DC){
+
+	zval *retval_ptr = NULL;
+	zend_fcall_info fci;
+	zend_fcall_info_cache fci_cache;
+	char *is_callable_error = NULL;
+	int status = FAILURE;
+
+	if (Z_TYPE_P(params) != IS_ARRAY) {
+		ZVAL_NULL(return_value);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_call_user_func_array()");
+		return FAILURE;
+	}
+
+	if (zend_fcall_info_init(handler, 0, &fci, &fci_cache, NULL, &is_callable_error TSRMLS_CC) == SUCCESS) {
+		if (is_callable_error) {
+			zend_error(E_STRICT, "%s", is_callable_error);
+			efree(is_callable_error);
+		}
+		status = SUCCESS;
+	} else {
+		if (is_callable_error) {
+			zend_error(E_WARNING, "%s", is_callable_error);
+			efree(is_callable_error);
+		} else {
+			status = SUCCESS;
+		}
+	}
+
+	if (status == SUCCESS) {
+
+		zend_fcall_info_args(&fci, params TSRMLS_CC);
+		fci.retval_ptr_ptr = &retval_ptr;
+
+		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && fci.retval_ptr_ptr && *fci.retval_ptr_ptr) {
+			COPY_PZVAL_TO_ZVAL(*return_value, *fci.retval_ptr_ptr);
+		}
+
+		if (fci.params) {
+			efree(fci.params);
+		}
+	}
+
+	if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
 int phalcon_call_user_function(HashTable *function_table, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC) {
 
 	zval ***params_array;

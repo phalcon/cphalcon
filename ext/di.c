@@ -43,9 +43,26 @@
 /**
  * Phalcon\DI
  *
+ * Phalcon\DI is a component that implements Dependency Injection of services and
+ * it's itself a container for them.
+ *
+ * Since Phalcon is highly decoupled, Phalcon\DI is essential to integrate the different
+ * components of the framework. The developer can also use this component to inject dependencies
+ * and manage global instances of the different classes used in the application.
+ *
+ * Basically, this component implements the `Inversion of Control` pattern. Applying this,
+ * the objects do not receive their dependencies using setters or constructors, but requesting
+ * a service dependency injector. This reduces the overall complexity, since there is only one
+ * way to get the required dependencies within a component.
+ *
+ * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
  */
 
 
+/**
+ * Phalcon\DI constructor
+ *
+ */
 PHP_METHOD(Phalcon_DI, __construct){
 
 	zval *default_di = NULL;
@@ -166,8 +183,9 @@ PHP_METHOD(Phalcon_DI, attempt){
 PHP_METHOD(Phalcon_DI, _factory){
 
 	zval *service, *parameters, *found = NULL, *instance = NULL, *class_exists;
-	zval *reflection = NULL, *parameter_count = NULL, *is_callable;
-	zval *class_name = NULL, *exception_message;
+	zval *reflection = NULL, *is_callable, *class_name = NULL;
+	zval *exception_message;
+	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 	zend_class_entry *ce0, *ce1, *ce2;
 
@@ -191,9 +209,9 @@ PHP_METHOD(Phalcon_DI, _factory){
 			object_init_ex(reflection, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", service, PH_CHECK);
 			
-			PHALCON_INIT_VAR(parameter_count);
-			phalcon_fast_count(parameter_count, parameters TSRMLS_CC);
-			if (zend_is_true(parameter_count)) {
+			PHALCON_INIT_VAR(r0);
+			phalcon_fast_count(r0, parameters TSRMLS_CC);
+			if (zend_is_true(r0)) {
 				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
 			} else {
 				PHALCON_INIT_NVAR(instance);
@@ -204,7 +222,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 			PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", service);
 			if (zend_is_true(is_callable)) {
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
+				PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
 			} else {
 				ZVAL_BOOL(found, 0);
 			}
@@ -215,7 +233,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 			phalcon_get_class(class_name, service TSRMLS_CC);
 			if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
+				PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
 			} else {
 				PHALCON_CPY_WRT(instance, service);
 			}
@@ -230,9 +248,9 @@ PHP_METHOD(Phalcon_DI, _factory){
 				PHALCON_INIT_NVAR(class_name);
 				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
 				
-				PHALCON_INIT_NVAR(parameter_count);
-				phalcon_fast_count(parameter_count, parameters TSRMLS_CC);
-				if (zend_is_true(parameter_count)) {
+				PHALCON_INIT_VAR(r1);
+				phalcon_fast_count(r1, parameters TSRMLS_CC);
+				if (zend_is_true(r1)) {
 					ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 					PHALCON_INIT_NVAR(reflection);
 					object_init_ex(reflection, ce1);

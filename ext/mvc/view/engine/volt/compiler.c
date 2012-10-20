@@ -36,8 +36,8 @@
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/string.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/exception.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/compiler.h"
@@ -112,6 +112,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 		ZVAL_STRING(code, "$this->getContent()", 1);
 		
 		RETURN_CCTOR(code);
+	}
+	
+	if (PHALCON_COMPARE_STRING(name, "partial")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->partial(", arguments, ")");
+	}
+	
+	if (PHALCON_COMPARE_STRING(name, "dump")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "var_dump(", arguments, ")");
 	}
 	
 	PHALCON_INIT_VAR(camelized);
@@ -237,6 +247,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 		
+		if (PHALCON_COMPARE_STRING(name, "nl2br")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "nl2br(", left, ")");
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
 		if (PHALCON_COMPARE_STRING(name, "lowercase")) {
 			if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(code);
@@ -257,6 +274,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CONCAT_SVS(code, "strtoupper(", left, ")");
 			}
+			
+			ZVAL_BOOL(exists, 1);
+		}
+		
+		if (PHALCON_COMPARE_STRING(name, "sort")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "asort(", left, ")");
 			
 			ZVAL_BOOL(exists, 1);
 		}
@@ -605,6 +629,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 		goto ph_end_1;
 	}
 	
+	if (phalcon_compare_strict_long(type, 362 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_SVS(expr_code, "!isset(", left_code, ")");
+		goto ph_end_1;
+	}
+	
+	if (phalcon_compare_strict_long(type, 363 TSRMLS_CC)) {
+		PHALCON_INIT_NVAR(expr_code);
+		PHALCON_CONCAT_SVS(expr_code, "isset(", left_code, ")");
+		goto ph_end_1;
+	}
+	
 	if (phalcon_compare_strict_long(type, 367 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CONCAT_SV(expr_code, "-", right_code);
@@ -831,6 +867,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	RETURN_CTOR(compilation);
 }
 
+/**
+ * Compiles a Volt source code returning a PHP plain version
+ *
+ * @param string $viewCode
+ * @param boolean $extendsMode
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 
 	zval *view_code, *extends_mode = NULL, *intermediate;
@@ -978,6 +1021,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Parses a Volt template returning its intermediate representation
+ *
+ * @param string $viewCode
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 
 	zval *view_code, *intermediate;

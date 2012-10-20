@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			phalcon_array_append(&arguments, value, PH_SEPARATE TSRMLS_CC);
 			
 			PHALCON_INIT_VAR(filtered);
-			PHALCON_CALL_FUNC_PARAMS_2(filtered, "call_user_func_array", filter_object, arguments);
+			PHALCON_CALL_USER_FUNC_ARRAY(filtered, filter_object, arguments);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
 			PHALCON_CALL_METHOD_PARAMS_1(filtered, filter_object, "filter", value, PH_NO_CHECK);
