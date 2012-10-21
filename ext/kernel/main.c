@@ -195,6 +195,22 @@ int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS
 }
 
 /**
+ * Checks if a zval is callable
+ */
+int phalcon_is_callable(zval *var TSRMLS_DC){
+
+	char *error = NULL;
+	zend_bool retval;
+
+	retval = zend_is_callable_ex(var, NULL, 0, NULL, NULL, NULL, &error TSRMLS_CC);
+	if (error) {
+		efree(error);
+	}
+
+	return (int) retval;
+}
+
+/**
  * Filter alphanum string
  */
 int phalcon_filter_alphanum(zval *result, zval *param){

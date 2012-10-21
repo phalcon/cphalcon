@@ -38,7 +38,6 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Events\Manager
@@ -115,7 +114,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	zval *event_type, *source, *data = NULL, *colon, *event_parts;
 	zval *exception_message, *type, *event_name;
 	zval *status = NULL, *events, *fire_events, *handler = NULL, *event = NULL;
-	zval *class_name = NULL, *arguments = NULL;
+	zval *arguments = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -179,10 +178,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				PHALCON_INIT_NVAR(event);
 				object_init_ex(event, phalcon_events_event_ce);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
-				
-				PHALCON_INIT_NVAR(class_name);
-				phalcon_get_class(class_name, handler TSRMLS_CC);
-				if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
+				if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 					PHALCON_INIT_NVAR(arguments);
 					array_init(arguments);
 					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);

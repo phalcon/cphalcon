@@ -35,10 +35,10 @@
 
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/file.h"
-#include "kernel/operators.h"
+#include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -183,8 +183,8 @@ PHP_METHOD(Phalcon_DI, attempt){
  */
 PHP_METHOD(Phalcon_DI, _factory){
 
-	zval *service, *parameters, *found = NULL, *instance = NULL, *class_exists;
-	zval *is_callable, *class_name = NULL, *exception_message;
+	zval *service, *parameters, *found = NULL, *instance = NULL, *class_name;
+	zval *exception_message;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -199,9 +199,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 	
 	PHALCON_INIT_VAR(instance);
 	if (Z_TYPE_P(service) == IS_STRING) {
-		PHALCON_INIT_VAR(class_exists);
-		PHALCON_CALL_FUNC_PARAMS_1(class_exists, "class_exists", service);
-		if (zend_is_true(class_exists)) {
+		if (phalcon_class_exists(service TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
 					if (phalcon_create_instance_params(instance, service, parameters TSRMLS_CC) == FAILURE) {
@@ -220,9 +218,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 				}
 			}
 		} else {
-			PHALCON_INIT_VAR(is_callable);
-			PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", service);
-			if (zend_is_true(is_callable)) {
+			if (phalcon_is_callable(service TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(instance);
 					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
@@ -236,9 +232,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 		}
 	} else {
 		if (Z_TYPE_P(service) == IS_OBJECT) {
-			PHALCON_INIT_VAR(class_name);
-			phalcon_get_class(class_name, service TSRMLS_CC);
-			if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
+			if (phalcon_is_instance_of(service, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(instance);
 					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
@@ -257,7 +251,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 					return;
 				}
 				
-				PHALCON_INIT_NVAR(class_name);
+				PHALCON_INIT_VAR(class_name);
 				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {

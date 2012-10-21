@@ -179,9 +179,8 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 PHP_METHOD(Phalcon_Filter, _sanitize){
 
 	zval *value, *filter, *filters, *filter_object;
-	zval *class_name, *arguments, *filtered = NULL, *type = NULL;
-	zval *quote, *empty_str, *escaped, *allow_fraction;
-	zval *options, *exception_message;
+	zval *arguments, *filtered = NULL, *type = NULL, *quote, *empty_str;
+	zval *escaped, *allow_fraction, *options, *exception_message;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -197,10 +196,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (eval_int) {
 		PHALCON_INIT_VAR(filter_object);
 		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY_CC);
-		
-		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, filter_object TSRMLS_CC);
-		if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
+		if (phalcon_is_instance_of(filter_object, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init(arguments);
 			phalcon_array_append(&arguments, value, PH_SEPARATE TSRMLS_CC);

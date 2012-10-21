@@ -36,6 +36,7 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/file.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
@@ -264,7 +265,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
-	zval *model_name, *model_exists, *model, *exception_message;
+	zval *model_name, *model, *exception_message;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -274,9 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(model_exists);
-	PHALCON_CALL_FUNC_PARAMS_1(model_exists, "class_exists", model_name);
-	if (zend_is_true(model_exists)) {
+	if (phalcon_class_exists(model_name TSRMLS_CC)) {
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 		PHALCON_INIT_VAR(model);
 		object_init_ex(model, ce0);

@@ -70,13 +70,18 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 	return SUCCESS;
 }
 
-int phalcon_is_instance_of(zval *object, char *class_name, int class_length TSRMLS_DC){
+/**
+ * Check if an object is instance of a class
+ */
+int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC){
 
 	zend_class_entry *ce;
 
-	ce = Z_OBJCE_P(object);
-	if (ce->name_length == class_length) {
-		return !zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length);
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+		if (ce->name_length == class_length) {
+			return !zend_binary_strcasecmp(ce->name, ce->name_length, class_name, class_length);
+		}
 	}
 
 	return 0;
@@ -110,6 +115,24 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
 		return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	}
+}
+
+/**
+ * Checks if a class exist
+ */
+int phalcon_class_exists(zval *class_name TSRMLS_DC){
+
+	zend_class_entry **ce;
+
+	if (Z_TYPE_P(class_name) == IS_STRING) {
+		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
+			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
+		}
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
+	}
+
+	return 0;
 }
 
 /**
