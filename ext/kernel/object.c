@@ -22,13 +22,19 @@
 #endif
 
 #include "php.h"
+
 #ifdef PHP_WIN32
 #include "php_string.h"
 #endif
+
 #include "php_phalcon.h"
+#include "phalcon.h"
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
+#include "kernel/fcall.h"
 
 /**
  * Reads class constant from string name and returns its value
@@ -448,4 +454,88 @@ int phalcon_update_static_property(char *class_name, int class_length, char *nam
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
 	}
 	return FAILURE;
+}
+
+/**
+ * Creates a new instance dynamically. Call constructor without parameters
+ */
+int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
+
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(class_name) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		return FAILURE;
+	}
+
+	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	if (!ce) {
+		return FAILURE;
+	}
+
+	object_init_ex(return_value, ce);
+	if (phalcon_call_method(NULL, return_value, SL("__construct"), PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Creates a new instance dynamically calling constructor with parameters
+ */
+int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *params TSRMLS_DC){
+
+	int i;
+	zend_class_entry *ce;
+	long param_count;
+	zval **params_array;
+	HashPosition pos;
+	HashTable *params_hash;
+
+	if (Z_TYPE_P(class_name) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Invalid class name") TSRMLS_CC);
+		return FAILURE;
+	}
+
+	if (Z_TYPE_P(params) != IS_ARRAY) {
+		phalcon_throw_exception_string(phalcon_exception_ce, SL("Instantiation parameters must be an array") TSRMLS_CC);
+		return FAILURE;
+	}
+
+	ce = zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
+	if (!ce) {
+		return FAILURE;
+	}
+
+	object_init_ex(return_value, ce);
+
+	param_count = zend_hash_num_elements(Z_ARRVAL_P(params));
+	if (param_count > 0){
+
+		params_array = emalloc(sizeof(zval *) * param_count);
+
+		params_hash = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(params_hash, &pos);
+		for (i=0; ; zend_hash_move_forward_ex(params_hash, &pos), i++) {
+			zval ** item;
+			if (zend_hash_get_current_data_ex(params_hash, (void**)&item, &pos) == FAILURE) {
+				break;
+			}
+			params_array[i] = *item;
+		}
+
+		if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
+			efree(params_array);
+			return FAILURE;
+		}
+
+		efree(params_array);
+	} else {
+		if (phalcon_call_method(NULL, return_value, SL("__construct"), PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
+			return FAILURE;
+		}
+	}
+
+	return SUCCESS;
 }

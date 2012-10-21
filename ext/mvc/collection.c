@@ -977,9 +977,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
 	zval *parameters = NULL, *params = NULL, *class_name, *model;
-	zval *connection, *unique, *resultset = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *connection, *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1019,14 +1017,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 1);
-	p0[0] = params;
-	p0[1] = model;
-	p0[2] = connection;
-	p0[3] = unique;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_getresultset", 4, p0);
-	PHALCON_CPY_WRT(resultset, r0);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, model, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }
@@ -1034,9 +1027,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 PHP_METHOD(Phalcon_Mvc_Collection, find){
 
 	zval *parameters = NULL, *params = NULL, *class_name, *model;
-	zval *connection, *unique, *resultset = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *connection, *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1076,14 +1067,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 0);
-	p0[0] = params;
-	p0[1] = model;
-	p0[2] = connection;
-	p0[3] = unique;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_getresultset", 4, p0);
-	PHALCON_CPY_WRT(resultset, r0);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, model, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }
@@ -1091,9 +1077,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
 	zval *parameters = NULL, *params = NULL, *class_name, *model;
-	zval *connection, *unique, *resultset = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *connection, *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1133,14 +1117,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	
 	PHALCON_INIT_VAR(unique);
 	ZVAL_BOOL(unique, 0);
-	p0[0] = params;
-	p0[1] = model;
-	p0[2] = connection;
-	p0[3] = unique;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_getresultset", 4, p0);
-	PHALCON_CPY_WRT(resultset, r0);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, model, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }

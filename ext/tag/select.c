@@ -55,10 +55,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
 	zval *dummy_value = NULL, *dummy_text = NULL, *code, *avalue = NULL;
-	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options = NULL;
+	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options;
 	zval *array_options;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -212,14 +210,9 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 				return;
 			}
 		}
-		p0[0] = options;
-		p0[1] = using;
-		p0[2] = value;
-		p0[3] = close_option;
 		
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_optionsfromresultset", 4, p0);
-		PHALCON_CPY_WRT(resultset_options, r0);
+		PHALCON_INIT_VAR(resultset_options);
+		PHALCON_CALL_SELF_PARAMS_4(resultset_options, this_ptr, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(code, resultset_options TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(options) == IS_ARRAY) { 

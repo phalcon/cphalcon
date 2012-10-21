@@ -385,11 +385,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 	zval *model_name, *params, *unique, *dependency_injector = NULL;
 	zval *cache = NULL, *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
 	zval *model, *connection, *resultset = NULL, *is_fresh;
-	zval *bind_params = NULL, *bind_types = NULL, *select = NULL, *sql = NULL, *result;
+	zval *bind_params = NULL, *bind_types = NULL, *select, *sql = NULL, *result;
 	zval *count, *fetch_assoc, *row, *fetch_both, *dumped_result;
 	zval *result_data = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -472,14 +470,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 	PHALCON_INIT_VAR(bind_params);
 	
 	PHALCON_INIT_VAR(bind_types);
-	p0[0] = dependency_injector;
-	p0[1] = model;
-	p0[2] = connection;
-	p0[3] = params;
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_createsqlselect", 4, p0);
-	PHALCON_CPY_WRT(select, r0);
+	PHALCON_INIT_VAR(select);
+	PHALCON_CALL_SELF_PARAMS_4(select, this_ptr, "_createsqlselect", dependency_injector, model, connection, params);
 	if (Z_TYPE_P(select) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(sql);
 		phalcon_array_fetch_string(&sql, select, SL("sql"), PH_NOISY_CC);
@@ -1171,9 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 	zval *columns = NULL, *group_columns, *conditions = NULL, *bind_params;
 	zval *converted_params, *converted_sql, *group_clause;
 	zval *having_clause, *order_clause, *limit_clause;
-	zval *dialect, *sql, *statement = NULL, *resultset = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
+	zval *dialect, *sql, *statement = NULL, *resultset;
 	int eval_int;
 	zend_class_entry *ce0;
 
@@ -1339,14 +1330,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 		PHALCON_CPY_WRT(statement, sql);
 	}
 	
-	p0[0] = connection;
-	p0[1] = params;
-	p0[2] = statement;
-	p0[3] = alias;
-	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_SELF_PARAMS(r0, this_ptr, "_getgroupresult", 4, p0);
-	PHALCON_CPY_WRT(resultset, r0);
+	PHALCON_INIT_VAR(resultset);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getgroupresult", connection, params, statement, alias);
 	
 	RETURN_CCTOR(resultset);
 }

@@ -184,10 +184,8 @@ PHP_METHOD(Phalcon_DI, attempt){
 PHP_METHOD(Phalcon_DI, _factory){
 
 	zval *service, *parameters, *found = NULL, *instance = NULL, *class_exists;
-	zval *reflection = NULL, *is_callable, *class_name = NULL;
-	zval *exception_message;
+	zval *is_callable, *class_name = NULL, *exception_message;
 	int eval_int;
-	zend_class_entry *ce0, *ce1, *ce2;
 
 	PHALCON_MM_GROW();
 
@@ -204,22 +202,34 @@ PHP_METHOD(Phalcon_DI, _factory){
 		PHALCON_INIT_VAR(class_exists);
 		PHALCON_CALL_FUNC_PARAMS_1(class_exists, "class_exists", service);
 		if (zend_is_true(class_exists)) {
-			ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(reflection);
-			object_init_ex(reflection, ce0);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", service, PH_CHECK);
-			if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-				PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
+			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
+					if (phalcon_create_instance_params(instance, service, parameters TSRMLS_CC) == FAILURE) {
+						return;
+					}
+				} else {
+					PHALCON_INIT_NVAR(instance);
+					if (phalcon_create_instance(instance, service TSRMLS_CC) == FAILURE) {
+						return;
+					}
+				}
 			} else {
 				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_METHOD(instance, reflection, "newinstance", PH_NO_CHECK);
+				if (phalcon_create_instance(instance, service TSRMLS_CC) == FAILURE) {
+					return;
+				}
 			}
 		} else {
 			PHALCON_INIT_VAR(is_callable);
 			PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", service);
 			if (zend_is_true(is_callable)) {
-				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
+				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+					PHALCON_INIT_NVAR(instance);
+					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
+				} else {
+					PHALCON_INIT_NVAR(instance);
+					PHALCON_CALL_USER_FUNC(instance, service);
+				}
 			} else {
 				ZVAL_BOOL(found, 0);
 			}
@@ -229,8 +239,13 @@ PHP_METHOD(Phalcon_DI, _factory){
 			PHALCON_INIT_VAR(class_name);
 			phalcon_get_class(class_name, service TSRMLS_CC);
 			if (PHALCON_COMPARE_STRING(class_name, "Closure")) {
-				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
+				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+					PHALCON_INIT_NVAR(instance);
+					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
+				} else {
+					PHALCON_INIT_NVAR(instance);
+					PHALCON_CALL_USER_FUNC(instance, service);
+				}
 			} else {
 				PHALCON_CPY_WRT(instance, service);
 			}
@@ -244,19 +259,23 @@ PHP_METHOD(Phalcon_DI, _factory){
 				
 				PHALCON_INIT_NVAR(class_name);
 				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
-				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-					ce1 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-					PHALCON_INIT_NVAR(reflection);
-					object_init_ex(reflection, ce1);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name, PH_CHECK);
-					
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_METHOD_PARAMS_1(instance, reflection, "newinstanceargs", parameters, PH_NO_CHECK);
+				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
+					if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(instance);
+						if (phalcon_create_instance_params(instance, service, parameters TSRMLS_CC) == FAILURE) {
+							return;
+						}
+					} else {
+						PHALCON_INIT_NVAR(instance);
+						if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
+							return;
+						}
+					}
 				} else {
-					ce2 = phalcon_fetch_class(class_name TSRMLS_CC);
 					PHALCON_INIT_NVAR(instance);
-					object_init_ex(instance, ce2);
-					PHALCON_CALL_METHOD_NORETURN(instance, "__construct", PH_CHECK);
+					if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
+						return;
+					}
 				}
 				
 				
@@ -299,7 +318,6 @@ PHP_METHOD(Phalcon_DI, get){
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
-		array_init(parameters);
 	}
 	
 	PHALCON_INIT_VAR(services);
@@ -347,7 +365,6 @@ PHP_METHOD(Phalcon_DI, getShared){
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
-		array_init(parameters);
 	}
 	
 	PHALCON_INIT_VAR(shared_instances);

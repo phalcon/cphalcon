@@ -524,6 +524,11 @@ int phalcon_call_self_func_three_params(zval *return_value, zval *object, char *
 	return phalcon_call_self_func_params(return_value, object, method_name, method_len, 3, params, noreturn TSRMLS_CC);
 }
 
+int phalcon_call_self_func_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+	zval *params[] = { param1, param2, param3, param4 };
+	return phalcon_call_self_func_params(return_value, object, method_name, method_len, 4, params, noreturn TSRMLS_CC);
+}
+
 /**
  * Call single static function which not requires parameters
  */
@@ -745,6 +750,7 @@ int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params
 	if (Z_TYPE_P(params) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_call_user_func_array()");
+		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
 	}
 
@@ -766,6 +772,57 @@ int phalcon_call_user_func_array(zval *return_value, zval *handler, zval *params
 	if (status == SUCCESS) {
 
 		zend_fcall_info_args(&fci, params TSRMLS_CC);
+		fci.retval_ptr_ptr = &retval_ptr;
+
+		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && fci.retval_ptr_ptr && *fci.retval_ptr_ptr) {
+			COPY_PZVAL_TO_ZVAL(*return_value, *fci.retval_ptr_ptr);
+		}
+
+		if (fci.params) {
+			efree(fci.params);
+		}
+	}
+
+	if (EG(exception)) {
+		status = FAILURE;
+	}
+
+	if (status == FAILURE) {
+		phalcon_memory_restore_stack(TSRMLS_C);
+	}
+
+	return status;
+}
+
+/**
+ * Replaces call_user_func avoiding function lookup, this function does not accept parameters
+ */
+int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
+
+	zval *retval_ptr = NULL;
+	zend_fcall_info fci;
+	zend_fcall_info_cache fci_cache;
+	char *is_callable_error = NULL;
+	int status = FAILURE;
+
+	if (zend_fcall_info_init(handler, 0, &fci, &fci_cache, NULL, &is_callable_error TSRMLS_CC) == SUCCESS) {
+		if (is_callable_error) {
+			zend_error(E_STRICT, "%s", is_callable_error);
+			efree(is_callable_error);
+		}
+		status = SUCCESS;
+	} else {
+		if (is_callable_error) {
+			zend_error(E_WARNING, "%s", is_callable_error);
+			efree(is_callable_error);
+		} else {
+			status = SUCCESS;
+		}
+	}
+
+	if (status == SUCCESS) {
+
+		fci.param_count = 0;
 		fci.retval_ptr_ptr = &retval_ptr;
 
 		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && fci.retval_ptr_ptr && *fci.retval_ptr_ptr) {
