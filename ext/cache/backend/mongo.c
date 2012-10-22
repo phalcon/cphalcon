@@ -92,25 +92,25 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 	}
 	
 	eval_int = phalcon_array_isset_string(backend_options, SS("mongo"));
-	if (eval_int) {
-	} else {
+	if (!eval_int) {
 		eval_int = phalcon_array_isset_string(backend_options, SS("server"));
 		if (!eval_int) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'server' is required");
 			return;
 		}
-		eval_int = phalcon_array_isset_string(backend_options, SS("db"));
-		if (!eval_int) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'db' is required");
-			return;
-		}
-		
-		eval_int = phalcon_array_isset_string(backend_options, SS("collection"));
-		if (!eval_int) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'collection' is required");
-			return;
-		}
 	}
+	eval_int = phalcon_array_isset_string(backend_options, SS("db"));
+	if (!eval_int) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'db' is required");
+		return;
+	}
+	
+	eval_int = phalcon_array_isset_string(backend_options, SS("collection"));
+	if (!eval_int) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The parameter 'collection' is required");
+		return;
+	}
+	
 	PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\Mongo", "__construct", frontend_object, backend_options);
 	
 	PHALCON_MM_RESTORE();
@@ -151,25 +151,25 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 				return;
 			}
 			
-			PHALCON_INIT_VAR(database);
-			phalcon_array_fetch_string(&database, backend_options, SL("db"), PH_NOISY_CC);
-			if (Z_TYPE_P(database) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB db");
-				return;
-			}
-			
-			PHALCON_INIT_VAR(collection);
-			phalcon_array_fetch_string(&collection, backend_options, SL("collection"), PH_NOISY_CC);
-			if (Z_TYPE_P(collection) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB collection");
-				return;
-			}
-			
 			ce0 = zend_fetch_class(SL("Mongo"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			
 			PHALCON_INIT_NVAR(mongo);
 			object_init_ex(mongo, ce0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo, "__construct", server, PH_CHECK);
+		}
+		
+		PHALCON_INIT_VAR(database);
+		phalcon_array_fetch_string(&database, backend_options, SL("db"), PH_NOISY_CC);
+		if (Z_TYPE_P(database) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB db");
+			return;
+		}
+		
+		PHALCON_INIT_VAR(collection);
+		phalcon_array_fetch_string(&collection, backend_options, SL("collection"), PH_NOISY_CC);
+		if (Z_TYPE_P(collection) != IS_STRING) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The backend requires a valid MongoDB collection");
+			return;
 		}
 		
 		PHALCON_INIT_VAR(mongo_database);
@@ -425,8 +425,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, delete){
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_1(success, collection, "remove", conditions, PH_NO_CHECK);
-	
-	RETURN_CCTOR(success);
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
 }
 
 /**
@@ -528,7 +528,51 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 
+	zval *key_name = NULL, *last_key = NULL, *prefix, *collection;
+	zval *conditions, *number, *zero, *exists;
 
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!key_name) {
+		PHALCON_INIT_NVAR(key_name);
+	}
 	
+	if (Z_TYPE_P(key_name) == IS_NULL) {
+		PHALCON_INIT_VAR(last_key);
+		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_VAR(prefix);
+		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
+		
+		PHALCON_INIT_NVAR(last_key);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
+	}
+	if (zend_is_true(last_key)) {
+		PHALCON_INIT_VAR(collection);
+		PHALCON_CALL_METHOD(collection, this_ptr, "_getcollection", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(conditions);
+		array_init(conditions);
+		phalcon_array_update_string(&conditions, SL("key"), &last_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(number);
+		PHALCON_CALL_METHOD_PARAMS_1(number, collection, "count", conditions, PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(zero);
+		ZVAL_LONG(zero, 0);
+		
+		PHALCON_INIT_VAR(exists);
+		is_smaller_function(exists, zero, number TSRMLS_CC);
+		
+		RETURN_NCTOR(exists);
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 

@@ -97,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		PHALCON_CALL_METHOD_PARAMS_1(data, this_ptr, "read", key, PH_NO_CHECK);
 		if (Z_TYPE_P(data) != IS_NULL) {
 			phalcon_array_update_zval(&meta_data, key, &data, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 			PHALCON_MM_RESTORE();
 			RETURN_NULL();
 		}

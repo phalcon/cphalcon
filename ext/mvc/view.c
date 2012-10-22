@@ -32,11 +32,11 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
@@ -95,13 +95,8 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 
 	if (!options) {
 		PHALCON_INIT_NVAR(options);
-		array_init(options);
 	}
 	
-	if (Z_TYPE_P(options) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
-		return;
-	}
 	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -575,14 +570,16 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 				
 				PHALCON_INIT_VAR(view_options);
 				phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
-				eval_int = phalcon_array_isset_string(view_options, SS("cache"));
-				if (eval_int) {
-					PHALCON_INIT_VAR(cache_options);
-					phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
-					if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
-						eval_int = phalcon_array_isset_string(cache_options, SS("key"));
-						if (eval_int) {
-							phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
+				if (Z_TYPE_P(view_options) == IS_ARRAY) { 
+					eval_int = phalcon_array_isset_string(view_options, SS("cache"));
+					if (eval_int) {
+						PHALCON_INIT_VAR(cache_options);
+						phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+						if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
+							eval_int = phalcon_array_isset_string(cache_options, SS("key"));
+							if (eval_int) {
+								phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
+							}
 						}
 					}
 				}
@@ -687,7 +684,8 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
  *<code>
  *$this->view->registerEngines(array(
  *  ".phtml" => "Phalcon\Mvc\View\Engine\Php",
- *  ".mhtml" => "MyMustacheEngine"
+ *  ".volt" => "Phalcon\Mvc\View\Engine\Volt",
+ *  ".mhtml" => "MyCustomEngine"
  *));
  *</code>
  *
@@ -1084,15 +1082,17 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 	
 	PHALCON_INIT_VAR(view_options);
 	phalcon_read_property(&view_options, this_ptr, SL("_options"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset_string(view_options, SS("cache"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(cache_options);
-		phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
-		if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
-			eval_int = phalcon_array_isset_string(cache_options, SS("service"));
-			if (eval_int) {
-				PHALCON_INIT_NVAR(cache_service);
-				phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
+	if (Z_TYPE_P(view_options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(view_options, SS("cache"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(cache_options);
+			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
+			if (Z_TYPE_P(cache_options) == IS_ARRAY) { 
+				eval_int = phalcon_array_isset_string(cache_options, SS("service"));
+				if (eval_int) {
+					PHALCON_INIT_NVAR(cache_service);
+					phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
+				}
 			}
 		}
 	}
@@ -1238,12 +1238,20 @@ PHP_METHOD(Phalcon_Mvc_View, setContent){
 
 	zval *content;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(content) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Content must be a string");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_content"), content TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1281,7 +1289,7 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath){
 }
 
 /**
- * Disable view. No show any view or template
+ * Disable view. Don't show any view or template
  *
  */
 PHP_METHOD(Phalcon_Mvc_View, disable){

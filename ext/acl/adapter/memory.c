@@ -955,7 +955,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
 			
-			RETURN_CCTOR(default_access);
+			RETURN_CCTOR(status);
 		}
 	}
 	
