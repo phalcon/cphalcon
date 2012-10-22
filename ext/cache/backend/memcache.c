@@ -49,25 +49,23 @@
  *
  *<code>
  *
- *	//Cache data for 2 days
- *	$frontendOptions = array(
- *		'lifetime' => 172800
- *	);
+ * // Cache data for 2 days
+ * $frontCache = new Phalcon\Cache\Frontend\Data(array(
+ *    "lifetime" => 172800
+ * ));
  *
- *	//Set memcached server connection settings
- *	$backendOptions = array(
+ * //Create the Cache setting memcached connection options
+ * $cache = new Phalcon\Cache\Backend\File($frontCache, array(
  *		'host' => 'localhost',
  *		'port' => 11211,
- *		'persistent' => false
- *	);
+ *  	'persistent' => false
+ * ));
  *
- *	$cache = Phalcon_Cache::factory('Data', 'Memcache', $frontendOptions, $backendOptions);
+ * //Cache arbitrary data
+ * $cache->store('my-data', array(1, 2, 3, 4, 5));
  *
- *	//Cache arbitrary data
- *	$cache->store('my-data', array(1, 2, 3, 4, 5));
- *
- *	//Get data
- *	$data = $cache->get('my-data');
+ * //Get data
+ * $data = $cache->get('my-data');
  *
  *</code>
  */
@@ -227,7 +225,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 }
 
 /**
- * Stores cached content into the file backend
+ * Stores cached content into the Memcached backend
  *
  * @param int|string $keyName
  * @param string $content

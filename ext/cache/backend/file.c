@@ -126,8 +126,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 	zval *key_name, *lifetime = NULL, *backend, *front_end;
 	zval *prefix, *filtered, *prefixed_key, *cache_dir;
-	zval *cache_file, *time, *ttl = NULL, *modified_time, *diference;
-	zval *expired, *cached_content, *processed;
+	zval *cache_file, *time, *ttl = NULL, *modified_time, *difference;
+	zval *not_expired, *cached_content, *processed;
 
 	PHALCON_MM_GROW();
 
@@ -174,12 +174,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		PHALCON_INIT_VAR(modified_time);
 		PHALCON_CALL_FUNC_PARAMS_1(modified_time, "filemtime", cache_file);
 		
-		PHALCON_INIT_VAR(diference);
-		sub_function(diference, time, ttl TSRMLS_CC);
+		PHALCON_INIT_VAR(difference);
+		sub_function(difference, time, ttl TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(expired);
-		is_smaller_function(expired, diference, modified_time TSRMLS_CC);
-		if (PHALCON_IS_TRUE(expired)) {
+		PHALCON_INIT_VAR(not_expired);
+		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+		if (PHALCON_IS_TRUE(not_expired)) {
 			PHALCON_INIT_VAR(cached_content);
 			PHALCON_CALL_FUNC_PARAMS_1(cached_content, "file_get_contents", cache_file);
 			

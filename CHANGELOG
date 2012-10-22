@@ -4,8 +4,12 @@
  - Added HTML/XHTML document type support in Phalcon\Tag
  - Added "exists" method to every backend in Phalcon\Cache\Backend
  - Now is required pass true as parameter to Phalcon\Http\Request::getClientAddress if the user want to check the client address in the $_SERVER['HTTP_X_FORWARDED_FOR'] header
- - Removed unnessary duplication of function names when calling function and methods
+ - Removed unnecessary duplication of function names when calling function and methods
+ - Now Phalcon can call functions from the PHP userspace without use call_user_func_array/call_user_func increasing performance
  - Added beforeException event triggered from Phalcon\Dispatcher before launch an exception allowing to inject code before launch a real exception modifing the behavior of the component
+ - Now is possible attach listeners directly to specific events in Phalcon\Event\Managers 
+ - Added Phalcon\Http\Request::get and Phalcon\Http\Request::has to read/check values from $_REQUEST
+ - Added Phalcon\Cache\Backend\Mongo that uses a MongoDB collection as backend
 
 0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication

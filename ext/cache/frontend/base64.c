@@ -37,51 +37,47 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Cache\Frontend\Data
+ * Phalcon\Cache\Frontend\Base64
  *
- * Allows to cache native PHP data in a serialized form
+ * Allows to cache data converting/deconverting them to base64.
+ *
+ * This adapters uses the base64_encode/base64_decode PHP's functions
  *
  *<code>
  *
- * // Cache the files for 2 days using a Data frontend
- * $frontCache = new Phalcon\Cache\Frontend\Data(array(
+ * // Cache the files for 2 days using a Base64 frontend
+ * $frontCache = new Phalcon\Cache\Frontend\Base64(array(
  *    "lifetime" => 172800
  * ));
  *
- * // Create the component that will cache "Data" to a "File" backend
- * // Set the cache file directory - important to keep the "/" at the end of
- * // of the value for the folder
- * $cache = new Phalcon\Cache\Backend\File($frontCache, array(
- *     "cacheDir" => "../app/cache/"
+ * //Create a MongoDB cache
+ * $cache = new Phalcon\Cache\Backend\Mongo($frontCache, array(
+ *		'server' => "mongodb://localhost",
+ *      'db' => 'caches',
+ *		'collection' => 'images'
  * ));
  *
- * // Try to get cached records
- * $cacheKey = 'robots_order_id.cache';
- * $robots    = $cache->get($cacheKey);
- * if ($robots === null) {
+ * // Try to get cached image
+ * $cacheKey = 'some-image.jpg.cache';
+ * $image    = $cache->get($cacheKey);
+ * if ($image === null) {
  *
- *     // $robots is null due to cache expiration or data does not exist
- *     // Make the database call and populate the variable
- *     $robots = Robots::find(array("order" => "id"));
- *
- *     // Store it in the cache
- *     $cache->save($cacheKey, $robots);
+ *     // Store the image in the cache
+ *     $cache->save($cacheKey, file_put_contents('tmp-dir/some-image.jpg'));
  * }
  *
- * // Use $robots :)
- * foreach ($robots as $robot) {
- *    echo $robot->name, "\n";
- * }
+ * header('Content-Type: image/jpeg');
+ * echo $image;
  *</code>
  */
 
 
 /**
- * Phalcon\Cache\Frontend\Data constructor
+ * Phalcon\Cache\Frontend\Base64 constructor
  *
  * @param array $frontendOptions
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct){
 
 	zval *frontend_options = NULL;
 	zval *a0 = NULL;
@@ -90,7 +86,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_cache_frontend_data_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
+	zend_update_property(phalcon_cache_frontend_base64_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -111,7 +107,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
  *
  * @return integer
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
 
 	zval *options, *lifetime;
 	int eval_int;
@@ -120,12 +116,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
 	PHALCON_INIT_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset_string(options, SS("lifetime"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(lifetime);
-		phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
-		
-		RETURN_CCTOR(lifetime);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(lifetime);
+			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
+			
+			RETURN_CCTOR(lifetime);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -135,7 +133,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 /**
  * Check whether if frontend is buffering output
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering){
 
 
 	RETURN_FALSE;
@@ -144,7 +142,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering){
 /**
  * Starts output frontend. Actually, does nothing
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, start){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, start){
 
 
 	
@@ -155,7 +153,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, start){
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, getContent){
 
 
 	RETURN_NULL();
@@ -164,7 +162,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getContent){
 /**
  * Stops output frontend
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, stop){
 
 
 	
@@ -175,7 +173,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, stop){
  *
  * @param mixed $data
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, beforeStore){
 
 	zval *data, *serialized;
 
@@ -187,7 +185,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	}
 
 	PHALCON_INIT_VAR(serialized);
-	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
+	PHALCON_CALL_FUNC_PARAMS_1(serialized, "base64_encode", data);
 	
 	RETURN_CCTOR(serialized);
 }
@@ -197,7 +195,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
  *
  * @param mixed $data
  */
-PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
+PHP_METHOD(Phalcon_Cache_Frontend_Base64, afterRetrieve){
 
 	zval *data, *unserialized;
 
@@ -209,7 +207,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	}
 
 	PHALCON_INIT_VAR(unserialized);
-	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "unserialize", data);
+	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "base64_decode", data);
 	
 	RETURN_CCTOR(unserialized);
 }
