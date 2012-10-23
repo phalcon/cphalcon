@@ -1,4 +1,4 @@
-0.6.0a2
+0.6.0b1
  - Removing unnecessary duplications in zval PHALCON_GET_FOREACH_VALUE
  - Merging PHALCON_INIT_NVAR into PHALCON_GET_FOREACH_KEY
  - Added HTML/XHTML document type support in Phalcon\Tag
@@ -10,6 +10,7 @@
  - Now is possible attach listeners directly to specific events in Phalcon\Event\Managers 
  - Added Phalcon\Http\Request::get and Phalcon\Http\Request::has to read/check values from $_REQUEST
  - Added Phalcon\Cache\Backend\Mongo that uses a MongoDB collection as backend
+ - Added options (compiled path, compiled separator, stat) for Volt
 
 0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication
