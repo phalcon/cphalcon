@@ -60,6 +60,7 @@ zend_class_entry *phalcon_mvc_dispatcher_ce;
 zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_micro_exception_ce;
 zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
+zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
@@ -389,6 +390,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	zend_declare_property_null(phalcon_db_ce, SL("_dialect"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_ce, SL("_connectionId"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_db_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 2 TSRMLS_CC);
@@ -711,6 +714,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Micro, Exception, mvc_micro_exception, "phalcon\\exception", NULL, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_uniqueness_method_entry, 0);
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, PresenceOf, mvc_model_validator_presenceof, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_presenceof_method_entry, 0);
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, mvc_model_validator_exclusionin, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_exclusionin_method_entry, 0);
 

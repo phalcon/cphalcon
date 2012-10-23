@@ -36,10 +36,11 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
+#include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
-#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt
@@ -68,6 +69,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Options parameter must be an array");
 		return;
 	}
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -92,14 +94,19 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
 /**
  * Renders a view using the template engine
  *
- * @param string $path
+ * @param string $templatePath
  * @param array $params
  * @param bool $mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval *path, *params, *must_clean, *compiled_path;
-	zval *compiler = NULL, *value = NULL, *key = NULL, *contents, *view;
+	zval *template_path, *params, *must_clean, *stat = NULL;
+	zval *compiled_path = NULL, *compiled_separator = NULL;
+	zval *compiled_extension = NULL, *options, *win_separator;
+	zval *unix_separator, *template_win_path;
+	zval *template_sep_path = NULL, *compiled_template_path;
+	zval *compiler = NULL, *exception_message, *value = NULL, *key = NULL;
+	zval *contents, *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -107,10 +114,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &path, &params, &must_clean) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &template_path, &params, &must_clean) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -119,18 +127,91 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
 	
+	PHALCON_INIT_VAR(stat);
+	ZVAL_BOOL(stat, 1);
+	
 	PHALCON_INIT_VAR(compiled_path);
-	PHALCON_CONCAT_VS(compiled_path, path, ".php");
-	if (phalcon_file_exists(compiled_path TSRMLS_CC) == SUCCESS) {
-		if (phalcon_compare_mtime(path, compiled_path TSRMLS_CC)) {
-			PHALCON_INIT_VAR(compiler);
+	
+	PHALCON_INIT_VAR(compiled_separator);
+	ZVAL_STRING(compiled_separator, "%%", 1);
+	
+	PHALCON_INIT_VAR(compiled_extension);
+	ZVAL_STRING(compiled_extension, ".php", 1);
+	
+	PHALCON_INIT_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("compiledPath"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&compiled_path, options, SL("compiledPath"), PH_NOISY_CC);
+			if (Z_TYPE_P(compiled_path) != IS_STRING) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string");
+				return;
+			}
+		}
+		eval_int = phalcon_array_isset_string(options, SS("compiledSeparator"));
+		if (eval_int) {
+			PHALCON_INIT_NVAR(compiled_separator);
+			phalcon_array_fetch_string(&compiled_separator, options, SL("compiledSeparator"), PH_NOISY_CC);
+			if (Z_TYPE_P(compiled_separator) != IS_STRING) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledSeparator must be a string");
+				return;
+			}
+		}
+		
+		eval_int = phalcon_array_isset_string(options, SS("compiledExtension"));
+		if (eval_int) {
+			PHALCON_INIT_NVAR(compiled_extension);
+			phalcon_array_fetch_string(&compiled_extension, options, SL("compiledExtension"), PH_NOISY_CC);
+			if (Z_TYPE_P(compiled_extension) != IS_STRING) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledExtension must be a string");
+				return;
+			}
+		}
+		
+		eval_int = phalcon_array_isset_string(options, SS("stat"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&stat, options, SL("stat"), PH_NOISY_CC);
+		}
+	}
+	
+	if (Z_TYPE_P(compiled_path) != IS_NULL) {
+		PHALCON_INIT_VAR(win_separator);
+		ZVAL_STRING(win_separator, "\\", 1);
+		
+		PHALCON_INIT_VAR(unix_separator);
+		ZVAL_STRING(unix_separator, "/", 1);
+		
+		PHALCON_INIT_VAR(template_win_path);
+		phalcon_fast_str_replace(template_win_path, win_separator, compiled_separator, template_path TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(template_sep_path);
+		phalcon_fast_str_replace(template_sep_path, unix_separator, compiled_separator, template_win_path TSRMLS_CC);
+	} else {
+		PHALCON_CPY_WRT(template_sep_path, template_path);
+	}
+	
+	PHALCON_INIT_VAR(compiled_template_path);
+	PHALCON_CONCAT_VVV(compiled_template_path, compiled_path, template_sep_path, compiled_extension);
+	if (PHALCON_IS_TRUE(stat)) {
+		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
+			if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
+				PHALCON_INIT_VAR(compiler);
+				object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
+			}
+		} else {
+			PHALCON_INIT_NVAR(compiler);
 			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
 		}
 	} else {
-		PHALCON_INIT_NVAR(compiler);
-		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", path, compiled_path, PH_NO_CHECK);
+		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+			return;
+		}
 	}
 	
 	
@@ -159,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		
 	ph_cycle_end_0:
 	
-	if (phalcon_require(compiled_path TSRMLS_CC) == FAILURE) {
+	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
 		return;
 	}
 	if (PHALCON_IS_TRUE(must_clean)) {

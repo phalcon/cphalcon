@@ -706,7 +706,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnectionService){
 }
 
 /**
+ * Forces that model doesn't need to be checked if exists before store it
  *
+ * @param boolean $forceExists
  */
 PHP_METHOD(Phalcon_Mvc_Model, setForceExists){
 
@@ -1820,7 +1822,6 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
  *</code>
  *
  * @param object $validator
- * @param array $options
  */
 PHP_METHOD(Phalcon_Mvc_Model, validate){
 
@@ -1912,12 +1913,13 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
 
 	PHALCON_INIT_VAR(error_messages);
 	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(number_messages);
-	phalcon_fast_count(number_messages, error_messages TSRMLS_CC);
-	if (!phalcon_compare_strict_long(number_messages, 0 TSRMLS_CC)) {
-		PHALCON_MM_RESTORE();
-		RETURN_TRUE;
+	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(number_messages);
+		phalcon_fast_count(number_messages, error_messages TSRMLS_CC);
+		if (!phalcon_compare_strict_long(number_messages, 0 TSRMLS_CC)) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
 	}
 	
 	PHALCON_MM_RESTORE();

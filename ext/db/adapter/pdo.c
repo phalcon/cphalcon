@@ -357,6 +357,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beforeQuery", 1);
 		phalcon_update_property_zval(this_ptr, SL("_sqlStatement"), sql_statement TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_sqlVariables"), placeholders TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_sqlBindTypes"), data_types TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, placeholders, PH_NO_CHECK);

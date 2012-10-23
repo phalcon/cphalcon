@@ -672,6 +672,75 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		}
 	}
 	
+	PHALCON_INIT_NVAR(event_name);
+	ZVAL_STRING(event_name, "validation", 1);
+	
+	PHALCON_INIT_NVAR(status);
+	PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+	if (PHALCON_IS_FALSE(status)) {
+		if (!zend_is_true(disable_events)) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "onValidationFails", 1);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name, PH_NO_CHECK);
+		}
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
+	}
+	
+	if (!zend_is_true(disable_events)) {
+		if (!zend_is_true(exists)) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "afterValidationOnCreate", 1);
+		} else {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "afterValidationOnUpdate", 1);
+		}
+		
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+		
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "afterValidation", 1);
+		
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+		
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "beforeSave", 1);
+		
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+		
+		if (zend_is_true(exists)) {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "beforeUpdate", 1);
+		} else {
+			PHALCON_INIT_NVAR(event_name);
+			ZVAL_STRING(event_name, "beforeCreate", 1);
+		}
+		
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name, PH_NO_CHECK);
+		if (PHALCON_IS_FALSE(status)) {
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_TRUE;
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
 }
@@ -724,6 +793,134 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 	}
 	PHALCON_MM_RESTORE();
 	RETURN_TRUE;
+}
+
+/**
+ * Executes validators on every validation call
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Collection
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
+ * @param object $validator
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, validate){
+
+	zval *validator, *status, *messages, *message = NULL;
+	zval *t0 = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &validator) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(validator) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Validator must be an Object");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD_PARAMS_1(status, validator, "validate", this_ptr, PH_NO_CHECK);
+	if (PHALCON_IS_FALSE(status)) {
+		PHALCON_INIT_VAR(messages);
+		PHALCON_CALL_METHOD(messages, validator, "getmessages", PH_NO_CHECK);
+		
+		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+			return;
+		}
+		
+		ah0 = Z_ARRVAL_P(messages);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+		
+		ph_cycle_start_0:
+		
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+				goto ph_cycle_end_0;
+			}
+			
+			PHALCON_GET_FOREACH_VALUE(message);
+			
+			PHALCON_INIT_NVAR(t0);
+			phalcon_read_property(&t0, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+			phalcon_array_append(&t0, message, 0 TSRMLS_CC);
+			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), t0 TSRMLS_CC);
+			
+			zend_hash_move_forward_ex(ah0, &hp0);
+			goto ph_cycle_start_0;
+			
+		ph_cycle_end_0:
+		if(0){}
+		
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Check whether validation process has generated any messages
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *  {
+ * 		$this->validate(new ExclusionIn(array(
+ *			'field' => 'status',
+ *			'domain' => array('A', 'I')
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed){
+
+	zval *error_messages, *number_messages;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(error_messages);
+	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
+	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(number_messages);
+		phalcon_fast_count(number_messages, error_messages TSRMLS_CC);
+		if (!phalcon_compare_strict_long(number_messages, 0 TSRMLS_CC)) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 
 /**
@@ -887,6 +1084,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 	RETURN_FALSE;
 }
 
+/**
+ *
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, save){
 
 	zval *dependency_injector, *source, *connection;

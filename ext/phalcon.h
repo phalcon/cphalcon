@@ -45,6 +45,7 @@ extern zend_class_entry *phalcon_mvc_dispatcher_ce;
 extern zend_class_entry *phalcon_mvc_model_ce;
 extern zend_class_entry *phalcon_mvc_micro_exception_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
+extern zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 extern zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
@@ -321,6 +322,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult);
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset);
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave);
 PHP_METHOD(Phalcon_Mvc_Collection, _postSave);
+PHP_METHOD(Phalcon_Mvc_Collection, validate);
+PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed);
 PHP_METHOD(Phalcon_Mvc_Collection, _callEvent);
 PHP_METHOD(Phalcon_Mvc_Collection, _callEventCancel);
 PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation);
@@ -435,6 +438,8 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 
 
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate);
+
+PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate);
 
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate);
 
@@ -689,6 +694,9 @@ PHP_METHOD(Phalcon_Db, listTables);
 PHP_METHOD(Phalcon_Db, getDescriptor);
 PHP_METHOD(Phalcon_Db, getConnectionId);
 PHP_METHOD(Phalcon_Db, getSQLStatement);
+PHP_METHOD(Phalcon_Db, getRealSQLStatement);
+PHP_METHOD(Phalcon_Db, getSQLVariables);
+PHP_METHOD(Phalcon_Db, getSQLBindTypes);
 PHP_METHOD(Phalcon_Db, getType);
 PHP_METHOD(Phalcon_Db, getDialectType);
 PHP_METHOD(Phalcon_Db, getDialect);
@@ -1195,8 +1203,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 
 PHP_METHOD(Phalcon_Escaper, setEnconding);
 PHP_METHOD(Phalcon_Escaper, getEncoding);
+PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
 PHP_METHOD(Phalcon_Escaper, escapeHtml);
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr);
+PHP_METHOD(Phalcon_Escaper, cssSanitize);
+PHP_METHOD(Phalcon_Escaper, escapeCss);
 PHP_METHOD(Phalcon_Escaper, escapeUrl);
 
 PHP_METHOD(Phalcon_CLI_Task, __construct);
@@ -1645,7 +1656,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_render, 0, 0, 3)
-	ZEND_ARG_INFO(0, path)
+	ZEND_ARG_INFO(0, templatePath)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, mustClean)
 ZEND_END_ARG_INFO()
@@ -1796,6 +1807,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_uniqueness_validate, 0, 0, 1)
+	ZEND_ARG_INFO(0, record)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_validator_presenceof_validate, 0, 0, 1)
 	ZEND_ARG_INFO(0, record)
 ZEND_END_ARG_INFO()
 
@@ -3493,12 +3508,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setenconding, 0, 0, 1)
 	ZEND_ARG_INFO(0, encoding)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 1)
+	ZEND_ARG_INFO(0, quoteType)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapehtmlattr, 0, 0, 1)
 	ZEND_ARG_INFO(0, text)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_csssanitize, 0, 0, 1)
+	ZEND_ARG_INFO(0, matches)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapecss, 0, 0, 1)
+	ZEND_ARG_INFO(0, css)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 0, 1)
@@ -3771,6 +3798,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection, _getResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, _preSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _postSave, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Collection, validate, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Collection, validationHasFailed, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, _callEvent, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _callEventCancel, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _cancelOperation, NULL, ZEND_ACC_PROTECTED) 
@@ -3908,6 +3937,11 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_uniqueness_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Validator_Uniqueness, validate, arginfo_phalcon_mvc_model_validator_uniqueness_validate, ZEND_ACC_PUBLIC) 
+	PHP_FE_END
+};
+
+PHALCON_INIT_FUNCS(phalcon_mvc_model_validator_presenceof_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_Validator_PresenceOf, validate, arginfo_phalcon_mvc_model_validator_presenceof_validate, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4239,6 +4273,9 @@ PHALCON_INIT_FUNCS(phalcon_db_method_entry){
 	PHP_ME(Phalcon_Db, getDescriptor, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getConnectionId, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getSQLStatement, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db, getRealSQLStatement, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db, getSQLVariables, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db, getSQLBindTypes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getDialectType, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db, getDialect, NULL, ZEND_ACC_PUBLIC) 
@@ -4891,8 +4928,11 @@ PHALCON_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry){
 PHALCON_INIT_FUNCS(phalcon_escaper_method_entry){
 	PHP_ME(Phalcon_Escaper, setEnconding, arginfo_phalcon_escaper_setenconding, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, getEncoding, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, setHtmlQuoteType, arginfo_phalcon_escaper_sethtmlquotetype, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, escapeHtml, arginfo_phalcon_escaper_escapehtml, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, escapeHtmlAttr, arginfo_phalcon_escaper_escapehtmlattr, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, cssSanitize, arginfo_phalcon_escaper_csssanitize, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Escaper, escapeCss, arginfo_phalcon_escaper_escapecss, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Escaper, escapeUrl, arginfo_phalcon_escaper_escapeurl, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

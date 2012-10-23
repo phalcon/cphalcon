@@ -22,7 +22,7 @@
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testVoltParser()
+	/*public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -466,9 +466,8 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 	}
 
-
-
-	public function testVoltCompiler(){
+	public function testVoltCompiler()
+	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
@@ -729,9 +728,36 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$compilation = file_get_contents('unit-tests/views/test10/children.volt.php');
 		$this->assertEquals($compilation, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"><html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css">.important { color: #336699; }</style><title>Index - My Webpage</title></head><body><div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.</div></body>');
 
+	}*/
+
+	public function testVoltCompilerFileOptions()
+	{
+
+		$di = new Phalcon\DI();
+		$view = new Phalcon\Mvc\View();
+
+		$volt = new Phalcon\Mvc\View\Engine\Volt($view, $di);
+
+		$volt->setOptions(array(
+	        "compiledPath" => "unit-tests/cache/",
+	        "compiledSeparator" => ".",
+	        "compiledExtension" => ".compiled"
+		));
+
+		@unlink('unit-tests/views/test10/index.volt.php');
+		@unlink('unit-tests/cache/unit-tests.views.test10.index.volt.compiled');
+
+		$view->start();
+		$volt->render('unit-tests/views/test10/index.volt', array('song' => 'Lights'), true);
+		$view->finish();
+
+		$this->assertTrue(file_exists('unit-tests/cache/unit-tests.views.test10.index.volt.compiled'));
+		$this->assertEquals(file_get_contents('unit-tests/cache/unit-tests.views.test10.index.volt.compiled'), 'Hello <?php echo $song; ?>!');
+		$this->assertEquals($view->getContent(), 'Hello Lights!');
+
 	}
 
-	public function testVoltEngine()
+	/*public function testVoltEngine()
 	{
 
 		@unlink('unit-tests/views/layouts/test10.volt.php');
@@ -790,6 +816,6 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Two songs: Le Song Le Song.'."\n");
 
-	}
+	}*/
 
 }

@@ -1304,6 +1304,8 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
 
 /**
  * Active SQL statement in the object
+ *
+ * @return string
  */
 PHP_METHOD(Phalcon_Db, getSQLStatement){
 
@@ -1315,6 +1317,57 @@ PHP_METHOD(Phalcon_Db, getSQLStatement){
 	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
 	RETURN_CCTOR(sql_statement);
+}
+
+/**
+ * Active SQL statement in the object without replace bound paramters
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db, getRealSQLStatement){
+
+	zval *sql_statement;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(sql_statement);
+	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(sql_statement);
+}
+
+/**
+ * Active SQL statement in the object
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db, getSQLVariables){
+
+	zval *sql_variables;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(sql_variables);
+	phalcon_read_property(&sql_variables, this_ptr, SL("_sqlVariables"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(sql_variables);
+}
+
+/**
+ * Active SQL statement in the object
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Db, getSQLBindTypes){
+
+	zval *sql_bind_types;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(sql_bind_types);
+	phalcon_read_property(&sql_bind_types, this_ptr, SL("_sqlBindTypes"), PH_NOISY_CC);
+	
+	RETURN_CCTOR(sql_bind_types);
 }
 
 /**
