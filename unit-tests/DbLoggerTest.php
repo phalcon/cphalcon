@@ -25,7 +25,7 @@ class DbLoggerListener
 	protected $_logger;
 
 	public function __construct(){
-		$this->_logger = new \Phalcon\Logger\Adapter\File('unit-tests/logs/test-db.log');
+		$this->_logger = new \Phalcon\Logger\Adapter\File('unit-tests/app/logs/test-db.log');
 	}
 
 	public function afterQuery($event, $connection)
@@ -49,7 +49,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 	public function testDbLoggerMysql(){
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -58,7 +58,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 	public function testDbLoggerPostgresql(){
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
@@ -67,7 +67,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
     public function testDbLoggerSqlite(){
 
-   		require 'unit-tests/config.db.php';
+   		require 'unit-tests/app/config/config.inc.php';
 
    		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
@@ -76,7 +76,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 	protected function _executeTests($connection){
 
-		@unlink('unit-tests/logs/test-db.log');
+		@unlink('unit-tests/app/logs/test-db.log');
 
 		$eventsManager = new Phalcon\Events\Manager();
 
@@ -94,7 +94,7 @@ class DbLoggerTest extends PHPUnit_Framework_TestCase {
 
 		$listener->getLogger()->close();
 
-		$lines = file('unit-tests/logs/test-db.log');
+		$lines = file('unit-tests/app/logs/test-db.log');
 		$this->assertEquals(count($lines), 3);
 
 		$this->assertTrue(strpos($lines[0], '[DEBUG]')!==false);

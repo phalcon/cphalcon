@@ -55,7 +55,13 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 	public function testMicroClass()
 	{
 
+<<<<<<< Updated upstream
 		$handler = new RestHandler($this);
+=======
+        $this->markTestIncomplete('Need further investigation on this');
+
+		$handler = new RestHandler();
+>>>>>>> Stashed changes
 
 		$app = new Phalcon\Mvc\Micro();
 

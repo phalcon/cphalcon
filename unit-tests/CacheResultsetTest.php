@@ -33,8 +33,8 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/app/models/'.$className.'.php')) {
+			require 'unit-tests/app/models/'.$className.'.php';
 		}
 	}
 
@@ -56,19 +56,19 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
+			require 'unit-tests/app/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
+			'cacheDir' => 'unit-tests/app/cache/'
 		));
 
 		$cache->save('test-resultset', Robots::find(array('order' => 'id')));
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/app/cache/testresultset'));
 
 		$robots = $cache->get('test-resultset');
 

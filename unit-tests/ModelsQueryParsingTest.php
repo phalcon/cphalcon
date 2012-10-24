@@ -36,7 +36,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 	public function modelsAutoloader($className)
 	{
 		$className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-		$path = 'unit-tests/models/'.$className.'.php';
+		$path = 'unit-tests/app/models/'.$className.'.php';
 		if (file_exists($path)) {
 			require $path;
 		}
@@ -58,7 +58,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/config.db.php';
+			require 'unit-tests/app/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 

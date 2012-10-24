@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< Updated upstream
 
 <phpunit backupGlobals="false"
 	backupStaticAttributes="false"
@@ -84,4 +85,20 @@
 			<file>unit-tests/ConsoleCliTest.php</file>
 		</testsuite>
 	</testsuites>
+=======
+<phpunit bootstrap="./PhalconTestHelper.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         verbose="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true">
+    <testsuite name="PhalconPHP - Testsuite">
+        <directory>./</directory>
+    </testsuite>
+>>>>>>> Stashed changes
 </phpunit>

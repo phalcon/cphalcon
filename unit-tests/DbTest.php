@@ -25,7 +25,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 	public function testDbMysql()
 	{
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -35,8 +35,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbPostgresql()
 	{
-
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
@@ -45,8 +44,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 	public function testDbPostgresqlSchemas()
 	{
-
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
 		unset($configPostgresqlDefault['schema']);
@@ -80,7 +78,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 	public function testDbSqlite()
 	{
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
