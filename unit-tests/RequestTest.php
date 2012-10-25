@@ -44,7 +44,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
 	public function testInput()
 	{
 
-		$value = $this->_request->getPost('lol');
+		/** POST */
+		$this->assertFalse($this->_request->hasPost('test'));
+
+		$value = $this->_request->getPost('test');
 		$this->assertEquals($value, '');
 
 		$_POST['test'] = 1;
@@ -59,6 +62,47 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$value = $this->_request->getPost('test', array('string'));
 		$this->assertEquals($value, 'lol');
 
+		$this->assertTrue($this->_request->hasPost('test'));
+
+		/** GET */
+		$this->assertFalse($this->_request->hasQuery('test'));
+
+		$value = $this->_request->getQuery('test');
+		$this->assertEquals($value, '');
+
+		$_GET['test'] = 1;
+		$value = $this->_request->getQuery('test');
+		$this->assertEquals($value, 1);
+
+		$_GET['test'] = "lol<";
+		$value = $this->_request->getQuery('test', 'string');
+		$this->assertEquals($value, 'lol');
+
+		$_GET['test'] = "lol<";
+		$value = $this->_request->getQuery('test', array('string'));
+		$this->assertEquals($value, 'lol');
+
+		$this->assertTrue($this->_request->hasQuery('test'));
+
+		/** REQUEST */
+		$this->assertFalse($this->_request->has('test'));
+
+		$value = $this->_request->get('lol');
+		$this->assertEquals($value, '');
+
+		$_REQUEST['test'] = 1;
+		$value = $this->_request->get('test');
+		$this->assertEquals($value, 1);
+
+		$_REQUEST['test'] = "lol<";
+		$value = $this->_request->get('test', 'string');
+		$this->assertEquals($value, 'lol');
+
+		$_REQUEST['test'] = "lol<";
+		$value = $this->_request->get('test', array('string'));
+		$this->assertEquals($value, 'lol');
+
+		$this->assertTrue($this->_request->has('test'));
 	}
 
 	public function testHeader()
@@ -222,6 +266,5 @@ class RequestTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($this->_request->getBestLanguage(), 'es');
 
 	}
-
 
 }

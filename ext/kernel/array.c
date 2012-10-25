@@ -37,6 +37,10 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 
 	if (Z_TYPE_P(index) == IS_NULL) {
@@ -86,6 +90,10 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 	return zend_hash_exists(Z_ARRVAL_P(arr), index, index_length);
 }
@@ -96,6 +104,10 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
 int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 	return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
 }

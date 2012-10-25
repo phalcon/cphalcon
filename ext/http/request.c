@@ -111,8 +111,8 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  */
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name, *filters = NULL, *value, *dependency_injector;
-	zval *service, *filter, *sanitized_value;
+	zval *name, *filters = NULL, *value, *filter = NULL, *dependency_injector;
+	zval *service, *sanitized_value;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -127,24 +127,29 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		PHALCON_INIT_NVAR(filters);
 	}
 	
-	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_REQUEST")+1 TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, name);
 	if (eval_int) {
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
-				return;
-			}
-			
-			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "filter", 1);
-			
 			PHALCON_INIT_VAR(filter);
-			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			if (Z_TYPE_P(filter) != IS_OBJECT) {
+				PHALCON_INIT_VAR(dependency_injector);
+				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+					return;
+				}
+				
+				PHALCON_INIT_VAR(service);
+				ZVAL_STRING(service, "filter", 1);
+				
+				PHALCON_INIT_NVAR(filter);
+				PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+				phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+			}
 			
 			PHALCON_INIT_VAR(sanitized_value);
 			PHALCON_CALL_METHOD_PARAMS_2(sanitized_value, filter, "sanitize", value, filters, PH_NO_CHECK);
@@ -176,8 +181,8 @@ PHP_METHOD(Phalcon_Http_Request, get){
  */
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name, *filters = NULL, *value, *dependency_injector;
-	zval *service, *filter, *sanitized_value;
+	zval *name, *filters = NULL, *value, *filter = NULL, *dependency_injector;
+	zval *service, *sanitized_value;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -198,18 +203,23 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
-				return;
-			}
-			
-			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "filter", 1);
-			
 			PHALCON_INIT_VAR(filter);
-			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			if (Z_TYPE_P(filter) != IS_OBJECT) {
+				PHALCON_INIT_VAR(dependency_injector);
+				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+					return;
+				}
+				
+				PHALCON_INIT_VAR(service);
+				ZVAL_STRING(service, "filter", 1);
+				
+				PHALCON_INIT_NVAR(filter);
+				PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+				phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+			}
 			
 			PHALCON_INIT_VAR(sanitized_value);
 			PHALCON_CALL_METHOD_PARAMS_2(sanitized_value, filter, "sanitize", value, filters, PH_NO_CHECK);
@@ -241,8 +251,8 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name, *filters = NULL, *value, *dependency_injector;
-	zval *service, *filter, *sanitized_value;
+	zval *name, *filters = NULL, *value, *filter = NULL, *dependency_injector;
+	zval *service, *sanitized_value;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -263,18 +273,23 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
-			PHALCON_INIT_VAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
-				return;
-			}
-			
-			PHALCON_INIT_VAR(service);
-			ZVAL_STRING(service, "filter", 1);
-			
 			PHALCON_INIT_VAR(filter);
-			PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+			phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+			if (Z_TYPE_P(filter) != IS_OBJECT) {
+				PHALCON_INIT_VAR(dependency_injector);
+				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+					return;
+				}
+				
+				PHALCON_INIT_VAR(service);
+				ZVAL_STRING(service, "filter", 1);
+				
+				PHALCON_INIT_NVAR(filter);
+				PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+				phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+			}
 			
 			PHALCON_INIT_VAR(sanitized_value);
 			PHALCON_CALL_METHOD_PARAMS_2(sanitized_value, filter, "sanitize", value, filters, PH_NO_CHECK);
@@ -340,7 +355,7 @@ PHP_METHOD(Phalcon_Http_Request, has){
 		RETURN_NULL();
 	}
 
-	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
+	phalcon_get_global(&g0, SL("_REQUEST")+1 TSRMLS_CC);
 	eval_int = phalcon_array_isset(g0, name);
 	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
