@@ -87,16 +87,33 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$success = $connection->delete("subscriptores");
 		$this->assertTrue($success);
 
+		$createdAt = new Phalcon\Db\RawValue('now()');
+
+		//Save with success
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego@hotmail.com';
-		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
+		$subscriptor->created_at = $createdAt;
 		$subscriptor->status = 'P';
 		$this->assertTrue($subscriptor->save());
+
+		//PresenceOf
+		$subscriptor = new Subscriptores();
+		$subscriptor->email = 'fuego1@hotmail.com';
+		$subscriptor->created_at = null;
+		$subscriptor->status = 'P';
+		$this->assertFalse($subscriptor->save());
+
+		$this->assertEquals(count($subscriptor->getMessages()), 1);
+
+		$messages = $subscriptor->getMessages();
+		$this->assertEquals($messages[0]->getType(), "PresenceOf");
+		$this->assertEquals($messages[0]->getField(), "created_at");
+		$this->assertEquals($messages[0]->getMessage(), "The field 'created_at' is required");
 
 		//Email
 		$subscriptor = new Subscriptores();
 		$subscriptor->email = 'fuego?=';
-		$subscriptor->created_at = new Phalcon\Db\RawValue('now()');
+		$subscriptor->created_at = $createdAt;
 		$subscriptor->status = 'P';
 		$this->assertFalse($subscriptor->save());
 

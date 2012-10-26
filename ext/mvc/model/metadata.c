@@ -689,14 +689,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
 }
 
 /**
- * Set the attributes that must be ignored from both INSERT/UPDATE SQL generation
+ * Set the attributes that must be ignored from the INSERT SQL generation
  *
  * @param  Phalcon\Mvc\Model $model
  * @param  array $attributes
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticAttributes){
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
 
-	zval *model, *attributes, *create_index, *update_index;
+	zval *model, *attributes, *create_index;
 
 	PHALCON_MM_GROW();
 
@@ -709,9 +709,29 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticAttributes){
 	ZVAL_LONG(create_index, 10);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, create_index, attributes, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(update_index);
-	ZVAL_LONG(update_index, 11);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, update_index, attributes, PH_NO_CHECK);
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Set the attributes that must be ignored from the UPDATE SQL generation
+ *
+ * @param  Phalcon\Mvc\Model $model
+ * @param  array $attributes
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes){
+
+	zval *model, *attributes, *create_index;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &attributes) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(create_index);
+	ZVAL_LONG(create_index, 11);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "writemetadataindex", model, create_index, attributes, PH_NO_CHECK);
 	
 	PHALCON_MM_RESTORE();
 }

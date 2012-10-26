@@ -22,7 +22,7 @@
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -728,7 +728,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$compilation = file_get_contents('unit-tests/views/test10/children.volt.php');
 		$this->assertEquals($compilation, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"><html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css">.important { color: #336699; }</style><title>Index - My Webpage</title></head><body><div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.</div></body>');
 
-	}*/
+	}
 
 	public function testVoltCompilerFileOptions()
 	{
@@ -757,7 +757,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 
 	}
 
-	/*public function testVoltEngine()
+	public function testVoltEngine()
 	{
 
 		@unlink('unit-tests/views/layouts/test10.volt.php');
@@ -816,6 +816,6 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Two songs: Le Song Le Song.'."\n");
 
-	}*/
+	}
 
 }
