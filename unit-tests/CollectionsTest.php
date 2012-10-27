@@ -43,6 +43,11 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 	public function testCollections()
 	{
 
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped('mongo extension is not loaded');
+            return false;
+        }
+
 		Phalcon\DI::reset();
 
 		$di = new Phalcon\DI();

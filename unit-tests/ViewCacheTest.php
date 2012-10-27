@@ -23,7 +23,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$iterator = new DirectoryIterator('unit-tests/cache/');
+		$iterator = new DirectoryIterator('unit-tests/app/cache/');
 		foreach ($iterator as $item) {
 			if (!$item->isDir()) {
 				unlink($item->getPathname());
@@ -41,7 +41,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 				'lifetime' => 60
 			));
 			return new Phalcon\Cache\Backend\File($frontend, array(
-				'cacheDir' => 'unit-tests/cache/'
+				'cacheDir' => 'unit-tests/app/cache/'
 			));
 		});
 
@@ -94,7 +94,7 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 			));
 
 			return new Phalcon\Cache\Backend\File($frontend, array(
-				'cacheDir' => 'unit-tests/cache/'
+				'cacheDir' => 'unit-tests/app/cache/'
 			));
 
 		});

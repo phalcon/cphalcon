@@ -23,8 +23,8 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 	public function dispatcherAutoloader($className)
 	{
-		if (file_exists('unit-tests/controllers/'.$className.'.php')) {
-			require 'unit-tests/controllers/'.$className.'.php';
+		if (file_exists('unit-tests/app/controllers/'.$className.'.php')) {
+			require 'unit-tests/app/controllers/'.$className.'.php';
 		}
 	}
 
