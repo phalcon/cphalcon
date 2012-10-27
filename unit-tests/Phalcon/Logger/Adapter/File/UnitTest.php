@@ -38,7 +38,7 @@ class Logger_Adapter_File_UnitTest extends \PhalconUnitTestCase
     {
         parent::setUp();
 
-        $this->_logPath = ROOT_PATH . '/apps/logs/';
+        $this->_logPath = ROOT_PATH . '/app/logs/';
     }
 
     /**
