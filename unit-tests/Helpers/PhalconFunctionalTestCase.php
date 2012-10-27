@@ -30,17 +30,15 @@ class PhalconFunctionalTestCase extends PhalconModelTestCase
      */
     protected function setUp()
     {
-        $di = parent::setUp();
+        parent::setUp();
 
         // Set the dispatcher
-        $di->set('dispatcher', function() {
+        $this->_di->set('dispatcher', function() {
             $dispatcher = new \Phalcon\Mvc\Dispatcher();
             $dispatcher->setControllerName('test');
             $dispatcher->setActionName('empty');
             $dispatcher->setParams(array());
             return $dispatcher;
         });
-
-        return $di;
     }
 }

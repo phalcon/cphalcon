@@ -28,6 +28,9 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
     // we do not need the overhead
     protected $_config = array();
 
+    // The Di container
+    protected $_di;
+
     /**
      * Sets the test up by loading the DI container and other stuff
      *
@@ -54,7 +57,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
             return $url;
         });
 
-        return $di;
+        $this->_di = $di;
     }
 
     /**
@@ -74,7 +77,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix       : 'log';
 
-        return uniqid($prefix, TRUE) . '.' . $suffix;
+        return uniqid($prefix, true) . '.' . $suffix;
     }
 
     /**

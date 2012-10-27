@@ -48,33 +48,38 @@ class PhalconModelTestCase extends PhalconUnitTestCase
 
     /**
      * Sets the test up by loading the DI container and other stuff
-     *
-     * @param string $dbType Sets the database type for the test
-     *
-     * @return Phalcon\DI
      */
-    protected function setUp($dbType = 'mysql')
+    protected function setUp()
     {
-        $di = parent::setUp();
+        parent::setUp();
 
         // Set Models manager
-        $di->set('modelsManager', function() {
+        $this->_di->set('modelsManager', function() {
             return new \Phalcon\Mvc\Model\Manager();
         });
 
         // Set Models metadata
-        $di->set('modelsMetadata', function() {
+        $this->_di->set('modelsMetadata', function() {
             return new \Phalcon\Mvc\Model\Metadata\Memory();
         });
 
-        // Set the connection to MySQL
+        // Set the connection to the db (defaults to mysql)
+        $this->setDb();
+    }
 
-        $di->set('db', function() use ($dbType) {
+    /**
+     * Sets the database adapter in the DI container
+     *
+     * @param string $dbType Sets the database type for the test
+     */
+    protected function setDb($dbType = 'mysql')
+    {
+        // Set the connection to whatever we chose
+        $this->_di->set('db', function() use ($dbType) {
             $config = PhalconConfig::init();
-            return new \Phalcon\Db\Adapter\Pdo\Mysql($config['db'][$dbType]);
+            $params = $config['db'][$dbType];
+            $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucase($dbType);
+            return new $class($params);
         });
-
-        return $di;
-
     }
 }
