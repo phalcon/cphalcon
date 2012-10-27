@@ -27,6 +27,32 @@ class Tag_UnitTest extends \PhalconUnitTestCase
 {
     private $message = "%s does not return proper html element";
 
+
+    // -------------------------------------------------------------------------
+    // Doctype
+    // -------------------------------------------------------------------------
+    /**
+     * Tests the doctype
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-04
+     */
+    public function testDoctypeSet()
+    {
+        $doctype  = Tg::HTML5;
+        $expected = "<!DOCTYPE html>" . PHP_EOL;
+        Tg::setDoctype($doctype);
+        $actual   = Tg::getDoctype($doctype);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'Doctype (HTML5)')
+        );
+
+    }
+
     // -------------------------------------------------------------------------
     // Image
     // -------------------------------------------------------------------------
@@ -39,7 +65,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     public function testImageBasic()
     {
         $options  = 'img/hello.gif';
-        $expected = '<img src="/img/hello.gif" />';
+        $expected = '<img src="/img/hello.gif">';
         $actual   = Tg::image($options);
 
         $this->assertEquals(
@@ -61,7 +87,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'img/hello.gif',
             'class' => 'some_class',
         );
-        $expected = '<img class="some_class" src="/img/hello.gif" />';
+        $expected = '<img class="some_class" src="/img/hello.gif">';
         $actual   = Tg::image($options);
 
         $this->assertEquals(
@@ -84,13 +110,83 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'src'   => 'img/goodbye.gif',
             'class' => 'some_class',
         );
-        $expected = '<img src="/img/goodbye.gif" class="some_class" />';
+        $expected = '<img src="/img/goodbye.gif" class="some_class">';
         $actual   = Tg::image($options);
 
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'Image basic with src in parameters')
+        );
+    }
+
+    /**
+     * Tests an image tag with a bare minimum of information passed
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testImageBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'img/hello.gif';
+        $expected = '<img src="/img/hello.gif" />';
+        $actual   = Tg::image($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML Image basic')
+        );
+    }
+
+    /**
+     * Tests an image tag with an array passed as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testImageWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array(
+            'img/hello.gif',
+            'class' => 'some_class',
+        );
+        $expected = '<img class="some_class" src="/img/hello.gif" />';
+        $actual   = Tg::image($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML Image basic with array')
+        );
+    }
+
+    /**
+     * Tests an image tag with the src attribute passed in as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testImageWithSrcInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array(
+            'img/hello.gif',
+            'src'   => 'img/goodbye.gif',
+            'class' => 'some_class',
+        );
+        $expected = '<img src="/img/goodbye.gif" class="some_class" />';
+        $actual   = Tg::image($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML Image basic with src in parameters')
         );
     }
 
@@ -107,7 +203,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'css/phalcon.css';
         $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css">';
         $actual   = Tg::stylesheetLink($options);
 
         $this->assertEquals(
@@ -127,7 +223,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css">';
         $actual   = Tg::stylesheetLink($options);
 
         $this->assertEquals(
@@ -147,7 +243,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = array('css/phalcon.css');
         $expected = '<link rel="stylesheet" href="css/phalcon.css" '
-                  . 'type="text/css" />';
+                  . 'type="text/css">';
         $actual   = Tg::stylesheetLink($options, 'hello');
 
         $this->assertEquals(
@@ -171,7 +267,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css" />';
+                  . 'type="text/css">';
         $actual   = Tg::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
@@ -192,7 +288,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         $options  = array('http://fonts.googleapis.com/css?family=Rosario');
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
-                  . 'type="text/css" />';
+                  . 'type="text/css">';
         $actual   = Tg::stylesheetLink($options, FALSE);
 
         $this->assertEquals(
@@ -210,6 +306,142 @@ class Tag_UnitTest extends \PhalconUnitTestCase
      */
     public function testStylesheetLinkWithStringAsSecondParameterRemote()
     {
+        $options  = 'http://fonts.googleapis.com/css?family=Rosario';
+        $expected = '<link rel="stylesheet" '
+                  . 'href="http://fonts.googleapis.com/css?family=Rosario" '
+                  . 'type="text/css">';
+        $actual   = Tg::stylesheetLink($options, '0');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'StylesheetLink remote with string as second parameter'
+            )
+        );
+    }
+
+    /**
+     * Tests stylesheetLink for a local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'css/phalcon.css';
+        $expected = '<link rel="stylesheet" href="/css/phalcon.css" '
+                  . 'type="text/css" />';
+        $actual   = Tg::stylesheetLink($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML StylesheetLink local')
+        );
+    }
+
+    /**
+     * Tests stylesheetLink with an array passed for a local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkWithArrayLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array('css/phalcon.css');
+        $expected = '<link rel="stylesheet" href="css/phalcon.css" '
+                  . 'type="text/css" />';
+        $actual   = Tg::stylesheetLink($options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML StylesheetLink local with Array')
+        );
+    }
+
+    /**
+     * Tests stylesheetLink with a string as the second parameter - local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkWithStringAsSecondParameterLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array('css/phalcon.css');
+        $expected = '<link rel="stylesheet" href="css/phalcon.css" '
+                  . 'type="text/css" />';
+        $actual   = Tg::stylesheetLink($options, 'hello');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'StylesheetLink local with string as second parameter'
+            )
+        );
+    }
+
+    /**
+     * Tests stylesheetLink for a remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'http://fonts.googleapis.com/css?family=Rosario';
+        $expected = '<link rel="stylesheet" '
+                  . 'href="http://fonts.googleapis.com/css?family=Rosario" '
+                  . 'type="text/css" />';
+        $actual   = Tg::stylesheetLink($options, FALSE);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML StylesheetLink remote')
+        );
+    }
+
+    /**
+     * Tests stylesheetLink with an array passed for a remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkWithArrayRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array('http://fonts.googleapis.com/css?family=Rosario');
+        $expected = '<link rel="stylesheet" '
+                  . 'href="http://fonts.googleapis.com/css?family=Rosario" '
+                  . 'type="text/css" />';
+        $actual   = Tg::stylesheetLink($options, FALSE);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML StylesheetLink remote with Array')
+        );
+    }
+
+    /**
+     * Tests stylesheetLink with a string as the second parameter - remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testStylesheetLinkWithStringAsSecondParameterRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
         $options  = 'http://fonts.googleapis.com/css?family=Rosario';
         $expected = '<link rel="stylesheet" '
                   . 'href="http://fonts.googleapis.com/css?family=Rosario" '
@@ -355,6 +587,144 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
     }
 
+    /**
+     * Tests javascriptInclude for a local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'js/phalcon.js';
+        $expected = '<script src="/js/phalcon.js" type="text/javascript">'
+                  . '</script>';
+        $actual   = Tg::javascriptInclude($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML JavascriptInclude local')
+        );
+    }
+
+    /**
+     * Tests javascriptInclude with an array passed for a local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeWithArrayLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array('js/phalcon.js');
+        $expected = '<script src="js/phalcon.js" type="text/javascript">'
+                  . '</script>';
+        $actual   = Tg::javascriptInclude($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML JavascriptInclude local with Array')
+        );
+    }
+
+    /**
+     * Tests javascriptInclude with a string as the second parameter - local link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeWithStringAsSecondParameterLocalXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'js/phalcon.js';
+        $expected = '<script src="/js/phalcon.js" type="text/javascript">'
+                  . '</script>';
+        $actual   = Tg::javascriptInclude($options, 'hello');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message, 'xhtml
+                JavascriptInclude local with string as second parameter'
+            )
+        );
+    }
+
+    /**
+     * Tests javascriptInclude for a remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'http://my.local.com/js/phalcon.js';
+        $expected = '<script src="http://my.local.com/js/phalcon.js" '
+                  . 'type="text/javascript"></script>';
+        $actual   = Tg::javascriptInclude($options, FALSE);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML JavascriptInclude remote')
+        );
+    }
+
+    /**
+     * Tests javascriptInclude with an array passed for a remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeWithArrayRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = array('http://my.local.com/js/phalcon.js');
+        $expected = '<script src="http://my.local.com/js/phalcon.js" '
+                  . 'type="text/javascript"></script>';
+        $actual   = Tg::javascriptInclude($options, FALSE);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML JavascriptInclude remote with Array')
+        );
+    }
+
+    /**
+     * Tests javascriptInclude with a string as the second parameter - remote link
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testJavascriptIncludeWithStringAsSecondParameterRemoteXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'http://my.local.com/js/phalcon.js';
+        $expected = '<script src="http://my.local.com/js/phalcon.js" '
+                  . 'type="text/javascript"></script>';
+        $actual   = Tg::javascriptInclude($options, '0');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'JavascriptInclude remote with string as second parameter'
+            )
+        );
+    }
+
     // -------------------------------------------------------------------------
     // resetInput
     // -------------------------------------------------------------------------
@@ -369,7 +739,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E" />';
+                  . 'id="some_field_name" value="Wall-E">';
         Tg::setDefault('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -381,7 +751,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::textField($options);
         $this->assertEquals(
             $expected,
@@ -401,7 +771,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E" />';
+                  . 'id="some_field_name" value="Wall-E">';
         Tg::displayTo('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -413,12 +783,80 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::resetInput();
 
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::textField($options);
         $this->assertEquals(
             $expected,
             $actual,
             sprintf($this->message, 'resetInput after contains a value')
+        );
+    }
+
+    /**
+     * Tests resetInput (after a setDefault)
+     *
+     * @issue 53
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testResetInputSetDefaultXHTML_T53()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="text" name="some_field_name" '
+                  . 'id="some_field_name" value="Wall-E" />';
+        Tg::setDefault('some_field_name', 'Wall-E');
+        $actual   = Tg::textField($options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML resetInput before contains a value')
+        );
+        Tg::resetInput();
+
+        $expected = '<input type="text" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML resetInput after contains a value')
+        );
+    }
+
+    /**
+     * Tests resetInput (after a displayTo)
+     *
+     * @issue 53
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testResetInputDisplayToXHTML_T53()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="text" name="some_field_name" '
+                  . 'id="some_field_name" value="Wall-E" />';
+        Tg::displayTo('some_field_name', 'Wall-E');
+        $actual   = Tg::textField($options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML resetInput before contains a value')
+        );
+        Tg::resetInput();
+
+        $expected = '<input type="text" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML resetInput after contains a value')
         );
     }
 
@@ -435,7 +873,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::textField($options);
 
         $this->assertEquals(
@@ -458,7 +896,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="text" class="some_class" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::textField($options);
 
         $this->assertEquals(
@@ -483,7 +921,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="text" id="some_id" class="some_class" '
-                  . 'size="10" name="some_field_name" value="" />';
+                  . 'size="10" name="some_field_name" value="">';
         $actual   = Tg::textField($options);
 
         $this->assertEquals(
@@ -509,7 +947,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="text" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::textField($options);
 
         $this->assertEquals(
@@ -535,7 +973,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::textField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -562,7 +1000,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::textField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -588,7 +1026,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::textField($options);
         Tg::setDefault('some_field', '');
 
@@ -617,7 +1055,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::textField($options);
         Tg::displayTo('some_field', '');
 
@@ -625,6 +1063,225 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'textField with displayTo')
+        );
+    }
+
+    /**
+     * Tests testField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="text" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField basic')
+        );
+    }
+
+    /**
+     * Tests textField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="text" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with array basic')
+        );
+    }
+
+    /**
+     * Tests textField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="text" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests textField with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="text" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with name and id in parameters')
+        );
+    }
+
+    /**
+     * Tests textField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="text" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::textField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with setDefault')
+        );
+    }
+
+    /**
+     * Tests textField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="text" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::textField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with displayTo')
+        );
+    }
+
+    /**
+     * Tests textField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="text" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'textField with setDefault element not present'
+            )
+        );
+    }
+
+    /**
+     * Tests textField with displayTo to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testTextDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="text" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::textField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML textField with displayTo')
         );
     }
 
@@ -845,7 +1502,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="hidden" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::hiddenField($options);
 
         $this->assertEquals(
@@ -868,7 +1525,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="hidden" class="some_class" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::hiddenField($options);
 
         $this->assertEquals(
@@ -893,7 +1550,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="hidden" id="some_id" class="some_class" '
-                  . 'size="10" name="some_field_name" value="" />';
+                  . 'size="10" name="some_field_name" value="">';
         $actual   = Tg::hiddenField($options);
 
         $this->assertEquals(
@@ -919,7 +1576,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="hidden" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::hiddenField($options);
 
         $this->assertEquals(
@@ -948,7 +1605,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::hiddenField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -975,7 +1632,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::hiddenField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1001,7 +1658,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::hiddenField($options);
         Tg::setDefault('some_field', '');
 
@@ -1027,7 +1684,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::hiddenField($options);
         Tg::displayTo('some_field', '');
 
@@ -1035,6 +1692,225 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'hiddenField with displayTo')
+        );
+    }
+
+    /**
+     * Tests hiddenField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="hidden" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField basic')
+        );
+    }
+
+    /**
+     * Tests hiddenField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="hidden" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField basic with array')
+        );
+    }
+
+    /**
+     * Tests hiddenField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="hidden" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests hiddenField with name and no id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="hidden" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'hiddenField with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests hiddenField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="hidden" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField with setDefault')
+        );
+    }
+
+    /**
+     * Tests hiddenField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="hidden" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField with displayTo')
+        );
+    }
+
+    /**
+     * Tests hiddenField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="hidden" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField with setDefault')
+        );
+    }
+
+    /**
+     * Tests hiddenField with displayTo to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testHiddenFieldDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="hidden" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::hiddenField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML hiddenField with displayTo')
         );
     }
 
@@ -1051,7 +1927,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="password" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::passwordField($options);
 
         $this->assertEquals(
@@ -1074,7 +1950,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="password" class="some_class" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::passwordField($options);
 
         $this->assertEquals(
@@ -1100,7 +1976,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="password" id="some_id" '
                   . 'class="some_class" size="10" name="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::passwordField($options);
 
         $this->assertEquals(
@@ -1126,7 +2002,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="password" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::passwordField($options);
 
         $this->assertEquals(
@@ -1155,7 +2031,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::passwordField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1182,7 +2058,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::passwordField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1208,7 +2084,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::passwordField($options);
         Tg::setDefault('some_field', '');
 
@@ -1234,7 +2110,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::passwordField($options);
         Tg::displayTo('some_field', '');
 
@@ -1242,6 +2118,226 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'passwordField with displayTo')
+        );
+    }
+
+    /**
+     * Tests passwordField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="password" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField basic')
+        );
+    }
+
+    /**
+     * Tests passwordField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="password" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField basic with array')
+        );
+    }
+
+    /**
+     * Tests passwordField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="password" id="some_id" '
+                  . 'class="some_class" size="10" name="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests passwordField with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="password" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'passwordField with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests passwordField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="password" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField with setDefault')
+        );
+    }
+
+    /**
+     * Tests passwordField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="password" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::passwordField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField with displayTo')
+        );
+    }
+
+    /**
+     * Tests passwordField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="password" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField with setDefault')
+        );
+    }
+
+    /**
+     * Tests passwordField with displayTo to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testPasswordFieldDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="password" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::passwordField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML passwordField with displayTo')
         );
     }
 
@@ -1258,7 +2354,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="file" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::fileField($options);
 
         $this->assertEquals(
@@ -1281,7 +2377,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="file" class="some_class" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::fileField($options);
 
         $this->assertEquals(
@@ -1306,7 +2402,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="file" id="some_id" class="some_class" '
-                  . 'size="10" name="some_field_name" value="" />';
+                  . 'size="10" name="some_field_name" value="">';
         $actual   = Tg::fileField($options);
 
         $this->assertEquals(
@@ -1332,7 +2428,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="file" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::fileField($options);
 
         $this->assertEquals(
@@ -1361,7 +2457,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::fileField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1388,7 +2484,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::fileField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1414,7 +2510,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::fileField($options);
         Tg::setDefault('some_field', '');
 
@@ -1440,7 +2536,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::fileField($options);
         Tg::displayTo('some_field', '');
 
@@ -1448,6 +2544,225 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'fileField with displayTo')
+        );
+    }
+
+    /**
+     * Tests fileField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="file" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField basic')
+        );
+    }
+
+    /**
+     * Tests fileField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="file" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField basic with array')
+        );
+    }
+
+    /**
+     * Tests fileField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="file" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests fileField with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="file" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'fileField with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests fileField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="file" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField with setDefault')
+        );
+    }
+
+    /**
+     * Tests fileField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="file" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::fileField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField with displayTo')
+        );
+    }
+
+    /**
+     * Tests fileField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="file" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField with setDefault')
+        );
+    }
+
+    /**
+     * Tests fileField with displayTo to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testFileFieldDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="file" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::fileField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML fileField with displayTo')
         );
     }
 
@@ -1464,7 +2779,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="checkbox" name="some_field_name" '
-                  . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::checkField($options);
 
         $this->assertEquals(
@@ -1487,7 +2802,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="checkbox" class="some_class" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::checkField($options);
 
         $this->assertEquals(
@@ -1512,7 +2827,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="checkbox" id="some_id" class="some_class" '
-                  . 'size="10" name="some_field_name" value="" />';
+                  . 'size="10" name="some_field_name" value="">';
         $actual   = Tg::checkField($options);
 
         $this->assertEquals(
@@ -1538,7 +2853,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<input type="checkbox" name="some_other_name" '
                   . 'class="some_class" size="10" id="some_field_name" '
-                  . 'value="" />';
+                  . 'value="">';
         $actual   = Tg::checkField($options);
 
         $this->assertEquals(
@@ -1567,7 +2882,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::checkField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1594,7 +2909,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some_default_value">';
         $actual   = Tg::checkField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1620,7 +2935,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::checkField($options);
         Tg::setDefault('some_field', '');
 
@@ -1646,7 +2961,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
-                  . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::checkField($options);
         Tg::displayTo('some_field', '');
 
@@ -1654,6 +2969,225 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'checkField with displayTo')
+        );
+    }
+
+    /**
+     * Tests checkField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="checkbox" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField basic')
+        );
+    }
+
+    /**
+     * Tests checkField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="checkbox" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField basic with array')
+        );
+    }
+
+    /**
+     * Tests checkField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="checkbox" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests checkField with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="checkbox" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'checkField with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests checkField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="checkbox" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField with setDefault')
+        );
+    }
+
+    /**
+     * Tests checkField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="checkbox" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::checkField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField with displayTo')
+        );
+    }
+
+    /**
+     * Tests checkField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="checkbox" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField with setDefault')
+        );
+    }
+
+    /**
+     * Tests checkField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testCheckFieldDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="checkbox" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::checkField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML checkField with displayTo')
         );
     }
 
@@ -1670,7 +3204,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="radio" name="some_field_name" '
-            . 'id="some_field_name" value="" />';
+                  . 'id="some_field_name" value="">';
         $actual   = Tg::radioField($options);
 
         $this->assertEquals(
@@ -1693,7 +3227,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
         $expected = '<input type="radio" class="some_class" '
-            . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::radioField($options);
 
         $this->assertEquals(
@@ -1718,7 +3252,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="radio" id="some_id" class="some_class" '
-            . 'size="10" name="some_field_name" value="" />';
+                  . 'size="10" name="some_field_name" value="">';
         $actual   = Tg::radioField($options);
 
         $this->assertEquals(
@@ -1743,8 +3277,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="radio" name="some_other_name" '
-            . 'class="some_class" size="10" id="some_field_name" '
-            . 'value="" />';
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="">';
         $actual   = Tg::radioField($options);
 
         $this->assertEquals(
@@ -1772,8 +3306,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
-            . 'name="some_field_name" id="some_field_name" '
-            . 'value="some_default_value" />';
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value">';
         $actual   = Tg::radioField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1799,8 +3333,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
-            . 'name="some_field_name" id="some_field_name" '
-            . 'value="some_default_value" />';
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value">';
         $actual   = Tg::radioField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1826,7 +3360,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
-            . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::radioField($options);
         Tg::setDefault('some_field', '');
 
@@ -1852,7 +3386,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
-            . 'name="some_field_name" id="some_field_name" value="" />';
+                  . 'name="some_field_name" id="some_field_name" value="">';
         $actual   = Tg::radioField($options);
         Tg::displayTo('some_field', '');
 
@@ -1860,6 +3394,225 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'radioField with displayTo')
+        );
+    }
+
+    /**
+     * Tests radioField with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="radio" name="some_field_name" '
+                  . 'id="some_field_name" value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField basic')
+        );
+    }
+
+    /**
+     * Tests radioField with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+        $expected = '<input type="radio" class="some_class" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField basic with array')
+        );
+    }
+
+    /**
+     * Tests radioField with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="radio" id="some_id" class="some_class" '
+                  . 'size="10" name="some_field_name" value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField with id in parameters')
+        );
+    }
+
+    /**
+     * Tests radioField with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="radio" name="some_other_name" '
+                  . 'class="some_class" size="10" id="some_field_name" '
+                  . 'value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'radioField with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests radioField with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="radio" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField with setDefault')
+        );
+    }
+
+    /**
+     * Tests radioField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="radio" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" '
+                  . 'value="some_default_value" />';
+        $actual   = Tg::radioField($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField with displayTo')
+        );
+    }
+
+    /**
+     * Tests radioField with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="radio" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField with setDefault')
+        );
+    }
+
+    /**
+     * Tests radioField with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-15
+     */
+    public function testRadioFieldDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="radio" class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name" value="" />';
+        $actual   = Tg::radioField($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML radioField with displayTo')
         );
     }
 
@@ -1875,7 +3628,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
     public function testSubmitButtonBasic()
     {
         $options  = 'some_field_name';
-        $expected = '<input type="submit" value="some_field_name" />';
+        $expected = '<input type="submit" value="some_field_name">';
         $actual   = Tg::submitButton($options);
 
         $this->assertEquals(
@@ -1899,9 +3652,9 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'class' => 'some_class',
         );
 //        $expected = '<input type="submit" value="some_field_name" '
-//                  . 'class="some_class" />';
+//                  . 'class="some_class">';
         $expected = '<input type="submit" class="some_class" '
-                  . 'value="some_field_name" />';
+                  . 'value="some_field_name">';
         $actual   = Tg::submitButton($options);
 
         $this->assertEquals(
@@ -1927,7 +3680,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="submit" id="some_id" class="some_class" '
-                  . 'size="10" value="some_field_name" />';
+                  . 'size="10" value="some_field_name">';
         $actual   = Tg::submitButton($options);
 
         $this->assertEquals(
@@ -1953,7 +3706,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             'size'  => '10',
         );
         $expected = '<input type="submit" name="some_other_name" '
-                  . 'class="some_class" size="10" value="some_field_name" />';
+                  . 'class="some_class" size="10" value="some_field_name">';
         $actual   = Tg::submitButton($options);
 
         $this->assertEquals(
@@ -1982,7 +3735,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
-                  . 'value="some_field_name" />';
+                  . 'value="some_field_name">';
         $actual   = Tg::submitButton($options);
         Tg::setDefault('some_field_name', '');
 
@@ -2009,7 +3762,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
-                  . 'value="some_field_name" />';
+                  . 'value="some_field_name">';
         $actual   = Tg::submitButton($options);
         Tg::displayTo('some_field_name', '');
 
@@ -2036,7 +3789,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::setDefault('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
-                  . 'value="some_field_name" />';
+                  . 'value="some_field_name">';
         $actual   = Tg::submitButton($options);
         Tg::setDefault('some_field', '');
 
@@ -2063,7 +3816,7 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         Tg::displayTo('some_field', 'some_default_value');
         $expected = '<input type="submit" class="some_class" size="10" '
-                  . 'value="some_field_name" />';
+                  . 'value="some_field_name">';
         $actual   = Tg::submitButton($options);
         Tg::displayTo('some_field', '');
 
@@ -2071,6 +3824,230 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'submitButton with displayTo')
+        );
+    }
+
+    /**
+     * Tests submitButton with string as a parameter
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSubmitButtonBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options  = 'some_field_name';
+        $expected = '<input type="submit" value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton basic')
+        );
+    }
+
+    /**
+     * Tests submitButton with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonWithArrayBasicXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+        );
+//        $expected = '<input type="submit" value="some_field_name" '
+//                  . 'class="some_class" />';
+        $expected = '<input type="submit" class="some_class" '
+                  . 'value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton basic with array')
+        );
+    }
+
+    /**
+     * Tests submitButton with id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonWithIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="submit" id="some_id" class="some_class" '
+                  . 'size="10" value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton with id in parameters')
+        );
+    }
+
+    /**
+     * Tests submitButton with name and not id in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonWithNameAndNotIdInParametersXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'name'  => 'some_other_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        $expected = '<input type="submit" name="some_other_name" '
+                  . 'class="some_class" size="10" value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'submitButton with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests submitButton with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonSetDefaultXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'some_default_value');
+        $expected = '<input type="submit" class="some_class" size="10" '
+                  . 'value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDefault('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton with setDefault')
+        );
+    }
+
+    /**
+     * Tests submitButton with displayTo
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonDisplayToXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'some_default_value');
+        $expected = '<input type="submit" class="some_class" size="10" '
+                  . 'value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::displayTo('some_field_name', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton with displayTo')
+        );
+    }
+
+    /**
+     * Tests submitButton with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonSetDefaultElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'some_default_value');
+        $expected = '<input type="submit" class="some_class" size="10" '
+                  . 'value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::setDefault('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton with setDefault')
+        );
+    }
+
+    /**
+     * Tests submitButton with displayTo to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     * @todo   Fix the order
+     */
+    public function testSubmitButtonDisplayToElementNotPresentXHTML()
+    {
+        Tg::setDoctype(Tg::XHTML10_STRICT);
+        $options = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'some_default_value');
+        $expected = '<input type="submit" class="some_class" size="10" '
+                  . 'value="some_field_name" />';
+        $actual   = Tg::submitButton($options);
+        Tg::displayTo('some_field', '');
+        Tg::setDoctype('');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML submitButton with displayTo')
         );
     }
 
@@ -2116,8 +4093,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select name="some_field_name" '
                   . 'id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($name, $options);
 
@@ -2148,8 +4125,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -2183,8 +4160,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -2217,8 +4194,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select class="some_class" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option selected="selected" '
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -2253,8 +4230,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option selected="selected" '
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -2287,8 +4264,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option selected="selected" '
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -2321,8 +4298,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::setDefault('some_field', '');
@@ -2354,8 +4331,8 @@ class Tag_UnitTest extends \PhalconUnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::displayTo('some_field', '');
@@ -2364,6 +4341,296 @@ class Tag_UnitTest extends \PhalconUnitTestCase
             $expected,
             $actual,
             sprintf($this->message, 'selectStatic with setDefault')
+        );
+    }
+
+    /**
+     * Tests selectStatic with string as a parameter throws exception
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticStringThrowsExceptionXHTML()
+    {
+        $name    = 'some_field_name';
+        $options = 'some_values';
+
+        try {
+            $actual   = Tg::selectStatic($name, $options);
+        } catch (\Phalcon\Tag\Exception $e) {
+            // This is where we need to be
+        }
+
+        $this->assertInstanceOf(
+            'Phalcon\Tag\Exception',
+            $e,
+            'selectStatic does not throw correct exception with wrong parameters'
+        );
+    }
+
+    /**
+     * Tests selectStatic with array as parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticWithArrayBasicXHTML()
+    {
+        $name    = 'some_field_name';
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select name="some_field_name" '
+                  . 'id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($name, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML selectStatic basic with array')
+        );
+    }
+
+    /**
+     * Tests selectStatic with id in parameters
+     *
+     * @issue  54
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticWithIdInParameters_T54XHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+        );
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select id="some_id" class="some_class" '
+                  . 'name="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'selectStatic with id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests selectStatic with name and not id in parameters
+     *
+     * @issue  54
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticWithNameAndNotIdInParameters_T54XHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'id'    => 'some_id',
+            'class' => 'some_class',
+        );
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select id="some_id" class="some_class" '
+                  . 'name="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'selectStatic with name and id in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests selectStatic with value in parameters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticWithValueInParametersXHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'value' => 'I',
+            'class' => 'some_class',
+        );
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select class="some_class" '
+                  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
+                  . 'value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf(
+                $this->message,
+                'selectStatic with value in parameters'
+            )
+        );
+    }
+
+    /**
+     * Tests selectStatic with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticSetDefaultXHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field_name', 'I');
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
+                  . 'value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+        Tg::setDefault('some_field_name', '');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML selectStatic with setDefault')
+        );
+    }
+
+    /**
+     * Tests selectStatic with setDefault
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticDisplayToXHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field_name', 'I');
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option selected="selected" '
+                  . 'value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+        Tg::displayTo('some_field_name', '');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML selectStatic with setDefault')
+        );
+    }
+
+    /**
+     * Tests selectStatic with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticSetDefaultElementNotPresentXHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::setDefault('some_field', 'I');
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+        Tg::setDefault('some_field', '');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML selectStatic with setDefault')
+        );
+    }
+
+    /**
+     * Tests selectStatic with setDefault to an non existent element
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-10-26
+     */
+    public function testSelectStaticDisplayToElementNotPresentXHTML()
+    {
+        $params = array(
+            'some_field_name',
+            'class' => 'some_class',
+            'size'  => '10',
+        );
+        Tg::displayTo('some_field', 'I');
+        $options = array(
+            'A' => 'Active',
+            'I' => 'Inactive',
+        );
+        $expected = '<select class="some_class" size="10" '
+                  . 'name="some_field_name" id="some_field_name">' . PHP_EOL
+            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . '</select>';
+        $actual   = Tg::selectStatic($params, $options);
+        Tg::displayTo('some_field', '');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            sprintf($this->message, 'XHTML selectStatic with setDefault')
         );
     }
 

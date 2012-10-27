@@ -27,7 +27,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 	public function testDbBindMysql()
 	{
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -40,7 +40,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase
 	public function testDbBindPostgresql()
 	{
 
-		require 'unit-tests/config.db.php';
+		require 'unit-tests/app/config/config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
@@ -52,7 +52,7 @@ class DbBindTest extends PHPUnit_Framework_TestCase
     public function testDbBindSqlite()
    	{
 
-   		require 'unit-tests/config.db.php';
+   		require 'unit-tests/app/config/config.inc.php';
 
    		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
