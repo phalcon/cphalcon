@@ -114,6 +114,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 		RETURN_CCTOR(code);
 	}
 	
+    if (PHALCON_COMPARE_STRING(name, "version")) {
+		ZVAL_STRING(code, "Phalcon\\Version::get()", 1);
+
+		RETURN_CCTOR(code);
+	}
+
+    if (PHALCON_COMPARE_STRING(name, "version_id")) {
+		ZVAL_STRING(code, "Phalcon\\Version::getId()", 1);
+
+		RETURN_CCTOR(code);
+	}
+
 	if (PHALCON_COMPARE_STRING(name, "partial")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->partial(", arguments, ")");
