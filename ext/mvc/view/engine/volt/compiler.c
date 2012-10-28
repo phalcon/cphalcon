@@ -136,6 +136,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 		PHALCON_CONCAT_SVS(code, "var_dump(", arguments, ")");
 	}
 	
+	if (PHALCON_COMPARE_STRING(name, "date")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "date(", arguments, ")");
+	}
+
 	PHALCON_INIT_VAR(camelized);
 	phalcon_camelize(camelized, name TSRMLS_CC);
 	
