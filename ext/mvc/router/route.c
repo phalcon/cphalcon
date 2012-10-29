@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 	PHALCON_CPY_WRT(compiled_pattern, pattern);
 	if (phalcon_memnstr_str(pattern, SL(":") TSRMLS_CC)) {
 		PHALCON_INIT_VAR(id_pattern);
-		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9\\_]+)", 1);
+		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9\\_\\-]+)", 1);
 		if (phalcon_memnstr_str(pattern, SL("/:module") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(wildcard);
 			ZVAL_STRING(wildcard, "/:module", 1);

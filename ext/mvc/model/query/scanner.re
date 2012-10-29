@@ -163,6 +163,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'OFFSET' {
+			token->opcode = PHQL_T_OFFSET;
+			return 0;
+		}
+
 		'NOT' {
 			token->opcode = PHQL_T_NOT;
 			return 0;
@@ -357,7 +362,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		}
 
 		*/
-	}	
+	}
 
 	return status;
 }

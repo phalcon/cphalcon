@@ -288,33 +288,50 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 /**
  * Adds the limit parameter to the criteria
  *
- * @param string $orderColumns
+ * @param int $limit
+ * @param int $offset
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 
-	zval *limit;
+	zval *limit, *offset = NULL, *limit_clause;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &limit) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &limit, &offset) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!offset) {
+		PHALCON_INIT_NVAR(offset);
+	}
+	
 	PHALCON_INIT_VAR(r0);
 	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", limit);
 	if (!zend_is_true(r0)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Rows limit parameter must be integer");
 		return;
 	}
+	if (Z_TYPE_P(offset) == IS_NULL) {
+		PHALCON_INIT_VAR(t0);
+		phalcon_read_property(&t0, this_ptr, SL("_params"), PH_NOISY_CC);
+		phalcon_array_update_string(&t0, SL("limit"), &limit, PH_COPY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_params"), t0 TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(limit_clause);
+		array_init(limit_clause);
+		phalcon_array_update_string(&limit_clause, SL("number"), &limit, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_string(&limit_clause, SL("offset"), &offset, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		
+		PHALCON_INIT_VAR(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_params"), PH_NOISY_CC);
+		phalcon_array_update_string(&t1, SL("limit"), &limit_clause, PH_COPY TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_params"), t1 TSRMLS_CC);
+	}
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_params"), PH_NOISY_CC);
-	phalcon_array_update_string(&t0, SL("limit"), &limit, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_params"), t0 TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -322,7 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 /**
  * Adds the "for_update" parameter to the criteria
  *
- * @param string $orderColumns
+ * @param boolean $forUpdate
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
@@ -353,7 +370,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 /**
  * Adds the "shared_lock" parameter to the criteria
  *
- * @param string $orderColumns
+ * @param boolean $sharedLock
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){

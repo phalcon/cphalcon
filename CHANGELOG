@@ -1,3 +1,8 @@
+0.6.0
+ - Added functions version, version_id, date and time to Volt
+ - PHQL OFFSET complete implementation
+ - Fixed bug in Phalcon\Mvc\Collection::find and Phalcon\Mvc\Collection::findFirst
+
 0.6.0b1
  - Removing unnecessary duplications in zval PHALCON_GET_FOREACH_VALUE
  - Merging PHALCON_INIT_NVAR into PHALCON_GET_FOREACH_KEY

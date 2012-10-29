@@ -186,6 +186,18 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 2);
 
+		$intermediate = $volt->parse("{{ partial('hello/x') }}");
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse("{{ dump(a) }}");
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
+		$intermediate = $volt->parse("{{ date('Y-m-d', time()) }}");
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 2);
+
 		//Arrays
 		$intermediate = $volt->parse("{{ [1, 2, 3, 4] }}");
 		$this->assertTrue(is_array($intermediate));
