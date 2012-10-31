@@ -58,6 +58,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_ORDER,         "ORDER" },
   { PHQL_T_BY,            "BY" },
   { PHQL_T_LIMIT,         "LIMIT" },
+  { PHQL_T_OFFSET,        "OFFSET" },
   { PHQL_T_GROUP,         "GROUP" },
   { PHQL_T_HAVING,        "HAVING" },
   { PHQL_T_IN,            "IN" },
@@ -95,9 +96,12 @@ static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode,
 	efree(token->value);
 }
 
+/**
+ * Executes the internal PHQL parser/tokenizer
+ */
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 
-	zval *error_msg;
+	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
@@ -109,6 +113,9 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 	return SUCCESS;
 }
 
+/**
+ * Executes a PHQL parser/tokenizer
+ */
 int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC) {
 
 	char *error;
@@ -116,20 +123,24 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 	phql_scanner_token *token;
 	int scanner_status, status = SUCCESS;
 	phql_parser_status *parser_status = NULL;
+	void* phql_parser;
 
-	void* phql_parser = phql_Alloc(phql_wrapper_alloc);
+	if (!phql) {
+		PHALCON_INIT_VAR(*error_msg);
+		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
+		return FAILURE;
+	}
+
+	phql_parser = phql_Alloc(phql_wrapper_alloc);
 
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
 	token = emalloc(sizeof(phql_scanner_token));
 
-	if (!phql) {
-		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
-		return FAILURE;
-	}
-
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
+	parser_status->ret = NULL;
+	parser_status->syntax_error = NULL;
 
 	state->active_token = 0;
 	state->start = phql;
@@ -262,6 +273,9 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 			case PHQL_T_LIMIT:
 				phql_(phql_parser, PHQL_LIMIT, NULL, parser_status);
 				break;
+			case PHQL_T_OFFSET:
+				phql_(phql_parser, PHQL_OFFSET, NULL, parser_status);
+				break;
 			case PHQL_T_GROUP:
 				phql_(phql_parser, PHQL_GROUP, NULL, parser_status);
 				break;
@@ -308,10 +322,10 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				phql_(phql_parser, PHQL_NULL, NULL, parser_status);
 				break;
 			default:
-				status = FAILURE;
+				parser_status->status = PHQL_PARSING_FAILED;
 				error = emalloc(sizeof(char)*32);
 				sprintf(error, "scanner: unknown opcode %c", token->opcode);
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
 				break;
@@ -332,14 +346,16 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 		switch (scanner_status) {
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
-				if (state->start) {
-					error = emalloc(sizeof(char)*(48+strlen(state->start)));
-					sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-					ZVAL_STRING(*error_msg, error, 1);
-					efree(error);
-				} else {
-					ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+				if (!*error_msg) {
+					PHALCON_INIT_VAR(*error_msg);
+					if (state->start) {
+						error = emalloc(sizeof(char)*(48+strlen(state->start)));
+						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
+						ZVAL_STRING(*error_msg, error, 1);
+						efree(error);
+					} else {
+						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
+					}
 				}
 				status = FAILURE;
 				break;
@@ -350,18 +366,26 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	if (parser_status->status != PHQL_PARSING_OK) {
 		status = FAILURE;
-		PHALCON_ALLOC_ZVAL_MM(*error_msg);
-		ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-		efree(parser_status->syntax_error);
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
 	}
 
 	phql_Free(phql_parser, phql_wrapper_free);
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
-			ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-			ZVAL_NULL(parser_status->ret);
-			zval_ptr_dtor(&parser_status->ret);
+			if (parser_status->ret) {
+				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+				ZVAL_NULL(parser_status->ret);
+				zval_ptr_dtor(&parser_status->ret);
+			} else {
+				efree(parser_status->ret);
+			}
 		}
 	}
 

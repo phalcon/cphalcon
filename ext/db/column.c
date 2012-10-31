@@ -71,15 +71,15 @@
  */
 PHP_METHOD(Phalcon_Db_Column, __construct){
 
-	zval *column_name = NULL, *definition = NULL, *type = NULL, *not_null = NULL;
-	zval *primary = NULL, *size = NULL, *is_numeric = NULL, *scale = NULL, *dunsigned = NULL;
-	zval *auto_increment = NULL, *first = NULL, *after = NULL, *bind_type = NULL;
+	zval *column_name, *definition, *type, *not_null;
+	zval *primary, *size, *is_numeric = NULL, *scale, *dunsigned;
+	zval *auto_increment, *first, *after, *bind_type;
 	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &column_name, &definition) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -121,11 +121,11 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	if (eval_int) {
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 3);
-		PHALCON_ALLOC_ZVAL_MM(r0);
+		PHALCON_INIT_VAR(r0);
 		is_equal_function(r0, type, t0 TSRMLS_CC);
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 7);
-		PHALCON_ALLOC_ZVAL_MM(r1);
+		PHALCON_INIT_VAR(r1);
 		is_equal_function(r1, type, t1 TSRMLS_CC);
 		PHALCON_INIT_VAR(is_numeric);
 		ZVAL_BOOL(is_numeric, zend_is_true(r0) || zend_is_true(r1));
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	
 	eval_int = phalcon_array_isset_string(definition, SS("isNumeric"));
 	if (eval_int) {
-		PHALCON_INIT_VAR(is_numeric);
+		PHALCON_INIT_NVAR(is_numeric);
 		phalcon_array_fetch_string(&is_numeric, definition, SL("isNumeric"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_isNumeric"), is_numeric TSRMLS_CC);
 	}
@@ -196,9 +196,10 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName){
 
-	zval *schema_name = NULL;
+	zval *schema_name;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(schema_name);
 	phalcon_read_property(&schema_name, this_ptr, SL("_schemaName"), PH_NOISY_CC);
 	
@@ -212,9 +213,10 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName){
  */
 PHP_METHOD(Phalcon_Db_Column, getName){
 
-	zval *column_name = NULL;
+	zval *column_name;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(column_name);
 	phalcon_read_property(&column_name, this_ptr, SL("_columnName"), PH_NOISY_CC);
 	
@@ -228,9 +230,10 @@ PHP_METHOD(Phalcon_Db_Column, getName){
  */
 PHP_METHOD(Phalcon_Db_Column, getType){
 
-	zval *type = NULL;
+	zval *type;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
@@ -244,9 +247,10 @@ PHP_METHOD(Phalcon_Db_Column, getType){
  */
 PHP_METHOD(Phalcon_Db_Column, getSize){
 
-	zval *size = NULL;
+	zval *size;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(size);
 	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
 	
@@ -260,9 +264,10 @@ PHP_METHOD(Phalcon_Db_Column, getSize){
  */
 PHP_METHOD(Phalcon_Db_Column, getScale){
 
-	zval *scale = NULL;
+	zval *scale;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(scale);
 	phalcon_read_property(&scale, this_ptr, SL("_scale"), PH_NOISY_CC);
 	
@@ -276,9 +281,10 @@ PHP_METHOD(Phalcon_Db_Column, getScale){
  */
 PHP_METHOD(Phalcon_Db_Column, isUnsigned){
 
-	zval *dunsigned = NULL;
+	zval *dunsigned;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dunsigned);
 	phalcon_read_property(&dunsigned, this_ptr, SL("_unsigned"), PH_NOISY_CC);
 	
@@ -292,9 +298,10 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned){
  */
 PHP_METHOD(Phalcon_Db_Column, isNotNull){
 
-	zval *not_null = NULL;
+	zval *not_null;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(not_null);
 	phalcon_read_property(&not_null, this_ptr, SL("_notNull"), PH_NOISY_CC);
 	
@@ -308,9 +315,10 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull){
  */
 PHP_METHOD(Phalcon_Db_Column, isPrimary){
 
-	zval *primary = NULL;
+	zval *primary;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(primary);
 	phalcon_read_property(&primary, this_ptr, SL("_primary"), PH_NOISY_CC);
 	
@@ -324,9 +332,10 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary){
  */
 PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
 
-	zval *auto_increment = NULL;
+	zval *auto_increment;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(auto_increment);
 	phalcon_read_property(&auto_increment, this_ptr, SL("_autoIncrement"), PH_NOISY_CC);
 	
@@ -340,9 +349,10 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
  */
 PHP_METHOD(Phalcon_Db_Column, isNumeric){
 
-	zval *is_numeric = NULL;
+	zval *is_numeric;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(is_numeric);
 	phalcon_read_property(&is_numeric, this_ptr, SL("_isNumeric"), PH_NOISY_CC);
 	
@@ -356,9 +366,10 @@ PHP_METHOD(Phalcon_Db_Column, isNumeric){
  */
 PHP_METHOD(Phalcon_Db_Column, isFirst){
 
-	zval *first = NULL;
+	zval *first;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(first);
 	phalcon_read_property(&first, this_ptr, SL("_first"), PH_NOISY_CC);
 	
@@ -372,9 +383,10 @@ PHP_METHOD(Phalcon_Db_Column, isFirst){
  */
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
 
-	zval *after = NULL;
+	zval *after;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(after);
 	phalcon_read_property(&after, this_ptr, SL("_after"), PH_NOISY_CC);
 	
@@ -386,9 +398,10 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
  */
 PHP_METHOD(Phalcon_Db_Column, getBindType){
 
-	zval *bind_type = NULL;
+	zval *bind_type;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(bind_type);
 	phalcon_read_property(&bind_type, this_ptr, SL("_bindType"), PH_NOISY_CC);
 	
@@ -397,13 +410,13 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
-	zval *data = NULL, *definition = NULL, *column_name = NULL, *column_type = NULL;
-	zval *not_null = NULL, *primary = NULL, *size = NULL, *dunsigned = NULL, *after = NULL;
-	zval *is_numeric = NULL, *first = NULL, *bind_type = NULL, *column = NULL;
+	zval *data, *definition, *column_name, *column_type;
+	zval *not_null, *primary, *size, *dunsigned, *after;
+	zval *is_numeric, *first, *bind_type, *column;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

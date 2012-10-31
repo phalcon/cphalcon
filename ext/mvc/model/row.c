@@ -42,6 +42,7 @@
  * This objects implements the ArrayAccess interfase to allow access the object as object->x or array[x].
  */
 
+
 PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 
 
@@ -56,22 +57,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
-	zval *index = NULL;
+	zval *index;
 	int eval_int;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	eval_int = phalcon_isset_property_zval(this_ptr, index TSRMLS_CC);
 	if (eval_int) {
-		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	}
-	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
 }
 
@@ -83,11 +79,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
-	zval *index = NULL, *value = NULL;
+	zval *index, *value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -112,10 +108,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 
-	zval *index = NULL, *value = NULL;
+	zval *index, *value;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -132,10 +128,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 
-	zval *offset = NULL;
+	zval *offset;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

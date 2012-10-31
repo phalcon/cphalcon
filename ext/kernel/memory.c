@@ -29,7 +29,7 @@
 /**
  * Initializes/Reinitializes a variable
  */
-inline void phalcon_init_var(zval **var TSRMLS_DC){
+inline void phalcon_init_nvar(zval **var TSRMLS_DC){
 	if (*var) {
 		if (Z_REFCOUNT_PP(var) > 1) {
 			Z_DELREF_PP(var);
@@ -61,13 +61,31 @@ inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC){
 }
 
 /**
+ * Copy/Write variables caring of reference counting also duplicating the origin ctor
+ */
+inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
+	if (*dest) {
+		if (Z_REFCOUNT_PP(dest) > 0) {
+			zval_ptr_dtor(dest);
+		}
+	} else {
+		phalcon_memory_observe(dest TSRMLS_CC);
+	}
+	Z_ADDREF_P(var);
+	*dest = var;
+	zval_copy_ctor(*dest);
+	Z_SET_REFCOUNT_PP(dest, 1);
+	Z_UNSET_ISREF_PP(dest);
+}
+
+/**
  * Initializes memory stack for the active function
  */
 int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 
 	phalcon_memory_entry *entry;
 
-	if(!PHALCON_GLOBAL(start_memory)){
+	if (!PHALCON_GLOBAL(start_memory)) {
 		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
 		PHALCON_GLOBAL(start_memory)->pointer = -1;
 		PHALCON_GLOBAL(start_memory)->prev = NULL;
@@ -91,19 +109,19 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 
 	register int i;
-	phalcon_memory_entry *prev;
-	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
-	if(active_memory != NULL){
+	if (active_memory != NULL) {
 
 		/*#ifndef PHALCON_RELEASE
-		if(!PHALCON_GLOBAL(phalcon_stack_stats)){
-			PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
-		} else {
-			if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
-				PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
-			}
-		}
+		//if(!PHALCON_GLOBAL(phalcon_stack_stats)){
+			PHALCON_GLOBAL(phalcon_stack_stats) += active_memory->pointer;
+			PHALCON_GLOBAL(phalcon_number_grows)++;
+		//} else {
+		//	if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
+		//		PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
+		//	}
+		//}
 		#endif*/
 
 		if (active_memory->pointer > -1) {
@@ -112,7 +130,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
 					if(*active_memory->addresses[i] != NULL ){
 						if (Z_REFCOUNT_PP(active_memory->addresses[i])-1 == 0) {
 							zval_ptr_dtor(active_memory->addresses[i]);
-							*active_memory->addresses[i] = NULL;
+							//*active_memory->addresses[i] = NULL;
 							active_memory->addresses[i] = NULL;
 						} else {
 							Z_DELREF_PP(active_memory->addresses[i]);
@@ -152,7 +170,7 @@ int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
  */
 int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 
-	#if !ZEND_DEBUG
+	#if !ZEND_DEBUG && PHP_VERSION_ID <= 50400
 
 	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
 
@@ -174,6 +192,11 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 		}
 
 	}
+
+	#else
+
+	PHALCON_GLOBAL(active_memory) = NULL;
+	PHALCON_GLOBAL(start_memory) = NULL;
 
 	#endif
 
@@ -235,4 +258,12 @@ int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D){
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 	return SUCCESS;
+}
+
+void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin){
+	if (Z_REFCOUNT_P(origin) > 1) {
+		zval_copy_ctor(destiny);
+	} else {
+		ZVAL_NULL(origin);
+	}
 }

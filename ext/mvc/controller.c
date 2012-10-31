@@ -43,7 +43,6 @@
  *
  *<code>
  *
- *
  *class PeopleController extends \Phalcon\Mvc\Controller
  *{
  *
@@ -75,6 +74,7 @@
  *</code>
  */
 
+
 /**
  * Phalcon\Mvc\Controller constructor
  *
@@ -82,8 +82,6 @@
 PHP_METHOD(Phalcon_Mvc_Controller, __construct){
 
 
-	PHALCON_MM_GROW();
 	
-	PHALCON_MM_RESTORE();
 }
 

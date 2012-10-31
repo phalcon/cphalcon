@@ -50,6 +50,7 @@
  *
  */
 
+
 /**
  * Phalcon\Db\Index constructor
  *
@@ -58,19 +59,15 @@
  */
 PHP_METHOD(Phalcon_Db_Index, __construct){
 
-	zval *index_name = NULL, *columns = NULL;
+	zval *index_name, *columns;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index_name, &columns) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_indexName"), index_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -80,9 +77,10 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
  */
 PHP_METHOD(Phalcon_Db_Index, getName){
 
-	zval *index_name = NULL;
+	zval *index_name;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(index_name);
 	phalcon_read_property(&index_name, this_ptr, SL("_indexName"), PH_NOISY_CC);
 	
@@ -96,9 +94,10 @@ PHP_METHOD(Phalcon_Db_Index, getName){
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns){
 
-	zval *columns = NULL;
+	zval *columns;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(columns);
 	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
 	
@@ -113,22 +112,22 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
-	zval *data = NULL, *index_name = NULL, *columns = NULL, *index = NULL;
+	zval *data, *index_name, *columns, *index;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(data, SL("_indexName")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_indexName"));
 	if (!eval_int) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(data, SL("_columns")+1);
+	eval_int = phalcon_array_isset_string(data, SS("_columns"));
 	if (!eval_int) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
 		return;

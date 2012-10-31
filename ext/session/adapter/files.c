@@ -38,3 +38,4 @@
  * This adapter store sessions in plain files
  */
 
+

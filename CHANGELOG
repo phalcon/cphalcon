@@ -1,6 +1,46 @@
+0.6.0
+ - Added functions version, version_id, date and time to Volt
+ - PHQL OFFSET complete implementation
+ - Fixed bug in Phalcon\Mvc\Collection::find and Phalcon\Mvc\Collection::findFirst
+
+0.6.0b1
+ - Removing unnecessary duplications in zval PHALCON_GET_FOREACH_VALUE
+ - Merging PHALCON_INIT_NVAR into PHALCON_GET_FOREACH_KEY
+ - Added HTML/XHTML document type support in Phalcon\Tag
+ - Added "exists" method to every backend in Phalcon\Cache\Backend
+ - Now is required pass true as parameter to Phalcon\Http\Request::getClientAddress if the user want to check the client address in the $_SERVER['HTTP_X_FORWARDED_FOR'] header
+ - Removed unnecessary duplication of function names when calling function and methods
+ - Now Phalcon can call functions from the PHP userspace without use call_user_func_array/call_user_func increasing performance
+ - Added beforeException event triggered from Phalcon\Dispatcher before launch an exception allowing to inject code before launch a real exception modifing the behavior of the component
+ - Now is possible attach listeners directly to specific events in Phalcon\Event\Managers 
+ - Added Phalcon\Http\Request::get and Phalcon\Http\Request::has to read/check values from $_REQUEST
+ - Added Phalcon\Cache\Backend\Mongo that uses a MongoDB collection as backend
+ - Added options (compiled path, compiled separator, stat) for Volt
+
+0.6.0a1
+ - Concatenation on the same variable is now faster by using realloc instead of zval duplication
+ - Some internal macros like PHALCON_INIT_VAR now produces less C-code making the extension lighter
+ - Removed initialization of the memory stack frame when isn't needed
+ - Inlining of scope locating functions to make read/write on objects faster
+ - Array joins are now faster because a zval needle isn't needed anymore
+ - Implemented fast copy/ctor to return_value reducing the overall memory usage
+ - Added Phalcon\Tag::friendlyTitle to create friendly titles
+ - Added a new C-based template engine highly coupled with Phalcon called Volt
+ - Registered Phalcon\Mvc\Model\Transaction\Manager in Phalcon\DI\FactoryDefault as 'transactionManager'
+ - Added Phalcon\Escaper to add contextual escaping of different kinds of texts
+ - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
+ - Phalcon\Tag now caches resolved services such as 'url' and 'dispatcher' making the view generation faster
+ - Added support to the OFFSET clause in PHQL
+ - Optimized Phalcon\Mvc\Model\Metadata to use less memory when using a high number of tables
+ - Changed the use of strpos by phalcon_memnstr to search for strings into other strings reducing unnecessary zval allocations
+ - Added faster camelize/uncamelize functions
+ - Now a model can implement the method metaData to return the model meta-data insteaf of leave Phalcon do it automatically
+ - Phalcon\Mvc\Model::skipAttributes allows to set a group of attributes that must be skipped from the INSERT/UPDATE SQL generation
+ - Added Phalcon\Mvc\Collection to manage non-structured data models, for example: MongoDB
+
 0.5.2
  - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
- - Fixed bug in Phalcon\Mvc\Model making that a magic method call doesn't accept extra parameters
+ - Fixed bug passing extra parameters to Phalcon\Mvc\Model magic methods
 
 0.5.1
  - Fixed bug in Phalcon\Loader producing that pathFound event wasn't triggered

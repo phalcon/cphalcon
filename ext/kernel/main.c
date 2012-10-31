@@ -24,7 +24,6 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "php_main.h"
-#include "ext/standard/php_string.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
@@ -41,13 +40,14 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	phalcon_globals->active_memory = NULL;
 	#ifndef PHALCON_RELEASE
 	phalcon_globals->phalcon_stack_stats = 0;
+	phalcon_globals->phalcon_number_grows = 0;
 	#endif
 }
 
 /**
  * Initilializes super global variables if doesn't
  */
-int phalcon_init_global(char *global, int global_length TSRMLS_DC){
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -64,7 +64,7 @@ int phalcon_init_global(char *global, int global_length TSRMLS_DC){
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC){
 
 	zval **gv;
 
@@ -95,27 +95,27 @@ int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC){
 /**
  * Makes fast count on implicit array types
  */
-void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
-	if (Z_TYPE_P(array) == IS_ARRAY) {
-		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(array)));
+void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
 	} else {
-		if (Z_TYPE_P(array) == IS_OBJECT) {
+		if (Z_TYPE_P(value) == IS_OBJECT) {
 
 			#ifdef HAVE_SPL
-			zval *retval;
+			zval *retval = NULL;
 			#endif
 
-			if (Z_OBJ_HT_P(array)->count_elements) {
+			if (Z_OBJ_HT_P(value)->count_elements) {
 				ZVAL_LONG(result, 1);
-				if (SUCCESS == Z_OBJ_HT(*array)->count_elements(array, &Z_LVAL_P(result) TSRMLS_CC)) {
+				if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result) TSRMLS_CC)) {
 					return;
 				}
 			}
 
 			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(array)->get_class_entry && instanceof_function(Z_OBJCE_P(array), spl_ce_Countable TSRMLS_CC)) {
-    			zend_call_method_with_0_params(&array, NULL, NULL, "count", &retval);
+			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
 				if (retval) {
 					convert_to_long_ex(&retval);
 					ZVAL_LONG(result, Z_LVAL_P(retval));
@@ -129,7 +129,7 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
 			return;
 
 		} else {
-			if (Z_TYPE_P(array) == IS_NULL) {
+			if (Z_TYPE_P(value) == IS_NULL) {
 				ZVAL_LONG(result, 0);
 				return;
 			}
@@ -139,177 +139,75 @@ void phalcon_fast_count(zval *result, zval *array TSRMLS_DC){
 }
 
 /**
- * Fast call to join php function
+ * Makes fast count on implicit array types without creating a return zval value
  */
-void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
+int phalcon_fast_count_ev(zval *value TSRMLS_DC){
 
-	if (Z_TYPE_P(glue) != IS_STRING || Z_TYPE_P(pieces) != IS_ARRAY){
-		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for join()");
-		return;
-	}
+	long count = 0;
 
-	php_implode(glue, pieces, result TSRMLS_CC);
-}
-
-void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC){
-
-	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING){
-		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
-		return;
-	}
-
-	array_init(result);
-	php_explode(delimiter, str, result, LONG_MAX);
-}
-
-/**
- * Inmediate function resolution for addslaches function
- */
-void phalcon_fast_addslashes(zval *return_value, zval *param TSRMLS_DC){
-
-	if (Z_TYPE_P(param) != IS_STRING) {
-		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for explode()");
-		return;
-	}
-
-	//php_addslashes_ex(Z_STRVAL_P(param), Z_STRLEN_P(param), return_value, 0 TSRMLS_CC)
-
-	return;
-}
-
-/**
- * Inmediate function resolution for strpos function
- */
-void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC){
-
-	char *found = NULL;
-
-	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
-		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for strpos()");
-		return;
-	}
-
-	if (!Z_STRLEN_P(needle)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Empty delimiter");
-		return;
-	}
-
-	found = php_memnstr(Z_STRVAL_P(haystack), Z_STRVAL_P(needle), Z_STRLEN_P(needle), Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
-
-	if (found) {
-		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
 	} else {
-		ZVAL_BOOL(return_value, 0);
-	}
+		if (Z_TYPE_P(value) == IS_OBJECT) {
 
-}
+			#ifdef HAVE_SPL
+			zval *retval = NULL;
+			#endif
 
-/**
- * Inmediate function resolution for strpos function
- */
-void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+			if (Z_OBJ_HT_P(value)->count_elements) {
+				Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+				return (int) count > 0;
+			}
 
-	char *found = NULL;
+			#ifdef HAVE_SPL
+			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+				if (retval) {
+					convert_to_long_ex(&retval);
+					count = Z_LVAL_P(retval);
+					zval_ptr_dtor(&retval);
+					return (int) count > 0;
+				}
+				return 0;
+			}
+			#endif
 
-	if (Z_TYPE_P(haystack) != IS_STRING) {
-		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for strpos()");
-		return;
-	}
-
-	found = php_memnstr(Z_STRVAL_P(haystack), needle, needle_length, Z_STRVAL_P(haystack) + Z_STRLEN_P(haystack));
-
-	if (found) {
-		ZVAL_LONG(return_value, found-Z_STRVAL_P(haystack));
-	} else {
-		ZVAL_BOOL(return_value, 0);
-	}
-
-}
-
-
-/**
- * Inmediate function resolution for str_replace function
- */
-void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC){
-
-	zval replace_copy, search_copy;
-	int copy_replace = 0, copy_search = 0;
-
-	if (Z_TYPE_P(subject) != IS_STRING) {
-		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for str_replace()");
-		return;
-	}
-
-	if (Z_TYPE_P(replace) != IS_STRING) {
-		zend_make_printable_zval(replace, &replace_copy, &copy_replace);
-		if (copy_replace) {
-			replace = &replace_copy;
-		}
-	}
-
-	if (Z_TYPE_P(search) != IS_STRING) {
-		zend_make_printable_zval(search, &search_copy, &copy_search);
-		if (copy_search) {
-			search = &search_copy;
-		}
-	}
-
-	Z_TYPE_P(return_value) = IS_STRING;
-	if (Z_STRLEN_P(subject) == 0) {
-		ZVAL_STRINGL(return_value, "", 0, 1);
-		return;
-	}
-
-	if (Z_STRLEN_P(search) == 1) {
-		php_char_to_str_ex(Z_STRVAL_P(subject),
-			Z_STRLEN_P(subject),
-			Z_STRVAL_P(search)[0],
-			Z_STRVAL_P(replace),
-			Z_STRLEN_P(replace),
-			return_value,
-			1,
-			NULL);
-	} else {
-		if (Z_STRLEN_P(search) > 1) {
-			Z_STRVAL_P(return_value) = php_str_to_str_ex(Z_STRVAL_P(subject), Z_STRLEN_P(subject),
-				Z_STRVAL_P(search), Z_STRLEN_P(search),
-				Z_STRVAL_P(replace), Z_STRLEN_P(replace), &Z_STRLEN_P(return_value), 1, NULL);
+			return 0;
 		} else {
-			MAKE_COPY_ZVAL(&subject, return_value);
+			if (Z_TYPE_P(value) == IS_NULL) {
+				return 0;
+			}
 		}
 	}
-
-	if (copy_replace) {
-		zval_dtor(replace);
-	}
-
-	if (copy_search) {
-		zval_dtor(search);
-	}
-
+	return 1;
 }
 
 /**
- * Checks if a file exists
- *
+ * Check if method exists on certain object using explicit char param
  */
-int phalcon_file_exists(zval *filename TSRMLS_DC){
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC){
 
-	if (Z_TYPE_P(filename) != IS_STRING) {
-		return FAILURE;
-	}
-
-	if (VCWD_ACCESS(Z_STRVAL_P(filename), F_OK) == 0) {
+	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
 		return SUCCESS;
 	}
 
 	return FAILURE;
+}
+
+/**
+ * Checks if a zval is callable
+ */
+int phalcon_is_callable(zval *var TSRMLS_DC){
+
+	char *error = NULL;
+	zend_bool retval;
+
+	retval = zend_is_callable_ex(var, NULL, 0, NULL, NULL, NULL, &error TSRMLS_CC);
+	if (error) {
+		efree(error);
+	}
+
+	return (int) retval;
 }
 
 /**
@@ -331,7 +229,7 @@ int phalcon_filter_alphanum(zval *result, zval *param){
 
 	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if ((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)) {
+		if ((ch>96 && ch<123)||(ch>64 && ch<91)||(ch>47 && ch<58)) {
 			temp[alloc] = ch;
 			alloc++;
 		}
@@ -373,7 +271,7 @@ int phalcon_filter_identifier(zval *result, zval *param){
 
 	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if((ch>96&&ch<123)||(ch>64&&ch<91)||(ch>47&&ch<58)||ch==95){
+		if ((ch>96 && ch<123) || (ch>64 && ch<91) || (ch>47 && ch<58) || ch==95) {
 			temp[alloc] = ch;
 			alloc++;
 		}
@@ -406,7 +304,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 	}
 
 	if (EG(active_symbol_table)) {
-		if (Z_TYPE_P(key_name) == IS_STRING){
+		if (Z_TYPE_P(key_name) == IS_STRING) {
 			Z_ADDREF_P(value);
 			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name)+1, &value, sizeof(zval *), NULL);
 			if (EG(exception)) {
@@ -421,7 +319,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 /**
  * Exports a string symbol to the active symbol table
  */
-int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC){
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC){
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);

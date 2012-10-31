@@ -77,12 +77,24 @@ class TagTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testDoctype()
+	{
+
+		$this->_loadDI();
+
+		Tag::setDoctype(Tag::HTML401_STRICT);
+		$this->assertEquals(Tag::getDoctype(), '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"' . PHP_EOL . "\t" . '"http://www.w3.org/TR/html4/strict.dtd">' . PHP_EOL);
+
+	}
+
 	public function testTags()
 	{
 
 		$this->_loadDI();
 
 		Tag::displayTo('hello', 'lol');
+
+		Tag::setDoctype(Tag::XHTML10_STRICT);
 
 		//textFields
 		$this->assertEquals(Tag::textField('hello'), '<input type="text" name="hello" id="hello" value="lol" />');

@@ -37,7 +37,38 @@
  *
  * Discards any kind of frontend data input. This frontend does not have expiration time or any other options
  *
+ *<code>
+ * 
+ * //Create a None Cache
+ * $frontCache = new Phalcon\Cache\Frontend\None();
+ *
+ * // Create the component that will cache "Data" to a "Memcached" backend
+ * // Memcached connection settings
+ * $cache = new Phalcon\Cache\Backend\Memcached($frontCache, array(
+ *     "host" => "localhost",
+ *     "port" => "11211"
+ * ));
+ *
+ * // This Frontend always return the data as it's returned by the backend
+ * $cacheKey = 'robots_order_id.cache';
+ * $robots    = $cache->get($cacheKey);
+ * if ($robots === null) {
+ *
+ *     // This cache doesn't perform any expiration checking, so the data is always expired
+ *     // Make the database call and populate the variable
+ *     $robots = Robots::find(array("order" => "id"));
+ *
+ *     $cache->save($cacheKey, $robots);
+ * }
+ *
+ * // Use $robots :)
+ * foreach ($robots as $robot) {
+ *    echo $robot->name, "\n";
+ * }
+ *</code>
+ *
  */
+
 
 /**
  * Phalcon\Cache\Frontend\None constructor
@@ -47,14 +78,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 	zval *frontend_options = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_VAR(frontend_options);
+		PHALCON_INIT_NVAR(frontend_options);
 		array_init(frontend_options);
 	}
 	
@@ -68,8 +99,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
 	RETURN_LONG(1);
 }
 
@@ -79,8 +108,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
 
 
-	PHALCON_MM_GROW();
-	PHALCON_MM_RESTORE();
 	RETURN_FALSE;
 }
 
@@ -120,17 +147,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, stop){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 
-	zval *data = NULL;
+	zval *data;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	RETURN_CCTOR(data);
+	RETURN_CCTORW(data);
 }
 
 /**
@@ -140,16 +164,13 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 
-	zval *data = NULL;
+	zval *data;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	
-	RETURN_CCTOR(data);
+	RETURN_CCTORW(data);
 }
 

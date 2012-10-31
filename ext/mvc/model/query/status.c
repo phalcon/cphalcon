@@ -42,7 +42,23 @@
  * statement like INSERT, UPDATE or DELETE. It offers context
  * information and the related messages produced by the
  * model which finally executes the operations when it fails
+ *
+ *<code>
+ *$phql = "UPDATE Robots SET name = :name:, type = :type:, year = :year: WHERE id = :id:";
+ *$status = $app->modelsManager->executeQuery($phql, array(
+ *   'id' => 100,
+ *   'name' => 'Astroy Boy',
+ *   'type' => 'mechanical',
+ *   'year' => 1959
+ *));
+ *
+ *\//Check if the update was successful
+ *if($status->success()==true){
+ *   echo 'OK';
+ *}
+ *</code>
  */
+
 
 /**
  * Phalcon\Mvc\Model\Query\Status
@@ -52,19 +68,15 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 
-	zval *success = NULL, *model = NULL;
+	zval *success, *model;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &success, &model) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_success"), success TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -74,9 +86,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
 
-	zval *model = NULL;
+	zval *model;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	
@@ -90,9 +103,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 
-	zval *model = NULL, *messages = NULL, *empty_arr = NULL;
+	zval *model, *messages, *empty_arr;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(model);
 	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	if (Z_TYPE_P(model) == IS_OBJECT) {
@@ -109,15 +123,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 }
 
 /**
- * Allows to check if the executed operation was successfull
+ * Allows to check if the executed operation was successful
  *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
-	zval *success = NULL;
+	zval *success;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(success);
 	phalcon_read_property(&success, this_ptr, SL("_success"), PH_NOISY_CC);
 	

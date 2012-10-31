@@ -193,6 +193,38 @@ class ModelsMetadataTest extends PHPUnit_Framework_TestCase
 
 		$btAttributes = $metaData->getBindTypes($personas);
 		$this->assertEquals($btAttributes, $bindTypes);
+
+		$robots = new Robots($di);
+
+		//Robots
+		$pAttributes = array(
+			0 => 'id',
+			1 => 'name',
+			2 => 'type',
+			3 => 'year'
+		);
+
+		$attributes = $metaData->getAttributes($robots);
+		$this->assertEquals($attributes, $pAttributes);
+
+		$ppkAttributes = array(
+			0 => 'id'
+		);
+
+		$pkAttributes = $metaData->getPrimaryKeyAttributes($robots);
+		$this->assertEquals($ppkAttributes, $pkAttributes);
+
+		$pnpkAttributes = array(
+			0 => 'name',
+			1 => 'type',
+			2 => 'year'
+		);
+
+		$npkAttributes = $metaData->getNonPrimaryKeyAttributes($robots);
+		$this->assertEquals($pnpkAttributes, $npkAttributes);
+
+		$this->assertEquals($metaData->getIdentityField($robots), 'id');
+
 	}
 
 }

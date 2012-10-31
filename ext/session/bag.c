@@ -35,6 +35,7 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 
 /**
@@ -50,17 +51,18 @@
  *</code>
  */
 
+
 PHP_METHOD(Phalcon_Session_Bag, __construct){
 
-	zval *name = NULL;
+	zval *name;
 	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
+
 	
-	PHALCON_ALLOC_ZVAL_MM(a0);
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_session_bag_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -83,10 +85,10 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
  */
 PHP_METHOD(Phalcon_Session_Bag, setDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -108,9 +110,10 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
  */
 PHP_METHOD(Phalcon_Session_Bag, getDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
@@ -122,10 +125,11 @@ PHP_METHOD(Phalcon_Session_Bag, getDI){
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize){
 
-	zval *dependency_injector = NULL, *service = NULL, *session = NULL;
-	zval *name = NULL, *data = NULL;
+	zval *dependency_injector, *service, *session;
+	zval *name, *data = NULL;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -145,7 +149,7 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 	PHALCON_INIT_VAR(data);
 	PHALCON_CALL_METHOD_PARAMS_1(data, session, "get", name, PH_NO_CHECK);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
-		PHALCON_INIT_VAR(data);
+		PHALCON_INIT_NVAR(data);
 		array_init(data);
 	}
 	
@@ -161,12 +165,13 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
  */
 PHP_METHOD(Phalcon_Session_Bag, destroy){
 
-	zval *initalized = NULL, *name = NULL, *session = NULL;
+	zval *initalized, *name, *session;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(initalized);
 	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
 	}
 	
@@ -188,12 +193,12 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
  */
 PHP_METHOD(Phalcon_Session_Bag, __set){
 
-	zval *property = NULL, *value = NULL, *initalized = NULL, *name = NULL, *data = NULL;
-	zval *session = NULL;
+	zval *property, *value, *initalized, *name, *data;
+	zval *session;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -201,11 +206,11 @@ PHP_METHOD(Phalcon_Session_Bag, __set){
 
 	PHALCON_INIT_VAR(initalized);
 	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
 	}
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_data"), PH_NOISY_CC);
 	phalcon_array_update_zval(&t0, property, &value, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_data"), t0 TSRMLS_CC);
@@ -231,11 +236,11 @@ PHP_METHOD(Phalcon_Session_Bag, __set){
  */
 PHP_METHOD(Phalcon_Session_Bag, __get){
 
-	zval *property = NULL, *initalized = NULL, *data = NULL, *value = NULL;
+	zval *property, *initalized, *data, *value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -243,7 +248,7 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
 
 	PHALCON_INIT_VAR(initalized);
 	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
 	}
 	
@@ -269,11 +274,11 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset){
 
-	zval *property = NULL, *initalized = NULL, *data = NULL;
+	zval *property, *initalized, *data;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -281,7 +286,7 @@ PHP_METHOD(Phalcon_Session_Bag, __isset){
 
 	PHALCON_INIT_VAR(initalized);
 	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (Z_TYPE_P(initalized) == IS_BOOL && !Z_BVAL_P(initalized)) {
+	if (PHALCON_IS_FALSE(initalized)) {
 		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
 	}
 	

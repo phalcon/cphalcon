@@ -35,9 +35,16 @@ class PHPUnit_Framework_TestCase
 		if ($a != $b) {
 			if(is_array($a) && is_array($b)){
 				foreach($a as $k => $v){
-					if ($v != $b[$k]) {
+					if(isset($b[$k])){
+						if ($v != $b[$k]) {
+							print_r($v);
+							echo PHP_EOL;
+							print_r($b[$k]);
+						}
+					} else {
 						print_r($v);
-						print_r($b[$k]);
+						echo PHP_EOL;
+						echo 'Not exists';
 					}
 				}
 				throw new Exception('Not equals');
@@ -70,8 +77,8 @@ class PHPUnit_Framework_TestCase
 
 	public function assertGreaterThan($a, $b)
 	{
-		if ($a <= $b){
-			throw new Exception('Not greather than');
+		if ($b <= $a){
+			throw new Exception('Not greater than');
 		}
 	}
 
@@ -145,6 +152,6 @@ try {
 }
 catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;
-	//echo $e->getTraceAsString();
-	print_r($e->getTrace());
+	echo $e->getTraceAsString(), PHP_EOL;
+	//print_r($e->getTrace());
 }

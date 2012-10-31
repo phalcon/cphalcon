@@ -225,6 +225,20 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->le_name));
 		$this->assertEquals($result[0]->le_name, 'Astro Boy');
 
+		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT 1,2');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->le_name));
+		$this->assertEquals($result[0]->le_name, 'Robotina');
+
+		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT 2 OFFSET 1');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->le_name));
+		$this->assertEquals($result[0]->le_name, 'Robotina');
+
 		$result = $manager->executeQuery('SELECT r.type, COUNT(*) number FROM Robots r GROUP BY 1 ORDER BY r.type ASC');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 2);
@@ -324,10 +338,10 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
 
-		$status = $manager->executeQuery("UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL");
+		$status = $manager->executeQuery("UPDATE People SET direccion = 'COL' WHERE ciudad_id IS NULL LIMIT 25");
 		$this->assertTrue($status->success());
 
-		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL', array(
+		$status = $manager->executeQuery('UPDATE People SET direccion = :direccion: WHERE ciudad_id IS NULL LIMIT 25', array(
 			"direccion" => "MXN"
 		));
 		$this->assertTrue($status->success());

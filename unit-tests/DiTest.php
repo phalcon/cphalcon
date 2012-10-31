@@ -18,6 +18,18 @@
   +------------------------------------------------------------------------+
 */
 
+class SomeComponent
+{
+
+	public $someProperty = false;
+
+	public function __construct($value)
+	{
+		$this->someProperty = $value;
+	}
+
+}
+
 class DiTest extends PHPUnit_Framework_TestCase
 {
 
@@ -25,6 +37,7 @@ class DiTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
+		Phalcon\DI::reset();
 		$this->_di = new \Phalcon\DI();
 	}
 
@@ -127,6 +140,21 @@ class DiTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testParameters()
+	{
+		$this->_di->set('someComponent1', function($v){
+			return new SomeComponent($v);
+		});
+
+		$this->_di->set('someComponent2', 'SomeComponent');
+
+		$someComponent1 = $this->_di->get('someComponent1', array(100));
+		$this->assertEquals($someComponent1->someProperty, 100);
+
+		$someComponent2 = $this->_di->get('someComponent2', array(50));
+		$this->assertEquals($someComponent2->someProperty, 50);
+	}
+
 	public function testFactoryDefault()
 	{
 		$factoryDefault = new Phalcon\DI\FactoryDefault();
@@ -143,11 +171,20 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$url = $factoryDefault->get('url');
 		$this->assertEquals(get_class($url), 'Phalcon\Mvc\Url');
 
+		$flash = $factoryDefault->get('flash');
+		$this->assertEquals(get_class($flash), 'Phalcon\Flash\Direct');
+
 		$dispatcher = $factoryDefault->get('dispatcher');
 		$this->assertEquals(get_class($dispatcher), 'Phalcon\Mvc\Dispatcher');
 
 		$modelsManager = $factoryDefault->get('modelsManager');
 		$this->assertEquals(get_class($modelsManager), 'Phalcon\Mvc\Model\Manager');
+	}
+
+	public function testStaticDi()
+	{
+		$di = Phalcon\DI::getDefault();
+		$this->assertInstanceOf('Phalcon\DI', $di);
 	}
 
 }

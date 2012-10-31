@@ -46,6 +46,7 @@
  * with the same name of a registered service
  */
 
+
 /**
  * Sets the dependency injector
  *
@@ -53,18 +54,14 @@
  */
 PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -74,9 +71,10 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
  */
 PHP_METHOD(Phalcon_DI_Injectable, getDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
@@ -90,18 +88,14 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
  */
 PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -111,9 +105,10 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
  */
 PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
 
-	zval *events_manager = NULL;
+	zval *events_manager;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
@@ -127,12 +122,12 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
  */
 PHP_METHOD(Phalcon_DI_Injectable, __get){
 
-	zval *property_name = NULL, *dependency_injector = NULL;
-	zval *has_service = NULL, *service = NULL, *class_name = NULL, *arguments = NULL;
-	zval *persistent = NULL, *error_msg = NULL;
+	zval *property_name, *dependency_injector;
+	zval *has_service, *service = NULL, *class_name, *arguments;
+	zval *persistent, *error_msg;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property_name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -169,7 +164,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		array_init(arguments);
 		phalcon_array_append(&arguments, class_name, PH_SEPARATE TSRMLS_CC);
 		
-		PHALCON_INIT_VAR(service);
+		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "sessionBag", 1);
 		
 		PHALCON_INIT_VAR(persistent);

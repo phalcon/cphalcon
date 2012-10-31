@@ -35,6 +35,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 
 /**
@@ -63,19 +64,21 @@
  *
  */
 
+
 /**
  * Executes the validator
  *
+ * @param Phalcon\Mvc\Model $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 
-	zval *record = NULL, *option = NULL, *field_name = NULL, *regs = NULL, *invalid = NULL;
-	zval *value = NULL, *pattern = NULL, *match_pattern = NULL, *match_zero = NULL;
-	zval *type = NULL, *message = NULL;
+	zval *record, *option, *field_name, *regs, *invalid = NULL;
+	zval *value, *pattern, *match_pattern, *match_zero;
+	zval *type, *message;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -92,7 +95,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	}
 	
 	PHALCON_INIT_VAR(regs);
-	ZVAL_NULL(regs);
 	
 	PHALCON_INIT_VAR(invalid);
 	ZVAL_BOOL(invalid, 0);
@@ -111,14 +113,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 		PHALCON_INIT_VAR(match_zero);
 		phalcon_array_fetch_long(&match_zero, regs, 0, PH_NOISY_CC);
 		
-		PHALCON_INIT_VAR(invalid);
 		is_not_equal_function(invalid, match_zero, value TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(invalid);
 		ZVAL_BOOL(invalid, 1);
 	}
 	
-	if (Z_TYPE_P(invalid) == IS_BOOL && Z_BVAL_P(invalid)) {
+	if (PHALCON_IS_TRUE(invalid)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "email", 1);
 		

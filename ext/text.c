@@ -33,12 +33,14 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Text
  *
  * Provides utilities when working with strings
  */
+
 
 /**
  * Converts strings to camelize style
@@ -52,45 +54,19 @@
  */
 PHP_METHOD(Phalcon_Text, camelize){
 
-	zval *str = NULL, *space = NULL, *lower_str = NULL, *underscore = NULL, *no_underscore_str = NULL;
-	zval *dash = NULL, *no_dash_str = NULL, *empty_str = NULL, *uc_string = NULL;
-	zval *camelized = NULL;
+	zval *str, *camelized;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(space);
-	ZVAL_STRING(space, " ", 1);
-	
-	PHALCON_INIT_VAR(lower_str);
-	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
-	
-	PHALCON_INIT_VAR(underscore);
-	ZVAL_STRING(underscore, "_", 1);
-	
-	PHALCON_INIT_VAR(no_underscore_str);
-	phalcon_fast_str_replace(no_underscore_str, underscore, space, lower_str TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(dash);
-	ZVAL_STRING(dash, "-", 1);
-	
-	PHALCON_INIT_VAR(no_dash_str);
-	phalcon_fast_str_replace(no_dash_str, dash, space, no_underscore_str TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(empty_str);
-	ZVAL_STRING(empty_str, "", 1);
-	
-	PHALCON_INIT_VAR(uc_string);
-	PHALCON_CALL_FUNC_PARAMS_1(uc_string, "ucwords", no_dash_str);
-	
 	PHALCON_INIT_VAR(camelized);
-	phalcon_fast_str_replace(camelized, space, empty_str, uc_string TSRMLS_CC);
+	phalcon_camelize(camelized, str TSRMLS_CC);
 	
-	RETURN_CTOR(camelized);
+	RETURN_CCTOR(camelized);
 }
 
 /**
@@ -105,60 +81,35 @@ PHP_METHOD(Phalcon_Text, camelize){
  */
 PHP_METHOD(Phalcon_Text, uncamelize){
 
-	zval *str = NULL, *patterns = NULL, *replacement = NULL, *pattern = NULL, *match_pattern = NULL;
-	zval *pattern_replace = NULL, *lower_pattern = NULL, *lower_str = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
+	zval *str, *uncamelized;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(patterns);
-	array_init(patterns);
-	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])/")+1, SL("\\1_\\2"), 1);
-	add_assoc_stringl_ex(patterns, SL("/(?<=(?:[a-z]))([A-Z])/")+1, SL("_\\1"), 1);
-	if (!phalcon_valid_foreach(patterns TSRMLS_CC)) {
-		return;
+	PHALCON_INIT_VAR(uncamelized);
+	phalcon_uncamelize(uncamelized, str TSRMLS_CC);
+	
+	RETURN_CCTOR(uncamelized);
+}
+
+PHP_METHOD(Phalcon_Text, x){
+
+	zval *a, *b, *x;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &a, &b) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
 	}
+
+	PHALCON_INIT_VAR(x);
+	PHALCON_CALL_USER_FUNC_ARRAY(x, a, b);
 	
-	ah0 = Z_ARRVAL_P(patterns);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	fes_f8ee_0:
-		if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-			goto fee_f8ee_0;
-		}
-		
-		PHALCON_INIT_VAR(pattern);
-		PHALCON_GET_FOREACH_KEY(pattern, ah0, hp0);
-		PHALCON_INIT_VAR(replacement);
-		ZVAL_ZVAL(replacement, *hd, 1, 0);
-		PHALCON_INIT_VAR(match_pattern);
-		PHALCON_CALL_FUNC_PARAMS_2(match_pattern, "preg_match", pattern, str);
-		if (zend_is_true(match_pattern)) {
-			PHALCON_INIT_VAR(pattern_replace);
-			PHALCON_CALL_FUNC_PARAMS_3(pattern_replace, "preg_replace", pattern, replacement, str);
-			
-			PHALCON_INIT_VAR(lower_pattern);
-			PHALCON_CALL_FUNC_PARAMS_1(lower_pattern, "strtolower", pattern_replace);
-			
-			RETURN_CTOR(lower_pattern);
-		}
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto fes_f8ee_0;
-	fee_f8ee_0:
-	
-	PHALCON_INIT_VAR(lower_str);
-	PHALCON_CALL_FUNC_PARAMS_1(lower_str, "strtolower", str);
-	
-	RETURN_CTOR(lower_str);
+	RETURN_CCTOR(x);
 }
 

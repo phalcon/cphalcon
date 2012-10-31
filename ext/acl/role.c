@@ -44,6 +44,7 @@
  *
  */
 
+
 /**
  * Phalcon\Acl\Role description
  *
@@ -52,17 +53,17 @@
  */
 PHP_METHOD(Phalcon_Acl_Role, __construct){
 
-	zval *name = NULL, *description = NULL;
+	zval *name, *description = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &description) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!description) {
-		PHALCON_ALLOC_ZVAL_MM(description);
+		PHALCON_INIT_NVAR(description);
 		ZVAL_STRING(description, "", 1);
 	}
 	
@@ -83,13 +84,14 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
  */
 PHP_METHOD(Phalcon_Acl_Role, getName){
 
-	zval *t0 = NULL;
+	zval *name;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_name"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(name);
+	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(name);
 }
 
 /**
@@ -99,12 +101,13 @@ PHP_METHOD(Phalcon_Acl_Role, getName){
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription){
 
-	zval *t0 = NULL;
+	zval *description;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_description"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(description);
+	phalcon_read_property(&description, this_ptr, SL("_description"), PH_NOISY_CC);
 	
-	RETURN_CCTOR(t0);
+	RETURN_CCTOR(description);
 }
 

@@ -316,6 +316,30 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testRouterNamespace()
+	{
+		$router = new Phalcon\Mvc\Router();
+
+		$tests = array(
+			array(
+				'method' => null,
+				'uri' => '/account/follower',
+				'controller' => "Account\\Follower",
+				'action' => '',
+				'params' => array(),
+			),
+		);
+
+		$router->add('/:namespace/:controller', array(
+			'namespace' => 1,
+			'controller' => 2,
+		));
+
+		foreach ($tests as $n => $test) {
+			$this->_runTest($router, $test);
+		}
+	}
+
 	public function testNamedRoutes()
 	{
 

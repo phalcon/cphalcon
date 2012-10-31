@@ -55,6 +55,7 @@
  * </code>
  */
 
+
 /**
  * Parses a PHQL statement returning an intermediate representation (IR)
  *
@@ -63,10 +64,10 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
-	zval *phql = NULL, *intermediate = NULL;
+	zval *phql, *intermediate;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &phql) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

@@ -52,19 +52,16 @@ extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 
 /** Globals functions */
-extern int phalcon_init_global(char *global, int global_length TSRMLS_DC);
-extern int phalcon_get_global(zval **arr, char *global, int global_length TSRMLS_DC);
+extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
+extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
-extern int phalcon_file_exists(zval *filename TSRMLS_DC);
+extern int phalcon_is_callable(zval *var TSRMLS_DC);
+extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
 
-/** Function replacement **/
+/** Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
-extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
-extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
-extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
-extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
-extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
+extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /** Low level filters */
 extern int phalcon_filter_alphanum(zval *result, zval *param);
@@ -76,7 +73,7 @@ extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
 /** Export symbols to active symbol table */
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TSRMLS_DC);
+extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
 
 /** Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
@@ -92,7 +89,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 #endif
 
 /** Symbols */
-#define PHALCON_READ_SYMBOL(var, auxarr, name) if(EG(active_symbol_table)){\
+#define PHALCON_READ_SYMBOL(var, auxarr, name) if (EG(active_symbol_table)){ \
 	if (zend_hash_find(EG(active_symbol_table), name, sizeof(name), (void **)  &auxarr) == SUCCESS) { \
 			var = *auxarr; \
 		} else { \
@@ -108,7 +105,7 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 #define RETURN_CCTOR(var) { \
 		*(return_value) = *(var); \
 		if (Z_TYPE_P(var) > IS_BOOL) { \
-			zval_copy_ctor(return_value); \
+			phalcon_copy_ctor(return_value, var); \
 		} \
 		INIT_PZVAL(return_value) \
 	} \
@@ -116,14 +113,36 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	return;
 
 /**
+ * Return zval checking if it's needed to ctor, without restoring the memory stack
+ */
+#define RETURN_CCTORW(var) { \
+		*(return_value) = *(var); \
+		if (Z_TYPE_P(var) > IS_BOOL) { \
+			phalcon_copy_ctor(return_value, var); \
+		} \
+		INIT_PZVAL(return_value) \
+	} \
+	return;
+
+/**
  * Return zval with always ctor
  */
 #define RETURN_CTOR(var) { \
 		*(return_value) = *(var); \
-		zval_copy_ctor(return_value); \
+		phalcon_copy_ctor(return_value, var); \
 		INIT_PZVAL(return_value) \
 	} \
 	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Return zval with always ctor, without restoring the memory stack
+ */
+#define RETURN_CTORW(var) { \
+		*(return_value) = *(var); \
+		phalcon_copy_ctor(return_value, var); \
+		INIT_PZVAL(return_value) \
+	} \
 	return;
 
 /**
@@ -136,8 +155,37 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	PHALCON_MM_RESTORE(); \
 	return;
 
+/**
+ * Returns variables without ctor, without restoring the memory stack
+ */
+#define RETURN_NCTORW(var) { \
+		*(return_value) = *(var); \
+		INIT_PZVAL(return_value) \
+	} \
+	return;
+
+/**
+ * Check for ctor on the same return_value
+ */
+#define RETURN_SCTOR() \
+	if (Z_TYPE_P(return_value) > IS_BOOL) { \
+		zval_copy_ctor(return_value); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Check for ctor on the same return_value, without restoring the memory stack
+ */
+#define RETURN_SCTORW() \
+	if (Z_TYPE_P(return_value) > IS_BOOL) { \
+		zval_copy_ctor(return_value); \
+	} \
+	return;
+
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
+	PHALCON_INIT_NVAR(var); \
 	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
 	if (hash_type == HASH_KEY_IS_STRING) { \
 		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
@@ -148,8 +196,9 @@ extern int phalcon_set_symbol_str(char *key_name, int key_length, zval *value TS
 	}
 
 #define PHALCON_GET_FOREACH_VALUE(var) \
-	PHALCON_INIT_VAR(var); \
-	ZVAL_ZVAL(var, *hd, 1, 0);
+	PHALCON_OBSERVE_VAR(var); \
+	var = *hd; \
+	Z_ADDREF_P(var);
 
 /** class registering */
 #define PHALCON_REGISTER_CLASS(ns, classname, name, methods, flags) \

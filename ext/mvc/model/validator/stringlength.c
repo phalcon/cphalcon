@@ -39,32 +39,33 @@
 #include "kernel/concat.h"
 
 /**
-* Phalcon\Mvc\Model\Validator\StringLength
-*
-* Simply validates specified string length constraints
-*
-*<code>
-*use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
-*
-*class Subscriptors extends Phalcon\Mvc\Model
-*{
-*
-*	public function validation()
-*	{
-*		$this->validate(new StringLengthValidator(array(
-*			'field' => 'name_last',
-*			'max' => 50, //we don't like really long names
-*			'min' => 2, //we want more than just their initials
-*		)));
-*		if ($this->validationHasFailed() == true) {
-*			return false;
-*		}
-*	}
-*
-*}
-*</code>
-*
-*/
+ * Phalcon\Mvc\Model\Validator\StringLength
+ *
+ * Simply validates specified string length constraints
+ *
+ *<code>
+ *use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
+ *
+ *class Subscriptors extends Phalcon\Mvc\Model
+ *{
+ *
+ *	public function validation()
+ *	{
+ *		$this->validate(new StringLengthValidator(array(
+ *			'field' => 'name_last',
+ *			'max' => 50, //we don't like really long names
+ *			'min' => 2, //we want more than just their initials
+ *		)));
+ *		if ($this->validationHasFailed() == true) {
+ *			return false;
+ *		}
+ *	}
+ *
+ *}
+ *</code>
+ *
+ */
+
 
 /**
  * Executes the validator
@@ -122,9 +123,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 	PHALCON_INIT_VAR(failed);
 	ZVAL_BOOL(failed, 0);
 
-
+	//validate the max
 	if (zend_is_true(max_is_set)) {
-		//validate the max
 		PHALCON_INIT_VAR(max);
 		PHALCON_CALL_METHOD_PARAMS_1(max, this_ptr, "getoption", c1, PH_NO_CHECK);
 		PHALCON_INIT_VAR(r0);
@@ -137,13 +137,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message0, field_name, c3, PH_NO_CHECK);
 
-			PHALCON_INIT_VAR(failed);
 			ZVAL_BOOL(failed, 1);
 		}
 	}
 
+	//validate the min
 	if (zend_is_true(min_is_set)) {
-		//validate the min
 		PHALCON_INIT_VAR(min);
 		PHALCON_CALL_METHOD_PARAMS_1(min, this_ptr, "getoption", c2, PH_NO_CHECK);
 		PHALCON_INIT_VAR(r1);
@@ -155,7 +154,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 			ZVAL_STRING(c4, "too_short", 1);
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message1, field_name, c4, PH_NO_CHECK);
 
-			PHALCON_INIT_VAR(failed);
 			ZVAL_BOOL(failed, 1);
 		}
 	}

@@ -23,7 +23,7 @@
 %extra_argument {phql_parser_status *status}
 %name phql_
 
-%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL.
+%left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
 %left LIKE .
 %left DIVIDE TIMES MOD .
@@ -146,7 +146,6 @@ static zval *phql_ret_select_clause(zval *columns, zval *tables, zval *join_list
 	return ret;
 }
 
-
 static zval *phql_ret_order_item(zval *column, int sort){
 
 	zval *ret;
@@ -156,6 +155,26 @@ static zval *phql_ret_order_item(zval *column, int sort){
 	add_assoc_zval(ret, "column", column);
 	if (sort != 0 ) {
 		add_assoc_long(ret, "sort", sort);
+	}
+
+	return ret;
+}
+
+static zval *phql_ret_select_limit_clause(phql_parser_token *L, phql_parser_token *O)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_stringl(ret, "number", L->token, L->token_len, 1);
+	efree(L->token);
+	efree(L);
+
+	if (O != NULL) {
+		add_assoc_stringl(ret, "offset", O->token, O->token_len, 1);
+		efree(O->token);
+		efree(O);
 	}
 
 	return ret;
@@ -405,7 +424,8 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 	if (status->scanner_state->start) {
 		{
 
-			char *token_name;
+			char *token_name = NULL;
+			int token_found = 0;
 			const phql_token_names *tokens = phql_tokens;
 			int active_token = status->scanner_state->active_token;
 			int near_length = strlen(status->scanner_state->start);
@@ -415,13 +435,17 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 				do {
 					if (tokens->code == active_token) {
 						token_name = tokens->name;
+						token_found = 1;
 						break;
 					}
 					++tokens;
 				} while (tokens[0].code != 0);
 
-			} else {
+			}
+
+			if (!token_name) {
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+				token_found = 0;
 			}
 
 			status->syntax_error_len = 64 + strlen(token_name) + near_length;
@@ -432,8 +456,10 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 				sprintf(status->syntax_error, "Syntax error, unexpected token %s, at the end of query", token_name);
 			}
 
-			if (!active_token) {
-				efree(token_name);
+			if (!token_found) {
+				if (token_name) {
+					efree(token_name);
+				}
 			}
 		}
 	} else {
@@ -499,7 +525,7 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) order_c
 	R = phql_ret_select_statement(S, W, O, G, NULL, NULL);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, O, G, NULL, L);
 }
 
@@ -507,19 +533,19 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 	R = phql_ret_select_statement(S, W, O, G, H, NULL);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, NULL, NULL, NULL, L);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, O, NULL, NULL, L);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, NULL, G, NULL, L);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, NULL, G, H, L);
 }
 
@@ -535,15 +561,15 @@ select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) order_
 	R = phql_ret_select_statement(S, NULL, O, G, H, NULL);
 }
 
-select_statement(R) ::= select_clause(S) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, O, NULL, NULL, L);
 }
 
-select_statement(R) ::= select_clause(S) group_clause(G) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) group_clause(G) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, O, G, NULL, L);
 }
 
-select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, W, O, G, H, L);
 }
 
@@ -551,7 +577,7 @@ select_statement(R) ::= select_clause(S) group_clause(G) . {
 	R = phql_ret_select_statement(S, NULL, NULL, G, NULL, NULL);
 }
 
-select_statement(R) ::= select_clause(S) group_clause(G) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) group_clause(G) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, NULL, G, NULL, L);
 }
 
@@ -559,15 +585,15 @@ select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) . {
 	R = phql_ret_select_statement(S, NULL, NULL, G, H, NULL);
 }
 
-select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, NULL, G, H, L);
 }
 
-select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) order_clause(O) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, O, G, H, L);
 }
 
-select_statement(R) ::= select_clause(S) limit_clause(L) . {
+select_statement(R) ::= select_clause(S) select_limit_clause(L) . {
 	R = phql_ret_select_statement(S, NULL, NULL, NULL, NULL, L);
 }
 
@@ -916,6 +942,20 @@ group_item(R) ::= INTEGER(I) . {
 
 having_clause(R) ::= HAVING expr(E) . {
 	R = E;
+}
+
+%destructor select_limit_clause { zval_ptr_dtor(&$$); }
+
+select_limit_clause(R) ::= LIMIT INTEGER(I) . {
+	R = phql_ret_select_limit_clause(I, NULL);
+}
+
+select_limit_clause(R) ::= LIMIT INTEGER(O) COMMA INTEGER(I). {
+	R = phql_ret_select_limit_clause(I, O);
+}
+
+select_limit_clause(R) ::= LIMIT INTEGER(I) OFFSET INTEGER(O). {
+	R = phql_ret_select_limit_clause(I, O);
 }
 
 %destructor limit_clause { zval_ptr_dtor(&$$); }

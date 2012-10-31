@@ -3218,8 +3218,6 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 		array_init(messages);
 		phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -3288,8 +3286,6 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			array_init(messages);
 			phalcon_array_append(&messages, model_message, PH_SEPARATE TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
 		}
 	}
 	
@@ -3725,10 +3721,10 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 
-	zval *model_name = NULL, *arguments = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *manager = NULL, *class_name = NULL, *exists = NULL, *manager_method = NULL;
-	zval *query_method = NULL, *exception_message = NULL, *exception = NULL;
-	zval *call_object = NULL, *model_args = NULL, *result = NULL;
+	zval *model_name, *arguments = NULL, *dependency_injector;
+	zval *service, *manager, *class_name, *exists = NULL, *manager_method = NULL;
+	zval *query_method = NULL, *exception_message, *call_object;
+	zval *model_args, *result;
 
 	PHALCON_MM_GROW();
 	
@@ -3812,10 +3808,15 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_array_append(&model_args, class_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, model_name, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&model_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-	phalcon_array_append(&model_args, arguments, PH_SEPARATE TSRMLS_CC);
+	if (Z_TYPE_P(arguments) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(arguments_merge);
+		PHALCON_CALL_FUNC_PARAMS_2(arguments_merge, "array_merge", model_args, arguments);
+	} else {
+		PHALCON_CPY_WRT(arguments_merge, model_args);
+	}
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, model_args);
+	PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, model_args);
 	
 	RETURN_CCTOR(result);
 }
@@ -3830,11 +3831,11 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 
-	zval *model_name = NULL, *method = NULL, *arguments = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *manager = NULL, *manager_method = NULL, *zero = NULL;
-	zval *three = NULL, *action = NULL, *requested_relation = NULL, *exists = NULL;
-	zval *query_method = NULL, *five = NULL, *extra_args = NULL, *call_args = NULL;
-	zval *call_object = NULL, *result = NULL;
+	zval *model_name, *method, *arguments, *dependency_injector;
+	zval *service, *manager, *zero, *three, *manager_method = NULL;
+	zval *action = NULL, *requested_relation = NULL, *exists = NULL, *query_method = NULL;
+	zval *five, *extra_args = NULL, *call_args, *call_object;
+	zval *result;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -3949,17 +3950,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 			PHALCON_INIT_VAR(extra_args);
 			phalcon_array_fetch_long(&extra_args, arguments, 0, PH_NOISY_CC);
 		} else {
-			PHALCON_INIT_VAR(extra_args);
-			ZVAL_NULL(extra_args);
+			PHALCON_INIT_NVAR(extra_args);
 		}
 		
-		PHALCON_INIT_VAR(call_args);
-		array_init(call_args);
-		phalcon_array_append(&call_args, query_method, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, model_name, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, requested_relation, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
-		phalcon_array_append(&call_args, extra_args, PH_SEPARATE TSRMLS_CC);
+		PHALCON_INIT_VAR(arguments_merge);
+		PHALCON_CALL_FUNC_PARAMS_2(arguments_merge, "array_merge", model_args, arguments);
 		
 		PHALCON_INIT_VAR(call_object);
 		array_init(call_object);
@@ -3967,7 +3962,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		phalcon_array_append(&call_object, manager_method, PH_SEPARATE TSRMLS_CC);
 		
 		PHALCON_INIT_VAR(result);
-		PHALCON_CALL_FUNC_PARAMS_2(result, "call_user_func_array", call_object, call_args);
+		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
 		
 		RETURN_CCTOR(result);
 	}

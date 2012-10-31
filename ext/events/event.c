@@ -40,6 +40,7 @@
  * This class offers contextual information of a fired event in the EventsManager
  */
 
+
 /**
  * Phalcon\Events\Event constructor
  *
@@ -49,18 +50,17 @@
  */
 PHP_METHOD(Phalcon_Events_Event, __construct){
 
-	zval *type = NULL, *source = NULL, *data = NULL;
+	zval *type, *source, *data = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &type, &source, &data) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!data) {
-		PHALCON_ALLOC_ZVAL_MM(data);
-		ZVAL_NULL(data);
+		PHALCON_INIT_NVAR(data);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -77,18 +77,14 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
  */
 PHP_METHOD(Phalcon_Events_Event, setType){
 
-	zval *event_type = NULL;
+	zval *event_type;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &event_type) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), event_type TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -98,9 +94,10 @@ PHP_METHOD(Phalcon_Events_Event, setType){
  */
 PHP_METHOD(Phalcon_Events_Event, getType){
 
-	zval *type = NULL;
+	zval *type;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
@@ -114,9 +111,10 @@ PHP_METHOD(Phalcon_Events_Event, getType){
  */
 PHP_METHOD(Phalcon_Events_Event, getSource){
 
-	zval *source = NULL;
+	zval *source;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(source);
 	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	
@@ -130,18 +128,14 @@ PHP_METHOD(Phalcon_Events_Event, getSource){
  */
 PHP_METHOD(Phalcon_Events_Event, setData){
 
-	zval *data = NULL;
+	zval *data;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -151,9 +145,10 @@ PHP_METHOD(Phalcon_Events_Event, setData){
  */
 PHP_METHOD(Phalcon_Events_Event, getData){
 
-	zval *data = NULL;
+	zval *data;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(data);
 	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
 	

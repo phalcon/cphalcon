@@ -5,14 +5,19 @@ php:
   - 5.3.3
   - 5.4
 
+services:
+  - memcached
+  - mongodb
+
 before_install:
  - sudo apt-get install gdb
- - sudo apt-get install memcached
  - sudo apt-get install sqlite3
  - chmod +x unit-tests/ci/install_memcached
  - chmod +x unit-tests/ci/install_apc
+ - chmod +x unit-tests/ci/install_mongo
  - sudo ./unit-tests/ci/install_memcached
  - sudo ./unit-tests/ci/install_apc
+ - sudo ./unit-tests/ci/install_mongo
 
 before_script:
  - mkdir -p unit-tests/engines

@@ -37,6 +37,10 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 
 	if (Z_TYPE_P(index) == IS_NULL) {
@@ -86,6 +90,10 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 	return zend_hash_exists(Z_ARRVAL_P(arr), index, index_length);
 }
@@ -96,6 +104,10 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
 int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
 	}
 	return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
 }
@@ -184,6 +196,9 @@ int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC){
 	return FAILURE;
 }
 
+/**
+ * Appends a long value to an array
+ */
 int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
 
 	zval *zvalue;
@@ -195,6 +210,9 @@ int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
 	return phalcon_array_append(arr, zvalue, separate TSRMLS_CC);
 }
 
+/**
+ * Appends a string value to an array
+ */
 int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate TSRMLS_DC){
 
 	zval *zvalue;
@@ -248,7 +266,7 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 		Z_ADDREF_PP(value);
 	}
 
- 	if(Z_TYPE_P(index) == IS_STRING){
+ 	if (Z_TYPE_P(index) == IS_STRING) {
 		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval *), NULL);
 	} else {
 		if (Z_TYPE_P(index) == IS_LONG) {
@@ -261,6 +279,9 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 	return FAILURE;
 }
 
+/**
+ * Updates an array with a bool value using a zval index
+ */
 int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -271,6 +292,9 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
 	return phalcon_array_update_zval(arr, index, &zvalue, flags TSRMLS_CC);
 }
 
+/**
+ * Updates an array with a string value using a zval index
+ */
 int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -318,6 +342,9 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 	return zend_hash_update(Z_ARRVAL_PP(arr), index, index_length+1, value, sizeof(zval *), NULL);
 }
 
+/**
+ * Updates an array with a bool value in a string index
+ */
 int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length, int value, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -328,6 +355,9 @@ int phalcon_array_update_string_bool(zval **arr, char *index, uint index_length,
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags TSRMLS_CC);
 }
 
+/**
+ * Updates an array with a bool value in a string index
+ */
 int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -338,6 +368,9 @@ int phalcon_array_update_string_long(zval **arr, char *index, uint index_length,
 	return phalcon_array_update_string(arr, index, index_length, &zvalue, flags TSRMLS_CC);
 }
 
+/**
+ * Updates an array with a string value in a string index
+ */
 int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -385,6 +418,9 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags T
 	return zend_hash_index_update(Z_ARRVAL_PP(arr), index, value, sizeof(zval *), NULL);
 }
 
+/**
+ * Updates an array with a string value in a long index
+ */
 int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint value_length, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -395,6 +431,9 @@ int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint 
 	return phalcon_array_update_long(arr, index, &zvalue, flags TSRMLS_CC);
 }
 
+/**
+ * Updates an array with a bool value in a long index
+ */
 int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC){
 
 	zval *zvalue;
@@ -413,8 +452,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	zval **zv;
 	int result = FAILURE, type;
 
-	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
-		ZVAL_NULL(*return_value);
+ 	if (Z_TYPE_P(index) == IS_ARRAY || Z_TYPE_P(index) == IS_OBJECT) {
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 		}
@@ -424,8 +462,6 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
  	if (Z_TYPE_P(index) == IS_NULL) {
 		convert_to_string(index);
 	}
-
-	ZVAL_NULL(*return_value);
 
 	if (Z_TYPE_P(arr) == IS_NULL || Z_TYPE_P(arr) == IS_BOOL) {
 		return FAILURE;
@@ -438,8 +474,8 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 		return FAILURE;
 	}
 
-	if (Z_TYPE_P(index) == IS_STRING) {
-		if((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))){
+ 	if (Z_TYPE_P(index) == IS_STRING) {
+       	if ((type = is_numeric_string(Z_STRVAL_P(index), Z_STRLEN_P(index), NULL, NULL, 0))) {
 			if (type == IS_LONG) {
 				convert_to_long(index);
 			}
@@ -451,7 +487,7 @@ int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent 
 	}
 
  	if (Z_TYPE_P(index) == IS_STRING) {
-		if((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS){
+		if ((result = zend_hash_find(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, (void**) &zv)) == SUCCESS) {
 			zval_ptr_dtor(return_value);
 			*return_value = *zv;
 			Z_ADDREF_PP(return_value);
@@ -487,10 +523,7 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 	zval **zv;
 	int result = FAILURE;
 
-	ZVAL_NULL(*return_value);
-
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		ZVAL_NULL(*return_value);
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		}
@@ -519,8 +552,6 @@ int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int si
 
 	zval **zv;
 	int result = FAILURE;
-
-	ZVAL_NULL(*return_value);
 
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		if (silent == PH_NOISY) {

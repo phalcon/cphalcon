@@ -35,6 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
 #include "kernel/array.h"
 
 /**
@@ -43,6 +44,7 @@
  * This is a base class for Phalcon\Mvc\Model validators
  */
 
+
 /**
  * Phalcon\Mvc\Model\Validator constructor
  *
@@ -50,18 +52,18 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 
-	zval *options = NULL;
+	zval *options;
 	zval *a0 = NULL, *a1 = NULL;
 
 	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
+
+	PHALCON_INIT_VAR(a0);
 	array_init(a0);
 	zend_update_property(phalcon_mvc_model_validator_ce, this_ptr, SL("_options"), a0 TSRMLS_CC);
 	
-	PHALCON_ALLOC_ZVAL_MM(a1);
+	PHALCON_INIT_VAR(a1);
 	array_init(a1);
 	zend_update_property(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages"), a1 TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -85,25 +87,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 
-	zval *message = NULL, *field = NULL, *type = NULL, *class_name = NULL, *suffix = NULL;
-	zval *empty_string = NULL, *model_message = NULL;
+	zval *message, *field = NULL, *type = NULL, *class_name, *suffix;
+	zval *empty_string, *model_message;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &message, &field, &type) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!field) {
-		PHALCON_ALLOC_ZVAL_MM(field);
-		ZVAL_NULL(field);
+		PHALCON_INIT_NVAR(field);
 	}
 	
 	if (!type) {
-		PHALCON_ALLOC_ZVAL_MM(type);
-		ZVAL_NULL(type);
+		PHALCON_INIT_NVAR(type);
 	} else {
 		PHALCON_SEPARATE_PARAM(type);
 	}
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 		PHALCON_INIT_VAR(empty_string);
 		ZVAL_STRING(empty_string, "", 1);
 		
-		PHALCON_INIT_VAR(type);
+		PHALCON_INIT_NVAR(type);
 		phalcon_fast_str_replace(type, suffix, empty_string, class_name TSRMLS_CC);
 	}
 	
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	object_init_ex(model_message, phalcon_mvc_model_message_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(model_message, "__construct", message, field, type, PH_CHECK);
 	
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_messages"), PH_NOISY_CC);
 	phalcon_array_append(&t0, model_message, 0 TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_messages"), t0 TSRMLS_CC);
@@ -141,9 +141,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
 
-	zval *messages = NULL;
+	zval *messages;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(messages);
 	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
 	
@@ -157,9 +158,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
 
-	zval *options = NULL;
+	zval *options;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
@@ -174,11 +176,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 
-	zval *option = NULL, *options = NULL, *value = NULL;
+	zval *option, *options, *value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &option) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -206,12 +208,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 
-	zval *option = NULL, *options = NULL, *is_set = NULL;
+	zval *option, *options, *is_set = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &option) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -221,7 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, isSetOption){
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(options, option);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(is_set, r0);
 	

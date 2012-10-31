@@ -1,0 +1,661 @@
+
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+%token_prefix PHVOLT_
+%token_type {phvolt_parser_token*}
+%default_type {zval*}
+%extra_argument {phvolt_parser_status *status}
+%name phvolt_
+
+%left COMMA .
+%right SBRACKET_OPEN .
+%left RANGE .
+%left IS EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL IDENTICAL NOTIDENTICAL .
+%left AND OR .
+%left PIPE .
+%left DIVIDE TIMES MOD .
+%left PLUS MINUS CONCAT .
+%right NOT .
+%left DOT .
+
+%include {
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
+
+#include "parser.h"
+#include "scanner.h"
+#include "compiler.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/exception.h"
+
+static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", type);
+	if (T) {
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
+		efree(T->token);
+		efree(T);
+	}
+
+	return ret;
+}
+
+static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *false_statements)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_IF);
+	add_assoc_zval(ret, "expr", expr);
+	add_assoc_zval(ret, "true_statements", true_statements);
+	if (false_statements) {
+		add_assoc_zval(ret, "false_statements", false_statements);
+	}
+
+	return ret;
+}
+
+static zval *phvolt_ret_for_statement(zval *qualified_name, zval *expr, zval *block_statements)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_FOR);
+	add_assoc_zval(ret, "qualified", qualified_name);
+	add_assoc_zval(ret, "expr", expr);
+	add_assoc_zval(ret, "block_statements", block_statements);
+
+	return ret;
+}
+
+static zval *phvolt_ret_set_statement(zval *qualified_name, zval *expr)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_SET);
+	add_assoc_zval(ret, "qualified", qualified_name);
+	add_assoc_zval(ret, "expr", expr);
+
+	return ret;
+}
+
+static zval *phvolt_ret_echo_statement(zval *expr)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_ECHO);
+	add_assoc_zval(ret, "expr", expr);
+
+	return ret;
+}
+
+static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_statements)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
+
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
+	efree(name->token);
+	efree(name);
+
+	if (block_statements) {
+		add_assoc_zval(ret, "block_statements", block_statements);
+	}
+
+	return ret;
+}
+
+static zval *phvolt_ret_extends_statement(phvolt_parser_token *P)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
+
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
+	efree(P->token);
+	efree(P);
+
+	return ret;
+}
+
+static zval *phvolt_ret_include_statement(phvolt_parser_token *P)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
+
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
+	efree(P->token);
+	efree(P);
+
+	return ret;
+}
+
+static zval *phvolt_ret_empty_statement()
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_EMPTY);
+
+	return ret;
+}
+
+static zval *phvolt_ret_qualified_name(zval *A, phvolt_parser_token *B)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_QUALIFIED);
+	if (A != NULL) {
+		add_assoc_zval(ret, "qualified", A);
+	}
+
+	add_assoc_stringl(ret, "name", B->token, B->token_len, 1);
+	efree(B->token);
+	efree(B);
+
+	return ret;
+}
+
+static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
+{
+
+	zval *ret;
+	HashPosition pos;
+	HashTable *list;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	list = Z_ARRVAL_P(list_left);
+	if (zend_hash_index_exists(list, 0)) {
+		zend_hash_internal_pointer_reset_ex(list, &pos);
+		for (;; zend_hash_move_forward_ex(list, &pos)) {
+
+			zval ** item;
+
+			if (zend_hash_get_current_data_ex(list, (void**)&item, &pos) == FAILURE) {
+				break;
+			}
+
+			Z_ADDREF_PP(item);
+			add_next_index_zval(ret, *item);
+
+		}
+		zval_ptr_dtor(&list_left);
+	} else {
+		add_next_index_zval(ret, list_left);
+	}
+
+	add_next_index_zval(ret, right_list);
+
+	return ret;
+}
+
+static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_zval(ret, "expr", expr);
+	if (name != NULL) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
+		efree(name->token);
+		efree(name);
+	}
+
+	return ret;
+}
+
+static zval *phvolt_ret_expr(int type, zval *left, zval *right)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", type);
+	if (left) {
+		add_assoc_zval(ret, "left", left);
+	}
+	if (right) {
+		add_assoc_zval(ret, "right", right);
+	}
+
+	return ret;
+}
+
+static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
+{
+
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_FCALL);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
+	efree(name->token);
+	efree(name);
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	return ret;
+}
+
+}
+
+%syntax_error {
+	if (status->scanner_state->start) {
+		{
+
+			char *token_name = NULL;
+			const phvolt_token_names *tokens = phvolt_tokens;
+			int token_found = 0;
+			int active_token = status->scanner_state->active_token;
+
+			if (active_token) {
+
+				do {
+					if (tokens->code == active_token) {
+						token_found = 1;
+						token_name = tokens->name;
+						break;
+					}
+					++tokens;
+				} while (tokens[0].code != 0);
+
+			}
+
+			if (!token_name) {
+				token_found = 0;
+				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+			}
+
+			status->syntax_error_len = 64 + strlen(token_name);
+			status->syntax_error = emalloc(sizeof(char)*status->syntax_error_len);
+			sprintf(status->syntax_error, "Syntax error, unexpected token %s on line %d", token_name, status->scanner_state->active_line);
+
+			if (!token_found) {
+				if (token_name) {
+					efree(token_name);
+				}
+			}
+		}
+	} else {
+		status->syntax_error_len = strlen("Syntax error, unexpected EOF");
+		status->syntax_error = estrndup("Syntax error, unexpected EOF", status->syntax_error_len);
+	}
+
+	status->status = PHVOLT_PARSING_FAILED;
+}
+
+%token_destructor {
+	if ($$) {
+		efree($$->token);
+		efree($$);
+	}
+}
+
+program ::= volt_language(Q) . {
+	status->ret = Q;
+}
+
+volt_language(R) ::= statement_list(L) . {
+	R = L;
+}
+
+%destructor statement_list { zval_ptr_dtor(&$$); }
+
+statement_list(R) ::= statement_list(L) statement(S) . {
+	R = phvolt_ret_zval_list(L, S);
+}
+
+statement_list(R) ::= statement(S) . {
+	R = S;
+}
+
+%destructor statement { zval_ptr_dtor(&$$); }
+
+statement(R) ::= raw_fragment(F) . {
+	R = F;
+}
+
+statement(R) ::= if_statement(I) . {
+	R = I;
+}
+
+statement(R) ::= for_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= set_statement(S) . {
+	R = S;
+}
+
+statement(R) ::= echo_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= block_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= extends_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= include_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= empty_statement(E) . {
+	R = E;
+}
+
+%destructor if_statement { zval_ptr_dtor(&$$); }
+
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	R = phvolt_ret_if_statement(E, T, NULL);
+}
+
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list(F) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	R = phvolt_ret_if_statement(E, T, F);
+}
+
+%destructor for_statement { zval_ptr_dtor(&$$); }
+
+for_statement(R) ::= OPEN_DELIMITER FOR qualified_name(Q) IN expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
+	R = phvolt_ret_for_statement(Q, E, T);
+}
+
+%destructor set_statement { zval_ptr_dtor(&$$); }
+
+set_statement(R) ::= OPEN_DELIMITER SET qualified_name(Q) ASSIGN expr(E) CLOSE_DELIMITER . {
+	R = phvolt_ret_set_statement(Q, E);
+}
+
+%destructor empty_statement { zval_ptr_dtor(&$$); }
+
+empty_statement(R) ::= OPEN_DELIMITER CLOSE_DELIMITER . {
+	R = phvolt_ret_empty_statement();
+}
+
+%destructor echo_statement { zval_ptr_dtor(&$$); }
+
+echo_statement(R) ::= OPEN_EDELIMITER expr(E) CLOSE_EDELIMITER . {
+	R = phvolt_ret_echo_statement(E);
+}
+
+%destructor block_statement { zval_ptr_dtor(&$$); }
+
+block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
+	R = phvolt_ret_block_statement(I, T);
+}
+
+block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
+	R = phvolt_ret_block_statement(I, NULL);
+}
+
+%destructor extends_statement { zval_ptr_dtor(&$$); }
+
+extends_statement(R) ::= OPEN_DELIMITER EXTENDS STRING(S) CLOSE_DELIMITER . {
+	R = phvolt_ret_extends_statement(S);
+}
+
+%destructor include_statement { zval_ptr_dtor(&$$); }
+
+include_statement(R) ::= OPEN_DELIMITER INCLUDE STRING(S) CLOSE_DELIMITER . {
+	R = phvolt_ret_include_statement(S);
+}
+
+%destructor raw_fragment { zval_ptr_dtor(&$$); }
+
+raw_fragment(R) ::= RAW_FRAGMENT(F) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, F);
+}
+
+%destructor expr { zval_ptr_dtor(&$$); }
+
+expr(R) ::= MINUS expr(E) . {
+	R = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, E);
+}
+
+expr(R) ::= expr(O1) MINUS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_SUB, O1, O2);
+}
+
+expr(R) ::= expr(O1) PLUS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_ADD, O1, O2);
+}
+
+expr(R) ::= expr(O1) TIMES expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_MUL, O1, O2);
+}
+
+expr(R) ::= expr(O1) DIVIDE expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_DIV, O1, O2);
+}
+
+expr(R) ::= expr(O1) MOD expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_MOD, O1, O2);
+}
+
+expr(R) ::= expr(O1) AND expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_AND, O1, O2);
+}
+
+expr(R) ::= expr(O1) OR expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_OR, O1, O2);
+}
+
+expr(R) ::= expr(O1) CONCAT expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_CONCAT, O1, O2);
+}
+
+expr(R) ::= expr(O1) PIPE expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_PIPE, O1, O2);
+}
+
+expr(R) ::= expr(O1) RANGE expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_RANGE, O1, O2);
+}
+
+expr(R) ::= expr(O1) EQUALS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2);
+}
+
+expr(R) ::= expr(O1) IS NOT DEFINED . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, O1, NULL);
+}
+
+expr(R) ::= expr(O1) IS DEFINED . {
+	R = phvolt_ret_expr(PHVOLT_T_ISSET, O1, NULL);
+}
+
+expr(R) ::= expr(O1) IS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_EQUALS, O1, O2);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, O1, O2);
+}
+
+expr(R) ::= expr(O1) IDENTICAL expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_IDENTICAL, O1, O2);
+}
+
+expr(R) ::= expr(O1) NOTIDENTICAL expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, O1, O2);
+}
+
+expr(R) ::= expr(O1) LESS expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_LESS, O1, O2);
+}
+
+expr(R) ::= expr(O1) GREATER expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_GREATER, O1, O2);
+}
+
+expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, O1, O2);
+}
+
+expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {
+	R = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, O1, O2);
+}
+
+expr(R) ::= NOT expr(E) . {
+	R = phvolt_ret_expr(PHVOLT_T_NOT, NULL, E);
+}
+
+expr(R) ::= BRACKET_OPEN expr(E) BRACKET_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ENCLOSED, E, NULL);
+}
+
+expr(R) ::= SBRACKET_OPEN array_list(A) SBRACKET_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ARRAY, A, NULL);
+}
+
+%destructor array_list { zval_ptr_dtor(&$$); }
+
+array_list(R) ::= array_list(L) COMMA array_item(I) . {
+	R = phvolt_ret_zval_list(L, I);
+}
+
+array_list(R) ::= array_item(I) . {
+	R = I;
+}
+
+array_item(R) ::= STRING(S) DOUBLECOLON expr(E) . {
+	R = phvolt_ret_named_item(S, E);
+}
+
+array_item(R) ::= expr(E) . {
+	R = phvolt_ret_named_item(NULL, E);
+}
+
+expr(R) ::= function_call(F) . {
+	R = F;
+}
+
+%destructor function_call { zval_ptr_dtor(&$$); }
+
+function_call(R) ::= IDENTIFIER(I) BRACKET_OPEN argument_list(L) BRACKET_CLOSE . {
+	R = phvolt_ret_func_call(I, L);
+}
+
+function_call(R) ::= IDENTIFIER(I) BRACKET_OPEN BRACKET_CLOSE . {
+	R = phvolt_ret_func_call(I, NULL);
+}
+
+%destructor argument_list { zval_ptr_dtor(&$$); }
+
+argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
+	R = phvolt_ret_zval_list(L, I);
+}
+
+argument_list(R) ::= argument_item(I) . {
+	R = I;
+}
+
+%destructor argument_item { zval_ptr_dtor(&$$); }
+
+argument_item(R) ::= expr(E) . {
+	R = phvolt_ret_named_item(NULL, E);
+}
+
+argument_item(R) ::= STRING(S) DOUBLECOLON expr(E) . {
+	R = phvolt_ret_named_item(S, E);
+}
+
+expr(R) ::= qualified_name(Q) . {
+	R = Q;
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D);
+}
+
+expr(R) ::= INTEGER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, I);
+}
+
+expr(R) ::= STRING(S) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_STRING, S);
+}
+
+expr(R) ::= DOUBLE(D) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, D);
+}
+
+expr(R) ::= NULL . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
+}
+
+expr(R) ::= FALSE . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
+}
+
+expr(R) ::= TRUE . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
+}
+
+%destructor qualified_name { zval_ptr_dtor(&$$); }
+
+qualified_name(R) ::= qualified_name(Q) DOT IDENTIFIER(B) . {
+	R = phvolt_ret_qualified_name(Q, B);
+}
+
+qualified_name(R) ::= IDENTIFIER(A) . {
+	R = phvolt_ret_qualified_name(NULL, A);
+}

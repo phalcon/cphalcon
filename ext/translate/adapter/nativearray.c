@@ -35,9 +35,10 @@
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
+#include "kernel/file.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Translate\Adapter\NativeArray
@@ -46,6 +47,7 @@
  *
  */
 
+
 /**
  * Phalcon\Translate\Adapter\NativeArray constructor
  *
@@ -53,17 +55,17 @@
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 
-	zval *options = NULL, *data = NULL;
+	zval *options, *data;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(options, SL("content")+1);
+	eval_int = phalcon_array_isset_string(options, SS("content"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(data);
 		phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
@@ -89,9 +91,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 
-	zval *index = NULL, *placeholders = NULL, *translate = NULL, *translation = NULL;
-	zval *number_placeholders = NULL, *value = NULL, *key = NULL, *key_placeholder = NULL;
-	zval *replaced = NULL;
+	zval *index, *placeholders = NULL, *translate, *translation = NULL;
+	zval *value = NULL, *key = NULL, *key_placeholder = NULL, *replaced = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -102,15 +103,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &index, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!placeholders) {
-		PHALCON_ALLOC_ZVAL_MM(placeholders);
-		ZVAL_NULL(placeholders);
+		PHALCON_INIT_NVAR(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(translate);
@@ -120,33 +120,35 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		PHALCON_INIT_VAR(translation);
 		phalcon_array_fetch(&translation, translate, index, PH_NOISY_CC);
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(number_placeholders);
-			phalcon_fast_count(number_placeholders, placeholders TSRMLS_CC);
-			if (!phalcon_compare_strict_long(number_placeholders, 0 TSRMLS_CC)) {
+			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
+				
 				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
 					return;
 				}
 				
 				ah0 = Z_ARRVAL_P(placeholders);
 				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-				fes_101a_0:
-					if(zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS){
-						goto fee_101a_0;
+				
+				ph_cycle_start_0:
+				
+					if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+						goto ph_cycle_end_0;
 					}
 					
-					PHALCON_INIT_VAR(key);
 					PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-					PHALCON_INIT_VAR(value);
-					ZVAL_ZVAL(value, *hd, 1, 0);
-					PHALCON_INIT_VAR(key_placeholder);
+					PHALCON_GET_FOREACH_VALUE(value);
+					
+					PHALCON_INIT_NVAR(key_placeholder);
 					PHALCON_CONCAT_SVS(key_placeholder, "%", key, "%");
 					
-					PHALCON_INIT_VAR(replaced);
+					PHALCON_INIT_NVAR(replaced);
 					phalcon_fast_str_replace(replaced, key_placeholder, value, translation TSRMLS_CC);
 					PHALCON_CPY_WRT(translation, replaced);
+					
 					zend_hash_move_forward_ex(ah0, &hp0);
-					goto fes_101a_0;
-				fee_101a_0:
+					goto ph_cycle_start_0;
+					
+				ph_cycle_end_0:
 				if(0){}
 				
 			}
@@ -168,12 +170,12 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 
-	zval *index = NULL, *translate = NULL, *exists = NULL;
+	zval *index, *translate, *exists = NULL;
 	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -183,7 +185,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists){
 	phalcon_read_property(&translate, this_ptr, SL("_translate"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(translate, index);
 	
-	PHALCON_ALLOC_ZVAL_MM(r0);
+	PHALCON_INIT_VAR(r0);
 	ZVAL_BOOL(r0, eval_int);
 	PHALCON_CPY_WRT(exists, r0);
 	

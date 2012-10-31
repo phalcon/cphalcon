@@ -29,6 +29,14 @@
 
 #include "Zend/zend_operators.h"
 
+void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
+	zend_make_printable_zval(expr, expr_copy, use_copy);
+	if(use_copy){
+		Z_SET_REFCOUNT_P(expr_copy, 1);
+		Z_UNSET_ISREF_P(expr_copy);
+	}
+}
+
 /**
  * Performs logical AND function operator
  */
@@ -44,17 +52,59 @@ int phalcon_and_function(zval *result, zval *left, zval *right){
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
+void phalcon_concat_self(zval *left, zval *right TSRMLS_DC){
 
-	zval *tmp;
+	zval left_copy;
+	uint length;
+	int use_copy = 0;
 
-	ALLOC_INIT_ZVAL(tmp);
-	concat_function(tmp, *left, right TSRMLS_CC);
-
-	if (Z_REFCOUNT_PP(left) > 0) {
-		zval_ptr_dtor(left);
+	if (Z_TYPE_P(left) != IS_STRING) {
+		phalcon_make_printable_zval(left, &left_copy, &use_copy);
+		if (use_copy) {
+			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+		}
 	}
-	*left = tmp;
+
+	length = Z_STRLEN_P(left) + Z_STRLEN_P(right);
+	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+
+	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
+	Z_STRVAL_P(left)[length] = 0;
+	Z_STRLEN_P(left) = length;
+	Z_TYPE_P(left) = IS_STRING;
+
+	if (use_copy) {
+		zval_dtor(&left_copy);
+	}
+}
+
+/**
+ * Appends the content of the right operator to the left operator
+ */
+void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC){
+
+	zval left_copy;
+	uint length;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(left) != IS_STRING) {
+		phalcon_make_printable_zval(left, &left_copy, &use_copy);
+		if (use_copy) {
+			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+		}
+	}
+
+	length = Z_STRLEN_P(left) + right_length;
+	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+
+	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), right, right_length);
+	Z_STRVAL_P(left)[length] = 0;
+	Z_STRLEN_P(left) = length;
+	Z_TYPE_P(left) = IS_STRING;
+
+	if (use_copy) {
+		zval_dtor(&left_copy);
+	}
 }
 
 /**
@@ -62,7 +112,7 @@ void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
  */
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length){
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_STRING:
 			if (!Z_STRLEN_P(op1) && !op2_length) {
 				return 1;
@@ -92,7 +142,7 @@ int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) == op2;
 		case IS_DOUBLE:
@@ -127,7 +177,7 @@ int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) < op2;
 		case IS_DOUBLE:
@@ -161,7 +211,7 @@ int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC){
 	zval *op2_tmp, *result;
 	int bool_result;
 
-	switch(Z_TYPE_P(op1)){
+	switch (Z_TYPE_P(op1)) {
 		case IS_LONG:
 			return Z_LVAL_P(op1) <= op2;
 		case IS_DOUBLE:
@@ -207,7 +257,7 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 
 	ZVAL_ZVAL(result, var, 1, 0);
 
-	switch(type){
+	switch (type) {
 		case IS_STRING:
 			convert_to_string(result);
 			break;

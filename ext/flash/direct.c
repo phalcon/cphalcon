@@ -40,6 +40,7 @@
  * This is a variant of the Phalcon\Flash that inmediately outputs any message passed to it
  */
 
+
 /**
  * Outputs a message
  *
@@ -49,10 +50,10 @@
  */
 PHP_METHOD(Phalcon_Flash_Direct, message){
 
-	zval *type = NULL, *message = NULL, *flash_message = NULL;
+	zval *type, *message, *flash_message;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

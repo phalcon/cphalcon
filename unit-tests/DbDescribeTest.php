@@ -730,7 +730,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$describe = $connection->describeColumns('personas', 'main');
 		$this->assertEquals($describe, $expectedDescribe);
 
-		//Indexes ps. sqlite's integer primary key autoincrement not list in indexes
+		//Indexes ps. sqlite's integer primary key autoincrement is not listed in indexes
 		$expectedIndexes = array(
 			'robots_parts_parts_id' => Phalcon\Db\Index::__set_state(array(
 				'_indexName' => 'robots_parts_parts_id',
@@ -755,23 +755,19 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 				'_referencedTable' => 'parts',
 				'_columns' => array('parts_id'),
 				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'main',
+				'_referencedSchema' => null,
 			)),
 			'foreign_key_1' => Phalcon\Db\Reference::__set_state(array(
-			'_referenceName' => 'foreign_key_1',
-			'_referencedTable' => 'robots',
-			'_columns' => array('robots_id'),
+				'_referenceName' => 'foreign_key_1',
+				'_referencedTable' => 'robots',
+				'_columns' => array('robots_id'),
 				'_referencedColumns' => array('id'),
-				'_referencedSchema' => 'main'
+				'_referencedSchema' => null
 			)),
 		);
 
 		$describeReferences = $connection->describeReferences('robots_parts');
 		$this->assertEquals($describeReferences, $expectedReferences);
-
-		$describeReferences = $connection->describeReferences('robots_parts', 'public');
-		$this->assertEquals($describeReferences, $expectedReferences);
-
 	}
 
 }

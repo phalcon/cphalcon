@@ -34,8 +34,8 @@
 
 #include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc
@@ -54,6 +54,7 @@
  *</code>
  */
 
+
 /**
  * Phalcon\Mvc\Model\MetaData\Apc constructor
  *
@@ -61,37 +62,38 @@
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
-	zval *options = NULL, *suffix = NULL, *ttl = NULL, *meta_data = NULL;
+	zval *options = NULL, *suffix, *ttl, *empty_array;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(options);
-		array_init(options);
+		PHALCON_INIT_NVAR(options);
 	}
 	
-	eval_int = phalcon_array_isset_string(options, SL("suffix")+1);
-	if (eval_int) {
-		PHALCON_INIT_VAR(suffix);
-		phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
-	}
-	eval_int = phalcon_array_isset_string(options, SL("lifetime")+1);
-	if (eval_int) {
-		PHALCON_INIT_VAR(ttl);
-		phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("suffix"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(suffix);
+			phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
+		}
+		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(ttl);
+			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
+		}
 	}
 	
-	PHALCON_INIT_VAR(meta_data);
-	PHALCON_CALL_METHOD(meta_data, this_ptr, "read", PH_NO_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -99,45 +101,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 /**
  * Reads meta-data from APC
  *
+ * @param  string $key
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 
-	zval *suffix = NULL, *key = NULL, *data = NULL;
-	zval *a0 = NULL;
+	zval *key, *suffix, *apc_key, *data;
 
 	PHALCON_MM_GROW();
-	PHALCON_INIT_VAR(suffix);
-	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_SV(key, "$PMM$", suffix);
-	
-	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", key);
-	if (Z_TYPE_P(data) == IS_ARRAY) { 
-		
-		RETURN_CCTOR(data);
-	}
-	
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	
-	RETURN_CTOR(a0);
-}
 
-/**
- * Writes the meta-data to APC
- *
- * @param array $data
- */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
-
-	zval *data = NULL, *suffix = NULL, *key = NULL, *ttl = NULL;
-
-	PHALCON_MM_GROW();
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -145,12 +118,46 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	PHALCON_INIT_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(key);
-	PHALCON_CONCAT_SV(key, "$PMM$", suffix);
+	PHALCON_INIT_VAR(apc_key);
+	PHALCON_CONCAT_SVV(apc_key, "$PMM$", suffix, key);
+	
+	PHALCON_INIT_VAR(data);
+	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+		
+		RETURN_CCTOR(data);
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
+ * Writes the meta-data to APC
+ *
+ * @param string $key
+ * @param array $data
+ */
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
+
+	zval *key, *data, *suffix, *apc_key, *ttl;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(suffix);
+	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(apc_key);
+	PHALCON_CONCAT_SVV(apc_key, "$PMM$", suffix, key);
 	
 	PHALCON_INIT_VAR(ttl);
 	phalcon_read_property(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
-	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", key, data, ttl);
+	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", apc_key, data, ttl);
 	
 	PHALCON_MM_RESTORE();
 }

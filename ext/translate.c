@@ -42,6 +42,7 @@
  * different adapters for translation lists.
  */
 
+
 /**
  * Returns the translation string of the given key
  *
@@ -51,18 +52,17 @@
  */
 PHP_METHOD(Phalcon_Translate, _){
 
-	zval *translate_key = NULL, *placeholders = NULL, *translation = NULL;
+	zval *translate_key, *placeholders = NULL, *translation;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &translate_key, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!placeholders) {
-		PHALCON_ALLOC_ZVAL_MM(placeholders);
-		ZVAL_NULL(placeholders);
+		PHALCON_INIT_NVAR(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(translation);
@@ -79,10 +79,10 @@ PHP_METHOD(Phalcon_Translate, _){
  */
 PHP_METHOD(Phalcon_Translate, offsetSet){
 
-	zval *offset = NULL, *value = NULL;
+	zval *offset, *value;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &offset, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -100,10 +100,10 @@ PHP_METHOD(Phalcon_Translate, offsetSet){
  */
 PHP_METHOD(Phalcon_Translate, offsetExists){
 
-	zval *translate_key = NULL, *exists = NULL;
+	zval *translate_key, *exists;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -122,10 +122,10 @@ PHP_METHOD(Phalcon_Translate, offsetExists){
  */
 PHP_METHOD(Phalcon_Translate, offsetUnset){
 
-	zval *offset = NULL;
+	zval *offset;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -143,17 +143,16 @@ PHP_METHOD(Phalcon_Translate, offsetUnset){
  */
 PHP_METHOD(Phalcon_Translate, offsetGet){
 
-	zval *traslate_key = NULL, *null_value = NULL, *translation = NULL;
+	zval *traslate_key, *null_value, *translation;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &traslate_key) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	PHALCON_INIT_VAR(null_value);
-	ZVAL_NULL(null_value);
 	
 	PHALCON_INIT_VAR(translation);
 	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value, PH_NO_CHECK);

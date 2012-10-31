@@ -717,71 +717,68 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
  * @param array $relation
  * @param string $method
  * @param Phalcon\Mvc\Model $record
- * @param array $parameters
- * @return Phalcon\Mvc\Model\Resultset\Simple
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 
-	zval *relation = NULL, *method = NULL, *record = NULL, *parameters = NULL, *placeholders = NULL;
-	zval *pre_conditions = NULL, *conditions = NULL, *fields = NULL, *field = NULL;
-	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *i = NULL;
-	zval *referenced_fields = NULL, *join_conditions = NULL;
-	zval *find_params = NULL, *find_arguments = NULL, *arguments = NULL;
-	zval *reference_table = NULL, *referenced_entity = NULL;
-	zval *connection_service = NULL, *call_object = NULL, *records = NULL;
-	zval *c0 = NULL;
+	zval *relation, *method, *record, *parameters = NULL, *placeholders = NULL;
+	zval *pre_conditions = NULL, *conditions = NULL, *fields, *field = NULL;
+	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *i;
+	zval *referenced_fields, *join_conditions;
+	zval *find_params, *find_arguments = NULL, *arguments;
+	zval *reference_table, *referenced_entity;
+	zval *connection_service, *call_object, *records;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	int eval_int;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &relation, &method, &record, &parameters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(parameters);
-		ZVAL_NULL(parameters);
+		PHALCON_INIT_NVAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(parameters, SL("bind")+1);
+		eval_int = phalcon_array_isset_string(parameters, SS("bind"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(placeholders);
 			phalcon_array_fetch_string(&placeholders, parameters, SL("bind"), PH_NOISY_CC);
 			PHALCON_SEPARATE_PARAM(parameters);
-			phalcon_array_unset_string(parameters, SL("bind")+1);
+			phalcon_array_unset_string(parameters, SS("bind"));
 		} else {
-			PHALCON_INIT_VAR(placeholders);
+			PHALCON_INIT_NVAR(placeholders);
 			array_init(placeholders);
 		}
 	} else {
-		PHALCON_INIT_VAR(placeholders);
+		PHALCON_INIT_NVAR(placeholders);
 		array_init(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(pre_conditions);
-	ZVAL_NULL(pre_conditions);
 	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 		eval_int = phalcon_array_isset_long(parameters, 0);
 		if (eval_int) {
-			PHALCON_INIT_VAR(pre_conditions);
 			phalcon_array_fetch_long(&pre_conditions, parameters, 0, PH_NOISY_CC);
 			PHALCON_SEPARATE_PARAM(parameters);
 			phalcon_array_unset_long(parameters, 0);
 		} else {
-			eval_int = phalcon_array_isset_string(parameters, SL("conditions")+1);
+			eval_int = phalcon_array_isset_string(parameters, SS("conditions"));
 			if (eval_int) {
-				PHALCON_INIT_VAR(pre_conditions);
+				PHALCON_INIT_NVAR(pre_conditions);
 				phalcon_array_fetch_string(&pre_conditions, parameters, SL("conditions"), PH_NOISY_CC);
 				PHALCON_SEPARATE_PARAM(parameters);
-				phalcon_array_unset_string(parameters, SL("conditions")+1);
+				phalcon_array_unset_string(parameters, SS("conditions"));
 			}
 		}
 	} else {
@@ -795,7 +792,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		array_init(conditions);
 		phalcon_array_append(&conditions, pre_conditions, PH_SEPARATE TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(conditions);
+		PHALCON_INIT_NVAR(conditions);
 		array_init(conditions);
 	}
 	
@@ -812,7 +809,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		
 		PHALCON_INIT_VAR(condition);
 		PHALCON_CONCAT_VS(condition, referenced_field, " = ?0");
-		phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_long(&conditions, 0, &condition, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(i);
@@ -820,6 +817,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		
 		PHALCON_INIT_VAR(referenced_fields);
 		phalcon_array_fetch_string(&referenced_fields, relation, SL("rf"), PH_NOISY_CC);
+		
 		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
 			return;
 		}
@@ -836,8 +834,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 			PHALCON_INIT_VAR(value);
 			PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
 			
-			PHALCON_INIT_VAR(referenced_field);
+			PHALCON_INIT_NVAR(referenced_field);
 			phalcon_array_fetch(&referenced_field, referenced_fields, i, PH_NOISY_CC);
+			
+			PHALCON_INIT_VAR(referenced_field);
+			phalcon_array_fetch(&referenced_field, r1, i, PH_NOISY_CC);
 			
 			PHALCON_INIT_VAR(condition);
 			PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", i);
@@ -846,8 +847,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 			PHALCON_SEPARATE(i);
 			increment_function(i);
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto fes_74b5_0;
-		fee_74b5_0:
+			goto ph_cycle_start_0;
+			
+		ph_cycle_end_0:
 		if(0){}
 		
 	}
@@ -862,16 +864,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	array_init(find_params);
 	phalcon_array_append(&find_params, join_conditions, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&find_params, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(find_arguments);
-		PHALCON_CALL_FUNC_PARAMS_2(find_arguments, "array_merge", find_params, parameters);
-	} else {
-		PHALCON_CPY_WRT(find_arguments, find_params);
-	}
 	
 	PHALCON_INIT_VAR(arguments);
 	array_init(arguments);
-	phalcon_array_append(&arguments, find_arguments, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&arguments, find_params, PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reference_table);
 	phalcon_array_fetch_string(&reference_table, relation, SL("rt"), PH_NOISY_CC);
@@ -881,9 +877,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	object_init_ex(referenced_entity, ce0);
 	PHALCON_CALL_METHOD_NORETURN(referenced_entity, "__construct", PH_CHECK);
 	
-	PHALCON_INIT_VAR(connection_service);
-	PHALCON_CALL_METHOD(connection_service, record, "getconnectionservice", PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_entity, "setconnectionservice", connection_service, PH_NO_CHECK);
+	PHALCON_ALLOC_ZVAL_MM(r6);
+	PHALCON_CALL_METHOD(r6, record, "getconnectionservice", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_entity, "setconnectionservice", r6, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(call_object);
 	array_init(call_object);
@@ -903,26 +899,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
  * @param string $modelName
  * @param string $modelRelation
  * @param Phalcon\Mvc\Model $record
- * @param array $parameters
  * @return Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 
-	zval *method = NULL, *model_name = NULL, *model_relation = NULL, *record = NULL;
-	zval *parameters = NULL, *belongs_to = NULL, *relation = NULL, *records = NULL;
+	zval *method, *model_name, *model_relation, *record;
+	zval *parameters = NULL, *belongs_to, *relation, *records;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &method, &model_name, &model_relation, &record, &parameters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(parameters);
-		ZVAL_NULL(parameters);
+		PHALCON_INIT_NVAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(belongs_to);
@@ -945,7 +939,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	phalcon_array_fetch(&relation, r1, model_relation, PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "_getrelationrecords", relation, method, record, parameters, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(records, this_ptr, "_getrelationrecords", relation, method, record, PH_NO_CHECK);
 	
 	RETURN_CCTOR(records);
 }
@@ -957,26 +951,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
  * @param string $modelName
  * @param string $modelRelation
  * @param Phalcon\Mvc\Model $record
- * @param array $parameters
  * @return Phalcon\Mvc\Model\Resultset
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 
-	zval *method = NULL, *model_name = NULL, *model_relation = NULL, *record = NULL;
-	zval *parameters = NULL, *has_many = NULL, *relation = NULL, *records = NULL;
+	zval *method, *model_name, *model_relation, *record;
+	zval *parameters = NULL, *has_many, *relation, *records;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &method, &model_name, &model_relation, &record, &parameters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(parameters);
-		ZVAL_NULL(parameters);
+		PHALCON_INIT_NVAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(has_many);
@@ -999,7 +991,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	phalcon_array_fetch(&relation, r1, model_relation, PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "_getrelationrecords", relation, method, record, parameters, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(records, this_ptr, "_getrelationrecords", relation, method, record, PH_NO_CHECK);
 	
 	RETURN_CCTOR(records);
 }
@@ -1015,21 +1007,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 
-	zval *method = NULL, *model_name = NULL, *model_relation = NULL, *record = NULL;
-	zval *parameters = NULL, *has_one = NULL, *relation = NULL, *records = NULL;
+	zval *method, *model_name, *model_relation, *record;
+	zval *parameters = NULL, *has_one, *relation, *records;
 	zval *r0 = NULL, *r1 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz|z", &method, &model_name, &model_relation, &record, &parameters) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!parameters) {
-		PHALCON_ALLOC_ZVAL_MM(parameters);
-		ZVAL_NULL(parameters);
+		PHALCON_INIT_NVAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(has_one);
@@ -1052,7 +1043,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	phalcon_array_fetch(&relation, r1, model_relation, PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(records);
-	PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "_getrelationrecords", relation, method, record, parameters, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(records, this_ptr, "_getrelationrecords", relation, method, record, PH_NO_CHECK);
 	
 	RETURN_CCTOR(records);
 }

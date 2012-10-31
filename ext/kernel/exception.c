@@ -25,7 +25,7 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "ext/standard/php_string.h"
-  
+
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
@@ -45,17 +45,35 @@ void phalcon_throw_exception(zval *object TSRMLS_DC){
  * Throws a exception with a single string parameter
  */
 void phalcon_throw_exception_string(zend_class_entry *ce, char *message, zend_uint message_len TSRMLS_DC){
+
 	zval *object, *msg;
 
 	ALLOC_INIT_ZVAL(object);
 	object_init_ex(object, ce);
 
-	PHALCON_ALLOC_ZVAL_MM(msg);
+	PHALCON_INIT_VAR(msg);
 	ZVAL_STRINGL(msg, message, message_len, 1);
 
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", msg, PH_CHECK);
 
-	zend_throw_exception_object(object TSRMLS_CC);	
+	zend_throw_exception_object(object TSRMLS_CC);
+
+	phalcon_memory_restore_stack(TSRMLS_C);
+}
+
+/**
+ * Throws a exception with a single zval parameter
+ */
+void phalcon_throw_exception_zval(zend_class_entry *ce, zval *message TSRMLS_DC){
+
+	zval *object;
+
+	ALLOC_INIT_ZVAL(object);
+	object_init_ex(object, ce);
+
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", message, PH_CHECK);
+
+	zend_throw_exception_object(object TSRMLS_CC);
 
 	phalcon_memory_restore_stack(TSRMLS_C);
 }
@@ -91,6 +109,39 @@ void phalcon_throw_exception_internal(zval *exception TSRMLS_DC) {
 	}
 	EG(opline_before_exception) = EG(current_execute_data)->opline;
 	EG(current_execute_data)->opline = EG(exception_op);
-	
+
 }
 
+/*void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, zval *params, zval **exception TSRMLS_DC){
+
+	zval *fn = NULL;
+	int status = FAILURE;
+	zval *func_params[] = { call_object, params };
+
+	PHALCON_ALLOC_ZVAL(fn);
+	ZVAL_STRING(fn, "call_user_func_array", 0);
+
+	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 2, func_params TSRMLS_CC);
+	if (status == FAILURE) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function call_user_func_array()");
+	}
+
+	ZVAL_NULL(fn);
+	zval_ptr_dtor(&fn);
+
+	if (status == SUCCESS) {
+		zend_exception_restore(TSRMLS_C);
+		if (EG(exception)) {
+			zval_ptr_dtor(exception);
+			*exception = EG(exception);
+			EG(exception) = NULL;
+			EG(current_execute_data)->opline->opcode = 40;
+			ZVAL_BOOL(success, 0);
+		} else {
+			ZVAL_BOOL(success, 1);
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+
+}*/

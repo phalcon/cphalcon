@@ -41,26 +41,25 @@
  *
  */
 
+
 /**
- * Phalcon\Mvc\Model\MetaData constructor
+ * Phalcon\Mvc\Model\MetaData\Memory constructor
  *
- * @param string $adapter
  * @param array $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 
-	zval *options = NULL, *empty_array = NULL;
+	zval *options = NULL, *empty_array;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_VAR(options);
-		array_init(options);
+		PHALCON_INIT_NVAR(options);
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
@@ -77,19 +76,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){
 
-	zval *a0 = NULL;
+	zval *key;
 
-	PHALCON_MM_GROW();
-	PHALCON_ALLOC_ZVAL_MM(a0);
-	array_init(a0);
-	
-	RETURN_CTOR(a0);
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
 }
 
 /**
  * Writes the meta-data to temporal memory
  *
- * @param array $data
+ * @param string $key
+ * @param array $metaData
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write){
 

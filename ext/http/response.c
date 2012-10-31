@@ -40,7 +40,9 @@
 /**
  * Phalcon\Http\Response
  *
- * Encapsulates the HTTP response message.
+ * Part of the HTTP cycle is return responses to the clients.
+ * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
+ * HTTP responses are usually composed by headers and body.
  *
  *<code>
  *	$response = new Phalcon\Http\Response();
@@ -50,6 +52,7 @@
  *</code>
  */
 
+
 /**
  * Sets the dependency injector
  *
@@ -57,18 +60,14 @@
  */
 PHP_METHOD(Phalcon_Http_Response, setDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -78,9 +77,10 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
  */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
-	zval *dependency_injector = NULL;
+	zval *dependency_injector;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
@@ -100,11 +100,11 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
-	zval *code = NULL, *message = NULL, *headers = NULL, *header_value = NULL, *status_value = NULL;
-	zval *c0 = NULL;
+	zval *code, *message, *headers, *header_value, *status_value;
+	zval *status_header;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &code, &message) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -120,12 +120,12 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 	PHALCON_INIT_VAR(status_value);
 	PHALCON_CONCAT_VSV(status_value, code, " ", message);
 	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "Status", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", c0, status_value, PH_NO_CHECK);
+	PHALCON_INIT_VAR(status_header);
+	ZVAL_STRING(status_header, "Status", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", status_header, status_value, PH_NO_CHECK);
 	phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -138,10 +138,11 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 	zval *headers = NULL;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
-		PHALCON_INIT_VAR(headers);
+		PHALCON_INIT_NVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
 		PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
@@ -164,10 +165,10 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, setHeader){
 
-	zval *name = NULL, *value = NULL, *headers = NULL;
+	zval *name, *value, *headers;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -177,7 +178,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, value, PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -192,10 +193,10 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
  */
 PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 
-	zval *header = NULL, *headers = NULL;
+	zval *header, *headers;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &header) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -205,7 +206,7 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", header, PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -215,14 +216,15 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader){
  */
 PHP_METHOD(Phalcon_Http_Response, resetHeaders){
 
-	zval *headers = NULL;
+	zval *headers;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(headers, "reset", PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -233,13 +235,12 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires){
 
-	zval *datetime = NULL, *headers = NULL, *date = NULL, *timezone = NULL, *utc_format = NULL;
-	zval *utc_date = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL;
+	zval *datetime, *headers, *date, *utc_zone, *timezone;
+	zval *format, *utc_format, *utc_date, *expires_header;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &datetime) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -257,30 +258,30 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	if (phalcon_clone(date, datetime TSRMLS_CC) == FAILURE) {
 		return;
 	}
+	
+	PHALCON_INIT_VAR(utc_zone);
+	ZVAL_STRING(utc_zone, "UTC", 1);
 	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(timezone);
 	object_init_ex(timezone, ce0);
-	
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "UTC", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(timezone, "__construct", c0, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(timezone, "__construct", utc_zone, PH_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(date, "settimezone", timezone, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "D, d M Y H:i:s", 1);
+	PHALCON_INIT_VAR(format);
+	ZVAL_STRING(format, "D, d M Y H:i:s", 1);
 	
 	PHALCON_INIT_VAR(utc_format);
-	PHALCON_CALL_METHOD_PARAMS_1(utc_format, date, "format", c1, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(utc_format, date, "format", format, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(utc_date);
 	PHALCON_CONCAT_VS(utc_date, utc_format, " GMT");
 	
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "Expires", 1);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", c2, utc_date, PH_NO_CHECK);
+	PHALCON_INIT_VAR(expires_header);
+	ZVAL_STRING(expires_header, "Expires", 1);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", expires_header, utc_date, PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -290,9 +291,10 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
  */
 PHP_METHOD(Phalcon_Http_Response, setNotModified){
 
-	zval *code = NULL, *status = NULL;
+	zval *code, *status;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(code);
 	ZVAL_LONG(code, 304);
 	
@@ -300,7 +302,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
 	ZVAL_STRING(status, "Not modified", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", code, status, PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -310,21 +312,23 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  *	$response->setContentType('application/pdf');
  *	$response->setContentType('text/plain', 'UTF-8');
  *</code>
+ *
+ * @param string $contentType
+ * @param string $charset
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 
-	zval *content_type = NULL, *charset = NULL, *headers = NULL, *name = NULL, *header_value = NULL;
+	zval *content_type, *charset = NULL, *headers, *name, *header_value;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &content_type, &charset) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!charset) {
-		PHALCON_ALLOC_ZVAL_MM(charset);
-		ZVAL_NULL(charset);
+		PHALCON_INIT_NVAR(charset);
 	}
 	
 	PHALCON_INIT_VAR(headers);
@@ -359,24 +363,24 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  */
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
-	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
-	zval *header = NULL, *dependency_injector = NULL, *service = NULL;
-	zval *url = NULL, *status_text = NULL, *header_name = NULL;
+	zval *location, *external_redirect = NULL, *status_code = NULL;
+	zval *header = NULL, *dependency_injector, *service;
+	zval *url, *status_text, *header_name;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &location, &external_redirect, &status_code) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!external_redirect) {
-		PHALCON_ALLOC_ZVAL_MM(external_redirect);
+		PHALCON_INIT_NVAR(external_redirect);
 		ZVAL_BOOL(external_redirect, 0);
 	}
 	
 	if (!status_code) {
-		PHALCON_ALLOC_ZVAL_MM(status_code);
+		PHALCON_INIT_NVAR(status_code);
 		ZVAL_LONG(status_code, 302);
 	}
 	
@@ -408,7 +412,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	ZVAL_STRING(header_name, "Location", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", header_name, header, PH_NO_CHECK);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -423,18 +427,15 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
  */
 PHP_METHOD(Phalcon_Http_Response, setContent){
 
-	zval *content = NULL;
+	zval *content;
 
-	PHALCON_MM_GROW();
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_content"), content TSRMLS_CC);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -445,24 +446,24 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  */
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
-	zval *content = NULL;
+	zval *content;
 	zval *t0 = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &content) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_ALLOC_ZVAL_MM(t0);
+	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_content"), PH_NOISY_CC);
 	PHALCON_ALLOC_ZVAL_MM(r0);
 	concat_function(r0, t0, content TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_content"), r0 TSRMLS_CC);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -472,9 +473,10 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
  */
 PHP_METHOD(Phalcon_Http_Response, getContent){
 
-	zval *content = NULL;
+	zval *content;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(content);
 	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	
@@ -488,9 +490,10 @@ PHP_METHOD(Phalcon_Http_Response, getContent){
  */
 PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
-	zval *headers = NULL;
+	zval *headers;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) != IS_NULL) {
@@ -498,7 +501,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 	}
 	
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -508,9 +511,10 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *headers = NULL, *content = NULL;
+	zval *headers, *content;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) != IS_NULL) {
@@ -521,6 +525,6 @@ PHP_METHOD(Phalcon_Http_Response, send){
 	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 	zend_print_zval(content, 1);
 	
-	RETURN_CCTOR(this_ptr);
+	RETURN_CTOR(this_ptr);
 }
 
