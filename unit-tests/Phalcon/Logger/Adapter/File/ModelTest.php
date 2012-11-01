@@ -36,7 +36,7 @@ class Logger_Adapter_File_ModelTest extends \PhalconModelTestCase
     {
         parent::setUp();
 
-        $this->_logPath = ROOT_PATH . '/app/logs/';
+        $this->_logPath = ROOT_PATH . '/app/var/logs/';
     }
 
     /**
