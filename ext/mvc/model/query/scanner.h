@@ -87,6 +87,7 @@
 #define PHQL_T_OUTER 326
 #define PHQL_T_ASC 327
 #define PHQL_T_DESC 328
+#define PHQL_T_OFFSET 329
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350

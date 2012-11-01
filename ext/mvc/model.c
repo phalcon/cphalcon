@@ -1907,16 +1907,14 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
  */
 PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
 
-	zval *error_messages, *number_messages;
+	zval *error_messages;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(error_messages);
 	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(number_messages);
-		phalcon_fast_count(number_messages, error_messages TSRMLS_CC);
-		if (!phalcon_compare_strict_long(number_messages, 0 TSRMLS_CC)) {
+		if (phalcon_fast_count_ev(error_messages TSRMLS_CC)) {
 			PHALCON_MM_RESTORE();
 			RETURN_TRUE;
 		}
