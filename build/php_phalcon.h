@@ -22,11 +22,7 @@
 
 #define PHALCON_RELEASE 1
 
-<<<<<<< HEAD
 #define PHP_PHALCON_VERSION "0.6.0"
-=======
-#define PHP_PHALCON_VERSION "0.5.2"
->>>>>>> master
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
