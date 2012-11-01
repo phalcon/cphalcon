@@ -136,15 +136,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern){
 			PHALCON_INIT_NVAR(compiled_pattern);
 			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
 		}
-
-		if (phalcon_memnstr_str(pattern, SL("/:namespace") TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(wildcard);
-			ZVAL_STRING(wildcard, "/:namespace", 1);
-			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
-			
-			PHALCON_INIT_NVAR(compiled_pattern);
-			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
-		}
 		
 		if (phalcon_memnstr_str(pattern, SL("/:action") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(wildcard);

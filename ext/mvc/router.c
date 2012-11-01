@@ -38,7 +38,6 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 
 /**
  * Phalcon\Mvc\Router
@@ -296,7 +295,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *service = NULL, *match_method = NULL, *pattern = NULL, *paths = NULL;
 	zval *position = NULL, *part = NULL, *match_position = NULL, *module;
 	zval *default_module = NULL, *controller, *default_controller = NULL;
-	zval *namespace = NULL, *namespaced_controller = NULL, *camelized_controller = NULL, *camelized_namespace = NULL;
 	zval *action, *default_action = NULL, *params_str, *one;
 	zval *str_params, *slash, *params_merge, *default_params;
 	HashTable *ah0, *ah1;
@@ -466,27 +464,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_SEPARATE(parts);
 			phalcon_array_unset_string(parts, SS("controller"));
 		} else {
-			PHALCON_INIT_VAR(controller);
-			phalcon_read_property(&controller, this_ptr, SL("_defaultController"), PH_NOISY_CC);
-			phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
-		}
-
-		eval_int = phalcon_array_isset_string(parts, SS("namespace"));
-		if (eval_int && Z_TYPE_P(controller) == IS_STRING) {
-			PHALCON_INIT_VAR(namespace);
-			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
-			//camelize controller and namespace
-			PHALCON_INIT_VAR(camelized_controller);
-			phalcon_camelize(camelized_controller, controller TSRMLS_CC);
-			PHALCON_INIT_VAR(camelized_namespace);
-			phalcon_camelize(camelized_namespace, namespace TSRMLS_CC);
-			//concat controller and namespace
-			PHALCON_INIT_VAR(namespaced_controller);
-			PHALCON_CONCAT_VSV(namespaced_controller, camelized_namespace, "\\", camelized_controller);
-
-			phalcon_update_property_zval(this_ptr, SL("_controller"), namespaced_controller TSRMLS_CC);
-			PHALCON_SEPARATE(parts);
-			phalcon_array_unset_string(parts, SS("namespace"));
+			PHALCON_INIT_VAR(default_controller);
+			phalcon_read_property(&default_controller, this_ptr, SL("_defaultController"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_controller"), default_controller TSRMLS_CC);
 		}
 		
 		eval_int = phalcon_array_isset_string(parts, SS("action"));

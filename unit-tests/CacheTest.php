@@ -159,7 +159,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return false;
 
 		$memcache = new Memcache();
-		$this->assertFalse(!$memcache->connect('localhost', 11211));
+		$this->assertFalse(!$memcache->connect('127.0.0.1', 11211));
 
 		return $memcache;
 	}
@@ -229,6 +229,9 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($time2, $obContent2);
 		$this->assertEquals($time2, $memcache->get('test-output'));
 
+		//Check if exists
+		$this->assertTrue($cache->exists('test-output'));
+
 		//Delete entry from cache
 		$this->assertTrue($cache->delete('test-output'));
 
@@ -249,7 +252,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		$frontCache = new Phalcon\Cache\Frontend\Data();
 
 		$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
-			'host' => 'localhost',
+			'host' => '127.0.0.1',
 			'port' => '11211'
 		));
 
@@ -269,6 +272,10 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			0 => 'test-data',
 		));
 
+		//Check if exists
+		$this->assertTrue($cache->exists('test-data'));
+
+		//Delete
 		$this->assertTrue($cache->delete('test-data'));
 
 	}
