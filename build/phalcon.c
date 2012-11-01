@@ -44501,6 +44501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	PHALCON_INIT_VAR(model_name);
 	phalcon_get_class(model_name, model TSRMLS_CC);
 	
@@ -44510,6 +44511,59 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	if (eval_int) {
 		PHALCON_ALLOC_ZVAL_MM(r0);
 		phalcon_array_fetch(&r0, has_one, model_name, PH_NOISY_CC);
+=======
+	PHALCON_CPY_WRT(compiled_pattern, pattern);
+	if (phalcon_memnstr_str(pattern, SL(":") TSRMLS_CC)) {
+		PHALCON_INIT_VAR(id_pattern);
+		ZVAL_STRING(id_pattern, "/([a-zA-Z0-9\\_\\-]+)", 1);
+		if (phalcon_memnstr_str(pattern, SL("/:module") TSRMLS_CC)) {
+			PHALCON_INIT_VAR(wildcard);
+			ZVAL_STRING(wildcard, "/:module", 1);
+			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
+			
+			PHALCON_INIT_VAR(compiled_pattern);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+		}
+		
+		if (phalcon_memnstr_str(pattern, SL("/:controller") TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:controller", 1);
+			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
+			
+			PHALCON_INIT_NVAR(compiled_pattern);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+		}
+
+		if (phalcon_memnstr_str(pattern, SL("/:namespace") TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:namespace", 1);
+			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
+			
+			PHALCON_INIT_NVAR(compiled_pattern);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+		}
+		
+		if (phalcon_memnstr_str(pattern, SL("/:action") TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:action", 1);
+			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
+			
+			PHALCON_INIT_NVAR(compiled_pattern);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, id_pattern, pattern_copy TSRMLS_CC);
+		}
+		
+		if (phalcon_memnstr_str(pattern, SL("/:params") TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(wildcard);
+			ZVAL_STRING(wildcard, "/:params", 1);
+			
+			PHALCON_INIT_VAR(params_pattern);
+			ZVAL_STRING(params_pattern, "(/.*)*", 1);
+			PHALCON_CPY_WRT(pattern_copy, compiled_pattern);
+			
+			PHALCON_INIT_NVAR(compiled_pattern);
+			phalcon_fast_str_replace(compiled_pattern, wildcard, params_pattern, pattern_copy TSRMLS_CC);
+		}
+>>>>>>> upstream/0.6.0
 		
 		RETURN_CCTOR(r0);
 =======
@@ -71405,9 +71459,28 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 
 PHP_METHOD(Phalcon_Mvc_Model, _getGroupResult){
 
+<<<<<<< HEAD
 	zval *connection, *params, *select, *alias, *sql = NULL, *bind_params = NULL;
 	zval *bind_types = NULL, *result = NULL, *count, *row_object = NULL;
 	zval *cache, *resultset, *num, *group_value;
+=======
+	zval *uri = NULL, *real_uri = NULL, *request = NULL, *route_found = NULL, *parts = NULL;
+	zval *params = NULL, *matches, *routes, *reversed_routes;
+	zval *route = NULL, *methods = NULL, *dependency_injector = NULL;
+	zval *service = NULL, *match_method = NULL, *pattern = NULL, *paths = NULL;
+	zval *position = NULL, *part = NULL, *match_position = NULL, *module;
+	zval *default_module = NULL, *controller, *default_controller = NULL;
+	zval *namespace = NULL, *namespaced_controller = NULL, *camelized_controller = NULL, *camelized_namespace = NULL;
+	zval *action, *default_action = NULL, *params_str, *one;
+	zval *str_params, *slash, *params_merge, *default_params;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
+>>>>>>> upstream/0.6.0
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -71471,6 +71544,7 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 		PHALCON_INIT_NVAR(bind_types);
 	}
 	
+<<<<<<< HEAD
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types, PH_NO_CHECK);
 	eval_int = phalcon_array_isset_string(params, SS("group"));
@@ -71480,6 +71554,59 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 		if (zend_is_true(count)) {
 			PHALCON_INIT_VAR(row_object);
 			object_init_ex(row_object, phalcon_mvc_model_row_ce);
+=======
+	if (zend_is_true(route_found)) {
+		eval_int = phalcon_array_isset_string(parts, SS("module"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(module);
+			phalcon_array_fetch_string(&module, parts, SL("module"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_module"), module TSRMLS_CC);
+			PHALCON_SEPARATE(parts);
+			phalcon_array_unset_string(parts, SS("module"));
+		} else {
+			PHALCON_INIT_VAR(default_module);
+			phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
+		}
+		eval_int = phalcon_array_isset_string(parts, SS("controller"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(controller);
+			phalcon_array_fetch_string(&controller, parts, SL("controller"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
+			PHALCON_SEPARATE(parts);
+			phalcon_array_unset_string(parts, SS("controller"));
+		} else {
+			PHALCON_INIT_VAR(controller);
+			phalcon_read_property(&controller, this_ptr, SL("_defaultController"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_controller"), controller TSRMLS_CC);
+		}
+
+		eval_int = phalcon_array_isset_string(parts, SS("namespace"));
+		if (eval_int && Z_TYPE_P(controller) == IS_STRING) {
+			PHALCON_INIT_VAR(namespace);
+			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
+			//camelize controller and namespace
+			PHALCON_INIT_VAR(camelized_controller);
+			phalcon_camelize(camelized_controller, controller TSRMLS_CC);
+			PHALCON_INIT_VAR(camelized_namespace);
+			phalcon_camelize(camelized_namespace, namespace TSRMLS_CC);
+			//concat controller and namespace
+			PHALCON_INIT_VAR(namespaced_controller);
+			PHALCON_CONCAT_VSV(namespaced_controller, camelized_namespace, "\\", camelized_controller);
+
+			phalcon_update_property_zval(this_ptr, SL("_controller"), namespaced_controller TSRMLS_CC);
+			PHALCON_SEPARATE(parts);
+			phalcon_array_unset_string(parts, SS("namespace"));
+		}
+		
+		eval_int = phalcon_array_isset_string(parts, SS("action"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(action);
+			phalcon_array_fetch_string(&action, parts, SL("action"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_action"), action TSRMLS_CC);
+			PHALCON_SEPARATE(parts);
+			phalcon_array_unset_string(parts, SS("action"));
+>>>>>>> upstream/0.6.0
 		} else {
 			PHALCON_INIT_NVAR(row_object);
 			object_init(row_object);
@@ -78167,8 +78294,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI){
 
 	PHALCON_MM_GROW();
 
+<<<<<<< HEAD
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+=======
+	PHALCON_INIT_VAR(version);
+	array_init(version);
+	add_next_index_long(version, 0);
+	add_next_index_long(version, 6);
+	add_next_index_long(version, 0);
+	add_next_index_long(version, 4);
+	add_next_index_long(version, 0);
+>>>>>>> upstream/0.6.0
 	
 	RETURN_CCTOR(dependency_injector);
 }
