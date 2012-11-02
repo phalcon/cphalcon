@@ -1,9 +1,9 @@
 <?php
 /**
- * Listener.php
- * Logger_Adapter_File_Helper_Listener
+ * PostgresqlTest.php
+ * Logger_Adapter_File_PostgresqlTest
  *
- * Tests the \Phalcon\Logger\Adapter\File\HelperListener component
+ * Tests the \Phalcon\Logger\Adapter\File component
  *
  * PhalconPHP Framework
  *
@@ -21,30 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Logger\Adapter\File as PhFLg;
-
-class Logger_Adapter_File_Helper_Listener
+class Logger_Adapter_File_PostgresqlTest extends Logger_Adapter_File_Helper_Model
 {
-
-	protected $_logger;
-
-	public function __construct($fileName)
+    public function setUp()
     {
-		$this->_logger = new PhFLg($fileName);
-	}
+        parent::setUp();
 
-	public function afterQuery($event, $connection)
-	{
-		$this->_logger->log($connection->getSQLStatement());
-	}
+        $this->setDb('postgresql');
 
-	public function getProfiler()
-	{
-		return $this->_profiler;
-	}
-
-	public function getLogger()
-	{
-		return $this->_logger;
-	}
+    }
 }

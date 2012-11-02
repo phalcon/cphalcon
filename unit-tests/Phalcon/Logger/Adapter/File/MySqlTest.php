@@ -1,7 +1,7 @@
 <?php
 /**
- * Helper.php
- * \Phalcon\Logger\Adapter\File\Helper
+ * MysqlTest.php
+ * Logger_Adapter_File_MysqlTest
  *
  * Tests the \Phalcon\Logger\Adapter\File component
  *
@@ -21,102 +21,13 @@
  * so that we can send you a copy immediately.
  */
 
-require_once 'HelperListener.php';
-
-use Phalcon\Events\Manager as EvMgr;
-
-class Logger_Adapter_File_Mysql extends Phalcon_Logger_Adapter_File_Helper_Model
+class Logger_Adapter_File_MysqlTest extends Logger_Adapter_File_Helper_Model
 {
-    private $_logPath = '';
-
-    /**
-     * Initialization of variables etc.
-     *
-     * @return Phalcon\DI|void
-     */
     public function setUp()
     {
         parent::setUp();
 
-        $this->_logPath = ROOT_PATH . '/app/var/logs/';
-    }
+        $this->setDb('mysql');
 
-    /**
-     * Tests the creation of the log file
-     *
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-16
-     */
-    public function testDbLoggerDefault()
-    {
-        $fileName = $this->getFileName('log', 'log');
-        $evman    = new EvMgr();
-        $listener = new Logger_Helper_DbListener($fileName);
-
-        $evman->attach('db', $listener);
-
-        $connection = $this->_di->get('db');
-
-        $connection->setEventsManager($evman);
-
-        $connection->query("SELECT * FROM personas LIMIT 3");
-        $connection->query("SELECT * FROM personas LIMIT 10");
-        $connection->query("SELECT * FROM personas LIMIT 1");
-
-        $this->assertTrue($connection->close());
-
-        $listener->getLogger()->close();
-
-        $lines = file('unit-tests/app/logs/test-db.log');
-        $this->assertEquals(count($lines), 3);
-
-        $this->assertTrue(strpos($lines[0], '[DEBUG]')!==false);
-        $this->assertTrue(strpos($lines[0], 'LIMIT 3')!==false);
-        $this->assertTrue(strpos($lines[1], '[DEBUG]')!==false);
-        $this->assertTrue(strpos($lines[1], 'LIMIT 10')!==false);
-        $this->assertTrue(strpos($lines[2], '[DEBUG]')!==false);
-        $this->assertTrue(strpos($lines[2], 'LIMIT 1')!==false);
-
-
-
-        $this->cleanFile($this->_logPath, $fileName);
-
-        //$this->assertTrue($actual, 'File was not correctly created');
-    }
-
-
-
-
-
-
-
-
-
-
-    public function testDbLoggerMysql(){
-
-        require 'unit-tests/app/config/config.inc.php';
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-        $this->_executeTests($connection);
-    }
-
-    public function testDbLoggerPostgresql(){
-
-        require 'unit-tests/app/config/config.inc.php';
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-        $this->_executeTests($connection);
-    }
-
-    public function testDbLoggerSqlite(){
-
-        require 'unit-tests/app/config/config.inc.php';
-
-        $connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-
-        $this->_executeTests($connection);
     }
 }
