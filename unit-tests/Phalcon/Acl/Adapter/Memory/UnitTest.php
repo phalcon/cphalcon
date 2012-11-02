@@ -25,7 +25,7 @@ use \Phalcon\Acl as Acl;
 use \Phalcon\Acl\Role as AclRole;
 use \Phalcon\Acl\Adapter\Memory as AclMem;
 
-class Acl_Adapter_Memory_UnitTest extends \PhalconUnitTestCase
+class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the setDefaultAction

@@ -24,7 +24,7 @@
 use \Phalcon\Cache\Frontend\Data as CacheFrontend;
 use \Phalcon\Cache\Backend\File as CacheBackend;
 
-class Cache_Data_File_Resultset_ModelTest extends PhalconModelTestCase
+class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 {
     private $_cachePath = '';
 

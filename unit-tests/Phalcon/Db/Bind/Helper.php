@@ -24,7 +24,7 @@
 
 use Phalcon\Db\Column as DbColumn;
 
-class Db_Bind_Helper extends PhalconModelTestCase
+class Db_Bind_Helper extends Phalcon_Test_ModelTestCase
 {
     public function testRawBindTestOneOnOneParameterNumber()
     {
