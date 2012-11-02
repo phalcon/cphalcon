@@ -1,7 +1,7 @@
 <?php
 /**
  * ModelTest.php
- * \Phalcon\Cache\Resultset\ModelTest
+ * \Phalcon\Cache\Data\File\Resultset\ModelTest
  *
  * Tests the \Phalcon\Cache for a Resultset
  *
@@ -24,7 +24,7 @@
 use \Phalcon\Cache\Frontend\Data as CacheFrontend;
 use \Phalcon\Cache\Backend\File as CacheBackend;
 
-class Cache_Backend_File_Resultset_ModelTest extends PhalconModelTestCase
+class Cache_Data_File_Resultset_ModelTest extends PhalconModelTestCase
 {
     private $_cachePath = '';
 
