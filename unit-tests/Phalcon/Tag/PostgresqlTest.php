@@ -1,7 +1,7 @@
 <?php
 /**
- * MysqlTest.php
- * \Phalcon\Tag\MysqlTest
+ * PostgresqlTest.php
+ * \Phalcon\Tag\PostgresqlTest
  *
  * Tests the \Phalcon\Tag component
  *
@@ -21,12 +21,12 @@
  * so that we can send you a copy immediately.
  */
 
-class Tag_ModelTest extends Tag_Helper_Model
+class Tag_PostgresqlTest extends Tag_Helper_Model
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->setDb('mysql');
+        $this->setDb('postgresql');
     }
 }

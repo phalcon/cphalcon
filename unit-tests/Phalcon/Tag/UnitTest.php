@@ -23,7 +23,7 @@
 
 use \Phalcon\Tag as Tg;
 
-class Tag_UnitTest extends \PhalconUnitTestCase
+class Tag_UnitTest extends Phalcon_Test_UnitTestCase
 {
     private $message = "%s does not return proper html element";
 
