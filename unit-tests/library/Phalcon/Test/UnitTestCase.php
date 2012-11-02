@@ -1,7 +1,7 @@
 <?php
 /**
- * PhalconUnitTestCase.php
- * PhalconUnitTestCase
+ * UnitTestCase.php
+ * Phalcon_Helpers_UnitTestCase
  *
  * Unit Test Helper
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
+class Phalcon_Helpers_UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate
@@ -36,7 +36,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
      */
     public function __construct()
     {
-        spl_autoload_register(array($this, 'slashAutoloader'));
+        spl_autoload_register(array($this, 'internalAutoloader'));
     }
 
     /**
@@ -44,21 +44,11 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
      */
     public function __destruct()
     {
-        spl_autoload_unregister(array($this, 'slashAutoloader'));
+        spl_autoload_unregister(array($this, 'internalAutoloader'));
     }
 
-    public function slashAutoloader($className)
+    public function internalAutoloader($className)
     {
-        if (file_exists(ROOT_PATH . '/app/controllers/' . $className . '.php'))
-        {
-            require_once ROOT_PATH . '/app/controllers/' . $className . '.php';
-        }
-
-        if (file_exists(ROOT_PATH . '/app/models/' . $className . '.php'))
-        {
-            require_once ROOT_PATH . '/app/models/' . $className . '.php';
-        }
-
         $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
 
         if (file_exists(ROOT_PATH . '/Phalcon/' . $filename))

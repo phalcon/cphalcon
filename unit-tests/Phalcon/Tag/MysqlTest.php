@@ -23,7 +23,7 @@
 
 use \Phalcon\Tag as Tg;
 
-class Tag_ModelTest extends \PhalconModelTestCase
+class Tag_ModelTest extends Phalcon_Test_ModelTestCase
 {
     private $message = "%s does not return proper html element";
 

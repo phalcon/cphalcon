@@ -1,9 +1,9 @@
 <?php
 /**
- * DbListener.php
- * \Phalcon\Logger\Helper\DbListener
+ * Listener.php
+ * Logger_Adapter_File_Helper_Listener
  *
- * Tests the \Phalcon\Logger\Helper\DbListener component
+ * Tests the \Phalcon\Logger\Adapter\File\HelperListener component
  *
  * PhalconPHP Framework
  *
@@ -20,9 +20,8 @@
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-use \Phalcon\Logger\Adapter\File as PhFLg;
 
-class Logger_Helper_DbListener
+class Logger_Adapter_File_Helper_Listener
 {
 
 	protected $_logger;

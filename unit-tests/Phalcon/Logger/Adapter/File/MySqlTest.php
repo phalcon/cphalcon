@@ -1,7 +1,7 @@
 <?php
 /**
- * ModelTest.php
- * \Phalcon\Logger\Adapter\File\ModelTest
+ * Helper.php
+ * \Phalcon\Logger\Adapter\File\Helper
  *
  * Tests the \Phalcon\Logger\Adapter\File component
  *
@@ -21,9 +21,11 @@
  * so that we can send you a copy immediately.
  */
 
+require_once 'HelperListener.php';
+
 use Phalcon\Events\Manager as EvMgr;
 
-class Logger_Adapter_File_ModelTest extends \PhalconModelTestCase
+class Logger_Adapter_File_Mysql extends Phalcon_Logger_Adapter_File_Helper_Model
 {
     private $_logPath = '';
 
