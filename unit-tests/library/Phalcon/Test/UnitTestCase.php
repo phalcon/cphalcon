@@ -1,7 +1,7 @@
 <?php
 /**
  * UnitTestCase.php
- * Phalcon_Helpers_UnitTestCase
+ * Phalcon_Test_UnitTestCase
  *
  * Unit Test Helper
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Helpers_UnitTestCase extends \PHPUnit_Framework_TestCase
+class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate
@@ -30,32 +30,6 @@ class Phalcon_Helpers_UnitTestCase extends \PHPUnit_Framework_TestCase
 
     // The Di container
     protected $_di;
-
-    /**
-     * Constructor - registers the internal autoloader
-     */
-    public function __construct()
-    {
-        spl_autoload_register(array($this, 'internalAutoloader'));
-    }
-
-    /**
-     * Destructor - destroys the internal autoloader
-     */
-    public function __destruct()
-    {
-        spl_autoload_unregister(array($this, 'internalAutoloader'));
-    }
-
-    public function internalAutoloader($className)
-    {
-        $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
-
-        if (file_exists(ROOT_PATH . '/Phalcon/' . $filename))
-        {
-            require_once ROOT_PATH . '/Phalcon/' . $filename;
-        }
-    }
 
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -68,7 +42,7 @@ class Phalcon_Helpers_UnitTestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Set the config up
-        $this->_config = PhalconConfig::init();
+        $this->_config = Phalcon_Test_Config::init();
 
         // Reset the DI container
         \Phalcon\DI::reset();

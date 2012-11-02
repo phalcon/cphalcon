@@ -1,7 +1,7 @@
 <?php
 /**
  * ModelTestCase.php
- * Phalcon_Helpers_ModelTestCase
+ * Phalcon_Test_ModelTestCase
  *
  * Model Test Helper
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Helpers_ModelTestCase extends Phalcon_Helpers_UnitTestCase
+class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -51,6 +51,8 @@ class Phalcon_Helpers_ModelTestCase extends Phalcon_Helpers_UnitTestCase
      */
     protected function setDb($dbType = 'mysql')
     {
+        $config = $this->_config;
+
         if ($this->_di->has('db'))
         {
             $db = $this->_di->get('db');
@@ -62,9 +64,8 @@ class Phalcon_Helpers_ModelTestCase extends Phalcon_Helpers_UnitTestCase
         // Set the connection to whatever we chose
         $this->_di->set(
             'db',
-            function() use ($dbType)
+            function() use ($dbType, $config)
             {
-                $config = PhalconConfig::init();
                 $params = $config['db'][$dbType];
                 $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
                 return new $class($params);

@@ -26,18 +26,41 @@ define('ROOT_PATH', $root);
 
 if (!defined('UNIT_TESTING'))
 {
-    define('UNIT_TESTING', TRUE);
+    define('UNIT_TESTING', true);
 }
 
 error_reporting(E_ALL);
 set_include_path(
     ROOT_PATH . PATH_SEPARATOR .
-    ROOT_PATH . '/Models' . PATH_SEPARATOR .
+    ROOT_PATH . '/library' . PATH_SEPARATOR .
     get_include_path()
 );
 
-require_once ROOT_PATH . '/Helpers/PhalconConfig.php';
-require_once ROOT_PATH . '/Helpers/PhalconUnitTestCase.php';
-require_once ROOT_PATH . '/Helpers/PhalconModelTestCase.php';
-require_once ROOT_PATH . '/Helpers/PhalconFunctionalTestCase.php';
+require_once ROOT_PATH . '/library/Phalcon/Test/UnitTestCase.php';
+
+// Register the autoloader
+spl_autoload_register('phalcon_test_autoloader');
+
+function phalcon_test_autoloader($className)
+{
+    $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+    $paths    = array(
+        '/library/',
+        '/Phalcon/',
+        '/app/models/',
+        '/app/controllers/',
+    );
+
+    /**
+     * Check the Library first, then the Models, then the controllers
+     */
+    foreach ($paths as $path)
+    {
+        if (file_exists(ROOT_PATH . $path . $filename))
+        {
+            require_once ROOT_PATH . $path . $filename;
+            break;
+        }
+    }
+}
 

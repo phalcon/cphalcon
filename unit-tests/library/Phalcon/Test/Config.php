@@ -1,7 +1,7 @@
 <?php
 /**
  * Config.php
- * Phalcon_Helpers_Config
+ * Phalcon_Test_Config
  *
  * Encapsulates the configuration needed for the tests
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Helpers_Config
+class Phalcon_Test_Config
 {
     public static function init()
     {

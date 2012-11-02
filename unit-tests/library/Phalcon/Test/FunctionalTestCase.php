@@ -1,7 +1,7 @@
 <?php
 /**
  * FunctionalTestCase.php
- * Phalcon_Helpers_FunctionalTestCase
+ * Phalcon_Test_FunctionalTestCase
  *
  * Functional Test Helper
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Helpers_FunctionalTestCase extends Phalcon_Helpers_ModelTestCase
+class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
