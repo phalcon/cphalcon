@@ -23,7 +23,7 @@
 
 use Phalcon\Text as Txt;
 
-class Text_UnitTest extends \PhalconUnitTestCase
+class Text_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the camelize function
