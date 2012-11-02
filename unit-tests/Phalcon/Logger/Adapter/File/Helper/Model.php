@@ -49,7 +49,7 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
     {
         $fileName = $this->getFileName('log', 'log');
         $evman    = new EvMgr();
-        $listener = new Logger_Adapter_File_Helper_Listener($fileName);
+        $listener = new Logger_Adapter_File_Helper_Listener($this->_logPath . $fileName);
 
         $evman->attach('db', $listener);
 
@@ -65,7 +65,7 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
 
         $listener->getLogger()->close();
 
-        $lines = file($fileName);
+        $lines = file($this->_logPath . $fileName);
         $this->assertEquals(count($lines), 3);
 
         $this->assertTrue(strpos($lines[0], '[DEBUG]')!==false);
