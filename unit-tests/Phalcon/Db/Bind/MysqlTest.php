@@ -26,6 +26,9 @@ require_once 'Helper.php';
 
 class Db_Bind_MysqlTest extends Db_Bind_Helper
 {
+    /**
+     * Sets the environment
+     */
     public function setUp()
     {
         parent::setUp();

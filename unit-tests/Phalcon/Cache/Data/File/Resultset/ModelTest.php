@@ -1,6 +1,6 @@
 <?php
 /**
- * ModelTest.php
+ * MysqlTest.php
  * \Phalcon\Cache\Data\File\Resultset\ModelTest
  *
  * Tests the \Phalcon\Cache for a Resultset
