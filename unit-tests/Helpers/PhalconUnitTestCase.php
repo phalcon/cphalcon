@@ -32,6 +32,42 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
     protected $_di;
 
     /**
+     * Constructor - registers the internal autoloader
+     */
+    public function __construct()
+    {
+        spl_autoload_register(array($this, 'slashAutoloader'));
+    }
+
+    /**
+     * Destructor - destroys the internal autoloader
+     */
+    public function __destruct()
+    {
+        spl_autoload_unregister(array($this, 'slashAutoloader'));
+    }
+
+    public function slashAutoloader($className)
+    {
+        if (file_exists(ROOT_PATH . '/app/controllers/' . $className . '.php'))
+        {
+            require_once ROOT_PATH . '/app/controllers/' . $className . '.php';
+        }
+
+        if (file_exists(ROOT_PATH . '/app/models/' . $className . '.php'))
+        {
+            require_once ROOT_PATH . '/app/models/' . $className . '.php';
+        }
+
+        $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+
+        if (file_exists(ROOT_PATH . '/Phalcon/' . $filename))
+        {
+            require_once ROOT_PATH . '/Phalcon/' . $filename;
+        }
+    }
+
+    /**
      * Sets the test up by loading the DI container and other stuff
      *
      * @author Nikos Dimopoulos <nikos@niden.net>

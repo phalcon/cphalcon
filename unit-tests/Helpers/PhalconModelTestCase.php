@@ -24,29 +24,6 @@
 class PhalconModelTestCase extends PhalconUnitTestCase
 {
     /**
-     * Constructor - registers the internal autoloader
-     */
-    public function __construct()
-    {
-        spl_autoload_register(array($this, 'internalAutoloader'));
-    }
-
-    /**
-     * Destructor - destroys the internal autoloader
-     */
-    public function __destruct()
-    {
-        spl_autoload_unregister(array($this, 'internalAutoloader'));
-    }
-
-    public function internalAutoloader($className)
-    {
-        if (file_exists(ROOT_PATH . '/apps/models/' . $className . '.php')) {
-            require_once ROOT_PATH . '/apps/models/' . $className . '.php';
-        }
-    }
-
-    /**
      * Sets the test up by loading the DI container and other stuff
      */
     protected function setUp()
@@ -74,12 +51,24 @@ class PhalconModelTestCase extends PhalconUnitTestCase
      */
     protected function setDb($dbType = 'mysql')
     {
+        if ($this->_di->has('db'))
+        {
+            $db = $this->_di->get('db');
+            if (get_class($db) == '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType))
+            {
+                return $db;
+            }
+        }
         // Set the connection to whatever we chose
-        $this->_di->set('db', function() use ($dbType) {
-            $config = PhalconConfig::init();
-            $params = $config['db'][$dbType];
-            $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucase($dbType);
-            return new $class($params);
-        });
+        $this->_di->set(
+            'db',
+            function() use ($dbType)
+            {
+                $config = PhalconConfig::init();
+                $params = $config['db'][$dbType];
+                $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
+                return new $class($params);
+            }
+        );
     }
 }

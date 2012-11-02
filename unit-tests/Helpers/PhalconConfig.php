@@ -36,7 +36,7 @@ class PhalconConfig
                         'postgresql' => array(
                             'host'     => '127.0.0.1',
                             'username' => 'postgres',
-                            'password' => '',
+                            'password' => '1234',
                             'dbname'   => 'phalcon_test',
                             'schema'   => 'public',
                         ),
