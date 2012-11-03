@@ -31,10 +31,10 @@ before_script:
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
- - mysql -uroot phalcon_test < unit-tests/app/schemas/mysql/phalcon_test.sql
+ - mysql -uroot phalcon_test < unit-tests/app/var/schemas/mysql/phalcon_test.sql
  - psql -c 'create database phalcon_test;' -U postgres
- - psql -U postgres phalcon_test -q -f unit-tests/app/schemas/postgresql/phalcon_test.sql
- - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/app/schemas/sqlite/phalcon_test.sql
+ - psql -U postgres phalcon_test -q -f unit-tests/app/var/schemas/postgresql/phalcon_test.sql
+ - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/app/var/schemas/sqlite/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
 script: sudo ./unit-tests/ci/run_script.sh
