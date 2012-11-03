@@ -1,9 +1,9 @@
 <?php
 /**
  * UnitTest.php
- * Config_Adapter_Ini_UnitTest
+ * Config_UnitTest
  *
- * Tests the \Phalcon\Config\Adapter\Ini component
+ * Tests the \Phalcon\Config component
  *
  * PhalconPHP Framework
  *
@@ -22,13 +22,18 @@
  */
 
 use \Phalcon\Config as PhConfig;
-use \Phalcon\Config\Adapter\Ini as PhConfigIni;
 
-class Config_Adapter_Ini_UnitTest extends Config_Helper_Unit
+class Config_UnitTest extends Config_Helper_Unit
 {
-    public function testIni()
+    /**
+     * Tests the loaded array config
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-04
+     */
+    public function testArray()
     {
-        $config = new PhConfigIni(ROOT_PATH . '/tests/app/var/config/config.ini');
+        $config = new PhConfig($this->_myConfig);
         $this->compareConfig($this->_myConfig, $config);
     }
 }
