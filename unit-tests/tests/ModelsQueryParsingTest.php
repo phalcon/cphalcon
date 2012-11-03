@@ -23,25 +23,6 @@ use Phalcon\Mvc\Model\Query as Query;
 class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
-
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
-
-	public function modelsAutoloader($className)
-	{
-		$className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-		$path = 'unit-tests/app/models/'.$className.'.php';
-		if (file_exists($path)) {
-			require $path;
-		}
-	}
-
 	protected function _getDI()
 	{
 
@@ -58,7 +39,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/app/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 

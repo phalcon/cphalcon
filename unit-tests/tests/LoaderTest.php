@@ -27,9 +27,9 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader = new Phalcon\Loader();
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\Base"    => PATH_VENDORS . "example/base/",
+			"Example\Adapter" => PATH_VENDORS . "example/adapter/",
+			"Example"         => PATH_VENDORS . "example/"
 		));
 
 		$loader->register();
@@ -54,9 +54,9 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader->setExtensions(array('inc', 'php'));
 
 		$loader->registerNamespaces(array(
-			"Example\Base" => "unit-tests/vendor/example/base/",
-			"Example\Adapter" => "unit-tests/vendor/example/adapter/",
-			"Example" => "unit-tests/vendor/example/"
+			"Example\Base"    => PATH_VENDORS . "example/base/",
+			"Example\Adapter" => PATH_VENDORS . "example/adapter/",
+			"Example"         => PATH_VENDORS . "example/"
 		));
 
 		$loader->register();
@@ -73,11 +73,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader = new Phalcon\Loader();
 
-		$loader->registerDirs(array(
-			"unit-tests/vendor/example/dialects/",
-			"unit-tests/vendor/example/types/",
-			"unit-tests/vendor/",
-		));
+		$loader->registerDirs(
+            array(
+                PATH_VENDORS . "example/dialects/",
+                PATH_VENDORS . "example/types/",
+                PATH_VENDORS,
+		    )
+        );
 
 		$loader->register();
 
@@ -103,11 +105,13 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader->setExtensions(array('inc', 'php'));
 
-		$loader->registerDirs(array(
-			"unit-tests/vendor/example/dialects/",
-			"unit-tests/vendor/example/types/",
-			"unit-tests/vendor/",
-		));
+		$loader->registerDirs(
+            array(
+                PATH_VENDORS . "example/dialects/",
+                PATH_VENDORS . "example/types/",
+                PATH_VENDORS,
+		    )
+        );
 
 		$loader->register();
 
@@ -123,8 +127,8 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader = new Phalcon\Loader();
 
 		$loader->registerClasses(array(
-			"MoiTest" => "unit-tests/vendor/example/test/MoiTest.php",
-			"LeTest" => "unit-tests/vendor/example/test/LeTest.php",
+			"MoiTest" => PATH_VENDORS . "example/test/MoiTest.php",
+			"LeTest"  => PATH_VENDORS . "example/test/LeTest.php",
 		));
 
 		$loader->register();
@@ -144,7 +148,7 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 		$loader = new Phalcon\Loader();
 
 		$loader->registerPrefixes(array(
-			"Pseudo" => "unit-tests/vendor/example/Pseudo/",
+			"Pseudo" => PATH_VENDORS . "example/Pseudo/",
 		));
 
 		$loader->register();
@@ -163,20 +167,22 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
 		$loader = new Phalcon\Loader();
 
-		$loader->registerDirs(array(
-			"unit-tests/vendor/example/other/"
-		));
+		$loader->registerDirs(
+            array(
+                PATH_VENDORS . "example/other/"
+		    )
+        );
 
 		$loader->registerClasses(array(
-			"AvecTest" => "unit-tests/vendor/example/other/Avec/"
+			"AvecTest" => PATH_VENDORS . "example/other/Avec/"
 		));
 
 		$loader->registerNamespaces(array(
-			"Avec\Test" => "unit-tests/vendor/example/other/Avec/"
+			"Avec\Test" => PATH_VENDORS . "example/other/Avec/"
 		));
 
 		$loader->registerPrefixes(array(
-			"Avec_" => "unit-tests/vendor/example/other/Avec/"
+			"Avec_" => PATH_VENDORS . "example/other/Avec/"
 		));
 
 		$loader->register();
@@ -204,10 +210,10 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 				0 => NULL,
 			),
 			'beforeCheckPath' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
+				0 => PATH_VENDORS . 'example/other/VousTest.php',
 			),
 			'pathFound' => array(
-				0 => 'unit-tests/vendor/example/other/VousTest.php',
+				0 => PATH_VENDORS . 'example/other/VousTest.php',
 			),
 		));
 

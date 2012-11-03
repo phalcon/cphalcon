@@ -71,7 +71,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	public function testDbMysql()
 	{
 
-		require_once PATH_CONFIG . 'config.inc.php';
+		require PATH_CONFIG . 'config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
@@ -81,7 +81,7 @@ class DbProfilerTest extends PHPUnit_Framework_TestCase
 	public function testDbPostgresql()
 	{
 
-		require_once PATH_CONFIG . 'config.inc.php';
+		require PATH_CONFIG . 'config.inc.php';
 
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 

@@ -21,24 +21,6 @@
 class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 {
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
-
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
-
-	public function modelsAutoloader($className)
-	{
-		$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-		if (file_exists('unit-tests/app/models/'.$className.'.php')) {
-			require 'unit-tests/app/models/'.$className.'.php';
-		}
-	}
-
 	protected function _getDI()
 	{
 
@@ -63,7 +45,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
@@ -77,7 +59,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
@@ -91,7 +73,7 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		});
 

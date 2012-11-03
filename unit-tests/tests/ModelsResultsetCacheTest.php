@@ -58,7 +58,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$iterator = new DirectoryIterator('unit-tests/app/var/cache/');
+		$iterator = new DirectoryIterator(PATH_CACHE);
 		foreach($iterator as $item){
 			if(!$item->isDir()){
 				unlink($item->getPathname());
@@ -72,7 +72,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
@@ -85,7 +85,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
@@ -98,7 +98,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di->set('modelsCache', function(){
 			$frontCache = new Phalcon\Cache\Frontend\Data();
 			return new Phalcon\Cache\Backend\File($frontCache, array(
-				'cacheDir' => 'unit-tests/app/var/config/'
+				'cacheDir' => PATH_CACHE
 			));
 		});
 
@@ -130,7 +130,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$di->set('otherCache', function(){
 			$frontCache = new Phalcon\Cache\Frontend\Data();
 			return new Phalcon\Cache\Backend\File($frontCache, array(
-				'cacheDir' => 'unit-tests/app/var/cache/'
+				'cacheDir' => PATH_CACHE
 			));
 		});
 

@@ -731,22 +731,26 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 	public function testVoltCompilerFile()
 	{
-		@unlink('unit-tests/app/views/layouts/test10.volt.php');
+		@unlink(PATH_VIEWS . 'layouts/test10.volt.php');
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
 
 		//Simple file
-		$volt->compile('unit-tests/app/views/layouts/test10.volt', 'unit-tests/app/views/layouts/test10.volt.php');
+		$volt->compile(
+            PATH_VIEWS . 'layouts/test10.volt',
+            PATH_VIEWS . 'layouts/test10.volt.php');
 
-		$compilation = file_get_contents('unit-tests/app/views/layouts/test10.volt.php');
+		$compilation = file_get_contents(PATH_VIEWS . 'layouts/test10.volt.php');
 		$this->assertEquals($compilation, '<?php if ($some_eval) { ?>
 Clearly, the song is: <?php echo $this->getContent(); ?>.
 <?php } ?>');
 
 		//With blocks and extending
-		$volt->compile('unit-tests/app/views/test10/children.volt', 'unit-tests/app/views/test10/children.volt.php');
+		$volt->compile(
+            PATH_VIEWS . 'test10/children.volt',
+            PATH_VIEWS . 'test10/children.volt.php');
 
-		$compilation = file_get_contents('unit-tests/app/views/test10/children.volt.php');
+		$compilation = file_get_contents(PATH_VIEWS . 'test10/children.volt.php');
 		$this->assertEquals($compilation, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"><html lang="en"><html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css">.important { color: #336699; }</style><title>Index - My Webpage</title></head><body><div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p></div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.</div></body>');
 
 	}
@@ -760,20 +764,24 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$volt = new Phalcon\Mvc\View\Engine\Volt($view, $di);
 
 		$volt->setOptions(array(
-	        "compiledPath" => "unit-tests/cache/",
+	        "compiledPath"      => PATH_CACHE,
 	        "compiledSeparator" => ".",
 	        "compiledExtension" => ".compiled"
 		));
 
-		@unlink('unit-tests/app/views/test10/index.volt.php');
-		@unlink('unit-tests/cache/unit-tests.views.test10.index.volt.compiled');
+		@unlink(PATH_VIEWS . 'test10/index.volt.php');
+		@unlink(PATH_CACHE . 'unit-tests.views.test10.index.volt.compiled');
 
 		$view->start();
-		$volt->render('unit-tests/app/views/test10/index.volt', array('song' => 'Lights'), true);
+		$volt->render(
+            PATH_VIEWS . 'test10/index.volt',
+            array('song' => 'Lights'),
+            true
+        );
 		$view->finish();
 
-		$this->assertTrue(file_exists('unit-tests/cache/unit-tests.views.test10.index.volt.compiled'));
-		$this->assertEquals(file_get_contents('unit-tests/cache/unit-tests.views.test10.index.volt.compiled'), 'Hello <?php echo $song; ?>!');
+		$this->assertTrue(file_exists(PATH_CACHE . 'unit-tests.views.test10.index.volt.compiled'));
+		$this->assertEquals(file_get_contents(PATH_CACHE . 'unit-tests.views.test10.index.volt.compiled'), 'Hello <?php echo $song; ?>!');
 		$this->assertEquals($view->getContent(), 'Hello Lights!');
 
 	}
@@ -781,15 +789,15 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 	public function testVoltEngine()
 	{
 
-		@unlink('unit-tests/app/views/layouts/test10.volt.php');
-		@unlink('unit-tests/app/views/test10/index.volt.php');
-		@unlink('unit-tests/app/views/test10/other.volt.php');
+		@unlink(PATH_VIEWS . 'layouts/test10.volt.php');
+		@unlink(PATH_VIEWS . 'test10/index.volt.php');
+		@unlink(PATH_VIEWS . 'test10/other.volt.php');
 
 		$di = new Phalcon\DI();
 
 		$view = new Phalcon\Mvc\View();
 		$view->setDI($di);
-		$view->setViewsDir('unit-tests/app/views/');
+		$view->setViewsDir(PATH_VIEWS);
 
 		$view->registerEngines(array(
 			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
@@ -812,7 +820,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Hello Rock n roll!.'."\n");
 
 		//Refreshing generated view
-		file_put_contents('unit-tests/app/views/test10/other.volt', '{{song}} {{song}}');
+		file_put_contents(PATH_VIEWS . 'test10/other.volt', '{{song}} {{song}}');
 
 		$view->setParamToView('song', 'Le Song');
 
@@ -829,7 +837,7 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Le Song Le Song.'."\n");
 
 		//Change the view
-		file_put_contents('unit-tests/app/views/test10/other.volt', 'Two songs: {{song}} {{song}}');
+		file_put_contents(PATH_VIEWS . 'test10/other.volt', 'Two songs: {{song}} {{song}}');
 
 		$view->start();
 		$view->setRenderLevel(Phalcon\Mvc\View::LEVEL_LAYOUT);

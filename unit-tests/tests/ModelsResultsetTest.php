@@ -61,7 +61,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 	}
@@ -71,7 +71,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 	}

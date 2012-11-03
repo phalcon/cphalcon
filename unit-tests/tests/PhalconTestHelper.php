@@ -22,13 +22,21 @@
  */
 
 $root = realpath(dirname(dirname(__FILE__)));
-define('ROOT_PATH', $root);
-define('PATH_CONFIG', $root . '/tests/app/var/config/');
-define('PATH_MODELS', $root . '/tests/app/models/');
-define('PATH_VIEWS', $root . '/tests/app/views/');
+define('ROOT_PATH',        $root);
+define('PATH_LIBRARY',     $root . '/library/');
+define('PATH_TESTS',       $root . '/tests/Phalcon/');
+
+define('PATH_CONFIG',      $root . '/tests/app/var/config/');
+define('PATH_CACHE',       $root . '/tests/app/var/cache/');
+define('PATH_LOGS',        $root . '/tests/app/var/logs/');
+
+define('PATH_MODELS',      $root . '/tests/app/models/');
+define('PATH_VIEWS',       $root . '/tests/app/views/');
 define('PATH_CONTROLLERS', $root . '/tests/app/controllers/');
-define('PATH_CACHE', $root . '/tests/app/var/cache/');
-define('PATH_LOGS', $root . '/tests/app/var/logs/');
+
+define('PATH_COLLECTIONS', $root . '/tests/app/collections/');
+define('PATH_VENDORS',     $root . '/tests/app/vendor/');
+define('PATH_TASKS',       $root . '/tests/app/tasks/');
 
 error_reporting(E_ALL);
 set_include_path(
@@ -43,12 +51,19 @@ spl_autoload_register('phalcon_test_autoloader');
 
 function phalcon_test_autoloader($className)
 {
+    if (strpos($className, '\\') > 0)
+    {
+        $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+    }
+
     $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
     $paths    = array(
-        '/library/',
-        '/tests/Phalcon/',
-        '/tests/app/models/',
-        '/tests/app/controllers/',
+        PATH_LIBRARY,
+        PATH_TESTS,
+        PATH_TASKS,
+        PATH_COLLECTIONS,
+        PATH_MODELS,
+        PATH_CONTROLLERS,
     );
 
     /**
@@ -56,9 +71,9 @@ function phalcon_test_autoloader($className)
      */
     foreach ($paths as $path)
     {
-        if (file_exists(ROOT_PATH . $path . $filename))
+        if (file_exists($path . $filename))
         {
-            require_once ROOT_PATH . $path . $filename;
+            require_once $path . $filename;
             break;
         }
     }

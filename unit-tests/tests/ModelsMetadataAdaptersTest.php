@@ -65,23 +65,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		)
 	);
 
-	public function __construct()
-	{
-		spl_autoload_register(array($this, 'modelsAutoloader'));
-	}
-
-	public function __destruct()
-	{
-		spl_autoload_unregister(array($this, 'modelsAutoloader'));
-	}
-
-	public function modelsAutoloader($className)
-	{
-		if (file_exists('unit-tests/app/models/'.$className.'.php')) {
-			require 'unit-tests/app/models/'.$className.'.php';
-		}
-	}
-
 	protected function _getDI()
 	{
 
@@ -94,7 +77,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/app/var/config/config.inc.php';
+			require PATH_CONFIG . 'config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
