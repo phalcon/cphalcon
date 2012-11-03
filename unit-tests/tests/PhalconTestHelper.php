@@ -23,16 +23,16 @@
 
 $root = realpath(dirname(dirname(__FILE__)));
 define('ROOT_PATH', $root);
-
-if (!defined('UNIT_TESTING'))
-{
-    define('UNIT_TESTING', true);
-}
+define('PATH_CONFIG', $root . '/tests/app/var/config/');
+define('PATH_MODELS', $root . '/tests/app/models/');
+define('PATH_VIEWS', $root . '/tests/app/views/');
+define('PATH_CONTROLLERS', $root . '/tests/app/controllers/');
+define('PATH_CACHE', $root . '/tests/app/var/cache/');
+define('PATH_LOGS', $root . '/tests/app/var/logs/');
 
 error_reporting(E_ALL);
 set_include_path(
     ROOT_PATH . PATH_SEPARATOR .
-    ROOT_PATH . '/library' . PATH_SEPARATOR .
     get_include_path()
 );
 
