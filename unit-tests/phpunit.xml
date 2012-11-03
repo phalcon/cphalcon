@@ -13,11 +13,4 @@
     <testsuite name="PhalconPHP - Testsuite">
         <directory>./</directory>
     </testsuite>
-    <filter>
-        <whitelist>
-            <exclude>
-                <directory>./engines</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>

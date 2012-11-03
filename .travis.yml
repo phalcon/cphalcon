@@ -20,11 +20,6 @@ before_install:
  - sudo ./unit-tests/ci/install_mongo
 
 before_script:
- - mkdir -p unit-tests/engines
- - cd unit-tests/engines/
- - git clone https://github.com/bobthecow/mustache.php.git
- - git clone git://github.com/fabpot/Twig.git
- - cd ../..
  - cd ext/
  - export CFLAGS="-g -O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
