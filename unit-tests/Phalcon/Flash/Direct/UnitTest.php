@@ -23,7 +23,7 @@
 
 use \Phalcon\Flash\Direct as Flash;
 
-class Flash_Direct_UnitTest extends \PhalconUnitTestCase
+class Flash_Direct_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests error (implicit flush)

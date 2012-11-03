@@ -1,7 +1,7 @@
 <?php
 /**
- * ModelTest.php
- * \Phalcon\Tag\ModelTest
+ * Model.php
+ * Tag_Helper_Model
  *
  * Tests the \Phalcon\Tag component
  *
@@ -23,7 +23,7 @@
 
 use \Phalcon\Tag as Tg;
 
-class Tag_ModelTest extends \PhalconModelTestCase
+class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
 {
     private $message = "%s does not return proper html element";
 

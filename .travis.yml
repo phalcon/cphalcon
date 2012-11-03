@@ -42,4 +42,4 @@ script: sudo ./unit-tests/ci/run_script.sh
 notifications:
   email:
     - andres@phalconphp.com
-    - eduar@phalconphp.com
+    - nikos@niden.net

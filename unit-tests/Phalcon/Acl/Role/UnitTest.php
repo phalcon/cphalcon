@@ -23,7 +23,7 @@
 
 use \Phalcon\Acl\Role as AclRole;
 
-class Acl_Role_UnitTest extends \PhalconUnitTestCase
+class Acl_Role_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the creation of an Acl Role (name)

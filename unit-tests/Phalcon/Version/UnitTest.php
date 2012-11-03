@@ -23,7 +23,7 @@
 
 use \Phalcon\Version as Version;
 
-class Version_UnitTest extends \PhalconUnitTestCase
+class Version_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the get

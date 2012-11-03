@@ -46,8 +46,9 @@
 #define PHQL_GROUP                          46
 #define PHQL_HAVING                         47
 #define PHQL_LIMIT                          48
-#define PHQL_NULL                           49
-#define PHQL_STRING                         50
-#define PHQL_DOUBLE                         51
-#define PHQL_NPLACEHOLDER                   52
-#define PHQL_SPLACEHOLDER                   53
+#define PHQL_OFFSET                         49
+#define PHQL_NULL                           50
+#define PHQL_STRING                         51
+#define PHQL_DOUBLE                         52
+#define PHQL_NPLACEHOLDER                   53
+#define PHQL_SPLACEHOLDER                   54

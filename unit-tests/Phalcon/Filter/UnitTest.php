@@ -23,7 +23,7 @@
 
 use Phalcon\Filter as Flt;
 
-class Filter_UnitTest extends \PhalconUnitTestCase
+class Filter_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the filter with a string (US characters)

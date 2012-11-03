@@ -1,7 +1,7 @@
 <?php
 /**
- * PhalconConfig.php
- * PhalconConfig
+ * Config.php
+ * Phalcon_Test_Config
  *
  * Encapsulates the configuration needed for the tests
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class PhalconConfig
+class Phalcon_Test_Config
 {
     public static function init()
     {
@@ -36,7 +36,7 @@ class PhalconConfig
                         'postgresql' => array(
                             'host'     => '127.0.0.1',
                             'username' => 'postgres',
-                            'password' => '',
+                            'password' => '1234',
                             'dbname'   => 'phalcon_test',
                             'schema'   => 'public',
                         ),
