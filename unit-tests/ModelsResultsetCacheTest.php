@@ -33,8 +33,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	public function modelsAutoloader($className)
 	{
-		if (file_exists('unit-tests/models/'.$className.'.php')) {
-			require 'unit-tests/models/'.$className.'.php';
+		if (file_exists('unit-tests/app/models/'.$className.'.php')) {
+			require 'unit-tests/app/models/'.$className.'.php';
 		}
 	}
 
@@ -58,7 +58,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$iterator = new DirectoryIterator('unit-tests/app/var/config/');
+		$iterator = new DirectoryIterator('unit-tests/app/var/cache/');
 		foreach($iterator as $item){
 			if(!$item->isDir()){
 				unlink($item->getPathname());
