@@ -14,10 +14,10 @@
         <directory>./</directory>
     </testsuite>
     <filter>
-        <blacklist>
+        <whitelist>
             <exclude>
                 <directory>./engines</directory>
             </exclude>
-        </blacklist>
+        </whitelist>
     </filter>
 </phpunit>
