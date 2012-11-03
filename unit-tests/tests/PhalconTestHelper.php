@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-$root = realpath(dirname(__FILE__));
+$root = realpath(dirname(dirname(__FILE__)));
 define('ROOT_PATH', $root);
 
 if (!defined('UNIT_TESTING'))
@@ -46,9 +46,9 @@ function phalcon_test_autoloader($className)
     $filename = str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
     $paths    = array(
         '/library/',
-        '/Phalcon/',
-        '/app/models/',
-        '/app/controllers/',
+        '/tests/Phalcon/',
+        '/tests/app/models/',
+        '/tests/app/controllers/',
     );
 
     /**
