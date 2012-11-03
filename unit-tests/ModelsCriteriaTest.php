@@ -62,7 +62,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/config/config.inc.php';
+			require 'unit-tests/app/var/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
@@ -74,7 +74,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/config/config.inc.php';
+			require 'unit-tests/app/var/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
@@ -87,7 +87,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$di = $this->_getDI();
 
 		$di->set('db', function(){
-			require 'unit-tests/app/config/config.inc.php';
+			require 'unit-tests/app/var/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\SQLite($configSqlite);
 		});
 

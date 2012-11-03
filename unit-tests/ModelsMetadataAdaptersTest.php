@@ -94,7 +94,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		});
 
 		$di->set('db', function(){
-			require 'unit-tests/app/config/config.inc.php';
+			require 'unit-tests/app/var/config/config.inc.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
