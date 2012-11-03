@@ -24,7 +24,7 @@
 use \Phalcon\Translate\Exception as TrEx;
 use \Phalcon\Translate\Adapter\NativeArray as TrNA;
 
-class Translate_Adapter_NativeArray_UnitTest extends \PhalconUnitTestCase
+class Translate_Adapter_NativeArray_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests Exists

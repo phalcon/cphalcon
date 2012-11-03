@@ -25,7 +25,7 @@ use \Phalcon\Logger as PhLg;
 use \Phalcon\Logger\Exception as PhLgEx;
 use \Phalcon\Logger\Adapter\File as PhFLg;
 
-class Logger_Adapter_File_UnitTest extends \PhalconUnitTestCase
+class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 {
     private $_logPath = '';
 
@@ -38,7 +38,7 @@ class Logger_Adapter_File_UnitTest extends \PhalconUnitTestCase
     {
         parent::setUp();
 
-        $this->_logPath = ROOT_PATH . '/app/logs/';
+        $this->_logPath = ROOT_PATH . '/app/var/logs/';
     }
 
     /**

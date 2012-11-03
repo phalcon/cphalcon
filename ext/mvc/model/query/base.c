@@ -58,6 +58,7 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_ORDER,         "ORDER" },
   { PHQL_T_BY,            "BY" },
   { PHQL_T_LIMIT,         "LIMIT" },
+  { PHQL_T_OFFSET,        "OFFSET" },
   { PHQL_T_GROUP,         "GROUP" },
   { PHQL_T_HAVING,        "HAVING" },
   { PHQL_T_IN,            "IN" },
@@ -271,6 +272,9 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				break;
 			case PHQL_T_LIMIT:
 				phql_(phql_parser, PHQL_LIMIT, NULL, parser_status);
+				break;
+			case PHQL_T_OFFSET:
+				phql_(phql_parser, PHQL_OFFSET, NULL, parser_status);
 				break;
 			case PHQL_T_GROUP:
 				phql_(phql_parser, PHQL_GROUP, NULL, parser_status);

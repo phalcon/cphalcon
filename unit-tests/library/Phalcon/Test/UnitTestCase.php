@@ -1,7 +1,7 @@
 <?php
 /**
- * PhalconUnitTestCase.php
- * PhalconUnitTestCase
+ * UnitTestCase.php
+ * Phalcon_Test_UnitTestCase
  *
  * Unit Test Helper
  *
@@ -21,12 +21,15 @@
  * so that we can send you a copy immediately.
  */
 
-class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
+class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate
     // we do not need the overhead
     protected $_config = array();
+
+    // The Di container
+    protected $_di;
 
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -39,7 +42,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Set the config up
-        $this->_config = PhalconConfig::init();
+        $this->_config = Phalcon_Test_Config::init();
 
         // Reset the DI container
         \Phalcon\DI::reset();
@@ -54,7 +57,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
             return $url;
         });
 
-        return $di;
+        $this->_di = $di;
     }
 
     /**
@@ -74,7 +77,7 @@ class PhalconUnitTestCase extends \PHPUnit_Framework_TestCase
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix       : 'log';
 
-        return uniqid($prefix, TRUE) . '.' . $suffix;
+        return uniqid($prefix, true) . '.' . $suffix;
     }
 
     /**

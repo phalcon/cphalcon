@@ -39,6 +39,7 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 #include "kernel/concat.h"
 
 /**
@@ -464,8 +465,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 
 	zval *params, *collection, *connection, *unique;
 	zval *source, *mongo_collection, *conditions = NULL;
-	zval *document = NULL, *result, *documents_cursor, *limit;
-	zval *sort, *collections, *documents_array, *collection_cloned = NULL;
+	zval *documents_cursor, *limit, *sort = NULL, *document = NULL;
+	zval *collection_cloned = NULL, *collections, *documents_array;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -498,16 +499,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		}
 	}
 	
-	if (PHALCON_IS_TRUE(unique)) {
-		PHALCON_INIT_VAR(document);
-		PHALCON_CALL_METHOD_PARAMS_1(document, mongo_collection, "findone", conditions, PH_NO_CHECK);
-		
-		PHALCON_INIT_VAR(result);
-		PHALCON_CALL_SELF_PARAMS_2(result, this_ptr, "dumpresult", collection, document);
-		
-		RETURN_CCTOR(result);
-	}
-	
 	PHALCON_INIT_VAR(documents_cursor);
 	PHALCON_CALL_METHOD_PARAMS_1(documents_cursor, mongo_collection, "find", conditions, PH_NO_CHECK);
 	eval_int = phalcon_array_isset_string(params, SS("limit"));
@@ -522,6 +513,25 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_INIT_VAR(sort);
 		phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "sort", sort, PH_NO_CHECK);
+	}
+	
+	eval_int = phalcon_array_isset_string(params, SS("skip"));
+	if (eval_int) {
+		PHALCON_INIT_NVAR(sort);
+		phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "skip", sort, PH_NO_CHECK);
+	}
+	
+	if (PHALCON_IS_TRUE(unique)) {
+		PHALCON_CALL_METHOD_NORETURN(documents_cursor, "rewind", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(document);
+		PHALCON_CALL_METHOD(document, documents_cursor, "current", PH_NO_CHECK);
+		
+		PHALCON_INIT_VAR(collection_cloned);
+		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+		
+		RETURN_CCTOR(collection_cloned);
 	}
 	
 	PHALCON_INIT_VAR(collections);
@@ -904,16 +914,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, validationHasFailed){
 
-	zval *error_messages, *number_messages;
+	zval *error_messages;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(error_messages);
 	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
 	if (Z_TYPE_P(error_messages) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(number_messages);
-		phalcon_fast_count(number_messages, error_messages TSRMLS_CC);
-		if (!phalcon_compare_strict_long(number_messages, 0 TSRMLS_CC)) {
+		if (phalcon_fast_count_ev(error_messages TSRMLS_CC)) {
 			PHALCON_MM_RESTORE();
 			RETURN_TRUE;
 		}
@@ -1218,10 +1226,78 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	RETURN_CCTOR(post_success);
 }
 
+/**
+ * Find a document by its id
+ *
+ * @param string $id
+ * @return Phalcon\Mvc\Collection
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, findById){
+
+	zval *id, *mongo_id = NULL, *conditions, *parameters, *result;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &id) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(id) != IS_OBJECT) {
+		ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		PHALCON_INIT_VAR(mongo_id);
+		object_init_ex(mongo_id, ce0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id, PH_CHECK);
+	} else {
+		PHALCON_CPY_WRT(mongo_id, id);
+	}
+	
+	PHALCON_INIT_VAR(conditions);
+	array_init(conditions);
+	phalcon_array_update_string(&conditions, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(parameters);
+	array_init(parameters);
+	phalcon_array_append(&parameters, conditions, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_SELF_PARAMS_1(result, this_ptr, "findfirst", parameters);
+	
+	RETURN_CCTOR(result);
+}
+
+/**
+ * Allows to query the first record that match the specified conditions
+ *
+ * <code>
+ *
+ * //What's the first robot in robots table?
+ * $robot = Robots::findFirst();
+ * echo "The robot name is ", $robot->name;
+ *
+ * //What's the first mechanical robot in robots table?
+ * $robot = Robots::findFirst(array(
+ *     array("type" => "mechanical")
+ * ));
+ * echo "The first mechanical robot name is ", $robot->name;
+ *
+ * //Get first virtual robot ordered by name
+  * $robot = Robots::findFirst(array(
+ *     array("type" => "mechanical"),
+ *     "order" => array("name" => 1)
+ * ));
+ * echo "The first virtual robot name is ", $robot->name;
+ *
+ * </code>
+ *
+ * @param array $parameters
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 
-	zval *parameters = NULL, *params = NULL, *class_name, *collection;
-	zval *connection, *unique, *resultset;
+	zval *parameters = NULL, *class_name, *collection, *connection;
+	zval *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1235,17 +1311,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 		PHALCON_INIT_NVAR(parameters);
 	}
 	
-	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
-		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
-			array_init(params);
-			phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
-		} else {
-			PHALCON_INIT_NVAR(params);
-			array_init(params);
+	if (Z_TYPE_P(parameters) != IS_NULL) {
+		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for findFirst");
+			return;
 		}
-	} else {
-		PHALCON_CPY_WRT(params, parameters);
 	}
 	
 	PHALCON_INIT_VAR(class_name);
@@ -1263,15 +1333,53 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	ZVAL_BOOL(unique, 1);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, collection, connection, unique);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }
 
+/**
+ * Allows to query a set of records that match the specified conditions
+ *
+ * <code>
+ *
+ * //How many robots are there?
+ * $robots = Robots::find();
+ * echo "There are ", count($robots);
+ *
+ * //How many mechanical robots are there?
+ * $robots = Robots::find(array(
+ *     array("type" => "mechanical")
+ * ));
+ * echo "There are ", count($robots);
+ *
+ * //Get and print virtual robots ordered by name
+ * $robots = Robots::findFirst(array(
+ *     array("type" => "virtual"),
+ *     "order" => array("name" => 1)
+ * ));
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
+ * }
+ *
+  * //Get first 100 virtual robots ordered by name
+  * $robots = Robots::find(array(
+ *     array("type" => "virtual"),
+ *     "order" => array("name" => 1),
+ *     "limit" => 100
+ * ));
+ * foreach ($robots as $robot) {
+ *	   echo $robot->name, "\n";
+ * }
+ * </code>
+ *
+ * @param 	array $parameters
+ * @return  array
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, find){
 
-	zval *parameters = NULL, *params = NULL, *class_name, *collection;
-	zval *connection, *unique, *resultset;
+	zval *parameters = NULL, *class_name, *collection, *connection;
+	zval *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1285,17 +1393,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 		PHALCON_INIT_NVAR(parameters);
 	}
 	
-	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
-		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
-			array_init(params);
-			phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
-		} else {
-			PHALCON_INIT_NVAR(params);
-			array_init(params);
+	if (Z_TYPE_P(parameters) != IS_NULL) {
+		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for find");
+			return;
 		}
-	} else {
-		PHALCON_CPY_WRT(params, parameters);
 	}
 	
 	PHALCON_INIT_VAR(class_name);
@@ -1313,15 +1415,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	ZVAL_BOOL(unique, 0);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, collection, connection, unique);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }
 
+/**
+ *
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
-	zval *parameters = NULL, *params = NULL, *class_name, *collection;
-	zval *connection, *unique, *resultset;
+	zval *parameters = NULL, *class_name, *collection, *connection;
+	zval *unique, *resultset;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1335,17 +1440,11 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 		PHALCON_INIT_NVAR(parameters);
 	}
 	
-	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
-		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
-			array_init(params);
-			phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
-		} else {
-			PHALCON_INIT_NVAR(params);
-			array_init(params);
+	if (Z_TYPE_P(parameters) != IS_NULL) {
+		if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "Invalid parameters for count");
+			return;
 		}
-	} else {
-		PHALCON_CPY_WRT(params, parameters);
 	}
 	
 	PHALCON_INIT_VAR(class_name);
@@ -1363,11 +1462,25 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	ZVAL_BOOL(unique, 0);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", params, collection, connection, unique);
+	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
 	
 	RETURN_CCTOR(resultset);
 }
 
+/**
+ * Deletes a model instance. Returning true on success or false otherwise.
+ *
+ * <code>
+ *$robot = Robots::findFirst();
+ *$robot->delete();
+ *
+ *foreach(Robots::find() as $robot){
+ *   $robot->delete();
+ *}
+ * </code>
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	zval *disable_events = NULL, *event_name = NULL, *status = NULL, *id;

@@ -305,12 +305,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *class_name, *events_manager, *event_name = NULL;
 	zval *classes, *file_path = NULL, *extensions, *ds, *namespace_separator;
 	zval *empty_str, *zero, *namespaces, *directory = NULL;
-	zval *preffix = NULL, *preffix_len = NULL, *possible_preffix = NULL;
-	zval *prefix_namespace = NULL, *file_name = NULL, *extension = NULL;
-	zval *complete_path = NULL, *pseudo_separator, *prefixes;
-	zval *no_preffix_class = NULL, *ds_class_name, *ns_class_name;
-	zval *directories;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *prefix = NULL, *prefix_len = NULL, *possible_prefix = NULL;
+	zval *have_prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
+	zval *extension = NULL, *complete_path = NULL, *pseudo_separator;
+	zval *prefixes, *no_prefix_class = NULL, *ds_class_name;
+	zval *ns_class_name, *directories;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -390,20 +389,20 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				goto ph_cycle_end_0;
 			}
 			
-			PHALCON_GET_FOREACH_KEY(preffix, ah0, hp0);
+			PHALCON_GET_FOREACH_KEY(prefix, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
-			PHALCON_INIT_NVAR(preffix_len);
-			phalcon_fast_strlen(preffix_len, preffix);
+			PHALCON_INIT_NVAR(prefix_len);
+			phalcon_fast_strlen(prefix_len, prefix);
 			
-			PHALCON_INIT_NVAR(possible_preffix);
-			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
+			PHALCON_INIT_NVAR(possible_prefix);
+			PHALCON_CALL_FUNC_PARAMS_3(possible_prefix, "substr", class_name, zero, prefix_len);
 			
-			PHALCON_INIT_NVAR(r0);
-			is_equal_function(r0, possible_preffix, preffix TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			PHALCON_INIT_NVAR(have_prefix);
+			is_equal_function(have_prefix, possible_prefix, prefix TSRMLS_CC);
+			if (PHALCON_IS_TRUE(have_prefix)) {
 				PHALCON_INIT_NVAR(prefix_namespace);
-				PHALCON_CONCAT_VV(prefix_namespace, preffix, namespace_separator);
+				PHALCON_CONCAT_VV(prefix_namespace, prefix, namespace_separator);
 				
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, prefix_namespace, empty_str, class_name TSRMLS_CC);
@@ -489,23 +488,23 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 				goto ph_cycle_end_2;
 			}
 			
-			PHALCON_GET_FOREACH_KEY(preffix, ah2, hp2);
+			PHALCON_GET_FOREACH_KEY(prefix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
-			PHALCON_INIT_NVAR(preffix_len);
-			phalcon_fast_strlen(preffix_len, preffix);
+			PHALCON_INIT_NVAR(prefix_len);
+			phalcon_fast_strlen(prefix_len, prefix);
 			
-			PHALCON_INIT_NVAR(possible_preffix);
-			PHALCON_CALL_FUNC_PARAMS_3(possible_preffix, "substr", class_name, zero, preffix_len);
+			PHALCON_INIT_NVAR(possible_prefix);
+			PHALCON_CALL_FUNC_PARAMS_3(possible_prefix, "substr", class_name, zero, prefix_len);
 			
-			PHALCON_INIT_NVAR(r1);
-			is_equal_function(r1, possible_preffix, preffix TSRMLS_CC);
-			if (zend_is_true(r1)) {
-				PHALCON_INIT_NVAR(no_preffix_class);
-				phalcon_fast_str_replace(no_preffix_class, preffix, empty_str, class_name TSRMLS_CC);
+			PHALCON_INIT_NVAR(have_prefix);
+			is_equal_function(have_prefix, possible_prefix, prefix TSRMLS_CC);
+			if (PHALCON_IS_TRUE(have_prefix)) {
+				PHALCON_INIT_NVAR(no_prefix_class);
+				phalcon_fast_str_replace(no_prefix_class, prefix, empty_str, class_name TSRMLS_CC);
 				
 				PHALCON_INIT_NVAR(file_name);
-				phalcon_fast_str_replace(file_name, pseudo_separator, ds, no_preffix_class TSRMLS_CC);
+				phalcon_fast_str_replace(file_name, pseudo_separator, ds, no_prefix_class TSRMLS_CC);
 				if (zend_is_true(file_name)) {
 					
 					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
@@ -676,7 +675,7 @@ PHP_METHOD(Phalcon_Loader, getFoundPath){
 }
 
 /**
- * Get the path the loader is checking
+ * Get the path the loader is checking for a path
  *
  * @return string
  */

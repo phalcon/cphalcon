@@ -950,7 +950,11 @@ select_limit_clause(R) ::= LIMIT INTEGER(I) . {
 	R = phql_ret_select_limit_clause(I, NULL);
 }
 
-select_limit_clause(R) ::= LIMIT INTEGER(I) COMMA INTEGER(O). {
+select_limit_clause(R) ::= LIMIT INTEGER(O) COMMA INTEGER(I). {
+	R = phql_ret_select_limit_clause(I, O);
+}
+
+select_limit_clause(R) ::= LIMIT INTEGER(I) OFFSET INTEGER(O). {
 	R = phql_ret_select_limit_clause(I, O);
 }
 

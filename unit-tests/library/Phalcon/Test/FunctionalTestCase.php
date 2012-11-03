@@ -1,7 +1,7 @@
 <?php
 /**
- * PhalconFunctionalTestCase.php
- * PhalconFunctionalTestCase
+ * FunctionalTestCase.php
+ * Phalcon_Test_FunctionalTestCase
  *
  * Functional Test Helper
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class PhalconFunctionalTestCase extends PhalconModelTestCase
+class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
@@ -30,17 +30,15 @@ class PhalconFunctionalTestCase extends PhalconModelTestCase
      */
     protected function setUp()
     {
-        $di = parent::setUp();
+        parent::setUp();
 
         // Set the dispatcher
-        $di->set('dispatcher', function() {
+        $this->_di->set('dispatcher', function() {
             $dispatcher = new \Phalcon\Mvc\Dispatcher();
             $dispatcher->setControllerName('test');
             $dispatcher->setActionName('empty');
             $dispatcher->setParams(array());
             return $dispatcher;
         });
-
-        return $di;
     }
 }

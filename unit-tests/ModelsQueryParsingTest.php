@@ -1141,6 +1141,38 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($query->parse($manager), $expected);
 
 		$expected = array(
+			'models' => array('Robots'),
+			'columns' => array(
+				0 => array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r'
+				),
+			),
+			'tables' => array('robots r'),
+			'limit' => array('number' => 100, 'offset' => 10)
+		);
+		$query = new Query("SELECT * FROM Robots r LIMIT 10,100");
+		$query->setDI($di);
+		$this->assertEquals($query->parse($manager), $expected);
+
+		$expected = array(
+			'models' => array('Robots'),
+			'columns' => array(
+				0 => array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r'
+				),
+			),
+			'tables' => array('robots r'),
+			'limit' => array('number' => 100, 'offset' => 10)
+		);
+		$query = new Query("SELECT * FROM Robots r LIMIT 100 OFFSET 10");
+		$query->setDI($di);
+		$this->assertEquals($query->parse($manager), $expected);
+
+		$expected = array(
 			'models' => array('Some\Products'),
 			'columns' => array(
 				0 => array(

@@ -23,7 +23,7 @@
 
 use \Phalcon\Tag as Tg;
 
-class Tag_FunctionalTest extends \PhalconFunctionalTestCase
+class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
 {
     private $message = "%s does not return proper html element";
 
