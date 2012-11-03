@@ -28,7 +28,7 @@ class Config_Adapter_Ini_UnitTest extends Config_Helper_Unit
 {
     public function testIni()
     {
-        $config = new PhConfigIni(ROOT_PATH . '/tests/app/var/config/config.ini');
+        $config = new PhConfigIni(PATH_CONFIG . 'config.ini');
         $this->compareConfig($this->_myConfig, $config);
     }
 }

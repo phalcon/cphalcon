@@ -37,7 +37,7 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
     {
         parent::setUp();
 
-        $this->_cachePath = ROOT_PATH . '/app/var/cache/';
+        $this->_cachePath = PATH_CACHE;
     }
 
 	public function testFileCreation()
