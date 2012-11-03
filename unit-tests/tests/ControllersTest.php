@@ -23,23 +23,35 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 
 	public function testControllers()
 	{
-		$di = new Phalcon\DI();
+		$di = new \Phalcon\DI();
 
-		$di->set('view', function(){
-			$view = new Phalcon\Mvc\View();
-			$view->setViewsDir('unit-tests/app/views/');
-			return $view;
-		});
+		$di->set(
+            'view',
+            function()
+            {
+                $view = new \Phalcon\Mvc\View();
+                $view->setViewsDir(PATH_VIEWS);
+                return $view;
+            }
+        );
 
-		$di->set('request', function(){
-			return new Phalcon\Http\Request();
-		});
+		$di->set(
+            'request',
+            function()
+            {
+			    return new \Phalcon\Http\Request();
+		    }
+        );
 
-		$di->set('filter', function(){
-			return new Phalcon\Filter();
-		});
+		$di->set(
+            'filter',
+            function()
+            {
+			    return new \Phalcon\Filter();
+		    }
+        );
 
-		require 'unit-tests/app/controllers/Test4Controller.php';
+		require_once PATH_CONTROLLERS .  'Test4Controller.php';
 
 		$controller = new Test4Controller();
 		$controller->setDI($di);
