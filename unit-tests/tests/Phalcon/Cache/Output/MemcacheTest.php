@@ -35,10 +35,7 @@ class Cache_Output_MemcacheTest extends Cache_Helper_Unit
         $this->setFrontend('\Phalcon\Cache\Frontend\Output');
         $this->setBackend('\Phalcon\Cache\Backend\Memcache');
 
-        if (!extension_loaded('memcache'))
-        {
-            $this->markTestSkipped('Warning: memcache extension is not loaded');
-        }
+        $this->checkExtension('memcache');
     }
 
 //    public function testOutputMemcacheCache()

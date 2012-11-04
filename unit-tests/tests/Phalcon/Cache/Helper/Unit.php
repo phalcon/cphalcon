@@ -36,7 +36,7 @@ class Cache_Helper_Unit extends Phalcon_Test_UnitTestCase
     {
         parent::setUp();
 
-        $this->_cachePath = ROOT_PATH . '/app/var/cache/';
+        $this->_cachePath = PATH_CACHE;
     }
 
     public function setFrontend($frontEnd)

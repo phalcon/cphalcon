@@ -35,10 +35,7 @@ class Cache_Output_ApcTest extends Cache_Helper_Unit
         $this->setFrontend('\Phalcon\Cache\Frontend\Output');
         $this->setBackend('\Phalcon\Cache\Backend\Apc');
 
-        if (!extension_loaded('apc'))
-        {
-            $this->markTestSkipped('Warning: apc extension is not loaded');
-        }
+        $this->checkExtension('apc');
     }
 
 //    public function testOutputApcCache()

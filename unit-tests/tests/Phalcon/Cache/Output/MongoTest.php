@@ -35,10 +35,7 @@ class Cache_Output_MongoTest extends Cache_Helper_Unit
         $this->setFrontend('\Phalcon\Cache\Frontend\Output');
         $this->setBackend('\Phalcon\Cache\Backend\Mongo');
 
-        if (!extension_loaded('mongo'))
-        {
-            $this->markTestSkipped('Warning: mongo extension is not loaded');
-        }
+        $this->checkExtension('mongo');
     }
 
 //    public function testOutputMongoCache()

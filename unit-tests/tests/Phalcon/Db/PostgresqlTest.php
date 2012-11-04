@@ -32,7 +32,8 @@ class Db_PostgresqlTest extends Db_Helper_Model
 
 	public function testDbPostgresqlSchemas()
 	{
-		require PATH_CONFIG .  'config.inc.php';
+        $config           = $this->_config;
+        $configPostgresql = $config['db']['postgresql'];
 
 		$configPostgresqlDefault = array_merge(array(), $configPostgresql);
 		unset($configPostgresqlDefault['schema']);
