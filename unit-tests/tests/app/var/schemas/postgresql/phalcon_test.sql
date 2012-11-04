@@ -28,10 +28,6 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-CREATE USER phalcon_user WITH PASSWORD '1234';
-GRANT ALL PRIVILEGES ON DATABASE phalcon_test TO phalcon_user;
-
-
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
