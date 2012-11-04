@@ -52,7 +52,7 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save('test-resultset', $data);
+        $cache->save($fileName, $data);
 
         $actual = file_exists($this->_cachePath . $fileName);
         $this->cleanFile($this->_cachePath, $fileName);
