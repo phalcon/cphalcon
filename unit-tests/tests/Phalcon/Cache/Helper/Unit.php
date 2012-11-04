@@ -23,9 +23,9 @@
 
 class Cache_Helper_Unit extends Phalcon_Test_UnitTestCase
 {
-    private $_cachePath = '';
-    private $_frontEnd  = '';
-    private $_backEnd   = '';
+    protected $_cachePath = '';
+    protected $_frontEnd  = '';
+    protected $_backEnd   = '';
 
     /**
      * Initialization of variables etc.
@@ -119,40 +119,6 @@ class Cache_Helper_Unit extends Phalcon_Test_UnitTestCase
         ob_end_clean();
 
         $this->assertEquals($content, null, 'Content is not null');
-    }
-
-    public function testCacheContentFileCreation()
-    {
-        $frontEndClass = $this->_frontEnd;
-        $backEndClass  = $this->_backEnd;
-
-        $prefix    = 'unit_';
-        $cacheName = 'test_output';
-        $options   = array('lifetime' => 5);
-        $frontEnd  = new $frontEndClass($options);
-        $cache     = new $backEndClass(
-            $frontEnd,
-            array(
-                'cacheDir' => $this->_cachePath,
-                'prefix'   => $prefix,
-            )
-        );
-
-        $time = date('H:i:s');
-        ob_start();
-
-        $content= $cache->start($cacheName);
-
-        echo $time;
-
-        $cache->save(null, null, null, true);
-
-        ob_end_clean();
-
-        $exists = file_exists($this->_cachePath . $prefix . $cacheName);
-        $this->cleanFile($this->_cachePath, $prefix . $cacheName);
-
-        $this->assertTrue($exists, 'Cache file was not created');
     }
 
     public function testCacheContent()

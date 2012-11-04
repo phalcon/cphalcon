@@ -1,9 +1,9 @@
 <?php
 /**
- * UnitTest.php
- * \Phalcon\Cache\Output\FileTest
+ * FileTest.php
+ * Phalcon_Cache_Data_FileTest
  *
- * Tests the \Phalcon\Cache for an output-file
+ * Tests the \Phalcon\Cache for an data-file
  *
  * PhalconPHP Framework
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Cache_Data_UnitTest extends Phalcon_Test_UnitTestCase
+class Cache_Data_FileTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Initialization of variables etc.
@@ -32,43 +32,44 @@ class Cache_Data_UnitTest extends Phalcon_Test_UnitTestCase
     {
         parent::setUp();
 
-        $this->setFrontend('\Phalcon\Cache\Frontend\Output');
-        $this->setBackend('\Phalcon\Cache\Backend\File');
+//        $this->setFrontend('\Phalcon\Cache\Frontend\Output');
+//        $this->setBackend('\Phalcon\Cache\Backend\File');
     }
 
-//    public function testDataFileCache()
-//    {
-//
-//        $frontCache = new Phalcon\Cache\Frontend\Data();
-//
-//        $cache = new Phalcon\Cache\Backend\File($frontCache, array(
-//            'cacheDir' => 'unit-tests/app/cache/'
-//        ));
-//
-//        $this->assertFalse($cache->isStarted());
-//
-//        //Save
-//        $cache->save('test-data', "nothing interesting");
-//
-//        $this->assertTrue(file_exists('unit-tests/app/cache/testdata'));
-//
-//        //Get
-//        $cachedContent = $cache->get('test-data');
-//        $this->assertEquals($cachedContent, "nothing interesting");
-//
-//        //Save
-//        $cache->save('test-data', "sure, nothing interesting");
-//
-//        //Get
-//        $cachedContent = $cache->get('test-data');
-//        $this->assertEquals($cachedContent, "sure, nothing interesting");
-//
-//        //Exists
-//        $this->assertTrue($cache->exists('test-data'));
-//
-//        //Delete
-//        $this->assertTrue($cache->delete('test-data'));
-//
-//    }
+    public function testDataFileCache()
+    {
+
+        $frontCache = new \Phalcon\Cache\Frontend\Data();
+
+        $cache = new Phalcon\Cache\Backend\File(
+            $frontCache,
+            array('cacheDir' => PATH_CACHE)
+        );
+
+        $this->assertFalse($cache->isStarted());
+
+        //Save
+        $cache->save('test-data', "nothing interesting");
+
+        $this->assertTrue(file_exists(PATH_CACHE . 'testdata'));
+
+        //Get
+        $cachedContent = $cache->get('test-data');
+        $this->assertEquals($cachedContent, "nothing interesting");
+
+        //Save
+        $cache->save('test-data', "sure, nothing interesting");
+
+        //Get
+        $cachedContent = $cache->get('test-data');
+        $this->assertEquals($cachedContent, "sure, nothing interesting");
+
+        //Exists
+        $this->assertTrue($cache->exists('test-data'));
+
+        //Delete
+        $this->assertTrue($cache->delete('test-data'));
+
+    }
 
 }
