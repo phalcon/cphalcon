@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Cache_Data_FileTest
+class Cache_Data_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Initialization of variables etc.

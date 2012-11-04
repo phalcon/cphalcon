@@ -42,8 +42,6 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
 	public function testFileCreation()
 	{
-        $fileName = $this->getFileName('cache', 'cache');
-
         $frontEnd = new CacheFrontend();
         $cache    = new CacheBackend(
             $frontEnd,
@@ -52,10 +50,10 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save($fileName, $data);
+        $cache->save('test-resultset', $data);
 
-        $actual = file_exists($this->_cachePath . $fileName);
-        $this->cleanFile($this->_cachePath, $fileName);
+        $actual = file_exists($this->_cachePath . 'test-resultset');
+        $this->cleanFile($this->_cachePath, 'test-resultset');
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -76,7 +74,7 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $robots = $cache->get('test-resultset');
 
-        $this->cleanFile($this->_cachePath, $fileName);
+        $this->cleanFile($this->_cachePath, 'test-resultset');
 
         $expected = 'Phalcon\Mvc\Model\Resultset\Simple';
         $actual   = get_class($robots);
@@ -104,7 +102,7 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $robots = $cache->get('test-resultset');
 
-        $this->cleanFile($this->_cachePath, $fileName);
+        $this->cleanFile($this->_cachePath, 'test-resultset');
 
         $expected = 3;
         $actual   = count($robots);
@@ -132,7 +130,7 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $robots = $cache->get('test-resultset');
 
-        $this->cleanFile($this->_cachePath, $fileName);
+        $this->cleanFile($this->_cachePath, 'test-resultset');
 
         $expected = 3;
         $actual   = $robots->count();
