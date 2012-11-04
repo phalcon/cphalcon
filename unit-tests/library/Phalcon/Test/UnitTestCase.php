@@ -61,6 +61,20 @@ class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Checks if a particular extension is loaded and if not it marks
+     * the tests skipped
+     *
+     * @param $extension
+     */
+    public function checkExtension($extension)
+    {
+        if (!extension_loaded($extension))
+        {
+            $this->markTestSkipped("Warning: {$extension} extension is not loaded");
+        }
+    }
+
+    /**
      * Returns a unique file name
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
