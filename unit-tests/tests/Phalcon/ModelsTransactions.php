@@ -121,7 +121,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
 			$transaction1->rollback();
 
-			$this->assertTrue(FALSE, 'oh, Why?');
+			$this->assertTrue(false, 'oh, Why?');
 
 		}
 		catch(Phalcon\Mvc\Model\Transaction\Failed $e){
@@ -160,7 +160,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 
 		}
 		catch(Phalcon\Mvc\Model\Transaction\Failed $e){
-			$this->assertTrue(FALSE, 'oh, Why?');
+			$this->assertTrue(false, 'oh, Why?');
 		}
 
 	}

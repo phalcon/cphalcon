@@ -295,9 +295,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($status->success());
 		$this->assertEquals($status->getMessages(), array(
 			0 => Phalcon\Mvc\Model\Message::__set_state(array(
-				'_type' => NULL,
+				'_type' => null,
 				'_message' => 'Sorry Marina, but your are not allowed here',
-				'_field' => NULL,
+				'_field' => null,
 			)),
 		));
 
