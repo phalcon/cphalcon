@@ -50,10 +50,10 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save('test-resultset', $data);
+        $cache->save('testentry', $data);
 
-        $actual = file_exists($this->_cachePath . 'test-resultset');
-        $this->cleanFile($this->_cachePath, 'test-resultset');
+        $actual = file_exists($this->_cachePath . 'testentry');
+        $this->cleanFile($this->_cachePath, 'testentry');
 
         $this->assertTrue($actual, 'File was not correctly created');
     }
@@ -70,11 +70,11 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save('test-resultset', $data);
+        $cache->save('testentry', $data);
 
-        $robots = $cache->get('test-resultset');
+        $robots = $cache->get('testentry');
 
-        $this->cleanFile($this->_cachePath, 'test-resultset');
+        $this->cleanFile($this->_cachePath, 'testentry');
 
         $expected = 'Phalcon\Mvc\Model\Resultset\Simple';
         $actual   = get_class($robots);
@@ -98,11 +98,11 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save('test-resultset', $data);
+        $cache->save('testentry', $data);
 
-        $robots = $cache->get('test-resultset');
+        $robots = $cache->get('testentry');
 
-        $this->cleanFile($this->_cachePath, 'test-resultset');
+        $this->cleanFile($this->_cachePath, 'testentry');
 
         $expected = 3;
         $actual   = count($robots);
@@ -126,11 +126,11 @@ class Cache_Data_File_Resultset_ModelTest extends Phalcon_Test_ModelTestCase
 
         $data = Robots::find(array('order' => 'id'));
 
-        $cache->save('test-resultset', $data);
+        $cache->save('testentry', $data);
 
-        $robots = $cache->get('test-resultset');
+        $robots = $cache->get('testentry');
 
-        $this->cleanFile($this->_cachePath, 'test-resultset');
+        $this->cleanFile($this->_cachePath, 'testentry');
 
         $expected = 3;
         $actual   = $robots->count();
