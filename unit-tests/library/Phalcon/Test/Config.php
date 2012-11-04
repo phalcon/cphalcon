@@ -29,7 +29,7 @@ class Phalcon_Test_Config
             'db' => array(
                         'mysql'      => array(
                             'host'     => 'localhost',
-                            'username' => 'root',
+                            'username' => 'phalcon_user',
                             'password' => '1234',
                             'dbname'   => 'phalcon_test',
                         ),
