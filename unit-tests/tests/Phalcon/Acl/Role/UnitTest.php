@@ -31,7 +31,7 @@ class Acl_Role_UnitTest extends Phalcon_Test_UnitTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-09-30
      */
-    public function testAclRoleName()
+    public function testAclRoleNameEmptyDescription()
     {
         $aclRole = new AclRole('Administrators');
 

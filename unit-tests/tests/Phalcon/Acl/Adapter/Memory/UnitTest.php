@@ -21,9 +21,10 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Acl as Acl;
-use \Phalcon\Acl\Role as AclRole;
-use \Phalcon\Acl\Adapter\Memory as AclMem;
+use \Phalcon\Acl as PhAcl;
+use \Phalcon\Acl\Role as PhAclRole;
+use \Phalcon\Acl\Resource as PhAclResource;
+use \Phalcon\Acl\Adapter\Memory as PhAclMem;
 
 class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
 {
@@ -35,11 +36,11 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testAclDefaultAction()
     {
-        $acl = new AclMem();
+        $acl = new PhAclMem();
 
-        $acl->setDefaultAction(Acl::ALLOW);
+        $acl->setDefaultAction(PhAcl::ALLOW);
 
-        $expected = Acl::ALLOW;
+        $expected = PhAcl::ALLOW;
         $actual   = $acl->getDefaultAction();
         $this->assertEquals(
             $expected,
@@ -56,12 +57,30 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testAclAddRole()
     {
-        $acl     = new AclMem();
-        $aclRole = new AclRole('Administrators', 'Super User access');
+        $acl     = new PhAclMem();
+        $aclRole = new PhAclRole('Administrators', 'Super User access');
 
         $acl->addRole($aclRole);
 
         $exists = $acl->isRole('Administrators');
+
+        $this->assertTrue($exists, 'Acl\Role does not exist in Acl');
+    }
+
+    /**
+     * Tests the role name
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-04
+     */
+    public function testRoleName()
+    {
+        $acl     = new PhAclMem();
+        $aclRole = new PhAclRole('Administrators', 'Super User access');
+
+        $acl->addRole($aclRole);
+
+        $exists   = $acl->isRole('Administrators');
 
         $this->assertTrue($exists, 'Acl\Role does not exist in Acl');
     }
@@ -71,9 +90,12 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
     {
 
         $this->markTestSkipped('Complete ACL Tests');
-        $acl = new Phalcon\Acl\Adapter\Memory();
+        $acl = new PhAclMem();
 
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Phalcon\PhAcl::DENY);
+
+        $roleAdmins = new Phalcon\Acl\Role('Administrators', 'Super-User role');
+        $roleGuests = new Phalcon\Acl\Role('Guests');
 
         $this->assertTrue($acl->addRole($roleGuests));
         $this->assertFalse($acl->addRole($roleGuests));
@@ -99,16 +121,16 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
         $acl->allow('Guests', 'Customers', 'create');
         $acl->deny('Guests', 'Customers', 'update');
 
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'edit'), Phalcon\Acl::DENY);
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'search'), Phalcon\Acl::ALLOW);
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'create'), Phalcon\Acl::ALLOW);
+        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'edit'), Phalcon\PhAcl::DENY);
+        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'search'), Phalcon\PhAcl::ALLOW);
+        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'create'), Phalcon\PhAcl::ALLOW);
 
         $this->assertTrue($acl->addRole($roleAdmins, 'Guests'));
         $this->assertFalse($acl->addRole($roleAdmins, 'Guests'));
 
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\Acl::DENY);
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), Phalcon\Acl::ALLOW);
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), Phalcon\Acl::ALLOW);
+        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\PhAcl::DENY);
+        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), Phalcon\PhAcl::ALLOW);
+        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), Phalcon\PhAcl::ALLOW);
 
         //Serialize ACL list
         file_put_contents('unit-tests/acl/acl.data', serialize($acl));
@@ -122,16 +144,15 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
         $this->assertTrue($aclObject->isResource('Customers'));
         $this->assertFalse($aclObject->isResource('Products'));
 
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\Acl::DENY);
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), Phalcon\Acl::ALLOW);
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), Phalcon\Acl::ALLOW);
-
+        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), Phalcon\PhAcl::DENY);
+        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), Phalcon\PhAcl::ALLOW);
+        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), Phalcon\PhAcl::ALLOW);
     }
 
     public function testNegationOfInheritedRoles_T65()
     {
-        $acl = new AclMem;
-        $acl->setDefaultAction(Acl::DENY);
+        $acl = new PhAclMem;
+        $acl->setDefaultAction(PhAcl::DENY);
 
         $acl->addRole('Guests');
         $acl->addRole('Members', 'Guests');
