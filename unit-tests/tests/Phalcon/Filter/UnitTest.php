@@ -1,7 +1,7 @@
 <?php
 /**
  * UnitTest.php
- * \Phalcon\Filter\UnitTest
+ * Filter_UnitTest
  *
  * Tests the \Phalcon\Filter component
  *
