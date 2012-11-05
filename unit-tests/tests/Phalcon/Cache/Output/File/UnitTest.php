@@ -212,14 +212,16 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
 
         //Check keys
         $actual   = $cache->queryKeys();
-        $expected = array(
-            0 => 'unittestoutput',
-            1 => 'dummy.txt',
-        );
+
+        $this->assertEquals(count($actual), 2, 'Key count not correct');
+
+        $exists = in_array('dummy.txt', $actual);
+        $this->assertTrue($exists, 'Dummy.txt does not exist in the keys');
+
+        $exists = in_array('unittestoutput', $actual);
+        $this->assertTrue($exists, 'unittestoutput does not exist in the keys');
 
         $this->cleanFile($this->_cacheDir, 'unittestoutput');
-
-        $this->assertEquals($expected, $actual, 'Query keys are not the same');
     }
 
     public function testCacheKeyExists()
