@@ -41,6 +41,8 @@ class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->checkExtension('phalcon');
+
         // Set the config up
         $this->_config = Phalcon_Test_Config::init();
 
