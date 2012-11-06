@@ -37,7 +37,7 @@ class Session_UnitTest extends Phalcon_Test_UnitTestCase
 
         $actual = $session->start();
 
-        $session->destroy();
+        //$session->destroy();
 
         $this->assertTrue($actual, 'Session has been started');
     }
@@ -55,7 +55,7 @@ class Session_UnitTest extends Phalcon_Test_UnitTestCase
         $session->start();
         $actual = $session->isStarted();
 
-        $session->destroy();
+        //$session->destroy();
 
         $this->assertTrue($actual, 'Session has not been started');
     }
@@ -77,7 +77,7 @@ class Session_UnitTest extends Phalcon_Test_UnitTestCase
         $expected = 'value';
         $actual   = $session->get('some');
 
-        $session->destroy();
+        //$session->destroy();
 
         $this->assertEquals($expected, $actual, 'Session value not correct');
     }
