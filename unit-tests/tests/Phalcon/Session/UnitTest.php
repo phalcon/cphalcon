@@ -25,20 +25,59 @@ use \Phalcon\Session\Adapter\Files as PhSession;
 
 class Session_UnitTest extends Phalcon_Test_UnitTestCase
 {
-    public function testSessionFiles()
+    /**
+     * Tests starting the session
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-05
+     */
+    public function testStart()
     {
         $session = new PhSession();
 
         $actual = $session->start();
-        $this->assertTrue($actual, 'Session has been started');
 
+        $session->destroy();
+
+        $this->assertTrue($actual, 'Session has been started');
+    }
+
+    /**
+     * Tests whether the session has started
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-05
+     */
+    public function testIsStarted()
+    {
+        $session = new PhSession();
+
+        $session->start();
         $actual = $session->isStarted();
+
+        $session->destroy();
+
         $this->assertTrue($actual, 'Session has not been started');
+    }
+
+    /**
+     * Tests the get/set in the session
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-05
+     */
+    public function testGetSet()
+    {
+        $session = new PhSession();
+
+        $session->start();
 
         $session->set('some', 'value');
 
         $expected = 'value';
         $actual   = $session->get('some');
+
+        $session->destroy();
 
         $this->assertEquals($expected, $actual, 'Session value not correct');
     }
