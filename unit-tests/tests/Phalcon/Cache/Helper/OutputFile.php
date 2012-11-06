@@ -1,9 +1,9 @@
 <?php
 /**
- * UnitTest.php
- * Cache_Output_File_UnitTest
+ * OutputFile.php
+ * Cache_Helper_OutputFile
  *
- * Tests the \Phalcon\Filter component
+ * Tests the \Phalcon\Cache component
  *
  * PhalconPHP Framework
  *
@@ -21,8 +21,15 @@
  * so that we can send you a copy immediately.
  */
 
-class Cache_Output_File_UnitTest extends Cache_Helper_File
+class Cache_Helper_OutputFile extends Cache_Helper_BaseFile
 {
+    protected $_prefix = '';
+
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -32,7 +39,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
 
         $options = array(
             'cacheDir' => $this->_cacheDir,
-            'prefix'   => 'unit',
+            'prefix'   => $this->_prefix,
         );
         $this->setBackEnd('\Phalcon\Cache\Backend\File', $options);
     }
@@ -83,9 +90,9 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $exists = file_exists($this->_cacheDir . 'unittestoutput');
+        $exists = file_exists($this->_cacheDir . $this->_prefix . 'testoutput');
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $this->assertTrue($exists, 'Cache file was not created');
     }
@@ -104,7 +111,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $expected = $time;
         $this->assertEquals($expected, $actual, 'Content is not the same');
@@ -127,7 +134,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
 
         $actual = $cache->isStarted();
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $this->assertTrue($actual, 'Cache has not been started (not first time cache)');
     }
@@ -147,7 +154,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         // Start it again
         $actual   = $cache->start('test-output');
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $expected = $time;
         $this->assertEquals($expected, $actual, 'Content is not the same (not first time cache)');
@@ -182,7 +189,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         $content_two = ob_get_contents();
         ob_end_clean();
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $this->assertEquals(
             $content_one,
@@ -218,10 +225,10 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         $exists = in_array('dummy.txt', $actual);
         $this->assertTrue($exists, 'Dummy.txt does not exist in the keys');
 
-        $exists = in_array('unittestoutput', $actual);
+        $exists = in_array($this->_prefix . 'testoutput', $actual);
         $this->assertTrue($exists, 'unittestoutput does not exist in the keys');
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
     }
 
     public function testCacheKeyExists()
@@ -240,7 +247,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         // Check key
         $actual = $cache->exists('testoutput');
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $this->assertTrue($actual, 'Key does not exist');
     }
@@ -264,7 +271,7 @@ class Cache_Output_File_UnitTest extends Cache_Helper_File
         // Check key
         $actual = $cache->exists('testoutput');
 
-        $this->cleanFile($this->_cacheDir, 'unittestoutput');
+        $this->cleanFile($this->_cacheDir, $this->_prefix . 'testoutput');
 
         $this->assertFalse($actual, 'Key exists after delete');
     }

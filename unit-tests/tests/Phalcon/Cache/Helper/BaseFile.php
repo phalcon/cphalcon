@@ -1,7 +1,7 @@
 <?php
 /**
- * File.php
- * Cache_Helper_File
+ * BaseFile.php
+ * Cache_Helper_BaseFile
  *
  * Helper for \Phalcon\Cache
  *
@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Cache_Helper_File extends Phalcon_Test_UnitTestCase
+class Cache_Helper_BaseFile extends Phalcon_Test_UnitTestCase
 {
     private $_backEnd         = '';
     private $_backEndOptions  = array();

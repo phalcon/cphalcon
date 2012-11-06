@@ -1,6 +1,6 @@
 <?php
 
-class CacheTest extends PHPUnit_Framework_TestCase
+class Cache extends PHPUnit_Framework_TestCase
 {
 
     public function testDataFileCache()
@@ -9,7 +9,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $frontCache = new Phalcon\Cache\Frontend\Data();
 
         $cache = new Phalcon\Cache\Backend\File($frontCache, array(
-            'cacheDir' => 'unit-tests/cache/'
+            'cacheDir' => PATH_CACHE
         ));
 
         $this->assertFalse($cache->isStarted());
