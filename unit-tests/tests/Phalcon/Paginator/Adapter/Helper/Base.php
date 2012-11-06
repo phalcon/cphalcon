@@ -1,9 +1,9 @@
 <?php
 /**
- * Model.php
- * Paginator_Adapter_Model_Helper_Model
+ * Base.php
+ * Paginator_Adapter_Helper_Base
  *
- * Tests the \Phalcon\Paginator\Adapter\Model component
+ * Helper for the \Phalcon\Paginator\Adapter\* components
  *
  * PhalconPHP Framework
  *
@@ -21,10 +21,31 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Paginator\Adapter\Model as PhPaginatorModel;
-
-class Paginator_Adapter_Model_Helper_Model extends Phalcon_Test_ModelTestCase
+class Paginator_Adapter_Helper_Base extends Phalcon_Test_ModelTestCase
 {
+    private $_class   = '';
+    private $_params  = array();
+    private $_fixture = null;
+    
+    public function setFixture($fixture)
+    {
+        $this->_fixture = $fixture;
+    }
+    
+    public function setClass($class)
+    {
+        $this->_class = $class;
+    }
+    
+    public function setParameters($page, $limit)
+    {
+        $this->_params = array(
+                'data'  => $this->_fixture,
+                'limit' => $limit,
+                'page'  => $page,
+            );
+    }
+    
     /**
      * Tests the returned class
      *
@@ -33,13 +54,8 @@ class Paginator_Adapter_Model_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testReturnedClass()
     {
-        $persons   = Personnes::find();
-        $params    = array(
-                        'data'  => $persons,
-                        'limit' => 10,
-                        'page'  => 1,
-                     );
-        $paginator = new PhPaginatorModel($params);
+        $class     = $this->_class;
+        $paginator = new $class($this->_params);
 
         // Get a page
         $page = $paginator->getPaginate();
@@ -58,13 +74,8 @@ class Paginator_Adapter_Model_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testPageCount()
     {
-        $persons   = Personnes::find();
-        $params    = array(
-                        'data'  => $persons,
-                        'limit' => 10,
-                        'page'  => 1,
-                     );
-        $paginator = new PhPaginatorModel($params);
+        $class     = $this->_class;
+        $paginator = new $class($this->_params);
 
         // Get a page
         $page = $paginator->getPaginate();
@@ -83,13 +94,8 @@ class Paginator_Adapter_Model_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testPageOneBeforeNextLastCurrentPages()
     {
-        $persons   = Personnes::find();
-        $params    = array(
-                        'data'  => $persons,
-                        'limit' => 10,
-                        'page'  => 1,
-                     );
-        $paginator = new PhPaginatorModel($params);
+        $class     = $this->_class;
+        $paginator = new $class($this->_params);
 
         // Get a page
         $page = $paginator->getPaginate();
@@ -129,13 +135,8 @@ class Paginator_Adapter_Model_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testPageMiddleBeforeNextLastCurrentPages()
     {
-        $persons   = Personnes::find();
-        $params    = array(
-                        'data'  => $persons,
-                        'limit' => 10,
-                        'page'  => 1,
-                     );
-        $paginator = new PhPaginatorModel($params);
+        $class     = $this->_class;
+        $paginator = new $class($this->_params);
 
         $paginator->setCurrentPage(50);
 

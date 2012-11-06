@@ -1,7 +1,7 @@
 <?php
 /**
- * PostgresqlTest.php
- * Paginator_Adapter_Model_PostgresqlTest
+ * MysqlTest.php
+ * Paginator_Adapter_NativeArray_UnitTest
  *
  * Tests the \Phalcon\Paginator\Adapter\Model component
  *
@@ -21,18 +21,27 @@
  * so that we can send you a copy immediately.
  */
 
-class Paginator_Adapter_Model_PostgresqlTest extends Paginator_Adapter_Helper_Base
+class Paginator_Adapter_NativeArray_UnitTest extends Paginator_Adapter_Helper_Base
 {
     public function setUp()
     {
-        parent::setUp();
+        $fixture = $this->_setupFixture();
 
-        $fixture = Personnes::find();
-
-        $this->setClass('\Phalcon\Paginator\Adapter\Model');
+        $this->setClass('\Phalcon\Paginator\Adapter\NativeArray');
         $this->setFixture($fixture);
         $this->setParameters(1, 10);
 
-        $this->setDb('postgresql');
+        parent::setUp();
+    }
+
+    private function _setupFixture()
+    {
+        $data = array();
+        for ($i = 1; $i < 2180; $i++)
+        {
+            $data[$i] = array('name' => 'PETER');
+        }
+
+        return $data;
     }
 }

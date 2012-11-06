@@ -21,11 +21,17 @@
  * so that we can send you a copy immediately.
  */
 
-class Paginator_Adapter_Model_SqliteTest extends Paginator_Adapter_Model_Helper_Model
+class Paginator_Adapter_Model_SqliteTest extends Paginator_Adapter_Helper_Base
 {
     public function setUp()
     {
         parent::setUp();
+
+        $fixture = Personnes::find();
+
+        $this->setClass('\Phalcon\Paginator\Adapter\Model');
+        $this->setFixture($fixture);
+        $this->setParameters(1, 10);
 
         $this->setDb('sqlite');
     }
