@@ -20,26 +20,21 @@ before_install:
  - sudo ./unit-tests/ci/install_mongo
 
 before_script:
- - mkdir -p unit-tests/engines
- - cd unit-tests/engines/
- - git clone https://github.com/bobthecow/mustache.php.git
- - git clone git://github.com/fabpot/Twig.git
- - cd ../..
+ - git submodule update
  - cd ext/
  - export CFLAGS="-g -O2 -fno-delete-null-pointer-checks"
  - sh -c "phpize && ./configure --enable-phalcon && make && sudo make install"
  - echo "extension=phalcon.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
  - cd ..
  - mysql -uroot -e 'create database phalcon_test charset=utf8 collate=utf8_unicode_ci;'
- - mysql -uroot phalcon_test < unit-tests/app/var/schemas/mysql/phalcon_test.sql
+ - mysql -uroot phalcon_test < unit-tests/tests/app/var/schemas/mysql/phalcon_test.sql
  - psql -c 'create database phalcon_test;' -U postgres
- - psql -U postgres phalcon_test -q -f unit-tests/app/var/schemas/postgresql/phalcon_test.sql
- - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/app/var/schemas/sqlite/phalcon_test.sql
+ - psql -U postgres phalcon_test -q -f unit-tests/tests/app/var/schemas/postgresql/phalcon_test.sql
+ - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/tests/app/var/schemas/sqlite/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
 
 script: sudo ./unit-tests/ci/run_script.sh
 
 notifications:
   email:
-    - andres@phalconphp.com
     - nikos@niden.net

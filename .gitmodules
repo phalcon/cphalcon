@@ -1,0 +1,6 @@
+[submodule "unit-tests/library/Twig"]
+	path = unit-tests/library/Twig
+	url = git://github.com/fabpot/Twig.git
+[submodule "unit-tests/library/Mustache"]
+	path = unit-tests/library/Mustache
+	url = git://github.com/bobthecow/mustache.php.git
