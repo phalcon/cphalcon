@@ -177,7 +177,7 @@ class Loader_UnitTest extends Phalcon_Test_UnitTestCase
     public function testEvents()
     {
         $this->markTestSkipped('This test needs some love from Andres');
-        
+
         $loader = new PhLoader();
 
         $loader->registerDirs(
