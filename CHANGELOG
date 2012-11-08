@@ -6,6 +6,7 @@
  - Added Phalcon\Mvc\View::enable that re-enables the auto-rendering mode
  - Added Phalcon\Cache\Backend::stop() to stop the cache without store anything into the backend
  - Fixed bug in Phalcon\Mvc\View that saves a empty cached content when using a cache
+ - Implemented Phalcon\Db::FETCH_OBJ to return objects instead of arrays
 
 0.6.0
  - Added functions version, version_id, date and time to Volt

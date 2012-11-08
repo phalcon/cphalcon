@@ -963,6 +963,7 @@ PHP_METHOD(Phalcon_Db_Index, __set_state);
 
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct);
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute);
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetch);
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray);
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll);
 PHP_METHOD(Phalcon_Db_Result_Pdo, numRows);
@@ -4645,6 +4646,7 @@ PHALCON_INIT_FUNCS(phalcon_db_index_method_entry){
 PHALCON_INIT_FUNCS(phalcon_db_result_pdo_method_entry){
 	PHP_ME(Phalcon_Db_Result_Pdo, __construct, arginfo_phalcon_db_result_pdo___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Db_Result_Pdo, execute, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Result_Pdo, fetch, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Result_Pdo, numRows, NULL, ZEND_ACC_PUBLIC) 
