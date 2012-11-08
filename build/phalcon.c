@@ -36575,7 +36575,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 		PHALCON_INIT_VAR(name);
 		phalcon_array_fetch_string(&name, filter, SL("name"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(name, "length")) {
-			PHALCON_CONCAT_SVS(code, "$this->count(", left, ")");
+			PHALCON_CONCAT_SVS(code, "$this->length(", left, ")");
 			
 			ZVAL_BOOL(exists, 1);
 		}
