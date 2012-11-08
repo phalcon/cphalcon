@@ -97,10 +97,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 			)),
 			'other' => array(
 				0 => 1,
-    			1 => 2,
-    			2 => 3,
-    			3 => 4,
-  			),
+				1 => 2,
+				2 => 3,
+				3 => 4,
+			),
 		));
 
 		$settings = array(
@@ -111,11 +111,11 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 				"password" => "cheetah",
 				"name"     => "test_db",
 			),
-    		"other" => array(1, 2, 3, 4)
- 		);
- 		$config = new Phalcon\Config($settings);
+			"other" => array(1, 2, 3, 4)
+		);
+		$config = new Phalcon\Config($settings);
 
- 		$this->assertEquals($config, $expectedConfig);
+		$this->assertEquals($config, $expectedConfig);
 	}
 
 }
