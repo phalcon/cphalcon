@@ -2,6 +2,8 @@
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler
  - Fixed bug reading named-parameters with quantifiers in Phalcon\Mvc\Router
  - Now named-routes are processed without use regular expressions
+ - Now $this->view->disable() disables the auto-rendering mode completely
+ - Added Phalcon\Mvc\View::enable that re-enables the auto-rendering mode
 
 0.6.0
  - Added functions version, version_id, date and time to Volt

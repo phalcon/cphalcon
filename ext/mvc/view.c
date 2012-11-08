@@ -515,11 +515,11 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	zval *engines, *view_path, *silence, *must_clean;
 	zval *cache, *not_exists = NULL, *view_params, *views_dir;
 	zval *base_path, *views_dir_path, *events_manager;
-	zval *render_level, *cache_level, *is_started;
-	zval *key = NULL, *view_options, *cache_options, *cached_view;
-	zval *is_fresh, *engine = NULL, *extension = NULL, *view_engine_path = NULL;
-	zval *event_name = NULL, *status = NULL, *exception_message;
-	zval *r0 = NULL;
+	zval *render_level, *cache_level, *enter_cache;
+	zval *is_started, *key = NULL, *view_options, *cache_options;
+	zval *cached_view, *is_fresh, *engine = NULL, *extension = NULL;
+	zval *view_engine_path = NULL, *event_name = NULL, *status = NULL;
+	zval *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -560,9 +560,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		PHALCON_INIT_VAR(cache_level);
 		phalcon_read_property(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
 		
-		PHALCON_INIT_VAR(r0);
-		is_smaller_or_equal_function(r0, cache_level, render_level TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(enter_cache);
+		is_smaller_or_equal_function(enter_cache, cache_level, render_level TSRMLS_CC);
+		if (zend_is_true(enter_cache)) {
 			PHALCON_INIT_VAR(is_started);
 			PHALCON_CALL_METHOD(is_started, cache, "isstarted", PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(is_started)) {
@@ -728,8 +728,8 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 PHP_METHOD(Phalcon_Mvc_View, render){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *layouts_dir = NULL, *engines, *pick_view, *render_view = NULL;
-	zval *render_controller = NULL, *pick_view_action;
+	zval *disabled, *layouts_dir = NULL, *engines, *pick_view;
+	zval *render_view = NULL, *render_controller = NULL, *pick_view_action;
 	zval *cache = NULL, *cache_level, *events_manager, *event_name = NULL;
 	zval *status, *contents, *must_clean, *silence = NULL;
 	zval *render_level, *enter_level = NULL, *templates_before;
@@ -752,6 +752,13 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (!params) {
 		PHALCON_INIT_NVAR(params);
 		array_init(params);
+	}
+	
+	PHALCON_INIT_VAR(disabled);
+	phalcon_read_property(&disabled, this_ptr, SL("_disabled"), PH_NOISY_CC);
+	if (PHALCON_IS_NOT_FALSE(disabled)) {
+		PHALCON_MM_RESTORE();
+		RETURN_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(layouts_dir);
@@ -1289,13 +1296,23 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath){
 }
 
 /**
- * Disable view. Don't show any view or template
+ * Disables the auto-rendering process
  *
  */
 PHP_METHOD(Phalcon_Mvc_View, disable){
 
 
-	phalcon_update_property_long(this_ptr, SL("_renderLevel"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_disabled"), 1 TSRMLS_CC);
+	
+}
+
+/**
+ * Enables the auto-rendering process
+ */
+PHP_METHOD(Phalcon_Mvc_View, enable){
+
+
+	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
 	
 }
 

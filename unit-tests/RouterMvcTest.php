@@ -154,14 +154,14 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			'params' => 4,
 		));
 
-		$router->add('/manual/([a-z]{2})/([a-z\.]+).html', array(
+		$router->add('/manual/([a-z]{2})/([a-z\.]+)\.html', array(
 			'controller' => 'manual',
 			'action' => 'show',
 			'language' => 1,
 			'file' => 2
 		));
 
-		$router->add('/named-manual/{language:[a-z]{2}}/{file:[a-z\.]+}.html', array(
+		$router->add('/named-manual/{language:[a-z]{2}}/{file:[a-z\.]+}\.html', array(
 			'controller' => 'manual',
 			'action' => 'show',
 		));
