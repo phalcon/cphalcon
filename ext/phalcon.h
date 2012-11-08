@@ -1169,6 +1169,7 @@ PHP_METHOD(Phalcon_Flash, warning);
 PHP_METHOD(Phalcon_Flash, outputMessage);
 
 PHP_METHOD(Phalcon_Config, __construct);
+PHP_METHOD(Phalcon_Config, __set_state);
 
 PHP_METHOD(Phalcon_Filter, __construct);
 PHP_METHOD(Phalcon_Filter, add);
@@ -3448,6 +3449,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, arrayConfig)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, data)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_add, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, handler)
@@ -4886,6 +4891,7 @@ PHALCON_INIT_FUNCS(phalcon_flash_method_entry){
 
 PHALCON_INIT_FUNCS(phalcon_config_method_entry){
 	PHP_ME(Phalcon_Config, __construct, arginfo_phalcon_config___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Config, __set_state, arginfo_phalcon_config___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

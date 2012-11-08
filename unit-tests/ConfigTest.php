@@ -84,4 +84,38 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->_compareConfig($this->_config, $config);
 	}
 
+	public function testStandardConfigSimpleArray()
+	{
+
+		$expectedConfig = Phalcon\Config::__set_state(array(
+			'database' => Phalcon\Config::__set_state(array(
+				'adapter' => 'Mysql',
+				'host' => 'localhost',
+				'username' => 'scott',
+				'password' => 'cheetah',
+				'name' => 'test_db',
+			)),
+			'other' => array(
+				0 => 1,
+    			1 => 2,
+    			2 => 3,
+    			3 => 4,
+  			),
+		));
+
+		$settings = array(
+			"database" => array(
+				"adapter"  => "Mysql",
+				"host"     => "localhost",
+				"username" => "scott",
+				"password" => "cheetah",
+				"name"     => "test_db",
+			),
+    		"other" => array(1, 2, 3, 4)
+ 		);
+ 		$config = new Phalcon\Config($settings);
+
+ 		$this->assertEquals($config, $expectedConfig);
+	}
+
 }
