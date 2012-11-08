@@ -1,3 +1,8 @@
+0.6.1
+ - Fixed bug in Phalcon\Mvc\Micro's not-found handler
+ - Fixed bug reading named-parameters with quantifiers in Phalcon\Mvc\Router
+ - Now named-routes are processed without use regular expressions
+
 0.6.0
  - Added functions version, version_id, date and time to Volt
  - PHQL OFFSET complete implementation

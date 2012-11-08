@@ -96,20 +96,3 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 	RETURN_CCTOR(uncamelized);
 }
 
-PHP_METHOD(Phalcon_Text, x){
-
-	zval *a, *b, *x;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &a, &b) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(x);
-	PHALCON_CALL_USER_FUNC_ARRAY(x, a, b);
-	
-	RETURN_CCTOR(x);
-}
-

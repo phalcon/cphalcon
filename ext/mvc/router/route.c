@@ -209,17 +209,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern, *paths = NULL, *double_colon, *parts, *part_zero;
 	zval *controller_name, *route_paths = NULL, *part_one;
-	zval *one, *zero, *first, *have_bracket, *sharp, *escaped_sharp;
-	zval *pcre_pattern = NULL, *matches, *match_position;
-	zval *set_order, *names_pattern, *have_variables = NULL;
-	zval *match = NULL, *match_zero = NULL, *match_one = NULL, *match_two = NULL;
-	zval *replace_pattern = NULL, *new_pcre_pattern = NULL;
+	zval *one, *zero, *first, *have_bracket, *pcre_pattern = NULL;
 	zval *compiled_pattern = NULL;
-	zval *r0 = NULL;
-	zval *p0[] = { NULL, NULL, NULL, NULL };
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -280,83 +271,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 		PHALCON_INIT_VAR(have_bracket);
 		phalcon_fast_strpos_str(have_bracket, pattern, SL("{") TSRMLS_CC);
 		if (PHALCON_IS_NOT_FALSE(have_bracket)) {
-			PHALCON_INIT_VAR(sharp);
-			ZVAL_STRING(sharp, "#", 1);
-			
-			PHALCON_INIT_VAR(escaped_sharp);
-			ZVAL_STRING(escaped_sharp, "\\#", 1);
-			
 			PHALCON_INIT_VAR(pcre_pattern);
-			phalcon_fast_str_replace(pcre_pattern, sharp, escaped_sharp, pattern TSRMLS_CC);
-			
-			PHALCON_INIT_VAR(matches);
-			
-			PHALCON_INIT_VAR(match_position);
-			ZVAL_LONG(match_position, 1);
-			
-			PHALCON_INIT_VAR(set_order);
-			ZVAL_LONG(set_order, 2);
-			
-			PHALCON_INIT_VAR(names_pattern);
-			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]*)(:([^}]+))*}#", 1);
-			p0[0] = names_pattern;
-			p0[1] = pcre_pattern;
-			Z_SET_ISREF_P(matches);
-			p0[2] = matches;
-			p0[3] = set_order;
-			
-			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_FUNC_PARAMS(r0, "preg_match_all", 4, p0);
-			Z_UNSET_ISREF_P(p0[2]);
-			PHALCON_CPY_WRT(have_variables, r0);
-			if (zend_is_true(have_variables)) {
-				
-				if (!phalcon_valid_foreach(matches TSRMLS_CC)) {
-					return;
-				}
-				
-				ah0 = Z_ARRVAL_P(matches);
-				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-				
-				ph_cycle_start_0:
-				
-					if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-						goto ph_cycle_end_0;
-					}
-					
-					PHALCON_GET_FOREACH_VALUE(match);
-					
-					PHALCON_INIT_NVAR(match_zero);
-					phalcon_array_fetch_long(&match_zero, match, 0, PH_NOISY_CC);
-					
-					PHALCON_INIT_NVAR(match_one);
-					phalcon_array_fetch_long(&match_one, match, 1, PH_NOISY_CC);
-					eval_int = phalcon_array_isset_long(match, 3);
-					if (eval_int) {
-						PHALCON_INIT_NVAR(match_two);
-						phalcon_array_fetch_long(&match_two, match, 3, PH_NOISY_CC);
-						
-						PHALCON_INIT_NVAR(replace_pattern);
-						PHALCON_CONCAT_SVS(replace_pattern, "(", match_two, ")");
-					} else {
-						PHALCON_INIT_NVAR(replace_pattern);
-						ZVAL_STRING(replace_pattern, "([^/]*)", 1);
-					}
-					
-					PHALCON_INIT_NVAR(new_pcre_pattern);
-					phalcon_fast_str_replace(new_pcre_pattern, match_zero, replace_pattern, pcre_pattern TSRMLS_CC);
-					PHALCON_CPY_WRT(pcre_pattern, new_pcre_pattern);
-					phalcon_array_update_zval(&route_paths, match_one, &match_position, PH_COPY | PH_SEPARATE TSRMLS_CC);
-					PHALCON_SEPARATE(match_position);
-					increment_function(match_position);
-					
-					zend_hash_move_forward_ex(ah0, &hp0);
-					goto ph_cycle_start_0;
-					
-				ph_cycle_end_0:
-				if(0){}
-				
-			}
+			phalcon_extract_named_params(pcre_pattern, pattern, route_paths);
 		} else {
 			PHALCON_CPY_WRT(pcre_pattern, pattern);
 		}

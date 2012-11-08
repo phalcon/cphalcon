@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 			ZVAL_LONG(set_order, 2);
 			
 			PHALCON_INIT_VAR(names_pattern);
-			ZVAL_STRING(names_pattern, "#{([a-zA-Z][a-zA-Z0-9\\_\\-]+)(:([^}]+))*}#", 1);
+			ZVAL_STRING(names_pattern, "#{(([a-zA-Z][a-zA-Z0-9\\_\\-]*)*)(:([^}]+}?))*}#", 1);
 			p0[0] = names_pattern;
 			p0[1] = replaced_pattern;
 			Z_SET_ISREF_P(matches);
