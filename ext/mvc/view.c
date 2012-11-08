@@ -943,9 +943,13 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			if (PHALCON_IS_TRUE(is_started)) {
 				PHALCON_INIT_VAR(is_fresh);
 				PHALCON_CALL_METHOD(is_fresh, cache, "isfresh", PH_NO_CHECK);
-				if (PHALCON_IS_TRUE(is_started)) {
+				if (PHALCON_IS_TRUE(is_fresh)) {
 					PHALCON_CALL_METHOD_NORETURN(cache, "save", PH_NO_CHECK);
+				} else {
+					PHALCON_CALL_METHOD_NORETURN(cache, "stop", PH_NO_CHECK);
 				}
+			} else {
+				PHALCON_CALL_METHOD_NORETURN(cache, "stop", PH_NO_CHECK);
 			}
 		}
 	}
@@ -1308,11 +1312,28 @@ PHP_METHOD(Phalcon_Mvc_View, disable){
 
 /**
  * Enables the auto-rendering process
+ *
  */
 PHP_METHOD(Phalcon_Mvc_View, enable){
 
 
 	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
+	
+}
+
+/**
+ * Resets the view component to its factory default values
+ *
+ */
+PHP_METHOD(Phalcon_Mvc_View, reset){
+
+
+	phalcon_update_property_bool(this_ptr, SL("_disabled"), 0 TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_engines"), 0 TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_cache") TSRMLS_CC);
+	phalcon_update_property_long(this_ptr, SL("_renderLevel"), 5 TSRMLS_CC);
+	phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 0 TSRMLS_CC);
+	phalcon_update_property_null(this_ptr, SL("_content") TSRMLS_CC);
 	
 }
 

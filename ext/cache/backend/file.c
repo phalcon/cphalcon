@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 }
 
 /**
- * Stores cached content into the file backend
+ * Stores cached content into the file backend and stops the frontend
  *
  * @param int|string $keyName
  * @param string $content

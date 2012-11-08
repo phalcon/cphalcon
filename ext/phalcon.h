@@ -303,6 +303,7 @@ PHP_METHOD(Phalcon_Mvc_View, getContent);
 PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
 PHP_METHOD(Phalcon_Mvc_View, disable);
 PHP_METHOD(Phalcon_Mvc_View, enable);
+PHP_METHOD(Phalcon_Mvc_View, reset);
 
 PHP_METHOD(Phalcon_Mvc_Collection, __construct);
 PHP_METHOD(Phalcon_Mvc_Collection, setId);
@@ -752,6 +753,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve);
 
 PHP_METHOD(Phalcon_Cache_Backend, __construct);
 PHP_METHOD(Phalcon_Cache_Backend, start);
+PHP_METHOD(Phalcon_Cache_Backend, stop);
 PHP_METHOD(Phalcon_Cache_Backend, getFrontend);
 PHP_METHOD(Phalcon_Cache_Backend, isFresh);
 PHP_METHOD(Phalcon_Cache_Backend, isStarted);
@@ -2511,6 +2513,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_start, 0, 0, 1)
 	ZEND_ARG_INFO(0, keyName)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_stop, 0, 0, 0)
+	ZEND_ARG_INFO(0, stopBuffer)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontendObject)
 	ZEND_ARG_INFO(0, backendOptions)
@@ -3785,6 +3791,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, disable, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, enable, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, reset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -4357,6 +4364,7 @@ PHALCON_INIT_FUNCS(phalcon_cache_frontend_data_method_entry){
 PHALCON_INIT_FUNCS(phalcon_cache_backend_method_entry){
 	PHP_ME(Phalcon_Cache_Backend, __construct, arginfo_phalcon_cache_backend___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Cache_Backend, start, arginfo_phalcon_cache_backend_start, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Cache_Backend, stop, arginfo_phalcon_cache_backend_stop, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, getFrontend, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, isFresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, isStarted, NULL, ZEND_ACC_PUBLIC) 

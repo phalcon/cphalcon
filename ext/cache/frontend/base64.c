@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct){
 }
 
 /**
- * Returns cache lifetime
+ * Returns the cache lifetime
  *
  * @return integer
  */
