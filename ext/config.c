@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
@@ -65,7 +66,6 @@
  * Phalcon\Config constructor
  *
  * @param array $arrayConfig
- * @return Phalcon\Config
  */
 PHP_METHOD(Phalcon_Config, __construct){
 
@@ -77,6 +77,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -109,10 +110,15 @@ PHP_METHOD(Phalcon_Config, __construct){
 			PHALCON_GET_FOREACH_VALUE(value);
 			
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
-				PHALCON_INIT_NVAR(config_value);
-				object_init_ex(config_value, phalcon_config_ce);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value, PH_CHECK);
-				phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+				eval_int = phalcon_array_isset_long(value, 0);
+				if (!eval_int) {
+					PHALCON_INIT_NVAR(config_value);
+					object_init_ex(config_value, phalcon_config_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config_value, "__construct", value, PH_CHECK);
+					phalcon_update_property_zval_zval(this_ptr, key, config_value TSRMLS_CC);
+				} else {
+					phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+				}
 			} else {
 				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			}
@@ -129,5 +135,28 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Restores the state of a Phalcon\Config object
+ *
+ * @return Phalcon\Config
+ */
+PHP_METHOD(Phalcon_Config, __set_state){
+
+	zval *data, *config;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(config);
+	object_init_ex(config, phalcon_config_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(config, "__construct", data, PH_CHECK);
+	
+	RETURN_CTOR(config);
 }
 

@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 }
 
 /**
- * Stores cached content into the Mongo backend
+ * Stores cached content into the Mongo backend and stops the frontend
  *
  * @param int|string $keyName
  * @param string $content

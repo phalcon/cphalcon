@@ -95,11 +95,11 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
 		for ($i=0; $i<3; $i++) {
-			$row = $result->fetchArray();
+			$row = $result->fetch();
 			$this->assertEquals(count($row), 22);
 		}
 
-		$row = $result->fetchArray();
+		$row = $result->fetch();
 		$this->assertEquals($row, false);
 		$this->assertEquals($result->numRows(), 3);
 
@@ -107,26 +107,40 @@ class DbTest extends PHPUnit_Framework_TestCase
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$this->assertTrue(is_object($result));
 
-		while ($row = $result->fetchArray()) {
+		while ($row = $result->fetch()) {
 			$number++;
 		}
 		$this->assertEquals($number, 5);
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
-		$row = $result->fetchArray();
+		$row = $result->fetch();
+		$this->assertTrue(is_array($row));
 		$this->assertEquals(count($row), 11);
+		$this->assertTrue(isset($row[0]));
+		$this->assertFalse(isset($row['cedula']));
+		$this->assertFalse(isset($row->cedula));
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
-		$row = $result->fetchArray();
+		$row = $result->fetch();
+		$this->assertTrue(is_array($row));
 		$this->assertEquals(count($row), 11);
+		$this->assertFalse(isset($row[0]));
+		$this->assertTrue(isset($row['cedula']));
+		$this->assertFalse(isset($row->cedula));
+
+		$result = $connection->query("SELECT * FROM personas LIMIT 5");
+		$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
+		$row = $result->fetch();
+		$this->assertTrue(is_object($row));
+		$this->assertTrue(isset($row->cedula));
 
 		$result = $connection->query("SELECT * FROM personas LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
 		$result->dataSeek(4);
-		$row = $result->fetchArray();
-		$row = $result->fetchArray();
+		$row = $result->fetch();
+		$row = $result->fetch();
 		$this->assertEquals($row, false);
 
 		$result = $connection->execute("DELETE FROM prueba");
