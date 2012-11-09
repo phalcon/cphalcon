@@ -53027,17 +53027,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 				}
 			}
 		} else {
-			if (phalcon_is_callable(service TSRMLS_CC)) {
-				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC(instance, service);
-				}
-			} else {
-				ZVAL_BOOL(found, 0);
-			}
+			ZVAL_BOOL(found, 0);
 		}
 	} else {
 		if (Z_TYPE_P(service) == IS_OBJECT) {
