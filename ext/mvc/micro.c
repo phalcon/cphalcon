@@ -38,7 +38,6 @@
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -530,6 +529,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *event_name = NULL, *status = NULL, *service, *router, *matched_route;
 	zval *handlers, *route_id, *handler = NULL, *params, *returned_value = NULL;
 	zval *not_found_handler;
+	zval *r0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -621,7 +621,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		
 		PHALCON_INIT_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
-		if (phalcon_is_callable(not_found_handler TSRMLS_CC)) {
+		
+		PHALCON_INIT_VAR(r0);
+		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_callable", not_found_handler);
+		if (!zend_is_true(r0)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
 		}
