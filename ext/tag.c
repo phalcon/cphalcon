@@ -827,9 +827,8 @@ PHP_METHOD(Phalcon_Tag, select){
  */
 PHP_METHOD(Phalcon_Tag, textArea){
 
-	zval *parameters, *params = NULL, *id, *name, *content = NULL, *code;
+	zval *parameters, *params = NULL, *id = NULL, *name, *content = NULL, *code;
 	zval *avalue = NULL, *key = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -855,12 +854,15 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 	eval_int = phalcon_array_isset_long(params, 0);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch_string(&r0, params, SL("id"), PH_NOISY_CC);
-		phalcon_array_update_long(&params, 0, &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		eval_int = phalcon_array_isset_string(params, SS("id"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(id);
+			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);
+			phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
 	}
 	
-	PHALCON_INIT_VAR(id);
+	PHALCON_INIT_NVAR(id);
 	phalcon_array_fetch_long(&id, params, 0, PH_NOISY_CC);
 	eval_int = phalcon_array_isset_string(params, SS("name"));
 	if (!eval_int) {
@@ -936,10 +938,9 @@ PHP_METHOD(Phalcon_Tag, textArea){
 PHP_METHOD(Phalcon_Tag, form){
 
 	zval *parameters = NULL, *params = NULL, *dispatcher, *dispatch_params;
-	zval *action_parameters, *action = NULL, *controller_name;
-	zval *action_name, *url, *form_action, *code, *avalue = NULL;
-	zval *key = NULL;
-	zval *r0 = NULL;
+	zval *action_parameters, *params_action = NULL, *controller_name;
+	zval *action_name, *url, *action = NULL, *form_action;
+	zval *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -982,8 +983,8 @@ PHP_METHOD(Phalcon_Tag, form){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_string(params, SS("action"));
 		if (eval_int) {
-			PHALCON_INIT_VAR(action);
-			phalcon_array_fetch_string(&action, params, SL("action"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(params_action);
+			phalcon_array_fetch_string(&params_action, params, SL("action"), PH_NOISY_CC);
 		} else {
 			PHALCON_INIT_VAR(controller_name);
 			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername", PH_NO_CHECK);
@@ -991,12 +992,12 @@ PHP_METHOD(Phalcon_Tag, form){
 			PHALCON_INIT_VAR(action_name);
 			PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname", PH_NO_CHECK);
 			
-			PHALCON_INIT_NVAR(action);
-			PHALCON_CONCAT_VSV(action, controller_name, "/", action_name);
+			PHALCON_INIT_NVAR(params_action);
+			PHALCON_CONCAT_VSV(params_action, controller_name, "/", action_name);
 		}
 	} else {
-		PHALCON_INIT_NVAR(action);
-		phalcon_array_fetch_long(&action, params, 0, PH_NOISY_CC);
+		PHALCON_INIT_NVAR(params_action);
+		phalcon_array_fetch_long(&params_action, params, 0, PH_NOISY_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(params, SS("method"));
@@ -1007,9 +1008,8 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	if (zend_is_true(action_parameters)) {
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_METHOD_PARAMS_1(r0, url, "get", action, PH_NO_CHECK);
-		PHALCON_CPY_WRT(action, r0);
+		PHALCON_INIT_VAR(action);
+		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", params_action, PH_NO_CHECK);
 	} else {
 		PHALCON_INIT_VAR(form_action);
 		PHALCON_CONCAT_VSV(form_action, action, "/", action_parameters);
@@ -1325,9 +1325,9 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
  */
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
-	zval *parameters = NULL, *local = NULL, *params = NULL, *url, *src, *code;
-	zval *value = NULL, *key = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *url, *params_src;
+	zval *src, *code, *value = NULL, *key = NULL;
+	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1400,11 +1400,11 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 		
-		PHALCON_INIT_VAR(r1);
-		phalcon_array_fetch_string(&r1, params, SL("src"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(params_src);
+		phalcon_array_fetch_string(&params_src, params, SL("src"), PH_NOISY_CC);
 		
 		PHALCON_INIT_VAR(src);
-		PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", r1, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", params_src, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	

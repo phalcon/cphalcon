@@ -509,14 +509,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getOrder){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 
-	zval *params;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(params);
+	RETURN_MEMBER(this_ptr, "_params");
 }
 
 /**

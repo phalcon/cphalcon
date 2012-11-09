@@ -183,6 +183,13 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 	} \
 	return;
 
+/**
+ * Returns a zval in a object member
+ */
+#define RETURN_MEMBER(object, member_name) \
+ 	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
+	return;
+
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
 	PHALCON_INIT_NVAR(var); \

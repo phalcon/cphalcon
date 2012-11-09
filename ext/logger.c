@@ -197,6 +197,12 @@ PHP_METHOD(Phalcon_Logger, alert){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Logs a message
+ *
+ * @param string $message
+ * @param int $type
+ */
 PHP_METHOD(Phalcon_Logger, log){
 
 	zval *message, *type;

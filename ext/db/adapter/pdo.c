@@ -496,14 +496,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, affectedRows){
 
-	zval *affected_rows;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(affected_rows);
-	phalcon_read_property(&affected_rows, this_ptr, SL("_affectedRows"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(affected_rows);
+	RETURN_MEMBER(this_ptr, "_affectedRows");
 }
 
 /**

@@ -84,14 +84,8 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
  */
 PHP_METHOD(Phalcon_Acl_Role, getName){
 
-	zval *name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(name);
+	RETURN_MEMBER(this_ptr, "_name");
 }
 
 /**
@@ -101,13 +95,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName){
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription){
 
-	zval *description;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(description);
-	phalcon_read_property(&description, this_ptr, SL("_description"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(description);
+	RETURN_MEMBER(this_ptr, "_description");
 }
 

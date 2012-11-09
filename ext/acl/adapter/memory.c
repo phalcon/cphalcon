@@ -164,14 +164,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
 
-	zval *default_access;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(default_access);
-	phalcon_read_property(&default_access, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(default_access);
+	RETURN_MEMBER(this_ptr, "_defaultAccess");
 }
 
 /**
@@ -618,6 +612,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Checks if a role has access to a resource
+ *
+ * @param string $roleName
+ * @param string $resourceName
+ * @param string $access
+ * @param string $action
+ */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 
 	zval *role_name, *resource_name, *access, *action;
@@ -1082,14 +1084,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole){
 
-	zval *role;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(role);
-	phalcon_read_property(&role, this_ptr, SL("_activeRole"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(role);
+	RETURN_MEMBER(this_ptr, "_activeRole");
 }
 
 /**
@@ -1099,14 +1095,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource){
 
-	zval *resource;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(resource);
-	phalcon_read_property(&resource, this_ptr, SL("_activeResource"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(resource);
+	RETURN_MEMBER(this_ptr, "_activeResource");
 }
 
 /**
@@ -1116,14 +1106,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveAccess){
 
-	zval *access;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(access);
-	phalcon_read_property(&access, this_ptr, SL("_activeAccess"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(access);
+	RETURN_MEMBER(this_ptr, "_activeAccess");
 }
 
 /**

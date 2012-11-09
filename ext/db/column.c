@@ -196,14 +196,8 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
  */
 PHP_METHOD(Phalcon_Db_Column, getSchemaName){
 
-	zval *schema_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(schema_name);
-	phalcon_read_property(&schema_name, this_ptr, SL("_schemaName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(schema_name);
+	RETURN_MEMBER(this_ptr, "_schemaName");
 }
 
 /**
@@ -213,14 +207,8 @@ PHP_METHOD(Phalcon_Db_Column, getSchemaName){
  */
 PHP_METHOD(Phalcon_Db_Column, getName){
 
-	zval *column_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(column_name);
-	phalcon_read_property(&column_name, this_ptr, SL("_columnName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(column_name);
+	RETURN_MEMBER(this_ptr, "_columnName");
 }
 
 /**
@@ -230,14 +218,8 @@ PHP_METHOD(Phalcon_Db_Column, getName){
  */
 PHP_METHOD(Phalcon_Db_Column, getType){
 
-	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(type);
+	RETURN_MEMBER(this_ptr, "_type");
 }
 
 /**
@@ -247,14 +229,8 @@ PHP_METHOD(Phalcon_Db_Column, getType){
  */
 PHP_METHOD(Phalcon_Db_Column, getSize){
 
-	zval *size;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(size);
-	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(size);
+	RETURN_MEMBER(this_ptr, "_size");
 }
 
 /**
@@ -264,14 +240,8 @@ PHP_METHOD(Phalcon_Db_Column, getSize){
  */
 PHP_METHOD(Phalcon_Db_Column, getScale){
 
-	zval *scale;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(scale);
-	phalcon_read_property(&scale, this_ptr, SL("_scale"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(scale);
+	RETURN_MEMBER(this_ptr, "_scale");
 }
 
 /**
@@ -281,14 +251,8 @@ PHP_METHOD(Phalcon_Db_Column, getScale){
  */
 PHP_METHOD(Phalcon_Db_Column, isUnsigned){
 
-	zval *dunsigned;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dunsigned);
-	phalcon_read_property(&dunsigned, this_ptr, SL("_unsigned"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dunsigned);
+	RETURN_MEMBER(this_ptr, "_unsigned");
 }
 
 /**
@@ -298,14 +262,8 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned){
  */
 PHP_METHOD(Phalcon_Db_Column, isNotNull){
 
-	zval *not_null;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(not_null);
-	phalcon_read_property(&not_null, this_ptr, SL("_notNull"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(not_null);
+	RETURN_MEMBER(this_ptr, "_notNull");
 }
 
 /**
@@ -315,14 +273,8 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull){
  */
 PHP_METHOD(Phalcon_Db_Column, isPrimary){
 
-	zval *primary;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(primary);
-	phalcon_read_property(&primary, this_ptr, SL("_primary"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(primary);
+	RETURN_MEMBER(this_ptr, "_primary");
 }
 
 /**
@@ -332,14 +284,8 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary){
  */
 PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
 
-	zval *auto_increment;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(auto_increment);
-	phalcon_read_property(&auto_increment, this_ptr, SL("_autoIncrement"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(auto_increment);
+	RETURN_MEMBER(this_ptr, "_autoIncrement");
 }
 
 /**
@@ -349,14 +295,8 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement){
  */
 PHP_METHOD(Phalcon_Db_Column, isNumeric){
 
-	zval *is_numeric;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(is_numeric);
-	phalcon_read_property(&is_numeric, this_ptr, SL("_isNumeric"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(is_numeric);
+	RETURN_MEMBER(this_ptr, "_isNumeric");
 }
 
 /**
@@ -366,14 +306,8 @@ PHP_METHOD(Phalcon_Db_Column, isNumeric){
  */
 PHP_METHOD(Phalcon_Db_Column, isFirst){
 
-	zval *first;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(first);
-	phalcon_read_property(&first, this_ptr, SL("_first"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(first);
+	RETURN_MEMBER(this_ptr, "_first");
 }
 
 /**
@@ -383,29 +317,19 @@ PHP_METHOD(Phalcon_Db_Column, isFirst){
  */
 PHP_METHOD(Phalcon_Db_Column, getAfterPosition){
 
-	zval *after;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(after);
-	phalcon_read_property(&after, this_ptr, SL("_after"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(after);
+	RETURN_MEMBER(this_ptr, "_after");
 }
 
 /**
  * Returns the type of bind handling
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Db_Column, getBindType){
 
-	zval *bind_type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(bind_type);
-	phalcon_read_property(&bind_type, this_ptr, SL("_bindType"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(bind_type);
+	RETURN_MEMBER(this_ptr, "_bindType");
 }
 
 PHP_METHOD(Phalcon_Db_Column, __set_state){

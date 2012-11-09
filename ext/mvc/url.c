@@ -89,14 +89,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -211,14 +205,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setBasePath){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBasePath){
 
-	zval *base_path;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(base_path);
-	phalcon_read_property(&base_path, this_ptr, SL("_basePath"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(base_path);
+	RETURN_MEMBER(this_ptr, "_basePath");
 }
 
 /**

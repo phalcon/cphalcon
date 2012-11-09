@@ -41,6 +41,7 @@ extern int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC);
 /** Reading properties */
 extern int phalcon_read_property(zval **result, zval *object, char *property_name, int property_length, int silent TSRMLS_DC);
 extern int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
+extern int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC);
 
 /** Updating properties */
 extern int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC);

@@ -77,14 +77,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
  */
 PHP_METHOD(Phalcon_Db_Index, getName){
 
-	zval *index_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(index_name);
-	phalcon_read_property(&index_name, this_ptr, SL("_indexName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(index_name);
+	RETURN_MEMBER(this_ptr, "_indexName");
 }
 
 /**
@@ -94,14 +88,8 @@ PHP_METHOD(Phalcon_Db_Index, getName){
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns){
 
-	zval *columns;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(columns);
-	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(columns);
+	RETURN_MEMBER(this_ptr, "_columns");
 }
 
 /**

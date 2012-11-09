@@ -155,14 +155,8 @@ PHP_METHOD(Phalcon_Db, setEventsManager){
  */
 PHP_METHOD(Phalcon_Db, getEventsManager){
 
-	zval *events_manager;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -1275,14 +1269,8 @@ PHP_METHOD(Phalcon_Db, listTables){
  */
 PHP_METHOD(Phalcon_Db, getDescriptor){
 
-	zval *descriptor;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(descriptor);
-	phalcon_read_property(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(descriptor);
+	RETURN_MEMBER(this_ptr, "_descriptor");
 }
 
 /**
@@ -1292,14 +1280,8 @@ PHP_METHOD(Phalcon_Db, getDescriptor){
  */
 PHP_METHOD(Phalcon_Db, getConnectionId){
 
-	zval *connection_id;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(connection_id);
-	phalcon_read_property(&connection_id, this_ptr, SL("_connectionId"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(connection_id);
+	RETURN_MEMBER(this_ptr, "_connectionId");
 }
 
 /**
@@ -1309,14 +1291,8 @@ PHP_METHOD(Phalcon_Db, getConnectionId){
  */
 PHP_METHOD(Phalcon_Db, getSQLStatement){
 
-	zval *sql_statement;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(sql_statement);
-	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(sql_statement);
+	RETURN_MEMBER(this_ptr, "_sqlStatement");
 }
 
 /**
@@ -1326,14 +1302,8 @@ PHP_METHOD(Phalcon_Db, getSQLStatement){
  */
 PHP_METHOD(Phalcon_Db, getRealSQLStatement){
 
-	zval *sql_statement;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(sql_statement);
-	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(sql_statement);
+	RETURN_MEMBER(this_ptr, "_sqlStatement");
 }
 
 /**
@@ -1343,14 +1313,8 @@ PHP_METHOD(Phalcon_Db, getRealSQLStatement){
  */
 PHP_METHOD(Phalcon_Db, getSQLVariables){
 
-	zval *sql_variables;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(sql_variables);
-	phalcon_read_property(&sql_variables, this_ptr, SL("_sqlVariables"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(sql_variables);
+	RETURN_MEMBER(this_ptr, "_sqlVariables");
 }
 
 /**
@@ -1360,14 +1324,8 @@ PHP_METHOD(Phalcon_Db, getSQLVariables){
  */
 PHP_METHOD(Phalcon_Db, getSQLBindTypes){
 
-	zval *sql_bind_types;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(sql_bind_types);
-	phalcon_read_property(&sql_bind_types, this_ptr, SL("_sqlBindTypes"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(sql_bind_types);
+	RETURN_MEMBER(this_ptr, "_sqlBindTypes");
 }
 
 /**
@@ -1377,14 +1335,8 @@ PHP_METHOD(Phalcon_Db, getSQLBindTypes){
  */
 PHP_METHOD(Phalcon_Db, getType){
 
-	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(type);
+	RETURN_MEMBER(this_ptr, "_type");
 }
 
 /**
@@ -1394,14 +1346,8 @@ PHP_METHOD(Phalcon_Db, getType){
  */
 PHP_METHOD(Phalcon_Db, getDialectType){
 
-	zval *dialect_type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dialect_type);
-	phalcon_read_property(&dialect_type, this_ptr, SL("_dialectType"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dialect_type);
+	RETURN_MEMBER(this_ptr, "_dialectType");
 }
 
 /**
@@ -1411,13 +1357,7 @@ PHP_METHOD(Phalcon_Db, getDialectType){
  */
 PHP_METHOD(Phalcon_Db, getDialect){
 
-	zval *dialect;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dialect);
-	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dialect);
+	RETURN_MEMBER(this_ptr, "_dialect");
 }
 

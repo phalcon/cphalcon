@@ -99,13 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord){
 
-	zval *record;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(record);
-	phalcon_read_property(&record, this_ptr, SL("_record"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(record);
+	RETURN_MEMBER(this_ptr, "_record");
 }
 

@@ -114,14 +114,8 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getSize){
 
-	zval *size;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(size);
-	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(size);
+	RETURN_MEMBER(this_ptr, "_size");
 }
 
 /**
@@ -131,14 +125,8 @@ PHP_METHOD(Phalcon_Http_Request_File, getSize){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getName){
 
-	zval *name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(name);
+	RETURN_MEMBER(this_ptr, "_name");
 }
 
 /**
@@ -148,14 +136,8 @@ PHP_METHOD(Phalcon_Http_Request_File, getName){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 
-	zval *temp_file;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(temp_file);
-	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(temp_file);
+	RETURN_MEMBER(this_ptr, "_tmp");
 }
 
 /**

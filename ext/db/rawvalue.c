@@ -73,14 +73,8 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct){
  */
 PHP_METHOD(Phalcon_Db_RawValue, getValue){
 
-	zval *value;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(value);
-	phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(value);
+	RETURN_MEMBER(this_ptr, "_value");
 }
 
 /**
@@ -88,13 +82,7 @@ PHP_METHOD(Phalcon_Db_RawValue, getValue){
  */
 PHP_METHOD(Phalcon_Db_RawValue, __toString){
 
-	zval *value;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(value);
-	phalcon_read_property(&value, this_ptr, SL("_value"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(value);
+	RETURN_MEMBER(this_ptr, "_value");
 }
 

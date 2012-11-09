@@ -121,14 +121,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
 
-	zval *task_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(task_name);
-	phalcon_read_property(&task_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(task_name);
+	RETURN_MEMBER(this_ptr, "_handlerName");
 }
 
 /**
@@ -183,14 +177,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
 
-	zval *last_controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(last_controller);
-	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(last_controller);
+	RETURN_MEMBER(this_ptr, "_lastHandler");
 }
 
 /**
@@ -200,13 +188,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask){
 
-	zval *task;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(task);
-	phalcon_read_property(&task, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(task);
+	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 

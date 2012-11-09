@@ -126,14 +126,8 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir){
  */
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
 
-	zval *views_dir;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(views_dir);
-	phalcon_read_property(&views_dir, this_ptr, SL("_viewsDir"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(views_dir);
+	RETURN_MEMBER(this_ptr, "_viewsDir");
 }
 
 /**
@@ -338,14 +332,8 @@ PHP_METHOD(Phalcon_Mvc_View, setVar){
  */
 PHP_METHOD(Phalcon_Mvc_View, getParamsToView){
 
-	zval *view_params;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(view_params);
-	phalcon_read_property(&view_params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(view_params);
+	RETURN_MEMBER(this_ptr, "_viewParams");
 }
 
 /**
@@ -355,14 +343,8 @@ PHP_METHOD(Phalcon_Mvc_View, getParamsToView){
  */
 PHP_METHOD(Phalcon_Mvc_View, getControllerName){
 
-	zval *controller_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller_name);
-	phalcon_read_property(&controller_name, this_ptr, SL("_controllerName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller_name);
+	RETURN_MEMBER(this_ptr, "_controllerName");
 }
 
 /**
@@ -372,14 +354,8 @@ PHP_METHOD(Phalcon_Mvc_View, getControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_View, getActionName){
 
-	zval *action_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(action_name);
-	phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(action_name);
+	RETURN_MEMBER(this_ptr, "_actionName");
 }
 
 /**
@@ -389,14 +365,8 @@ PHP_METHOD(Phalcon_Mvc_View, getActionName){
  */
 PHP_METHOD(Phalcon_Mvc_View, getParams){
 
-	zval *params;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(params);
+	RETURN_MEMBER(this_ptr, "_params");
 }
 
 /**
@@ -1272,14 +1242,8 @@ PHP_METHOD(Phalcon_Mvc_View, setContent){
  */
 PHP_METHOD(Phalcon_Mvc_View, getContent){
 
-	zval *content;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(content);
-	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(content);
+	RETURN_MEMBER(this_ptr, "_content");
 }
 
 /**
@@ -1289,14 +1253,8 @@ PHP_METHOD(Phalcon_Mvc_View, getContent){
  */
 PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath){
 
-	zval *active_render_path;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(active_render_path);
-	phalcon_read_property(&active_render_path, this_ptr, SL("_activeRenderPath"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(active_render_path);
+	RETURN_MEMBER(this_ptr, "_activeRenderPath");
 }
 
 /**

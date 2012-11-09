@@ -106,14 +106,8 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
  */
 PHP_METHOD(Phalcon_Loader, getEventsManager){
 
-	zval *events_manager;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -273,6 +267,8 @@ PHP_METHOD(Phalcon_Loader, register){
 
 /**
  * Unregister the autoload method
+ *
+ * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, unregister){
 
@@ -664,14 +660,8 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
  */
 PHP_METHOD(Phalcon_Loader, getFoundPath){
 
-	zval *found_path;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(found_path);
-	phalcon_read_property(&found_path, this_ptr, SL("_foundPath"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(found_path);
+	RETURN_MEMBER(this_ptr, "_foundPath");
 }
 
 /**
@@ -681,13 +671,7 @@ PHP_METHOD(Phalcon_Loader, getFoundPath){
  */
 PHP_METHOD(Phalcon_Loader, getCheckedPath){
 
-	zval *checked_path;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(checked_path);
-	phalcon_read_property(&checked_path, this_ptr, SL("_checkedPath"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(checked_path);
+	RETURN_MEMBER(this_ptr, "_checkedPath");
 }
 

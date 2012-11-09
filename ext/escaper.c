@@ -87,14 +87,8 @@ PHP_METHOD(Phalcon_Escaper, setEnconding){
  */
 PHP_METHOD(Phalcon_Escaper, getEncoding){
 
-	zval *encoding;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(encoding);
-	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(encoding);
+	RETURN_MEMBER(this_ptr, "_encoding");
 }
 
 /**

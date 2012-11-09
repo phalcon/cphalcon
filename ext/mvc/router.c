@@ -146,14 +146,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -252,12 +246,17 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(defaults) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "Defaults must be an array");
+		return;
+	}
 	eval_int = phalcon_array_isset_string(defaults, SS("module"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(module_name);
 		phalcon_array_fetch_string(&module_name, defaults, SL("module"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	}
+	
 	eval_int = phalcon_array_isset_string(defaults, SS("controller"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(controller_name);
@@ -318,6 +317,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	}
 	
 	if (!zend_is_true(uri)) {
+		/** 
+		 * If 'uri' isn't passed as parameter it reads $_GET['_url']
+		 */
 		PHALCON_INIT_VAR(real_uri);
 		PHALCON_CALL_METHOD(real_uri, this_ptr, "_getrewriteuri", PH_NO_CHECK);
 	} else {
@@ -337,7 +339,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	
 	PHALCON_INIT_VAR(matches);
 	phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 0 TSRMLS_CC);
-	
+	/** 
+	 * Routes are traversed in reversed order
+	 */
 	PHALCON_INIT_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
@@ -385,6 +389,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			}
 		}
 		
+		/** 
+		 * If the route has parentheses use preg_match
+		 */
 		PHALCON_INIT_NVAR(pattern);
 		PHALCON_CALL_METHOD(pattern, route, "getcompiledpattern", PH_NO_CHECK);
 		if (phalcon_memnstr_str(pattern, SL("(") TSRMLS_CC)) {
@@ -509,6 +516,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		phalcon_update_property_zval(this_ptr, SL("_params"), params_merge TSRMLS_CC);
 		phalcon_update_property_bool(this_ptr, SL("_wasMatched"), 1 TSRMLS_CC);
 	} else {
+		/** 
+		 * Use default values if the route hasn't matched
+		 */
 		PHALCON_INIT_NVAR(default_module);
 		phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
@@ -531,7 +541,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 }
 
 /**
- * Add a route to the router on any HTTP method
+ * Adds a route to the router on any HTTP method
  *
  * @param string $pattern
  * @param string/array $paths
@@ -558,6 +568,9 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 		PHALCON_INIT_NVAR(http_methods);
 	}
 	
+	/** 
+	 * Every route is internally stored as a Phalcon\Mvc\Router\Route
+	 */
 	PHALCON_INIT_VAR(route);
 	object_init_ex(route, phalcon_mvc_router_route_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(route, "__construct", pattern, paths, http_methods, PH_CHECK);
@@ -571,7 +584,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 }
 
 /**
- * Add a route to the router that only match if the HTTP method is GET
+ * Adds a route to the router that only match if the HTTP method is GET
  *
  * @param string $pattern
  * @param string/array $paths
@@ -602,7 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet){
 }
 
 /**
- * Add a route to the router that only match if the HTTP method is POST
+ * Adds a route to the router that only match if the HTTP method is POST
  *
  * @param string $pattern
  * @param string/array $paths
@@ -633,7 +646,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost){
 }
 
 /**
- * Add a route to the router that only match if the HTTP method is PUT
+ * Adds a route to the router that only match if the HTTP method is PUT
  *
  * @param string $pattern
  * @param string/array $paths
@@ -664,7 +677,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut){
 }
 
 /**
- * Add a route to the router that only match if the HTTP method is DELETE
+ * Adds a route to the router that only match if the HTTP method is DELETE
  *
  * @param string $pattern
  * @param string/array $paths
@@ -726,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions){
 }
 
 /**
- * Add a route to the router that only match if the HTTP method is HEAD
+ * Adds a route to the router that only match if the HTTP method is HEAD
  *
  * @param string $pattern
  * @param string/array $paths
@@ -773,71 +786,47 @@ PHP_METHOD(Phalcon_Mvc_Router, clear){
 }
 
 /**
- * Returns proccesed module name
+ * Returns processed module name
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router, getModuleName){
 
-	zval *module;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(module);
-	phalcon_read_property(&module, this_ptr, SL("_module"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(module);
+	RETURN_MEMBER(this_ptr, "_module");
 }
 
 /**
- * Returns proccesed controller name
+ * Returns processed controller name
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router, getControllerName){
 
-	zval *controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller);
-	phalcon_read_property(&controller, this_ptr, SL("_controller"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller);
+	RETURN_MEMBER(this_ptr, "_controller");
 }
 
 /**
- * Returns proccesed action name
+ * Returns processed action name
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Router, getActionName){
 
-	zval *action;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(action);
-	phalcon_read_property(&action, this_ptr, SL("_action"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(action);
+	RETURN_MEMBER(this_ptr, "_action");
 }
 
 /**
- * Returns proccesed extra params
+ * Returns processed extra params
  *
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Router, getParams){
 
-	zval *params;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(params);
+	RETURN_MEMBER(this_ptr, "_params");
 }
 
 /**
@@ -847,14 +836,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getParams){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute){
 
-	zval *matched_route;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(matched_route);
-	phalcon_read_property(&matched_route, this_ptr, SL("_matchedRoute"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(matched_route);
+	RETURN_MEMBER(this_ptr, "_matchedRoute");
 }
 
 /**
@@ -864,14 +847,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getMatchedRoute){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getMatches){
 
-	zval *matches;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(matches);
-	phalcon_read_property(&matches, this_ptr, SL("_matches"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(matches);
+	RETURN_MEMBER(this_ptr, "_matches");
 }
 
 /**
@@ -881,14 +858,8 @@ PHP_METHOD(Phalcon_Mvc_Router, getMatches){
  */
 PHP_METHOD(Phalcon_Mvc_Router, wasMatched){
 
-	zval *was_matched;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(was_matched);
-	phalcon_read_property(&was_matched, this_ptr, SL("_wasMatched"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(was_matched);
+	RETURN_MEMBER(this_ptr, "_wasMatched");
 }
 
 /**
@@ -898,14 +869,8 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
 
-	zval *routes;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(routes);
-	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(routes);
+	RETURN_MEMBER(this_ptr, "_routes");
 }
 
 /**

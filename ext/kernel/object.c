@@ -250,6 +250,27 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 		}
 	}
+
+	return FAILURE;
+}
+
+/**
+ * Returns an object's member
+ */
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC){
+
+	zval *tmp = NULL;
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
+		tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
+		RETURN_ZVAL(tmp, 1, 0);
+		return SUCCESS;
+	} else {
+		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
+	}
+
 	return FAILURE;
 }
 

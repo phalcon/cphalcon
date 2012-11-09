@@ -77,14 +77,8 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
  */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -473,14 +467,8 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
  */
 PHP_METHOD(Phalcon_Http_Response, getContent){
 
-	zval *content;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(content);
-	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(content);
+	RETURN_MEMBER(this_ptr, "_content");
 }
 
 /**

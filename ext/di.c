@@ -34,10 +34,10 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/file.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 
@@ -106,6 +106,11 @@ PHP_METHOD(Phalcon_DI, set){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_services"), PH_NOISY_CC);
 	phalcon_array_update_zval(&t0, alias, &config, PH_COPY TSRMLS_CC);
@@ -133,6 +138,11 @@ PHP_METHOD(Phalcon_DI, remove){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(t0);
 	phalcon_read_property(&t0, this_ptr, SL("_services"), PH_NOISY_CC);
 	PHALCON_SEPARATE_NMO(t0);
@@ -143,7 +153,7 @@ PHP_METHOD(Phalcon_DI, remove){
 
 /**
  * Attempts to register a service in the services container
- * Only is successful if a services hasn't been registered previosly
+ * Only is successful if a service hasn't been registered previously
  * with the same name
  *
  * @param string $alias
@@ -162,6 +172,11 @@ PHP_METHOD(Phalcon_DI, attempt){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(services);
 	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(services, alias);
@@ -314,6 +329,11 @@ PHP_METHOD(Phalcon_DI, get){
 		PHALCON_INIT_NVAR(parameters);
 	}
 	
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(services);
 	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(services, alias);
@@ -337,7 +357,7 @@ PHP_METHOD(Phalcon_DI, get){
 }
 
 /**
- * Returns a shared service based on its configuration
+ * Returns a shared service based on their configuration
  *
  * @param string $alias
  * @param array $parameters
@@ -359,6 +379,11 @@ PHP_METHOD(Phalcon_DI, getShared){
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
+	}
+	
+	if (Z_TYPE_P(alias) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(shared_instances);
@@ -419,14 +444,8 @@ PHP_METHOD(Phalcon_DI, has){
  */
 PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
-	zval *fresh_instance;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(fresh_instance);
-	phalcon_read_property(&fresh_instance, this_ptr, SL("_freshInstance"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(fresh_instance);
+	RETURN_MEMBER(this_ptr, "_freshInstance");
 }
 
 /**

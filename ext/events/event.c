@@ -94,14 +94,8 @@ PHP_METHOD(Phalcon_Events_Event, setType){
  */
 PHP_METHOD(Phalcon_Events_Event, getType){
 
-	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(type);
+	RETURN_MEMBER(this_ptr, "_type");
 }
 
 /**
@@ -111,14 +105,8 @@ PHP_METHOD(Phalcon_Events_Event, getType){
  */
 PHP_METHOD(Phalcon_Events_Event, getSource){
 
-	zval *source;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(source);
-	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(source);
+	RETURN_MEMBER(this_ptr, "_source");
 }
 
 /**
@@ -145,13 +133,7 @@ PHP_METHOD(Phalcon_Events_Event, setData){
  */
 PHP_METHOD(Phalcon_Events_Event, getData){
 
-	zval *data;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(data);
+	RETURN_MEMBER(this_ptr, "_data");
 }
 

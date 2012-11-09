@@ -41,7 +41,7 @@
 /**
  * Phalcon\Tag\Select
  *
- * Generates a SELECT html tag using an static array of values or a Phalcon\Model resultset
+ * Generates a SELECT html tag using a static array of values or a Phalcon\Mvc\Model resultset
  */
 
 
@@ -230,6 +230,14 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	RETURN_CTOR(code);
 }
 
+/**
+ * Generate the OPTION tags based on the rows
+ *
+ * @param Phalcon\Mvc\Model $resultset
+ * @param array $using
+ * @param mixed value
+ * @param string $closeOption
+ */
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset, *using, *value, *close_option;

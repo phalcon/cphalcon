@@ -116,14 +116,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -150,14 +144,8 @@ PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager){
 
-	zval *events_manager;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -669,28 +657,18 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler){
 
-	zval *active_handler;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(active_handler);
-	phalcon_read_property(&active_handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(active_handler);
+	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 
 /**
  * Returns the value returned by the executed handler
+ *
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 
-	zval *returned_value;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(returned_value);
-	phalcon_read_property(&returned_value, this_ptr, SL("_returnedValue"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(returned_value);
+	RETURN_MEMBER(this_ptr, "_returnedValue");
 }
 

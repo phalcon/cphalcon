@@ -37,13 +37,13 @@
 /**
  * Phalcon\Logger\Item
  *
- * Represents each item in a logger transaction
+ * Represents each item in a logging transaction
  *
  */
 
 
 /**
- * Phalcon\Logger\Item contructor
+ * Phalcon\Logger\Item constructor
  *
  * @param string $message
  * @param integer $type
@@ -79,14 +79,8 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
  */
 PHP_METHOD(Phalcon_Logger_Item, getMessage){
 
-	zval *message;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(message);
-	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(message);
+	RETURN_MEMBER(this_ptr, "_message");
 }
 
 /**
@@ -96,14 +90,8 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage){
  */
 PHP_METHOD(Phalcon_Logger_Item, getType){
 
-	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(type);
+	RETURN_MEMBER(this_ptr, "_type");
 }
 
 /**
@@ -113,13 +101,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType){
  */
 PHP_METHOD(Phalcon_Logger_Item, getTime){
 
-	zval *time;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(time);
-	phalcon_read_property(&time, this_ptr, SL("_time"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(time);
+	RETURN_MEMBER(this_ptr, "_time");
 }
 

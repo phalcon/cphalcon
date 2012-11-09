@@ -209,8 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 
 	zval *pattern, *paths = NULL, *double_colon, *parts, *part_zero;
 	zval *controller_name, *route_paths = NULL, *part_one;
-	zval *one, *zero, *first, *have_bracket, *pcre_pattern = NULL;
-	zval *compiled_pattern = NULL;
+	zval *one, *zero, *first, *pcre_pattern = NULL, *compiled_pattern = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -268,9 +267,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	PHALCON_INIT_VAR(first);
 	PHALCON_CALL_FUNC_PARAMS_3(first, "substr", pattern, zero, one);
 	if (!PHALCON_COMPARE_STRING(first, "#")) {
-		PHALCON_INIT_VAR(have_bracket);
-		phalcon_fast_strpos_str(have_bracket, pattern, SL("{") TSRMLS_CC);
-		if (PHALCON_IS_NOT_FALSE(have_bracket)) {
+		if (phalcon_memnstr_str(pattern, SL("{") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(pcre_pattern);
 			phalcon_extract_named_params(pcre_pattern, pattern, route_paths);
 		} else {

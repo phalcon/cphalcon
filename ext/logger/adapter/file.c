@@ -136,14 +136,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, setFormat){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getFormat){
 
-	zval *format;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(format);
-	phalcon_read_property(&format, this_ptr, SL("_format"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(format);
+	RETURN_MEMBER(this_ptr, "_format");
 }
 
 /**
@@ -322,14 +316,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, setDateFormat){
  */
 PHP_METHOD(Phalcon_Logger_Adapter_File, getDateFormat){
 
-	zval *date_format;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(date_format);
-	phalcon_read_property(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(date_format);
+	RETURN_MEMBER(this_ptr, "_dateFormat");
 }
 
 /**
@@ -410,10 +398,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, begin){
   */
 PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 
-	zval *transaction, *file_handler, *quenue, *message = NULL;
-	zval *message_str = NULL, *type = NULL, *time = NULL, *applied_format = NULL;
+	zval *transaction, *file_handler, *quenue, *eol;
+	zval *message = NULL, *message_str = NULL, *type = NULL, *time = NULL, *applied_format = NULL;
 	zval *applied_eol = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -434,6 +421,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 	
 	PHALCON_INIT_VAR(quenue);
 	phalcon_read_property(&quenue, this_ptr, SL("_quenue"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(eol);
+	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	
 	if (!phalcon_valid_foreach(quenue TSRMLS_CC)) {
 		return;
@@ -462,11 +452,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		PHALCON_INIT_NVAR(applied_format);
 		PHALCON_CALL_METHOD_PARAMS_3(applied_format, this_ptr, "_applyformat", message_str, type, time, PH_NO_CHECK);
 		
-		PHALCON_INIT_NVAR(t0);
-		zend_get_constant(SL("PHP_EOL"), t0 TSRMLS_CC);
-		
 		PHALCON_INIT_NVAR(applied_eol);
-		PHALCON_CONCAT_VV(applied_eol, applied_format, t0);
+		PHALCON_CONCAT_VV(applied_eol, applied_format, eol);
 		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", file_handler, applied_eol);
 		
 		zend_hash_move_forward_ex(ah0, &hp0);

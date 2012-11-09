@@ -153,14 +153,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -187,14 +181,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
 
-	zval *events_manager;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -666,14 +654,8 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getSchema){
 
-	zval *schema;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(schema);
-	phalcon_read_property(&schema, this_ptr, SL("_schema"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(schema);
+	RETURN_MEMBER(this_ptr, "_schema");
 }
 
 /**
@@ -696,18 +678,12 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService){
 /**
  * Returns DependencyInjection connection service
  *
- * @return $connectionService
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model, getConnectionService){
 
-	zval *connection_service;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(connection_service);
-	phalcon_read_property(&connection_service, this_ptr, SL("_connectionService"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(connection_service);
+	RETURN_MEMBER(this_ptr, "_connectionService");
 }
 
 /**
@@ -1951,14 +1927,8 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 
-	zval *error_messages;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(error_messages);
-	phalcon_read_property(&error_messages, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(error_messages);
+	RETURN_MEMBER(this_ptr, "_errorMessages");
 }
 
 /**
@@ -3325,14 +3295,8 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
  */
 PHP_METHOD(Phalcon_Mvc_Model, getOperationMade){
 
-	zval *operation_made;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(operation_made);
-	phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(operation_made);
+	RETURN_MEMBER(this_ptr, "_operationMade");
 }
 
 /**

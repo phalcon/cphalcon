@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -48,6 +48,34 @@
  * Designer friendly and fast template engine for PHP written in C
  */
 
+
+/**
+ * Sets the dependency injection container
+ *
+ * @param Phalcon\DI $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setDI){
+
+	zval *dependency_injector;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the dependency injection container
+ *
+ * @return Phalcon\DI
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getDI){
+
+
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+}
 
 /**
  * Set Volt's options
@@ -81,14 +109,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
 
-	zval *options;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(options);
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**

@@ -1,3 +1,7 @@
+0.7.0
+ - Implemented a fast way to retrieve object's members without add a memory frame
+ - Now Phalcon\Mvc\Dispatcher checks for methods beforeExecuteRoute and afterExecuteRoute in the controller handler
+
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler
  - Fixed bug reading named-parameters with quantifiers in Phalcon\Mvc\Router

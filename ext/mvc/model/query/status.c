@@ -86,14 +86,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
 
-	zval *model;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(model);
-	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(model);
+	RETURN_MEMBER(this_ptr, "_model");
 }
 
 /**
@@ -129,13 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
-	zval *success;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(success);
-	phalcon_read_property(&success, this_ptr, SL("_success"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(success);
+	RETURN_MEMBER(this_ptr, "_success");
 }
 

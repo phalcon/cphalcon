@@ -120,14 +120,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *controller_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller_name);
-	phalcon_read_property(&controller_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller_name);
+	RETURN_MEMBER(this_ptr, "_handlerName");
 }
 
 /**
@@ -215,14 +209,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
-	zval *last_controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(last_controller);
-	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(last_controller);
+	RETURN_MEMBER(this_ptr, "_lastHandler");
 }
 
 /**
@@ -232,13 +220,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 
-	zval *controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller);
-	phalcon_read_property(&controller, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller);
+	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 

@@ -76,6 +76,7 @@ PHP_METHOD(Phalcon_Filter, __construct){
  *
  * @param string $name
  * @param callable $handler
+ * @return Phalcon\Filter
  */
 PHP_METHOD(Phalcon_Filter, add){
 
@@ -323,13 +324,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
  */
 PHP_METHOD(Phalcon_Filter, getFilters){
 
-	zval *filters;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(filters);
-	phalcon_read_property(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(filters);
+	RETURN_MEMBER(this_ptr, "_filters");
 }
 
