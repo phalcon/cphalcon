@@ -64,6 +64,20 @@
 
 
 /**
+ * Phalcon\CLI\Dispatcher initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, "phalcon\\dispatcher", phalcon_cli_dispatcher_method_entry, 0);
+
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the default task suffix
  *
  * @param string $taskSuffix
@@ -157,7 +171,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-		
+	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {

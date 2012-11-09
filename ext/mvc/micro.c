@@ -33,9 +33,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 
@@ -60,18 +60,32 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Micro initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, mvc_micro, "phalcon\\di\\injectable", phalcon_mvc_micro_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_notFoundHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_activeHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_returnedValue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Mvc\Micro constructor
+ */
 PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 
-	zval *a0 = NULL;
 
-	PHALCON_MM_GROW();
-
+	phalcon_update_property_empty_array(phalcon_mvc_micro_ce, this_ptr, SL("_handlers") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_mvc_micro_ce, this_ptr, SL("_handlers"), a0 TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -433,7 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	if (Z_TYPE_P(router) != IS_OBJECT) {
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "router", 1);
-		
+	
 		PHALCON_INIT_NVAR(router);
 		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", service_name, PH_NO_CHECK);
 		PHALCON_CALL_METHOD_NORETURN(router, "clear", PH_NO_CHECK);
@@ -534,7 +548,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "micro:beforeHandleRoute", 1);
-		
+	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
@@ -555,7 +569,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(matched_route) == IS_OBJECT) {
 		PHALCON_INIT_VAR(handlers);
 		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(route_id);
 		PHALCON_CALL_METHOD(route_id, matched_route, "getrouteid", PH_NO_CHECK);
 		eval_int = phalcon_array_isset(handlers, route_id);
@@ -563,14 +577,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Matched route doesn't have an associate handler");
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(handler);
 		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:beforeExecuteRoute", 1);
-			
+	
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
@@ -581,10 +595,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				phalcon_read_property(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 			}
 		}
-		
+	
 		PHALCON_INIT_VAR(params);
 		PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(returned_value);
 		PHALCON_CALL_USER_FUNC_ARRAY(returned_value, handler, params);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -598,7 +612,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:beforeNotFound", 1);
-			
+	
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
@@ -606,20 +620,20 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 				RETURN_FALSE;
 			}
 		}
-		
+	
 		PHALCON_INIT_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(r0);
 		PHALCON_CALL_FUNC_PARAMS_1(r0, "is_callable", not_found_handler);
 		if (!zend_is_true(r0)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "The Not-Found handler is not callable or is not defined");
 			return;
 		}
-		
+	
 		PHALCON_INIT_NVAR(returned_value);
 		PHALCON_CALL_USER_FUNC(returned_value, not_found_handler);
-		
+	
 		RETURN_CCTOR(returned_value);
 	}
 	

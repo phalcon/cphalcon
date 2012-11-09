@@ -46,6 +46,19 @@
 
 
 /**
+ * Phalcon\Acl\Role initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl_Role){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Acl, Role, acl_role, phalcon_acl_role_method_entry, 0);
+
+	zend_declare_property_null(phalcon_acl_role_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_role_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Acl\Role description
  *
  * @param string $name

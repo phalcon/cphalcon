@@ -43,6 +43,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\MetaData\Memory initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Memory){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Memory, mvc_model_metadata_memory, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_memory_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\MetaData\Memory constructor
  *
  * @param array $options

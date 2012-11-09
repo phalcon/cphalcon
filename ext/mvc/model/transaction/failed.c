@@ -44,6 +44,18 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Transaction\Failed initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, mvc_model_transaction_failed, "exception", phalcon_mvc_model_transaction_failed_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_transaction_failed_ce, SL("_record"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Transaction\Failed constructor
  *
  * @param string $message
@@ -82,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 	if (Z_TYPE_P(record) != IS_NULL) {
 		PHALCON_INIT_NVAR(record);
 		PHALCON_CALL_METHOD(record, record, "getmessages", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(record);
 	}
 	

@@ -80,6 +80,21 @@
 
 
 /**
+ * Phalcon\Acl initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Acl, acl, phalcon_acl_method_entry, 0);
+
+	zend_declare_property_null(phalcon_acl_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the events manager
  *
  * @param Phalcon\Events\Manager $eventManager

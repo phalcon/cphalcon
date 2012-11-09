@@ -46,6 +46,16 @@
 
 
 /**
+ * Phalcon\Version initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Version){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Version, version, phalcon_version_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Area where the version number is set. The format is as follows:
  * ABBCCDE
  *

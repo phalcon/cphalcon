@@ -48,6 +48,16 @@
 
 
 /**
+ * Phalcon\Db\Dialect initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Dialect, db_dialect, phalcon_db_dialect_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Generates the SQL for LIMIT clause
  *
  * @param string $sqlQuery
@@ -70,10 +80,10 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 	if (PHALCON_IS_TRUE(is_numeric)) {
 		PHALCON_INIT_VAR(limit);
 		PHALCON_CALL_FUNC_PARAMS_1(limit, "intval", number);
-		
+	
 		PHALCON_INIT_VAR(sql_limit);
 		PHALCON_CONCAT_VSV(sql_limit, sql_query, " LIMIT ", limit);
-		
+	
 		RETURN_CTOR(sql_limit);
 	}
 	
@@ -188,48 +198,48 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	if (eval_int) {
 		PHALCON_INIT_VAR(joins);
 		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY_CC);
-		
+	
 		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(joins);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(join);
-			
+	
 			PHALCON_INIT_NVAR(type);
 			phalcon_array_fetch_string(&type, join, SL("type"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(source);
 			phalcon_array_fetch_string(&source, join, SL("source"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(sql_join);
 			PHALCON_CONCAT_SVSV(sql_join, " ", type, " JOIN ", source);
 			eval_int = phalcon_array_isset_string(join, SS("conditions"));
 			if (eval_int) {
 				PHALCON_INIT_NVAR(join_conditions_array);
 				phalcon_array_fetch_string(&join_conditions_array, join, SL("conditions"), PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_NVAR(join_conditions);
 				phalcon_fast_join_str(join_conditions, SL(" AND "), join_conditions_array TSRMLS_CC);
 				PHALCON_SCONCAT_SV(sql_join, " ON ", join_conditions);
 			}
-			
+	
 			phalcon_concat_self(sql, sql_join TSRMLS_CC);
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	}
 	
 	eval_int = phalcon_array_isset_string(definition, SS("where"));
@@ -243,7 +253,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	if (eval_int) {
 		PHALCON_INIT_VAR(group_fields);
 		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(group_clause);
 		PHALCON_CONCAT_SV(group_clause, " GROUP BY ", group_fields);
 		phalcon_concat_self(sql, group_clause TSRMLS_CC);

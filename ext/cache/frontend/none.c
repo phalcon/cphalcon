@@ -71,6 +71,16 @@
 
 
 /**
+ * Phalcon\Cache\Frontend\None initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Frontend\None constructor
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){

@@ -48,6 +48,16 @@
 
 
 /**
+ * Phalcon\Db\Dialect\Postgresql initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, "phalcon\\db\\dialect", phalcon_db_dialect_postgresql_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Gets a list of columns
  *
  * @param array $columnList
@@ -83,16 +93,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(column);
-		
+	
 		PHALCON_INIT_NVAR(column_quoted);
 		PHALCON_CONCAT_SVS(column_quoted, "\"", column, "\"");
 		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(joined_list);
@@ -150,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto ph_end_0;

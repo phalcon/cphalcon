@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -72,17 +72,28 @@
  */
 
 
+/**
+ * Phalcon\Db\Profiler initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Profiler){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Profiler, db_profiler, phalcon_db_profiler_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_profiler_ce, SL("_allProfiles"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_ce, SL("_activeProfile"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_profiler_ce, SL("_totalSeconds"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Db\Profiler constructor
+ */
 PHP_METHOD(Phalcon_Db_Profiler, __construct){
 
-	zval *a0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_db_profiler_ce, this_ptr, SL("_allProfiles"), a0 TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_empty_array(phalcon_db_profiler_ce, this_ptr, SL("_allProfiles") TSRMLS_CC);
+	
 }
 
 /**

@@ -69,6 +69,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Uniqueness initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Uniqueness){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Uniqueness, mvc_model_validator_uniqueness, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_uniqueness_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
  * @param Phalcon\Mvc\Model $record
@@ -126,22 +136,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	PHALCON_INIT_VAR(number);
 	ZVAL_LONG(number, 0);
 	if (Z_TYPE_P(field) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(field TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(field);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(compose_field);
-			
+	
 			eval_int = phalcon_array_isset(bind_data_types, compose_field);
 			if (!eval_int) {
 				PHALCON_INIT_NVAR(exception_message);
@@ -149,27 +159,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-			
+	
 			PHALCON_INIT_NVAR(value);
 			PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", compose_field, PH_NO_CHECK);
-			
+	
 			PHALCON_INIT_NVAR(r0);
 			PHALCON_CONCAT_VSV(r0, compose_field, " = ?", number);
 			phalcon_array_append(&conditions, r0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(bind_type);
 			phalcon_array_fetch(&bind_type, bind_data_types, compose_field, PH_NOISY_CC);
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	} else {
 		eval_int = phalcon_array_isset(bind_data_types, field);
 		if (!eval_int) {
@@ -178,15 +188,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 			return;
 		}
-		
+	
 		PHALCON_INIT_NVAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(condition);
 		PHALCON_CONCAT_VS(condition, field, " = ?0");
 		phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 		phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
-		
+	
 		PHALCON_INIT_NVAR(bind_type);
 		phalcon_array_fetch(&bind_type, bind_data_types, field, PH_NOISY_CC);
 		phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
@@ -199,22 +209,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	if (phalcon_compare_strict_long(operation_made, 2 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(primary_fields);
 		PHALCON_CALL_METHOD_PARAMS_1(primary_fields, meta_data, "getprimarykeyattributes", record, PH_NO_CHECK);
-		
+	
 		if (!phalcon_valid_foreach(primary_fields TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah1 = Z_ARRVAL_P(primary_fields);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(primary_field);
-			
+	
 			eval_int = phalcon_array_isset(bind_data_types, primary_field);
 			if (!eval_int) {
 				PHALCON_INIT_NVAR(exception_message);
@@ -222,27 +232,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-			
+	
 			PHALCON_INIT_NVAR(value);
 			PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", primary_field, PH_NO_CHECK);
-			
+	
 			PHALCON_INIT_NVAR(condition);
 			PHALCON_CONCAT_VSV(condition, primary_field, " <> ?", number);
 			phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(bind_type);
 			phalcon_array_fetch(&bind_type, bind_data_types, primary_field, PH_NOISY_CC);
 			phalcon_array_append(&bind_types, bind_type, PH_SEPARATE TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
-			
+	
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
 		if(0){}
-		
+	
 	}
 	
 	PHALCON_INIT_VAR(r1);
@@ -263,17 +273,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	if (!phalcon_compare_strict_long(number, 0 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "unique", 1);
-		
+	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);
-		
+	
 		PHALCON_INIT_VAR(message);
 		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' is already present in another record");
 		}
-		
+	
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

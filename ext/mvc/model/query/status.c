@@ -61,6 +61,19 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Query\Status initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Status){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Status, mvc_model_query_status, phalcon_mvc_model_query_status_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("_success"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Query\Status
  *
  * @param boolean $success
@@ -106,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 	if (Z_TYPE_P(model) == IS_OBJECT) {
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, model, "getmessages", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(messages);
 	}
 	

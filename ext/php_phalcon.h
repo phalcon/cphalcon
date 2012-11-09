@@ -1,20 +1,20 @@
 
 /*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
+ +------------------------------------------------------------------------+
+ | Phalcon Framework                                                      |
+ +------------------------------------------------------------------------+
+ | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+ +------------------------------------------------------------------------+
+ | This source file is subject to the New BSD License that is bundled     |
+ | with this package in the file docs/LICENSE.txt.                        |
+ |                                                                        |
+ | If you did not receive a copy of the license and are unable to         |
+ | obtain it through the world-wide-web, please send an email             |
+ | to license@phalconphp.com so we can send you a copy immediately.       |
+ +------------------------------------------------------------------------+
+ | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+ |          Eduar Carvajal <eduar@phalconphp.com>                         |
+ +------------------------------------------------------------------------+
 */
 
 #ifndef PHP_PHALCON_H
@@ -37,7 +37,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	phalcon_memory_entry *active_memory;
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
-  unsigned int phalcon_number_grows;
+	unsigned int phalcon_number_grows;
 #endif
 ZEND_END_MODULE_GLOBALS(phalcon)
 
@@ -55,10 +55,6 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 
 extern zend_module_entry phalcon_module_entry;
 #define phpext_phalcon_ptr &phalcon_module_entry
-
-#ifdef PHP_WIN32
-#include "stdafx.h"
-#endif
 
 #endif
 
@@ -80,3 +76,11 @@ extern zend_module_entry phalcon_module_entry;
 #else
 # define PHALCON_FASTCALL
 #endif
+
+#define PHALCON_INIT_CLASS(name) \
+	int phalcon_ ##name## _init(INIT_FUNC_ARGS)
+
+#define PHALCON_INIT(name) \
+	if(phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE){ \
+		return FAILURE; \
+	}

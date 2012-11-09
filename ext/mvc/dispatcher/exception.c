@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Dispatcher\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Dispatcher, Exception, mvc_dispatcher_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

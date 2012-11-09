@@ -52,17 +52,33 @@
  */
 
 
+/**
+ * Phalcon\Session\Bag initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Session_Bag){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Session, Bag, session_bag, phalcon_session_bag_method_entry, 0);
+
+	zend_declare_property_null(phalcon_session_bag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_bag_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_bag_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initalized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_bag_ce, SL("_session"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Session\Bag constructor
+ */
 PHP_METHOD(Phalcon_Session_Bag, __construct){
 
 	zval *name;
-	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 
+	phalcon_update_property_empty_array(phalcon_session_bag_ce, this_ptr, SL("_data") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_session_bag_ce, this_ptr, SL("_data"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -252,7 +268,7 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
 	if (eval_int) {
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, data, property, PH_NOISY_CC);
-		
+	
 		RETURN_CCTOR(value);
 	}
 	

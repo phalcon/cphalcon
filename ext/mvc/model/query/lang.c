@@ -57,6 +57,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Query\Lang initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Parses a PHQL statement returning an intermediate representation (IR)
  *
  * @param string $phql

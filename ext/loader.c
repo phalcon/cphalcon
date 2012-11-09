@@ -53,20 +53,43 @@
  *
  * //Register some namespaces
  * $loader->registerNamespaces(array(
- *   'Example\\Base' => 'vendor/example/base/',
- *   'Example\\Adapter' => 'vendor/example/adapter/',
+ *   'Example\Base' => 'vendor/example/base/',
+ *   'Example\Adapter' => 'vendor/example/adapter/',
  *   'Example' => 'vendor/example/'
  * ));
  *
  * //register autoloader
  * $loader->register();
  *
- * //Requiring class will automatically include file vendor/example/adapter/Some.php
+ * //Requiring this class will automatically include file vendor/example/adapter/Some.php
  * $adapter = Example\Adapter\Some();
  *</code>
  */
 
 
+/**
+ * Phalcon\Loader initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Loader){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Loader, loader, phalcon_loader_method_entry, 0);
+
+	zend_declare_property_null(phalcon_loader_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_foundPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_checkedPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_prefixes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_classes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_extensions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_namespaces"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_loader_ce, SL("_directories"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_loader_ce, SL("_registered"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Loader constructor
+ */
 PHP_METHOD(Phalcon_Loader, __construct){
 
 	zval *a0 = NULL;
@@ -78,6 +101,7 @@ PHP_METHOD(Phalcon_Loader, __construct){
 	array_init(a0);
 	add_next_index_stringl(a0, SL("php"), 1);
 	zend_update_property(phalcon_loader_ce, this_ptr, SL("_extensions"), a0 TSRMLS_CC);
+	
 
 	PHALCON_MM_RESTORE();
 }
@@ -341,12 +365,12 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			phalcon_array_fetch(&file_path, classes, class_name, PH_NOISY_CC);
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "loader:pathFound", 1);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
 			}
-			
+	
 			if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
 				return;
 			}
@@ -369,69 +393,70 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
+	
 	/** 
 	 * Checking in namespaces
 	 */
 	PHALCON_INIT_VAR(namespaces);
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(namespaces);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(prefix, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(directory);
-			
+	
 			if (phalcon_start_with(class_name, prefix)) {
 				PHALCON_INIT_NVAR(prefix_namespace);
 				PHALCON_CONCAT_VV(prefix_namespace, prefix, namespace_separator);
-				
+	
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, prefix_namespace, empty_str, class_name TSRMLS_CC);
 				if (zend_is_true(file_name)) {
-					
+	
 					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 						return;
 					}
-					
+	
 					ah1 = Z_ARRVAL_P(extensions);
 					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-					
+	
 					ph_cycle_start_1:
-					
+	
 						if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 							goto ph_cycle_end_1;
 						}
-						
+	
 						PHALCON_GET_FOREACH_VALUE(extension);
-						
+	
 						PHALCON_INIT_NVAR(complete_path);
 						PHALCON_CONCAT_VVSV(complete_path, directory, file_name, ".", extension);
-						
+	
 						PHALCON_INIT_NVAR(file_path);
 						phalcon_fast_str_replace(file_path, namespace_separator, ds, complete_path TSRMLS_CC);
 						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
-							
+	
 							PHALCON_INIT_NVAR(event_name);
 							ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
 							PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 						}
-						
+	
 						if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
-								
+	
 								PHALCON_INIT_NVAR(event_name);
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
 								PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
@@ -442,89 +467,90 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							PHALCON_MM_RESTORE();
 							RETURN_TRUE;
 						}
-						
+	
 						zend_hash_move_forward_ex(ah1, &hp1);
 						goto ph_cycle_start_1;
-						
+	
 					ph_cycle_end_1:
 					if(0){}
-					
+	
 				}
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	}
 	
 	PHALCON_INIT_VAR(pseudo_separator);
 	ZVAL_STRING(pseudo_separator, "_", 1);
+	
 	/** 
 	 * Checking in prefixes
 	 */
 	PHALCON_INIT_VAR(prefixes);
 	phalcon_read_property(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(prefixes TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah2 = Z_ARRVAL_P(prefixes);
 		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-		
+	
 		ph_cycle_start_2:
-		
+	
 			if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 				goto ph_cycle_end_2;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(prefix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
-			
+	
 			if (phalcon_start_with(class_name, prefix)) {
 				PHALCON_INIT_NVAR(no_prefix_class);
 				phalcon_fast_str_replace(no_prefix_class, prefix, empty_str, class_name TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, pseudo_separator, ds, no_prefix_class TSRMLS_CC);
 				if (zend_is_true(file_name)) {
-					
+	
 					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 						return;
 					}
-					
+	
 					ah3 = Z_ARRVAL_P(extensions);
 					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
-					
+	
 					ph_cycle_start_3:
-					
+	
 						if (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS) {
 							goto ph_cycle_end_3;
 						}
-						
+	
 						PHALCON_GET_FOREACH_VALUE(extension);
-						
+	
 						PHALCON_INIT_NVAR(complete_path);
 						PHALCON_CONCAT_VVSV(complete_path, directory, file_name, ".", extension);
-						
+	
 						PHALCON_INIT_NVAR(file_path);
 						phalcon_fast_str_replace(file_path, namespace_separator, ds, complete_path TSRMLS_CC);
 						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
-							
+	
 							PHALCON_INIT_NVAR(event_name);
 							ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
 							PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
 						}
-						
+	
 						if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
-								
+	
 								PHALCON_INIT_NVAR(event_name);
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
 								PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
@@ -535,22 +561,22 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							PHALCON_MM_RESTORE();
 							RETURN_TRUE;
 						}
-						
+	
 						zend_hash_move_forward_ex(ah3, &hp3);
 						goto ph_cycle_start_3;
-						
+	
 					ph_cycle_end_3:
 					if(0){}
-					
+	
 				}
 			}
-			
+	
 			zend_hash_move_forward_ex(ah2, &hp2);
 			goto ph_cycle_start_2;
-			
+	
 		ph_cycle_end_2:
 		if(0){}
-		
+	
 	}
 	
 	PHALCON_INIT_VAR(ds_class_name);
@@ -558,58 +584,59 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	PHALCON_INIT_VAR(ns_class_name);
 	phalcon_fast_str_replace(ns_class_name, namespace_separator, ds, ds_class_name TSRMLS_CC);
+	
 	/** 
 	 * Checking in directories
 	 */
 	PHALCON_INIT_VAR(directories);
 	phalcon_read_property(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(directories TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah4 = Z_ARRVAL_P(directories);
 		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
-		
+	
 		ph_cycle_start_4:
-		
+	
 			if (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) != SUCCESS) {
 				goto ph_cycle_end_4;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(directory);
-			
-			
+	
+	
 			if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 				return;
 			}
-			
+	
 			ah5 = Z_ARRVAL_P(extensions);
 			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
-			
+	
 			ph_cycle_start_5:
-			
+	
 				if (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) != SUCCESS) {
 					goto ph_cycle_end_5;
 				}
-				
+	
 				PHALCON_GET_FOREACH_VALUE(extension);
-				
+	
 				PHALCON_INIT_NVAR(file_path);
 				PHALCON_CONCAT_VVSV(file_path, directory, ns_class_name, ".", extension);
 				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 					phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
-					
+	
 					PHALCON_INIT_NVAR(event_name);
 					ZVAL_STRING(event_name, "loader:beforeCheckPath", 1);
 					PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
 				}
-				
+	
 				if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
 					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 						phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
-						
+	
 						PHALCON_INIT_NVAR(event_name);
 						ZVAL_STRING(event_name, "loader:pathFound", 1);
 						PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path, PH_NO_CHECK);
@@ -620,19 +647,19 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_MM_RESTORE();
 					RETURN_TRUE;
 				}
-				
+	
 				zend_hash_move_forward_ex(ah5, &hp5);
 				goto ph_cycle_start_5;
-				
+	
 			ph_cycle_end_5:
-			
-			
+	
+	
 			zend_hash_move_forward_ex(ah4, &hp4);
 			goto ph_cycle_start_4;
-			
+	
 		ph_cycle_end_4:
 		if(0){}
-		
+	
 	}
 	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {

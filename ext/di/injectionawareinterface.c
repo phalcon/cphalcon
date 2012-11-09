@@ -25,28 +25,19 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
- * Phalcon\Db\Exception
- *
- * Exceptions thrown in Phalcon\Db will use this class
- *
+ * Phalcon\DI\InjectionAwareInterface initializer
  */
+PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface){
 
-
-/**
- * Phalcon\Db\Exception initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Db_Exception){
-
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Exception, db_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\DI, InjectionAwareInterface, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry, ZEND_ACC_INTERFACE);
 
 	return SUCCESS;
 }
+
+PHP_METHOD(Phalcon_DI_InjectionAwareInterface, setDI){ }
+
+PHP_METHOD(Phalcon_DI_InjectionAwareInterface, getDI){ }
 

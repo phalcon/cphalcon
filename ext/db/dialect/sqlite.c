@@ -48,6 +48,16 @@
 
 
 /**
+ * Phalcon\Db\Dialect\Sqlite initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Sqlite, db_dialect_sqlite, "phalcon\\db\\dialect", phalcon_db_dialect_sqlite_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Gets a list of columns
  *
  * @param array $columnList
@@ -83,16 +93,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(column);
-		
+	
 		PHALCON_INIT_NVAR(quoted_column);
 		PHALCON_CONCAT_SVS(quoted_column, "\"", column, "\"");
 		phalcon_array_append(&str_list, quoted_column, PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(joined_list);
@@ -150,7 +160,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto ph_end_0;

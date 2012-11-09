@@ -54,6 +54,20 @@
 
 
 /**
+ * Phalcon\Http\Response initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Http_Response){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Http, Response, http_response, phalcon_http_response_method_entry, 0);
+
+	zend_declare_property_string(phalcon_http_response_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injector
  *
  * @param Phalcon\DI $dependencyInjector
@@ -387,13 +401,13 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "url", 1);
-		
+	
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(header);
 		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
 	}

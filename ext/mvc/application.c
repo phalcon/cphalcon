@@ -87,6 +87,21 @@
 
 
 /**
+ * Phalcon\Mvc\Application initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, "phalcon\\di\\injectable", phalcon_mvc_application_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the DependencyInjector container
  *
  * @param Phalcon\DI $dependencyInjector
@@ -239,7 +254,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "application:beforeStartModule", 1);
-			
+	
 			PHALCON_INIT_VAR(status);
 			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
@@ -247,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				RETURN_FALSE;
 			}
 		}
-		
+	
 		PHALCON_INIT_VAR(modules);
 		phalcon_read_property(&modules, this_ptr, SL("_modules"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(modules, module_name);
@@ -257,14 +272,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(module);
 		phalcon_array_fetch(&module, modules, module_name, PH_NOISY_CC);
 		if (Z_TYPE_P(module) != IS_ARRAY) { 
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition path");
 			return;
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(module, SS("path"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(path);
@@ -280,7 +295,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				return;
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(module, SS("className"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(class_name);
@@ -289,17 +304,17 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 			PHALCON_INIT_NVAR(class_name);
 			ZVAL_STRING(class_name, "Module", 1);
 		}
-		
+	
 		PHALCON_INIT_VAR(module_object);
 		PHALCON_CALL_METHOD_PARAMS_1(module_object, dependency_injector, "get", class_name, PH_NO_CHECK);
 		PHALCON_CALL_METHOD_NORETURN(module_object, "registerautoloaders", PH_NO_CHECK);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(module_object, "registerservices", dependency_injector, PH_NO_CHECK);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			phalcon_update_property_zval(this_ptr, SL("_moduleObject"), module_object TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "application:afterStartModule", 1);
-			
+	
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, module_name, PH_NO_CHECK);
 			if (PHALCON_IS_FALSE(status)) {
@@ -336,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "application:beforeHandleRequest", 1);
-		
+	
 		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, dispatcher, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
@@ -356,10 +371,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	if (Z_TYPE_P(controller) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(controller_name);
 		PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(action_name);
 		PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(params);
 		PHALCON_CALL_METHOD(params, dispatcher, "getparams", PH_NO_CHECK);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params, PH_NO_CHECK);

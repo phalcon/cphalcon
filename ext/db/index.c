@@ -52,6 +52,19 @@
 
 
 /**
+ * Phalcon\Db\Index initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Index){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Index, db_index, phalcon_db_index_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db\Index constructor
  *
  * @param string $indexName

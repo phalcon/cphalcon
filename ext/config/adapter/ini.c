@@ -72,6 +72,16 @@
 
 
 /**
+ * Phalcon\Config\Adapter\Ini initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Config_Adapter_Ini){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Ini, config_adapter_ini, "phalcon\\config", phalcon_config_adapter_ini_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Config\Adapter\Ini constructor
  *
  * @param string $filePath
@@ -108,7 +118,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	if (PHALCON_IS_FALSE(ini_config)) {
 		PHALCON_INIT_VAR(base_path);
 		PHALCON_CALL_FUNC_PARAMS_1(base_path, "basename", file_path);
-		
+	
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Configuration file ", base_path, " can't be loaded");
 		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_config_exception_ce, exception_message);
@@ -130,50 +140,50 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(directives);
-		
-		
+	
+	
 		if (!phalcon_valid_foreach(directives TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah1 = Z_ARRVAL_P(directives);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(value);
-			
+	
 			if (phalcon_memnstr_str(key, SL(".") TSRMLS_CC)) {
 				PHALCON_INIT_NVAR(directive_parts);
 				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_NVAR(right_part);
 				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY_CC);
 				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0 TSRMLS_CC);
 			} else {
 				phalcon_array_update_multi_2(&config, section, key, &value, 0 TSRMLS_CC);
 			}
-			
+	
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
-		
-		
+	
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);

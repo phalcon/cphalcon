@@ -44,6 +44,18 @@
 
 
 /**
+ * Phalcon\Translate initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Translate){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, phalcon_translate_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_class_implements(phalcon_translate_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+
+	return SUCCESS;
+}
+
+/**
  * Returns the translation string of the given key
  *
  * @param string $translateKey

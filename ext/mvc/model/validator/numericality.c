@@ -64,6 +64,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Numericality initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Numericality, mvc_model_validator_numericality, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_numericality_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
  * @param Phalcon\Mvc\Model $record
@@ -99,7 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	if (!zend_is_true(r0)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "numericality", 1);
-		
+	
 		PHALCON_INIT_VAR(message);
 		PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);

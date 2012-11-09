@@ -63,6 +63,16 @@
 
 
 /**
+ * Phalcon\Config initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Config){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Config, config, phalcon_config_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Config constructor
  *
  * @param array $arrayConfig
@@ -92,23 +102,23 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(array_config);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
-			
+	
 			if (Z_TYPE_P(value) == IS_ARRAY) { 
 				eval_int = phalcon_array_isset_long(value, 0);
 				if (!eval_int) {
@@ -122,13 +132,13 @@ PHP_METHOD(Phalcon_Config, __construct){
 			} else {
 				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_config_exception_ce, "The configuration must be an Array");
 		return;

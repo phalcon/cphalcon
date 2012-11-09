@@ -39,3 +39,13 @@
  */
 
 
+/**
+ * Phalcon\Session\Adapter\Files initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Session_Adapter_Files){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Files, session_adapter_files, "phalcon\\session", NULL, 0);
+
+	return SUCCESS;
+}
+

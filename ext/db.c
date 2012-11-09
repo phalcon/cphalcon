@@ -80,6 +80,32 @@
 
 
 /**
+ * Phalcon\Db initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Db, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_db_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_descriptor"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_dialectType"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_dialect"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_connectionId"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_ce, SL("_sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_ce, SL("_connectionConsecutive"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_NUM"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 4 TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db constructor
  *
  * @param array $descriptor
@@ -101,6 +127,11 @@ PHP_METHOD(Phalcon_Db, __construct){
 
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
+	
+	/** 
+	 * Every new connection created obtain a consecutive number from the static
+	 * property self::$_connectionConsecutive
+	 */
 	PHALCON_OBSERVE_VAR(connection_consecutive);
 	phalcon_read_static_property(&connection_consecutive, SL("phalcon\\db"), SL("_connectionConsecutive") TSRMLS_CC);
 	
@@ -112,7 +143,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 	if (!eval_int) {
 		PHALCON_INIT_VAR(dialect_type);
 		phalcon_read_property(&dialect_type, this_ptr, SL("_dialectType"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(dialect_class);
 		PHALCON_CONCAT_SV(dialect_class, "phalcon\\db\\dialect\\", dialect_type);
 	} else {
@@ -196,10 +227,10 @@ PHP_METHOD(Phalcon_Db, fetchOne){
 	PHALCON_CALL_METHOD_PARAMS_1(result, this_ptr, "query", sql_query, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(row);
 		PHALCON_CALL_METHOD(row, result, "fetcharray", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(row);
 	}
 	
@@ -256,7 +287,7 @@ PHP_METHOD(Phalcon_Db, fetchAll){
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
 		ph_cycle_start_0:
-			
+	
 			PHALCON_INIT_NVAR(r0);
 			PHALCON_CALL_METHOD(r0, result, "fetcharray", PH_NO_CHECK);
 			PHALCON_CPY_WRT(row, r0);
@@ -361,10 +392,10 @@ PHP_METHOD(Phalcon_Db, insert){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(value) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(str_value);
 			PHALCON_CALL_FUNC_PARAMS_1(str_value, "strval", value);
@@ -381,17 +412,17 @@ PHP_METHOD(Phalcon_Db, insert){
 						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
 						return;
 					}
-					
+	
 					PHALCON_INIT_NVAR(bind_type);
 					phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY_CC);
 					phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE TSRMLS_CC);
 				}
 			}
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(joined_values);
@@ -399,7 +430,7 @@ PHP_METHOD(Phalcon_Db, insert){
 	if (Z_TYPE_P(fields) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(joined_fields);
 		phalcon_fast_join_str(joined_fields, SL(", "), fields TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(insert_sql);
 		PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", joined_fields, ") VALUES (", joined_values, ")");
 	} else {
@@ -492,10 +523,10 @@ PHP_METHOD(Phalcon_Db, update){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		eval_int = phalcon_array_isset(fields, position);
 		if (eval_int) {
 			PHALCON_INIT_NVAR(field);
@@ -518,7 +549,7 @@ PHP_METHOD(Phalcon_Db, update){
 							PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Incomplete number of bind types");
 							return;
 						}
-						
+	
 						PHALCON_INIT_NVAR(bind_type);
 						phalcon_array_fetch(&bind_type, data_types, position, PH_NOISY_CC);
 						phalcon_array_append(&bind_data_types, bind_type, PH_SEPARATE TSRMLS_CC);
@@ -530,10 +561,10 @@ PHP_METHOD(Phalcon_Db, update){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The number of values in the update is not the same as fields");
 			return;
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(set_clause);
@@ -1246,16 +1277,16 @@ PHP_METHOD(Phalcon_Db, listTables){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(table);
-		
+	
 		PHALCON_INIT_NVAR(table_name);
 		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY_CC);
 		phalcon_array_append(&all_tables, table_name, PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	

@@ -46,6 +46,19 @@
 
 
 /**
+ * Phalcon\Acl\Resource initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl_Resource){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Acl, Resource, acl_resource, phalcon_acl_resource_method_entry, 0);
+
+	zend_declare_property_null(phalcon_acl_resource_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_resource_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Acl\Resource description
  *
  * @param string $name

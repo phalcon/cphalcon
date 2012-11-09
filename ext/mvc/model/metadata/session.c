@@ -53,6 +53,18 @@
 
 
 /**
+ * Phalcon\Mvc\Model\MetaData\Session initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Session, mvc_model_metadata_session, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_session_method_entry, 0);
+
+	zend_declare_property_string(phalcon_mvc_model_metadata_session_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\MetaData\Session constructor
  *
  * @param array $options
@@ -126,7 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 			phalcon_array_fetch(&r1, session, suffix_key, PH_NOISY_CC);
 			PHALCON_INIT_VAR(meta_data);
 			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
-			
+	
 			RETURN_CCTOR(meta_data);
 		}
 	}

@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -47,6 +47,23 @@
 
 
 /**
+ * Phalcon\Cache\Backend initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache, Backend, cache_backend, phalcon_cache_backend_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontendObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_backendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_fresh"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Backend constructor
  *
  * @param mixed $frontendObject
@@ -55,15 +72,12 @@
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend_object, *backend_options = NULL, *prefix;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
+	phalcon_update_property_empty_array(phalcon_cache_backend_ce, this_ptr, SL("_backendOptions") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_cache_backend_ce, this_ptr, SL("_backendOptions"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

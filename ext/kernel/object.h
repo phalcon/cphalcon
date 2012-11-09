@@ -49,8 +49,8 @@ extern int phalcon_update_property_string(zval *obj, char *property_name, int pr
 extern int phalcon_update_property_bool(zval *obj, char *property_name, int property_length, int value TSRMLS_DC);
 extern int phalcon_update_property_null(zval *obj, char *property_name, int property_length TSRMLS_DC);
 extern int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC);
-
 extern int phalcon_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
+extern int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
 
 /** Static properties */
 extern int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC);

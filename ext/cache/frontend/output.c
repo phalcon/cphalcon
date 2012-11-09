@@ -86,6 +86,19 @@
 
 
 /**
+ * Phalcon\Cache\Frontend\Output initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Output){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Output, cache_frontend_output, phalcon_cache_frontend_output_method_entry, 0);
+
+	zend_declare_property_bool(phalcon_cache_frontend_output_ce, SL("_buffering"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_frontend_output_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Frontend\Output constructor
  *
  * @param array $frontendOptions
@@ -93,14 +106,11 @@
 PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	zval *frontend_options = NULL;
-	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 
+	phalcon_update_property_empty_array(phalcon_cache_frontend_output_ce, this_ptr, SL("_frontendOptions") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_cache_frontend_output_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -135,7 +145,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 		if (eval_int) {
 			PHALCON_INIT_VAR(lifetime);
 			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
-			
+	
 			RETURN_CCTOR(lifetime);
 		}
 	}
@@ -189,7 +199,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 	if (zend_is_true(buffering)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-		
+	
 		RETURN_CCTOR(contents);
 	}
 	

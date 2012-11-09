@@ -62,23 +62,34 @@
 
 
 /**
+ * Phalcon\DI initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_DI){
+
+	PHALCON_REGISTER_CLASS(Phalcon, DI, di, phalcon_di_method_entry, 0);
+
+	zend_declare_property_null(phalcon_di_ce, SL("_services"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_ce, SL("_sharedInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_di_ce, SL("_freshInstance"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_ce, SL("_default"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\DI constructor
  *
  */
 PHP_METHOD(Phalcon_DI, __construct){
 
 	zval *default_di = NULL;
-	zval *a0 = NULL, *a1 = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_di_ce, this_ptr, SL("_services"), a0 TSRMLS_CC);
+	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_services") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a1);
-	array_init(a1);
-	zend_update_property(phalcon_di_ce, this_ptr, SL("_sharedInstances"), a1 TSRMLS_CC);
+	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_sharedInstances") TSRMLS_CC);
+	
 	PHALCON_OBSERVE_VAR(default_di);
 	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
 	if (!zend_is_true(default_di)) {
@@ -266,7 +277,7 @@ PHP_METHOD(Phalcon_DI, _factory){
 					PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
 					return;
 				}
-				
+	
 				PHALCON_INIT_VAR(class_name);
 				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -287,8 +298,8 @@ PHP_METHOD(Phalcon_DI, _factory){
 						return;
 					}
 				}
-				
-				
+	
+	
 				RETURN_CCTOR(instance);
 			} else {
 				ZVAL_BOOL(found, 0);
@@ -397,7 +408,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	} else {
 		PHALCON_INIT_NVAR(instance);
 		PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", alias, parameters, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(t0);
 		phalcon_read_property(&t0, this_ptr, SL("_sharedInstances"), PH_NOISY_CC);
 		phalcon_array_update_zval(&t0, alias, &instance, PH_COPY TSRMLS_CC);
@@ -480,10 +491,10 @@ PHP_METHOD(Phalcon_DI, __call){
 	if (phalcon_start_with_str(method, SL("get"))) {
 		PHALCON_INIT_VAR(services);
 		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(service_name);
 		PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
-		
+	
 		PHALCON_INIT_VAR(possible_service);
 		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
 		eval_int = phalcon_array_isset(services, possible_service);
@@ -495,7 +506,7 @@ PHP_METHOD(Phalcon_DI, __call){
 				PHALCON_INIT_NVAR(instance);
 				PHALCON_CALL_METHOD_PARAMS_1(instance, this_ptr, "get", possible_service, PH_NO_CHECK);
 			}
-			
+	
 			RETURN_CCTOR(instance);
 		}
 	} else {
@@ -504,10 +515,10 @@ PHP_METHOD(Phalcon_DI, __call){
 			if (eval_int) {
 				PHALCON_INIT_NVAR(service_name);
 				PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
-				
+	
 				PHALCON_INIT_NVAR(possible_service);
 				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
-				
+	
 				PHALCON_INIT_VAR(handler);
 				phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
 				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler, PH_NO_CHECK);

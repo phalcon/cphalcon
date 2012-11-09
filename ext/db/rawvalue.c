@@ -50,6 +50,18 @@
 
 
 /**
+ * Phalcon\Db\RawValue initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_RawValue){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, RawValue, db_rawvalue, phalcon_db_rawvalue_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db\RawValue constructor
  *
  * @param string $value

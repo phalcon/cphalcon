@@ -48,6 +48,19 @@
 
 
 /**
+ * Phalcon\DI\Injectable initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_DI_Injectable){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\DI, Injectable, di_injectable, phalcon_di_injectable_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_di_injectable_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_injectable_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injector
  *
  * @param Phalcon\DI $dependencyInjector
@@ -134,31 +147,31 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		PHALCON_INIT_VAR(service);
 		PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "getshared", property_name, PH_NO_CHECK);
 		phalcon_update_property_zval_zval(this_ptr, property_name, service TSRMLS_CC);
-		
+	
 		RETURN_CCTOR(service);
 	}
 	
 	if (PHALCON_COMPARE_STRING(property_name, "di")) {
 		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
-		
+	
 		RETURN_CCTOR(dependency_injector);
 	}
 	
 	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 		phalcon_array_append(&arguments, class_name, PH_SEPARATE TSRMLS_CC);
-		
+	
 		PHALCON_INIT_NVAR(service);
 		ZVAL_STRING(service, "sessionBag", 1);
-		
+	
 		PHALCON_INIT_VAR(persistent);
 		PHALCON_CALL_METHOD_PARAMS_2(persistent, dependency_injector, "get", service, arguments, PH_NO_CHECK);
 		phalcon_update_property_zval(this_ptr, SL("persistent"), persistent TSRMLS_CC);
-		
+	
 		RETURN_CCTOR(persistent);
 	}
 	

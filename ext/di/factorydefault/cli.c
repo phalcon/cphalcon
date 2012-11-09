@@ -46,6 +46,16 @@
 
 
 /**
+ * Phalcon\DI\FactoryDefault\CLI initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_DI_FactoryDefault_CLI){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\DI\\FactoryDefault, CLI, di_factorydefault_cli, "phalcon\\di\\factorydefault", phalcon_di_factorydefault_cli_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\DI\FactoryDefault\CLI constructor
  */
 PHP_METHOD(Phalcon_DI_FactoryDefault_CLI, __construct){

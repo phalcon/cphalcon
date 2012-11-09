@@ -68,6 +68,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\StringLength initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, StringLength, mvc_model_validator_stringlength, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_stringlength_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
  * @return boolean

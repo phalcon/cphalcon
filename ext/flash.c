@@ -53,6 +53,20 @@
 
 
 /**
+ * Phalcon\Flash initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Flash){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Flash, flash, phalcon_flash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_flash_ce, SL("_cssClasses"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_flash_ce, SL("_implicitFlush"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_flash_ce, SL("_automaticHtml"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Flash constructor
  *
  * @param array $cssClasses
@@ -306,7 +320,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			if (Z_TYPE_P(type_classes) == IS_ARRAY) { 
 				PHALCON_INIT_VAR(joined_classes);
 				phalcon_fast_join_str(joined_classes, SL(" "), type_classes TSRMLS_CC);
-				
+	
 				PHALCON_INIT_VAR(css_classes);
 				PHALCON_CONCAT_SVS(css_classes, " class=\"", joined_classes, "\"");
 			} else {
@@ -317,7 +331,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			PHALCON_INIT_NVAR(css_classes);
 			ZVAL_STRING(css_classes, "", 1);
 		}
-		
+	
 		PHALCON_INIT_VAR(eol);
 		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	}
@@ -329,22 +343,22 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			PHALCON_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
-		
+	
 		if (!phalcon_valid_foreach(message TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(message);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(msg);
-			
+	
 			if (PHALCON_IS_TRUE(automatic_html)) {
 				PHALCON_INIT_NVAR(html_message);
 				PHALCON_CONCAT_SVSVSV(html_message, "<div", css_classes, ">", msg, "</div>", eol);
@@ -356,14 +370,14 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			} else {
 				phalcon_concat_self(content, html_message TSRMLS_CC);
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
-		
+	
 		if (PHALCON_IS_FALSE(implicit_flush)) {
-			
+	
 			RETURN_CTOR(content);
 		}
 	} else {
@@ -376,7 +390,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		if (PHALCON_IS_TRUE(implicit_flush)) {
 			zend_print_zval(html_message, 1);
 		} else {
-			
+	
 			RETURN_CCTOR(html_message);
 		}
 	}

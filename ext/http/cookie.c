@@ -33,19 +33,17 @@
 #include "kernel/memory.h"
 
 /**
- * Phalcon\Db\Exception
- *
- * Exceptions thrown in Phalcon\Db will use this class
+ * Phalcon\Http\Cookie
  *
  */
 
 
 /**
- * Phalcon\Db\Exception initializer
+ * Phalcon\Http\Cookie initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Db_Exception){
+PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db, Exception, db_exception, "phalcon\\exception", NULL, 0);
+	PHALCON_REGISTER_CLASS(Phalcon\\Http, Cookie, http_cookie, NULL, 0);
 
 	return SUCCESS;
 }

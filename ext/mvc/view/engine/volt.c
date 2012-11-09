@@ -50,6 +50,18 @@
 
 
 /**
+ * Phalcon\Mvc\View\Engine\Volt initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injection container
  *
  * @param Phalcon\DI $dependencyInjector
@@ -180,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 				return;
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(options, SS("compiledExtension"));
 		if (eval_int) {
 			PHALCON_INIT_NVAR(compiled_extension);
@@ -190,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 				return;
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(options, SS("stat"));
 		if (eval_int) {
 			phalcon_array_fetch_string(&stat, options, SL("stat"), PH_NOISY_CC);
@@ -200,13 +212,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
 		PHALCON_INIT_VAR(win_separator);
 		ZVAL_STRING(win_separator, "\\", 1);
-		
+	
 		PHALCON_INIT_VAR(unix_separator);
 		ZVAL_STRING(unix_separator, "/", 1);
-		
+	
 		PHALCON_INIT_VAR(template_win_path);
 		phalcon_fast_str_replace(template_win_path, win_separator, compiled_separator, template_path TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(template_sep_path);
 		phalcon_fast_str_replace(template_sep_path, unix_separator, compiled_separator, template_win_path TSRMLS_CC);
 	} else {
@@ -249,17 +261,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 			return;
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
@@ -268,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-		
+	
 		PHALCON_INIT_VAR(view);
 		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);

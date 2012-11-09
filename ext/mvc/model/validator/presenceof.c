@@ -66,6 +66,16 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\PresenceOf initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_PresenceOf){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, PresenceOf, mvc_model_validator_presenceof, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_presenceof_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
  * @param Phalcon\Mvc\Model $record
@@ -98,17 +108,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 	if (PHALCON_IS_EMPTY(value)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "PresenceOf", 1);
-		
+	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);
-		
+	
 		PHALCON_INIT_VAR(message);
 		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "The field '", field_name, "' is required");
 		}
-		
+	
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

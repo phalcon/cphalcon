@@ -63,6 +63,20 @@
 
 
 /**
+ * Phalcon\Session initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Session){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Session, session, phalcon_session_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_session_ce, SL("_uniqueId"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_session_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Session construtor
  *
  * @param array $options
@@ -191,7 +205,7 @@ PHP_METHOD(Phalcon_Session, get){
 	if (eval_int) {
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, g0, key, PH_NOISY_CC);
-		
+	
 		RETURN_CCTOR(value);
 	}
 	
