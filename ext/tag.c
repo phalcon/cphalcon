@@ -1325,9 +1325,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
  */
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
-	zval *parameters = NULL, *local = NULL, *params = NULL, *url, *params_src;
-	zval *src, *code, *value = NULL, *key = NULL;
-	zval *r0 = NULL;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
+	zval *url, *params_src, *src, *code, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1367,9 +1366,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_long(params, 0);
 		if (eval_int) {
-			PHALCON_INIT_VAR(r0);
-			phalcon_array_fetch_long(&r0, params, 0, PH_NOISY_CC);
-			phalcon_array_update_string(&params, SL("src"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_INIT_VAR(first_param);
+			phalcon_array_fetch_long(&first_param, params, 0, PH_NOISY_CC);
+			phalcon_array_update_string(&params, SL("src"), &first_param, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string_string(&params, SL("src"), SL(""), PH_SEPARATE TSRMLS_CC);
 		}

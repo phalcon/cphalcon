@@ -412,9 +412,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
  */
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 
-	zval *prefix = NULL, *memcache = NULL, *start, *prefix_length;
-	zval *backend_options, *special_key, *keys, *prefixed_keys;
-	zval *ttl = NULL, *key = NULL, *part = NULL, *is_different = NULL, *empty_arr;
+	zval *prefix = NULL, *memcache = NULL, *backend_options, *special_key;
+	zval *keys, *prefixed_keys, *ttl = NULL, *key = NULL, *empty_arr;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -442,12 +441,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 		PHALCON_INIT_NVAR(memcache);
 		phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
 	}
-	
-	PHALCON_INIT_VAR(start);
-	ZVAL_LONG(start, 0);
-	
-	PHALCON_INIT_VAR(prefix_length);
-	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(backend_options);
 	phalcon_read_property(&backend_options, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
@@ -478,12 +471,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 			PHALCON_GET_FOREACH_VALUE(ttl);
 			
 			if (zend_is_true(prefix)) {
-				PHALCON_INIT_NVAR(part);
-				PHALCON_CALL_FUNC_PARAMS_3(part, "substr", key, start, prefix_length);
-				
-				PHALCON_INIT_NVAR(is_different);
-				is_not_equal_function(is_different, part, prefix TSRMLS_CC);
-				if (PHALCON_IS_TRUE(is_different)) {
+				if (!phalcon_start_with(key, prefix)) {
 					zend_hash_move_forward_ex(ah0, &hp0);
 					goto ph_cycle_start_0;
 				}

@@ -565,3 +565,61 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 	}
 
 }
+
+/**
+ * Checks if a zval string starts with a zval string
+ */
+int phalcon_start_with(zval *str, zval *compared){
+
+	int i;
+	char *op1_cursor, *op2_cursor;
+
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
+		return 0;
+	}
+
+	if (Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	op1_cursor = Z_STRVAL_P(str);
+	op2_cursor = Z_STRVAL_P(compared);
+	for (i = 0; i<Z_STRLEN_P(compared); i++){
+		if ((*op1_cursor) != (*op2_cursor)) {
+			return 0;
+		}
+		op1_cursor++;
+		op2_cursor++;
+	}
+
+	return 1;
+}
+
+/**
+ * Checks if a zval string starts with a string
+ */
+int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length){
+
+	char *op1_cursor, *op2_cursor;
+	int i;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		return 0;
+	}
+
+	if (compared_length > Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	op1_cursor = Z_STRVAL_P(str);
+	op2_cursor = compared;
+	for (i = 0; i<compared_length; i++){
+		if ((*op1_cursor) != (*op2_cursor)) {
+			return 0;
+		}
+		op1_cursor++;
+		op2_cursor++;
+	}
+
+	return 1;
+}

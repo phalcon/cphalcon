@@ -40,6 +40,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\DI
@@ -457,9 +458,9 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
  */
 PHP_METHOD(Phalcon_DI, __call){
 
-	zval *method, *arguments = NULL, *zero, *three, *action, *services;
-	zval *service_name = NULL, *possible_service = NULL, *instance = NULL;
-	zval *handler, *exception_message;
+	zval *method, *arguments = NULL, *three, *services, *service_name = NULL;
+	zval *possible_service = NULL, *instance = NULL, *handler;
+	zval *exception_message;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -474,15 +475,9 @@ PHP_METHOD(Phalcon_DI, __call){
 		array_init(arguments);
 	}
 	
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
-	
 	PHALCON_INIT_VAR(three);
 	ZVAL_LONG(three, 3);
-	
-	PHALCON_INIT_VAR(action);
-	PHALCON_CALL_FUNC_PARAMS_3(action, "substr", method, zero, three);
-	if (PHALCON_COMPARE_STRING(action, "get")) {
+	if (phalcon_start_with_str(method, SL("get"))) {
 		PHALCON_INIT_VAR(services);
 		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 		
@@ -504,7 +499,7 @@ PHP_METHOD(Phalcon_DI, __call){
 			RETURN_CCTOR(instance);
 		}
 	} else {
-		if (PHALCON_COMPARE_STRING(action, "set")) {
+		if (phalcon_start_with_str(method, SL("set"))) {
 			eval_int = phalcon_array_isset_long(arguments, 0);
 			if (eval_int) {
 				PHALCON_INIT_NVAR(service_name);

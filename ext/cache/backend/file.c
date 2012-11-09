@@ -342,9 +342,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 
-	zval *prefix = NULL, *start, *keys, *backend, *prefix_length;
-	zval *cache_dir, *iterator, *item = NULL, *is_directory = NULL;
-	zval *key = NULL, *part = NULL, *is_different = NULL;
+	zval *prefix = NULL, *keys, *backend, *cache_dir, *iterator;
+	zval *item = NULL, *is_directory = NULL, *key = NULL;
 	zval *r0 = NULL;
 	zend_class_entry *ce0;
 
@@ -359,17 +358,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 		PHALCON_INIT_NVAR(prefix);
 	}
 	
-	PHALCON_INIT_VAR(start);
-	ZVAL_LONG(start, 0);
-	
 	PHALCON_INIT_VAR(keys);
 	array_init(keys);
 	
 	PHALCON_INIT_VAR(backend);
 	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(prefix_length);
-	phalcon_fast_strlen(prefix_length, prefix);
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
@@ -395,12 +388,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 			PHALCON_INIT_NVAR(key);
 			PHALCON_CALL_METHOD(key, item, "getfilename", PH_NO_CHECK);
 			if (zend_is_true(prefix)) {
-				PHALCON_INIT_NVAR(part);
-				PHALCON_CALL_FUNC_PARAMS_3(part, "substr", key, start, prefix_length);
-				
-				PHALCON_INIT_NVAR(is_different);
-				is_not_equal_function(is_different, part, prefix TSRMLS_CC);
-				if (PHALCON_IS_TRUE(is_different)) {
+				if (!phalcon_start_with(key, prefix)) {
 					goto ph_cycle_start_0;
 				}
 			}

@@ -3912,8 +3912,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 
 	zval *model_name, *method, *arguments, *dependency_injector;
-	zval *service, *manager, *zero, *three, *manager_method = NULL;
-	zval *action = NULL, *requested_relation = NULL, *exists = NULL, *query_method = NULL;
+	zval *service, *manager, *three, *manager_method = NULL;
+	zval *requested_relation = NULL, *exists = NULL, *query_method = NULL;
 	zval *five, *extra_args = NULL, *call_args, *call_object;
 	zval *result;
 	int eval_int;
@@ -3942,18 +3942,14 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(zero);
-	ZVAL_LONG(zero, 0);
-	
 	PHALCON_INIT_VAR(three);
 	ZVAL_LONG(three, 3);
-	
+	/** 
+	 * Calling find/findFirst if the method starts with "get"
+	 */
 	PHALCON_INIT_VAR(manager_method);
 	ZVAL_BOOL(manager_method, 0);
-	
-	PHALCON_INIT_VAR(action);
-	PHALCON_CALL_FUNC_PARAMS_3(action, "substr", method, zero, three);
-	if (PHALCON_COMPARE_STRING(action, "get")) {
+	if (phalcon_start_with_str(method, SL("get"))) {
 		PHALCON_INIT_VAR(requested_relation);
 		PHALCON_CALL_FUNC_PARAMS_2(requested_relation, "substr", method, three);
 		
@@ -3987,13 +3983,17 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		}
 	}
 	
+	/** 
+	 * Calling count if the method starts with "get"
+	 */
 	if (PHALCON_IS_FALSE(manager_method)) {
-		PHALCON_INIT_VAR(five);
-		ZVAL_LONG(five, 5);
-		
-		PHALCON_INIT_NVAR(action);
-		PHALCON_CALL_FUNC_PARAMS_3(action, "substr", method, zero, five);
-		if (PHALCON_COMPARE_STRING(action, "count")) {
+		/** 
+		 * Calling count if the method starts with "get"
+		 */
+		if (phalcon_start_with_str(method, SL("count"))) {
+			PHALCON_INIT_VAR(five);
+			ZVAL_LONG(five, 5);
+			
 			PHALCON_INIT_NVAR(query_method);
 			ZVAL_STRING(query_method, "count", 1);
 			

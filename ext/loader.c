@@ -301,8 +301,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *class_name, *events_manager, *event_name = NULL;
 	zval *classes, *file_path = NULL, *extensions, *ds, *namespace_separator;
 	zval *empty_str, *zero, *namespaces, *directory = NULL;
-	zval *prefix = NULL, *prefix_len = NULL, *possible_prefix = NULL;
-	zval *have_prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
+	zval *prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
 	zval *extension = NULL, *complete_path = NULL, *pseudo_separator;
 	zval *prefixes, *no_prefix_class = NULL, *ds_class_name;
 	zval *ns_class_name, *directories;
@@ -330,6 +329,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, class_name, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * First we check for static paths for classes
+	 */
 	PHALCON_INIT_VAR(classes);
 	phalcon_read_property(&classes, this_ptr, SL("_classes"), PH_NOISY_CC);
 	if (Z_TYPE_P(classes) == IS_ARRAY) { 
@@ -367,7 +369,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
-	
+	/** 
+	 * Checking in namespaces
+	 */
 	PHALCON_INIT_VAR(namespaces);
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
@@ -388,15 +392,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(prefix, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
-			PHALCON_INIT_NVAR(prefix_len);
-			phalcon_fast_strlen(prefix_len, prefix);
-			
-			PHALCON_INIT_NVAR(possible_prefix);
-			PHALCON_CALL_FUNC_PARAMS_3(possible_prefix, "substr", class_name, zero, prefix_len);
-			
-			PHALCON_INIT_NVAR(have_prefix);
-			is_equal_function(have_prefix, possible_prefix, prefix TSRMLS_CC);
-			if (PHALCON_IS_TRUE(have_prefix)) {
+			if (phalcon_start_with(class_name, prefix)) {
 				PHALCON_INIT_NVAR(prefix_namespace);
 				PHALCON_CONCAT_VV(prefix_namespace, prefix, namespace_separator);
 				
@@ -466,7 +462,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	PHALCON_INIT_VAR(pseudo_separator);
 	ZVAL_STRING(pseudo_separator, "_", 1);
-	
+	/** 
+	 * Checking in prefixes
+	 */
 	PHALCON_INIT_VAR(prefixes);
 	phalcon_read_property(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
@@ -487,15 +485,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(prefix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
 			
-			PHALCON_INIT_NVAR(prefix_len);
-			phalcon_fast_strlen(prefix_len, prefix);
-			
-			PHALCON_INIT_NVAR(possible_prefix);
-			PHALCON_CALL_FUNC_PARAMS_3(possible_prefix, "substr", class_name, zero, prefix_len);
-			
-			PHALCON_INIT_NVAR(have_prefix);
-			is_equal_function(have_prefix, possible_prefix, prefix TSRMLS_CC);
-			if (PHALCON_IS_TRUE(have_prefix)) {
+			if (phalcon_start_with(class_name, prefix)) {
 				PHALCON_INIT_NVAR(no_prefix_class);
 				phalcon_fast_str_replace(no_prefix_class, prefix, empty_str, class_name TSRMLS_CC);
 				
@@ -568,7 +558,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	PHALCON_INIT_VAR(ns_class_name);
 	phalcon_fast_str_replace(ns_class_name, namespace_separator, ds, ds_class_name TSRMLS_CC);
-	
+	/** 
+	 * Checking in directories
+	 */
 	PHALCON_INIT_VAR(directories);
 	phalcon_read_property(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) { 
