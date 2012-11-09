@@ -162,14 +162,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -204,9 +198,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
-	zval *auto_begin = NULL, *initialized, *dependency_injector;
-	zval *number, *transaction = NULL;
-	zval *a0 = NULL;
+	zval *auto_begin = NULL, *initialized, *rollback_pendent;
+	zval *dependency_injector, *number, *transaction = NULL;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
 	zval *r0 = NULL;
 	zval *c0 = NULL;
@@ -226,11 +219,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	PHALCON_INIT_VAR(initialized);
 	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (zend_is_true(initialized)) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		phalcon_array_append(&a0, this_ptr, PH_SEPARATE TSRMLS_CC);
-		add_next_index_stringl(a0, SL("rollbackPendent"), 1);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", a0);
+		PHALCON_INIT_VAR(rollback_pendent);
+		array_init(rollback_pendent);
+		phalcon_array_append(&rollback_pendent, this_ptr, PH_SEPARATE TSRMLS_CC);
+		add_next_index_stringl(rollback_pendent, SL("rollbackPendent"), 1);
+		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", rollback_pendent);
 		phalcon_update_property_bool(this_ptr, SL("_initialized"), 1 TSRMLS_CC);
 	}
 	

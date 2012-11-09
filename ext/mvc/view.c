@@ -1072,7 +1072,7 @@ PHP_METHOD(Phalcon_Mvc_View, finish){
 /**
  * Create a Phalcon\Cache based on the internal cache options
  *
- * @return Phalcon\Cache\Backend
+ * @return Phalcon\Cache\BackendInterface
  */
 PHP_METHOD(Phalcon_Mvc_View, _createCache){
 
@@ -1118,7 +1118,7 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 /**
  * Returns the cache instance used to cache
  *
- * @return Phalcon\Cache\Backend
+ * @return Phalcon\Cache\BackendInterface
  */
 PHP_METHOD(Phalcon_Mvc_View, getCache){
 

@@ -158,6 +158,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getTempName){
  * Move the temporary file to a destination
  *
  * @param string $destination
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 

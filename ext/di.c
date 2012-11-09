@@ -77,29 +77,6 @@ PHALCON_INIT_CLASS(Phalcon_DI){
 }
 
 /**
- * Phalcon\DI constructor
- *
- */
-PHP_METHOD(Phalcon_DI, __construct){
-
-	zval *default_di = NULL;
-
-	PHALCON_MM_GROW();
-
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_services") TSRMLS_CC);
-	
-	phalcon_update_property_empty_array(phalcon_di_ce, this_ptr, SL("_sharedInstances") TSRMLS_CC);
-	
-	PHALCON_OBSERVE_VAR(default_di);
-	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
-	if (!zend_is_true(default_di)) {
-		phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), this_ptr TSRMLS_CC);
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
  * Registers a service in the services container
  *
  * @param string $alias
@@ -129,14 +106,13 @@ PHP_METHOD(Phalcon_DI, set){
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
+	
 }
 
 /**
  * Removes a service in the services container
  *
  * @param string $alias
- * @param mixed $config
- * @return Phalcon\DI
  */
 PHP_METHOD(Phalcon_DI, remove){
 
@@ -161,6 +137,7 @@ PHP_METHOD(Phalcon_DI, remove){
 	phalcon_array_unset(t0, alias);
 	
 	PHALCON_MM_RESTORE();
+	
 }
 
 /**
@@ -199,123 +176,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	
 	
 	RETURN_CTOR(this_ptr);
-}
-
-/**
- * Factories instances based on its config
- *
- * @param string $service
- * @param mixed $parameters
- * @return mixed
- */
-PHP_METHOD(Phalcon_DI, _factory){
-
-	zval *service, *parameters, *found = NULL, *instance = NULL, *class_name;
-	zval *exception_message;
-	int eval_int;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &service, &parameters) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(found);
-	ZVAL_BOOL(found, 1);
 	
-	PHALCON_INIT_VAR(instance);
-	if (Z_TYPE_P(service) == IS_STRING) {
-		if (phalcon_class_exists(service TSRMLS_CC)) {
-			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-					if (phalcon_create_instance_params(instance, service, parameters TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance(instance, service TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				}
-			} else {
-				PHALCON_INIT_NVAR(instance);
-				if (phalcon_create_instance(instance, service TSRMLS_CC) == FAILURE) {
-					return;
-				}
-			}
-		} else {
-			if (phalcon_is_callable(service TSRMLS_CC)) {
-				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC(instance, service);
-				}
-			} else {
-				ZVAL_BOOL(found, 0);
-			}
-		}
-	} else {
-		if (Z_TYPE_P(service) == IS_OBJECT) {
-			if (phalcon_is_instance_of(service, SL("Closure") TSRMLS_CC)) {
-				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC_ARRAY(instance, service, parameters);
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					PHALCON_CALL_USER_FUNC(instance, service);
-				}
-			} else {
-				PHALCON_CPY_WRT(instance, service);
-			}
-		} else {
-			if (Z_TYPE_P(service) == IS_ARRAY) { 
-				eval_int = phalcon_array_isset_string(service, SS("className"));
-				if (!eval_int) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
-					return;
-				}
-	
-				PHALCON_INIT_VAR(class_name);
-				phalcon_array_fetch_string(&class_name, service, SL("className"), PH_NOISY_CC);
-				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(instance);
-						if (phalcon_create_instance_params(instance, service, parameters TSRMLS_CC) == FAILURE) {
-							return;
-						}
-					} else {
-						PHALCON_INIT_NVAR(instance);
-						if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-							return;
-						}
-					}
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				}
-	
-	
-				RETURN_CCTOR(instance);
-			} else {
-				ZVAL_BOOL(found, 0);
-			}
-		}
-	}
-	
-	if (PHALCON_IS_FALSE(found)) {
-		PHALCON_INIT_VAR(exception_message);
-		PHALCON_CONCAT_SVS(exception_message, "Service '", service, "' wasn't found in the dependency injection container");
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
-		return;
-	}
-	
-	
-	RETURN_CCTOR(instance);
 }
 
 /**
@@ -366,6 +227,7 @@ PHP_METHOD(Phalcon_DI, get){
 	
 	
 	RETURN_CCTOR(instance);
+	
 }
 
 /**
@@ -418,11 +280,13 @@ PHP_METHOD(Phalcon_DI, getShared){
 	
 	
 	RETURN_CCTOR(instance);
+	
 }
 
 /**
  * Check whether the DI contains a service by a name
  *
+ * @param string $alias
  * @return boolean
  */
 PHP_METHOD(Phalcon_DI, has){
@@ -447,6 +311,7 @@ PHP_METHOD(Phalcon_DI, has){
 	PHALCON_CPY_WRT(is_set_service, r0);
 	
 	RETURN_NCTOR(is_set_service);
+	
 }
 
 /**
@@ -458,86 +323,13 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
 
 	RETURN_MEMBER(this_ptr, "_freshInstance");
-}
-
-/**
- * Magic method to get or set services using setters/getters
- *
- * @param string $method
- * @param array $arguments
- * @return mixed
- */
-PHP_METHOD(Phalcon_DI, __call){
-
-	zval *method, *arguments = NULL, *three, *services, *service_name = NULL;
-	zval *possible_service = NULL, *instance = NULL, *handler;
-	zval *exception_message;
-	int eval_int;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
-		array_init(arguments);
-	}
 	
-	PHALCON_INIT_VAR(three);
-	ZVAL_LONG(three, 3);
-	if (phalcon_start_with_str(method, SL("get"))) {
-		PHALCON_INIT_VAR(services);
-		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(service_name);
-		PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
-	
-		PHALCON_INIT_VAR(possible_service);
-		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
-		eval_int = phalcon_array_isset(services, possible_service);
-		if (eval_int) {
-			if (phalcon_fast_count_ev(arguments TSRMLS_CC)) {
-				PHALCON_INIT_VAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_2(instance, this_ptr, "get", possible_service, arguments, PH_NO_CHECK);
-			} else {
-				PHALCON_INIT_NVAR(instance);
-				PHALCON_CALL_METHOD_PARAMS_1(instance, this_ptr, "get", possible_service, PH_NO_CHECK);
-			}
-	
-			RETURN_CCTOR(instance);
-		}
-	} else {
-		if (phalcon_start_with_str(method, SL("set"))) {
-			eval_int = phalcon_array_isset_long(arguments, 0);
-			if (eval_int) {
-				PHALCON_INIT_NVAR(service_name);
-				PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
-	
-				PHALCON_INIT_NVAR(possible_service);
-				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
-	
-				PHALCON_INIT_VAR(handler);
-				phalcon_array_fetch_long(&handler, arguments, 0, PH_NOISY_CC);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", possible_service, handler, PH_NO_CHECK);
-				PHALCON_MM_RESTORE();
-				RETURN_NULL();
-			}
-		}
-	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
-	return;
 }
 
 /**
  * Set a default dependency injection container to be obtained into static methods
  *
- * @param string $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_DI, setDefault){
 
@@ -549,12 +341,13 @@ PHP_METHOD(Phalcon_DI, setDefault){
 
 	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), dependency_injector TSRMLS_CC);
 	
+	
 }
 
 /**
- * Return the last DI created
+ * Return the lastest DI created
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_DI, getDefault){
 
@@ -566,6 +359,7 @@ PHP_METHOD(Phalcon_DI, getDefault){
 	phalcon_read_static_property(&default_di, SL("phalcon\\di"), SL("_default") TSRMLS_CC);
 	
 	RETURN_CCTOR(default_di);
+	
 }
 
 /**
@@ -581,5 +375,6 @@ PHP_METHOD(Phalcon_DI, reset){
 	phalcon_update_static_property(SL("phalcon\\di"), SL("_default"), null_value TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+	
 }
 

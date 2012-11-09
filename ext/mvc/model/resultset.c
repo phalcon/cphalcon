@@ -111,14 +111,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
 
-	zval *pointer;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(pointer);
-	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(pointer);
+	RETURN_MEMBER(this_ptr, "_pointer");
 }
 
 /**
@@ -474,14 +468,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
-	zval *is_fresh;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(is_fresh);
-	phalcon_read_property(&is_fresh, this_ptr, SL("_isFresh"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(is_fresh);
+	RETURN_MEMBER(this_ptr, "_isFresh");
 }
 
 /**
@@ -491,14 +479,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 
-	zval *cache;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(cache);
-	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(cache);
+	RETURN_MEMBER(this_ptr, "_cache");
 }
 
 /**
@@ -508,13 +490,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
-	zval *active_row;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(active_row);
-	phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(active_row);
+	RETURN_MEMBER(this_ptr, "_activeRow");
 }
 

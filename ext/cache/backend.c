@@ -66,7 +66,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
 /**
  * Phalcon\Cache\Backend constructor
  *
- * @param mixed $frontendObject
+ * @param Phalcon\Cache\FrontendInterface $frontendObject
  * @param array $backendOptions
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct){

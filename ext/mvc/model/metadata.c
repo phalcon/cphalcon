@@ -86,7 +86,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
 /**
  * Initialize the metadata for certain table
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param string $key
  * @param string $table
  * @param string $schema
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 /**
  * Reads meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 /**
  * Writes meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
  * @param mixed $data
  */
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 /**
  * Returns table attributes names (fields)
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return 	array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 /**
  * Returns an array of fields which are part of the primary key
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
 /**
  * Returns an arrau of fields which are not part of the primary key
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return 	array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
 /**
  * Returns an array of not null attributes
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
 /**
  * Returns attributes and their data types
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 /**
  * Returns attributes which types are numerical
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
@@ -597,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
 /**
  * Returns the name of identity field (if one is present)
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
@@ -623,7 +623,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
 /**
  * Returns attributes and their bind data types
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
@@ -654,7 +654,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
 /**
  * Returns attributes that must be ignored from the INSERT SQL generation
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
@@ -685,7 +685,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
 /**
  * Returns attributes that must be ignored from the UPDATE SQL generation
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
@@ -716,7 +716,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @param  array $attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
 /**
  * Set the attributes that must be ignored from the UPDATE SQL generation
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @param  array $attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes){
@@ -793,26 +793,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 
-	zval *a0 = NULL;
+	zval *empty_array;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, read){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, write){
-
-
-	
 }
 

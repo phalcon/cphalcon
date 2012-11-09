@@ -142,6 +142,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, getLifetime){
 
 /**
  * Check whether if frontend is buffering output
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Base64, isBuffering){
 

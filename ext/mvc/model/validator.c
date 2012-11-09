@@ -150,14 +150,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
 
-	zval *messages;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(messages);
+	RETURN_MEMBER(this_ptr, "_messages");
 }
 
 /**
@@ -167,14 +161,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
 
-	zval *options;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(options);
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**

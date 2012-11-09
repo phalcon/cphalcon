@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct){
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI){
 
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI){
 /**
  * Returns the DependencyInjector container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
 
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager){
 
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager){
 
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager){
 /**
  * Initializes a model in the model manager
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized){
 /**
  * Get last initialized model
  *
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 
@@ -251,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
 /**
  * Loads a model throwing an exception if it doesn't exist
  *
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 /**
  * Setup a relation 1-n between two models
  *
- * @param 	Phalcon\Mvc\Model $model
+ * @param 	Phalcon\Mvc\ModelInterface $model
  * @param mixed $fields
  * @param string $referenceModel
  * @param mixed $referencedFields
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
  *
  * @param array $relation
  * @param string $method
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @param array $parameters
  * @return Phalcon\Mvc\Model\Resultset\Simple
  */
@@ -888,7 +888,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
  * @param string $modelRelation
  * @param Phalcon\Mvc\Model $record
  * @param array $parameters
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 
@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
  * @param string $modelRelation
  * @param Phalcon\Mvc\Model $record
  * @param array $parameters
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 
@@ -994,7 +994,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
  * @param string $modelRelation
  * @param Phalcon\Mvc\Model $record
  * @param array $parameters
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 
@@ -1042,7 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 /**
  * Gets belongsTo relations defined on a model
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
@@ -1080,7 +1080,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
 /**
  * Gets hasMany relations defined on a model
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
@@ -1118,7 +1118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
 /**
  * Gets hasOne relations defined on a model
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
@@ -1156,7 +1156,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 /**
  * Gets hasOne relations defined on a model
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){

@@ -105,6 +105,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 
 /**
  * Returns cache lifetime, always one second expiring content
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 
@@ -114,6 +116,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 
 /**
  * Check whether if frontend is buffering output, always false
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
 

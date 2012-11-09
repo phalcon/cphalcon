@@ -370,6 +370,12 @@ PHP_METHOD(Phalcon_Db_Column, getBindType){
 	RETURN_MEMBER(this_ptr, "_bindType");
 }
 
+/**
+ * Restores the internal state of a Phalcon\Db\Column object
+ *
+ * @param array $data
+ * @return \Phalcon\Db\Column
+ */
 PHP_METHOD(Phalcon_Db_Column, __set_state){
 
 	zval *data, *definition, *column_name, *column_type;

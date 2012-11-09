@@ -63,7 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_DI_Injectable){
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_DI_Injectable, setDI){
 
@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_DI_Injectable, getDI){
 
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getDI){
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
 
@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_DI_Injectable, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
 

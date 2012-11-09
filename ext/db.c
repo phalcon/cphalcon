@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Db, __construct){
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Db, setEventsManager){
 
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Db, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Db, getEventsManager){
 
@@ -916,7 +916,7 @@ PHP_METHOD(Phalcon_Db, dropTable){
  *
  * @param string $tableName
  * @param 	string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return boolean
  */
 PHP_METHOD(Phalcon_Db, addColumn){
@@ -948,7 +948,7 @@ PHP_METHOD(Phalcon_Db, addColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, modifyColumn){
@@ -1012,7 +1012,7 @@ PHP_METHOD(Phalcon_Db, dropColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, addIndex){
@@ -1076,7 +1076,7 @@ PHP_METHOD(Phalcon_Db, dropIndex){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, addPrimaryKey){
@@ -1138,7 +1138,7 @@ PHP_METHOD(Phalcon_Db, dropPrimaryKey){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Reference $reference
+ * @param Phalcon\Db\ReferenceInterface $reference
  * @return boolean true
  */
 PHP_METHOD(Phalcon_Db, addForeignKey){
@@ -1296,7 +1296,7 @@ PHP_METHOD(Phalcon_Db, listTables){
 /**
  * Return descriptor used to connect to the active database
  *
- * @return string
+ * @return array
  */
 PHP_METHOD(Phalcon_Db, getDescriptor){
 
@@ -1384,7 +1384,7 @@ PHP_METHOD(Phalcon_Db, getDialectType){
 /**
  * Returns internal dialect instance
  *
- * @return Phalcon\Db\Dialect
+ * @return Phalcon\Db\DialectInterface
  */
 PHP_METHOD(Phalcon_Db, getDialect){
 

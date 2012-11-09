@@ -70,7 +70,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Http_Response, setDI){
 
@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
  *
  * @param int $code
  * @param string $message
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
  *
  * @param string $name
  * @param string $value
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setHeader){
 
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
  *</code>
  *
  * @param string $header
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 /**
  * Resets all the stablished headers
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, resetHeaders){
 
@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders){
  * Sets output expire time header
  *
  * @param DateTime $datetime
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires){
 
@@ -295,7 +295,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 /**
  * Sends a Not-Modified response
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setNotModified){
 
@@ -323,6 +323,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  *
  * @param string $contentType
  * @param string $charset
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 
@@ -352,7 +353,8 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, header_value, PH_NO_CHECK);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -367,7 +369,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  * @param string $location
  * @param boolean $externalRedirect
  * @param int $statusCode
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
@@ -431,7 +433,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
  *</code>
  *
  * @param string $content
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setContent){
 
@@ -450,7 +452,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  * Appends a string to the HTTP response body
  *
  * @param string $content
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
@@ -475,7 +477,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 }
 
 /**
- * Gets HTTP response body
+ * Gets the HTTP response body
  *
  * @return string
  */
@@ -488,7 +490,7 @@ PHP_METHOD(Phalcon_Http_Response, getContent){
 /**
  * Sends headers to the client
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
@@ -509,7 +511,7 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 /**
  * Prints out HTTP response to the client
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 

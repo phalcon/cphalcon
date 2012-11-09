@@ -78,7 +78,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email){
 /**
  * Executes the validator
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){

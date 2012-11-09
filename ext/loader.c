@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Loader, __construct){
 /**
  * Sets the events manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Loader, setEventsManager){
 
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Loader, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Loader, getEventsManager){
 

@@ -81,7 +81,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 /**
  * Sets the dependency injector container.
  *
- * @param Phalcon\DI $dispatcher
+ * @param Phalcon\DiInterface $dispatcher
  */
 PHP_METHOD(Phalcon_Tag, setDI){
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Tag, setDI){
 /**
  * Internally gets the request dispatcher
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Tag, getDI){
 
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Tag, getDI){
 /**
  * Return a URL service from the DI
  *
- * @return Phalcon\Mvc\Url
+ * @return Phalcon\Mvc\UrlInterface
  */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 /**
  * Returns a Dispatcher service from the DI
  *
- * @return Phalcon\Mvc\Dispatcher
+ * @return Phalcon\Mvc\DispatcherInterface
  */
 PHP_METHOD(Phalcon_Tag, getDispatcherService){
 

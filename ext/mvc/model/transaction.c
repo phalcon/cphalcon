@@ -235,8 +235,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 
 	zval *rollback_message = NULL, *rollback_record = NULL;
 	zval *manager, *call_object, *arguments, *connection;
-	zval *success;
-	zval *i0 = NULL;
+	zval *success, *exception;
 
 	PHALCON_MM_GROW();
 
@@ -288,10 +287,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 		PHALCON_INIT_NVAR(rollback_record);
 		phalcon_read_property(&rollback_record, this_ptr, SL("_rollbackRecord"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(i0);
-		object_init_ex(i0, phalcon_mvc_model_transaction_failed_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(i0, "__construct", rollback_message, rollback_record, PH_CHECK);
-		phalcon_throw_exception(i0 TSRMLS_CC);
+		PHALCON_INIT_VAR(exception);
+		object_init_ex(exception, phalcon_mvc_model_transaction_failed_ce);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", rollback_message, rollback_record, PH_CHECK);
+		phalcon_throw_exception(exception TSRMLS_CC);
 		return;
 	}
 	
@@ -391,14 +390,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages){
 
-	zval *messages;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(messages);
+	RETURN_MEMBER(this_ptr, "_messages");
 }
 
 /**
