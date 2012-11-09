@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 }
 
 /**
- * Stores cached content into the Memcached backend
+ * Stores cached content into the Memcached backend and stops the frontend
  *
  * @param int|string $keyName
  * @param string $content

@@ -459,6 +459,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
 		PHALCON_INIT_VAR(resultset);
 		PHALCON_CALL_METHOD_PARAMS_2(resultset, cache, "get", key, lifetime, PH_NO_CHECK);
 		if (Z_TYPE_P(resultset) != IS_NULL) {
+			if (Z_TYPE_P(resultset) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
+				return;
+			}
+			
 			PHALCON_INIT_VAR(is_fresh);
 			ZVAL_BOOL(is_fresh, 0);
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(resultset, "setisfresh", is_fresh, PH_NO_CHECK);
