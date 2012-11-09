@@ -45,29 +45,46 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		$view = new Phalcon\Mvc\View();
-		$view->setDI($di);
-
-		$view->setViewsDir('unit-tests/views/');
-
-		$view->cache(true);
-
 		$date = date("r");
-
 		$content = '<html>'.$date.'</html>'.PHP_EOL;
 
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
 		$view->setVar("date", $date);
 
+		//First hit
 		$view->start();
 		$view->cache(true);
 		$view->render('test8', 'index');
 		$view->finish();
 		$this->assertEquals($view->getContent(), $content);
 
+		$view->reset();
+
+		//Second hit
+		$view->start();
+		$view->cache(true);
+		$view->render('test8', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), $content);
+
+		$view->reset();
+
 		sleep(1);
 
 		$view->setVar("date", date("r"));
 
+		//Third hit after 1 second
+		$view->start();
+		$view->cache(true);
+		$view->render('test8', 'index');
+		$view->finish();
+		$this->assertEquals($view->getContent(), $content);
+
+		$view->reset();
+
+		//Four hit
 		$view->start();
 		$view->cache(true);
 		$view->render('test8', 'index');
@@ -115,6 +132,8 @@ class ViewCacheTest extends PHPUnit_Framework_TestCase
 		$view->render('test8', 'other');
 		$view->finish();
 		$this->assertEquals($view->getContent(), $content);
+
+		$view->reset();
 
 		sleep(1);
 

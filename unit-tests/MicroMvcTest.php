@@ -79,4 +79,35 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($handler->getTrace(), array('find', 'save'));
 	}
 
+	/**
+	 * Tests the notFound
+	 *
+	 * @issue T169
+	 * @author Nikos Dimopoulos <nikos@niden.net>
+	 * @since 2012-11-06
+	*/
+	public function testMicroNotFound_T169()
+	{
+
+		$handler = new RestHandler($this);
+		$app = new \Phalcon\Mvc\Micro();
+
+		$app->get('/api/site', array($handler, 'find'));
+		$app->post('/api/site/save', array($handler, 'save'));
+
+		$flag = false;
+
+		$app->notFound(function () use (&$flag) {
+			$flag = true;
+		});
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET['_url'] = '/fourohfour';
+
+		$app->handle();
+
+		$this->assertTrue($flag);
+	}
+
 }
+

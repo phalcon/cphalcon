@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Cache\Backend
@@ -91,7 +92,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 }
 
 /**
- * Starts a cache. The $keyname allow to identify the created fragment
+ * Starts a cache. The $keyname allows to identify the created fragment
  *
  * @param int|string $keyName
  * @return  mixed
@@ -132,6 +133,38 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 }
 
 /**
+ * Stops the frontend without store any cached content
+ *
+ * @param boolean $stopBuffer
+ */
+PHP_METHOD(Phalcon_Cache_Backend, stop){
+
+	zval *stop_buffer = NULL, *front_end;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &stop_buffer) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!stop_buffer) {
+		PHALCON_INIT_NVAR(stop_buffer);
+		ZVAL_BOOL(stop_buffer, 1);
+	}
+	
+	PHALCON_INIT_VAR(front_end);
+	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
+	if (PHALCON_IS_TRUE(stop_buffer)) {
+		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PH_NO_CHECK);
+	}
+	
+	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Returns front-end instance adapter related to the back-end
  *
  * @return mixed
@@ -166,7 +199,7 @@ PHP_METHOD(Phalcon_Cache_Backend, isFresh){
 }
 
 /**
- * Checks whether the cache has started buffering or not
+ * Checks whether the cache has starting buffering or not
  *
  * @return boolean
  */

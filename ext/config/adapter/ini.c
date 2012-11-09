@@ -75,7 +75,6 @@
  * Phalcon\Config\Adapter\Ini constructor
  *
  * @param string $filePath
- * @return Phalcon\Config\Adapter\Ini
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 
