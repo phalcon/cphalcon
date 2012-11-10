@@ -102,11 +102,17 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		$robots = Robots::find(array('cache' => array('key' => 'some'), 'order' => 'id'));
+		$robots = Robots::find(array(
+			'cache' => array('key' => 'some'),
+			'order' => 'id'
+		));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array('cache' => array('key' => 'some'), 'order' => 'id'));
+		$robots = Robots::find(array(
+			'cache' => array('key' => 'some'),
+			'order' => 'id'
+		));
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
@@ -134,11 +140,25 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		$robots = Robots::find(array('cache' => array('key' => 'other-some', 'lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$robots = Robots::find(array(
+			'cache' => array(
+				'key' => 'other-some',
+				'lifetime' => 60,
+				'service' => 'otherCache'
+			),
+			'order' => 'id'
+		));
 		$this->assertEquals(count($robots), 3);
 		$this->assertTrue($robots->isFresh());
 
-		$robots = Robots::find(array('cache' => array('key' => 'other-some', 'lifetime' => 60, 'service' => 'otherCache'), 'order' => 'id'));
+		$robots = Robots::find(array(
+			'cache' => array(
+				'key' => 'other-some',
+				'lifetime' => 60,
+				'service' => 'otherCache'
+			),
+			'order' => 'id'
+		));
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
