@@ -646,7 +646,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		}
 
 		$compilation = $volt->compileString('{{ ("hello" ~ "lol")|e|length }}');
-		$this->assertEquals($compilation, '<?php echo $this->count($this->escaper->escapeHtml((\'hello\' . \'lol\'))); ?>');
+		$this->assertEquals($compilation, '<?php echo $this->length($this->escaper->escapeHtml((\'hello\' . \'lol\'))); ?>');
 
 		//if statement
 		$compilation = $volt->compileString('{% if a==b %} hello {% endif %}');

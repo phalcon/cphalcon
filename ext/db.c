@@ -67,7 +67,7 @@
  *
  *  $result = $connection->query("SELECT * FROM robots LIMIT 5");
  *  $result->setFetchMode(Phalcon\Db::FETCH_NUM);
- *  while($robot = $result->fetchArray()){
+ *  while($robot = $result->fetch()){
  *    print_r($robot);
  *  }
  *
@@ -797,7 +797,7 @@ PHP_METHOD(Phalcon_Db, sharedLock){
 }
 
 /**
- * Creates a table using MySQL SQL
+ * Creates a table
  *
  * @param string $tableName
  * @param string $schemaName
@@ -987,7 +987,7 @@ PHP_METHOD(Phalcon_Db, dropColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param DbIndex $index
+ * @param Phalcon\Db\Index $index
  * @return 	boolean
  */
 PHP_METHOD(Phalcon_Db, addIndex){
