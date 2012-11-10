@@ -31,11 +31,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testSave()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -53,11 +53,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testPresenceOf()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = null;
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -82,11 +82,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testEmail()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego==';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -111,11 +111,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testExclusionIn()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'X';
@@ -140,11 +140,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testInclusionIn()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'A';
@@ -169,11 +169,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testUniqueness()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -181,7 +181,7 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
         $subscriber->save();
 
         // New record with the same email
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -206,11 +206,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testRegex()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'na_fuego@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'w';
@@ -235,11 +235,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testStringLengthLong()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -264,11 +264,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testStringLengthShort()
     {
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'a@b.co';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';
@@ -295,11 +295,11 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
     {
         $this->markTestSkipped('Need to talk to Andres about beforeValidation');
 
-        $this->emptyTable('subscriptores');
+        $this->emptyTable('subscribers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new Subscriptores();
+        $subscriber = new SubscribersValidation();
         $subscriber->email = 'marina@hotmail.com';
         $subscriber->created_at = $createdAt;
         $subscriber->status = 'P';

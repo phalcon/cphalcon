@@ -1,5 +1,14 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+
+CREATE TABLE `subscribers` (
+  `id` INTEGER NOT NULL PRIMARY KEY,
+  `email` varchar(70) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `status` char(1) NOT NULL
+);
+
+
 CREATE TABLE `parts` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `name` varchar(70) NOT NULL
