@@ -25,6 +25,9 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-20
      */
     protected function setUp()
     {
@@ -48,6 +51,9 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
      * Sets the database adapter in the DI container
      *
      * @param string $dbType Sets the database type for the test
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-09-20
      */
     protected function setDb($dbType = 'mysql')
     {
@@ -71,5 +77,24 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
                 return new $class($params);
             }
         );
+    }
+
+    /**
+     * Empties a table in the database.
+     *
+     * @param $table
+     *
+     * @return boolean
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-08
+     */
+    public function emptyTable($table)
+    {
+        $connection = $this->_di->get('db');
+
+        $success = $connection->delete($table);
+
+        return $success;
     }
 }
