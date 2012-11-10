@@ -104,6 +104,7 @@ extern zend_class_entry *phalcon_acl_exception_ce;
 extern zend_class_entry *phalcon_acl_adapter_memory_ce;
 extern zend_class_entry *phalcon_acl_role_ce;
 extern zend_class_entry *phalcon_acl_resource_ce;
+extern zend_class_entry *phalcon_diinterface_ce;
 extern zend_class_entry *phalcon_paginator_exception_ce;
 extern zend_class_entry *phalcon_paginator_adapter_model_ce;
 extern zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
@@ -299,13 +300,16 @@ PHALCON_INIT_FUNCS(phalcon_loader_method_entry){
 /* {{{ Phalcon_DI */
 PHALCON_INIT_CLASS(Phalcon_DI);
 
+PHP_METHOD(Phalcon_DI, __construct);
 PHP_METHOD(Phalcon_DI, set);
 PHP_METHOD(Phalcon_DI, remove);
 PHP_METHOD(Phalcon_DI, attempt);
+PHP_METHOD(Phalcon_DI, _factory);
 PHP_METHOD(Phalcon_DI, get);
 PHP_METHOD(Phalcon_DI, getShared);
 PHP_METHOD(Phalcon_DI, has);
 PHP_METHOD(Phalcon_DI, wasFreshInstance);
+PHP_METHOD(Phalcon_DI, __call);
 PHP_METHOD(Phalcon_DI, setDefault);
 PHP_METHOD(Phalcon_DI, getDefault);
 PHP_METHOD(Phalcon_DI, reset);
@@ -324,6 +328,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_attempt, 0, 0, 2)
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di__factory, 0, 0, 2)
+	ZEND_ARG_INFO(0, service)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, alias)
 	ZEND_ARG_INFO(0, parameters)
@@ -338,18 +347,26 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_has, 0, 0, 1)
 	ZEND_ARG_INFO(0, alias)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_setdefault, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_di_method_entry){
+	PHP_ME(Phalcon_DI, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_DI, set, arginfo_phalcon_di_set, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, remove, arginfo_phalcon_di_remove, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, attempt, arginfo_phalcon_di_attempt, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI, _factory, arginfo_phalcon_di__factory, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, get, arginfo_phalcon_di_get, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, getShared, arginfo_phalcon_di_getshared, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, has, arginfo_phalcon_di_has, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, wasFreshInstance, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_DI, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_DI, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
@@ -3960,6 +3977,68 @@ PHALCON_INIT_FUNCS(phalcon_acl_resource_method_entry){
 
 /* }}} */
 
+/* {{{ Phalcon_DiInterface */
+PHALCON_INIT_CLASS(Phalcon_DiInterface);
+
+PHP_METHOD(Phalcon_DiInterface, set);
+PHP_METHOD(Phalcon_DiInterface, remove);
+PHP_METHOD(Phalcon_DiInterface, attempt);
+PHP_METHOD(Phalcon_DiInterface, get);
+PHP_METHOD(Phalcon_DiInterface, getShared);
+PHP_METHOD(Phalcon_DiInterface, has);
+PHP_METHOD(Phalcon_DiInterface, wasFreshInstance);
+PHP_METHOD(Phalcon_DiInterface, setDefault);
+PHP_METHOD(Phalcon_DiInterface, getDefault);
+PHP_METHOD(Phalcon_DiInterface, reset);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_set, 0, 0, 2)
+	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_remove, 0, 0, 1)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_attempt, 0, 0, 2)
+	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, config)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_getshared, 0, 0, 1)
+	ZEND_ARG_INFO(0, alias)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_has, 0, 0, 1)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_diinterface_setdefault, 0, 0, 1)
+	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_diinterface_method_entry){
+	PHP_ME(Phalcon_DiInterface, set, arginfo_phalcon_diinterface_set, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, remove, arginfo_phalcon_diinterface_remove, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, attempt, arginfo_phalcon_diinterface_attempt, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, get, arginfo_phalcon_diinterface_get, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, getShared, arginfo_phalcon_diinterface_getshared, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, has, arginfo_phalcon_diinterface_has, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, wasFreshInstance, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, setDefault, arginfo_phalcon_diinterface_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT) 
+	PHP_ME(Phalcon_DiInterface, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT) 
+	PHP_FE_END
+};
+
+/* }}} */
+
 /* {{{ Phalcon_Paginator_Exception */
 PHALCON_INIT_CLASS(Phalcon_Paginator_Exception);
 /* }}} */
@@ -6673,6 +6752,7 @@ PHALCON_INIT_FUNCS(phalcon_logger_item_method_entry){
 /* {{{ Phalcon_Loader_Exception */
 PHALCON_INIT_CLASS(Phalcon_Loader_Exception);
 /* }}} */
+
 
 
 
