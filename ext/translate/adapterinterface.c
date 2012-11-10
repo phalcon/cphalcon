@@ -40,11 +40,3 @@ PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface){
 /**
  * Phalcon\Translate\AdapterInterface constructor
  */
-PHP_METHOD(Phalcon_Translate_AdapterInterface, __construct){ }
-
-PHP_METHOD(Phalcon_Translate_AdapterInterface, _){ }
-
-PHP_METHOD(Phalcon_Translate_AdapterInterface, query){ }
-
-PHP_METHOD(Phalcon_Translate_AdapterInterface, exists){ }
-

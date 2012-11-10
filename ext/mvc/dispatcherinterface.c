@@ -37,17 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_DispatcherInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerSuffix){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, setDefaultController){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, getControllerName){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, _throwDispatchException){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController){ }
-
-PHP_METHOD(Phalcon_Mvc_DispatcherInterface, getActiveController){ }
-

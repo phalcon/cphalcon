@@ -40,13 +40,3 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_FileInterface){
 /**
  * Phalcon\Http\Request\FileInterface constructor
  */
-PHP_METHOD(Phalcon_Http_Request_FileInterface, __construct){ }
-
-PHP_METHOD(Phalcon_Http_Request_FileInterface, getSize){ }
-
-PHP_METHOD(Phalcon_Http_Request_FileInterface, getName){ }
-
-PHP_METHOD(Phalcon_Http_Request_FileInterface, getTempName){ }
-
-PHP_METHOD(Phalcon_Http_Request_FileInterface, moveTo){ }
-

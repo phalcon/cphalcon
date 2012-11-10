@@ -37,7 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidatorInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Mvc_Model_ValidatorInterface, getMessages){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_ValidatorInterface, validate){ }
-

@@ -37,9 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_FilterInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_FilterInterface, add){ }
-
-PHP_METHOD(Phalcon_FilterInterface, sanitize){ }
-
-PHP_METHOD(Phalcon_FilterInterface, getFilters){ }
-

@@ -37,7 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_DI_InjectionAwareInterface, setDI){ }
-
-PHP_METHOD(Phalcon_DI_InjectionAwareInterface, getDI){ }
-

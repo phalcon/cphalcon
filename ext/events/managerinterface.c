@@ -37,11 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Events_ManagerInterface, attach){ }
-
-PHP_METHOD(Phalcon_Events_ManagerInterface, dettachAll){ }
-
-PHP_METHOD(Phalcon_Events_ManagerInterface, fire){ }
-
-PHP_METHOD(Phalcon_Events_ManagerInterface, getListeners){ }
-

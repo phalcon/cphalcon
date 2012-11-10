@@ -37,17 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Cache_FrontendInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Cache_FrontendInterface, getLifetime){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, isBuffering){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, start){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, getContent){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, stop){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, beforeStore){ }
-
-PHP_METHOD(Phalcon_Cache_FrontendInterface, afterRetrieve){ }
-

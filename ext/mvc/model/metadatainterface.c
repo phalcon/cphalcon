@@ -37,39 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, isEmpty){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read){ }
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaDataInterface, write){ }
-

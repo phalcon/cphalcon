@@ -40,19 +40,3 @@ PHALCON_INIT_CLASS(Phalcon_Cache_BackendInterface){
 /**
  * Phalcon\Cache\BackendInterface constructor
  */
-PHP_METHOD(Phalcon_Cache_BackendInterface, __construct){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, start){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, stop){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, getFrontend){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, isFresh){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, isStarted){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, getLastKey){ }
-
-PHP_METHOD(Phalcon_Cache_BackendInterface, get){ }
-

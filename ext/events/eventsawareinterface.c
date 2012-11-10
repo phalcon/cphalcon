@@ -39,7 +39,3 @@ PHALCON_INIT_CLASS(Phalcon_Events_EventsAwareInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Events_EventsAwareInterface, setEventsManager){ }
-
-PHP_METHOD(Phalcon_Events_EventsAwareInterface, getEventsManager){ }
-

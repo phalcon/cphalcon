@@ -37,25 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Logger_AdapterInterface, setFormat){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, getFormat){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, getTypeString){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, _applyFormat){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, setDateFormat){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, getDateFormat){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, log){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, begin){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, commit){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, rollback){ }
-
-PHP_METHOD(Phalcon_Logger_AdapterInterface, close){ }
-

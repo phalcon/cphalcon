@@ -37,23 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_DiInterface, set){ }
-
-PHP_METHOD(Phalcon_DiInterface, remove){ }
-
-PHP_METHOD(Phalcon_DiInterface, attempt){ }
-
-PHP_METHOD(Phalcon_DiInterface, get){ }
-
-PHP_METHOD(Phalcon_DiInterface, getShared){ }
-
-PHP_METHOD(Phalcon_DiInterface, has){ }
-
-PHP_METHOD(Phalcon_DiInterface, wasFreshInstance){ }
-
-PHP_METHOD(Phalcon_DiInterface, setDefault){ }
-
-PHP_METHOD(Phalcon_DiInterface, getDefault){ }
-
-PHP_METHOD(Phalcon_DiInterface, reset){ }
-

@@ -37,31 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Http_ResponseInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Http_ResponseInterface, setStatusCode){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, getHeaders){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setHeader){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setRawHeader){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, resetHeaders){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setExpires){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setNotModified){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setContentType){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, redirect){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, setContent){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, appendContent){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, getContent){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, sendHeaders){ }
-
-PHP_METHOD(Phalcon_Http_ResponseInterface, send){ }
-

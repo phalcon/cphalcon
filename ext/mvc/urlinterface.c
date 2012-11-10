@@ -37,15 +37,3 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_UrlInterface){
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri){ }
-
-PHP_METHOD(Phalcon_Mvc_UrlInterface, getBaseUri){ }
-
-PHP_METHOD(Phalcon_Mvc_UrlInterface, setBasePath){ }
-
-PHP_METHOD(Phalcon_Mvc_UrlInterface, getBasePath){ }
-
-PHP_METHOD(Phalcon_Mvc_UrlInterface, get){ }
-
-PHP_METHOD(Phalcon_Mvc_UrlInterface, path){ }
-
