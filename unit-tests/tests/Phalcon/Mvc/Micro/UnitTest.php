@@ -153,38 +153,30 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
     /**
      * Tests the notFound
      *
-     * @issue  T169
+     * @issue T169
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-06
+     * @since 2012-11-06
      */
     public function testMicroNotFound_T169()
     {
-        $this->markTestSkipped('Waiting for issue resolution on this');
+
         $handler = new Mvc_Micro_Helper_RestHandler($this);
-        $app     = new Micro();
+        $app = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));
         $app->post('/api/site/save', array($handler, 'save'));
 
-        $app->notFound(
-            function () use ($app) {
-                $app->response->setStatusCode(404, "Not Found")->sendHeaders();
-                echo 'This is crazy, but this page was not found!';
-            }
-        );
+        $flag = false;
+
+        $app->notFound(function () use (&$flag) {
+            $flag = true;
+        });
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['_url'] = '/fourohfour';
 
         $app->handle();
 
-        $expected = 1;
-        $actual   = $handler->getNumberAccess();
-
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'getNumberAccess does not return correct results'
-        );
+        $this->assertTrue($flag);
     }
 }
