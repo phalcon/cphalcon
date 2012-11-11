@@ -24,6 +24,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_Manager);
 PHP_METHOD(Phalcon_Events_Manager, attach);
 PHP_METHOD(Phalcon_Events_Manager, dettachAll);
 PHP_METHOD(Phalcon_Events_Manager, fire);
+PHP_METHOD(Phalcon_Events_Manager, hasListeners);
 PHP_METHOD(Phalcon_Events_Manager, getListeners);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_attach, 0, 0, 2)
@@ -42,6 +43,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_fire, 0, 0, 2)
 	ZEND_ARG_INFO(0, cancelable)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_haslisteners, 0, 0, 1)
+	ZEND_ARG_INFO(0, type)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_manager_getlisteners, 0, 0, 1)
 	ZEND_ARG_INFO(0, type)
 ZEND_END_ARG_INFO()
@@ -50,6 +55,7 @@ PHALCON_INIT_FUNCS(phalcon_events_manager_method_entry){
 	PHP_ME(Phalcon_Events_Manager, attach, arginfo_phalcon_events_manager_attach, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, dettachAll, arginfo_phalcon_events_manager_dettachall, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, fire, arginfo_phalcon_events_manager_fire, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Events_Manager, hasListeners, arginfo_phalcon_events_manager_haslisteners, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Events_Manager, getListeners, arginfo_phalcon_events_manager_getlisteners, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

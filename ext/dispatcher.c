@@ -34,8 +34,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -182,6 +182,17 @@ PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace){
 }
 
 /**
+ * Returns the default namespace
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace){
+
+
+	RETURN_MEMBER(this_ptr, "_defaultNamespace");
+}
+
+/**
  * Sets the default action name
  *
  * @param string $actionName
@@ -233,14 +244,25 @@ PHP_METHOD(Phalcon_Dispatcher, getActionName){
  */
 PHP_METHOD(Phalcon_Dispatcher, setParams){
 
-	zval *params;
+	zval *params, *exception_message;
+
+	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(params) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(exception_message);
+		ZVAL_STRING(exception_message, "Parameters must be an Array", 1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_throwdispatchexception", exception_message, PH_NO_CHECK);
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
 	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**

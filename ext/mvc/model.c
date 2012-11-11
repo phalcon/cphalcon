@@ -3945,7 +3945,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 
 	zval *model_name, *method, *arguments, *dependency_injector;
-	zval *service, *manager, *three, *manager_method = NULL;
+	zval *service, *manager, *manager_method = NULL, *three;
 	zval *requested_relation = NULL, *exists = NULL, *query_method = NULL;
 	zval *five, *extra_args = NULL, *call_args, *call_object;
 	zval *result;
@@ -3975,15 +3975,15 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(three);
-	ZVAL_LONG(three, 3);
-	
 	/** 
 	 * Calling find/findFirst if the method starts with "get"
 	 */
 	PHALCON_INIT_VAR(manager_method);
 	ZVAL_BOOL(manager_method, 0);
 	if (phalcon_start_with_str(method, SL("get"))) {
+		PHALCON_INIT_VAR(three);
+		ZVAL_LONG(three, 3);
+	
 		PHALCON_INIT_VAR(requested_relation);
 		PHALCON_CALL_FUNC_PARAMS_2(requested_relation, "substr", method, three);
 	

@@ -612,19 +612,18 @@ PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
  */
 PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 
-	zval *scheme, *is_equal;
-	zval *t0 = NULL;
+	zval *scheme, *https, *is_equal;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(scheme);
 	PHALCON_CALL_METHOD(scheme, this_ptr, "getscheme", PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "https", 1);
+	PHALCON_INIT_VAR(https);
+	ZVAL_STRING(https, "https", 1);
 	
 	PHALCON_INIT_VAR(is_equal);
-	is_identical_function(is_equal, t0, scheme TSRMLS_CC);
+	is_identical_function(is_equal, https, scheme TSRMLS_CC);
 	
 	RETURN_NCTOR(is_equal);
 }
@@ -718,9 +717,8 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
 PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
 	zval *scheme, *server_name, *name, *server_port;
-	zval *port, *is_std_http, *is_secure_http, *is_http_normal;
-	zval *name_port;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *port = NULL, *http, *is_std_http, *https, *secure_port;
+	zval *is_secure_http, *is_http_normal, *name_port;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
 
 	PHALCON_MM_GROW();
@@ -740,32 +738,32 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(port);
 	PHALCON_CALL_METHOD_PARAMS_1(port, this_ptr, "getserver", server_port, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "http", 1);
+	PHALCON_INIT_VAR(http);
+	ZVAL_STRING(http, "http", 1);
+	
+	PHALCON_INIT_NVAR(port);
+	ZVAL_LONG(port, 80);
 	
 	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, scheme, t0 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 80);
+	is_equal_function(r0, scheme, http TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(r1);
-	is_equal_function(r1, port, t1 TSRMLS_CC);
+	is_equal_function(r1, port, port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_std_http);
 	phalcon_and_function(is_std_http, r0, r1);
 	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_STRING(t2, "https", 1);
+	PHALCON_INIT_VAR(https);
+	ZVAL_STRING(https, "https", 1);
+	
+	PHALCON_INIT_VAR(secure_port);
+	ZVAL_LONG(secure_port, 443);
 	
 	PHALCON_INIT_VAR(r2);
-	is_equal_function(r2, scheme, t2 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t3);
-	ZVAL_LONG(t3, 443);
+	is_equal_function(r2, scheme, https TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(r3);
-	is_equal_function(r3, port, t3 TSRMLS_CC);
+	is_equal_function(r3, port, secure_port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_secure_http);
 	phalcon_and_function(is_secure_http, r2, r3);

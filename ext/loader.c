@@ -34,9 +34,9 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "kernel/fcall.h"
 #include "kernel/require.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
@@ -140,6 +140,7 @@ PHP_METHOD(Phalcon_Loader, getEventsManager){
  * Sets an array of extensions that the Loader must check together with the path
  *
  * @param array $extensions
+ * @param boolean $merge
  * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, setExtensions){
@@ -163,107 +164,228 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 }
 
 /**
+ * Return file extensions registered in the loader
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Loader, getExtensions){
+
+
+	RETURN_MEMBER(this_ptr, "_extensions");
+}
+
+/**
  * Register namespaces and their related directories
  *
  * @param array $namespaces
+ * @param boolean $merge
  * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerNamespaces){
 
-	zval *namespaces;
+	zval *namespaces, *merge = NULL, *current_namespaces;
+	zval *merged_namespaces;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespaces) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &namespaces, &merge) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_NVAR(merge);
+		ZVAL_BOOL(merge, 0);
+	}
+	
 	if (Z_TYPE_P(namespaces) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $namespaces must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
+	if (zend_is_true(merge)) {
+		PHALCON_INIT_VAR(current_namespaces);
+		phalcon_read_property(&current_namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(merged_namespaces);
+		PHALCON_CALL_FUNC_PARAMS_2(merged_namespaces, "array_merge", current_namespaces, namespaces);
+		phalcon_update_property_zval(this_ptr, SL("_namespaces"), merged_namespaces TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_namespaces"), namespaces TSRMLS_CC);
+	}
+	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Return current namespaces registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getNamespaces){
+
+
+	RETURN_MEMBER(this_ptr, "_namespaces");
 }
 
 /**
  * Register directories on which "not found" classes could be found
  *
  * @param array $directories
+ * @param boolean $merge
  * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerPrefixes){
 
-	zval *prefixes;
+	zval *prefixes, *merge = NULL, *current_prefixes, *merged_prefixes;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &prefixes) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &prefixes, &merge) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_NVAR(merge);
+		ZVAL_BOOL(merge, 0);
+	}
+	
 	if (Z_TYPE_P(prefixes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $prefixes must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
+	if (zend_is_true(merge)) {
+		PHALCON_INIT_VAR(current_prefixes);
+		phalcon_read_property(&current_prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(merged_prefixes);
+		PHALCON_CALL_FUNC_PARAMS_2(merged_prefixes, "array_merge", current_prefixes, prefixes);
+		phalcon_update_property_zval(this_ptr, SL("_prefixes"), merged_prefixes TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_prefixes"), prefixes TSRMLS_CC);
+	}
+	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Return current prefixes registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getPrefixes){
+
+
+	RETURN_MEMBER(this_ptr, "_prefixes");
 }
 
 /**
  * Register directories on which "not found" classes could be found
  *
  * @param array $directories
+ * @param boolean $merge
  * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerDirs){
 
-	zval *directories;
+	zval *directories, *merge = NULL, *current_directories;
+	zval *merged_directories;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &directories) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &directories, &merge) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_NVAR(merge);
+		ZVAL_BOOL(merge, 0);
+	}
+	
 	if (Z_TYPE_P(directories) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $directories must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_directories"), directories TSRMLS_CC);
+	if (zend_is_true(merge)) {
+		PHALCON_INIT_VAR(current_directories);
+		phalcon_read_property(&current_directories, this_ptr, SL("_directories"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(merged_directories);
+		PHALCON_CALL_FUNC_PARAMS_2(merged_directories, "array_merge", current_directories, directories);
+		phalcon_update_property_zval(this_ptr, SL("_directories"), merged_directories TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_directories"), directories TSRMLS_CC);
+	}
+	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Return current directories registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getDirs){
+
+
+	RETURN_MEMBER(this_ptr, "_directories");
 }
 
 /**
  * Register classes and their locations
  *
- * @param array $directories
+ * @param array $classes
+ * @param boolean $merge
  * @return Phalcon\Loader
  */
 PHP_METHOD(Phalcon_Loader, registerClasses){
 
-	zval *classes;
+	zval *classes, *merge = NULL, *current_classes, *merged_classes;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &classes) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &classes, &merge) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
+	if (!merge) {
+		PHALCON_INIT_NVAR(merge);
+		ZVAL_BOOL(merge, 0);
+	}
+	
 	if (Z_TYPE_P(classes) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_loader_exception_ce, "Parameter $classes must be an Array");
 		return;
 	}
-	phalcon_update_property_zval(this_ptr, SL("_classes"), classes TSRMLS_CC);
+	if (zend_is_true(merge)) {
+		PHALCON_INIT_VAR(current_classes);
+		phalcon_read_property(&current_classes, this_ptr, SL("_classes"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(merged_classes);
+		PHALCON_CALL_FUNC_PARAMS_2(merged_classes, "array_merge", current_classes, classes);
+		phalcon_update_property_zval(this_ptr, SL("_classes"), merged_classes TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_classes"), classes TSRMLS_CC);
+	}
+	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Return the current class-map registered in the autoloader
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Loader, getClasses){
+
+
+	RETURN_MEMBER(this_ptr, "_classes");
 }
 
 /**

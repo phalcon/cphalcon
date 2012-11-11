@@ -44,7 +44,7 @@
  *
  * By default meta-data is stored 48 hours (172800 seconds)
  *
- * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-local-app')
+ * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  *
  *<code>
  * $metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(

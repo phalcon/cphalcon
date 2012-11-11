@@ -151,6 +151,9 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		return;
 	}
 	
+	/** 
+	 * This class injects a public property with a resolved service
+	 */
 	PHALCON_INIT_VAR(has_service);
 	PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", property_name, PH_NO_CHECK);
 	if (zend_is_true(has_service)) {
@@ -167,7 +170,13 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		RETURN_CCTOR(dependency_injector);
 	}
 	
+	/** 
+	 * Accessing the persistent property will create a session bag in any class
+	 */
 	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
+		/** 
+		 * Accessing the persistent property will create a session bag in any class
+		 */
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
 	
@@ -185,6 +194,9 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		RETURN_CCTOR(persistent);
 	}
 	
+	/** 
+	 * A notice is shown if the property is not defined and isn't a valid service
+	 */
 	PHALCON_INIT_VAR(error_msg);
 	PHALCON_CONCAT_SV(error_msg, "Access to undefined property ", property_name);
 	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", error_msg);

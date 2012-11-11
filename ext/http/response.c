@@ -36,6 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Http\Response
@@ -60,6 +61,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Http, Response, http_response, phalcon_http_response_method_entry, 0);
 
+	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_http_response_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -517,20 +519,30 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *headers, *content;
+	zval *sent, *headers, *content;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers);
-	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (Z_TYPE_P(headers) != IS_NULL) {
-		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
+	PHALCON_INIT_VAR(sent);
+	phalcon_read_property(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(sent)) {
+		PHALCON_INIT_VAR(headers);
+		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		if (Z_TYPE_P(headers) != IS_NULL) {
+			PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
+		}
+	
+		PHALCON_INIT_VAR(content);
+		phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+		zend_print_zval(content, 1);
+		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+	
+		RETURN_CTOR(this_ptr);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
+		return;
 	}
 	
-	PHALCON_INIT_VAR(content);
-	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-	zend_print_zval(content, 1);
-	
-	RETURN_CTOR(this_ptr);
+	PHALCON_MM_RESTORE();
 }
 

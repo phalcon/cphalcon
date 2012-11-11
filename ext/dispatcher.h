@@ -29,6 +29,7 @@ PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
 PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
+PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
 PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
 PHP_METHOD(Phalcon_Dispatcher, setActionName);
 PHP_METHOD(Phalcon_Dispatcher, getActionName);
@@ -91,6 +92,7 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcher_setactionsuffix, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getDefaultNamespace, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultAction, arginfo_phalcon_dispatcher_setdefaultaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setActionName, arginfo_phalcon_dispatcher_setactionname, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getActionName, NULL, ZEND_ACC_PUBLIC) 

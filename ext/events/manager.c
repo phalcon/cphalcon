@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
 							object_init_ex(event, phalcon_events_event_ce);
-							PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
 	
 							PHALCON_INIT_NVAR(arguments);
 							array_init(arguments);
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);
 								object_init_ex(event, phalcon_events_event_ce);
-								PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
+								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
 							}
 	
 							PHALCON_INIT_NVAR(status);
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
 							object_init_ex(event, phalcon_events_event_ce);
-							PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
 	
 							PHALCON_INIT_NVAR(arguments);
 							array_init(arguments);
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);
 								object_init_ex(event, phalcon_events_event_ce);
-								PHALCON_CALL_METHOD_PARAMS_3_NORETURN(event, "__construct", event_name, source, data, PH_CHECK);
+								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
 							}
 	
 							PHALCON_INIT_NVAR(status);
@@ -366,6 +366,38 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	
 	
 	RETURN_CCTOR(status);
+}
+
+/**
+ * Check whether certain type of event has listeners
+ *
+ * @param string $type
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Events_Manager, hasListeners){
+
+	zval *type, *events;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(events);
+	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
+	if (Z_TYPE_P(events) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset(events, type);
+		if (eval_int) {
+			PHALCON_MM_RESTORE();
+			RETURN_TRUE;
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_FALSE;
 }
 
 /**
