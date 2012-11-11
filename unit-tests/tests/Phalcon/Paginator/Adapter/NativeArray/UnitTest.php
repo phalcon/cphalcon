@@ -29,7 +29,7 @@ class Paginator_Adapter_NativeArray_UnitTest extends Paginator_Adapter_Helper_Ba
 
         $this->setClass('\Phalcon\Paginator\Adapter\NativeArray');
         $this->setFixture($fixture);
-        $this->setParameters(1, 10);
+        $this->setParameters(1, 5);
 
         parent::setUp();
     }
@@ -37,7 +37,7 @@ class Paginator_Adapter_NativeArray_UnitTest extends Paginator_Adapter_Helper_Ba
     private function _setupFixture()
     {
         $data = array();
-        for ($i = 1; $i < 2180; $i++)
+        for ($i = 1; $i < 101; $i++)
         {
             $data[$i] = array('name' => 'PETER');
         }
