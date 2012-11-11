@@ -1,9 +1,9 @@
 <?php
 /**
- * Subscribers.php
- * Subscribers
+ * RobotsParts.php
+ * Phalcon_Test_Fixtures_RobotsParts
  *
- * Model for the subscribers
+ * Used to populate the tables (fixtures) in the database
  *
  * PhalconPHP Framework
  *
@@ -21,12 +21,14 @@
  * so that we can send you a copy immediately.
  */
 
-use \Phalcon\Mvc\Model as Model;
-
-class Subscribers extends Model
+class Phalcon_Test_Fixtures_RobotsParts
 {
-    public function getSource()
+    public static function get()
     {
-        return 'subscribers';
+        $data[] = "(1, 1, 1)";
+        $data[] = "(2, 1, 2)";
+        $data[] = "(3, 1, 3)";
+
+        return $data;
     }
 }

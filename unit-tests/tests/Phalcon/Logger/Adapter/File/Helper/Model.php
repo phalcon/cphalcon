@@ -47,6 +47,8 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testDbLoggerDefault()
     {
+        $this->populateTable('customers', 10);
+
         $fileName = $this->getFileName('log', 'log');
         $evman    = new EvMgr();
         $listener = new Logger_Adapter_File_Helper_Listener($this->_logPath . $fileName);
@@ -57,9 +59,9 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
 
         $connection->setEventsManager($evman);
 
-        $connection->query("SELECT * FROM personas LIMIT 3");
-        $connection->query("SELECT * FROM personas LIMIT 10");
-        $connection->query("SELECT * FROM personas LIMIT 1");
+        $connection->query("SELECT * FROM customers LIMIT 3");
+        $connection->query("SELECT * FROM customers LIMIT 10");
+        $connection->query("SELECT * FROM customers LIMIT 1");
 
         $this->assertTrue($connection->close());
 

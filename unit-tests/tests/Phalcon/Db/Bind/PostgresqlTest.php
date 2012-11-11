@@ -22,7 +22,7 @@
  * so that we can send you a copy immediately.
  */
 
-require_once 'Helper.php';
+use \Phalcon\Db\RawValue as PhDbRawValue;
 
 class Db_Bind_PostgresqlTest extends Db_Bind_Helper
 {
@@ -31,6 +31,8 @@ class Db_Bind_PostgresqlTest extends Db_Bind_Helper
         parent::setUp();
 
         parent::setDb('postgresql');
+
+        $this->_nullDefault = new PhDbRawValue('default');
     }
 
     public function testRawBindTestThreeOnThreeWithKeysEscapedMixed()

@@ -1,9 +1,9 @@
 <?php
 /**
- * SqliteTest.php
- * Phalcon_Db_Model_Validators_SqliteTest
+ * Parts.php
+ * Phalcon_Test_Fixtures_Parts
  *
- * Tests the \Phalcon\Db Model Validators component
+ * Used to populate the tables (fixtures) in the database
  *
  * PhalconPHP Framework
  *
@@ -21,13 +21,16 @@
  * so that we can send you a copy immediately.
  */
 
-class Db_Model_Validators_SqliteTest extends Db_Helper_Model_Validators
+class Phalcon_Test_Fixtures_Parts
 {
-    public function setUp()
+    public static function get()
     {
-        $this->markTestSkipped('Postgres schema to be completed');
-        parent::setUp();
+        $data[] = "(1, 'Head')";
+        $data[] = "(2, 'Body')";
+        $data[] = "(3, 'Arms')";
+        $data[] = "(4, 'Legs')";
+        $data[] = "(5, 'CPU')";
 
-        $this->setDb('sqlite');
+        return $data;
     }
 }

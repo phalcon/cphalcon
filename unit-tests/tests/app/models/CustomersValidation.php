@@ -1,7 +1,7 @@
 <?php
 /**
- * SubscribersValidation.php
- * SubscribersValidation
+ * CustomersValidation.php
+ * CustomersValidation
  *
  * Model for the users table with validation rules
  *
@@ -30,13 +30,8 @@ use \Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
 use \Phalcon\Mvc\Model\Validator\Regex as RegexValidator;
 use \Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
 
-class SubscribersValidation extends Subscribers
+class CustomersValidation extends Customers
 {
-    public function getSource()
-    {
-        return 'subscribers';
-    }
-
     public function beforeValidation()
     {
         if ($this->email == 'marina@hotmail.com') {

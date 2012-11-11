@@ -31,16 +31,18 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testSave()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
+        $actual = $customer->save();
 
         $this->assertTrue($actual, 'Record was not saved successfully');
     }
@@ -53,24 +55,26 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testPresenceOf()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = null;
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual   = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
             $messages,
             'PresenceOf',
             'created_at',
-            "The field 'created_at' is required"
+            "created_at is required"
         );
     }
 
@@ -82,17 +86,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testEmail()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego==';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego==';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -111,17 +117,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testExclusionIn()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'X';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'X';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -140,17 +148,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testInclusionIn()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'A';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'A';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -169,25 +179,29 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testUniqueness()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $subscriber->save();
+        $customer->save();
 
         // New record with the same email
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 2;
+        $customer->customer_id = 'A02';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -206,17 +220,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testRegex()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'na_fuego@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'w';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'na_fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'w';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -235,17 +251,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testStringLengthLong()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -264,17 +282,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testStringLengthShort()
     {
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'a@b.co';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'a@b.co';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(
@@ -295,17 +315,19 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
     {
         $this->markTestSkipped('Need to talk to Andres about beforeValidation');
 
-        $this->emptyTable('subscribers');
+        $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
 
-        $subscriber = new SubscribersValidation();
-        $subscriber->email = 'marina@hotmail.com';
-        $subscriber->created_at = $createdAt;
-        $subscriber->status = 'P';
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'marina@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
 
-        $actual = $subscriber->save();
-        $messages = $subscriber->getMessages();
+        $actual = $customer->save();
+        $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
         $this->_checkMessages(

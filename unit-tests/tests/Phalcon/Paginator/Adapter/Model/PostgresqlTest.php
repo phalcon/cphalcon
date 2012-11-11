@@ -25,6 +25,7 @@ class Paginator_Adapter_Model_PostgresqlTest extends Paginator_Adapter_Helper_Ba
 {
     public function setUp()
     {
+        $this->markTestSkipped('Postgres schema to be completed');
         parent::setUp();
 
         $fixture = Personnes::find();

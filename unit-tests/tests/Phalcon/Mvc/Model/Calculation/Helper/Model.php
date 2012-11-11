@@ -25,115 +25,119 @@ class Mvc_Model_Calculation_Helper_Model extends Phalcon_Test_ModelTestCase
 {
     public function testCount()
     {
-        $count = Personnes::count();
-        $this->assertEquals($count, 2180, 'Count is incorrect');
+        $this->populateTable('customers', 120);
+        
+        $count = Customers::count();
+        $this->assertEquals($count, 120, 'Count is incorrect');
 
     }
 
     public function testAll()
     {
-        $rowcount = Personnes::count(array('distinct' => 'estado'));
+        $this->populateTable('customers', 120);
+
+        $rowcount = Customers::count(array('distinct' => 'status'));
         $this->assertEquals($rowcount, 2);
 
-        $rowcount = Personnes::count("estado='A'");
+        $rowcount = Customers::count("status='A'");
         $this->assertEquals($rowcount, 2178);
 
-        $group = Personnes::count(array("group" => "estado"));
+        $group = Customers::count(array("group" => "status"));
         $this->assertEquals(2, count($group));
 
-        $group = Personnes::count(array("group" => "estado", "order" => "estado"));
+        $group = Customers::count(array("group" => "status", "order" => "status"));
         $this->assertEquals(2, count($group));
 
         $results = array('A' => 2178, 'I' => 2);
         foreach($group as $row){
-            $this->assertEquals($results[$row->estado], $row->rowcount);
+            $this->assertEquals($results[$row->status], $row->rowcount);
         }
 
         $this->assertEquals($group[0]->rowcount, 2178);
         $this->assertEquals($group[1]->rowcount, 2);
 
-        $group = Personnes::count(array("group" => "estado"));
+        $group = Customers::count(array("group" => "status"));
         $this->assertEquals(2, count($group));
 
-        $group = Personnes::count(array("group" => "ciudad_id"));
+        $group = Customers::count(array("group" => "customer_id"));
         $this->assertEquals(285, count($group));
 
-        $group = Personnes::count(array("group" => "ciudad_id", "order" => "rowcount DESC"));
+        $group = Customers::count(array("group" => "customer_id", "order" => "rowcount DESC"));
         $this->assertEquals($group[0]->rowcount, 727);
 
         //Summatory
-        $total = Personnes::sum(array("column" => "cupo"));
+        $total = Customers::sum(array("column" => "credit_line"));
         $this->assertEquals(995066020.00, $total);
 
-        $total = Personnes::sum(array("column" => "cupo", "conditions" => "estado='I'"));
+        $total = Customers::sum(array("column" => "credit_line", "conditions" => "status='I'"));
         $this->assertEquals(567020.00, $total);
 
-        $group = Personnes::sum(array("column" => "cupo", "group" => "estado"));
+        $group = Customers::sum(array("column" => "credit_line", "group" => "status"));
         $this->assertEquals(2, count($group));
 
         $results = array('A' => 994499000.00, 'I' => 567020.00);
         foreach($group as $row){
-            $this->assertEquals($results[$row->estado], $row->sumatory);
+            $this->assertEquals($results[$row->status], $row->sumatory);
         }
 
-        $group = Personnes::sum(array("column" => "cupo", "group" => "ciudad_id", "order" => "sumatory DESC"));
+        $group = Customers::sum(array("column" => "credit_line", "group" => "customer_id", "order" => "sumatory DESC"));
         $this->assertEquals($group[0]->sumatory, 358467690.00);
 
         //Average
-        $total = Personnes::average(array("column" => "cupo"));
+        $total = Customers::average(array("column" => "credit_line"));
         $this->assertEquals(456452.30, sprintf("%.2f", $total));
 
-        $total = Personnes::average(array("column" => "cupo", "conditions" => "estado='I'"));
+        $total = Customers::average(array("column" => "credit_line", "conditions" => "status='I'"));
         $this->assertEquals(283510.00, $total);
 
-        $group = Personnes::average(array("column" => "cupo", "group" => "estado"));
+        $group = Customers::average(array("column" => "credit_line", "group" => "status"));
         $this->assertEquals(2, count($group));
 
         $results = array('A' => 456611.11, 'I' => 283510.00);
         foreach($group as $row){
-            $this->assertEquals($results[$row->estado], sprintf("%.2f", $row->average));
+            $this->assertEquals($results[$row->status], sprintf("%.2f", $row->average));
         }
 
-        $group = Personnes::average(array("column" => "cupo", "group" => "ciudad_id", "order" => "average DESC"));
+        $group = Customers::average(array("column" => "credit_line", "group" => "customer_id", "order" => "average DESC"));
         $this->assertEquals($group[0]->average, 996200.00);
 
         //Maximum
-        $max = Personnes::maximum(array("column" => "ciudad_id"));
+        $max = Customers::maximum(array("column" => "customer_id"));
         $this->assertEquals($max, 302172);
 
-        $max = Personnes::maximum(array("column" => "ciudad_id", "conditions" => "estado='I'"));
+        $max = Customers::maximum(array("column" => "customer_id", "conditions" => "status='I'"));
         $this->assertEquals($max, 127591);
 
-        $group = Personnes::maximum(array("column" => "ciudad_id", "group" => "estado"));
+        $group = Customers::maximum(array("column" => "customer_id", "group" => "status"));
         $this->assertEquals(2, count($group));
 
         $results = array('A' => 302172, 'I' => 127591);
         foreach($group as $row){
-            $this->assertEquals($results[$row->estado], $row->maximum);
+            $this->assertEquals($results[$row->status], $row->maximum);
         }
 
-        $group = Personnes::maximum(array("column" => "ciudad_id", "group" => "estado", "order" => "maximum DESC"));
+        $group = Customers::maximum(array("column" => "customer_id", "group" => "status", "order" => "maximum DESC"));
         $this->assertEquals($group[0]->maximum, 302172);
 
         //Minimum
-        $max = Personnes::minimum(array("column" => "ciudad_id"));
+        $max = Customers::minimum(array("column" => "customer_id"));
         $this->assertEquals($max, 20404);
 
-        $max = Personnes::minimum(array("column" => "ciudad_id", "conditions" => "estado='I'"));
+        $max = Customers::minimum(array("column" => "customer_id", "conditions" => "status='I'"));
         $this->assertEquals($max, 127591);
 
-        $group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado"));
+        $group = Customers::minimum(array("column" => "customer_id", "group" => "status"));
         $this->assertEquals(2, count($group));
 
         $results = array('A' => 20404, 'I' => 127591);
         foreach($group as $row){
-            $this->assertEquals($results[$row->estado], $row->minimum);
+            $this->assertEquals($results[$row->status], $row->minimum);
         }
 
-        $group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado", "order" => "minimum DESC"));
+        $group = Customers::minimum(array("column" => "customer_id", "group" => "status", "order" => "minimum DESC"));
         $this->assertEquals($group[0]->minimum, 127591);
 
-        $group = Personnes::minimum(array("column" => "ciudad_id", "group" => "estado", "order" => "minimum ASC"));
+        $group = Customers::minimum(array("column" => "customer_id", "group" => "status", "order" => "minimum ASC"));
         $this->assertEquals($group[0]->minimum, 20404);
 
     }

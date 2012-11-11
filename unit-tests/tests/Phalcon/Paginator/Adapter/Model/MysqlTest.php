@@ -27,7 +27,9 @@ class Paginator_Adapter_Model_MysqlTest extends Paginator_Adapter_Helper_Base
     {
         parent::setUp();
 
-        $fixture = Personnes::find();
+        $this->populateTable('customers', 120);
+
+        $fixture = Customers::find();
 
         $this->setClass('\Phalcon\Paginator\Adapter\Model');
         $this->setFixture($fixture);

@@ -21,6 +21,25 @@
  * so that we can send you a copy immediately.
  */
 
+use \Phalcon\Mvc\Model\Manager as PhModelManager;
+use \Phalcon\Events\Manager as PhEventsManager;
+use \Phalcon\Logger\Adapter\File as PhLogger;
+
+use \Phalcon\Db\Adapter\Pdo\Mysql as PhMysql;
+use \Phalcon\Session\Adapter\Files as PhSession;
+use \Phalcon\Cache\Frontend\Data as PhCacheFront;
+use \Phalcon\Cache\Backend\File as PhCacheBack;
+use \Phalcon\Mvc\Application as PhApplication;
+use \Phalcon\Mvc\Dispatcher as PhDispatcher;
+use \Phalcon\Mvc\Url as PhUrl;
+use \Phalcon\Mvc\View as PhView;
+use \Phalcon\Mvc\View\Engine\Volt as PhVolt;
+use \Phalcon\Mvc\Model\Metadata\Memory as PhMetadataMemory;
+use \Phalcon\Mvc\Model\Metadata\Files as PhMetadataFiles;
+use \Phalcon\Exception as PhException;
+
+
+
 class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
 {
     /**
@@ -34,14 +53,22 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
         parent::setUp();
 
         // Set Models manager
-        $this->_di->set('modelsManager', function() {
-            return new \Phalcon\Mvc\Model\Manager();
-        });
+        $this->_di->set(
+            'modelsManager',
+            function()
+            {
+                return new PhModelManager();
+            }
+        );
 
         // Set Models metadata
-        $this->_di->set('modelsMetadata', function() {
-            return new \Phalcon\Mvc\Model\Metadata\Memory();
-        });
+        $this->_di->set(
+            'modelsMetadata',
+            function()
+            {
+                return new PhModelManager();
+            }
+        );
 
         // Set the connection to the db (defaults to mysql)
         $this->setDb();
@@ -67,6 +94,7 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
                 return $db;
             }
         }
+
         // Set the connection to whatever we chose
         $this->_di->set(
             'db',
@@ -74,7 +102,9 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
             {
                 $params = $config['db'][$dbType];
                 $class  = '\Phalcon\Db\Adapter\Pdo\\' . ucfirst($dbType);
-                return new $class($params);
+
+                $conn = new $class($params);
+                return $conn;
             }
         );
     }
@@ -96,5 +126,39 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
         $success = $connection->delete($table);
 
         return $success;
+    }
+
+    /**
+     * Populates a table with default data
+     *
+     * @param      $table
+     * @param null $records
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-08
+     */
+    public function populateTable($table, $records = null)
+    {
+        // Empty the table first
+        $this->emptyTable($table);
+
+        $connection = $this->_di->get('db');
+        $parts      = explode('_', $table);
+        $suffix     = '';
+
+        foreach ($parts as $part)
+        {
+            $suffix .= ucfirst($part);
+        }
+
+        $class = 'Phalcon_Test_Fixtures_' . $suffix;
+
+        $data = $class::get($records);
+
+        foreach ($data as $record)
+        {
+            $sql = "INSERT INTO {$table} VALUES " . $record;
+            $connection->execute($sql);
+        }
     }
 }

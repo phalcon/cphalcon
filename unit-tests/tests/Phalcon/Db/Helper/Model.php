@@ -25,15 +25,17 @@ class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 {
 	public function testExecute()
 	{
+        $this->populateTable('customers', 100);
+
         $connection = $this->_di->get('db');
 
-		$result = $connection->query("SELECT * FROM personas LIMIT 3");
+		$result = $connection->query("SELECT * FROM customers LIMIT 3");
 		$this->assertTrue(is_object($result));
 		$this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
 
 		for ($i=0; $i<3; $i++) {
 			$row = $result->fetchArray();
-			$this->assertEquals(count($row), 22);
+			$this->assertEquals(count($row), 26);
 		}
 
 		$row = $result->fetchArray();
@@ -41,7 +43,7 @@ class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 		$this->assertEquals($result->numRows(), 3);
 
 		$number = 0;
-		$result = $connection->query("SELECT * FROM personas LIMIT 5");
+		$result = $connection->query("SELECT * FROM customers LIMIT 5");
 		$this->assertTrue(is_object($result));
 
 		while ($row = $result->fetchArray()) {
@@ -49,22 +51,27 @@ class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 		}
 		$this->assertEquals($number, 5);
 
-		$result = $connection->query("SELECT * FROM personas LIMIT 5");
+		$result = $connection->query("SELECT * FROM customers LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_NUM);
 		$row = $result->fetchArray();
-		$this->assertEquals(count($row), 11);
+		$this->assertEquals(count($row), 13);
 
-		$result = $connection->query("SELECT * FROM personas LIMIT 5");
+		$result = $connection->query("SELECT * FROM customers LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
 		$row = $result->fetchArray();
-		$this->assertEquals(count($row), 11);
+		$this->assertEquals(count($row), 13);
 
-		$result = $connection->query("SELECT * FROM personas LIMIT 5");
+		$result = $connection->query("SELECT * FROM customers LIMIT 5");
 		$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
 		$result->dataSeek(4);
 		$row = $result->fetchArray();
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
+    }
+
+    public function testExecutes()
+    {
+        $this->markTestSkipped('Needs some work here');
 
 		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);

@@ -25,6 +25,7 @@ class Mvc_Model_Calculation_PostgresqlTest extends Mvc_Model_Calculation_Helper_
 {
     public function setUp()
     {
+        $this->markTestSkipped('Postgres schema to be completed');
         parent::setUp();
 
         $this->setDb('postgresql');

@@ -1,23 +1,6 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
-CREATE TABLE `subscribers` (
-  `id` INTEGER NOT NULL PRIMARY KEY,
-  `email` varchar(70) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `status` char(1) NOT NULL
-);
-
-
-CREATE TABLE `parts` (
-  `id` INTEGER NOT NULL PRIMARY KEY,
-  `name` varchar(70) NOT NULL
-);
-INSERT INTO "parts" VALUES(1,'Head');
-INSERT INTO "parts" VALUES(2,'Body');
-INSERT INTO "parts" VALUES(3,'Arms');
-INSERT INTO "parts" VALUES(4,'Legs');
-INSERT INTO "parts" VALUES(5,'CPU');
 CREATE TABLE `personas` (
   `cedula` char(15) NOT NULL,
   `tipo_documento_id` int(3) NOT NULL,
@@ -4422,30 +4405,7 @@ INSERT INTO "personnes" VALUES('T-Cx211',1,'LOST LOST','1',NULL,NULL,NULL,NULL,N
 INSERT INTO "personnes" VALUES('T-Cx212',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
 INSERT INTO "personnes" VALUES('T-Cx213',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
 INSERT INTO "personnes" VALUES('T-Cx214',1,'LOST LOST','1',NULL,NULL,NULL,NULL,NULL,0,'A');
-CREATE TABLE `prueba` (
-  `id` INTEGER NOT NULL PRIMARY KEY,
-  `nombre` varchar(120) NOT NULL,
-  `estado` char(1) NOT NULL
-);
-CREATE TABLE `robots` (
-  `id` INTEGER NOT NULL PRIMARY KEY,
-  `name` varchar(70) NOT NULL,
-  `type` varchar(32) NOT NULL,
-  `year` int(11) NOT NULL
-);
-INSERT INTO "robots" VALUES(1,'Robotina','mechanical',1972);
-INSERT INTO "robots" VALUES(2,'Astro Boy','mechanical',1952);
-INSERT INTO "robots" VALUES(3,'Terminator','cyborg',2029);
-CREATE TABLE `robots_parts` (
-  `id` INTEGER NOT NULL PRIMARY KEY,
-  `robots_id` int(10) NOT NULL,
-  `parts_id` int(10) NOT NULL,
-  CONSTRAINT `robots_parts_ibfk_1` FOREIGN KEY (`robots_id`) REFERENCES `robots` (`id`),
-  CONSTRAINT `robots_parts_ibfk_2` FOREIGN KEY (`parts_id`) REFERENCES `parts` (`id`)
-);
-INSERT INTO "robots_parts" VALUES(1,1,1);
-INSERT INTO "robots_parts" VALUES(2,1,2);
-INSERT INTO "robots_parts" VALUES(3,1,3);
+
 CREATE TABLE `subscriptores` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `email` varchar(70) NOT NULL,

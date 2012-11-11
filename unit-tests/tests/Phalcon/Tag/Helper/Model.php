@@ -38,6 +38,9 @@ class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
      */
     public function testSelectBasic()
     {
+        // Populate the table
+        $this->populateTable('robots');
+
         $robots = Robots::find();
 
         $params = array(

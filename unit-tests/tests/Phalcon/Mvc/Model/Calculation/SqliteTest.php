@@ -25,6 +25,7 @@ class Mvc_Model_Calculation_SqliteTest extends Mvc_Model_Calculation_Helper_Mode
 {
     public function setUp()
     {
+        $this->markTestSkipped('Sqlite schema to be completed');
         parent::setUp();
 
         $this->setDb('sqlite');

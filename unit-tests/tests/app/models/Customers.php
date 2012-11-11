@@ -1,9 +1,9 @@
 <?php
 /**
- * SqliteTest.php
- * Phalcon_Db_Model_Validators_SqliteTest
+ * Customers.php
+ * Customers
  *
- * Tests the \Phalcon\Db Model Validators component
+ * Model for the subscribers
  *
  * PhalconPHP Framework
  *
@@ -21,13 +21,12 @@
  * so that we can send you a copy immediately.
  */
 
-class Db_Model_Validators_SqliteTest extends Db_Helper_Model_Validators
-{
-    public function setUp()
-    {
-        $this->markTestSkipped('Postgres schema to be completed');
-        parent::setUp();
+use \Phalcon\Mvc\Model as Model;
 
-        $this->setDb('sqlite');
+class Customers extends Model
+{
+    public function getSource()
+    {
+        return 'customers';
     }
 }

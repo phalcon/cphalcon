@@ -25,6 +25,7 @@ class Tag_PostgresqlTest extends Tag_Helper_Model
 {
     public function setUp()
     {
+        $this->markTestSkipped('Posrgres schema to be completed');
         parent::setUp();
 
         $this->setDb('postgresql');

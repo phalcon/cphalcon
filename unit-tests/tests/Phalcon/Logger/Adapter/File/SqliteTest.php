@@ -1,7 +1,7 @@
 <?php
 /**
- * PostgresqlTest.php
- * Logger_Adapter_File_PostgresqlTest
+ * SqliteTest.php
+ * Logger_Adapter_File_SqliteTest
  *
  * Tests the \Phalcon\Logger\Adapter\File component
  *
@@ -21,13 +21,14 @@
  * so that we can send you a copy immediately.
  */
 
-class Logger_Adapter_File_PostgresqlTest extends Logger_Adapter_File_Helper_Model
+class Logger_Adapter_File_SqliteTest extends Logger_Adapter_File_Helper_Model
 {
     public function setUp()
     {
+        $this->markTestSkipped('Sqlite schema to be completed');
         parent::setUp();
 
-        $this->setDb('postgresql');
+        $this->setDb('sqlite');
 
     }
 }

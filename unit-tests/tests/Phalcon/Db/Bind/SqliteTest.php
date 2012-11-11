@@ -22,8 +22,6 @@
  * so that we can send you a copy immediately.
  */
 
-require_once 'Helper.php';
-
 class Db_Bind_SqliteTest extends Db_Bind_Helper
 {
     public function setUp()
