@@ -44,10 +44,12 @@ PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface){
  * @param object $handler
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
+
 /**
  * Removes all events from the EventsManager
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
+
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it
  *
@@ -57,6 +59,7 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
+
 /**
  * Returns all the attached listeners of a certain type
  *
@@ -64,3 +67,4 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, getListeners);
+

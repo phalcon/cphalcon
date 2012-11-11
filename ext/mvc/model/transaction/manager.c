@@ -96,7 +96,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager){
 	zend_declare_property_long(phalcon_mvc_model_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_transactions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 2, phalcon_mvc_model_transaction_managerinterface_ce, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 }

@@ -43,9 +43,11 @@ PHALCON_INIT_CLASS(Phalcon_Events_EventsAwareInterface){
  * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHALCON_DOC_METHOD(Phalcon_Events_EventsAwareInterface, setEventsManager);
+
 /**
  * Returns the internal event manager
  *
  * @return Phalcon\Events\ManagerInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Events_EventsAwareInterface, getEventsManager);
+

@@ -43,27 +43,32 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface){
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getFirst);
+
 /**
  * Get last row in the resultset
  *
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getLast);
+
 /**
  * Set if the resultset is fresh or an old one cached
  *
  * @param boolean $isFresh
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
+
 /**
  * Tell if the resultset if fresh or an old one cached
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
+
 /**
  * Returns the associated cache for the resultset
  *
  * @return Phalcon\Cache\BackendInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
+

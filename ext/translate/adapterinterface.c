@@ -43,6 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface){
  * @param array $data
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
+
 /**
  * Returns the translation string of the given key
  *
@@ -51,6 +52,7 @@ PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, _);
+
 /**
  * Returns the translation related to the given key
  *
@@ -59,6 +61,7 @@ PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, _);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
+
 /**
  * Check whether is defined a translation key in the internal array
  *
@@ -66,3 +69,4 @@ PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
  * @return bool
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
+

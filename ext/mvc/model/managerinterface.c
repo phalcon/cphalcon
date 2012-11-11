@@ -43,6 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface){
  * @param Phalcon\Mvc\ModelInterface $model
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, initialize);
+
 /**
  * Check of a model is already initialized
  *
@@ -50,18 +51,21 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, initialize);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isInitialized);
+
 /**
  * Get last initialized model
  *
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastInitialized);
+
 /**
  * Loads a model throwing an exception if it doesn't exist
  *
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
+
 /**
  * Setup a 1-1 relation between two models
  *
@@ -72,6 +76,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
+
 /**
  * Setup a relation reverse 1-1  between two models
  *
@@ -82,6 +87,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
+
 /**
  * Setup a relation 1-n between two models
  *
@@ -92,6 +98,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
+
 /**
  * Checks whether a model has a belongsTo relation with another model
  *
@@ -100,6 +107,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
  * @return 	boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsBelongsTo);
+
 /**
  * Checks whether a model has a hasMany relation with another model
  *
@@ -108,6 +116,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsBelongsTo);
  * @return 	boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasMany);
+
 /**
  * Checks whether a model has a hasOne relation with another model
  *
@@ -116,6 +125,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasMany);
  * @return 	boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOne);
+
 /**
  * Gets belongsTo related records from a model
  *
@@ -127,6 +137,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOne);
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsToRecords);
+
 /**
  * Gets hasMany related records from a model
  *
@@ -138,6 +149,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsToRecords);
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyRecords);
+
 /**
  * Gets belongsTo related records from a model
  *
@@ -149,6 +161,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyRecords);
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneRecords);
+
 /**
  * Gets belongsTo relations defined on a model
  *
@@ -156,6 +169,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneRecords);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsTo);
+
 /**
  * Gets hasMany relations defined on a model
  *
@@ -163,6 +177,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsTo);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasMany);
+
 /**
  * Gets hasOne relations defined on a model
  *
@@ -170,6 +185,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasMany);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
+
 /**
  * Gets hasOne relations defined on a model
  *
@@ -177,6 +193,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
+
 /**
  * Query the relations between two models
  *
@@ -185,6 +202,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
+
 /**
  * Creates a Phalcon\Mvc\Model\Query without execute it
  *
@@ -192,6 +210,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
  * @return Phalcon\Mvc\Model\QueryInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
+
 /**
  * Creates a Phalcon\Mvc\Model\Query and execute it
  *
@@ -200,3 +219,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
  * @return Phalcon\Mvc\Model\QueryInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
+

@@ -43,24 +43,28 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_UrlInterface){
  * @param string $baseUri
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBaseUri);
+
 /**
  * Returns the prefix for all the generated urls. By default /
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBaseUri);
+
 /**
  * Sets a base paths for all the generated paths
  *
  * @param string $basePath
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, setBasePath);
+
 /**
  * Returns a base path
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
+
 /**
  * Generates a URL
  *
@@ -68,6 +72,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, getBasePath);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
+
 /**
  * Generates a local path
  *
@@ -75,3 +80,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, get);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_UrlInterface, path);
+

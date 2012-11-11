@@ -44,18 +44,21 @@ PHALCON_INIT_CLASS(Phalcon_Db_IndexInterface){
  * @param array $columns
  */
 PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, __construct);
+
 /**
  * Gets the index name
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
+
 /**
  * Gets the columns that comprends the index
  *
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
+
 /**
  * Restore a Phalcon\Db\Index object from export
  *
@@ -63,3 +66,4 @@ PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
  * @return Phalcon\Db\IndexInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
+

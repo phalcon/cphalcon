@@ -41,10 +41,12 @@ PHALCON_INIT_CLASS(Phalcon_Session_BagInterface){
  * Initializes the session bag. This method must not be called directly, the class calls it when its internal data is accesed
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, initialize);
+
 /**
  * Destroyes the session bag
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
+
 /**
  * Setter of values
  *
@@ -52,6 +54,7 @@ PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, destroy);
  * @param string $value
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __set);
+
 /**
  * Getter of values
  *
@@ -59,6 +62,7 @@ PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __set);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __get);
+
 /**
  * Isset property
  *
@@ -66,3 +70,4 @@ PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __get);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Session_BagInterface, __isset);
+

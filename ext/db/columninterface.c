@@ -44,84 +44,98 @@ PHALCON_INIT_CLASS(Phalcon_Db_ColumnInterface){
  * @param array $definition
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, __construct);
+
 /**
  * Returns schema's table related to column
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getSchemaName);
+
 /**
  * Returns column name
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getName);
+
 /**
  * Returns column type
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getType);
+
 /**
  * Returns column size
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getSize);
+
 /**
  * Returns column scale
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getScale);
+
 /**
  * Returns true if number column is unsigned
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isUnsigned);
+
 /**
  * Not null
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isNotNull);
+
 /**
  * Column is part of the primary key?
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isPrimary);
+
 /**
  * Auto-Increment
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isAutoIncrement);
+
 /**
  * Check whether column have an numeric type
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isNumeric);
+
 /**
  * Check whether column have first position in table
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, isFirst);
+
 /**
  * Check whether field absolute to position in table
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getAfterPosition);
+
 /**
  * Returns the type of bind handling
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
+
 /**
  * Restores the internal state of a Phalcon\Db\Column object
  *
@@ -129,3 +143,4 @@ PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
  * @return \Phalcon\Db\ColumnInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Db_ColumnInterface, __set_state);
+

@@ -45,12 +45,14 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
  * @return Phalcon\DI
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
+
 /**
  * Removes a service in the services container
  *
  * @param string $alias
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
+
 /**
  * Attempts to register a service in the services container
  * Only is successful if a service hasn't been registered previously
@@ -61,6 +63,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
  * @return Phalcon\DiInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, attempt);
+
 /**
  * Resolves the service based on its configuration
  *
@@ -69,6 +72,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, attempt);
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, get);
+
 /**
  * Returns a shared service based on their configuration
  *
@@ -77,6 +81,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, get);
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getShared);
+
 /**
  * Check whether the DI contains a service by a name
  *
@@ -84,25 +89,30 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, getShared);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, has);
+
 /**
  * Check whether the last service obtained via getShared produced a fresh instance or an existing one
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
+
 /**
  * Set a default dependency injection container to be obtained into static methods
  *
  * @param Phalcon\DiInterface $dependencyInjector
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, setDefault);
+
 /**
  * Return the last DI created
  *
  * @return Phalcon\DI
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getDefault);
+
 /**
  * Resets the internal default DI
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, reset);
+

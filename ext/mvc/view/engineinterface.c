@@ -44,12 +44,14 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_EngineInterface){
  * @param Phalcon\DiInterface $dependencyInjector
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, __construct);
+
 /**
  * Returns cached ouput on another view stage
  *
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, getContent);
+
 /**
  * Renders a partial inside another view
  *
@@ -57,6 +59,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, getContent);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
+
 /**
  * Renders a view using the template engine
  *
@@ -65,3 +68,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, partial);
  * @param boolean $mustClean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_View_EngineInterface, render);
+

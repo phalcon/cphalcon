@@ -43,24 +43,28 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_FileInterface){
  * @param array $file
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, __construct);
+
 /**
  * Returns the file size of the uploaded file
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);
+
 /**
  * Returns the real name of the uploaded file
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);
+
 /**
  * Returns the temporal name of the uploaded file
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
+
 /**
  * Move the temporary file to a destination
  *
@@ -68,3 +72,4 @@ PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, moveTo);
+

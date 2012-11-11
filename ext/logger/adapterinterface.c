@@ -43,12 +43,14 @@ PHALCON_INIT_CLASS(Phalcon_Logger_AdapterInterface){
  * @param string $format
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setFormat);
+
 /**
  * Returns the log format
  *
  * @return format
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormat);
+
 /**
  * Returns the string meaning of a logger constant
  *
@@ -56,18 +58,21 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getFormat);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getTypeString);
+
 /**
  * Sets the internal date format
  *
  * @param string $date
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, setDateFormat);
+
 /**
  * Returns the internal date format
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getDateFormat);
+
 /**
  * Sends/Writes messages to the file log
  *
@@ -75,27 +80,32 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, getDateFormat);
  * @param int $type
  */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, log);
+
 /**
   * Starts a transaction
   *
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, begin);
+
 /**
   * Commits the internal transaction
   *
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, commit);
+
 /**
   * Rollbacks the internal transaction
   *
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, rollback);
+
 /**
   * Closes the logger
   *
   * @return boolean
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
+
 /**
   * Sends/Writes a debug message to the log
   *
@@ -103,6 +113,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, close);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
+
 /**
   * Sends/Writes an error message to the log
   *
@@ -110,6 +121,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, debug);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
+
 /**
   * Sends/Writes an info message to the log
   *
@@ -117,6 +129,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, error);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
+
 /**
   * Sends/Writes a notice message to the log
   *
@@ -124,6 +137,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, info);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
+
 /**
   * Sends/Writes a warning message to the log
   *
@@ -131,6 +145,7 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, notice);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
+
 /**
   * Sends/Writes an alert message to the log
   *
@@ -138,3 +153,4 @@ PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, warning);
   * @param ing $type
   */
 PHALCON_DOC_METHOD(Phalcon_Logger_AdapterInterface, alert);
+

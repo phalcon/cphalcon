@@ -44,21 +44,25 @@ PHALCON_INIT_CLASS(Phalcon_Acl_RoleInterface){
  * @param string $description
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, __construct);
+
 /**
  * Returns the role name
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);
+
 /**
  * Returns role description
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, getDescription);
+
 /**
  * Magic method __toString
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_RoleInterface, __toString);
+

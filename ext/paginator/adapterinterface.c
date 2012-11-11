@@ -43,15 +43,18 @@ PHALCON_INIT_CLASS(Phalcon_Paginator_AdapterInterface){
  * @param array $config
  */
 PHALCON_DOC_METHOD(Phalcon_Paginator_AdapterInterface, __construct);
+
 /**
  * Set the current page number
  *
  * @param int $page
  */
 PHALCON_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
+
 /**
  * Returns a slice of the resultset to show in the pagination
  *
  * @return stdClass
  */
 PHALCON_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getPaginate);
+

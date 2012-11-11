@@ -44,6 +44,7 @@ PHALCON_INIT_CLASS(Phalcon_FlashInterface){
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, error);
+
 /**
  * Shows a HTML notice/information message
  *
@@ -51,6 +52,7 @@ PHALCON_DOC_METHOD(Phalcon_FlashInterface, error);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, notice);
+
 /**
  * Shows a HTML success message
  *
@@ -58,6 +60,7 @@ PHALCON_DOC_METHOD(Phalcon_FlashInterface, notice);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, success);
+
 /**
  * Shows a HTML warning message
  *
@@ -65,6 +68,7 @@ PHALCON_DOC_METHOD(Phalcon_FlashInterface, success);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, warning);
+
 /**
  * Outputs a message
  *
@@ -73,3 +77,4 @@ PHALCON_DOC_METHOD(Phalcon_FlashInterface, warning);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_FlashInterface, message);
+

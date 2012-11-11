@@ -45,6 +45,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_DialectInterface){
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, limit);
+
 /**
  * Returns a SQL modified with a FOR UPDATE clause
  *
@@ -52,6 +53,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, limit);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, forUpdate);
+
 /**
  * Returns a SQL modified with a LOCK IN SHARE MODE clause
  *
@@ -59,6 +61,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, forUpdate);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, sharedLock);
+
 /**
  * Builds a SELECT statement
  *
@@ -66,6 +69,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, sharedLock);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, select);
+
 /**
  * Gets a list of columns
  *
@@ -73,12 +77,14 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, select);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnList);
+
 /**
  * Gets the column name in MySQL
  *
  * @param Phalcon\Db\ColumnInterface $column
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnDefinition);
+
 /**
  * Generates SQL to add a column to a table
  *
@@ -88,6 +94,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, getColumnDefinition);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addColumn);
+
 /**
  * Generates SQL to modify a column in a table
  *
@@ -97,6 +104,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addColumn);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, modifyColumn);
+
 /**
  * Generates SQL to delete a column from a table
  *
@@ -106,6 +114,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, modifyColumn);
  * @return 	string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropColumn);
+
 /**
  * Generates SQL to add an index to a table
  *
@@ -115,6 +124,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropColumn);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addIndex);
+
 /**
   * Generates SQL to delete an index from a table
  *
@@ -124,6 +134,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addIndex);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropIndex);
+
 /**
  * Generates SQL to add the primary key to a table
  *
@@ -133,6 +144,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropIndex);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addPrimaryKey);
+
 /**
  * Generates SQL to delete primary key from a table
  *
@@ -141,6 +153,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addPrimaryKey);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropPrimaryKey);
+
 /**
  * Generates SQL to add an index to a table
  *
@@ -150,6 +163,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropPrimaryKey);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addForeignKey);
+
 /**
  * Generates SQL to delete a foreign key from a table
  *
@@ -159,6 +173,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, addForeignKey);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropForeignKey);
+
 /**
  * Generates SQL to create a table
  *
@@ -168,11 +183,13 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropForeignKey);
  * @return 	string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createTable);
+
 /**
  * Generates SQL to drop a table
  *
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropTable);
+
 /**
  * Generates SQL checking for the existence of a schema.table
  *
@@ -181,6 +198,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropTable);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableExists);
+
 /**
  * Generates SQL to describe a table
  *
@@ -189,6 +207,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableExists);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeColumns);
+
 /**
  * List all tables on database
  *
@@ -196,6 +215,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeColumns);
  * @return      array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listTables);
+
 /**
  * Generates SQL to query indexes on a table
  *
@@ -204,6 +224,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, listTables);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeIndexes);
+
 /**
  * Generates SQL to query foreign keys on a table
  *
@@ -212,6 +233,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeIndexes);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
+
 /**
  * Generates the SQL to describe the table creation options
  *
@@ -220,3 +242,4 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, describeReferences);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, tableOptions);
+

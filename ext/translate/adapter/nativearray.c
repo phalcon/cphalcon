@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/array.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/file.h"
 #include "kernel/concat.h"
@@ -57,6 +57,8 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray){
 
 	zend_declare_property_null(phalcon_translate_adapter_nativearray_ce, SL("_translate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_translate_adapter_nativearray_ce TSRMLS_CC, 1, phalcon_translate_adapterinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -77,6 +79,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 		RETURN_NULL();
 	}
 
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Invalid options");
+		return;
+	}
 	eval_int = phalcon_array_isset_string(options, SS("content"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(data);
@@ -89,6 +95,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation content was not provided");
 		return;
 	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_translate"), data TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

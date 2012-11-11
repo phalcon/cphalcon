@@ -44,6 +44,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface){
  * @param int $index
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
+
 /**
  * Writes meta-data for certain model using a MODEL_* constant
  *
@@ -52,6 +53,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
  * @param mixed $data
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
+
 /**
  * Returns table attributes names (fields)
  *
@@ -59,6 +61,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
  * @return 	array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
+
 /**
  * Returns an array of fields which are part of the primary key
  *
@@ -66,6 +69,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
+
 /**
  * Returns an arrau of fields which are not part of the primary key
  *
@@ -73,6 +77,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes)
  * @return 	array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes);
+
 /**
  * Returns an array of not null attributes
  *
@@ -80,6 +85,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttribut
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
+
 /**
  * Returns attributes and their data types
  *
@@ -87,6 +93,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
+
 /**
  * Returns attributes which types are numerical
  *
@@ -94,6 +101,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
+
 /**
  * Returns the name of identity field (if one is present)
  *
@@ -101,6 +109,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
+
 /**
  * Returns attributes and their bind data types
  *
@@ -108,6 +117,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
+
 /**
  * Returns attributes that must be ignored from the INSERT SQL generation
  *
@@ -115,6 +125,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes);
+
 /**
  * Returns attributes that must be ignored from the UPDATE SQL generation
  *
@@ -122,6 +133,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttrib
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes);
+
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
  *
@@ -129,6 +141,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttrib
  * @param  array $attributes
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttributes);
+
 /**
  * Set the attributes that must be ignored from the UPDATE SQL generation
  *
@@ -136,22 +149,26 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttrib
  * @param  array $attributes
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
+
 /**
  * Checks if the internal meta-data container is empty
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, isEmpty);
+
 /**
  * Resets internal meta-data in order to regenerate it
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset);
+
 /**
  * Reads meta-data from the adapter
  *
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);
+
 /**
  * Writes meta-data to the adapter
  *
@@ -159,3 +176,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);
  * @param array $data
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, write);
+

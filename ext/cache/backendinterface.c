@@ -44,6 +44,7 @@ PHALCON_INIT_CLASS(Phalcon_Cache_BackendInterface){
  * @param array $backendOptions
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
+
 /**
  * Starts a cache. The $keyname allows to identify the created fragment
  *
@@ -51,37 +52,44 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
  * @return  mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, start);
+
 /**
  * Stops the frontend without store any cached content
  *
  * @param boolean $stopBuffer
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, stop);
+
 /**
  * Returns front-end instance adapter related to the back-end
  *
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getFrontend);
+
 /**
  * Checks whether the last cache is fresh or cached
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isFresh);
+
 /**
  * Checks whether the cache has starting buffering or not
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
+
 /**
  * Gets the last key stored by the cache
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
+
 /**
  * Returns data from the backend
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
+

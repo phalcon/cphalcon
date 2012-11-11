@@ -43,12 +43,14 @@ PHALCON_INIT_CLASS(Phalcon_Acl_AdapterInterface){
  * @param int $defaultAccess
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, setDefaultAction);
+
 /**
  * Returns the default ACL access level
  *
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
+
 /**
  * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
  *
@@ -57,6 +59,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);
+
 /**
  * Do a role inherit from another existing role
  *
@@ -64,6 +67,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);
  * @param string $roleToInherit
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
+
 /**
  * Check whether role exist in the roles list
  *
@@ -71,6 +75,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isRole);
+
 /**
  * Check whether resource exist in the resources list
  *
@@ -78,6 +83,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isRole);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isResource);
+
 /**
  * Adds a resource to the ACL list
  *
@@ -88,6 +94,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isResource);
  * @return  boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResource);
+
 /**
  * Adds access to resources
  *
@@ -95,6 +102,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResource);
  * @param mixed $accessList
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResourceAccess);
+
 /**
  * Removes an access from a resource
  *
@@ -102,6 +110,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResourceAccess);
  * @param mixed $accessList
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropResourceAccess);
+
 /**
  * Allow access to a role on a resource
  *
@@ -110,6 +119,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropResourceAccess);
  * @param mixed $access
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
+
 /**
  * Deny access to a role on a resource
  *
@@ -119,6 +129,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, allow);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
+
 /**
  * Check whether a role is allowed to access an action from a resource
  *
@@ -128,21 +139,25 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);
+
 /**
  * Returns the role which the list is checking if it's allowed to certain resource/access
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveRole);
+
 /**
  * Returns the resource which the list is checking if some role can access it
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveResource);
+
 /**
  * Returns the access which the list is checking if some role can access it
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
+

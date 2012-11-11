@@ -2,6 +2,8 @@
  - Implemented a fast way to retrieve object's members without add a memory frame
  - Now Phalcon\Mvc\Dispatcher checks for methods beforeExecuteRoute and afterExecuteRoute in the controller handler
  - Added phalcon_start_with to check if a zval string starts with other string avoiding substrs in PHP userland
+ - Added interfaces to most classes helping the developer to easily create component replacements and add new adapters/classes
+ - Implemented interfaces on their own components
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

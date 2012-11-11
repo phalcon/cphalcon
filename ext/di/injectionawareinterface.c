@@ -43,9 +43,11 @@ PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface){
  * @param Phalcon\DiInterface $dependencyInjector
  */
 PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
+
 /**
  * Returns the internal dependency injector
  *
  * @return Phalcon\DiInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);
+

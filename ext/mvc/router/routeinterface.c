@@ -45,6 +45,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface){
  * @param array|string $httpMethods
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, __construct);
+
 /**
  * Replaces placeholders from pattern returning a valid PCRE regular expression
  *
@@ -52,12 +53,14 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, __construct);
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, compilePattern);
+
 /**
  * Set one or more HTTP methods that constraint the matching of the route
  *
  * @param string|array $httpMethods
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, via);
+
 /**
  * Reconfigure the route adding a new pattern and a set of paths
  *
@@ -65,55 +68,65 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, via);
  * @param array $paths
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reConfigure);
+
 /**
  * Returns the route's name
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getName);
+
 /**
  * Sets the route's name
  *
  * @param string $name
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setName);
+
 /**
  * Sets a set of HTTP methods that constraint the matching of the route
  *
  * @param string|array $httpMethods
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, setHttpMethods);
+
 /**
  * Returns the route's id
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getRouteId);
+
 /**
  * Returns the route's pattern
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPattern);
+
 /**
  * Returns the route's pattern
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern);
+
 /**
  * Returns the paths
  *
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getPaths);
+
 /**
  * Returns the HTTP methods that constraint matching the route
  *
  * @return string|array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, getHttpMethods);
+
 /**
  * Resets the internal route id generator
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Router_RouteInterface, reset);
+

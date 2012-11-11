@@ -43,35 +43,42 @@ PHALCON_INIT_CLASS(Phalcon_Cache_FrontendInterface){
  * @return int
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, getLifetime);
+
 /**
  * Check whether if frontend is buffering output
  *
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, isBuffering);
+
 /**
  * Starts the frontend
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, start);
+
 /**
  * Returns output cached content
  *
  * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, getContent);
+
 /**
  * Stops the frontend
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, stop);
+
 /**
  * Serializes data before storing it
  *
  * @param mixed $data
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, beforeStore);
+
 /**
  * Unserializes data after retrieving it
  *
  * @param mixed $data
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_FrontendInterface, afterRetrieve);
+

@@ -43,6 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ValidatorInterface){
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ValidatorInterface, getMessages);
+
 /**
  * Executes the validator
  *
@@ -50,3 +51,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ValidatorInterface, getMessages);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ValidatorInterface, validate);
+

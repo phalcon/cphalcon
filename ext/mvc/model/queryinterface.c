@@ -43,6 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface){
  * @param string $phql
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, __construct);
+
 /**
  * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
  * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
@@ -51,6 +52,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, __construct);
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, parse);
+
 /**
  * Executes a parsed PHQL statement
  *
@@ -58,3 +60,4 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, parse);
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, execute);
+
