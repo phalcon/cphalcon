@@ -24,7 +24,7 @@
 
 use \Phalcon\Db\RawValue as PhDbRawValue;
 
-class Db_Bind_PostgresqlTest extends Db_Bind_Helper
+class Db_Bind_PostgresqlTest extends Db_Helper_Bind
 {
     public function setUp()
     {

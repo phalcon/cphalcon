@@ -22,7 +22,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Db_Bind_SqliteTest extends Db_Bind_Helper
+class Db_Bind_SqliteTest extends Db_Helper_Bind
 {
     public function setUp()
     {
