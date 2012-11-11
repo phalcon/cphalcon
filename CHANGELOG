@@ -4,6 +4,7 @@
  - Added phalcon_start_with to check if a zval string starts with other string avoiding substrs in PHP userland
  - Added interfaces to most classes helping the developer to easily create component replacements and add new adapters/classes
  - Implemented interfaces on their own components
+ - Implemented event propagation, ability to stop events in EventsManager
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

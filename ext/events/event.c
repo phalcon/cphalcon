@@ -51,6 +51,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_Event){
 	zend_declare_property_null(phalcon_events_event_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_events_event_ce, SL("_source"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_events_event_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_event_ce, SL("_stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -149,5 +150,24 @@ PHP_METHOD(Phalcon_Events_Event, getData){
 
 
 	RETURN_MEMBER(this_ptr, "_data");
+}
+
+/**
+ * Stops the event preventing propagation
+ */
+PHP_METHOD(Phalcon_Events_Event, stop){
+
+
+	phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);
+	
+}
+
+/**
+ * Check whether the event is currently stopped
+ */
+PHP_METHOD(Phalcon_Events_Event, isStopped){
+
+
+	RETURN_MEMBER(this_ptr, "_stopped");
 }
 
