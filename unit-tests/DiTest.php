@@ -155,6 +155,35 @@ class DiTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($someComponent2->someProperty, 50);
 	}
 
+	public function testGetServices()
+	{
+
+		$expectedServices = array(
+			'service1' => Phalcon\DI\Service::__set_state(array(
+				'_name' => 'service1',
+				'_definition' => 'some-service',
+				'_shared' => false,
+				'_sharedInstance' => NULL,
+			)),
+			'service2' => Phalcon\DI\Service::__set_state(array(
+				'_name' => 'service2',
+				'_definition' => 'some-other-service',
+				'_shared' => false,
+				'_sharedInstance' => NULL,
+			))
+		);
+
+		$this->_di->set('service1', 'some-service');
+		$this->_di->set('service2', 'some-other-service');
+		$this->assertEquals($this->_di->getServices(), $expectedServices);
+	}
+
+	public function testGetRawService()
+	{
+		$this->_di->set('service1', 'some-service');
+		$this->assertEquals($this->_di->getRaw('service1'), 'some-service');
+	}
+
 	public function testFactoryDefault()
 	{
 		$factoryDefault = new Phalcon\DI\FactoryDefault();
@@ -179,6 +208,7 @@ class DiTest extends PHPUnit_Framework_TestCase
 
 		$modelsManager = $factoryDefault->get('modelsManager');
 		$this->assertEquals(get_class($modelsManager), 'Phalcon\Mvc\Model\Manager');
+
 	}
 
 	public function testStaticDi()

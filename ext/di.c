@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 }
 
 /**
- * Resolves the service based on its configuration
+ * Returns a service definition without resolving
  *
  * @param string $name
  * @return mixed
@@ -469,6 +469,17 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 
 
 	RETURN_MEMBER(this_ptr, "_freshInstance");
+}
+
+/**
+ * Return the services registered in the DI
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_DI, getServices){
+
+
+	RETURN_MEMBER(this_ptr, "_services");
 }
 
 /**

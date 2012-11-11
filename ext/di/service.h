@@ -26,8 +26,9 @@ PHP_METHOD(Phalcon_DI_Service, getName);
 PHP_METHOD(Phalcon_DI_Service, setShared);
 PHP_METHOD(Phalcon_DI_Service, getShared);
 PHP_METHOD(Phalcon_DI_Service, setDefinition);
-PHP_METHOD(Phalcon_DI_Service, getDefitinion);
+PHP_METHOD(Phalcon_DI_Service, getDefinition);
 PHP_METHOD(Phalcon_DI_Service, resolve);
+PHP_METHOD(Phalcon_DI_Service, __set_state);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___construct, 0, 0, 2)
 	ZEND_ARG_INFO(0, name)
@@ -47,14 +48,19 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_resolve, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___set_state, 0, 0, 1)
+	ZEND_ARG_INFO(0, attributes)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_di_service_method_entry){
 	PHP_ME(Phalcon_DI_Service, __construct, arginfo_phalcon_di_service___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_DI_Service, getName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, setShared, arginfo_phalcon_di_service_setshared, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, getShared, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, setDefinition, arginfo_phalcon_di_service_setdefinition, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_DI_Service, getDefitinion, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI_Service, getDefinition, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI_Service, resolve, arginfo_phalcon_di_service_resolve, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI_Service, __set_state, arginfo_phalcon_di_service___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };
 

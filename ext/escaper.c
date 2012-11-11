@@ -109,6 +109,8 @@ PHP_METHOD(Phalcon_Escaper, getEncoding){
 
 /**
  * Sets the HTML quoting type for htmlspecialchars
+ *
+ * @param int $quoteType
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 

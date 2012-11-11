@@ -53,6 +53,8 @@ PHALCON_DOC_METHOD(Phalcon_EscaperInterface, getEncoding);
 
 /**
  * Sets the HTML quoting type for htmlspecialchars
+ *
+ * @param int $quoteType
  */
 PHALCON_DOC_METHOD(Phalcon_EscaperInterface, setHtmlQuoteType);
 

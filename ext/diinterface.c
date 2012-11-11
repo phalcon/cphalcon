@@ -42,9 +42,19 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
  *
  * @param string $alias
  * @param mixed $config
+ * @param boolean $shared
  * @return Phalcon\DI
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
+
+/**
+ * Registers an "always shared" service in the services container
+ *
+ * @param string $name
+ * @param mixed $config
+ * @return Phalcon\DI
+ */
+PHALCON_DOC_METHOD(Phalcon_DiInterface, setShared);
 
 /**
  * Removes a service in the services container
@@ -60,6 +70,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
  *
  * @param string $alias
  * @param mixed $config
+ * @param boolean $shared
  * @return Phalcon\DiInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, attempt);
@@ -83,6 +94,14 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, get);
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getShared);
 
 /**
+ * Returns a service definition without resolving
+ *
+ * @param string $name
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_DiInterface, getRaw);
+
+/**
  * Check whether the DI contains a service by a name
  *
  * @param string $alias
@@ -96,6 +115,13 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, has);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, wasFreshInstance);
+
+/**
+ * Return the services registered in the DI
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_DiInterface, getServices);
 
 /**
  * Set a default dependency injection container to be obtained into static methods

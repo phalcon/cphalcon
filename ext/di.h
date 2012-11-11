@@ -32,6 +32,7 @@ PHP_METHOD(Phalcon_DI, get);
 PHP_METHOD(Phalcon_DI, getShared);
 PHP_METHOD(Phalcon_DI, has);
 PHP_METHOD(Phalcon_DI, wasFreshInstance);
+PHP_METHOD(Phalcon_DI, getServices);
 PHP_METHOD(Phalcon_DI, __call);
 PHP_METHOD(Phalcon_DI, setDefault);
 PHP_METHOD(Phalcon_DI, getDefault);
@@ -96,6 +97,7 @@ PHALCON_INIT_FUNCS(phalcon_di_method_entry){
 	PHP_ME(Phalcon_DI, getShared, arginfo_phalcon_di_getshared, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, has, arginfo_phalcon_di_has, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, wasFreshInstance, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_DI, getServices, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, __call, arginfo_phalcon_di___call, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_DI, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_DI, getDefault, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 

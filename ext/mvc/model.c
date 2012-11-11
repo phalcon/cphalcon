@@ -248,6 +248,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect){
 	
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service_name, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(source);
 	PHALCON_CALL_METHOD(source, model, "getsource", PH_NO_CHECK);
@@ -2941,17 +2945,32 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
  *	$robot->save();
  *</code>
  *
+ * @param array $data
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, save){
 
-	zval *dependency_injector, *service, *meta_data;
-	zval *schema, *source, *table = NULL, *connection, *exists;
+	zval *data = NULL, *dependency_injector, *service, *meta_data;
+	zval *schema, *source, *table = NULL, *attributes, *attribute = NULL;
+	zval *value = NULL, *possible_setter = NULL, *connection, *exists;
 	zval *empty_array, *disable_events = NULL, *identity_field;
 	zval *status, *success = NULL, *post_success;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!data) {
+		PHALCON_INIT_NVAR(data);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -2964,6 +2983,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(schema);
 	PHALCON_CALL_METHOD(schema, this_ptr, "getschema", PH_NO_CHECK);
@@ -2975,6 +2998,58 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		PHALCON_CONCAT_VSV(table, schema, ".", source);
 	} else {
 		PHALCON_CPY_WRT(table, source);
+	}
+	
+	/** 
+	 * Assign the values passed
+	 */
+	if (Z_TYPE_P(data) != IS_NULL) {
+		/** 
+		 * Assign the values passed
+		 */
+		if (Z_TYPE_P(data) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(attributes);
+			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
+	
+			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(attributes);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			ph_cycle_start_0:
+	
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+					goto ph_cycle_end_0;
+				}
+	
+				PHALCON_GET_FOREACH_VALUE(attribute);
+	
+				eval_int = phalcon_array_isset(data, attribute);
+				if (eval_int) {
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, Z_STRVAL_P(possible_setter), value, PH_NO_CHECK);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+				goto ph_cycle_start_0;
+	
+			ph_cycle_end_0:
+			if(0){}
+	
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data passed to save() must be an array");
+			return;
+		}
 	}
 	
 	PHALCON_INIT_VAR(connection);
@@ -3029,18 +3104,41 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
  *	$robot->name = 'Astro Boy';
  *	$robot->year = 1952;
  *	$robot->create();
+ *
+ *  //Passing an array to create
+ *  $robot = new Robots();
+ *  $robot->create(array(
+ *      'type' => 'mechanical',
+ *      'name' => 'Astroy Boy',
+ *      'year' => 1952
+ *  ));
  *</code>
  *
+ * @param array $data
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, create){
 
-	zval *dependency_injector, *service, *meta_data;
+	zval *data = NULL, *dependency_injector, *service, *meta_data;
+	zval *attributes, *attribute = NULL, *value = NULL, *possible_setter = NULL;
 	zval *connection, *exists, *field, *type, *message;
 	zval *model_message, *messages, *success;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!data) {
+		PHALCON_INIT_NVAR(data);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -3053,6 +3151,62 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+		return;
+	}
+	
+	/** 
+	 * Assign the values passed
+	 */
+	if (Z_TYPE_P(data) != IS_NULL) {
+		/** 
+		 * Assign the values passed
+		 */
+		if (Z_TYPE_P(data) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(attributes);
+			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
+	
+			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(attributes);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			ph_cycle_start_0:
+	
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+					goto ph_cycle_end_0;
+				}
+	
+				PHALCON_GET_FOREACH_VALUE(attribute);
+	
+				eval_int = phalcon_array_isset(data, attribute);
+				if (eval_int) {
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, Z_STRVAL_P(possible_setter), value, PH_NO_CHECK);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+				goto ph_cycle_start_0;
+	
+			ph_cycle_end_0:
+			if(0){}
+	
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data passed to create() must be an array");
+			return;
+		}
+	}
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
@@ -3097,32 +3251,123 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
  *	$robot->save();
  *</code>
  *
+ * @param array $data
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, update){
 
-	zval *force_exists, *dependency_injector;
-	zval *service, *meta_data, *connection, *exists;
-	zval *field, *type, *message, *model_message, *messages;
-	zval *success;
+	zval *data = NULL, *meta_data = NULL, *dependency_injector = NULL;
+	zval *service = NULL, *attributes, *attribute = NULL, *value = NULL;
+	zval *possible_setter = NULL, *force_exists, *connection;
+	zval *exists, *field, *type, *message, *model_message;
+	zval *messages, *success;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &data) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!data) {
+		PHALCON_INIT_NVAR(data);
+	}
+	
+	PHALCON_INIT_VAR(meta_data);
+	
+	/** 
+	 * Assign the values passed
+	 */
+	if (Z_TYPE_P(data) != IS_NULL) {
+		/** 
+		 * Assign the values passed
+		 */
+		if (Z_TYPE_P(data) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+				return;
+			}
+	
+			PHALCON_INIT_VAR(service);
+			ZVAL_STRING(service, "modelsMetadata", 1);
+	
+			PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+			if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+				return;
+			}
+	
+			PHALCON_INIT_VAR(attributes);
+			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
+	
+			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(attributes);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			ph_cycle_start_0:
+	
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+					goto ph_cycle_end_0;
+				}
+	
+				PHALCON_GET_FOREACH_VALUE(attribute);
+	
+				eval_int = phalcon_array_isset(data, attribute);
+				if (eval_int) {
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(possible_setter);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
+						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, Z_STRVAL_P(possible_setter), value, PH_NO_CHECK);
+					} else {
+						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+				goto ph_cycle_start_0;
+	
+			ph_cycle_end_0:
+			if(0){}
+	
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data passed to update() must be an array");
+			return;
+		}
+	}
+	
 	PHALCON_INIT_VAR(force_exists);
 	phalcon_read_property(&force_exists, this_ptr, SL("_forceExists"), PH_NOISY_CC);
 	if (!zend_is_true(force_exists)) {
-		PHALCON_INIT_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
-			return;
+		if (Z_TYPE_P(meta_data) == IS_NULL) {
+			PHALCON_INIT_NVAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+				return;
+			}
+	
+			PHALCON_INIT_NVAR(service);
+			ZVAL_STRING(service, "modelsMetadata", 1);
+	
+			PHALCON_INIT_NVAR(meta_data);
+			PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+			if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+				return;
+			}
 		}
-	
-		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "modelsMetadata", 1);
-	
-		PHALCON_INIT_VAR(meta_data);
-		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
 		PHALCON_INIT_VAR(connection);
 		PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
@@ -3201,6 +3446,10 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
@@ -3470,7 +3719,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(meta_data, "setautomaticcreateattributes", keys_attributes, PH_NO_CHECK);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(meta_data, "setautomaticupdateattributes", keys_attributes, PH_NO_CHECK);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
 		return;
 	}
 	
@@ -3559,7 +3808,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	if (Z_TYPE_P(meta_data) == IS_OBJECT) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(meta_data, "setautomaticcreateattributes", keys_attributes, PH_NO_CHECK);
 	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
 		return;
 	}
 	
@@ -4161,6 +4410,10 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
+	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(null_value);
 	

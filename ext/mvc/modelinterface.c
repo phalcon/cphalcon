@@ -100,8 +100,8 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getConnection);
  * Assigns values to a model from an array returning a new model
  *
  * @param array $result
- * @param Phalcon\Mvc\Model $base
- * @return Phalcon\Mvc\Model $result
+ * @param Phalcon\Mvc\ModelInterface $base
+ * @return Phalcon\Mvc\ModelInterface $result
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, dumpResult);
 
@@ -117,7 +117,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
  * Allows to query the first record that match the specified conditions
  *
  * @param array $parameters
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 
@@ -192,6 +192,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getMessages);
 /**
  * Inserts or updates a model instance. Returning true on success or false otherwise.
  *
+ * @param  array $data
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
@@ -200,6 +201,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
  * Inserts a model instance. If the instance already exists in the persistance it will throw an exception
  * Returning true on success or false otherwise.
  *
+ * @param  array $data
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
@@ -208,6 +210,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
  * Updates a model instance. If the instance doesn't exists in the persistance it will throw an exception
  * Returning true on success or false otherwise.
  *
+ * @param  array $data
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
