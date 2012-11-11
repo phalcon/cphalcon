@@ -1,7 +1,7 @@
 <?php
 /**
- * Helper.php
- * \Phalcon\Db\Bind\Helper
+ * Bind.php
+ * Db_Helper_Bind
  *
  * Db Bind test helper
  *
@@ -25,7 +25,7 @@
 use \Phalcon\Db\Column as PhDbColumn;
 use \Phalcon\Db\RawValue as PhDbRawValue;
 
-class Db_Bind_Helper extends Phalcon_Test_ModelTestCase
+class Db_Helper_Bind extends Phalcon_Test_ModelTestCase
 {
     protected $_nullDefault = null;
 

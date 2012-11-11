@@ -25,7 +25,6 @@ class Db_SqliteTest extends Db_Helper_Model
 {
     public function setUp()
     {
-        $this->markTestSkipped('Sqlite schema to be completed');
         parent::setUp();
 
         $this->setDb('sqlite');

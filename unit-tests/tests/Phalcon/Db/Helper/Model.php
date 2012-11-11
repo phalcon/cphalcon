@@ -23,8 +23,28 @@
 
 class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 {
+    /**
+     * Tests if query returns an object back
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2011-11-11
+     */
+    public function testQueryObject()
+    {
+        $this->populateTable('customers', 1);
+
+        $connection = $this->_di->get('db');
+
+        $sql = "SELECT * FROM customers";
+
+        $result = $connection->query($sql);
+        $this->assertTrue(is_object($result));
+        $this->assertEquals(get_class($result), 'Phalcon\Db\Result\Pdo');
+    }
+
 	public function testExecute()
 	{
+        $this->markTestSkipped('needs work');
         $this->populateTable('customers', 100);
 
         $connection = $this->_di->get('db');
@@ -67,56 +87,14 @@ class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 		$row = $result->fetchArray();
 		$row = $result->fetchArray();
 		$this->assertEquals($row, false);
-    }
-
-    public function testExecutes()
-    {
-        $this->markTestSkipped('Needs some work here');
 
 		$result = $connection->execute("DELETE FROM prueba");
 		$this->assertTrue($result);
-
-		$success = $connection->execute('INSERT INTO prueba(id, nombre, estado) VALUES ('.$connection->getDefaultIdValue().', ?, ?)', array("LOL 1", "A"));
-		$this->assertTrue($success);
-
-		$success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', array("LOL 11", "R"));
-		$this->assertTrue($success);
-
-		$success = $connection->execute('DELETE FROM prueba WHERE estado = ?', array("R"));
-		$this->assertTrue($success);
-
-		$success = $connection->insert('prueba', array($connection->getDefaultIdValue(), "LOL 1", "A"));
-		$this->assertTrue($success);
-
-		$success = $connection->insert('prueba', array("LOL 2", "E"), array('nombre', 'estado'));
-		$this->assertTrue($success);
-
-		$success = $connection->insert('prueba', array("LOL 3", "I"), array('nombre', 'estado'));
-		$this->assertTrue($success);
-
-		$success = $connection->insert('prueba', array(new Phalcon\Db\RawValue('current_date'), "A"), array('nombre', 'estado'));
-		$this->assertTrue($success);
 
 		for ($i=0; $i<50; $i++) {
 			$success = $connection->insert('prueba', array("LOL ".$i, "F"), array('nombre', 'estado'));
 			$this->assertTrue($success);
 		}
-
-		$success = $connection->update('prueba', array("nombre", "estado"), array("LOL 1000", "X"), "estado='E'");
-		$this->assertTrue($success);
-
-		$success = $connection->update('prueba', array("nombre"), array("LOL 3000"), "estado='X'");
-		$this->assertTrue($success);
-
-		$success = $connection->update('prueba', array("nombre"), array(new Phalcon\Db\RawValue('current_date')), "estado='X'");
-		$this->assertTrue($success);
-
-		$connection->delete("prueba", "estado='X'");
-		$this->assertTrue($success);
-
-		$connection->delete("prueba");
-		$this->assertTrue($success);
-		$this->assertEquals($connection->affectedRows(), 53);
 
 		$row = $connection->fetchOne("SELECT * FROM personas");
 		$this->assertEquals(count($row), 22);
@@ -130,11 +108,6 @@ class Db_Helper_Model extends Phalcon_Test_ModelTestCase
 		$rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Phalcon\Db::FETCH_NUM);
 		$this->assertEquals(count($rows), 10);
 		$this->assertEquals(count($rows[0]), 11);
-
-		//Auto-Increment/Serial Columns
-		$sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES ('.$connection->getDefaultIdValue().', ?, ?, ?)';
-		$success = $connection->execute($sql, array('shirley@garbage.com', "2011-01-01 12:59:13", "P"));
-		$this->assertTrue($success);
 
 		//Check for auto-increment column
 		$this->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);

@@ -25,7 +25,7 @@ class Phalcon_Test_Fixtures_Customers
 {
     public static function get($records = null)
     {
-        $template = "(NULL, '1', '1', '%s', '%s', '%s', '%s', '%s', 'A', "
+        $template = "(%s, '1', '1', '%s', '%s', '%s', '%s', '%s', 'A', "
                   . "'%s', '0.00', '%s', '0')";
 
         $total = (is_null($records)) ? 100 : intval($records);
@@ -41,6 +41,7 @@ class Phalcon_Test_Fixtures_Customers
 
             $data[] = sprintf(
                 $template,
+                $i,
                 $first_name,
                 $last_name,
                 $phone,

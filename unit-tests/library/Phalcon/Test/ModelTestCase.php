@@ -66,7 +66,7 @@ class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
             'modelsMetadata',
             function()
             {
-                return new PhModelManager();
+                return new PhMetadataMemory();
             }
         );
 

@@ -25,7 +25,6 @@ class Db_Model_Validators_SqliteTest extends Db_Helper_Model_Validators
 {
     public function setUp()
     {
-        $this->markTestSkipped('Postgres schema to be completed');
         parent::setUp();
 
         $this->setDb('sqlite');
