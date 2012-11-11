@@ -41,7 +41,7 @@
 #include "kernel/exception.h"
 #include "kernel/file.h"
 #include "mvc/view/engine/volt/scanner.h"
-#include "mvc/view/engine/volt/compiler.h"
+#include "mvc/view/engine/volt/volt.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt\Compiler

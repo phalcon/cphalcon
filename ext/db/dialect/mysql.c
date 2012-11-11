@@ -54,6 +54,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Mysql){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Mysql, db_dialect_mysql, "phalcon\\db\\dialect", phalcon_db_dialect_mysql_method_entry, 0);
 
+	zend_class_implements(phalcon_db_dialect_mysql_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -114,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList){
 /**
  * Gets the column name in MySQL
  *
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 
@@ -129,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon\\Db\\Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		return;
 	}
 	
@@ -235,7 +237,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
@@ -297,7 +299,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn){
@@ -378,7 +380,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex){
@@ -455,7 +457,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey){
@@ -526,7 +528,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Reference $reference
+ * @param Phalcon\Db\ReferenceInterface $reference
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){

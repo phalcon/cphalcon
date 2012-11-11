@@ -98,7 +98,6 @@ PHP_METHOD(Phalcon_Config, __construct){
 
 	if (!array_config) {
 		PHALCON_INIT_NVAR(array_config);
-		array_init(array_config);
 	}
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 

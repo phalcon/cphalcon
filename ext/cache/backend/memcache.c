@@ -80,6 +80,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Memcache){
 
 	zend_declare_property_null(phalcon_cache_backend_memcache_ce, SL("_memcache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_cache_backend_memcache_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
+
 	return SUCCESS;
 }
 

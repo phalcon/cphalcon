@@ -32,11 +32,39 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Http_Request_FileInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Request, FileInterface, http_request_fileinterface, phalcon_http_request_fileinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Http\\Request, FileInterface, http_request_fileinterface, phalcon_http_request_fileinterface_method_entry);
 
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Http\Request\FileInterface constructor
+ *
+ * @param array $file
  */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, __construct);
+/**
+ * Returns the file size of the uploaded file
+ *
+ * @return int
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getSize);
+/**
+ * Returns the real name of the uploaded file
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);
+/**
+ * Returns the temporal name of the uploaded file
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, getTempName);
+/**
+ * Move the temporary file to a destination
+ *
+ * @param string $destination
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Http_Request_FileInterface, moveTo);

@@ -97,7 +97,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction){
 /**
  * Phalcon\Mvc\Model\Transaction constructor
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param boolean $autoBegin
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 /**
  * Sets transaction manager related to the transaction
  *
- * @param Phalcon\Mvc\Model\Transaction\Manager $manager
+ * @param Phalcon\Mvc\Model\Transaction\ManagerInterface $manager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager){
 
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit){
  * Rollbacks the transaction
  *
  * @param  string $rollbackMessage
- * @param  Phalcon\Mvc\Model $rollbackRecord
+ * @param  Phalcon\Mvc\ModelInterface $rollbackRecord
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid){
 /**
  * Sets object which generates rollback action
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord){
 

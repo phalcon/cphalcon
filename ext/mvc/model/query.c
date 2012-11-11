@@ -34,6 +34,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/fcall.h"
+#include "mvc/model/query/scanner.h"
+#include "mvc/model/query/phql.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
@@ -80,6 +82,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_tempSQLAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_tempSQLAliasesModels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_query_ce TSRMLS_CC, 2, phalcon_mvc_model_queryinterface_ce, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -100,7 +104,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 	}
 
 	PHALCON_INIT_VAR(ast);
-	PHALCON_CALL_STATIC_PARAMS_1(ast, "phalcon\\mvc\\model\\query\\lang", "parsephql", phql);
+	if (phql_parse_phql(ast, phql TSRMLS_CC) == FAILURE) {
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_ast"), ast TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -109,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 /**
  * Sets the dependency injection container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 
@@ -126,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setDI){
 /**
  * Returns the dependency injection container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
 
@@ -780,7 +786,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 /**
  * Resolves a table in a SELECT statement checking if the model exists
  *
- * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
  * @param array $qualifiedName
  * @return string
  */
@@ -2111,7 +2117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
  * Parses the intermediate code produced by Phalcon\Mvc\Model\Query\Lang generating another
  * intermediate representation that could be executed by Phalcon\Mvc\Model\Query
  *
- * @param Phalcon\Mvc\Model $manager
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
@@ -2204,11 +2210,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 /**
  * Executes the SELECT intermediate representation producing a Phalcon\Mvc\Model\Resultset
  *
- * @param Phalcon\Mvc\Model $manager
- * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
+ * @param Phalcon\Mvc\Model\MetadaInterface $metaData
  * @param array $intermediate
  * @param array $placeholders
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 
@@ -2543,11 +2549,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 /**
  * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
- * @param Phalcon\Mvc\Model $manager
- * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
+ * @param Phalcon\Mvc\Model\MetadaInterface $metaData
  * @param array $intermediate
  * @param array $placeholders
- * @return Phalcon\Mvc\Model\Query\Status
+ * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 
@@ -2746,11 +2752,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 /**
  * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
- * @param Phalcon\Mvc\Model $manager
- * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
+ * @param Phalcon\Mvc\Model\MetadaInterface $metaData
  * @param array $intermediate
  * @param array $placeholders
- * @return Phalcon\Mvc\Model\Query\Status
+ * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
@@ -2940,11 +2946,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 /**
  * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
- * @param Phalcon\Mvc\Model $manager
- * @param Phalcon\Mvc\Model\Metada $metaData
+ * @param Phalcon\Mvc\Model\ManagerInterface $manager
+ * @param Phalcon\Mvc\Model\MetadaInterface $metaData
  * @param array $intermediate
  * @param array $placeholders
- * @return Phalcon\Mvc\Model\Query\Status
+ * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
 

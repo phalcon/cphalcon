@@ -76,6 +76,8 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_INVALID_PARAMS"), 4 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_dispatcher_ce, SL("EXCEPTION_ACTION_NOT_FOUND"), 5 TSRMLS_CC);
 
+	zend_class_implements(phalcon_dispatcher_ce TSRMLS_CC, 3, phalcon_dispatcherinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -92,7 +94,7 @@ PHP_METHOD(Phalcon_Dispatcher, __construct){
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Dispatcher, setDI){
 
@@ -109,7 +111,7 @@ PHP_METHOD(Phalcon_Dispatcher, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Dispatcher, getDI){
 
@@ -120,7 +122,7 @@ PHP_METHOD(Phalcon_Dispatcher, getDI){
 /**
  * Sets the events manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager){
 
@@ -137,7 +139,7 @@ PHP_METHOD(Phalcon_Dispatcher, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Dispatcher, getEventsManager){
 

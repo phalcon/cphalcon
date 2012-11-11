@@ -68,7 +68,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Micro, mvc_micro, "phalcon\\di\\injectable", phalcon_mvc_micro_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_router"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_notFoundHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -91,7 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, __construct){
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 
@@ -121,45 +120,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DI
- */
-PHP_METHOD(Phalcon_Mvc_Micro, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
-}
-
-/**
- * Sets the events manager
- *
- * @param Phalcon\Events\Manager $eventsManager
- */
-PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager){
-
-	zval *events_manager;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\Manager
- */
-PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager){
-
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**
@@ -434,7 +394,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
 /**
  * Returns the internal router used by the application
  *
- * @return Phalcon\Mvc\Router
+ * @return Phalcon\Mvc\RouterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 

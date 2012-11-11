@@ -61,13 +61,15 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Console){
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_console_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_cli_console_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_CLI_Console, setDI){
 
@@ -92,7 +94,7 @@ PHP_METHOD(Phalcon_CLI_Console, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_CLI_Console, getDI){
 
@@ -103,7 +105,7 @@ PHP_METHOD(Phalcon_CLI_Console, getDI){
 /**
  * Sets the events manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
 
@@ -120,7 +122,7 @@ PHP_METHOD(Phalcon_CLI_Console, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_CLI_Console, getEventsManager){
 

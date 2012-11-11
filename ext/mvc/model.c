@@ -99,7 +99,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 1, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 4, phalcon_mvc_modelinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce, zend_ce_serializable);
 
 	return SUCCESS;
 }
@@ -107,7 +107,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 /**
  * Phalcon\Mvc\Model constructor
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param string $managerService
  * @param string $dbService
  */
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 /**
  * Sets the dependency injection container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model, setDI){
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI){
 /**
  * Returns the dependency injection container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, getDI){
 
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getDI){
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
 
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
 
@@ -217,9 +217,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
 /**
  * Creates a SQL statement which returns many rows
  *
- * @param Phalcon\DI $dependencyInjector
- * @param Phalcon\Mvc\Model $model
- * @param Phalcon\Db $connection
+ * @param Phalcon\DiInterface $dependencyInjector
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param array $params
  * @return array
  */
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect){
  * Gets a resulset from the cache or creates one
  *
  * @param string $modelName
- * @param Phalcon\Db $connection
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param array $params
  * @param boolean $unique
  */
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
  *
  *</code>
  *
- * @param Phalcon\Mvc\Model\Transaction $transaction
+ * @param Phalcon\Mvc\Model\TransactionInterface $transaction
  * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
@@ -688,7 +688,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema){
 }
 
 /**
- * Sets DependencyInjection connection service
+ * Sets the DependencyInjection connection service
  *
  * @param string $connectionService
  */
@@ -745,7 +745,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setForceExists){
 /**
  * Gets internal database connection
  *
- * @return Phalcon\Db
+ * @return Phalcon\Db\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, getConnection){
 
@@ -1023,8 +1023,8 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 /**
  * Checks if the current record already exists or not
  *
- * @param Phalcon\Mvc\Model\Metadata $metaData
- * @param Phalcon\Db $connection
+ * @param Phalcon\Mvc\Model\MetadataInterface $metaData
+ * @param Phalcon\Db\AdapterInterface $connection
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _exists){
@@ -1165,7 +1165,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
  * @param string $function
  * @param string $alias
  * @param array $parameters
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 
@@ -1355,7 +1355,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
  * @param array $params
  * @param string $select
  * @param string $alias
- * @return array|Phalcon\Mvc\Model\Resultset
+ * @return array|Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, _getGroupResult){
 
@@ -1776,7 +1776,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
  * }
  * </code>
  *
- * @param Phalcon\Mvc\Model\Message $message
+ * @param Phalcon\Mvc\Model\MessageInterface $message
  */
 PHP_METHOD(Phalcon_Mvc_Model, appendMessage){
 
@@ -1952,7 +1952,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed){
  *}
  * </code>
  *
- * @return Phalcon\Mvc\Model\Message[]
+ * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 
@@ -1963,6 +1963,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 /**
  * Reads "belongs to" relations and check the virtual foreign keys when inserting or updating records
  *
+ * @param Phalcon\DiInterface $dependencyInjector
+ * @param  boolean $disableEvents
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
@@ -2171,6 +2173,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 /**
  * Reads both "hasMany" and "hasOne" relations and check the virtual foreign keys when deleting records
  *
+ * @param Phalcon\DiInterface $dependencyInjector
+ * @param  boolean $disableEvents
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
@@ -2376,8 +2380,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 /**
  * Executes internal hooks before save a record
  *
- * @param Phalcon\DI $dependencyInjector
- * @param Phalcon\Mvc\Model\Metadata $metaData
+ * @param Phalcon\DiInterface $dependencyInjector
+ * @param Phalcon\Mvc\Model\MetadataInterface $metaData
  * @param boolean $disableEvents
  * @param boolean $exists
  * @param string $identityField
@@ -2658,8 +2662,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 /**
  * Sends a pre-build INSERT SQL statement to the relational database system
  *
- * @param Phalcon\Mvc\Model\Metadata $metaData
- * @param Phalcon\Db $connection
+ * @param Phalcon\Mvc\Model\MetadataInterface $metaData
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param string $table
  * @return boolean
  */
@@ -2819,8 +2823,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 /**
  * Sends a pre-build UPDATE SQL statement to the relational database system
  *
- * @param Phalcon\Mvc\Model\Metadata $metaData
- * @param Phalcon\Db $connection
+ * @param Phalcon\Mvc\Model\MetadataInterface $metaData
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param string $table
  * @return boolean
  */
@@ -3836,7 +3840,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
  *
  * @param string $modelName
  * @param array $arguments
- * @return Phalcon\Mvc\Model\Resultset\Simple
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 

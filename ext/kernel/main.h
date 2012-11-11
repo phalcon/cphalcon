@@ -207,12 +207,12 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 	var = *hd; \
 	Z_ADDREF_P(var);
 
-/** class registering */
-#define PHALCON_REGISTER_CLASS(ns, classname, name, methods, flags) \
+/** class/interface registering */
+#define PHALCON_REGISTER_CLASS(ns, class_name, name, methods, flags) \
 	{ \
 		zend_class_entry ce; \
 		memset(&ce, 0, sizeof(zend_class_entry)); \
-		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
+		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
 		phalcon_ ##name## _ce = zend_register_internal_class(&ce TSRMLS_CC); \
 		phalcon_ ##name## _ce->ce_flags |= flags;  \
 	}
@@ -229,3 +229,14 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 		}  \
 		phalcon_ ##name## _ce->ce_flags |= flags;  \
 	}
+
+#define PHALCON_REGISTER_INTERFACE(ns, classname, name, methods) \
+	{ \
+		zend_class_entry ce; \
+		memset(&ce, 0, sizeof(zend_class_entry)); \
+		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
+		phalcon_ ##name## _ce = zend_register_internal_interface(&ce TSRMLS_CC); \
+	}
+
+/** Method declaration for API generation */
+#define PHALCON_DOC_METHOD(class_name, method)

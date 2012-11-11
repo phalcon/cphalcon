@@ -77,11 +77,11 @@ PHALCON_INIT_CLASS(Phalcon_Db_Result_Pdo){
 /**
  * Phalcon\Db\Result\Pdo constructor
  *
- * @param Phalcon\Db\Adapter\Pdo $connection
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param string $sqlStatement
  * @param array $bindParams
  * @param array $bindTypes
- * @param PDOStatement $result
+ * @param \PDOStatement $result
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 
@@ -433,7 +433,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 /**
  * Gets the internal PDO result object
  *
- * @return PDOStatement
+ * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 

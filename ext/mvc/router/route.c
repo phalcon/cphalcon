@@ -62,6 +62,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Route){
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_route_ce, SL("_uniqueId"), ZEND_ACC_STATIC|ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_router_route_ce TSRMLS_CC, 1, phalcon_mvc_router_routeinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -413,13 +415,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods){
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset){
 
-	zval *t0 = NULL;
+	zval *zero;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	phalcon_update_static_property(SL("phalcon\\mvc\\router\\route"), SL("_uniqueId"), t0 TSRMLS_CC);
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	phalcon_update_static_property(SL("phalcon\\mvc\\router\\route"), SL("_uniqueId"), zero TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }

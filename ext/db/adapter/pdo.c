@@ -32,7 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "db/adapter/pdo.h"
+#include "db/adapter/pdo_constants.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
@@ -64,7 +64,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, db_adapter_pdo, "phalcon\\db", phalcon_db_adapter_pdo_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter, Pdo, db_adapter_pdo, "phalcon\\db\\adapter", phalcon_db_adapter_pdo_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -233,10 +233,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 /**
  * Executes a prepared statement binding
  *
- * @param PDOStatement $statement
+ * @param \PDOStatement $statement
  * @param array $placeholders
  * @param array $dataTypes
- * @return PDOStatement
+ * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
 
@@ -498,7 +498,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 }
 
 /**
- * Returns the number of affected rows by the last INSERT/UPDATE/DELETE repoted by the database system
+ * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
  *
  *<code>
  *	$connection->query("DELETE FROM robots");
@@ -886,7 +886,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction){
 /**
  * Return internal PDO handler
  *
- * @return PDO
+ * @return \PDO
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, getInternalHandler){
 

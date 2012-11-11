@@ -72,13 +72,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Mvc\Collection
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 
@@ -163,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getId){
 /**
  * Sets the dependency injection container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setDI){
 
@@ -180,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setDI){
 /**
  * Returns the dependency injection container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getDI){
 
@@ -191,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getDI){
 /**
  * Sets the event manager
  *
- * @param Phalcon\Events\Manager $eventsManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
 
@@ -208,7 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager){
 

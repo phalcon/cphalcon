@@ -65,6 +65,8 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 	zend_declare_property_bool(phalcon_session_bag_ce, SL("_initalized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_session_bag_ce, SL("_session"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_session_bag_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_session_baginterface_ce);
+
 	return SUCCESS;
 }
 
@@ -97,7 +99,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Session_Bag, setDI){
 
@@ -122,7 +124,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 /**
  * Returns the DependencyInjector container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Session_Bag, getDI){
 

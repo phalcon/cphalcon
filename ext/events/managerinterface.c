@@ -32,8 +32,35 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Events_ManagerInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Events, ManagerInterface, events_managerinterface, phalcon_events_managerinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Events, ManagerInterface, events_managerinterface, phalcon_events_managerinterface_method_entry);
 
 	return SUCCESS;
 }
 
+/**
+ * Attach a listener to the events manager
+ *
+ * @param string $eventType
+ * @param object $handler
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
+/**
+ * Removes all events from the EventsManager
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
+/**
+ * Fires a event in the events manager causing that the acive listeners will be notified about it
+ *
+ * @param string $eventType
+ * @param object $source
+ * @param mixed  $data
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, fire);
+/**
+ * Returns all the attached listeners of a certain type
+ *
+ * @param string $type
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, getListeners);

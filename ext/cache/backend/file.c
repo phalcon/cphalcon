@@ -77,6 +77,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_File){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, File, cache_backend_file, "phalcon\\cache\\backend", phalcon_cache_backend_file_method_entry, 0);
 
+	zend_class_implements(phalcon_cache_backend_file_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
+
 	return SUCCESS;
 }
 

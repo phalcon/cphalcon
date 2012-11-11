@@ -118,6 +118,8 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 	zend_declare_property_bool(phalcon_acl_adapter_memory_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_acl_adapter_memory_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_acl_adapter_memory_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -177,6 +179,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction){
 
 /**
  * Returns the default ACL access level
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
 
@@ -193,7 +197,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
  * $acl->addRole('administrator', 'consultant');
  * </code>
  *
- * @param  string $roleObject
+ * @param  Phalcon\Acl\RoleInterface $roleObject
  * @param  array $accessInherits
  * @return boolean
  */

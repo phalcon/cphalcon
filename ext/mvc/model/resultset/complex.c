@@ -57,7 +57,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex){
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_complex_ce, SL("_columnTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_resultset_complex_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_model_resultset_complex_ce TSRMLS_CC, 1, phalcon_mvc_model_resultsetinterface_ce);
 
 	return SUCCESS;
 }
@@ -66,8 +66,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex){
  * Phalcon\Mvc\Model\Resultset\Complex constructor
  *
  * @param array $columnsTypes
- * @param Phalcon\Db\Result\Pdo $result
- * @param Phalcon\Cache\Backend $cache
+ * @param Phalcon\Db\ResultInterface $result
+ * @param Phalcon\Cache\BackendInterface $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 

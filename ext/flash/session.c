@@ -54,13 +54,15 @@ PHALCON_INIT_CLASS(Phalcon_Flash_Session){
 
 	zend_declare_property_null(phalcon_flash_session_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_flash_session_ce TSRMLS_CC, 2, phalcon_flashinterface_ce, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Flash_Session, setDI){
 
@@ -77,7 +79,7 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Flash_Session, getDI){
 

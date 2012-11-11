@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 
@@ -76,8 +76,6 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_cache_backend_ce, this_ptr, SL("_backendOptions") TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();

@@ -59,6 +59,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria){
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_criteria_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_criteria_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -75,7 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct){
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 
@@ -105,7 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 /**
  * Returns the DependencyInjector container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
 
@@ -132,6 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI){
  * Set a model on which the query will be executed
  *
  * @param string $modelName
+ * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 
@@ -525,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams){
 /**
  * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param string $modelName
  * @param array $data
  */
@@ -646,7 +649,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 /**
  * Executes a find using the parameters built with the criteria
  *
- * @return Phalcon\Mvc\Model\Resultset
+ * @return Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute){
 

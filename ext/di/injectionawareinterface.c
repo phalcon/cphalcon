@@ -32,8 +32,20 @@
  */
 PHALCON_INIT_CLASS(Phalcon_DI_InjectionAwareInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\DI, InjectionAwareInterface, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\DI, InjectionAwareInterface, di_injectionawareinterface, phalcon_di_injectionawareinterface_method_entry);
 
 	return SUCCESS;
 }
 
+/**
+ * Sets the dependency injector
+ *
+ * @param Phalcon\DiInterface $dependencyInjector
+ */
+PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, setDI);
+/**
+ * Returns the internal dependency injector
+ *
+ * @return Phalcon\DiInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_DI_InjectionAwareInterface, getDI);

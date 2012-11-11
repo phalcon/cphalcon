@@ -36,6 +36,26 @@
 #include "kernel/object.h"
 
 /**
+ * Phalcon\Mvc\Collection\Manager
+ *
+ * This components controls the initialization of models, keeping record of relations
+ * between the different models of the application.
+ *
+ * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
+ *
+ * <code>
+ * $dependencyInjector = new Phalcon\DI();
+ *
+ * $dependencyInjector->set('collectionManager', function(){
+ *      return new Phalcon\Mvc\Collection\Manager();
+ * });
+ *
+ * $robot = new Robots($dependencyInjector);
+ * </code>
+ */
+
+
+/**
  * Phalcon\Mvc\Collection\Manager initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){

@@ -37,7 +37,6 @@
 #include "kernel/object.h"
 
 /**
- *
  * Phalcon\Acl\Resource
  *
  * This class defines resource entity and its description
@@ -55,11 +54,13 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Resource){
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_resource_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_acl_resource_ce TSRMLS_CC, 1, phalcon_acl_resourceinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Acl\Resource description
+ * Phalcon\Acl\Resource constructor
  *
  * @param string $name
  * @param string $description
@@ -84,7 +85,9 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	if (Z_TYPE_P(description) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -109,5 +112,16 @@ PHP_METHOD(Phalcon_Acl_Resource, getDescription){
 
 
 	RETURN_MEMBER(this_ptr, "_description");
+}
+
+/**
+ * Magic method __toString
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Acl_Resource, __toString){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
 }
 

@@ -32,9 +32,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/fcall.h"
-#include "kernel/exception.h"
-
 /**
  * Phalcon\Translate
  *
@@ -48,127 +45,8 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Translate){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, phalcon_translate_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_class_implements(phalcon_translate_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	PHALCON_REGISTER_CLASS(Phalcon, Translate, translate, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
-}
-
-/**
- * Returns the translation string of the given key
- *
- * @param string $translateKey
- * @param array $placeholders
- * @return string
- */
-PHP_METHOD(Phalcon_Translate, _){
-
-	zval *translate_key, *placeholders = NULL, *translation;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &translate_key, &placeholders) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
-	}
-	
-	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, placeholders, PH_NO_CHECK);
-	
-	RETURN_CCTOR(translation);
-}
-
-/**
- * Sets a translation value
- *
- * @param 	string $offset
- * @param 	string $value
- */
-PHP_METHOD(Phalcon_Translate, offsetSet){
-
-	zval *offset, *value;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &offset, &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
-	return;
-}
-
-/**
- * Check whether a translation key exists
- *
- * @param string $translateKey
- * @return boolean
- */
-PHP_METHOD(Phalcon_Translate, offsetExists){
-
-	zval *translate_key, *exists;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "exists", translate_key, PH_NO_CHECK);
-	
-	RETURN_CCTOR(exists);
-}
-
-/**
- * Elimina un indice del diccionario
- *
- * @param string $offset
- */
-PHP_METHOD(Phalcon_Translate, offsetUnset){
-
-	zval *offset;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
-	return;
-}
-
-/**
- * Returns the translation related to the given key
- *
- * @param string $traslateKey
- * @return string
- */
-PHP_METHOD(Phalcon_Translate, offsetGet){
-
-	zval *traslate_key, *null_value, *translation;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &traslate_key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(null_value);
-	
-	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value, PH_NO_CHECK);
-	
-	RETURN_CCTOR(translation);
 }
 

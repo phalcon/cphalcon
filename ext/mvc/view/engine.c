@@ -58,9 +58,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine){
 /**
  * Phalcon\Mvc\View\Engine constructor
  *
- * @param Phalcon\Mvc\View $view
- * @param Phalcon\DI $dependencyInjector
- * @param array $params
+ * @param Phalcon\Mvc\ViewInterface $view
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 

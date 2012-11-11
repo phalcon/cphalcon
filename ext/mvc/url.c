@@ -68,13 +68,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Url){
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_baseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_url_ce, SL("_basePath"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_url_ce TSRMLS_CC, 2, phalcon_mvc_urlinterface_ce, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Sets the DependencyInjector container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Url, setDI){
 
@@ -99,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Url, setDI){
 /**
  * Returns the DependencyInjector container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Url, getDI){
 

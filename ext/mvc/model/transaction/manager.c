@@ -96,13 +96,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager){
 	zend_declare_property_long(phalcon_mvc_model_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_transactions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Phalcon\Mvc\Model\Transaction\Manager
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 
@@ -141,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 /**
  * Sets the dependency injection container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI){
 
@@ -158,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI){
 /**
  * Returns the dependency injection container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI){
 
@@ -194,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
  * Returns a new Phalcon\Mvc\Model\Transaction or an already created once
  *
  * @param boolean $autoBegin
- * @return Phalcon\Mvc\Model\Transaction
+ * @return Phalcon\Mvc\Model\TransactionInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
@@ -407,7 +409,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 /**
  * Notifies the manager about a rollbacked transaction
  *
- * @param Phalcon\Mvc\Model\Transaction $transaction
+ * @param Phalcon\Mvc\Model\TransactionInterface $transaction
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback){
 
@@ -428,7 +430,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback){
 /**
  * Notifies the manager about a commited transaction
  *
- * @param Phalcon\Mvc\Model\Transaction $transaction
+ * @param Phalcon\Mvc\Model\TransactionInterface $transaction
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit){
 
@@ -446,6 +448,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Removes transactions from the TransactionManager
+ *
+ * @param Phalcon\Mvc\Model\TransactionInterface $transaction
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	zval *transaction, *transactions = NULL, *number, *managed_transaction = NULL;

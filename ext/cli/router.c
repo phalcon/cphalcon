@@ -72,6 +72,8 @@ PHALCON_INIT_CLASS(Phalcon_CLI_Router){
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_cli_router_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -90,7 +92,7 @@ PHP_METHOD(Phalcon_CLI_Router, __construct){
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_CLI_Router, setDI){
 
@@ -107,7 +109,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_CLI_Router, getDI){
 

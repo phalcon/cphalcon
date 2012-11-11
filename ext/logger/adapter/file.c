@@ -38,7 +38,6 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
-#include "kernel/operators.h"
 
 /**
  * Phalcon\Logger\Adapter\File
@@ -60,7 +59,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, "phalcon\\logger", phalcon_logger_adapter_file_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, File, logger_adapter_file, "phalcon\\logger\\adapter", phalcon_logger_adapter_file_method_entry, 0);
 
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_fileHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_logger_adapter_file_ce, SL("_transaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -69,6 +68,8 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File){
 	zend_declare_property_null(phalcon_logger_adapter_file_ce, SL("_quenue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_adapter_file_ce, SL("_dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_logger_adapter_file_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_logger_adapter_file_ce TSRMLS_CC, 1, phalcon_logger_adapterinterface_ce);
 
 	return SUCCESS;
 }
@@ -153,92 +154,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, getFormat){
 
 
 	RETURN_MEMBER(this_ptr, "_format");
-}
-
-/**
- * Returns the string meaning of a logger constant
- *
- * @param  integer $type
- * @return string
- */
-PHP_METHOD(Phalcon_Logger_Adapter_File, getTypeString){
-
-	zval *type, *type_str = NULL;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	
-	if (phalcon_compare_strict_long(type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type_str);
-		ZVAL_STRING(type_str, "DEBUG", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ERROR", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "WARNING", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CRITICAL", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 8 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CUSTOM", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ALERT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "NOTICE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "INFO", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "EMERGENCE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 9 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "SPECIAL", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_NVAR(type_str);
-	ZVAL_STRING(type_str, "CUSTOM", 1);
-	
-	ph_end_0:
-	
-	RETURN_CTOR(type_str);
 }
 
 /**

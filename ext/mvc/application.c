@@ -93,76 +93,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, "phalcon\\di\\injectable", phalcon_mvc_application_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_application_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_application_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
-}
-
-/**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DI $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_Application, setDI){
-
-	zval *dependency_injector;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Dependency Injector is invalid");
-		return;
-	}
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DI
- */
-PHP_METHOD(Phalcon_Mvc_Application, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
-}
-
-/**
- * Sets the events manager
- *
- * @param Phalcon\Events\Manager $eventsManager
- */
-PHP_METHOD(Phalcon_Mvc_Application, setEventsManager){
-
-	zval *events_manager;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\Manager
- */
-PHP_METHOD(Phalcon_Mvc_Application, getEventsManager){
-
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
 /**

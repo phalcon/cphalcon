@@ -231,7 +231,6 @@ PHP_METHOD(Phalcon_Flash, notice){
  *</code>
  *
  * @param string $message
- * @param string $classes
  * @return string
  */
 PHP_METHOD(Phalcon_Flash, success){
@@ -262,7 +261,6 @@ PHP_METHOD(Phalcon_Flash, success){
  *</code>
  *
  * @param string $message
- * @param string $classes
  * @return string
  */
 PHP_METHOD(Phalcon_Flash, warning){

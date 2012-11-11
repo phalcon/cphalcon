@@ -61,6 +61,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files){
 
 	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("_metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_model_metadata_files_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
+
 	return SUCCESS;
 }
 

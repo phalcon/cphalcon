@@ -32,11 +32,37 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Translate, AdapterInterface, translate_adapterinterface, phalcon_translate_adapterinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Translate, AdapterInterface, translate_adapterinterface, phalcon_translate_adapterinterface_method_entry);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Translate\AdapterInterface constructor
+ * Phalcon\Translate\Adapter\NativeArray constructor
+ *
+ * @param array $data
  */
+PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
+/**
+ * Returns the translation string of the given key
+ *
+ * @param string $translateKey
+ * @param array $placeholders
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, _);
+/**
+ * Returns the translation related to the given key
+ *
+ * @param string $index
+ * @param array $placeholders
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
+/**
+ * Check whether is defined a translation key in the internal array
+ *
+ * @param 	string $index
+ * @return bool
+ */
+PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);

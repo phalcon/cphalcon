@@ -32,8 +32,30 @@
  */
 PHALCON_INIT_CLASS(Phalcon_FilterInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon, FilterInterface, filterinterface, phalcon_filterinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon, FilterInterface, filterinterface, phalcon_filterinterface_method_entry);
 
 	return SUCCESS;
 }
 
+/**
+ * Adds a user-defined filter
+ *
+ * @param string $name
+ * @param callable $handler
+ * @return Phalcon\FilterInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_FilterInterface, add);
+/**
+ * Sanizites a value with a specified single or set of filters
+ *
+ * @param  mixed $value
+ * @param  mixed $filters
+ * @return mixed
+ */
+PHALCON_DOC_METHOD(Phalcon_FilterInterface, sanitize);
+/**
+ * Return the user-defined filters in the instance
+ *
+ * @return object[]
+ */
+PHALCON_DOC_METHOD(Phalcon_FilterInterface, getFilters);

@@ -37,7 +37,6 @@
 #include "kernel/object.h"
 
 /**
- *
  * Phalcon\Acl\Role
  *
  * This class defines role entity and its description
@@ -54,6 +53,8 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Role){
 
 	zend_declare_property_null(phalcon_acl_role_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_role_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_role_ce TSRMLS_CC, 1, phalcon_acl_roleinterface_ce);
 
 	return SUCCESS;
 }
@@ -77,7 +78,6 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 
 	if (!description) {
 		PHALCON_INIT_NVAR(description);
-		ZVAL_STRING(description, "", 1);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {
@@ -85,7 +85,9 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	if (Z_TYPE_P(description) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -110,5 +112,16 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription){
 
 
 	RETURN_MEMBER(this_ptr, "_description");
+}
+
+/**
+ * Magic method __toString
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Acl_Role, __toString){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
 }
 

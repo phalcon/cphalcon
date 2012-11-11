@@ -54,6 +54,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Sqlite, db_dialect_sqlite, "phalcon\\db\\dialect", phalcon_db_dialect_sqlite_method_entry, 0);
 
+	zend_class_implements(phalcon_db_dialect_sqlite_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -114,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList){
 /**
  * Gets the column name in Sqlite
  *
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 
@@ -203,13 +205,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
 
+	zval *table_name, *schema_name, *column;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -217,13 +228,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn){
 
+	zval *table_name, *schema_name, *column;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -236,8 +256,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
 
+	zval *table_name, *schema_name, *column_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -245,13 +274,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
 
+	zval *table_name, *schema_name, *index;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -264,8 +302,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex){
 
+	zval *table_name, *schema_name, *index_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -273,13 +320,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Index $index
+ * @param Phalcon\Db\IndexInterface $index
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey){
 
+	zval *table_name, *schema_name, *index;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -291,8 +347,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
 
+	zval *table_name, *schema_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &table_name, &schema_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -305,8 +370,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey){
 
+	zval *table_name, *schema_name, *reference;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -319,8 +393,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey){
 
+	zval *table_name, *schema_name, *reference_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -356,8 +439,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable){
 
+	zval *table_name, *schema_name, *definition;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &definition) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**

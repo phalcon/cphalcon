@@ -27,15 +27,25 @@
 
 #include "kernel/main.h"
 
-#include "kernel/object.h"
-
 /**
  * Phalcon\Events\EventsAwareInterface initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Events_EventsAwareInterface){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Events, EventsAwareInterface, events_eventsawareinterface, phalcon_events_eventsawareinterface_method_entry, ZEND_ACC_INTERFACE);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Events, EventsAwareInterface, events_eventsawareinterface, phalcon_events_eventsawareinterface_method_entry);
 
 	return SUCCESS;
 }
 
+/**
+ * Sets the events manager
+ *
+ * @param Phalcon\Events\ManagerInterface $eventsManager
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_EventsAwareInterface, setEventsManager);
+/**
+ * Returns the internal event manager
+ *
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Events_EventsAwareInterface, getEventsManager);

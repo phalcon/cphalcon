@@ -58,13 +58,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
 
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_view_engine_volt_ce TSRMLS_CC, 2, phalcon_mvc_view_engineinterface_ce, phalcon_di_injectionawareinterface_ce);
+
 	return SUCCESS;
 }
 
 /**
  * Sets the dependency injection container
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setDI){
 
@@ -81,7 +83,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setDI){
 /**
  * Returns the dependency injection container
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getDI){
 
@@ -130,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
  *
  * @param string $templatePath
  * @param array $params
- * @param bool $mustClean
+ * @param boolean $mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 

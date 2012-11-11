@@ -95,6 +95,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Output){
 	zend_declare_property_bool(phalcon_cache_frontend_output_ce, SL("_buffering"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_cache_frontend_output_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_cache_frontend_output_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -109,8 +111,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_cache_frontend_output_ce, this_ptr, SL("_frontendOptions") TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -118,7 +118,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 
 	if (!frontend_options) {
 		PHALCON_INIT_NVAR(frontend_options);
-		array_init(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);

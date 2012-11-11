@@ -44,7 +44,7 @@
 
 #include "parser.h"
 #include "scanner.h"
-#include "lang.h"
+#include "phql.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
