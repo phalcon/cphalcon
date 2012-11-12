@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
@@ -98,46 +98,64 @@
  */
 
 
+/**
+ * Phalcon\Acl\Adapter\Memory initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, acl_adapter_memory, "phalcon\\acl", phalcon_acl_adapter_memory_method_entry, 0);
+
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_rolesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roles"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resources"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_access"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roleInherits"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_accessList"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_acl_adapter_memory_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_acl_adapter_memory_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_adapter_memory_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Acl\Adapter\Memory constructor
+ */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 
-	zval *a0 = NULL, *a1 = NULL, *a2 = NULL, *a3 = NULL, *a4 = NULL, *a5 = NULL, *a6 = NULL;
-	zval *a7 = NULL;
+	zval *a0 = NULL, *a1 = NULL, *a2 = NULL;
 
 	PHALCON_MM_GROW();
 
+	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_rolesNames") TSRMLS_CC);
+	
+	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roles") TSRMLS_CC);
+	
+	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resources") TSRMLS_CC);
+	
+	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_access") TSRMLS_CC);
+	
+	phalcon_update_property_empty_array(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roleInherits") TSRMLS_CC);
+	
 	PHALCON_INIT_VAR(a0);
 	array_init(a0);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_rolesNames"), a0 TSRMLS_CC);
+	add_assoc_bool_ex(a0, SS("*"), 1);
+	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resourcesNames"), a0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(a1);
 	array_init(a1);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roles"), a1 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(a2);
 	array_init(a2);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resources"), a2 TSRMLS_CC);
+	add_assoc_bool_ex(a2, SS("*"), 1);
+	phalcon_array_update_string(&a1, SL("*"), &a2, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_accessList"), a1 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a3);
-	array_init(a3);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_access"), a3 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(a4);
-	array_init(a4);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_roleInherits"), a4 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(a5);
-	array_init(a5);
-	add_assoc_bool_ex(a5, SS("*"), 1);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_resourcesNames"), a5 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(a6);
-	array_init(a6);
-	
-	PHALCON_INIT_VAR(a7);
-	array_init(a7);
-	add_assoc_bool_ex(a7, SS("*"), 1);
-	phalcon_array_update_string(&a6, SL("*"), &a7, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	zend_update_property(phalcon_acl_adapter_memory_ce, this_ptr, SL("_accessList"), a6 TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();
 }
@@ -161,17 +179,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction){
 
 /**
  * Returns the default ACL access level
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
 
-	zval *default_access;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(default_access);
-	phalcon_read_property(&default_access, this_ptr, SL("_defaultAccess"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(default_access);
+	RETURN_MEMBER(this_ptr, "_defaultAccess");
 }
 
 /**
@@ -183,7 +197,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
  * $acl->addRole('administrator', 'consultant');
  * </code>
  *
- * @param  string $roleObject
+ * @param  Phalcon\Acl\RoleInterface $roleObject
  * @param  array $accessInherits
  * @return boolean
  */
@@ -212,7 +226,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 		PHALCON_CPY_WRT(object, role_object);
 	} else {
 		PHALCON_CPY_WRT(role_name, role_object);
-		
+	
 		PHALCON_INIT_VAR(object);
 		object_init_ex(object, phalcon_acl_role_ce);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", role_name, PH_CHECK);
@@ -245,7 +259,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	if (Z_TYPE_P(access_inherits) != IS_NULL) {
 		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_METHOD_PARAMS_2(success, this_ptr, "addinherit", role_name, access_inherits, PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(success);
 	}
 	
@@ -305,7 +319,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 	if (!eval_int) {
 		PHALCON_INIT_VAR(empty_arr);
 		array_init(empty_arr);
-		
+	
 		PHALCON_INIT_VAR(t0);
 		phalcon_read_property(&t0, this_ptr, SL("_roleInherits"), PH_NOISY_CC);
 		phalcon_array_update_zval(&t0, role_name, &empty_arr, PH_COPY TSRMLS_CC);
@@ -427,7 +441,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		PHALCON_CPY_WRT(object, resource);
 	} else {
 		PHALCON_CPY_WRT(resource_name, resource);
-		
+	
 		PHALCON_INIT_VAR(object);
 		object_init_ex(object, phalcon_acl_resource_ce);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", resource_name, PH_CHECK);
@@ -441,15 +455,15 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 		phalcon_read_property(&t0, this_ptr, SL("_resources"), PH_NOISY_CC);
 		phalcon_array_append(&t0, object, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_resources"), t0 TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
-		
+	
 		PHALCON_INIT_VAR(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
 		phalcon_array_update_zval(&t1, resource_name, &a0, PH_COPY TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_accessList"), t1 TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(t2);
 		phalcon_read_property(&t2, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
 		phalcon_array_update_zval_bool(&t2, resource_name, 1, 0 TSRMLS_CC);
@@ -496,25 +510,25 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 		return;
 	}
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(access_list);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(access_name);
-			
+	
 			PHALCON_INIT_NVAR(internal_access_list);
 			phalcon_read_property(&internal_access_list, this_ptr, SL("_accessList"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(r0);
 			phalcon_array_fetch(&r0, internal_access_list, resource_name, PH_NOISY_CC);
 			eval_int = phalcon_array_isset(r0, access_name);
@@ -526,13 +540,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 				phalcon_array_update_multi_2(&t1, resource_name, access_name, &t2, 0 TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_accessList"), t1 TSRMLS_CC);
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	} else {
 		PHALCON_INIT_VAR(t3);
 		phalcon_read_property(&t3, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -576,35 +590,35 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 	}
 
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(access_list);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(access_name);
-			
+	
 			PHALCON_INIT_NVAR(t0);
 			phalcon_read_property(&t0, this_ptr, SL("_accessList"), PH_NOISY_CC);
 			PHALCON_INIT_NVAR(r0);
 			phalcon_array_fetch(&r0, t0, resource_name, PH_NOISY_CC);
 			PHALCON_SEPARATE_NMO(r0);
 			phalcon_array_unset(r0, access_name);
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	} else {
 		PHALCON_INIT_VAR(t1);
 		phalcon_read_property(&t1, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -618,6 +632,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Checks if a role has access to a resource
+ *
+ * @param string $roleName
+ * @param string $resourceName
+ * @param string $access
+ * @param string $action
+ */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 
 	zval *role_name, *resource_name, *access, *action;
@@ -665,22 +687,22 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 	if (Z_TYPE_P(access) == IS_ARRAY) { 
 		PHALCON_INIT_VAR(access_list);
 		phalcon_read_property(&access_list, this_ptr, SL("_accessList"), PH_NOISY_CC);
-		
+	
 		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(access);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(access_name);
-			
+	
 			PHALCON_INIT_NVAR(r0);
 			phalcon_array_fetch(&r0, access_list, resource_name, PH_NOISY_CC);
 			eval_int = phalcon_array_isset(r0, access_name);
@@ -690,28 +712,28 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_acl_exception_ce, exception_message);
 				return;
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
-		
-		
+	
+	
 		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah1 = Z_ARRVAL_P(access);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(access_name);
-			
+	
 			PHALCON_INIT_NVAR(t0);
 			phalcon_read_property(&t0, this_ptr, SL("_access"), PH_NOISY_CC);
 			PHALCON_INIT_NVAR(r1);
@@ -720,23 +742,23 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			if (!eval_int) {
 				PHALCON_INIT_NVAR(empty_arr);
 				array_init(empty_arr);
-				
+	
 				PHALCON_INIT_NVAR(t1);
 				phalcon_read_property(&t1, this_ptr, SL("_access"), PH_NOISY_CC);
 				phalcon_array_update_multi_2(&t1, role_name, resource_name, &empty_arr, 0 TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_access"), t1 TSRMLS_CC);
 			}
-			
+	
 			PHALCON_INIT_NVAR(t2);
 			phalcon_read_property(&t2, this_ptr, SL("_access"), PH_NOISY_CC);
 			phalcon_array_update_zval_zval_zval_multi_3(&t2, role_name, resource_name, access_name, &action, 0 TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(t3);
 			phalcon_read_property(&t3, this_ptr, SL("_access"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(r2);
 			phalcon_array_fetch(&r2, t3, role_name, PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(r3);
 			phalcon_array_fetch(&r3, r2, resource_name, PH_NOISY_CC);
 			eval_int = phalcon_array_isset_string(r3, SS("*"));
@@ -745,13 +767,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				phalcon_read_property(&t4, this_ptr, SL("_access"), PH_NOISY_CC);
 				phalcon_array_update_string_zval_zval_multi_3(&t4, role_name, resource_name, SL("*"), &default_access, 0 TSRMLS_CC);
 			}
-			
+	
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
 		if(0){}
-		
+	
 	} else {
 		if (!PHALCON_COMPARE_STRING(access, "*")) {
 			PHALCON_INIT_VAR(t5);
@@ -766,29 +788,29 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 				return;
 			}
 		}
-		
+	
 		PHALCON_INIT_VAR(t6);
 		phalcon_read_property(&t6, this_ptr, SL("_access"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(r5);
 		phalcon_array_fetch(&r5, t6, role_name, PH_NOISY_CC);
 		eval_int = phalcon_array_isset(r5, resource_name);
 		if (!eval_int) {
 			PHALCON_INIT_NVAR(empty_arr);
 			array_init(empty_arr);
-			
+	
 			PHALCON_INIT_VAR(t7);
 			phalcon_read_property(&t7, this_ptr, SL("_access"), PH_NOISY_CC);
 			phalcon_array_update_multi_2(&t7, role_name, resource_name, &empty_arr, 0 TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_access"), t7 TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_VAR(t8);
 		phalcon_read_property(&t8, this_ptr, SL("_access"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(r6);
 		phalcon_array_fetch(&r6, t8, role_name, PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(r7);
 		phalcon_array_fetch(&r7, r6, resource_name, PH_NOISY_CC);
 		eval_int = phalcon_array_isset_string(r7, SS("*"));
@@ -797,7 +819,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			phalcon_read_property(&t9, this_ptr, SL("_access"), PH_NOISY_CC);
 			phalcon_array_update_string_zval_zval_multi_3(&t9, role_name, resource_name, SL("*"), &default_access, 0 TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_VAR(t10);
 		phalcon_read_property(&t10, this_ptr, SL("_access"), PH_NOISY_CC);
 		phalcon_array_update_zval_zval_zval_multi_3(&t10, role_name, resource_name, access, &action, 0 TSRMLS_CC);
@@ -950,11 +972,11 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "acl:beforeCheckAccess", 1);
-		
+	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
-			
+	
 			RETURN_CCTOR(status);
 		}
 	}
@@ -963,7 +985,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	phalcon_read_property(&resources_names, this_ptr, SL("_resourcesNames"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(resources_names, resource);
 	if (!eval_int) {
-		
+	
 		RETURN_CCTOR(default_access);
 	}
 	
@@ -971,7 +993,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	phalcon_read_property(&roles_names, this_ptr, SL("_rolesNames"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(roles_names, role);
 	if (!eval_int) {
-		
+	
 		RETURN_CCTOR(default_access);
 	}
 	
@@ -995,10 +1017,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(resource_access);
-		
+	
 		PHALCON_INIT_NVAR(same_resource);
 		is_equal_function(same_resource, resource_name, resource TSRMLS_CC);
 		if (PHALCON_IS_TRUE(same_resource)) {
@@ -1008,35 +1030,35 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 				phalcon_array_fetch(&have_access, resource_access, access, PH_NOISY_CC);
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_INIT_NVAR(have_access);
 			phalcon_array_fetch_string(&have_access, resource_access, SL("*"), PH_NOISY_CC);
 			goto ph_cycle_end_0;
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	if (Z_TYPE_P(have_access) == IS_NULL) {
-		
+	
 		if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah1 = Z_ARRVAL_P(access_roles);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(resource_name, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(resource_access);
-			
+	
 			eval_int = phalcon_array_isset_string(resource_access, SS("*"));
 			if (eval_int) {
 				eval_int = phalcon_array_isset(resource_access, access);
@@ -1045,18 +1067,18 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 					phalcon_array_fetch(&have_access, resource_access, access, PH_NOISY_CC);
 					goto ph_cycle_end_1;
 				}
-				
+	
 				PHALCON_INIT_NVAR(have_access);
 				phalcon_array_fetch_string(&have_access, resource_access, SL("*"), PH_NOISY_CC);
 				goto ph_cycle_end_1;
 			}
-			
+	
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
 		if(0){}
-		
+	
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_accessGranted"), have_access TSRMLS_CC);
@@ -1082,14 +1104,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole){
 
-	zval *role;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(role);
-	phalcon_read_property(&role, this_ptr, SL("_activeRole"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(role);
+	RETURN_MEMBER(this_ptr, "_activeRole");
 }
 
 /**
@@ -1099,14 +1115,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource){
 
-	zval *resource;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(resource);
-	phalcon_read_property(&resource, this_ptr, SL("_activeResource"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(resource);
+	RETURN_MEMBER(this_ptr, "_activeResource");
 }
 
 /**
@@ -1116,14 +1126,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource){
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveAccess){
 
-	zval *access;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(access);
-	phalcon_read_property(&access, this_ptr, SL("_activeAccess"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(access);
+	RETURN_MEMBER(this_ptr, "_activeAccess");
 }
 
 /**
@@ -1177,7 +1181,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
 	ph_cycle_start_0:
-		
+	
 		PHALCON_INIT_NVAR(r0);
 		is_smaller_or_equal_function(r0, i, middle TSRMLS_CC);
 		if (!zend_is_true(r0)) {
@@ -1185,81 +1189,81 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 		}
 		PHALCON_INIT_NVAR(internal_access);
 		phalcon_read_property(&internal_access, this_ptr, SL("_access"), PH_NOISY_CC);
-		
+	
 		if (!phalcon_valid_foreach(roles_names TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(roles_names);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(role_name, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(one);
-			
+	
 			eval_int = phalcon_array_isset(roles_inherits, role_name);
 			if (eval_int) {
 				PHALCON_INIT_NVAR(r1);
 				phalcon_array_fetch(&r1, roles_inherits, role_name, PH_NOISY_CC);
-				
+	
 				if (!phalcon_valid_foreach(r1 TSRMLS_CC)) {
 					return;
 				}
-				
+	
 				ah1 = Z_ARRVAL_P(r1);
 				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-				
+	
 				ph_cycle_start_2:
-				
+	
 					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_2;
 					}
-					
+	
 					PHALCON_GET_FOREACH_VALUE(role_inherit);
-					
+	
 					eval_int = phalcon_array_isset(internal_access, role_inherit);
 					if (eval_int) {
 						PHALCON_INIT_NVAR(inherit_internal);
 						phalcon_array_fetch(&inherit_internal, internal_access, role_inherit, PH_NOISY_CC);
-						
+	
 						if (!phalcon_valid_foreach(inherit_internal TSRMLS_CC)) {
 							return;
 						}
-						
+	
 						ah2 = Z_ARRVAL_P(inherit_internal);
 						zend_hash_internal_pointer_reset_ex(ah2, &hp2);
-						
+	
 						ph_cycle_start_3:
-						
+	
 							if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 								goto ph_cycle_end_3;
 							}
-							
+	
 							PHALCON_GET_FOREACH_KEY(resource_name, ah2, hp2);
 							PHALCON_GET_FOREACH_VALUE(access);
-							
-							
+	
+	
 							if (!phalcon_valid_foreach(access TSRMLS_CC)) {
 								return;
 							}
-							
+	
 							ah3 = Z_ARRVAL_P(access);
 							zend_hash_internal_pointer_reset_ex(ah3, &hp3);
-							
+	
 							ph_cycle_start_4:
-							
+	
 								if (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) != SUCCESS) {
 									goto ph_cycle_end_4;
 								}
-								
+	
 								PHALCON_GET_FOREACH_KEY(name, ah3, hp3);
 								PHALCON_GET_FOREACH_VALUE(value);
-								
+	
 								eval_int = phalcon_array_isset(internal_access, role_name);
 								if (eval_int) {
 									PHALCON_INIT_NVAR(r2);
@@ -1277,39 +1281,39 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 										}
 									}
 								}
-								
+	
 								PHALCON_INIT_NVAR(t0);
 								phalcon_read_property(&t0, this_ptr, SL("_access"), PH_NOISY_CC);
 								phalcon_array_update_zval_zval_zval_multi_3(&t0, role_name, resource_name, name, &value, 0 TSRMLS_CC);
-								
+	
 								zend_hash_move_forward_ex(ah3, &hp3);
 								goto ph_cycle_start_4;
-								
+	
 							ph_cycle_end_4:
-							
-							
+	
+	
 							zend_hash_move_forward_ex(ah2, &hp2);
 							goto ph_cycle_start_3;
-							
+	
 						ph_cycle_end_3:
 						if(0){}
-						
+	
 					}
-					
+	
 					zend_hash_move_forward_ex(ah1, &hp1);
 					goto ph_cycle_start_2;
-					
+	
 				ph_cycle_end_2:
 				if(0){}
-				
+	
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
 		if(0){}
-		
+	
 		PHALCON_SEPARATE(i);
 		increment_function(i);
 		goto ph_cycle_start_0;

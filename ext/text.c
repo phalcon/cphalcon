@@ -43,6 +43,16 @@
 
 
 /**
+ * Phalcon\Text initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Text){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Text, text, phalcon_text_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
  * Converts strings to camelize style
  *
  *<code>

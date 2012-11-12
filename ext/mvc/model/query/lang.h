@@ -17,23 +17,18 @@
   +------------------------------------------------------------------------+
 */
 
-typedef struct _phql_parser_token {
-	int opcode;
-	char *token;
-	int token_len;
-	int free_flag;
-} phql_parser_token;
+extern zend_class_entry *phalcon_mvc_model_query_lang_ce;
 
-typedef struct _phql_parser_status {
-	int status;
-	zval *ret;
-	phql_scanner_state *scanner_state;
-	char *syntax_error;
-	zend_uint syntax_error_len;
-} phql_parser_status;
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang);
 
-#define PHQL_PARSING_OK 1
-#define PHQL_PARSING_FAILED 0
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL);
 
-extern int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
-extern int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC);
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_lang_parsephql, 0, 0, 1)
+	ZEND_ARG_INFO(0, phql)
+ZEND_END_ARG_INFO()
+
+PHALCON_INIT_FUNCS(phalcon_mvc_model_query_lang_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_Query_Lang, parsePHQL, arginfo_phalcon_mvc_model_query_lang_parsephql, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
+	PHP_FE_END
+};
+

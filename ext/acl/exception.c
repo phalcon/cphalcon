@@ -39,3 +39,13 @@
  */
 
 
+/**
+ * Phalcon\Acl\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Acl, Exception, acl_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

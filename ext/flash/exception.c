@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Flash\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Flash_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Exception, flash_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

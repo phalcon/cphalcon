@@ -66,9 +66,21 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Exclusionin initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, mvc_model_validator_exclusionin, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_exclusionin_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
@@ -122,10 +134,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	if (PHALCON_IS_TRUE(is_in_array)) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "exclusion", 1);
-		
+	
 		PHALCON_INIT_VAR(joined_domain);
 		phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(message);
 		PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must not be part of list: ", joined_domain);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);

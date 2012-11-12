@@ -274,10 +274,54 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$persona->estado = 'X';
 		$this->assertTrue($persona->save());
 
+		//Check correct save
 		$persona = Personas::findFirst(array("estado='X'"));
 		$this->assertNotEquals($persona, false);
 		$this->assertEquals($persona->nombres, 'LOST LOST');
 		$this->assertEquals($persona->estado, 'X');
+
+		//Update
+		$persona->cupo = 150000;
+		$persona->telefono = '123';
+		$this->assertTrue($persona->update());
+
+		//Checking correct update
+		$persona = Personas::findFirst(array("estado='X'"));
+		$this->assertNotEquals($persona, false);
+		$this->assertEquals($persona->cupo, 150000);
+		$this->assertEquals($persona->telefono, '123');
+
+		//Update
+		$this->assertTrue($persona->update(array(
+			'nombres' => 'LOST UPDATE',
+			'telefono' => '2121'
+		)));
+
+		//Checking correct update
+		$persona = Personas::findFirst(array("estado='X'"));
+		$this->assertNotEquals($persona, false);
+		$this->assertEquals($persona->nombres, 'LOST UPDATE');
+		$this->assertEquals($persona->telefono, '2121');
+
+		//Create
+		$persona = new Personas($di);
+		$persona->cedula = 'CELL'.mt_rand(0, 9999);
+		$persona->tipo_documento_id = 1;
+		$persona->nombres = 'LOST CREATE';
+		$persona->telefono = '1';
+		$persona->cupo = 21000;
+		$persona->estado = 'A';
+		$this->assertTrue($persona->create());
+
+		$persona = new Personas($di);
+		$this->assertTrue($persona->create(array(
+			'cedula' => 'CELL'.mt_rand(0, 9999),
+			'tipo_documento_id' => 1,
+			'nombres' => 'LOST CREATE',
+			'telefono' => '1',
+			'cupo' => 21000,
+			'estado' => 'A'
+		)));
 
 		//Grouping
 		$difEstados = People::count(array("distinct" => "estado"));

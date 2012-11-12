@@ -46,9 +46,23 @@
 
 
 /**
+ * Phalcon\Flash\Session initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Flash_Session){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Flash, Session, flash_session, "phalcon\\flash", phalcon_flash_session_method_entry, 0);
+
+	zend_declare_property_null(phalcon_flash_session_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_flash_session_ce TSRMLS_CC, 2, phalcon_flashinterface_ce, phalcon_di_injectionawareinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Flash_Session, setDI){
 
@@ -65,18 +79,12 @@ PHP_METHOD(Phalcon_Flash_Session, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Flash_Session, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -245,11 +253,11 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 			if (eval_int) {
 				PHALCON_INIT_VAR(return_messages);
 				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY_CC);
-				
+	
 				RETURN_CCTOR(return_messages);
 			}
 		}
-		
+	
 		RETURN_CCTOR(messages);
 	}
 	
@@ -291,31 +299,31 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	PHALCON_INIT_VAR(messages);
 	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove, PH_NO_CHECK);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(messages);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(type, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(message);
-			
+	
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "outputmessage", type, message, PH_NO_CHECK);
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	}
 	
 	PHALCON_MM_RESTORE();

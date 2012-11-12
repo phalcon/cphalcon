@@ -43,6 +43,20 @@
 
 
 /**
+ * Phalcon\Db\Profiler\Item initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Profiler_Item){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Profiler, Item, db_profiler_item, phalcon_db_profiler_item_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_initialTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("_finalTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the SQL statement related to the profile
  *
  * @param string $sqlStatement
@@ -66,14 +80,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSQLStatement){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSQLStatement){
 
-	zval *sql_statement;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(sql_statement);
-	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(sql_statement);
+	RETURN_MEMBER(this_ptr, "_sqlStatement");
 }
 
 /**
@@ -117,14 +125,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
 
-	zval *initial_time;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(initial_time);
-	phalcon_read_property(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(initial_time);
+	RETURN_MEMBER(this_ptr, "_initialTime");
 }
 
 /**
@@ -134,14 +136,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime){
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, getFinalTime){
 
-	zval *final_time;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(final_time);
-	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(final_time);
+	RETURN_MEMBER(this_ptr, "_finalTime");
 }
 
 /**

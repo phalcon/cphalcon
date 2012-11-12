@@ -39,7 +39,7 @@
 /**
  * Phalcon\Mvc\Model\MetaData\Session
  *
- * Stores model meta-data in session. Data will erase when the session finishes.
+ * Stores model meta-data in session. Data will erased when the session finishes.
  * Meta-data are permanent while the session is active.
  *
  * You can query the meta-data by printing $_SESSION['$PMM$']
@@ -51,6 +51,20 @@
  *</code>
  */
 
+
+/**
+ * Phalcon\Mvc\Model\MetaData\Session initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Session, mvc_model_metadata_session, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_session_method_entry, 0);
+
+	zend_declare_property_string(phalcon_mvc_model_metadata_session_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_metadata_session_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
+
+	return SUCCESS;
+}
 
 /**
  * Phalcon\Mvc\Model\MetaData\Session constructor
@@ -126,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 			phalcon_array_fetch(&r1, session, suffix_key, PH_NOISY_CC);
 			PHALCON_INIT_VAR(meta_data);
 			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
-			
+	
 			RETURN_CCTOR(meta_data);
 		}
 	}

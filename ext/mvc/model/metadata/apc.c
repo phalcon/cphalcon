@@ -44,7 +44,7 @@
  *
  * By default meta-data is stored 48 hours (172800 seconds)
  *
- * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-local-app')
+ * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  *
  *<code>
  * $metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
@@ -54,6 +54,21 @@
  *</code>
  */
 
+
+/**
+ * Phalcon\Mvc\Model\MetaData\Apc initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apc, mvc_model_metadata_apc, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_apc_method_entry, 0);
+
+	zend_declare_property_string(phalcon_mvc_model_metadata_apc_ce, SL("_suffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_metadata_apc_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_metadata_apc_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
+
+	return SUCCESS;
+}
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apc constructor
@@ -124,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_INIT_VAR(data);
 	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
-		
+	
 		RETURN_CCTOR(data);
 	}
 	

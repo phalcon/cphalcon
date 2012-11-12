@@ -50,9 +50,38 @@
 
 
 /**
+ * Phalcon\Tag initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Tag){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Tag, tag, phalcon_tag_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_tag_ce, SL("_documentTitle"), "", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_string(phalcon_tag_ce, SL("_documentType"), "", ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML32"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_STRICT"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_TRANSITIONAL"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_FRAMESET"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML5"), 5 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_STRICT"), 6 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_TRANSITIONAL"), 7 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML10_FRAMESET"), 8 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML11"), 9 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML20"), 10 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_tag_ce, SL("XHTML5"), 11 TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injector container.
  *
- * @param Phalcon\DI $dispatcher
+ * @param Phalcon\DiInterface $dispatcher
  */
 PHP_METHOD(Phalcon_Tag, setDI){
 
@@ -77,7 +106,7 @@ PHP_METHOD(Phalcon_Tag, setDI){
 /**
  * Internally gets the request dispatcher
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Tag, getDI){
 
@@ -94,7 +123,7 @@ PHP_METHOD(Phalcon_Tag, getDI){
 /**
  * Return a URL service from the DI
  *
- * @return Phalcon\Mvc\Url
+ * @return Phalcon\Mvc\UrlInterface
  */
 PHP_METHOD(Phalcon_Tag, getUrlService){
 
@@ -111,15 +140,15 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 			PHALCON_INIT_NVAR(dependency_injector);
 			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
 		}
-		
+	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"url\" service");
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "url", 1);
-		
+	
 		PHALCON_INIT_NVAR(url);
 		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_urlService"), url TSRMLS_CC);
@@ -132,7 +161,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 /**
  * Returns a Dispatcher service from the DI
  *
- * @return Phalcon\Mvc\Dispatcher
+ * @return Phalcon\Mvc\DispatcherInterface
  */
 PHP_METHOD(Phalcon_Tag, getDispatcherService){
 
@@ -149,15 +178,15 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 			PHALCON_INIT_NVAR(dependency_injector);
 			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
 		}
-		
+	
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "dispatcher", 1);
-		
+	
 		PHALCON_INIT_NVAR(dispatcher);
 		PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service, PH_NO_CHECK);
 		phalcon_update_static_property(SL("phalcon\\tag"), SL("_dispatcherService"), dispatcher TSRMLS_CC);
@@ -263,7 +292,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 	if (eval_int) {
 		PHALCON_INIT_VAR(default_value);
 		phalcon_array_fetch(&default_value, display_values, name, PH_NOISY_CC);
-		
+	
 		RETURN_CCTOR(default_value);
 	} else {
 		phalcon_get_global(&g0, SL("_POST")+1 TSRMLS_CC);
@@ -272,7 +301,7 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		if (eval_int) {
 			PHALCON_INIT_VAR(post_name);
 			phalcon_array_fetch(&post_name, post, name, PH_NOISY_CC);
-			
+	
 			RETURN_CCTOR(post_name);
 		}
 	}
@@ -397,17 +426,17 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_SCONCAT_SVS(code, ">", text, "</a>");
@@ -462,7 +491,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);
 			phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(id);
 		phalcon_array_fetch_long(&id, params, 0, PH_NOISY_CC);
 		eval_int = phalcon_array_isset_string(params, SS("name"));
@@ -475,12 +504,12 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 				phalcon_array_update_string(&params, SL("name"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(params, SS("id"));
 		if (!eval_int) {
 			phalcon_array_update_string(&params, SL("id"), &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(params, SS("value"));
 		if (!eval_int) {
 			PHALCON_INIT_VAR(value);
@@ -511,17 +540,17 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(doctype);
@@ -827,9 +856,8 @@ PHP_METHOD(Phalcon_Tag, select){
  */
 PHP_METHOD(Phalcon_Tag, textArea){
 
-	zval *parameters, *params = NULL, *id, *name, *content = NULL, *code;
+	zval *parameters, *params = NULL, *id = NULL, *name, *content = NULL, *code;
 	zval *avalue = NULL, *key = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -855,12 +883,15 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	}
 	eval_int = phalcon_array_isset_long(params, 0);
 	if (!eval_int) {
-		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch_string(&r0, params, SL("id"), PH_NOISY_CC);
-		phalcon_array_update_long(&params, 0, &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		eval_int = phalcon_array_isset_string(params, SS("id"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(id);
+			phalcon_array_fetch_string(&id, params, SL("id"), PH_NOISY_CC);
+			phalcon_array_update_long(&params, 0, &id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
 	}
 	
-	PHALCON_INIT_VAR(id);
+	PHALCON_INIT_NVAR(id);
 	phalcon_array_fetch_long(&id, params, 0, PH_NOISY_CC);
 	eval_int = phalcon_array_isset_string(params, SS("name"));
 	if (!eval_int) {
@@ -904,17 +935,17 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(avalue);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", avalue, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_SCONCAT_SVS(code, ">", content, "</textarea>");
@@ -930,16 +961,21 @@ PHP_METHOD(Phalcon_Tag, textArea){
  * echo Phalcon\Tag::form(array("posts/save", "method" => "post"));
  * </code>
  *
+ * Volt syntax:
+ * <code>
+ * {{ form("posts/save") }}
+ * {{ form("posts/save", "method": "post") }}
+ * </code>
+ *
  * @param array $parameters
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, form){
 
 	zval *parameters = NULL, *params = NULL, *dispatcher, *dispatch_params;
-	zval *action_parameters, *action = NULL, *controller_name;
-	zval *action_name, *url, *form_action, *code, *avalue = NULL;
-	zval *key = NULL;
-	zval *r0 = NULL;
+	zval *action_parameters, *params_action = NULL, *controller_name;
+	zval *action_name, *url, *action = NULL, *form_action;
+	zval *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -982,21 +1018,21 @@ PHP_METHOD(Phalcon_Tag, form){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_string(params, SS("action"));
 		if (eval_int) {
-			PHALCON_INIT_VAR(action);
-			phalcon_array_fetch_string(&action, params, SL("action"), PH_NOISY_CC);
+			PHALCON_INIT_VAR(params_action);
+			phalcon_array_fetch_string(&params_action, params, SL("action"), PH_NOISY_CC);
 		} else {
 			PHALCON_INIT_VAR(controller_name);
 			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername", PH_NO_CHECK);
-			
+	
 			PHALCON_INIT_VAR(action_name);
 			PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname", PH_NO_CHECK);
-			
-			PHALCON_INIT_NVAR(action);
-			PHALCON_CONCAT_VSV(action, controller_name, "/", action_name);
+	
+			PHALCON_INIT_NVAR(params_action);
+			PHALCON_CONCAT_VSV(params_action, controller_name, "/", action_name);
 		}
 	} else {
-		PHALCON_INIT_NVAR(action);
-		phalcon_array_fetch_long(&action, params, 0, PH_NOISY_CC);
+		PHALCON_INIT_NVAR(params_action);
+		phalcon_array_fetch_long(&params_action, params, 0, PH_NOISY_CC);
 	}
 	
 	eval_int = phalcon_array_isset_string(params, SS("method"));
@@ -1007,13 +1043,12 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	if (zend_is_true(action_parameters)) {
-		PHALCON_INIT_VAR(r0);
-		PHALCON_CALL_METHOD_PARAMS_1(r0, url, "get", action, PH_NO_CHECK);
-		PHALCON_CPY_WRT(action, r0);
+		PHALCON_INIT_VAR(action);
+		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", params_action, PH_NO_CHECK);
 	} else {
 		PHALCON_INIT_VAR(form_action);
-		PHALCON_CONCAT_VSV(form_action, action, "/", action_parameters);
-		
+		PHALCON_CONCAT_VSV(form_action, params_action, "/", action_parameters);
+	
 		PHALCON_INIT_NVAR(action);
 		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", form_action, PH_NO_CHECK);
 	}
@@ -1040,17 +1075,17 @@ PHP_METHOD(Phalcon_Tag, form){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(avalue);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", avalue, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	phalcon_concat_self_str(code, SL(">") TSRMLS_CC);
@@ -1256,10 +1291,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	if (zend_is_true(local)) {
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
-		
+	
 		PHALCON_INIT_VAR(url_href);
 		phalcon_array_fetch_string(&url_href, params, SL("href"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(href);
 		PHALCON_CALL_METHOD_PARAMS_1(href, url, "get", url_href, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("href"), &href, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -1280,17 +1315,17 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(doctype);
@@ -1325,9 +1360,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
  */
 PHP_METHOD(Phalcon_Tag, javascriptInclude){
 
-	zval *parameters = NULL, *local = NULL, *params = NULL, *url, *src, *code;
-	zval *value = NULL, *key = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
+	zval *url, *params_src, *src, *code, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1367,9 +1401,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	if (!eval_int) {
 		eval_int = phalcon_array_isset_long(params, 0);
 		if (eval_int) {
-			PHALCON_INIT_VAR(r0);
-			phalcon_array_fetch_long(&r0, params, 0, PH_NOISY_CC);
-			phalcon_array_update_string(&params, SL("src"), &r0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			PHALCON_INIT_VAR(first_param);
+			phalcon_array_fetch_long(&first_param, params, 0, PH_NOISY_CC);
+			phalcon_array_update_string(&params, SL("src"), &first_param, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string_string(&params, SL("src"), SL(""), PH_SEPARATE TSRMLS_CC);
 		}
@@ -1399,12 +1433,12 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	if (zend_is_true(local)) {
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
-		
-		PHALCON_INIT_VAR(r1);
-		phalcon_array_fetch_string(&r1, params, SL("src"), PH_NOISY_CC);
-		
+	
+		PHALCON_INIT_VAR(params_src);
+		phalcon_array_fetch_string(&params_src, params, SL("src"), PH_NOISY_CC);
+	
 		PHALCON_INIT_VAR(src);
-		PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", r1, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(src, url, "get", params_src, PH_NO_CHECK);
 		phalcon_array_update_string(&params, SL("src"), &src, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
@@ -1423,17 +1457,17 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	phalcon_concat_self_str(code, SL("></script>") TSRMLS_CC);
@@ -1515,17 +1549,17 @@ PHP_METHOD(Phalcon_Tag, image){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (Z_TYPE_P(key) != IS_LONG) {
 			PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", value, "\"");
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(doctype);

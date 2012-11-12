@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Model\Transaction\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Exception, mvc_model_transaction_exception, "phalcon\\mvc\\model\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

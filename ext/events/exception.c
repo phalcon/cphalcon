@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Events\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Events_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Events, Exception, events_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

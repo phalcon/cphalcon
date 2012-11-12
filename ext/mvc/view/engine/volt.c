@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -48,6 +48,48 @@
  * Designer friendly and fast template engine for PHP written in C
  */
 
+
+/**
+ * Phalcon\Mvc\View\Engine\Volt initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_view_engine_volt_ce TSRMLS_CC, 2, phalcon_mvc_view_engineinterface_ce, phalcon_di_injectionawareinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
+ * Sets the dependency injection container
+ *
+ * @param Phalcon\DiInterface $dependencyInjector
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setDI){
+
+	zval *dependency_injector;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the dependency injection container
+ *
+ * @return Phalcon\DiInterface
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getDI){
+
+
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+}
 
 /**
  * Set Volt's options
@@ -81,14 +123,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
 
-	zval *options;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(options);
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**
@@ -96,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
  *
  * @param string $templatePath
  * @param array $params
- * @param bool $mustClean
+ * @param boolean $mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
@@ -158,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 				return;
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(options, SS("compiledExtension"));
 		if (eval_int) {
 			PHALCON_INIT_NVAR(compiled_extension);
@@ -168,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 				return;
 			}
 		}
-		
+	
 		eval_int = phalcon_array_isset_string(options, SS("stat"));
 		if (eval_int) {
 			phalcon_array_fetch_string(&stat, options, SL("stat"), PH_NOISY_CC);
@@ -178,13 +214,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
 		PHALCON_INIT_VAR(win_separator);
 		ZVAL_STRING(win_separator, "\\", 1);
-		
+	
 		PHALCON_INIT_VAR(unix_separator);
 		ZVAL_STRING(unix_separator, "/", 1);
-		
+	
 		PHALCON_INIT_VAR(template_win_path);
 		phalcon_fast_str_replace(template_win_path, win_separator, compiled_separator, template_path TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(template_sep_path);
 		phalcon_fast_str_replace(template_sep_path, unix_separator, compiled_separator, template_win_path TSRMLS_CC);
 	} else {
@@ -227,17 +263,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 			return;
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
@@ -246,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-		
+	
 		PHALCON_INIT_VAR(view);
 		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);

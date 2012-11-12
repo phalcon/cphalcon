@@ -71,6 +71,18 @@
 
 
 /**
+ * Phalcon\Cache\Frontend\None initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, None, cache_frontend_none, phalcon_cache_frontend_none_method_entry, 0);
+
+	zend_class_implements(phalcon_cache_frontend_none_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Frontend\None constructor
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
@@ -86,7 +98,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 
 	if (!frontend_options) {
 		PHALCON_INIT_NVAR(frontend_options);
-		array_init(frontend_options);
 	}
 	
 	
@@ -95,6 +106,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 
 /**
  * Returns cache lifetime, always one second expiring content
+ *
+ * @return int
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 
@@ -104,6 +117,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, getLifetime){
 
 /**
  * Check whether if frontend is buffering output, always false
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, isBuffering){
 
