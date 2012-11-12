@@ -25,7 +25,6 @@ class Db_PostgresqlTest extends Db_Helper_Model
 {
     public function setUp()
     {
-        $this->markTestSkipped('Postgres schema to be completed');
         parent::setUp();
 
         $this->setDb('postgresql');

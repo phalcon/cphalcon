@@ -1,7 +1,7 @@
 <?php
 /**
- * Model.php
- * Mvc_Model_Calculation_Helper_Model
+ * Calculation.php
+ * Mvc_Helper_Calculation
  *
  * Helper for the \Phalcon\Mvc\Model calculations
  *
@@ -21,31 +21,8 @@
  * so that we can send you a copy immediately.
  */
 
-class Mvc_Model_Calculation_Helper_Model extends Phalcon_Test_ModelTestCase
+class Mvc_Helper_Calculation extends Phalcon_Test_ModelTestCase
 {
-    /**
-     * Sets the environment for this test suite
-     *
-     * @return Phalcon\DI|void
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        // Setup the table with 120 records
-        $this->populateTable('customers', 120);
-    }
-
-    /**
-     * Destructor
-     */
-    public function tearDown()
-    {
-        $this->emptyTable('customers');
-
-        parent::tearDown();
-    }
-
     /**
      * Tests the count on a model
      *
@@ -359,7 +336,6 @@ class Mvc_Model_Calculation_Helper_Model extends Phalcon_Test_ModelTestCase
         $this->_countableGroupOrder('minimum', 'minimum', 5.50);
     }
 
-
     /**
      * Private helper to test a countable on a model
      *
@@ -465,5 +441,4 @@ class Mvc_Model_Calculation_Helper_Model extends Phalcon_Test_ModelTestCase
             $pFunc . ' with group (key) order sumatory incorrect'
         );
     }
-
 }

@@ -25,7 +25,6 @@ class Logger_Adapter_File_SqliteTest extends Logger_Adapter_File_Helper_Model
 {
     public function setUp()
     {
-        $this->markTestSkipped('Sqlite schema to be completed');
         parent::setUp();
 
         $this->setDb('sqlite');

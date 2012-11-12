@@ -39,7 +39,6 @@ class Config_UnitTest extends Config_Helper_Unit
 
     public function testArrayArrayParameter()
     {
-        $this->markTestSkipped('Need to check could not be converted to string odd error here');
         $expectedConfig = PhConfig::__set_state(
             array(
                 'database' => PhConfig::__set_state(

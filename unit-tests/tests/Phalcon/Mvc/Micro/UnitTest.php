@@ -33,7 +33,7 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testMicroGetNumberAccess()
     {
-        $handler = new Mvc_Micro_Helper_RestHandler($this);
+        $handler = new Mvc_Helper_RestHandler($this);
         $app     = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));
@@ -62,7 +62,7 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testMicroGetTrace()
     {
-        $handler = new Mvc_Micro_Helper_RestHandler($this);
+        $handler = new Mvc_Helper_RestHandler($this);
         $app     = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));
@@ -91,7 +91,7 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testMicroGetNumberAccessTwice()
     {
-        $handler = new Mvc_Micro_Helper_RestHandler($this);
+        $handler = new Mvc_Helper_RestHandler($this);
         $app     = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));
@@ -124,7 +124,7 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testMicroGetTraceTwice()
     {
-        $handler = new Mvc_Micro_Helper_RestHandler($this);
+        $handler = new Mvc_Helper_RestHandler($this);
         $app     = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));
@@ -160,7 +160,7 @@ class Mvc_Micro_UnitTest extends Phalcon_Test_UnitTestCase
     public function testMicroNotFound_T169()
     {
 
-        $handler = new Mvc_Micro_Helper_RestHandler($this);
+        $handler = new Mvc_Helper_RestHandler($this);
         $app = new Micro();
 
         $app->get('/api/site', array($handler, 'find'));

@@ -21,14 +21,15 @@
  * so that we can send you a copy immediately.
  */
 
-class Mvc_Model_Calculation_SqliteTest extends Mvc_Model_Calculation_Helper_Model
+class Mvc_Model_Calculation_SqliteTest extends Mvc_Helper_Calculation
 {
     public function setUp()
     {
-        $this->markTestSkipped('Sqlite schema to be completed');
         parent::setUp();
 
         $this->setDb('sqlite');
 
+        // Setup the table with 120 records
+        $this->populateTable('customers', 120);
     }
 }

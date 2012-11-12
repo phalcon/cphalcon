@@ -25,7 +25,6 @@ class Logger_Adapter_File_PostgresqlTest extends Logger_Adapter_File_Helper_Mode
 {
     public function setUp()
     {
-        $this->markTestSkipped('Postgres schema to be completed');
         parent::setUp();
 
         $this->setDb('postgresql');

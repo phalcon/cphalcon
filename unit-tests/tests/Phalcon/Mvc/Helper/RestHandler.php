@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Mvc_Micro_Helper_RestHandler
+class Mvc_Helper_RestHandler
 {
 
     protected $_access = 0;
