@@ -36,6 +36,7 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Http\Response
@@ -54,9 +55,26 @@
 
 
 /**
+ * Phalcon\Http\Response initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Http_Response){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Http, Response, http_response, phalcon_http_response_method_entry, 0);
+
+	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_response_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 2, phalcon_http_responseinterface_ce, phalcon_di_injectionawareinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Http_Response, setDI){
 
@@ -73,18 +91,12 @@ PHP_METHOD(Phalcon_Http_Response, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_Http_Response, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -96,7 +108,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI){
  *
  * @param int $code
  * @param string $message
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 
@@ -161,7 +173,7 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
  *
  * @param string $name
  * @param string $value
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setHeader){
 
@@ -189,7 +201,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeader){
  *</code>
  *
  * @param string $header
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 
@@ -212,7 +224,7 @@ PHP_METHOD(Phalcon_Http_Response, setRawHeader){
 /**
  * Resets all the stablished headers
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, resetHeaders){
 
@@ -231,7 +243,7 @@ PHP_METHOD(Phalcon_Http_Response, resetHeaders){
  * Sets output expire time header
  *
  * @param DateTime $datetime
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setExpires){
 
@@ -287,7 +299,7 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 /**
  * Sends a Not-Modified response
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setNotModified){
 
@@ -315,6 +327,7 @@ PHP_METHOD(Phalcon_Http_Response, setNotModified){
  *
  * @param string $contentType
  * @param string $charset
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setContentType){
 
@@ -344,7 +357,8 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(headers, "set", name, header_value, PH_NO_CHECK);
 	}
 	
-	PHALCON_MM_RESTORE();
+	
+	RETURN_CTOR(this_ptr);
 }
 
 /**
@@ -359,7 +373,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  * @param string $location
  * @param boolean $externalRedirect
  * @param int $statusCode
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
@@ -393,13 +407,13 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'url' service");
 			return;
 		}
-		
+	
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "url", 1);
-		
+	
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_METHOD_PARAMS_1(url, dependency_injector, "getshared", service, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(header);
 		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
 	}
@@ -423,7 +437,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
  *</code>
  *
  * @param string $content
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, setContent){
 
@@ -442,7 +456,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent){
  * Appends a string to the HTTP response body
  *
  * @param string $content
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, appendContent){
 
@@ -467,26 +481,20 @@ PHP_METHOD(Phalcon_Http_Response, appendContent){
 }
 
 /**
- * Gets HTTP response body
+ * Gets the HTTP response body
  *
  * @return string
  */
 PHP_METHOD(Phalcon_Http_Response, getContent){
 
-	zval *content;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(content);
-	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(content);
+	RETURN_MEMBER(this_ptr, "_content");
 }
 
 /**
  * Sends headers to the client
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 
@@ -507,24 +515,34 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
 /**
  * Prints out HTTP response to the client
  *
- * @return Phalcon\Http\Response
+ * @return Phalcon\Http\ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *headers, *content;
+	zval *sent, *headers, *content;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(headers);
-	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
-	if (Z_TYPE_P(headers) != IS_NULL) {
-		PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
+	PHALCON_INIT_VAR(sent);
+	phalcon_read_property(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(sent)) {
+		PHALCON_INIT_VAR(headers);
+		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
+		if (Z_TYPE_P(headers) != IS_NULL) {
+			PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
+		}
+	
+		PHALCON_INIT_VAR(content);
+		phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+		zend_print_zval(content, 1);
+		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+	
+		RETURN_CTOR(this_ptr);
+	} else {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
+		return;
 	}
 	
-	PHALCON_INIT_VAR(content);
-	phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-	zend_print_zval(content, 1);
-	
-	RETURN_CTOR(this_ptr);
+	PHALCON_MM_RESTORE();
 }
 

@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\CLI\Router\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_CLI_Router_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI\\Router, Exception, cli_router_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

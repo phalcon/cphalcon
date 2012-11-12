@@ -69,6 +69,18 @@
 
 
 /**
+ * Phalcon\Cache\Backend\Apc initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Backend_Apc){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Cache\\Backend, Apc, cache_backend_apc, "phalcon\\cache\\backend", phalcon_cache_backend_apc_method_entry, 0);
+
+	zend_class_implements(phalcon_cache_backend_apc_ce TSRMLS_CC, 1, phalcon_cache_backendinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Returns a cached content
  *
  * @param 	string $keyName
@@ -278,7 +290,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(iterator, "__construct", type, prefix_pattern, PH_CHECK);
 	PHALCON_CALL_METHOD_NORETURN(iterator, "rewind", PH_NO_CHECK);
 	ph_cycle_start_0:
-		
+	
 		PHALCON_INIT_NVAR(r0);
 		PHALCON_CALL_METHOD(r0, iterator, "valid", PH_NO_CHECK);
 		if (!zend_is_true(r0)) {
@@ -321,7 +333,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 	} else {
 		PHALCON_INIT_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(last_key);
 		PHALCON_CONCAT_SVV(last_key, "_PHCA", prefix, key_name);
 	}

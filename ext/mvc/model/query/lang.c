@@ -35,7 +35,7 @@
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "mvc/model/query/scanner.h"
-#include "mvc/model/query/lang.h"
+#include "mvc/model/query/phql.h"
 
 /**
  * Phalcon\Mvc\Model\Query\Lang
@@ -55,6 +55,16 @@
  * </code>
  */
 
+
+/**
+ * Phalcon\Mvc\Model\Query\Lang initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	return SUCCESS;
+}
 
 /**
  * Parses a PHQL statement returning an intermediate representation (IR)

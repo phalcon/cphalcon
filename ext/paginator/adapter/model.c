@@ -47,6 +47,22 @@
 
 
 /**
+ * Phalcon\Paginator\Adapter\Model initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_Model){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, Model, paginator_adapter_model, phalcon_paginator_adapter_model_method_entry, 0);
+
+	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_model_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_paginator_adapter_model_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Paginator\Adapter\Model constructor
  *
  * @param array $config
@@ -192,15 +208,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", start, PH_NO_CHECK);
 		} else {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", one, PH_NO_CHECK);
-			
+	
 			PHALCON_INIT_NVAR(page_number);
 			ZVAL_LONG(page_number, 1);
 		}
-		
+	
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 1);
 		ph_cycle_start_0:
-			
+	
 			PHALCON_INIT_NVAR(r0);
 			PHALCON_CALL_METHOD(r0, items, "valid", PH_NO_CHECK);
 			PHALCON_CPY_WRT(valid, r0);
@@ -210,13 +226,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			PHALCON_INIT_NVAR(current);
 			PHALCON_CALL_METHOD(current, items, "current", PH_NO_CHECK);
 			phalcon_array_append(&page_items, current, PH_SEPARATE TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(compare);
 			is_smaller_or_equal_function(compare, show, i TSRMLS_CC);
 			if (PHALCON_IS_TRUE(compare)) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_SEPARATE(i);
 			increment_function(i);
 			goto ph_cycle_start_0;
@@ -242,10 +258,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			PHALCON_CPY_WRT(next, n);
 		} else {
 			div_function(possible_pages, n, show TSRMLS_CC);
-			
+	
 			PHALCON_INIT_VAR(additional_page);
 			phalcon_add_function(additional_page, possible_pages, one TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(next);
 			PHALCON_CALL_FUNC_PARAMS_1(next, "intval", additional_page);
 		}
@@ -277,7 +293,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	if (!phalcon_compare_strict_long(remainder, 0 TSRMLS_CC)) {
 		PHALCON_INIT_NVAR(next);
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(pages_total);
 		PHALCON_CALL_FUNC_PARAMS_1(pages_total, "intval", possible_pages);
 	} else {

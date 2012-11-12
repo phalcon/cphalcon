@@ -37,13 +37,27 @@
 #include "kernel/object.h"
 
 /**
- *
  * Phalcon\Acl\Role
  *
  * This class defines role entity and its description
  *
  */
 
+
+/**
+ * Phalcon\Acl\Role initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl_Role){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Acl, Role, acl_role, phalcon_acl_role_method_entry, 0);
+
+	zend_declare_property_null(phalcon_acl_role_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_role_ce, SL("_description"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_role_ce TSRMLS_CC, 1, phalcon_acl_roleinterface_ce);
+
+	return SUCCESS;
+}
 
 /**
  * Phalcon\Acl\Role description
@@ -64,7 +78,6 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 
 	if (!description) {
 		PHALCON_INIT_NVAR(description);
-		ZVAL_STRING(description, "", 1);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {
@@ -72,7 +85,9 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 		return;
 	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	if (Z_TYPE_P(description) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_description"), description TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -84,14 +99,8 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
  */
 PHP_METHOD(Phalcon_Acl_Role, getName){
 
-	zval *name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(name);
+	RETURN_MEMBER(this_ptr, "_name");
 }
 
 /**
@@ -101,13 +110,18 @@ PHP_METHOD(Phalcon_Acl_Role, getName){
  */
 PHP_METHOD(Phalcon_Acl_Role, getDescription){
 
-	zval *description;
 
-	PHALCON_MM_GROW();
+	RETURN_MEMBER(this_ptr, "_description");
+}
 
-	PHALCON_INIT_VAR(description);
-	phalcon_read_property(&description, this_ptr, SL("_description"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(description);
+/**
+ * Magic method __toString
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Acl_Role, __toString){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
 }
 

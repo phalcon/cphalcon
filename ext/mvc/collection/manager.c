@@ -33,17 +33,48 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/object.h"
+
+/**
+ * Phalcon\Mvc\Collection\Manager
+ *
+ * This components controls the initialization of models, keeping record of relations
+ * between the different models of the application.
+ *
+ * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\DI.
+ *
+ * <code>
+ * $dependencyInjector = new Phalcon\DI();
+ *
+ * $dependencyInjector->set('collectionManager', function(){
+ *      return new Phalcon\Mvc\Collection\Manager();
+ * });
+ *
+ * $robot = new Robots($dependencyInjector);
+ * </code>
+ */
+
+
+/**
+ * Phalcon\Mvc\Collection\Manager initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Manager){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Collection, Manager, mvc_collection_manager, phalcon_mvc_collection_manager_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_collection_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\Mvc\Collection\Manager constructor
+ */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, __construct){
 
-	zval *a0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_mvc_collection_manager_ce, this_ptr, SL("_initialized"), a0 TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
+	phalcon_update_property_empty_array(phalcon_mvc_collection_manager_ce, this_ptr, SL("_initialized") TSRMLS_CC);
+	
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){

@@ -48,6 +48,18 @@
 
 
 /**
+ * Phalcon\Db\Dialect\Postgresql initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, "phalcon\\db\\dialect", phalcon_db_dialect_postgresql_method_entry, 0);
+
+	zend_class_implements(phalcon_db_dialect_postgresql_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Gets a list of columns
  *
  * @param array $columnList
@@ -83,16 +95,16 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(column);
-		
+	
 		PHALCON_INIT_NVAR(column_quoted);
 		PHALCON_CONCAT_SVS(column_quoted, "\"", column, "\"");
 		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(joined_list);
@@ -104,7 +116,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
 /**
  * Gets the column name in PostgreSQL
  *
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 
@@ -119,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	}
 
 	if (Z_TYPE_P(column) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an instance of Phalcon\\Db\\Column");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Column definition must be an object compatible with Phalcon\\Db\\ColumnInterface");
 		return;
 	}
 	
@@ -150,7 +162,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(scale);
 		PHALCON_CALL_METHOD(scale, column, "getscale", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(column_sql);
 		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
 		goto ph_end_0;
@@ -193,13 +205,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn){
 
+	zval *table_name, *schema_name, *column;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -207,13 +228,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Column $column
+ * @param Phalcon\Db\ColumnInterface $column
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn){
 
+	zval *table_name, *schema_name, *column;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -226,8 +256,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn){
 
+	zval *table_name, *schema_name, *column_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &column_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -240,8 +279,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex){
 
+	zval *table_name, *schema_name, *index;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -254,8 +302,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex){
 
+	zval *table_name, *schema_name, *index_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -268,8 +325,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey){
 
+	zval *table_name, *schema_name, *index;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &index) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -281,8 +347,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey){
 
+	zval *table_name, *schema_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &table_name, &schema_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -290,13 +365,22 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey){
  *
  * @param string $tableName
  * @param string $schemaName
- * @param Phalcon\Db\Reference $reference
+ * @param Phalcon\Db\ReferenceInterface $reference
  * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey){
 
+	zval *table_name, *schema_name, *reference;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -309,8 +393,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey){
 
+	zval *table_name, *schema_name, *reference_name;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &reference_name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**
@@ -346,8 +439,17 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, _getTableOptions){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable){
 
+	zval *table_name, *schema_name, *definition;
 
-	
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &table_name, &schema_name, &definition) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Not implemented yet");
+	return;
 }
 
 /**

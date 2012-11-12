@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Escaper\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Escaper_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, escaper_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

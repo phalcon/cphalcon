@@ -63,6 +63,22 @@
 
 
 /**
+ * Phalcon\Mvc\Dispatcher initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Dispatcher){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, mvc_dispatcher, "phalcon\\dispatcher", phalcon_mvc_dispatcher_method_entry, 0);
+
+	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_handlerSuffix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultHandler"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("_defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_dispatcher_ce TSRMLS_CC, 1, phalcon_mvc_dispatcherinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the default controller suffix
  *
  * @param string $controllerSuffix
@@ -120,14 +136,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName){
 
-	zval *controller_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller_name);
-	phalcon_read_property(&controller_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller_name);
+	RETURN_MEMBER(this_ptr, "_handlerName");
 }
 
 /**
@@ -162,10 +172,10 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
-		
+	
 		PHALCON_INIT_VAR(exception_message);
 		ZVAL_STRING(exception_message, "A dependency injection container is required to access the 'response' service", 1);
-		
+	
 		PHALCON_INIT_VAR(exception);
 		object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", exception_message, exception_code, PH_CHECK);
@@ -195,7 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-		
+	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
@@ -215,14 +225,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
-	zval *last_controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(last_controller);
-	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(last_controller);
+	RETURN_MEMBER(this_ptr, "_lastHandler");
 }
 
 /**
@@ -232,13 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 
-	zval *controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(controller);
-	phalcon_read_property(&controller, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(controller);
+	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 

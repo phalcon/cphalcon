@@ -55,28 +55,44 @@
  */
 
 
+/**
+ * Phalcon\CLI\Router initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_CLI_Router){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\CLI, Router, cli_router, phalcon_cli_router_method_entry, 0);
+
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_task"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultTask"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cli_router_ce, SL("_defaultParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cli_router_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\CLI\Router constructor
+ */
 PHP_METHOD(Phalcon_CLI_Router, __construct){
 
-	zval *a0 = NULL, *a1 = NULL;
 
-	PHALCON_MM_GROW();
-
+	phalcon_update_property_empty_array(phalcon_cli_router_ce, this_ptr, SL("_params") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_cli_router_ce, this_ptr, SL("_params"), a0 TSRMLS_CC);
+	phalcon_update_property_empty_array(phalcon_cli_router_ce, this_ptr, SL("_defaultParams") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a1);
-	array_init(a1);
-	zend_update_property(phalcon_cli_router_ce, this_ptr, SL("_defaultParams"), a1 TSRMLS_CC);
-
-	PHALCON_MM_RESTORE();
 }
 
 /**
  * Sets the dependency injector
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_CLI_Router, setDI){
 
@@ -93,18 +109,12 @@ PHP_METHOD(Phalcon_CLI_Router, setDI){
 /**
  * Returns the internal dependency injector
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHP_METHOD(Phalcon_CLI_Router, getDI){
 
-	zval *dependency_injector;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(dependency_injector);
+	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -304,14 +314,8 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
  */
 PHP_METHOD(Phalcon_CLI_Router, getModuleName){
 
-	zval *module;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(module);
-	phalcon_read_property(&module, this_ptr, SL("_module"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(module);
+	RETURN_MEMBER(this_ptr, "_module");
 }
 
 /**
@@ -321,14 +325,8 @@ PHP_METHOD(Phalcon_CLI_Router, getModuleName){
  */
 PHP_METHOD(Phalcon_CLI_Router, getTaskName){
 
-	zval *task;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(task);
-	phalcon_read_property(&task, this_ptr, SL("_task"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(task);
+	RETURN_MEMBER(this_ptr, "_task");
 }
 
 /**
@@ -338,14 +336,8 @@ PHP_METHOD(Phalcon_CLI_Router, getTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Router, getActionName){
 
-	zval *action;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(action);
-	phalcon_read_property(&action, this_ptr, SL("_action"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(action);
+	RETURN_MEMBER(this_ptr, "_action");
 }
 
 /**
@@ -355,13 +347,7 @@ PHP_METHOD(Phalcon_CLI_Router, getActionName){
  */
 PHP_METHOD(Phalcon_CLI_Router, getParams){
 
-	zval *params;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(params);
-	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(params);
+	RETURN_MEMBER(this_ptr, "_params");
 }
 

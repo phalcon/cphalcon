@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Collection\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Collection_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Collection, Exception, mvc_collection_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

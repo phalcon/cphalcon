@@ -37,3 +37,7 @@ extern void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC);
 
 /** Extract named parameters */
 extern void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches);
+
+/** Start with */
+extern int phalcon_start_with(zval *str, zval *compared);
+extern int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);

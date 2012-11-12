@@ -69,6 +69,19 @@
  */
 
 
+/**
+ * Phalcon\CLI\Task initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_CLI_Task){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Task, cli_task, "phalcon\\di\\injectable", phalcon_cli_task_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
+ * Phalcon\CLI\Task constructor
+ */
 PHP_METHOD(Phalcon_CLI_Task, __construct){
 
 

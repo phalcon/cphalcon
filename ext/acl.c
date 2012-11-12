@@ -80,9 +80,26 @@
 
 
 /**
+ * Phalcon\Acl initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Acl){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Acl, acl, phalcon_acl_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_acl_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);
+
+	zend_class_implements(phalcon_acl_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the events manager
  *
- * @param Phalcon\Events\Manager $eventManager
+ * @param Phalcon\Events\ManagerInterface $eventManager
  */
 PHP_METHOD(Phalcon_Acl, setEventsManager){
 
@@ -99,17 +116,11 @@ PHP_METHOD(Phalcon_Acl, setEventsManager){
 /**
  * Returns the internal event manager
  *
- * @return Phalcon\Events\Manager
+ * @return Phalcon\Events\ManagerInterface
  */
 PHP_METHOD(Phalcon_Acl, getEventsManager){
 
-	zval *events_manager;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 

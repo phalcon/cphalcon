@@ -77,6 +77,20 @@
 
 
 /**
+ * Phalcon\Cache\Frontend\Data initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_Data){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache\\Frontend, Data, cache_frontend_data, phalcon_cache_frontend_data_method_entry, 0);
+
+	zend_declare_property_null(phalcon_cache_frontend_data_ce, SL("_frontendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_cache_frontend_data_ce TSRMLS_CC, 1, phalcon_cache_frontendinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Frontend\Data constructor
  *
  * @param array $frontendOptions
@@ -84,13 +98,9 @@
 PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 
 	zval *frontend_options = NULL;
-	zval *a0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_cache_frontend_data_ce, this_ptr, SL("_frontendOptions"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -98,7 +108,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 
 	if (!frontend_options) {
 		PHALCON_INIT_NVAR(frontend_options);
-		array_init(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -109,7 +118,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 /**
  * Returns cache lifetime
  *
- * @return integer
+ * @return int
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
@@ -120,12 +129,14 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
 	PHALCON_INIT_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset_string(options, SS("lifetime"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(lifetime);
-		phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
-		
-		RETURN_CCTOR(lifetime);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(lifetime);
+			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
+	
+			RETURN_CCTOR(lifetime);
+		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -134,6 +145,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
 /**
  * Check whether if frontend is buffering output
+ *
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Frontend_Data, isBuffering){
 

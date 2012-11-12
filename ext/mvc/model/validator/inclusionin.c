@@ -66,9 +66,21 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Inclusionin initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Inclusionin){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Inclusionin, mvc_model_validator_inclusionin, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_inclusionin_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_validator_inclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Executes validator
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
@@ -122,10 +134,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Inclusionin, validate){
 	if (PHALCON_IS_FALSE(is_in_array)) {
 		PHALCON_INIT_VAR(joined_domain);
 		phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(message);
 		PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must be part of list: ", joined_domain);
-		
+	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "inclusion", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
