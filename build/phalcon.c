@@ -45453,11 +45453,12 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	zval *version = NULL;
 
 	PHALCON_MM_GROW();
+
 	PHALCON_INIT_VAR(version);
 	array_init(version);
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 5);
-	add_next_index_long(version, 2);
+	add_next_index_long(version, 3);
 	add_next_index_long(version, 4);
 	add_next_index_long(version, 0);
 	
