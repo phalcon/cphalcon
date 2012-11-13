@@ -134,63 +134,180 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
         $this->assertTrue($exists, 'Acl\Role does not exist in Acl');
     }
 
-    public function testAcl()
+    /**
+     * Tests the addResource
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-12
+     */
+    public function testAddResourceExists()
     {
+        $acl         = new PhAclMem();
+        $aclResource = new PhAclResource('Customers', 'Customer management');
 
-        $this->markTestSkipped('Complete ACL Tests');
-        $acl = new PhAclMem();
+        $actual = $acl->addResource($aclResource. 'search');
+
+        $this->assertTrue($actual, 'Acl\Resource does not exist in Acl');
+    }
+
+    /**
+     * Tests the resource name
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-12
+     */
+    public function testResourceName()
+    {
+        $acl         = new PhAclMem();
+        $aclResource = new PhAclResource('Customers', 'Customer management');
+
+        $acl->addResource($aclResource. 'search');
+
+        $exists = $acl->isResource('Customers');
+
+        $this->assertFalse($exists, 'Acl\Resource does not exist in the acl');
+    }
+
+    /**
+     * Tests the ACL objects default
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-12
+     */
+    public function testAclObjectsDefault()
+    {
+        $acl         = new PhAclMem();
+        $aclRole     = new PhAclRole('Administrators', 'Super User access');
+        $aclResource = new PhAclResource('Customers', 'Customer management');
 
         $acl->setDefaultAction(PhAcl::DENY);
 
-        $roleAdmins = new PhAclRole('Administrators', 'Super-User role');
-        $roleGuests = new PhAclRole('Guests');
+        $acl->addRole($aclRole);
+        $acl->addResource($aclResource. array('search', 'destroy'));
 
+        $expected = PhAcl::DENY;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Object does not contain correct ACL for search (default)'
+        );
 
-        $this->assertTrue($acl->isRole('Guests'));
-        $this->assertFalse($acl->isRole('ReadOnly'));
-
-        $customersResource = new PhResource('Customers', 'Customers management');
-        $this->assertEquals($customersResource->getName(), 'Customers');
-        $this->assertEquals($customersResource->getDescription(), 'Customers management');
-
-        $this->assertTrue($acl->addResource($customersResource, 'search'));
-        $this->assertTrue($acl->addResource($customersResource, array('create', 'update')));
-
-        $this->assertTrue($acl->isResource('Customers'));
-        $this->assertFalse($acl->isResource('Products'));
-
-        $acl->allow('Guests', 'Customers', 'search');
-        $acl->allow('Guests', 'Customers', 'create');
-        $acl->deny('Guests', 'Customers', 'update');
-
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'edit'), PhAcl::DENY);
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'search'), PhAcl::ALLOW);
-        $this->assertEquals($acl->isAllowed('Guests', 'Customers', 'create'), PhAcl::ALLOW);
-
-        $this->assertTrue($acl->addRole($roleAdmins, 'Guests'));
-        $this->assertFalse($acl->addRole($roleAdmins, 'Guests'));
-
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'edit'), PhAcl::DENY);
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'search'), PhAcl::ALLOW);
-        $this->assertEquals($acl->isAllowed('Administrators', 'Customers', 'create'), PhAcl::ALLOW);
-
-        //Serialize ACL list
-        file_put_contents('unit-tests/acl/acl.data', serialize($acl));
-
-        $aclObject = unserialize(file_get_contents('unit-tests/acl/acl.data'));
-        $this->assertEquals(get_class($aclObject), 'Phalcon\Acl\Adapter\Memory');
-
-        $this->assertTrue($aclObject->isRole('Guests'));
-        $this->assertFalse($aclObject->isRole('ReadOnly'));
-
-        $this->assertTrue($aclObject->isResource('Customers'));
-        $this->assertFalse($aclObject->isResource('Products'));
-
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'edit'), PhAcl::DENY);
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'search'), PhAcl::ALLOW);
-        $this->assertEquals($aclObject->isAllowed('Administrators', 'Customers', 'create'), PhAcl::ALLOW);
+        $expected = PhAcl::DENY;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Object does not contain correct ACL for destroy (default)'
+        );
     }
 
+    /**
+     * Tests the ACL objects
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-12
+     */
+    public function testAclObjects()
+    {
+        $acl         = new PhAclMem();
+        $aclRole     = new PhAclRole('Administrators', 'Super User access');
+        $aclResource = new PhAclResource('Customers', 'Customer management');
+
+        $acl->addRole($aclRole);
+        $acl->addResource($aclResource, array('search', 'destroy'));
+
+        $acl->allow('Administrators', 'Customers', 'search');
+        $acl->deny('Administrators', 'Customers', 'destroy');
+
+        $expected = PhAcl::ALLOW;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Object does not contain correct ACL for search'
+        );
+
+        $expected = PhAcl::DENY;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Object does not contain correct ACL for destroy'
+        );
+    }
+
+    /**
+     * Tests serializing the ACL
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-12
+     */
+    public function testSerialize()
+    {
+        $filename    = $this->getFileName('acl', 'log');
+
+        $acl         = new PhAclMem();
+        $aclRole     = new PhAclRole('Administrators', 'Super User access');
+        $aclResource = new PhAclResource('Customers', 'Customer management');
+
+        $acl->addRole($aclRole);
+        $acl->addResource($aclResource, array('search', 'destroy'));
+
+        $acl->allow('Administrators', 'Customers', 'search');
+        $acl->deny('Administrators', 'Customers', 'destroy');
+
+        $contents =serialize($acl);
+        file_put_contents(PATH_CACHE . $filename, $contents);
+
+        $acl = null;
+
+        $contents = file_get_contents(PATH_CACHE . $filename);
+
+        $this->cleanFile(PATH_CACHE, $filename);
+
+        $acl = unserialize($contents);
+
+        $this->assertInstanceOf(
+            '\Phalcon\Acl\Adapter\Memory',
+            $acl,
+            'Unserialized object not of correct type'
+        );
+
+        $exists = $acl->isRole('Administrators');
+        $this->assertTrue(
+            $exists,
+            'Role does not exist in unserialized object'
+        );
+
+        $exists = $acl->isResource('Customers');
+        $this->assertTrue(
+            $exists,
+            'Resource does not exist in unserialized object'
+        );
+
+        $expected = PhAcl::ALLOW;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Unserialized object does not contain correct ACL for search'
+        );
+
+        $expected = PhAcl::DENY;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Unserialized object does not contain correct ACL for destroy'
+        );
+    }
+
+    /**
+     * Tests the negation of inherited roles
+     *
+     * @issue T65
+     */
     public function testNegationOfInheritedRoles_T65()
     {
         $acl = new PhAclMem;
@@ -204,7 +321,8 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
         $acl->allow('Guests', 'Login', 'index');
         $acl->deny('Members', 'Login', 'index');
 
-        $this->assertFalse((bool) $acl->isAllowed('Members', 'Login', 'index'));
+        $actual = (bool) $acl->isAllowed('Members', 'Login', 'index');
+        $this->assertFalse($actual, 'Negation of inherited roles not correct');
     }
 
 }
