@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 PHP_METHOD(Phalcon_DI, _factory){
 
 	zval *service = NULL, *parameters = NULL, *found = NULL, *instance = NULL, *class_exists = NULL;
-	zval *reflection = NULL, *parameter_count = NULL, *is_callable = NULL;
+	zval *reflection = NULL, *parameter_count = NULL;
 	zval *class_name = NULL, *exception_message = NULL, *exception = NULL;
 	int eval_int;
 	zend_class_entry *ce0, *ce1, *ce2;
@@ -170,15 +170,8 @@ PHP_METHOD(Phalcon_DI, _factory){
 				PHALCON_CALL_METHOD(instance, reflection, "newinstance", PH_NO_CHECK);
 			}
 		} else {
-			PHALCON_INIT_VAR(is_callable);
-			PHALCON_CALL_FUNC_PARAMS_1(is_callable, "is_callable", service);
-			if (zend_is_true(is_callable)) {
-				PHALCON_INIT_VAR(instance);
-				PHALCON_CALL_FUNC_PARAMS_2(instance, "call_user_func_array", service, parameters);
-			} else {
-				PHALCON_INIT_VAR(found);
-				ZVAL_BOOL(found, 0);
-			}
+			PHALCON_INIT_VAR(found);
+			ZVAL_BOOL(found, 0);
 		}
 	} else {
 		if (Z_TYPE_P(service) == IS_ARRAY) { 

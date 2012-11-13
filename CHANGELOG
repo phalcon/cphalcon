@@ -1,3 +1,6 @@
+0.5.3
+ - Fixed security problem in Phalcon\DI
+
 0.5.2
  - Fixed bug in Phalcon\Mvc\Model::_exists making PHQL inserts fail
  - Fixed bug in Phalcon\Mvc\Model making that a magic method call doesn't accept extra parameters
