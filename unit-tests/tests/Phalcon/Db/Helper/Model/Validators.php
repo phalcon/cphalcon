@@ -74,7 +74,7 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
             $messages,
             'PresenceOf',
             'created_at',
-            "created_at is required"
+            "The field 'created_at' is required"
         );
     }
 

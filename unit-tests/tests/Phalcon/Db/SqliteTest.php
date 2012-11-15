@@ -25,6 +25,7 @@ class Db_SqliteTest extends Db_Helper_Model
 {
     public function setUp()
     {
+        $this->markTestSkipped('Skipped until 189 is fixed');
         parent::setUp();
 
         $this->setDb('sqlite');

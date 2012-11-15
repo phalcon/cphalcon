@@ -25,6 +25,7 @@ class Db_MysqlTest extends Db_Helper_Model
 {
     public function setUp()
     {
+        $this->markTestSkipped('Skipped until 189 is fixed');
         parent::setUp();
 
         $this->setDb('mysql');
