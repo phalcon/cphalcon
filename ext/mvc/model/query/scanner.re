@@ -26,7 +26,7 @@
 
 #include "scanner.h"
 
-#define YYCTYPE char
+#define YYCTYPE unsigned int
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
 #define YYMARKER q

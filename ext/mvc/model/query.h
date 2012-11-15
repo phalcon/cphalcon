@@ -58,6 +58,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_parse, 0, 0, 0)
 	ZEND_ARG_INFO(0, manager)
+	ZEND_ARG_INFO(0, metaData)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_execute, 0, 0, 0)

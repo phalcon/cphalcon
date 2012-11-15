@@ -174,9 +174,6 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	 * Accessing the persistent property will create a session bag in any class
 	 */
 	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
-		/** 
-		 * Accessing the persistent property will create a session bag in any class
-		 */
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
 	

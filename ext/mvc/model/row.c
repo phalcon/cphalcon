@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
  * Gets row in a specific position of the row
  *
  * @param int $index
- * @return string|Phalcon\Mvc\Model
+ * @return string|Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
  * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $index
- * @param Phalcon\Mvc\Model $value
+ * @param Phalcon\Mvc\ModelInterface $value
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 

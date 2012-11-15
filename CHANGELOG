@@ -8,6 +8,11 @@
  - Added Phalcon\Dispatcher::getDefaultNamespace
  - Added a $merge parameter to every Phalcon\Loader strategy to merge current values with a new array
  - Implemented registering services as "always shared"
+ - Now Phalcon\Mvc\Model::save, Phalcon\Mvc\Model::create, Phalcon\Mvc\Model::update receives an array to assign the model's attributes from it
+ - Support for UTF-8/UTF-16 characters on 32 bit platforms for PHQL/Volt parsers
+ - Support for custom schemas in PHQL
+ - Now is possible pass bound parameters to Phalcon\DB::fetchOne and Phalcon\Db::fetchAll
+ - Implemented independent column map for models and a full escaping system for columns/tables/schemas according to the database system conventions
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

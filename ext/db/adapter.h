@@ -65,11 +65,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_fetchone, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_fetchall, 0, 0, 1)
 	ZEND_ARG_INFO(0, sqlQuery)
 	ZEND_ARG_INFO(0, fetchMode)
+	ZEND_ARG_INFO(0, placeholders)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_insert, 0, 0, 2)

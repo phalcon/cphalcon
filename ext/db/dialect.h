@@ -24,6 +24,8 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect);
 PHP_METHOD(Phalcon_Db_Dialect, limit);
 PHP_METHOD(Phalcon_Db_Dialect, forUpdate);
 PHP_METHOD(Phalcon_Db_Dialect, sharedLock);
+PHP_METHOD(Phalcon_Db_Dialect, _getSqlExpression);
+PHP_METHOD(Phalcon_Db_Dialect, _getSqlTable);
 PHP_METHOD(Phalcon_Db_Dialect, select);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_limit, 0, 0, 2)
@@ -47,6 +49,8 @@ PHALCON_INIT_FUNCS(phalcon_db_dialect_method_entry){
 	PHP_ME(Phalcon_Db_Dialect, limit, arginfo_phalcon_db_dialect_limit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect, forUpdate, arginfo_phalcon_db_dialect_forupdate, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect, sharedLock, arginfo_phalcon_db_dialect_sharedlock, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Db_Dialect, _getSqlExpression, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Db_Dialect, _getSqlTable, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Db_Dialect, select, arginfo_phalcon_db_dialect_select, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };

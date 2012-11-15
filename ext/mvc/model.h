@@ -80,6 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
 PHP_METHOD(Phalcon_Mvc_Model, unserialize);
+PHP_METHOD(Phalcon_Mvc_Model, dump);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -109,7 +110,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_dumpresult, 0, 0, 2)
 	ZEND_ARG_INFO(0, base)
-	ZEND_ARG_INFO(0, result)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, forceExists)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, 0)
@@ -243,6 +245,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
 			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetcharray", result, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result, PH_NO_CHECK);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);

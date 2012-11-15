@@ -607,9 +607,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Calling beforeExecuteRoute as callback and event
 			 */
 			if (phalcon_method_exists_ex(handler, SS("beforeexecuteroute") TSRMLS_CC) == SUCCESS) {
-				/** 
-				 * Calling beforeExecuteRoute as callback and event
-				 */
 				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD_PARAMS_1(status, handler, "beforeexecuteroute", this_ptr, PH_NO_CHECK);
 				if (PHALCON_IS_FALSE(status)) {
@@ -651,9 +648,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			 * Calling afterExecuteRoute as callback and event
 			 */
 			if (phalcon_method_exists_ex(handler, SS("afterexecuteroute") TSRMLS_CC) == SUCCESS) {
-				/** 
-				 * Calling afterExecuteRoute as callback and event
-				 */
 				PHALCON_INIT_NVAR(status);
 				PHALCON_CALL_METHOD_PARAMS_2(status, handler, "afterexecuteroute", this_ptr, value, PH_NO_CHECK);
 				if (PHALCON_IS_FALSE(status)) {

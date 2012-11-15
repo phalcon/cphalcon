@@ -108,7 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	zval *active_row, *columns_types, *column = NULL, *alias = NULL;
 	zval *source = NULL, *instance = NULL, *attributes = NULL, *model = NULL, *row_model = NULL;
 	zval *attribute = NULL, *column_alias = NULL, *value = NULL, *model_attribute = NULL;
-	zval *model_name = NULL, *n_alias = NULL;
+	zval *model_name = NULL, *sql_alias = NULL, *n_alias = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
 			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetcharray", result, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result, PH_NO_CHECK);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
@@ -179,6 +179,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			PHALCON_INIT_NVAR(type);
 			phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
 			if (PHALCON_COMPARE_STRING(type, "object")) {
+				/** 
+				 * Object columns are assigned column by column
+				 */
 				PHALCON_INIT_NVAR(source);
 				phalcon_array_fetch_string(&source, column, SL("column"), PH_NOISY_CC);
 	
@@ -233,8 +236,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 				PHALCON_CALL_FUNC_PARAMS_1(attribute, "lcfirst", model_name);
 				phalcon_update_property_zval_zval(active_row, attribute, model_attribute TSRMLS_CC);
 			} else {
-				PHALCON_INIT_NVAR(value);
-				phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
+				/** 
+				 * Scalar columns are simply assigned to the result object
+				 */
+				eval_int = phalcon_array_isset_string(column, SS("sqlAlias"));
+				if (eval_int) {
+					PHALCON_INIT_NVAR(sql_alias);
+					phalcon_array_fetch_string(&sql_alias, column, SL("sqlAlias"), PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, row, sql_alias, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
+				}
 				eval_int = phalcon_array_isset_string(column, SS("balias"));
 				if (eval_int) {
 					phalcon_update_property_zval_zval(active_row, alias, value TSRMLS_CC);
