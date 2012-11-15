@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Mvc_Model_Calculation_MysqlTest extends Mvc_Model_Calculation_Helper_Model
+class Mvc_Model_Calculation_MysqlTest extends Mvc_Helper_Calculation
 {
     public function setUp()
     {
@@ -29,5 +29,7 @@ class Mvc_Model_Calculation_MysqlTest extends Mvc_Model_Calculation_Helper_Model
 
         $this->setDb('mysql');
 
+        // Setup the table with 120 records
+        $this->populateTable('customers', 120);
     }
 }

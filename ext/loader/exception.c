@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Loader\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Loader_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Loader, Exception, loader_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

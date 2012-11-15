@@ -27,11 +27,13 @@ class Paginator_Adapter_Model_PostgresqlTest extends Paginator_Adapter_Helper_Ba
     {
         parent::setUp();
 
-        $fixture = Personnes::find();
+        $this->populateTable('customers', 101);
+
+        $fixture = Customers::find();
 
         $this->setClass('\Phalcon\Paginator\Adapter\Model');
         $this->setFixture($fixture);
-        $this->setParameters(1, 10);
+        $this->setParameters(1, 5);
 
         $this->setDb('postgresql');
     }

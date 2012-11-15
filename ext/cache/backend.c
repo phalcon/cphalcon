@@ -36,6 +36,7 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Cache\Backend
@@ -46,23 +47,35 @@
 
 
 /**
+ * Phalcon\Cache\Backend initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Cache, Backend, cache_backend, phalcon_cache_backend_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontendObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_backendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_fresh"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_started"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Cache\Backend constructor
  *
- * @param mixed $frontendObject
+ * @param Phalcon\Cache\FrontendInterface $frontendObject
  * @param array $backendOptions
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend_object, *backend_options = NULL, *prefix;
-	zval *a0 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_cache_backend_ce, this_ptr, SL("_backendOptions"), a0 TSRMLS_CC);
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -91,7 +104,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 }
 
 /**
- * Starts a cache. The $keyname allow to identify the created fragment
+ * Starts a cache. The $keyname allows to identify the created fragment
  *
  * @param int|string $keyName
  * @return  mixed
@@ -132,20 +145,46 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 }
 
 /**
+ * Stops the frontend without store any cached content
+ *
+ * @param boolean $stopBuffer
+ */
+PHP_METHOD(Phalcon_Cache_Backend, stop){
+
+	zval *stop_buffer = NULL, *front_end;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &stop_buffer) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!stop_buffer) {
+		PHALCON_INIT_NVAR(stop_buffer);
+		ZVAL_BOOL(stop_buffer, 1);
+	}
+	
+	PHALCON_INIT_VAR(front_end);
+	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
+	if (PHALCON_IS_TRUE(stop_buffer)) {
+		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PH_NO_CHECK);
+	}
+	
+	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Returns front-end instance adapter related to the back-end
  *
  * @return mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend, getFrontend){
 
-	zval *frontend;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(frontend);
-	phalcon_read_property(&frontend, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(frontend);
+	RETURN_MEMBER(this_ptr, "_frontendObject");
 }
 
 /**
@@ -155,31 +194,19 @@ PHP_METHOD(Phalcon_Cache_Backend, getFrontend){
  */
 PHP_METHOD(Phalcon_Cache_Backend, isFresh){
 
-	zval *fresh;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(fresh);
-	phalcon_read_property(&fresh, this_ptr, SL("_fresh"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(fresh);
+	RETURN_MEMBER(this_ptr, "_fresh");
 }
 
 /**
- * Checks whether the cache has started buffering or not
+ * Checks whether the cache has starting buffering or not
  *
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend, isStarted){
 
-	zval *started;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(started);
-	phalcon_read_property(&started, this_ptr, SL("_started"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(started);
+	RETURN_MEMBER(this_ptr, "_started");
 }
 
 /**
@@ -189,14 +216,8 @@ PHP_METHOD(Phalcon_Cache_Backend, isStarted){
  */
 PHP_METHOD(Phalcon_Cache_Backend, getLastKey){
 
-	zval *last_key;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(last_key);
-	phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(last_key);
+	RETURN_MEMBER(this_ptr, "_lastKey");
 }
 
 PHP_METHOD(Phalcon_Cache_Backend, get){

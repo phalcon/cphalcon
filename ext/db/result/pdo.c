@@ -56,13 +56,32 @@
 
 
 /**
+ * Phalcon\Db\Result\Pdo initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Result_Pdo){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, db_result_pdo, phalcon_db_result_pdo_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("_rowCount"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db\Result\Pdo constructor
  *
- * @param Phalcon\Db\Adapter\Pdo $connection
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param string $sqlStatement
  * @param array $bindParams
  * @param array $bindTypes
- * @param PDOStatement $result
+ * @param \PDOStatement $result
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 
@@ -131,6 +150,35 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
 }
 
 /**
+ * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
+ * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ *
+ *<code>
+ *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
+ *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
+ *	while($robot = $result->fetch()){
+ *		echo $robot->name;
+ *	}
+ *</code>
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Db_Result_Pdo, fetch){
+
+	zval *pdo_statement, *row;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(pdo_statement);
+	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(row);
+	PHALCON_CALL_METHOD(row, pdo_statement, "fetch", PH_NO_CHECK);
+	
+	RETURN_CCTOR(row);
+}
+
+/**
  * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
  * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
  *
@@ -142,7 +190,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute){
  *	}
  *</code>
  *
- * @return boolean
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray){
 
@@ -209,55 +257,55 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	if (PHALCON_IS_FALSE(row_count)) {
 		PHALCON_INIT_VAR(connection);
 		phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype", PH_NO_CHECK);
 		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
 			PHALCON_INIT_VAR(sql_statement);
 			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(bind_params);
 			phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(bind_types);
 			phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(matches);
-			
+	
 			PHALCON_INIT_VAR(pattern);
 			ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
 			Z_SET_ISREF_P(matches);
-			
+	
 			PHALCON_INIT_VAR(match);
 			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);
 			Z_UNSET_ISREF_P(matches);
 			if (zend_is_true(match)) {
 				PHALCON_INIT_VAR(else_clauses);
 				phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_VAR(sql);
 				PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
-				
+	
 				PHALCON_INIT_VAR(fetch_num);
 				ZVAL_LONG(fetch_num, 3);
-				
+	
 				PHALCON_INIT_VAR(result);
 				PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types, PH_NO_CHECK);
-				
+	
 				PHALCON_INIT_VAR(row);
-				PHALCON_CALL_METHOD(row, result, "fetcharray", PH_NO_CHECK);
-				
+				PHALCON_CALL_METHOD(row, result, "fetch", PH_NO_CHECK);
+	
 				PHALCON_INIT_NVAR(row_count);
 				phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
 			}
 		} else {
 			PHALCON_INIT_VAR(pdo_statement);
 			phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(row_count);
 			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount", PH_NO_CHECK);
 		}
-		
+	
 		phalcon_update_property_zval(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
 	
@@ -271,7 +319,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
  *<code>
  *	$result = $connection->query("SELECT * FROM robots ORDER BY name");
  *	$result->dataSeek(2); // Move to third row on result
- *	$row = $result->fetchArray(); // Fetch third row
+ *	$row = $result->fetch(); // Fetch third row
  *</code>
  *
  * @param int $number
@@ -320,7 +368,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 }
 
 /**
- * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetchArray
+ * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
  *
  *<code>
  *	//Return array with integer indexes
@@ -331,6 +379,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
  *
  *	//Return associative array together with integer indexes
  *	$result->setFetchMode(Phalcon\Db::FETCH_BOTH);
+ *
+ *	//Return an object
+ *	$result->setFetchMode(Phalcon\Db::FETCH_OBJ);
  *</code>
  *
  * @param int $fetchMode
@@ -338,7 +389,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 
 	long fetch_mode;
-	zval *pdo_statement = NULL, *fetch_type = NULL;
+	zval *pdo_statement, *fetch_type;
 
 	PHALCON_MM_GROW();
 
@@ -365,6 +416,12 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 				ZVAL_LONG(fetch_type, 3);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_statement, "setfetchmode", fetch_type, PH_NO_CHECK);
 				phalcon_update_property_long(this_ptr, SL("_fetchMode"), 3 TSRMLS_CC);
+			} else {
+				if (fetch_mode == 4) {
+					ZVAL_LONG(fetch_type, 5);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(pdo_statement, "setfetchmode", fetch_type, PH_NO_CHECK);
+					phalcon_update_property_long(this_ptr, SL("_fetchMode"), 5 TSRMLS_CC);
+				}
 			}
 		}
 	}
@@ -376,7 +433,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 /**
  * Gets the internal PDO result object
  *
- * @return PDOStatement
+ * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 

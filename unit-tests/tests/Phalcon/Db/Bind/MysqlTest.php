@@ -22,9 +22,7 @@
  * so that we can send you a copy immediately.
  */
 
-require_once 'Helper.php';
-
-class Db_Bind_MysqlTest extends Db_Bind_Helper
+class Db_Bind_MysqlTest extends Db_Helper_Bind
 {
     /**
      * Sets the environment

@@ -33,18 +33,6 @@ GRANT ALL PRIVILEGES ON DATABASE phalcon_test TO phalcon_user;
 
 
 --
--- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE parts (
-    id integer NOT NULL,
-    name character varying(70) NOT NULL
-);
-
-
-ALTER TABLE public.parts OWNER TO postgres;
-
---
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -85,171 +73,6 @@ CREATE TABLE personnes (
 
 
 ALTER TABLE public.personnes OWNER TO postgres;
-
---
--- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE prueba (
-    id integer NOT NULL,
-    nombre character varying(120) NOT NULL,
-    estado character(1) NOT NULL
-);
-
-
-ALTER TABLE public.prueba OWNER TO postgres;
-
---
--- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE prueba_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.prueba_id_seq OWNER TO postgres;
-
---
--- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE prueba_id_seq OWNED BY prueba.id;
-
-
---
--- Name: prueba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('prueba_id_seq', 636, true);
-
-
---
--- Name: robots; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE robots (
-    id integer NOT NULL,
-    name character varying(70) NOT NULL,
-    type character varying(32) NOT NULL,
-    year integer NOT NULL
-);
-
-
-ALTER TABLE public.robots OWNER TO postgres;
-
---
--- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE robots_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.robots_id_seq OWNER TO postgres;
-
---
--- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE robots_id_seq OWNED BY robots.id;
-
-
---
--- Name: robots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('robots_id_seq', 1, false);
-
-
---
--- Name: robots_parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE robots_parts (
-    id integer NOT NULL,
-    robots_id integer NOT NULL,
-    parts_id integer NOT NULL
-);
-
-
-ALTER TABLE public.robots_parts OWNER TO postgres;
-
---
--- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE robots_parts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.robots_parts_id_seq OWNER TO postgres;
-
---
--- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE robots_parts_id_seq OWNED BY robots_parts.id;
-
-
---
--- Name: robots_parts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('robots_parts_id_seq', 1, false);
-
-
---
--- Name: subscriptores; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE subscriptores (
-    id integer NOT NULL,
-    email character varying(70) NOT NULL,
-    created_at timestamp without time zone,
-    status character(1) NOT NULL
-);
-
-
-ALTER TABLE public.subscriptores OWNER TO postgres;
-
---
--- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE subscriptores_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.subscriptores_id_seq OWNER TO postgres;
-
---
--- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE subscriptores_id_seq OWNED BY subscriptores.id;
-
-
---
--- Name: subscriptores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('subscriptores_id_seq', 1, false);
 
 
 --
@@ -292,52 +115,10 @@ ALTER SEQUENCE tipo_documento_id_seq OWNED BY tipo_documento.id;
 SELECT pg_catalog.setval('tipo_documento_id_seq', 1, false);
 
 
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY prueba ALTER COLUMN id SET DEFAULT nextval('prueba_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY robots ALTER COLUMN id SET DEFAULT nextval('robots_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY robots_parts ALTER COLUMN id SET DEFAULT nextval('robots_parts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY subscriptores ALTER COLUMN id SET DEFAULT nextval('subscriptores_id_seq'::regclass);
-
-
---
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY tipo_documento ALTER COLUMN id SET DEFAULT nextval('tipo_documento_id_seq'::regclass);
-
-
---
--- Data for Name: parts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY parts (id, name) FROM stdin;
-1	Head
-2	Body
-3	Arms
-4	Legs
-5	CPU
-\.
 
 
 --
@@ -4733,45 +4514,6 @@ T-Cx214        	1	LOST LOST	1	\N	\N	\N	\N	\N	0.00	A
 
 
 --
--- Data for Name: prueba; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY prueba (id, nombre, estado) FROM stdin;
-\.
-
-
---
--- Data for Name: robots; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY robots (id, name, type, year) FROM stdin;
-1	Robotina	mechanical	1972
-2	Astro Boy	mechanical	1952
-3	Terminator	cyborg	2029
-\.
-
-
---
--- Data for Name: robots_parts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY robots_parts (id, robots_id, parts_id) FROM stdin;
-1	1	1
-2	1	2
-3	1	3
-\.
-
-
---
--- Data for Name: subscriptores; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY subscriptores (id, email, created_at, status) FROM stdin;
-43	fuego@hotmail.com	2012-04-14 23:30:33	P
-\.
-
-
---
 -- Data for Name: tipo_documento; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -6780,14 +6522,6 @@ COPY tipo_documento (id, detalle) FROM stdin;
 
 
 --
--- Name: parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY parts
-    ADD CONSTRAINT parts_pkey PRIMARY KEY (id);
-
-
---
 -- Name: personas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -6801,38 +6535,6 @@ ALTER TABLE ONLY personas
 
 ALTER TABLE ONLY personnes
     ADD CONSTRAINT personnes_pkey PRIMARY KEY (cedula);
-
-
---
--- Name: prueba_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY prueba
-    ADD CONSTRAINT prueba_pkey PRIMARY KEY (id);
-
-
---
--- Name: robots_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY robots_parts
-    ADD CONSTRAINT robots_parts_pkey PRIMARY KEY (id);
-
-
---
--- Name: robots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY robots
-    ADD CONSTRAINT robots_pkey PRIMARY KEY (id);
-
-
---
--- Name: subscriptores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY subscriptores
-    ADD CONSTRAINT subscriptores_pkey PRIMARY KEY (id);
 
 
 --
@@ -6850,34 +6552,6 @@ ALTER TABLE ONLY tipo_documento
 CREATE INDEX personas_estado_idx ON personas USING btree (estado);
 
 
---
--- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE INDEX robots_parts_parts_id ON robots_parts USING btree (parts_id);
-
-
---
--- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE INDEX robots_parts_robots_id ON robots_parts USING btree (robots_id);
-
-
---
--- Name: robots_parts_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY robots_parts
-    ADD CONSTRAINT robots_parts_ibfk_1 FOREIGN KEY (robots_id) REFERENCES robots(id);
-
-
---
--- Name: robots_parts_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY robots_parts
-    ADD CONSTRAINT robots_parts_ibfk_2 FOREIGN KEY (parts_id) REFERENCES parts(id);
 
 
 --

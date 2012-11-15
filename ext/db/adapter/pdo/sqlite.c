@@ -58,6 +58,21 @@
 
 
 /**
+ * Phalcon\Db\Adapter\Pdo\Sqlite initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Sqlite){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Sqlite, db_adapter_pdo_sqlite, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_sqlite_method_entry, 0);
+
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_type"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_sqlite_ce, SL("_dialectType"), "sqlite", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_db_adapter_pdo_sqlite_ce TSRMLS_CC, 1, phalcon_db_adapterinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * This method is automatically called in Phalcon\Db\Adapter\Pdo constructor.
  * Call it when you need to restore a database connection.
  *
@@ -164,23 +179,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(field);
-		
+	
 		PHALCON_INIT_NVAR(definition);
 		array_init(definition);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
-		
+	
 		PHALCON_INIT_NVAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(pos);
 		phalcon_fast_stripos_str(pos, column_type, SL("int") TSRMLS_CC);
 		if (PHALCON_IS_NOT_FALSE(pos)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_bool(&definition, SL("isNumeric"), 1, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_string_long(&definition, SL("bindType"), 1, PH_SEPARATE TSRMLS_CC);
-			
+	
 			PHALCON_INIT_NVAR(attribute);
 			phalcon_array_fetch_string(&attribute, field, SL("pk"), PH_NOISY_CC);
 			if (zend_is_true(attribute)) {
@@ -225,12 +240,12 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 				}
 			}
 		}
-		
+	
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(matches);
 			array_init(matches);
 			Z_SET_ISREF_P(matches);
-			
+	
 			PHALCON_INIT_NVAR(pos);
 			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
 			Z_UNSET_ISREF_P(matches);
@@ -243,41 +258,41 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 				}
 			}
 		}
-		
+	
 		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
 			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		if (!zend_is_true(old_column)) {
 			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("pk"), PH_NOISY_CC);
 		if (zend_is_true(attribute)) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("notnull"), PH_NOISY_CC);
 		if (zend_is_true(attribute)) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("name"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition, PH_CHECK);
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	
@@ -345,9 +360,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(index);
-		
+	
 		PHALCON_INIT_NVAR(key_name);
 		phalcon_array_fetch_string(&key_name, index, SL("name"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(indexes, key_name);
@@ -356,41 +371,41 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 			array_init(empty_arr);
 			phalcon_array_update_zval(&indexes, key_name, &empty_arr, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(sql_index_describe);
 		PHALCON_CALL_METHOD_PARAMS_1(sql_index_describe, dialect, "describeindex", key_name, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(describe_index);
 		PHALCON_CALL_METHOD_PARAMS_2(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_assoc, PH_NO_CHECK);
-		
+	
 		if (!phalcon_valid_foreach(describe_index TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah1 = Z_ARRVAL_P(describe_index);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-		
+	
 		ph_cycle_start_1:
-		
+	
 			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 				goto ph_cycle_end_1;
 			}
-			
+	
 			PHALCON_GET_FOREACH_VALUE(index_column);
-			
+	
 			PHALCON_INIT_NVAR(column_name);
 			phalcon_array_fetch_string(&column_name, index_column, SL("name"), PH_NOISY_CC);
 			phalcon_array_update_append_multi_2(&indexes, key_name, column_name, 0 TSRMLS_CC);
-			
+	
 			zend_hash_move_forward_ex(ah1, &hp1);
 			goto ph_cycle_start_1;
-			
+	
 		ph_cycle_end_1:
-		
-		
+	
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	PHALCON_INIT_VAR(index_objects);
@@ -408,18 +423,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		if (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) != SUCCESS) {
 			goto ph_cycle_end_2;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(name, ah2, hp2);
 		PHALCON_GET_FOREACH_VALUE(index_columns);
-		
+	
 		PHALCON_INIT_NVAR(index);
 		object_init_ex(index, phalcon_db_index_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", name, index_columns, PH_CHECK);
 		phalcon_array_update_zval(&index_objects, name, &index, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah2, &hp2);
 		goto ph_cycle_start_2;
-		
+	
 	ph_cycle_end_2:
 	
 	
@@ -486,45 +501,45 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(number, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(reference_describe);
-		
+	
 		PHALCON_INIT_NVAR(constraint_name);
 		PHALCON_CONCAT_SV(constraint_name, "foreign_key_", number);
-		
+	
 		PHALCON_INIT_NVAR(referenced_table);
 		phalcon_array_fetch_string(&referenced_table, reference_describe, SL("table"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(from);
 		phalcon_array_fetch_string(&from, reference_describe, SL("from"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(to);
 		phalcon_array_fetch_string(&to, reference_describe, SL("to"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(columns);
 		array_init(columns);
 		phalcon_array_append(&columns, from, PH_SEPARATE TSRMLS_CC);
-		
+	
 		PHALCON_INIT_NVAR(referenced_columns);
 		array_init(referenced_columns);
 		phalcon_array_append(&referenced_columns, to, PH_SEPARATE TSRMLS_CC);
-		
+	
 		PHALCON_INIT_NVAR(reference_array);
 		array_init(reference_array);
 		add_assoc_null_ex(reference_array, SS("referencedSchema"));
 		phalcon_array_update_string(&reference_array, SL("referencedTable"), &referenced_table, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_string(&reference_array, SL("columns"), &columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_string(&reference_array, SL("referencedColumns"), &referenced_columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		
+	
 		PHALCON_INIT_NVAR(reference);
 		object_init_ex(reference, phalcon_db_reference_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(reference, "__construct", constraint_name, reference_array, PH_CHECK);
 		phalcon_array_update_zval(&reference_objects, constraint_name, &reference, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	

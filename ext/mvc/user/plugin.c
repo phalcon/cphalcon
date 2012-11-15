@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\User\Plugin initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_User_Plugin){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Plugin, mvc_user_plugin, "phalcon\\di\\injectable", NULL, 0);
+
+	return SUCCESS;
+}
+

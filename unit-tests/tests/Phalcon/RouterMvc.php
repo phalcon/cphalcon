@@ -94,6 +94,12 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 				'params' => array('language' => 'en', 'file' => 'translate.adapter')
 			),
 			array(
+				'uri' => '/named-manual/en/translate.adapter.html',
+				'controller' => 'manual',
+				'action' => 'show',
+				'params' => array('language' => 'en', 'file' => 'translate.adapter')
+			),
+			array(
 				'uri' => '/posts/1999/s/le-nice-title',
 				'controller' => 'posts',
 				'action' => 'show',
@@ -153,6 +159,11 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			'action' => 'show',
 			'language' => 1,
 			'file' => 2
+		));
+
+		$router->add('/named-manual/{language:[a-z]{2}}/{file:[a-z\.]+}\.html', array(
+			'controller' => 'manual',
+			'action' => 'show',
 		));
 
 		$router->add('/very/static/route', array(

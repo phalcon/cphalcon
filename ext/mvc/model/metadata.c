@@ -59,9 +59,34 @@
 
 
 /**
+ * Phalcon\Mvc\Model\MetaData initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, MetaData, mvc_model_metadata, phalcon_mvc_model_metadata_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_ATTRIBUTES"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_PRIMARY_KEY"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NON_PRIMARY_KEY"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_NOT_NULL"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES"), 4 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_NUMERIC"), 5 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_AT"), 6 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATE_IN"), 7 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_IDENTITY_COLUMN"), 8 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_DATA_TYPES_BIND"), 9 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_INSERT"), 10 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_AUTOMATIC_DEFAULT_UPDATE"), 11 TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Initialize the metadata for certain table
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param string $key
  * @param string $table
  * @param string $schema
@@ -101,14 +126,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			PHALCON_MM_RESTORE();
 			RETURN_NULL();
 		}
-		
+	
 		if (phalcon_method_exists_ex(model, SS("metadata") TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_VAR(table_metadata);
 			PHALCON_CALL_METHOD(table_metadata, model, "metadata", PH_NO_CHECK);
 			if (Z_TYPE_P(table_metadata) != IS_ARRAY) { 
 				PHALCON_INIT_VAR(class_name);
 				phalcon_get_class(class_name, model TSRMLS_CC);
-				
+	
 				PHALCON_INIT_VAR(exception_message);
 				PHALCON_CONCAT_SV(exception_message, "Invalid meta-data for model ", class_name);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
@@ -117,7 +142,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 		} else {
 			PHALCON_INIT_VAR(connection);
 			PHALCON_CALL_METHOD(connection, model, "getconnection", PH_NO_CHECK);
-			
+	
 			PHALCON_INIT_VAR(exists);
 			PHALCON_CALL_METHOD_PARAMS_2(exists, connection, "tableexists", table, schema, PH_NO_CHECK);
 			if (!zend_is_true(exists)) {
@@ -127,43 +152,43 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 				} else {
 					PHALCON_CPY_WRT(complete_table, table);
 				}
-				
+	
 				PHALCON_INIT_NVAR(class_name);
 				phalcon_get_class(class_name, model TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "Table \"", complete_table, "\" doesn't exist on database when dumping meta-data for ", class_name);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-			
+	
 			PHALCON_INIT_VAR(attributes);
 			array_init(attributes);
-			
+	
 			PHALCON_INIT_VAR(primary_keys);
 			array_init(primary_keys);
-			
+	
 			PHALCON_INIT_VAR(non_primary_keys);
 			array_init(non_primary_keys);
-			
+	
 			PHALCON_INIT_VAR(numeric_typed);
 			array_init(numeric_typed);
-			
+	
 			PHALCON_INIT_VAR(not_null);
 			array_init(not_null);
-			
+	
 			PHALCON_INIT_VAR(field_types);
 			array_init(field_types);
-			
+	
 			PHALCON_INIT_VAR(field_bind_types);
 			array_init(field_bind_types);
-			
+	
 			PHALCON_INIT_VAR(automatic_default);
 			array_init(automatic_default);
-			
+	
 			PHALCON_INIT_VAR(identity_field);
 			ZVAL_BOOL(identity_field, 0);
-			
+	
 			PHALCON_INIT_VAR(columns);
 			PHALCON_CALL_METHOD_PARAMS_2(columns, connection, "describecolumns", table, schema, PH_NO_CHECK);
 			if (!phalcon_fast_count_ev(columns TSRMLS_CC)) {
@@ -173,36 +198,36 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 				} else {
 					PHALCON_CPY_WRT(complete_table, table);
 				}
-				
+	
 				PHALCON_INIT_NVAR(class_name);
 				phalcon_get_class(class_name, model TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(exception_message);
 				PHALCON_CONCAT_SVSV(exception_message, "Cannot obtain table columns for the mapped source \"", complete_table, "\" used in model ", class_name);
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 				return;
 			}
-			
-			
+	
+	
 			if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
 				return;
 			}
-			
+	
 			ah0 = Z_ARRVAL_P(columns);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-			
+	
 			ph_cycle_start_0:
-			
+	
 				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 					goto ph_cycle_end_0;
 				}
-				
+	
 				PHALCON_GET_FOREACH_VALUE(column);
-				
+	
 				PHALCON_INIT_NVAR(field_name);
 				PHALCON_CALL_METHOD(field_name, column, "getname", PH_NO_CHECK);
 				phalcon_array_append(&attributes, field_name, PH_SEPARATE TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(feature);
 				PHALCON_CALL_METHOD(feature, column, "isprimary", PH_NO_CHECK);
 				if (PHALCON_IS_TRUE(feature)) {
@@ -210,38 +235,38 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 				} else {
 					phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
 				}
-				
+	
 				PHALCON_INIT_NVAR(feature);
 				PHALCON_CALL_METHOD(feature, column, "isnumeric", PH_NO_CHECK);
 				if (PHALCON_IS_TRUE(feature)) {
 					phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE TSRMLS_CC);
 				}
-				
+	
 				PHALCON_INIT_NVAR(feature);
 				PHALCON_CALL_METHOD(feature, column, "isnotnull", PH_NO_CHECK);
 				if (PHALCON_IS_TRUE(feature)) {
 					phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
 				}
-				
+	
 				PHALCON_INIT_NVAR(feature);
 				PHALCON_CALL_METHOD(feature, column, "isautoincrement", PH_NO_CHECK);
 				if (PHALCON_IS_TRUE(feature)) {
 					PHALCON_CPY_WRT(identity_field, field_name);
 				}
-				
+	
 				PHALCON_INIT_NVAR(type);
 				PHALCON_CALL_METHOD(type, column, "gettype", PH_NO_CHECK);
 				phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
-				
+	
 				PHALCON_INIT_NVAR(bind_type);
 				PHALCON_CALL_METHOD(bind_type, column, "getbindtype", PH_NO_CHECK);
 				phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
-				
+	
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto ph_cycle_start_0;
-				
+	
 			ph_cycle_end_0:
-			
+	
 			PHALCON_INIT_NVAR(table_metadata);
 			array_init(table_metadata);
 			phalcon_array_update_long(&table_metadata, 0, &attributes, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -255,7 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 			phalcon_array_update_long(&table_metadata, 10, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_long(&table_metadata, 11, &automatic_default, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_VAR(t0);
 		phalcon_read_property(&t0, this_ptr, SL("_metaData"), PH_NOISY_CC);
 		phalcon_array_update_zval(&t0, key, &table_metadata, PH_COPY TSRMLS_CC);
@@ -269,7 +294,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initializeMetaData){
 /**
  * Reads meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
@@ -309,7 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 	eval_int = phalcon_array_isset(meta_data, key);
 	if (!eval_int) {
 		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(this_ptr, "_initializemetadata", model, key, table, schema, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(meta_data);
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
@@ -326,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 /**
  * Writes meta-data for certain model using a MODEL_* constant
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
  * @param mixed $data
  */
@@ -372,7 +397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 	eval_int = phalcon_array_isset(meta_data, key);
 	if (!eval_int) {
 		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(this_ptr, "_initializemetadata", model, key, table, schema, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(meta_data);
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
@@ -386,7 +411,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex){
 /**
  * Returns table attributes names (fields)
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return 	array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
@@ -417,7 +442,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes){
 /**
  * Returns an array of fields which are part of the primary key
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
@@ -448,7 +473,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes){
 /**
  * Returns an arrau of fields which are not part of the primary key
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return 	array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
@@ -479,7 +504,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes){
 /**
  * Returns an array of not null attributes
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
@@ -510,7 +535,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes){
 /**
  * Returns attributes and their data types
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
@@ -541,7 +566,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes){
 /**
  * Returns attributes which types are numerical
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
@@ -572,7 +597,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric){
 /**
  * Returns the name of identity field (if one is present)
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @return string
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
@@ -598,7 +623,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField){
 /**
  * Returns attributes and their bind data types
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
@@ -629,7 +654,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes){
 /**
  * Returns attributes that must be ignored from the INSERT SQL generation
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
@@ -660,7 +685,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes){
 /**
  * Returns attributes that must be ignored from the UPDATE SQL generation
  *
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
@@ -691,7 +716,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes){
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @param  array $attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
@@ -715,7 +740,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes){
 /**
  * Set the attributes that must be ignored from the UPDATE SQL generation
  *
- * @param  Phalcon\Mvc\Model $model
+ * @param  Phalcon\Mvc\ModelInterface $model
  * @param  array $attributes
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes){
@@ -768,26 +793,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
 
-	zval *a0 = NULL;
+	zval *empty_array;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_metaData"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_metaData"), empty_array TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, read){
-
-
-	
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, write){
-
-
-	
 }
 

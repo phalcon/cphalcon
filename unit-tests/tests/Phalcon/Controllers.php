@@ -51,7 +51,7 @@ class ControllersTest extends PHPUnit_Framework_TestCase
 		    }
         );
 
-		require_once PATH_CONTROLLERS .  'Test4Controller.php';
+		require_once PATH_CONTROLLERS . 'Test4Controller.php';
 
 		$controller = new Test4Controller();
 		$controller->setDI($di);

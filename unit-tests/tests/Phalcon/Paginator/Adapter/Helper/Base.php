@@ -80,7 +80,7 @@ class Paginator_Adapter_Helper_Base extends Phalcon_Test_ModelTestCase
         // Get a page
         $page = $paginator->getPaginate();
 
-        $expected = 10;
+        $expected = 5;
         $actual   = count($page->items);
 
         $this->assertEquals($expected, $actual, 'Item count not correct');
@@ -110,7 +110,7 @@ class Paginator_Adapter_Helper_Base extends Phalcon_Test_ModelTestCase
 
         $this->assertEquals($expected, $actual, 'Next not correct');
 
-        $expected = 218;
+        $expected = 20;
         $actual   = $page->last;
 
         $this->assertEquals($expected, $actual, 'Last not correct');
@@ -120,7 +120,7 @@ class Paginator_Adapter_Helper_Base extends Phalcon_Test_ModelTestCase
 
         $this->assertEquals($expected, $actual, 'Current not correct');
 
-        $expected = 218;
+        $expected = 20;
         $actual   = $page->total_pages;
 
         $this->assertEquals($expected, $actual, 'Total Pages not correct');
@@ -138,31 +138,31 @@ class Paginator_Adapter_Helper_Base extends Phalcon_Test_ModelTestCase
         $class     = $this->_class;
         $paginator = new $class($this->_params);
 
-        $paginator->setCurrentPage(50);
+        $paginator->setCurrentPage(10);
 
         $page = $paginator->getPaginate();
 
-        $expected = 49;
+        $expected = 9;
         $actual   = $page->before;
 
         $this->assertEquals($expected, $actual, 'Before not correct');
 
-        $expected = 51;
+        $expected = 11;
         $actual   = $page->next;
 
         $this->assertEquals($expected, $actual, 'Next not correct');
 
-        $expected = 218;
+        $expected = 20;
         $actual   = $page->last;
 
         $this->assertEquals($expected, $actual, 'Last not correct');
 
-        $expected = 50;
+        $expected = 10;
         $actual   = $page->current;
 
         $this->assertEquals($expected, $actual, 'Current not correct');
 
-        $expected = 218;
+        $expected = 20;
         $actual   = $page->total_pages;
 
         $this->assertEquals($expected, $actual, 'Total Pages not correct');

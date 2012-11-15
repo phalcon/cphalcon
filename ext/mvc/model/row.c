@@ -43,6 +43,18 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Model\Row initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+
+	return SUCCESS;
+}
+
 PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 
 
@@ -93,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 	if (eval_int) {
 		PHALCON_INIT_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
-		
+	
 		RETURN_CCTOR(value);
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row");

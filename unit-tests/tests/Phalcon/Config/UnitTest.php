@@ -36,4 +36,46 @@ class Config_UnitTest extends Config_Helper_Unit
         $config = new PhConfig($this->_myConfig);
         $this->compareConfig($this->_myConfig, $config);
     }
+
+    public function testArrayArrayParameter()
+    {
+        $this->markTestSkipped('Skipped until fixed');
+        $expectedConfig = PhConfig::__set_state(
+            array(
+                'database' => PhConfig::__set_state(
+                    array(
+                        'adapter'  => 'Mysql',
+                        'host'     => 'localhost',
+                        'username' => 'scott',
+                        'password' => 'cheetah',
+                        'name'     => 'test_db',
+                    )
+                ),
+                'other' => array(
+                    0 => 1,
+                    1 => 2,
+                    2 => 3,
+                    3 => 4,
+                ),
+            )
+        );
+
+        $settings = array(
+            "database" => array(
+                "adapter"  => "Mysql",
+                "host"     => "localhost",
+                "username" => "scott",
+                "password" => "cheetah",
+                "name"     => "test_db",
+            ),
+            "other" => array(1, 2, 3, 4)
+        );
+        $config = new PhConfig($settings);
+
+        $this->assertEquals(
+            $config,
+            $expectedConfig.
+                'Arrays do not work as elements in config'
+        );
+    }
 }

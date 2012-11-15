@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\Micro\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Micro_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Micro, Exception, mvc_micro_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

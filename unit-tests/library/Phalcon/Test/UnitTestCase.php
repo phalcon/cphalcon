@@ -53,11 +53,15 @@ class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
         $di = new \Phalcon\DI();
 
         // Set the URL
-        $di->set('url', function() {
-            $url = new \Phalcon\Mvc\Url();
-            $url->setBaseUri('/');
-            return $url;
-        });
+        $di->set(
+            'url',
+            function()
+            {
+                $url = new \Phalcon\Mvc\Url();
+                $url->setBaseUri('/');
+                return $url;
+            }
+        );
 
         $this->_di = $di;
     }

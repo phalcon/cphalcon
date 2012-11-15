@@ -65,6 +65,22 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Message initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Message){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Message, mvc_model_message, phalcon_mvc_model_message_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_message"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_message_ce, SL("_field"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_message_ce TSRMLS_CC, 1, phalcon_mvc_model_messageinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Message constructor
  *
  * @param string $message
@@ -121,14 +137,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getType){
 
-	zval *type;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(type);
+	RETURN_MEMBER(this_ptr, "_type");
 }
 
 /**
@@ -155,14 +165,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage){
 
-	zval *message;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(message);
-	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(message);
+	RETURN_MEMBER(this_ptr, "_message");
 }
 
 /**
@@ -189,14 +193,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, getField){
 
-	zval *field;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(field);
-	phalcon_read_property(&field, this_ptr, SL("_field"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(field);
+	RETURN_MEMBER(this_ptr, "_field");
 }
 
 /**
@@ -206,14 +204,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getField){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, __toString){
 
-	zval *message;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(message);
-	phalcon_read_property(&message, this_ptr, SL("_message"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(message);
+	RETURN_MEMBER(this_ptr, "_message");
 }
 
 /**
