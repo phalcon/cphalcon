@@ -36,7 +36,11 @@ class CustomersValidation extends Customers
     {
         if ($this->email == 'marina@hotmail.com') {
             $this->appendMessage(
-                new Message('Sorry Marina, but your are not allowed here')
+                new Message(
+                    'Sorry Marina, but your are not allowed here',
+                    'email',
+                    'InsertConstraint'
+                )
             );
             return false;
         }
@@ -46,7 +50,13 @@ class CustomersValidation extends Customers
     {
         if ($this->email == 'fuego@hotmail.com')
         {
-            $this->appendMessage(new Message('Sorry this cannot be deleted'));
+            $this->appendMessage(
+                new Message(
+                    'Sorry this cannot be deleted',
+                    'email',
+                    'DeleteConstraint'
+                )
+            );
             return false;
         }
     }

@@ -313,8 +313,6 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testBeforeValidation()
     {
-        $this->markTestSkipped('Need to talk to Andres about beforeValidation');
-
         $this->emptyTable('customers');
 
         $createdAt = date('Y-m-d H:i:s');
@@ -330,9 +328,10 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
         $messages = $customer->getMessages();
 
         $this->assertFalse($actual, 'Record was saved successfully');
+
         $this->_checkMessages(
             $messages,
-            'unique',
+            'InsertConstraint',
             'email',
             "Sorry Marina, but your are not allowed here"
         );
@@ -346,8 +345,29 @@ class Db_Helper_Model_Validators extends Phalcon_Test_ModelTestCase
      */
     public function testBeforeDelete()
     {
-        $this->markTestSkipped('Need to talk to Andres about beforeDelete');
+        $this->emptyTable('customers');
 
+        $createdAt = date('Y-m-d H:i:s');
+
+        $customer = new CustomersValidation();
+        $customer->document_id = 1;
+        $customer->customer_id = 'A01';
+        $customer->email = 'fuego@hotmail.com';
+        $customer->created_at = $createdAt;
+        $customer->status = 'P';
+
+        $actual = $customer->save();
+        $this->assertTrue($actual, 'Record was not saved successfully');
+
+        $actual   = $customer->delete();
+        $messages = $customer->getMessages();
+
+        $this->_checkMessages(
+            $messages,
+            'DeleteConstraint',
+            'email',
+            "Sorry this cannot be deleted"
+        );
     }
 
     /**
