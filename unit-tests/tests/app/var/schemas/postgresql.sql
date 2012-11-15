@@ -21,9 +21,9 @@ CREATE TABLE customers (
   id integer NOT NULL,
   document_id integer NOT NULL,
   customer_id character varying(15) NOT NULL,
-  first_name character varying(100) DEFAULT ''::character varying NOT NULL,
-  last_name character varying(100) DEFAULT ''::character varying NOT NULL,
-  phone character varying(20) DEFAULT ''::character varying NOT NULL,
+  first_name character varying(100) DEFAULT NULL::character varying,
+  last_name character varying(100) DEFAULT NULL::character varying,
+  phone character varying(20) DEFAULT NULL::character varying,
   email character varying(70) NOT NULL,
   instructions character varying(100) DEFAULT NULL::character varying,
   status character(1) NOT NULL,
@@ -97,9 +97,8 @@ ALTER TABLE ONLY robots ADD CONSTRAINT robots_pkey PRIMARY KEY (id);
 -- Table: robots
 CREATE TABLE robots_parts (
     id integer NOT NULL,
-    name character varying(70) NOT NULL,
-    type character varying(32) NOT NULL,
-    year integer NOT NULL
+    robots_id integer NOT NULL,
+    parts_id integer NOT NULL,
 );
 ALTER TABLE public.robots_parts OWNER TO postgres;
 CREATE SEQUENCE robots_parts_id_seq
