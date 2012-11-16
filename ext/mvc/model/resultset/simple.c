@@ -55,6 +55,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Simple, mvc_model_resultset_simple, "phalcon\\mvc\\model\\resultset", phalcon_mvc_model_resultset_simple_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_simple_ce, SL("_columnMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_simple_ce TSRMLS_CC, 5, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -64,18 +65,19 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 /**
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
+ * @param array $columnsMap
  * @param Phalcon\Mvc\Model $model
  * @param Phalcon\Db\Result\Pdo $result
  * @param Phalcon\Cache\Backend $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 
-	zval *model, *result, *cache = NULL, *fetch_assoc, *limit;
-	zval *row_count, *big_resultset;
+	zval *column_map, *model, *result, *cache = NULL, *fetch_assoc;
+	zval *limit, *row_count, *big_resultset;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &model, &result, &cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &column_map, &model, &result, &cache) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -87,6 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 	if (PHALCON_IS_NOT_FALSE(result)) {
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
@@ -119,7 +122,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
-	zval *type, *result = NULL, *row = NULL, *rows = NULL, *model, *active_row;
+	zval *type, *result = NULL, *row = NULL, *rows = NULL, *model, *column_map;
+	zval *active_row;
 
 	PHALCON_MM_GROW();
 
@@ -168,8 +172,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		PHALCON_INIT_VAR(model);
 		phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
 	
+		PHALCON_INIT_VAR(column_map);
+		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	
 		PHALCON_INIT_VAR(active_row);
-		PHALCON_CALL_STATIC_PARAMS_2(active_row, "phalcon\\mvc\\model", "dumpresult", model, row);
+		PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "dumpresultmap", model, row, column_map);
 		phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;

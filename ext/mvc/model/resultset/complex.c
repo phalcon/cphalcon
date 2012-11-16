@@ -106,9 +106,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 
 	zval *type = NULL, *result, *row = NULL, *rows, *underscore, *empty_str;
 	zval *active_row, *columns_types, *column = NULL, *alias = NULL;
-	zval *source = NULL, *instance = NULL, *attributes = NULL, *model = NULL, *row_model = NULL;
-	zval *attribute = NULL, *column_alias = NULL, *value = NULL, *model_attribute = NULL;
-	zval *model_name = NULL, *sql_alias = NULL, *n_alias = NULL;
+	zval *source = NULL, *instance = NULL, *attributes = NULL, *column_map = NULL;
+	zval *row_model = NULL, *attribute = NULL, *column_alias = NULL, *value = NULL;
+	zval *model_attribute = NULL, *model_name = NULL, *sql_alias = NULL;
+	zval *n_alias = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -191,10 +192,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 				PHALCON_INIT_NVAR(attributes);
 				phalcon_array_fetch_string(&attributes, column, SL("attributes"), PH_NOISY_CC);
 	
-				PHALCON_INIT_NVAR(model);
-				if (phalcon_clone(model, instance TSRMLS_CC) == FAILURE) {
-					return;
-				}
+				PHALCON_INIT_NVAR(column_map);
+				phalcon_array_fetch_string(&column_map, column, SL("columnMap"), PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(row_model);
 				array_init(row_model);
@@ -227,7 +226,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 				ph_cycle_end_1:
 	
 				PHALCON_INIT_NVAR(model_attribute);
-				PHALCON_CALL_STATIC_PARAMS_2(model_attribute, "phalcon\\mvc\\model", "dumpresult", model, row_model);
+				PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, column_map, row_model);
 	
 				PHALCON_INIT_NVAR(model_name);
 				phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
@@ -250,6 +249,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					PHALCON_INIT_NVAR(value);
 					phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
 				}
+	
+				/** 
+				 * If a 'balias' is defined is not an unnamed scalar
+				 */
 				eval_int = phalcon_array_isset_string(column, SS("balias"));
 				if (eval_int) {
 					phalcon_update_property_zval_zval(active_row, alias, value TSRMLS_CC);

@@ -17,23 +17,30 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_mvc_model_queryinterface_ce;
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface);
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_queryinterface___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, phql)
-ZEND_END_ARG_INFO()
+#include "kernel/main.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_queryinterface_execute, 0, 0, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
-ZEND_END_ARG_INFO()
+/**
+ * Phalcon\Mvc\Model\ResultInterface initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface){
 
-PHALCON_INIT_FUNCS(phalcon_mvc_model_queryinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, __construct, arginfo_phalcon_mvc_model_queryinterface___construct)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, parse, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_QueryInterface, execute, arginfo_phalcon_mvc_model_queryinterface_execute)
-	PHP_FE_END
-};
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultInterface, mvc_model_resultinterface, phalcon_mvc_model_resultinterface_method_entry);
+
+	return SUCCESS;
+}
+
+/**
+ * Forces that a model doesn't need to be checked if exists before store it
+ *
+ * @param boolean $forceExists
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ResultInterface, setForceExists);
 

@@ -35,10 +35,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setconnectionservice, 
 	ZEND_ARG_INFO(0, connectionService)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_setforceexists, 0, 0, 1)
-	ZEND_ARG_INFO(0, forceExists)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_dumpresult, 0, 0, 2)
 	ZEND_ARG_INFO(0, base)
 	ZEND_ARG_INFO(0, result)
@@ -113,7 +109,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_modelinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getSchema, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setConnectionService, arginfo_phalcon_mvc_modelinterface_setconnectionservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getConnectionService, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, setForceExists, arginfo_phalcon_mvc_modelinterface_setforceexists)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ModelInterface, getConnection, NULL)
 	ZEND_FENTRY(dumpResult, NULL, arginfo_phalcon_mvc_modelinterface_dumpresult, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	ZEND_FENTRY(find, NULL, arginfo_phalcon_mvc_modelinterface_find, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)

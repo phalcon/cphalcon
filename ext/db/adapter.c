@@ -457,8 +457,6 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", escaped_table, " VALUES (", joined_values, ")");
 	}
 	
-	zend_print_zval(insert_sql, 1);
-	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", insert_sql, insert_values, bind_data_types, PH_NO_CHECK);
 	
@@ -609,8 +607,6 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause);
 	}
 	
-	zend_print_zval(update_sql, 1);
-	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", update_sql, update_values, bind_data_types, PH_NO_CHECK);
 	
@@ -671,8 +667,6 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 		PHALCON_CONCAT_SV(sql, "DELETE FROM ", escaped_table);
 	}
 	
-	zend_print_zval(sql, 1);
-	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", sql, placeholders, data_types, PH_NO_CHECK);
 	
@@ -708,7 +702,9 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnList){
 /**
  * Appends a LIMIT clause to $sqlQuery argument
  *
- * <code>$connection->limit("SELECT * FROM robots", 5);</code>
+ * <code>
+ * $connection->limit("SELECT * FROM robots", 5);
+ * </code>
  *
  * @param  	string $sqlQuery
  * @param 	int $number
@@ -737,7 +733,9 @@ PHP_METHOD(Phalcon_Db_Adapter, limit){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
- * <code>$connection->tableExists("blog", "posts")</code>
+ * <code>
+ * $connection->tableExists("blog", "posts")
+ * </code>
  *
  * @param string $tableName
  * @param string $schemaName
@@ -780,7 +778,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 /**
  * Generates SQL checking for the existence of a schema.view
  *
- * <code>$connection->viewExists("active_users", "posts")</code>
+ *<code>
+ * $connection->viewExists("active_users", "posts")
+ *</code>
  *
  * @param string $viewName
  * @param string $schemaName

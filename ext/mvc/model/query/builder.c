@@ -244,6 +244,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getDI){
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
+/**
+ * Sets the columns to be queried
+ *
+ * @param string|array $columns
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setColumns){
 
 	zval *columns;
@@ -257,12 +263,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setColumns){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Return the columns to be queried
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getColumns){
 
 
 	RETURN_MEMBER(this_ptr, "_columns");
 }
 
+/**
+ * Sets the models who makes part of the query
+ *
+ * @param string|array $models
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setModels){
 
 	zval *models;
@@ -276,12 +293,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setModels){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Return the models who makes part of the query
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels){
 
 
 	RETURN_MEMBER(this_ptr, "_models");
 }
 
+/**
+ * Sets conditions for the query
+ *
+ * @param int $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setConditions){
 
 	zval *conditions;
@@ -295,12 +323,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setConditions){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Return the conditions for the query
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getConditions){
 
 
 	RETURN_MEMBER(this_ptr, "_conditions");
 }
 
+/**
+ * Sets a HAVING condition clause
+ *
+ * @param int $having
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setHaving){
 
 	zval *having;
@@ -314,12 +353,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setHaving){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Return the columns to be queried
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving){
 
 
 	RETURN_MEMBER(this_ptr, "_having");
 }
 
+/**
+ * Sets a LIMIT clause
+ *
+ * @param int $limit
+ * @param int $offset
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setLimit){
 
 	zval *limit, *offset = NULL;
@@ -340,12 +391,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setLimit){
 	RETURN_CTOR(this_ptr);
 }
 
+/**
+ * Returns the current LIMIT clause
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit){
 
 
 	RETURN_MEMBER(this_ptr, "_limit");
 }
 
+/**
+ * Sets a LIMIT clause
+ *
+ * @param string $group
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setGroup){
 
 	zval *group;
@@ -359,12 +421,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setGroup){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Returns the GROUP BY clause
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroup){
 
 
 	RETURN_MEMBER(this_ptr, "_group");
 }
 
+/**
+ * Returns a PHQL statement built based on the builder parameters
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector, *models, *conditions = NULL;
@@ -563,6 +635,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 }
 
 /**
+ * Returns the query built
+ *
  * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getQuery){

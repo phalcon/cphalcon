@@ -35,9 +35,9 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/operators.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 
@@ -99,7 +99,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 4, phalcon_mvc_modelinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce, zend_ce_serializable);
+	zend_class_implements(phalcon_mvc_model_ce TSRMLS_CC, 5, phalcon_mvc_modelinterface_ce, phalcon_mvc_model_resultinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce, zend_ce_serializable);
 
 	return SUCCESS;
 }
@@ -212,184 +212,6 @@ PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
-}
-
-/**
- * Creates a SQL statement which returns many rows
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @param Phalcon\Mvc\ModelInterface $model
- * @param Phalcon\Db\AdapterInterface $connection
- * @param array $params
- * @return array
- */
-PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect){
-
-
-	
-}
-
-/**
- * Gets a resulset from the cache or creates one
- *
- * @param string $modelName
- * @param Phalcon\Db\AdapterInterface $connection
- * @param array $params
- * @param boolean $unique
- */
-PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset){
-
-	zval *model_name, *params, *unique, *dependency_injector = NULL;
-	zval *cache = NULL, *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
-	zval *model, *connection, *resultset = NULL, *is_fresh;
-	zval *bind_params = NULL, *bind_types = NULL, *select, *sql = NULL, *result;
-	zval *count, *fetch_assoc, *row, *fetch_both, *dumped_result;
-	zval *result_data = NULL;
-	int eval_int;
-	zend_class_entry *ce0;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &model_name, &params, &unique) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	eval_int = phalcon_array_isset_string(params, SS("di"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(dependency_injector);
-		phalcon_array_fetch_string(&dependency_injector, params, SL("di"), PH_NOISY_CC);
-	} else {
-		PHALCON_INIT_NVAR(dependency_injector);
-		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-	}
-	
-	PHALCON_INIT_VAR(cache);
-	eval_int = phalcon_array_isset_string(params, SS("cache"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(cache_options);
-		phalcon_array_fetch_string(&cache_options, params, SL("cache"), PH_NOISY_CC);
-		if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
-			return;
-		}
-	
-		eval_int = phalcon_array_isset_string(cache_options, SS("key"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(key);
-			phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
-		} else {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
-			return;
-		}
-	
-		eval_int = phalcon_array_isset_string(cache_options, SS("lifetime"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(lifetime);
-			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY_CC);
-		} else {
-			PHALCON_INIT_NVAR(lifetime);
-			ZVAL_LONG(lifetime, 3600);
-		}
-	
-		eval_int = phalcon_array_isset_string(cache_options, SS("service"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(cache_service);
-			phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
-		} else {
-			PHALCON_INIT_NVAR(cache_service);
-			ZVAL_STRING(cache_service, "modelsCache", 1);
-		}
-	
-		PHALCON_CALL_METHOD_PARAMS_1(cache, dependency_injector, "getshared", cache_service, PH_NO_CHECK);
-	}
-	
-	ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(model);
-	object_init_ex(model, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "__construct", dependency_injector, PH_CHECK);
-	
-	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, model, "getconnection", PH_NO_CHECK);
-	if (Z_TYPE_P(cache) != IS_NULL) {
-		PHALCON_INIT_VAR(resultset);
-		PHALCON_CALL_METHOD_PARAMS_2(resultset, cache, "get", key, lifetime, PH_NO_CHECK);
-		if (Z_TYPE_P(resultset) != IS_NULL) {
-			if (Z_TYPE_P(resultset) != IS_OBJECT) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
-				return;
-			}
-	
-			PHALCON_INIT_VAR(is_fresh);
-			ZVAL_BOOL(is_fresh, 0);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(resultset, "setisfresh", is_fresh, PH_NO_CHECK);
-	
-			RETURN_CCTOR(resultset);
-		}
-	}
-	
-	PHALCON_INIT_VAR(bind_params);
-	
-	PHALCON_INIT_VAR(bind_types);
-	
-	PHALCON_INIT_VAR(select);
-	PHALCON_CALL_SELF_PARAMS_4(select, this_ptr, "_createsqlselect", dependency_injector, model, connection, params);
-	if (Z_TYPE_P(select) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(sql);
-		phalcon_array_fetch_string(&sql, select, SL("sql"), PH_NOISY_CC);
-	
-		phalcon_array_fetch_string(&bind_params, select, SL("params"), PH_NOISY_CC);
-	
-		phalcon_array_fetch_string(&bind_types, select, SL("types"), PH_NOISY_CC);
-	} else {
-		PHALCON_CPY_WRT(sql, select);
-	}
-	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(count);
-	PHALCON_CALL_METHOD_PARAMS_1(count, result, "numrows", result, PH_NO_CHECK);
-	if (PHALCON_IS_TRUE(unique)) {
-		if (!zend_is_true(count)) {
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
-		} else {
-			PHALCON_INIT_VAR(fetch_assoc);
-			ZVAL_LONG(fetch_assoc, 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_assoc, PH_NO_CHECK);
-	
-			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result, PH_NO_CHECK);
-	
-			PHALCON_INIT_VAR(fetch_both);
-			ZVAL_LONG(fetch_both, 2);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_both, PH_NO_CHECK);
-	
-			PHALCON_INIT_VAR(dumped_result);
-			PHALCON_CALL_SELF_PARAMS_2(dumped_result, this_ptr, "dumpresult", model, row);
-	
-			RETURN_CCTOR(dumped_result);
-		}
-	}
-	
-	if (zend_is_true(count)) {
-		PHALCON_CPY_WRT(result_data, result);
-	} else {
-		PHALCON_INIT_VAR(result_data);
-		ZVAL_BOOL(result_data, 0);
-	}
-	
-	PHALCON_INIT_NVAR(resultset);
-	object_init_ex(resultset, phalcon_mvc_model_resultset_simple_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(resultset, "__construct", model, result_data, cache, PH_CHECK);
-	if (Z_TYPE_P(cache) != IS_NULL) {
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, resultset, lifetime, PH_NO_CHECK);
-	}
-	
-	
-	RETURN_CCTOR(resultset);
 }
 
 /**
@@ -531,6 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSchema){
  * Sets the DependencyInjection connection service
  *
  * @param string $connectionService
+ * @return Phalcon\Mvc\Model
  */
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService){
 
@@ -542,6 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService){
 
 	phalcon_update_property_zval(this_ptr, SL("_connectionService"), connection_service TSRMLS_CC);
 	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -613,7 +437,101 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
 
 /**
  * Assigns values to a model from an array returning a new model.
- * The array keys must be the real column names in lower case
+ *
+ *<code>
+ *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
+ *  'type' => 'mechanical',
+ *  'name' => 'Astro Boy',
+ *  'year' => 1952
+ *));
+ *</code>
+ *
+ * @param Phalcon\Mvc\Model $base
+ * @param array $data
+ * @param array $columnMap
+ * @param boolean $forceExists
+ * @return Phalcon\Mvc\Model $result
+ */
+PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
+
+	zval *base, *data, *column_map, *force_exists = NULL, *object;
+	zval *value = NULL, *key = NULL, *attribute = NULL, *exception_message = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz|z", &base, &data, &column_map, &force_exists) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!force_exists) {
+		PHALCON_INIT_NVAR(force_exists);
+		ZVAL_BOOL(force_exists, 1);
+	}
+	
+	if (Z_TYPE_P(data) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(object);
+		if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
+			return;
+		}
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setforceexists", force_exists, PH_NO_CHECK);
+	
+		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+			return;
+		}
+	
+		ah0 = Z_ARRVAL_P(data);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+		ph_cycle_start_0:
+	
+			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+				goto ph_cycle_end_0;
+			}
+	
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+			PHALCON_GET_FOREACH_VALUE(value);
+	
+			if (Z_TYPE_P(key) == IS_STRING) {
+				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+					eval_int = phalcon_array_isset(column_map, key);
+					if (eval_int) {
+						PHALCON_INIT_NVAR(attribute);
+						phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+						phalcon_update_property_zval_zval(object, attribute, value TSRMLS_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+			goto ph_cycle_start_0;
+	
+		ph_cycle_end_0:
+	
+	
+		RETURN_CCTOR(object);
+	}
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
+	return;
+}
+
+/**
+ * Assigns values to a model from an array returning a new model.
  *
  *<code>
  *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
@@ -630,9 +548,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
  */
 PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 
-	zval *base, *data, *force_exists = NULL, *object, *dependency_injector;
-	zval *service, *meta_data, *column_map, *value = NULL;
-	zval *key = NULL, *attribute = NULL, *exception_message = NULL;
+	zval *base, *data, *force_exists = NULL, *object, *value = NULL;
+	zval *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -640,7 +557,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -661,18 +577,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		}
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setforceexists", force_exists, PH_NO_CHECK);
 	
-		PHALCON_INIT_VAR(dependency_injector);
-		PHALCON_CALL_METHOD(dependency_injector, base, "getdi", PH_NO_CHECK);
-	
-		PHALCON_INIT_VAR(service);
-		ZVAL_STRING(service, "modelsMetadata", 1);
-	
-		PHALCON_INIT_VAR(meta_data);
-		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service, PH_NO_CHECK);
-	
-		PHALCON_INIT_VAR(column_map);
-		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", base, PH_NO_CHECK);
-	
 		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
 			return;
 		}
@@ -690,21 +594,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 			PHALCON_GET_FOREACH_VALUE(value);
 	
 			if (Z_TYPE_P(key) == IS_STRING) {
-				if (Z_TYPE_P(column_map) == IS_NULL) {
-					phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
-				} else {
-					eval_int = phalcon_array_isset(column_map, key);
-					if (eval_int) {
-						PHALCON_INIT_NVAR(attribute);
-						phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
-						phalcon_update_property_zval_zval(object, attribute, value TSRMLS_CC);
-					} else {
-						PHALCON_INIT_NVAR(exception_message);
-						PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
-						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-						return;
-					}
-				}
+				phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
 			} else {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid key in array data provided to dumpResult()");
 				return;
@@ -749,7 +639,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
  * </code>
  *
  * @param 	array $parameters
- * @return  Phalcon\Mvc\Model\Resultset
+ * @return  Phalcon\Mvc\Model\ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, find){
 
@@ -1100,18 +990,13 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
  * @param array $parameters
  * @return Phalcon\Mvc\Model\ResultsetInterface
  */
-PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
+PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 
 	zval *function, *alias, *parameters, *params = NULL, *group_column = NULL;
-	zval *dependency_injector, *class_name, *model;
-	zval *connection, *schema, *source, *table = NULL, *bound_params = NULL;
-	zval *bind_types = NULL, *select, *distinct_column;
-	zval *columns = NULL, *group_columns, *conditions = NULL, *bind_params;
-	zval *converted_params, *converted_sql, *group_clause;
-	zval *having_clause, *order_clause, *limit_clause;
-	zval *dialect, *sql, *statement = NULL, *resultset;
+	zval *distinct_column, *columns = NULL, *group_columns;
+	zval *model_name, *builder, *query, *resultset;
+	zval *number_rows, *first_row, *value;
 	int eval_int;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -1141,39 +1026,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 		ZVAL_STRING(group_column, "*", 1);
 	}
 	
-	PHALCON_INIT_VAR(dependency_injector);
-	PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-	
-	PHALCON_INIT_VAR(class_name);
-	PHALCON_CALL_FUNC(class_name, "get_called_class");
-	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(model);
-	object_init_ex(model, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "__construct", dependency_injector, PH_CHECK);
-	
-	PHALCON_INIT_VAR(connection);
-	PHALCON_CALL_METHOD(connection, model, "getconnection", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(schema);
-	PHALCON_CALL_METHOD(schema, model, "getschema", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(source);
-	PHALCON_CALL_METHOD(source, model, "getsource", PH_NO_CHECK);
-	if (zend_is_true(schema)) {
-		PHALCON_INIT_VAR(table);
-		PHALCON_CONCAT_VSV(table, schema, ".", source);
-	} else {
-		PHALCON_CPY_WRT(table, source);
-	}
-	
-	PHALCON_INIT_VAR(bound_params);
-	
-	PHALCON_INIT_VAR(bind_types);
-	
-	PHALCON_INIT_VAR(select);
-	array_init(select);
-	phalcon_array_update_string(&select, SL("tables"), &table, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	/** 
+	 * Builds the columns to query according to the received parameters
+	 */
 	eval_int = phalcon_array_isset_string(params, SS("distinct"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(distinct_column);
@@ -1195,165 +1050,47 @@ PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult){
 		}
 	}
 	
-	phalcon_array_update_string(&select, SL("columns"), &columns, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	PHALCON_INIT_VAR(model_name);
+	PHALCON_CALL_FUNC(model_name, "get_called_class");
 	
-	PHALCON_INIT_VAR(conditions);
-	eval_int = phalcon_array_isset_string(params, SS("conditions"));
-	if (eval_int) {
-		phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
-	} else {
-		eval_int = phalcon_array_isset_long(params, 0);
-		if (eval_int) {
-			PHALCON_INIT_NVAR(conditions);
-			phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
-		}
-	}
+	/** 
+	 * Builds a query with the passed parameters
+	 */
+	PHALCON_INIT_VAR(builder);
+	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "__construct", params, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setcolumns", columns, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setmodels", model_name, PH_NO_CHECK);
 	
-	if (zend_is_true(conditions)) {
-		eval_int = phalcon_array_isset_string(params, SS("bind"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(bind_params);
-			phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(converted_params);
-			PHALCON_CALL_METHOD_PARAMS_2(converted_params, connection, "convertboundparams", conditions, bind_params, PH_NO_CHECK);
-	
-			PHALCON_INIT_VAR(converted_sql);
-			phalcon_array_fetch_string(&converted_sql, converted_params, SL("sql"), PH_NOISY_CC);
-			phalcon_array_update_string(&select, SL("where"), &converted_sql, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-			phalcon_array_fetch_string(&bound_params, converted_params, SL("params"), PH_NOISY_CC);
-			eval_int = phalcon_array_isset_string(params, SS("bindTypes"));
-			if (eval_int) {
-				phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY_CC);
-			}
-		} else {
-			phalcon_array_update_string(&select, SL("where"), &conditions, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		}
-	}
-	
-	eval_int = phalcon_array_isset_string(params, SS("group"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(group_clause);
-		phalcon_array_fetch_string(&group_clause, params, SL("group"), PH_NOISY_CC);
-		phalcon_array_update_string(&select, SL("group"), &group_clause, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
-	
-	eval_int = phalcon_array_isset_string(params, SS("having"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(having_clause);
-		phalcon_array_fetch_string(&having_clause, params, SL("having"), PH_NOISY_CC);
-		phalcon_array_update_string(&select, SL("having"), &having_clause, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
-	
-	eval_int = phalcon_array_isset_string(params, SS("order"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(order_clause);
-		phalcon_array_fetch_string(&order_clause, params, SL("order"), PH_NOISY_CC);
-		phalcon_array_update_string(&select, SL("order"), &order_clause, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
-	
-	eval_int = phalcon_array_isset_string(params, SS("limit"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(limit_clause);
-		phalcon_array_fetch_string(&limit_clause, params, SL("limit"), PH_NOISY_CC);
-		phalcon_array_update_string(&select, SL("limit"), &limit_clause, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
-	
-	PHALCON_INIT_VAR(dialect);
-	PHALCON_CALL_METHOD(dialect, connection, "getdialect", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_1(sql, dialect, "select", select, PH_NO_CHECK);
-	if (Z_TYPE_P(bound_params) != IS_NULL) {
-		PHALCON_INIT_VAR(statement);
-		array_init(statement);
-		phalcon_array_update_string(&statement, SL("sql"), &sql, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&statement, SL("params"), &bound_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_string(&statement, SL("types"), &bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	} else {
-		PHALCON_CPY_WRT(statement, sql);
-	}
+	PHALCON_INIT_VAR(query);
+	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getgroupresult", connection, params, statement, alias);
-	
-	RETURN_CCTOR(resultset);
-}
-
-/**
- * Generate a resulset from an SQL select with aggregations
- *
- * @param Phalcon\Db $connection
- * @param array $params
- * @param string $select
- * @param string $alias
- * @return array|Phalcon\Mvc\Model\ResultsetInterface
- */
-PHP_METHOD(Phalcon_Mvc_Model, _getGroupResult){
-
-	zval *connection, *params, *select, *alias, *sql = NULL, *bind_params = NULL;
-	zval *bind_types = NULL, *result = NULL, *count, *row_object = NULL;
-	zval *cache, *resultset, *num, *group_value;
-	int eval_int;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &connection, &params, &select, &alias) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(select) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(sql);
-		phalcon_array_fetch_string(&sql, select, SL("sql"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(bind_params);
-		phalcon_array_fetch_string(&bind_params, select, SL("params"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(bind_types);
-		phalcon_array_fetch_string(&bind_types, select, SL("types"), PH_NOISY_CC);
-	} else {
-		PHALCON_CPY_WRT(sql, select);
-	
-		PHALCON_INIT_NVAR(bind_params);
-	
-		PHALCON_INIT_NVAR(bind_types);
-	}
-	
-	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types, PH_NO_CHECK);
+	PHALCON_CALL_METHOD(resultset, query, "execute", PH_NO_CHECK);
 	eval_int = phalcon_array_isset_string(params, SS("group"));
 	if (eval_int) {
-		PHALCON_INIT_VAR(count);
-		PHALCON_CALL_METHOD(count, result, "numrows", PH_NO_CHECK);
-		if (zend_is_true(count)) {
-			PHALCON_INIT_VAR(row_object);
-			object_init_ex(row_object, phalcon_mvc_model_row_ce);
-		} else {
-			PHALCON_INIT_NVAR(row_object);
-			object_init(row_object);
+		/** 
+		 * Return the full resultset if the query is grouped
+		 */
 	
-			PHALCON_INIT_NVAR(result);
-			ZVAL_BOOL(result, 0);
-		}
+		RETURN_CCTOR(resultset);
+	} else {
+		/** 
+		 * Return only the value in the first result
+		 */
+		PHALCON_INIT_VAR(number_rows);
+		phalcon_fast_count(number_rows, resultset TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(cache);
+		PHALCON_INIT_VAR(first_row);
+		PHALCON_CALL_METHOD(first_row, resultset, "getfirst", PH_NO_CHECK);
 	
-		PHALCON_INIT_VAR(resultset);
-		object_init_ex(resultset, phalcon_mvc_model_resultset_simple_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(resultset, "__construct", row_object, result, cache, PH_CHECK);
+		PHALCON_INIT_VAR(value);
+		phalcon_read_property_zval(&value, first_row, alias, PH_NOISY_CC);
 	
-		RETURN_CTOR(resultset);
+		RETURN_CCTOR(value);
 	}
 	
-	PHALCON_INIT_VAR(num);
-	PHALCON_CALL_METHOD(num, result, "fetch", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(group_value);
-	phalcon_array_fetch(&group_value, num, alias, PH_NOISY_CC);
-	
-	RETURN_CCTOR(group_value);
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -1396,13 +1133,13 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	ZVAL_STRING(alias, "rowcount", 1);
 	
 	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_preparegroupresult", function, alias, parameters);
+	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
 	
 	RETURN_CCTOR(group);
 }
 
 /**
- * Allows to a calculate a summatory on a column that match the specified conditions
+ * Allows to calculate a summatory on a column that match the specified conditions
  *
  * <code>
  *
@@ -1441,7 +1178,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	ZVAL_STRING(alias, "sumatory", 1);
 	
 	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_preparegroupresult", function, alias, parameters);
+	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
 	
 	RETURN_CCTOR(group);
 }
@@ -1486,7 +1223,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	ZVAL_STRING(alias, "maximum", 1);
 	
 	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_preparegroupresult", function, alias, parameters);
+	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
 	
 	RETURN_CCTOR(group);
 }
@@ -1531,7 +1268,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	ZVAL_STRING(alias, "minimum", 1);
 	
 	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_preparegroupresult", function, alias, parameters);
+	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
 	
 	RETURN_CCTOR(group);
 }
@@ -1576,7 +1313,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	ZVAL_STRING(alias, "average", 1);
 	
 	PHALCON_INIT_VAR(group);
-	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_preparegroupresult", function, alias, parameters);
+	PHALCON_CALL_SELF_PARAMS_3(group, this_ptr, "_groupresult", function, alias, parameters);
 	
 	RETURN_CCTOR(group);
 }

@@ -43,7 +43,8 @@
 /**
  * Phalcon\Dispatcher
  *
- * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher
+ * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\CLI\Dispatcher.
+ * This class can't be instantiated directly, you can use it to create your own dispatchers
  */
 
 
@@ -418,6 +419,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		RETURN_FALSE;
 	}
 	
+	/** 
+	 * Calling beforeDispatchLoop
+	 */
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -470,6 +474,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
 	
+		/** 
+		 * If the handler is null we used the set in this_ptr::_defaultHandler
+		 */
 		PHALCON_INIT_NVAR(handler_name);
 		phalcon_read_property(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
 		if (!zend_is_true(handler_name)) {
@@ -478,6 +485,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, SL("_handlerName"), handler_name TSRMLS_CC);
 		}
 	
+		/** 
+		 * If the action is null we used the set in this_ptr::_defaultAction
+		 */
 		PHALCON_INIT_NVAR(action_name);
 		phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
 		if (!zend_is_true(action_name)) {
@@ -486,6 +496,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 		}
 	
+		/** 
+		 * Calling beforeDispatch
+		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:beforeDispatch", 1);
@@ -570,6 +583,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
+		/** 
+		 * If the object was recently created in the DI we initialize it
+		 */
 		PHALCON_INIT_NVAR(was_fresh);
 		PHALCON_CALL_METHOD(was_fresh, dependency_injector, "wasfreshinstance", PH_NO_CHECK);
 		if (PHALCON_IS_TRUE(was_fresh)) {
@@ -578,6 +594,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 	
+		/** 
+		 * Check if the params is an array
+		 */
 		PHALCON_INIT_NVAR(params);
 		phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
 		if (Z_TYPE_P(params) != IS_ARRAY) { 
@@ -600,6 +619,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			goto ph_cycle_end_0;
 		}
 	
+		/** 
+		 * Check if the method exists in the handler
+		 */
 		PHALCON_INIT_NVAR(action_method);
 		PHALCON_CONCAT_VV(action_method, action_name, action_suffix);
 		if (phalcon_method_exists(handler, action_method TSRMLS_CC) == SUCCESS) {
@@ -619,6 +641,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					goto ph_cycle_start_0;
 				}
 			}
+	
+			/** 
+			 * Calling beforeExecuteRoute
+			 */
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "dispatch:beforeExecuteRoute", 1);
@@ -661,6 +687,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 	
+			/** 
+			 * Calling afterExecuteRoute
+			 */
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "dispatch:afterExecuteRoute", 1);
@@ -678,6 +707,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 		} else {
+			/** 
+			 * Call beforeNotFoundAction
+			 */
 			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(event_name);
 				ZVAL_STRING(event_name, "dispatch:beforeNotFoundAction", 1);
@@ -714,6 +746,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			goto ph_cycle_end_0;
 		}
 	
+		/** 
+		 * Call afterDispatch
+		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "dispatch:afterDispatch", 1);
@@ -721,12 +756,19 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 		goto ph_cycle_start_0;
 	ph_cycle_end_0:
+	
+	/** 
+	 * Call afterDispatchLoop
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:afterDispatchLoop", 1);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * We update the latest value produced by the latest handler
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_lastHandler"), handler TSRMLS_CC);
 	

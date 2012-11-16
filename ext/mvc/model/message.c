@@ -117,6 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
  * Sets message type
  *
  * @param string $type
+ * @return Phalcon\Mvc\Model\Message
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
 
@@ -128,6 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
 	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -145,6 +147,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getType){
  * Sets verbose message
  *
  * @param string $message
+ * @return Phalcon\Mvc\Model\Message
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
 
@@ -156,6 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
 
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
 	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -173,6 +177,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, getMessage){
  * Sets field name related to message
  *
  * @param string $field
+ * @return Phalcon\Mvc\Model\Message
  */
 PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
 
@@ -184,6 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
 
 	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
 	
+	RETURN_CTORW(this_ptr);
 }
 
 /**

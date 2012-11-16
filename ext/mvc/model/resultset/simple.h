@@ -26,7 +26,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize);
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0, 0, 3)
+	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, result)
 	ZEND_ARG_INFO(0, cache)

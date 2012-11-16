@@ -83,13 +83,6 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, setConnectionService);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getConnectionService);
 
 /**
- * Forces that model doesn't need to be checked if exists before store it
- *
- * @param boolean $forceExists
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, setForceExists);
-
-/**
  * Gets internal database connection
  *
  * @return Phalcon\Db\AdapterInterface

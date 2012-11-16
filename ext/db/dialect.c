@@ -138,6 +138,13 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 	RETURN_CTOR(sql);
 }
 
+/**
+ * Transform an intermediate representation for a expression into a database system valid expression
+ *
+ * @param array $expression
+ * @param string $escapeChar
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_Dialect, _getSqlExpression){
 
 	zval *expression, *escape_char, *type, *name = NULL, *escaped_name;
@@ -345,6 +352,13 @@ PHP_METHOD(Phalcon_Db_Dialect, _getSqlExpression){
 	return;
 }
 
+/**
+ * Transform an intermediate representation for a schema/table into a database system valid expression
+ *
+ * @param array $expression
+ * @param string $escapeChar
+ * @return string
+ */
 PHP_METHOD(Phalcon_Db_Dialect, _getSqlTable){
 
 	zval *table, *escape_char, *table_name, *sql_table = NULL;
@@ -822,7 +836,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		}
 	}
 	
-	zend_print_zval(sql, 1);
 	
 	RETURN_CTOR(sql);
 }

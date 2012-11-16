@@ -26,8 +26,6 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI);
 PHP_METHOD(Phalcon_Mvc_Model, getDI);
 PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
-PHP_METHOD(Phalcon_Mvc_Model, _createSQLSelect);
-PHP_METHOD(Phalcon_Mvc_Model, _getOrCreateResultset);
 PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
 PHP_METHOD(Phalcon_Mvc_Model, setSource);
 PHP_METHOD(Phalcon_Mvc_Model, getSource);
@@ -37,13 +35,13 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, getConnectionService);
 PHP_METHOD(Phalcon_Mvc_Model, setForceExists);
 PHP_METHOD(Phalcon_Mvc_Model, getConnection);
+PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap);
 PHP_METHOD(Phalcon_Mvc_Model, dumpResult);
 PHP_METHOD(Phalcon_Mvc_Model, find);
 PHP_METHOD(Phalcon_Mvc_Model, findFirst);
 PHP_METHOD(Phalcon_Mvc_Model, query);
 PHP_METHOD(Phalcon_Mvc_Model, _exists);
-PHP_METHOD(Phalcon_Mvc_Model, _prepareGroupResult);
-PHP_METHOD(Phalcon_Mvc_Model, _getGroupResult);
+PHP_METHOD(Phalcon_Mvc_Model, _groupResult);
 PHP_METHOD(Phalcon_Mvc_Model, count);
 PHP_METHOD(Phalcon_Mvc_Model, sum);
 PHP_METHOD(Phalcon_Mvc_Model, maximum);
@@ -105,6 +103,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setconnectionservice, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setforceexists, 0, 0, 1)
+	ZEND_ARG_INFO(0, forceExists)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_dumpresultmap, 0, 0, 3)
+	ZEND_ARG_INFO(0, base)
+	ZEND_ARG_INFO(0, data)
+	ZEND_ARG_INFO(0, columnMap)
 	ZEND_ARG_INFO(0, forceExists)
 ZEND_END_ARG_INFO()
 
@@ -191,8 +196,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setEventsManager, arginfo_phalcon_mvc_model_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, _createSQLSelect, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Mvc_Model, _getOrCreateResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, setTransaction, arginfo_phalcon_mvc_model_settransaction, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setSource, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getSource, NULL, ZEND_ACC_PUBLIC) 
@@ -202,13 +205,13 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, getConnectionService, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setForceExists, arginfo_phalcon_mvc_model_setforceexists, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getConnection, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, dumpResultMap, arginfo_phalcon_mvc_model_dumpresultmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, dumpResult, arginfo_phalcon_mvc_model_dumpresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, find, arginfo_phalcon_mvc_model_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, findFirst, arginfo_phalcon_mvc_model_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, query, arginfo_phalcon_mvc_model_query, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, _exists, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_Model, _prepareGroupResult, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
-	PHP_ME(Phalcon_Mvc_Model, _getGroupResult, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Mvc_Model, _groupResult, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, count, arginfo_phalcon_mvc_model_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, sum, arginfo_phalcon_mvc_model_sum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Model, maximum, arginfo_phalcon_mvc_model_maximum, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
