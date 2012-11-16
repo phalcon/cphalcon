@@ -644,7 +644,8 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *query, *resultset;
+	zval *query, *bind_params = NULL, *bind_types = NULL, *resultset;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -683,8 +684,23 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
 	
+	/** 
+	 * Check for bind parameters
+	 */
+	PHALCON_INIT_VAR(bind_params);
+	
+	PHALCON_INIT_VAR(bind_types);
+	eval_int = phalcon_array_isset_string(params, SS("bind"));
+	if (eval_int) {
+		phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY_CC);
+		eval_int = phalcon_array_isset_string(params, SS("bindTypes"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY_CC);
+		}
+	}
+	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_METHOD(resultset, query, "execute", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types, PH_NO_CHECK);
 	
 	RETURN_CCTOR(resultset);
 }
@@ -714,7 +730,9 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *one, *query, *resultset, *record;
+	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *resultset;
+	zval *record;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -760,8 +778,23 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
 	
+	/** 
+	 * Check for bind parameters
+	 */
+	PHALCON_INIT_VAR(bind_params);
+	
+	PHALCON_INIT_VAR(bind_types);
+	eval_int = phalcon_array_isset_string(params, SS("bind"));
+	if (eval_int) {
+		phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY_CC);
+		eval_int = phalcon_array_isset_string(params, SS("bindTypes"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY_CC);
+		}
+	}
+	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_METHOD(resultset, query, "execute", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types, PH_NO_CHECK);
 	
 	/** 
 	 * Return only the first record

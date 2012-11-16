@@ -70,6 +70,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 
 			$db->delete("personas", "estado='X'");
+			$db->delete("personas", "cedula LIKE 'CELL%'");
 
 			return $db;
 		});
@@ -88,6 +89,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			$db = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
 			$db->delete("personas", "estado='X'");
+			$db->delete("personas", "cedula LIKE 'CELL%'");
 
 			return $db;
 		});
@@ -106,6 +108,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			$db = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
 			$db->delete("personas", "estado='X'");
+			$db->delete("personas", "cedula LIKE 'CELL%'");
 
 			return $db;
 		});

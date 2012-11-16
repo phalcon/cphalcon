@@ -22,7 +22,6 @@ extern zend_class_entry *phalcon_db_dialect_postgresql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql);
 
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn);
@@ -42,10 +41,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_getcolumnlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, columnList)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -146,7 +141,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_postgresql_tableoptions, 0, 0,
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_db_dialect_postgresql_method_entry){
-	PHP_ME(Phalcon_Db_Dialect_Postgresql, getColumnList, arginfo_phalcon_db_dialect_postgresql_getcolumnlist, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, getColumnDefinition, arginfo_phalcon_db_dialect_postgresql_getcolumndefinition, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, addColumn, arginfo_phalcon_db_dialect_postgresql_addcolumn, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Postgresql, modifyColumn, arginfo_phalcon_db_dialect_postgresql_modifycolumn, ZEND_ACC_PUBLIC) 

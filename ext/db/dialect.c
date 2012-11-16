@@ -35,9 +35,10 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
-#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
+#include "kernel/exception.h"
 #include "kernel/file.h"
 
 /**
@@ -54,6 +55,8 @@
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Db, Dialect, db_dialect, phalcon_db_dialect_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_db_dialect_ce, SL("_escapeChar"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -139,6 +142,63 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 }
 
 /**
+ * Gets a list of columns
+ *
+ * @param array $columnList
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
+
+	zval *column_list, *str_list, *escape_char, *column = NULL;
+	zval *column_quoted = NULL, *joined_list;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(str_list);
+	array_init(str_list);
+	
+	PHALCON_INIT_VAR(escape_char);
+	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	
+	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(column_list);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+	ph_cycle_start_0:
+	
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+			goto ph_cycle_end_0;
+		}
+	
+		PHALCON_GET_FOREACH_VALUE(column);
+	
+		PHALCON_INIT_NVAR(column_quoted);
+		PHALCON_CONCAT_VVV(column_quoted, escape_char, column, escape_char);
+		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto ph_cycle_start_0;
+	
+	ph_cycle_end_0:
+	
+	PHALCON_INIT_VAR(joined_list);
+	phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
+	
+	RETURN_CTOR(joined_list);
+}
+
+/**
  * Transform an intermediate representation for a expression into a database system valid expression
  *
  * @param array $expression
@@ -148,7 +208,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 PHP_METHOD(Phalcon_Db_Dialect, _getSqlExpression){
 
 	zval *expression, *escape_char, *type, *name = NULL, *escaped_name;
-	zval *domain, *escaped_domain, *value, *operator = NULL;
+	zval *domain, *escaped_domain, *value = NULL, *operator = NULL;
 	zval *left = NULL, *expression_left = NULL, *right = NULL, *expression_right = NULL;
 	zval *binary_expr, *unary_expr = NULL, *expression_group;
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
@@ -271,6 +331,16 @@ PHP_METHOD(Phalcon_Db_Dialect, _getSqlExpression){
 	
 			RETURN_CTOR(unary_expr);
 		}
+	}
+	
+	/** 
+	 * Resolve placeholder
+	 */
+	if (PHALCON_COMPARE_STRING(type, "placeholder")) {
+		PHALCON_INIT_NVAR(value);
+		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY_CC);
+	
+		RETURN_CCTOR(value);
 	}
 	
 	/** 
@@ -471,7 +541,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 	}
 	
 	PHALCON_INIT_VAR(escape_char);
-	ZVAL_STRING(escape_char, "`", 1);
+	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(columns);
 	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);

@@ -22,7 +22,6 @@ extern zend_class_entry *phalcon_db_dialect_sqlite_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite);
 
-PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnList);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn);
@@ -43,10 +42,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_getcolumnlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, columnList)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -151,7 +146,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_sqlite_tableoptions, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_db_dialect_sqlite_method_entry){
-	PHP_ME(Phalcon_Db_Dialect_Sqlite, getColumnList, arginfo_phalcon_db_dialect_sqlite_getcolumnlist, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, getColumnDefinition, arginfo_phalcon_db_dialect_sqlite_getcolumndefinition, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, addColumn, arginfo_phalcon_db_dialect_sqlite_addcolumn, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Sqlite, modifyColumn, arginfo_phalcon_db_dialect_sqlite_modifycolumn, ZEND_ACC_PUBLIC) 

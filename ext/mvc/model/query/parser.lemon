@@ -23,13 +23,14 @@
 %extra_argument {phql_parser_status *status}
 %name phql_
 
+%left BETWEEN .
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
 %left LIKE .
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS .
 %left IS .
-%right IN .
+%right IN DISTINCT .
 %right NOT .
 
 %include {
@@ -1080,6 +1081,14 @@ expr(R) ::= expr(E) IS NULL . {
 
 expr(R) ::= expr(E) IS NOT NULL . {
 	R = phql_ret_expr(PHQL_T_ISNOTNULL, E, NULL);
+}
+
+expr(R) ::= DISTINCT expr(E) . {
+	R = phql_ret_expr(PHQL_T_DISTINCT, NULL, E);
+}
+
+expr(R) ::= expr(E) BETWEEN expr(L) . {
+	R = phql_ret_expr(PHQL_T_BETWEEN, E, L);
 }
 
 expr(R) ::= NOT expr(E) . {

@@ -243,6 +243,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'DISTINCT' {
+			token->opcode = PHQL_T_DISTINCT;
+			return 0;
+		}
+
+		'BETWEEN' {
+			token->opcode = PHQL_T_BETWEEN;
+			return 0;
+		}
+
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHQL_T_STRING;

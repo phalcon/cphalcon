@@ -125,42 +125,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 }
 
 /**
- * Escapes a column/table/schema name
- *
- * @param string $identifier
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, escapeIdentifier){
-
-	zval *identifier, *domain, *name, *escaped = NULL;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(domain);
-		phalcon_array_fetch_long(&domain, identifier, 0, PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(name);
-		phalcon_array_fetch_long(&name, identifier, 1, PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(escaped);
-		PHALCON_CONCAT_SVSVS(escaped, "\"", domain, "\".\"", name, "\"");
-	
-		RETURN_CTOR(escaped);
-	}
-	
-	PHALCON_INIT_NVAR(escaped);
-	PHALCON_CONCAT_SVS(escaped, "\"", identifier, "\"");
-	
-	RETURN_CTOR(escaped);
-}
-
-/**
  * Returns an array of Phalcon\Db\Column objects describing a table
  *
  * <code>print_r($connection->describeColumns("posts")); ?></code>

@@ -75,6 +75,8 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_FULL,          "FULL" },
   { PHQL_T_ASC,           "ASC" },
   { PHQL_T_DESC,          "DESC" },
+  { PHQL_T_BETWEEN,       "BETWEEN" },
+  { PHQL_T_DISTINCT,      "DISTINCT" },
   {  0, NULL }
 };
 
@@ -320,6 +322,12 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				break;
 			case PHQL_T_NULL:
 				phql_(phql_parser, PHQL_NULL, NULL, parser_status);
+				break;
+			case PHQL_T_BETWEEN:
+				phql_(phql_parser, PHQL_BETWEEN, NULL, parser_status);
+				break;
+			case PHQL_T_DISTINCT:
+				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
 				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;

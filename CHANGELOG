@@ -16,6 +16,7 @@
  - Added a $merge parameter to Phalcon\Mvc\Application::registerModules to merge new modules with current ones
  - Phalcon\Mvc\Application now allows to register a module using an anonymous function
  - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
+ - Support for COUNT(DISTINCT x) syntax in PHQL
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

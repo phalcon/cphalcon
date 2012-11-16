@@ -33,12 +33,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/concat.h"
-#include "kernel/array.h"
-#include "kernel/fcall.h"
-#include "kernel/string.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/concat.h"
 
 /**
  * Phalcon\Db\Dialect\Postgresql
@@ -54,63 +52,11 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Dialect, Postgresql, db_dialect_postgresql, "phalcon\\db\\dialect", phalcon_db_dialect_postgresql_method_entry, 0);
 
+	zend_declare_property_string(phalcon_db_dialect_postgresql_ce, SL("_escapeChar"), "\"", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_class_implements(phalcon_db_dialect_postgresql_ce TSRMLS_CC, 1, phalcon_db_dialectinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Gets a list of columns
- *
- * @param array $columnList
- * @return string
- */
-PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnList){
-
-	zval *column_list, *str_list, *column = NULL, *column_quoted = NULL;
-	zval *joined_list;
-	HashTable *ah0;
-	HashPosition hp0;
-	zval **hd;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &column_list) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
-	}
-
-	PHALCON_INIT_VAR(str_list);
-	array_init(str_list);
-	
-	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(column_list);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
-		}
-	
-		PHALCON_GET_FOREACH_VALUE(column);
-	
-		PHALCON_INIT_NVAR(column_quoted);
-		PHALCON_CONCAT_SVS(column_quoted, "\"", column, "\"");
-		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
-	
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
-	
-	ph_cycle_end_0:
-	
-	PHALCON_INIT_VAR(joined_list);
-	phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
-	
-	RETURN_CTOR(joined_list);
 }
 
 /**

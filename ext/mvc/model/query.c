@@ -85,6 +85,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlAliasesModels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlAliasesModelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlColumnAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_modelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_query_ce TSRMLS_CC, 2, phalcon_mvc_model_queryinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -176,12 +177,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 
-	zval *expr, *meta_data, *column_name, *column_domain;
+	zval *expr, *column_name, *sql_column_aliases;
+	zval *source_column = NULL, *meta_data, *column_domain;
 	zval *sql_aliases, *exception_message = NULL, *source = NULL;
 	zval *sql_aliases_models_instances, *model = NULL;
 	zval *column_map = NULL, *real_column_name = NULL, *one, *number;
 	zval *has_model = NULL, *models_instances, *has_attribute = NULL;
-	zval *ambiguity = NULL, *class_name, *models, *source_column;
+	zval *ambiguity = NULL, *class_name, *models;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -194,14 +196,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		RETURN_NULL();
 	}
 
+	PHALCON_INIT_VAR(column_name);
+	phalcon_array_fetch_string(&column_name, expr, SL("name"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if the qualified name is a column alias
+	 */
+	PHALCON_INIT_VAR(sql_column_aliases);
+	phalcon_read_property(&sql_column_aliases, this_ptr, SL("_sqlColumnAliases"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(sql_column_aliases, column_name);
+	if (eval_int) {
+		PHALCON_INIT_VAR(source_column);
+		array_init(source_column);
+		add_assoc_stringl_ex(source_column, SS("type"), SL("qualified"), 1);
+		phalcon_array_update_string(&source_column, SL("name"), &column_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+		RETURN_CTOR(source_column);
+	}
+	
 	PHALCON_INIT_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	/** 
-	 * In a qualified name we need to replace
+	 * Check if the qualified name has a domain
 	 */
-	PHALCON_INIT_VAR(column_name);
-	phalcon_array_fetch_string(&column_name, expr, SL("name"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset_string(expr, SS("domain"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(column_domain);
@@ -363,7 +381,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 	/** 
 	 * Create an array with the qualified info
 	 */
-	PHALCON_INIT_VAR(source_column);
+	PHALCON_INIT_NVAR(source_column);
 	array_init(source_column);
 	add_assoc_stringl_ex(source_column, SS("type"), SL("qualified"), 1);
 	phalcon_array_update_string(&source_column, SL("domain"), &source, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -883,6 +901,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 			goto ph_end_0;
 		}
 	
+		if (phalcon_compare_strict_long(expr_type, 330 TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(expr_return);
+			array_init(expr_return);
+			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+			add_assoc_stringl_ex(expr_return, SS("op"), SL("DISTINCT "), 1);
+			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			goto ph_end_0;
+		}
+	
+		if (phalcon_compare_strict_long(expr_type, 331 TSRMLS_CC)) {
+			PHALCON_INIT_NVAR(expr_return);
+			array_init(expr_return);
+			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+			add_assoc_stringl_ex(expr_return, SS("op"), SL("BETWEEN"), 1);
+			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			goto ph_end_0;
+		}
+	
 		if (phalcon_compare_strict_long(expr_type, 350 TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(expr_return);
 			PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getfunctioncall", expr, PH_NO_CHECK);
@@ -890,7 +927,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		}
 	
 		PHALCON_INIT_VAR(expression_message);
-		PHALCON_CONCAT_SV(expression_message, "Unkown expression type ", expr_type);
+		PHALCON_CONCAT_SV(expression_message, "Unknown expression type ", expr_type);
 	
 		PHALCON_INIT_VAR(expression);
 		object_init_ex(expression, phalcon_mvc_model_exception_ce);
@@ -1806,11 +1843,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	zval *manager, *meta_data, *selected_model = NULL, *qualified_name = NULL;
 	zval *model_name = NULL, *model = NULL, *schema = NULL, *source = NULL, *complete_source = NULL;
 	zval *alias = NULL, *exception_message = NULL, *sql_joins = NULL;
-	zval *columns, *select_columns = NULL, *position, *column = NULL;
-	zval *sql_column_group = NULL, *sql_column = NULL, *type = NULL, *sql_select;
-	zval *where, *where_expr, *group_by, *sql_group;
-	zval *having, *having_expr, *order, *sql_order;
-	zval *limit;
+	zval *columns, *select_columns = NULL, *position, *sql_column_aliases;
+	zval *column = NULL, *sql_column_group = NULL, *sql_column = NULL;
+	zval *type = NULL, *sql_select, *where, *where_expr, *group_by;
+	zval *sql_group, *having, *having_expr, *order;
+	zval *sql_order, *limit;
 	zval *r0 = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
@@ -2018,8 +2055,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_CPY_WRT(select_columns, columns);
 	}
 	
+	/** 
+	 * Resolve selected columns
+	 */
 	PHALCON_INIT_VAR(position);
 	ZVAL_LONG(position, 0);
+	
+	PHALCON_INIT_VAR(sql_column_aliases);
+	array_init(sql_column_aliases);
 	
 	if (!phalcon_valid_foreach(select_columns TSRMLS_CC)) {
 		return;
@@ -2054,13 +2097,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 			PHALCON_GET_FOREACH_VALUE(sql_column);
 	
+			/** 
+			 * If 'alias' is set, the user has defined a alias for the column
+			 */
 			eval_int = phalcon_array_isset_string(column, SS("alias"));
 			if (eval_int) {
 				PHALCON_INIT_NVAR(alias);
 				phalcon_array_fetch_string(&alias, column, SL("alias"), PH_NOISY_CC);
 				phalcon_array_update_string(&sql_column, SL("balias"), &alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_zval_bool(&sql_column_aliases, alias, 1, PH_SEPARATE TSRMLS_CC);
 			} else {
+				/** 
+				 * 'balias' is the best alias selected for the column
+				 */
 				eval_int = phalcon_array_isset_string(sql_column, SS("balias"));
 				if (eval_int) {
 					PHALCON_INIT_NVAR(alias);
@@ -2092,6 +2142,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	
 	ph_cycle_end_1:
 	
+	phalcon_update_property_zval(this_ptr, SL("_sqlColumnAliases"), sql_column_aliases TSRMLS_CC);
+	
+	/** 
+	 * sql_select is the final prepared SELECT
+	 */
 	PHALCON_INIT_VAR(sql_select);
 	array_init(sql_select);
 	phalcon_array_update_string(&sql_select, SL("models"), &sql_models, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -3174,22 +3229,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 /**
  * Executes the INSERT intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
- * @param Phalcon\Mvc\Model\ManagerInterface $manager
- * @param Phalcon\Mvc\Model\MetadataInterface $metaData
  * @param array $intermediate
  * @param array $placeholders
  * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 
-	zval *manager, *meta_data, *intermediate, *placeholders;
-	zval *model_name, *model, *connection, *attributes;
-	zval *fields = NULL, *values, *number_fields, *number_values;
-	zval *not_equal, *double_colon, *empty_string;
-	zval *null_value, *not_exists, *insert_values;
-	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
-	zval *wildcard = NULL, *exception_message = NULL, *field_name = NULL;
-	zval *attribute = NULL, *insert_model, *success, *status;
+	zval *intermediate, *placeholders, *model_name;
+	zval *manager, *model, *connection, *meta_data;
+	zval *attributes, *fields = NULL, *values, *number_fields;
+	zval *number_values, *not_equal, *double_colon;
+	zval *empty_string, *null_value, *not_exists;
+	zval *insert_values, *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL;
+	zval *insert_value = NULL, *wildcard = NULL, *exception_message = NULL;
+	zval *field_name = NULL, *attribute = NULL, *insert_model;
+	zval *success, *status;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -3201,7 +3255,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzzz", &manager, &meta_data, &intermediate, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &intermediate, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -3209,11 +3263,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	PHALCON_INIT_VAR(model_name);
 	phalcon_array_fetch_string(&model_name, intermediate, SL("model"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(model);
 	PHALCON_CALL_METHOD_PARAMS_1(model, manager, "load", model_name, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, model, "getconnection", PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(meta_data);
+	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", model, PH_NO_CHECK);
@@ -3378,18 +3438,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
  * Executes the UPDATE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
  * @param array $intermediate
- * @param array $placeholders
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
-	zval *intermediate, *placeholders, *models, *model_name;
-	zval *manager, *model, *parameters, *where_conditions = NULL;
-	zval *records, *double_colon, *empty_string;
-	zval *fields, *values, *null_value, *record = NULL, *field = NULL;
-	zval *number = NULL, *value = NULL, *type = NULL, *expr_value = NULL, *update_value = NULL;
-	zval *wildcard = NULL, *exception_message = NULL, *success = NULL;
-	zval *status = NULL;
+	zval *intermediate, *bind_params, *bind_types;
+	zval *models, *model_name, *manager, *model, *parameters;
+	zval *where_conditions = NULL, *records, *double_colon;
+	zval *empty_string, *fields, *values, *null_value;
+	zval *record = NULL, *field = NULL, *number = NULL, *value = NULL, *type = NULL, *expr_value = NULL;
+	zval *update_value = NULL, *wildcard = NULL, *exception_message = NULL;
+	zval *success = NULL, *status = NULL;
 	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -3402,7 +3463,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &intermediate, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &intermediate, &bind_params, &bind_types) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -3435,8 +3496,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		PHALCON_INIT_NVAR(where_conditions);
 	}
 	
-	if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
-		phalcon_array_update_string(&parameters, SL("bind"), &placeholders, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+		phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
+	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
+		phalcon_array_update_string(&parameters, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(records);
@@ -3512,13 +3577,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 			}
 	
 			if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-				if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(wildcard);
 					phalcon_fast_str_replace(wildcard, double_colon, empty_string, expr_value TSRMLS_CC);
-					eval_int = phalcon_array_isset(placeholders, wildcard);
+					eval_int = phalcon_array_isset(bind_params, wildcard);
 					if (eval_int) {
 						PHALCON_INIT_NVAR(update_value);
-						phalcon_array_fetch(&update_value, placeholders, wildcard, PH_NOISY_CC);
+						phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
 					} else {
 						PHALCON_INIT_NVAR(exception_message);
 						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
@@ -3573,7 +3638,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
  * Executes the DELETE intermediate representation producing a Phalcon\Mvc\Model\Query\Status
  *
  * @param array $intermediate
- * @param array $placeholders
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return Phalcon\Mvc\Model\Query\StatusInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
