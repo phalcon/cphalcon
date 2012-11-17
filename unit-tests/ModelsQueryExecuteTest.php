@@ -60,7 +60,8 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
-	public function testExecuteMysql(){
+	public function testExecuteMysql()
+	{
 
 		$di = $this->_getDI();
 
@@ -76,7 +77,8 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testExecutePostgresql(){
+	public function testExecutePostgresql()
+	{
 
 		$di = $this->_getDI();
 

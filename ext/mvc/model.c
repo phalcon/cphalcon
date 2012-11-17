@@ -36,10 +36,10 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/string.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model
@@ -386,24 +386,14 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Model, setForceExists){
 
-	zval *force_exists, *force_exists_bool = NULL;
-	zval *r0 = NULL;
-
-	PHALCON_MM_GROW();
+	zval *force_exists;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &force_exists) == FAILURE) {
-		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(force_exists);
-	
-	PHALCON_INIT_VAR(r0);
-	phalcon_cast(r0, force_exists, IS_BOOL);
-	PHALCON_CPY_WRT(force_exists_bool, r0);
 	phalcon_update_property_zval(this_ptr, SL("_forceExists"), force_exists TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -808,6 +798,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 /**
  * Create a criteria for a especific model
  *
+ * @param Phalcon\DiInterface $dependencyInjector;
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model, query){
@@ -829,7 +820,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	
 	PHALCON_INIT_VAR(model_name);
 	PHALCON_CALL_FUNC(model_name, "get_called_class");
-	if (Z_TYPE_P(dependency_injector) == IS_NULL) {
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
 	}

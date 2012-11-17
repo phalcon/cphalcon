@@ -1921,7 +1921,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	/** 
-	 * Proccessing selected columns
+	 * Processing selected columns
 	 */
 	
 	if (!phalcon_valid_foreach(selected_models TSRMLS_CC)) {
@@ -2042,7 +2042,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccessing selected columns
+	 * Processing selected columns
 	 */
 	PHALCON_INIT_VAR(columns);
 	phalcon_array_fetch_string(&columns, select, SL("columns"), PH_NOISY_CC);
@@ -2157,7 +2157,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccess WHERE clause if any
+	 * Process WHERE clause if any
 	 */
 	eval_int = phalcon_array_isset_string(ast, SS("where"));
 	if (eval_int) {
@@ -2170,7 +2170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccess GROUP BY clause if any
+	 * Process GROUP BY clause if any
 	 */
 	eval_int = phalcon_array_isset_string(ast, SS("groupBy"));
 	if (eval_int) {
@@ -2183,7 +2183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccess HAVING clause if any
+	 * Process HAVING clause if any
 	 */
 	eval_int = phalcon_array_isset_string(ast, SS("having"));
 	if (eval_int) {
@@ -2196,7 +2196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccess ORDER BY clause if any
+	 * Process ORDER BY clause if any
 	 */
 	eval_int = phalcon_array_isset_string(ast, SS("orderBy"));
 	if (eval_int) {
@@ -2209,7 +2209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	}
 	
 	/** 
-	 * Proccess LIMIT clause if any
+	 * Process LIMIT clause if any
 	 */
 	eval_int = phalcon_array_isset_string(ast, SS("limit"));
 	if (eval_int) {
@@ -2814,11 +2814,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	zval *sql_column = NULL, *instance = NULL, *attributes = NULL, *column_map = NULL;
 	zval *attribute = NULL, *hidden_alias = NULL, *column_alias = NULL;
 	zval *sql_alias = NULL, *dialect, *sql_select, *processed = NULL;
-	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *result;
-	zval *count, *result_data = NULL, *cache, *result_object = NULL;
+	zval *value = NULL, *wildcard = NULL, *string_wildcard = NULL, *processed_types = NULL;
+	zval *result, *count, *result_data = NULL, *cache, *result_object = NULL;
 	zval *resultset = NULL;
-	HashTable *ah0, *ah1, *ah2, *ah3, *ah4;
-	HashPosition hp0, hp1, hp2, hp3, hp4;
+	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
+	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
 	char *hash_index;
 	uint hash_index_len;
@@ -2997,7 +2997,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	}
 	
 	/** 
-	 * Proccessing selected columns
+	 * Processing selected columns
 	 */
 	PHALCON_INIT_VAR(select_columns);
 	array_init(select_columns);
@@ -3183,10 +3183,51 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	}
 	
 	/** 
+	 * Replace the bind Types
+	 */
+	if (Z_TYPE_P(bind_types) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(processed_types);
+		array_init(processed_types);
+	
+		if (!phalcon_valid_foreach(bind_types TSRMLS_CC)) {
+			return;
+		}
+	
+		ah5 = Z_ARRVAL_P(bind_types);
+		zend_hash_internal_pointer_reset_ex(ah5, &hp5);
+	
+		ph_cycle_start_5:
+	
+			if (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) != SUCCESS) {
+				goto ph_cycle_end_5;
+			}
+	
+			PHALCON_GET_FOREACH_KEY(wildcard, ah5, hp5);
+			PHALCON_GET_FOREACH_VALUE(value);
+	
+			if (Z_TYPE_P(wildcard) == IS_LONG) {
+				PHALCON_INIT_NVAR(string_wildcard);
+				PHALCON_CONCAT_SV(string_wildcard, ":", wildcard);
+				phalcon_array_update_zval(&processed_types, string_wildcard, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_update_zval(&processed_types, wildcard, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
+	
+			zend_hash_move_forward_ex(ah5, &hp5);
+			goto ph_cycle_start_5;
+	
+		ph_cycle_end_5:
+		if(0){}
+	
+	} else {
+		PHALCON_CPY_WRT(processed_types, bind_types);
+	}
+	
+	/** 
 	 * Execute the query
 	 */
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql_select, processed, bind_types, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql_select, processed, processed_types, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(count);
 	PHALCON_CALL_METHOD_PARAMS_1(count, result, "numrows", result, PH_NO_CHECK);

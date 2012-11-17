@@ -85,9 +85,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Email){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 
-	zval *record, *option, *field_name, *regs, *invalid = NULL;
+	zval *record, *option = NULL, *field_name, *regs, *invalid = NULL;
 	zval *value, *pattern, *match_pattern, *match_zero;
-	zval *type, *message;
+	zval *message = NULL, *type;
 
 	PHALCON_MM_GROW();
 
@@ -114,6 +114,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
 	
+	/** 
+	 * We check if the email has a valid format using a regular expression
+	 */
 	PHALCON_INIT_VAR(pattern);
 	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
 	Z_SET_ISREF_P(regs);
@@ -131,11 +134,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	}
 	
 	if (PHALCON_IS_TRUE(invalid)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "email", 1);
+		/** 
+		 * Check if the developer has defined a custom message
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid e-mail format");
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		if (!zend_is_true(message)) {
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' must have a valid e-mail format");
+		}
+	
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "Email", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

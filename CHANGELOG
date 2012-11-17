@@ -17,6 +17,8 @@
  - Phalcon\Mvc\Application now allows to register a module using an anonymous function
  - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
  - Support for COUNT(DISTINCT x) syntax in PHQL
+ - Allowing user-defined messages in most Phalcon\Mvc\Model\Validators
+ - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it's available
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

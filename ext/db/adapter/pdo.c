@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
 	}
 
 	if (Z_TYPE_P(descriptor) != IS_ARRAY) { 
-		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "$descriptor must be an array");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The descriptor must be an array");
 		return;
 	}
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "connect", descriptor, PH_NO_CHECK);
