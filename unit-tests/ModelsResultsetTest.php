@@ -76,6 +76,16 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		});
 	}
 
+	protected function _prepareTestSqlite()
+	{
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+	}
+
 	public function testResultsetMysql()
 	{
 		$this->_prepareTestMysql();
@@ -88,6 +98,15 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	public function testResultsetPostgresql()
 	{
 		$this->_prepareTestPostgresql();
+
+		$robots = Robots::find(array('order' => 'id'));
+
+		$this->_applyTests($robots);
+	}
+
+	public function testResultsetSqlite()
+	{
+		$this->_prepareTestSqlite();
 
 		$robots = Robots::find(array('order' => 'id'));
 
@@ -156,6 +175,21 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSerializePostgresql()
+	{
+
+		$this->_prepareTestPostgresql();
+
+		$data = serialize(Robots::find(array('order' => 'id')));
+
+		$robots = unserialize($data);
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeSqlite()
 	{
 
 		$this->_prepareTestPostgresql();

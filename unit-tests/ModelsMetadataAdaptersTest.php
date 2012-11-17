@@ -62,6 +62,10 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			),
 			10 => array(),
 			11 => array()
+		),
+		'Robots' => array(
+			0 => null,
+			1 => null,
 		)
 	);
 

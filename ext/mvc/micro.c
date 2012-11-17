@@ -483,11 +483,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 /**
  * Handle the whole request
  *
+ * @param string $uri
  * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro, handle){
 
-	zval *dependency_injector, *events_manager = NULL;
+	zval *uri = NULL, *dependency_injector, *events_manager = NULL;
 	zval *event_name = NULL, *status = NULL, *service, *router, *matched_route;
 	zval *handlers, *route_id, *handler = NULL, *params, *returned_value = NULL;
 	zval *not_found_handler;
@@ -496,6 +497,15 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!uri) {
+		PHALCON_INIT_NVAR(uri);
+	}
+	
 	PHALCON_INIT_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -503,6 +513,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		return;
 	}
 	
+	/** 
+	 * Calling beforeHandle routing
+	 */
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -517,13 +530,19 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		}
 	}
 	
+	/** 
+	 * Handling routing information
+	 */
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "router", 1);
 	
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service, PH_NO_CHECK);
-	PHALCON_CALL_METHOD_NORETURN(router, "handle", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri, PH_NO_CHECK);
 	
+	/** 
+	 * Check if one route was matched
+	 */
 	PHALCON_INIT_VAR(matched_route);
 	PHALCON_CALL_METHOD(matched_route, router, "getmatchedroute", PH_NO_CHECK);
 	if (Z_TYPE_P(matched_route) == IS_OBJECT) {
@@ -538,9 +557,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			return;
 		}
 	
+		/** 
+		 * Updating active handler
+		 */
 		PHALCON_INIT_VAR(handler);
 		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
+	
+		/** 
+		 * Calling beforeExecuteRoute event
+		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:beforeExecuteRoute", 1);
@@ -556,17 +582,27 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			}
 		}
 	
+		/** 
+		 * Calling the Handler in the PHP userland
+		 */
 		PHALCON_INIT_VAR(params);
 		PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
 	
 		PHALCON_INIT_VAR(returned_value);
 		PHALCON_CALL_USER_FUNC_ARRAY(returned_value, handler, params);
+	
+		/** 
+		 * Calling afterExecuteRoute event
+		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
 		}
 	} else {
+		/** 
+		 * Calling beforeNotFound event
+		 */
 		PHALCON_INIT_NVAR(events_manager);
 		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -581,6 +617,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			}
 		}
 	
+		/** 
+		 * Check if a notfoundhandler is defined and it's callable
+		 */
 		PHALCON_INIT_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 	
@@ -597,6 +636,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		RETURN_CCTOR(returned_value);
 	}
 	
+	/** 
+	 * Calling afterHandleRoute event
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "micro:afterHandleRoute", 1);
