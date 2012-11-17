@@ -690,6 +690,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 					PHALCON_CALL_METHOD_PARAMS_1(value, pdo, "quote", bind_value, PH_NO_CHECK);
 				}
 	
+				/** 
+				 * Handle long parameters as numeric placeholders: ?0, ?1
+				 */
 				if (Z_TYPE_P(index) == IS_LONG) {
 					PHALCON_INIT_NVAR(place_key);
 					PHALCON_CONCAT_SV(place_key, "?", index);
@@ -698,6 +701,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
 					PHALCON_CPY_WRT(sql, replaced_sql);
 				} else {
+					/** 
+					 * Handle long parameters as string placeholders: :name:, :other:
+					 */
 					if (Z_TYPE_P(index) == IS_STRING) {
 						PHALCON_INIT_NVAR(place_key);
 						PHALCON_CONCAT_SVS(place_key, ":", index, ":");
@@ -725,7 +731,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 }
 
 /**
- * Converts bound params like :name: or ?1 into ? bind params
+ * Converts bound params such as :name: or ?1 into PDO bind params ?
  *
  * @param string $sql
  * @param array $params
@@ -1010,6 +1016,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(fetch_assoc);
 	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
 	
+	/** 
+	 * Get the SQL required to describe indexes from the Dialect
+	 */
 	PHALCON_INIT_VAR(sql);
 	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describeindexes", table, schema, PH_NO_CHECK);
 	

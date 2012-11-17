@@ -1027,8 +1027,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 
 	zval *function, *alias, *parameters, *params = NULL, *group_column = NULL;
 	zval *distinct_column, *columns = NULL, *group_columns;
-	zval *model_name, *builder, *query, *resultset;
-	zval *number_rows, *first_row, *value;
+	zval *model_name, *builder, *query, *bind_params = NULL;
+	zval *bind_types = NULL, *resultset, *number_rows, *first_row;
+	zval *value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -1098,8 +1099,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
 	
+	/** 
+	 * Check for bind parameters
+	 */
+	PHALCON_INIT_VAR(bind_params);
+	
+	PHALCON_INIT_VAR(bind_types);
+	eval_int = phalcon_array_isset_string(params, SS("bind"));
+	if (eval_int) {
+		phalcon_array_fetch_string(&bind_params, params, SL("bind"), PH_NOISY_CC);
+		eval_int = phalcon_array_isset_string(params, SS("bindTypes"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY_CC);
+		}
+	}
+	
 	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_METHOD(resultset, query, "execute", PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types, PH_NO_CHECK);
 	eval_int = phalcon_array_isset_string(params, SS("group"));
 	if (eval_int) {
 		/** 
@@ -1676,11 +1692,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	zval *dependency_injector, *disable_events;
 	zval *service, *manager, *belongs_to, *error = NULL, *relation = NULL;
 	zval *options = NULL, *foreign_key = NULL, *conditions = NULL, *relation_class = NULL;
-	zval *referenced_model = NULL, *fields = NULL, *referenced_fields = NULL;
-	zval *field = NULL, *n = NULL, *value = NULL, *referenced_field = NULL, *condition = NULL;
-	zval *extra_conditions = NULL, *connection_service = NULL;
-	zval *join_conditions = NULL, *rowcount = NULL, *user_message = NULL;
-	zval *joined_fields = NULL, *type = NULL, *message = NULL, *event_name;
+	zval *referenced_model = NULL, *bind_params = NULL, *fields = NULL;
+	zval *position = NULL, *referenced_fields = NULL, *field = NULL, *n = NULL;
+	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *extra_conditions = NULL;
+	zval *join_conditions = NULL, *parameters = NULL, *rowcount = NULL;
+	zval *user_message = NULL, *joined_fields = NULL, *type = NULL, *message = NULL;
+	zval *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -1709,6 +1726,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
+	/** 
+	 * We check if some of the belongsTo relations is a foreign key
+	 */
 	PHALCON_INIT_VAR(belongs_to);
 	PHALCON_CALL_METHOD_PARAMS_1(belongs_to, manager, "getbelongsto", this_ptr, PH_NO_CHECK);
 	if (phalcon_fast_count_ev(belongs_to TSRMLS_CC)) {
@@ -1751,9 +1771,19 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 							object_init_ex(referenced_model, ce0);
 							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "__construct", dependency_injector, PH_CHECK);
 	
+							/** 
+							 * Since relations can have multiple columns or a single one, we need to build a
+							 * condition for each of these cases
+							 */
+							PHALCON_INIT_NVAR(bind_params);
+							array_init(bind_params);
+	
 							PHALCON_INIT_NVAR(fields);
 							phalcon_array_fetch_string(&fields, relation, SL("fi"), PH_NOISY_CC);
 							if (Z_TYPE_P(fields) == IS_ARRAY) { 
+								PHALCON_INIT_NVAR(position);
+								ZVAL_LONG(position, 0);
+	
 								PHALCON_INIT_NVAR(referenced_fields);
 								phalcon_array_fetch_string(&referenced_fields, relation, SL("rf"), PH_NOISY_CC);
 	
@@ -1780,8 +1810,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 									phalcon_array_fetch(&referenced_field, referenced_fields, n, PH_NOISY_CC);
 	
 									PHALCON_INIT_NVAR(condition);
-									PHALCON_CONCAT_VSVS(condition, referenced_field, " = '", value, "'");
+									PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", position);
 									phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
+									phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+									PHALCON_SEPARATE(position);
+									increment_function(position);
 	
 									zend_hash_move_forward_ex(ah1, &hp1);
 									goto ph_cycle_start_1;
@@ -1800,10 +1833,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 								phalcon_array_fetch_string(&referenced_field, relation, SL("rf"), PH_NOISY_CC);
 	
 								PHALCON_INIT_NVAR(condition);
-								PHALCON_CONCAT_VSVS(condition, referenced_field, " = '", value, "'");
+								PHALCON_CONCAT_VS(condition, referenced_field, " = ?0");
 								phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
+								phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
 							}
 	
+							/** 
+							 * Check if the virtual foreign key has extra conditions
+							 */
 							eval_int = phalcon_array_isset_string(foreign_key, SS("conditions"));
 							if (eval_int) {
 								PHALCON_INIT_NVAR(extra_conditions);
@@ -1811,15 +1848,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 								phalcon_array_append(&conditions, extra_conditions, PH_SEPARATE TSRMLS_CC);
 							}
 	
-							PHALCON_INIT_NVAR(connection_service);
-							PHALCON_CALL_METHOD(connection_service, this_ptr, "getconnectionservice", PH_NO_CHECK);
-							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "setconnectionservice", connection_service, PH_NO_CHECK);
-	
+							/** 
+							 * We don't trust the actual values in the object and pass the values using bound
+							 * parameters
+							 */
 							PHALCON_INIT_NVAR(join_conditions);
 							phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 	
+							PHALCON_INIT_NVAR(parameters);
+							array_init(parameters);
+							phalcon_array_append(&parameters, join_conditions, PH_SEPARATE TSRMLS_CC);
+							phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+							/** 
+							 * Let's make the checking
+							 */
 							PHALCON_INIT_NVAR(rowcount);
-							PHALCON_CALL_METHOD_PARAMS_1(rowcount, referenced_model, "count", join_conditions, PH_NO_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_1(rowcount, referenced_model, "count", parameters, PH_NO_CHECK);
 							if (!zend_is_true(rowcount)) {
 								eval_int = phalcon_array_isset_string(foreign_key, SS("message"));
 								if (eval_int) {
@@ -1887,10 +1932,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	zval *service, *manager, *relations, *error = NULL, *relation = NULL;
 	zval *options = NULL, *foreign_key = NULL, *fields = NULL, *referenced_name = NULL;
 	zval *referenced_fields = NULL, *referenced_model = NULL;
-	zval *conditions = NULL, *field = NULL, *n = NULL, *value = NULL, *referenced_field = NULL;
-	zval *condition = NULL, *extra_conditions = NULL, *connection_service = NULL;
-	zval *join_conditions = NULL, *rowcount = NULL, *user_message = NULL;
-	zval *type = NULL, *message = NULL, *event_name;
+	zval *conditions = NULL, *bind_params = NULL, *position = NULL, *field = NULL;
+	zval *n = NULL, *value = NULL, *referenced_field = NULL, *condition = NULL;
+	zval *extra_conditions = NULL, *join_conditions = NULL;
+	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *type = NULL;
+	zval *message = NULL, *event_name;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -1899,7 +1945,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	ulong hash_num;
 	int hash_type;
 	int eval_int;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -1919,6 +1964,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
+	/** 
+	 * We check if some of the hasOne/hasMany relations is a foreign key
+	 */
 	PHALCON_INIT_VAR(relations);
 	PHALCON_CALL_METHOD_PARAMS_1(relations, manager, "gethasoneandhasmany", this_ptr, PH_NO_CHECK);
 	if (phalcon_fast_count_ev(relations TSRMLS_CC)) {
@@ -1958,15 +2006,21 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	
 							PHALCON_INIT_NVAR(referenced_fields);
 							phalcon_array_fetch_string(&referenced_fields, relation, SL("rf"), PH_NOISY_CC);
-							ce0 = phalcon_fetch_class(referenced_name TSRMLS_CC);
 	
 							PHALCON_INIT_NVAR(referenced_model);
-							object_init_ex(referenced_model, ce0);
-							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "__construct", dependency_injector, PH_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", referenced_name, PH_NO_CHECK);
 	
+							/** 
+							 * Create the checking conditions. A relation can has many fields or a single one
+							 */
 							PHALCON_INIT_NVAR(conditions);
 							array_init(conditions);
+	
+							PHALCON_INIT_NVAR(bind_params);
+							array_init(bind_params);
 							if (Z_TYPE_P(fields) == IS_ARRAY) { 
+								PHALCON_INIT_NVAR(position);
+								ZVAL_LONG(position, 0);
 	
 								if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
 									return;
@@ -1996,8 +2050,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 									phalcon_array_fetch(&referenced_field, referenced_fields, n, PH_NOISY_CC);
 	
 									PHALCON_INIT_NVAR(condition);
-									PHALCON_CONCAT_VSVS(condition, referenced_field, " = '", value, "'");
+									PHALCON_CONCAT_VSV(condition, referenced_field, " = ?", position);
 									phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
+									phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+									PHALCON_SEPARATE(position);
+									increment_function(position);
 	
 									zend_hash_move_forward_ex(ah1, &hp1);
 									goto ph_cycle_start_1;
@@ -2015,10 +2072,14 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 								}
 	
 								PHALCON_INIT_NVAR(condition);
-								PHALCON_CONCAT_VSVS(condition, referenced_fields, " = '", value, "'");
+								PHALCON_CONCAT_VS(condition, referenced_fields, " = ?0");
 								phalcon_array_append(&conditions, condition, PH_SEPARATE TSRMLS_CC);
+								phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
 							}
 	
+							/** 
+							 * Check if the virtual foreign key has extra conditions
+							 */
 							eval_int = phalcon_array_isset_string(foreign_key, SS("conditions"));
 							if (eval_int) {
 								PHALCON_INIT_NVAR(extra_conditions);
@@ -2026,15 +2087,23 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 								phalcon_array_append(&conditions, extra_conditions, PH_SEPARATE TSRMLS_CC);
 							}
 	
-							PHALCON_INIT_NVAR(connection_service);
-							PHALCON_CALL_METHOD(connection_service, this_ptr, "getconnectionservice", PH_NO_CHECK);
-							PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "setconnectionservice", connection_service, PH_NO_CHECK);
-	
+							/** 
+							 * We don't trust the actual values in the object and then we're passing the values
+							 * using bound parameters
+							 */
 							PHALCON_INIT_NVAR(join_conditions);
 							phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 	
+							PHALCON_INIT_NVAR(parameters);
+							array_init(parameters);
+							phalcon_array_append(&parameters, join_conditions, PH_SEPARATE TSRMLS_CC);
+							phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+							/** 
+							 * Let's make the checking
+							 */
 							PHALCON_INIT_NVAR(rowcount);
-							PHALCON_CALL_METHOD_PARAMS_1(rowcount, referenced_model, "count", join_conditions, PH_NO_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_1(rowcount, referenced_model, "count", parameters, PH_NO_CHECK);
 							if (zend_is_true(rowcount)) {
 								eval_int = phalcon_array_isset_string(foreign_key, SS("message"));
 								if (eval_int) {
@@ -2246,7 +2315,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	
 				PHALCON_INIT_NVAR(model_message);
 				object_init_ex(model_message, phalcon_mvc_model_message_ce);
-				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(model_message, "__construct", message, field, type, PH_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(model_message, "__construct", message, attribute_field, type, PH_CHECK);
 	
 				PHALCON_INIT_NVAR(t0);
 				phalcon_read_property(&t0, this_ptr, SL("_errorMessages"), PH_NOISY_CC);
@@ -2959,7 +3028,8 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 PHP_METHOD(Phalcon_Mvc_Model, create){
 
 	zval *data = NULL, *dependency_injector, *service, *meta_data;
-	zval *attributes, *attribute = NULL, *value = NULL, *possible_setter = NULL;
+	zval *column_map, *attributes, *attribute = NULL, *attribute_field = NULL;
+	zval *exception_message = NULL, *value = NULL, *possible_setter = NULL;
 	zval *connection, *exists, *field, *type, *message;
 	zval *model_message, *messages, *success;
 	HashTable *ah0;
@@ -3000,6 +3070,9 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	 */
 	if (Z_TYPE_P(data) != IS_NULL) {
 		if (Z_TYPE_P(data) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr, PH_NO_CHECK);
+	
 			PHALCON_INIT_VAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
 	
@@ -3018,17 +3091,31 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	
 				PHALCON_GET_FOREACH_VALUE(attribute);
 	
-				eval_int = phalcon_array_isset(data, attribute);
+				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+					eval_int = phalcon_array_isset(column_map, attribute);
+					if (eval_int) {
+						PHALCON_INIT_NVAR(attribute_field);
+						phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Column '", attribute, "\" isn't part of the column map");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_CPY_WRT(attribute_field, attribute);
+				}
+				eval_int = phalcon_array_isset(data, attribute_field);
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
-					phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+					phalcon_array_fetch(&value, data, attribute_field, PH_NOISY_CC);
 	
 					PHALCON_INIT_NVAR(possible_setter);
-					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 					if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
 						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, Z_STRVAL_P(possible_setter), value, PH_NO_CHECK);
 					} else {
-						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+						phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 					}
 				}
 	
@@ -3100,10 +3187,11 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 PHP_METHOD(Phalcon_Mvc_Model, update){
 
 	zval *data = NULL, *meta_data = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *attributes, *attribute = NULL, *value = NULL;
-	zval *possible_setter = NULL, *force_exists, *connection;
-	zval *exists, *field, *type, *message, *model_message;
-	zval *messages, *success;
+	zval *service = NULL, *column_map, *attributes, *attribute = NULL;
+	zval *attribute_field = NULL, *exception_message = NULL;
+	zval *value = NULL, *possible_setter = NULL, *force_exists;
+	zval *connection, *exists, *field, *type, *message;
+	zval *model_message, *messages, *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3143,6 +3231,9 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 				return;
 			}
 	
+			PHALCON_INIT_VAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr, PH_NO_CHECK);
+	
 			PHALCON_INIT_VAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr, PH_NO_CHECK);
 	
@@ -3161,17 +3252,31 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	
 				PHALCON_GET_FOREACH_VALUE(attribute);
 	
-				eval_int = phalcon_array_isset(data, attribute);
+				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+					eval_int = phalcon_array_isset(column_map, attribute);
+					if (eval_int) {
+						PHALCON_INIT_NVAR(attribute_field);
+						phalcon_array_fetch(&attribute_field, column_map, attribute, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Column '", attribute, "\" isn't part of the column map");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_CPY_WRT(attribute_field, attribute);
+				}
+				eval_int = phalcon_array_isset(data, attribute_field);
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
-					phalcon_array_fetch(&value, data, attribute, PH_NOISY_CC);
+					phalcon_array_fetch(&value, data, attribute_field, PH_NOISY_CC);
 	
 					PHALCON_INIT_NVAR(possible_setter);
-					PHALCON_CONCAT_SV(possible_setter, "set", attribute);
+					PHALCON_CONCAT_SV(possible_setter, "set", attribute_field);
 					if (phalcon_method_exists(this_ptr, possible_setter TSRMLS_CC) == SUCCESS) {
 						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, Z_STRVAL_P(possible_setter), value, PH_NO_CHECK);
 					} else {
-						phalcon_update_property_zval_zval(this_ptr, attribute, value TSRMLS_CC);
+						phalcon_update_property_zval_zval(this_ptr, attribute_field, value TSRMLS_CC);
 					}
 				}
 	
