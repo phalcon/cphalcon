@@ -66,7 +66,8 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
 	public function testModelsPostgresql()
@@ -79,7 +80,8 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
 	public function testModelsSQLite()
@@ -92,11 +94,11 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\SQLite($configSqlite);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
-
-	protected function _executeTests($di)
+	protected function _executeTestsNormal($di)
 	{
 
 		$personas = Personas::query()->where("estado='I'")->execute();
@@ -108,7 +110,10 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($personas), count($people));
 
 		$personas = Personas::query()->where("estado='A'")->order("nombres")->execute();
-		$people = People::find(array("estado='A'", "order" => "nombres"));
+		$people = People::find(array(
+			"estado='A'",
+			"order" => "nombres"
+		));
 		$this->assertEquals(count($personas), count($people));
 
 		$somePersona = $personas->getFirst();
@@ -116,7 +121,11 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
 		$personas = Personas::query()->where("estado='A'")->order("nombres")->limit(100)->execute();
-		$people = People::find(array("estado='A'", "order" => "nombres", "limit" => 100));
+		$people = People::find(array(
+			"estado='A'",
+			"order" => "nombres",
+			"limit" => 100
+		));
 		$this->assertEquals(count($personas), count($people));
 
 		$somePersona = $personas->getFirst();
@@ -127,8 +136,15 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			->where("estado=?1")
 			->bind(array(1 => "A"))
 			->order("nombres")
-			->limit(100)->execute();
-		$people = People::find(array("estado=?1", "bind" => array(1 => "A"), "order" => "nombres", "limit" => 100));
+			->limit(100)
+			->execute();
+
+		$people = People::find(array(
+			"estado=?1",
+			"bind" => array(1 => "A"),
+			"order" => "nombres",
+			"limit" => 100
+		));
 		$this->assertEquals(count($personas), count($people));
 
 		$somePersona = $personas->getFirst();
@@ -140,7 +156,13 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 			->bind(array("estado" => "A"))
 			->order("nombres")
 			->limit(100)->execute();
-		$people = People::find(array("estado=:estado:", "bind" => array("estado" => "A"), "order" => "nombres", "limit" => 100));
+
+		$people = People::find(array(
+			"estado=:estado:",
+			"bind" => array("estado" => "A"),
+			"order" => "nombres",
+			"limit" => 100
+		));
 		$this->assertEquals(count($personas), count($people));
 
 		$somePersona = $personas->getFirst();
@@ -149,5 +171,68 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	protected function _executeTestsRenamed($di)
+	{
+
+		$personers = Personers::query()
+			->where("status='I'")
+			->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$personers = Personers::query()
+			->conditions("status='I'")
+			->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$personers = Personers::query()
+			->where("status='A'")
+			->order("navnes")
+			->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$somePersoner = $personers->getFirst();
+		$this->assertTrue(is_object($somePersoner));
+		$this->assertEquals(get_class($somePersoner), 'Personers');
+
+		$personers  = Personers::query()
+			->where("status='A'")
+			->order("navnes")
+			->limit(100)
+			->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$somePersoner = $personers->getFirst();
+		$this->assertTrue(is_object($somePersoner));
+		$this->assertEquals(get_class($somePersoner), 'Personers');
+
+		$personers = Personers::query()
+			->where("status=?1")
+			->bind(array(1 => "A"))
+			->order("navnes")
+			->limit(100)
+			->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$somePersoner = $personers->getFirst();
+		$this->assertTrue(is_object($somePersoner));
+		$this->assertEquals(get_class($somePersoner), 'Personers');
+
+		$personers = Personers::query()
+			->where("status=:status:")
+			->bind(array("status" => "A"))
+			->order("navnes")
+			->limit(100)->execute();
+		$this->assertTrue(is_object($personers));
+		$this->assertEquals(get_class($personers), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$somePersoner = $personers->getFirst();
+		$this->assertTrue(is_object($somePersoner));
+		$this->assertEquals(get_class($somePersoner), 'Personers');
+	}
 
 }
