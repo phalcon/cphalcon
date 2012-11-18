@@ -717,21 +717,28 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
 PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
 	zval *scheme, *server_name, *name, *server_port;
-	zval *port = NULL, *http, *is_std_http, *https, *secure_port;
-	zval *is_secure_http, *is_http_normal, *name_port;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *port, *http, *standard_port, *is_std_name;
+	zval *is_std_port, *is_std_http, *https, *secure_port;
+	zval *is_secure_scheme, *is_secure_port, *is_secure_http;
+	zval *name_port;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(scheme);
 	PHALCON_CALL_METHOD(scheme, this_ptr, "getscheme", PH_NO_CHECK);
 	
+	/** 
+	 * Get the server name from _SERVER['HTTP_SERVER_NAME']
+	 */
 	PHALCON_INIT_VAR(server_name);
 	ZVAL_STRING(server_name, "HTTP_SERVER_NAME", 1);
 	
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD_PARAMS_1(name, this_ptr, "getserver", server_name, PH_NO_CHECK);
 	
+	/** 
+	 * Get the server port from _SERVER['HTTP_SERVER_PORT']
+	 */
 	PHALCON_INIT_VAR(server_port);
 	ZVAL_STRING(server_port, "HTTP_SERVER_PORT", 1);
 	
@@ -741,17 +748,20 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(http);
 	ZVAL_STRING(http, "http", 1);
 	
-	PHALCON_INIT_NVAR(port);
-	ZVAL_LONG(port, 80);
+	PHALCON_INIT_VAR(standard_port);
+	ZVAL_LONG(standard_port, 80);
 	
-	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, scheme, http TSRMLS_CC);
+	/** 
+	 * Check if the request is a standard http
+	 */
+	PHALCON_INIT_VAR(is_std_name);
+	is_equal_function(is_std_name, scheme, http TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r1);
-	is_equal_function(r1, port, port TSRMLS_CC);
+	PHALCON_INIT_VAR(is_std_port);
+	is_equal_function(is_std_port, port, standard_port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_std_http);
-	phalcon_and_function(is_std_http, r0, r1);
+	phalcon_and_function(is_std_http, is_std_name, is_std_port);
 	
 	PHALCON_INIT_VAR(https);
 	ZVAL_STRING(https, "https", 1);
@@ -759,18 +769,30 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(secure_port);
 	ZVAL_LONG(secure_port, 443);
 	
-	PHALCON_INIT_VAR(r2);
-	is_equal_function(r2, scheme, https TSRMLS_CC);
+	/** 
+	 * Check if the request is a secure http request
+	 */
+	PHALCON_INIT_VAR(is_secure_scheme);
+	is_equal_function(is_secure_scheme, scheme, https TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r3);
-	is_equal_function(r3, port, secure_port TSRMLS_CC);
+	PHALCON_INIT_VAR(is_secure_port);
+	is_equal_function(is_secure_port, port, secure_port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_secure_http);
-	phalcon_and_function(is_secure_http, r2, r3);
+	phalcon_and_function(is_secure_http, is_secure_scheme, is_secure_port);
 	
-	PHALCON_INIT_VAR(is_http_normal);
-	ZVAL_BOOL(is_http_normal, zend_is_true(is_std_http) || zend_is_true(is_secure_http));
-	if (PHALCON_IS_TRUE(is_http_normal)) {
+	/** 
+	 * If is standard http we return the server name only
+	 */
+	if (PHALCON_IS_TRUE(is_std_http)) {
+	
+		RETURN_CCTOR(name);
+	}
+	
+	/** 
+	 * If is standard secure http we return the server name only
+	 */
+	if (PHALCON_IS_TRUE(is_secure_http)) {
 	
 		RETURN_CCTOR(name);
 	}

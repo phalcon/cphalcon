@@ -32,13 +32,13 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "kernel/exception.h"
 #include "kernel/file.h"
 #include "mvc/view/engine/volt/scanner.h"
 #include "mvc/view/engine/volt/volt.h"
@@ -68,18 +68,36 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	return SUCCESS;
 }
 
+/**
+ * Sets the dependency injector
+ *
+ * @param Phalcon\DiInterface $dependencyInjector
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI){
 
-	zval *di;
+	zval *dependency_injector;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &di) == FAILURE) {
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
+		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), di TSRMLS_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Dependency Injector is invalid");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the internal dependency injector
+ *
+ * @return Phalcon\DiInterface
+ */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI){
 
 
@@ -90,6 +108,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI){
  * Resolves function intermediate code into PHP function calls
  *
  * @param array $expr
+ * @param boolean $extendsMode
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 
@@ -220,7 +240,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall){
 /**
  * Resolves filter intermediate code into PHP function calls
  *
+ * @param array $filter
  * @param array $expr
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 
@@ -238,17 +260,28 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 	
 	PHALCON_INIT_VAR(type);
 	phalcon_array_fetch_string(&type, filter, SL("type"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if the filter is a single identifier
+	 */
 	if (phalcon_compare_strict_long(type, 355 TSRMLS_CC)) {
 		PHALCON_INIT_VAR(code);
 	
 		PHALCON_INIT_VAR(name);
 		phalcon_array_fetch_string(&name, filter, SL("name"), PH_NOISY_CC);
+	
+		/** 
+		 * 'length' uses the length method implemented in the Volt adapter
+		 */
 		if (PHALCON_COMPARE_STRING(name, "length")) {
 			PHALCON_CONCAT_SVS(code, "$this->length(", left, ")");
 	
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'e' filter uses the escaper component
+		 */
 		if (PHALCON_COMPARE_STRING(name, "e")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", left, ")");
@@ -256,6 +289,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'escape' filter uses the escaper component
+		 */
 		if (PHALCON_COMPARE_STRING(name, "escape")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", left, ")");
@@ -263,6 +299,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'trim' calls the "trim" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "trim")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "trim(", left, ")");
@@ -270,6 +309,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'striptags' calls the "striptags" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "striptags")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "striptags(", left, ")");
@@ -277,6 +319,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'slashes' calls the "addslashes" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "slashes")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "addslashes(", left, ")");
@@ -284,6 +329,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'stripslashes' calls the "stripslashes" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "stripslashes")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "stripslashes(", left, ")");
@@ -291,6 +339,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'nl2br' calls the "nl2br" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "nl2br")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "nl2br(", left, ")");
@@ -298,6 +349,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'lowercase' calls the "strtolower" function or "mb_strtolower" if the mbstring
+		 * extension is loaded
+		 */
 		if (PHALCON_COMPARE_STRING(name, "lowercase")) {
 			if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(code);
@@ -310,6 +365,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'uppercase' calls the "strtouppwer" function or "mb_strtoupper" if the mbstring
+		 * extension is loaded
+		 */
 		if (PHALCON_COMPARE_STRING(name, "uppercase")) {
 			if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_NVAR(code);
@@ -322,9 +381,22 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
 			ZVAL_BOOL(exists, 1);
 		}
 	
+		/** 
+		 * 'sort' calls the "asort" function in the PHP userland
+		 */
 		if (PHALCON_COMPARE_STRING(name, "sort")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "asort(", left, ")");
+	
+			ZVAL_BOOL(exists, 1);
+		}
+	
+		/** 
+		 * 'json_encode' calls the "json_encode" function in the PHP userland
+		 */
+		if (PHALCON_COMPARE_STRING(name, "json_encode")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "json_encode(", left, ")");
 	
 			ZVAL_BOOL(exists, 1);
 		}
@@ -352,6 +424,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter){
  * @param array $expr
  * @param bool $extendsMode
  * @param bool $prependDollar
+ * @return string
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression){
 
@@ -1051,6 +1124,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 		return;
 	}
 	
+	/** 
+	 * Always use file_get_contents instead of read the file directly, this respect the
+	 * open_basedir directive
+	 */
 	PHALCON_INIT_VAR(view_code);
 	PHALCON_CALL_FUNC_PARAMS_1(view_code, "file_get_contents", path);
 	
