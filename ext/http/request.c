@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Http\Request
@@ -812,6 +813,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 	zval *trust_forwarded_header = NULL, *server = NULL, *address = NULL;
+	zval *comma, *addresses, *first;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -830,6 +832,9 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(server, g0);
 	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
+		/** 
+		 * Proxies uses this IP
+		 */
 		eval_int = phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(address);
@@ -843,6 +848,22 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	if (eval_int) {
 		PHALCON_INIT_NVAR(address);
 		phalcon_array_fetch_string(&address, server, SL("REMOTE_ADDR"), PH_NOISY_CC);
+		if (phalcon_memnstr_str(address, SL(",") TSRMLS_CC)) {
+			/** 
+			 * The client address has multiples parts, only return the first part
+			 */
+			PHALCON_INIT_VAR(comma);
+			ZVAL_STRING(comma, ",", 1);
+	
+			PHALCON_INIT_VAR(addresses);
+			phalcon_fast_explode(addresses, comma, address TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(first);
+			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
+	
+			RETURN_CCTOR(first);
+		}
+	
 	
 		RETURN_CCTOR(address);
 	}
@@ -1144,8 +1165,8 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
  */
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
-	zval *super_files = NULL, *number_files, *files, *file = NULL;
-	zval *request_file = NULL, *empty_files;
+	zval *super_files = NULL, *files, *file = NULL, *request_file = NULL;
+	zval *empty_files;
 	zval *g0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1155,10 +1176,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	phalcon_get_global(&g0, SL("_FILES")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(super_files, g0);
-	
-	PHALCON_INIT_VAR(number_files);
-	phalcon_fast_count(number_files, super_files TSRMLS_CC);
-	if (zend_is_true(number_files)) {
+	if (phalcon_fast_count_ev(super_files TSRMLS_CC)) {
 		PHALCON_INIT_VAR(files);
 		array_init(files);
 	
