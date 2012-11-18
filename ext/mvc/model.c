@@ -2269,18 +2269,20 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			if (eval_int) {
 				PHALCON_INIT_NVAR(value);
 				phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
-				eval_int = phalcon_array_isset(data_type_numeric, field);
-				if (!eval_int) {
-					if (PHALCON_IS_EMPTY(value)) {
-						PHALCON_INIT_NVAR(is_null);
-						ZVAL_BOOL(is_null, 1);
-					}
-				} else {
-					PHALCON_INIT_NVAR(is_numeric);
-					PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
-					if (PHALCON_IS_FALSE(is_numeric)) {
-						PHALCON_INIT_NVAR(is_null);
-						ZVAL_BOOL(is_null, 1);
+				if (Z_TYPE_P(value) != IS_OBJECT) {
+					eval_int = phalcon_array_isset(data_type_numeric, field);
+					if (!eval_int) {
+						if (PHALCON_IS_EMPTY(value)) {
+							PHALCON_INIT_NVAR(is_null);
+							ZVAL_BOOL(is_null, 1);
+						}
+					} else {
+						PHALCON_INIT_NVAR(is_numeric);
+						PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
+						if (PHALCON_IS_FALSE(is_numeric)) {
+							PHALCON_INIT_NVAR(is_null);
+							ZVAL_BOOL(is_null, 1);
+						}
 					}
 				}
 			} else {
@@ -2290,6 +2292,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	
 			if (PHALCON_IS_TRUE(is_null)) {
 				if (PHALCON_IS_FALSE(exists)) {
+					/** 
+					 * The identity field can be null
+					 */
 					PHALCON_INIT_NVAR(is_identity_field);
 					is_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
 					if (PHALCON_IS_TRUE(is_identity_field)) {
@@ -2304,6 +2309,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 				PHALCON_INIT_NVAR(type);
 				ZVAL_STRING(type, "PresenceOf", 1);
 	
+				/** 
+				 * A implicit PresenceOf message is created
+				 */
 				PHALCON_INIT_NVAR(model_message);
 				object_init_ex(model_message, phalcon_mvc_model_message_ce);
 				PHALCON_CALL_METHOD_PARAMS_3_NORETURN(model_message, "__construct", message, attribute_field, type, PH_CHECK);

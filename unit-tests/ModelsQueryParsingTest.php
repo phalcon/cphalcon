@@ -6659,27 +6659,41 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$query = new Query('SELECT * FROM Robotters GROUP BY Robotters.theName, Robotters.code');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
-
-
 	}
 
-	/*public function testInsertParsing()
+	public function testInsertParsing()
 	{
 
 		$di = $this->_getDI();
-
-		$manager = $di->getShared('modelsManager');
 
 		$expected = array(
 			'model' => 'Robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 322, "value" => 'NULL'),
-				array("type" => 260, "value" => "some robot"),
-				array("type" => 258, "value" => "1945")
-			)
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots VALUES (NULL, 'some robot', 1945)");
+		$query = new Query('INSERT INTO Robots VALUES (NULL, \'some robot\', 1945)');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -6687,26 +6701,68 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'model' => 'robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 322, "value" => 'NULL'),
-				array("type" => 260, "value" => "some robot"),
-				array("type" => 258, "value" => "1945")
-			)
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
 		);
-		$query = new Query("insert into robots values (null, 'some robot', 1945)");
+		$query = new Query('insert into robots values (null, \'some robot\', 1945)');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'model' => 'Some\Products',
+			'model' => 'Some\\Products',
 			'table' => 'le_products',
 			'values' => array(
-				array("type" => 260, "value" => "Some name"),
-				array("type" => 259, "value" => "100.15"),
-				array("type" => 355, "value" => "current_date"),
-				array("type" => 350, "value" => "now()")
-			)
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'Some name',
+					),
+				),
+				array(
+					'type' => 259,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '100.15',
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'current_date',
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'now',
+					),
+				),
+			),
 		);
-		$query = new Query('INSERT INTO Some\Products VALUES ("Some name", 100.15, current_date, now())');
+		$query = new Query('INSERT INTO Some\\Products VALUES ("Some name", 100.15, current_date(), now())');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -6714,12 +6770,59 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'model' => 'Robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 356, "value" => '(1+1000*:le_id)'),
-				array("type" => 350, "value" => "CONCAT('some','robot')"),
-				array("type" => 258, "value" => "2011")
-			)
+				array(
+					'type' => 356,
+					'value' => array(
+						'type' => 'parentheses',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '*',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '1',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '1000',
+								),
+							),
+							'right' => array(
+								'type' => 'placeholder',
+								'value' => ':le_id',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'literal',
+								'value' => '\'some\'',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'robot\'',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '2011',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots VALUES ((1+1000*:le_id:), CONCAT('some', 'robot'), 2011)");
+		$query = new Query('INSERT INTO Robots VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -6727,19 +6830,195 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			'model' => 'Robots',
 			'table' => 'robots',
 			'fields' => array(
-				'name', 'type', 'year', 'status'
+				'name',
+				'type',
+				'year',
 			),
 			'values' => array(
-				array("type" => 260, "value" => "a name"),
-				array("type" => 260, "value" => "virtual"),
-				array("type" => 258, "value" => "2011"),
-				array("type" => 273, "value" => ":0")
-			)
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'a name',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'virtual',
+					),
+				),
+				array(
+					'type' => 273,
+					'value' => array(
+						'type' => 'placeholder',
+						'value' => ':0',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots (name, type, year, status) VALUES ('a name', 'virtual', 2011, ?0)");
+		$query = new Query('INSERT INTO Robots (name, type, year) VALUES (\'a name\', \'virtual\', ?0)');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters VALUES (NULL, \'some robot\', 1945)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
+		);
+		$query = new Query('insert into robotters values (null, \'some robot\', 1945)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 356,
+					'value' => array(
+						'type' => 'parentheses',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '*',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '1',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '1000',
+								),
+							),
+							'right' => array(
+								'type' => 'placeholder',
+								'value' => ':le_id',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'literal',
+								'value' => '\'some\'',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'robot\'',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '2011',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'fields' => array(
+				'theName',
+				'theType',
+				'theYear',
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'a name',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'virtual',
+					),
+				),
+				array(
+					'type' => 273,
+					'value' => array(
+						'type' => 'placeholder',
+						'value' => ':0',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters (theName, theType, theYear) VALUES (\'a name\', \'virtual\', ?0)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 	public function testUpdateParsing()
@@ -6747,178 +7026,597 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
-
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET name = 'some name'");
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name'");
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products'),
-			'fields' => array('le_products.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products SET Some\Products.name = "some name"');
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products p'),
-			'fields' => array('p.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products p SET p.name = "some name"');
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name', 'robots.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 258, "value" => "1990"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name', Robots.year = 1990");
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products p'),
-			'fields' => array('p.name', 'p.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 258, "value" => "1990"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products p SET p.name = "some name", p.year = 1990');
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name', 'robots.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 43, "value" => "YEAR(current_date)+robots.year"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name', Robots.year = YEAR(current_date) + Robots.year");
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name', 'r.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 43, "value" => "YEAR(current_date)+r.year"),
-			)
-		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name', r.year = YEAR(current_date) + r.year");
-		$query->setDI($di);
-		$this->assertEquals($query->parse(), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100'
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' WHERE r.id > 100");
+		$query = new Query('UPDATE Robots SET name = \'some name\'');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name', 'r.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 42, "value" => 'r.year*2'),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100 AND r.id<=200'
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("update Robots as r set r.name = 'some name', r.year = r.year*2 where r.id > 100 and r.id <= 200");
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\'');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'le_products',
 			),
-			'limit' => 10
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'le_products',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' LIMIT 10");
+		$query = new Query('UPDATE Some\\Products SET Some\\Products.name = "some name"');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
+				),
 			),
-			'limit' => 10
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots r SET r.name = 'some name' LIMIT 10");
+		$query = new Query('UPDATE Some\\Products p SET p.name = "some name"');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100',
-			'limit' => 10
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1990',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' WHERE r.id > 100 LIMIT 10");
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\', Robots.year = 1990');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
+				),
+			),
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1990',
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Some\\Products p SET p.name = "some name", p.year = 1990');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				'robots',
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 43,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '+',
+						'left' => array(
+							'type' => 'functionCall',
+							'name' => 'YEAR',
+							'arguments' => array(
+								array(
+									'type' => 'functionCall',
+									'name' => 'current_date',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\', Robots.year = YEAR(current_date()) + Robots.year');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 43,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '+',
+						'left' => array(
+							'type' => 'functionCall',
+							'name' => 'YEAR',
+							'arguments' => array(
+								array(
+									'type' => 'functionCall',
+									'name' => 'current_date',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\', r.year = YEAR(current_date()) + r.year');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 42,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '*',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '2',
+						),
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<=',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '>',
+					'left' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'AND',
+						'left' => array(
+							'type' => 'literal',
+							'value' => '100',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'id',
+							'balias' => 'id',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '200',
+				),
+			),
+		);
+		$query = new Query('update Robots as r set r.name = \'some name\', r.year = r.year*2 where r.id > 100 and r.id <= 200');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'limit' => array(
+				'type' => 'literal',
+				'value' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'limit' => array(
+				'type' => 'literal',
+				'value' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots r SET r.name = \'some name\' LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'type' => 'literal',
+				'value' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100 LIMIT 10');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 	}
 
-	public function testDeleteParsing()
+	/*public function testDeleteParsing()
 	{
 
 		$di = $this->_getDI();

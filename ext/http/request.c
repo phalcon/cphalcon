@@ -831,10 +831,11 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	
 	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(server, g0);
+	
+	/** 
+	 * Proxies uses this IP
+	 */
 	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
-		/** 
-		 * Proxies uses this IP
-		 */
 		eval_int = phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(address);

@@ -359,7 +359,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	zval *events_manager, *event_name = NULL, *status, *pdo;
 	zval *statement = NULL, *pdo_result;
 	zval *r0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -408,17 +407,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "query", sql_statement, PH_NO_CHECK);
 	}
 	
-	zend_print_zval(sql_statement, 1);
-	
-	PHALCON_INIT_VAR(t0);
-	zend_get_constant(SL("PHP_EOL"), t0 TSRMLS_CC);
-	zend_print_zval(t0, 1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", bind_params);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", bind_types);
-	
-	PHALCON_INIT_VAR(t1);
-	zend_get_constant(SL("PHP_EOL"), t1 TSRMLS_CC);
-	zend_print_zval(t1, 1);
 	if (Z_TYPE_P(statement) == IS_OBJECT) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
@@ -458,7 +446,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	zval *events_manager, *event_name = NULL, *status, *pdo;
 	zval *statement = NULL, *affected_rows = NULL;
 	zval *r0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -508,17 +495,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		PHALCON_CALL_METHOD_PARAMS_1(affected_rows, pdo, "exec", sql_statement, PH_NO_CHECK);
 	}
 	
-	zend_print_zval(sql_statement, 1);
-	
-	PHALCON_INIT_VAR(t0);
-	zend_get_constant(SL("PHP_EOL"), t0 TSRMLS_CC);
-	zend_print_zval(t0, 1);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", bind_params);
-	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("print_r", bind_types);
-	
-	PHALCON_INIT_VAR(t1);
-	zend_get_constant(SL("PHP_EOL"), t1 TSRMLS_CC);
-	zend_print_zval(t1, 1);
 	if (Z_TYPE_P(affected_rows) == IS_LONG) {
 		phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
