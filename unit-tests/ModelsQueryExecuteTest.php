@@ -73,6 +73,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
 		$this->_testInsertExecute($di);
+		$this->_testInsertRenamedExecute($di);
 		$this->_testUpdateExecute($di);
 		$this->_testDeleteExecute($di);
 
@@ -590,6 +591,68 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($status->success());
 
 		$this->assertTrue($status->getModel()->id > 0);
+
+	}
+
+	public function _testInsertRenamedExecute($di)
+	{
+
+		$manager = $di->getShared('modelsManager');
+
+		$di->getShared('db')->delete("subscriptores");
+
+		/**
+		 * This test must fail because the email is not allowed as a model business rule
+		 */
+		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$this->assertFalse($status->success());
+		$this->assertEquals($status->getMessages(), array(
+			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+				'_type' => NULL,
+				'_message' => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
+				'_field' => NULL,
+			)),
+		));
+
+		/**
+		 * This test must fail because the email is invalid
+		 */
+		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")');
+		$this->assertFalse($status->success());
+		$this->assertEquals($status->getMessages(), array(
+			0 => Phalcon\Mvc\Model\Message::__set_state(array(
+				'_type' => 'Email',
+				'_message' => "Le courrier électronique est invalide",
+				'_field' => 'courrierElectronique',
+			)),
+		));
+
+		/**
+		 * This test must pass
+		 */
+		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")');
+		$this->assertTrue($status->success());
+
+		/**
+		 * This test must pass
+		 */
+		$status = $manager->executeQuery('INSERT INTO Abonnes VALUES (NULL, "sonny@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$this->assertTrue($status->success());
+
+		/**
+		 * This test must pass
+		 */
+		$status = $manager->executeQuery('INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES ("hideaway@hotmail.com", "2010-01-01 13:21:00", "P")');
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('INSERT INTO Abonnes (courrierElectronique, creeA, statut) VALUES (:courrierElectronique:, :creeA:, :statut:)', array(
+			"courrierElectronique" => "yeahyeah@hotmail.com",
+			"creeA" => "2010-02-01 13:21:00",
+			"statut" => "P"
+		));
+		$this->assertTrue($status->success());
+
+		$this->assertTrue($status->getModel()->code > 0);
 
 	}
 

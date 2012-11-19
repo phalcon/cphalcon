@@ -3561,13 +3561,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *intermediate, *bind_params, *bind_types;
 	zval *model_name, *manager, *models_instances;
 	zval *model = NULL, *connection, *meta_data, *attributes;
-	zval *fields = NULL, *values, *number_fields, *number_values;
+	zval *automatic_fields = NULL, *fields = NULL, *column_map;
+	zval *values, *number_fields, *number_values;
 	zval *not_equal, *dialect, *double_colon, *empty_string;
 	zval *null_value, *not_exists, *insert_values;
 	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
 	zval *insert_expr = NULL, *wildcard = NULL, *exception_message = NULL;
-	zval *field_name = NULL, *dependency_injector, *insert_model;
-	zval *success, *status;
+	zval *field_name = NULL, *attribute_name = NULL, *dependency_injector;
+	zval *insert_model, *success, *status;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3610,12 +3611,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", model, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(automatic_fields);
+	ZVAL_BOOL(automatic_fields, 0);
 	eval_int = phalcon_array_isset_string(intermediate, SS("fields"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(fields);
 		phalcon_array_fetch_string(&fields, intermediate, SL("fields"), PH_NOISY_CC);
 	} else {
+		ZVAL_BOOL(automatic_fields, 1);
 		PHALCON_CPY_WRT(fields, attributes);
+	
+		PHALCON_INIT_VAR(column_map);
+		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model, PH_NO_CHECK);
 	}
 	
 	PHALCON_INIT_VAR(values);
@@ -3732,7 +3740,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 		PHALCON_INIT_NVAR(field_name);
 		phalcon_array_fetch(&field_name, fields, number, PH_NOISY_CC);
-		phalcon_array_update_zval(&insert_values, field_name, &insert_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+		/** 
+		 * If the user doesn't defined a column list we assume all the model's attributes
+		 * as columns
+		 */
+		if (PHALCON_IS_TRUE(automatic_fields)) {
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+				eval_int = phalcon_array_isset(column_map, field_name);
+				if (eval_int) {
+					PHALCON_INIT_NVAR(attribute_name);
+					phalcon_array_fetch(&attribute_name, column_map, field_name, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", field_name, "\" isn't part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+			} else {
+				PHALCON_CPY_WRT(attribute_name, field_name);
+			}
+		} else {
+			PHALCON_CPY_WRT(attribute_name, field_name);
+		}
+	
+		phalcon_array_update_zval(&insert_values, attribute_name, &insert_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;

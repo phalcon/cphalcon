@@ -10,7 +10,6 @@ services:
   - mongodb
 
 before_install:
- - sudo apt-get install gdb
  - sudo apt-get install sqlite3
  - chmod +x unit-tests/ci/install_memcached
  - chmod +x unit-tests/ci/install_apc
