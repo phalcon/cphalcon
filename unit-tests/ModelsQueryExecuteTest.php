@@ -75,6 +75,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testInsertExecute($di);
 		$this->_testInsertRenamedExecute($di);
 		$this->_testUpdateExecute($di);
+		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
 
 	}
@@ -92,7 +93,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
 		$this->_testInsertExecute($di);
+		$this->_testInsertRenamedExecute($di);
 		$this->_testUpdateExecute($di);
+		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
 
 	}
@@ -110,7 +113,9 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testSelectExecute($di);
 		$this->_testSelectRenamedExecute($di);
 		$this->_testInsertExecute($di);
+		$this->_testInsertRenamedExecute($di);
 		$this->_testUpdateExecute($di);
+		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
 
 	}
@@ -674,6 +679,29 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('UPDATE Subscriptores SET status = :status: WHERE email = :email:', array(
 			"status" => "I",
 			"email" => "le-marina@hotmail.com"
+		));
+		$this->assertTrue($status->success());
+
+	}
+
+	public function _testUpdateRenamedExecute($di)
+	{
+
+		$manager = $di->getShared('modelsManager');
+
+		$di->getShared('db')->execute("UPDATE personas SET ciudad_id = NULL WHERE direccion = 'COL'");
+
+		$status = $manager->executeQuery("UPDATE Personers SET adresse = 'COL' WHERE fodebyId IS NULL LIMIT 25");
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE Personers SET adresse = :adresse: WHERE fodebyId IS NULL LIMIT 25', array(
+			"adresse" => "MXN"
+		));
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('UPDATE Abonnes SET statut = :statut: WHERE courrierElectronique = :courrierElectronique:', array(
+			"statut" => "I",
+			"courrierElectronique" => "le-marina@hotmail.com"
 		));
 		$this->assertTrue($status->success());
 
