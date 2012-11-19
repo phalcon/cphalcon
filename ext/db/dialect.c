@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *left = NULL, *expression_left = NULL, *right = NULL, *expression_right = NULL;
 	zval *binary_expr, *unary_expr = NULL, *expression_group;
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
-	zval *arguments_joined, *function_expression;
+	zval *arguments_joined, *function_expression = NULL;
 	zval *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -379,39 +379,45 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_INIT_VAR(sql_arguments);
 		array_init(sql_arguments);
+		eval_int = phalcon_array_isset_string(expression, SS("arguments"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(arguments);
+			phalcon_array_fetch_string(&arguments, expression, SL("arguments"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(arguments);
-		phalcon_array_fetch_string(&arguments, expression, SL("arguments"), PH_NOISY_CC);
-	
-		if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
-			return;
-		}
-	
-		ah0 = Z_ARRVAL_P(arguments);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-		ph_cycle_start_0:
-	
-			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-				goto ph_cycle_end_0;
+			if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+				return;
 			}
 	
-			PHALCON_GET_FOREACH_VALUE(argument);
+			ah0 = Z_ARRVAL_P(arguments);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-			PHALCON_INIT_NVAR(argument_expression);
-			PHALCON_CALL_METHOD_PARAMS_2(argument_expression, this_ptr, "getsqlexpression", argument, escape_char, PH_NO_CHECK);
-			phalcon_array_append(&sql_arguments, argument_expression, PH_SEPARATE TSRMLS_CC);
+			ph_cycle_start_0:
 	
-			zend_hash_move_forward_ex(ah0, &hp0);
-			goto ph_cycle_start_0;
+				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+					goto ph_cycle_end_0;
+				}
 	
-		ph_cycle_end_0:
+				PHALCON_GET_FOREACH_VALUE(argument);
 	
-		PHALCON_INIT_VAR(arguments_joined);
-		phalcon_fast_join_str(arguments_joined, SL(", "), sql_arguments TSRMLS_CC);
+				PHALCON_INIT_NVAR(argument_expression);
+				PHALCON_CALL_METHOD_PARAMS_2(argument_expression, this_ptr, "getsqlexpression", argument, escape_char, PH_NO_CHECK);
+				phalcon_array_append(&sql_arguments, argument_expression, PH_SEPARATE TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(function_expression);
-		PHALCON_CONCAT_VSVS(function_expression, name, "(", arguments_joined, ")");
+				zend_hash_move_forward_ex(ah0, &hp0);
+				goto ph_cycle_start_0;
+	
+			ph_cycle_end_0:
+	
+			PHALCON_INIT_VAR(arguments_joined);
+			phalcon_fast_join_str(arguments_joined, SL(", "), sql_arguments TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(function_expression);
+			PHALCON_CONCAT_VSVS(function_expression, name, "(", arguments_joined, ")");
+		} else {
+			PHALCON_INIT_NVAR(function_expression);
+			PHALCON_CONCAT_VS(function_expression, name, "()");
+		}
+	
 	
 		RETURN_CTOR(function_expression);
 	}
