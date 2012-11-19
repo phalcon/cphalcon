@@ -108,8 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	zval *active_row, *columns_types, *column = NULL, *alias = NULL;
 	zval *source = NULL, *instance = NULL, *attributes = NULL, *column_map = NULL;
 	zval *row_model = NULL, *attribute = NULL, *column_alias = NULL, *value = NULL;
-	zval *model_attribute = NULL, *model_name = NULL, *sql_alias = NULL;
-	zval *n_alias = NULL;
+	zval *model_attribute = NULL, *sql_alias = NULL, *n_alias = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -195,6 +194,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 				PHALCON_INIT_NVAR(column_map);
 				phalcon_array_fetch_string(&column_map, column, SL("columnMap"), PH_NOISY_CC);
 	
+				/** 
+				 * Assign the values from the _source_attribute notation to its real column name
+				 */
 				PHALCON_INIT_NVAR(row_model);
 				array_init(row_model);
 	
@@ -225,14 +227,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	
 				ph_cycle_end_1:
 	
+				/** 
+				 * Assign the values to the attributes using a column map
+				 */
 				PHALCON_INIT_NVAR(model_attribute);
-				PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, column_map, row_model);
+				PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, row_model, column_map);
 	
-				PHALCON_INIT_NVAR(model_name);
-				phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
-	
+				/** 
+				 * The complete object is assigned to an attribute with the name of the alias or
+				 * the model name
+				 */
 				PHALCON_INIT_NVAR(attribute);
-				PHALCON_CALL_FUNC_PARAMS_1(attribute, "lcfirst", model_name);
+				phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY_CC);
 				phalcon_update_property_zval_zval(active_row, attribute, model_attribute TSRMLS_CC);
 			} else {
 				/** 

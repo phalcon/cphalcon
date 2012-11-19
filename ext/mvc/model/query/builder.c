@@ -429,7 +429,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *phql, *columns, *joined_models, *group, *having;
 	zval *order, *limit;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -611,11 +610,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
 	}
 	
-	zend_print_zval(phql, 1);
-	
-	PHALCON_INIT_VAR(t0);
-	zend_get_constant(SL("PHP_EOL"), t0 TSRMLS_CC);
-	zend_print_zval(t0, 1);
 	
 	RETURN_CTOR(phql);
 }

@@ -161,7 +161,7 @@ static zval *phql_ret_order_item(zval *column, int sort){
 	return ret;
 }
 
-static zval *phql_ret_select_limit_clause(phql_parser_token *L, phql_parser_token *O)
+static zval *phql_ret_limit_clause(phql_parser_token *L, phql_parser_token *O)
 {
 	zval *ret;
 
@@ -950,21 +950,21 @@ having_clause(R) ::= HAVING expr(E) . {
 %destructor select_limit_clause { zval_ptr_dtor(&$$); }
 
 select_limit_clause(R) ::= LIMIT INTEGER(I) . {
-	R = phql_ret_select_limit_clause(I, NULL);
+	R = phql_ret_limit_clause(I, NULL);
 }
 
 select_limit_clause(R) ::= LIMIT INTEGER(O) COMMA INTEGER(I). {
-	R = phql_ret_select_limit_clause(I, O);
+	R = phql_ret_limit_clause(I, O);
 }
 
 select_limit_clause(R) ::= LIMIT INTEGER(I) OFFSET INTEGER(O). {
-	R = phql_ret_select_limit_clause(I, O);
+	R = phql_ret_limit_clause(I, O);
 }
 
 %destructor limit_clause { zval_ptr_dtor(&$$); }
 
 limit_clause(R) ::= LIMIT INTEGER(I) . {
-	R = phql_ret_literal_zval(PHQL_T_INTEGER, I);
+	R = phql_ret_limit_clause(I, NULL);
 }
 
 %destructor expr { zval_ptr_dtor(&$$); }

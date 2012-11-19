@@ -70,6 +70,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
+
 		$expected = array(
 			'models' => array(
 				'Robots',
@@ -104,7 +105,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT * FROM Some\\Products');
+		$query = new Query('SELECT * FROM Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -116,14 +117,15 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_products',
 			),
 			'columns' => array(
-				array(
+				'some\\Products' => array(
 					'type' => 'object',
 					'model' => 'Some\\Products',
 					'column' => 'le_products',
+					'balias' => 'some\\Products',
 				),
 			),
 		);
-		$query = new Query('SELECT Some\\Products.* FROM Some\\Products');
+		$query = new Query('SELECT Some\Products.* FROM Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -139,14 +141,15 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'p' => array(
 					'type' => 'object',
 					'model' => 'Some\\Products',
 					'column' => 'p',
+					'balias' => 'p',
 				),
 			),
 		);
-		$query = new Query('SELECT p.* FROM Some\\Products p');
+		$query = new Query('SELECT p.* FROM Some\Products p');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -158,10 +161,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'robots',
 			),
 			'columns' => array(
-				array(
+				'robots' => array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'robots',
+					'balias' => 'robots',
 				),
 			),
 		);
@@ -181,10 +185,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 		);
@@ -204,10 +209,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 		);
@@ -306,7 +312,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'balias' => 'le_id',
-					'sqlAlias' => 'id',
+					'sqlAlias' => 'le_id',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -317,7 +323,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_name' => array(
 					'type' => 'scalar',
 					'balias' => 'le_name',
-					'sqlAlias' => 'name',
+					'sqlAlias' => 'le_name',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -342,7 +348,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'balias' => 'le_id',
-					'sqlAlias' => 'id',
+					'sqlAlias' => 'le_id',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'robots',
@@ -353,7 +359,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_name' => array(
 					'type' => 'scalar',
 					'balias' => 'le_name',
-					'sqlAlias' => 'name',
+					'sqlAlias' => 'le_name',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'robots',
@@ -382,6 +388,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '\'\'',
 					),
 					'balias' => 'empty_str',
+					'sqlAlias' => 'empty_str',
 				),
 				'double_number' => array(
 					'type' => 'scalar',
@@ -390,6 +397,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '10.5',
 					),
 					'balias' => 'double_number',
+					'sqlAlias' => 'double_number',
 				),
 				'long_number' => array(
 					'type' => 'scalar',
@@ -398,6 +406,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '1000',
 					),
 					'balias' => 'long_number',
+					'sqlAlias' => 'long_number',
 				),
 			),
 		);
@@ -517,6 +526,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'nombre',
+					'sqlAlias' => 'nombre',
 				),
 			),
 		);
@@ -557,6 +567,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'nombre',
+					'sqlAlias' => 'nombre',
 				),
 			),
 		);
@@ -1139,15 +1150,17 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'r',
+					'balias' => 'r',
 				),
-				array(
+				'p' => array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
 					'column' => 'p',
+					'balias' => 'p',
 				),
 			),
 			'joins' => array(
@@ -1251,10 +1264,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 			'joins' => array(
@@ -1404,6 +1418,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'joins' => array(
@@ -1418,7 +1433,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT ( People.cupo + 100) / (Some\\Products.price * 0.15) AS price FROM People JOIN Some\\Products');
+		$query = new Query('SELECT ( People.cupo + 100) / (Some\Products.price * 0.15) AS price FROM People JOIN Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -1475,6 +1490,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'joins' => array(
@@ -1490,7 +1506,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT (p.cupo + 100) / (s.price * 0.15) AS price FROM People AS p JOIN Some\\Products AS s');
+		$query = new Query('SELECT (p.cupo + 100) / (s.price * 0.15) AS price FROM People AS p JOIN Some\Products AS s');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -2099,7 +2115,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT * FROM Some\\Products WHERE Some\\Products.created_at < now()');
+		$query = new Query('SELECT * FROM Some\Products WHERE Some\Products.created_at < now()');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -3348,6 +3364,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'summatory',
+					'sqlAlias' => 'summatory',
 				),
 			),
 			'group' => array(
@@ -3412,6 +3429,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'summatory',
+					'sqlAlias' => 'summatory',
 				),
 				'_3' => array(
 					'type' => 'scalar',
@@ -3771,6 +3789,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'group' => array(
@@ -3800,7 +3819,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT Some\\Products.type, SUM(Some\Products.price) AS price FROM Some\Products GROUP BY Some\\Products.type HAVING SUM(Some\Products.price)<100');
+		$query = new Query('SELECT Some\Products.type, SUM(Some\Products.price) AS price FROM Some\Products GROUP BY Some\Products.type HAVING SUM(Some\Products.price)<100');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -3838,6 +3857,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'group' => array(
@@ -3865,7 +3885,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT type, SUM(price) AS price FROM Some\\Products GROUP BY 1 HAVING SUM(price)<100');
+		$query = new Query('SELECT type, SUM(price) AS price FROM Some\Products GROUP BY 1 HAVING SUM(price)<100');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -3896,10 +3916,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 		);
-		$query = new Query('SELECT COUNT(DISTINCT Some\\Products.type) AS price FROM Some\\Products');
+		$query = new Query('SELECT COUNT(DISTINCT Some\Products.type) AS price FROM Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -3930,10 +3951,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 		);
-		$query = new Query('SELECT COUNT(DISTINCT Some\\Products.type) price FROM Some\\Products');
+		$query = new Query('SELECT COUNT(DISTINCT Some\Products.type) price FROM Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -4514,7 +4536,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT * FROM Some\\Robotters');
+		$query = new Query('SELECT * FROM Some\Robotters');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -4526,14 +4548,15 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'robots',
 			),
 			'columns' => array(
-				array(
+				'some\\Robotters' => array(
 					'type' => 'object',
 					'model' => 'Some\\Robotters',
 					'column' => 'robots',
+					'balias' => 'some\\Robotters',
 				),
 			),
 		);
-		$query = new Query('SELECT Some\\Robotters.* FROM Some\\Robotters');
+		$query = new Query('SELECT Some\Robotters.* FROM Some\Robotters');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -4549,14 +4572,15 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Some\\Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 		);
-		$query = new Query('SELECT r.* FROM Some\\Robotters r');
+		$query = new Query('SELECT r.* FROM Some\Robotters r');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -4568,10 +4592,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'robots',
 			),
 			'columns' => array(
-				array(
+				'robotters' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'robots',
+					'balias' => 'robotters',
 				),
 			),
 		);
@@ -4591,10 +4616,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 		);
@@ -4614,10 +4640,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 		);
@@ -4716,7 +4743,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'balias' => 'le_id',
-					'sqlAlias' => 'code',
+					'sqlAlias' => 'le_id',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -4727,7 +4754,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_name' => array(
 					'type' => 'scalar',
 					'balias' => 'le_name',
-					'sqlAlias' => 'thename',
+					'sqlAlias' => 'le_name',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'r',
@@ -4752,7 +4779,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_id' => array(
 					'type' => 'scalar',
 					'balias' => 'le_id',
-					'sqlAlias' => 'code',
+					'sqlAlias' => 'le_id',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'robots',
@@ -4763,7 +4790,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'le_name' => array(
 					'type' => 'scalar',
 					'balias' => 'le_name',
-					'sqlAlias' => 'thename',
+					'sqlAlias' => 'le_name',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'robots',
@@ -4792,6 +4819,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '\'\'',
 					),
 					'balias' => 'empty_str',
+					'sqlAlias' => 'empty_str',
 				),
 				'double_number' => array(
 					'type' => 'scalar',
@@ -4800,6 +4828,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '10.5',
 					),
 					'balias' => 'double_number',
+					'sqlAlias' => 'double_number',
 				),
 				'long_number' => array(
 					'type' => 'scalar',
@@ -4808,6 +4837,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						'value' => '1000',
 					),
 					'balias' => 'long_number',
+					'sqlAlias' => 'long_number',
 				),
 			),
 		);
@@ -4880,7 +4910,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				'cedula' => array(
 					'type' => 'scalar',
 					'balias' => 'cedula',
-					'sqlAlias' => 'borgerid',
+					'sqlAlias' => 'cedula',
 					'column' => array(
 						'type' => 'qualified',
 						'domain' => 'p',
@@ -4927,6 +4957,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'navne',
+					'sqlAlias' => 'navne',
 				),
 			),
 		);
@@ -5509,15 +5540,17 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
-				array(
+				'p' => array(
 					'type' => 'object',
 					'model' => 'RobottersDeles',
 					'column' => 'p',
+					'balias' => 'p',
 				),
 			),
 			'joins' => array(
@@ -5621,10 +5654,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 			'joins' => array(
@@ -5722,15 +5756,17 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
-				array(
+				'p' => array(
 					'type' => 'object',
 					'model' => 'RobottersDeles',
 					'column' => 'p',
+					'balias' => 'p',
 				),
 			),
 			'joins' => array(
@@ -5834,10 +5870,11 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'columns' => array(
-				array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robotters',
 					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
 			'joins' => array(
@@ -5987,6 +6024,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'joins' => array(
@@ -6001,7 +6039,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT ( Personers.kredit + 100) / (Some\\Products.price * 0.15) AS price FROM Personers JOIN Some\\Products');
+		$query = new Query('SELECT ( Personers.kredit + 100) / (Some\Products.price * 0.15) AS price FROM Personers JOIN Some\Products');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -6058,6 +6096,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 						),
 					),
 					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
 			'joins' => array(
@@ -6073,7 +6112,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 		);
-		$query = new Query('SELECT (p.kredit + 100) / (s.price * 0.15) AS price FROM Personers AS p JOIN Some\\Products AS s');
+		$query = new Query('SELECT (p.kredit + 100) / (s.price * 0.15) AS price FROM Personers AS p JOIN Some\Products AS s');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
@@ -6659,6 +6698,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 		$query = new Query('SELECT * FROM Robotters GROUP BY Robotters.theName, Robotters.code');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
+
 	}
 
 	public function testInsertParsing()
@@ -7518,8 +7558,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'type' => 'literal',
-				'value' => '10',
+				'number' => '10',
 			),
 		);
 		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' LIMIT 10');
@@ -7555,8 +7594,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'type' => 'literal',
-				'value' => '10',
+				'number' => '10',
 			),
 		);
 		$query = new Query('UPDATE Robots r SET r.name = \'some name\' LIMIT 10');
@@ -7606,8 +7644,7 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 				),
 			),
 			'limit' => array(
-				'type' => 'literal',
-				'value' => '10',
+				'number' => '10',
 			),
 		);
 		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100 LIMIT 10');
@@ -7616,67 +7653,165 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/*public function testDeleteParsing()
+	public function testDeleteParsing()
 	{
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
+			'tables' => array(
+				'robots',
+			),
+			'models' => array(
+				'Robots',
+			),
 		);
-		$query = new Query("DELETE FROM Robots");
+		$query = new Query('DELETE FROM Robots');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("DELETE FROM Robots AS r WHERE r.id > 100");
+		$query = new Query('DELETE FROM Robots AS r WHERE r.id > 100');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("DELETE FROM Robots r WHERE r.id > 100");
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("delete from Robots as r where r.id > 100");
+		$query = new Query('delete from Robots as r where r.id > 100');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'limit' => 10
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
-		$query = new Query("DELETE FROM Robots r LIMIT 10");
+		$query = new Query('DELETE FROM Robots r LIMIT 10');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100',
-			'limit' => 10
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
-		$query = new Query("DELETE FROM Robots r WHERE r.id > 100 LIMIT 10");
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT 10');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
-
-	}*/
+	}
 
 }
