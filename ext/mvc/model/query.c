@@ -89,6 +89,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlAliasesModelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_sqlColumnAliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_modelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -357,7 +359,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		}
 	
 		/** 
-		 * Obtain the model's source from the _models list
+		 * Check if the _models property is correctly prepared
 		 */
 		PHALCON_INIT_VAR(models);
 		phalcon_read_property(&models, this_ptr, SL("_models"), PH_NOISY_CC);
@@ -366,6 +368,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			return;
 		}
 	
+		/** 
+		 * Obtain the model's source from the _models list
+		 */
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, has_model TSRMLS_CC);
 		eval_int = phalcon_array_isset(models, class_name);
@@ -3036,10 +3041,43 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 	RETURN_CCTOR(ir_phql);
 }
 
-PHP_METHOD(Phalcon_Mvc_Model_Query, setCache){
+/**
+ * Sets the cache parameters of the query
+ *
+ * @param array $cacheOptions
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 
+	zval *cache_options;
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cache_options) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
 	
+}
+
+/**
+ * Returns the current cache options
+ *
+ * @param array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_cacheOptions");
+}
+
+/**
+ * Returns the current cache backend instance
+ *
+ * @return Phalcon\Cache\BackendInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query, getCache){
+
+
+	RETURN_MEMBER(this_ptr, "_cache");
 }
 
 /**
@@ -3523,6 +3561,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	 * Choose a resultset type
 	 */
 	PHALCON_INIT_VAR(cache);
+	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(is_complex)) {
 		if (PHALCON_IS_TRUE(is_simple_std)) {
 			PHALCON_INIT_VAR(result_object);
@@ -4268,8 +4307,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
-	zval *bind_params = NULL, *bind_types = NULL, *intermediate;
-	zval *type, *result = NULL, *exception_message;
+	zval *bind_params = NULL, *bind_types = NULL, *cache_options;
+	zval *key, *lifetime = NULL, *cache_service = NULL, *dependency_injector;
+	zval *cache, *result = NULL, *is_fresh, *intermediate;
+	zval *type, *exception_message;
+	int eval_int;
 
 	PHALCON_MM_GROW();
 
@@ -4286,6 +4328,81 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		PHALCON_INIT_NVAR(bind_types);
 	}
 	
+	PHALCON_INIT_VAR(cache_options);
+	phalcon_read_property(&cache_options, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
+	if (Z_TYPE_P(cache_options) != IS_NULL) {
+		if (Z_TYPE_P(cache_options) != IS_ARRAY) { 
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid caching options");
+			return;
+		}
+	
+		/** 
+		 * The user must set a cache key
+		 */
+		eval_int = phalcon_array_isset_string(cache_options, SS("key"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(key);
+			phalcon_array_fetch_string(&key, cache_options, SL("key"), PH_NOISY_CC);
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A cache key must be provided to identify the cached resultset in the cache backend");
+			return;
+		}
+	
+		/** 
+		 * By defaut use use 3600 seconds (1 hour) as cache lifetime
+		 */
+		eval_int = phalcon_array_isset_string(cache_options, SS("lifetime"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(lifetime);
+			phalcon_array_fetch_string(&lifetime, cache_options, SL("lifetime"), PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(lifetime);
+			ZVAL_LONG(lifetime, 3600);
+		}
+	
+		/** 
+		 * 'modelsCache' is the default name for the models cache service
+		 */
+		eval_int = phalcon_array_isset_string(cache_options, SS("service"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(cache_service);
+			phalcon_array_fetch_string(&cache_service, cache_options, SL("service"), PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(cache_service);
+			ZVAL_STRING(cache_service, "modelsCache", 1);
+		}
+	
+		PHALCON_INIT_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(cache);
+		PHALCON_CALL_METHOD_PARAMS_1(cache, dependency_injector, "getshared", cache_service, PH_NO_CHECK);
+		if (Z_TYPE_P(cache) == IS_OBJECT) {
+			PHALCON_INIT_VAR(result);
+			PHALCON_CALL_METHOD_PARAMS_2(result, cache, "get", key, lifetime, PH_NO_CHECK);
+			if (Z_TYPE_P(result) != IS_NULL) {
+				if (Z_TYPE_P(result) != IS_OBJECT) {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
+					return;
+				}
+	
+				PHALCON_INIT_VAR(is_fresh);
+				ZVAL_BOOL(is_fresh, 0);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setisfresh", is_fresh, PH_NO_CHECK);
+	
+				RETURN_CCTOR(result);
+			}
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
+			return;
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	}
+	
+	/** 
+	 * The statement is parsed from its PHQL string or a previously processed IR
+	 */
 	PHALCON_INIT_VAR(intermediate);
 	PHALCON_CALL_METHOD(intermediate, this_ptr, "parse", PH_NO_CHECK);
 	
@@ -4293,7 +4410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
 	if (phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(result);
+		PHALCON_INIT_NVAR(result);
 		PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types, PH_NO_CHECK);
 		goto ph_end_0;
 	}
@@ -4322,6 +4439,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	return;
 	
 	ph_end_0:
+	
+	/** 
+	 * We store the resultset in the cache if any
+	 */
+	if (Z_TYPE_P(cache_options) != IS_NULL) {
+		/** 
+		 * Only PHQL SELECTs can be cached
+		 */
+		if (!phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
+			return;
+		}
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, result, lifetime, PH_NO_CHECK);
+	}
+	
 	
 	RETURN_CCTOR(result);
 }

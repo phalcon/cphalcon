@@ -421,14 +421,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroup){
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 
 	zval *dependency_injector, *models, *conditions = NULL;
-	zval *one, *number_models, *invalid_condition;
+	zval *is_numeric, *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *connection;
 	zval *first_primary_key, *column_map, *attribute_field = NULL;
 	zval *exception_message, *primary_key_condition;
 	zval *phql, *columns, *joined_models, *group, *having;
 	zval *order, *limit;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -457,9 +456,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	PHALCON_INIT_VAR(conditions);
 	phalcon_read_property(&conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", conditions);
-	if (zend_is_true(r0)) {
+	PHALCON_INIT_VAR(is_numeric);
+	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", conditions);
+	if (zend_is_true(is_numeric)) {
+		/** 
+		 * If the conditions is a single numeric field. We internally create a condition
+		 * using the related primary key
+		 */
 		if (Z_TYPE_P(models) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(one);
 			ZVAL_LONG(one, 1);
@@ -505,6 +508,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				PHALCON_INIT_VAR(first_primary_key);
 				phalcon_array_fetch_long(&first_primary_key, primary_keys, 0, PH_NOISY_CC);
 	
+				/** 
+				 * The PHQL contains the renamed columns if available
+				 */
 				PHALCON_INIT_VAR(column_map);
 				PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model_instance, PH_NO_CHECK);
 				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
@@ -530,6 +536,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			}
 		}
 	
+		/** 
+		 * A primary key is mandatory in these cases
+		 */
 		if (PHALCON_IS_TRUE(no_primary)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Source related to this model does not have a primary key defined");
 			return;

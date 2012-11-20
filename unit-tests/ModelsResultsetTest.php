@@ -86,16 +86,34 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		});
 	}
 
-	public function testResultsetMysql()
+	public function testResultsetNormalMysql()
 	{
 		$this->_prepareTestMysql();
 
-		$robots = Robots::find(array('order' => 'id'));
+		$robots = Robots::find(array(
+			'order' => 'id'
+		));
 
 		$this->_applyTests($robots);
 	}
 
-	public function testResultsetPostgresql()
+	public function testResultsetBindingMysql()
+	{
+		$this->_prepareTestMysql();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$robots = Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		));
+
+		$this->_applyTests($robots);
+	}
+
+	public function testResultsetNormalPostgresql()
 	{
 		$this->_prepareTestPostgresql();
 
@@ -104,11 +122,43 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->_applyTests($robots);
 	}
 
-	public function testResultsetSqlite()
+	public function testResultsetBindingPostgresql()
+	{
+		$this->_prepareTestPostgresql();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$robots = Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		));
+
+		$this->_applyTests($robots);
+	}
+
+	public function testResultsetNormalSqlite()
 	{
 		$this->_prepareTestSqlite();
 
 		$robots = Robots::find(array('order' => 'id'));
+
+		$this->_applyTests($robots);
+	}
+
+	public function testResultsetBindingSqlite()
+	{
+		$this->_prepareTestSqlite();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$robots = Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		));
 
 		$this->_applyTests($robots);
 	}
@@ -159,7 +209,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testSerializeMysql()
+	public function testSerializeNormalMysql()
 	{
 
 		$this->_prepareTestMysql();
@@ -174,7 +224,29 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testSerializePostgresql()
+	public function testSerializeBindingsMysql()
+	{
+
+		$this->_prepareTestMysql();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$data = serialize(Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		)));
+
+		$robots = unserialize($data);
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeNormalPostgresql()
 	{
 
 		$this->_prepareTestPostgresql();
@@ -189,12 +261,56 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testSerializeSqlite()
+	public function testSerializeBindingsPostgresql()
+	{
+
+		$this->_prepareTestPostgresql();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$data = serialize(Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		)));
+
+		$robots = unserialize($data);
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeNormalSqlite()
 	{
 
 		$this->_prepareTestPostgresql();
 
 		$data = serialize(Robots::find(array('order' => 'id')));
+
+		$robots = unserialize($data);
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeBindingsSqlite()
+	{
+
+		$this->_prepareTestPostgresql();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$data = serialize(Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		)));
 
 		$robots = unserialize($data);
 

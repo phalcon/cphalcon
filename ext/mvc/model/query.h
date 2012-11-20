@@ -41,7 +41,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete);
 PHP_METHOD(Phalcon_Mvc_Model_Query, parse);
-PHP_METHOD(Phalcon_Mvc_Model_Query, setCache);
+PHP_METHOD(Phalcon_Mvc_Model_Query, cache);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions);
+PHP_METHOD(Phalcon_Mvc_Model_Query, getCache);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert);
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords);
@@ -59,6 +61,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_cache, 0, 0, 1)
+	ZEND_ARG_INFO(0, cacheOptions)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_execute, 0, 0, 0)
@@ -94,7 +100,9 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_query_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareUpdate, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _prepareDelete, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, parse, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Query, setCache, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, cache, arginfo_phalcon_mvc_model_query_cache, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, getCacheOptions, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query, getCache, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _executeSelect, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _executeInsert, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model_Query, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 

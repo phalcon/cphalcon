@@ -18,9 +18,10 @@
  - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
  - Support for COUNT(DISTINCT x) syntax in PHQL
  - Allowing user-defined messages in most Phalcon\Mvc\Model\Validators
- - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it's available
+ - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it is available
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
+ - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows to cache both simple and complex resultsets
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler
@@ -29,7 +30,7 @@
  - Now $this->view->disable() disables the auto-rendering mode completely
  - Added Phalcon\Mvc\View::enable that re-enables the auto-rendering mode
  - Added Phalcon\Cache\Backend::stop() to stop the cache without store anything into the backend
- - Fixed bug in Phalcon\Mvc\View that saves a empty cached content when using a cache
+ - Fixed bug in Phalcon\Mvc\View that saves an empty cached content when using a cache
  - Implemented Phalcon\Db::FETCH_OBJ to return objects instead of arrays
 
 0.6.0

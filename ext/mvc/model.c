@@ -634,7 +634,8 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 PHP_METHOD(Phalcon_Mvc_Model, find){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *query, *bind_params = NULL, *bind_types = NULL, *resultset;
+	zval *query, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *resultset;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -689,6 +690,16 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 		}
 	}
 	
+	/** 
+	 * Pass the cache options to the query
+	 */
+	eval_int = phalcon_array_isset_string(params, SS("cache"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(cache);
+		phalcon_array_fetch_string(&cache, params, SL("cache"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "cache", cache, PH_NO_CHECK);
+	}
+	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types, PH_NO_CHECK);
 	
@@ -720,8 +731,8 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
-	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *resultset;
-	zval *record;
+	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
+	zval *resultset, *record;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -781,6 +792,16 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 		if (eval_int) {
 			phalcon_array_fetch_string(&bind_types, params, SL("bindTypes"), PH_NOISY_CC);
 		}
+	}
+	
+	/** 
+	 * Pass the cache options to the query
+	 */
+	eval_int = phalcon_array_isset_string(params, SS("cache"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(cache);
+		phalcon_array_fetch_string(&cache, params, SL("cache"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "cache", cache, PH_NO_CHECK);
 	}
 	
 	PHALCON_INIT_VAR(resultset);
@@ -1019,8 +1040,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	zval *function, *alias, *parameters, *params = NULL, *group_column = NULL;
 	zval *distinct_column, *columns = NULL, *group_columns;
 	zval *model_name, *builder, *query, *bind_params = NULL;
-	zval *bind_types = NULL, *resultset, *number_rows, *first_row;
-	zval *value;
+	zval *bind_types = NULL, *resultset, *cache, *number_rows;
+	zval *first_row, *value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -1107,6 +1128,17 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types, PH_NO_CHECK);
+	
+	/** 
+	 * Pass the cache options to the query
+	 */
+	eval_int = phalcon_array_isset_string(params, SS("cache"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(cache);
+		phalcon_array_fetch_string(&cache, params, SL("cache"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "cache", cache, PH_NO_CHECK);
+	}
+	
 	eval_int = phalcon_array_isset_string(params, SS("group"));
 	if (eval_int) {
 		/** 
@@ -2291,7 +2323,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			}
 	
 			if (PHALCON_IS_TRUE(is_null)) {
-				if (PHALCON_IS_FALSE(exists)) {
+				if (!zend_is_true(exists)) {
 					/** 
 					 * The identity field can be null
 					 */
@@ -2443,7 +2475,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 
 	if (PHALCON_IS_TRUE(success)) {
 		if (!zend_is_true(disable_events)) {
-			if (PHALCON_IS_TRUE(exists)) {
+			if (zend_is_true(exists)) {
 				PHALCON_INIT_VAR(event_name);
 				ZVAL_STRING(event_name, "afterUpdate", 1);
 			} else {
@@ -2955,10 +2987,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	
 	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD_PARAMS_3(exists, this_ptr, "_exists", meta_data, connection, table, PH_NO_CHECK);
-	if (PHALCON_IS_FALSE(exists)) {
-		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
-	} else {
+	if (zend_is_true(exists)) {
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 2 TSRMLS_CC);
+	} else {
+		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
@@ -2983,7 +3015,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	/** 
 	 * Depending if the record exists we do a update or insert operation
 	 */
-	if (PHALCON_IS_TRUE(exists)) {
+	if (zend_is_true(exists)) {
 		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "_dolowupdate", meta_data, connection, table, PH_NO_CHECK);
 	} else {

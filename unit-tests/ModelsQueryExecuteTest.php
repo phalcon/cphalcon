@@ -77,6 +77,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testUpdateExecute($di);
 		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
+		$this->_testDeleteRenamedExecute($di);
 
 	}
 
@@ -97,6 +98,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testUpdateExecute($di);
 		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
+		$this->_testDeleteRenamedExecute($di);
 
 	}
 
@@ -117,6 +119,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->_testUpdateExecute($di);
 		$this->_testUpdateRenamedExecute($di);
 		$this->_testDeleteExecute($di);
+		$this->_testDeleteRenamedExecute($di);
 
 	}
 
@@ -328,6 +331,32 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($result[0]->r), 'Robots');
 		$this->assertEquals(gettype($result[0]->p), 'object');
 		$this->assertEquals(get_class($result[0]->p), 'RobotsParts');
+		$this->assertEquals(count($result), 3);
+		$this->assertEquals($result[0]->r->id, 1);
+		$this->assertEquals($result[0]->p->id, 1);
+		$this->assertEquals($result[1]->r->id, 1);
+		$this->assertEquals($result[1]->p->id, 2);
+
+		/** Joins with namespaces */
+		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
+		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
+		$this->assertEquals(get_class($result[0]->{'some\Robots'}), 'Some\Robots');
+		$this->assertEquals(gettype($result[0]->{'some\RobotsParts'}), 'object');
+		$this->assertEquals(get_class($result[0]->{'some\RobotsParts'}), 'Some\RobotsParts');
+		$this->assertEquals(count($result), 3);
+		$this->assertEquals($result[0]->{'some\Robots'}->id, 1);
+		$this->assertEquals($result[0]->{'some\RobotsParts'}->id, 1);
+		$this->assertEquals($result[1]->{'some\Robots'}->id, 1);
+		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
+
+		/** Joins with namespaces and aliases */
+		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
+		$this->assertEquals(gettype($result[0]->r), 'object');
+		$this->assertEquals(get_class($result[0]->r), 'Some\Robots');
+		$this->assertEquals(gettype($result[0]->p), 'object');
+		$this->assertEquals(get_class($result[0]->p), 'Some\RobotsParts');
 		$this->assertEquals(count($result), 3);
 		$this->assertEquals($result[0]->r->id, 1);
 		$this->assertEquals($result[0]->p->id, 1);
@@ -718,6 +747,22 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$status = $manager->executeQuery('DELETE FROM Subscriptores WHERE status = :status: AND email <> :email:', array(
 			'status' => "P",
 			'email' => 'fuego@hotmail.com'
+		));
+		$this->assertTrue($status->success());
+
+	}
+
+	public function _testDeleteRenamedExecute($di)
+	{
+
+		$manager = $di->getShared('modelsManager');
+
+		$status = $manager->executeQuery('DELETE FROM Abonnes WHERE courrierElectronique = "marina@hotmail.com"');
+		$this->assertTrue($status->success());
+
+		$status = $manager->executeQuery('DELETE FROM Abonnes WHERE statut = :statut: AND courrierElectronique <> :courrierElectronique:', array(
+			'statut' => "P",
+			'courrierElectronique' => 'fuego@hotmail.com'
 		));
 		$this->assertTrue($status->success());
 
