@@ -165,16 +165,17 @@ class TagTest extends PHPUnit_Framework_TestCase
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
-		$params = array('horror', $values, 'value' => 'C', 'dummyText' => 'more');
+		$params = array('horror', $values, 'value' => 'C', 'useEmpty' => true);
 		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
+	<option value="">Choose...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
-		$params = array('horror', $values, 'value' => 'C', 'useDummy' => true);
-		$this->assertEquals(Tag::selectStatic($params), '<select useDummy="1" name="horror" id="horror">
-	<option value="">Choose...</option>
+		$params = array('horror', $values, 'value' => 'C', 'useEmpty' => true, 'emptyValue' => '@', 'emptyText' => 'Seleccione...');
+		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
+	<option value="@">Seleccione...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>

@@ -276,8 +276,6 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$abonne->statut = 'P';
 		$this->assertFalse($abonne->save());
 
-		print_r($messages);
-
 		$messages = $abonne->getMessages();
 		$this->assertEquals($messages[0]->getType(), "TooLong");
 		$this->assertEquals($messages[0]->getField(), "courrierElectronique");

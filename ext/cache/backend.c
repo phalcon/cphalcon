@@ -220,9 +220,3 @@ PHP_METHOD(Phalcon_Cache_Backend, getLastKey){
 	RETURN_MEMBER(this_ptr, "_lastKey");
 }
 
-PHP_METHOD(Phalcon_Cache_Backend, get){
-
-
-	
-}
-

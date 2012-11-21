@@ -64,9 +64,9 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Select){
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
-	zval *empty_value = NULL, *empty_text = NULL, *code, *avalue = NULL;
-	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options;
-	zval *array_options;
+	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
+	zval *avalue = NULL, *key = NULL, *close_option, *options = NULL, *using;
+	zval *resultset_options, *array_options;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -134,6 +134,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_unset_string(params, SS("value"));
 	}
 	
+	PHALCON_INIT_VAR(use_empty);
+	ZVAL_BOOL(use_empty, 0);
 	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
 	if (eval_int) {
 		eval_int = phalcon_array_isset_string(params, SS("emptyValue"));
@@ -156,6 +158,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 			PHALCON_SEPARATE(params);
 			phalcon_array_unset_string(params, SS("emptyText"));
 		}
+	
+		phalcon_array_fetch_string(&use_empty, params, SL("useEmpty"), PH_NOISY_CC);
+		PHALCON_SEPARATE(params);
+		phalcon_array_unset_string(params, SS("useEmpty"));
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -196,8 +202,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	PHALCON_INIT_VAR(close_option);
 	PHALCON_CONCAT_SV(close_option, "</option>", eol);
-	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
-	if (eval_int) {
+	if (zend_is_true(use_empty)) {
 		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
 		PHALCON_SEPARATE(params);
 		phalcon_array_unset_string(params, SS("useEmpty"));

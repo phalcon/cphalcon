@@ -123,11 +123,27 @@ class Build_Generator {
 	 */
 	private function _createHeader($path)
 	{
-
 		$fp = fopen('build/phalcon.h', 'w');
 		foreach (file($path.'phalcon.h') as $line) {
-			$line = preg_replace('/^extern /', '', $line);
-			fputs($fp, $line);
+			if (preg_match('/^#include "(.*)"/', $line, $matches)) {
+				$openComment = false;
+				foreach(file($path.$matches[1]) as $hline){
+					$trimLine = trim($hline);
+					if($trimLine=='/*'||$trimLine=='/**'){
+						$openComment = true;
+					}
+					if($openComment===false){
+						$hline = preg_replace('/^extern /', '', $hline);
+						fputs($fp, $hline);
+					}
+					if($trimLine=='*/'||$trimLine=='**/'){
+						$openComment = false;
+					}
+				}
+			} else {
+				$line = preg_replace('/^extern /', '', $line);
+				fputs($fp, $line);
+			}
 		}
 		fclose($fp);
 	}
@@ -186,6 +202,10 @@ class Build_Generator {
 					continue;
 				}
 				if (preg_match('/^#line /', $line)) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
+				if (preg_match('/^PHALCON_DOC_METHOD/', $line)) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
