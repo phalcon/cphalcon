@@ -39,6 +39,7 @@
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Http\Request
@@ -717,21 +718,28 @@ PHP_METHOD(Phalcon_Http_Request, getServerName){
 PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
 	zval *scheme, *server_name, *name, *server_port;
-	zval *port = NULL, *http, *is_std_http, *https, *secure_port;
-	zval *is_secure_http, *is_http_normal, *name_port;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL;
+	zval *port, *http, *standard_port, *is_std_name;
+	zval *is_std_port, *is_std_http, *https, *secure_port;
+	zval *is_secure_scheme, *is_secure_port, *is_secure_http;
+	zval *name_port;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(scheme);
 	PHALCON_CALL_METHOD(scheme, this_ptr, "getscheme", PH_NO_CHECK);
 	
+	/** 
+	 * Get the server name from _SERVER['HTTP_SERVER_NAME']
+	 */
 	PHALCON_INIT_VAR(server_name);
 	ZVAL_STRING(server_name, "HTTP_SERVER_NAME", 1);
 	
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD_PARAMS_1(name, this_ptr, "getserver", server_name, PH_NO_CHECK);
 	
+	/** 
+	 * Get the server port from _SERVER['HTTP_SERVER_PORT']
+	 */
 	PHALCON_INIT_VAR(server_port);
 	ZVAL_STRING(server_port, "HTTP_SERVER_PORT", 1);
 	
@@ -741,17 +749,20 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(http);
 	ZVAL_STRING(http, "http", 1);
 	
-	PHALCON_INIT_NVAR(port);
-	ZVAL_LONG(port, 80);
+	PHALCON_INIT_VAR(standard_port);
+	ZVAL_LONG(standard_port, 80);
 	
-	PHALCON_INIT_VAR(r0);
-	is_equal_function(r0, scheme, http TSRMLS_CC);
+	/** 
+	 * Check if the request is a standard http
+	 */
+	PHALCON_INIT_VAR(is_std_name);
+	is_equal_function(is_std_name, scheme, http TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r1);
-	is_equal_function(r1, port, port TSRMLS_CC);
+	PHALCON_INIT_VAR(is_std_port);
+	is_equal_function(is_std_port, port, standard_port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_std_http);
-	phalcon_and_function(is_std_http, r0, r1);
+	phalcon_and_function(is_std_http, is_std_name, is_std_port);
 	
 	PHALCON_INIT_VAR(https);
 	ZVAL_STRING(https, "https", 1);
@@ -759,18 +770,30 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 	PHALCON_INIT_VAR(secure_port);
 	ZVAL_LONG(secure_port, 443);
 	
-	PHALCON_INIT_VAR(r2);
-	is_equal_function(r2, scheme, https TSRMLS_CC);
+	/** 
+	 * Check if the request is a secure http request
+	 */
+	PHALCON_INIT_VAR(is_secure_scheme);
+	is_equal_function(is_secure_scheme, scheme, https TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r3);
-	is_equal_function(r3, port, secure_port TSRMLS_CC);
+	PHALCON_INIT_VAR(is_secure_port);
+	is_equal_function(is_secure_port, port, secure_port TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(is_secure_http);
-	phalcon_and_function(is_secure_http, r2, r3);
+	phalcon_and_function(is_secure_http, is_secure_scheme, is_secure_port);
 	
-	PHALCON_INIT_VAR(is_http_normal);
-	ZVAL_BOOL(is_http_normal, zend_is_true(is_std_http) || zend_is_true(is_secure_http));
-	if (PHALCON_IS_TRUE(is_http_normal)) {
+	/** 
+	 * If is standard http we return the server name only
+	 */
+	if (PHALCON_IS_TRUE(is_std_http)) {
+	
+		RETURN_CCTOR(name);
+	}
+	
+	/** 
+	 * If is standard secure http we return the server name only
+	 */
+	if (PHALCON_IS_TRUE(is_secure_http)) {
 	
 		RETURN_CCTOR(name);
 	}
@@ -790,6 +813,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 	zval *trust_forwarded_header = NULL, *server = NULL, *address = NULL;
+	zval *comma, *addresses, *first;
 	zval *g0 = NULL;
 	int eval_int;
 
@@ -807,6 +831,10 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	
 	phalcon_get_global(&g0, SL("_SERVER")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(server, g0);
+	
+	/** 
+	 * Proxies uses this IP
+	 */
 	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
 		eval_int = phalcon_array_isset_string(server, SS("HTTP_X_FORWARDED_FOR"));
 		if (eval_int) {
@@ -821,6 +849,22 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	if (eval_int) {
 		PHALCON_INIT_NVAR(address);
 		phalcon_array_fetch_string(&address, server, SL("REMOTE_ADDR"), PH_NOISY_CC);
+		if (phalcon_memnstr_str(address, SL(",") TSRMLS_CC)) {
+			/** 
+			 * The client address has multiples parts, only return the first part
+			 */
+			PHALCON_INIT_VAR(comma);
+			ZVAL_STRING(comma, ",", 1);
+	
+			PHALCON_INIT_VAR(addresses);
+			phalcon_fast_explode(addresses, comma, address TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(first);
+			phalcon_array_fetch_long(&first, addresses, 0, PH_NOISY_CC);
+	
+			RETURN_CCTOR(first);
+		}
+	
 	
 		RETURN_CCTOR(address);
 	}
@@ -1122,8 +1166,8 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
  */
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
-	zval *super_files = NULL, *number_files, *files, *file = NULL;
-	zval *request_file = NULL, *empty_files;
+	zval *super_files = NULL, *files, *file = NULL, *request_file = NULL;
+	zval *empty_files;
 	zval *g0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -1133,10 +1177,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 	phalcon_get_global(&g0, SL("_FILES")+1 TSRMLS_CC);
 	PHALCON_CPY_WRT(super_files, g0);
-	
-	PHALCON_INIT_VAR(number_files);
-	phalcon_fast_count(number_files, super_files TSRMLS_CC);
-	if (zend_is_true(number_files)) {
+	if (phalcon_fast_count_ev(super_files TSRMLS_CC)) {
 		PHALCON_INIT_VAR(files);
 		array_init(files);
 	

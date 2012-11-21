@@ -39,7 +39,7 @@
  * Phalcon\Mvc\Model\Row
  *
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
- * This objects implements the ArrayAccess interfase to allow access the object as object->x or array[x].
+ * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
 
 
@@ -50,15 +50,25 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+	zend_class_implements(phalcon_mvc_model_row_ce TSRMLS_CC, 2, zend_ce_arrayaccess, phalcon_mvc_model_resultinterface_ce);
 
 	return SUCCESS;
 }
 
+/**
+ * Forces that a model doesn't need to be checked if exists before store it
+ *
+ * @param boolean $forceExists
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 
+	zval *force_exists;
 
-	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &force_exists) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_FALSE;
 }
 
 /**
@@ -87,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
  * Gets row in a specific position of the row
  *
  * @param int $index
- * @return string|Phalcon\Mvc\Model
+ * @return string|Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
@@ -116,7 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
  * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param int $index
- * @param Phalcon\Mvc\Model $value
+ * @param Phalcon\Mvc\ModelInterface $value
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 

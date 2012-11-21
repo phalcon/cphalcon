@@ -714,9 +714,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		 * Run Validation Callbacks After
 		 */
 		if (!zend_is_true(exists)) {
-			/** 
-			 * Run Validation Callbacks After
-			 */
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterValidationOnCreate", 1);
 		} else {

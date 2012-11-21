@@ -28,6 +28,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_application_registermodules, 0, 0, 1)
 	ZEND_ARG_INFO(0, modules)
+	ZEND_ARG_INFO(0, merge)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_application_method_entry){

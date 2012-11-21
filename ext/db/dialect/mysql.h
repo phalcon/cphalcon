@@ -21,7 +21,6 @@ extern zend_class_entry *phalcon_db_dialect_mysql_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Mysql);
 
-PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnList);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn);
@@ -41,10 +40,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences);
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumnlist, 0, 0, 1)
-	ZEND_ARG_INFO(0, columnList)
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_getcolumndefinition, 0, 0, 1)
 	ZEND_ARG_INFO(0, column)
@@ -145,7 +140,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_dialect_mysql_tableoptions, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_db_dialect_mysql_method_entry){
-	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnList, arginfo_phalcon_db_dialect_mysql_getcolumnlist, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, getColumnDefinition, arginfo_phalcon_db_dialect_mysql_getcolumndefinition, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, addColumn, arginfo_phalcon_db_dialect_mysql_addcolumn, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Db_Dialect_Mysql, modifyColumn, arginfo_phalcon_db_dialect_mysql_modifycolumn, ZEND_ACC_PUBLIC) 

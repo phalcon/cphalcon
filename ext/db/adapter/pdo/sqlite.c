@@ -119,7 +119,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 /**
  * Returns an array of Phalcon\Db\Column objects describing a table
  *
- * <code>print_r($connection->describeColumns("posts")); ?></code>
+ * <code>
+ * print_r($connection->describeColumns("posts")); ?>
+ * </code>
  *
  * @param string $table
  * @param string $schema

@@ -171,15 +171,17 @@ PHP_METHOD(Phalcon_Db_Adapter, getEventsManager){
  *
  * @param string $sqlQuery
  * @param int $fetchMode
+ * @param array $placeholders
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 
-	zval *sql_query, *fetch_mode = NULL, *result, *row, *empty_row;
+	zval *sql_query, *fetch_mode = NULL, *placeholders = NULL;
+	zval *result, *row, *empty_row;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &sql_query, &fetch_mode) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_query, &fetch_mode, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -189,10 +191,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
+	if (!placeholders) {
+		PHALCON_INIT_NVAR(placeholders);
+	}
+	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_1(result, this_ptr, "query", sql_query, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "query", sql_query, placeholders, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
+		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
+		}
 	
 		PHALCON_INIT_VAR(row);
 		PHALCON_CALL_METHOD(row, result, "fetcharray", PH_NO_CHECK);
@@ -225,17 +233,18 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
  *
  * @param string $sqlQuery
  * @param int $fetchMode
+ * @param array $placeholders
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 
-	zval *sql_query, *fetch_mode = NULL, *results, *result;
-	zval *row = NULL;
+	zval *sql_query, *fetch_mode = NULL, *placeholders = NULL;
+	zval *results, *result, *row = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &sql_query, &fetch_mode) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_query, &fetch_mode, &placeholders) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -245,13 +254,19 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
+	if (!placeholders) {
+		PHALCON_INIT_NVAR(placeholders);
+	}
+	
 	PHALCON_INIT_VAR(results);
 	array_init(results);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_1(result, this_ptr, "query", sql_query, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "query", sql_query, placeholders, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
+		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
+		}
 		ph_cycle_start_0:
 	
 			PHALCON_INIT_NVAR(r0);
@@ -296,10 +311,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	zval *table, *values, *fields = NULL, *data_types = NULL, *exception_message;
 	zval *placeholders, *insert_values, *bind_data_types = NULL;
 	zval *value = NULL, *position = NULL, *str_value = NULL, *bind_type = NULL;
-	zval *joined_values, *joined_fields, *insert_sql = NULL;
-	zval *success;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *escaped_table, *joined_values, *escaped_fields;
+	zval *field = NULL, *escaped_field = NULL, *joined_fields;
+	zval *insert_sql = NULL, *success;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 	char *hash_index;
 	uint hash_index_len;
@@ -345,6 +361,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_CPY_WRT(bind_data_types, data_types);
 	}
 	
+	/** 
+	 * Objects are casted using __toString, null values are converted to string 'null',
+	 * everything else is passed as '?'
+	 */
 	
 	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 		return;
@@ -391,17 +411,50 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	
 	ph_cycle_end_0:
 	
+	PHALCON_INIT_VAR(escaped_table);
+	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table, PH_NO_CHECK);
+	
+	/** 
+	 * Build the final SQL INSERT statement
+	 */
 	PHALCON_INIT_VAR(joined_values);
 	phalcon_fast_join_str(joined_values, SL(", "), placeholders TSRMLS_CC);
 	if (Z_TYPE_P(fields) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(escaped_fields);
+		array_init(escaped_fields);
+	
+		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+			return;
+		}
+	
+		ah1 = Z_ARRVAL_P(fields);
+		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	
+		ph_cycle_start_1:
+	
+			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
+				goto ph_cycle_end_1;
+			}
+	
+			PHALCON_GET_FOREACH_VALUE(field);
+	
+			PHALCON_INIT_NVAR(escaped_field);
+			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field, PH_NO_CHECK);
+			phalcon_array_append(&escaped_fields, escaped_field, PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah1, &hp1);
+			goto ph_cycle_start_1;
+	
+		ph_cycle_end_1:
+	
 		PHALCON_INIT_VAR(joined_fields);
-		phalcon_fast_join_str(joined_fields, SL(", "), fields TSRMLS_CC);
+		phalcon_fast_join_str(joined_fields, SL(", "), escaped_fields TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(insert_sql);
-		PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", table, " (", joined_fields, ") VALUES (", joined_values, ")");
+		PHALCON_CONCAT_SVSVSVS(insert_sql, "INSERT INTO ", escaped_table, " (", joined_fields, ") VALUES (", joined_values, ")");
 	} else {
 		PHALCON_INIT_NVAR(insert_sql);
-		PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", table, " VALUES (", joined_values, ")");
+		PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", escaped_table, " VALUES (", joined_values, ")");
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -438,8 +491,9 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	zval *table, *fields, *values, *where_condition = NULL;
 	zval *data_types = NULL, *placeholders, *update_values;
 	zval *bind_data_types = NULL, *value = NULL, *position = NULL, *field = NULL;
-	zval *set_clause_part = NULL, *bind_type = NULL, *set_clause;
-	zval *update_sql = NULL, *success;
+	zval *escaped_field = NULL, *set_clause_part = NULL, *bind_type = NULL;
+	zval *escaped_table, *set_clause, *update_sql = NULL;
+	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -476,6 +530,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		PHALCON_CPY_WRT(bind_data_types, data_types);
 	}
 	
+	/** 
+	 * Objects are casted using __toString, null values are converted to string 'null',
+	 * everything else is passed as '?'
+	 */
 	
 	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
 		return;
@@ -497,17 +555,20 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		if (eval_int) {
 			PHALCON_INIT_NVAR(field);
 			phalcon_array_fetch(&field, fields, position, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(escaped_field);
+			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field, PH_NO_CHECK);
 			if (Z_TYPE_P(value) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(set_clause_part);
-				PHALCON_CONCAT_VSV(set_clause_part, field, " = ", value);
+				PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
 				phalcon_array_append(&placeholders, set_clause_part, PH_SEPARATE TSRMLS_CC);
 			} else {
 				if (Z_TYPE_P(value) == IS_NULL) {
 					PHALCON_INIT_NVAR(set_clause_part);
-					PHALCON_CONCAT_VS(set_clause_part, field, " = null");
+					PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = null");
 				} else {
 					PHALCON_INIT_NVAR(set_clause_part);
-					PHALCON_CONCAT_VS(set_clause_part, field, " = ?");
+					PHALCON_CONCAT_VS(set_clause_part, escaped_field, " = ?");
 					phalcon_array_append(&update_values, value, PH_SEPARATE TSRMLS_CC);
 					if (Z_TYPE_P(data_types) == IS_ARRAY) { 
 						eval_int = phalcon_array_isset(data_types, position);
@@ -533,14 +594,17 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	
 	ph_cycle_end_0:
 	
+	PHALCON_INIT_VAR(escaped_table);
+	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table, PH_NO_CHECK);
+	
 	PHALCON_INIT_VAR(set_clause);
 	phalcon_fast_join_str(set_clause, SL(", "), placeholders TSRMLS_CC);
 	if (Z_TYPE_P(where_condition) != IS_NULL) {
 		PHALCON_INIT_VAR(update_sql);
-		PHALCON_CONCAT_SVSVSV(update_sql, "UPDATE ", table, " SET ", set_clause, " WHERE ", where_condition);
+		PHALCON_CONCAT_SVSVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause, " WHERE ", where_condition);
 	} else {
 		PHALCON_INIT_NVAR(update_sql);
-		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", table, " SET ", set_clause);
+		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause);
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -572,7 +636,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 PHP_METHOD(Phalcon_Db_Adapter, delete){
 
 	zval *table, *where_condition = NULL, *placeholders = NULL;
-	zval *data_types = NULL, *sql = NULL, *success;
+	zval *data_types = NULL, *escaped_table, *sql = NULL, *success;
 
 	PHALCON_MM_GROW();
 
@@ -593,12 +657,14 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 		PHALCON_INIT_NVAR(data_types);
 	}
 	
+	PHALCON_INIT_VAR(escaped_table);
+	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table, PH_NO_CHECK);
 	if (Z_TYPE_P(where_condition) != IS_NULL) {
 		PHALCON_INIT_VAR(sql);
-		PHALCON_CONCAT_SVSV(sql, "DELETE FROM ", table, " WHERE ", where_condition);
+		PHALCON_CONCAT_SVSV(sql, "DELETE FROM ", escaped_table, " WHERE ", where_condition);
 	} else {
 		PHALCON_INIT_NVAR(sql);
-		PHALCON_CONCAT_SV(sql, "DELETE FROM ", table);
+		PHALCON_CONCAT_SV(sql, "DELETE FROM ", escaped_table);
 	}
 	
 	PHALCON_INIT_VAR(success);
@@ -636,7 +702,9 @@ PHP_METHOD(Phalcon_Db_Adapter, getColumnList){
 /**
  * Appends a LIMIT clause to $sqlQuery argument
  *
- * <code>$connection->limit("SELECT * FROM robots", 5);</code>
+ * <code>
+ * $connection->limit("SELECT * FROM robots", 5);
+ * </code>
  *
  * @param  	string $sqlQuery
  * @param 	int $number
@@ -665,7 +733,9 @@ PHP_METHOD(Phalcon_Db_Adapter, limit){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
- * <code>$connection->tableExists("blog", "posts")</code>
+ * <code>
+ * $connection->tableExists("blog", "posts")
+ * </code>
  *
  * @param string $tableName
  * @param string $schemaName
@@ -708,7 +778,9 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 /**
  * Generates SQL checking for the existence of a schema.view
  *
- * <code>$connection->viewExists("active_users", "posts")</code>
+ *<code>
+ * $connection->viewExists("active_users", "posts")
+ *</code>
  *
  * @param string $viewName
  * @param string $schemaName

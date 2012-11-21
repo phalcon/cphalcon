@@ -26,7 +26,7 @@
 
 #include "scanner.h"
 
-#define YYCTYPE char
+#define YYCTYPE unsigned int
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
 #define YYMARKER q
@@ -240,6 +240,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		'NULL' {
 			token->opcode = PHQL_T_NULL;
+			return 0;
+		}
+
+		'DISTINCT' {
+			token->opcode = PHQL_T_DISTINCT;
+			return 0;
+		}
+
+		'BETWEEN' {
+			token->opcode = PHQL_T_BETWEEN;
 			return 0;
 		}
 

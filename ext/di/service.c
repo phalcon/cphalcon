@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
  * Restore the interal state of a service
  *
  * @param array $attributes
- * @return Phalcon_DI_Service
+ * @return Phalcon\DI\Service
  */
 PHP_METHOD(Phalcon_DI_Service, __set_state){
 

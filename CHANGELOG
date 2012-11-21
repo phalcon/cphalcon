@@ -8,6 +8,20 @@
  - Added Phalcon\Dispatcher::getDefaultNamespace
  - Added a $merge parameter to every Phalcon\Loader strategy to merge current values with a new array
  - Implemented registering services as "always shared"
+ - Now Phalcon\Mvc\Model::save, Phalcon\Mvc\Model::create, Phalcon\Mvc\Model::update receives an array to assign the model's attributes from it
+ - Support for UTF-8/UTF-16 characters on 32 bit platforms for PHQL/Volt parsers
+ - Support for custom schemas in PHQL
+ - Now is possible pass bound parameters to Phalcon\DB::fetchOne and Phalcon\Db::fetchAll
+ - Implemented independent column map for models and a full escaping system for columns/tables/schemas according to the database system conventions
+ - Added a $merge parameter to Phalcon\Mvc\Application::registerModules to merge new modules with current ones
+ - Phalcon\Mvc\Application now allows to register a module using an anonymous function
+ - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
+ - Support for COUNT(DISTINCT x) syntax in PHQL
+ - Allowing user-defined messages in most Phalcon\Mvc\Model\Validators
+ - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it is available
+ - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
+ - Fixed missing json_encode filter in Volt
+ - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows to cache both simple and complex resultsets
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler
@@ -16,7 +30,7 @@
  - Now $this->view->disable() disables the auto-rendering mode completely
  - Added Phalcon\Mvc\View::enable that re-enables the auto-rendering mode
  - Added Phalcon\Cache\Backend::stop() to stop the cache without store anything into the backend
- - Fixed bug in Phalcon\Mvc\View that saves a empty cached content when using a cache
+ - Fixed bug in Phalcon\Mvc\View that saves an empty cached content when using a cache
  - Implemented Phalcon\Db::FETCH_OBJ to return objects instead of arrays
 
 0.6.0

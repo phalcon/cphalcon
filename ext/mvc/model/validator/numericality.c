@@ -83,8 +83,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Numericality){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 
-	zval *record, *option, *field, *value, *type, *message;
-	zval *r0 = NULL;
+	zval *record, *option = NULL, *field, *value, *is_numeric;
+	zval *message = NULL, *type;
 
 	PHALCON_MM_GROW();
 
@@ -106,14 +106,27 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", value);
-	if (!zend_is_true(r0)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "numericality", 1);
+	/** 
+	 * Check if the value is numeric using is_numeric in the PHP userland
+	 */
+	PHALCON_INIT_VAR(is_numeric);
+	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
+	if (!zend_is_true(is_numeric)) {
+		/** 
+		 * Check if the developer has defined a custom message
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		if (!zend_is_true(message)) {
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
+		}
+	
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "Numericality", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

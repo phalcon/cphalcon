@@ -17,13 +17,15 @@ class Build_Generator {
 
 	private $_headers = array();
 
+	private $_exceptionHeaders = array();
+
 	private $_kernelHeaders = array(
 		'mvc/model/query/parser.h',
 		'mvc/model/query/scanner.h',
-		'mvc/model/query/lang.h',
+		'mvc/model/query/phql.h',
 		'mvc/view/engine/volt/parser.h',
 		'mvc/view/engine/volt/scanner.h',
-		'mvc/view/engine/volt/compiler.h',
+		'mvc/view/engine/volt/volt.h',
 		'kernel/main.h',
 		'kernel/memory.h',
 		'kernel/fcall.h',
@@ -123,11 +125,28 @@ class Build_Generator {
 	 */
 	private function _createHeader($path)
 	{
-
 		$fp = fopen('build/phalcon.h', 'w');
 		foreach (file($path.'phalcon.h') as $line) {
-			$line = preg_replace('/^extern /', '', $line);
-			fputs($fp, $line);
+			if (preg_match('/^#include "(.*)"/', $line, $matches)) {
+				$openComment = false;
+				foreach(file($path.$matches[1]) as $hline){
+					$trimLine = trim($hline);
+					if($trimLine=='/*'||$trimLine=='/**'){
+						$openComment = true;
+					}
+					if($openComment===false){
+						$hline = preg_replace('/^extern /', '', $hline);
+						fputs($fp, $hline);
+					}
+					if($trimLine=='*/'||$trimLine=='**/'){
+						$openComment = false;
+					}
+				}
+				$this->_exceptionHeaders[$matches[1]] = true;
+			} else {
+				$line = preg_replace('/^extern /', '', $line);
+				fputs($fp, $line);
+			}
 		}
 		fclose($fp);
 	}
@@ -189,6 +208,10 @@ class Build_Generator {
 					//echo $line, PHP_EOL;
 					continue;
 				}
+				if (preg_match('/^PHALCON_DOC_METHOD/', $line)) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
 				if (preg_match('/^extern ([A-Za-z\_]+)/', $line, $matches)) {
 					if ($matches[1] == 'ZEND_API' || $matches[1] == 'PHPAPI') {
 						fputs($fileHandler, $line);
@@ -231,12 +254,14 @@ class Build_Generator {
 					//echo $line, PHP_EOL;
 					continue;
 				}
-				if(strpos($matches[1], '/')===false){
-					$headerPath = str_replace('ext/', '', dirname($path).'/'.$matches[1]);
-				} else {
-					$headerPath =$matches[1];
+				if(!isset($this->_exceptionHeaders[$matches[1]])){
+					if(strpos($matches[1], '/')===false){
+						$headerPath = str_replace('ext/', '', dirname($path).'/'.$matches[1]);
+					} else {
+						$headerPath = $matches[1];
+					}
+					$this->_headers[$headerPath] = true;
 				}
-				$this->_headers[$headerPath] = true;
 			}
 		}
 	}

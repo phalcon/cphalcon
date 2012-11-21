@@ -1185,7 +1185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 }
 
 /**
- * Query the relations between two models
+ * Query the relationships between two models
  *
  * @param string $first
  * @param string $second
@@ -1331,5 +1331,41 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	PHALCON_CALL_METHOD_PARAMS_1(result, query, "execute", placeholders, PH_NO_CHECK);
 	
 	RETURN_CCTOR(result);
+}
+
+/**
+ * Creates a Phalcon\Mvc\Model\Query\Builder
+ *
+ * @param string $params
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
+
+	zval *params = NULL, *dependency_injector, *query;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &params) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!params) {
+		PHALCON_INIT_NVAR(params);
+	}
+	
+	PHALCON_INIT_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injection object is required to access ORM services");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(query);
+	object_init_ex(query, phalcon_mvc_model_query_builder_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", params, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector, PH_NO_CHECK);
+	
+	RETURN_CTOR(query);
 }
 

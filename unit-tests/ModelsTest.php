@@ -40,7 +40,12 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _getDI()
+	protected function _prepareDb($db){
+		$db->delete("personas", "estado='X'");
+		$db->delete("personas", "cedula LIKE 'CELL%'");
+	}
+
+	protected function _getDI($dbService)
 	{
 
 		Phalcon\DI::reset();
@@ -55,65 +60,48 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Mvc\Model\Metadata\Memory();
 		});
 
+		$di->set('db', $dbService);
+
 		return $di;
 	}
 
 	public function testModelsMysql()
 	{
 
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
-
+		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
 	public function testModelsPostgresql()
 	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
+		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
+			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
 	public function testModelsSqlite()
 	{
-
-		$di = $this->_getDI();
-
-		$di->set('db', function(){
+		$di = $this->_getDI(function(){
 			require 'unit-tests/config.db.php';
-
-			$db = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-
-			$db->delete("personas", "estado='X'");
-
-			return $db;
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 		});
 
-		$this->_executeTests($di);
+		$this->_executeTestsNormal($di);
+		$this->_executeTestsRenamed($di);
 	}
 
-	protected function _executeTests($di){
+	protected function _executeTestsNormal($di){
+
+		$this->_prepareDb($di->getShared('db'));
 
 		//Count tests
 		$this->assertEquals(People::count(), Personas::count());
@@ -337,5 +325,210 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	protected function _executeTestsRenamed($di)
+	{
+
+		$this->_prepareDb($di->getShared('db'));
+
+		$params = array();
+		$this->assertTrue(Personers::count($params) > 0);
+
+		$params = array("status = 'I'");
+		$this->assertTrue(Personers::count($params) > 0);
+
+		$params = "status='I'";
+		$this->assertTrue(Personers::count($params) > 0);
+
+		$params = array("conditions" => "status='I'");
+		$this->assertTrue(Personers::count($params) > 0);
+
+		//Find first
+		$personer = Personers::findFirst();
+		$this->assertTrue(is_object($personer));
+		$this->assertEquals(get_class($personer), 'Personers');
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$personer = Personers::findFirst("status = 'I'");
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$personer = Personers::findFirst(array("status='I'"));
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$params = array("conditions" => "status='I'");
+		$personer = Personers::findFirst($params);
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$params = array("conditions" => "status='A'", "order" => "navnes");
+		$personer = Personers::findFirst($params);
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$params = array("status='A'", "order" => "navnes DESC", "limit" => 30);
+		$personer = Personers::findFirst($params);
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$params = array("status=?1", "bind" => array(1 => 'A'), "order" => "navnes DESC", "limit" => 30);
+		$personer = Personers::findFirst($params);
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$params = array("status=:status:", "bind" => array("status" => 'A'), "order" => "navnes DESC", "limit" => 30);
+		$personer = Personers::findFirst($params);
+		$this->assertTrue(is_object($personer));
+		$this->assertTrue(isset($personer->navnes));
+		$this->assertTrue(isset($personer->status));
+
+		$robotter = Robotters::findFirst(1);
+		$this->assertEquals(get_class($robotter), 'Robotters');
+
+		//Find tests
+		$personers = Personers::find();
+		$this->assertTrue(count($personers) > 0);
+
+		$personers = Personers::find("status='I'");
+		$this->assertTrue(count($personers) > 0);
+
+		$personers = Personers::find(array("status='I'"));
+		$this->assertTrue(count($personers) > 0);
+
+		$personers = Personers::find(array("status='I'", "order" => "navnes"));
+		$this->assertTrue(count($personers) > 0);
+
+		$params = array("status='I'", "order" => "navnes", "limit" => 100);
+		$personers = Personers::find($params);
+		$this->assertTrue(count($personers) > 0);
+
+		$params = array("status=?1", "bind" => array(1 => "A"), "order" => "navnes", "limit" => 100);
+		$personers = Personers::find($params);
+		$this->assertTrue(count($personers) > 0);
+
+		$params = array("status=:status:", "bind" => array('status' => "A"), "order" => "navnes", "limit" => 100);
+		$personers = Personers::find($params);
+		$this->assertTrue(count($personers) > 0);
+
+		//Traverse the cursor
+		$number = 0;
+		$personers = Personers::find(array("conditions" => "status='A'", "order" => "navnes", "limit" => 20));
+		foreach($personers as $personer){
+			$number++;
+		}
+		$this->assertEquals($number, 20);
+
+		$personer = new Personers($di);
+		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$this->assertFalse($personer->save());
+
+		//Messages
+		$this->assertEquals(count($personer->getMessages()), 4);
+
+		$messages = array(
+			0 => ModelMessage::__set_state(array(
+				'_type' => 'PresenceOf',
+				'_message' => 'slagBorgerId is required',
+				'_field' => 'slagBorgerId',
+			)),
+			1 => ModelMessage::__set_state(array(
+				'_type' => 'PresenceOf',
+				'_message' => 'navnes is required',
+				'_field' => 'navnes',
+			)),
+			2 => ModelMessage::__set_state(array(
+				'_type' => 'PresenceOf',
+				'_message' => 'kredit is required',
+				'_field' => 'kredit',
+			)),
+			3 => ModelMessage::__set_state(array(
+				'_type' => 'PresenceOf',
+				'_message' => 'status is required',
+				'_field' => 'status',
+			)),
+		);
+		$this->assertEquals($personer->getMessages(), $messages);
+
+		//Save
+		$personer = new Personers($di);
+		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->slagBorgerId = 1;
+		$personer->navnes = 'LOST';
+		$personer->telefon = '1';
+		$personer->kredit = 20000;
+		$personer->status = 'A';
+		$this->assertTrue($personer->save());
+
+		$personer = new Personers($di);
+		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->slagBorgerId = 1;
+		$personer->navnes = 'LOST LOST';
+		$personer->telefon = '2';
+		$personer->kredit = 0;
+		$personer->status = 'X';
+		$this->assertTrue($personer->save());
+
+		//Check correct save
+		$personer = Personers::findFirst(array("status='X'"));
+		$this->assertNotEquals($personer, false);
+		$this->assertEquals($personer->navnes, 'LOST LOST');
+		$this->assertEquals($personer->status, 'X');
+
+		//Update
+		$personer->kredit = 150000;
+		$personer->telefon = '123';
+		$this->assertTrue($personer->update());
+
+		//Checking correct update
+		$personer = Personers::findFirst(array("status='X'"));
+		$this->assertNotEquals($personer, false);
+		$this->assertEquals($personer->kredit, 150000);
+		$this->assertEquals($personer->telefon, '123');
+
+		//Update
+		$this->assertTrue($personer->update(array(
+			'navnes' => 'LOST UPDATE',
+			'telefon' => '2121'
+		)));
+
+		//Checking correct update
+		$personer = Personers::findFirst(array("status='X'"));
+		$this->assertNotEquals($personer, false);
+		$this->assertEquals($personer->navnes, 'LOST UPDATE');
+		$this->assertEquals($personer->telefon, '2121');
+
+		//Create
+		$personer = new Personers($di);
+		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->slagBorgerId = 1;
+		$personer->navnes = 'LOST CREATE';
+		$personer->telefon = '2';
+		$personer->kredit = 21000;
+		$personer->status = 'A';
+		$this->assertTrue($personer->save());
+
+		$personer = new Personers($di);
+		$this->assertTrue($personer->create(array(
+			'borgerId' => 'CELL'.mt_rand(0, 9999),
+			'slagBorgerId' => 1,
+			'navnes' => 'LOST CREATE',
+			'telefon' => '1',
+			'kredit' => 21000,
+			'status' => 'A'
+		)));
+
+		//Deleting
+		$before = Personers::count();
+		$this->assertTrue($personer->delete());
+		$this->assertEquals($before-1, Personers::count());
+
+	}
 
 }

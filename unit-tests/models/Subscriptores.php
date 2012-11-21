@@ -16,7 +16,7 @@ class Subscriptores extends Phalcon\Mvc\Model
 	public function beforeValidation()
 	{
 		if ($this->email == 'marina@hotmail.com') {
-			$this->appendMessage(new Message('Sorry Marina, but your are not allowed here'));
+			$this->appendMessage(new Message('Sorry Marina, but you are not allowed here'));
 			return false;
 		}
 	}

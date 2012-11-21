@@ -38,10 +38,19 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface){
 }
 
 /**
+ * Reads meta-data for certain model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
+
+/**
  * Reads meta-data for certain model using a MODEL_* constant
  *
  * @param Phalcon\Mvc\ModelInterface $model
  * @param int $index
+ * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
 
@@ -53,6 +62,22 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
  * @param mixed $data
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
+
+/**
+ * Reads the ordered/reversed column map for certain model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
+
+/**
+ * Reads column-map information for certain model using a MODEL_* constant
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param int $index
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
 
 /**
  * Returns table attributes names (fields)
@@ -149,6 +174,30 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticCreateAttrib
  * @param  array $attributes
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttributes);
+
+/**
+ * Returns the column map if any
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
+
+/**
+ * Returns the reverse column map if any
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
+
+/**
+ * Check if a model has certain attribute
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
 
 /**
  * Checks if the internal meta-data container is empty

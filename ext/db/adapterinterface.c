@@ -49,6 +49,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, __construct);
  *
  * @param string $sqlQuery
  * @param int $fetchMode
+ * @param int $placeholders
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchOne);
@@ -58,6 +59,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchOne);
  *
  * @param string $sqlQuery
  * @param int $fetchMode
+ * @param int $placeholders
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, fetchAll);
@@ -381,6 +383,14 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, affectedRows);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, close);
+
+/**
+ * Escapes a column/table/schema name
+ *
+ * @param string $identifier
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeIdentifier);
 
 /**
  * Escapes a value to avoid SQL injections

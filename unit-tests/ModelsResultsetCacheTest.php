@@ -59,8 +59,8 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$iterator = new DirectoryIterator('unit-tests/cache/');
-		foreach($iterator as $item){
-			if(!$item->isDir()){
+		foreach ($iterator as $item) {
+			if (!$item->isDir()) {
 				unlink($item->getPathname());
 			}
 		}
@@ -118,16 +118,34 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testCacheDefaultDIMysql()
+	protected function _testCacheDefaultDIBindings($di)
 	{
-		$di = $this->_prepareTestMysql();
-		return $this->_testCacheDefaultDI($di);
-	}
 
-	public function testCacheDefaultDIPostgresql()
-	{
-		$di = $this->_prepareTestPostgresql();
-		return $this->_testCacheDefaultDI($di);
+		$di->set('modelsCache', function(){
+			$frontCache = new Phalcon\Cache\Frontend\Data();
+			return new Phalcon\Cache\Backend\File($frontCache, array(
+				'cacheDir' => 'unit-tests/cache/'
+			));
+		});
+
+		$robots = Robots::find(array(
+			'cache' => array('key' => 'some'),
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => 0, 'id2' => 4),
+			'order' => 'id'
+		));
+		$this->assertEquals(count($robots), 3);
+		$this->assertTrue($robots->isFresh());
+
+		$robots = Robots::find(array(
+			'cache' => array('key' => 'some'),
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => 0, 'id2' => 4),
+			'order' => 'id'
+		));
+		$this->assertEquals(count($robots), 3);
+		$this->assertFalse($robots->isFresh());
+
 	}
 
 	protected function _testCacheOtherService($di)
@@ -162,20 +180,42 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-		return $robots;
+		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
+
+		$this->assertEquals($robots->getCache()->queryKeys(), array(
+			0 => 'othersome',
+		));
+	}
+
+	public function testCacheDefaultDIMysql()
+	{
+		$di = $this->_prepareTestMysql();
+		$this->_testCacheDefaultDI($di);
+	}
+
+	public function testCacheDefaultDIPostgresql()
+	{
+		$di = $this->_prepareTestPostgresql();
+		$this->_testCacheDefaultDI($di);
+	}
+
+	public function testCacheDefaultDIBindingsMysql()
+	{
+		$di = $this->_prepareTestMysql();
+		$this->_testCacheDefaultDIBindings($di);
+	}
+
+	public function testCacheDefaultDIBindingsPostgresql()
+	{
+		$di = $this->_prepareTestPostgresql();
+		$this->_testCacheDefaultDIBindings($di);
 	}
 
 	public function testCacheOtherServiceMysql()
 	{
 
 		$di = $this->_prepareTestMysql();
-		$robots = $this->_testCacheOtherService($di);
-
-		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
-
-		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'othersome',
-		));
+		$this->_testCacheOtherService($di);
 	}
 
 	public function testCacheOtherServicePostgresql()
@@ -183,12 +223,6 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_prepareTestMysql();
 		$robots = $this->_testCacheOtherService($di);
-
-		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
-
-		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'othersome',
-		));
 	}
 
 }
