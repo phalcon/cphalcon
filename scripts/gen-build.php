@@ -17,13 +17,15 @@ class Build_Generator {
 
 	private $_headers = array();
 
+	private $_exceptionHeaders = array();
+
 	private $_kernelHeaders = array(
 		'mvc/model/query/parser.h',
 		'mvc/model/query/scanner.h',
-		'mvc/model/query/lang.h',
+		'mvc/model/query/phql.h',
 		'mvc/view/engine/volt/parser.h',
 		'mvc/view/engine/volt/scanner.h',
-		'mvc/view/engine/volt/compiler.h',
+		'mvc/view/engine/volt/volt.h',
 		'kernel/main.h',
 		'kernel/memory.h',
 		'kernel/fcall.h',
@@ -140,6 +142,7 @@ class Build_Generator {
 						$openComment = false;
 					}
 				}
+				$this->_exceptionHeaders[$matches[1]] = true;
 			} else {
 				$line = preg_replace('/^extern /', '', $line);
 				fputs($fp, $line);
@@ -251,12 +254,14 @@ class Build_Generator {
 					//echo $line, PHP_EOL;
 					continue;
 				}
-				if(strpos($matches[1], '/')===false){
-					$headerPath = str_replace('ext/', '', dirname($path).'/'.$matches[1]);
-				} else {
-					$headerPath =$matches[1];
+				if(!isset($this->_exceptionHeaders[$matches[1]])){
+					if(strpos($matches[1], '/')===false){
+						$headerPath = str_replace('ext/', '', dirname($path).'/'.$matches[1]);
+					} else {
+						$headerPath = $matches[1];
+					}
+					$this->_headers[$headerPath] = true;
 				}
-				$this->_headers[$headerPath] = true;
 			}
 		}
 	}

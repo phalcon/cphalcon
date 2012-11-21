@@ -319,8 +319,15 @@ ext/mvc/urlinterface.lo
 ext/mvc/view/engineinterface.lo
 ext/mvc/viewinterface.lo
 ext/paginator/adapterinterface.lo
-ext/session/adapter.lo
+ext/session/adapter.l
 ext/session/adapterinterface.lo
 ext/session/baginterface.lo
-ext/translate/adapter.lo
+ext/translat/adapter.lo
 ext/translate/adapterinterface.lo
+ext/mvc/controllerinterface.lo
+ext/mvc/model/query/builder.lo
+ext/mvc/mode/resultinterface.lo
+ext/mvc/moduledefinitioninterface.lo
+ext/session/adapter.lo
+ext/translate/adapter.lo
+ext/mvc/model/resultinterface.lo
