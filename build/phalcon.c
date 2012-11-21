@@ -231,21 +231,26 @@ const phql_token_names phql_tokens[];
 
 
 
-zend_class_entry *phalcon_mvc_model_query_lang_ce;
+typedef struct _phql_parser_token {
+	int opcode;
+	char *token;
+	int token_len;
+	int free_flag;
+} phql_parser_token;
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang);
+typedef struct _phql_parser_status {
+	int status;
+	zval *ret;
+	phql_scanner_state *scanner_state;
+	char *syntax_error;
+	zend_uint syntax_error_len;
+} phql_parser_status;
 
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL);
+#define PHQL_PARSING_OK 1
+#define PHQL_PARSING_FAILED 0
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_lang_parsephql, 0, 0, 1)
-	ZEND_ARG_INFO(0, phql)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_mvc_model_query_lang_method_entry){
-	PHP_ME(Phalcon_Mvc_Model_Query_Lang, parsePHQL, arginfo_phalcon_mvc_model_query_lang_parsephql, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
-	PHP_FE_END
-};
-
+int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
+int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC);
 
 
 #define PHVOLT_COMMA                           1
@@ -431,59 +436,26 @@ const phvolt_token_names phvolt_tokens[];
 
 
 
-zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
+typedef struct _phvolt_parser_token {
+	int opcode;
+	char *token;
+	int token_len;
+	int free_flag;
+} phvolt_parser_token;
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler);
+typedef struct _phvolt_parser_status {
+	int status;
+	zval *ret;
+	phvolt_scanner_state *scanner_state;
+	char *syntax_error;
+	zend_uint syntax_error_len;
+} phvolt_parser_status;
 
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse);
+#define PHVOLT_PARSING_OK 1
+#define PHVOLT_PARSING_FAILED 0
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_setdi, 0, 0, 1)
-	ZEND_ARG_INFO(0, dependencyInjector)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler__expression, 0, 0, 2)
-	ZEND_ARG_INFO(0, expr)
-	ZEND_ARG_INFO(0, extendsMode)
-	ZEND_ARG_INFO(0, prependDollar)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewCode)
-	ZEND_ARG_INFO(0, extendsMode)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0, 0, 2)
-	ZEND_ARG_INFO(0, path)
-	ZEND_ARG_INFO(0, compiledPath)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_parse, 0, 0, 1)
-	ZEND_ARG_INFO(0, viewCode)
-ZEND_END_ARG_INFO()
-
-PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry){
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, setDI, arginfo_phalcon_mvc_view_engine_volt_compiler_setdi, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, getDI, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _functionCall, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _filter, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _expression, arginfo_phalcon_mvc_view_engine_volt_compiler__expression, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource, NULL, ZEND_ACC_PROTECTED) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString, arginfo_phalcon_mvc_view_engine_volt_compiler_compilestring, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compile, arginfo_phalcon_mvc_view_engine_volt_compiler_compile, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, parse, arginfo_phalcon_mvc_view_engine_volt_compiler_parse, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
-
+int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC);
+int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC);
 
 
 
@@ -6724,54 +6696,6 @@ int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path 
 
 
 
-typedef struct _phql_parser_token {
-	int opcode;
-	char *token;
-	int token_len;
-	int free_flag;
-} phql_parser_token;
-
-typedef struct _phql_parser_status {
-	int status;
-	zval *ret;
-	phql_scanner_state *scanner_state;
-	char *syntax_error;
-	zend_uint syntax_error_len;
-} phql_parser_status;
-
-#define PHQL_PARSING_OK 1
-#define PHQL_PARSING_FAILED 0
-
-int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
-int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC);
-
-
-
-
-typedef struct _phvolt_parser_token {
-	int opcode;
-	char *token;
-	int token_len;
-	int free_flag;
-} phvolt_parser_token;
-
-typedef struct _phvolt_parser_status {
-	int status;
-	zval *ret;
-	phvolt_scanner_state *scanner_state;
-	char *syntax_error;
-	zend_uint syntax_error_len;
-} phvolt_parser_status;
-
-#define PHVOLT_PARSING_OK 1
-#define PHVOLT_PARSING_FAILED 0
-
-int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC);
-int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC);
-
-
-
-
 #ifdef HAVE_CONFIG_H
 #endif
 
@@ -7608,12 +7532,6 @@ PHP_METHOD(Phalcon_Cache_Backend, getLastKey){
 
 
 	RETURN_MEMBER(this_ptr, "_lastKey");
-}
-
-PHP_METHOD(Phalcon_Cache_Backend, get){
-
-
-	
 }
 
 
@@ -55784,7 +55702,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 7);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	add_next_index_long(version, 1);
 	
 	RETURN_CTOR(version);
@@ -58111,9 +58029,9 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Select){
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
-	zval *empty_value = NULL, *empty_text = NULL, *code, *avalue = NULL;
-	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options;
-	zval *array_options;
+	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
+	zval *avalue = NULL, *key = NULL, *close_option, *options = NULL, *using;
+	zval *resultset_options, *array_options;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -58181,6 +58099,8 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_unset_string(params, SS("value"));
 	}
 	
+	PHALCON_INIT_VAR(use_empty);
+	ZVAL_BOOL(use_empty, 0);
 	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
 	if (eval_int) {
 		eval_int = phalcon_array_isset_string(params, SS("emptyValue"));
@@ -58203,6 +58123,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 			PHALCON_SEPARATE(params);
 			phalcon_array_unset_string(params, SS("emptyText"));
 		}
+	
+		phalcon_array_fetch_string(&use_empty, params, SL("useEmpty"), PH_NOISY_CC);
+		PHALCON_SEPARATE(params);
+		phalcon_array_unset_string(params, SS("useEmpty"));
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -58243,8 +58167,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	PHALCON_INIT_VAR(close_option);
 	PHALCON_CONCAT_SV(close_option, "</option>", eol);
-	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
-	if (eval_int) {
+	if (zend_is_true(use_empty)) {
 		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
 		PHALCON_SEPARATE(params);
 		phalcon_array_unset_string(params, SS("useEmpty"));

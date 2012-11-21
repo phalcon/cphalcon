@@ -2799,7 +2799,6 @@ PHP_METHOD(Phalcon_Cache_Backend, getFrontend);
 PHP_METHOD(Phalcon_Cache_Backend, isFresh);
 PHP_METHOD(Phalcon_Cache_Backend, isStarted);
 PHP_METHOD(Phalcon_Cache_Backend, getLastKey);
-PHP_METHOD(Phalcon_Cache_Backend, get);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, frontendObject)
@@ -2822,7 +2821,6 @@ PHALCON_INIT_FUNCS(phalcon_cache_backend_method_entry){
 	PHP_ME(Phalcon_Cache_Backend, isFresh, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, isStarted, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Cache_Backend, getLastKey, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Cache_Backend, get, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_ABSTRACT) 
 	PHP_FE_END
 };
 
