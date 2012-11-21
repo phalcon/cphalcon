@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "__construct", params, PH_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setmodels", model_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "from", model_name, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
@@ -767,14 +767,14 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "__construct", params, PH_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setmodels", model_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "from", model_name, PH_NO_CHECK);
 	
 	/** 
 	 * We only want we the first record
 	 */
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setlimit", one, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "limit", one, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);
@@ -1105,8 +1105,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	PHALCON_INIT_VAR(builder);
 	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "__construct", params, PH_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setcolumns", columns, PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setmodels", model_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "columns", columns, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "from", model_name, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(query);
 	PHALCON_CALL_METHOD(query, builder, "getquery", PH_NO_CHECK);

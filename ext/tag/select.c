@@ -64,7 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag_Select){
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
-	zval *dummy_value = NULL, *dummy_text = NULL, *code, *avalue = NULL;
+	zval *empty_value = NULL, *empty_text = NULL, *code, *avalue = NULL;
 	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options;
 	zval *array_options;
 	HashTable *ah0;
@@ -134,26 +134,28 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_unset_string(params, SS("value"));
 	}
 	
-	eval_int = phalcon_array_isset_string(params, SS("dummyValue"));
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dummy_value);
-		ZVAL_STRING(dummy_value, "", 1);
-	} else {
-		PHALCON_INIT_NVAR(dummy_value);
-		phalcon_array_fetch_string(&dummy_value, params, SL("dummyValue"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("dummyValue"));
-	}
-	
-	eval_int = phalcon_array_isset_string(params, SS("dummyText"));
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dummy_text);
-		ZVAL_STRING(dummy_text, "Choose...", 1);
-	} else {
-		PHALCON_INIT_NVAR(dummy_text);
-		phalcon_array_fetch_string(&dummy_text, params, SL("dummyText"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("dummyText"));
+	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
+	if (eval_int) {
+		eval_int = phalcon_array_isset_string(params, SS("emptyValue"));
+		if (!eval_int) {
+			PHALCON_INIT_VAR(empty_value);
+			ZVAL_STRING(empty_value, "", 1);
+		} else {
+			PHALCON_INIT_NVAR(empty_value);
+			phalcon_array_fetch_string(&empty_value, params, SL("emptyValue"), PH_NOISY_CC);
+			PHALCON_SEPARATE(params);
+			phalcon_array_unset_string(params, SS("emptyValue"));
+		}
+		eval_int = phalcon_array_isset_string(params, SS("emptyText"));
+		if (!eval_int) {
+			PHALCON_INIT_VAR(empty_text);
+			ZVAL_STRING(empty_text, "Choose...", 1);
+		} else {
+			PHALCON_INIT_NVAR(empty_text);
+			phalcon_array_fetch_string(&empty_text, params, SL("emptyText"), PH_NOISY_CC);
+			PHALCON_SEPARATE(params);
+			phalcon_array_unset_string(params, SS("emptyText"));
+		}
 	}
 	
 	PHALCON_INIT_VAR(code);
@@ -194,9 +196,11 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	PHALCON_INIT_VAR(close_option);
 	PHALCON_CONCAT_SV(close_option, "</option>", eol);
-	eval_int = phalcon_array_isset_string(params, SS("useDummy"));
+	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
 	if (eval_int) {
-		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", dummy_value, "\">", dummy_text, close_option);
+		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
+		PHALCON_SEPARATE(params);
+		phalcon_array_unset_string(params, SS("useEmpty"));
 	}
 	
 	eval_int = phalcon_array_isset_long(params, 1);
