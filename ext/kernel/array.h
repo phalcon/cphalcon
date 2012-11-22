@@ -65,3 +65,5 @@ extern int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int 
 extern int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC);
 extern int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int silent TSRMLS_DC);
 
+/** Merge+Append */
+extern void phalcon_merge_append(zval *left, zval *values TSRMLS_DC);

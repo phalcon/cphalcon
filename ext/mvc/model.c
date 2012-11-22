@@ -38,8 +38,8 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
-#include "kernel/file.h"
 #include "kernel/operators.h"
+#include "kernel/file.h"
 
 /**
  * Phalcon\Mvc\Model
@@ -84,7 +84,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueKey"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_schema"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_source"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -92,6 +91,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_property_bool(phalcon_mvc_model_ce, SL("_forceExists"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_model_ce, SL("_connectionService"), "db", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueKey"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_model_ce, SL("_disableEvents"), 0, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_NONE"), 0 TSRMLS_CC);
@@ -652,13 +654,10 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	PHALCON_INIT_VAR(model_name);
 	PHALCON_CALL_FUNC(model_name, "get_called_class");
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(params);
+		array_init(params);
 		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
-			array_init(params);
 			phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
-		} else {
-			PHALCON_INIT_NVAR(params);
-			array_init(params);
 		}
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
@@ -749,13 +748,10 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	PHALCON_INIT_VAR(model_name);
 	PHALCON_CALL_FUNC(model_name, "get_called_class");
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
+		PHALCON_INIT_VAR(params);
+		array_init(params);
 		if (Z_TYPE_P(parameters) != IS_NULL) {
-			PHALCON_INIT_VAR(params);
-			array_init(params);
 			phalcon_array_append(&params, parameters, PH_SEPARATE TSRMLS_CC);
-		} else {
-			PHALCON_INIT_NVAR(params);
-			array_init(params);
 		}
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
@@ -864,12 +860,14 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
  */
 PHP_METHOD(Phalcon_Mvc_Model, _exists){
 
-	zval *meta_data, *connection = NULL, *table = NULL, *unique_key = NULL;
-	zval *primary_keys, *column_map, *where_pk, *field = NULL;
+	zval *meta_data, *connection, *table = NULL, *unique_params = NULL;
+	zval *unique_types = NULL, *unique_key = NULL, *primary_keys;
+	zval *bind_data_types, *number_primary, *column_map;
+	zval *null_value, *number_empty, *where_pk, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
-	zval *value = NULL, *escaped_field = NULL, *escaped_value = NULL;
-	zval *pk_condition = NULL, *join_where, *force_exists;
-	zval *schema, *source, *escaped_table, *select;
+	zval *value = NULL, *escaped_field = NULL, *pk_condition = NULL, *type = NULL;
+	zval *is_empty, *join_where, *force_exists, *schema;
+	zval *source, *escaped_table, *null_mode, *select;
 	zval *num, *row_count;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -883,13 +881,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		RETURN_NULL();
 	}
 
-	PHALCON_SEPARATE_PARAM(connection);
-	
 	if (!table) {
 		PHALCON_INIT_NVAR(table);
 	} else {
 		PHALCON_SEPARATE_PARAM(table);
 	}
+	
+	PHALCON_INIT_VAR(unique_params);
+	
+	PHALCON_INIT_VAR(unique_types);
 	
 	/** 
 	 * Builds a unique primary key condition
@@ -899,15 +899,27 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	if (Z_TYPE_P(unique_key) == IS_NULL) {
 		PHALCON_INIT_VAR(primary_keys);
 		PHALCON_CALL_METHOD_PARAMS_1(primary_keys, meta_data, "getprimarykeyattributes", this_ptr, PH_NO_CHECK);
-		if (phalcon_fast_count_ev(primary_keys TSRMLS_CC)) {
+	
+		PHALCON_INIT_VAR(bind_data_types);
+		PHALCON_CALL_METHOD_PARAMS_1(bind_data_types, meta_data, "getbindtypes", this_ptr, PH_NO_CHECK);
+	
+		PHALCON_INIT_VAR(number_primary);
+		phalcon_fast_count(number_primary, primary_keys TSRMLS_CC);
+		if (zend_is_true(number_primary)) {
 			PHALCON_INIT_VAR(column_map);
 			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr, PH_NO_CHECK);
+	
+			PHALCON_INIT_VAR(null_value);
+	
+			PHALCON_INIT_VAR(number_empty);
+			ZVAL_LONG(number_empty, 0);
 	
 			PHALCON_INIT_VAR(where_pk);
 			array_init(where_pk);
 	
-			PHALCON_INIT_NVAR(connection);
-			PHALCON_CALL_METHOD(connection, this_ptr, "getconnection", PH_NO_CHECK);
+			array_init(unique_params);
+	
+			array_init(unique_types);
 	
 			if (!phalcon_valid_foreach(primary_keys TSRMLS_CC)) {
 				return;
@@ -938,32 +950,64 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				} else {
 					PHALCON_CPY_WRT(attribute_field, field);
 				}
+	
+				/** 
+				 * If the primary key attribute is set append it to the conditions
+				 */
 				eval_int = phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC);
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
-					if (PHALCON_IS_NOT_EMPTY(value)) {
-						PHALCON_INIT_NVAR(escaped_field);
-						PHALCON_CALL_METHOD_PARAMS_1(escaped_field, connection, "escapeidentifier", field, PH_NO_CHECK);
-	
-						PHALCON_INIT_NVAR(escaped_value);
-						PHALCON_CALL_METHOD_PARAMS_1(escaped_value, connection, "escapestring", value, PH_NO_CHECK);
-	
-						PHALCON_INIT_NVAR(pk_condition);
-						PHALCON_CONCAT_VSV(pk_condition, escaped_field, " = ", escaped_value);
-						phalcon_array_append(&where_pk, pk_condition, PH_SEPARATE TSRMLS_CC);
-					}
+					phalcon_array_append(&unique_params, value, PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_array_append(&unique_params, null_value, PH_SEPARATE TSRMLS_CC);
 				}
+	
+				PHALCON_INIT_NVAR(escaped_field);
+				PHALCON_CALL_METHOD_PARAMS_1(escaped_field, connection, "escapeidentifier", field, PH_NO_CHECK);
+	
+				PHALCON_INIT_NVAR(pk_condition);
+				PHALCON_CONCAT_VS(pk_condition, escaped_field, " = ?");
+				eval_int = phalcon_array_isset(bind_data_types, field);
+				if (!eval_int) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column '", field, "\" isn't part of the table columns");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+	
+				PHALCON_INIT_NVAR(type);
+				phalcon_array_fetch(&type, bind_data_types, field, PH_NOISY_CC);
+				phalcon_array_append(&unique_types, type, PH_SEPARATE TSRMLS_CC);
+	
+				/** 
+				 * We count how many fields are empty, if all fields are empy we don't perform an
+				 * 'exist' check
+				 */
+				if (PHALCON_IS_EMPTY(value)) {
+					PHALCON_SEPARATE(number_empty);
+					increment_function(number_empty);
+				}
+	
+				phalcon_array_append(&where_pk, pk_condition, PH_SEPARATE TSRMLS_CC);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 				goto ph_cycle_start_0;
 	
 			ph_cycle_end_0:
 	
-			if (phalcon_fast_count_ev(where_pk TSRMLS_CC)) {
+			PHALCON_INIT_VAR(is_empty);
+			is_equal_function(is_empty, number_primary, number_empty TSRMLS_CC);
+			if (PHALCON_IS_FALSE(is_empty)) {
 				PHALCON_INIT_VAR(join_where);
 				phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
+	
+				/** 
+				 * The unique key is composed of 3 parts _uniqueKey, uniqueParams, uniqueTypes
+				 */
 				phalcon_update_property_zval(this_ptr, SL("_uniqueKey"), join_where TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_uniqueParams"), unique_params TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_uniqueTypes"), unique_types TSRMLS_CC);
 				PHALCON_CPY_WRT(unique_key, join_where);
 			} else {
 				PHALCON_MM_RESTORE();
@@ -985,6 +1029,15 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			PHALCON_INIT_NVAR(unique_key);
 			phalcon_read_property(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
 		}
+		if (Z_TYPE_P(unique_params) == IS_NULL) {
+			PHALCON_INIT_NVAR(unique_params);
+			phalcon_read_property(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
+		}
+	
+		if (Z_TYPE_P(unique_types) == IS_NULL) {
+			PHALCON_INIT_NVAR(unique_types);
+			phalcon_read_property(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+		}
 	
 		PHALCON_INIT_VAR(schema);
 		PHALCON_CALL_METHOD(schema, this_ptr, "getschema", PH_NO_CHECK);
@@ -1003,11 +1056,16 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 		PHALCON_INIT_VAR(escaped_table);
 		PHALCON_CALL_METHOD_PARAMS_1(escaped_table, connection, "escapeidentifier", table, PH_NO_CHECK);
 	
+		PHALCON_INIT_VAR(null_mode);
+	
+		/** 
+		 * Here we use a single COUNT(*) without PHQL to make the execution faster
+		 */
 		PHALCON_INIT_VAR(select);
 		PHALCON_CONCAT_SVSV(select, "SELECT COUNT(*) AS rowcount FROM ", escaped_table, " WHERE ", unique_key);
 	
 		PHALCON_INIT_VAR(num);
-		PHALCON_CALL_METHOD_PARAMS_1(num, connection, "fetchone", select, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_4(num, connection, "fetchone", select, null_mode, unique_params, unique_types, PH_NO_CHECK);
 	
 		PHALCON_INIT_VAR(row_count);
 		phalcon_array_fetch_string(&row_count, num, SL("rowcount"), PH_NOISY_CC);
@@ -2737,6 +2795,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	zval *bind_data_types, *non_primary, *automatic_attributes;
 	zval *column_map, *field = NULL, *exception_message = NULL;
 	zval *attribute_field = NULL, *value = NULL, *bind_type = NULL, *unique_key;
+	zval *unique_params, *unique_types, *conditions;
 	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -2777,7 +2836,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", this_ptr, PH_NO_CHECK);
 	
 	/** 
-	 * We only make the update based on the non-primary attributes
+	 * We only make the update based on the non-primary attributes, values in primary
+	 * key attributes are ignored
 	 */
 	
 	if (!phalcon_valid_foreach(non_primary TSRMLS_CC)) {
@@ -2844,14 +2904,29 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	
 	ph_cycle_end_0:
 	
-	/** 
-	 * Perform the low level update
-	 */
 	PHALCON_INIT_VAR(unique_key);
 	phalcon_read_property(&unique_key, this_ptr, SL("_uniqueKey"), PH_NOISY_CC);
 	
+	PHALCON_INIT_VAR(unique_params);
+	phalcon_read_property(&unique_params, this_ptr, SL("_uniqueParams"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(unique_types);
+	phalcon_read_property(&unique_types, this_ptr, SL("_uniqueTypes"), PH_NOISY_CC);
+	
+	/** 
+	 * We build the conditions as an array
+	 */
+	PHALCON_INIT_VAR(conditions);
+	array_init(conditions);
+	phalcon_array_update_string(&conditions, SL("conditions"), &unique_key, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&conditions, SL("bind"), &unique_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&conditions, SL("bindTypes"), &unique_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Perform the low level update
+	 */
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_5(success, connection, "update", table, fields, values, unique_key, bind_types, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_5(success, connection, "update", table, fields, values, conditions, bind_types, PH_NO_CHECK);
 	
 	RETURN_CCTOR(success);
 }
@@ -2993,12 +3068,18 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 		phalcon_update_property_long(this_ptr, SL("_operationMade"), 1 TSRMLS_CC);
 	}
 	
+	/** 
+	 * Clean the messages
+	 */
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
 	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	PHALCON_OBSERVE_VAR(disable_events);
 	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\model"), SL("_disableEvents") TSRMLS_CC);
 	
+	/** 
+	 * Query the identity field
+	 */
 	PHALCON_INIT_VAR(identity_field);
 	PHALCON_CALL_METHOD_PARAMS_1(identity_field, meta_data, "getidentityfield", this_ptr, PH_NO_CHECK);
 	
@@ -3209,7 +3290,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
  *	//Updating a robot name
  *	$robot = Robots::findFirst("id=100");
  *	$robot->name = "Biomass";
- *	$robot->save();
+ *	$robot->update();
  *</code>
  *
  * @param array $data
@@ -3592,6 +3673,10 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		}
 	}
 	
+	/** 
+	 * Force perform the record existence checking again
+	 */
+	phalcon_update_property_bool(this_ptr, SL("_forceExists"), 1 TSRMLS_CC);
 	
 	RETURN_CCTOR(success);
 }

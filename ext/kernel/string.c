@@ -27,7 +27,7 @@
 #include "kernel/memory.h"
 
 /**
- * Fast call to join php strlen
+ * Fast call to php strlen
  */
 void phalcon_fast_strlen(zval *return_value, zval *str){
 
@@ -49,7 +49,7 @@ void phalcon_fast_strlen(zval *return_value, zval *str){
 }
 
 /**
- * Fast call to join php function
+ * Fast call to php join  function
  */
 void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC){
 
