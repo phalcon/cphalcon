@@ -501,7 +501,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 								not_valid = 1;
 								break;
 							}
-							if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch ==  ':') {
+							if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
 								if (ch == ':') {
 									regexp_length = length - j - 1;
 									variable_length = cursor_var - marker;
