@@ -4646,7 +4646,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 								not_valid = 1;
 								break;
 							}
-							if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch ==  ':') {
+							if ((ch >= 'a' && ch <='z') || (ch >= 'A' && ch <='Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':') {
 								if (ch == ':') {
 									regexp_length = length - j - 1;
 									variable_length = cursor_var - marker;
@@ -30693,7 +30693,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(pattern);
-	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
+	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_\\-]+)*$/", 1);
 	Z_SET_ISREF_P(regs);
 	
 	PHALCON_INIT_VAR(match_pattern);
@@ -52578,9 +52578,17 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
+	
+					if (PHALCON_IS_EMPTY(value)) {
+						PHALCON_SEPARATE(number_empty);
+						increment_function(number_empty);
+					}
+	
 					phalcon_array_append(&unique_params, value, PH_SEPARATE TSRMLS_CC);
 				} else {
 					phalcon_array_append(&unique_params, null_value, PH_SEPARATE TSRMLS_CC);
+					PHALCON_SEPARATE(number_empty);
+					increment_function(number_empty);
 				}
 	
 				PHALCON_INIT_NVAR(escaped_field);
@@ -52599,12 +52607,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				PHALCON_INIT_NVAR(type);
 				phalcon_array_fetch(&type, bind_data_types, field, PH_NOISY_CC);
 				phalcon_array_append(&unique_types, type, PH_SEPARATE TSRMLS_CC);
-	
-				if (PHALCON_IS_EMPTY(value)) {
-					PHALCON_SEPARATE(number_empty);
-					increment_function(number_empty);
-				}
-	
 				phalcon_array_append(&where_pk, pk_condition, PH_SEPARATE TSRMLS_CC);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
