@@ -958,9 +958,21 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				if (eval_int) {
 					PHALCON_INIT_NVAR(value);
 					phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
+	
+					/** 
+					 * We count how many fields are empty, if all fields are empy we don't perform an
+					 * 'exist' check
+					 */
+					if (PHALCON_IS_EMPTY(value)) {
+						PHALCON_SEPARATE(number_empty);
+						increment_function(number_empty);
+					}
+	
 					phalcon_array_append(&unique_params, value, PH_SEPARATE TSRMLS_CC);
 				} else {
 					phalcon_array_append(&unique_params, null_value, PH_SEPARATE TSRMLS_CC);
+					PHALCON_SEPARATE(number_empty);
+					increment_function(number_empty);
 				}
 	
 				PHALCON_INIT_NVAR(escaped_field);
@@ -979,16 +991,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				PHALCON_INIT_NVAR(type);
 				phalcon_array_fetch(&type, bind_data_types, field, PH_NOISY_CC);
 				phalcon_array_append(&unique_types, type, PH_SEPARATE TSRMLS_CC);
-	
-				/** 
-				 * We count how many fields are empty, if all fields are empy we don't perform an
-				 * 'exist' check
-				 */
-				if (PHALCON_IS_EMPTY(value)) {
-					PHALCON_SEPARATE(number_empty);
-					increment_function(number_empty);
-				}
-	
 				phalcon_array_append(&where_pk, pk_condition, PH_SEPARATE TSRMLS_CC);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
