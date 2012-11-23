@@ -64,6 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	PHALCON_REGISTER_CLASS(Phalcon\\Mvc, Router, mvc_router, phalcon_mvc_router_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_ce, SL("_namespace"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_module"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_controller"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_action"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -72,6 +73,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router){
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_matchedRoute"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_matches"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_router_ce, SL("_wasMatched"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultNamespace"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultController"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_ce, SL("_defaultAction"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -199,6 +201,23 @@ PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 }
 
 /**
+ * Sets the name of the default namespace
+ *
+ * @param string $namespaceName
+ */
+PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace){
+
+	zval *namespace_name;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespace_name) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_defaultNamespace"), namespace_name TSRMLS_CC);
+	
+}
+
+/**
  * Sets the name of the default module
  *
  * @param string $moduleName
@@ -256,8 +275,8 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction){
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 
-	zval *defaults, *module_name, *controller_name;
-	zval *action_name, *params;
+	zval *defaults, *namespace_name, *module_name;
+	zval *controller_name, *action_name, *params;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -271,6 +290,20 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "Defaults must be an array");
 		return;
 	}
+	
+	/** 
+	 * Set a default namespace
+	 */
+	eval_int = phalcon_array_isset_string(defaults, SS("namespace"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(namespace_name);
+		phalcon_array_fetch_string(&namespace_name, defaults, SL("namespace"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_defaultNamespace"), namespace_name TSRMLS_CC);
+	}
+	
+	/** 
+	 * Set a default module
+	 */
 	eval_int = phalcon_array_isset_string(defaults, SS("module"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(module_name);
@@ -278,6 +311,9 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		phalcon_update_property_zval(this_ptr, SL("_defaultModule"), module_name TSRMLS_CC);
 	}
 	
+	/** 
+	 * Set a default controller
+	 */
 	eval_int = phalcon_array_isset_string(defaults, SS("controller"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(controller_name);
@@ -285,6 +321,9 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		phalcon_update_property_zval(this_ptr, SL("_defaultController"), controller_name TSRMLS_CC);
 	}
 	
+	/** 
+	 * Set a default action
+	 */
 	eval_int = phalcon_array_isset_string(defaults, SS("action"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(action_name);
@@ -292,6 +331,9 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults){
 		phalcon_update_property_zval(this_ptr, SL("_defaultAction"), action_name TSRMLS_CC);
 	}
 	
+	/** 
+	 * Set default parameters
+	 */
 	eval_int = phalcon_array_isset_string(defaults, SS("params"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(params);
@@ -313,10 +355,11 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *params = NULL, *matches, *routes, *reversed_routes;
 	zval *route = NULL, *methods = NULL, *dependency_injector = NULL;
 	zval *service = NULL, *match_method = NULL, *pattern = NULL, *paths = NULL;
-	zval *position = NULL, *part = NULL, *match_position = NULL, *module;
-	zval *default_module = NULL, *controller, *default_controller = NULL;
-	zval *action, *default_action = NULL, *params_str, *one;
-	zval *str_params, *slash, *params_merge, *default_params;
+	zval *position = NULL, *part = NULL, *match_position = NULL, *namespace;
+	zval *default_namespace, *module, *default_module = NULL;
+	zval *controller, *default_controller = NULL, *action;
+	zval *default_action = NULL, *params_str, *one, *str_params;
+	zval *slash, *params_merge, *default_params;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -473,6 +516,25 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	ph_cycle_end_0:
 	
 	if (zend_is_true(route_found)) {
+		/** 
+		 * Check for a namespace
+		 */
+		eval_int = phalcon_array_isset_string(parts, SS("namespace"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(namespace);
+			phalcon_array_fetch_string(&namespace, parts, SL("namespace"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_namespace"), namespace TSRMLS_CC);
+			PHALCON_SEPARATE(parts);
+			phalcon_array_unset_string(parts, SS("namespace"));
+		} else {
+			PHALCON_INIT_VAR(default_namespace);
+			phalcon_read_property(&default_namespace, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_namespace"), default_namespace TSRMLS_CC);
+		}
+	
+		/** 
+		 * Check for a module
+		 */
 		eval_int = phalcon_array_isset_string(parts, SS("module"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(module);
@@ -485,6 +547,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
 		}
+	
+		/** 
+		 * Check for a controller
+		 */
 		eval_int = phalcon_array_isset_string(parts, SS("controller"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(controller);
@@ -498,6 +564,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_update_property_zval(this_ptr, SL("_controller"), default_controller TSRMLS_CC);
 		}
 	
+		/** 
+		 * Check for an action
+		 */
 		eval_int = phalcon_array_isset_string(parts, SS("action"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(action);
@@ -511,6 +580,9 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			phalcon_update_property_zval(this_ptr, SL("_action"), default_action TSRMLS_CC);
 		}
 	
+		/** 
+		 * Check for parameters
+		 */
 		eval_int = phalcon_array_isset_string(parts, SS("params"));
 		if (eval_int) {
 			PHALCON_INIT_VAR(params_str);
@@ -805,6 +877,17 @@ PHP_METHOD(Phalcon_Mvc_Router, clear){
 	phalcon_update_property_zval(this_ptr, SL("_routes"), empty_routes TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns processed namespace name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName){
+
+
+	RETURN_MEMBER(this_ptr, "_namespace");
 }
 
 /**

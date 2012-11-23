@@ -22,6 +22,8 @@
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
  - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows to cache both simple and complex resultsets
+ - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher
+ - Reimplementing URL generation based on routed without regular expressions
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

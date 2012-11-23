@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern){
 }
 
 /**
- * Returns the route's pattern
+ * Returns the route's compiled pattern
  *
  * @return string
  */
@@ -397,6 +397,57 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths){
 
 
 	RETURN_MEMBER(this_ptr, "_paths");
+}
+
+/**
+ * Returns the paths using positions as keys and names as values
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
+
+	zval *reversed, *paths, *position = NULL, *path = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(reversed);
+	array_init(reversed);
+	
+	PHALCON_INIT_VAR(paths);
+	phalcon_read_property(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
+	
+	if (!phalcon_valid_foreach(paths TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(paths);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+	ph_cycle_start_0:
+	
+		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
+			goto ph_cycle_end_0;
+		}
+	
+		PHALCON_GET_FOREACH_KEY(path, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(position);
+	
+		phalcon_array_update_zval(&reversed, position, &path, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+		goto ph_cycle_start_0;
+	
+	ph_cycle_end_0:
+	
+	
+	RETURN_CTOR(reversed);
 }
 
 /**

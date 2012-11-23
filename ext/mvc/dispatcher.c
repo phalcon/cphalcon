@@ -189,6 +189,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	PHALCON_INIT_VAR(response);
 	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service, PH_NO_CHECK);
 	
+	/** 
+	 * Dispatcher exceptions automatically sends 404 status
+	 */
 	PHALCON_INIT_VAR(status_code);
 	ZVAL_LONG(status_code, 404);
 	
