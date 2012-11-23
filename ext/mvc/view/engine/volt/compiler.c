@@ -990,9 +990,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 
 	zval *view_code, *extends_mode = NULL, *intermediate;
-	zval *compilation = NULL, *views_dir = NULL, *dependency_injector;
-	zval *service, *view, *path, *view_path, *exception_message;
-	zval *extended, *extends_view_code;
+	zval *compilation = NULL, *extends_node, *views_dir = NULL;
+	zval *dependency_injector, *service, *view, *path;
+	zval *view_path, *exception_message, *extended;
+	zval *extends_view_code;
 
 	PHALCON_MM_GROW();
 
@@ -1004,8 +1005,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	if (!extends_mode) {
 		PHALCON_INIT_NVAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
-	} else {
-		PHALCON_SEPARATE_PARAM(extends_mode);
 	}
 	
 	PHALCON_INIT_VAR(intermediate);
@@ -1018,9 +1017,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 		PHALCON_INIT_VAR(compilation);
 		PHALCON_CALL_METHOD_PARAMS_2(compilation, this_ptr, "_statementlist", intermediate, extends_mode, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(extends_mode)) {
-			PHALCON_INIT_NVAR(extends_mode);
-			phalcon_read_property(&extends_mode, this_ptr, SL("_extendsNode"), PH_NOISY_CC);
-			if (Z_TYPE_P(extends_mode) != IS_NULL) {
+			PHALCON_INIT_VAR(extends_node);
+			phalcon_read_property(&extends_node, this_ptr, SL("_extendsNode"), PH_NOISY_CC);
+			if (Z_TYPE_P(extends_node) != IS_NULL) {
 				PHALCON_INIT_VAR(views_dir);
 	
 				PHALCON_INIT_VAR(dependency_injector);
@@ -1036,7 +1035,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 				}
 	
 				PHALCON_INIT_VAR(path);
-				phalcon_array_fetch_string(&path, extends_mode, SL("path"), PH_NOISY_CC);
+				phalcon_array_fetch_string(&path, extends_node, SL("path"), PH_NOISY_CC);
 	
 				PHALCON_INIT_VAR(view_path);
 				PHALCON_CONCAT_VV(view_path, views_dir, path);

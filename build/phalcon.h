@@ -3006,6 +3006,8 @@ PHP_METHOD(Phalcon_Dispatcher, getDI);
 PHP_METHOD(Phalcon_Dispatcher, setEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, getEventsManager);
 PHP_METHOD(Phalcon_Dispatcher, setActionSuffix);
+PHP_METHOD(Phalcon_Dispatcher, setNamespaceName);
+PHP_METHOD(Phalcon_Dispatcher, getNamespaceName);
 PHP_METHOD(Phalcon_Dispatcher, setDefaultNamespace);
 PHP_METHOD(Phalcon_Dispatcher, getDefaultNamespace);
 PHP_METHOD(Phalcon_Dispatcher, setDefaultAction);
@@ -3032,6 +3034,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setactionsuffix, 0, 0, 1)
 	ZEND_ARG_INFO(0, actionSuffix)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setnamespacename, 0, 0, 1)
+	ZEND_ARG_INFO(0, namespaceName)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_setdefaultnamespace, 0, 0, 1)
 	ZEND_ARG_INFO(0, namespace)
 ZEND_END_ARG_INFO()
@@ -3056,6 +3062,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_getparam, 0, 0, 1)
 	ZEND_ARG_INFO(0, param)
 	ZEND_ARG_INFO(0, filters)
+	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_dispatcher_forward, 0, 0, 1)
@@ -3069,6 +3076,8 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, setEventsManager, arginfo_phalcon_dispatcher_seteventsmanager, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getEventsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setActionSuffix, arginfo_phalcon_dispatcher_setactionsuffix, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, setNamespaceName, arginfo_phalcon_dispatcher_setnamespacename, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getNamespaceName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultNamespace, arginfo_phalcon_dispatcher_setdefaultnamespace, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getDefaultNamespace, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setDefaultAction, arginfo_phalcon_dispatcher_setdefaultaction, ZEND_ACC_PUBLIC) 
@@ -6811,6 +6820,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct);
 PHP_METHOD(Phalcon_Mvc_Router, setDI);
 PHP_METHOD(Phalcon_Mvc_Router, getDI);
 PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri);
+PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultController);
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction);
@@ -6824,6 +6834,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete);
 PHP_METHOD(Phalcon_Mvc_Router, addOptions);
 PHP_METHOD(Phalcon_Mvc_Router, addHead);
 PHP_METHOD(Phalcon_Mvc_Router, clear);
+PHP_METHOD(Phalcon_Mvc_Router, getNamespaceName);
 PHP_METHOD(Phalcon_Mvc_Router, getModuleName);
 PHP_METHOD(Phalcon_Mvc_Router, getControllerName);
 PHP_METHOD(Phalcon_Mvc_Router, getActionName);
@@ -6841,6 +6852,10 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setdefaultnamespace, 0, 0, 1)
+	ZEND_ARG_INFO(0, namespaceName)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_setdefaultmodule, 0, 0, 1)
@@ -6912,6 +6927,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, setDI, arginfo_phalcon_mvc_router_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, _getRewriteUri, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Router, setDefaultNamespace, arginfo_phalcon_mvc_router_setdefaultnamespace, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaultModule, arginfo_phalcon_mvc_router_setdefaultmodule, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaultController, arginfo_phalcon_mvc_router_setdefaultcontroller, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, setDefaultAction, arginfo_phalcon_mvc_router_setdefaultaction, ZEND_ACC_PUBLIC) 
@@ -6925,6 +6941,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_method_entry){
 	PHP_ME(Phalcon_Mvc_Router, addOptions, arginfo_phalcon_mvc_router_addoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, addHead, arginfo_phalcon_mvc_router_addhead, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, clear, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router, getNamespaceName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getModuleName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router, getActionName, NULL, ZEND_ACC_PUBLIC) 
@@ -8276,6 +8293,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
+PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
 
@@ -8318,6 +8336,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_route_method_entry){
 	PHP_ME(Phalcon_Mvc_Router_Route, getPattern, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getCompiledPattern, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getPaths, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router_Route, getReversedPaths, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getHttpMethods, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END

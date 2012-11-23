@@ -124,6 +124,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
+		Robots::findFirst();
+
 	}
 
 	public function testMetadataSession()
@@ -147,8 +149,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		//$metaData->storeMetaData();
-
 		$expectedSession = array(
 			'$PMM$my-local-app' => $this->_data
 		);
@@ -156,6 +156,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($_SESSION, $expectedSession);
 
 		$this->assertFalse($metaData->isEmpty());
+
+		Robots::findFirst();
 
 	}
 
@@ -191,6 +193,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
+		Robots::findFirst();
+
 	}
 
 	public function testMetadataFiles()
@@ -220,6 +224,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
+		Robots::findFirst();
 	}
 
 }

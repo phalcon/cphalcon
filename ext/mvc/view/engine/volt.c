@@ -141,8 +141,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	zval *compiled_extension = NULL, *options, *win_separator;
 	zval *unix_separator, *template_win_path;
 	zval *template_sep_path = NULL, *compiled_template_path;
-	zval *compiler = NULL, *exception_message, *value = NULL, *key = NULL;
-	zval *contents, *view;
+	zval *dependency_injector = NULL, *compiler = NULL, *exception_message;
+	zval *value = NULL, *key = NULL, *contents, *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -185,6 +185,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 				return;
 			}
 		}
+	
+		/** 
+		 * There is no compiled separator by default
+		 */
 		eval_int = phalcon_array_isset_string(options, SS("compiledSeparator"));
 		if (eval_int) {
 			PHALCON_INIT_NVAR(compiled_separator);
@@ -195,6 +199,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 			}
 		}
 	
+		/** 
+		 * By default the compile extension is .php
+		 */
 		eval_int = phalcon_array_isset_string(options, SS("compiledExtension"));
 		if (eval_int) {
 			PHALCON_INIT_NVAR(compiled_extension);
@@ -231,17 +238,34 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	PHALCON_CONCAT_VVV(compiled_template_path, compiled_path, template_sep_path, compiled_extension);
 	if (PHALCON_IS_TRUE(stat)) {
 		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
+			/** 
+			 * Compare modification timestamps to check if the file needs to be recompiled
+			 */
 			if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
+				PHALCON_INIT_VAR(dependency_injector);
+				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
 				PHALCON_INIT_VAR(compiler);
 				object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
 				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
 			}
 		} else {
+			/** 
+			 * The file doesn't exists to we compile the php version for the first time
+			 */
+			PHALCON_INIT_NVAR(dependency_injector);
+			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
 			PHALCON_INIT_NVAR(compiler);
 			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
 		}
 	} else {
+		/** 
+		 * Stat is off but the compiled file doesn't exist
+		 */
 		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
 			PHALCON_INIT_VAR(exception_message);
 			PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
