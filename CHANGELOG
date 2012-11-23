@@ -1,4 +1,8 @@
 0.7.0
+ - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher
+ - Reimplementing URL generation based on routed without regular expressions
+
+0.7.0b1
  - Implemented a fast way to retrieve object's members without add a memory frame
  - Now Phalcon\Mvc\Dispatcher checks for methods beforeExecuteRoute and afterExecuteRoute in the controller handler
  - Added phalcon_start_with to check if a zval string starts with other string avoiding substrs in PHP userland
@@ -22,8 +26,6 @@
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
  - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows to cache both simple and complex resultsets
- - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher
- - Reimplementing URL generation based on routed without regular expressions
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler

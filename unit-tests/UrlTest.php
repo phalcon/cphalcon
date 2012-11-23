@@ -48,6 +48,13 @@ class UrlTest extends PHPUnit_Framework_TestCase
 				'article' => 3
 			))->setName('news');
 
+			$router->add('/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)', array(
+				'lang' => 1,
+				'module' => 'main',
+				'controller' => 2,
+				'action' => 'index',
+			))->setName('lang-controller');
+
 			return $router;
 		});
 
@@ -114,6 +121,14 @@ class UrlTest extends PHPUnit_Framework_TestCase
 					'page' => 2
 				),
 				'url' => '/news/de/international/world-peace/2'
+			),
+			array(
+				'paths' => array(
+					'for' => 'lang-controller',
+					'lang' => 'de',
+					'controller' => 'index'
+				),
+				'url' => '/de/index'
 			)
 		);
 
