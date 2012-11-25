@@ -3285,7 +3285,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 }
 
 /**
- * Updates a model instance. If the instance doesn't exists in the persistance it will throw an exception
+ * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
  * Returning true on success or false otherwise.
  *
  *<code>
@@ -3443,7 +3443,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			ZVAL_STRING(type, "InvalidUpdateAttempt", 1);
 	
 			PHALCON_INIT_VAR(message);
-			ZVAL_STRING(message, "Record cannot be updated because it does not exists", 1);
+			ZVAL_STRING(message, "Record cannot be updated because it does not exist", 1);
 	
 			PHALCON_INIT_VAR(model_message);
 			object_init_ex(model_message, phalcon_mvc_model_message_ce);

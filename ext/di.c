@@ -304,6 +304,44 @@ PHP_METHOD(Phalcon_DI, getRaw){
 }
 
 /**
+ * Returns a Phalcon\Di\Service instance
+ *
+ * @return Phalcon\Di\ServiceInterface
+ */
+PHP_METHOD(Phalcon_DI, getService){
+
+	zval *name, *services, *service, *exception_message;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(services);
+	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(services, name);
+	if (eval_int) {
+		PHALCON_INIT_VAR(service);
+		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+	
+		RETURN_CCTOR(service);
+	}
+	
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' wasn't found in the dependency injection container");
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+	return;
+}
+
+/**
  * Resolves the service based on its configuration
  *
  * @param string $name

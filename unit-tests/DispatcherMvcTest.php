@@ -45,9 +45,7 @@ class DispatcherMvcTest extends PHPUnit_Framework_TestCase
 
 		$di = new Phalcon\DI();
 
-		$di->set('response', function(){
-			return new \Phalcon\Http\Response();
-		});
+		$di->set('response', new \Phalcon\Http\Response());
 
 		$dispatcher = new Phalcon\Mvc\Dispatcher();
 		$dispatcher->setDI($di);

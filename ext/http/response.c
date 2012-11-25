@@ -64,6 +64,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 	zend_declare_property_bool(phalcon_http_response_ce, SL("_sent"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_http_response_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_headers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_response_ce, SL("_cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_response_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 2, phalcon_http_responseinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -125,10 +126,16 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 	PHALCON_INIT_VAR(headers);
 	PHALCON_CALL_METHOD(headers, this_ptr, "getheaders", PH_NO_CHECK);
 	
+	/** 
+	 * We use HTTP/1.1 instead of HTTP/1.0
+	 */
 	PHALCON_INIT_VAR(header_value);
 	PHALCON_CONCAT_SVSV(header_value, "HTTP/1.1 ", code, " ", message);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(headers, "setraw", header_value, PH_NO_CHECK);
 	
+	/** 
+	 * We also define a 'Status' header with the HTTP status
+	 */
 	PHALCON_INIT_VAR(status_value);
 	PHALCON_CONCAT_VSV(status_value, code, " ", message);
 	
@@ -141,9 +148,28 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode){
 }
 
 /**
+ * Sets a headers bag for the response externally
+ *
+ * @param Phalcon\Http\Response\HeadersInterface $headers
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setHeaders){
+
+	zval *headers;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &headers) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_headers"), headers TSRMLS_CC);
+	
+	RETURN_CTORW(this_ptr);
+}
+
+/**
  * Returns headers set by the user
  *
- * @return Phalcon\Http\Response\Headers
+ * @return Phalcon\Http\Response\HeadersInterface
  */
 PHP_METHOD(Phalcon_Http_Response, getHeaders){
 
@@ -154,6 +180,10 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 	PHALCON_INIT_VAR(headers);
 	phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	if (Z_TYPE_P(headers) == IS_NULL) {
+		/** 
+		 * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers
+		 * before sent them to the client
+		 */
 		PHALCON_INIT_NVAR(headers);
 		object_init_ex(headers, phalcon_http_response_headers_ce);
 		PHALCON_CALL_METHOD_NORETURN(headers, "__construct", PH_CHECK);
@@ -162,6 +192,36 @@ PHP_METHOD(Phalcon_Http_Response, getHeaders){
 	
 	
 	RETURN_CCTOR(headers);
+}
+
+/**
+ * Sets a cookies bag for the response externally
+ *
+ * @param Phalcon\Http\Response\CookiesInterface $cookies
+ * @return Phalcon\Http\ResponseInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, setCookies){
+
+	zval *cookies;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &cookies) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_cookies"), cookies TSRMLS_CC);
+	
+	RETURN_CTORW(this_ptr);
+}
+
+/**
+ * Returns coookies set by the user
+ *
+ * @return Phalcon\Http\Response\CookiesInterface
+ */
+PHP_METHOD(Phalcon_Http_Response, getCookies){
+
+
+	RETURN_MEMBER(this_ptr, "_cookies");
 }
 
 /**
@@ -271,6 +331,9 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 		return;
 	}
 	
+	/** 
+	 * All the expiration times are sent in UTC
+	 */
 	PHALCON_INIT_VAR(utc_zone);
 	ZVAL_STRING(utc_zone, "UTC", 1);
 	ce0 = zend_fetch_class(SL("DateTimeZone"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
@@ -289,6 +352,9 @@ PHP_METHOD(Phalcon_Http_Response, setExpires){
 	PHALCON_INIT_VAR(utc_date);
 	PHALCON_CONCAT_VS(utc_date, utc_format, " GMT");
 	
+	/** 
+	 * The 'Expires' header set this info
+	 */
 	PHALCON_INIT_VAR(expires_header);
 	ZVAL_STRING(expires_header, "Expires", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", expires_header, utc_date, PH_NO_CHECK);
@@ -365,6 +431,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  * Redirect by HTTP to another action or URL
  *
  *<code>
+ *  //Using a string redirect (internal/external)
  *	$response->redirect("posts/index");
  *	$response->redirect("http://en.wikipedia.org", true);
  *	$response->redirect("http://www.example.com/new-location", true, 301);
@@ -418,10 +485,16 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 		PHALCON_CALL_METHOD_PARAMS_1(header, url, "get", location, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * The HTTP status is 302 by default, a temporary redirection
+	 */
 	PHALCON_INIT_VAR(status_text);
 	ZVAL_STRING(status_text, "Redirect", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setstatuscode", status_code, status_text, PH_NO_CHECK);
 	
+	/** 
+	 * Change the current location using 'Location'
+	 */
 	PHALCON_INIT_VAR(header_name);
 	ZVAL_STRING(header_name, "Location", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setheader", header_name, header, PH_NO_CHECK);
@@ -492,6 +565,17 @@ PHP_METHOD(Phalcon_Http_Response, getContent){
 }
 
 /**
+ * Check if the response is already sent
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Response, isSent){
+
+
+	RETURN_MEMBER(this_ptr, "_sent");
+}
+
+/**
  * Sends headers to the client
  *
  * @return Phalcon\Http\ResponseInterface
@@ -519,19 +603,31 @@ PHP_METHOD(Phalcon_Http_Response, sendHeaders){
  */
 PHP_METHOD(Phalcon_Http_Response, send){
 
-	zval *sent, *headers, *content;
+	zval *sent, *headers, *cookies, *content;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(sent);
 	phalcon_read_property(&sent, this_ptr, SL("_sent"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(sent)) {
+		/** 
+		 * Sent headers
+		 */
 		PHALCON_INIT_VAR(headers);
 		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 		if (Z_TYPE_P(headers) != IS_NULL) {
 			PHALCON_CALL_METHOD_NORETURN(headers, "send", PH_NO_CHECK);
 		}
 	
+		PHALCON_INIT_VAR(cookies);
+		phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
+		if (Z_TYPE_P(cookies) != IS_NULL) {
+			PHALCON_CALL_METHOD_NORETURN(cookies, "send", PH_NO_CHECK);
+		}
+	
+		/** 
+		 * Output the response body
+		 */
 		PHALCON_INIT_VAR(content);
 		phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
 		zend_print_zval(content, 1);

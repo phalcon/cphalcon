@@ -208,6 +208,10 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	if (eval_int) {
 		PHALCON_INIT_VAR(filter_object);
 		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY_CC);
+	
+		/** 
+		 * If the filter is a closure we call it in the PHP userland
+		 */
 		if (phalcon_is_instance_of(filter_object, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
 			array_init(arguments);

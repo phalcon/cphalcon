@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
 	zval *template_path, *params, *must_clean, *stat = NULL;
-	zval *compiled_path = NULL, *compiled_separator = NULL;
+	zval *compile_always = NULL, *compiled_path = NULL, *compiled_separator = NULL;
 	zval *compiled_extension = NULL, *options, *win_separator;
 	zval *unix_separator, *template_win_path;
 	zval *template_sep_path = NULL, *compiled_template_path;
@@ -166,6 +166,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	PHALCON_INIT_VAR(stat);
 	ZVAL_BOOL(stat, 1);
 	
+	PHALCON_INIT_VAR(compile_always);
+	ZVAL_BOOL(compile_always, 0);
+	
 	PHALCON_INIT_VAR(compiled_path);
 	
 	PHALCON_INIT_VAR(compiled_separator);
@@ -177,6 +180,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	PHALCON_INIT_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("compileAlways"));
+		if (eval_int) {
+			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY_CC);
+			if (Z_TYPE_P(compile_always) != IS_BOOL) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
+				return;
+			}
+		}
 		eval_int = phalcon_array_isset_string(options, SS("compiledPath"));
 		if (eval_int) {
 			phalcon_array_fetch_string(&compiled_path, options, SL("compiledPath"), PH_NOISY_CC);
@@ -236,44 +247,60 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	
 	PHALCON_INIT_VAR(compiled_template_path);
 	PHALCON_CONCAT_VVV(compiled_template_path, compiled_path, template_sep_path, compiled_extension);
-	if (PHALCON_IS_TRUE(stat)) {
-		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
-			/** 
-			 * Compare modification timestamps to check if the file needs to be recompiled
-			 */
-			if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
-				PHALCON_INIT_VAR(dependency_injector);
+	if (zend_is_true(compile_always)) {
+		/** 
+		 * Compile always must be used only in the development stage
+		 */
+		PHALCON_INIT_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(compiler);
+		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
+	} else {
+		if (PHALCON_IS_TRUE(stat)) {
+			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
+				/** 
+				 * Compare modification timestamps to check if the file needs to be recompiled
+				 */
+				if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
+					PHALCON_INIT_NVAR(dependency_injector);
+					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(compiler);
+					object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
+					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
+				}
+			} else {
+				/** 
+				 * The file doesn't exist so we compile the php version for the first time
+				 */
+				PHALCON_INIT_NVAR(dependency_injector);
 				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
-				PHALCON_INIT_VAR(compiler);
+				PHALCON_INIT_NVAR(compiler);
 				object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
 				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
 			}
 		} else {
 			/** 
-			 * The file doesn't exists to we compile the php version for the first time
+			 * Stat is off but the compiled file doesn't exist
 			 */
-			PHALCON_INIT_NVAR(dependency_injector);
-			phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(compiler);
-			object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
-		}
-	} else {
-		/** 
-		 * Stat is off but the compiled file doesn't exist
-		 */
-		if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-			return;
+			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+				return;
+			}
 		}
 	}
 	
+	/** 
+	 * Export the variables the current symbol table
+	 */
 	
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;

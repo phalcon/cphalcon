@@ -105,6 +105,10 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	phalcon_add_function(next_consecutive, connection_consecutive, one TSRMLS_CC);
 	phalcon_update_static_property(SL("phalcon\\db\\adapter"), SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
+	
+	/** 
+	 * Dialect class can override the default dialect
+	 */
 	eval_int = phalcon_array_isset_string(descriptor, SS("dialectClass"));
 	if (!eval_int) {
 		PHALCON_INIT_VAR(dialect_type);

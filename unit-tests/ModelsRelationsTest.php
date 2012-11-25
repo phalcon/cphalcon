@@ -183,6 +183,15 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robotsParts), 1);
 
+		$robotsParts = $robot->getRobotsParts(array(
+			"parts_id > :parts_id:",
+			"bind" => array("parts_id" => 1),
+			"order" => "parts_id DESC"
+		));
+		$this->assertEquals(get_class($robotsParts), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robotsParts), 2);
+		$this->assertEquals($robotsParts->getFirst()->parts_id, 3);
+
 	}
 
 	public function _executeTestsRenamed($di)
@@ -265,6 +274,15 @@ class ModelsRelationsTest extends PHPUnit_Framework_TestCase
 		$robottersDeles = $robotter->getRobottersDeles("delesCode = 1");
 		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robottersDeles), 1);
+
+		$robottersDeles = $robotter->getRobottersDeles(array(
+			"delesCode > :delesCode:",
+			"bind" => array("delesCode" => 1),
+			"order" => "delesCode DESC"
+		));
+		$this->assertEquals(get_class($robottersDeles), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robottersDeles), 2);
+		$this->assertEquals($robottersDeles->getFirst()->delesCode, 3);
 
 	}
 

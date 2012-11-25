@@ -41,9 +41,9 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon\DI
+ * Phalcon\DI\Service
  *
- * Represents a service in the services container
+ * Represents individually a service in the services container
  */
 
 
@@ -58,6 +58,8 @@ PHALCON_INIT_CLASS(Phalcon_DI_Service){
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_shared"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_sharedInstance"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_di_service_ce TSRMLS_CC, 1, phalcon_di_serviceinterface_ce);
 
 	return SUCCESS;
 }
@@ -125,7 +127,7 @@ PHP_METHOD(Phalcon_DI_Service, setShared){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI_Service, getShared){
+PHP_METHOD(Phalcon_DI_Service, isShared){
 
 
 	RETURN_MEMBER(this_ptr, "_shared");

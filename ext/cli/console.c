@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 				}
 			} else {
 				PHALCON_INIT_NVAR(exception_msg);
-				PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exists");
+				PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exist");
 				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cli_console_exception_ce, exception_msg);
 				return;
 			}

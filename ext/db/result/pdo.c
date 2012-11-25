@@ -261,6 +261,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype", PH_NO_CHECK);
 		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
+			/** 
+			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
+			 * of rows, so we need to perform an extra count to know that
+			 */
 			PHALCON_INIT_VAR(sql_statement);
 			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	

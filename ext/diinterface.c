@@ -102,6 +102,13 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, getShared);
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getRaw);
 
 /**
+ * Returns the corresponding Phalcon\Di\Service instance for a service
+ *
+ * @return Phalcon\Di\ServiceInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_DiInterface, getService);
+
+/**
  * Check whether the DI contains a service by a name
  *
  * @param string $alias
