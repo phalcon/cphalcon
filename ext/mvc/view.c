@@ -426,6 +426,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	zval *engines = NULL, *dependency_injector, *registered_engines;
 	zval *number_engines, *php_engine, *arguments;
 	zval *engine_service = NULL, *extension = NULL, *engine_object = NULL;
+	zval *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -482,8 +483,24 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 				PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(engine_service);
 	
-				PHALCON_INIT_NVAR(engine_object);
-				PHALCON_CALL_METHOD_PARAMS_2(engine_object, dependency_injector, "getshared", engine_service, arguments, PH_NO_CHECK);
+				if (Z_TYPE_P(engine_service) == IS_OBJECT) {
+					if (phalcon_is_instance_of(engine_service, SL("Closure") TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_CALL_USER_FUNC_ARRAY(engine_object, engine_service, arguments);
+					} else {
+						PHALCON_CPY_WRT(engine_object, engine_service);
+					}
+				} else {
+					if (Z_TYPE_P(engine_service) == IS_STRING) {
+						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_CALL_METHOD_PARAMS_2(engine_object, dependency_injector, "getshared", engine_service, arguments, PH_NO_CHECK);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+						return;
+					}
+				}
 				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);

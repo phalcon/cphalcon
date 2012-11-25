@@ -136,9 +136,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
-	zval *key_name, *lifetime = NULL, *backend, *front_end;
-	zval *prefix, *filtered, *prefixed_key, *cache_dir;
-	zval *cache_file, *time, *ttl = NULL, *modified_time, *difference;
+	zval *key_name, *lifetime = NULL, *backend, *prefix, *filtered;
+	zval *prefixed_key, *cache_dir, *cache_file;
+	zval *front_end, *time, *ttl = NULL, *modified_time, *difference;
 	zval *not_expired, *cached_content, *processed;
 
 	PHALCON_MM_GROW();
@@ -154,9 +154,6 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	
 	PHALCON_INIT_VAR(backend);
 	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(front_end);
-	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
@@ -174,6 +171,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(front_end);
+		phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
+	
+		/** 
+		 * Check if the file has expired
+		 */
 		PHALCON_INIT_VAR(time);
 		PHALCON_CALL_FUNC(time, "time");
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
@@ -191,6 +194,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	
 		PHALCON_INIT_VAR(not_expired);
 		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		/** 
+		 * The content is only retrieved if the content has not expired
+		 */
 		if (PHALCON_IS_TRUE(not_expired)) {
 			PHALCON_INIT_VAR(cached_content);
 			PHALCON_CALL_FUNC_PARAMS_1(cached_content, "file_get_contents", cache_file);
@@ -378,6 +385,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	
 	PHALCON_INIT_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, backend, SL("cacheDir"), PH_NOISY_CC);
+	
+	/** 
+	 * We use a directory iterator to traverse the cache dir directory
+	 */
 	ce0 = zend_fetch_class(SL("DirectoryIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(iterator);
@@ -416,25 +427,32 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 }
 
 /**
- * Checks if cache exists.
+ * Checks if cache exists and it isn't expired
  *
  * @param string $keyName
+ * @param   long $lifetime
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
-	zval *key_name = NULL, *last_key = NULL, *prefix, *filtered, *backend_options;
-	zval *cache_dir, *cache_file;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *filtered;
+	zval *backend_options, *cache_dir, *cache_file;
+	zval *front_end, *time, *ttl = NULL, *modified_time, *difference;
+	zval *not_expired;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &key_name, &lifetime) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!key_name) {
 		PHALCON_INIT_NVAR(key_name);
+	}
+	
+	if (!lifetime) {
+		PHALCON_INIT_NVAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
@@ -460,8 +478,36 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_INIT_VAR(cache_file);
 		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
-			PHALCON_MM_RESTORE();
-			RETURN_TRUE;
+			PHALCON_INIT_VAR(front_end);
+			phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
+	
+			/** 
+			 * Check if the file has expired
+			 */
+			PHALCON_INIT_VAR(time);
+			PHALCON_CALL_FUNC(time, "time");
+			if (Z_TYPE_P(lifetime) == IS_NULL) {
+				PHALCON_INIT_VAR(ttl);
+				PHALCON_CALL_METHOD(ttl, front_end, "getlifetime", PH_NO_CHECK);
+			} else {
+				PHALCON_CPY_WRT(ttl, lifetime);
+			}
+	
+			PHALCON_INIT_VAR(modified_time);
+			PHALCON_CALL_FUNC_PARAMS_1(modified_time, "filemtime", cache_file);
+	
+			PHALCON_INIT_VAR(difference);
+			sub_function(difference, time, ttl TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(not_expired);
+			is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+			if (PHALCON_IS_TRUE(not_expired)) {
+				/** 
+				 * We only return true if the file exists and it did not expired
+				 */
+				PHALCON_MM_RESTORE();
+				RETURN_TRUE;
+			}
 		}
 	}
 	

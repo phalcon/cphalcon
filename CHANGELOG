@@ -1,6 +1,9 @@
 0.7.0
  - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher
- - Reimplementing URL generation based on routed without regular expressions
+ - Implementing URL generation based on routed without regular expressions
+ - Now is possible register a template engine in Phalcon\Mvc\View with an anonymous function
+ - Passing 'compileAlways' => true as option for Volt makes that the templates will be always compiled instead of checking if they have changes
+ - Now Phalcon\Cache\Backend adapters return false in the "exists" method if the cache has expired
 
 0.7.0b1
  - Implemented a fast way to retrieve object's members without add a memory frame
@@ -18,14 +21,14 @@
  - Now is possible pass bound parameters to Phalcon\DB::fetchOne and Phalcon\Db::fetchAll
  - Implemented independent column map for models and a full escaping system for columns/tables/schemas according to the database system conventions
  - Added a $merge parameter to Phalcon\Mvc\Application::registerModules to merge new modules with current ones
- - Phalcon\Mvc\Application now allows to register a module using an anonymous function
+ - Phalcon\Mvc\Application now allows registering a module using an anonymous function
  - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
  - Support for COUNT(DISTINCT x) syntax in PHQL
  - Allowing user-defined messages in most Phalcon\Mvc\Model\Validators
  - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it is available
  - Allowed pass a URI manually to Phalcon\Mvc\Micro::handle()
  - Fixed missing json_encode filter in Volt
- - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows to cache both simple and complex resultsets
+ - Moving cache implementation from Phalcon\Mvc\Model to Phalcon\Mvc\Model\Query, this allows caching both simple and complex resultsets
 
 0.6.1
  - Fixed bug in Phalcon\Mvc\Micro's not-found handler
@@ -50,7 +53,7 @@
  - Now is required pass true as parameter to Phalcon\Http\Request::getClientAddress if the user want to check the client address in the $_SERVER['HTTP_X_FORWARDED_FOR'] header
  - Removed unnecessary duplication of function names when calling function and methods
  - Now Phalcon can call functions from the PHP userspace without use call_user_func_array/call_user_func increasing performance
- - Added beforeException event triggered from Phalcon\Dispatcher before launch an exception allowing to inject code before launch a real exception modifing the behavior of the component
+ - Added beforeException event triggered from Phalcon\Dispatcher before launch an exception allowing injecting code before launch a real exception modifing the behavior of the component
  - Now is possible attach listeners directly to specific events in Phalcon\Event\Managers
  - Added Phalcon\Http\Request::get and Phalcon\Http\Request::has to read/check values from $_REQUEST
  - Added Phalcon\Cache\Backend\Mongo that uses a MongoDB collection as backend
@@ -58,7 +61,7 @@
 
 0.6.0a1
  - Concatenation on the same variable is now faster by using realloc instead of zval duplication
- - Some internal macros like PHALCON_INIT_VAR now produces less C-code making the extension lighter
+ - Some internal macros like PHALCON_INIT_VAR now produce fewer C-code making the extension lighter
  - Removed initialization of the memory stack frame when isn't needed
  - Inlining of scope locating functions to make read/write on objects faster
  - Array joins are now faster because a zval needle isn't needed anymore
@@ -70,11 +73,11 @@
  - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
  - Phalcon\Tag now caches resolved services such as 'url' and 'dispatcher' making the view generation faster
  - Added support to the OFFSET clause in PHQL
- - Optimized Phalcon\Mvc\Model\Metadata to use less memory when using a high number of tables
+ - Optimized Phalcon\Mvc\Model\Metadata to use fewer memory when using a high number of tables
  - Changed the use of strpos by phalcon_memnstr to search for strings into other strings reducing unnecessary zval allocations
  - Added faster camelize/uncamelize functions
  - Now a model can implement the method metaData to return the model meta-data insteaf of leave Phalcon do it automatically
- - Phalcon\Mvc\Model::skipAttributes allows to set a group of attributes that must be skipped from the INSERT/UPDATE SQL generation
+ - Phalcon\Mvc\Model::skipAttributes allows setting a group of attributes that must be skipped from the INSERT/UPDATE SQL generation
  - Added Phalcon\Mvc\Collection to manage non-structured data models, for example: MongoDB
 
 0.5.2
@@ -90,7 +93,7 @@
  - PDO error mode was changed to PDO::ERRMODE_EXCEPTION producing exceptions instead of silent error messages
  - Fixed wrong precedence in PHQL operators
  - Fixed bug that makes that the correct value for SERIAL columns wasn't filled for PostgreSQL
- - Added an extra parameter "data" to an event triggering in Phalcon\Events allowing to get more information about certain event
+ - Added an extra parameter "data" to an event triggering in Phalcon\Events allowing getting more information about certain event
  - Added an extra parameter to Phalcon\Db::query and Phalcon\Db::execute to bind parameters by their data type
  - Added recognition of the related sequence for PostgreSQL when inserting data into tables with SERIAL columns Phalcon\Mvc\Model
  - Phalcon\Db\Adapter\*::describeColumns try to find the best bind param type for every column
@@ -109,7 +112,7 @@
 0.5.0a4
 - Removed support for Twig and Mustache
 - Added PhalconQL (PHQL), a high level query language directly engaged with the Phalcon\Mvc\Model component
-- Multiples refactorizations removing unused code
+- Multiples refactorings removing unused code
 - Added support to match routes on a determined individual or a set of HTTP methods
 - Added support for named parameters without requiring a regular expression in Phalcon\Mvc\Router
 - Added Phalcon\Mvc\Router\Route to encapsulate the information of a route
@@ -142,7 +145,7 @@
 0.5.0a1
  - Classes are now registered as PHP namespaces.
  - Improved stability running Phalcon with PHP versions lower or equal than 5.3.3
- - Thousand of unnecesary intermediate variables were removed improving stability
+ - Thousand of unnecessary intermediate variables were removed improving stability
  - Phalcon now performs a reduced number of copy-on-write checks
  - Added class modifiers like Abstract or Final to Phalcon classes
  - Fixed memory leaks generated when throwing internal exceptions
@@ -160,7 +163,7 @@
  - Added support for PostgreSQL database
  - Phalcon_View is now fully integrated with Phalcon_Cache
  - Dropped unnecessary registration of arguments for exception classes
- - Dropped unncessary zval copy-on-write checks
+ - Dropped unnecessary zval copy-on-write checks
  - Fixed double registration of Phalcon_Config in MODULE_MINIT
  - Fixed method definition of __destruct adding ZEND_ACC_DTOR
  - Fixed bug in Phalcon_Model_Query making that the component does not apply quoting properly
@@ -196,7 +199,7 @@ Phalcon_Model_Base::sum, etc. to avoid SQL injections
 - Implemented functions to avoid use arrays of zvals parameters for static and method calls
 - Removed error reporting silence from the extension
 - Removed thousands of unnecessary referencing/deferencing vars when calling functions/methods
-- Moved multi-dimensional array updates to less complex functions
+- Moved multi-dimensional array updates to fewer complex functions
 - Moved access to static properties to a function that controls possible invalid access to non existent properties
 - Fixed memory leaks in Phalcon_Cache and Phalcon_Transaction_Manager
 - Added virtual foreign keys to Phalcon_Model (ORM)
@@ -204,8 +207,8 @@ Phalcon_Model_Base::sum, etc. to avoid SQL injections
 - Implemented the possibility to access Phalcon_Model_Resultset as an array of objects
 - Added Phalcon_Cache_Backend_Apc, Phalcon_Cache_Backend_Memcache, Phalcon_Cache_Frontend_None and Phalcon_Cache_Frontend_Data
 - Added Phalcon_Request::hasPost and Phalcon_Request::hasQuery
-- Added parameter "persistent" to Phalcon_Db allowing to create persistent connections
-- Added alphanum to Phalcon_Filter to filter strings allowing filter only alpha-numeric characters
+- Added parameter "persistent" to Phalcon_Db allowing creating persistent connections
+- Added alphanum to Phalcon_Filter to filter strings allowing filtering only alpha-numeric characters
 - Refactored Phalcon_Tag::select and Phalcon_Tag::selectStatic, now uses the same code in Phalcon_Tag_Select
 - Added Phalcon_Tag::checkField helper to create input[type="checkbox"] tags
 - Added Phalcon_View::getParams to recover extra params sent to the request
@@ -220,7 +223,7 @@ Phalcon_Model_Base::sum, etc. to avoid SQL injections
 - Added Phalcon_Request::getBestLanguage()
 
 0.3.5
- - Most of throw exception process has been rewrriten to use less instructions
+ - Most of throw exception process has been rewrriten to use fewer instructions
  - Super global initialization is now slightly fast
  - Fixed bug in Phalcon_Db::close
  - Added logging capabilities to Phalcon_Db

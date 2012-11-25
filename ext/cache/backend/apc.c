@@ -307,24 +307,29 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 }
 
 /**
- * Checks if cache exists.
+ * Checks if cache exists and it hasn't expired
  *
- * @param string $keyName
+ * @param  string $keyName
+ * @param  long $lifetime
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 
-	zval *key_name = NULL, *last_key = NULL, *prefix, *cache_exists;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *cache_exists;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &key_name, &lifetime) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!key_name) {
 		PHALCON_INIT_NVAR(key_name);
+	}
+	
+	if (!lifetime) {
+		PHALCON_INIT_NVAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {

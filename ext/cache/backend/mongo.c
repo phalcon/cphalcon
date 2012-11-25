@@ -266,6 +266,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	
 		PHALCON_INIT_VAR(not_expired);
 		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
+	
+		/** 
+		 * The expiration is based on the column 'time'
+		 */
 		if (PHALCON_IS_TRUE(not_expired)) {
 			eval_int = phalcon_array_isset_string(document, SS("data"));
 			if (!eval_int) {
@@ -535,25 +539,30 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 }
 
 /**
- * Checks if cache exists.
+ * Checks if cache exists and it hasn't expired
  *
- * @param string $keyName
+ * @param  string $keyName
+ * @param  long $lifetime
  * @return boolean
  */
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 
-	zval *key_name = NULL, *last_key = NULL, *prefix, *collection;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *collection;
 	zval *conditions, *number, *zero, *exists;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &key_name, &lifetime) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!key_name) {
 		PHALCON_INIT_NVAR(key_name);
+	}
+	
+	if (!lifetime) {
+		PHALCON_INIT_NVAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
