@@ -38,7 +38,7 @@ Ubuntu:
 
 Suse:
 
-    yast2 -i php5-pear php5-dev libmysqlclient gcc make autoconf2.13
+    yast2 -i php5-pear php5-devel libmysqlclient gcc make autoconf2.13
 
 Compilation
 -----------
