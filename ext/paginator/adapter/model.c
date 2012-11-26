@@ -203,6 +203,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	
 	is_smaller_function(compare, zero, n TSRMLS_CC);
 	if (PHALCON_IS_TRUE(compare)) {
+		/** 
+		 * Seek to the desired position
+		 */
 		is_smaller_or_equal_function(compare, start, n TSRMLS_CC);
 		if (PHALCON_IS_TRUE(compare)) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(items, "seek", start, PH_NO_CHECK);
@@ -213,6 +216,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 			ZVAL_LONG(page_number, 1);
 		}
 	
+		/** 
+		 * The record must be iterable
+		 */
 		PHALCON_INIT_VAR(i);
 		ZVAL_LONG(i, 1);
 		ph_cycle_start_0:

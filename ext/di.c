@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_DI, __construct){
  * @param string $name
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, set){
 
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_DI, set){
 	phalcon_array_update_zval(&t0, name, &service, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_CTOR(service);
 }
 
 /**
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_DI, set){
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, setShared){
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	phalcon_array_update_zval(&t0, name, &service, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_CTOR(service);
 }
 
 /**
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_DI, remove){
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, attempt){
 

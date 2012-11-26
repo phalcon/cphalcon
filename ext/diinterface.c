@@ -43,7 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
  * @param string $alias
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
 
@@ -52,7 +52,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, setShared);
 
@@ -71,7 +71,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
  * @param string $alias
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DiInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, attempt);
 

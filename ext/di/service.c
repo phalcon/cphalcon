@@ -203,6 +203,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	PHALCON_INIT_VAR(definition);
 	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) == IS_STRING) {
+		/** 
+		 * String definitions can be class names without implicit parameters
+		 */
 		if (phalcon_class_exists(definition TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
@@ -225,6 +228,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 			ZVAL_BOOL(found, 0);
 		}
 	} else {
+		/** 
+		 * Object definitions can be a Closure or an already resolved instance
+		 */
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -238,6 +244,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				PHALCON_CPY_WRT(instance, definition);
 			}
 		} else {
+			/** 
+			 * Array definitions require a 'className' parameter
+			 */
 			if (Z_TYPE_P(definition) == IS_ARRAY) { 
 				eval_int = phalcon_array_isset_string(definition, SS("className"));
 				if (!eval_int) {
