@@ -40,8 +40,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_BackendInterface){
 /**
  * Phalcon\Cache\Backend constructor
  *
- * @param Phalcon\Cache\FrontendInterface $frontendObject
- * @param array $backendOptions
+ * @param Phalcon\Cache\FrontendInterface $frontend
+ * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
 
@@ -68,6 +68,13 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, stop);
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getFrontend);
 
 /**
+ * Returns the backend options
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getOptions);
+
+/**
  * Checks whether the last cache is fresh or cached
  *
  * @return boolean
@@ -80,6 +87,13 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isFresh);
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
+
+/**
+ * Sets the last key used in the cache
+ *
+ * @param string $lastKey
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, setLastKey);
 
 /**
  * Gets the last key stored by the cache

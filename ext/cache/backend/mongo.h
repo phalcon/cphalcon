@@ -30,8 +30,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys);
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, frontendObject)
-	ZEND_ARG_INFO(0, backendOptions)
+	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_mongo_get, 0, 0, 1)
