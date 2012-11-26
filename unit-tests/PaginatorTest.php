@@ -38,8 +38,9 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testModelPaginator()
+	public function _loadDI()
 	{
+		Phalcon\DI::reset();
 
 		$di = new Phalcon\DI();
 
@@ -55,6 +56,12 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
+	}
+
+	public function testModelPaginator()
+	{
+
+		$this->_loadDI();
 
 		$personnes = Personnes::find();
 
@@ -108,6 +115,54 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
  		$this->assertEquals($page->total_pages, 219);*/
 
 	}
+
+	public function testModelBindPaginator()
+	{
+
+		$this->_loadDI();
+
+		$personnes = Personnes::find(array(
+			"conditions" => "cedula>=:c1: AND cedula>=:c2:",
+			"bind" => array("c1" => '1', "c2" => "5"),
+			"order" => "cedula, nombres",
+			"limit" => "33"
+        ));
+
+		$paginator = new Phalcon\Paginator\Adapter\Model(array(
+ 			'data' => $personnes,
+ 			'limit' => 10,
+ 			'page' => 1
+ 		));
+
+ 		//First Page
+ 		$page = $paginator->getPaginate();
+ 		$this->assertEquals(get_class($page), 'stdClass');
+
+ 		$this->assertEquals(count($page->items), 10);
+
+ 		$this->assertEquals($page->before, 1);
+ 		$this->assertEquals($page->next, 2);
+ 		$this->assertEquals($page->last, 3);
+
+ 		$this->assertEquals($page->current, 1);
+ 		$this->assertEquals($page->total_pages, 3);
+
+ 		//Middle Page
+ 		$paginator->setCurrentPage(50);
+
+ 		$page = $paginator->getPaginate();
+ 		$this->assertEquals(get_class($page), 'stdClass');
+
+ 		$this->assertEquals(count($page->items), 10);
+
+ 		$this->assertEquals($page->before, 49);
+ 		$this->assertEquals($page->next, 51);
+ 		$this->assertEquals($page->last, 218);
+
+ 		$this->assertEquals($page->current, 50);
+ 		$this->assertEquals($page->total_pages, 218);
+
+ 	}
 
 	public function testArrayPaginator()
 	{

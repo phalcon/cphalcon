@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
 	zval *auto_begin = NULL, *initialized, *rollback_pendent;
 	zval *dependency_injector, *number, *transaction = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
+	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	zval *r0 = NULL;
 	zval *c0 = NULL;
 
@@ -248,21 +248,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 		phalcon_read_property(&t0, this_ptr, SL("_transactions"), PH_NOISY_CC);
 		phalcon_array_append(&t0, transaction, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_transactions"), t0 TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_number"), PH_NOISY_CC);
-		PHALCON_SEPARATE_NMO(t1);
-		increment_function(t1);
-		phalcon_update_property_zval(this_ptr, SL("_number"), t1 TSRMLS_CC);
+		phalcon_property_incr(this_ptr, SL("_number") TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_LONG(t2, 1);
+		PHALCON_INIT_VAR(t1);
+		ZVAL_LONG(t1, 1);
 		PHALCON_INIT_VAR(r0);
-		sub_function(r0, number, t2 TSRMLS_CC);
-		PHALCON_INIT_VAR(t3);
-		phalcon_read_property(&t3, this_ptr, SL("_transactions"), PH_NOISY_CC);
+		sub_function(r0, number, t1 TSRMLS_CC);
+		PHALCON_INIT_VAR(t2);
+		phalcon_read_property(&t2, this_ptr, SL("_transactions"), PH_NOISY_CC);
 		PHALCON_INIT_NVAR(transaction);
-		phalcon_array_fetch(&transaction, t3, r0, PH_NOISY_CC);
+		phalcon_array_fetch(&transaction, t2, r0, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(c0);
 		ZVAL_BOOL(c0, 0);
@@ -457,7 +452,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	zval *transaction, *transactions = NULL, *number, *managed_transaction = NULL;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -493,11 +487,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 			PHALCON_INIT_NVAR(r0);
 			is_equal_function(r0, managed_transaction, transaction TSRMLS_CC);
 			if (zend_is_true(r0)) {
-				PHALCON_INIT_NVAR(t0);
-				phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
-				PHALCON_SEPARATE_NMO(t0);
-				decrement_function(t0);
-				phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
+				phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			}
 			PHALCON_SEPARATE(number);
 			increment_function(number);
@@ -549,7 +539,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 
 	zval *transactions, *number, *managed_transaction = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -577,11 +566,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	
 			PHALCON_GET_FOREACH_VALUE(managed_transaction);
 	
-			PHALCON_INIT_NVAR(t0);
-			phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(t0);
-			decrement_function(t0);
-			phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
+			phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
 	

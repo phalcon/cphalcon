@@ -77,7 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_model_resultset_ce, SL("_isFresh"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_pointer"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_pointer"), -1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_count"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_rows"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -93,17 +93,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 
-	zval *t0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	PHALCON_SEPARATE_NMO(t0);
-	increment_function(t0);
-	phalcon_update_property_zval(this_ptr, SL("_pointer"), t0 TSRMLS_CC);
+	phalcon_property_incr(this_ptr, SL("_pointer") TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -355,7 +347,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *valid, *current;
+	zval *index, *count, *exists, *pointer, *current = NULL, *valid;
+	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -370,12 +363,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	PHALCON_INIT_VAR(exists);
 	is_smaller_function(exists, index, count TSRMLS_CC);
 	if (PHALCON_IS_TRUE(exists)) {
+		/** 
+		 * Check if the last record returned is the current requested
+		 */
+		PHALCON_INIT_VAR(pointer);
+		phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(r0);
+		is_equal_function(r0, pointer, index TSRMLS_CC);
+		if (zend_is_true(r0)) {
+			PHALCON_INIT_VAR(current);
+			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
+	
+			RETURN_CCTOR(current);
+		}
+	
+		/** 
+		 * Check if the last record returned is the requested
+		 */
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", index, PH_NO_CHECK);
 	
 		PHALCON_INIT_VAR(valid);
 		PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
 		if (PHALCON_IS_NOT_FALSE(valid)) {
-			PHALCON_INIT_VAR(current);
+			PHALCON_INIT_NVAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 	
 			RETURN_CCTOR(current);
@@ -437,17 +448,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
-	zval *valid, *current;
+	zval *pointer, *current = NULL, *valid;
 
 	PHALCON_MM_GROW();
 
+	/** 
+	 * Check if the last record returned is the current requested
+	 */
+	PHALCON_INIT_VAR(pointer);
+	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
+	if (phalcon_compare_strict_long(pointer, 0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(current);
+		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
+	
+		RETURN_CCTOR(current);
+	}
+	
+	/** 
+	 * Otherwise re-execute the statement
+	 */
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind", PH_NO_CHECK);
-	phalcon_update_property_long(this_ptr, SL("_pointer"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(valid);
 	PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
 	if (PHALCON_IS_NOT_FALSE(valid)) {
-		PHALCON_INIT_VAR(current);
+		PHALCON_INIT_NVAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 	
 		RETURN_CCTOR(current);
@@ -481,7 +506,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 	
 	PHALCON_INIT_VAR(valid);
 	PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
-	phalcon_update_property_zval(this_ptr, SL("_pointer"), pre_count TSRMLS_CC);
 	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);

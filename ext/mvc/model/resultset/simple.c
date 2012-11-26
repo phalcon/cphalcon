@@ -124,7 +124,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 	zval *type, *result = NULL, *row = NULL, *rows = NULL, *model, *column_map;
 	zval *active_row;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -179,12 +178,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		PHALCON_INIT_VAR(active_row);
 		PHALCON_CALL_STATIC_PARAMS_3(active_row, "phalcon\\mvc\\model", "dumpresultmap", model, row, column_map);
 		phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_pointer"), PH_NOISY_CC);
-		PHALCON_SEPARATE_NMO(t0);
-		increment_function(t0);
-		phalcon_update_property_zval(this_ptr, SL("_pointer"), t0 TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
 	} else {

@@ -171,7 +171,8 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		//Using a foreach
 		$number = 0;
-		foreach ($robots as $robot) {
+		foreach ($robots as $key => $robot) {
+			$this->assertEquals($key, $number);
 			$this->assertEquals($robot->id, $number+1);
 			$number++;
 		}
@@ -186,24 +187,32 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			$robots->next();
 			$number++;
 		}
+		$this->assertEquals($robots->key(), 3);
 		$this->assertEquals($number, 3);
 
+		//Seeking first
 		$robots->seek(1);
 		$robots->valid();
 		$robot = $robots->current();
 		$this->assertEquals($robot->id, 2);
+		$this->assertEquals($robots->key(), 1);
 
+		//Getting First
 		$robot = $robots->getFirst();
 		$this->assertEquals($robot->id, 1);
+		$this->assertEquals($robots->key(), 0);
 
 		$robot = $robots->getLast();
 		$this->assertEquals($robot->id, 3);
+		$this->assertEquals($robots->key(), 2);
 
 		$robot = $robots[0];
 		$this->assertEquals($robot->id, 1);
+		$this->assertEquals($robots->key(), 0);
 
 		$robot = $robots[2];
 		$this->assertEquals($robot->id, 3);
+		$this->assertEquals($robots->key(), 2);
 
 		$this->assertFalse(isset($robots[4]));
 

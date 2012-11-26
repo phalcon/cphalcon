@@ -294,7 +294,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 1);
 		$this->assertEquals($result[0]->number, 1);
 
-		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
+		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r ORDER BY r.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertNotEquals(gettype($result[0]->id), 'object');
 		$this->assertEquals(gettype($result[0]->r), 'object');
@@ -337,7 +337,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->r->id, 1);
 		$this->assertEquals($result[1]->p->id, 2);
 
-		/** Joins with namespaces */
+		// Joins with namespaces
 		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
@@ -350,7 +350,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->{'some\Robots'}->id, 1);
 		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
 
-		/** Joins with namespaces and aliases */
+		// Joins with namespaces and aliases
 		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
