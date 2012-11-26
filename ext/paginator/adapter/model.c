@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(pages_total);
-		PHALCON_CALL_FUNC_PARAMS_1(pages_total, "intval", possible_pages);
+		PHALCON_CALL_FUNC_PARAMS_1(pages_total, "intval", next);
 	} else {
 		PHALCON_CPY_WRT(pages_total, possible_pages);
 	}

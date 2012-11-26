@@ -347,8 +347,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *pointer, *current = NULL, *valid;
-	zval *r0 = NULL;
+	zval *index, *count, *exists, *pointer, *is_same, *current = NULL;
+	zval *valid;
 
 	PHALCON_MM_GROW();
 
@@ -369,9 +369,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 		PHALCON_INIT_VAR(pointer);
 		phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(r0);
-		is_equal_function(r0, pointer, index TSRMLS_CC);
-		if (zend_is_true(r0)) {
+		PHALCON_INIT_VAR(is_same);
+		is_equal_function(is_same, pointer, index TSRMLS_CC);
+		if (PHALCON_IS_TRUE(is_same)) {
 			PHALCON_INIT_VAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
 	

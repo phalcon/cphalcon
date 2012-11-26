@@ -175,19 +175,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
-	zval *number, *has_transactions;
-	zval *t0 = NULL;
+	zval *number, *zero, *has_transactions;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(number);
 	phalcon_read_property(&number, this_ptr, SL("_number"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(has_transactions);
-	is_smaller_function(has_transactions, t0, number TSRMLS_CC);
+	is_smaller_function(has_transactions, zero, number TSRMLS_CC);
 	
 	RETURN_NCTOR(has_transactions);
 }
@@ -202,9 +201,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
 	zval *auto_begin = NULL, *initialized, *rollback_pendent;
 	zval *dependency_injector, *number, *transaction = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
-	zval *r0 = NULL;
-	zval *c0 = NULL;
+	zval *one, *position, *false;
+	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -250,18 +248,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 		phalcon_update_property_zval(this_ptr, SL("_transactions"), t0 TSRMLS_CC);
 		phalcon_property_incr(this_ptr, SL("_number") TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(t1);
-		ZVAL_LONG(t1, 1);
-		PHALCON_INIT_VAR(r0);
-		sub_function(r0, number, t1 TSRMLS_CC);
-		PHALCON_INIT_VAR(t2);
-		phalcon_read_property(&t2, this_ptr, SL("_transactions"), PH_NOISY_CC);
-		PHALCON_INIT_NVAR(transaction);
-		phalcon_array_fetch(&transaction, t2, r0, PH_NOISY_CC);
+		PHALCON_INIT_VAR(one);
+		ZVAL_LONG(one, 1);
 	
-		PHALCON_INIT_VAR(c0);
-		ZVAL_BOOL(c0, 0);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", c0, PH_NO_CHECK);
+		PHALCON_INIT_VAR(position);
+		sub_function(position, number, one TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(t1);
+		phalcon_read_property(&t1, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(transaction);
+		phalcon_array_fetch(&transaction, t1, position, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(false);
+		ZVAL_BOOL(false, 0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", false, PH_NO_CHECK);
 	}
 	
 	
