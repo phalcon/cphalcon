@@ -194,6 +194,51 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
  	}
 
+ 	public function testModelPaginator9()
+	{
+
+		$this->_loadDI();
+
+		$personnes = Personnes::find(array(
+			"limit" => "9"
+        ));
+
+		$paginator = new Phalcon\Paginator\Adapter\Model(array(
+ 			'data' => $personnes,
+ 			'limit' => 5,
+ 			'page' => 1
+ 		));
+
+ 		//First Page
+ 		$page = $paginator->getPaginate();
+ 		$this->assertEquals(get_class($page), 'stdClass');
+
+ 		$this->assertEquals(count($page->items), 5);
+
+ 		$this->assertEquals($page->before, 1);
+ 		$this->assertEquals($page->next, 2);
+ 		$this->assertEquals($page->last, 2);
+
+ 		$this->assertEquals($page->current, 1);
+ 		$this->assertEquals($page->total_pages, 2);
+
+ 		//Middle Page
+ 		$paginator->setCurrentPage(2);
+
+ 		$page = $paginator->getPaginate();
+ 		$this->assertEquals(get_class($page), 'stdClass');
+
+ 		$this->assertEquals(count($page->items), 4);
+
+ 		$this->assertEquals($page->before, 1);
+ 		$this->assertEquals($page->next, 2);
+ 		$this->assertEquals($page->last, 2);
+
+ 		$this->assertEquals($page->current, 2);
+ 		$this->assertEquals($page->total_pages, 2);
+
+ 	}
+
  	public function testModelPaginator123()
 	{
 
