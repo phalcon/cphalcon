@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
 	zval *auto_begin = NULL, *initialized, *rollback_pendent;
 	zval *dependency_injector, *number, *transaction = NULL;
-	zval *one, *position, *false;
+	zval *one, *position, *false_value;
 	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -260,9 +260,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 		PHALCON_INIT_NVAR(transaction);
 		phalcon_array_fetch(&transaction, t1, position, PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(false);
-		ZVAL_BOOL(false, 0);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", false, PH_NO_CHECK);
+		PHALCON_INIT_VAR(false_value);
+		ZVAL_BOOL(false_value, 0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", false_value, PH_NO_CHECK);
 	}
 	
 	
