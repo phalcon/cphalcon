@@ -709,7 +709,8 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 			'prueba',
 			'robots',
 			'robots_parts',
-			'subscriptores',
+            'sqlite_sequence',
+            'subscriptores',
 			'tipo_documento'
 		);
 

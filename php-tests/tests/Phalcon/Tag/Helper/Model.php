@@ -39,7 +39,10 @@ class Tag_Helper_Model extends Phalcon_Test_ModelTestCase
     public function testSelectBasic()
     {
         // Populate the table
+        // Empty the relationship table first
+        $this->emptyTable('robots_parts');
         $this->populateTable('robots');
+        $this->populateTable('robots_parts');
 
         $robots = Robots::find();
 
