@@ -3,7 +3,7 @@ ulimit -c unlimited
 PHP_VERSION=`php -r "echo PHP_VERSION;"`
 PHP_BIN="/home/travis/.phpenv/versions/$PHP_VERSION/bin/php"
 echo $PHP_BIN
-$PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/phpunit.xml
+$PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
 STATUS=$?
 if [ $STATUS != 0 ]; then
 	if [ -f core ]; then
