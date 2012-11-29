@@ -35,10 +35,8 @@ before_script:
  - psql -U postgres phalcon_test -q -f unit-tests/schemas/postgresql/phalcon_test.sql
  - sqlite3 /tmp/phalcon_test.sqlite < unit-tests/schemas/sqlite/phalcon_test.sql
  - chmod +x unit-tests/ci/run_script.sh
- - chmod +x php-tests/ci/run_script.sh
 
 script: sudo ./unit-tests/ci/run_script.sh
-script: sudo ./php-tests/ci/run_script.sh
 
 notifications:
   email:
