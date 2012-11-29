@@ -185,10 +185,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	
 	PHALCON_INIT_VAR(initialized);
 	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	
+	/** 
+	 * Models are just initialized once per request
+	 */
 	eval_int = phalcon_array_isset(initialized, class_name);
 	if (!eval_int) {
+		/** 
+		 * Call the 'initialize' method if it's implemented
+		 */
 		if (phalcon_method_exists_ex(model, SS("initialize") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_NORETURN(model, "initialize", PH_NO_CHECK);
+		}
+	
+		/** 
+		 * If an EventsManager is available we pass it to every model initialized
+		 */
+		PHALCON_INIT_VAR(events_manager);
+		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_INIT_VAR(event_name);
+			ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", model, PH_NO_CHECK);
 		}
 	
 		PHALCON_INIT_VAR(t0);
@@ -196,14 +215,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		phalcon_array_update_zval_bool(&t0, class_name, 1, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_initialized"), t0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(events_manager);
-		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
-		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -783,6 +794,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 		array_init(conditions);
 	}
 	
+	/** 
+	 * Appends conditions created from the fields defined in the relation
+	 */
 	PHALCON_INIT_VAR(fields);
 	phalcon_array_fetch_string(&fields, relation, SL("fi"), PH_NOISY_CC);
 	if (Z_TYPE_P(fields) != IS_ARRAY) { 
@@ -841,6 +855,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords){
 	
 	}
 	
+	/** 
+	 * We don't trust the user or the database so we use bind parameters
+	 */
 	PHALCON_INIT_VAR(join_conditions);
 	phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
 	

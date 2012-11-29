@@ -53,8 +53,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Cache, Backend, cache_backend, phalcon_cache_backend_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontendObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_cache_backend_ce, SL("_backendOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_frontend"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_cache_backend_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_cache_backend_ce, SL("_lastKey"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_cache_backend_ce, SL("_fresh"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -66,39 +66,39 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
 /**
  * Phalcon\Cache\Backend constructor
  *
- * @param Phalcon\Cache\FrontendInterface $frontendObject
- * @param array $backendOptions
+ * @param Phalcon\Cache\FrontendInterface $frontend
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
-	zval *frontend_object, *backend_options = NULL, *prefix;
+	zval *frontend, *options = NULL, *prefix;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend_object, &backend_options) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend, &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	if (!backend_options) {
-		PHALCON_INIT_NVAR(backend_options);
-		array_init(backend_options);
+	if (!options) {
+		PHALCON_INIT_NVAR(options);
+		array_init(options);
 	}
 	
-	if (Z_TYPE_P(frontend_object) != IS_OBJECT) {
+	if (Z_TYPE_P(frontend) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(backend_options, SS("prefix"));
+	eval_int = phalcon_array_isset_string(options, SS("prefix"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(prefix);
-		phalcon_array_fetch_string(&prefix, backend_options, SL("prefix"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_frontendObject"), frontend_object TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_backendOptions"), backend_options TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_frontend"), frontend TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -111,8 +111,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
-	zval *key_name, *backend, *front_end, *existing_cache;
-	zval *fresh = NULL;
+	zval *key_name, *existing_cache, *fresh = NULL, *frontend;
 
 	PHALCON_MM_GROW();
 
@@ -121,18 +120,15 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(backend);
-	phalcon_read_property(&backend, this_ptr, SL("_backendOptions"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(front_end);
-	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
-	
 	PHALCON_INIT_VAR(existing_cache);
 	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", key_name, PH_NO_CHECK);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
-		PHALCON_CALL_METHOD_NORETURN(front_end, "start", PH_NO_CHECK);
+	
+		PHALCON_INIT_VAR(frontend);
+		phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
+		PHALCON_CALL_METHOD_NORETURN(frontend, "start", PH_NO_CHECK);
 	} else {
 		PHALCON_INIT_NVAR(fresh);
 		ZVAL_BOOL(fresh, 0);
@@ -151,7 +147,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
  */
 PHP_METHOD(Phalcon_Cache_Backend, stop){
 
-	zval *stop_buffer = NULL, *front_end;
+	zval *stop_buffer = NULL, *frontend;
 
 	PHALCON_MM_GROW();
 
@@ -165,10 +161,10 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
-	PHALCON_INIT_VAR(front_end);
-	phalcon_read_property(&front_end, this_ptr, SL("_frontendObject"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(frontend);
+	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if (PHALCON_IS_TRUE(stop_buffer)) {
-		PHALCON_CALL_METHOD_NORETURN(front_end, "stop", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(frontend, "stop", PH_NO_CHECK);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);
@@ -184,7 +180,18 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 PHP_METHOD(Phalcon_Cache_Backend, getFrontend){
 
 
-	RETURN_MEMBER(this_ptr, "_frontendObject");
+	RETURN_MEMBER(this_ptr, "_frontend");
+}
+
+/**
+ * Returns the backend options
+ *
+ * @return array
+ */
+PHP_METHOD(Phalcon_Cache_Backend, getOptions){
+
+
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**
@@ -207,6 +214,23 @@ PHP_METHOD(Phalcon_Cache_Backend, isStarted){
 
 
 	RETURN_MEMBER(this_ptr, "_started");
+}
+
+/**
+ * Sets the last key used in the cache
+ *
+ * @param string $lastKey
+ */
+PHP_METHOD(Phalcon_Cache_Backend, setLastKey){
+
+	zval *last_key;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &last_key) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_lastKey"), last_key TSRMLS_CC);
+	
 }
 
 /**

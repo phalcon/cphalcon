@@ -175,19 +175,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
-	zval *number, *has_transactions;
-	zval *t0 = NULL;
+	zval *number, *zero, *has_transactions;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(number);
 	phalcon_read_property(&number, this_ptr, SL("_number"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(has_transactions);
-	is_smaller_function(has_transactions, t0, number TSRMLS_CC);
+	is_smaller_function(has_transactions, zero, number TSRMLS_CC);
 	
 	RETURN_NCTOR(has_transactions);
 }
@@ -202,9 +201,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
 	zval *auto_begin = NULL, *initialized, *rollback_pendent;
 	zval *dependency_injector, *number, *transaction = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-	zval *r0 = NULL;
-	zval *c0 = NULL;
+	zval *one, *position, *false_value;
+	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -248,25 +246,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 		phalcon_read_property(&t0, this_ptr, SL("_transactions"), PH_NOISY_CC);
 		phalcon_array_append(&t0, transaction, 0 TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_transactions"), t0 TSRMLS_CC);
+		phalcon_property_incr(this_ptr, SL("_number") TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(one);
+		ZVAL_LONG(one, 1);
+	
+		PHALCON_INIT_VAR(position);
+		sub_function(position, number, one TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(t1);
-		phalcon_read_property(&t1, this_ptr, SL("_number"), PH_NOISY_CC);
-		PHALCON_SEPARATE_NMO(t1);
-		increment_function(t1);
-		phalcon_update_property_zval(this_ptr, SL("_number"), t1 TSRMLS_CC);
-	} else {
-		PHALCON_INIT_VAR(t2);
-		ZVAL_LONG(t2, 1);
-		PHALCON_INIT_VAR(r0);
-		sub_function(r0, number, t2 TSRMLS_CC);
-		PHALCON_INIT_VAR(t3);
-		phalcon_read_property(&t3, this_ptr, SL("_transactions"), PH_NOISY_CC);
-		PHALCON_INIT_NVAR(transaction);
-		phalcon_array_fetch(&transaction, t3, r0, PH_NOISY_CC);
+		phalcon_read_property(&t1, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(c0);
-		ZVAL_BOOL(c0, 0);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", c0, PH_NO_CHECK);
+		PHALCON_INIT_NVAR(transaction);
+		phalcon_array_fetch(&transaction, t1, position, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(false_value);
+		ZVAL_BOOL(false_value, 0);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(transaction, "setisnewtransaction", false_value, PH_NO_CHECK);
 	}
 	
 	
@@ -457,7 +453,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	zval *transaction, *transactions = NULL, *number, *managed_transaction = NULL;
 	zval *r0 = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -493,11 +488,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 			PHALCON_INIT_NVAR(r0);
 			is_equal_function(r0, managed_transaction, transaction TSRMLS_CC);
 			if (zend_is_true(r0)) {
-				PHALCON_INIT_NVAR(t0);
-				phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
-				PHALCON_SEPARATE_NMO(t0);
-				decrement_function(t0);
-				phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
+				phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			}
 			PHALCON_SEPARATE(number);
 			increment_function(number);
@@ -549,7 +540,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 
 	zval *transactions, *number, *managed_transaction = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -577,11 +567,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	
 			PHALCON_GET_FOREACH_VALUE(managed_transaction);
 	
-			PHALCON_INIT_NVAR(t0);
-			phalcon_read_property(&t0, this_ptr, SL("_number"), PH_NOISY_CC);
-			PHALCON_SEPARATE_NMO(t0);
-			decrement_function(t0);
-			phalcon_update_property_zval(this_ptr, SL("_number"), t0 TSRMLS_CC);
+			phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			PHALCON_SEPARATE(number);
 			increment_function(number);
 	

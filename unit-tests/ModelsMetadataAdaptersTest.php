@@ -124,6 +124,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($metaData->isEmpty());
 
+		Robots::findFirst();
+
 	}
 
 	public function testMetadataSession()
@@ -147,8 +149,6 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		//$metaData->storeMetaData();
-
 		$expectedSession = array(
 			'$PMM$my-local-app' => $this->_data
 		);
@@ -156,6 +156,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($_SESSION, $expectedSession);
 
 		$this->assertFalse($metaData->isEmpty());
+
+		Robots::findFirst();
 
 	}
 
@@ -187,9 +189,42 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 		Robots::findFirst();
 
 		$this->assertEquals(apc_fetch('$PMM$my-local-approbots'), $this->_data['robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appRobots'), $this->_data['Robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 
+		Robots::findFirst();
+
+	}
+
+	public function testMetadataFiles()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('modelsMetadata', function(){
+			return new Phalcon\Mvc\Model\Metadata\Files(array(
+				'metaDataDir' => 'unit-tests/cache/',
+			));
+		});
+
+		@unlink('unit-tests/cache/robots.php');
+		@unlink('unit-tests/cache/Robots.php');
+
+		$metaData = $di->getShared('modelsMetadata');
+
+		$metaData->reset();
+
+		$this->assertTrue($metaData->isEmpty());
+
+		Robots::findFirst();
+
+		$this->assertEquals(require 'unit-tests/cache/robots.php', $this->_data['robots']);
+		$this->assertEquals(require 'unit-tests/cache/Robots.php', $this->_data['Robots']);
+
+		$this->assertFalse($metaData->isEmpty());
+
+		Robots::findFirst();
 	}
 
 }

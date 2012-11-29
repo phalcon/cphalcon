@@ -59,13 +59,14 @@ PHALCON_INIT_CLASS(Phalcon_Dispatcher){
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_activeHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_finished"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_dispatcher_ce, SL("_handlerName"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_dispatcher_ce, SL("_actionName"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_namespaceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_handlerName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_actionName"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_params"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_returnedValue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_dispatcher_ce, SL("_lastHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_dispatcher_ce, SL("_defaultNamespace"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_string(phalcon_dispatcher_ce, SL("_defaultHandler"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_defaultNamespace"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_dispatcher_ce, SL("_defaultHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_defaultAction"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_handlerSuffix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_dispatcher_ce, SL("_actionSuffix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -163,6 +164,34 @@ PHP_METHOD(Phalcon_Dispatcher, setActionSuffix){
 
 	phalcon_update_property_zval(this_ptr, SL("_actionSuffix"), action_suffix TSRMLS_CC);
 	
+}
+
+/**
+ * Sets a namespace to be prepended to the handler name
+ *
+ * @param string $namespaceName
+ */
+PHP_METHOD(Phalcon_Dispatcher, setNamespaceName){
+
+	zval *namespace_name;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &namespace_name) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+	
+}
+
+/**
+ * Gets a namespace to be prepended to the current handler name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getNamespaceName){
+
+
+	RETURN_MEMBER(this_ptr, "_namespaceName");
 }
 
 /**
@@ -308,24 +337,29 @@ PHP_METHOD(Phalcon_Dispatcher, setParam){
  *
  * @param  mixed $param
  * @param  string|array $filters
+ * @param  mixed $defaultValue
  * @return mixed
  */
 PHP_METHOD(Phalcon_Dispatcher, getParam){
 
-	zval *param, *filters = NULL, *params, *param_value, *dependency_injector;
-	zval *exception_code, *exception_message;
-	zval *service, *filter, *sanitized_value;
+	zval *param, *filters = NULL, *default_value = NULL, *params;
+	zval *param_value, *dependency_injector, *exception_code;
+	zval *exception_message, *service, *filter, *sanitized_value;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &param, &filters) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &param, &filters, &default_value) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
 	if (!filters) {
 		PHALCON_INIT_NVAR(filters);
+	}
+	
+	if (!default_value) {
+		PHALCON_INIT_NVAR(default_value);
 	}
 	
 	PHALCON_INIT_VAR(params);
@@ -362,8 +396,8 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	
+	RETURN_CCTOR(default_value);
 }
 
 /**
@@ -398,8 +432,8 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	zval *dependency_injector, *exception_code = NULL;
 	zval *exception_message = NULL, *events_manager;
 	zval *event_name = NULL, *status = NULL, *value = NULL, *handler = NULL, *number_dispatches;
-	zval *handler_suffix, *action_suffix, *default_namespace;
-	zval *finished = NULL, *handler_name = NULL, *action_name = NULL;
+	zval *handler_suffix, *action_suffix, *finished = NULL;
+	zval *namespace_name = NULL, *handler_name = NULL, *action_name = NULL;
 	zval *camelized_class = NULL, *handler_class = NULL, *has_service = NULL;
 	zval *was_fresh = NULL, *params = NULL, *action_method = NULL, *call_object = NULL;
 	zval *t0 = NULL;
@@ -448,9 +482,6 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 	PHALCON_INIT_VAR(action_suffix);
 	phalcon_read_property(&action_suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(default_namespace);
-	phalcon_read_property(&default_namespace, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
 	phalcon_update_property_bool(this_ptr, SL("_finished"), 0 TSRMLS_CC);
 	ph_cycle_start_0:
 	
@@ -475,7 +506,18 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		phalcon_update_property_bool(this_ptr, SL("_finished"), 1 TSRMLS_CC);
 	
 		/** 
-		 * If the handler is null we used the set in this_ptr::_defaultHandler
+		 * If the current namespace is null we used the set in this_ptr::_defaultNamespace
+		 */
+		PHALCON_INIT_NVAR(namespace_name);
+		phalcon_read_property(&namespace_name, this_ptr, SL("_namespaceName"), PH_NOISY_CC);
+		if (!zend_is_true(namespace_name)) {
+			PHALCON_INIT_NVAR(namespace_name);
+			phalcon_read_property(&namespace_name, this_ptr, SL("_defaultNamespace"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+		}
+	
+		/** 
+		 * If the handler is null we use the set in this_ptr::_defaultHandler
 		 */
 		PHALCON_INIT_NVAR(handler_name);
 		phalcon_read_property(&handler_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
@@ -486,7 +528,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		/** 
-		 * If the action is null we used the set in this_ptr::_defaultAction
+		 * If the action is null we use the set in this_ptr::_defaultAction
 		 */
 		PHALCON_INIT_NVAR(action_name);
 		phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
@@ -516,6 +558,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			}
 		}
 	
+		/** 
+		 * We don't camelize the classes if they are in namespaces
+		 */
 		if (!phalcon_memnstr_str(handler_name, SL("\\") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(camelized_class);
 			phalcon_camelize(camelized_class, handler_name TSRMLS_CC);
@@ -524,7 +569,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		}
 	
 		PHALCON_INIT_NVAR(handler_class);
-		PHALCON_CONCAT_VVV(handler_class, default_namespace, camelized_class, handler_suffix);
+		PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
 	
 		/** 
 		 * Handlers are retrieved as shared instances from the Services Container
@@ -782,8 +827,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
  */
 PHP_METHOD(Phalcon_Dispatcher, forward){
 
-	zval *forward, *exception_message, *controller_name;
-	zval *task_name, *action_name, *params;
+	zval *forward, *exception_message, *namespace_name;
+	zval *controller_name, *task_name, *action_name;
+	zval *params;
 	int eval_int;
 
 	PHALCON_MM_GROW();
@@ -800,6 +846,20 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
+	
+	/** 
+	 * Check if we need to forward to another namespace
+	 */
+	eval_int = phalcon_array_isset_string(forward, SS("namespace"));
+	if (eval_int) {
+		PHALCON_INIT_VAR(namespace_name);
+		phalcon_array_fetch_string(&namespace_name, forward, SL("namespace"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_namespaceName"), namespace_name TSRMLS_CC);
+	}
+	
+	/** 
+	 * Check if we need to forward to another controller
+	 */
 	eval_int = phalcon_array_isset_string(forward, SS("controller"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(controller_name);
@@ -814,6 +874,9 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		}
 	}
 	
+	/** 
+	 * Check if we need to forward to another action
+	 */
 	eval_int = phalcon_array_isset_string(forward, SS("action"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(action_name);
@@ -821,6 +884,9 @@ PHP_METHOD(Phalcon_Dispatcher, forward){
 		phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	}
 	
+	/** 
+	 * Check if we need to forward changing the current parameters
+	 */
 	eval_int = phalcon_array_isset_string(forward, SS("params"));
 	if (eval_int) {
 		PHALCON_INIT_VAR(params);

@@ -29,15 +29,31 @@ class UrlTest extends PHPUnit_Framework_TestCase
 		$di = new Phalcon\DI();
 
 		$di->set('router', function(){
+
 			$router = new Phalcon\Mvc\Router(false);
 
-			$router->add('/admin/:controller/p/:action')->setName('adminProducts');
+			$router->add('/admin/:controller/p/:action', array(
+				'controller' => 1,
+				'action' => 2
+			))->setName('adminProducts');
 
 			$router->add('/api/classes/{class}')->setName('classApi');
 
 			$router->add('/{year}/{month}/{title}')->setName('blogPost');
 
 			$router->add('/wiki/{article:[a-z]+}')->setName('wikipedia');
+
+			$router->add('/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}', array(
+				'section' => 2,
+				'article' => 3
+			))->setName('news');
+
+			$router->add('/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)', array(
+				'lang' => 1,
+				'module' => 'main',
+				'controller' => 2,
+				'action' => 'index',
+			))->setName('lang-controller');
 
 			return $router;
 		});
@@ -85,9 +101,9 @@ class UrlTest extends PHPUnit_Framework_TestCase
 					'for' => 'blogPost',
 					'year' => '2010',
 					'month' => '10',
-					'title' => 'cloudflare-anade-recursos-a-tu-servidor',
+					'title' => 'cloudflare-add-resources-to-your-server',
 				),
-				'url' => '/2010/10/cloudflare-anade-recursos-a-tu-servidor'
+				'url' => '/2010/10/cloudflare-add-resources-to-your-server'
 			),
 			array(
 				'paths' => array(
@@ -95,6 +111,24 @@ class UrlTest extends PHPUnit_Framework_TestCase
 					'article' => 'Television_news'
 				),
 				'url' => '/wiki/Television_news'
+			),
+			array(
+				'paths' => array(
+					'for' => 'news',
+					'country' => 'de',
+					'section' => 'international',
+					'article' => 'world-peace',
+					'page' => 2
+				),
+				'url' => '/news/de/international/world-peace/2'
+			),
+			array(
+				'paths' => array(
+					'for' => 'lang-controller',
+					'lang' => 'de',
+					'controller' => 'index'
+				),
+				'url' => '/de/index'
 			)
 		);
 

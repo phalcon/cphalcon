@@ -174,8 +174,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *service = NULL, *router, *module_name, *event_name = NULL;
 	zval *status = NULL, *modules, *exception_msg = NULL, *module;
 	zval *path, *class_name = NULL, *module_object, *module_params;
-	zval *view, *controller_name = NULL, *action_name = NULL, *params = NULL;
-	zval *dispatcher, *controller, *response, *content;
+	zval *view, *namespace_name, *controller_name = NULL;
+	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
+	zval *response, *content;
 	zval *r0 = NULL;
 	int eval_int;
 
@@ -255,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					}
 				} else {
 					PHALCON_INIT_NVAR(exception_msg);
-					PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exists");
+					PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exist");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
 					return;
 				}
@@ -321,6 +322,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	/** 
 	 * We get the parameters from the router and assign it to the dispatcher
 	 */
+	PHALCON_INIT_VAR(namespace_name);
+	PHALCON_CALL_METHOD(namespace_name, router, "getnamespacename", PH_NO_CHECK);
+	
 	PHALCON_INIT_VAR(controller_name);
 	PHALCON_CALL_METHOD(controller_name, router, "getcontrollername", PH_NO_CHECK);
 	
@@ -335,9 +339,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	PHALCON_CALL_METHOD_PARAMS_1(dispatcher, dependency_injector, "getshared", service, PH_NO_CHECK);
+	
+	/** 
+	 * Assign the values passed from the router
+	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setnamespacename", namespace_name, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setcontrollername", controller_name, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setactionname", action_name, PH_NO_CHECK);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(dispatcher, "setparams", params, PH_NO_CHECK);
+	
+	/** 
+	 * Start the view component (start output buffering)
+	 */
 	PHALCON_CALL_METHOD_NORETURN(view, "start", PH_NO_CHECK);
 	
 	/** 
@@ -383,6 +396,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * Finish the view component (stop output buffering)
+	 */
 	PHALCON_CALL_METHOD_NORETURN(view, "finish", PH_NO_CHECK);
 	
 	PHALCON_INIT_NVAR(service);

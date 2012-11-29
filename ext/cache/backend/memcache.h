@@ -31,8 +31,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists);
 PHP_METHOD(Phalcon_Cache_Backend_Memcache, __destruct);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache___construct, 0, 0, 1)
-	ZEND_ARG_INFO(0, frontendObject)
-	ZEND_ARG_INFO(0, backendOptions)
+	ZEND_ARG_INFO(0, frontend)
+	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_get, 0, 0, 1)
@@ -57,6 +57,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_backend_memcache_exists, 0, 0, 0)
 	ZEND_ARG_INFO(0, keyName)
+	ZEND_ARG_INFO(0, lifetime)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_cache_backend_memcache_method_entry){

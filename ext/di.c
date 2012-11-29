@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_DI, __construct){
  * @param string $name
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, set){
 
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_DI, set){
 	phalcon_array_update_zval(&t0, name, &service, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_CTOR(service);
 }
 
 /**
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_DI, set){
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, setShared){
 
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	phalcon_array_update_zval(&t0, name, &service, PH_COPY TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_services"), t0 TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_CTOR(service);
 }
 
 /**
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_DI, remove){
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, attempt){
 
@@ -295,6 +295,44 @@ PHP_METHOD(Phalcon_DI, getRaw){
 		PHALCON_CALL_METHOD(definition, service, "getdefinition", PH_NO_CHECK);
 	
 		RETURN_CCTOR(definition);
+	}
+	
+	PHALCON_INIT_VAR(exception_message);
+	PHALCON_CONCAT_SVS(exception_message, "Service '", name, "' wasn't found in the dependency injection container");
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);
+	return;
+}
+
+/**
+ * Returns a Phalcon\Di\Service instance
+ *
+ * @return Phalcon\Di\ServiceInterface
+ */
+PHP_METHOD(Phalcon_DI, getService){
+
+	zval *name, *services, *service, *exception_message;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(services);
+	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(services, name);
+	if (eval_int) {
+		PHALCON_INIT_VAR(service);
+		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
+	
+		RETURN_CCTOR(service);
 	}
 	
 	PHALCON_INIT_VAR(exception_message);

@@ -40,8 +40,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_BackendInterface){
 /**
  * Phalcon\Cache\Backend constructor
  *
- * @param Phalcon\Cache\FrontendInterface $frontendObject
- * @param array $backendOptions
+ * @param Phalcon\Cache\FrontendInterface $frontend
+ * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
 
@@ -68,6 +68,13 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, stop);
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getFrontend);
 
 /**
+ * Returns the backend options
+ *
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getOptions);
+
+/**
  * Checks whether the last cache is fresh or cached
  *
  * @return boolean
@@ -82,6 +89,13 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isFresh);
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
 
 /**
+ * Sets the last key used in the cache
+ *
+ * @param string $lastKey
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, setLastKey);
+
+/**
  * Gets the last key stored by the cache
  *
  * @return string
@@ -89,7 +103,46 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, isStarted);
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, getLastKey);
 
 /**
- * Returns data from the backend
+ * Returns a cached content
+ *
+ * @param int|string $keyName
+ * @param   long $lifetime
+ * @return  mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, get);
+
+/**
+ * Stores cached content into the file backend and stops the frontend
+ *
+ * @param int|string $keyName
+ * @param string $content
+ * @param long $lifetime
+ * @param boolean $stopBuffer
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, save);
+
+/**
+ * Deletes a value from the cache by its key
+ *
+ * @param int|string $keyName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, delete);
+
+/**
+ * Query the existing cached keys
+ *
+ * @param string $prefix
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, queryKeys);
+
+/**
+ * Checks if cache exists and it hasn't expired
+ *
+ * @param  string $keyName
+ * @param  long $lifetime
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, exists);
 

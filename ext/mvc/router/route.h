@@ -32,6 +32,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRouteId);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getCompiledPattern);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getPaths);
+PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths);
 PHP_METHOD(Phalcon_Mvc_Router_Route, getHttpMethods);
 PHP_METHOD(Phalcon_Mvc_Router_Route, reset);
 
@@ -74,6 +75,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_router_route_method_entry){
 	PHP_ME(Phalcon_Mvc_Router_Route, getPattern, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getCompiledPattern, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getPaths, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Router_Route, getReversedPaths, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, getHttpMethods, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Router_Route, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END

@@ -261,6 +261,10 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype", PH_NO_CHECK);
 		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
+			/** 
+			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
+			 * of rows, so we need to perform an extra count to know that
+			 */
 			PHALCON_INIT_VAR(sql_statement);
 			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
 	
@@ -327,7 +331,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 
 	long number = 0, n;
-	zval *pdo_statement = NULL;
+	zval *connection, *pdo, *sql_statement;
+	zval *bind_params, *bind_types, *statement = NULL;
+	zval *temp_statement = NULL;
 	pdo_stmt_t *stmt;
 
 	PHALCON_MM_GROW();
@@ -337,17 +343,48 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(connection);
+	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 
-	stmt = (pdo_stmt_t*) zend_object_store_get_object(pdo_statement TSRMLS_CC);
-	if (!stmt->dbh) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+	PHALCON_INIT_VAR(pdo);
+	PHALCON_CALL_METHOD(pdo, connection, "getinternalhandler", PH_NO_CHECK);
+
+	PHALCON_INIT_VAR(sql_statement);
+	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(bind_params);
+	phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+
+	/**
+	 * PDO doesn't support scrollable cursors, so we need to re-execute the statement again
+	 */
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
+
+		PHALCON_INIT_VAR(bind_types);
+		phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+
+		PHALCON_INIT_VAR(statement);
+		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
+		if (Z_TYPE_P(statement) == IS_OBJECT) {
+			PHALCON_INIT_VAR(temp_statement);
+			PHALCON_CALL_METHOD_PARAMS_3(temp_statement, connection, "executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
+			PHALCON_CPY_WRT(statement, temp_statement);
+		}
+
+	} else {
+		PHALCON_INIT_NVAR(statement);
+		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "query", sql_statement, PH_NO_CHECK);
 	}
 
-	if (!stmt->methods->executer(stmt TSRMLS_CC)) {
-		stmt->executed = 1;
+	phalcon_update_property_zval(this_ptr, SL("_pdoStatement"), statement TSRMLS_CC);
+
+	/**
+	 * This a fetch scroll to reach the desired position, however with a big number of records
+	 * maybe it may be very slow
+	 */
+
+	stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
+	if (!stmt->dbh) {
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}

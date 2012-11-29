@@ -105,6 +105,10 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct){
 	phalcon_add_function(next_consecutive, connection_consecutive, one TSRMLS_CC);
 	phalcon_update_static_property(SL("phalcon\\db\\adapter"), SL("_connectionConsecutive"), next_consecutive TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_connectionId"), connection_consecutive TSRMLS_CC);
+	
+	/** 
+	 * Dialect class can override the default dialect
+	 */
 	eval_int = phalcon_array_isset_string(descriptor, SS("dialectClass"));
 	if (!eval_int) {
 		PHALCON_INIT_VAR(dialect_type);
@@ -171,17 +175,18 @@ PHP_METHOD(Phalcon_Db_Adapter, getEventsManager){
  *
  * @param string $sqlQuery
  * @param int $fetchMode
- * @param array $placeholders
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 
-	zval *sql_query, *fetch_mode = NULL, *placeholders = NULL;
+	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL;
 	zval *result, *row, *empty_row;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_query, &fetch_mode, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &sql_query, &fetch_mode, &bind_params, &bind_types) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -191,19 +196,23 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
-	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+	if (!bind_params) {
+		PHALCON_INIT_NVAR(bind_params);
+	}
+	
+	if (!bind_types) {
+		PHALCON_INIT_NVAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "query", sql_query, placeholders, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "query", sql_query, bind_params, bind_types, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
 		}
 	
 		PHALCON_INIT_VAR(row);
-		PHALCON_CALL_METHOD(row, result, "fetcharray", PH_NO_CHECK);
+		PHALCON_CALL_METHOD(row, result, "fetch", PH_NO_CHECK);
 	
 		RETURN_CCTOR(row);
 	}
@@ -233,18 +242,19 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
  *
  * @param string $sqlQuery
  * @param int $fetchMode
- * @param array $placeholders
+ * @param array $bindParams
+ * @param array $bindTypes
  * @return array
  */
 PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 
-	zval *sql_query, *fetch_mode = NULL, *placeholders = NULL;
+	zval *sql_query, *fetch_mode = NULL, *bind_params = NULL, *bind_types = NULL;
 	zval *results, *result, *row = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &sql_query, &fetch_mode, &placeholders) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &sql_query, &fetch_mode, &bind_params, &bind_types) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -254,15 +264,19 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
-	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+	if (!bind_params) {
+		PHALCON_INIT_NVAR(bind_params);
+	}
+	
+	if (!bind_types) {
+		PHALCON_INIT_NVAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(results);
 	array_init(results);
 	
 	PHALCON_INIT_VAR(result);
-	PHALCON_CALL_METHOD_PARAMS_2(result, this_ptr, "query", sql_query, placeholders, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "query", sql_query, bind_params, bind_types, PH_NO_CHECK);
 	if (Z_TYPE_P(result) == IS_OBJECT) {
 		if (Z_TYPE_P(fetch_mode) != IS_NULL) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setfetchmode", fetch_mode, PH_NO_CHECK);
@@ -270,7 +284,7 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 		ph_cycle_start_0:
 	
 			PHALCON_INIT_NVAR(r0);
-			PHALCON_CALL_METHOD(r0, result, "fetcharray", PH_NO_CHECK);
+			PHALCON_CALL_METHOD(r0, result, "fetch", PH_NO_CHECK);
 			PHALCON_CPY_WRT(row, r0);
 			if (!zend_is_true(row)) {
 				goto ph_cycle_end_0;
@@ -493,6 +507,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	zval *bind_data_types = NULL, *value = NULL, *position = NULL, *field = NULL;
 	zval *escaped_field = NULL, *set_clause_part = NULL, *bind_type = NULL;
 	zval *escaped_table, *set_clause, *update_sql = NULL;
+	zval *conditions, *where_bind, *where_types;
 	zval *success;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -601,7 +616,42 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	phalcon_fast_join_str(set_clause, SL(", "), placeholders TSRMLS_CC);
 	if (Z_TYPE_P(where_condition) != IS_NULL) {
 		PHALCON_INIT_VAR(update_sql);
-		PHALCON_CONCAT_SVSVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause, " WHERE ", where_condition);
+		PHALCON_CONCAT_SVSVS(update_sql, "UPDATE ", escaped_table, " SET ", set_clause, " WHERE ");
+	
+		/** 
+		 * String conditions are simply appended to the SQL
+		 */
+		if (Z_TYPE_P(where_condition) == IS_STRING) {
+			phalcon_concat_self(update_sql, where_condition TSRMLS_CC);
+		} else {
+			/** 
+			 * Array conditions may have bound params and bound types
+			 */
+			if (Z_TYPE_P(where_condition) == IS_ARRAY) { 
+				eval_int = phalcon_array_isset_string(where_condition, SS("conditions"));
+				if (eval_int) {
+					PHALCON_INIT_VAR(conditions);
+					phalcon_array_fetch_string(&conditions, where_condition, SL("conditions"), PH_NOISY_CC);
+					phalcon_concat_self(update_sql, conditions TSRMLS_CC);
+				}
+				eval_int = phalcon_array_isset_string(where_condition, SS("bind"));
+				if (eval_int) {
+					PHALCON_INIT_VAR(where_bind);
+					phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY_CC);
+					phalcon_merge_append(update_values, where_bind TSRMLS_CC);
+				}
+	
+				eval_int = phalcon_array_isset_string(where_condition, SS("bindTypes"));
+				if (eval_int) {
+					PHALCON_INIT_VAR(where_types);
+					phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY_CC);
+					phalcon_merge_append(bind_data_types, where_types TSRMLS_CC);
+				}
+			} else {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid WHERE clause conditions");
+				return;
+			}
+		}
 	} else {
 		PHALCON_INIT_NVAR(update_sql);
 		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause);

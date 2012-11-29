@@ -96,7 +96,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 
-	zval *model, *key, *table, *schema, *class_name = NULL, *meta_data;
+	zval *model, *key, *table, *schema, *class_name = NULL, *meta_data = NULL;
 	zval *data = NULL, *table_metadata = NULL, *exception_message = NULL;
 	zval *connection, *exists, *complete_table = NULL, *columns;
 	zval *attributes, *primary_keys, *non_primary_keys;
@@ -130,9 +130,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 		eval_int = phalcon_array_isset(meta_data, key);
 		if (!eval_int) {
+			/** 
+			 * The meta-data is read from the adapter always
+			 */
 			PHALCON_INIT_VAR(data);
 			PHALCON_CALL_METHOD_PARAMS_1(data, this_ptr, "read", key, PH_NO_CHECK);
 			if (Z_TYPE_P(data) != IS_NULL) {
+				if (Z_TYPE_P(meta_data) != IS_ARRAY) { 
+					PHALCON_INIT_NVAR(meta_data);
+					array_init(meta_data);
+				}
 				phalcon_array_update_zval(&meta_data, key, &data, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_metaData"), meta_data TSRMLS_CC);
 			} else {
@@ -304,6 +311,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		}
 	}
 	
+	/** 
+	 * Check for a column map, store in _columnMap in order and reversed order
+	 */
 	PHALCON_INIT_NVAR(class_name);
 	phalcon_get_class(class_name, model TSRMLS_CC);
 	
@@ -311,6 +321,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	eval_int = phalcon_array_isset(column_map, class_name);
 	if (!eval_int) {
+		if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(column_map);
+			array_init(column_map);
+		}
+	
 		PHALCON_INIT_NVAR(data);
 		PHALCON_CALL_METHOD_PARAMS_1(data, this_ptr, "read", class_name, PH_NO_CHECK);
 		if (Z_TYPE_P(data) != IS_NULL) {
@@ -320,6 +335,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 			PHALCON_INIT_VAR(ordered_column_map);
 	
 			PHALCON_INIT_VAR(reversed_column_map);
+	
+			/** 
+			 * Check for a columnMap() method on the model
+			 */
 			if (phalcon_method_exists_ex(model, SS("columnmap") TSRMLS_CC) == SUCCESS) {
 				PHALCON_INIT_VAR(user_column_map);
 				PHALCON_CALL_METHOD(user_column_map, model, "columnmap", PH_NO_CHECK);
@@ -361,11 +380,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 			array_init(model_column_map);
 			phalcon_array_update_long(&model_column_map, 0, &ordered_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_long(&model_column_map, 1, &reversed_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			if (Z_TYPE_P(column_map) != IS_ARRAY) { 
-				PHALCON_INIT_NVAR(column_map);
-				array_init(column_map);
-			}
-	
 			phalcon_array_update_zval(&column_map, class_name, &model_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "write", class_name, model_column_map, PH_NO_CHECK);

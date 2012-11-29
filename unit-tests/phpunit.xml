@@ -48,12 +48,14 @@
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
+			<file>unit-tests/ModelsQueryBuilderTest.php</file>
 			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
 
+			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>
 
 			<!-- View/Templating tests -->
@@ -62,6 +64,7 @@
 			<file>unit-tests/ViewEnginesVoltTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
 
+			<!-- Other components -->
 			<file>unit-tests/ControllersTest.php</file>
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/UrlTest.php</file>

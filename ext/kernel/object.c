@@ -371,7 +371,7 @@ int phalcon_update_property_null(zval *object, char *property_name, int property
 }
 
 /**
- * Checks wheter obj is an object and updates property with another zval
+ * Checks whether obj is an object and updates property with another zval
  */
 int phalcon_update_property_zval(zval *object, char *property_name, int property_length, zval *value TSRMLS_DC){
 
@@ -389,7 +389,7 @@ int phalcon_update_property_zval(zval *object, char *property_name, int property
 }
 
 /**
- * Checks wheter obj is an object and updates zval property with another zval
+ * Checks whether obj is an object and updates zval property with another zval
  */
 int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){
 
@@ -594,6 +594,50 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 		if (phalcon_call_method(NULL, return_value, SL("__construct"), PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
 			return FAILURE;
 		}
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Increments an object property
+ */
+int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC){
+
+	zval *tmp = NULL;
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
+		return FAILURE;
+	}
+
+	ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
+	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
+	if (tmp) {
+		increment_function(tmp);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Decrements an object property
+ */
+int phalcon_property_decr(zval *object, char *property_name, int property_length TSRMLS_DC){
+
+	zval *tmp = NULL;
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
+		return FAILURE;
+	}
+
+	ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
+	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
+	if (tmp) {
+		decrement_function(tmp);
 	}
 
 	return SUCCESS;

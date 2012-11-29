@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Email, validate){
 	 * We check if the email has a valid format using a regular expression
 	 */
 	PHALCON_INIT_VAR(pattern);
-	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*$/", 1);
+	ZVAL_STRING(pattern, "/^[a-zA-Z0-9\\-_\\.\\+]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_\\-]+)*$/", 1);
 	Z_SET_ISREF_P(regs);
 	
 	PHALCON_INIT_VAR(match_pattern);

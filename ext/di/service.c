@@ -41,9 +41,9 @@
 #include "kernel/concat.h"
 
 /**
- * Phalcon\DI
+ * Phalcon\DI\Service
  *
- * Represents a service in the services container
+ * Represents individually a service in the services container
  */
 
 
@@ -58,6 +58,8 @@ PHALCON_INIT_CLASS(Phalcon_DI_Service){
 	zend_declare_property_null(phalcon_di_service_ce, SL("_definition"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_shared"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_di_service_ce, SL("_sharedInstance"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_di_service_ce TSRMLS_CC, 1, phalcon_di_serviceinterface_ce);
 
 	return SUCCESS;
 }
@@ -125,7 +127,7 @@ PHP_METHOD(Phalcon_DI_Service, setShared){
  *
  * @return boolean
  */
-PHP_METHOD(Phalcon_DI_Service, getShared){
+PHP_METHOD(Phalcon_DI_Service, isShared){
 
 
 	RETURN_MEMBER(this_ptr, "_shared");
@@ -201,6 +203,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	PHALCON_INIT_VAR(definition);
 	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) == IS_STRING) {
+		/** 
+		 * String definitions can be class names without implicit parameters
+		 */
 		if (phalcon_class_exists(definition TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
@@ -223,6 +228,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 			ZVAL_BOOL(found, 0);
 		}
 	} else {
+		/** 
+		 * Object definitions can be a Closure or an already resolved instance
+		 */
 		if (Z_TYPE_P(definition) == IS_OBJECT) {
 			if (phalcon_is_instance_of(definition, SL("Closure") TSRMLS_CC)) {
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
@@ -236,6 +244,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 				PHALCON_CPY_WRT(instance, definition);
 			}
 		} else {
+			/** 
+			 * Array definitions require a 'className' parameter
+			 */
 			if (Z_TYPE_P(definition) == IS_ARRAY) { 
 				eval_int = phalcon_array_isset_string(definition, SS("className"));
 				if (!eval_int) {

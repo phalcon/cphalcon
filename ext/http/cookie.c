@@ -32,13 +32,16 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
+#include "kernel/fcall.h"
 
 /**
  * Phalcon\Http\Cookie
  *
- * Provide OO wrappers to
+ * Provide OO wrappers to manage a HTTP cookie
  */
 
 
@@ -50,11 +53,13 @@ PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 	PHALCON_REGISTER_CLASS(Phalcon\\Http, Cookie, http_cookie, phalcon_http_cookie_method_entry, 0);
 
 	zend_declare_property_bool(phalcon_http_cookie_ce, SL("_readed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_cookie_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_cookie_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_value"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_expire"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_cookie_ce, SL("_path"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_http_cookie_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_cookie_ce, SL("_secure"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_cookie_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 
@@ -63,6 +68,11 @@ PHALCON_INIT_CLASS(Phalcon_Http_Cookie){
 
 /**
  * Phalcon\Http\Cookie constructor
+ *
+ * @param string $name
+ * @param mixed $value
+ * @param int $expire
+ * @param string $path
  */
 PHP_METHOD(Phalcon_Http_Cookie, __construct){
 
@@ -88,6 +98,10 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 		PHALCON_INIT_NVAR(path);
 	}
 	
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "The cookie name must be string");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	if (Z_TYPE_P(value) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
@@ -129,12 +143,6 @@ PHP_METHOD(Phalcon_Http_Cookie, getDI){
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
-PHP_METHOD(Phalcon_Http_Cookie, get){
-
-
-	
-}
-
 /**
  * Sets the cookie's value
  *
@@ -155,6 +163,86 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue){
 	RETURN_CTORW(this_ptr);
 }
 
+/**
+ * Returns the cookie's value
+ *
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Http_Cookie, getValue){
+
+	zval *filters = NULL, *default_value = NULL, *readed, *name, *value;
+	zval *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
+	zval *g0 = NULL;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &filters, &default_value) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!filters) {
+		PHALCON_INIT_NVAR(filters);
+	}
+	
+	if (!default_value) {
+		PHALCON_INIT_NVAR(default_value);
+	}
+	
+	PHALCON_INIT_VAR(readed);
+	phalcon_read_property(&readed, this_ptr, SL("_readed"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(readed)) {
+		PHALCON_INIT_VAR(name);
+		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+		phalcon_get_global(&g0, SL("_COOKIE")+1 TSRMLS_CC);
+		eval_int = phalcon_array_isset(g0, name);
+		if (eval_int) {
+			PHALCON_INIT_VAR(value);
+			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+			if (Z_TYPE_P(filters) != IS_NULL) {
+				PHALCON_INIT_VAR(filter);
+				phalcon_read_property(&filter, this_ptr, SL("_filter"), PH_NOISY_CC);
+				if (Z_TYPE_P(filter) != IS_OBJECT) {
+					PHALCON_INIT_VAR(dependency_injector);
+					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+						PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "A dependency injection object is required to access the 'filter' service");
+						return;
+					}
+	
+					PHALCON_INIT_VAR(service);
+					ZVAL_STRING(service, "filter", 1);
+	
+					PHALCON_INIT_NVAR(filter);
+					PHALCON_CALL_METHOD_PARAMS_1(filter, dependency_injector, "getshared", service, PH_NO_CHECK);
+					phalcon_update_property_zval(this_ptr, SL("_filter"), filter TSRMLS_CC);
+				}
+	
+				PHALCON_INIT_VAR(sanitized_value);
+				PHALCON_CALL_METHOD_PARAMS_2(sanitized_value, filter, "sanitize", value, filters, PH_NO_CHECK);
+	
+				RETURN_CCTOR(sanitized_value);
+			} else {
+	
+				RETURN_CCTOR(value);
+			}
+		}
+	
+	
+		RETURN_CCTOR(default_value);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Sets the cookie's expiration time
+ *
+ * @param int $expire
+ * @return Phalcon\Http\Cookie
+ */
 PHP_METHOD(Phalcon_Http_Cookie, setExpiration){
 
 	zval *expire;
@@ -165,19 +253,76 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration){
 
 	phalcon_update_property_zval(this_ptr, SL("_expire"), expire TSRMLS_CC);
 	
+	RETURN_CTORW(this_ptr);
 }
 
-PHP_METHOD(Phalcon_Http_Cookie, getValue){
+/**
+ * Returns the current expiration time
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Cookie, getExpiration){
 
-	zval *readed;
 
-	PHALCON_MM_GROW();
+	RETURN_MEMBER(this_ptr, "_expire");
+}
 
-	PHALCON_INIT_VAR(readed);
-	phalcon_read_property(&readed, this_ptr, SL("_readed"), PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(readed)) {
+/**
+ * Sets the cookie's expiration time
+ *
+ * @param int $expire
+ * @return Phalcon\Http\Cookie
+ */
+PHP_METHOD(Phalcon_Http_Cookie, setPath){
+
+	zval *path;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &path) == FAILURE) {
+		RETURN_NULL();
 	}
+
+	phalcon_update_property_zval(this_ptr, SL("_path"), path TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CTORW(this_ptr);
+}
+
+/**
+ * Returns the current cookie's path
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Http_Cookie, getPath){
+
+
+	RETURN_MEMBER(this_ptr, "_path");
+}
+
+/**
+ * Sets if the cookie must only be sent when the connection is secure (HTTPS)
+ *
+ * @param boolean $secure
+ * @return Phalcon\Http\Cookie
+ */
+PHP_METHOD(Phalcon_Http_Cookie, setSecure){
+
+	zval *secure;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &secure) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_secure"), secure TSRMLS_CC);
+	
+}
+
+/**
+ * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Cookie, getSecure){
+
+
+	RETURN_MEMBER(this_ptr, "_secure");
 }
 

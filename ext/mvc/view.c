@@ -426,6 +426,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	zval *engines = NULL, *dependency_injector, *registered_engines;
 	zval *number_engines, *php_engine, *arguments;
 	zval *engine_service = NULL, *extension = NULL, *engine_object = NULL;
+	zval *exception_message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -482,8 +483,24 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 				PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(engine_service);
 	
-				PHALCON_INIT_NVAR(engine_object);
-				PHALCON_CALL_METHOD_PARAMS_2(engine_object, dependency_injector, "getshared", engine_service, arguments, PH_NO_CHECK);
+				if (Z_TYPE_P(engine_service) == IS_OBJECT) {
+					if (phalcon_is_instance_of(engine_service, SL("Closure") TSRMLS_CC)) {
+						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_CALL_USER_FUNC_ARRAY(engine_object, engine_service, arguments);
+					} else {
+						PHALCON_CPY_WRT(engine_object, engine_service);
+					}
+				} else {
+					if (Z_TYPE_P(engine_service) == IS_STRING) {
+						PHALCON_INIT_NVAR(engine_object);
+						PHALCON_CALL_METHOD_PARAMS_2(engine_object, dependency_injector, "getshared", engine_service, arguments, PH_NO_CHECK);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SV(exception_message, "Invalid template engine registration for extension: ", extension);
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+						return;
+					}
+				}
 				phalcon_array_update_zval(&engines, extension, &engine_object, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
@@ -511,7 +528,7 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
  * @param string $viewPath
  * @param boolean $silence
  * @param boolean $mustClean
- * @param Phalcon\Cache\Backend $cache
+ * @param Phalcon\Cache\BackendInterface $cache
  */
 PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 
@@ -731,11 +748,11 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 PHP_METHOD(Phalcon_Mvc_View, render){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *disabled, *layouts_dir = NULL, *engines, *pick_view;
-	zval *render_view = NULL, *render_controller = NULL, *pick_view_action;
-	zval *cache = NULL, *cache_level, *events_manager, *event_name = NULL;
-	zval *status, *contents, *must_clean, *silence = NULL;
-	zval *render_level, *enter_level = NULL, *templates_before;
+	zval *disabled, *contents = NULL, *layouts_dir = NULL, *engines;
+	zval *pick_view, *render_view = NULL, *render_controller = NULL;
+	zval *pick_view_action, *cache = NULL, *cache_level;
+	zval *events_manager, *event_name = NULL, *status, *must_clean;
+	zval *silence = NULL, *render_level, *enter_level = NULL, *templates_before;
 	zval *template_before = NULL, *view_temp_path = NULL, *templates_after;
 	zval *template_after = NULL, *main_view, *is_started;
 	zval *is_fresh;
@@ -757,9 +774,16 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		array_init(params);
 	}
 	
+	/** 
+	 * If the view is disabled we simply update the buffer from any output produced in
+	 * the controller
+	 */
 	PHALCON_INIT_VAR(disabled);
 	phalcon_read_property(&disabled, this_ptr, SL("_disabled"), PH_NOISY_CC);
 	if (PHALCON_IS_NOT_FALSE(disabled)) {
+		PHALCON_INIT_VAR(contents);
+		PHALCON_CALL_FUNC(contents, "ob_get_contents");
+		phalcon_update_property_zval(this_ptr, SL("_content"), contents TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
@@ -778,6 +802,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines", PH_NO_CHECK);
 	
+	/** 
+	 * Check if the user has picked a view diferent than the automatic
+	 */
 	PHALCON_INIT_VAR(pick_view);
 	phalcon_read_property(&pick_view, this_ptr, SL("_pickView"), PH_NOISY_CC);
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
@@ -819,7 +846,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	}
 	
-	PHALCON_INIT_VAR(contents);
+	PHALCON_INIT_NVAR(contents);
 	PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	phalcon_update_property_zval(this_ptr, SL("_content"), contents TSRMLS_CC);
 	
@@ -832,6 +859,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_INIT_VAR(render_level);
 	phalcon_read_property(&render_level, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
 	if (zend_is_true(render_level)) {
+		/** 
+		 * Inserts view related to action
+		 */
 		PHALCON_INIT_VAR(t0);
 		ZVAL_LONG(t0, 1);
 		PHALCON_INIT_VAR(enter_level);
@@ -840,6 +870,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, render_view, silence, must_clean, cache, PH_NO_CHECK);
 		}
 	
+		/** 
+		 * Inserts templates before layout
+		 */
 		PHALCON_INIT_VAR(t1);
 		ZVAL_LONG(t1, 2);
 	
@@ -879,6 +912,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			}
 		}
 	
+		/** 
+		 * Inserts controller layout
+		 */
 		PHALCON_INIT_VAR(t2);
 		ZVAL_LONG(t2, 3);
 	
@@ -890,6 +926,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache, PH_NO_CHECK);
 		}
 	
+		/** 
+		 * Inserts templates after layout
+		 */
 		PHALCON_INIT_VAR(t3);
 		ZVAL_LONG(t3, 4);
 	
@@ -929,6 +968,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			}
 		}
 	
+		/** 
+		 * Inserts main view
+		 */
 		PHALCON_INIT_VAR(t4);
 		ZVAL_LONG(t4, 5);
 	
@@ -1229,6 +1271,9 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		phalcon_array_update_string(&view_options, SL("cache"), &cache_options, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_options"), view_options TSRMLS_CC);
 	} else {
+		/** 
+		 * If 'options' isn't an array we enable the cache with the default options
+		 */
 		if (zend_is_true(options)) {
 			phalcon_update_property_long(this_ptr, SL("_cacheLevel"), 5 TSRMLS_CC);
 		} else {

@@ -43,7 +43,7 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
  * @param string $alias
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
 
@@ -52,7 +52,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
  *
  * @param string $name
  * @param mixed $config
- * @return Phalcon\DI
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, setShared);
 
@@ -71,7 +71,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
  * @param string $alias
  * @param mixed $config
  * @param boolean $shared
- * @return Phalcon\DiInterface
+ * @return Phalcon\Di\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, attempt);
 
@@ -100,6 +100,13 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, getShared);
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getRaw);
+
+/**
+ * Returns the corresponding Phalcon\Di\Service instance for a service
+ *
+ * @return Phalcon\Di\ServiceInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_DiInterface, getService);
 
 /**
  * Check whether the DI contains a service by a name

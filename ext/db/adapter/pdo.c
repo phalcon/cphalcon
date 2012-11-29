@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
  * @param array $dataTypes
  * @return \PDOStatement
  */
-PHP_METHOD(Phalcon_Db_Adapter_Pdo, _executePrepared){
+PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
 	zval *statement = NULL, *placeholders = NULL, *data_types = NULL;
 	zval *one, *value = NULL, *wildcard = NULL, *parameter = NULL, *type = NULL, *cast_value = NULL;
@@ -377,6 +377,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Execute the beforeQuery event if a EventsManager is available
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "db:beforeQuery", 1);
@@ -399,7 +403,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "_executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
 			PHALCON_CPY_WRT(statement, r0);
 		}
 	} else {
@@ -407,6 +411,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "query", sql_statement, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * Execute the afterQuery event if a EventsManager is available
+	 */
 	if (Z_TYPE_P(statement) == IS_OBJECT) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
@@ -462,6 +469,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		PHALCON_INIT_NVAR(bind_types);
 	}
 	
+	/** 
+	 * Execute the beforeQuery event if a EventsManager is available
+	 */
 	PHALCON_INIT_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -484,7 +494,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
 		if (Z_TYPE_P(statement) == IS_OBJECT) {
 			PHALCON_INIT_VAR(r0);
-			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "_executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_3(r0, this_ptr, "executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
 			PHALCON_CPY_WRT(statement, r0);
 	
 			PHALCON_INIT_VAR(affected_rows);
@@ -495,6 +505,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 		PHALCON_CALL_METHOD_PARAMS_1(affected_rows, pdo, "exec", sql_statement, PH_NO_CHECK);
 	}
 	
+	/** 
+	 * Execute the afterQuery event if a EventsManager is available
+	 */
 	if (Z_TYPE_P(affected_rows) == IS_LONG) {
 		phalcon_update_property_zval(this_ptr, SL("_affectedRows"), affected_rows TSRMLS_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {

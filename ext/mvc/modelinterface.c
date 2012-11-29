@@ -200,7 +200,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
 
 /**
- * Updates a model instance. If the instance doesn't exists in the persistance it will throw an exception
+ * Updates a model instance. If the instance doesn't exist in the persistance it will throw an exception
  * Returning true on success or false otherwise.
  *
  * @param  array $data

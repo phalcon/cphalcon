@@ -2230,7 +2230,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 			PHALCON_GET_FOREACH_VALUE(sql_column);
 	
 			/** 
-			 * If 'alias' is set, the user has defined a alias for the column
+			 * If 'alias' is set, the user had defined a alias for the column
 			 */
 			eval_int = phalcon_array_isset_string(column, SS("alias"));
 			if (eval_int) {
@@ -3781,8 +3781,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 		phalcon_array_fetch(&field_name, fields, number, PH_NOISY_CC);
 	
 		/** 
-		 * If the user doesn't defined a column list we assume all the model's attributes
-		 * as columns
+		 * If the user didn't defined a column list we assume all the model's attributes as
+		 * columns
 		 */
 		if (PHALCON_IS_TRUE(automatic_fields)) {
 			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
