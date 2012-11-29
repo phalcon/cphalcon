@@ -29,7 +29,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests the get
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      */
     public function testGet()
     {
@@ -42,7 +42,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests the getId()
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      */
     public function testGetId()
     {
@@ -55,7 +55,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests the get() translation to getId()
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      */
     public function testGetToGetId()
     {
@@ -92,7 +92,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Tests the getId() translation to get()
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      */
     public function testGetIdToGet()
     {
@@ -117,7 +117,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Translates a special version (ALPHA, BETA, RC) to a version number
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      *
      * @param $input
      *
@@ -148,7 +148,7 @@ class Version_UnitTest extends Phalcon_Test_UnitTestCase
      * Translates a number to a special version string (ALPHA, BETA, RC)
      *
      * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-09-04
+     * @since  2012-11-29
      *
      * @param $number
      *
