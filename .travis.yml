@@ -19,6 +19,7 @@ before_install:
  - sudo ./unit-tests/ci/install_mongo
 
 before_script:
+ - git submodule update
  - mkdir -p unit-tests/engines
  - cd unit-tests/engines/
  - git clone https://github.com/bobthecow/mustache.php.git
@@ -42,3 +43,4 @@ notifications:
   email:
     - andres@phalconphp.com
     - eduar@phalconphp.com
+    - nikos@niden.net

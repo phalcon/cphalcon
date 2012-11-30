@@ -1,16 +1,17 @@
 <?php
 /**
- * VersionTest.php
- * VersionTest
+ * UnitTest.php
+ * \Phalcon\Version\UnitTest
  *
  * Tests the \Phalcon\Version component
  *
  * PhalconPHP Framework
  *
- * @copyright (c) 2011-2012 Phalcon Team
+ * @copyright (c) 2011-2013 Phalcon Team
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Eduar Carvajal <eduar@phalconphp.com>
+ * @author    Nikolaos Dimopoulos <nikos@niden.net>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -22,10 +23,13 @@
 
 use \Phalcon\Version as Version;
 
-class VersionTest extends PHPUnit_Framework_TestCase
+class Version_UnitTest extends Phalcon_Test_UnitTestCase
 {
     /**
      * Tests the get
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      */
     public function testGet()
     {
@@ -36,6 +40,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the getId()
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      */
     public function testGetId()
     {
@@ -46,6 +53,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the get() translation to getId()
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      */
     public function testGetToGetId()
     {
@@ -80,6 +90,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the getId() translation to get()
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      */
     public function testGetIdToGet()
     {
@@ -102,6 +115,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Translates a special version (ALPHA, BETA, RC) to a version number
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      *
      * @param $input
      *
@@ -130,6 +146,9 @@ class VersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Translates a number to a special version string (ALPHA, BETA, RC)
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-29
      *
      * @param $number
      *

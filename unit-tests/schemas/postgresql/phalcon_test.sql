@@ -28,6 +28,36 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+
+CREATE USER phalcon_user WITH PASSWORD '1234';
+GRANT ALL PRIVILEGES ON DATABASE phalcon_test TO phalcon_user;
+
+-- Table: customers
+CREATE TABLE customers (
+  id SERIAL,
+  document_id integer NOT NULL,
+  customer_id char(15) NOT NULL,
+  first_name varchar(100) DEFAULT NULL,
+  last_name varchar(100) DEFAULT NULL,
+  phone varchar(20) DEFAULT NULL,
+  email varchar(70) NOT NULL,
+  instructions varchar(100) DEFAULT NULL,
+  status CHAR(1) NOT NULL,
+  birth_date date DEFAULT '1970-01-01',
+  credit_line decimal(16,2) DEFAULT '0.00',
+  created_at timestamp NOT NULL,
+  created_at_user_id integer DEFAULT '0',
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX customers_document_id_idx ON customers (document_id);
+CREATE INDEX customers_customer_id_idx ON customers (customer_id);
+CREATE INDEX customers_credit_line_idx ON customers (credit_line);
+CREATE INDEX customers_status_idx ON customers (status);
+
+ALTER TABLE public.customers OWNER TO postgres;
+
+
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
