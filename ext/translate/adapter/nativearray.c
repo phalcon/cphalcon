@@ -65,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray){
 /**
  * Phalcon\Translate\Adapter\NativeArray constructor
  *
- * @param array $data
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 
