@@ -359,6 +359,38 @@ PHP_METHOD(Phalcon_Mvc_View, setVar){
 }
 
 /**
+ * Returns a parameter previously set in the view
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, getVar){
+
+	zval *key, *params, *value;
+	int eval_int;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	PHALCON_INIT_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	eval_int = phalcon_array_isset(params, key);
+	if (eval_int) {
+		PHALCON_INIT_VAR(value);
+		phalcon_array_fetch(&value, params, key, PH_NOISY_CC);
+	
+		RETURN_CCTOR(value);
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_NULL();
+}
+
+/**
  * Returns parameters to views
  *
  * @return array

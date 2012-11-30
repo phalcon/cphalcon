@@ -26,7 +26,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapterinterface_setdefaultaction, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapterinterface_addrole, 0, 0, 1)
-	ZEND_ARG_INFO(0, roleObject)
+	ZEND_ARG_INFO(0, role)
 	ZEND_ARG_INFO(0, accessInherits)
 ZEND_END_ARG_INFO()
 

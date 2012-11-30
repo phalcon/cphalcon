@@ -50,6 +50,7 @@ extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 
 /** Startup functions */
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
+extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
 
 /** Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
@@ -236,6 +237,18 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
 		phalcon_ ##name## _ce = zend_register_internal_interface(&ce TSRMLS_CC); \
+	}
+
+#define PHALCON_REGISTER_INTERFACE_EX(ns, classname, name, parent, methods) \
+	{ \
+		zend_class_entry ce; \
+		memset(&ce, 0, sizeof(zend_class_entry)); \
+		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
+		phalcon_ ##name## _ce = phalcon_register_internal_interface_ex(&ce, parent TSRMLS_CC); \
+		if(!phalcon_ ##name## _ce){ \
+			/*phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
+			return FAILURE;	*/\
+		}  \
 	}
 
 /** Method declaration for API generation */

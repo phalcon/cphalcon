@@ -103,7 +103,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, acl_adapter_memory, "phalcon\\acl", phalcon_acl_adapter_memory_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Acl\\Adapter, Memory, acl_adapter_memory, "phalcon\\acl\\adapter", phalcon_acl_adapter_memory_method_entry, 0);
 
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_rolesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roles"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -112,11 +112,6 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory){
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_roleInherits"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_resourcesNames"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_accessList"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeResource"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_acl_adapter_memory_ce, SL("_activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_bool(phalcon_acl_adapter_memory_ce, SL("_accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_long(phalcon_acl_adapter_memory_ce, SL("_defaultAccess"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_acl_adapter_memory_ce TSRMLS_CC, 1, phalcon_acl_adapterinterface_ce);
 
@@ -161,34 +156,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
 }
 
 /**
- * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
- *
- * @param int $defaultAccess
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction){
-
-	zval *default_access;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_access) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_defaultAccess"), default_access TSRMLS_CC);
-	
-}
-
-/**
- * Returns the default ACL access level
- *
- * @return int
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
-
-
-	RETURN_MEMBER(this_ptr, "_defaultAccess");
-}
-
-/**
  * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
  *
  * Example:
@@ -197,21 +164,20 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction){
  * $acl->addRole('administrator', 'consultant');
  * </code>
  *
- * @param  Phalcon\Acl\RoleInterface $roleObject
+ * @param  Phalcon\Acl\RoleInterface $role
  * @param  array $accessInherits
  * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 
-	zval *role_object, *access_inherits = NULL, *role_name = NULL;
-	zval *object = NULL, *roles_names, *default_access;
-	zval *success;
+	zval *role, *access_inherits = NULL, *role_name = NULL, *object = NULL;
+	zval *roles_names, *default_access, *success;
 	zval *t0 = NULL, *t1 = NULL, *t2 = NULL;
 	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &role_object, &access_inherits) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &role, &access_inherits) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
@@ -220,16 +186,16 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 		PHALCON_INIT_NVAR(access_inherits);
 	}
 	
-	if (Z_TYPE_P(role_object) == IS_OBJECT) {
+	if (Z_TYPE_P(role) == IS_OBJECT) {
 		PHALCON_INIT_VAR(role_name);
-		PHALCON_CALL_METHOD(role_name, role_object, "getname", PH_NO_CHECK);
-		PHALCON_CPY_WRT(object, role_object);
+		PHALCON_CALL_METHOD(role_name, role, "getname", PH_NO_CHECK);
+		PHALCON_CPY_WRT(object, role);
 	} else {
-		PHALCON_CPY_WRT(role_name, role_object);
+		PHALCON_CPY_WRT(role_name, role);
 	
 		PHALCON_INIT_VAR(object);
 		object_init_ex(object, phalcon_acl_role_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", role_name, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "__construct", role, PH_CHECK);
 	}
 	
 	PHALCON_INIT_VAR(roles_names);
@@ -1095,39 +1061,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	
 	RETURN_CCTOR(have_access);
-}
-
-/**
- * Returns the role which the list is checking if it's allowed to certain resource/access
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole){
-
-
-	RETURN_MEMBER(this_ptr, "_activeRole");
-}
-
-/**
- * Returns the resource which the list is checking if some role can access it
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource){
-
-
-	RETURN_MEMBER(this_ptr, "_activeResource");
-}
-
-/**
- * Returns the access which the list is checking if some role can access it
- *
- * @return string
- */
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveAccess){
-
-
-	RETURN_MEMBER(this_ptr, "_activeAccess");
 }
 
 /**

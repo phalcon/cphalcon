@@ -32,8 +32,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-
 /**
  * Phalcon\Acl
  *
@@ -84,43 +82,11 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Acl){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Acl, acl, phalcon_acl_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-
-	zend_declare_property_null(phalcon_acl_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	PHALCON_REGISTER_CLASS(Phalcon, Acl, acl, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);
 
-	zend_class_implements(phalcon_acl_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
-
 	return SUCCESS;
-}
-
-/**
- * Sets the events manager
- *
- * @param Phalcon\Events\ManagerInterface $eventManager
- */
-PHP_METHOD(Phalcon_Acl, setEventsManager){
-
-	zval *events_manager;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
- */
-PHP_METHOD(Phalcon_Acl, getEventsManager){
-
-
-	RETURN_MEMBER(this_ptr, "_eventsManager");
 }
 
