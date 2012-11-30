@@ -18,7 +18,6 @@
 			<file>unit-tests/LoggerTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
-			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
@@ -64,7 +63,6 @@
 			<!-- Other components -->
 			<file>unit-tests/ControllersTest.php</file>
 			<file>unit-tests/SessionTest.php</file>
-			<file>unit-tests/AclTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
 
