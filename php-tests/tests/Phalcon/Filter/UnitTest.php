@@ -208,7 +208,7 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-30
      */
-    public function testCustomIPv4FilterHex()
+    public function testSanitizeCustomIPv4FilterHex()
     {
         $filter = new Flt();
 
@@ -230,7 +230,7 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-30
      */
-    public function testCustomIPv4FilterIP()
+    public function testSanitizeCustomIPv4FilterIP()
     {
         $filter = new Flt();
 
@@ -252,7 +252,7 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-30
      */
-    public function testCustomLambdaFalse()
+    public function testSanitizeCustomLambdaFalse()
     {
         $filter = new Flt();
 
@@ -282,7 +282,7 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
      * @author Nikos Dimopoulos <nikos@niden.net>
      * @since  2012-11-30
      */
-    public function testCustomLambdaFalseTrue()
+    public function testSanitizeCustomLambdaFalseTrue()
     {
         $filter = new Flt();
 
@@ -306,135 +306,504 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
         );
     }
 
-//    public function testSanitizeInt()
-//    {
-//
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize(1000, "int");
-//        $this->assertEquals($value, "1000");
-//
-//        $value = $filter->sanitize(0xFFA, "int");
-//        $this->assertEquals($value, "0xFFA");
-//
-//        $value = $filter->sanitize("1000", "int");
-//        $this->assertEquals($value, "1000");
-//
-//        $value = $filter->sanitize("lol", "int");
-//        $this->assertEquals($value, "");
-//
-//        $value = $filter->sanitize("!100a019", "int");
-//        $this->assertEquals($value, "100019");
-//
-//    }
-//
-//    public function testSanitizeFloat()
-//    {
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize(11.10, "float");
-//        $this->assertEquals($value, "11.10");
-//
-//        $value = $filter->sanitize("11.10", "float");
-//        $this->assertEquals($value, "11.10");
-//
-//        $value = $filter->sanitize("!100a019.01a", "float");
-//        $this->assertEquals($value, "100019.01");
-//
-//    }
-//
-//    public function testSanitizeEmail()
-//    {
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize("some(one)@exa\\mple.com", "email");
-//        $this->assertEquals($value, "someone@example.com");
-//    }
-//
-//    public function testSanitizeAlphanum()
-//    {
-//
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize(0, "alphanum");
-//        $this->assertEquals($value, "0");
-//
-//        $value = $filter->sanitize(null, "alphanum");
-//        $this->assertEquals($value, "");
-//
-//        $value = $filter->sanitize("?a&5xka\tŧ?1-s.Xa[\n", "alphanum");
-//        $this->assertEquals($value, "a5xka1sXa");
-//
-//    }
-//
-//    public function testSanitizeStriptags()
-//    {
-//
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize("<h1>Hello</h1>", "striptags");
-//        $this->assertEquals($value, "Hello");
-//
-//        $value = $filter->sanitize("<h1><p>Hello</h1>", "striptags");
-//        $this->assertEquals($value, "Hello");
-//
-//        $value = $filter->sanitize("<", "striptags");
-//        $this->assertEquals($value, "");
-//
-//    }
-//
-//    public function testSanitizeTrim()
-//    {
-//
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize(" Hello   ", "trim");
-//        $this->assertEquals($value, "Hello");
-//
-//        $value = $filter->sanitize("Hello   ", "trim");
-//        $this->assertEquals($value, "Hello");
-//
-//        $value = $filter->sanitize("   Hello", "trim");
-//        $this->assertEquals($value, "Hello");
-//
-//        $value = $filter->sanitize("HELLO", "lower");
-//        $this->assertEquals($value, "hello");
-//
-//        $value = $filter->sanitize("hello", "upper");
-//        $this->assertEquals($value, "HELLO");
-//
-//    }
-//
-//    public function testMultiple()
-//    {
-//
-//        $filter = new Phalcon\Filter();
-//
-//        $value = $filter->sanitize("   lol<<   ", array("string", "trim"));
-//        $this->assertEquals($value, "lol");
-//    }
-//
-//    public function testAddFilter()
-//    {
-//        $filter = new Phalcon\Filter();
-//
-//        $filter->add('md5', function($value) {
-//            $filtered = preg_replace('/[^0-9a-f]/', '', $value);
-//            if (strlen($filtered) != 32) {
-//                return false;
-//            }
-//            return $value;
-//        });
-//
-//        $filter->add('ipv4', new IPv4Filter());
-//
-//        $this->assertFalse($filter->sanitize('Lladlad12', 'md5'), false);
-//        $this->assertEquals($filter->sanitize(md5('why?'), 'md5'), md5('why?'));
-//
-//        $this->assertEquals($filter->sanitize('00:1c:42:bf:71:22', 'ipv4'), null);
-//        $this->assertEquals($filter->sanitize('127.0.0.1', 'ipv4'), '127.0.0.1');
-//
-//    }
+    /**
+     * Tests integers
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeIntegerInteger()
+    {
+        $filter = new Flt();
 
+        $expected = '1000';
+        $actual   = $filter->sanitize(1000, 'int');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Integer filter integer is not correct'
+        );
+    }
+
+    /**
+     * Tests integers
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeIntegerHex()
+    {
+        $filter = new Flt();
+
+        $expected = '0xFFA';
+        $actual   = $filter->sanitize(0xFFA, 'int');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Integer filter hex is not correct'
+        );
+    }
+
+    /**
+     * Tests integers
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeIntegerStringNumber()
+    {
+        $filter = new Flt();
+
+        $expected = '1000';
+        $actual   = $filter->sanitize('1000', 'int');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Integer filter string number is not correct'
+        );
+    }
+
+    /**
+     * Tests integers
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeIntegerString()
+    {
+        $filter = new Flt();
+
+        $expected = '';
+        $actual   = $filter->sanitize('lol', 'int');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Integer filter string is not correct'
+        );
+    }
+
+    /**
+     * Tests integers
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeIntegerStringCombined()
+    {
+        $filter = new Flt();
+
+        $expected = '10001901';
+        $actual   = $filter->sanitize('!100a019.01a', 'int');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Integer filter string combined is not correct'
+        );
+    }
+
+    /**
+     * Tests Floats
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeFloatFloat()
+    {
+        $filter = new Flt();
+
+        $expected = '1000.01';
+        $actual   = $filter->sanitize(1000.01, 'float');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Float filter Float is not correct'
+        );
+    }
+
+    /**
+     * Tests Floats
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeFloatHex()
+    {
+        $filter = new Flt();
+
+        $expected = '0xFFA';
+        $actual   = $filter->sanitize(0xFFA, 'float');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Float filter hex is not correct'
+        );
+    }
+
+    /**
+     * Tests Floats
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeFloatStringNumber()
+    {
+        $filter = new Flt();
+
+        $expected = '1000.01';
+        $actual   = $filter->sanitize('1000.01', 'float');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Float filter string number is not correct'
+        );
+    }
+
+    /**
+     * Tests Floats
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeFloatString()
+    {
+        $filter = new Flt();
+
+        $expected = '';
+        $actual   = $filter->sanitize('lol', 'float');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Float filter string is not correct'
+        );
+    }
+
+    /**
+     * Tests Floats
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeFloatStringCombined()
+    {
+        $filter = new Flt();
+
+        $expected = '100019.01';
+        $actual   = $filter->sanitize('!100a019.01a', 'float');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Float filter string combined is not correct'
+        );
+    }
+
+    /**
+     * Tests Email
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeEmail()
+    {
+        $filter = new Flt();
+
+        $expected = 'someone@example.com';
+        $actual   = $filter->sanitize('some(one)@exa\\mple.com', 'email');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Email is not correct'
+        );
+    }
+
+    /**
+     * Tests Trim
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeTrimLeft()
+    {
+        $filter = new Flt();
+
+        $expected = 'Hello';
+        $actual   = $filter->sanitize('  Hello', 'trim');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Trim left is not correct'
+        );
+    }
+
+    /**
+     * Tests Trim
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeTrimRight()
+    {
+        $filter = new Flt();
+
+        $expected = 'Hello';
+        $actual   = $filter->sanitize('Hello  ', 'trim');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Trim right is not correct'
+        );
+    }
+
+    /**
+     * Tests Trim
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeTrimBoth()
+    {
+        $filter = new Flt();
+
+        $expected = 'Hello';
+        $actual   = $filter->sanitize('  Hello  ', 'trim');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Trim both is not correct'
+        );
+    }
+
+    /**
+     * Tests Lower
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeLowerAll()
+    {
+        $filter = new Flt();
+
+        $expected = 'hello';
+        $actual   = $filter->sanitize('HELLO', 'lower');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Lower all is not correct'
+        );
+    }
+
+    /**
+     * Tests Lower
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeLowerMixed()
+    {
+        $filter = new Flt();
+
+        $expected = 'hello';
+        $actual   = $filter->sanitize('HeLlO', 'lower');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Lower mixed is not correct'
+        );
+    }
+
+    /**
+     * Tests Upper
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeUpperAll()
+    {
+        $filter = new Flt();
+
+        $expected = 'HELLO';
+        $actual   = $filter->sanitize('hello', 'upper');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Upper all is not correct'
+        );
+    }
+
+    /**
+     * Tests Upper
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeUpperMixed()
+    {
+        $filter = new Flt();
+
+        $expected = 'HELLO';
+        $actual   = $filter->sanitize('HeLlO', 'upper');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Upper mixed is not correct'
+        );
+    }
+
+    /**
+     * Tests Multiple filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeMultiple()
+    {
+        $filter = new Flt();
+
+        $expected = 'lol';
+        $actual   = $filter->sanitize('   lol<<   ', array('string', 'trim'));
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Multiple filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Alphanum filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeAlphanumInteger()
+    {
+        $filter = new Flt();
+
+        $expected = '0';
+        $actual   = $filter->sanitize(0, 'alphanum');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Alphanum integer filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Alphanum filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeAlphanumNull()
+    {
+        $filter = new Flt();
+
+        $expected = '';
+        $actual   = $filter->sanitize(null, 'alphanum');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Alphanum null filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Alphanum filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeAlphanumMixed()
+    {
+        $filter = new Flt();
+
+        $expected = 'a5xkat1sXan';
+        $actual   = $filter->sanitize('?a&5xka\tŧ?1-s.Xa[\n', 'alphanum');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Alphanum mixed filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Striptags filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeStriptagsHTML()
+    {
+        $filter = new Flt();
+
+        $expected = 'Hello';
+        $actual   = $filter->sanitize('<h1>Hello</h1>', 'striptags');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Striptags HTML filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Striptags filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeStriptagsBrokenHTML()
+    {
+        $filter = new Flt();
+
+        $expected = 'Hello';
+        $actual   = $filter->sanitize('<h1><p>Hello</h1>', 'striptags');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Striptags broken HTML filter is not correct'
+        );
+    }
+
+    /**
+     * Tests Striptags filters
+     *
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-30
+     */
+    public function testSanitizeStriptagsSingle()
+    {
+        $filter = new Flt();
+
+        $expected = '';
+        $actual   = $filter->sanitize('<', 'striptags');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Striptags single HTML filter is not correct'
+        );
+    }
 }
 
