@@ -63,8 +63,6 @@ class Logger_Adapter_File_Helper_Model extends Phalcon_Test_ModelTestCase
         $this->assertTrue(strpos($lines[2], '[DEBUG]')!==false);
         $this->assertTrue(strpos($lines[2], 'LIMIT 1')!==false);
 
-
-
         $this->cleanFile(PATH_LOGS, $fileName);
 
         //$this->assertTrue($actual, 'File was not correctly created');
