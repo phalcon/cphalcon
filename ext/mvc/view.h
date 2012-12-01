@@ -33,6 +33,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter);
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter);
 PHP_METHOD(Phalcon_Mvc_View, setParamToView);
 PHP_METHOD(Phalcon_Mvc_View, setVar);
+PHP_METHOD(Phalcon_Mvc_View, getVar);
 PHP_METHOD(Phalcon_Mvc_View, getParamsToView);
 PHP_METHOD(Phalcon_Mvc_View, getControllerName);
 PHP_METHOD(Phalcon_Mvc_View, getActionName);
@@ -93,6 +94,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setvar, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_getvar, 0, 0, 1)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_registerengines, 0, 0, 1)
 	ZEND_ARG_INFO(0, engines)
 ZEND_END_ARG_INFO()
@@ -132,6 +137,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, cleanTemplateAfter, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setParamToView, arginfo_phalcon_mvc_view_setparamtoview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setVar, arginfo_phalcon_mvc_view_setvar, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, getVar, arginfo_phalcon_mvc_view_getvar, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getParamsToView, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getControllerName, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getActionName, NULL, ZEND_ACC_PUBLIC) 

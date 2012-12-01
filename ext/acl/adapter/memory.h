@@ -22,8 +22,6 @@ extern zend_class_entry *phalcon_acl_adapter_memory_ce;
 PHALCON_INIT_CLASS(Phalcon_Acl_Adapter_Memory);
 
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, setDefaultAction);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getDefaultAction);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isRole);
@@ -35,17 +33,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allow);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveRole);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveResource);
-PHP_METHOD(Phalcon_Acl_Adapter_Memory, getActiveAccess);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_setdefaultaction, 0, 0, 1)
-	ZEND_ARG_INFO(0, defaultAccess)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_addrole, 0, 0, 1)
-	ZEND_ARG_INFO(0, roleObject)
+	ZEND_ARG_INFO(0, role)
 	ZEND_ARG_INFO(0, accessInherits)
 ZEND_END_ARG_INFO()
 
@@ -97,8 +88,6 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry){
 	PHP_ME(Phalcon_Acl_Adapter_Memory, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Acl_Adapter_Memory, setDefaultAction, arginfo_phalcon_acl_adapter_memory_setdefaultaction, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getDefaultAction, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, addRole, arginfo_phalcon_acl_adapter_memory_addrole, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, addInherit, arginfo_phalcon_acl_adapter_memory_addinherit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isRole, arginfo_phalcon_acl_adapter_memory_isrole, ZEND_ACC_PUBLIC) 
@@ -110,9 +99,6 @@ PHALCON_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry){
 	PHP_ME(Phalcon_Acl_Adapter_Memory, allow, arginfo_phalcon_acl_adapter_memory_allow, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, deny, arginfo_phalcon_acl_adapter_memory_deny, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, isAllowed, arginfo_phalcon_acl_adapter_memory_isallowed, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveRole, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveResource, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveAccess, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Acl_Adapter_Memory, _rebuildAccessList, NULL, ZEND_ACC_PROTECTED) 
 	PHP_FE_END
 };
