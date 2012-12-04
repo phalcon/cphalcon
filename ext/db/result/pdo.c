@@ -56,13 +56,32 @@
 
 
 /**
+ * Phalcon\Db\Result\Pdo initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Result_Pdo){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, db_result_pdo, phalcon_db_result_pdo_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("_fetchMode"), 4, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("_bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("_rowCount"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db\Result\Pdo constructor
  *
- * @param Phalcon\Db\Adapter\Pdo $connection
+ * @param Phalcon\Db\AdapterInterface $connection
  * @param string $sqlStatement
  * @param array $bindParams
  * @param array $bindTypes
- * @param PDOStatement $result
+ * @param \PDOStatement $result
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 
@@ -238,55 +257,59 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	if (PHALCON_IS_FALSE(row_count)) {
 		PHALCON_INIT_VAR(connection);
 		phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype", PH_NO_CHECK);
 		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
+			/** 
+			 * SQLite returns resultsets that to the client eyes (PDO) has an arbitrary number
+			 * of rows, so we need to perform an extra count to know that
+			 */
 			PHALCON_INIT_VAR(sql_statement);
 			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(bind_params);
 			phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(bind_types);
 			phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(matches);
-			
+	
 			PHALCON_INIT_VAR(pattern);
 			ZVAL_STRING(pattern, "/^SELECT\\s+(.*)$/i", 1);
 			Z_SET_ISREF_P(matches);
-			
+	
 			PHALCON_INIT_VAR(match);
 			PHALCON_CALL_FUNC_PARAMS_3(match, "preg_match", pattern, sql_statement, matches);
 			Z_UNSET_ISREF_P(matches);
 			if (zend_is_true(match)) {
 				PHALCON_INIT_VAR(else_clauses);
 				phalcon_array_fetch_long(&else_clauses, matches, 1, PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_VAR(sql);
 				PHALCON_CONCAT_SVS(sql, "SELECT COUNT(*) FROM (SELECT ", else_clauses, ")");
-				
+	
 				PHALCON_INIT_VAR(fetch_num);
 				ZVAL_LONG(fetch_num, 3);
-				
+	
 				PHALCON_INIT_VAR(result);
 				PHALCON_CALL_METHOD_PARAMS_3(result, connection, "query", sql, bind_params, bind_types, PH_NO_CHECK);
-				
+	
 				PHALCON_INIT_VAR(row);
 				PHALCON_CALL_METHOD(row, result, "fetch", PH_NO_CHECK);
-				
+	
 				PHALCON_INIT_NVAR(row_count);
 				phalcon_array_fetch_long(&row_count, row, 0, PH_NOISY_CC);
 			}
 		} else {
 			PHALCON_INIT_VAR(pdo_statement);
 			phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_NVAR(row_count);
 			PHALCON_CALL_METHOD(row_count, pdo_statement, "rowcount", PH_NO_CHECK);
 		}
-		
+	
 		phalcon_update_property_zval(this_ptr, SL("_rowCount"), row_count TSRMLS_CC);
 	}
 	
@@ -308,7 +331,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 
 	long number = 0, n;
-	zval *pdo_statement = NULL;
+	zval *connection, *pdo, *sql_statement;
+	zval *bind_params, *bind_types, *statement = NULL;
+	zval *temp_statement = NULL;
 	pdo_stmt_t *stmt;
 
 	PHALCON_MM_GROW();
@@ -318,17 +343,48 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(pdo_statement);
-	phalcon_read_property(&pdo_statement, this_ptr, SL("_pdoStatement"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(connection);
+	phalcon_read_property(&connection, this_ptr, SL("_connection"), PH_NOISY_CC);
 
-	stmt = (pdo_stmt_t*) zend_object_store_get_object(pdo_statement TSRMLS_CC);
-	if (!stmt->dbh) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+	PHALCON_INIT_VAR(pdo);
+	PHALCON_CALL_METHOD(pdo, connection, "getinternalhandler", PH_NO_CHECK);
+
+	PHALCON_INIT_VAR(sql_statement);
+	phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
+
+	PHALCON_INIT_VAR(bind_params);
+	phalcon_read_property(&bind_params, this_ptr, SL("_bindParams"), PH_NOISY_CC);
+
+	/**
+	 * PDO doesn't support scrollable cursors, so we need to re-execute the statement again
+	 */
+	if (Z_TYPE_P(bind_params) == IS_ARRAY) {
+
+		PHALCON_INIT_VAR(bind_types);
+		phalcon_read_property(&bind_types, this_ptr, SL("_bindTypes"), PH_NOISY_CC);
+
+		PHALCON_INIT_VAR(statement);
+		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "prepare", sql_statement, PH_NO_CHECK);
+		if (Z_TYPE_P(statement) == IS_OBJECT) {
+			PHALCON_INIT_VAR(temp_statement);
+			PHALCON_CALL_METHOD_PARAMS_3(temp_statement, connection, "executeprepared", statement, bind_params, bind_types, PH_NO_CHECK);
+			PHALCON_CPY_WRT(statement, temp_statement);
+		}
+
+	} else {
+		PHALCON_INIT_NVAR(statement);
+		PHALCON_CALL_METHOD_PARAMS_1(statement, pdo, "query", sql_statement, PH_NO_CHECK);
 	}
 
-	if (!stmt->methods->executer(stmt TSRMLS_CC)) {
-		stmt->executed = 1;
+	phalcon_update_property_zval(this_ptr, SL("_pdoStatement"), statement TSRMLS_CC);
+
+	/**
+	 * This a fetch scroll to reach the desired position, however with a big number of records
+	 * maybe it may be very slow
+	 */
+
+	stmt = (pdo_stmt_t*) zend_object_store_get_object(statement TSRMLS_CC);
+	if (!stmt->dbh) {
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;
 	}
@@ -414,7 +470,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode){
 /**
  * Gets the internal PDO result object
  *
- * @return PDOStatement
+ * @return \PDOStatement
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult){
 

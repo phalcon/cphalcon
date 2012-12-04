@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Mvc\User\Component initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_User_Component){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\User, Component, mvc_user_component, "phalcon\\di\\injectable", NULL, 0);
+
+	return SUCCESS;
+}
+

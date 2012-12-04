@@ -54,6 +54,25 @@
 
 
 /**
+ * Phalcon\Db\Reference initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Reference){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Reference, db_reference, phalcon_db_reference_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedSchema"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referenceName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedTable"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_reference_ce, SL("_referencedColumns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_db_reference_ce TSRMLS_CC, 1, phalcon_db_referenceinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Db\Reference constructor
  *
  * @param string $referenceName
@@ -143,14 +162,8 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
  */
 PHP_METHOD(Phalcon_Db_Reference, getName){
 
-	zval *reference_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(reference_name);
-	phalcon_read_property(&reference_name, this_ptr, SL("_referenceName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(reference_name);
+	RETURN_MEMBER(this_ptr, "_referenceName");
 }
 
 /**
@@ -160,14 +173,8 @@ PHP_METHOD(Phalcon_Db_Reference, getName){
  */
 PHP_METHOD(Phalcon_Db_Reference, getSchemaName){
 
-	zval *schema_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(schema_name);
-	phalcon_read_property(&schema_name, this_ptr, SL("_schemaName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(schema_name);
+	RETURN_MEMBER(this_ptr, "_schemaName");
 }
 
 /**
@@ -177,14 +184,8 @@ PHP_METHOD(Phalcon_Db_Reference, getSchemaName){
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema){
 
-	zval *referenced_schema;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(referenced_schema);
-	phalcon_read_property(&referenced_schema, this_ptr, SL("_referencedSchema"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(referenced_schema);
+	RETURN_MEMBER(this_ptr, "_referencedSchema");
 }
 
 /**
@@ -194,14 +195,8 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema){
  */
 PHP_METHOD(Phalcon_Db_Reference, getColumns){
 
-	zval *columns;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(columns);
-	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(columns);
+	RETURN_MEMBER(this_ptr, "_columns");
 }
 
 /**
@@ -211,14 +206,8 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns){
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedTable){
 
-	zval *referenced_table;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(referenced_table);
-	phalcon_read_property(&referenced_table, this_ptr, SL("_referencedTable"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(referenced_table);
+	RETURN_MEMBER(this_ptr, "_referencedTable");
 }
 
 /**
@@ -228,14 +217,8 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable){
  */
 PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns){
 
-	zval *referenced_columns;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(referenced_columns);
-	phalcon_read_property(&referenced_columns, this_ptr, SL("_referencedColumns"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(referenced_columns);
+	RETURN_MEMBER(this_ptr, "_referencedColumns");
 }
 
 /**

@@ -14,14 +14,9 @@
 
 			<!-- Basic Components -->
 			<file>unit-tests/InitTest.php</file>
-			<file>unit-tests/TextTest.php</file>
 			<file>unit-tests/ConfigTest.php</file>
-			<file>unit-tests/FilterTest.php</file>
-			<file>unit-tests/EscaperTest.php</file>
-			<file>unit-tests/LoggerTest.php</file>
 			<file>unit-tests/DiTest.php</file>
 			<file>unit-tests/EventsTest.php</file>
-			<file>unit-tests/RequestTest.php</file>
 			<file>unit-tests/ResponseTest.php</file>
 			<file>unit-tests/RouterMvcTest.php</file>
 			<file>unit-tests/DispatcherMvcTest.php</file>
@@ -48,12 +43,14 @@
 			<file>unit-tests/ModelsMetadataManualTest.php</file>
 			<file>unit-tests/ModelsQueryParsingTest.php</file>
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
+			<file>unit-tests/ModelsQueryBuilderTest.php</file>
 			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
 
+			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>
 
 			<!-- View/Templating tests -->
@@ -62,20 +59,16 @@
 			<file>unit-tests/ViewEnginesVoltTest.php</file>
 			<file>unit-tests/ViewCacheTest.php</file>
 
+			<!-- Other components -->
 			<file>unit-tests/ControllersTest.php</file>
 			<file>unit-tests/SessionTest.php</file>
-			<file>unit-tests/UrlTest.php</file>
-			<file>unit-tests/FlashTest.php</file>
-			<file>unit-tests/TagTest.php</file>
-			<file>unit-tests/AclTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
-			<file>unit-tests/TranslateTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
-			<file>unit-tests/VersionTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
 			<file>unit-tests/MicroMvcTest.php</file>
+			<file>unit-tests/ApplicationMvcTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

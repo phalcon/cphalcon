@@ -32,9 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
 
@@ -59,9 +60,62 @@
 
 
 /**
+ * Phalcon\Db\Adapter\Pdo\Mysql initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Db\\Adapter\\Pdo, Mysql, db_adapter_pdo_mysql, "phalcon\\db\\adapter\\pdo", phalcon_db_adapter_pdo_mysql_method_entry, 0);
+
+	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_type"), "mysql", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_db_adapter_pdo_mysql_ce, SL("_dialectType"), "mysql", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_db_adapter_pdo_mysql_ce TSRMLS_CC, 1, phalcon_db_adapterinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
+ * Escapes a column/table/schema name
+ *
+ * @param string $identifier
+ * @return string
+ */
+PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
+
+	zval *identifier, *domain, *name, *escaped = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(domain);
+		phalcon_array_fetch_long(&domain, identifier, 0, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(name);
+		phalcon_array_fetch_long(&name, identifier, 1, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(escaped);
+		PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
+	
+		RETURN_CTOR(escaped);
+	}
+	
+	PHALCON_INIT_NVAR(escaped);
+	PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
+	
+	RETURN_CTOR(escaped);
+}
+
+/**
  * Returns an array of Phalcon\Db\Column objects describing a table
  *
- * <code>print_r($connection->describeColumns("posts")); ?></code>
+ * <code>
+ * print_r($connection->describeColumns("posts")); ?>
+ * </code>
  *
  * @param string $table
  * @param string $schema
@@ -121,13 +175,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_VALUE(field);
-		
+	
 		PHALCON_INIT_NVAR(definition);
 		array_init(definition);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
-		
+	
+		/** 
+		 * By checking every column type we convert it to a Phalcon\Db\Column
+		 */
 		PHALCON_INIT_NVAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
 		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
@@ -173,12 +230,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 				}
 			}
 		}
-		
+	
+		/** 
+		 * If the column type has a parentheses we try to get the column size from it
+		 */
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(matches);
 			array_init(matches);
 			Z_SET_ISREF_P(matches);
-			
+	
 			PHALCON_INIT_NVAR(pos);
 			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
 			Z_UNSET_ISREF_P(matches);
@@ -191,47 +251,59 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 				}
 			}
 		}
-		
+	
+		/** 
+		 * Check if the column is unsigned, only MySQL support this
+		 */
 		if (phalcon_memnstr_str(column_type, SL("unsigned") TSRMLS_CC)) {
 			phalcon_array_update_string_bool(&definition, SL("unsigned"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		if (!zend_is_true(old_column)) {
 			phalcon_array_update_string_bool(&definition, SL("first"), 1, PH_SEPARATE TSRMLS_CC);
 		} else {
 			phalcon_array_update_string(&definition, SL("after"), &old_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
+		/** 
+		 * Check if the field is primary key
+		 */
 		PHALCON_INIT_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
+		/** 
+		 * Check if the column allows null values
+		 */
 		PHALCON_INIT_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
+		/** 
+		 * Check if the column is auto increment
+		 */
 		PHALCON_INIT_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_NVAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition, PH_CHECK);
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	

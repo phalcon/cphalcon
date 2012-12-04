@@ -1,5 +1,29 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+
+CREATE TABLE `customers` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `document_id` int(3) NOT NULL,
+  `customer_id` char(15) NOT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(70) NOT NULL,
+  `instructions` varchar(100) DEFAULT NULL,
+  `status` char(1) NOT NULL,
+  `birth_date` date DEFAULT '1970-01-01',
+  `credit_line` decimal(16,2) DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `created_at_user_id` int(10) DEFAULT '0'
+);
+CREATE INDEX customers_document_id_idx ON customers (`document_id`);
+CREATE INDEX customers_customer_id_idx ON customers (`customer_id`);
+CREATE INDEX customers_credit_line_idx ON customers (`credit_line`);
+CREATE INDEX customers_status_idx ON customers (`status`);
+
+
+
+
 CREATE TABLE `parts` (
   `id` INTEGER NOT NULL PRIMARY KEY,
   `name` varchar(70) NOT NULL

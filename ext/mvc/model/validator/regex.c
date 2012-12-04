@@ -67,16 +67,28 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Regex initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Regex){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Regex, mvc_model_validator_regex, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_regex_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_validator_regex_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 
 	zval *record, *option = NULL, *field_name, *is_set, *value;
 	zval *failed = NULL, *matches, *pattern, *match_pattern;
-	zval *match_zero, *type, *message;
+	zval *match_zero, *message = NULL, *type;
 
 	PHALCON_MM_GROW();
 
@@ -95,6 +107,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 		return;
 	}
 	
+	/** 
+	 * The 'pattern' option must be a valid regular expression
+	 */
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "pattern", 1);
 	
@@ -115,6 +130,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	
 	PHALCON_INIT_VAR(pattern);
 	PHALCON_CALL_METHOD_PARAMS_1(pattern, this_ptr, "getoption", option, PH_NO_CHECK);
+	
+	/** 
+	 * Check if the value match using preg_match in the PHP userland
+	 */
 	Z_SET_ISREF_P(matches);
 	
 	PHALCON_INIT_VAR(match_pattern);
@@ -123,18 +142,28 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Regex, validate){
 	if (zend_is_true(match_pattern)) {
 		PHALCON_INIT_VAR(match_zero);
 		phalcon_array_fetch_long(&match_zero, matches, 0, PH_NOISY_CC);
-		
+	
 		is_not_equal_function(failed, match_zero, value TSRMLS_CC);
 	} else {
 		ZVAL_BOOL(failed, 1);
 	}
 	
 	if (PHALCON_IS_TRUE(failed)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "regex", 1);
-		
+		/** 
+		 * Check if the developer has defined a custom message
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "message", 1);
+	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' doesn't match regular expression");
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		if (!zend_is_true(message)) {
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVS(message, "Value of field '", field_name, "' doesn't match regular expression");
+		}
+	
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "Regex", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

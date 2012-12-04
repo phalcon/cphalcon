@@ -61,10 +61,25 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Query\Status initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Status){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Status, mvc_model_query_status, phalcon_mvc_model_query_status_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("_success"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_status_ce, SL("_model"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_query_status_ce TSRMLS_CC, 1, phalcon_mvc_model_query_statusinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Query\Status
  *
  * @param boolean $success
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 
@@ -82,18 +97,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct){
 /**
  * Returns the model which executed the action
  *
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel){
 
-	zval *model;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(model);
-	phalcon_read_property(&model, this_ptr, SL("_model"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(model);
+	RETURN_MEMBER(this_ptr, "_model");
 }
 
 /**
@@ -112,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
 	if (Z_TYPE_P(model) == IS_OBJECT) {
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, model, "getmessages", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(messages);
 	}
 	
@@ -129,13 +138,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success){
 
-	zval *success;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(success);
-	phalcon_read_property(&success, this_ptr, SL("_success"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(success);
+	RETURN_MEMBER(this_ptr, "_success");
 }
 

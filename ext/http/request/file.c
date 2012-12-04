@@ -63,6 +63,22 @@
 
 
 /**
+ * Phalcon\Http\Request\File initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Http\\Request, File, http_request_file, phalcon_http_request_file_method_entry, 0);
+
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_tmp"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_file_ce, SL("_size"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_http_request_file_ce TSRMLS_CC, 1, phalcon_http_request_fileinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Http\Request\File constructor
  *
  * @param array $file
@@ -114,14 +130,8 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getSize){
 
-	zval *size;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(size);
-	phalcon_read_property(&size, this_ptr, SL("_size"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(size);
+	RETURN_MEMBER(this_ptr, "_size");
 }
 
 /**
@@ -131,14 +141,8 @@ PHP_METHOD(Phalcon_Http_Request_File, getSize){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getName){
 
-	zval *name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(name);
+	RETURN_MEMBER(this_ptr, "_name");
 }
 
 /**
@@ -148,20 +152,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getName){
  */
 PHP_METHOD(Phalcon_Http_Request_File, getTempName){
 
-	zval *temp_file;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(temp_file);
-	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(temp_file);
+	RETURN_MEMBER(this_ptr, "_tmp");
 }
 
 /**
  * Move the temporary file to a destination
  *
  * @param string $destination
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 

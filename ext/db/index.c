@@ -44,12 +44,23 @@
  * to enhance database performance. An index allows the database server to find
  * and retrieve specific rows much faster than it could do without an index.
  *
- * <code>
- *
- * </code>
- *
  */
 
+
+/**
+ * Phalcon\Db\Index initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Db_Index){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Db, Index, db_index, phalcon_db_index_method_entry, 0);
+
+	zend_declare_property_null(phalcon_db_index_ce, SL("_indexName"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("_columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
+
+	return SUCCESS;
+}
 
 /**
  * Phalcon\Db\Index constructor
@@ -77,14 +88,8 @@ PHP_METHOD(Phalcon_Db_Index, __construct){
  */
 PHP_METHOD(Phalcon_Db_Index, getName){
 
-	zval *index_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(index_name);
-	phalcon_read_property(&index_name, this_ptr, SL("_indexName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(index_name);
+	RETURN_MEMBER(this_ptr, "_indexName");
 }
 
 /**
@@ -94,21 +99,15 @@ PHP_METHOD(Phalcon_Db_Index, getName){
  */
 PHP_METHOD(Phalcon_Db_Index, getColumns){
 
-	zval *columns;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(columns);
-	phalcon_read_property(&columns, this_ptr, SL("_columns"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(columns);
+	RETURN_MEMBER(this_ptr, "_columns");
 }
 
 /**
  * Restore a Phalcon\Db\Index object from export
  *
  * @param array $data
- * @return Phalcon\Db\Index
+ * @return Phalcon\Db\IndexInterface
  */
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 

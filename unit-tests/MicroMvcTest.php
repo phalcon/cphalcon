@@ -37,6 +37,12 @@ class RestHandler
 		$this->_trace[] = 'save';
 	}
 
+	public function delete()
+	{
+		$this->_access++;
+		$this->_trace[] = 'delete';
+	}
+
 	public function getNumberAccess()
 	{
 		return $this->_access;
@@ -61,7 +67,9 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 
 		$app->get('/api/site', array($handler, 'find'));
 		$app->post('/api/site/save', array($handler, 'save'));
+		$app->delete('/api/site/delete/1', array($handler, 'delete'));
 
+		//Getting the url from _url using GET
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_GET['_url'] = '/api/site';
 
@@ -70,6 +78,7 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($handler->getNumberAccess(), 1);
 		$this->assertEquals($handler->getTrace(), array('find'));
 
+		//Getting the url from _url using POST
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$_GET['_url'] = '/api/site/save';
 
@@ -77,6 +86,15 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($handler->getNumberAccess(), 2);
 		$this->assertEquals($handler->getTrace(), array('find', 'save'));
+
+		//Passing directly a URI
+		$_SERVER['REQUEST_METHOD'] = 'DELETE';
+		$_GET['_url'] = null;
+
+		$app->handle('/api/site/delete/1');
+
+		$this->assertEquals($handler->getNumberAccess(), 3);
+		$this->assertEquals($handler->getTrace(), array('find', 'save', 'delete'));
 	}
 
 	/**
@@ -110,3 +128,4 @@ class MicroMvcTest extends PHPUnit_Framework_TestCase
 	}
 
 }
+

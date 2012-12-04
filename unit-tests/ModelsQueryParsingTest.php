@@ -70,1627 +70,6634 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'robots'
-				)
+			'models' => array(
+				'Robots',
 			),
-			'tables' => array('robots'),
-
-		);
-		$query = new Query("SELECT * FROM Robots");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
-				)
+			'tables' => array(
+				'robots',
 			),
-			'tables' => array('le_products'),
-
-		);
-		$query = new Query('SELECT * FROM Some\Products');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
 			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
-				)
-			),
-			'tables' => array('le_products'),
-
-		);
-		$query = new Query('SELECT Some\Products.* FROM Some\Products');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'p'
-				)
-			),
-			'tables' => array('le_products p'),
-
-		);
-		$query = new Query('SELECT p.* FROM Some\Products p');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'robots'
-				)
-			),
-			'tables' => array('robots'),
-
-		);
-		$query = new Query("SELECT Robots.* FROM Robots");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
-				)
-			),
-			'tables' => array('robots r'),
-
-		);
-		$query = new Query("SELECT r.* FROM Robots r");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
-				)
-			),
-			'tables' => array('robots r'),
-
-		);
-		$query = new Query("SELECT r.* FROM Robots AS r");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				'id' => array(
-					'type' => 'scalar',
-					'column' => 'r.id',
-					'balias' => 'id'
-				),
-				'name' => array(
-					'type' => 'scalar',
-					'column' => 'r.name',
-					'balias' => 'name'
-				)
-			),
-			'tables' => array('robots r'),
-
-		);
-		$query = new Query("SELECT r.id, r.name FROM Robots AS r");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				'le_id' => array(
-					'type' => 'scalar',
-					'column' => 'r.id',
-					'balias' => 'le_id'
-				),
-				'le_name' => array(
-					'type' => 'scalar',
-					'column' => 'r.name',
-					'balias' => 'le_name'
-				)
-			),
-			'tables' => array('robots r'),
-
-		);
-		$query = new Query("SELECT r.id AS le_id, r.name AS le_name FROM Robots AS r");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				'le_id' => array(
-					'type' => 'scalar',
-					'column' => 'robots.id',
-					'balias' => 'le_id'
-				),
-				'le_name' => array(
-					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'le_name'
-				)
-			),
-			'tables' => array('robots'),
-
-		);
-		$query = new Query("SELECT Robots.id AS le_id, Robots.name AS le_name FROM Robots");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				'empty_str' => array(
-					'type' => 'scalar',
-					'column' => "''",
-					'balias' => 'empty_str'
-				),
-				'double_number' => array(
-					'type' => 'scalar',
-					'column' => '10.5',
-					'balias' => 'double_number'
-				),
-				'long_number' => array(
-					'type' => 'scalar',
-					'column' => '1000',
-					'balias' => 'long_number'
-				)
-			),
-			'tables' => array('robots'),
-
-		);
-		$query = new Query("SELECT '' empty_str, 10.5 double_number, 1000 AS long_number FROM Robots");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('People'),
-			'columns' => array(
-				'cedula' => array(
-					'type' => 'scalar',
-					'column' => 'personas.cedula',
-					'balias' => 'cedula'
-				),
-			),
-			'tables' => array('personas'),
-
-		);
-		$query = new Query("SELECT People.cedula FROM People");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('people'),
-			'columns' => array(
-				'cedula' => array(
-					'type' => 'scalar',
-					'column' => 'personas.cedula',
-					'balias' => 'cedula'
-				),
-			),
-			'tables' => array('personas'),
-
-		);
-		$query = new Query("select people.cedula from people");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('People'),
-			'columns' => array(
-				'cedula' => array(
-					'type' => 'scalar',
-					'column' => 'p.cedula',
-					'balias' => 'cedula'
-				),
-			),
-			'tables' => array('personas p'),
-
-		);
-		$query = new Query("SELECT p.cedula AS cedula FROM People p");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('People'),
-			'columns' => array(
-				'nombre' => array(
-					'type' => 'scalar',
-					'column' => 'CONCAT(personas.cedula,\'-\',personas.nombre)',
-					'balias' => 'nombre'
-				),
-			),
-			'tables' => array('personas'),
-
-		);
-		$query = new Query("SELECT CONCAT(People.cedula,'-',People.nombre) AS nombre FROM People");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
-			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
 					'column' => 'robots',
-				)
-			),
-			'tables' => array('robots'),
-			'joins' => array(
-				array(
-					'type' => 'INNER',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id'),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM Robots JOIN RobotsParts");
+		$query = new Query('SELECT * FROM Robots');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
 			'columns' => array(
-				0 => array(
+				array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Some\Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
+			'columns' => array(
+				'some\\Products' => array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
+					'balias' => 'some\\Products',
+				),
+			),
+		);
+		$query = new Query('SELECT Some\Products.* FROM Some\Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				'p' => array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'p',
+					'balias' => 'p',
+				),
+			),
+		);
+		$query = new Query('SELECT p.* FROM Some\Products p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'robots' => array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
+					'column' => 'robots',
+					'balias' => 'robots',
+				),
 			),
-			'tables' => array('robots'),
+		);
+		$query = new Query('SELECT Robots.* FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robots r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robots AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'id' => array(
+					'type' => 'scalar',
+					'balias' => 'id',
+					'sqlAlias' => 'id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT id, name FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'id' => array(
+					'type' => 'scalar',
+					'balias' => 'id',
+					'sqlAlias' => 'id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.id, r.name FROM Robots AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'le_id' => array(
+					'type' => 'scalar',
+					'balias' => 'le_id',
+					'sqlAlias' => 'le_id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'le_name' => array(
+					'type' => 'scalar',
+					'balias' => 'le_name',
+					'sqlAlias' => 'le_name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.id AS le_id, r.name AS le_name FROM Robots AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'le_id' => array(
+					'type' => 'scalar',
+					'balias' => 'le_id',
+					'sqlAlias' => 'le_id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'le_name' => array(
+					'type' => 'scalar',
+					'balias' => 'le_name',
+					'sqlAlias' => 'le_name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT Robots.id AS le_id, Robots.name AS le_name FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'empty_str' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '\'\'',
+					),
+					'balias' => 'empty_str',
+					'sqlAlias' => 'empty_str',
+				),
+				'double_number' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '10.5',
+					),
+					'balias' => 'double_number',
+					'sqlAlias' => 'double_number',
+				),
+				'long_number' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '1000',
+					),
+					'balias' => 'long_number',
+					'sqlAlias' => 'long_number',
+				),
+			),
+		);
+		$query = new Query('SELECT \'\' empty_str, 10.5 double_number, 1000 AS long_number FROM Robots');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'cedula' => array(
+					'type' => 'scalar',
+					'balias' => 'cedula',
+					'sqlAlias' => 'cedula',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'personas',
+						'name' => 'cedula',
+						'balias' => 'cedula',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT People.cedula FROM People');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'people',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'cedula' => array(
+					'type' => 'scalar',
+					'balias' => 'cedula',
+					'sqlAlias' => 'cedula',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'personas',
+						'name' => 'cedula',
+						'balias' => 'cedula',
+					),
+				),
+			),
+		);
+		$query = new Query('select people.cedula from people');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				array(
+					'personas',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				'cedula' => array(
+					'type' => 'scalar',
+					'balias' => 'cedula',
+					'sqlAlias' => 'cedula',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'p',
+						'name' => 'cedula',
+						'balias' => 'cedula',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT p.cedula AS cedula FROM People p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'nombre' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'cedula',
+								'balias' => 'cedula',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'-\'',
+							),
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'nombres',
+								'balias' => 'nombres',
+							),
+						),
+					),
+					'balias' => 'nombre',
+					'sqlAlias' => 'nombre',
+				),
+			),
+		);
+		$query = new Query('SELECT CONCAT(cedula,\'-\',nombres) AS nombre FROM People');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'nombre' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'cedula',
+								'balias' => 'cedula',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'-\'',
+							),
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'nombres',
+								'balias' => 'nombres',
+							),
+						),
+					),
+					'balias' => 'nombre',
+					'sqlAlias' => 'nombre',
+				),
+			),
+		);
+		$query = new Query('SELECT CONCAT(People.cedula,\'-\',People.nombres) AS nombre FROM People');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robots JOIN RobotsParts');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
+			),
 			'joins' => array(
 				array(
 					'type' => 'CROSS',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM Robots CROSS JOIN RobotsParts");
+		$query = new Query('SELECT * FROM Robots CROSS JOIN RobotsParts');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts', 'Parts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
-			),
-			'tables' => array('robots'),
-			'joins' => array(
-				array(
-					'type' => 'LEFT',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id'),
+					'column' => 'robots',
 				),
 				array(
-					'type' => 'RIGHT',
-					'source' => 'parts',
-					'conditions' => array(),
-				),
-			),
-		);
-		$query = new Query("SELECT * FROM Robots LEFT JOIN RobotsParts RIGHT JOIN Parts");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('RobotsParts', 'Robots', 'Parts'),
-			'columns' => array(
-				0 => array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'robots_parts'
-				)
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Parts',
+					'column' => 'parts',
+				),
 			),
-			'tables' => array('robots_parts'),
 			'joins' => array(
 				array(
 					'type' => 'LEFT',
-					'source' => 'robots',
-					'conditions' => array('robots_parts.robots_id=robots.id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 				array(
 					'type' => 'RIGHT',
-					'source' => 'parts',
-					'conditions' => array('robots_parts.parts_id=parts.id'),
+					'source' => array(
+						'parts',
+						NULL,
+					),
+					'conditions' => array(
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM RobotsParts LEFT OUTER JOIN Robots RIGHT OUTER JOIN Parts");
+		$query = new Query('SELECT * FROM Robots LEFT JOIN RobotsParts RIGHT JOIN Parts');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'RobotsParts',
+			),
+			'tables' => array(
+				'robots_parts',
+			),
 			'columns' => array(
-				0 => array(
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Parts',
+					'column' => 'parts',
+				),
 			),
-			'tables' => array('robots'),
+			'joins' => array(
+				array(
+					'type' => 'LEFT',
+					'source' => array(
+						'robots',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 'RIGHT',
+					'source' => array(
+						'parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'parts_id',
+								'balias' => 'parts_id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'parts',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM RobotsParts LEFT OUTER JOIN Robots RIGHT OUTER JOIN Parts');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
+			),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id");
+		$query = new Query('SELECT * FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
 			),
-			'tables' => array('robots'),
 			'joins' => array(
 				array(
 					'type' => 'LEFT',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id AND robots_parts.robots_id=robots.id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '=',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'id',
+									'balias' => 'id',
+								),
+								'right' => array(
+									'type' => 'binary-op',
+									'op' => 'AND',
+									'left' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robots_id',
+									),
+									'right' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robots_id',
+									),
+								),
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+						),
+					),
 				),
 			),
-			'where' => 'robots.id IS NULL'
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => ' IS NULL',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots LEFT OUTER JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AND RobotsParts.robots_id = Robots.id WHERE Robots.id IS NULL");
+		$query = new Query('SELECT * FROM Robots LEFT OUTER JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AND RobotsParts.robots_id = Robots.id WHERE Robots.id IS NULL');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
 			),
-			'tables' => array('robots'),
 			'joins' => array(
 				array(
 					'type' => 'RIGHT',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id AND robots_parts.robots_id=robots.id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '=',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'id',
+									'balias' => 'id',
+								),
+								'right' => array(
+									'type' => 'binary-op',
+									'op' => 'AND',
+									'left' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robots_id',
+									),
+									'right' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robots_id',
+									),
+								),
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+						),
+					),
 				),
 			),
-			'where' => 'robots_parts.robots_id IS NOT NULL'
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => ' IS NOT NULL',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots_parts',
+					'name' => 'robots_id',
+					'balias' => 'robots_id',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots RIGHT OUTER JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AND RobotsParts.robots_id = Robots.id WHERE RobotsParts.robots_id IS NOT NULL");
+		$query = new Query('SELECT * FROM Robots RIGHT OUTER JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AND RobotsParts.robots_id = Robots.id WHERE RobotsParts.robots_id IS NOT NULL');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
-				)
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'robots_parts',
+				),
 			),
-			'tables' => array('robots'),
 			'joins' => array(
 				array(
 					'type' => 'FULL OUTER',
-					'source' => 'robots_parts',
-					'conditions' => array('robots.id=robots_parts.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM Robots FULL OUTER JOIN RobotsParts");
+		$query = new Query('SELECT * FROM Robots FULL OUTER JOIN RobotsParts');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('RobotsParts', 'Robots'),
+			'models' => array(
+				'RobotsParts',
+			),
+			'tables' => array(
+				'robots_parts',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'robots_parts'
-				)
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
 			),
-			'tables' => array('robots_parts'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'robots',
-					'conditions' => array('robots_parts.robots_id=robots.id'),
+					'source' => array(
+						'robots',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM RobotsParts JOIN Robots");
+		$query = new Query('SELECT * FROM RobotsParts JOIN Robots');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
+					'balias' => 'r',
 				),
-				1 => array(
+				'p' => array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'p'
-				)
+					'column' => 'p',
+					'balias' => 'p',
+				),
 			),
-			'tables' => array('robots r'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'robots_parts p',
-					'conditions' => array('r.id=p.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT r.*, p.* FROM Robots AS r JOIN RobotsParts AS p");
+		$query = new Query('SELECT r.*, p.* FROM Robots AS r JOIN RobotsParts AS p');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobotsParts',
+					'column' => 'p',
 				),
 			),
-			'tables' => array('robots r'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'robots_parts p',
-					'conditions' => array('r.id=p.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT * FROM Robots AS r JOIN RobotsParts AS p");
+		$query = new Query('SELECT * FROM Robots AS r JOIN RobotsParts AS p');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				'r' => array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
+					'balias' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'robots_parts',
-					'conditions' => array('r.id=robots_parts.robots_id'),
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robots_id',
+							),
+						),
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT r.* FROM Robots r INNER JOIN RobotsParts");
+		$query = new Query('SELECT r.* FROM Robots r INNER JOIN RobotsParts');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('People', 'Products'),
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				'personas',
+			),
 			'columns' => array(
 				'_0' => array(
 					'type' => 'scalar',
-					'column' => '(personas.cupo+100)/(products.price*0.15)'
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'personas',
+									'name' => 'cupo',
+									'balias' => 'cupo',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'products',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
 				),
 			),
-			'tables' => array('personas'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'products',
-					'conditions' => array(),
+					'source' => array(
+						'products',
+						NULL,
+					),
+					'conditions' => array(
+					),
 				),
 			),
 		);
-		$query = new Query("SELECT ( People.cupo + 100) / (Products.price * 0.15) FROM People JOIN Products");
+		$query = new Query('SELECT ( People.cupo + 100) / (Products.price * 0.15) FROM People JOIN Products');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('People', 'Some\Products'),
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				'personas',
+			),
 			'columns' => array(
 				'price' => array(
 					'type' => 'scalar',
-					'column' => '(personas.cupo+100)/(le_products.price*0.15)',
-					'balias' => 'price'
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'personas',
+									'name' => 'cupo',
+									'balias' => 'cupo',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'le_products',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
-			'tables' => array('personas'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'le_products',
-					'conditions' => array(),
+					'source' => array(
+						'le_products',
+						NULL,
+					),
+					'conditions' => array(
+					),
 				),
 			),
 		);
 		$query = new Query('SELECT ( People.cupo + 100) / (Some\Products.price * 0.15) AS price FROM People JOIN Some\Products');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('People', 'Some\Products'),
+			'models' => array(
+				'People',
+			),
+			'tables' => array(
+				array(
+					'personas',
+					NULL,
+					'p',
+				),
+			),
 			'columns' => array(
 				'price' => array(
 					'type' => 'scalar',
-					'column' => '(p.cupo+100)/(s.price*0.15)',
-					'balias' => 'price'
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'p',
+									'name' => 'cupo',
+									'balias' => 'cupo',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 's',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
 				),
 			),
-			'tables' => array('personas p'),
 			'joins' => array(
 				array(
 					'type' => 'INNER',
-					'source' => 'le_products s',
-					'conditions' => array(),
+					'source' => array(
+						'le_products',
+						NULL,
+						's',
+					),
+					'conditions' => array(
+					),
 				),
 			),
 		);
 		$query = new Query('SELECT (p.cupo + 100) / (s.price * 0.15) AS price FROM People AS p JOIN Some\Products AS s');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				'robots',
+				'robots_parts',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
-				1 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'robots_parts'
+					'column' => 'robots_parts',
 				),
 			),
-			'tables' => array('robots', 'robots_parts'),
-
 		);
-		$query = new Query("SELECT * FROM Robots, RobotsParts");
+		$query = new Query('SELECT * FROM Robots, RobotsParts');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
-				1 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'p'
+					'column' => 'p',
 				),
 			),
-			'tables' => array('robots r', 'robots_parts p'),
-
 		);
-		$query = new Query("SELECT * FROM Robots r, RobotsParts p");
+		$query = new Query('SELECT * FROM Robots r, RobotsParts p');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
-				1 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'p'
+					'column' => 'p',
 				),
 			),
-			'tables' => array('robots r', 'robots_parts p'),
-
 		);
-		$query = new Query("SELECT * FROM Robots AS r, RobotsParts AS p");
+		$query = new Query('SELECT * FROM Robots AS r, RobotsParts AS p');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+				'parts_id' => array(
+					'type' => 'scalar',
+					'balias' => 'parts_id',
+					'sqlAlias' => 'parts_id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'p',
+						'name' => 'parts_id',
+						'balias' => 'parts_id',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT name, parts_id FROM Robots AS r, RobotsParts AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
-				1 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'p'
+					'column' => 'p',
 				),
 			),
-			'tables' => array('robots r', 'robots_parts p'),
-			'where' => 'r.id=p.robots_id'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'robots_id',
+					'balias' => 'robots_id',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots AS r, RobotsParts AS p WHERE r.id = p.robots_id");
+		$query = new Query('SELECT * FROM Robots AS r, RobotsParts AS p WHERE r.id = p.robots_id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots', 'RobotsParts'),
+			'models' => array(
+				'Robots',
+				'RobotsParts',
+			),
+			'tables' => array(
+				'robots',
+				'robots_parts',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
-				1 => array(
+				array(
 					'type' => 'object',
 					'model' => 'RobotsParts',
-					'column' => 'robots_parts'
+					'column' => 'robots_parts',
 				),
 			),
-			'tables' => array('robots', 'robots_parts'),
-			'where' => 'robots.id=robots_parts.robots_id'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'qualified',
+					'domain' => 'robots_parts',
+					'name' => 'robots_id',
+					'balias' => 'robots_id',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots, RobotsParts WHERE Robots.id = RobotsParts.robots_id");
+		$query = new Query('SELECT * FROM Robots, RobotsParts WHERE Robots.id = RobotsParts.robots_id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id=100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id = 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id = 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id<>100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id != 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id != 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id>100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id > 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id<100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id < 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id < 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id>=100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id >= 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id >= 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id<=100'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id <= 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id <= 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.name LIKE \'as%\''
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'LIKE',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'as%\'',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name LIKE 'as%'");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name LIKE \'as%\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.name NOT LIKE \'as%\''
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'NOT LIKE',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'as%\'',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name NOT LIKE 'as%'");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name NOT LIKE \'as%\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
+					'model' => 'Robots',
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('le_products'),
-			'where' => 'DATE(le_products.created_at)=\'2010-10-02\''
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'BETWEEN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'binary-op',
+					'op' => 'AND',
+					'left' => array(
+						'type' => 'literal',
+						'value' => '\'john\'',
+					),
+					'right' => array(
+						'type' => 'literal',
+						'value' => '\'mike\'',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name BETWEEN \'john\' AND \'mike\'');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'DATE',
+					'arguments' => array(
+						array(
+							'type' => 'qualified',
+							'domain' => 'le_products',
+							'name' => 'created_at',
+							'balias' => 'created_at',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'2010-10-02\'',
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products WHERE DATE(Some\Products.created_at) = "2010-10-02"');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
 				),
 			),
-			'tables' => array('le_products'),
-			'where' => 'le_products.created_at<now()'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'le_products',
+					'name' => 'created_at',
+					'balias' => 'created_at',
+				),
+				'right' => array(
+					'type' => 'functionCall',
+					'name' => 'now',
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products WHERE Some\Products.created_at < now()');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id IN (1,2,3,4)'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'IN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'list',
+					array(
+						array(
+							'type' => 'literal',
+							'value' => '1',
+						),
+						array(
+							'type' => 'literal',
+							'value' => '2',
+						),
+						array(
+							'type' => 'literal',
+							'value' => '3',
+						),
+						array(
+							'type' => 'literal',
+							'value' => '4',
+						),
+					),
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.id IN (1, 2, 3, 4)");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id IN (1, 2, 3, 4)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'r.id IN (r.id+1,r.id+2)'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'IN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'list',
+					array(
+						array(
+							'type' => 'binary-op',
+							'op' => '+',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'literal',
+								'value' => '1',
+							),
+						),
+						array(
+							'type' => 'binary-op',
+							'op' => '+',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'literal',
+								'value' => '2',
+							),
+						),
+					),
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots r WHERE r.id IN (r.id+1, r.id+2)");
+		$query = new Query('SELECT * FROM Robots r WHERE r.id IN (r.id+1, r.id+2)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.name=:name'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'placeholder',
+					'value' => ':name',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = :name:");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = :name:');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.name=:0'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'placeholder',
+					'value' => ':0',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = ?0");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = ?0');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "robots.name='R2D2' OR robots.name<>'C3PO'"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '=',
+					'left' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'OR',
+						'left' => array(
+							'type' => 'literal',
+							'value' => '\'R2D2\'',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'C3PO\'',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = 'R2D2' OR Robots.name <> 'C3PO'");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = \'R2D2\' OR Robots.name <> \'C3PO\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "robots.name='R2D2' AND robots.name<>'C3PO'"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '=',
+					'left' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'AND',
+						'left' => array(
+							'type' => 'literal',
+							'value' => '\'R2D2\'',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'C3PO\'',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = 'R2D2' AND Robots.name <> 'C3PO'");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = \'R2D2\' AND Robots.name <> \'C3PO\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "robots.name=:first_name AND robots.name<>:second_name"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '=',
+					'left' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'AND',
+						'left' => array(
+							'type' => 'placeholder',
+							'value' => ':first_name',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'placeholder',
+					'value' => ':second_name',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = :first_name: AND Robots.name <> :second_name:");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = :first_name: AND Robots.name <> :second_name:');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "robots.name='R2D2' AND robots.name<>'C3PO' AND robots.id>100"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '<>',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+						'right' => array(
+							'type' => 'binary-op',
+							'op' => 'AND',
+							'left' => array(
+								'type' => 'literal',
+								'value' => '\'R2D2\'',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'name',
+								'balias' => 'name',
+							),
+						),
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'AND',
+						'left' => array(
+							'type' => 'literal',
+							'value' => '\'C3PO\'',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'id',
+							'balias' => 'id',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE Robots.name = 'R2D2' AND Robots.name <> 'C3PO' AND Robots.id > 100");
+		$query = new Query('SELECT * FROM Robots WHERE Robots.name = \'R2D2\' AND Robots.name <> \'C3PO\' AND Robots.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "(robots.name='R2D2' AND robots.name<>'C3PO') OR robots.id>100"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => 'OR',
+					'left' => array(
+						'type' => 'parentheses',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '<>',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '=',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'name',
+									'balias' => 'name',
+								),
+								'right' => array(
+									'type' => 'binary-op',
+									'op' => 'AND',
+									'left' => array(
+										'type' => 'literal',
+										'value' => '\'R2D2\'',
+									),
+									'right' => array(
+										'type' => 'qualified',
+										'domain' => 'robots',
+										'name' => 'name',
+										'balias' => 'name',
+									),
+								),
+							),
+							'right' => array(
+								'type' => 'literal',
+								'value' => '\'C3PO\'',
+							),
+						),
+					),
+					'right' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE (Robots.name = 'R2D2' AND Robots.name <> 'C3PO') OR Robots.id > 100");
+		$query = new Query('SELECT * FROM Robots WHERE (Robots.name = \'R2D2\' AND Robots.name <> \'C3PO\') OR Robots.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => "(robots.name='R2D2' AND robots.name<>'C3PO') OR (robots.id>100 AND robots.id<=150)"
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'OR',
+				'left' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '<>',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'name',
+								'balias' => 'name',
+							),
+							'right' => array(
+								'type' => 'binary-op',
+								'op' => 'AND',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '\'R2D2\'',
+								),
+								'right' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'name',
+									'balias' => 'name',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'C3PO\'',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '<=',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '>',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'binary-op',
+								'op' => 'AND',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+								'right' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'id',
+									'balias' => 'id',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '150',
+						),
+					),
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots WHERE (Robots.name = 'R2D2' AND Robots.name <> 'C3PO') OR (Robots.id > 100 AND Robots.id <= 150)");
+		$query = new Query('SELECT * FROM Robots WHERE (Robots.name = \'R2D2\' AND Robots.name <> \'C3PO\') OR (Robots.id > 100 AND Robots.id <= 150)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'r.id NOT IN (r.id+1,r.id+2)'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'NOT IN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'list',
+					array(
+						array(
+							'type' => 'binary-op',
+							'op' => '+',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'literal',
+								'value' => '1',
+							),
+						),
+						array(
+							'type' => 'binary-op',
+							'op' => '+',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'id',
+							),
+							'right' => array(
+								'type' => 'literal',
+								'value' => '2',
+							),
+						),
+					),
+				),
+			),
 		);
-		$query = new Query("SELECT * FROM Robots r WHERE r.id NOT IN (r.id+1, r.id+2)");
+		$query = new Query('SELECT * FROM Robots r WHERE r.id NOT IN (r.id+1, r.id+2)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'limit' => array('number' => 100)
+			'limit' => array(
+				'number' => '100',
+			),
 		);
-		$query = new Query("SELECT * FROM Robots r LIMIT 100");
+		$query = new Query('SELECT * FROM Robots r LIMIT 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'limit' => array('number' => 100, 'offset' => 10)
+			'limit' => array(
+				'number' => '100',
+				'offset' => '10',
+			),
 		);
-		$query = new Query("SELECT * FROM Robots r LIMIT 10,100");
+		$query = new Query('SELECT * FROM Robots r LIMIT 10,100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'limit' => array('number' => 100, 'offset' => 10)
+			'limit' => array(
+				'number' => '100',
+				'offset' => '10',
+			),
 		);
-		$query = new Query("SELECT * FROM Robots r LIMIT 100 OFFSET 10");
+		$query = new Query('SELECT * FROM Robots r LIMIT 100 OFFSET 10');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'p'
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
 				),
 			),
-			'tables' => array('le_products p'),
-			'where' => 'p.name=\'Artichoke\'',
-			'limit' => array('number' => 100)
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'p',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'Artichoke\'',
+				),
+			),
+			'limit' => array(
+				'number' => '100',
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products p WHERE p.name = "Artichoke" LIMIT 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'p'
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
 				),
 			),
-			'tables' => array('le_products p'),
-			'order' => 'p.name'
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Some\\Products',
+					'column' => 'p',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'p',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products p ORDER BY p.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
 				),
 			),
-			'tables' => array('le_products'),
-			'order' => 'le_products.name'
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'le_products',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products ORDER BY Some\Products.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
-					'model' => 'Some\Products',
-					'column' => 'le_products'
+					'model' => 'Some\\Products',
+					'column' => 'le_products',
 				),
 			),
-			'tables' => array('le_products'),
-			'order' => 'id,le_products.name,3'
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'le_products',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'le_products',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '3',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Some\Products ORDER BY id, Some\Products.name, 3');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'NOT (r.name=\'shaggy\')',
-			'order' => '1,r.name'
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE NOT (r.name = "shaggy") ORDER BY 1, r.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'NOT (r.name=\'shaggy\')',
-			'order' => '1,r.name'
-		);
-		$query = new Query('SELECT * FROM Robots r WHERE NOT (r.name = "shaggy") ORDER BY 1, r.name');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'r'
+					'column' => 'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'NOT (r.name=\'shaggy\')',
-			'order' => '1 DESC,r.name'
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+					'DESC',
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE NOT (r.name = "shaggy") ORDER BY 1 DESC, r.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'NOT (r.name=\'shaggy\')',
-			'order' => '1,r.name'
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'name',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE NOT (r.name = "shaggy") ORDER BY 1, r.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'r.name<>\'shaggy\'',
-			'order' => '1,2',
-			'limit' => array('number' => 5)
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'shaggy\'',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '5',
+			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1, 2 LIMIT 5');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'columns' => array(
-				0 => array(
-					'type' => 'object',
-					'model' => 'Robots',
-					'column' => 'r'
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
 				),
 			),
-			'tables' => array('robots r'),
-			'where' => 'r.name<>\'shaggy\'',
-			'order' => '1 ASC,2 DESC',
-			'limit' => array('number' => 5)
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'shaggy\'',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+					'ASC',
+				),
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+					'DESC',
+				),
+			),
+			'limit' => array(
+				'number' => '5',
+			),
 		);
 		$query = new Query('SELECT * FROM Robots r WHERE r.name <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'group' => 'robots.name'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots GROUP BY Robots.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'group' => 'robots.name,robots.id'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots GROUP BY Robots.name, Robots.id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'summatory' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(robots.price)',
-					'balias' => 'summatory'
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'SUM',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'price',
+								'balias' => 'price',
+							),
+						),
+					),
+					'balias' => 'summatory',
+					'sqlAlias' => 'summatory',
 				),
 			),
-			'tables' => array('robots'),
-			'group' => 'robots.name'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
 		);
 		$query = new Query('SELECT Robots.name, SUM(Robots.price) AS summatory FROM Robots GROUP BY Robots.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
 			'columns' => array(
 				'id' => array(
 					'type' => 'scalar',
-					'column' => 'r.id',
-					'balias' => 'id'
+					'balias' => 'id',
+					'sqlAlias' => 'id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'id',
+					),
 				),
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'r.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'summatory' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(r.price)',
-					'balias' => 'summatory'
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'SUM',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'price',
+								'balias' => 'price',
+							),
+						),
+					),
+					'balias' => 'summatory',
+					'sqlAlias' => 'summatory',
 				),
 				'_3' => array(
 					'type' => 'scalar',
-					'column' => 'MIN(r.price)'
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'MIN',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'price',
+								'balias' => 'price',
+							),
+						),
+					),
 				),
 			),
-			'tables' => array('robots r'),
-			'group' => 'r.id,r.name'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
 		);
 		$query = new Query('SELECT r.id, r.name, SUM(r.price) AS summatory, MIN(r.price) FROM Robots r GROUP BY r.id, r.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id>5',
-			'group' => 'robots.name'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id>5',
-			'group' => 'robots.name',
-			'limit' => array('number' => 10)
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name LIMIT 10');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id>5',
-			'group' => 'robots.name',
-			'order' => 'robots.id',
-			'limit' => array('number' => 10)
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '5',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id > 5 GROUP BY Robots.name ORDER BY Robots.id LIMIT 10');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'group' => 'robots.name',
-			'order' => 'robots.id',
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots GROUP BY Robots.name ORDER BY Robots.id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
-				0 => array(
+				array(
 					'type' => 'object',
 					'model' => 'Robots',
-					'column' => 'robots'
+					'column' => 'robots',
 				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.id<>10',
-			'group' => 'robots.name',
-			'order' => 'robots.id',
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '10',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT * FROM Robots WHERE Robots.id != 10 GROUP BY Robots.name ORDER BY Robots.id');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Some\Products'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
 			'columns' => array(
 				'type' => array(
 					'type' => 'scalar',
 					'balias' => 'type',
-					'column' => 'le_products.type'
+					'sqlAlias' => 'type',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'le_products',
+						'name' => 'type',
+						'balias' => 'type',
+					),
 				),
 				'price' => array(
 					'type' => 'scalar',
-					'column' => 'SUM(le_products.price)',
-					'balias' => 'price'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'SUM',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'price',
+								'balias' => 'price',
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
 			),
-			'tables' => array('le_products'),
-			'having' => 'SUM(le_products.price)<100',
-			'group' => 'le_products.type'
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'le_products',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '<',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'SUM',
+					'arguments' => array(
+						array(
+							'type' => 'qualified',
+							'name' => 'price',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
 		$query = new Query('SELECT Some\Products.type, SUM(Some\Products.price) AS price FROM Some\Products GROUP BY Some\Products.type HAVING SUM(Some\Products.price)<100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
+			'columns' => array(
+				'type' => array(
+					'type' => 'scalar',
+					'balias' => 'type',
+					'sqlAlias' => 'type',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'le_products',
+						'name' => 'type',
+						'balias' => 'type',
+					),
+				),
+				'price' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'SUM',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'le_products',
+								'name' => 'price',
+								'balias' => 'price',
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'literal',
+					'value' => '1',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '<',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'SUM',
+					'arguments' => array(
+						array(
+							'type' => 'qualified',
+							'name' => 'price',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+		);
+		$query = new Query('SELECT type, SUM(price) AS price FROM Some\Products GROUP BY 1 HAVING SUM(price)<100');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
+			'columns' => array(
+				'price' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'unary-op',
+								'op' => 'DISTINCT ',
+								'right' => array(
+									'type' => 'qualified',
+									'domain' => 'le_products',
+									'name' => 'type',
+									'balias' => 'type',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
+			),
+		);
+		$query = new Query('SELECT COUNT(DISTINCT Some\Products.type) AS price FROM Some\Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Products',
+			),
+			'tables' => array(
+				'le_products',
+			),
+			'columns' => array(
+				'price' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'unary-op',
+								'op' => 'DISTINCT ',
+								'right' => array(
+									'type' => 'qualified',
+									'domain' => 'le_products',
+									'name' => 'type',
+									'balias' => 'type',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
+			),
+		);
+		$query = new Query('SELECT COUNT(DISTINCT Some\Products.type) price FROM Some\Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.type=\'virtual\'',
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'virtual\'',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.type=\'virtual\'',
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name',
-			'order' => '2'
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'virtual\'',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+				),
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.type=\'virtual\'',
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name',
-			'order' => '2',
-			'limit' => array('number' => 15)
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'virtual\'',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '15',
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
 		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name',
-			'order' => '2',
-			'limit' => array('number' => 15)
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '15',
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'where' => 'robots.type=\'virtual\'',
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name',
-			'limit' => array('number' => 15)
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'virtual\'',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '15',
+			),
+		);
+		$query = new Query('SELECT name, COUNT(*) FROM Robots WHERE type = "virtual" GROUP BY name HAVING COUNT(*)>100 LIMIT 15');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'name' => array(
+					'type' => 'scalar',
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
+				),
+				'_1' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'type',
+					'balias' => 'type',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'virtual\'',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '15',
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots WHERE Robots.type = "virtual" GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
 			'columns' => array(
 				'name' => array(
 					'type' => 'scalar',
-					'column' => 'robots.name',
-					'balias' => 'name'
+					'balias' => 'name',
+					'sqlAlias' => 'name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'name',
+					),
 				),
 				'_1' => array(
 					'type' => 'scalar',
-					'column' => 'COUNT(*)'
-				)
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'COUNT',
+						'arguments' => array(
+							array(
+								'type' => 'all',
+							),
+						),
+					),
+				),
 			),
-			'tables' => array('robots'),
-			'having' => 'COUNT(*)>100',
-			'group' => 'robots.name',
-			'limit' => array('number' => 15)
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'having' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'functionCall',
+					'name' => 'COUNT',
+					'arguments' => array(
+						array(
+							'type' => 'all',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '15',
+			),
 		);
 		$query = new Query('SELECT Robots.name, COUNT(*) FROM Robots GROUP BY Robots.name HAVING COUNT(*)>100 LIMIT 15');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Some\\Robotters',
+					'column' => 'robots',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Some\Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'some\\Robotters' => array(
+					'type' => 'object',
+					'model' => 'Some\\Robotters',
+					'column' => 'robots',
+					'balias' => 'some\\Robotters',
+				),
+			),
+		);
+		$query = new Query('SELECT Some\Robotters.* FROM Some\Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Some\\Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Some\\Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Some\Robotters r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'robotters' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+					'balias' => 'robotters',
+				),
+			),
+		);
+		$query = new Query('SELECT Robotters.* FROM Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robotters r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robotters AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'code' => array(
+					'type' => 'scalar',
+					'balias' => 'code',
+					'sqlAlias' => 'code',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'code',
+					),
+				),
+				'theName' => array(
+					'type' => 'scalar',
+					'balias' => 'theName',
+					'sqlAlias' => 'thename',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT code, theName FROM Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'code' => array(
+					'type' => 'scalar',
+					'balias' => 'code',
+					'sqlAlias' => 'code',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'code',
+					),
+				),
+				'theName' => array(
+					'type' => 'scalar',
+					'balias' => 'theName',
+					'sqlAlias' => 'thename',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.code, r.theName FROM Robotters AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'le_id' => array(
+					'type' => 'scalar',
+					'balias' => 'le_id',
+					'sqlAlias' => 'le_id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'code',
+					),
+				),
+				'le_name' => array(
+					'type' => 'scalar',
+					'balias' => 'le_name',
+					'sqlAlias' => 'le_name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.code AS le_id, r.theName AS le_name FROM Robotters AS r');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'le_id' => array(
+					'type' => 'scalar',
+					'balias' => 'le_id',
+					'sqlAlias' => 'le_id',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'id',
+						'balias' => 'code',
+					),
+				),
+				'le_name' => array(
+					'type' => 'scalar',
+					'balias' => 'le_name',
+					'sqlAlias' => 'le_name',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'robots',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT Robotters.code AS le_id, Robotters.theName AS le_name FROM Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				'empty_str' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '\'\'',
+					),
+					'balias' => 'empty_str',
+					'sqlAlias' => 'empty_str',
+				),
+				'double_number' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '10.5',
+					),
+					'balias' => 'double_number',
+					'sqlAlias' => 'double_number',
+				),
+				'long_number' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'literal',
+						'value' => '1000',
+					),
+					'balias' => 'long_number',
+					'sqlAlias' => 'long_number',
+				),
+			),
+		);
+		$query = new Query('SELECT \'\' empty_str, 10.5 double_number, 1000 AS long_number FROM Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'borgerId' => array(
+					'type' => 'scalar',
+					'balias' => 'borgerId',
+					'sqlAlias' => 'borgerid',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'personas',
+						'name' => 'cedula',
+						'balias' => 'borgerId',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT Personers.borgerId FROM Personers');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'personers',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'borgerId' => array(
+					'type' => 'scalar',
+					'balias' => 'borgerId',
+					'sqlAlias' => 'borgerid',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'personas',
+						'name' => 'cedula',
+						'balias' => 'borgerId',
+					),
+				),
+			),
+		);
+		$query = new Query('select personers.borgerId from personers');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				array(
+					'personas',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				'cedula' => array(
+					'type' => 'scalar',
+					'balias' => 'cedula',
+					'sqlAlias' => 'cedula',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'p',
+						'name' => 'cedula',
+						'balias' => 'borgerId',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT p.borgerId AS cedula FROM Personers p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'navne' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'cedula',
+								'balias' => 'borgerId',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'-\'',
+							),
+							array(
+								'type' => 'qualified',
+								'domain' => 'personas',
+								'name' => 'nombres',
+								'balias' => 'navnes',
+							),
+						),
+					),
+					'balias' => 'navne',
+					'sqlAlias' => 'navne',
+				),
+			),
+		);
+		$query = new Query('SELECT CONCAT(Personers.borgerId,\'-\',Personers.navnes) AS navne FROM Personers');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters JOIN RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'CROSS',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters CROSS JOIN RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Deles',
+					'column' => 'parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'LEFT',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 'RIGHT',
+					'source' => array(
+						'parts',
+						NULL,
+					),
+					'conditions' => array(
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters LEFT JOIN RobottersDeles RIGHT JOIN Deles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'RobottersDeles',
+			),
+			'tables' => array(
+				'robots_parts',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Deles',
+					'column' => 'parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'LEFT',
+					'source' => array(
+						'robots',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 'RIGHT',
+					'source' => array(
+						'parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'parts_id',
+								'balias' => 'delesCode',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'parts',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM RobottersDeles LEFT OUTER JOIN Robotters RIGHT OUTER JOIN Deles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters JOIN RobottersDeles ON Robotters.code = RobottersDeles.robottersCode');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'LEFT',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '=',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'id',
+									'balias' => 'code',
+								),
+								'right' => array(
+									'type' => 'binary-op',
+									'op' => 'AND',
+									'left' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robottersCode',
+									),
+									'right' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robottersCode',
+									),
+								),
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => ' IS NULL',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'code',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters LEFT OUTER JOIN RobottersDeles ON Robotters.code = RobottersDeles.robottersCode AND RobottersDeles.robottersCode = Robotters.code WHERE Robotters.code IS NULL');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'RIGHT',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '=',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'robots',
+									'name' => 'id',
+									'balias' => 'code',
+								),
+								'right' => array(
+									'type' => 'binary-op',
+									'op' => 'AND',
+									'left' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robottersCode',
+									),
+									'right' => array(
+										'type' => 'qualified',
+										'domain' => 'robots_parts',
+										'name' => 'robots_id',
+										'balias' => 'robottersCode',
+									),
+								),
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => ' IS NOT NULL',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots_parts',
+					'name' => 'robots_id',
+					'balias' => 'robottersCode',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters RIGHT OUTER JOIN RobottersDeles ON Robotters.code = RobottersDeles.robottersCode AND RobottersDeles.robottersCode = Robotters.code WHERE RobottersDeles.robottersCode IS NOT NULL');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'FULL OUTER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters FULL OUTER JOIN RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'RobottersDeles',
+			),
+			'tables' => array(
+				'robots_parts',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM RobottersDeles JOIN Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+				'p' => array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+					'balias' => 'p',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.*, p.* FROM Robotters AS r JOIN RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters AS r JOIN RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robotters r INNER JOIN RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'RobottersDeles',
+			),
+			'tables' => array(
+				'robots_parts',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM RobottersDeles JOIN Robotters');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+				'p' => array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+					'balias' => 'p',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.*, p.* FROM Robotters AS r JOIN RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+						'p',
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'p',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters AS r JOIN RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				'r' => array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+					'balias' => 'r',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'robots_parts',
+						NULL,
+					),
+					'conditions' => array(
+						array(
+							'type' => 'binary-op',
+							'op' => '=',
+							'left' => array(
+								'type' => 'qualified',
+								'domain' => 'r',
+								'name' => 'id',
+								'balias' => 'code',
+							),
+							'right' => array(
+								'type' => 'qualified',
+								'domain' => 'robots_parts',
+								'name' => 'robots_id',
+								'balias' => 'robottersCode',
+							),
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT r.* FROM Robotters r INNER JOIN RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'_0' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'personas',
+									'name' => 'cupo',
+									'balias' => 'kredit',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'products',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'products',
+						NULL,
+					),
+					'conditions' => array(
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT ( Personers.kredit + 100) / (Products.price * 0.15) FROM Personers JOIN Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				'personas',
+			),
+			'columns' => array(
+				'price' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'personas',
+									'name' => 'cupo',
+									'balias' => 'kredit',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'le_products',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'le_products',
+						NULL,
+					),
+					'conditions' => array(
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT ( Personers.kredit + 100) / (Some\Products.price * 0.15) AS price FROM Personers JOIN Some\Products');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Personers',
+			),
+			'tables' => array(
+				array(
+					'personas',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				'price' => array(
+					'type' => 'scalar',
+					'column' => array(
+						'type' => 'binary-op',
+						'op' => '/',
+						'left' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 'p',
+									'name' => 'cupo',
+									'balias' => 'kredit',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '100',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'parentheses',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '*',
+								'left' => array(
+									'type' => 'qualified',
+									'domain' => 's',
+									'name' => 'price',
+									'balias' => 'price',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '0.15',
+								),
+							),
+						),
+					),
+					'balias' => 'price',
+					'sqlAlias' => 'price',
+				),
+			),
+			'joins' => array(
+				array(
+					'type' => 'INNER',
+					'source' => array(
+						'le_products',
+						NULL,
+						's',
+					),
+					'conditions' => array(
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT (p.kredit + 100) / (s.price * 0.15) AS price FROM Personers AS p JOIN Some\Products AS s');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				'robots',
+				'robots_parts',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters, RobottersDeles');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r, RobottersDeles p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters AS r, RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				'theName' => array(
+					'type' => 'scalar',
+					'balias' => 'theName',
+					'sqlAlias' => 'thename',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+				'delesCode' => array(
+					'type' => 'scalar',
+					'balias' => 'delesCode',
+					'sqlAlias' => 'delescode',
+					'column' => array(
+						'type' => 'qualified',
+						'domain' => 'p',
+						'name' => 'parts_id',
+						'balias' => 'delesCode',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT theName, delesCode FROM Robotters AS r, RobottersDeles AS p');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+				array(
+					'robots_parts',
+					NULL,
+					'p',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'p',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'code',
+				),
+				'right' => array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'robots_id',
+					'balias' => 'robottersCode',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters AS r, RobottersDeles AS p WHERE r.code = p.robottersCode');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+				'RobottersDeles',
+			),
+			'tables' => array(
+				'robots',
+				'robots_parts',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+				array(
+					'type' => 'object',
+					'model' => 'RobottersDeles',
+					'column' => 'robots_parts',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '=',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'code',
+				),
+				'right' => array(
+					'type' => 'qualified',
+					'domain' => 'robots_parts',
+					'name' => 'robots_id',
+					'balias' => 'robottersCode',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters, RobottersDeles WHERE Robotters.code = RobottersDeles.robottersCode');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'theName',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'theName',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+					'DESC',
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r WHERE NOT (r.theName = "shaggy") ORDER BY 1 DESC, r.theName');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'unary-op',
+				'op' => 'NOT ',
+				'right' => array(
+					'type' => 'parentheses',
+					'left' => array(
+						'type' => 'binary-op',
+						'op' => '=',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'name',
+							'balias' => 'theName',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '\'shaggy\'',
+						),
+					),
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'name',
+						'balias' => 'theName',
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'theName',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'shaggy\'',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+				),
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '5',
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r WHERE r.theName <> "shaggy" ORDER BY 1, 2 LIMIT 5');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'r',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'theName',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '\'shaggy\'',
+				),
+			),
+			'order' => array(
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '1',
+					),
+					'ASC',
+				),
+				array(
+					array(
+						'type' => 'literal',
+						'value' => '2',
+					),
+					'DESC',
+				),
+			),
+			'limit' => array(
+				'number' => '5',
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters r WHERE r.theName <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'theName',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters GROUP BY Robotters.theName');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robotters',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robotters',
+					'column' => 'robots',
+				),
+			),
+			'group' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'theName',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'code',
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robotters GROUP BY Robotters.theName, Robotters.code');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 
 	}
 
@@ -1699,78 +6706,359 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
-
 		$expected = array(
 			'model' => 'Robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 322, "value" => 'NULL'),
-				array("type" => 260, "value" => "some robot"),
-				array("type" => 258, "value" => "1945")
-			)
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots VALUES (NULL, 'some robot', 1945)");
+		$query = new Query('INSERT INTO Robots VALUES (NULL, \'some robot\', 1945)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
 			'model' => 'robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 322, "value" => 'NULL'),
-				array("type" => 260, "value" => "some robot"),
-				array("type" => 258, "value" => "1945")
-			)
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
 		);
-		$query = new Query("insert into robots values (null, 'some robot', 1945)");
+		$query = new Query('insert into robots values (null, \'some robot\', 1945)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'model' => 'Some\Products',
+			'model' => 'Some\\Products',
 			'table' => 'le_products',
 			'values' => array(
-				array("type" => 260, "value" => "Some name"),
-				array("type" => 259, "value" => "100.15"),
-				array("type" => 355, "value" => "current_date"),
-				array("type" => 350, "value" => "now()")
-			)
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'Some name',
+					),
+				),
+				array(
+					'type' => 259,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '100.15',
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'current_date',
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'now',
+					),
+				),
+			),
 		);
-		$query = new Query('INSERT INTO Some\Products VALUES ("Some name", 100.15, current_date, now())');
+		$query = new Query('INSERT INTO Some\\Products VALUES ("Some name", 100.15, current_date(), now())');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
 			'model' => 'Robots',
 			'table' => 'robots',
 			'values' => array(
-				array("type" => 356, "value" => '(1+1000*:le_id)'),
-				array("type" => 350, "value" => "CONCAT('some','robot')"),
-				array("type" => 258, "value" => "2011")
-			)
+				array(
+					'type' => 356,
+					'value' => array(
+						'type' => 'parentheses',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '*',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '1',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '1000',
+								),
+							),
+							'right' => array(
+								'type' => 'placeholder',
+								'value' => ':le_id',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'literal',
+								'value' => '\'some\'',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'robot\'',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '2011',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots VALUES ((1+1000*:le_id:), CONCAT('some', 'robot'), 2011)");
+		$query = new Query('INSERT INTO Robots VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
 			'model' => 'Robots',
 			'table' => 'robots',
 			'fields' => array(
-				'name', 'type', 'year', 'status'
+				'name',
+				'type',
+				'year',
 			),
 			'values' => array(
-				array("type" => 260, "value" => "a name"),
-				array("type" => 260, "value" => "virtual"),
-				array("type" => 258, "value" => "2011"),
-				array("type" => 273, "value" => ":0")
-			)
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'a name',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'virtual',
+					),
+				),
+				array(
+					'type' => 273,
+					'value' => array(
+						'type' => 'placeholder',
+						'value' => ':0',
+					),
+				),
+			),
 		);
-		$query = new Query("INSERT INTO Robots (name, type, year, status) VALUES ('a name', 'virtual', 2011, ?0)");
+		$query = new Query('INSERT INTO Robots (name, type, year) VALUES (\'a name\', \'virtual\', ?0)');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters VALUES (NULL, \'some robot\', 1945)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 322,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'NULL',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some robot',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1945',
+					),
+				),
+			),
+		);
+		$query = new Query('insert into robotters values (null, \'some robot\', 1945)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'values' => array(
+				array(
+					'type' => 356,
+					'value' => array(
+						'type' => 'parentheses',
+						'left' => array(
+							'type' => 'binary-op',
+							'op' => '*',
+							'left' => array(
+								'type' => 'binary-op',
+								'op' => '+',
+								'left' => array(
+									'type' => 'literal',
+									'value' => '1',
+								),
+								'right' => array(
+									'type' => 'literal',
+									'value' => '1000',
+								),
+							),
+							'right' => array(
+								'type' => 'placeholder',
+								'value' => ':le_id',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 350,
+					'value' => array(
+						'type' => 'functionCall',
+						'name' => 'CONCAT',
+						'arguments' => array(
+							array(
+								'type' => 'literal',
+								'value' => '\'some\'',
+							),
+							array(
+								'type' => 'literal',
+								'value' => '\'robot\'',
+							),
+						),
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '2011',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'model' => 'Robotters',
+			'table' => 'robots',
+			'fields' => array(
+				'theName',
+				'theType',
+				'theYear',
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'a name',
+					),
+				),
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'virtual',
+					),
+				),
+				array(
+					'type' => 273,
+					'value' => array(
+						'type' => 'placeholder',
+						'value' => ':0',
+					),
+				),
+			),
+		);
+		$query = new Query('INSERT INTO Robotters (theName, theType, theYear) VALUES (\'a name\', \'virtual\', ?0)');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 	public function testUpdateParsing()
@@ -1778,174 +7066,590 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
-
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET name = 'some name'");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name'");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products'),
-			'fields' => array('le_products.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products SET Some\Products.name = "some name"');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products p'),
-			'fields' => array('p.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products p SET p.name = "some name"');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name', 'robots.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 258, "value" => "1990"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name', Robots.year = 1990");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Some\Products'),
-			'tables' => array('le_products p'),
-			'fields' => array('p.name', 'p.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 258, "value" => "1990"),
-			)
-		);
-		$query = new Query('UPDATE Some\Products p SET p.name = "some name", p.year = 1990');
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
-			'fields' => array('robots.name', 'robots.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 43, "value" => "YEAR(current_date)+robots.year"),
-			)
-		);
-		$query = new Query("UPDATE Robots SET Robots.name = 'some name', Robots.year = YEAR(current_date) + Robots.year");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name', 'r.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 43, "value" => "YEAR(current_date)+r.year"),
-			)
-		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name', r.year = YEAR(current_date) + r.year");
-		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
-		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100'
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' WHERE r.id > 100");
+		$query = new Query('UPDATE Robots SET name = \'some name\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name', 'r.year'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
-				array("type" => 42, "value" => 'r.year*2'),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100 AND r.id<=200'
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("update Robots as r set r.name = 'some name', r.year = r.year*2 where r.id > 100 and r.id <= 200");
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\'');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'le_products',
 			),
-			'limit' => 10
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'le_products',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' LIMIT 10");
+		$query = new Query('UPDATE Some\\Products SET Some\\Products.name = "some name"');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
+				),
 			),
-			'limit' => 10
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots r SET r.name = 'some name' LIMIT 10");
+		$query = new Query('UPDATE Some\\Products p SET p.name = "some name"');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'fields' => array('r.name'),
-			'values' => array(
-				array("type" => 260, "value" => "some name"),
+			'tables' => array(
+				'robots',
 			),
-			'where' => 'r.id>100',
-			'limit' => 10
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1990',
+					),
+				),
+			),
 		);
-		$query = new Query("UPDATE Robots AS r SET r.name = 'some name' WHERE r.id > 100 LIMIT 10");
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\', Robots.year = 1990');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'le_products',
+					NULL,
+					'p',
+				),
+			),
+			'models' => array(
+				'Some\\Products',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'p',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 258,
+					'value' => array(
+						'type' => 'literal',
+						'value' => '1990',
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Some\\Products p SET p.name = "some name", p.year = 1990');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				'robots',
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 43,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '+',
+						'left' => array(
+							'type' => 'functionCall',
+							'name' => 'YEAR',
+							'arguments' => array(
+								array(
+									'type' => 'functionCall',
+									'name' => 'current_date',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'robots',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots SET Robots.name = \'some name\', Robots.year = YEAR(current_date()) + Robots.year');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 43,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '+',
+						'left' => array(
+							'type' => 'functionCall',
+							'name' => 'YEAR',
+							'arguments' => array(
+								array(
+									'type' => 'functionCall',
+									'name' => 'current_date',
+								),
+							),
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+					),
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\', r.year = YEAR(current_date()) + r.year');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'year',
+					'balias' => 'year',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+				array(
+					'type' => 42,
+					'value' => array(
+						'type' => 'binary-op',
+						'op' => '*',
+						'left' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'year',
+							'balias' => 'year',
+						),
+						'right' => array(
+							'type' => 'literal',
+							'value' => '2',
+						),
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '<=',
+				'left' => array(
+					'type' => 'binary-op',
+					'op' => '>',
+					'left' => array(
+						'type' => 'qualified',
+						'domain' => 'r',
+						'name' => 'id',
+						'balias' => 'id',
+					),
+					'right' => array(
+						'type' => 'binary-op',
+						'op' => 'AND',
+						'left' => array(
+							'type' => 'literal',
+							'value' => '100',
+						),
+						'right' => array(
+							'type' => 'qualified',
+							'domain' => 'r',
+							'name' => 'id',
+							'balias' => 'id',
+						),
+					),
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '200',
+				),
+			),
+		);
+		$query = new Query('update Robots as r set r.name = \'some name\', r.year = r.year*2 where r.id > 100 and r.id <= 200');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots r SET r.name = \'some name\' LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'fields' => array(
+				array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'name',
+					'balias' => 'name',
+				),
+			),
+			'values' => array(
+				array(
+					'type' => 260,
+					'value' => array(
+						'type' => 'literal',
+						'value' => 'some name',
+					),
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
+		);
+		$query = new Query('UPDATE Robots AS r SET r.name = \'some name\' WHERE r.id > 100 LIMIT 10');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
 
 	}
 
@@ -1954,62 +7658,160 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-		$manager = $di->getShared('modelsManager');
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots'),
+			'tables' => array(
+				'robots',
+			),
+			'models' => array(
+				'Robots',
+			),
 		);
-		$query = new Query("DELETE FROM Robots");
+		$query = new Query('DELETE FROM Robots');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("DELETE FROM Robots AS r WHERE r.id > 100");
+		$query = new Query('DELETE FROM Robots AS r WHERE r.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("DELETE FROM Robots r WHERE r.id > 100");
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100'
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
 		);
-		$query = new Query("delete from Robots as r where r.id > 100");
+		$query = new Query('delete from Robots as r where r.id > 100');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'limit' => 10
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
-		$query = new Query("DELETE FROM Robots r LIMIT 10");
+		$query = new Query('DELETE FROM Robots r LIMIT 10');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
+		$this->assertEquals($query->parse(), $expected);
 
 		$expected = array(
-			'models' => array('Robots'),
-			'tables' => array('robots r'),
-			'where' => 'r.id>100',
-			'limit' => 10
+			'tables' => array(
+				array(
+					'robots',
+					NULL,
+					'r',
+				),
+			),
+			'models' => array(
+				'Robots',
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => '>',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'r',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'literal',
+					'value' => '100',
+				),
+			),
+			'limit' => array(
+				'number' => '10',
+			),
 		);
-		$query = new Query("DELETE FROM Robots r WHERE r.id > 100 LIMIT 10");
+		$query = new Query('DELETE FROM Robots r WHERE r.id > 100 LIMIT 10');
 		$query->setDI($di);
-		$this->assertEquals($query->parse($manager), $expected);
-
+		$this->assertEquals($query->parse(), $expected);
 	}
 
 }

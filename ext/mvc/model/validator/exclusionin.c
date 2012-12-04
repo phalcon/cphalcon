@@ -66,16 +66,28 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\Exclusionin initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_Exclusionin){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, Exclusionin, mvc_model_validator_exclusionin, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_exclusionin_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_validator_exclusionin_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 
 	zval *record, *option = NULL, *field_name, *is_set, *domain;
-	zval *value, *is_in_array, *type, *joined_domain;
-	zval *message;
+	zval *value, *is_in_array, *message = NULL, *joined_domain;
+	zval *type;
 
 	PHALCON_MM_GROW();
 
@@ -94,6 +106,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 		return;
 	}
 	
+	/** 
+	 * The 'domain' option must be a valid array of not allowed values
+	 */
 	PHALCON_INIT_NVAR(option);
 	ZVAL_STRING(option, "domain", 1);
 	
@@ -117,17 +132,31 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Exclusionin, validate){
 	PHALCON_INIT_VAR(value);
 	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
 	
+	/** 
+	 * We check if the value contained in the array using "in_array" from the PHP
+	 * userland
+	 */
 	PHALCON_INIT_VAR(is_in_array);
 	PHALCON_CALL_FUNC_PARAMS_2(is_in_array, "in_array", value, domain);
 	if (PHALCON_IS_TRUE(is_in_array)) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_STRING(type, "exclusion", 1);
-		
-		PHALCON_INIT_VAR(joined_domain);
-		phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
-		
+		/** 
+		 * Check if the developer has defined a custom message
+		 */
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "message", 1);
+	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must not be part of list: ", joined_domain);
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		if (!zend_is_true(message)) {
+			PHALCON_INIT_VAR(joined_domain);
+			phalcon_fast_join_str(joined_domain, SL(", "), domain TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CONCAT_SVSV(message, "Value of field '", field_name, "' must not be part of list: ", joined_domain);
+		}
+	
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "Exclusion", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
 		PHALCON_MM_RESTORE();
 		RETURN_FALSE;

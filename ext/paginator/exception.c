@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Paginator\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Paginator_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Paginator, Exception, paginator_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

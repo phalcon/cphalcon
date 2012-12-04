@@ -37,6 +37,8 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Validator\StringLength
@@ -53,8 +55,10 @@
  *	{
  *		$this->validate(new StringLengthValidator(array(
  *			'field' => 'name_last',
- *			'max' => 50, //we don't like really long names
- *			'min' => 2, //we want more than just their initials
+ *			'max' => 50,
+ *			'min' => 2,
+ *          'maximumMessage' => 'We don't like really long names',
+ *          'minimumMessage' => 'We want more than just their initials'
  *		)));
  *		if ($this->validationHasFailed() == true) {
  *			return false;
@@ -68,18 +72,28 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator\StringLength initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator_StringLength){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Validator, StringLength, mvc_model_validator_stringlength, "phalcon\\mvc\\model\\validator", phalcon_mvc_model_validator_stringlength_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_model_validator_stringlength_ce TSRMLS_CC, 1, phalcon_mvc_model_validatorinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Executes the validator
  *
+ * @param Phalcon\Mvc\ModelInterface $record
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 
-	zval *record = NULL, *field_name = NULL, *value_length = NULL, *value = NULL, *failed = NULL;
-	zval *min = NULL, *max = NULL;
-	zval *min_is_set = NULL, *max_is_set = NULL;
-	zval *message0 = NULL, *message1 = NULL;
-	zval *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL, *c4 = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *record, *option = NULL, *field, *is_set_min, *is_set_max;
+	zval *value, *length = NULL, *invalid_maximum = NULL, *invalid_minimum = NULL;
+	zval *maximum, *message = NULL, *type = NULL, *minimum, *invalid;
 
 	PHALCON_MM_GROW();
 
@@ -88,82 +102,129 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_StringLength, validate){
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(c0);
-	ZVAL_STRING(c0, "field", 1);
-	PHALCON_INIT_VAR(field_name);
-	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", c0, PH_NO_CHECK);
-	if (Z_TYPE_P(field_name) != IS_STRING) {
+	PHALCON_INIT_VAR(option);
+	ZVAL_STRING(option, "field", 1);
+	
+	PHALCON_INIT_VAR(field);
+	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option, PH_NO_CHECK);
+	if (Z_TYPE_P(field) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
-
-	PHALCON_INIT_VAR(c1);
-	ZVAL_STRING(c1, "max", 1);
-
-	PHALCON_INIT_VAR(max_is_set);
-	PHALCON_CALL_METHOD_PARAMS_1(max_is_set, this_ptr, "issetoption", c1, PH_NO_CHECK);
-
-	PHALCON_INIT_VAR(c2);
-	ZVAL_STRING(c2, "min", 1);
-
-	PHALCON_INIT_VAR(min_is_set);
-	PHALCON_CALL_METHOD_PARAMS_1(min_is_set, this_ptr, "issetoption", c2, PH_NO_CHECK);
-	if (!zend_is_true(max_is_set) && !zend_is_true(min_is_set)) {
-		//the user didn't specify a min or a max... time to throw up
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set.");
-		return;
+	
+	/** 
+	 * At least one of 'min' or 'max' must be set
+	 */
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "min", 1);
+	
+	PHALCON_INIT_VAR(is_set_min);
+	PHALCON_CALL_METHOD_PARAMS_1(is_set_min, this_ptr, "issetoption", option, PH_NO_CHECK);
+	
+	PHALCON_INIT_NVAR(option);
+	ZVAL_STRING(option, "max", 1);
+	
+	PHALCON_INIT_VAR(is_set_max);
+	PHALCON_CALL_METHOD_PARAMS_1(is_set_max, this_ptr, "issetoption", option, PH_NO_CHECK);
+	if (!zend_is_true(is_set_min)) {
+		if (!zend_is_true(is_set_max)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A minimum or maximum must be set");
+			return;
+		}
 	}
-
+	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
-
-	PHALCON_INIT_VAR(value_length);
-	PHALCON_CALL_FUNC_PARAMS_1(value_length, "strlen", value);
-
-	PHALCON_INIT_VAR(failed);
-	ZVAL_BOOL(failed, 0);
-
-	//validate the max
-	if (zend_is_true(max_is_set)) {
-		PHALCON_INIT_VAR(max);
-		PHALCON_CALL_METHOD_PARAMS_1(max, this_ptr, "getoption", c1, PH_NO_CHECK);
-		PHALCON_INIT_VAR(r0);
-		is_smaller_function(r0, max, value_length TSRMLS_CC);
-		if (zend_is_true(r0)) {
-			PHALCON_INIT_VAR(message0);
-			PHALCON_CONCAT_SVSVS(message0, "Value of field '", field_name, "' exceeds the maximum ", max, " characters");
-			PHALCON_INIT_VAR(c3);
-			ZVAL_STRING(c3, "too_long", 1);
-
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message0, field_name, c3, PH_NO_CHECK);
-
-			ZVAL_BOOL(failed, 1);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
+	
+	/** 
+	 * Check if mbstring is available to calculate the correct length
+	 */
+	if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(length);
+		PHALCON_CALL_FUNC_PARAMS_1(length, "mb_strlen", value);
+	} else {
+		PHALCON_INIT_NVAR(length);
+		phalcon_fast_strlen(length, value);
+	}
+	
+	PHALCON_INIT_VAR(invalid_maximum);
+	ZVAL_BOOL(invalid_maximum, 0);
+	
+	PHALCON_INIT_VAR(invalid_minimum);
+	ZVAL_BOOL(invalid_minimum, 0);
+	
+	/** 
+	 * Maximum length
+	 */
+	if (zend_is_true(is_set_max)) {
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "max", 1);
+	
+		PHALCON_INIT_VAR(maximum);
+		PHALCON_CALL_METHOD_PARAMS_1(maximum, this_ptr, "getoption", option, PH_NO_CHECK);
+	
+		is_smaller_function(invalid_maximum, maximum, length TSRMLS_CC);
+		if (PHALCON_IS_TRUE(invalid_maximum)) {
+			/** 
+			 * Check if the developer has defined a custom message
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "messageMaximum", 1);
+	
+			PHALCON_INIT_VAR(message);
+			PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+			if (!zend_is_true(message)) {
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVSVS(message, "Value of field '", field, "' exceeds the maximum ", maximum, " characters");
+			}
+	
+			PHALCON_INIT_VAR(type);
+			ZVAL_STRING(type, "TooLong", 1);
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
 		}
 	}
-
-	//validate the min
-	if (zend_is_true(min_is_set)) {
-		PHALCON_INIT_VAR(min);
-		PHALCON_CALL_METHOD_PARAMS_1(min, this_ptr, "getoption", c2, PH_NO_CHECK);
-		PHALCON_INIT_VAR(r1);
-		is_smaller_function(r1, value_length, min TSRMLS_CC);
-		if (zend_is_true(r1)) {
-			PHALCON_INIT_VAR(message1);
-			PHALCON_CONCAT_SVSVS(message1, "Value of field '", field_name, "' is less than the minimum ", min, " characters");
-			PHALCON_INIT_VAR(c4);
-			ZVAL_STRING(c4, "too_short", 1);
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message1, field_name, c4, PH_NO_CHECK);
-
-			ZVAL_BOOL(failed, 1);
+	
+	/** 
+	 * Minimum length
+	 */
+	if (zend_is_true(is_set_min)) {
+		PHALCON_INIT_NVAR(option);
+		ZVAL_STRING(option, "min", 1);
+	
+		PHALCON_INIT_VAR(minimum);
+		PHALCON_CALL_METHOD_PARAMS_1(minimum, this_ptr, "getoption", option, PH_NO_CHECK);
+	
+		is_smaller_function(invalid_minimum, length, minimum TSRMLS_CC);
+		if (PHALCON_IS_TRUE(invalid_minimum)) {
+			/** 
+			 * Check if the developer has defined a custom message
+			 */
+			PHALCON_INIT_NVAR(option);
+			ZVAL_STRING(option, "messageMinimum", 1);
+	
+			PHALCON_INIT_NVAR(message);
+			PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+			if (!zend_is_true(message)) {
+				PHALCON_INIT_NVAR(message);
+				PHALCON_CONCAT_SVSVS(message, "Value of field '", field, "' is less than the minimum ", minimum, " characters");
+			}
+	
+			PHALCON_INIT_NVAR(type);
+			ZVAL_STRING(type, "TooShort", 1);
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
+			PHALCON_MM_RESTORE();
+			RETURN_FALSE;
 		}
 	}
-
-	if (zend_is_true(failed)) {
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
-	}
-
-	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	
+	/** 
+	 * Any validation was invalid?
+	 */
+	PHALCON_INIT_VAR(invalid);
+	ZVAL_BOOL(invalid, zend_is_true(invalid_minimum) || zend_is_true(invalid_maximum));
+	
+	RETURN_NCTOR(invalid);
 }
 

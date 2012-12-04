@@ -49,11 +49,25 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Resultset\Complex initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Resultset, Complex, mvc_model_resultset_complex, "phalcon\\mvc\\model\\resultset", phalcon_mvc_model_resultset_complex_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_resultset_complex_ce, SL("_columnTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_resultset_complex_ce TSRMLS_CC, 1, phalcon_mvc_model_resultsetinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Resultset\Complex constructor
  *
  * @param array $columnsTypes
- * @param Phalcon\Db\Result\Pdo $result
- * @param Phalcon\Cache\Backend $cache
+ * @param Phalcon\Db\ResultInterface $result
+ * @param Phalcon\Cache\BackendInterface $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 
@@ -92,9 +106,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 
 	zval *type = NULL, *result, *row = NULL, *rows, *underscore, *empty_str;
 	zval *active_row, *columns_types, *column = NULL, *alias = NULL;
-	zval *source = NULL, *instance = NULL, *attributes = NULL, *model = NULL, *row_model = NULL;
-	zval *attribute = NULL, *column_alias = NULL, *value = NULL, *model_attribute = NULL;
-	zval *model_name = NULL, *n_alias = NULL;
+	zval *source = NULL, *instance = NULL, *attributes = NULL, *column_map = NULL;
+	zval *row_model = NULL, *attribute = NULL, *column_alias = NULL, *value = NULL;
+	zval *model_attribute = NULL, *sql_alias = NULL, *n_alias = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -113,7 +127,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
 			PHALCON_INIT_VAR(row);
-			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetcharray", result, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result, PH_NO_CHECK);
 		} else {
 			PHALCON_INIT_NVAR(row);
 			ZVAL_BOOL(row, 0);
@@ -122,7 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		PHALCON_INIT_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 		Z_SET_ISREF_P(rows);
-		
+	
 		PHALCON_INIT_NVAR(row);
 		PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
 		Z_UNSET_ISREF_P(rows);
@@ -136,91 +150,115 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	if (PHALCON_IS_NOT_FALSE(row)) {
 		PHALCON_INIT_VAR(underscore);
 		ZVAL_STRING(underscore, "_", 1);
-		
+	
 		PHALCON_INIT_VAR(empty_str);
 		ZVAL_STRING(empty_str, "", 1);
-		
+	
 		PHALCON_INIT_VAR(active_row);
 		object_init_ex(active_row, phalcon_mvc_model_row_ce);
-		
+	
 		PHALCON_INIT_VAR(columns_types);
 		phalcon_read_property(&columns_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
-		
+	
 		if (!phalcon_valid_foreach(columns_types TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(columns_types);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(column);
-			
+	
 			PHALCON_INIT_NVAR(type);
 			phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
 			if (PHALCON_COMPARE_STRING(type, "object")) {
+				/** 
+				 * Object columns are assigned column by column
+				 */
 				PHALCON_INIT_NVAR(source);
 				phalcon_array_fetch_string(&source, column, SL("column"), PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_NVAR(instance);
 				phalcon_array_fetch_string(&instance, column, SL("instance"), PH_NOISY_CC);
-				
+	
 				PHALCON_INIT_NVAR(attributes);
 				phalcon_array_fetch_string(&attributes, column, SL("attributes"), PH_NOISY_CC);
-				
-				PHALCON_INIT_NVAR(model);
-				if (phalcon_clone(model, instance TSRMLS_CC) == FAILURE) {
-					return;
-				}
-				
+	
+				PHALCON_INIT_NVAR(column_map);
+				phalcon_array_fetch_string(&column_map, column, SL("columnMap"), PH_NOISY_CC);
+	
+				/** 
+				 * Assign the values from the _source_attribute notation to its real column name
+				 */
 				PHALCON_INIT_NVAR(row_model);
 				array_init(row_model);
-				
+	
 				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 					return;
 				}
-				
+	
 				ah1 = Z_ARRVAL_P(attributes);
 				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-				
+	
 				ph_cycle_start_1:
-				
+	
 					if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
 						goto ph_cycle_end_1;
 					}
-					
+	
 					PHALCON_GET_FOREACH_VALUE(attribute);
-					
+	
 					PHALCON_INIT_NVAR(column_alias);
 					PHALCON_CONCAT_VVVV(column_alias, underscore, source, underscore, attribute);
-					
+	
 					PHALCON_INIT_NVAR(value);
 					phalcon_array_fetch(&value, row, column_alias, PH_NOISY_CC);
 					phalcon_array_update_zval(&row_model, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-					
+	
 					zend_hash_move_forward_ex(ah1, &hp1);
 					goto ph_cycle_start_1;
-					
+	
 				ph_cycle_end_1:
-				
+	
+				/** 
+				 * Assign the values to the attributes using a column map
+				 */
 				PHALCON_INIT_NVAR(model_attribute);
-				PHALCON_CALL_STATIC_PARAMS_2(model_attribute, "phalcon\\mvc\\model", "dumpresult", model, row_model);
-				
-				PHALCON_INIT_NVAR(model_name);
-				phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
-				
+				PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, row_model, column_map);
+	
+				/** 
+				 * The complete object is assigned to an attribute with the name of the alias or
+				 * the model name
+				 */
 				PHALCON_INIT_NVAR(attribute);
-				PHALCON_CALL_FUNC_PARAMS_1(attribute, "lcfirst", model_name);
+				phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY_CC);
 				phalcon_update_property_zval_zval(active_row, attribute, model_attribute TSRMLS_CC);
 			} else {
-				PHALCON_INIT_NVAR(value);
-				phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
+				/** 
+				 * Scalar columns are simply assigned to the result object
+				 */
+				eval_int = phalcon_array_isset_string(column, SS("sqlAlias"));
+				if (eval_int) {
+					PHALCON_INIT_NVAR(sql_alias);
+					phalcon_array_fetch_string(&sql_alias, column, SL("sqlAlias"), PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, row, sql_alias, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(value);
+					phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
+				}
+	
+				/** 
+				 * If a 'balias' is defined is not an unnamed scalar
+				 */
 				eval_int = phalcon_array_isset_string(column, SS("balias"));
 				if (eval_int) {
 					phalcon_update_property_zval_zval(active_row, alias, value TSRMLS_CC);
@@ -230,12 +268,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					phalcon_update_property_zval_zval(active_row, n_alias, value TSRMLS_CC);
 				}
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
-		
+	
 		phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
 		PHALCON_MM_RESTORE();
 		RETURN_TRUE;
@@ -263,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	array_init(records);
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind", PH_NO_CHECK);
 	ph_cycle_start_0:
-		
+	
 		PHALCON_INIT_NVAR(r0);
 		PHALCON_CALL_METHOD(r0, this_ptr, "valid", PH_NO_CHECK);
 		PHALCON_CPY_WRT(valid, r0);
@@ -315,7 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 		PHALCON_INIT_VAR(rows);
 		phalcon_array_fetch_string(&rows, resultset, SL("rows"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(cache);
 		phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
