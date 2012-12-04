@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCase
+abstract class Phalcon_Test_FunctionalTestCase extends Phalcon_Test_ModelTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff

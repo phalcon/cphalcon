@@ -72,16 +72,3 @@ class Phalcon_Test_Config
         return $config;
     }
 }
-
-/**
- * Class used by Phalcon\Filter
- */
-class IPv4Filter
-{
-
-    public function filter($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-    }
-
-}

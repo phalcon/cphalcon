@@ -4093,8 +4093,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select name="some_field_name" '
                   . 'id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($name, $options);
 
@@ -4125,8 +4125,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -4160,8 +4160,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -4194,8 +4194,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4230,8 +4230,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4264,8 +4264,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4298,8 +4298,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::setDefault('some_field', '');
@@ -4331,8 +4331,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::displayTo('some_field', '');
@@ -4383,8 +4383,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select name="some_field_name" '
                   . 'id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($name, $options);
 
@@ -4415,8 +4415,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -4450,8 +4450,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select id="some_id" class="some_class" '
                   . 'name="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
 
@@ -4484,8 +4484,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4520,8 +4520,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4554,8 +4554,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option selected="selected" '
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option selected="selected" '
                   . 'value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
@@ -4588,8 +4588,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::setDefault('some_field', '');
@@ -4621,8 +4621,8 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         );
         $expected = '<select class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">' . PHP_EOL
-            . chr(9) . '<option value="A">Active</option>' . PHP_EOL
-            . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
+                  . chr(9) . '<option value="A">Active</option>' . PHP_EOL
+                  . chr(9) . '<option value="I">Inactive</option>' . PHP_EOL
                   . '</select>';
         $actual   = Tg::selectStatic($params, $options);
         Tg::displayTo('some_field', '');
