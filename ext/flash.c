@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 				PHALCON_CPY_WRT(html_message, msg);
 			}
 			if (PHALCON_IS_TRUE(implicit_flush)) {
-				zend_print_zval(html_message, 1);
+				zend_print_zval(html_message, 0);
 			} else {
 				phalcon_concat_self(content, html_message TSRMLS_CC);
 			}
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			PHALCON_CPY_WRT(html_message, message);
 		}
 		if (PHALCON_IS_TRUE(implicit_flush)) {
-			zend_print_zval(html_message, 1);
+			zend_print_zval(html_message, 0);
 		} else {
 	
 			RETURN_CCTOR(html_message);

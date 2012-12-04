@@ -5,6 +5,9 @@
  - Passing 'compileAlways' => true as option for Volt makes that the templates will be always compiled instead of checking if they have changes
  - Now Phalcon\Cache\Backend adapters return false in the "exists" method if the cache has expired
  - Reduced number of re-executions when using scrollable cursors
+ - Reducing class entry resolution in function calls
+ - Disabling search of class execution scope when classes don't have a parent class
+ - Removing unnecessary duplication of memory when printing string zvals
 
 0.7.0b1
  - Implemented a fast way to retrieve object's members without add a memory frame

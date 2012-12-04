@@ -38,7 +38,7 @@ PHALCON_INIT_CLASS(Phalcon_DI_ServiceInterface){
 }
 
 /**
- * Phalcon\DI\Service
+ * Phalcon\DI\ServiceInterface
  *
  * @param string $name
  * @param mixed $definition
@@ -92,7 +92,7 @@ PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);
  * Restore the interal state of a service
  *
  * @param array $attributes
- * @return Phalcon\DI\Service
+ * @return Phalcon\DI\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, __set_state);
 

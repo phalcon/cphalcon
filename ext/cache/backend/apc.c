@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	}
 	
 	if (PHALCON_IS_TRUE(is_buffering)) {
-		zend_print_zval(cached_content, 1);
+		zend_print_zval(cached_content, 0);
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);

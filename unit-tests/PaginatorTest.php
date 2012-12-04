@@ -284,65 +284,21 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
  	}
 
+ 	protected function _getArrayRandomData($number)
+ 	{
+ 		$data = array();
+ 		for ($i = 0; $i < $number; $i++){
+ 			$data[] = array(
+				'name' => 'PETER'
+			);
+ 		}
+ 		return $data;
+ 	}
+
 	public function testArrayPaginator()
 	{
 
-		$personas = array(
-			0 => array(
-				'name' => 'PETER'
-			),
-			1 => array(
-				'name' => 'PETER'
-			),
-			2 => array(
-				'name' => 'PETER'
-			),
-			3 => array(
-				'name' => 'PETER'
-			),
-			4 => array(
-				'name' => 'PETER'
-			),
-			5 => array(
-				'name' => 'PETER'
-			),
-			6 => array(
-				'name' => 'PETER'
-			),
-			7 => array(
-				'name' => 'PETER'
-			),
-			8 => array(
-				'name' => 'PETER'
-			),
-			9 => array(
-				'name' => 'PETER'
-			),
-			10 => array(
-				'name' => 'PETER'
-			),
-			11 => array(
-				'name' => 'PETER'
-			),
-			12 => array(
-				'name' => 'PETER'
-			),
-			13 => array(
-				'name' => 'PETER'
-			),
-			14 => array(
-				'name' => 'PETER'
-			),
-			15 => array(
-				'name' => 'PETER'
-			),
-			16 => array(
-				'name' => 'PETER'
-			),
-			17 => array(
-				'name' => 'PETER'
-			)
-		);
+		$personas = $this->_getArrayRandomData(18);
 
 		$paginator = new Phalcon\Paginator\Adapter\NativeArray(array(
  			'data' => $personas,
@@ -376,6 +332,21 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
  		$this->assertEquals($page->last, 6);
 
  		$this->assertEquals($page->current, 4);
+ 		$this->assertEquals($page->total_pages, 6);
+
+ 		//Penultimate page
+ 		$paginator->setCurrentPage(5);
+
+ 		$page = $paginator->getPaginate();
+ 		$this->assertEquals(get_class($page), 'stdClass');
+
+ 		$this->assertEquals(count($page->items), 3);
+
+ 		$this->assertEquals($page->before, 4);
+ 		$this->assertEquals($page->next, 6);
+ 		$this->assertEquals($page->last, 6);
+
+ 		$this->assertEquals($page->current, 5);
  		$this->assertEquals($page->total_pages, 6);
 
  	}

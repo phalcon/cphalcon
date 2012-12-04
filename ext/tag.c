@@ -454,8 +454,8 @@ PHP_METHOD(Phalcon_Tag, linkTo){
  */
 PHP_METHOD(Phalcon_Tag, _inputField){
 
-	zval *type, *parameters, *as_value = NULL, *params = NULL, *id = NULL, *name;
-	zval *value = NULL, *code, *key = NULL, *doctype;
+	zval *type, *parameters, *as_value = NULL, *params = NULL, *value = NULL;
+	zval *id = NULL, *name, *code, *key = NULL, *doctype;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -484,6 +484,8 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
+	
+	PHALCON_INIT_VAR(value);
 	if (PHALCON_IS_FALSE(as_value)) {
 		eval_int = phalcon_array_isset_long(params, 0);
 		if (!eval_int) {
@@ -512,7 +514,6 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 		eval_int = phalcon_array_isset_string(params, SS("value"));
 		if (!eval_int) {
-			PHALCON_INIT_VAR(value);
 			PHALCON_CALL_SELF_PARAMS_1(value, this_ptr, "getvalue", id);
 			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
@@ -522,6 +523,15 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 			PHALCON_INIT_NVAR(value);
 			phalcon_array_fetch_long(&value, params, 0, PH_NOISY_CC);
 			phalcon_array_update_string(&params, SL("value"), &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	/** 
+	 * Automatically check inputs
+	 */
+	if (PHALCON_COMPARE_STRING(type, "checkbox")) {
+		if (zend_is_true(value)) {
+			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 		}
 	}
 	
@@ -553,6 +563,9 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	
 	ph_cycle_end_0:
 	
+	/** 
+	 * Check if Doctype is XHTML
+	 */
 	PHALCON_INIT_VAR(doctype);
 	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
 	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
