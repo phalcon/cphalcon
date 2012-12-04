@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		 */
 		PHALCON_INIT_VAR(content);
 		phalcon_read_property(&content, this_ptr, SL("_content"), PH_NOISY_CC);
-		zend_print_zval(content, 1);
+		zend_print_zval(content, 0);
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
 		RETURN_CTOR(this_ptr);

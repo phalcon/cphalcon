@@ -32,9 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/operators.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/string.h"
+#include "kernel/operators.h"
 #include "kernel/exception.h"
 
 /**
@@ -51,7 +52,132 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Logger, Adapter, logger_adapter, phalcon_logger_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	zend_declare_property_string(phalcon_logger_adapter_ce, SL("_dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_logger_adapter_ce, SL("_format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
+}
+
+/**
+ * Set the log format
+ *
+ * @param string $format
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, setFormat){
+
+	zval *format;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &format) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_format"), format TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the log format
+ *
+ * @return format
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, getFormat){
+
+
+	RETURN_MEMBER(this_ptr, "_format");
+}
+
+/**
+ * Applies the internal format to the message
+ *
+ * @param  string $message
+ * @param  int $type
+ * @param  int $time
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, _applyFormat){
+
+	zval *message, *type, *time = NULL, *format = NULL, *date_format;
+	zval *date, *date_wildcard, *new_format = NULL, *type_string;
+	zval *type_wildcard, *message_wildcard;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &message, &type, &time) == FAILURE) {
+		PHALCON_MM_RESTORE();
+		RETURN_NULL();
+	}
+
+	if (!time) {
+		PHALCON_INIT_NVAR(time);
+		ZVAL_LONG(time, 0);
+	} else {
+		PHALCON_SEPARATE_PARAM(time);
+	}
+	
+	if (!zend_is_true(time)) {
+		PHALCON_INIT_NVAR(time);
+		PHALCON_CALL_FUNC(time, "time");
+	}
+	
+	PHALCON_INIT_VAR(format);
+	phalcon_read_property(&format, this_ptr, SL("_format"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(date_format);
+	phalcon_read_property(&date_format, this_ptr, SL("_dateFormat"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(date);
+	PHALCON_CALL_FUNC_PARAMS_2(date, "date", date_format, time);
+	
+	PHALCON_INIT_VAR(date_wildcard);
+	ZVAL_STRING(date_wildcard, "%date%", 1);
+	
+	PHALCON_INIT_VAR(new_format);
+	phalcon_fast_str_replace(new_format, date_wildcard, date, format TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(type_string);
+	PHALCON_CALL_METHOD_PARAMS_1(type_string, this_ptr, "gettypestring", type, PH_NO_CHECK);
+	
+	PHALCON_INIT_VAR(type_wildcard);
+	ZVAL_STRING(type_wildcard, "%type%", 1);
+	
+	PHALCON_INIT_NVAR(format);
+	phalcon_fast_str_replace(format, type_wildcard, type_string, new_format TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(message_wildcard);
+	ZVAL_STRING(message_wildcard, "%message%", 1);
+	
+	PHALCON_INIT_NVAR(new_format);
+	phalcon_fast_str_replace(new_format, message_wildcard, message, format TSRMLS_CC);
+	
+	RETURN_CTOR(new_format);
+}
+
+/**
+ * Sets the internal date format
+ *
+ * @param string $date
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, setDateFormat){
+
+	zval *date;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &date) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_dateFormat"), date TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the internal date format
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Logger_Adapter, getDateFormat){
+
+
+	RETURN_MEMBER(this_ptr, "_dateFormat");
 }
 
 /**

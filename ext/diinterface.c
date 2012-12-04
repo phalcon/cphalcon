@@ -140,7 +140,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, setDefault);
 /**
  * Return the last DI created
  *
- * @return Phalcon\DI
+ * @return Phalcon\DiInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, getDefault);
 
