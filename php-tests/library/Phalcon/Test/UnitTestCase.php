@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
+abstract class Phalcon_Test_UnitTestCase extends \PHPUnit_Framework_TestCase
 {
     // Holds the configuration variables and other stuff
     // I can use the DI container but for tests like the Translate

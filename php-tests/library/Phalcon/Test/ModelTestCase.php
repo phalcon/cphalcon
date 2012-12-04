@@ -40,7 +40,7 @@ use \Phalcon\Exception as PhException;
 
 
 
-class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
+abstract class Phalcon_Test_ModelTestCase extends Phalcon_Test_UnitTestCase
 {
     /**
      * Sets the test up by loading the DI container and other stuff
