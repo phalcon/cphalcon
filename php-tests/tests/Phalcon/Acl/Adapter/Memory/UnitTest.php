@@ -183,7 +183,7 @@ class Acl_Adapter_Memory_UnitTest extends Phalcon_Test_UnitTestCase
         $acl->setDefaultAction(PhAcl::DENY);
 
         $acl->addRole($aclRole);
-        $acl->addResource($aclResource. array('search', 'destroy'));
+        $acl->addResource($aclResource, array('search', 'destroy'));
 
         $expected = PhAcl::DENY;
         $actual   = $acl->isAllowed('Administrators', 'Customers', 'search');
