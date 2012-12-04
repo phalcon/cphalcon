@@ -2882,7 +2882,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some_default_value" checked="checked">';
         $actual   = Tg::checkField($options);
         Tg::setDefault('some_field_name', '');
 
