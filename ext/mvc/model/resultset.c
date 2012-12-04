@@ -67,22 +67,35 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Resultset initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Resultset, mvc_model_resultset, phalcon_mvc_model_resultset_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_type"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_model_resultset_ce, SL("_isFresh"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_pointer"), -1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_count"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_rows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 6, phalcon_mvc_model_resultsetinterface_ce, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
+
+	return SUCCESS;
+}
+
+/**
  * Moves cursor to next row in the resultset
  *
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
 
-	zval *t0 = NULL;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	PHALCON_SEPARATE_NMO(t0);
-	increment_function(t0);
-	phalcon_update_property_zval(this_ptr, SL("_pointer"), t0 TSRMLS_CC);
+	phalcon_property_incr(this_ptr, SL("_pointer") TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -92,14 +105,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
 
-	zval *pointer;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(pointer);
-	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(pointer);
+	RETURN_MEMBER(this_ptr, "_pointer");
 }
 
 /**
@@ -108,18 +115,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 
-	zval *type, *result, *active_row, *zero, *rows;
+	zval *type, *result = NULL, *active_row, *zero, *rows = NULL;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
+		/** 
+		 * Here, the resultset act as a result that is fetched one by one
+		 */
 		PHALCON_INIT_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
-			phalcon_update_property_long(this_ptr, SL("_pointer"), 1 TSRMLS_CC);
-			
 			PHALCON_INIT_VAR(active_row);
 			phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
 			if (Z_TYPE_P(active_row) != IS_NULL) {
@@ -129,14 +137,29 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 			}
 		}
 	} else {
+		/** 
+		 * Here, the resultset act as an array
+		 */
 		PHALCON_INIT_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
+		if (Z_TYPE_P(rows) == IS_NULL) {
+			PHALCON_INIT_NVAR(result);
+			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+			if (PHALCON_IS_NOT_FALSE(result)) {
+				PHALCON_INIT_NVAR(rows);
+				PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
+				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
+			}
+		}
+	
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 			Z_SET_ISREF_P(rows);
 			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("reset", rows);
 			Z_UNSET_ISREF_P(rows);
 		}
 	}
+	
+	phalcon_update_property_long(this_ptr, SL("_pointer"), 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -148,61 +171,80 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek){
 
-	zval *numeric_position, *type, *result, *rows;
-	long i, position = 0;
+	long i;
+	zval *type, *result, *rows, *position;
+	zval *pointer, *is_different;
 	HashTable *ah0;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &position) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
 	}
 
-	PHALCON_INIT_VAR(type);
-	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
-	if (zend_is_true(type)) {
+	PHALCON_INIT_VAR(pointer);
+	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
 
-		PHALCON_INIT_VAR(numeric_position);
-		ZVAL_LONG(numeric_position, position);
+	/**
+	 * We only seek the records if the current position is diferent than the passed one
+	 */
+	PHALCON_INIT_VAR(is_different);
+	is_not_equal_function(is_different, pointer, position TSRMLS_CC);
+	if (PHALCON_IS_TRUE(is_different)) {
 
-		PHALCON_INIT_VAR(result);
-		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "dataseek", numeric_position, PH_NO_CHECK);
+		PHALCON_INIT_VAR(type);
+		phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
+		if (zend_is_true(type)) {
 
-	} else {
-
-		PHALCON_INIT_VAR(rows);
-		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
-
-		if (Z_TYPE_P(rows) == IS_NULL) {
+			/**
+			 * Here, the resultset is fetched one by one because is large
+			 */
 			PHALCON_INIT_VAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
-				PHALCON_INIT_NVAR(rows);
-				PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
-				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
-			}
-		}
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "dataseek", position, PH_NO_CHECK);
 
-		if(Z_TYPE_P(rows) == IS_ARRAY){
+		} else {
 
-			ah0 = Z_ARRVAL_P(rows);
-			zend_hash_internal_pointer_reset(ah0);
+			/**
+			 * Here, the resultset is a small array
+			 */
+			PHALCON_INIT_VAR(rows);
+			phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 
-			i = 0;
-			ph_cycle_start_0:
-
-				if (i >= position) {
-					goto ph_cycle_end_0;
+			/**
+			 * We need to fetch the records because rows is null
+			 */
+			if (Z_TYPE_P(rows) == IS_NULL) {
+				PHALCON_INIT_VAR(result);
+				phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
+				if (PHALCON_IS_NOT_FALSE(result)) {
+					PHALCON_INIT_NVAR(rows);
+					PHALCON_CALL_METHOD(rows, result, "fetchall", PH_NO_CHECK);
+					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
+			}
 
-				zend_hash_move_forward(ah0);
-				i++;
-				goto ph_cycle_start_0;
+			convert_to_long(position);
 
-			ph_cycle_end_0:
-			if(0){}
+			if(Z_TYPE_P(rows) == IS_ARRAY){
+
+				ah0 = Z_ARRVAL_P(rows);
+				zend_hash_internal_pointer_reset(ah0);
+
+				i = 0;
+				while (1) {
+
+					if (i >= Z_LVAL_P(position)) {
+						break;
+					}
+
+					zend_hash_move_forward(ah0);
+					i++;
+				}
+			}
+
+			phalcon_update_property_zval(this_ptr, SL("_pointer"), position TSRMLS_CC);
 		}
 	}
 
@@ -221,23 +263,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 
 	PHALCON_INIT_VAR(count);
 	phalcon_read_property(&count, this_ptr, SL("_count"), PH_NOISY_CC);
+	
+	/** 
+	 * We only calculate the row number is it wasn't calculated before
+	 */
 	if (Z_TYPE_P(count) == IS_NULL) {
 		PHALCON_INIT_NVAR(count);
 		ZVAL_LONG(count, 0);
-		
+	
 		PHALCON_INIT_VAR(type);
 		phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 		if (zend_is_true(type)) {
+			/** 
+			 * Here, the resultset act as a result that is fetched one by one
+			 */
 			PHALCON_INIT_VAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (PHALCON_IS_NOT_FALSE(result)) {
 				PHALCON_INIT_VAR(number_rows);
 				PHALCON_CALL_METHOD(number_rows, result, "numrows", PH_NO_CHECK);
-				
+	
 				PHALCON_INIT_NVAR(count);
 				PHALCON_CALL_FUNC_PARAMS_1(count, "intval", number_rows);
 			}
 		} else {
+			/** 
+			 * Here, the resultset act as an array
+			 */
 			PHALCON_INIT_VAR(rows);
 			phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 			if (Z_TYPE_P(rows) == IS_NULL) {
@@ -249,11 +301,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
 				}
 			}
-			
+	
 			PHALCON_INIT_NVAR(count);
 			phalcon_fast_count(count, rows TSRMLS_CC);
 		}
-		
+	
 		phalcon_update_property_zval(this_ptr, SL("_count"), count TSRMLS_CC);
 	}
 	
@@ -295,7 +347,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *valid, *current;
+	zval *index, *count, *exists, *pointer, *is_same, *current = NULL;
+	zval *valid;
 
 	PHALCON_MM_GROW();
 
@@ -310,14 +363,32 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	PHALCON_INIT_VAR(exists);
 	is_smaller_function(exists, index, count TSRMLS_CC);
 	if (PHALCON_IS_TRUE(exists)) {
+		/** 
+		 * Check if the last record returned is the current requested
+		 */
+		PHALCON_INIT_VAR(pointer);
+		phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(is_same);
+		is_equal_function(is_same, pointer, index TSRMLS_CC);
+		if (PHALCON_IS_TRUE(is_same)) {
+			PHALCON_INIT_VAR(current);
+			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
+	
+			RETURN_CCTOR(current);
+		}
+	
+		/** 
+		 * Check if the last record returned is the requested
+		 */
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "seek", index, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_VAR(valid);
 		PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
 		if (PHALCON_IS_NOT_FALSE(valid)) {
-			PHALCON_INIT_VAR(current);
+			PHALCON_INIT_NVAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
-			
+	
 			RETURN_CCTOR(current);
 		} else {
 			PHALCON_MM_RESTORE();
@@ -377,18 +448,33 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
-	zval *valid, *current;
+	zval *pointer, *current = NULL, *valid;
 
 	PHALCON_MM_GROW();
 
+	/** 
+	 * Check if the last record returned is the current requested
+	 */
+	PHALCON_INIT_VAR(pointer);
+	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
+	if (phalcon_compare_strict_long(pointer, 0 TSRMLS_CC)) {
+		PHALCON_INIT_VAR(current);
+		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
+	
+		RETURN_CCTOR(current);
+	}
+	
+	/** 
+	 * Otherwise re-execute the statement
+	 */
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind", PH_NO_CHECK);
 	
 	PHALCON_INIT_VAR(valid);
 	PHALCON_CALL_METHOD(valid, this_ptr, "valid", PH_NO_CHECK);
 	if (PHALCON_IS_NOT_FALSE(valid)) {
-		PHALCON_INIT_VAR(current);
+		PHALCON_INIT_NVAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(current);
 	}
 	
@@ -423,7 +509,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast){
 	if (PHALCON_IS_NOT_FALSE(valid)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(current);
 	}
 	
@@ -455,14 +541,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
-	zval *is_fresh;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(is_fresh);
-	phalcon_read_property(&is_fresh, this_ptr, SL("_isFresh"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(is_fresh);
+	RETURN_MEMBER(this_ptr, "_isFresh");
 }
 
 /**
@@ -472,14 +552,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
 
-	zval *cache;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(cache);
-	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(cache);
+	RETURN_MEMBER(this_ptr, "_cache");
 }
 
 /**
@@ -489,13 +563,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
-	zval *active_row;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(active_row);
-	phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(active_row);
+	RETURN_MEMBER(this_ptr, "_activeRow");
 }
 

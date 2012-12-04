@@ -32,8 +32,8 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -46,6 +46,19 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Validator initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Validator){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model, Validator, mvc_model_validator, phalcon_mvc_model_validator_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_validator_ce, SL("_messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Validator constructor
  *
  * @param array $options
@@ -53,17 +66,13 @@
 PHP_METHOD(Phalcon_Mvc_Model_Validator, __construct){
 
 	zval *options;
-	zval *a0 = NULL, *a1 = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	zend_update_property(phalcon_mvc_model_validator_ce, this_ptr, SL("_options"), a0 TSRMLS_CC);
+	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_options") TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a1);
-	array_init(a1);
-	zend_update_property(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages"), a1 TSRMLS_CC);
+	phalcon_update_property_empty_array(phalcon_mvc_model_validator_ce, this_ptr, SL("_messages") TSRMLS_CC);
+	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
 		PHALCON_MM_RESTORE();
 		RETURN_NULL();
@@ -111,13 +120,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	if (!zend_is_true(type)) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
-		
+	
 		PHALCON_INIT_VAR(suffix);
 		ZVAL_STRING(suffix, "Validator", 1);
-		
+	
 		PHALCON_INIT_VAR(empty_string);
 		ZVAL_STRING(empty_string, "", 1);
-		
+	
 		PHALCON_INIT_NVAR(type);
 		phalcon_fast_str_replace(type, suffix, empty_string, class_name TSRMLS_CC);
 	}
@@ -141,14 +150,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
 
-	zval *messages;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(messages);
-	phalcon_read_property(&messages, this_ptr, SL("_messages"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(messages);
+	RETURN_MEMBER(this_ptr, "_messages");
 }
 
 /**
@@ -158,14 +161,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getMessages){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Validator, getOptions){
 
-	zval *options;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(options);
+	RETURN_MEMBER(this_ptr, "_options");
 }
 
 /**
@@ -192,7 +189,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, getOption){
 	if (eval_int) {
 		PHALCON_INIT_VAR(value);
 		phalcon_array_fetch(&value, options, option, PH_NOISY_CC);
-		
+	
 		RETURN_CCTOR(value);
 	}
 	

@@ -45,11 +45,23 @@
 
 
 /**
+ * Phalcon\Mvc\View\Engine\Php initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, mvc_view_engine_php, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_php_method_entry, 0);
+
+	zend_class_implements(phalcon_mvc_view_engine_php_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Renders a view using the template engine
  *
  * @param string $path
  * @param array $params
- * @param bool $mustClean
+ * @param boolean $mustClean
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
@@ -86,17 +98,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
-		
+	
 		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
 			return;
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
@@ -105,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-		
+	
 		PHALCON_INIT_VAR(view);
 		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);

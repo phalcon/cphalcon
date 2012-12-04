@@ -38,8 +38,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testCacheResultset()
-	{
+	protected function _getCache(){
 
 		@unlink('unit-tests/cache/testresultset');
 
@@ -66,7 +65,39 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 			'cacheDir' => 'unit-tests/cache/'
 		));
 
+		return $cache;
+	}
+
+	public function testCacheResultsetNormal()
+	{
+
+		$cache = $this->_getCache();
+
 		$cache->save('test-resultset', Robots::find(array('order' => 'id')));
+
+		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+
+		$robots = $cache->get('test-resultset');
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robots), 3);
+		$this->assertEquals($robots->count(), 3);
+
+	}
+
+	public function testCacheResultsetBinding()
+	{
+
+		$cache = $this->_getCache();
+
+		$initialId = 0;
+		$finalId = 4;
+
+		$cache->save('test-resultset', Robots::find(array(
+			'conditions' => 'id > :id1: and id < :id2:',
+			'bind' => array('id1' => $initialId, 'id2' => $finalId),
+			'order' => 'id'
+		)));
 
 		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
 

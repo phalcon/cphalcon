@@ -17,7 +17,7 @@
 
 #include "parser.h"
 #include "scanner.h"
-#include "compiler.h"
+#include "volt.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"

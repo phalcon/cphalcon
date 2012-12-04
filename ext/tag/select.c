@@ -41,9 +41,19 @@
 /**
  * Phalcon\Tag\Select
  *
- * Generates a SELECT html tag using an static array of values or a Phalcon\Model resultset
+ * Generates a SELECT html tag using a static array of values or a Phalcon\Mvc\Model resultset
  */
 
+
+/**
+ * Phalcon\Tag\Select initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Tag_Select){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Tag, Select, tag_select, phalcon_tag_select_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	return SUCCESS;
+}
 
 /**
  * Generates a SELECT tag
@@ -54,9 +64,9 @@
 PHP_METHOD(Phalcon_Tag_Select, selectField){
 
 	zval *parameters, *data = NULL, *params = NULL, *eol, *id = NULL, *name, *value = NULL;
-	zval *dummy_value = NULL, *dummy_text = NULL, *code, *avalue = NULL;
-	zval *key = NULL, *close_option, *options = NULL, *using, *resultset_options;
-	zval *array_options;
+	zval *use_empty = NULL, *empty_value = NULL, *empty_text = NULL, *code;
+	zval *avalue = NULL, *key = NULL, *close_option, *options = NULL, *using;
+	zval *resultset_options, *array_options;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -124,69 +134,78 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 		phalcon_array_unset_string(params, SS("value"));
 	}
 	
-	eval_int = phalcon_array_isset_string(params, SS("dummyValue"));
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dummy_value);
-		ZVAL_STRING(dummy_value, "", 1);
-	} else {
-		PHALCON_INIT_NVAR(dummy_value);
-		phalcon_array_fetch_string(&dummy_value, params, SL("dummyValue"), PH_NOISY_CC);
-		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("dummyValue"));
-	}
+	PHALCON_INIT_VAR(use_empty);
+	ZVAL_BOOL(use_empty, 0);
+	eval_int = phalcon_array_isset_string(params, SS("useEmpty"));
+	if (eval_int) {
+		eval_int = phalcon_array_isset_string(params, SS("emptyValue"));
+		if (!eval_int) {
+			PHALCON_INIT_VAR(empty_value);
+			ZVAL_STRING(empty_value, "", 1);
+		} else {
+			PHALCON_INIT_NVAR(empty_value);
+			phalcon_array_fetch_string(&empty_value, params, SL("emptyValue"), PH_NOISY_CC);
+			PHALCON_SEPARATE(params);
+			phalcon_array_unset_string(params, SS("emptyValue"));
+		}
+		eval_int = phalcon_array_isset_string(params, SS("emptyText"));
+		if (!eval_int) {
+			PHALCON_INIT_VAR(empty_text);
+			ZVAL_STRING(empty_text, "Choose...", 1);
+		} else {
+			PHALCON_INIT_NVAR(empty_text);
+			phalcon_array_fetch_string(&empty_text, params, SL("emptyText"), PH_NOISY_CC);
+			PHALCON_SEPARATE(params);
+			phalcon_array_unset_string(params, SS("emptyText"));
+		}
 	
-	eval_int = phalcon_array_isset_string(params, SS("dummyText"));
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dummy_text);
-		ZVAL_STRING(dummy_text, "Choose...", 1);
-	} else {
-		PHALCON_INIT_NVAR(dummy_text);
-		phalcon_array_fetch_string(&dummy_text, params, SL("dummyText"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&use_empty, params, SL("useEmpty"), PH_NOISY_CC);
 		PHALCON_SEPARATE(params);
-		phalcon_array_unset_string(params, SS("dummyText"));
+		phalcon_array_unset_string(params, SS("useEmpty"));
 	}
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<select", 1);
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
-		
+	
 		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 			return;
 		}
-		
+	
 		ah0 = Z_ARRVAL_P(params);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-		
+	
 		ph_cycle_start_0:
-		
+	
 			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 				goto ph_cycle_end_0;
 			}
-			
+	
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(avalue);
-			
+	
 			if (Z_TYPE_P(key) != IS_LONG) {
 				if (Z_TYPE_P(avalue) != IS_ARRAY) { 
 					PHALCON_SCONCAT_SVSVS(code, " ", key, "=\"", avalue, "\"");
 				}
 			}
-			
+	
 			zend_hash_move_forward_ex(ah0, &hp0);
 			goto ph_cycle_start_0;
-			
+	
 		ph_cycle_end_0:
 		if(0){}
-		
+	
 	}
 	
 	PHALCON_SCONCAT_SV(code, ">", eol);
 	
 	PHALCON_INIT_VAR(close_option);
 	PHALCON_CONCAT_SV(close_option, "</option>", eol);
-	eval_int = phalcon_array_isset_string(params, SS("useDummy"));
-	if (eval_int) {
-		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", dummy_value, "\">", dummy_text, close_option);
+	if (zend_is_true(use_empty)) {
+		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
+		PHALCON_SEPARATE(params);
+		phalcon_array_unset_string(params, SS("useEmpty"));
 	}
 	
 	eval_int = phalcon_array_isset_long(params, 1);
@@ -210,7 +229,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 				return;
 			}
 		}
-		
+	
 		PHALCON_INIT_VAR(resultset_options);
 		PHALCON_CALL_SELF_PARAMS_4(resultset_options, this_ptr, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(code, resultset_options TSRMLS_CC);
@@ -230,6 +249,14 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	RETURN_CTOR(code);
 }
 
+/**
+ * Generate the OPTION tags based on the rows
+ *
+ * @param Phalcon\Mvc\Model $resultset
+ * @param array $using
+ * @param mixed value
+ * @param string $closeOption
+ */
 PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 
 	zval *resultset, *using, *value, *close_option;
@@ -248,7 +275,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 	ZVAL_STRING(code, "", 1);
 	PHALCON_CALL_METHOD_NORETURN(resultset, "rewind", PH_NO_CHECK);
 	ph_cycle_start_0:
-		
+	
 		PHALCON_INIT_NVAR(r0);
 		PHALCON_CALL_METHOD(r0, resultset, "valid", PH_NO_CHECK);
 		if (PHALCON_IS_NOT_TRUE(r0)) {
@@ -256,19 +283,19 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		}
 		PHALCON_INIT_NVAR(using_zero);
 		phalcon_array_fetch_long(&using_zero, using, 0, PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(using_one);
 		phalcon_array_fetch_long(&using_one, using, 1, PH_NOISY_CC);
-		
+	
 		PHALCON_INIT_NVAR(option);
 		PHALCON_CALL_METHOD(option, resultset, "current", PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(option_value);
 		PHALCON_CALL_METHOD_PARAMS_1(option_value, option, "readattribute", using_zero, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(option_text);
 		PHALCON_CALL_METHOD_PARAMS_1(option_text, option, "readattribute", using_one, PH_NO_CHECK);
-		
+	
 		PHALCON_INIT_NVAR(is_equals);
 		is_equal_function(is_equals, value, option_value TSRMLS_CC);
 		if (PHALCON_IS_TRUE(is_equals)) {
@@ -276,7 +303,7 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		} else {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
 		}
-		
+	
 		PHALCON_CALL_METHOD_NORETURN(resultset, "next", PH_NO_CHECK);
 		goto ph_cycle_start_0;
 	ph_cycle_end_0:
@@ -318,10 +345,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
 			goto ph_cycle_end_0;
 		}
-		
+	
 		PHALCON_GET_FOREACH_KEY(option_value, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(option_text);
-		
+	
 		PHALCON_INIT_NVAR(is_equals);
 		is_equal_function(is_equals, value, option_value TSRMLS_CC);
 		if (PHALCON_IS_TRUE(is_equals)) {
@@ -329,10 +356,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 		} else {
 			PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", option_value, "\">", option_text, close_option);
 		}
-		
+	
 		zend_hash_move_forward_ex(ah0, &hp0);
 		goto ph_cycle_start_0;
-		
+	
 	ph_cycle_end_0:
 	
 	

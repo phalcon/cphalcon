@@ -47,6 +47,22 @@
 
 
 /**
+ * Phalcon\Paginator\Adapter\NativeArray initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Paginator_Adapter_NativeArray){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, NativeArray, paginator_adapter_nativearray, phalcon_paginator_adapter_nativearray_method_entry, 0);
+
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_limitRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_config"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_paginator_adapter_nativearray_ce, SL("_page"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_paginator_adapter_nativearray_ce TSRMLS_CC, 1, phalcon_paginator_adapterinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Paginator\Adapter\NativeArray constructor
   *
  * @param array $config
@@ -191,7 +207,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 			PHALCON_INIT_NVAR(next);
 			phalcon_add_function(next, r8, t4 TSRMLS_CC);
 		}
-		
+	
 		PHALCON_INIT_VAR(r9);
 		PHALCON_CALL_FUNC_PARAMS_1(r9, "intval", next);
 		PHALCON_CPY_WRT(next, r9);

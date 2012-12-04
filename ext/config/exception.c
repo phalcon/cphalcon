@@ -40,3 +40,13 @@
  */
 
 
+/**
+ * Phalcon\Config\Exception initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Config_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Config, Exception, config_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+

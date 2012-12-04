@@ -64,6 +64,20 @@
 
 
 /**
+ * Phalcon\CLI\Dispatcher initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_CLI_Dispatcher){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\CLI, Dispatcher, cli_dispatcher, "phalcon\\dispatcher", phalcon_cli_dispatcher_method_entry, 0);
+
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_handlerSuffix"), "Task", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultHandler"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_cli_dispatcher_ce, SL("_defaultAction"), "main", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the default task suffix
  *
  * @param string $taskSuffix
@@ -121,14 +135,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, setTaskName){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getTaskName){
 
-	zval *task_name;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(task_name);
-	phalcon_read_property(&task_name, this_ptr, SL("_handlerName"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(task_name);
+	RETURN_MEMBER(this_ptr, "_handlerName");
 }
 
 /**
@@ -163,7 +171,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
-		
+	
 		PHALCON_INIT_VAR(status);
 		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
 		if (PHALCON_IS_FALSE(status)) {
@@ -183,14 +191,8 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
 
-	zval *last_controller;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(last_controller);
-	phalcon_read_property(&last_controller, this_ptr, SL("_lastHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(last_controller);
+	RETURN_MEMBER(this_ptr, "_lastHandler");
 }
 
 /**
@@ -200,13 +202,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, getLastTask){
  */
 PHP_METHOD(Phalcon_CLI_Dispatcher, getActiveTask){
 
-	zval *task;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(task);
-	phalcon_read_property(&task, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(task);
+	RETURN_MEMBER(this_ptr, "_activeHandler");
 }
 

@@ -56,6 +56,22 @@
 
 
 /**
+ * Phalcon\Escaper initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Escaper){
+
+	PHALCON_REGISTER_CLASS(Phalcon, Escaper, escaper, phalcon_escaper_method_entry, 0);
+
+	zend_declare_property_string(phalcon_escaper_ce, SL("_encoding"), "utf-8", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_escaper_ce, SL("_htmlEscapeMap"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_escaper_ce, SL("_htmlQuoteType"), 3, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_escaper_ce TSRMLS_CC, 1, phalcon_escaperinterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Sets the encoding to be used by the escaper
  *
  * @param string $encoding
@@ -87,18 +103,14 @@ PHP_METHOD(Phalcon_Escaper, setEnconding){
  */
 PHP_METHOD(Phalcon_Escaper, getEncoding){
 
-	zval *encoding;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(encoding);
-	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(encoding);
+	RETURN_MEMBER(this_ptr, "_encoding");
 }
 
 /**
  * Sets the HTML quoting type for htmlspecialchars
+ *
+ * @param int $quoteType
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
@@ -146,6 +158,12 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 	RETURN_CCTOR(escaped);
 }
 
+/**
+ * Escapes a HTML attribute string
+ *
+ * @param string $text
+ * @return string
+ */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
 	zval *text, *html_map = NULL;
@@ -195,7 +213,7 @@ PHP_METHOD(Phalcon_Escaper, cssSanitize){
 		if (eval_int) {
 			PHALCON_INIT_VAR(chr);
 			phalcon_array_fetch_long(&chr, matches, 0, PH_NOISY_CC);
-			
+	
 			PHALCON_INIT_VAR(length);
 			phalcon_fast_strlen(length, chr);
 			if (phalcon_compare_strict_long(length, 1 TSRMLS_CC)) {
@@ -205,13 +223,13 @@ PHP_METHOD(Phalcon_Escaper, cssSanitize){
 				PHALCON_INIT_NVAR(ord);
 				PHALCON_CALL_FUNC_PARAMS_1(ord, "hexdec", chr);
 			}
-			
+	
 			PHALCON_INIT_VAR(format);
 			ZVAL_STRING(format, "\\%X ", 1);
-			
+	
 			PHALCON_INIT_VAR(css_sanitize);
 			PHALCON_CALL_FUNC_PARAMS_2(css_sanitize, "sprintf", format, ord);
-			
+	
 			RETURN_CCTOR(css_sanitize);
 		}
 	}
@@ -242,15 +260,15 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 	if (zend_is_true(css)) {
 		PHALCON_INIT_VAR(pattern);
 		ZVAL_STRING(pattern, "/[^a-z0-9]/iSu", 1);
-		
+	
 		PHALCON_INIT_VAR(callback);
 		array_init(callback);
 		phalcon_array_append(&callback, this_ptr, PH_SEPARATE TSRMLS_CC);
 		add_next_index_stringl(callback, SL("cssSanitize"), 1);
-		
+	
 		PHALCON_INIT_VAR(sanitized);
 		PHALCON_CALL_FUNC_PARAMS_3(sanitized, "preg_replace_callback", pattern, callback, css);
-		
+	
 		RETURN_CCTOR(sanitized);
 	}
 	

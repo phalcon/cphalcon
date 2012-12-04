@@ -44,10 +44,22 @@
 
 
 /**
+ * Phalcon\Mvc\Model\Transaction\Failed initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Transaction, Failed, mvc_model_transaction_failed, "exception", phalcon_mvc_model_transaction_failed_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_model_transaction_failed_ce, SL("_record"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\Transaction\Failed constructor
  *
  * @param string $message
- * @param Phalcon\Mvc\Model $record
+ * @param Phalcon\Mvc\ModelInterface $record
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 
@@ -69,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return string
+ * @return Phalcon\Mvc\Model\MessageInterface[]
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 
@@ -82,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 	if (Z_TYPE_P(record) != IS_NULL) {
 		PHALCON_INIT_NVAR(record);
 		PHALCON_CALL_METHOD(record, record, "getmessages", PH_NO_CHECK);
-		
+	
 		RETURN_CCTOR(record);
 	}
 	
@@ -95,17 +107,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 /**
  * Returns validation record messages which stop the transaction
  *
- * @return Phalcon\Mvc\Model
+ * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord){
 
-	zval *record;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(record);
-	phalcon_read_property(&record, this_ptr, SL("_record"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(record);
+	RETURN_MEMBER(this_ptr, "_record");
 }
 

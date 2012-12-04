@@ -122,8 +122,10 @@ class TagTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Tag::fileField(array('hello')), '<input type="file" name="hello" id="hello" value="lol" />');
 
 		//checkField
-		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" name="hello" id="hello" value="lol" />');
-		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" name="hello" id="hello" value="lol" />');
+		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" name="hello" id="hello" value="lol" checked="checked" />');
+		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" name="hello" id="hello" value="lol" checked="checked" />');
+		$this->assertEquals(Tag::checkField(array('hello', 'value' => 0)), '<input type="checkbox" value="0" name="hello" id="hello" />');
+		$this->assertEquals(Tag::checkField(array('hello', 'value' => 1)), '<input type="checkbox" value="1" name="hello" id="hello" />');
 
 		//radioField
 		$this->assertEquals(Tag::radioField('hello'), '<input type="radio" name="hello" id="hello" value="lol" />');
@@ -165,16 +167,17 @@ class TagTest extends PHPUnit_Framework_TestCase
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
-		$params = array('horror', $values, 'value' => 'C', 'dummyText' => 'more');
+		$params = array('horror', $values, 'value' => 'C', 'useEmpty' => true);
 		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
+	<option value="">Choose...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>
 </select>');
 
-		$params = array('horror', $values, 'value' => 'C', 'useDummy' => true);
-		$this->assertEquals(Tag::selectStatic($params), '<select useDummy="1" name="horror" id="horror">
-	<option value="">Choose...</option>
+		$params = array('horror', $values, 'value' => 'C', 'useEmpty' => true, 'emptyValue' => '@', 'emptyText' => 'Seleccione...');
+		$this->assertEquals(Tag::selectStatic($params), '<select name="horror" id="horror">
+	<option value="@">Seleccione...</option>
 	<option value="A">Action</option>
 	<option value="T">Tonight</option>
 	<option selected="selected" value="C">Crystal</option>

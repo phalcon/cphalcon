@@ -45,6 +45,25 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 }
 
 /**
+ * Initializes internal interface with extends
+ */
+zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC){
+
+	zend_class_entry *ce, **pce;
+
+	if (zend_hash_find(CG(class_table), parent_name, strlen(parent_name)+1, (void **) &pce) == FAILURE) {
+		return NULL;
+	}
+
+	ce = zend_register_internal_interface(orig_class_entry TSRMLS_CC);
+	if (*pce) {
+		zend_do_inheritance(ce, *pce TSRMLS_CC);
+	}
+
+	return ce;
+}
+
+/**
  * Initilializes super global variables if doesn't
  */
 int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){

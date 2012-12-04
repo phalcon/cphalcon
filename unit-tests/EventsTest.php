@@ -73,18 +73,16 @@ class LeDummyListener
 	{
 		$this->_testCase->assertInstanceOf('Phalcon\Events\Event', $event);
 		$this->_testCase->assertInstanceOf('LeDummyComponent', $component);
+		$this->_testCase->assertEquals($data, "extra data");
 		$this->_before++;
-                // check data from arguments
-                $this->_testCase->assertEquals($data, "extra data");
 	}
 
 	public function afterAction($event, $component)
 	{
 		$this->_testCase->assertInstanceOf('Phalcon\Events\Event', $event);
 		$this->_testCase->assertInstanceOf('LeDummyComponent', $component);
+		$this->_testCase->assertEquals($event->getData(), array("extra","data"));
 		$this->_after++;
-                // check data from $event->getData()
-                $this->_testCase->assertEquals($event->getData(), array("extra","data"));
 	}
 
 	public function getBeforeCount()
@@ -156,5 +154,22 @@ class EventsTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testEventsPropagation()
+	{
 
+		$eventsManager = new Phalcon\Events\Manager();
+
+		$number = 0;
+		$propagationListener = function($event, $component, $data) use (&$number) {
+			$number++;
+			$event->stop();
+		};
+
+		$eventsManager->attach('some-type', $propagationListener);
+		$eventsManager->attach('some-type', $propagationListener);
+
+		$eventsManager->fire('some-type:beforeSome', $this);
+
+		$this->assertEquals($number, 1);
+	}
 }

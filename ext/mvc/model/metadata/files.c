@@ -53,6 +53,20 @@
 
 
 /**
+ * Phalcon\Mvc\Model\MetaData\Files initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Files, mvc_model_metadata_files, "phalcon\\mvc\\model\\metadata", phalcon_mvc_model_metadata_files_method_entry, 0);
+
+	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("_metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_mvc_model_metadata_files_ce TSRMLS_CC, 1, phalcon_mvc_model_metadatainterface_ce);
+
+	return SUCCESS;
+}
+
+/**
  * Phalcon\Mvc\Model\MetaData\Files constructor
  *
  * @param array $options
@@ -73,11 +87,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 		PHALCON_INIT_NVAR(options);
 	}
 	
-	eval_int = phalcon_array_isset_string(options, SS("metaDataDir"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(meta_data_dir);
-		phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY_CC);
-		phalcon_update_property_zval(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		eval_int = phalcon_array_isset_string(options, SS("metaDataDir"));
+		if (eval_int) {
+			PHALCON_INIT_VAR(meta_data_dir);
+			phalcon_array_fetch_string(&meta_data_dir, options, SL("metaDataDir"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_metaDataDir"), meta_data_dir TSRMLS_CC);
+		}
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
@@ -88,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 }
 
 /**
- * Reads meta-data from $_SESSION
+ * Reads meta-data from files
  *
  * @return array
  */
@@ -107,12 +123,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VV(path, meta_data_dir, key);
+	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
 	if (phalcon_file_exists(path TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(data);
 		if (phalcon_require_ret(data, path TSRMLS_CC) == FAILURE) {
 			return;
 		}
+	
+		RETURN_CCTOR(data);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -120,14 +138,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read){
 }
 
 /**
- * Writes the meta-data to $_SESSION
+ * Writes the meta-data to files
  *
  * @param string $key
  * @param array $data
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 
-	zval *key, *data, *meta_data_dir, *path;
+	zval *key, *data, *meta_data_dir, *path, *to_string;
+	zval *export, *php_export;
 
 	PHALCON_MM_GROW();
 
@@ -140,8 +159,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write){
 	phalcon_read_property(&meta_data_dir, this_ptr, SL("_metaDataDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(path);
-	PHALCON_CONCAT_VV(path, meta_data_dir, key);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", path, data);
+	PHALCON_CONCAT_VVS(path, meta_data_dir, key, ".php");
+	
+	PHALCON_INIT_VAR(to_string);
+	ZVAL_BOOL(to_string, 1);
+	
+	PHALCON_INIT_VAR(export);
+	PHALCON_CALL_FUNC_PARAMS_2(export, "var_export", data, to_string);
+	
+	PHALCON_INIT_VAR(php_export);
+	PHALCON_CONCAT_SVS(php_export, "<?php return ", export, "; ");
+	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", path, php_export);
 	
 	PHALCON_MM_RESTORE();
 }

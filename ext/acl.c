@@ -32,8 +32,6 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
-
 /**
  * Phalcon\Acl
  *
@@ -80,36 +78,15 @@
 
 
 /**
- * Sets the events manager
- *
- * @param Phalcon\Events\Manager $eventManager
+ * Phalcon\Acl initializer
  */
-PHP_METHOD(Phalcon_Acl, setEventsManager){
+PHALCON_INIT_CLASS(Phalcon_Acl){
 
-	zval *events_manager;
+	PHALCON_REGISTER_CLASS(Phalcon, Acl, acl, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
-		RETURN_NULL();
-	}
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("ALLOW"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_acl_ce, SL("DENY"), 0 TSRMLS_CC);
 
-	phalcon_update_property_zval(this_ptr, SL("_eventsManager"), events_manager TSRMLS_CC);
-	
-}
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\Manager
- */
-PHP_METHOD(Phalcon_Acl, getEventsManager){
-
-	zval *events_manager;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
-	
-	RETURN_CCTOR(events_manager);
+	return SUCCESS;
 }
 

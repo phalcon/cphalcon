@@ -85,6 +85,19 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 		$this->_executeTests($di);
 	}
 
+	public function testTransactionsSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		$this->_executeTests($di);
+	}
+
 	protected function _executeTests($di)
 	{
 
@@ -119,6 +132,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 				$p++;
 			}
 
+			//We rollback the transaction
 			$transaction1->rollback();
 
 			$this->assertTrue(FALSE, 'oh, Why?');
@@ -128,9 +142,11 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 			$this->assertTrue(true);
 		}
 
+		//Now we check if the records was correctly rolledbacked
 		$rollbackNumPersonas = Personas::count();
 		$this->assertEquals($numPersonas, $rollbackNumPersonas);
 
+		//Creating another transaction
 		try {
 
 			$transaction2 = $transactionManager->get();
@@ -153,6 +169,7 @@ class ModelsTransactionsTest extends PHPUnit_Framework_TestCase {
 				$p++;
 			}
 
+			//This time we commit the transaction
 			$transaction2->commit();
 
 			$commitNumPersonas = Personas::count();

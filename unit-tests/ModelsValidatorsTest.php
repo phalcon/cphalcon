@@ -64,7 +64,8 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
 		});
 
-		$this->_testValidators($di);
+		$this->_testValidatorsNormal($di);
+		$this->_testValidatorsRenamed($di);
 	}
 
 	public function testValidatorsPostgresql(){
@@ -76,10 +77,11 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 		});
 
-		$this->_testValidators($di);
+		$this->_testValidatorsNormal($di);
+		$this->_testValidatorsRenamed($di);
 	}
 
-	protected function _testValidators($di)
+	protected function _testValidatorsNormal($di)
 	{
 
 		$connection = $di->getShared('db');
@@ -108,7 +110,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$messages = $subscriptor->getMessages();
 		$this->assertEquals($messages[0]->getType(), "PresenceOf");
 		$this->assertEquals($messages[0]->getField(), "created_at");
-		$this->assertEquals($messages[0]->getMessage(), "The field 'created_at' is required");
+		$this->assertEquals($messages[0]->getMessage(), "'created_at' is required");
 
 		//Email
 		$subscriptor = new Subscriptores();
@@ -120,7 +122,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($subscriptor->getMessages()), 1);
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "email");
+		$this->assertEquals($messages[0]->getType(), "Email");
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' must have a valid e-mail format");
 
@@ -130,7 +132,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "exclusion");
+		$this->assertEquals($messages[0]->getType(), "Exclusion");
 		$this->assertEquals($messages[0]->getField(), "status");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' must not be part of list: X, Z");
 
@@ -139,7 +141,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "inclusion");
+		$this->assertEquals($messages[0]->getType(), "Inclusion");
 		$this->assertEquals($messages[0]->getField(), "status");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' must be part of list: P, I, w");
 
@@ -149,7 +151,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "unique");
+		$this->assertEquals($messages[0]->getType(), "Unique");
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is already present in another record");
 
@@ -159,7 +161,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "regex");
+		$this->assertEquals($messages[0]->getType(), "Regex");
 		$this->assertEquals($messages[0]->getField(), "status");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'status' doesn't match regular expression");
 
@@ -169,7 +171,7 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "too_long");
+		$this->assertEquals($messages[0]->getType(), "TooLong");
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' exceeds the maximum 50 characters");
 
@@ -179,9 +181,115 @@ class ModelsValidatorsTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($subscriptor->save());
 
 		$messages = $subscriptor->getMessages();
-		$this->assertEquals($messages[0]->getType(), "too_short");
+		$this->assertEquals($messages[0]->getType(), "TooShort");
 		$this->assertEquals($messages[0]->getField(), "email");
 		$this->assertEquals($messages[0]->getMessage(), "Value of field 'email' is less than the minimum 7 characters");
+
+	}
+
+	protected function _testValidatorsRenamed($di)
+	{
+
+		$connection = $di->getShared('db');
+
+		$success = $connection->delete("subscriptores");
+		$this->assertTrue($success);
+
+		$createdAt = new Phalcon\Db\RawValue('now()');
+
+		//Save with success
+		$abonne = new Abonnes();
+		$abonne->courrierElectronique = 'fuego@hotmail.com';
+		$abonne->creeA = $createdAt;
+		$abonne->statut = 'P';
+		$this->assertTrue($abonne->save());
+
+		//PresenceOf
+		$abonne = new Abonnes();
+		$abonne->courrierElectronique = 'fuego1@hotmail.com';
+		$abonne->creeA = null;
+		$abonne->statut = 'P';
+		$this->assertFalse($abonne->save());
+
+		$this->assertEquals(count($abonne->getMessages()), 1);
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "PresenceOf");
+		$this->assertEquals($messages[0]->getField(), "creeA");
+		$this->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+
+		//Email
+		$abonne = new Abonnes();
+		$abonne->courrierElectronique = 'fuego?=';
+		$abonne->creeA = $createdAt;
+		$abonne->statut = 'P';
+		$this->assertFalse($abonne->save());
+
+		$this->assertEquals(count($abonne->getMessages()), 1);
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Email");
+		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
+		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+
+		//ExclusionIn
+		$abonne->courrierElectronique = 'le_fuego@hotmail.com';
+		$abonne->statut = 'X';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Exclusion");
+		$this->assertEquals($messages[0]->getField(), "statut");
+		$this->assertEquals($messages[0]->getMessage(), 'L\'état ne doit être "X" ou "Z"');
+
+		//InclusionIn
+		$abonne->statut = 'A';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Inclusion");
+		$this->assertEquals($messages[0]->getField(), "statut");
+		$this->assertEquals($messages[0]->getMessage(), 'L\'état doit être "P", "I" ou "w"');
+
+		//Uniqueness validator
+		$abonne->courrierElectronique = 'fuego@hotmail.com';
+		$abonne->statut = 'P';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Unique");
+		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
+		$this->assertEquals($messages[0]->getMessage(), 'Le courrier électronique doit être unique');
+
+		//Regex validator
+		$abonne->courrierElectronique = 'na_fuego@hotmail.com';
+		$abonne->statut = 'w';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "Regex");
+		$this->assertEquals($messages[0]->getField(), "statut");
+		$this->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
+
+		//too_long
+		$abonne->courrierElectronique = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
+		$abonne->statut = 'P';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "TooLong");
+		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
+		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop long");
+
+		//too_short
+		$abonne->courrierElectronique = 'a@b.co';
+		$abonne->status = 'P';
+		$this->assertFalse($abonne->save());
+
+		$messages = $abonne->getMessages();
+		$this->assertEquals($messages[0]->getType(), "TooShort");
+		$this->assertEquals($messages[0]->getField(), "courrierElectronique");
+		$this->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop court");
 
 	}
 
