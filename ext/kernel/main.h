@@ -224,7 +224,7 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #class_name, methods); \
 		phalcon_ ##name## _ce = zend_register_internal_class_ex(&ce, NULL, parent TSRMLS_CC); \
-		if(!phalcon_ ##name## _ce){ \
+		if (!phalcon_ ##name## _ce) { \
 			phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
 			return FAILURE;	\
 		}  \
@@ -245,9 +245,9 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 		memset(&ce, 0, sizeof(zend_class_entry)); \
 		INIT_NS_CLASS_ENTRY(ce, #ns, #classname, methods); \
 		phalcon_ ##name## _ce = phalcon_register_internal_interface_ex(&ce, parent TSRMLS_CC); \
-		if(!phalcon_ ##name## _ce){ \
-			/*phalcon_inherit_not_found(parent, ZEND_NS_NAME(#ns, #class_name)); \
-			return FAILURE;	*/\
+		if (!phalcon_ ##name## _ce) { \
+			fprintf(stderr, "Can't register interface with parent: %s", parent); \
+			return FAILURE;	\
 		}  \
 	}
 

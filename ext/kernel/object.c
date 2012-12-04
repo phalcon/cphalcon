@@ -439,7 +439,7 @@ int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value 
 		return FAILURE;
 	}
 
-	ce = Z_OBJCE_P(object)
+	ce = Z_OBJCE_P(object);
 	if (ce->parent) {
 		ce = phalcon_lookup_class_ce(ce, Z_STRVAL_P(property), Z_STRLEN_P(property) TSRMLS_CC);
 	}
@@ -650,7 +650,11 @@ int phalcon_property_incr(zval *object, char *property_name, int property_length
 		return FAILURE;
 	}
 
-	ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
+	ce = Z_OBJCE_P(object);
+	if (ce->parent) {
+		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+	}
+
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 		increment_function(tmp);
@@ -672,7 +676,11 @@ int phalcon_property_decr(zval *object, char *property_name, int property_length
 		return FAILURE;
 	}
 
-	ce = phalcon_lookup_class_ce(object, property_name, property_length TSRMLS_CC);
+	ce = Z_OBJCE_P(object);
+	if (ce->parent) {
+		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
+	}
+
 	tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
 	if (tmp) {
 		decrement_function(tmp);
