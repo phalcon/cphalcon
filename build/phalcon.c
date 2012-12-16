@@ -3988,7 +3988,11 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
 
+		#if PHP_VERSION_ID < 50400
 		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+		#else
+		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+		#endif
 
 		Z_ADDREF_PP(result);
 
@@ -4034,7 +4038,11 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 		MAKE_STD_ZVAL(property);
 		ZVAL_STRINGL(property, property_name, property_length, 0);
 
+		#if PHP_VERSION_ID < 50400
 		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+		#else
+		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+		#endif
 
 		ZVAL_NULL(property);
 		zval_ptr_dtor(&property);
@@ -4075,7 +4083,11 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 				return FAILURE;
 			}
 
+			#if PHP_VERSION_ID < 50400
 			*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+			#else
+			*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+			#endif
 
 			Z_ADDREF_PP(result);
 
@@ -4144,7 +4156,12 @@ int phalcon_update_property_string(zval *object, char *property_name, int proper
 
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
 	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
 
 	ZVAL_NULL(property);
 	zval_ptr_dtor(&property);
@@ -4217,7 +4234,12 @@ int phalcon_update_property_zval(zval *object, char *property_name, int property
 
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
 	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
 
 	ZVAL_NULL(property);
 	zval_ptr_dtor(&property);
@@ -4254,7 +4276,11 @@ int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value 
 		return FAILURE;
 	}
 
+	#if PHP_VERSION_ID < 50400
 	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
 
 	EG(scope) = old_scope;
 
@@ -4378,7 +4404,12 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 
 	MAKE_STD_ZVAL(property);
 	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
 	Z_OBJ_HT_P(object)->write_property(object, property, empty_array TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, empty_array, 0 TSRMLS_CC);
+	#endif
 
 	ZVAL_NULL(property);
 	zval_ptr_dtor(&property);
