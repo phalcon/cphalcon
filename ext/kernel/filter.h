@@ -18,5 +18,5 @@
 */
 
 /** Low level filters */
-extern int phalcon_filter_alphanum(zval *return_value, zval *param);
-extern int phalcon_filter_identifier(zval *return_value, zval *param);
+extern void phalcon_filter_alphanum(zval *return_value, zval *param);
+extern void phalcon_filter_identifier(zval *return_value, zval *param);

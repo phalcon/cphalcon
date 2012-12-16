@@ -1134,8 +1134,8 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 
 
 /** Low level filters */
-int phalcon_filter_alphanum(zval *return_value, zval *param);
-int phalcon_filter_identifier(zval *return_value, zval *param);
+void phalcon_filter_alphanum(zval *return_value, zval *param);
+void phalcon_filter_identifier(zval *return_value, zval *param);
 
 
 
