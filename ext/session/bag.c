@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, data, property, PH_NOISY_CC);
-		if (PHALCON_IS_NOT_EMPTY(default_value)) {
+		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
 	}
