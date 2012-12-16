@@ -567,10 +567,16 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_INIT_NVAR(has_service);
 		PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", handler_class);
 		if (!zend_is_true(has_service)) {
+			/** 
+			 * DI doesn't have a service with that name, try to load it using an autoloader
+			 */
 			PHALCON_INIT_NVAR(has_service);
 			PHALCON_CALL_FUNC_PARAMS_1(has_service, "class_exists", handler_class);
 		}
 	
+		/** 
+		 * If the service can be loaded we throw an exception
+		 */
 		if (!zend_is_true(has_service)) {
 	
 			PHALCON_INIT_NVAR(exception_code);
@@ -711,6 +717,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&call_object, action_method, PH_SEPARATE TSRMLS_CC);
 	
+			/** 
+			 * Call the function in the PHP userland
+			 */
 			PHALCON_INIT_NVAR(value);
 			PHALCON_CALL_USER_FUNC_ARRAY(value, call_object, params);
 	

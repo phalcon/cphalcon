@@ -11,6 +11,7 @@
  - Added Phalcon\Mvc\View\Engine\Volt\Compiler::addFilter to register user filters
  - Added Phalcon\Mvc\Model\Relation as class for model relationships
  - Added support for aliasing of model relationships in Phalcon\Mvc\Model
+ - Relationships in Models are now case insensitive to be compliant with the PHP standard
  - Added "cache" statement in Volt to cache view fragments
  - Added "do" statement to Volt to execute an expression without printing its evaluated value
  - Added "include" statement to Volt to perform a statical include of other views in compiling time

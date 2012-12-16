@@ -36,6 +36,13 @@
 #include "kernel/array.h"
 
 /**
+ * Phalcon\Mvc\Model\Relation
+ *
+ * This class represents each relationship between two models
+ */
+
+
+/**
  * Phalcon\Mvc\Model\Relation initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation){
@@ -57,7 +64,13 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation){
 }
 
 /**
- * Phalcon\Mvc\Model\Relation constructor
+ * Phalcon\Mvc\Model\Relation
+ *
+ * @param int $type
+ * @param string $referencedModel
+ * @param string|array $fields
+ * @param string|array $referencedFields
+ * @param array $options
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 
@@ -78,40 +91,71 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_referencedModel"), referenced_model TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_fields"), fields TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_referencedFields"), referenced_fields TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the relation's type
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getType){
 
 
 	RETURN_MEMBER(this_ptr, "_type");
 }
 
+/**
+ * Returns the referenced model
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel){
 
 
 	RETURN_MEMBER(this_ptr, "_referencedModel");
 }
 
+/**
+ * Returns the fields
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields){
 
 
 	RETURN_MEMBER(this_ptr, "_fields");
 }
 
+/**
+ * Returns the referenced fields
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields){
 
 
 	RETURN_MEMBER(this_ptr, "_referencedFields");
 }
 
+/**
+ * Returns the options
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions){
 
 
 	RETURN_MEMBER(this_ptr, "_options");
 }
 
+/**
+ * Check whether the relation act as a foreign key
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
 
 	zval *options;
@@ -127,6 +171,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Returns the foreign key configuration
+ *
+ * @return string|array
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 
 	zval *options, *foreign_key;
@@ -145,11 +194,5 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 	}
 	
 	RETURN_MM_FALSE;
-}
-
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getQuantity){
-
-
-	
 }
 

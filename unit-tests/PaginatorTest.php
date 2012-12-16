@@ -140,10 +140,10 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->before, 1);
 		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 3);
+		$this->assertEquals($page->last, 4);
 
 		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 3);
+		$this->assertEquals($page->total_pages, 4);
 	}
 
 	public function testArrayPaginator()

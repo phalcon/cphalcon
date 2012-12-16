@@ -29,7 +29,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey);
-PHP_METHOD(Phalcon_Mvc_Model_Relation, getQuantity);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_INFO(0, type)
@@ -48,7 +47,6 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_relation_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Relation, getOptions, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, isForeingKey, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Relation, getForeignKey, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Relation, getQuantity, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

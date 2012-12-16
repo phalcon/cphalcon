@@ -116,31 +116,31 @@ class TextTest extends PHPUnit_Framework_TestCase
 	{
 		for ($i = 1; $i<10; $i++) {
 			$text = Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, $i);
-			$this->assertTrue(preg_match('/[a-zA-Z0-9]+/', $text, $matches));
+			$this->assertEquals(preg_match('/[a-zA-Z0-9]+/', $text, $matches), 1);
 			$this->assertEquals($matches[0], $text);
 			$this->assertEquals(strlen($text), $i);
 		}
 		for ($i = 1; $i<10; $i++) {
 			$text = Phalcon\Text::random(Phalcon\Text::RANDOM_ALPHA, $i);
-			$this->assertTrue(preg_match('/[a-zA-Z]+/', $text, $matches));
+			$this->assertTrue(preg_match('/[a-zA-Z]+/', $text, $matches), 1);
 			$this->assertEquals($matches[0], $text);
 			$this->assertEquals(strlen($text), $i);
 		}
 		for ($i = 1; $i<10; $i++) {
 			$text = Phalcon\Text::random(Phalcon\Text::RANDOM_HEXDEC, $i);
-			$this->assertTrue(preg_match('/[a-f0-9]+/', $text, $matches));
+			$this->assertTrue(preg_match('/[a-f0-9]+/', $text, $matches), 1);
 			$this->assertEquals($matches[0], $text);
 			$this->assertEquals(strlen($text), $i);
 		}
 		for ($i = 1; $i<10; $i++) {
 			$text = Phalcon\Text::random(Phalcon\Text::RANDOM_NUMERIC, $i);
-			$this->assertTrue(preg_match('/[0-9]+/', $text, $matches));
+			$this->assertTrue(preg_match('/[0-9]+/', $text, $matches), 1);
 			$this->assertEquals($matches[0], $text);
 			$this->assertEquals(strlen($text), $i);
 		}
 		for ($i = 1; $i<10; $i++) {
 			$text = Phalcon\Text::random(Phalcon\Text::RANDOM_NOZERO, $i);
-			$this->assertTrue(preg_match('/[1-9]+/', $text, $matches));
+			$this->assertTrue(preg_match('/[1-9]+/', $text, $matches), 1);
 			$this->assertEquals($matches[0], $text);
 			$this->assertEquals(strlen($text), $i);
 		}
