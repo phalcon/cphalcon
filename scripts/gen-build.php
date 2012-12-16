@@ -32,10 +32,12 @@ class Build_Generator {
 		'kernel/array.h',
 		'kernel/object.h',
 		'kernel/string.h',
+		'kernel/filter.h',
 		'kernel/operators.h',
 		'kernel/concat.h',
 		'kernel/exception.h',
 		'kernel/require.h',
+		'kernel/experimental/fcall.h',
 	);
 
 	private $_kernelSources = array(
@@ -45,6 +47,7 @@ class Build_Generator {
 		'kernel/array.c',
 		'kernel/object.c',
 		'kernel/string.c',
+		'kernel/filter.c',
 		'kernel/operators.c',
 		'kernel/concat.c',
 		'kernel/file.c',

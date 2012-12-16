@@ -1133,6 +1133,12 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 
 
 
+/** Low level filters */
+int phalcon_filter_alphanum(zval *return_value, zval *param);
+int phalcon_filter_identifier(zval *return_value, zval *param);
+
+
+
 /** Operators */
 #define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
 
@@ -1327,6 +1333,13 @@ void phalcon_try_execute(zval *success, zval *return_value, zval *call_object, z
 
 int PHALCON_FASTCALL phalcon_require(zval *require_path TSRMLS_DC);
 int PHALCON_FASTCALL phalcon_require_ret(zval *return_value, zval *require_path TSRMLS_DC);
+
+
+
+
+int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC);
+int phalcon_exp_call_user_method_ex(zend_class_entry *ce, zval **object_pp, zval *method_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[] TSRMLS_DC);
+int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length TSRMLS_DC);
 
 
 
@@ -5684,6 +5697,85 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str){
 	removed_str[i] = '\0';
 
 	RETURN_STRINGL(removed_str, i, 0);
+
+}
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+void phalcon_filter_alphanum(zval *return_value, zval *param){
+
+	int i, ch;
+	smart_str filtered_str = {0};
+	zval copy;
+	int use_copy = 0;
+
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	for (i=0; i < Z_STRLEN_P(param); i++) {
+		ch = Z_STRVAL_P(param)[i];
+		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
+			smart_str_appendc(&filtered_str, ch);
+		}
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
+	}
+
+	smart_str_0(&filtered_str);
+
+	if (filtered_str.len) {
+		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
+	} else {
+		smart_str_free(&filtered_str);
+		RETURN_EMPTY_STRING();
+	}
+}
+
+void phalcon_filter_identifier(zval *return_value, zval *param){
+
+	int i, ch;
+	zval copy;
+	smart_str filtered_str = {0};
+	int use_copy = 0;
+
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	for (i=0; i < Z_STRLEN_P(param); i++) {
+		ch = Z_STRVAL_P(param)[i];
+		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58) || ch == 95) {
+			smart_str_appendc(&filtered_str, ch);
+		}
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
+	}
+
+	smart_str_0(&filtered_str);
+
+	if (filtered_str.len) {
+		RETURN_STRINGL(filtered_str.c, filtered_str.len, 0);
+	} else {
+		smart_str_free(&filtered_str);
+		RETURN_EMPTY_STRING();
+	}
 
 }
 
