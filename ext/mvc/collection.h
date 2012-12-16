@@ -46,6 +46,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _callEvent);
 PHP_METHOD(Phalcon_Mvc_Collection, _callEventCancel);
 PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation);
 PHP_METHOD(Phalcon_Mvc_Collection, _exists);
+PHP_METHOD(Phalcon_Mvc_Collection, getMessages);
+PHP_METHOD(Phalcon_Mvc_Collection, appendMessage);
 PHP_METHOD(Phalcon_Mvc_Collection, save);
 PHP_METHOD(Phalcon_Mvc_Collection, findById);
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst);
@@ -80,6 +82,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_writeattribute, 0, 0, 2)
 	ZEND_ARG_INFO(0, attribute)
 	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_appendmessage, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_findbyid, 0, 0, 1)
@@ -123,6 +129,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection, _callEventCancel, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _cancelOperation, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _exists, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Collection, getMessages, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Collection, appendMessage, arginfo_phalcon_mvc_collection_appendmessage, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, save, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, findById, arginfo_phalcon_mvc_collection_findbyid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, findFirst, arginfo_phalcon_mvc_collection_findfirst, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 

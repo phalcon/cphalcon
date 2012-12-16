@@ -92,8 +92,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!frontend_options) {
@@ -168,7 +167,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, beforeStore){
 		RETURN_NULL();
 	}
 
-	
 	RETURN_CCTORW(data);
 }
 
@@ -185,7 +183,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, afterRetrieve){
 		RETURN_NULL();
 	}
 
-	
 	RETURN_CCTORW(data);
 }
 

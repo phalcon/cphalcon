@@ -112,13 +112,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 
 	zval *name, *value = NULL, *expire = NULL, *path = NULL, *cookies, *dependency_injector = NULL;
 	zval *cookie = NULL, *registered, *service, *response;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zzz", &name, &value, &expire, &path) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!value) {
@@ -139,27 +137,27 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(cookies);
+	PHALCON_OBS_VAR(cookies);
 	phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
 	
 	/** 
 	 * Check if the cookie needs to be updated or 
 	 */
-	eval_int = phalcon_array_isset(cookies, name);
-	if (!eval_int) {
-		PHALCON_INIT_VAR(dependency_injector);
+	if (!phalcon_array_isset(cookies, name)) {
+		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(cookie);
 		object_init_ex(cookie, phalcon_http_cookie_ce);
-		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(cookie, "__construct", name, value, expire, path, PH_CHECK);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_4_NORETURN(cookie, "__construct", name, value, expire, path);
+	
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setdi", dependency_injector);
 	} else {
-		PHALCON_INIT_NVAR(cookie);
+		PHALCON_OBS_NVAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setvalue", value, PH_NO_CHECK);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setexpiration", expire, PH_NO_CHECK);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setpath", path, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setvalue", value);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setexpiration", expire);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "setpath", path);
 	}
 	
 	phalcon_array_update_zval(&cookies, name, &cookie, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -167,10 +165,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	/** 
 	 * Register the cookies bag in the response
 	 */
-	PHALCON_INIT_VAR(registered);
+	PHALCON_OBS_VAR(registered);
 	phalcon_read_property(&registered, this_ptr, SL("_registered"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(registered)) {
-		PHALCON_INIT_NVAR(dependency_injector);
+	
+		PHALCON_OBS_NVAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_http_cookie_exception_ce, "A dependency injection object is required to access the 'response' service");
@@ -181,13 +180,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 		ZVAL_STRING(service, "response", 1);
 	
 		PHALCON_INIT_VAR(response);
-		PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service);
 	
 		/** 
 		 * Pass the cookies bag to the response so it can send the headers at the of the
 		 * request
 		 */
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcookies", this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcookies", this_ptr);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -202,28 +201,25 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 PHP_METHOD(Phalcon_Http_Response_Cookies, get){
 
 	zval *name, *cookies, *cookie = NULL;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(cookies);
+	PHALCON_OBS_VAR(cookies);
 	phalcon_read_property(&cookies, this_ptr, SL("_cookies"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(cookies, name);
-	if (eval_int) {
-		PHALCON_INIT_VAR(cookie);
+	if (phalcon_array_isset(cookies, name)) {
+		PHALCON_OBS_VAR(cookie);
 		phalcon_array_fetch(&cookie, cookies, name, PH_NOISY_CC);
-	
 		RETURN_CCTOR(cookie);
 	}
 	
 	PHALCON_INIT_NVAR(cookie);
 	object_init_ex(cookie, phalcon_http_cookie_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "__construct", name, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(cookie, "__construct", name);
+	
 	
 	RETURN_CCTOR(cookie);
 }

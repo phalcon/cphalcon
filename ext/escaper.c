@@ -83,8 +83,7 @@ PHP_METHOD(Phalcon_Escaper, setEnconding){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &encoding) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(encoding) != IS_STRING) {
@@ -137,8 +136,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &text) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(text) != IS_STRING) {
@@ -146,10 +144,10 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(html_quote_type);
+	PHALCON_OBS_VAR(html_quote_type);
 	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(encoding);
+	PHALCON_OBS_VAR(encoding);
 	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(escaped);
@@ -171,15 +169,14 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &text) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(html_map);
+	PHALCON_OBS_VAR(html_map);
 	phalcon_read_property(&html_map, this_ptr, SL("_htmlEscapeMap"), PH_NOISY_CC);
 	if (Z_TYPE_P(html_map) == IS_NULL) {
 		PHALCON_INIT_NVAR(html_map);
-		array_init(html_map);
+		array_init_size(html_map, 4);
 		add_index_stringl(html_map, 34, SL("quot"), 1);
 		add_index_stringl(html_map, 38, SL("amp"), 1);
 		add_index_stringl(html_map, 60, SL("lt"), 1);
@@ -199,19 +196,17 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 PHP_METHOD(Phalcon_Escaper, cssSanitize){
 
 	zval *matches, *chr, *length, *ord = NULL, *format, *css_sanitize;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &matches) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(matches) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_long(matches, 0);
-		if (eval_int) {
-			PHALCON_INIT_VAR(chr);
+		if (phalcon_array_isset_long(matches, 0)) {
+	
+			PHALCON_OBS_VAR(chr);
 			phalcon_array_fetch_long(&chr, matches, 0, PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(length);
@@ -233,8 +228,7 @@ PHP_METHOD(Phalcon_Escaper, cssSanitize){
 			RETURN_CCTOR(css_sanitize);
 		}
 	}
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -249,8 +243,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &css) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(css) != IS_STRING) {
@@ -262,18 +255,16 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 		ZVAL_STRING(pattern, "/[^a-z0-9]/iSu", 1);
 	
 		PHALCON_INIT_VAR(callback);
-		array_init(callback);
+		array_init_size(callback, 2);
 		phalcon_array_append(&callback, this_ptr, PH_SEPARATE TSRMLS_CC);
 		add_next_index_stringl(callback, SL("cssSanitize"), 1);
 	
 		PHALCON_INIT_VAR(sanitized);
 		PHALCON_CALL_FUNC_PARAMS_3(sanitized, "preg_replace_callback", pattern, callback, css);
-	
 		RETURN_CCTOR(sanitized);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -289,13 +280,11 @@ PHP_METHOD(Phalcon_Escaper, escapeUrl){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &url) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(escaped);
 	PHALCON_CALL_FUNC_PARAMS_1(escaped, "rawurlencode", url);
-	
 	RETURN_CCTOR(escaped);
 }
 

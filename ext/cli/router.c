@@ -269,33 +269,33 @@ PHP_METHOD(Phalcon_CLI_Router, handle){
 	if (Z_TYPE_P(module_name) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, SL("_module"), module_name TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(default_module);
+		PHALCON_OBS_VAR(default_module);
 		phalcon_read_property(&default_module, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
 		if (Z_TYPE_P(default_module) != IS_NULL) {
 			phalcon_update_property_zval(this_ptr, SL("_module"), default_module TSRMLS_CC);
 		}
 	}
 
-	PHALCON_INIT_NVAR(module_name);
+	PHALCON_OBS_NVAR(module_name);
 	phalcon_read_property(&module_name, this_ptr, SL("_module"), PH_NOISY_CC);
 
 	if (Z_TYPE_P(task_name) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, SL("_task"), task_name TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(default_task);
+		PHALCON_OBS_VAR(default_task);
 		phalcon_read_property(&default_task, this_ptr, SL("_defaultTask"), PH_NOISY_CC);
 		if (Z_TYPE_P(default_task) != IS_NULL) {
 			phalcon_update_property_zval(this_ptr, SL("_task"), default_task TSRMLS_CC);
 		}
 	}
 
-	PHALCON_INIT_NVAR(task_name);
+	PHALCON_OBS_NVAR(task_name);
 	phalcon_read_property(&task_name, this_ptr, SL("_task"), PH_NOISY_CC);
 
 	if (Z_TYPE_P(action_name) != IS_NULL) {
 		phalcon_update_property_zval(this_ptr, SL("_action"), action_name TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(default_action);
+		PHALCON_OBS_VAR(default_action);
 		phalcon_read_property(&default_action, this_ptr, SL("_defaultAction"), PH_NOISY_CC);
 		if (Z_TYPE_P(default_action) != IS_NULL) {
 			phalcon_update_property_zval(this_ptr, SL("_action"), default_action TSRMLS_CC);

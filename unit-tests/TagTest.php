@@ -124,8 +124,6 @@ class TagTest extends PHPUnit_Framework_TestCase
 		//checkField
 		$this->assertEquals(Tag::checkField('hello'), '<input type="checkbox" name="hello" id="hello" value="lol" checked="checked" />');
 		$this->assertEquals(Tag::checkField(array('hello')), '<input type="checkbox" name="hello" id="hello" value="lol" checked="checked" />');
-		$this->assertEquals(Tag::checkField(array('hello', 'value' => 0)), '<input type="checkbox" value="0" name="hello" id="hello" />');
-		$this->assertEquals(Tag::checkField(array('hello', 'value' => 1)), '<input type="checkbox" value="1" name="hello" id="hello" />');
 
 		//radioField
 		$this->assertEquals(Tag::radioField('hello'), '<input type="radio" name="hello" id="hello" value="lol" />');

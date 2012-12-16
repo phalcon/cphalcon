@@ -34,11 +34,12 @@
 
 #include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/filter.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 
 /**
@@ -90,36 +91,21 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend_File){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 
-	zval *frontend, *options = NULL, *cache_dir, *is_writable;
-	int eval_int;
+	zval *frontend, *options = NULL, *cache_dir;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
 		PHALCON_INIT_NVAR(options);
-		array_init(options);
 	}
 	
-	eval_int = phalcon_array_isset_string(options, SS("cacheDir"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(cache_dir);
+	if (phalcon_array_isset_string(options, SS("cacheDir"))) {
+		PHALCON_OBS_VAR(cache_dir);
 		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
-	
-		/** 
-		 * Prod mode?
-		 */
-		PHALCON_INIT_VAR(is_writable);
-		PHALCON_CALL_FUNC_PARAMS_1(is_writable, "is_writable", cache_dir);
-		if (PHALCON_IS_FALSE(is_writable)) {
-			PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache directory does not exist or is not writable");
-			return;
-		}
-	
 		PHALCON_CALL_PARENT_PARAMS_2_NORETURN(this_ptr, "Phalcon\\Cache\\Backend\\File", "__construct", frontend, options);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "You must specify the cache directory with the option cacheDir");
@@ -141,23 +127,23 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	zval *key_name, *lifetime = NULL, *options, *prefix, *filtered;
 	zval *prefixed_key, *cache_dir, *cache_file;
 	zval *frontend, *time, *ttl = NULL, *modified_time, *difference;
-	zval *not_expired, *cached_content, *processed;
+	zval *not_expired, *cached_content, *exception_message;
+	zval *processed;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!lifetime) {
 		PHALCON_INIT_NVAR(lifetime);
 	}
 	
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(prefix);
+	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(filtered);
@@ -167,13 +153,14 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(cache_dir);
+	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, prefixed_key);
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
-		PHALCON_INIT_VAR(frontend);
+	
+		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 		/** 
@@ -183,7 +170,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		PHALCON_CALL_FUNC(time, "time");
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
 			PHALCON_INIT_VAR(ttl);
-			PHALCON_CALL_METHOD(ttl, frontend, "getlifetime", PH_NO_CHECK);
+			PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
 		} else {
 			PHALCON_CPY_WRT(ttl, lifetime);
 		}
@@ -201,18 +188,24 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		 * The content is only retrieved if the content has not expired
 		 */
 		if (PHALCON_IS_TRUE(not_expired)) {
+	
 			PHALCON_INIT_VAR(cached_content);
 			PHALCON_CALL_FUNC_PARAMS_1(cached_content, "file_get_contents", cache_file);
+			if (PHALCON_IS_FALSE(cached_content)) {
+				PHALCON_INIT_VAR(exception_message);
+				PHALCON_CONCAT_SVS(exception_message, "Cache file ", cache_file, " could not be opened");
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_cache_exception_ce, exception_message);
+				return;
+			}
 	
 			PHALCON_INIT_VAR(processed);
-			PHALCON_CALL_METHOD_PARAMS_1(processed, frontend, "afterretrieve", cached_content, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(processed, frontend, "afterretrieve", cached_content);
 	
 			RETURN_CCTOR(processed);
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -228,13 +221,12 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key = NULL, *prefix, *filtered, *frontend, *options;
 	zval *cache_dir, *cache_file, *cached_content = NULL;
-	zval *prepared_content, *is_buffering;
+	zval *prepared_content, *status, *is_buffering;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzzz", &key_name, &content, &lifetime, &stop_buffer) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!key_name) {
@@ -255,10 +247,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
-		PHALCON_INIT_VAR(last_key);
+		PHALCON_OBS_VAR(last_key);
 		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(prefix);
+		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(filtered);
@@ -272,35 +264,41 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(frontend);
+	PHALCON_OBS_VAR(frontend);
 	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(cache_dir);
+	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(cache_file);
 	PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 	if (!zend_is_true(content)) {
 		PHALCON_INIT_VAR(cached_content);
-		PHALCON_CALL_METHOD(cached_content, frontend, "getcontent", PH_NO_CHECK);
+		PHALCON_CALL_METHOD(cached_content, frontend, "getcontent");
 	} else {
 		PHALCON_CPY_WRT(cached_content, content);
 	}
 	
-	/** 
-	 * We use file_put_contents to repect open-base-dir directive
-	 */
 	PHALCON_INIT_VAR(prepared_content);
-	PHALCON_CALL_METHOD_PARAMS_1(prepared_content, frontend, "beforestore", cached_content, PH_NO_CHECK);
-	PHALCON_CALL_FUNC_PARAMS_2_NORETURN("file_put_contents", cache_file, prepared_content);
+	PHALCON_CALL_METHOD_PARAMS_1(prepared_content, frontend, "beforestore", cached_content);
+	
+	/** 
+	 * We use file_put_contents to respect open-base-dir directive
+	 */
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_FUNC_PARAMS_2(status, "file_put_contents", cache_file, prepared_content);
+	if (PHALCON_IS_FALSE(status)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Cache directory can't be written");
+		return;
+	}
 	
 	PHALCON_INIT_VAR(is_buffering);
-	PHALCON_CALL_METHOD(is_buffering, frontend, "isbuffering", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(is_buffering, frontend, "isbuffering");
 	if (PHALCON_IS_TRUE(stop_buffer)) {
-		PHALCON_CALL_METHOD_NORETURN(frontend, "stop", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(frontend, "stop");
 	}
 	
 	if (PHALCON_IS_TRUE(is_buffering)) {
@@ -326,14 +324,13 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(prefix);
+	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(filtered);
@@ -342,7 +339,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_INIT_VAR(prefixed_key);
 	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
 	
-	PHALCON_INIT_VAR(cache_dir);
+	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(cache_file);
@@ -350,12 +347,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
 		PHALCON_INIT_VAR(success);
 		PHALCON_CALL_FUNC_PARAMS_1(success, "unlink", cache_file);
-	
 		RETURN_CCTOR(success);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -374,8 +369,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &prefix) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!prefix) {
@@ -385,10 +379,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	PHALCON_INIT_VAR(keys);
 	array_init(keys);
 	
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(cache_dir);
+	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 	
 	/** 
@@ -398,35 +392,40 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	
 	PHALCON_INIT_VAR(iterator);
 	object_init_ex(iterator, ce0);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(iterator, "__construct", cache_dir, PH_CHECK);
-	PHALCON_CALL_METHOD_NORETURN(iterator, "rewind", PH_NO_CHECK);
-	ph_cycle_start_0:
+	if (phalcon_has_constructor(iterator TSRMLS_CC)) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(iterator, "__construct", cache_dir);
+	}
+	PHALCON_CALL_METHOD_NORETURN(iterator, "rewind");
+	
+	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
-		PHALCON_CALL_METHOD(r0, iterator, "valid", PH_NO_CHECK);
-		if (!zend_is_true(r0)) {
-			goto ph_cycle_end_0;
+		PHALCON_CALL_METHOD(r0, iterator, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
 		}
+	
 		PHALCON_INIT_NVAR(item);
-		PHALCON_CALL_METHOD(item, iterator, "current", PH_NO_CHECK);
+		PHALCON_CALL_METHOD(item, iterator, "current");
 	
 		PHALCON_INIT_NVAR(is_directory);
-		PHALCON_CALL_METHOD(is_directory, item, "isdir", PH_NO_CHECK);
+		PHALCON_CALL_METHOD(is_directory, item, "isdir");
 		if (PHALCON_IS_FALSE(is_directory)) {
+	
 			PHALCON_INIT_NVAR(key);
-			PHALCON_CALL_METHOD(key, item, "getfilename", PH_NO_CHECK);
+			PHALCON_CALL_METHOD(key, item, "getfilename");
 			if (zend_is_true(prefix)) {
-				if (!phalcon_start_with(key, prefix)) {
-					goto ph_cycle_start_0;
+				if (!phalcon_start_with(key, prefix, NULL)) {
+					continue;
 				}
 			}
 	
 			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
 		}
 	
-		PHALCON_CALL_METHOD_NORETURN(iterator, "next", PH_NO_CHECK);
-		goto ph_cycle_start_0;
-	ph_cycle_end_0:
+		PHALCON_CALL_METHOD_NORETURN(iterator, "next");
+	}
 	
 	RETURN_CTOR(keys);
 }
@@ -447,8 +446,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &key_name, &lifetime) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!key_name) {
@@ -460,10 +458,10 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
-		PHALCON_INIT_VAR(last_key);
+		PHALCON_OBS_VAR(last_key);
 		phalcon_read_property(&last_key, this_ptr, SL("_lastKey"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(prefix);
+		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(filtered);
@@ -473,16 +471,18 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_CONCAT_VV(last_key, prefix, filtered);
 	}
 	if (zend_is_true(last_key)) {
-		PHALCON_INIT_VAR(options);
+	
+		PHALCON_OBS_VAR(options);
 		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(cache_dir);
+		PHALCON_OBS_VAR(cache_dir);
 		phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(cache_file);
 		PHALCON_CONCAT_VV(cache_file, cache_dir, last_key);
 		if (phalcon_file_exists(cache_file TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_VAR(frontend);
+	
+			PHALCON_OBS_VAR(frontend);
 			phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	
 			/** 
@@ -492,7 +492,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 			PHALCON_CALL_FUNC(time, "time");
 			if (Z_TYPE_P(lifetime) == IS_NULL) {
 				PHALCON_INIT_VAR(ttl);
-				PHALCON_CALL_METHOD(ttl, frontend, "getlifetime", PH_NO_CHECK);
+				PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
 			} else {
 				PHALCON_CPY_WRT(ttl, lifetime);
 			}
@@ -509,13 +509,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 				/** 
 				 * We only return true if the file exists and it did not expired
 				 */
-				PHALCON_MM_RESTORE();
-				RETURN_TRUE;
+				RETURN_MM_TRUE;
 			}
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 

@@ -22,7 +22,7 @@
 
 #define PHALCON_RELEASE 1
 
-#define PHP_PHALCON_VERSION "0.7.0"
+#define PHP_PHALCON_VERSION "0.8.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
@@ -81,3 +81,9 @@ extern zend_module_entry phalcon_module_entry;
 	if(phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE){ \
 		return FAILURE; \
 	}
+
+#if PHP_VERSION_ID >= 50400
+#define PHALCON_EXPERIMENTAL_FCALL 0
+#else
+#define PHALCON_EXPERIMENTAL_FCALL 1
+#endif

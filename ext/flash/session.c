@@ -101,11 +101,10 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &remove) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
@@ -116,15 +115,15 @@ PHP_METHOD(Phalcon_Flash_Session, _getSessionMessages){
 	ZVAL_STRING(service, "session", 1);
 	
 	PHALCON_INIT_VAR(session);
-	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD_PARAMS_1(messages, session, "get", index_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(messages, session, "get", index_name);
 	if (PHALCON_IS_TRUE(remove)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", index_name, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", index_name);
 	}
 	
 	
@@ -145,13 +144,12 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &messages) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_SEPARATE_PARAM(messages);
 	
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
@@ -162,13 +160,13 @@ PHP_METHOD(Phalcon_Flash_Session, _setSessionMessages){
 	ZVAL_STRING(service, "session", 1);
 	
 	PHALCON_INIT_VAR(session);
-	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
 	
 	PHALCON_INIT_VAR(index_name);
 	ZVAL_STRING(index_name, "_flashMessages", 1);
 	
 	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_METHOD_PARAMS_2(r0, session, "set", index_name, messages, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(r0, session, "set", index_name, messages);
 	PHALCON_CPY_WRT(messages, r0);
 	
 	RETURN_CCTOR(messages);
@@ -184,34 +182,31 @@ PHP_METHOD(Phalcon_Flash_Session, message){
 
 	zval *type, *message, *remove, *messages = NULL;
 	zval *a0 = NULL;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &type, &message) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(remove);
 	ZVAL_BOOL(remove, 0);
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove);
 	if (Z_TYPE_P(messages) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(messages);
 		array_init(messages);
 	}
 	
-	eval_int = phalcon_array_isset(messages, type);
-	if (!eval_int) {
+	if (!phalcon_array_isset(messages, type)) {
 		PHALCON_INIT_VAR(a0);
 		array_init(a0);
 		phalcon_array_update_zval(&messages, type, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	phalcon_array_update_append_multi_2(&messages, type, message, 0 TSRMLS_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_setsessionmessages", messages, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_setsessionmessages", messages);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -227,13 +222,11 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 
 	zval *type = NULL, *remove = NULL, *messages, *return_messages;
 	zval *empty_arr;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &type, &remove) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!type) {
@@ -246,14 +239,12 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	}
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 		if (Z_TYPE_P(type) == IS_STRING) {
-			eval_int = phalcon_array_isset(messages, type);
-			if (eval_int) {
-				PHALCON_INIT_VAR(return_messages);
+			if (phalcon_array_isset(messages, type)) {
+				PHALCON_OBS_VAR(return_messages);
 				phalcon_array_fetch(&return_messages, messages, type, PH_NOISY_CC);
-	
 				RETURN_CCTOR(return_messages);
 			}
 		}
@@ -287,8 +278,7 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &remove) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!remove) {
@@ -297,7 +287,7 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	}
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(messages, this_ptr, "_getsessionmessages", remove);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 	
 		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
@@ -307,22 +297,15 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 		ah0 = Z_ARRVAL_P(messages);
 		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-		ph_cycle_start_0:
-	
-			if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-				goto ph_cycle_end_0;
-			}
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(type, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(message);
 	
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "outputmessage", type, message, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "outputmessage", type, message);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
-			goto ph_cycle_start_0;
-	
-		ph_cycle_end_0:
-		if(0){}
+		}
 	
 	}
 	

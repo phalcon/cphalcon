@@ -50,6 +50,7 @@ class Build_Generator {
 		'kernel/file.c',
 		'kernel/exception.c',
 		'kernel/require.c',
+		'kernel/experimental/fcall.c',
 	);
 
 	private $_exclusions = array(
