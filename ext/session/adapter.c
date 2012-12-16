@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, g0, key, PH_NOISY_CC);
-		if (PHALCON_IS_NOT_EMPTY(default_value)) {
+		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
 	}
