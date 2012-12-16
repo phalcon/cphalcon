@@ -50,7 +50,7 @@ class Build_Generator {
 		'kernel/file.c',
 		'kernel/exception.c',
 		'kernel/require.c',
-		'kernel/experimental/fcall.c',
+		'kernel/experimental/fcall.c'
 	);
 
 	private $_exclusions = array(
@@ -86,6 +86,8 @@ class Build_Generator {
 #include "ext/standard/php_smart_str.h"
 #include "ext/pdo/php_pdo_driver.h"
 #include "ext/standard/php_filestat.h"
+#include "ext/standard/php_rand.h"
+#include "ext/standard/php_lcg.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"

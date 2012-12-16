@@ -37,6 +37,7 @@ typedef struct _phalcon_memory_entry {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
+	HashTable *function_cache;
 #ifndef PHALCON_RELEASE
 	int phalcon_stack_stats;
 #endif
