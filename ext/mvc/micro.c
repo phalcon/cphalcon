@@ -402,6 +402,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 
 /**
  * Obtains a shared service from the DI
+ *
+ * @param string $serviceName
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 

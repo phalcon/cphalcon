@@ -476,7 +476,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_INIT_NVAR(match_method);
 			PHALCON_CALL_METHOD_PARAMS_1(match_method, request, "ismethod", methods);
 			if (PHALCON_IS_FALSE(match_method)) {
-				zend_hash_move_forward_ex(ah0, &hp0);
+				zend_hash_move_backwards_ex(ah0, &hp0);
 				continue;
 			}
 		}
