@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
  *
  *<code>
  *	//Querying data
- *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");</code>
+ *	$resultset = $connection->query("SELECT * FROM robots WHERE type='mechanical'");
  *	$resultset = $connection->query("SELECT * FROM robots WHERE type=?", array("mechanical"));
  *</code>
  *

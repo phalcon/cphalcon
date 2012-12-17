@@ -1131,6 +1131,9 @@ void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_D
 /* Strips extra slashes */
 void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 
+/** ssprintf */
+int phalcon_spprintf(char **message, int max_len, char *format, ...);
+
 
 
 /** Low level filters */
@@ -5700,6 +5703,16 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str){
 
 }
 
+int phalcon_spprintf(char **message, int max_len, char *format, ...)
+{
+    va_list arg;
+    int len;
+
+    va_start(arg, format);
+    len = vspprintf(message, max_len, format, arg);
+    va_end(arg);
+    return len;
+}
 
 
 
@@ -8029,6 +8042,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				fcc->function_handler = priv_fbc;
 			}
 		}
+		#ifndef PHALCON_RELEASE
 		if ((check_flags & IS_CALLABLE_CHECK_NO_ACCESS) == 0 && (fcc->calling_scope && (fcc->calling_scope->__call || fcc->calling_scope->__callstatic))) {
 			if (fcc->function_handler->op_array.fn_flags & ZEND_ACC_PRIVATE) {
 				if (!zend_check_private(fcc->function_handler, ce, Z_STRVAL_P(callable), Z_STRLEN_P(callable) TSRMLS_CC)) {
@@ -8046,6 +8060,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				}
 			}
 		}
+		#endif
 	} else {
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
@@ -8062,7 +8077,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 		if (fcc->calling_scope && !call_via_handler) {
 			if (!fcc->object_ptr && (fcc->function_handler->common.fn_flags & ZEND_ACC_ABSTRACT)) {
 				if (error) {
-					zend_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+					phalcon_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 					retval = 0;
 				} else {
 					zend_error(E_ERROR, "Cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
@@ -8075,7 +8090,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 							if (*error) {
 								efree(*error);
 							}
-							zend_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+							phalcon_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 						}
 						retval = 0;
 					}
@@ -8086,7 +8101,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 								if (*error) {
 									efree(*error);
 								}
-								zend_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+								phalcon_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 							}
 							retval = 0;
 						}
@@ -8098,9 +8113,9 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 	} else {
 		if (error && !(check_flags & IS_CALLABLE_CHECK_SILENT)) {
 			if (fcc->calling_scope) {
-				if (error) zend_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
 			} else {
-				if (error) zend_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
 			}
 		}
 	}
@@ -25853,8 +25868,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
 	zval *model, *index, *table, *schema, *key, *meta_data = NULL;
-	zval *attributes;
-	zval *r0 = NULL;
+	zval *meta_data_index, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -25889,11 +25903,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, meta_data, key, PH_NOISY_CC);
+	PHALCON_OBS_VAR(meta_data_index);
+	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -25991,8 +26005,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 
 	zval *model, *index, *class_name, *key_name, *column_map = NULL;
-	zval *null_value, *attributes;
-	zval *r0 = NULL;
+	zval *null_value, *column_map_model, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -26025,11 +26038,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, column_map, key_name, PH_NOISY_CC);
+	PHALCON_OBS_VAR(column_map_model);
+	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -28142,7 +28155,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *exception_message = NULL, *fields = NULL, *referenced_fields = NULL;
 	zval *model_alias = NULL, *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL;
 	zval *sql_join_condition = NULL, *join_source = NULL, *sql_join = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -28357,11 +28369,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 						PHALCON_INIT_NVAR(number_relations);
 						phalcon_fast_count(number_relations, relations TSRMLS_CC);
 	
-						PHALCON_INIT_NVAR(t0);
-						ZVAL_LONG(t0, 1);
-	
 						PHALCON_INIT_NVAR(invalid);
-						is_not_equal_function(invalid, number_relations, t0 TSRMLS_CC);
+						is_not_equal_function(invalid, number_relations, one TSRMLS_CC);
 						if (PHALCON_IS_TRUE(invalid)) {
 							PHALCON_INIT_NVAR(exception_message);
 							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between '", model_name, "' and '", join_model, "\", the join must be done using an alias");
@@ -33114,7 +33123,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
 	zval *model, *class_name, *initialized, *events_manager = NULL;
 	zval *lowercased, *event_name, *model_base, *connection_service;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -33148,10 +33156,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		phalcon_update_property_array(this_ptr, SL("_initialized"), lowercased, model TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_initialized"), PH_NOISY_CC);
 		PHALCON_OBS_VAR(model_base);
-		phalcon_array_fetch(&model_base, t0, lowercased, PH_NOISY_CC);
+		phalcon_array_fetch(&model_base, initialized, lowercased, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(connection_service);
 		PHALCON_CALL_METHOD(connection_service, model_base, "getconnectionservice");

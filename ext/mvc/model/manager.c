@@ -157,7 +157,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
 	zval *model, *class_name, *initialized, *events_manager = NULL;
 	zval *lowercased, *event_name, *model_base, *connection_service;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -200,10 +199,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		phalcon_update_property_array(this_ptr, SL("_initialized"), lowercased, model TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_initialized"), PH_NOISY_CC);
 		PHALCON_OBS_VAR(model_base);
-		phalcon_array_fetch(&model_base, t0, lowercased, PH_NOISY_CC);
+		phalcon_array_fetch(&model_base, initialized, lowercased, PH_NOISY_CC);
 	
 		/** 
 		 * Pass the connection service to each new instance

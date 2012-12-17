@@ -1343,7 +1343,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *exception_message = NULL, *fields = NULL, *referenced_fields = NULL;
 	zval *model_alias = NULL, *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL;
 	zval *sql_join_condition = NULL, *join_source = NULL, *sql_join = NULL;
-	zval *t0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -1621,11 +1620,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 						PHALCON_INIT_NVAR(number_relations);
 						phalcon_fast_count(number_relations, relations TSRMLS_CC);
 	
-						PHALCON_INIT_NVAR(t0);
-						ZVAL_LONG(t0, 1);
-	
 						PHALCON_INIT_NVAR(invalid);
-						is_not_equal_function(invalid, number_relations, t0 TSRMLS_CC);
+						is_not_equal_function(invalid, number_relations, one TSRMLS_CC);
 						if (PHALCON_IS_TRUE(invalid)) {
 							PHALCON_INIT_NVAR(exception_message);
 							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between '", model_name, "' and '", join_model, "\", the join must be done using an alias");

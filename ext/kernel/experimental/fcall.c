@@ -132,6 +132,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				fcc->function_handler = priv_fbc;
 			}
 		}
+		#ifndef PHALCON_RELEASE
 		if ((check_flags & IS_CALLABLE_CHECK_NO_ACCESS) == 0 && (fcc->calling_scope && (fcc->calling_scope->__call || fcc->calling_scope->__callstatic))) {
 			if (fcc->function_handler->op_array.fn_flags & ZEND_ACC_PRIVATE) {
 				if (!zend_check_private(fcc->function_handler, ce, Z_STRVAL_P(callable), Z_STRLEN_P(callable) TSRMLS_CC)) {
@@ -149,6 +150,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				}
 			}
 		}
+		#endif
 	} else {
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
@@ -165,7 +167,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 		if (fcc->calling_scope && !call_via_handler) {
 			if (!fcc->object_ptr && (fcc->function_handler->common.fn_flags & ZEND_ACC_ABSTRACT)) {
 				if (error) {
-					zend_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+					phalcon_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 					retval = 0;
 				} else {
 					zend_error(E_ERROR, "Cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
@@ -178,7 +180,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 							if (*error) {
 								efree(*error);
 							}
-							zend_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+							phalcon_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 						}
 						retval = 0;
 					}
@@ -189,7 +191,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 								if (*error) {
 									efree(*error);
 								}
-								zend_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+								phalcon_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 							}
 							retval = 0;
 						}
@@ -201,9 +203,9 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 	} else {
 		if (error && !(check_flags & IS_CALLABLE_CHECK_SILENT)) {
 			if (fcc->calling_scope) {
-				if (error) zend_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
 			} else {
-				if (error) zend_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
 			}
 		}
 	}
