@@ -68,8 +68,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &translate_key, &placeholders) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!placeholders) {
@@ -77,8 +76,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 	}
 	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, placeholders, PH_NO_CHECK);
-	
+	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", translate_key, placeholders);
 	RETURN_CCTOR(translation);
 }
 
@@ -95,8 +93,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetSet){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &offset, &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
@@ -116,13 +113,11 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetExists){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &translate_key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "exists", translate_key, PH_NO_CHECK);
-	
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "exists", translate_key);
 	RETURN_CCTOR(exists);
 }
 
@@ -138,8 +133,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetUnset){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object");
@@ -159,15 +153,13 @@ PHP_METHOD(Phalcon_Translate_Adapter, offsetGet){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &traslate_key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(null_value);
 	
 	PHALCON_INIT_VAR(translation);
-	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value, PH_NO_CHECK);
-	
+	PHALCON_CALL_METHOD_PARAMS_2(translation, this_ptr, "query", traslate_key, null_value);
 	RETURN_CCTOR(translation);
 }
 

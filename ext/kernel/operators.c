@@ -52,55 +52,92 @@ int phalcon_and_function(zval *result, zval *left, zval *right){
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self(zval *left, zval *right TSRMLS_DC){
+void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 
-	zval left_copy;
+	zval left_copy, right_copy;
 	uint length;
-	int use_copy = 0;
+	int use_copy_left = 0, use_copy_right = 0;
 
-	if (Z_TYPE_P(left) != IS_STRING) {
-		phalcon_make_printable_zval(left, &left_copy, &use_copy);
-		if (use_copy) {
-			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+	if (Z_TYPE_P(right) != IS_STRING) {
+		phalcon_make_printable_zval(right, &right_copy, &use_copy_right);
+		if (use_copy_right) {
+			PHALCON_CPY_WRT_CTOR(right, (&right_copy));
 		}
 	}
 
-	length = Z_STRLEN_P(left) + Z_STRLEN_P(right);
-	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+	if (Z_TYPE_PP(left) == IS_NULL) {
 
-	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
-	Z_STRVAL_P(left)[length] = 0;
-	Z_STRLEN_P(left) = length;
-	Z_TYPE_P(left) = IS_STRING;
+		Z_STRVAL_PP(left) = emalloc(Z_STRLEN_P(right)+1);
+		memcpy(Z_STRVAL_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
+		Z_STRVAL_PP(left)[Z_STRLEN_P(right)] = 0;
+		Z_STRLEN_PP(left) = Z_STRLEN_P(right);
+		Z_TYPE_PP(left) = IS_STRING;
 
-	if (use_copy) {
+		if (use_copy_right) {
+			zval_dtor(&right_copy);
+		}
+
+		return;
+	}
+
+	if (Z_TYPE_PP(left) != IS_STRING) {
+		phalcon_make_printable_zval(*left, &left_copy, &use_copy_left);
+		if (use_copy_left) {
+			PHALCON_CPY_WRT_CTOR(*left, (&left_copy));
+		}
+	}
+
+	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length+1);
+
+	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
+	Z_STRVAL_PP(left)[length] = 0;
+	Z_STRLEN_PP(left) = length;
+	Z_TYPE_PP(left) = IS_STRING;
+
+	if (use_copy_left) {
 		zval_dtor(&left_copy);
+	}
+
+	if (use_copy_right) {
+		zval_dtor(&right_copy);
 	}
 }
 
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC){
+void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC){
 
 	zval left_copy;
 	uint length;
 	int use_copy = 0;
 
-	if (Z_TYPE_P(left) != IS_STRING) {
-		phalcon_make_printable_zval(left, &left_copy, &use_copy);
+	if (Z_TYPE_PP(left) == IS_NULL) {
+
+		Z_STRVAL_PP(left) = emalloc(right_length + 1);
+		memcpy(Z_STRVAL_PP(left), right, right_length);
+		Z_STRVAL_PP(left)[right_length] = 0;
+		Z_STRLEN_PP(left) = right_length;
+		Z_TYPE_PP(left) = IS_STRING;
+
+		return;
+	}
+
+	if (Z_TYPE_PP(left) != IS_STRING) {
+		phalcon_make_printable_zval(*left, &left_copy, &use_copy);
 		if (use_copy) {
-			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+			PHALCON_CPY_WRT_CTOR(*left, (&left_copy));
 		}
 	}
 
-	length = Z_STRLEN_P(left) + right_length;
-	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+	length = Z_STRLEN_PP(left) + right_length;
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
-	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), right, right_length);
-	Z_STRVAL_P(left)[length] = 0;
-	Z_STRLEN_P(left) = length;
-	Z_TYPE_P(left) = IS_STRING;
+	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right, right_length);
+	Z_STRVAL_PP(left)[length] = 0;
+	Z_STRLEN_PP(left) = length;
+	Z_TYPE_PP(left) = IS_STRING;
 
 	if (use_copy) {
 		zval_dtor(&left_copy);

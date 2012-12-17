@@ -34,10 +34,11 @@
 
 #include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
+#include "kernel/filter.h"
 #include "kernel/concat.h"
 
 /**
@@ -92,13 +93,11 @@ PHP_METHOD(Phalcon_Filter, __construct){
 PHP_METHOD(Phalcon_Filter, add){
 
 	zval *name, *handler;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -110,10 +109,7 @@ PHP_METHOD(Phalcon_Filter, add){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_filters"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, name, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_filters"), t0 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -136,8 +132,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filters) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(filters) == IS_ARRAY) { 
@@ -151,23 +146,16 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 			ah0 = Z_ARRVAL_P(filters);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-			ph_cycle_start_0:
-	
-				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-					goto ph_cycle_end_0;
-				}
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(filter);
 	
 				PHALCON_INIT_NVAR(filter_value);
-				PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", new_value, filter, PH_NO_CHECK);
+				PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", new_value, filter);
 				PHALCON_CPY_WRT(new_value, filter_value);
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
-				goto ph_cycle_start_0;
-	
-			ph_cycle_end_0:
-			if(0){}
+			}
 	
 		}
 	
@@ -176,7 +164,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	}
 	
 	PHALCON_INIT_VAR(sanizited_value);
-	PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters);
 	
 	RETURN_CCTOR(sanizited_value);
 }
@@ -193,20 +181,18 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	zval *value, *filter, *filters, *filter_object;
 	zval *arguments, *filtered = NULL, *type = NULL, *quote, *empty_str;
 	zval *escaped, *allow_fraction, *options, *exception_message;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &value, &filter) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(filters);
+	PHALCON_OBS_VAR(filters);
 	phalcon_read_property(&filters, this_ptr, SL("_filters"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(filters, filter);
-	if (eval_int) {
-		PHALCON_INIT_VAR(filter_object);
+	if (phalcon_array_isset(filters, filter)) {
+	
+		PHALCON_OBS_VAR(filter_object);
 		phalcon_array_fetch(&filter_object, filters, filter, PH_NOISY_CC);
 	
 		/** 
@@ -214,14 +200,14 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		 */
 		if (phalcon_is_instance_of(filter_object, SL("Closure") TSRMLS_CC)) {
 			PHALCON_INIT_VAR(arguments);
-			array_init(arguments);
+			array_init_size(arguments, 1);
 			phalcon_array_append(&arguments, value, PH_SEPARATE TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(filtered);
 			PHALCON_CALL_USER_FUNC_ARRAY(filtered, filter_object, arguments);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
-			PHALCON_CALL_METHOD_PARAMS_1(filtered, filter_object, "filter", value, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_1(filtered, filter_object, "filter", value);
 		}
 	
 	
@@ -280,7 +266,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		ZVAL_LONG(allow_fraction, 4096);
 	
 		PHALCON_INIT_VAR(options);
-		array_init(options);
+		array_init_size(options, 1);
 		phalcon_array_update_string(&options, SL("flags"), &allow_fraction, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(type);
@@ -319,7 +305,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 			PHALCON_CALL_FUNC_PARAMS_1(filtered, "mb_strtolower", value);
 		} else {
 			PHALCON_INIT_NVAR(filtered);
-			PHALCON_CALL_FUNC_PARAMS_1(filtered, "strtolower", value);
+			phalcon_fast_strtolower(filtered, value);
 		}
 		goto ph_end_0;
 	}

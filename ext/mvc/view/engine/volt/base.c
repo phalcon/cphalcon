@@ -30,6 +30,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_DIV,           	"/" },
   { PHVOLT_T_MOD,           	"%%" },
   { PHVOLT_T_NOT,           	"!" },
+  { PHVOLT_T_CONCAT,           	"~" },
   { PHVOLT_T_AND,           	"AND" },
   { PHVOLT_T_OR,            	"OR" },
   { PHVOLT_T_DOT,           	"DOT" },
@@ -60,10 +61,14 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_ASSIGN,           	"ASSIGN" },
   { PHVOLT_T_BLOCK,           	"BLOCK" },
   { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
+  { PHVOLT_T_CACHE,           	"CACHE" },
+  { PHVOLT_T_ENDCACHE,        	"ENDCACHE" },
   { PHVOLT_T_EXTENDS,			"EXTENDS" },
   { PHVOLT_T_IS,				"IS" },
   { PHVOLT_T_DEFINED,			"DEFINED" },
   { PHVOLT_T_INCLUDE,			"INCLUDE" },
+  { PHVOLT_T_DO,				"DO" },
+  { PHVOLT_T_IGNORE,			"WHITESPACE" },
   {  0, NULL }
 };
 
@@ -97,27 +102,54 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
  * Creates an error message
  */
 static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
-	char *str = emalloc(sizeof(char) * 128);
-	sprintf(str, "%s on line %d", message, parser_status->scanner_state->active_line);
+	char *str = emalloc(sizeof(char) * (128 + Z_STRLEN_P(parser_status->scanner_state->active_file)));
+	sprintf(str, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
 	parser_status->syntax_error = estrndup(str, strlen(str));
 	efree(str);
 }
 
 /**
- * Receives the volt code and tokenizes/parses it
+ * Creates an error message when it's triggered by the scanner
  */
-int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
+static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+
+	char *error, *error_part;
+	phvolt_scanner_state *state = parser_status->scanner_state;
+
+	PHALCON_INIT_VAR(*error_msg);
+	if (state->start) {
+		error = emalloc(sizeof(char) * 64 + strlen(state->start) +  Z_STRLEN_P(state->active_file));
+		if (strlen(state->start) > 16) {
+			error_part = estrndup(state->start, 16);
+			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			efree(error_part);
+		} else {
+			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+		}
+		ZVAL_STRING(*error_msg, error, 1);
+	} else {
+		error = emalloc(sizeof(char) *(32 + Z_STRLEN_P(state->active_file)));
+		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		ZVAL_STRING(*error_msg, error, 1);
+	}
+	efree(error);
+}
+
+/**
+ * Receives the volt code tokenizes and parses it
+ */
+int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC){
 
 	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string") TSRMLS_CC);
 		return FAILURE;
 	}
 
-	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), Z_STRLEN_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
+	if(phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE){
 		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -126,11 +158,13 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 }
 
 /**
- * Checks if token contains only black characters
+ * Checks whether the token has only blank characters
  */
 int phvolt_is_blank_string(phvolt_scanner_token *token){
-	int i;
-	char ch, *marker = token->value;
+
+	char *marker = token->value;
+	unsigned int ch, i;
+
 	for (i = 0; i < token->len; i++) {
 		ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
@@ -138,13 +172,14 @@ int phvolt_is_blank_string(phvolt_scanner_token *token){
 		}
 		marker++;
 	}
+
 	return 1;
 }
 
 /**
  * Parses a volt template returning an intermediate array representation
  */
-int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC) {
+int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phvolt_scanner_state *state;
@@ -153,17 +188,19 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
 
-	if (!view_code) {
+	/** Check if the view has code */
+	if (!Z_STRVAL_P(view_code)) {
 		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}
 
-	if (!view_length) {
+	if (!Z_STRLEN_P(view_code)) {
 		array_init(*result);
 		return SUCCESS;
 	}
 
+	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
@@ -177,11 +214,12 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 	/** Initialize the scanner state */
 	state->active_token = 0;
-	state->start = view_code;
+	state->start = Z_STRVAL_P(view_code);
 	state->mode = PHVOLT_MODE_RAW;
 	state->raw_buffer = emalloc(sizeof(char) * PHVOLT_RAW_BUFFER_SIZE);
 	state->raw_buffer_size = PHVOLT_RAW_BUFFER_SIZE;
 	state->raw_buffer_cursor = 0;
+	state->active_file = template_path;
 	state->active_line = 1;
 	state->statement_position = 0;
 	state->extends_mode = 0;
@@ -364,10 +402,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 					if(!phvolt_is_blank_string(token)){
 						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 						parser_status->status = PHVOLT_PARSING_FAILED;
-					} else {
-						efree(token->value);
 					}
+					efree(token->value);
 					break;
+				} else {
+					if(!phvolt_is_blank_string(token)){
+						state->statement_position++;
+					}
 				}
 				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
 				break;
@@ -399,12 +440,23 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_CACHE:
+				phvolt_(phvolt_parser, PHVOLT_CACHE, NULL, parser_status);
+				break;
+			case PHVOLT_T_ENDCACHE:
+				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_INCLUDE:
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_DEFINED:
 				phvolt_(phvolt_parser, PHVOLT_DEFINED, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_DO:
+				phvolt_(phvolt_parser, PHVOLT_DO, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_EXTENDS:
@@ -420,11 +472,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 			default:
 				parser_status->status = PHVOLT_PARSING_FAILED;
-				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "Scanner: unknown opcode %c", token->opcode);
-				PHALCON_INIT_VAR(*error_msg);
-				ZVAL_STRING(*error_msg, error, 1);
-				efree(error);
+				if (!*error_msg) {
+					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token->opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, error, 1);
+					efree(error);
+				}
 				break;
 		}
 
@@ -436,24 +490,12 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 		state->end = state->start;
 	}
 
-	state->active_token = 0;
-	state->start = NULL;
-	efree(state->raw_buffer);
-
 	if (status != FAILURE) {
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
-					PHALCON_INIT_VAR(*error_msg);
-					if (state->start) {
-						error = emalloc(sizeof(char) *(48 + strlen(state->start)));
-						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-						ZVAL_STRING(*error_msg, error, 1);
-						efree(error);
-					} else {
-						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
-					}
+					phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
 				}
 				status = FAILURE;
 				break;
@@ -461,6 +503,10 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 				phvolt_(phvolt_parser, 0, NULL, parser_status);
 		}
 	}
+
+	state->active_token = 0;
+	state->start = NULL;
+	efree(state->raw_buffer);
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;

@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 PHP_METHOD(Phalcon_Mvc_Model, getRelated);
-PHP_METHOD(Phalcon_Mvc_Model, __getRelatedRecords);
+PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
 PHP_METHOD(Phalcon_Mvc_Model, unserialize);
@@ -177,7 +177,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_writeattribute, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelated, 0, 0, 1)
-	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, alias)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
 
@@ -244,7 +244,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, hasMany, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getRelated, arginfo_phalcon_mvc_model_getrelated, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, __getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC) 

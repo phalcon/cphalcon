@@ -45,9 +45,9 @@
  * you can easily create groups of session variables into the application
  *
  *<code>
- * $user = new Phalcon\Session\Bag();
- * $user->name = "Kimbra Johnson";
- * $user->age = 22;
+ *	$user = new \Phalcon\Session\Bag();
+ *	$user->name = "Kimbra Johnson";
+ *	$user->age = 22;
  *</code>
  */
 
@@ -72,6 +72,8 @@ PHALCON_INIT_CLASS(Phalcon_Session_Bag){
 
 /**
  * Phalcon\Session\Bag constructor
+ *
+ * @param string $name
  */
 PHP_METHOD(Phalcon_Session_Bag, __construct){
 
@@ -79,11 +81,8 @@ PHP_METHOD(Phalcon_Session_Bag, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_session_bag_ce, this_ptr, SL("_data") TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(name) == IS_STRING) {
@@ -108,8 +107,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -137,36 +135,41 @@ PHP_METHOD(Phalcon_Session_Bag, getDI){
  */
 PHP_METHOD(Phalcon_Session_Bag, initialize){
 
-	zval *dependency_injector, *service, *session;
+	zval *session = NULL, *dependency_injector, *service;
 	zval *name, *data = NULL;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(dependency_injector);
-	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
-		return;
+	PHALCON_OBS_VAR(session);
+	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	if (Z_TYPE_P(session) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_session_exception_ce, "A dependency injection object is required to access the 'session' service");
+			return;
+		}
+	
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "session", 1);
+	
+		PHALCON_INIT_NVAR(session);
+		PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
+		phalcon_update_property_zval(this_ptr, SL("_session"), session TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "session", 1);
-	
-	PHALCON_INIT_VAR(session);
-	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service, PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(name);
+	PHALCON_OBS_VAR(name);
 	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(data);
-	PHALCON_CALL_METHOD_PARAMS_1(data, session, "get", name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(data, session, "get", name);
 	if (Z_TYPE_P(data) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(data);
 		array_init(data);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_data"), data TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_session"), session TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_initalized"), 1 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
@@ -174,6 +177,10 @@ PHP_METHOD(Phalcon_Session_Bag, initialize){
 
 /**
  * Destroyes the session bag
+ *
+ *<code>
+ * $user->destroy();
+ *</code>
  */
 PHP_METHOD(Phalcon_Session_Bag, destroy){
 
@@ -181,136 +188,223 @@ PHP_METHOD(Phalcon_Session_Bag, destroy){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(initalized);
+	PHALCON_OBS_VAR(initalized);
 	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
 	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
 	}
 	
-	PHALCON_INIT_VAR(name);
+	PHALCON_OBS_VAR(name);
 	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(session);
+	PHALCON_OBS_VAR(session);
 	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(session, "remove", name);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Setter of values
+ * Sets a value in the session bag
+ *
+ *<code>
+ * $user->set('name', 'Kimbra');
+ *</code>
+ *
+ * @param string $property
+ * @param string $value
+ */
+PHP_METHOD(Phalcon_Session_Bag, set){
+
+	zval *property, *value, *initalized, *name, *data;
+	zval *session;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(initalized);
+	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initalized)) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_data"), property, value TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(session);
+	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Magic setter to assign values to the session bag
+ *
+ *<code>
+ * $user->name = Kimbra;
+ *</code>
  *
  * @param string $property
  * @param string $value
  */
 PHP_METHOD(Phalcon_Session_Bag, __set){
 
-	zval *property, *value, *initalized, *name, *data;
-	zval *session;
-	zval *t0 = NULL;
+	zval *property, *value;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &property, &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
-	}
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_data"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, property, &value, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_data"), t0 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(name);
-	phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(session);
-	phalcon_read_property(&session, this_ptr, SL("_session"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session, "set", name, data, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "set", property, value);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Getter of values
+ * Obtains a value from the session bag optionally setting a default value
+ *
+ *<code>
+ * echo $user->get('name', 'Kimbra');
+ *</code>
+ *
+ * @param string $property
+ * @param string $defaultValue
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Session_Bag, get){
+
+	zval *property, *default_value = NULL, *initalized;
+	zval *data, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &property, &default_value) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!default_value) {
+		PHALCON_INIT_NVAR(default_value);
+	}
+	
+	/** 
+	 * Check first if the bag is initialized
+	 */
+	PHALCON_OBS_VAR(initalized);
+	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initalized)) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+	}
+	
+	/** 
+	 * Retrieve the data
+	 */
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset(data, property)) {
+	
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, data, property, PH_NOISY_CC);
+		if (PHALCON_IS_NOT_EMPTY(value)) {
+			RETURN_CCTOR(value);
+		}
+	}
+	
+	
+	RETURN_CCTOR(default_value);
+}
+
+/**
+ * Magic getter to obtain values from the session bag
+ *
+ *<code>
+ * echo $user->name;
+ *</code>
  *
  * @param string $property
  * @return string
  */
 PHP_METHOD(Phalcon_Session_Bag, __get){
 
-	zval *property, *initalized, *data, *value;
-	int eval_int;
+	zval *property, *value;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
-	}
-	
-	PHALCON_INIT_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(data, property);
-	if (eval_int) {
-		PHALCON_INIT_VAR(value);
-		phalcon_array_fetch(&value, data, property, PH_NOISY_CC);
-	
-		RETURN_CCTOR(value);
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	PHALCON_INIT_VAR(value);
+	PHALCON_CALL_METHOD_PARAMS_1(value, this_ptr, "get", property);
+	RETURN_CCTOR(value);
 }
 
 /**
- * Isset property
+ * Check whether a property is defined in the internal bag
+ *
+ *<code>
+ * var_dump($user->has('name'));
+ *</code>
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Session_Bag, has){
+
+	zval *property, *initalized, *data;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(initalized);
+	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
+	if (PHALCON_IS_FALSE(initalized)) {
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize");
+	}
+	
+	PHALCON_OBS_VAR(data);
+	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
+	if (phalcon_array_isset(data, property)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Magic isset to check whether a property is defined in the bag
+ *
+ *<code>
+ * var_dump(isset($user['name']));
+ *</code>
  *
  * @param string $property
  * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, __isset){
 
-	zval *property, *initalized, *data;
-	int eval_int;
+	zval *property, *exists;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(initalized);
-	phalcon_read_property(&initalized, this_ptr, SL("_initalized"), PH_NOISY_CC);
-	if (PHALCON_IS_FALSE(initalized)) {
-		PHALCON_CALL_METHOD_NORETURN(this_ptr, "initialize", PH_NO_CHECK);
-	}
-	
-	PHALCON_INIT_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset(data, property);
-	if (eval_int) {
-		PHALCON_MM_RESTORE();
-		RETURN_TRUE;
-	}
-	
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", property);
+	RETURN_CCTOR(exists);
 }
 

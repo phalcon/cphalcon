@@ -45,12 +45,16 @@ extern int phalcon_return_property(zval *return_value, zval *object, char *prope
 
 /** Updating properties */
 extern int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC);
-extern int phalcon_update_property_string(zval *obj, char *property_name, int property_length, char *value TSRMLS_DC);
+extern int phalcon_update_property_string(zval *object, char *property_name, int property_length, char *str, int str_length TSRMLS_DC);
 extern int phalcon_update_property_bool(zval *obj, char *property_name, int property_length, int value TSRMLS_DC);
 extern int phalcon_update_property_null(zval *obj, char *property_name, int property_length TSRMLS_DC);
 extern int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC);
 extern int phalcon_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
 extern int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
+
+/** Updating array properties */
+extern int phalcon_update_property_array(zval *object, char *property, unsigned int property_length, zval *index, zval *value TSRMLS_DC);
+extern int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
 
 /** Increment/Decrement properties */
 extern int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC);
@@ -63,3 +67,4 @@ extern int phalcon_update_static_property(char *class_name, int class_length, ch
 /** Create instances */
 extern int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC);
 extern int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *params TSRMLS_DC);
+

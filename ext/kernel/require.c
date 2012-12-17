@@ -34,7 +34,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 	int ret;
 	char *file_path;
-	int file_path_length;
+	unsigned int file_path_length;
 	zend_file_handle file_handle;
 	zval *result = NULL;
 	int status = SUCCESS;
@@ -79,7 +79,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 			if (!dummy) {
 				if (file_handle.opened_path) {
-					zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path) + 1, (void *)&dummy, sizeof(int), NULL);
+					zend_hash_add(&EG(included_files), file_handle.opened_path, file_path_length + 1, (void *)&dummy, sizeof(int), NULL);
 				}
 			}
 
@@ -93,6 +93,9 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 				if (!EG(active_symbol_table)) {
 					zend_rebuild_symbol_table(TSRMLS_C);
 				}
+
+				/** This provides compatibility with AOP extension */
+				new_op_array->type = ZEND_EVAL_CODE;
 
 				zend_execute(new_op_array TSRMLS_CC);
 				zend_exception_restore(TSRMLS_C);

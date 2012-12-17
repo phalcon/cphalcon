@@ -78,8 +78,7 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!shared) {
@@ -134,6 +133,23 @@ PHP_METHOD(Phalcon_DI_Service, isShared){
 }
 
 /**
+ * Sets/Resets the shared instance related to the service
+ *
+ * @param mixed $sharedInstance
+ */
+PHP_METHOD(Phalcon_DI_Service, setSharedInstance){
+
+	zval *shared_instance;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &shared_instance) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_sharedInstance"), shared_instance TSRMLS_CC);
+	
+}
+
+/**
  * Set the service definition
  *
  * @param mixed $definition
@@ -171,26 +187,24 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	zval *parameters = NULL, *shared, *shared_instance;
 	zval *found = NULL, *instance = NULL, *definition, *class_name;
 	zval *name, *exception_message;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!parameters) {
 		PHALCON_INIT_NVAR(parameters);
 	}
 	
-	PHALCON_INIT_VAR(shared);
+	PHALCON_OBS_VAR(shared);
 	phalcon_read_property(&shared, this_ptr, SL("_shared"), PH_NOISY_CC);
 	if (zend_is_true(shared)) {
-		PHALCON_INIT_VAR(shared_instance);
+	
+		PHALCON_OBS_VAR(shared_instance);
 		phalcon_read_property(&shared_instance, this_ptr, SL("_sharedInstance"), PH_NOISY_CC);
 		if (Z_TYPE_P(shared_instance) != IS_NULL) {
-	
 			RETURN_CCTOR(shared_instance);
 		}
 	}
@@ -200,9 +214,10 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	
 	PHALCON_INIT_VAR(instance);
 	
-	PHALCON_INIT_VAR(definition);
+	PHALCON_OBS_VAR(definition);
 	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
 	if (Z_TYPE_P(definition) == IS_STRING) {
+	
 		/** 
 		 * String definitions can be class names without implicit parameters
 		 */
@@ -248,13 +263,12 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 			 * Array definitions require a 'className' parameter
 			 */
 			if (Z_TYPE_P(definition) == IS_ARRAY) { 
-				eval_int = phalcon_array_isset_string(definition, SS("className"));
-				if (!eval_int) {
+				if (!phalcon_array_isset_string(definition, SS("className"))) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
 					return;
 				}
 	
-				PHALCON_INIT_VAR(class_name);
+				PHALCON_OBS_VAR(class_name);
 				phalcon_array_fetch_string(&class_name, definition, SL("className"), PH_NOISY_CC);
 				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 					if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
@@ -284,7 +298,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 	
 	if (PHALCON_IS_FALSE(found)) {
-		PHALCON_INIT_VAR(name);
+		PHALCON_OBS_VAR(name);
 		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(exception_message);
@@ -310,35 +324,30 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 PHP_METHOD(Phalcon_DI_Service, __set_state){
 
 	zval *attributes, *name, *definition, *shared, *service;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attributes) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(attributes, SS("_name"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(name);
+	if (phalcon_array_isset_string(attributes, SS("_name"))) {
+		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, attributes, SL("_name"), PH_NOISY_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(attributes, SS("_definition"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(definition);
+	if (phalcon_array_isset_string(attributes, SS("_definition"))) {
+		PHALCON_OBS_VAR(definition);
 		phalcon_array_fetch_string(&definition, attributes, SL("_definition"), PH_NOISY_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_name' is required");
 		return;
 	}
 	
-	eval_int = phalcon_array_isset_string(attributes, SS("_shared"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(shared);
+	if (phalcon_array_isset_string(attributes, SS("_shared"))) {
+		PHALCON_OBS_VAR(shared);
 		phalcon_array_fetch_string(&shared, attributes, SL("_shared"), PH_NOISY_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The attribute '_shared' is required");
@@ -347,7 +356,8 @@ PHP_METHOD(Phalcon_DI_Service, __set_state){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
+	
 	
 	RETURN_CTOR(service);
 }

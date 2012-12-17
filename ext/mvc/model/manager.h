@@ -21,7 +21,6 @@ extern zend_class_entry *phalcon_mvc_model_manager_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager);
 
-PHP_METHOD(Phalcon_Mvc_Model_Manager, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager);
@@ -36,7 +35,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne);
-PHP_METHOD(Phalcon_Mvc_Model_Manager, _getRelationRecords);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords);
@@ -72,7 +72,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasone, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceModel)
+	ZEND_ARG_INFO(0, referencedModel)
 	ZEND_ARG_INFO(0, referencedFields)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -80,7 +80,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_addbelongsto, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceModel)
+	ZEND_ARG_INFO(0, referencedModel)
 	ZEND_ARG_INFO(0, referencedFields)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -88,7 +88,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_addhasmany, 0, 0, 4)
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, fields)
-	ZEND_ARG_INFO(0, referenceModel)
+	ZEND_ARG_INFO(0, referencedModel)
 	ZEND_ARG_INFO(0, referencedFields)
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
@@ -106,6 +106,18 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_existshasone, 0, 0, 2)
 	ZEND_ARG_INFO(0, modelName)
 	ZEND_ARG_INFO(0, modelRelation)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationbyalias, 0, 0, 2)
+	ZEND_ARG_INFO(0, modelName)
+	ZEND_ARG_INFO(0, alias)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationrecords, 0, 0, 3)
+	ZEND_ARG_INFO(0, relation)
+	ZEND_ARG_INFO(0, method)
+	ZEND_ARG_INFO(0, record)
+	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongstorecords, 0, 0, 4)
@@ -167,7 +179,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_createbuilder, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
-	PHP_ME(Phalcon_Mvc_Model_Manager, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, setDI, arginfo_phalcon_mvc_model_manager_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, setEventsManager, arginfo_phalcon_mvc_model_manager_seteventsmanager, ZEND_ACC_PUBLIC) 
@@ -182,7 +193,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsBelongsTo, arginfo_phalcon_mvc_model_manager_existsbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasMany, arginfo_phalcon_mvc_model_manager_existshasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasOne, arginfo_phalcon_mvc_model_manager_existshasone, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model_Manager, _getRelationRecords, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationByAlias, arginfo_phalcon_mvc_model_manager_getrelationbyalias, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationRecords, arginfo_phalcon_mvc_model_manager_getrelationrecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getBelongsToRecords, arginfo_phalcon_mvc_model_manager_getbelongstorecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasManyRecords, arginfo_phalcon_mvc_model_manager_gethasmanyrecords, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasOneRecords, arginfo_phalcon_mvc_model_manager_gethasonerecords, ZEND_ACC_PUBLIC) 

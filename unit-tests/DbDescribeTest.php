@@ -514,7 +514,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array(
-			'customers',
 			'parts',
 			'personas',
 			'personnes',
@@ -613,7 +612,6 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array(
-            'customers',
 			'parts',
 			'personas',
 			'personnes',
@@ -702,15 +700,13 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array(
-            'customers',
 			'parts',
 			'personas',
 			'personnes',
 			'prueba',
 			'robots',
 			'robots_parts',
-            'sqlite_sequence',
-            'subscriptores',
+			'subscriptores',
 			'tipo_documento'
 		);
 

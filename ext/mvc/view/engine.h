@@ -25,7 +25,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct);
 PHP_METHOD(Phalcon_Mvc_View_Engine, getContent);
 PHP_METHOD(Phalcon_Mvc_View_Engine, partial);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, view)
 	ZEND_ARG_INFO(0, dependencyInjector)
 ZEND_END_ARG_INFO()

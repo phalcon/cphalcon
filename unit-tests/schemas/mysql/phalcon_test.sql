@@ -15,32 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-GRANT ALL PRIVILEGES ON phalcon_test.* TO phalcon_user@localhost IDENTIFIED BY '1234';
-
--- Table structure for table `customers`
-DROP TABLE IF EXISTS `customers`;
-CREATE TABLE `customers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `document_id` int(3) unsigned NOT NULL,
-  `customer_id` char(15) COLLATE utf8_unicode_ci NOT NULL,
-  `first_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `last_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `instructions` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` enum('A','I','X') COLLATE utf8_unicode_ci NOT NULL,
-  `birth_date` date DEFAULT '1970-01-01',
-  `credit_line` decimal(16,2) DEFAULT '0',
-  `created_at` datetime NOT NULL,
-  `created_at_user_id` int(10) unsigned DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `customers_document_id_idx` (`document_id`),
-  KEY `customers_customer_id_idx` (`customer_id`),
-  KEY `customers_credit_line_idx` (`credit_line`),
-  KEY `customers_status_idx` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
 --
 -- Table structure for table `parts`
 --

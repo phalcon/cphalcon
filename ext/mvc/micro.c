@@ -36,8 +36,8 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Micro
@@ -99,8 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -112,9 +111,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 	ZVAL_STRING(service, "application", 1);
 	
 	PHALCON_INIT_VAR(exists);
-	PHALCON_CALL_METHOD_PARAMS_1(exists, dependency_injector, "has", service, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, dependency_injector, "has", service);
 	if (!zend_is_true(exists)) {
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(dependency_injector, "set", service, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(dependency_injector, "set", service, this_ptr);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
@@ -132,29 +131,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, map){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "add", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "add", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -168,29 +160,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, get){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addget", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addget", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -204,29 +189,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, post){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addpost", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addpost", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -240,29 +218,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addput", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addput", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -276,29 +247,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, head){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addhead", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addhead", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -312,29 +276,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, delete){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "adddelete", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "adddelete", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -348,29 +305,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 
 	zval *route_pattern, *handler, *router, *route;
 	zval *route_id;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD(router, this_ptr, "getrouter", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
 	PHALCON_INIT_VAR(route);
-	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addoptions", route_pattern, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addoptions", route_pattern);
 	
 	PHALCON_INIT_VAR(route_id);
-	PHALCON_CALL_METHOD(route_id, route, "getrouteid", PH_NO_CHECK);
-	
-	PHALCON_INIT_VAR(t0);
-	phalcon_read_property(&t0, this_ptr, SL("_handlers"), PH_NOISY_CC);
-	phalcon_array_update_zval(&t0, route_id, &handler, PH_COPY TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_handlers"), t0 TSRMLS_CC);
-	
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
 	RETURN_CCTOR(route);
 }
 
@@ -402,15 +352,15 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(router);
+	PHALCON_OBS_VAR(router);
 	phalcon_read_property(&router, this_ptr, SL("_router"), PH_NOISY_CC);
 	if (Z_TYPE_P(router) != IS_OBJECT) {
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "router", 1);
 	
 		PHALCON_INIT_NVAR(router);
-		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", service_name, PH_NO_CHECK);
-		PHALCON_CALL_METHOD_NORETURN(router, "clear", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", service_name);
+		PHALCON_CALL_METHOD_NORETURN(router, "clear");
 		phalcon_update_property_zval(this_ptr, SL("_router"), router TSRMLS_CC);
 	}
 	
@@ -431,27 +381,30 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct", PH_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
+	
 		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(service);
-	PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "get", service_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "get", service_name);
 	
 	RETURN_CCTOR(service);
 }
 
 /**
  * Obtains a shared service from the DI
+ *
+ * @param string $serviceName
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 
@@ -461,21 +414,21 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
-		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct", PH_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
+	
 		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(service);
-	PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "getshared", service_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(service, dependency_injector, "getshared", service_name);
 	
 	RETURN_CCTOR(service);
 }
@@ -493,20 +446,18 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	zval *handlers, *route_id, *handler = NULL, *params, *returned_value = NULL;
 	zval *not_found_handler;
 	zval *r0 = NULL;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!uri) {
 		PHALCON_INIT_NVAR(uri);
 	}
 	
-	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "A dependency injection container is required to access related dispatching services");
@@ -516,17 +467,17 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	/** 
 	 * Calling beforeHandle routing
 	 */
-	PHALCON_INIT_VAR(events_manager);
+	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "micro:beforeHandleRoute", 1);
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
 		if (PHALCON_IS_FALSE(status)) {
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
+			RETURN_MM_FALSE;
 		}
 	}
 	
@@ -537,22 +488,22 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	ZVAL_STRING(service, "router", 1);
 	
 	PHALCON_INIT_VAR(router);
-	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service, PH_NO_CHECK);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(router, dependency_injector, "getshared", service);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "handle", uri);
 	
 	/** 
 	 * Check if one route was matched
 	 */
 	PHALCON_INIT_VAR(matched_route);
-	PHALCON_CALL_METHOD(matched_route, router, "getmatchedroute", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(matched_route, router, "getmatchedroute");
 	if (Z_TYPE_P(matched_route) == IS_OBJECT) {
-		PHALCON_INIT_VAR(handlers);
+	
+		PHALCON_OBS_VAR(handlers);
 		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(route_id);
-		PHALCON_CALL_METHOD(route_id, matched_route, "getrouteid", PH_NO_CHECK);
-		eval_int = phalcon_array_isset(handlers, route_id);
-		if (!eval_int) {
+		PHALCON_CALL_METHOD(route_id, matched_route, "getrouteid");
+		if (!phalcon_array_isset(handlers, route_id)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_micro_exception_ce, "Matched route doesn't have an associate handler");
 			return;
 		}
@@ -560,7 +511,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		/** 
 		 * Updating active handler
 		 */
-		PHALCON_INIT_VAR(handler);
+		PHALCON_OBS_VAR(handler);
 		phalcon_array_fetch(&handler, handlers, route_id, PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_activeHandler"), handler TSRMLS_CC);
 	
@@ -568,16 +519,16 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Calling beforeExecuteRoute event
 		 */
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:beforeExecuteRoute", 1);
 	
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
 			if (PHALCON_IS_FALSE(status)) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
+				RETURN_MM_FALSE;
 			} else {
-				PHALCON_INIT_NVAR(handler);
+				PHALCON_OBS_NVAR(handler);
 				phalcon_read_property(&handler, this_ptr, SL("_activeHandler"), PH_NOISY_CC);
 			}
 		}
@@ -586,7 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Calling the Handler in the PHP userland
 		 */
 		PHALCON_INIT_VAR(params);
-		PHALCON_CALL_METHOD(params, router, "getparams", PH_NO_CHECK);
+		PHALCON_CALL_METHOD(params, router, "getparams");
 	
 		PHALCON_INIT_VAR(returned_value);
 		PHALCON_CALL_USER_FUNC_ARRAY(returned_value, handler, params);
@@ -597,30 +548,30 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:afterExecuteRoute", 1);
-			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 		}
 	} else {
 		/** 
 		 * Calling beforeNotFound event
 		 */
-		PHALCON_INIT_NVAR(events_manager);
+		PHALCON_OBS_NVAR(events_manager);
 		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "micro:beforeNotFound", 1);
 	
 			PHALCON_INIT_NVAR(status);
-			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+			PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", event_name, this_ptr);
 			if (PHALCON_IS_FALSE(status)) {
-				PHALCON_MM_RESTORE();
-				RETURN_FALSE;
+				RETURN_MM_FALSE;
 			}
 		}
 	
 		/** 
 		 * Check if a notfoundhandler is defined and it's callable
 		 */
-		PHALCON_INIT_VAR(not_found_handler);
+		PHALCON_OBS_VAR(not_found_handler);
 		phalcon_read_property(&not_found_handler, this_ptr, SL("_notFoundHandler"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(r0);
@@ -642,7 +593,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "micro:afterHandleRoute", 1);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 	}
 	
 	

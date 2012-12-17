@@ -87,6 +87,7 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 
 	if (!PHALCON_GLOBAL(start_memory)) {
 		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
+		//PHALCON_GLOBAL(start_memory)->addresses = NULL;
 		PHALCON_GLOBAL(start_memory)->pointer = -1;
 		PHALCON_GLOBAL(start_memory)->prev = NULL;
 		PHALCON_GLOBAL(start_memory)->next = NULL;
@@ -193,12 +194,10 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 
 	}
 
-	#else
+	#endif
 
 	PHALCON_GLOBAL(active_memory) = NULL;
 	PHALCON_GLOBAL(start_memory) = NULL;
-
-	#endif
 
 	return SUCCESS;
 

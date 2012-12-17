@@ -73,7 +73,7 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
 	add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
 	efree(T->token);
@@ -222,7 +222,7 @@ static zval *phql_ret_update_clause(zval *tables, zval *values)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_zval(ret, "tables", tables);
 	add_assoc_zval(ret, "values", values);
 
@@ -235,7 +235,7 @@ static zval *phql_ret_update_item(zval *column, zval *expr)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_zval(ret, "column", column);
 	add_assoc_zval(ret, "expr", expr);
 
@@ -266,7 +266,7 @@ static zval *phql_ret_delete_clause(zval *tables)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 1);
 	add_assoc_zval(ret, "tables", tables);
 
 	return ret;
@@ -302,7 +302,9 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 		add_next_index_zval(ret, list_left);
 	}
 
-	add_next_index_zval(ret, right_list);
+	if (right_list) {
+		add_next_index_zval(ret, right_list);
+	}
 
 	return ret;
 }
@@ -1062,7 +1064,7 @@ argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
 }
 
 argument_list(R) ::= argument_item(I) . {
-	R = I;
+	R = phql_ret_zval_list(I, NULL);
 }
 
 %destructor argument_item { zval_ptr_dtor(&$$); }

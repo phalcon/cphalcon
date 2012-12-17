@@ -35,8 +35,8 @@
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
-extern void phalcon_concat_self(zval *left, zval *right TSRMLS_DC);
-extern void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC);
+extern void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
+extern void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 

@@ -20,7 +20,7 @@
 #ifndef PHP_PHALCON_H
 #define PHP_PHALCON_H 1
 
-#define PHP_PHALCON_VERSION "0.7.0"
+#define PHP_PHALCON_VERSION "0.8.0"
 #define PHP_PHALCON_EXTNAME "phalcon"
 
 #define PHALCON_MAX_MEMORY_STACK 48
@@ -35,6 +35,7 @@ typedef struct _phalcon_memory_entry {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
+	HashTable *function_cache;
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
 	unsigned int phalcon_number_grows;
@@ -81,6 +82,12 @@ extern zend_module_entry phalcon_module_entry;
 	int phalcon_ ##name## _init(INIT_FUNC_ARGS)
 
 #define PHALCON_INIT(name) \
-	if(phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE){ \
+	if (phalcon_ ##name## _init(INIT_FUNC_ARGS_PASSTHRU) == FAILURE) { \
 		return FAILURE; \
 	}
+
+#if PHP_VERSION_ID >= 50400
+#define PHALCON_EXPERIMENTAL_FCALL 0
+#else
+#define PHALCON_EXPERIMENTAL_FCALL 1
+#endif

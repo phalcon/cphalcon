@@ -94,8 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &message, &field, &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!field) {
@@ -128,7 +127,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	
 	RETURN_CTORW(this_ptr);
 }
 
@@ -158,7 +156,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setMessage){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
-	
 	RETURN_CTORW(this_ptr);
 }
 
@@ -188,7 +185,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, setField){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_field"), field TSRMLS_CC);
-	
 	RETURN_CTORW(this_ptr);
 }
 
@@ -227,22 +223,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __set_state){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &message) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(message_text);
+	PHALCON_OBS_VAR(message_text);
 	phalcon_array_fetch_string(&message_text, message, SL("_message"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(field);
+	PHALCON_OBS_VAR(field);
 	phalcon_array_fetch_string(&field, message, SL("_field"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(type);
+	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, message, SL("_type"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(message_object);
 	object_init_ex(message_object, phalcon_mvc_model_message_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message_object, "__construct", message_text, field, type, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(message_object, "__construct", message_text, field, type);
 	
 	RETURN_CTOR(message_object);
 }

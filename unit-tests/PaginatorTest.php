@@ -38,7 +38,7 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function _loadDI()
+	protected function _loadDI()
 	{
 		Phalcon\DI::reset();
 
@@ -60,7 +60,6 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 	public function testModelPaginator()
 	{
-
 		$this->_loadDI();
 
 		$personnes = Personnes::find();
@@ -99,16 +98,30 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->current, 50);
 		$this->assertEquals($page->total_pages, 218);
 
+		//Last Page
+		/*$paginator->setCurrentPage(219);
+
+		$page = $paginator->getPaginate();
+		$this->assertEquals(get_class($page), 'stdClass');
+
+		$this->assertEquals(count($page->items), 1);
+
+		$this->assertEquals($page->before, 218);
+		$this->assertEquals((int) $page->next, 219);
+		$this->assertEquals($page->last, 219);
+
+		$this->assertEquals($page->current, 219);
+		$this->assertEquals($page->total_pages, 219);*/
+
 	}
 
-	public function testModelBindPaginator()
+	public function testModelPaginatorBind()
 	{
-
 		$this->_loadDI();
 
 		$personnes = Personnes::find(array(
-			"conditions" => "cedula>=:c1: AND cedula>=:c2:",
-			"bind" => array("c1" => '1', "c2" => "5"),
+			"conditions" => "cedula >=:d1: AND cedula>=:d2: ",
+			"bind" => array("d1" => '1', "d2" => "5"),
 			"order" => "cedula, nombres",
 			"limit" => "33"
 		));
@@ -131,174 +144,67 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($page->current, 1);
 		$this->assertEquals($page->total_pages, 4);
-
-		//Middle Page
-		$paginator->setCurrentPage(2);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 10);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 3);
-		$this->assertEquals($page->last, 4);
-
-		$this->assertEquals($page->current, 2);
-		$this->assertEquals($page->total_pages, 4);
-
-	}
-
-	public function testModelPaginator8()
-	{
-
-		$this->_loadDI();
-
-		$personnes = Personnes::find(array(
-			"limit" => "8"
-		));
-
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 5,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 5);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 2);
-
-		//Middle Page
-		$paginator->setCurrentPage(2);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 3);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 2);
-		$this->assertEquals($page->total_pages, 2);
-
-	}
-
-	public function testModelPaginator9()
-	{
-
-		$this->_loadDI();
-
-		$personnes = Personnes::find(array(
-			"limit" => "9"
-		));
-
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 5,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 5);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 2);
-
-		//Middle Page
-		$paginator->setCurrentPage(2);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 4);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 2);
-
-		$this->assertEquals($page->current, 2);
-		$this->assertEquals($page->total_pages, 2);
-
-	}
-
-	public function testModelPaginator123()
-	{
-
-		$this->_loadDI();
-
-		$personnes = Personnes::find(array(
-			"limit" => "123"
-		));
-
-		$paginator = new Phalcon\Paginator\Adapter\Model(array(
-			'data' => $personnes,
-			'limit' => 9,
-			'page' => 1
-		));
-
-		//First Page
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 9);
-
-		$this->assertEquals($page->before, 1);
-		$this->assertEquals($page->next, 2);
-		$this->assertEquals($page->last, 14);
-
-		$this->assertEquals($page->current, 1);
-		$this->assertEquals($page->total_pages, 14);
-
-		//Middle Page
-		$paginator->setCurrentPage(7);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 9);
-
-		$this->assertEquals($page->before, 6);
-		$this->assertEquals($page->next, 8);
-		$this->assertEquals($page->last, 14);
-
-		$this->assertEquals($page->current, 7);
-		$this->assertEquals($page->total_pages, 14);
-
-	}
-
-	protected function _getArrayRandomData($number)
-	{
-		$data = array();
-		for ($i = 0; $i < $number; $i++){
-			$data[] = array(
-				'name' => 'PETER'
-			);
-		}
-		return $data;
 	}
 
 	public function testArrayPaginator()
 	{
 
-		$personas = $this->_getArrayRandomData(18);
+		$personas = array(
+			0 => array(
+				'name' => 'PETER'
+			),
+			1 => array(
+				'name' => 'PETER'
+			),
+			2 => array(
+				'name' => 'PETER'
+			),
+			3 => array(
+				'name' => 'PETER'
+			),
+			4 => array(
+				'name' => 'PETER'
+			),
+			5 => array(
+				'name' => 'PETER'
+			),
+			6 => array(
+				'name' => 'PETER'
+			),
+			7 => array(
+				'name' => 'PETER'
+			),
+			8 => array(
+				'name' => 'PETER'
+			),
+			9 => array(
+				'name' => 'PETER'
+			),
+			10 => array(
+				'name' => 'PETER'
+			),
+			11 => array(
+				'name' => 'PETER'
+			),
+			12 => array(
+				'name' => 'PETER'
+			),
+			13 => array(
+				'name' => 'PETER'
+			),
+			14 => array(
+				'name' => 'PETER'
+			),
+			15 => array(
+				'name' => 'PETER'
+			),
+			16 => array(
+				'name' => 'PETER'
+			),
+			17 => array(
+				'name' => 'PETER'
+			)
+		);
 
 		$paginator = new Phalcon\Paginator\Adapter\NativeArray(array(
 			'data' => $personas,
@@ -332,21 +238,6 @@ class PaginatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($page->last, 6);
 
 		$this->assertEquals($page->current, 4);
-		$this->assertEquals($page->total_pages, 6);
-
-		//Penultimate page
-		$paginator->setCurrentPage(5);
-
-		$page = $paginator->getPaginate();
-		$this->assertEquals(get_class($page), 'stdClass');
-
-		$this->assertEquals(count($page->items), 3);
-
-		$this->assertEquals($page->before, 4);
-		$this->assertEquals($page->next, 6);
-		$this->assertEquals($page->last, 6);
-
-		$this->assertEquals($page->current, 5);
 		$this->assertEquals($page->total_pages, 6);
 
 	}

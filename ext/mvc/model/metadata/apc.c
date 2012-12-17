@@ -42,15 +42,15 @@
  *
  * Stores model meta-data in the APC cache. Data will erased if the web server is restarted
  *
- * By default meta-data is stored 48 hours (172800 seconds)
+ * By default meta-data is stored for 48 hours (172800 seconds)
  *
  * You can query the meta-data by printing apc_fetch('$PMM$') or apc_fetch('$PMM$my-app-id')
  *
  *<code>
- * $metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
- *    'suffix' => 'my-app-id',
- *    'lifetime' => 86400
- * ));
+ *	$metaData = new Phalcon\Mvc\Model\Metadata\Apc(array(
+ *		'suffix' => 'my-app-id',
+ *		'lifetime' => 86400
+ *	));
  *</code>
  */
 
@@ -78,13 +78,11 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apc){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 
 	zval *options = NULL, *suffix, *ttl, *empty_array;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
@@ -92,15 +90,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(options, SS("suffix"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(suffix);
+		if (phalcon_array_isset_string(options, SS("suffix"))) {
+			PHALCON_OBS_VAR(suffix);
 			phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
 		}
-		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(ttl);
+		if (phalcon_array_isset_string(options, SS("lifetime"))) {
+			PHALCON_OBS_VAR(ttl);
 			phalcon_array_fetch_string(&ttl, options, SL("lifetime"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_ttl"), ttl TSRMLS_CC);
 		}
@@ -126,11 +122,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(suffix);
+	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
@@ -139,12 +134,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, read){
 	PHALCON_INIT_VAR(data);
 	PHALCON_CALL_FUNC_PARAMS_1(data, "apc_fetch", apc_key);
 	if (Z_TYPE_P(data) == IS_ARRAY) { 
-	
 		RETURN_CCTOR(data);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -160,17 +153,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, write){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(suffix);
+	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(apc_key);
 	PHALCON_CONCAT_SVV(apc_key, "$PMM$", suffix, key);
 	
-	PHALCON_INIT_VAR(ttl);
+	PHALCON_OBS_VAR(ttl);
 	phalcon_read_property(&ttl, this_ptr, SL("_ttl"), PH_NOISY_CC);
 	PHALCON_CALL_FUNC_PARAMS_3_NORETURN("apc_store", apc_key, data, ttl);
 	
