@@ -47,11 +47,11 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsManager', function(){
 			return new Phalcon\Mvc\Model\Manager();
-		});
+		}, true);
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+		}, true);
 
 		return $di;
 	}
@@ -64,7 +64,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
@@ -78,7 +78,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
@@ -92,7 +92,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-		});
+		}, true);
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
@@ -105,6 +105,7 @@ class ModelsForeignKeysTest extends PHPUnit_Framework_TestCase
 		$robotsParts = new RobotsParts();
 		$robotsParts->robots_id = 1;
 		$robotsParts->parts_id = 100;
+
 		$this->assertFalse($robotsParts->save());
 
 		$messages = array(

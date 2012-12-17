@@ -70,7 +70,6 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-
 		$expected = array(
 			'models' => array(
 				'Robots',

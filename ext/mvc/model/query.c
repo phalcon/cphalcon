@@ -1337,11 +1337,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *join_data = NULL, *source = NULL, *schema = NULL, *model = NULL, *model_name = NULL;
 	zval *complete_source = NULL, *join_type = NULL, *alias_expr = NULL;
 	zval *alias = NULL, *join_pre_condition, *join_expr = NULL;
-	zval *pre_condition = NULL, *has_relations = NULL, *join_alias = NULL;
-	zval *join_model = NULL, *sql_join_conditions = NULL, *relations = NULL;
-	zval *fields = NULL, *referenced_fields = NULL, *model_alias = NULL;
-	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition = NULL;
-	zval *join_source = NULL, *sql_join = NULL;
+	zval *pre_condition = NULL, *one, *has_relations = NULL, *join_alias = NULL;
+	zval *join_model = NULL, *sql_join_conditions = NULL, *relation = NULL;
+	zval *relations = NULL, *number_relations = NULL, *invalid = NULL;
+	zval *exception_message = NULL, *fields = NULL, *referenced_fields = NULL;
+	zval *model_alias = NULL, *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL;
+	zval *sql_join_condition = NULL, *join_source = NULL, *sql_join = NULL;
+	zval *t0 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -1562,6 +1564,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	/** 
 	 * Create join relationships dynamically
 	 */
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
 	PHALCON_OBS_NVAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
@@ -1597,68 +1602,109 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 			if (!phalcon_array_isset(join_pre_condition, join_model)) {
 	
 				/** 
-				 * Check for relations between models
+				 * Check if the joined model is an alias
 				 */
-				PHALCON_INIT_NVAR(relations);
-				PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelations", model_name, join_model);
-				if (PHALCON_IS_NOT_FALSE(relations)) {
+				PHALCON_INIT_NVAR(relation);
+				PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, join_model);
+				if (PHALCON_IS_FALSE(relation)) {
 	
+					/** 
+					 * Check for relations between models
+					 */
+					PHALCON_INIT_NVAR(relations);
+					PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelations", model_name, join_model);
+					if (Z_TYPE_P(relations) == IS_ARRAY) { 
+	
+						/** 
+						 * More than one relation must throw an exception
+						 */
+						PHALCON_INIT_NVAR(number_relations);
+						phalcon_fast_count(number_relations, relations TSRMLS_CC);
+	
+						PHALCON_INIT_NVAR(t0);
+						ZVAL_LONG(t0, 1);
+	
+						PHALCON_INIT_NVAR(invalid);
+						is_not_equal_function(invalid, number_relations, t0 TSRMLS_CC);
+						if (PHALCON_IS_TRUE(invalid)) {
+							PHALCON_INIT_NVAR(exception_message);
+							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between '", model_name, "' and '", join_model, "\", the join must be done using an alias");
+							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+							return;
+						}
+	
+						/** 
+						 * Get the first relationship
+						 */
+						PHALCON_OBS_NVAR(relation);
+						phalcon_array_fetch_long(&relation, relations, 0, PH_NOISY_CC);
+					}
+				}
+	
+				/** 
+				 * Valid relations are objects
+				 */
+				if (Z_TYPE_P(relation) == IS_OBJECT) {
+	
+					/** 
+					 * TODO. Create joins with compound keys
+					 */
 					PHALCON_INIT_NVAR(fields);
-					PHALCON_CALL_METHOD(fields, relations, "getfields");
-	
-					PHALCON_INIT_NVAR(referenced_fields);
-					PHALCON_CALL_METHOD(referenced_fields, relations, "getreferencedfields");
+					PHALCON_CALL_METHOD(fields, relation, "getfields");
 					if (Z_TYPE_P(fields) == IS_ARRAY) { 
 						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented yet");
 						return;
-					} else {
-						/** 
-						 * Get the related model alias of the left part
-						 */
-						PHALCON_OBS_NVAR(model_alias);
-						phalcon_array_fetch(&model_alias, sql_models_aliases, model_name, PH_NOISY_CC);
-	
-						/** 
-						 * Create the left part of the expression
-						 */
-						PHALCON_INIT_NVAR(left);
-						array_init_size(left, 3);
-						add_assoc_long_ex(left, SS("type"), 355);
-						phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(left_expr);
-						PHALCON_CALL_METHOD_PARAMS_1(left_expr, this_ptr, "_getqualified", left);
-	
-						/** 
-						 * Get the related model alias of the right part
-						 */
-						PHALCON_OBS_NVAR(join_alias);
-						phalcon_array_fetch(&join_alias, sql_models_aliases, join_model, PH_NOISY_CC);
-	
-						/** 
-						 * Create the right part of the expression
-						 */
-						PHALCON_INIT_NVAR(right);
-						array_init_size(right, 3);
-						add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
-						phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(right_expr);
-						PHALCON_CALL_METHOD_PARAMS_1(right_expr, this_ptr, "_getqualified", right);
-	
-						/** 
-						 * Create a binary operation for the join conditions
-						 */
-						PHALCON_INIT_NVAR(sql_join_condition);
-						array_init_size(sql_join_condition, 4);
-						add_assoc_stringl_ex(sql_join_condition, SS("type"), SL("binary-op"), 1);
-						add_assoc_stringl_ex(sql_join_condition, SS("op"), SL("="), 1);
-						phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&sql_join_conditions, sql_join_condition, PH_SEPARATE TSRMLS_CC);
 					}
+	
+					PHALCON_INIT_NVAR(referenced_fields);
+					PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
+	
+					/** 
+					 * Get the related model alias of the left part
+					 */
+					PHALCON_OBS_NVAR(model_alias);
+					phalcon_array_fetch(&model_alias, sql_models_aliases, model_name, PH_NOISY_CC);
+	
+					/** 
+					 * Create the left part of the expression
+					 */
+					PHALCON_INIT_NVAR(left);
+					array_init_size(left, 3);
+					add_assoc_long_ex(left, SS("type"), 355);
+					phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(left_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(left_expr, this_ptr, "_getqualified", left);
+	
+					/** 
+					 * Get the related model alias of the right part
+					 */
+					PHALCON_OBS_NVAR(join_alias);
+					phalcon_array_fetch(&join_alias, sql_models_aliases, join_model, PH_NOISY_CC);
+	
+					/** 
+					 * Create the right part of the expression
+					 */
+					PHALCON_INIT_NVAR(right);
+					array_init_size(right, 3);
+					add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
+					phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(right_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(right_expr, this_ptr, "_getqualified", right);
+	
+					/** 
+					 * Create a binary operation for the join conditions
+					 */
+					PHALCON_INIT_NVAR(sql_join_condition);
+					array_init_size(sql_join_condition, 4);
+					add_assoc_stringl_ex(sql_join_condition, SS("type"), SL("binary-op"), 1);
+					add_assoc_stringl_ex(sql_join_condition, SS("op"), SL("="), 1);
+					phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&sql_join_conditions, sql_join_condition, PH_SEPARATE TSRMLS_CC);
 				}
 			} else {
 				PHALCON_OBS_NVAR(pre_condition);
