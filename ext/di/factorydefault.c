@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *flash;
+	zval *response, *request, *filter, *escaper = NULL, *flash;
 	zval *flash_session, *session, *session_bag;
 	zval *events_manager, *transaction_manager;
 	zval *services;
@@ -174,6 +174,19 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	ZVAL_STRING(definition, "Phalcon\\Escaper", 1);
 	
 	PHALCON_INIT_VAR(escaper);
+	object_init_ex(escaper, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
+	
+	/** 
+	 * Security doesn't need to be shared, but anyways we register it as shared
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "security", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Security", 1);
+	
+	PHALCON_INIT_NVAR(escaper);
 	object_init_ex(escaper, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
 	
