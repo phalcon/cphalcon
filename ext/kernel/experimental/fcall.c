@@ -161,6 +161,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 		}
 		#endif
 	} else {
+		#ifndef PHALCON_RELEASE
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
 			fcc->function_handler = Z_OBJ_HT_P(fcc->object_ptr)->get_method(&fcc->object_ptr, Z_STRVAL_P(callable), Z_STRLEN_P(callable) TSRMLS_CC);
@@ -169,6 +170,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				call_via_handler = (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
 			}
 		}
+		#endif
 	}
 
 	if (retval) {

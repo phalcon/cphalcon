@@ -335,3 +335,4 @@ ext/session/adapter.lo
 ext/translate/adapter.lo
 ext/mvc/model/resultinterface.lo
 build/config.cache
+build/phalcon.o
