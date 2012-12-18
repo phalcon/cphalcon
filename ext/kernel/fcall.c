@@ -180,7 +180,7 @@ int phalcon_call_func(zval *return_value, char *func_name, int func_length, int 
 /**
  * This function implements a secure old-style way to call functions
  */
-static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn TSRMLS_DC){
+static inline int phalcon_call_method_internal(zval *return_value, zval *object, char *method_name, int method_len, int noreturn PH_MEHASH_D TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -210,7 +210,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	}
 
 	#if PHALCON_EXPERIMENTAL_FCALL
-	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, 0, NULL TSRMLS_CC);
+	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, 0, NULL PH_MEHASH_C TSRMLS_CC);
 	#else
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 	#endif
@@ -272,7 +272,7 @@ int phalcon_call_func_three_params(zval *return_value, char *func_name, int func
 /**
  * Call methods that require parameters in a old-style secure way
  */
-static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
+static inline int phalcon_call_method_params_internal(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn PH_MEHASH_D TSRMLS_DC){
 
 	zval *fn = NULL;
 	int status = FAILURE;
@@ -302,7 +302,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	}
 
 	#if PHALCON_EXPERIMENTAL_FCALL
-	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, param_count, params TSRMLS_CC);
+	status = phalcon_exp_call_user_method(ce, &object, fn, return_value, param_count, params PH_MEHASH_C TSRMLS_CC);
 	#else
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 	#endif
@@ -337,61 +337,61 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
  * Call method on an object that not requires parameters
  *
  */
-int phalcon_call_method(zval *return_value, zval *object, char *method_name, int method_len, int noreturn TSRMLS_DC){
-	return phalcon_call_method_internal(return_value, object, method_name, method_len, noreturn TSRMLS_CC);
+int phalcon_call_method(zval *return_value, zval *object, char *method_name, int method_len, int noreturn PH_MEHASH_D TSRMLS_DC){
+	return phalcon_call_method_internal(return_value, object, method_name, method_len, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires an arbitrary number of parameters
  *
  */
-int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn TSRMLS_DC){
-	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, noreturn TSRMLS_CC);
+int phalcon_call_method_params(zval *return_value, zval *object, char *method_name, int method_len, zend_uint param_count, zval *params[], int noreturn PH_MEHASH_D TSRMLS_DC){
+	return phalcon_call_method_params_internal(return_value, object, method_name, method_len, param_count, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 1 parameter
  *
  */
-int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, int noreturn TSRMLS_DC){
+int phalcon_call_method_one_param(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, int noreturn PH_MEHASH_D TSRMLS_DC){
 	zval *params[] = { param1 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 1, params, noreturn TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 1, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 2 parameters
  *
  */
-int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, int noreturn TSRMLS_DC){
+int phalcon_call_method_two_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, int noreturn PH_MEHASH_D TSRMLS_DC){
 	zval *params[] = { param1, param2 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 2, params, noreturn TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 2, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 3 parameters
  *
  */
-int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn TSRMLS_DC){
+int phalcon_call_method_three_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, int noreturn PH_MEHASH_D TSRMLS_DC){
 	zval *params[] = { param1, param2, param3 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 3, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 4 parameters
  *
  */
-int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn TSRMLS_DC){
+int phalcon_call_method_four_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, int noreturn PH_MEHASH_D TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, noreturn TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 4, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
  * Call method on an object that requires only 5 parameters
  *
  */
-int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn TSRMLS_DC){
+int phalcon_call_method_five_params(zval *return_value, zval *object, char *method_name, int method_len, zval *param1, zval *param2, zval *param3, zval *param4, zval *param5, int noreturn PH_MEHASH_D TSRMLS_DC){
 	zval *params[] = { param1, param2, param3, param4, param5 };
-	return phalcon_call_method_params(return_value, object, method_name, method_len, 5, params, noreturn TSRMLS_CC);
+	return phalcon_call_method_params(return_value, object, method_name, method_len, 5, params, noreturn PH_MEHASH_C TSRMLS_CC);
 }
 
 /**
