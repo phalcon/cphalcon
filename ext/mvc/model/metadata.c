@@ -129,12 +129,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 		if (!phalcon_array_isset(meta_data, key)) {
 	
-			/** 
-			 * The meta-data is read from the adapter always
-			 */
 			PHALCON_INIT_VAR(prefix_key);
 			PHALCON_CONCAT_SV(prefix_key, "meta-", key);
 	
+			/** 
+			 * The meta-data is read from the adapter always
+			 */
 			PHALCON_INIT_VAR(data);
 			PHALCON_CALL_METHOD_PARAMS_1(data, this_ptr, "read", prefix_key);
 			if (Z_TYPE_P(data) != IS_NULL) {

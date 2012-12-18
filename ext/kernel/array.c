@@ -98,6 +98,21 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
 	return zend_hash_exists(Z_ARRVAL_P(arr), index, index_length);
 }
 
+
+/**
+ * Check if char index exists on an array zval using a pre-computed key
+ */
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, ulong key){
+	if (Z_TYPE_P(arr) != IS_ARRAY) {
+		return 0;
+	} else {
+		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+			return 0;
+		}
+	}
+	return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
+}
+
 /**
  * Check if char index exists on an array zval
  */

@@ -228,6 +228,15 @@ class Build_Generator {
 				} else {
 					fputs($fileHandler, $line);
 				}
+
+				/**
+				 * Pre-compute the hash key
+				 */
+				if(preg_match('/phalcon_array_isset_string\(([a-zA-Z\_]+), SS\("([a-zA-Z\_]+)"\)\)/', $line, $matches)) {
+					$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+					$line = str_replace($matches[0], 'phalcon_array_isset_quick_string('.$matches[1].', SS("'.$matches[2].'"), '.$key.')', $line);
+				}
+
 			}
 			if($trimLine=='*/'||$trimLine=='**/'){
 				$openComment = false;
@@ -276,4 +285,6 @@ class Build_Generator {
 
 //Create the builds files based on the following directory
 $build = new Build_Generator('ext/');
+
+//echo chr(97);
 
