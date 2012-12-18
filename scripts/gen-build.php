@@ -71,12 +71,14 @@ class Build_Generator
 		'ext/mvc/view/engine/volt/lempar.c' => true,
 	);
 
-	public function __construct($path, $destination='build/')
+	public function __construct($path, $destination='build/', $calculateHashKeys=false)
 	{
 
 		$this->_path = $path;
 
 		$this->_destination = $destination;
+
+		$this->_calculateHashKeys = $calculateHashKeys;
 
 		$this->_fileHandler = fopen($destination.'phalcon.c', 'w');
 
@@ -245,35 +247,39 @@ class Build_Generator
 					continue;
 				}
 
-				/**
-				 * Pre-compute the hash key for isset using strings
-				 */
-				if (preg_match('/phalcon_array_isset_string\(([a-zA-Z\_]+), SS\("([a-zA-Z\_]+)"\)\)/', $line, $matches)) {
-					$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-					$line = str_replace($matches[0], 'phalcon_array_isset_quick_string('.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL)', $line);
-					fputs($fileHandler, $line);
-					continue;
-				}
+				if ($this->_calculateHashKeys) {
 
-				/**
-				 * Pre-compute the hash key for reading elements using hashes
-				 */
-				if (preg_match('/phalcon_array_fetch_string\(\&([a-zA-Z\_]+), ([a-zA-Z\_]+), SL\("([a-zA-Z\_]+)"\), ([a-zA-Z\_]+)\)/', $line, $matches)) {
-					$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
-					$line = str_replace($matches[0], 'phalcon_array_fetch_quick_string(&'.$matches[1].', '.$matches[2].', SS("'.$matches[3].'"), '.$key.'UL, '.$matches[4].')', $line);
-					fputs($fileHandler, $line);
-					continue;
+					/**
+					 * Pre-compute the hash key for isset using strings
+					 */
+					if (preg_match('/phalcon_array_isset_string\(([a-zA-Z\_]+), SS\("([a-zA-Z\_]+)"\)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_array_isset_quick_string('.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
 
-				}
+					/**
+					 * Pre-compute the hash key for reading elements using hashes
+					 */
+					if (preg_match('/phalcon_array_fetch_string\(\&([a-zA-Z\_]+), ([a-zA-Z\_]+), SL\("([a-zA-Z\_]+)"\), ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[3]);
+						$line = str_replace($matches[0], 'phalcon_array_fetch_quick_string(&'.$matches[1].', '.$matches[2].', SS("'.$matches[3].'"), '.$key.'UL, '.$matches[4].')', $line);
+						fputs($fileHandler, $line);
+						continue;
 
-				/**
-				 * Pre-compute hash for updating elements
-				 */
-				if (preg_match('/phalcon_array_update_string\(\&([a-zA-Z\_]+), SL\("([a-zA-Z\_]+)"\), \&([a-zA-Z\_]+), (.+)\)/', $line, $matches)) {
-					$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
-					$line = str_replace($matches[0], 'phalcon_array_update_quick_string(&'.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL, &'.$matches[3].', '.$matches[4].')', $line);
-					fputs($fileHandler, $line);
-					continue;
+					}
+
+					/**
+					 * Pre-compute hash for updating elements
+					 */
+					if (preg_match('/phalcon_array_update_string\(\&([a-zA-Z\_]+), SL\("([a-zA-Z\_]+)"\), \&([a-zA-Z\_]+), (.+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'phalcon_array_update_quick_string(&'.$matches[1].', SS("'.$matches[2].'"), '.$key.'UL, &'.$matches[3].', '.$matches[4].')', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
 				}
 
 				fputs($fileHandler, $line);
@@ -330,6 +336,6 @@ class Build_Generator
 }
 
 //Create the builds files based on the following directory
-$build = new Build_Generator('ext/', 'build/');
+$build = new Build_Generator('ext/', 'build/', false);
 
 //echo chr(97);
