@@ -567,12 +567,11 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey){
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 
-	zval *definition, *table_options, *engine, *sql_engine;
-	zval *auto_increment, *sql_autoincrement;
+	zval *definition, *table_options, *options, *engine;
+	zval *sql_engine, *auto_increment, *sql_autoincrement;
 	zval *table_collation, *under_score, *collation_parts;
-	zval *sql_charset, *sql_collate, *sql_table_options;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL;
+	zval *first_part, *sql_charset, *sql_collate;
+	zval *sql_table_options;
 
 	PHALCON_MM_GROW();
 
@@ -580,79 +579,75 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(table_options);
-	array_init(table_options);
+	if (phalcon_array_isset_string(definition, SS("options"))) {
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch_string(&r0, definition, SL("options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(r0, SS("ENGINE"))) {
+		PHALCON_INIT_VAR(table_options);
+		array_init(table_options);
 	
-		PHALCON_OBS_VAR(r1);
-		phalcon_array_fetch_string(&r1, definition, SL("options"), PH_NOISY_CC);
-		PHALCON_OBS_VAR(engine);
-		phalcon_array_fetch_string(&engine, r1, SL("ENGINE"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY_CC);
 	
-		PHALCON_OBS_VAR(r2);
-		phalcon_array_fetch_string(&r2, definition, SL("options"), PH_NOISY_CC);
+		/** 
+		 * Check if there is an ENGINE option
+		 */
+		if (phalcon_array_isset_string(options, SS("ENGINE"))) {
 	
-		PHALCON_OBS_VAR(r3);
-		phalcon_array_fetch_string(&r3, r2, SL("ENGINE"), PH_NOISY_CC);
-		if (zend_is_true(r3)) {
-			PHALCON_INIT_VAR(sql_engine);
-			PHALCON_CONCAT_SV(sql_engine, "ENGINE=", engine);
-			phalcon_array_append(&table_options, sql_engine, PH_SEPARATE TSRMLS_CC);
+			PHALCON_OBS_VAR(engine);
+			phalcon_array_fetch_string(&engine, options, SL("ENGINE"), PH_NOISY_CC);
+			if (zend_is_true(engine)) {
+				PHALCON_INIT_VAR(sql_engine);
+				PHALCON_CONCAT_SV(sql_engine, "ENGINE=", engine);
+				phalcon_array_append(&table_options, sql_engine, PH_SEPARATE TSRMLS_CC);
+			}
+		}
+	
+		/** 
+		 * Check if there is an AUTO_INCREMENT option
+		 */
+		if (phalcon_array_isset_string(options, SS("AUTO_INCREMENT"))) {
+	
+			PHALCON_OBS_VAR(auto_increment);
+			phalcon_array_fetch_string(&auto_increment, options, SL("AUTO_INCREMENT"), PH_NOISY_CC);
+			if (zend_is_true(auto_increment)) {
+				PHALCON_INIT_VAR(sql_autoincrement);
+				PHALCON_CONCAT_SV(sql_autoincrement, "AUTO_INCREMENT=", auto_increment);
+				phalcon_array_append(&table_options, sql_autoincrement, PH_SEPARATE TSRMLS_CC);
+			}
+		}
+	
+		/** 
+		 * Check if there is a TABLE_COLLATION option
+		 */
+		if (phalcon_array_isset_string(options, SS("TABLE_COLLATION"))) {
+	
+			PHALCON_OBS_VAR(table_collation);
+			phalcon_array_fetch_string(&table_collation, options, SL("TABLE_COLLATION"), PH_NOISY_CC);
+			if (zend_is_true(table_collation)) {
+				PHALCON_INIT_VAR(under_score);
+				ZVAL_STRING(under_score, "_", 1);
+	
+				PHALCON_INIT_VAR(collation_parts);
+				phalcon_fast_explode(collation_parts, under_score, table_collation TSRMLS_CC);
+	
+				PHALCON_OBS_VAR(first_part);
+				phalcon_array_fetch_long(&first_part, collation_parts, 0, PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(sql_charset);
+				PHALCON_CONCAT_SV(sql_charset, "DEFAULT CHARSET=", first_part);
+				phalcon_array_append(&table_options, sql_charset, PH_SEPARATE TSRMLS_CC);
+	
+				PHALCON_INIT_VAR(sql_collate);
+				PHALCON_CONCAT_SV(sql_collate, "COLLATE=", table_collation);
+				phalcon_array_append(&table_options, sql_collate, PH_SEPARATE TSRMLS_CC);
+			}
+		}
+	
+		if (phalcon_fast_count_ev(table_options TSRMLS_CC)) {
+			PHALCON_INIT_VAR(sql_table_options);
+			phalcon_fast_join_str(sql_table_options, SL(" "), table_options TSRMLS_CC);
+			RETURN_CTOR(sql_table_options);
 		}
 	}
-	
-	PHALCON_OBS_VAR(r4);
-	phalcon_array_fetch_string(&r4, definition, SL("options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(r4, SS("AUTO_INCREMENT"))) {
-	
-		PHALCON_OBS_VAR(r5);
-		phalcon_array_fetch_string(&r5, definition, SL("options"), PH_NOISY_CC);
-		PHALCON_OBS_VAR(auto_increment);
-		phalcon_array_fetch_string(&auto_increment, r5, SL("AUTO_INCREMENT"), PH_NOISY_CC);
-		if (zend_is_true(auto_increment)) {
-			PHALCON_INIT_VAR(sql_autoincrement);
-			PHALCON_CONCAT_SV(sql_autoincrement, "AUTO_INCREMENT=", auto_increment);
-			phalcon_array_append(&table_options, sql_autoincrement, PH_SEPARATE TSRMLS_CC);
-		}
-	}
-	
-	PHALCON_OBS_VAR(r6);
-	phalcon_array_fetch_string(&r6, definition, SL("options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(r6, SS("TABLE_COLLATION"))) {
-	
-		PHALCON_OBS_VAR(r7);
-		phalcon_array_fetch_string(&r7, definition, SL("options"), PH_NOISY_CC);
-		PHALCON_OBS_VAR(table_collation);
-		phalcon_array_fetch_string(&table_collation, r7, SL("TABLE_COLLATION"), PH_NOISY_CC);
-		if (zend_is_true(table_collation)) {
-			PHALCON_INIT_VAR(under_score);
-			ZVAL_STRING(under_score, "_", 1);
-	
-			PHALCON_INIT_VAR(collation_parts);
-			phalcon_fast_explode(collation_parts, under_score, table_collation TSRMLS_CC);
-	
-			PHALCON_OBS_VAR(r8);
-			phalcon_array_fetch_long(&r8, collation_parts, 0, PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(sql_charset);
-			PHALCON_CONCAT_SV(sql_charset, "DEFAULT CHARSET=", r8);
-			phalcon_array_append(&table_options, sql_charset, PH_SEPARATE TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(sql_collate);
-			PHALCON_CONCAT_SV(sql_collate, "COLLATE=", table_collation);
-			phalcon_array_append(&table_options, sql_collate, PH_SEPARATE TSRMLS_CC);
-		}
-	}
-	
-	if (phalcon_fast_count_ev(table_options TSRMLS_CC)) {
-		PHALCON_INIT_VAR(sql_table_options);
-		phalcon_fast_join_str(sql_table_options, SL(" "), table_options TSRMLS_CC);
-		RETURN_CTOR(sql_table_options);
-	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -667,14 +662,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, _getTableOptions){
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 
 	zval *table_name, *schema_name, *definition;
-	zval *table = NULL, *temporary = NULL, *sql = NULL, *create_lines, *columns = NULL;
-	zval *column = NULL, *column_name = NULL, *column_definition = NULL;
+	zval *table = NULL, *temporary = NULL, *options = NULL, *sql = NULL, *create_lines;
+	zval *columns = NULL, *column = NULL, *column_name = NULL, *column_definition = NULL;
 	zval *column_line = NULL, *attribute = NULL, *indexes, *index = NULL;
 	zval *index_name = NULL, *column_list = NULL, *index_sql = NULL, *references;
 	zval *reference = NULL, *name = NULL, *referenced_table = NULL, *referenced_columns = NULL;
 	zval *constaint_sql = NULL, *reference_sql = NULL, *joined_lines;
-	zval *options;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL;
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
@@ -701,21 +694,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	ZVAL_BOOL(temporary, 0);
 	if (phalcon_array_isset_string(definition, SS("options"))) {
 	
-		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch_string(&r0, definition, SL("options"), PH_NOISY_CC);
-		if (phalcon_array_isset_string(r0, SS("temporary"))) {
-	
-			PHALCON_OBS_VAR(r1);
-			phalcon_array_fetch_string(&r1, definition, SL("options"), PH_NOISY_CC);
-			PHALCON_OBS_VAR(r2);
-			phalcon_array_fetch_string(&r2, r1, SL("temporary"), PH_NOISY_CC);
-			if (zend_is_true(r2)) {
-				ZVAL_BOOL(temporary, 1);
-			}
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, definition, SL("options"), PH_NOISY_CC);
+		if (phalcon_array_isset_string(options, SS("temporary"))) {
+			PHALCON_OBS_NVAR(temporary);
+			phalcon_array_fetch_string(&temporary, options, SL("temporary"), PH_NOISY_CC);
 		}
 	}
 	
-	if (PHALCON_IS_TRUE(temporary)) {
+	/** 
+	 * Create a temporary o normal table
+	 */
+	if (zend_is_true(temporary)) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVS(sql, "CREATE TEMPORARY TABLE ", table, " (\n\t");
 	} else {
@@ -749,12 +739,18 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_INIT_NVAR(column_line);
 		PHALCON_CONCAT_SVSV(column_line, "`", column_name, "` ", column_definition);
 	
+		/** 
+		 * Add a NOT NULL clause
+		 */
 		PHALCON_INIT_NVAR(attribute);
 		PHALCON_CALL_METHOD(attribute, column, "isnotnull");
 		if (zend_is_true(attribute)) {
 			phalcon_concat_self_str(&column_line, SL(" NOT NULL") TSRMLS_CC);
 		}
 	
+		/** 
+		 * Add an AUTO_INCREMENT clause
+		 */
 		PHALCON_INIT_NVAR(attribute);
 		PHALCON_CALL_METHOD(attribute, column, "isautoincrement");
 		if (zend_is_true(attribute)) {
@@ -766,6 +762,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
+	/** 
+	 * Create related indexes
+	 */
 	if (phalcon_array_isset_string(definition, SS("indexes"))) {
 	
 		PHALCON_OBS_VAR(indexes);
@@ -805,6 +804,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	
 	}
 	
+	/** 
+	 * Create related references
+	 */
 	if (phalcon_array_isset_string(definition, SS("references"))) {
 	
 		PHALCON_OBS_VAR(references);
@@ -855,7 +857,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	phalcon_fast_join_str(joined_lines, SL(",\n\t"), create_lines TSRMLS_CC);
 	PHALCON_SCONCAT_VS(sql, joined_lines, "\n)");
 	if (phalcon_array_isset_string(definition, SS("options"))) {
-		PHALCON_INIT_VAR(options);
+		PHALCON_INIT_NVAR(options);
 		PHALCON_CALL_METHOD_PARAMS_1(options, this_ptr, "_gettableoptions", definition);
 		PHALCON_SCONCAT_SV(sql, " ", options);
 	}
@@ -945,7 +947,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 /**
  * Generates SQL describing a table
  *
- * <code>print_r($dialect->describeColumns("posts") ?></code>
+ * <code>
+ *	print_r($dialect->describeColumns("posts")) ?>
+ *</code>
  *
  * @param string $table
  * @param string $schema
@@ -979,7 +983,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns){
 /**
  * List all tables on database
  *
- * <code>print_r($dialect->listTables("blog") ?></code>
+ *<code>
+ *	print_r($dialect->listTables("blog")) ?>
+ *</code>
  *
  * @param       string $schemaName
  * @return      array

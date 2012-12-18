@@ -122,7 +122,10 @@ int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *f
 static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_flags, zval *callable, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
 {
 	int retval = 0;
+
+	#ifndef PHALCON_RELEASE
 	int call_via_handler = 0;
+	#endif
 
 	if (error) {
 		*error = NULL;

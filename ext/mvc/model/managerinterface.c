@@ -228,3 +228,10 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
 
+/**
+ * Returns the last query created or executed in the
+ *
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
+

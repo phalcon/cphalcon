@@ -74,62 +74,62 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from(array('Robots', 'RobotsParts'))
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.*, RobotsParts.* FROM Robots, RobotsParts');
+		$this->assertEquals($phql, 'SELECT [Robots].*, [RobotsParts].* FROM [Robots], [RobotsParts]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->columns('*')
 						->from('Robots')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT * FROM Robots');
+		$this->assertEquals($phql, 'SELECT * FROM [Robots]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->columns(array('id', 'name'))
 						->from('Robots')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT id, name FROM Robots');
+		$this->assertEquals($phql, 'SELECT id, name FROM [Robots]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
-						->columns('id, name')
+						->columns('id')
 						->from('Robots')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT id, name FROM Robots');
+		$this->assertEquals($phql, 'SELECT id FROM [Robots]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->where('Robots.name = "Voltron"')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots WHERE Robots.name = "Voltron"');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE Robots.name = "Voltron"');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->where(100)
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots WHERE Robots.id = 100');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] WHERE [Robots].[id] = 100');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->groupBy('Robots.name')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots GROUP BY Robots.name');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] GROUP BY Robots.name');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->groupBy(array('Robots.name', 'Robots.id'))
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots GROUP BY Robots.name, Robots.id');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] GROUP BY Robots.name, Robots.id');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
@@ -137,7 +137,7 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->from('Robots')
 						->groupBy('Robots.name')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM Robots GROUP BY Robots.name');
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
@@ -146,28 +146,28 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->groupBy('Robots.name')
 						->having('SUM(Robots.price) > 1000')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM Robots GROUP BY Robots.name HAVING SUM(Robots.price) > 1000');
+		$this->assertEquals($phql, 'SELECT Robots.name, SUM(Robots.price) FROM [Robots] GROUP BY Robots.name HAVING SUM(Robots.price) > 1000');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->join('RobotsParts')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots JOIN RobotsParts');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->join('RobotsParts', null, 'p')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots JOIN RobotsParts AS p');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] AS [p]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->join('RobotsParts', 'Robots.id = RobotsParts.robots_id', 'p')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AS p');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id AS [p]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
@@ -175,49 +175,63 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->join('RobotsParts', 'Robots.id = RobotsParts.robots_id', 'p')
 						->join('Parts', 'Parts.id = RobotsParts.parts_id', 't')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots JOIN RobotsParts ON Robots.id = RobotsParts.robots_id AS p JOIN Parts ON Parts.id = RobotsParts.parts_id AS t');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] JOIN [RobotsParts] ON Robots.id = RobotsParts.robots_id AS [p] JOIN [Parts] ON Parts.id = RobotsParts.parts_id AS [t]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->addFrom('Robots', 'r')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT r.* FROM Robots AS r');
+		$this->assertEquals($phql, 'SELECT [r].* FROM [Robots] AS [r]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->addFrom('Parts', 'p')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.*, p.* FROM Robots, Parts AS p');
+		$this->assertEquals($phql, 'SELECT [Robots].*, [p].* FROM [Robots], [Parts] AS [p]');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from(array('r' => 'Robots'))
 						->addFrom('Parts', 'p')
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT r.*, p.* FROM Robots AS r, Parts AS p');
+		$this->assertEquals($phql, 'SELECT [r].*, [p].* FROM [Robots] AS [r], [Parts] AS [p]');
 
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from(array('r' => 'Robots', 'p' => 'Parts'))
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT r.*, p.* FROM Robots AS r, Parts AS p');
+		$this->assertEquals($phql, 'SELECT [r].*, [p].* FROM [Robots] AS [r], [Parts] AS [p]');
 
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->from('Robots')
+						->orderBy('Robots.name')
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] ORDER BY Robots.name');
+
+		$builder = new Builder();
+		$phql = $builder->setDi($di)
+						->from('Robots')
+						->orderBy(array(1, 'Robots.name'))
+						->getPhql();
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] ORDER BY 1, Robots.name');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->limit(10)
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots LIMIT 10');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10');
 
 		$builder = new Builder();
 		$phql = $builder->setDi($di)
 						->from('Robots')
 						->limit(10, 5)
 						->getPhql();
-		$this->assertEquals($phql, 'SELECT Robots.* FROM Robots LIMIT 10');
+		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
 
 	}
 
