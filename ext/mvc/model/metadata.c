@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
  * Reads meta-data for certain model using a MODEL_* constant
  *
  *<code>
- *print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
+ *	print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
  *</code>
  *
  * @param Phalcon\Mvc\ModelInterface $model
@@ -447,8 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
 	zval *model, *index, *table, *schema, *key, *meta_data = NULL;
-	zval *attributes;
-	zval *r0 = NULL;
+	zval *meta_data_index, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -483,11 +482,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, meta_data, key, PH_NOISY_CC);
+	PHALCON_OBS_VAR(meta_data_index);
+	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -496,7 +495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
  * Writes meta-data for certain model using a MODEL_* constant
  *
  *<code>
- *print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
+ *	print_r($metaData->writeColumnMapIndex(new Robots(), MetaData::MODELS_REVERSE_COLUMN_MAP, array('leName' => 'name')));
  *</code>
  *
  * @param Phalcon\Mvc\ModelInterface $model
@@ -616,8 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 
 	zval *model, *index, *class_name, *key_name, *column_map = NULL;
-	zval *null_value, *attributes;
-	zval *r0 = NULL;
+	zval *null_value, *column_map_model, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -650,11 +648,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, column_map, key_name, PH_NOISY_CC);
+	PHALCON_OBS_VAR(column_map_model);
+	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }

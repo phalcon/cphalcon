@@ -691,15 +691,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 			PHALCON_CONCAT_SVSVS(code, "(is_array(", left, ") || (", left, ") instanceof Traversable)");
 			RETURN_CTOR(code);
 		}
-	
-		/** 
-		 * Check if a value is numeric
-		 */
-		if (PHALCON_COMPARE_STRING(name, "numeric")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "is_numeric(", left, ")");
-			RETURN_CTOR(code);
-		}
 	}
 	
 	/** 

@@ -1725,7 +1725,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -1771,13 +1770,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	
 				PHALCON_INIT_NVAR(relation_class);
 				PHALCON_CALL_METHOD(relation_class, relation, "getreferencedmodel");
-				ce0 = phalcon_fetch_class(relation_class TSRMLS_CC);
 	
+				/** 
+				 * Load the referenced model if needed
+				 */
 				PHALCON_INIT_NVAR(referenced_model);
-				object_init_ex(referenced_model, ce0);
-				if (phalcon_has_constructor(referenced_model TSRMLS_CC)) {
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "__construct", dependency_injector);
-				}
+				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", relation_class);
 	
 				/** 
 				 * Since relations can have multiple columns or a single one, we need to build a
@@ -1795,6 +1793,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 				PHALCON_INIT_NVAR(referenced_fields);
 				PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
 				if (Z_TYPE_P(fields) == IS_ARRAY) { 
+	
+					/** 
+					 * Create a compound condition
+					 */
 	
 					if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
 						return;
@@ -1827,6 +1829,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 					}
 	
 				} else {
+					/** 
+					 * Create a simple condition
+					 */
 					if (phalcon_isset_property_zval(this_ptr, fields TSRMLS_CC)) {
 						PHALCON_OBS_NVAR(value);
 						phalcon_read_property_zval(&value, this_ptr, fields, PH_NOISY_CC);
@@ -1908,6 +1913,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		/** 
+		 * Call 'onValidationFails' if the validation fails
+		 */
 		if (PHALCON_IS_TRUE(error)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "onValidationFails", 1);

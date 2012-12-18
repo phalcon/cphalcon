@@ -51,3 +51,6 @@ extern void phalcon_random_string(zval *return_value, zval *type, zval *length T
 
 /* Strips extra slashes */
 extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
+
+/** ssprintf */
+extern int phalcon_spprintf(char **message, int max_len, char *format, ...);

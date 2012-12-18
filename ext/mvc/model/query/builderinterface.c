@@ -99,7 +99,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, addFrom);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 
 /**
- * Sets the models who makes part of the query
+ * Adds a INNER join to the query
  *
  * @param string $model
  * @param string $conditions
@@ -147,7 +147,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOrderBy);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, having);
 
 /**
- * Return the columns to be queried
+ * Returns the HAVING condition clause
  *
  * @return string|array
  */

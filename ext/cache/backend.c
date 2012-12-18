@@ -86,6 +86,10 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
+	
+	/** 
+	 * A common option is the prefix
+	 */
 	if (phalcon_array_isset_string(options, SS("prefix"))) {
 		PHALCON_OBS_VAR(prefix);
 		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
@@ -106,16 +110,24 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
-	zval *key_name, *existing_cache, *fresh = NULL, *frontend;
+	zval *key_name, *lifetime = NULL, *existing_cache, *fresh = NULL;
+	zval *frontend;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!lifetime) {
+		PHALCON_INIT_NVAR(lifetime);
+	}
+	
+	/** 
+	 * Get the cache content verifying if it was expired
+	 */
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", key_name);
+	PHALCON_CALL_METHOD_PARAMS_2(existing_cache, this_ptr, "get", key_name, lifetime);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);

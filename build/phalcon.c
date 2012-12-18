@@ -1131,6 +1131,9 @@ void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_D
 /* Strips extra slashes */
 void phalcon_remove_extra_slashes(zval *return_value, zval *str);
 
+/** ssprintf */
+int phalcon_spprintf(char **message, int max_len, char *format, ...);
+
 
 
 /** Low level filters */
@@ -5700,6 +5703,17 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str){
 
 }
 
+int phalcon_spprintf(char **message, int max_len, char *format, ...)
+{
+    va_list arg;
+    int len;
+
+    va_start(arg, format);
+    len = vspprintf(message, max_len, format, arg);
+    va_end(arg);
+    return len;
+}
+
 
 
 #ifdef HAVE_CONFIG_H
@@ -8028,6 +8042,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				fcc->function_handler = priv_fbc;
 			}
 		}
+		#ifndef PHALCON_RELEASE
 		if ((check_flags & IS_CALLABLE_CHECK_NO_ACCESS) == 0 && (fcc->calling_scope && (fcc->calling_scope->__call || fcc->calling_scope->__callstatic))) {
 			if (fcc->function_handler->op_array.fn_flags & ZEND_ACC_PRIVATE) {
 				if (!zend_check_private(fcc->function_handler, ce, Z_STRVAL_P(callable), Z_STRLEN_P(callable) TSRMLS_CC)) {
@@ -8045,6 +8060,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				}
 			}
 		}
+		#endif
 	} else {
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
@@ -8061,7 +8077,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 		if (fcc->calling_scope && !call_via_handler) {
 			if (!fcc->object_ptr && (fcc->function_handler->common.fn_flags & ZEND_ACC_ABSTRACT)) {
 				if (error) {
-					zend_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+					phalcon_spprintf(error, 0, "cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 					retval = 0;
 				} else {
 					zend_error(E_ERROR, "Cannot call abstract method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
@@ -8074,7 +8090,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 							if (*error) {
 								efree(*error);
 							}
-							zend_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+							phalcon_spprintf(error, 0, "cannot access private method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 						}
 						retval = 0;
 					}
@@ -8085,7 +8101,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 								if (*error) {
 									efree(*error);
 								}
-								zend_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
+								phalcon_spprintf(error, 0, "cannot access protected method %s::%s()", fcc->calling_scope->name, fcc->function_handler->common.function_name);
 							}
 							retval = 0;
 						}
@@ -8097,9 +8113,9 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 	} else {
 		if (error && !(check_flags & IS_CALLABLE_CHECK_SILENT)) {
 			if (fcc->calling_scope) {
-				if (error) zend_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "class '%s' does not have a method '%s'", fcc->calling_scope->name, Z_STRVAL_P(callable));
 			} else {
-				if (error) zend_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
+				if (error) phalcon_spprintf(error, 0, "function '%s' does not exist", Z_STRVAL_P(callable));
 			}
 		}
 	}
@@ -9126,6 +9142,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
+	
 	if (phalcon_array_isset_string(options, SS("prefix"))) {
 		PHALCON_OBS_VAR(prefix);
 		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
@@ -9140,16 +9157,21 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
-	zval *key_name, *existing_cache, *fresh = NULL, *frontend;
+	zval *key_name, *lifetime = NULL, *existing_cache, *fresh = NULL;
+	zval *frontend;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!lifetime) {
+		PHALCON_INIT_NVAR(lifetime);
+	}
+	
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", key_name);
+	PHALCON_CALL_METHOD_PARAMS_2(existing_cache, this_ptr, "get", key_name, lifetime);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
@@ -25846,8 +25868,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 
 	zval *model, *index, *table, *schema, *key, *meta_data = NULL;
-	zval *attributes;
-	zval *r0 = NULL;
+	zval *meta_data_index, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -25882,11 +25903,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex){
 		phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, meta_data, key, PH_NOISY_CC);
+	PHALCON_OBS_VAR(meta_data_index);
+	phalcon_array_fetch(&meta_data_index, meta_data, key, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, meta_data_index, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -25984,8 +26005,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 
 	zval *model, *index, *class_name, *key_name, *column_map = NULL;
-	zval *null_value, *attributes;
-	zval *r0 = NULL;
+	zval *null_value, *column_map_model, *attributes;
 
 	PHALCON_MM_GROW();
 
@@ -26018,11 +26038,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 		phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
 	}
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, column_map, key_name, PH_NOISY_CC);
+	PHALCON_OBS_VAR(column_map_model);
+	phalcon_array_fetch(&column_map_model, column_map, key_name, PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(attributes);
-	phalcon_array_fetch(&attributes, r0, index, PH_NOISY_CC);
+	phalcon_array_fetch(&attributes, column_map_model, index, PH_NOISY_CC);
 	
 	RETURN_CCTOR(attributes);
 }
@@ -28129,11 +28149,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	zval *join_data = NULL, *source = NULL, *schema = NULL, *model = NULL, *model_name = NULL;
 	zval *complete_source = NULL, *join_type = NULL, *alias_expr = NULL;
 	zval *alias = NULL, *join_pre_condition, *join_expr = NULL;
-	zval *pre_condition = NULL, *has_relations = NULL, *join_alias = NULL;
-	zval *join_model = NULL, *sql_join_conditions = NULL, *relations = NULL;
-	zval *fields = NULL, *referenced_fields = NULL, *model_alias = NULL;
-	zval *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL, *sql_join_condition = NULL;
-	zval *join_source = NULL, *sql_join = NULL;
+	zval *pre_condition = NULL, *one, *has_relations = NULL, *join_alias = NULL;
+	zval *join_model = NULL, *sql_join_conditions = NULL, *relation = NULL;
+	zval *relations = NULL, *number_relations = NULL, *invalid = NULL;
+	zval *exception_message = NULL, *fields = NULL, *referenced_fields = NULL;
+	zval *model_alias = NULL, *left = NULL, *left_expr = NULL, *right = NULL, *right_expr = NULL;
+	zval *sql_join_condition = NULL, *join_source = NULL, *sql_join = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -28300,6 +28321,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		zend_hash_move_forward_ex(ah1, &hp1);
 	}
 	
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
 	PHALCON_OBS_NVAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
@@ -28334,51 +28358,74 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 			array_init(sql_join_conditions);
 			if (!phalcon_array_isset(join_pre_condition, join_model)) {
 	
-				PHALCON_INIT_NVAR(relations);
-				PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelations", model_name, join_model);
-				if (PHALCON_IS_NOT_FALSE(relations)) {
+				PHALCON_INIT_NVAR(relation);
+				PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, join_model);
+				if (PHALCON_IS_FALSE(relation)) {
+	
+					PHALCON_INIT_NVAR(relations);
+					PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelations", model_name, join_model);
+					if (Z_TYPE_P(relations) == IS_ARRAY) { 
+	
+						PHALCON_INIT_NVAR(number_relations);
+						phalcon_fast_count(number_relations, relations TSRMLS_CC);
+	
+						PHALCON_INIT_NVAR(invalid);
+						is_not_equal_function(invalid, number_relations, one TSRMLS_CC);
+						if (PHALCON_IS_TRUE(invalid)) {
+							PHALCON_INIT_NVAR(exception_message);
+							PHALCON_CONCAT_SVSVS(exception_message, "There is more than one relation between '", model_name, "' and '", join_model, "\", the join must be done using an alias");
+							PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+							return;
+						}
+	
+						PHALCON_OBS_NVAR(relation);
+						phalcon_array_fetch_long(&relation, relations, 0, PH_NOISY_CC);
+					}
+				}
+	
+				if (Z_TYPE_P(relation) == IS_OBJECT) {
 	
 					PHALCON_INIT_NVAR(fields);
-					PHALCON_CALL_METHOD(fields, relations, "getfields");
-	
-					PHALCON_INIT_NVAR(referenced_fields);
-					PHALCON_CALL_METHOD(referenced_fields, relations, "getreferencedfields");
+					PHALCON_CALL_METHOD(fields, relation, "getfields");
 					if (Z_TYPE_P(fields) == IS_ARRAY) { 
 						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented yet");
 						return;
-					} else {
-						PHALCON_OBS_NVAR(model_alias);
-						phalcon_array_fetch(&model_alias, sql_models_aliases, model_name, PH_NOISY_CC);
-	
-						PHALCON_INIT_NVAR(left);
-						array_init_size(left, 3);
-						add_assoc_long_ex(left, SS("type"), 355);
-						phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(left_expr);
-						PHALCON_CALL_METHOD_PARAMS_1(left_expr, this_ptr, "_getqualified", left);
-	
-						PHALCON_OBS_NVAR(join_alias);
-						phalcon_array_fetch(&join_alias, sql_models_aliases, join_model, PH_NOISY_CC);
-	
-						PHALCON_INIT_NVAR(right);
-						array_init_size(right, 3);
-						add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
-						phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-						PHALCON_INIT_NVAR(right_expr);
-						PHALCON_CALL_METHOD_PARAMS_1(right_expr, this_ptr, "_getqualified", right);
-	
-						PHALCON_INIT_NVAR(sql_join_condition);
-						array_init_size(sql_join_condition, 4);
-						add_assoc_stringl_ex(sql_join_condition, SS("type"), SL("binary-op"), 1);
-						add_assoc_stringl_ex(sql_join_condition, SS("op"), SL("="), 1);
-						phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
-						phalcon_array_append(&sql_join_conditions, sql_join_condition, PH_SEPARATE TSRMLS_CC);
 					}
+	
+					PHALCON_INIT_NVAR(referenced_fields);
+					PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
+	
+					PHALCON_OBS_NVAR(model_alias);
+					phalcon_array_fetch(&model_alias, sql_models_aliases, model_name, PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(left);
+					array_init_size(left, 3);
+					add_assoc_long_ex(left, SS("type"), 355);
+					phalcon_array_update_string(&left, SL("domain"), &model_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&left, SL("name"), &fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(left_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(left_expr, this_ptr, "_getqualified", left);
+	
+					PHALCON_OBS_NVAR(join_alias);
+					phalcon_array_fetch(&join_alias, sql_models_aliases, join_model, PH_NOISY_CC);
+	
+					PHALCON_INIT_NVAR(right);
+					array_init_size(right, 3);
+					add_assoc_stringl_ex(right, SS("type"), SL("qualified"), 1);
+					phalcon_array_update_string(&right, SL("domain"), &join_alias, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&right, SL("name"), &referenced_fields, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					PHALCON_INIT_NVAR(right_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(right_expr, this_ptr, "_getqualified", right);
+	
+					PHALCON_INIT_NVAR(sql_join_condition);
+					array_init_size(sql_join_condition, 4);
+					add_assoc_stringl_ex(sql_join_condition, SS("type"), SL("binary-op"), 1);
+					add_assoc_stringl_ex(sql_join_condition, SS("op"), SL("="), 1);
+					phalcon_array_update_string(&sql_join_condition, SL("left"), &left_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_string(&sql_join_condition, SL("right"), &right_expr, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_append(&sql_join_conditions, sql_join_condition, PH_SEPARATE TSRMLS_CC);
 				}
 			} else {
 				PHALCON_OBS_NVAR(pre_condition);
@@ -33016,8 +33063,11 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_aliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasMany"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManySingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasOne"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasOneSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsTo"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsToSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -33073,7 +33123,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
 	zval *model, *class_name, *initialized, *events_manager = NULL;
 	zval *lowercased, *event_name, *model_base, *connection_service;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -33107,10 +33156,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		phalcon_update_property_array(this_ptr, SL("_initialized"), lowercased, model TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_initialized"), PH_NOISY_CC);
 		PHALCON_OBS_VAR(model_base);
-		phalcon_array_fetch(&model_base, t0, lowercased, PH_NOISY_CC);
+		phalcon_array_fetch(&model_base, initialized, lowercased, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(connection_service);
 		PHALCON_CALL_METHOD(connection_service, model_base, "getconnectionservice");
@@ -33193,11 +33240,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 
 	zval *model, *fields, *referenced_model, *referenced_fields;
 	zval *options = NULL, *model_name, *entity_name, *referenced_entity;
-	zval *has_one = NULL, *number_fields, *number_referenced;
-	zval *diferent_fields, *type, *relation, *alias;
-	zval *lower_alias = NULL, *key_alias, *_hasOne;
-	zval *a0 = NULL;
-	zval *r0 = NULL;
+	zval *key_relation, *has_one, *relations = NULL, *number_fields;
+	zval *number_referenced, *diferent_fields;
+	zval *type, *relation, *alias, *lower_alias = NULL, *key_alias;
+	zval *has_one_single, *single_relations = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -33218,80 +33264,85 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	PHALCON_INIT_VAR(referenced_entity);
 	phalcon_fast_strtolower(referenced_entity, referenced_model);
 	
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
+	
 	PHALCON_OBS_VAR(has_one);
 	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-	if (Z_TYPE_P(has_one) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(has_one);
-		array_init(has_one);
-		phalcon_update_property_zval(this_ptr, SL("_hasOne"), has_one TSRMLS_CC);
+	if (!phalcon_array_isset(has_one, key_relation)) {
+		PHALCON_INIT_VAR(relations);
+		array_init(relations);
+	} else {
+		PHALCON_OBS_NVAR(relations);
+		phalcon_array_fetch(&relations, has_one, key_relation, PH_NOISY_CC);
 	}
 	
-	if (!phalcon_array_isset(has_one, entity_name)) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		phalcon_array_update_zval(&has_one, entity_name, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
+	if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, has_one, entity_name, PH_NOISY_CC);
-	if (!phalcon_array_isset(r0, referenced_entity)) {
-		if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(number_fields);
+		phalcon_fast_count(number_fields, fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_fields);
-			phalcon_fast_count(number_fields, fields TSRMLS_CC);
+		PHALCON_INIT_VAR(number_referenced);
+		phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_referenced);
-			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(diferent_fields);
-			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (PHALCON_IS_TRUE(diferent_fields)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
-				return;
-			}
+		PHALCON_INIT_VAR(diferent_fields);
+		is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+		if (PHALCON_IS_TRUE(diferent_fields)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
 		}
-	
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 1);
-	
-		PHALCON_INIT_VAR(relation);
-		object_init_ex(relation, phalcon_mvc_model_relation_ce);
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
-	
-		if (phalcon_array_isset_string(options, SS("alias"))) {
-			PHALCON_OBS_VAR(alias);
-			phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(lower_alias);
-			phalcon_fast_strtolower(lower_alias, alias);
-		} else {
-			PHALCON_CPY_WRT(lower_alias, referenced_entity);
-		}
-	
-		PHALCON_INIT_VAR(key_alias);
-		PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
-		phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(_hasOne);
-		phalcon_read_property(&_hasOne, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&_hasOne, entity_name, referenced_entity, &relation, 0 TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_hasOne"), _hasOne TSRMLS_CC);
-	
-		RETURN_CTOR(relation);
 	}
 	
-	RETURN_MM_FALSE;
+	PHALCON_INIT_VAR(type);
+	ZVAL_LONG(type, 1);
+	
+	PHALCON_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
+	
+	if (phalcon_array_isset_string(options, SS("alias"))) {
+		PHALCON_OBS_VAR(alias);
+		phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(lower_alias);
+		phalcon_fast_strtolower(lower_alias, alias);
+	} else {
+		PHALCON_CPY_WRT(lower_alias, referenced_entity);
+	}
+	
+	phalcon_array_append(&relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(key_alias);
+	PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
+	phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_hasOne"), key_relation, relations TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(has_one_single);
+	phalcon_read_property(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if (!phalcon_array_isset(has_one_single, entity_name)) {
+		PHALCON_INIT_VAR(single_relations);
+		array_init(single_relations);
+	} else {
+		PHALCON_OBS_NVAR(single_relations);
+		phalcon_array_fetch(&single_relations, has_one_single, entity_name, PH_NOISY_CC);
+	}
+	
+	phalcon_array_append(&single_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_hasOneSingle"), entity_name, single_relations TSRMLS_CC);
+	
+	RETURN_CTOR(relation);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 
 	zval *model, *fields, *referenced_model, *referenced_fields;
 	zval *options = NULL, *model_name, *entity_name, *referenced_entity;
-	zval *belongs_to = NULL, *number_fields, *number_referenced;
-	zval *diferent_fields, *type, *relation, *alias;
-	zval *lower_alias = NULL, *key_alias, *_belongsTo;
-	zval *a0 = NULL;
-	zval *r0 = NULL;
+	zval *key_relation, *belongs_to, *relations = NULL;
+	zval *number_fields, *number_referenced, *diferent_fields;
+	zval *type, *relation, *alias, *lower_alias = NULL, *key_alias;
+	zval *belongs_to_single, *single_relations = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -33312,80 +33363,85 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	PHALCON_INIT_VAR(referenced_entity);
 	phalcon_fast_strtolower(referenced_entity, referenced_model);
 	
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
+	
 	PHALCON_OBS_VAR(belongs_to);
 	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-	if (Z_TYPE_P(belongs_to) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(belongs_to);
-		array_init(belongs_to);
-		phalcon_update_property_zval(this_ptr, SL("_belongsTo"), belongs_to TSRMLS_CC);
+	if (!phalcon_array_isset(belongs_to, key_relation)) {
+		PHALCON_INIT_VAR(relations);
+		array_init(relations);
+	} else {
+		PHALCON_OBS_NVAR(relations);
+		phalcon_array_fetch(&relations, belongs_to, key_relation, PH_NOISY_CC);
 	}
 	
-	if (!phalcon_array_isset(belongs_to, entity_name)) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		phalcon_array_update_zval(&belongs_to, entity_name, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
+	if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, belongs_to, entity_name, PH_NOISY_CC);
-	if (!phalcon_array_isset(r0, referenced_entity)) {
-		if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(number_fields);
+		phalcon_fast_count(number_fields, fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_fields);
-			phalcon_fast_count(number_fields, fields TSRMLS_CC);
+		PHALCON_INIT_VAR(number_referenced);
+		phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_referenced);
-			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(diferent_fields);
-			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (PHALCON_IS_TRUE(diferent_fields)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
-				return;
-			}
+		PHALCON_INIT_VAR(diferent_fields);
+		is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+		if (PHALCON_IS_TRUE(diferent_fields)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
 		}
-	
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 0);
-	
-		PHALCON_INIT_VAR(relation);
-		object_init_ex(relation, phalcon_mvc_model_relation_ce);
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
-	
-		if (phalcon_array_isset_string(options, SS("alias"))) {
-			PHALCON_OBS_VAR(alias);
-			phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(lower_alias);
-			phalcon_fast_strtolower(lower_alias, alias);
-		} else {
-			PHALCON_CPY_WRT(lower_alias, referenced_entity);
-		}
-	
-		PHALCON_INIT_VAR(key_alias);
-		PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
-		phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(_belongsTo);
-		phalcon_read_property(&_belongsTo, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&_belongsTo, entity_name, referenced_entity, &relation, 0 TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_belongsTo"), _belongsTo TSRMLS_CC);
-	
-		RETURN_CTOR(relation);
 	}
 	
-	RETURN_MM_FALSE;
+	PHALCON_INIT_VAR(type);
+	ZVAL_LONG(type, 0);
+	
+	PHALCON_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
+	
+	if (phalcon_array_isset_string(options, SS("alias"))) {
+		PHALCON_OBS_VAR(alias);
+		phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(lower_alias);
+		phalcon_fast_strtolower(lower_alias, alias);
+	} else {
+		PHALCON_CPY_WRT(lower_alias, referenced_entity);
+	}
+	
+	phalcon_array_append(&relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(key_alias);
+	PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
+	phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_belongsTo"), key_relation, relations TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(belongs_to_single);
+	phalcon_read_property(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	if (!phalcon_array_isset(belongs_to_single, entity_name)) {
+		PHALCON_INIT_VAR(single_relations);
+		array_init(single_relations);
+	} else {
+		PHALCON_OBS_NVAR(single_relations);
+		phalcon_array_fetch(&single_relations, belongs_to_single, entity_name, PH_NOISY_CC);
+	}
+	
+	phalcon_array_append(&single_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_belongsToSingle"), entity_name, single_relations TSRMLS_CC);
+	
+	RETURN_CTOR(relation);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 
 	zval *model, *fields, *referenced_model, *referenced_fields;
 	zval *options = NULL, *model_name, *entity_name, *referenced_entity;
-	zval *has_many = NULL, *number_fields, *number_referenced;
-	zval *diferent_fields, *type, *relation, *alias;
-	zval *lower_alias = NULL, *key_alias, *_hasMany;
-	zval *a0 = NULL;
-	zval *r0 = NULL;
+	zval *key_relation, *has_many, *relations = NULL, *number_fields;
+	zval *number_referenced, *diferent_fields;
+	zval *type, *relation, *alias, *lower_alias = NULL, *key_alias;
+	zval *has_many_single, *single_relations = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -33406,76 +33462,82 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	PHALCON_INIT_VAR(referenced_entity);
 	phalcon_fast_strtolower(referenced_entity, referenced_model);
 	
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", referenced_entity);
+	
 	PHALCON_OBS_VAR(has_many);
 	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-	if (Z_TYPE_P(has_many) != IS_ARRAY) { 
-		PHALCON_INIT_NVAR(has_many);
-		array_init(has_many);
-		phalcon_update_property_zval(this_ptr, SL("_hasMany"), has_many TSRMLS_CC);
+	if (!phalcon_array_isset(has_many, key_relation)) {
+		PHALCON_INIT_VAR(relations);
+		array_init(relations);
+	} else {
+		PHALCON_OBS_NVAR(relations);
+		phalcon_array_fetch(&relations, has_many, key_relation, PH_NOISY_CC);
 	}
 	
-	if (!phalcon_array_isset(has_many, entity_name)) {
-		PHALCON_INIT_VAR(a0);
-		array_init(a0);
-		phalcon_array_update_zval(&has_many, entity_name, &a0, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	}
+	if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
 	
-	PHALCON_OBS_VAR(r0);
-	phalcon_array_fetch(&r0, has_many, entity_name, PH_NOISY_CC);
-	if (!phalcon_array_isset(r0, referenced_entity)) {
-		if (Z_TYPE_P(referenced_fields) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(number_fields);
+		phalcon_fast_count(number_fields, fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_fields);
-			phalcon_fast_count(number_fields, fields TSRMLS_CC);
+		PHALCON_INIT_VAR(number_referenced);
+		phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
 	
-			PHALCON_INIT_VAR(number_referenced);
-			phalcon_fast_count(number_referenced, referenced_fields TSRMLS_CC);
-	
-			PHALCON_INIT_VAR(diferent_fields);
-			is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
-			if (PHALCON_IS_TRUE(diferent_fields)) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
-				return;
-			}
+		PHALCON_INIT_VAR(diferent_fields);
+		is_not_equal_function(diferent_fields, number_fields, number_referenced TSRMLS_CC);
+		if (PHALCON_IS_TRUE(diferent_fields)) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Number of referenced fields are not the same");
+			return;
 		}
-	
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 2);
-	
-		PHALCON_INIT_VAR(relation);
-		object_init_ex(relation, phalcon_mvc_model_relation_ce);
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
-	
-		if (phalcon_array_isset_string(options, SS("alias"))) {
-			PHALCON_OBS_VAR(alias);
-			phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(lower_alias);
-			phalcon_fast_strtolower(lower_alias, alias);
-		} else {
-			PHALCON_CPY_WRT(lower_alias, referenced_entity);
-		}
-	
-		PHALCON_INIT_VAR(key_alias);
-		PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
-		phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
-	
-		PHALCON_OBS_VAR(_hasMany);
-		phalcon_read_property(&_hasMany, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-		phalcon_array_update_multi_2(&_hasMany, entity_name, referenced_entity, &relation, 0 TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_hasMany"), _hasMany TSRMLS_CC);
-	
-		RETURN_CTOR(relation);
 	}
 	
-	RETURN_MM_FALSE;
+	PHALCON_INIT_VAR(type);
+	ZVAL_LONG(type, 2);
+	
+	PHALCON_INIT_VAR(relation);
+	object_init_ex(relation, phalcon_mvc_model_relation_ce);
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(relation, "__construct", type, referenced_model, fields, referenced_fields, options);
+	
+	if (phalcon_array_isset_string(options, SS("alias"))) {
+		PHALCON_OBS_VAR(alias);
+		phalcon_array_fetch_string(&alias, options, SL("alias"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(lower_alias);
+		phalcon_fast_strtolower(lower_alias, alias);
+	} else {
+		PHALCON_CPY_WRT(lower_alias, referenced_entity);
+	}
+	
+	phalcon_array_append(&relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(key_alias);
+	PHALCON_CONCAT_VSV(key_alias, entity_name, "$", lower_alias);
+	phalcon_update_property_array(this_ptr, SL("_aliases"), key_alias, relation TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_hasMany"), key_relation, relations TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(has_many_single);
+	phalcon_read_property(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if (!phalcon_array_isset(has_many_single, entity_name)) {
+		PHALCON_INIT_VAR(single_relations);
+		array_init(single_relations);
+	} else {
+		PHALCON_OBS_NVAR(single_relations);
+		phalcon_array_fetch(&single_relations, has_many_single, entity_name, PH_NOISY_CC);
+	}
+	
+	phalcon_array_append(&single_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+	phalcon_update_property_array(this_ptr, SL("_hasManySingle"), entity_name, single_relations TSRMLS_CC);
+	
+	RETURN_CTOR(relation);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 
 	zval *model_name, *model_relation, *initialized;
-	zval *entity_name, *entity_relation, *belongs_to;
-	zval *r0 = NULL;
+	zval *entity_name, *entity_relation, *key_relation;
+	zval *belongs_to;
 
 	PHALCON_MM_GROW();
 
@@ -33492,19 +33554,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 	PHALCON_INIT_VAR(entity_relation);
 	phalcon_fast_strtolower(entity_relation, model_relation);
 	
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+	
 	if (!phalcon_array_isset(initialized, entity_name)) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "load", model_name);
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
 	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-	if (phalcon_array_isset(belongs_to, entity_name)) {
-	
-		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch(&r0, belongs_to, entity_name, PH_NOISY_CC);
-		if (phalcon_array_isset(r0, entity_relation)) {
-			RETURN_MM_TRUE;
-		}
+	if (phalcon_array_isset(belongs_to, key_relation)) {
+		RETURN_MM_TRUE;
 	}
 	
 	RETURN_MM_FALSE;
@@ -33512,9 +33572,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 
-	zval *model_name, *model_relation, *entity_name;
-	zval *entity_relation, *initialized, *has_many;
-	zval *r0 = NULL;
+	zval *model_name, *model_relation, *initialized;
+	zval *entity_name, *entity_relation, *key_relation;
+	zval *has_many;
 
 	PHALCON_MM_GROW();
 
@@ -33522,27 +33582,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_fast_strtolower(entity_name, model_name);
 	
 	PHALCON_INIT_VAR(entity_relation);
 	phalcon_fast_strtolower(entity_relation, model_relation);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+	
 	if (!phalcon_array_isset(initialized, entity_name)) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "load", model_name);
 	}
 	
 	PHALCON_OBS_VAR(has_many);
 	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-	if (phalcon_array_isset(has_many, entity_name)) {
-	
-		PHALCON_OBS_VAR(r0);
-		phalcon_array_fetch(&r0, has_many, entity_name, PH_NOISY_CC);
-		if (phalcon_array_isset(r0, entity_relation)) {
-			RETURN_MM_TRUE;
-		}
+	if (phalcon_array_isset(has_many, key_relation)) {
+		RETURN_MM_TRUE;
 	}
 	
 	RETURN_MM_FALSE;
@@ -33550,9 +33609,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 
-	zval *model_name, *model_relation, *entity_name;
-	zval *entity_relation, *initialized, *has_one;
-	zval *r0 = NULL;
+	zval *model_name, *model_relation, *initialized;
+	zval *entity_name, *entity_relation, *key_relation;
+	zval *has_one;
 
 	PHALCON_MM_GROW();
 
@@ -33560,29 +33619,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(entity_name);
 	phalcon_fast_strtolower(entity_name, model_name);
 	
 	PHALCON_INIT_VAR(entity_relation);
 	phalcon_fast_strtolower(entity_relation, model_relation);
 	
-	PHALCON_OBS_VAR(initialized);
-	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+	
 	if (!phalcon_array_isset(initialized, entity_name)) {
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "load", model_name);
 	}
 	
 	PHALCON_OBS_VAR(has_one);
 	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
-		if (phalcon_array_isset(has_one, entity_name)) {
-	
-			PHALCON_OBS_VAR(r0);
-			phalcon_array_fetch(&r0, has_one, entity_name, PH_NOISY_CC);
-			if (phalcon_array_isset(r0, entity_relation)) {
-				RETURN_MM_TRUE;
-			}
-		}
+	if (phalcon_array_isset(has_one, key_relation)) {
+		RETURN_MM_TRUE;
 	}
 	
 	RETURN_MM_FALSE;
@@ -33815,8 +33871,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 
 	zval *method, *model_name, *model_relation, *record;
 	zval *parameters = NULL, *belongs_to, *entity_name;
-	zval *entity_relation, *relation, *records;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *entity_relation, *key_relation, *relations;
+	zval *relation, *records;
 
 	PHALCON_MM_GROW();
 
@@ -33837,20 +33893,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	
 		PHALCON_INIT_VAR(entity_relation);
 		phalcon_fast_strtolower(entity_relation, model_relation);
-		if (phalcon_array_isset(belongs_to, entity_name)) {
 	
-			PHALCON_OBS_VAR(r0);
-			phalcon_array_fetch(&r0, belongs_to, entity_name, PH_NOISY_CC);
-			if (!phalcon_array_isset(r0, entity_relation)) {
-				RETURN_MM_FALSE;
-			}
+		PHALCON_INIT_VAR(key_relation);
+		PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+		if (!phalcon_array_isset(belongs_to, key_relation)) {
+			RETURN_MM_FALSE;
 		}
 	
-		PHALCON_OBS_VAR(r1);
-		phalcon_array_fetch(&r1, belongs_to, entity_name, PH_NOISY_CC);
+		PHALCON_OBS_VAR(relations);
+		phalcon_array_fetch(&relations, belongs_to, key_relation, PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(relation);
-		phalcon_array_fetch(&relation, r1, entity_relation, PH_NOISY_CC);
+		phalcon_array_fetch_long(&relation, relations, 0, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(records);
 		PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "getrelationrecords", relation, method, record, parameters);
@@ -33865,8 +33919,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 
 	zval *method, *model_name, *model_relation, *record;
 	zval *parameters = NULL, *has_many, *entity_name, *entity_relation;
-	zval *relation, *records;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *key_relation, *relations, *relation, *records;
 
 	PHALCON_MM_GROW();
 
@@ -33887,20 +33940,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	
 		PHALCON_INIT_VAR(entity_relation);
 		phalcon_fast_strtolower(entity_relation, model_relation);
-		if (phalcon_array_isset(has_many, entity_name)) {
 	
-			PHALCON_OBS_VAR(r0);
-			phalcon_array_fetch(&r0, has_many, entity_name, PH_NOISY_CC);
-			if (!phalcon_array_isset(r0, entity_relation)) {
-				RETURN_MM_FALSE;
-			}
+		PHALCON_INIT_VAR(key_relation);
+		PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+		if (!phalcon_array_isset(has_many, key_relation)) {
+			RETURN_MM_FALSE;
 		}
 	
-		PHALCON_OBS_VAR(r1);
-		phalcon_array_fetch(&r1, has_many, entity_name, PH_NOISY_CC);
+		PHALCON_OBS_VAR(relations);
+		phalcon_array_fetch(&relations, has_many, key_relation, PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(relation);
-		phalcon_array_fetch(&relation, r1, entity_relation, PH_NOISY_CC);
+		phalcon_array_fetch_long(&relation, relations, 0, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(records);
 		PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "getrelationrecords", relation, method, record, parameters);
@@ -33915,8 +33966,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 
 	zval *method, *model_name, *model_relation, *record;
 	zval *parameters = NULL, *has_one, *entity_name, *entity_relation;
-	zval *relation, *records;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *key_relation, *relations, *relation, *records;
 
 	PHALCON_MM_GROW();
 
@@ -33937,20 +33987,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	
 		PHALCON_INIT_VAR(entity_relation);
 		phalcon_fast_strtolower(entity_relation, model_relation);
-		if (phalcon_array_isset(has_one, entity_name)) {
 	
-			PHALCON_OBS_VAR(r0);
-			phalcon_array_fetch(&r0, has_one, entity_name, PH_NOISY_CC);
-			if (!phalcon_array_isset(r0, model_relation)) {
-				RETURN_MM_FALSE;
-			}
+		PHALCON_INIT_VAR(key_relation);
+		PHALCON_CONCAT_VSV(key_relation, entity_name, "$", entity_relation);
+		if (!phalcon_array_isset(has_one, key_relation)) {
+			RETURN_MM_FALSE;
 		}
 	
-		PHALCON_OBS_VAR(r1);
-		phalcon_array_fetch(&r1, has_one, entity_name, PH_NOISY_CC);
+		PHALCON_OBS_VAR(relations);
+		phalcon_array_fetch(&relations, has_one, key_relation, PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(relation);
-		phalcon_array_fetch(&relation, r1, entity_relation, PH_NOISY_CC);
+		phalcon_array_fetch_long(&relation, relations, 0, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(records);
 		PHALCON_CALL_METHOD_PARAMS_4(records, this_ptr, "getrelationrecords", relation, method, record, parameters);
@@ -33963,8 +34011,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
 
-	zval *model, *belongs_to, *model_name, *entity_name;
-	zval *relations, *empty_array;
+	zval *model, *belongs_to_single, *model_name;
+	zval *lower_name, *relations, *empty_array;
 
 	PHALCON_MM_GROW();
 
@@ -33972,18 +34020,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(belongs_to);
-	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
-	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
+	PHALCON_OBS_VAR(belongs_to_single);
+	phalcon_read_property(&belongs_to_single, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(belongs_to_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(model_name);
 		phalcon_get_class(model_name, model TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(entity_name);
-		phalcon_fast_strtolower(entity_name, model_name);
-		if (phalcon_array_isset(belongs_to, entity_name)) {
+		PHALCON_INIT_VAR(lower_name);
+		phalcon_fast_strtolower(lower_name, model_name);
+		if (phalcon_array_isset(belongs_to_single, lower_name)) {
 			PHALCON_OBS_VAR(relations);
-			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
+			phalcon_array_fetch(&relations, belongs_to_single, lower_name, PH_NOISY_CC);
 			RETURN_CCTOR(relations);
 		}
 	}
@@ -33996,7 +34044,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
 
-	zval *model, *has_many, *model_name, *entity_name;
+	zval *model, *has_many_single, *model_name, *lower_name;
 	zval *relations, *empty_array;
 
 	PHALCON_MM_GROW();
@@ -34005,18 +34053,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(has_many);
-	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
-	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
+	PHALCON_OBS_VAR(has_many_single);
+	phalcon_read_property(&has_many_single, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_many_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(model_name);
 		phalcon_get_class(model_name, model TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(entity_name);
-		phalcon_fast_strtolower(entity_name, model_name);
-		if (phalcon_array_isset(has_many, entity_name)) {
+		PHALCON_INIT_VAR(lower_name);
+		phalcon_fast_strtolower(lower_name, model_name);
+		if (phalcon_array_isset(has_many_single, lower_name)) {
 			PHALCON_OBS_VAR(relations);
-			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
+			phalcon_array_fetch(&relations, has_many_single, lower_name, PH_NOISY_CC);
 			RETURN_CCTOR(relations);
 		}
 	}
@@ -34029,7 +34077,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 
-	zval *model, *has_one, *model_name, *entity_name;
+	zval *model, *has_one_single, *model_name, *lower_name;
 	zval *relations, *empty_array;
 
 	PHALCON_MM_GROW();
@@ -34038,18 +34086,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(has_one);
-	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
-	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
+	PHALCON_OBS_VAR(has_one_single);
+	phalcon_read_property(&has_one_single, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_one_single) == IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(model_name);
 		phalcon_get_class(model_name, model TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(entity_name);
-		phalcon_fast_strtolower(entity_name, model_name);
-		if (phalcon_array_isset(has_one, entity_name)) {
+		PHALCON_INIT_VAR(lower_name);
+		phalcon_fast_strtolower(lower_name, model_name);
+		if (phalcon_array_isset(has_one_single, lower_name)) {
 			PHALCON_OBS_VAR(relations);
-			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
+			phalcon_array_fetch(&relations, has_one_single, lower_name, PH_NOISY_CC);
 			RETURN_CCTOR(relations);
 		}
 	}
@@ -34084,8 +34132,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
 	zval *first, *second, *first_name, *second_name;
-	zval *belongs_to, *relation = NULL, *has_many, *has_one;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL;
+	zval *key_relation, *belongs_to, *relations = NULL;
+	zval *has_many, *has_one;
 
 	PHALCON_MM_GROW();
 
@@ -34099,54 +34147,36 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 	PHALCON_INIT_VAR(second_name);
 	phalcon_fast_strtolower(second_name, second);
 	
+	PHALCON_INIT_VAR(key_relation);
+	PHALCON_CONCAT_VSV(key_relation, first_name, "$", second_name);
+	
 	PHALCON_OBS_VAR(belongs_to);
 	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsTo"), PH_NOISY_CC);
 	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
-		if (phalcon_array_isset(belongs_to, first_name)) {
-	
-			PHALCON_OBS_VAR(r0);
-			phalcon_array_fetch(&r0, belongs_to, first_name, PH_NOISY_CC);
-			if (phalcon_array_isset(r0, second_name)) {
-				PHALCON_OBS_VAR(r1);
-				phalcon_array_fetch(&r1, belongs_to, first_name, PH_NOISY_CC);
-				PHALCON_OBS_VAR(relation);
-				phalcon_array_fetch(&relation, r1, second_name, PH_NOISY_CC);
-				RETURN_CCTOR(relation);
-			}
+		if (phalcon_array_isset(belongs_to, key_relation)) {
+			PHALCON_OBS_VAR(relations);
+			phalcon_array_fetch(&relations, belongs_to, key_relation, PH_NOISY_CC);
+			RETURN_CCTOR(relations);
 		}
 	}
 	
 	PHALCON_OBS_VAR(has_many);
 	phalcon_read_property(&has_many, this_ptr, SL("_hasMany"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
-		if (phalcon_array_isset(has_many, first_name)) {
-	
-			PHALCON_OBS_VAR(r2);
-			phalcon_array_fetch(&r2, has_many, first_name, PH_NOISY_CC);
-			if (phalcon_array_isset(r2, second_name)) {
-				PHALCON_OBS_VAR(r3);
-				phalcon_array_fetch(&r3, has_many, first_name, PH_NOISY_CC);
-				PHALCON_OBS_NVAR(relation);
-				phalcon_array_fetch(&relation, r3, second_name, PH_NOISY_CC);
-				RETURN_CCTOR(relation);
-			}
+		if (phalcon_array_isset(has_many, key_relation)) {
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_many, key_relation, PH_NOISY_CC);
+			RETURN_CCTOR(relations);
 		}
 	}
 	
 	PHALCON_OBS_VAR(has_one);
 	phalcon_read_property(&has_one, this_ptr, SL("_hasOne"), PH_NOISY_CC);
 	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
-		if (phalcon_array_isset(has_one, first_name)) {
-	
-			PHALCON_OBS_VAR(r4);
-			phalcon_array_fetch(&r4, has_one, first_name, PH_NOISY_CC);
-			if (phalcon_array_isset(r4, second_name)) {
-				PHALCON_OBS_VAR(r5);
-				phalcon_array_fetch(&r5, has_one, first_name, PH_NOISY_CC);
-				PHALCON_OBS_NVAR(relation);
-				phalcon_array_fetch(&relation, r5, second_name, PH_NOISY_CC);
-				RETURN_CCTOR(relation);
-			}
+		if (phalcon_array_isset(has_one, key_relation)) {
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_one, key_relation, PH_NOISY_CC);
+			RETURN_CCTOR(relations);
 		}
 	}
 	
@@ -44583,12 +44613,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 		if (PHALCON_COMPARE_STRING(name, "iterable")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVSVS(code, "(is_array(", left, ") || (", left, ") instanceof Traversable)");
-			RETURN_CTOR(code);
-		}
-	
-		if (PHALCON_COMPARE_STRING(name, "numeric")) {
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CONCAT_SVS(code, "is_numeric(", left, ")");
 			RETURN_CTOR(code);
 		}
 	}
@@ -56171,7 +56195,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -56214,13 +56237,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	
 				PHALCON_INIT_NVAR(relation_class);
 				PHALCON_CALL_METHOD(relation_class, relation, "getreferencedmodel");
-				ce0 = phalcon_fetch_class(relation_class TSRMLS_CC);
 	
 				PHALCON_INIT_NVAR(referenced_model);
-				object_init_ex(referenced_model, ce0);
-				if (phalcon_has_constructor(referenced_model TSRMLS_CC)) {
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_model, "__construct", dependency_injector);
-				}
+				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", relation_class);
 	
 				PHALCON_INIT_NVAR(conditions);
 				array_init(conditions);
@@ -56234,6 +56253,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 				PHALCON_INIT_NVAR(referenced_fields);
 				PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
 				if (Z_TYPE_P(fields) == IS_ARRAY) { 
+	
 	
 					if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
 						return;
@@ -64002,7 +64022,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *flash;
+	zval *response, *request, *filter, *escaper = NULL, *flash;
 	zval *flash_session, *session, *session_bag;
 	zval *events_manager, *transaction_manager;
 	zval *services;
@@ -64101,6 +64121,16 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	ZVAL_STRING(definition, "Phalcon\\Escaper", 1);
 	
 	PHALCON_INIT_VAR(escaper);
+	object_init_ex(escaper, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
+	
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "security", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Security", 1);
+	
+	PHALCON_INIT_NVAR(escaper);
 	object_init_ex(escaper, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
 	
