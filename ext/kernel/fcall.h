@@ -27,7 +27,7 @@
 #endif
 #else
 #if PHP_VERSION_ID < 50400
-#define PH_MEHASH_C , method_key
+#define PH_MEHASH_C , 0
 #define PH_MEHASH_D , unsigned long method_key
 #else
 #define PH_MEHASH_C

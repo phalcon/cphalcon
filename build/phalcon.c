@@ -856,7 +856,7 @@ void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #endif
 #else
 #if PHP_VERSION_ID < 50400
-#define PH_MEHASH_C , method_key
+#define PH_MEHASH_C , 0
 #define PH_MEHASH_D , unsigned long method_key
 #else
 #define PH_MEHASH_C
@@ -4654,7 +4654,7 @@ int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
 
 	object_init_ex(return_value, ce);
 	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-		if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 TSRMLS_CC) == FAILURE) {
+		if (phalcon_call_method(NULL, return_value, SL("__construct"), 0, 0 TSRMLS_CC) == FAILURE) {
 			return FAILURE;
 		}
 	}
@@ -4704,7 +4704,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 		}
 
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0, 0 TSRMLS_CC) == FAILURE) {
 				efree(params_array);
 				return FAILURE;
 			}
@@ -4713,7 +4713,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 		efree(params_array);
 	} else {
 		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
-			if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 TSRMLS_CC) == FAILURE) {
+			if (phalcon_call_method(NULL, return_value, SL("__construct"), 0, 0 TSRMLS_CC) == FAILURE) {
 				return FAILURE;
 			}
 		}
