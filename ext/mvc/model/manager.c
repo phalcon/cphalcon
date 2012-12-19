@@ -79,6 +79,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_belongsToSingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_initialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastInitialized"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_lastQuery"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_manager_ce TSRMLS_CC, 3, phalcon_mvc_model_managerinterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
@@ -1561,7 +1562,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
  * Creates a Phalcon\Mvc\Model\Query without execute it
  *
  * @param string $phql
- * @return Phalcon\Mvc\Model\Query
+ * @return Phalcon\Mvc\Model\QueryInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 
@@ -1580,11 +1581,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
 		return;
 	}
 	
+	/** 
+	 * Create a query
+	 */
 	PHALCON_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", phql);
 	
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector);
+	phalcon_update_property_zval(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 	
 	RETURN_CTOR(query);
 }
@@ -1618,12 +1623,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 		return;
 	}
 	
+	/** 
+	 * Create a query
+	 */
 	PHALCON_INIT_VAR(query);
 	object_init_ex(query, phalcon_mvc_model_query_ce);
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", phql);
 	
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector);
+	phalcon_update_property_zval(this_ptr, SL("_lastQuery"), query TSRMLS_CC);
 	
+	/** 
+	 * Execute the query
+	 */
 	PHALCON_INIT_VAR(result);
 	PHALCON_CALL_METHOD_PARAMS_1(result, query, "execute", placeholders);
 	
@@ -1638,7 +1650,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 
-	zval *params = NULL, *dependency_injector, *query;
+	zval *params = NULL, *dependency_injector, *builder;
 
 	PHALCON_MM_GROW();
 
@@ -1657,12 +1669,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(query);
-	object_init_ex(query, phalcon_mvc_model_query_builder_ce);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "__construct", params);
+	/** 
+	 * Create a query builder
+	 */
+	PHALCON_INIT_VAR(builder);
+	object_init_ex(builder, phalcon_mvc_model_query_builder_ce);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "__construct", params);
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setdi", dependency_injector);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(builder, "setdi", dependency_injector);
 	
-	RETURN_CTOR(query);
+	RETURN_CTOR(builder);
+}
+
+/**
+ * Returns the last query created or executed in the
+ *
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery){
+
+
+	RETURN_MEMBER(this_ptr, "_lastQuery");
 }
 

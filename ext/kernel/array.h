@@ -22,6 +22,9 @@ extern int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index);
 extern int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index);
 extern int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length);
 
+/** Fast index existence checking */
+extern int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, ulong key);
+
 /** Unset existing indexes */
 extern int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index);
 extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index);

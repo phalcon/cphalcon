@@ -45,22 +45,27 @@
 /**
  * Calls a method caching its function handler
  */
-inline int phalcon_exp_call_user_method_ex(zend_class_entry *ce, zval **object_pp, zval *method_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[] TSRMLS_DC)
+inline int phalcon_exp_call_user_method_ex(zend_class_entry *ce, zval **object_pp, zval *method_name, zval **retval_ptr_ptr, zend_uint param_count, zval **params[], unsigned long method_key TSRMLS_DC)
 {
 
 	zend_fcall_info *fci, fci_local;
 	int status;
 	unsigned int key_length;
+	unsigned long hash_key;
 	char *key;
 
 	/** Calculate the key-length */
-	key_length = ce->name_length + Z_STRLEN_P(method_name) + 1;
+	key_length = ce->name_length + Z_STRLEN_P(method_name) + 2;
 
 	/** Create a unique key */
 	key = emalloc(key_length);
 	memcpy(key, ce->name, ce->name_length);
-	memcpy(key + ce->name_length, Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
+	memcpy(key + ce->name_length, "$", 1);
+	memcpy(key + ce->name_length + 1, Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
 	key[key_length - 1] = '\0';
+
+	/* Calculate a hash key */
+	hash_key = zend_inline_hash_func(key, key_length);
 
 	fci = &fci_local;
 	fci->size = sizeof(fci);
@@ -73,7 +78,7 @@ inline int phalcon_exp_call_user_method_ex(zend_class_entry *ce, zval **object_p
 	fci->param_count = param_count;
 	fci->params = params;
 
-	status = phalcon_exp_call_method(fci, ce, key, key_length TSRMLS_CC);
+	status = phalcon_exp_call_method(fci, ce, key, key_length, hash_key, method_key TSRMLS_CC);
 
 	efree(key);
 
@@ -83,7 +88,7 @@ inline int phalcon_exp_call_user_method_ex(zend_class_entry *ce, zval **object_p
 /**
  * Calls a method caching its function handler
  */
-int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[] TSRMLS_DC)
+int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *function_name, zval *retval_ptr, zend_uint param_count, zval *params[], unsigned long method_key TSRMLS_DC)
 {
 	zval ***params_array;
 	zend_uint i;
@@ -99,7 +104,7 @@ int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *f
 		params_array = NULL;
 	}
 
-	ex_retval = phalcon_exp_call_user_method_ex(ce, object_pp, function_name, &local_retval_ptr, param_count, params_array TSRMLS_CC);
+	ex_retval = phalcon_exp_call_user_method_ex(ce, object_pp, function_name, &local_retval_ptr, param_count, params_array, method_key TSRMLS_CC);
 	if (local_retval_ptr) {
 		COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);
 	} else {
@@ -114,21 +119,28 @@ int phalcon_exp_call_user_method(zend_class_entry *ce, zval **object_pp, zval *f
 /**
  * Checks if a method is callable
  */
-static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_flags, zval *callable, zend_fcall_info_cache *fcc, char **error TSRMLS_DC) /* {{{ */
+static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_flags, zval *callable, zend_fcall_info_cache *fcc, char **error, unsigned long method_key TSRMLS_DC)
 {
 	int retval = 0;
+
+	#ifndef PHALCON_RELEASE
 	int call_via_handler = 0;
+	#endif
 
 	if (error) {
 		*error = NULL;
 	}
 
+	if (!method_key) {
+		method_key = zend_inline_hash_func(Z_STRVAL_P(callable), Z_STRLEN_P(callable)+1);
+	}
+
 	/* Try to fetch find static method of given class. */
-	if (zend_hash_find(&ce->function_table, Z_STRVAL_P(callable), Z_STRLEN_P(callable)+1, (void**) &fcc->function_handler) == SUCCESS) {
+	if (zend_hash_quick_find(&ce->function_table, Z_STRVAL_P(callable), Z_STRLEN_P(callable)+1, method_key, (void**) &fcc->function_handler) == SUCCESS) {
 		retval = 1;
 		if ((fcc->function_handler->op_array.fn_flags & ZEND_ACC_CHANGED) && EG(scope) && instanceof_function(fcc->function_handler->common.scope, EG(scope) TSRMLS_CC)) {
 			zend_function *priv_fbc;
-			if (zend_hash_find(&EG(scope)->function_table, Z_STRVAL_P(callable), Z_STRLEN_P(callable)+1, (void **) &priv_fbc)==SUCCESS && priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE && priv_fbc->common.scope == EG(scope)) {
+			if (zend_hash_quick_find(&EG(scope)->function_table, Z_STRVAL_P(callable), Z_STRLEN_P(callable)+1, method_key, (void **) &priv_fbc)==SUCCESS && priv_fbc->common.fn_flags & ZEND_ACC_PRIVATE && priv_fbc->common.scope == EG(scope)) {
 				fcc->function_handler = priv_fbc;
 			}
 		}
@@ -152,6 +164,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 		}
 		#endif
 	} else {
+		#ifndef PHALCON_RELEASE
 		get_function_via_handler:
 		if (Z_OBJ_HT_P(fcc->object_ptr)->get_method) {
 			fcc->function_handler = Z_OBJ_HT_P(fcc->object_ptr)->get_method(&fcc->object_ptr, Z_STRVAL_P(callable), Z_STRLEN_P(callable) TSRMLS_CC);
@@ -160,6 +173,7 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 				call_via_handler = (fcc->function_handler->common.fn_flags & ZEND_ACC_CALL_VIA_HANDLER) != 0;
 			}
 		}
+		#endif
 	}
 
 	if (retval) {
@@ -217,9 +231,9 @@ static int phalcon_exp_is_callable_check_method(zend_class_entry *ce, int check_
 }
 
 /**
- *
+ * Check if a method is callable only if it's not checked before
  */
-inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, zval *callable, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists TSRMLS_DC) {
+inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, zval *callable, zval *object_ptr, uint check_flags, zend_fcall_info_cache *fcc, char **error, int exists, unsigned long method_key TSRMLS_DC) {
 
 	if (error) {
 		*error = NULL;
@@ -232,7 +246,7 @@ inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, zval *c
 	if (!exists) {
 		fcc->initialized = 0;
 		fcc->function_handler = NULL;
-		return phalcon_exp_is_callable_check_method(ce, check_flags, callable, fcc, error TSRMLS_CC);
+		return phalcon_exp_is_callable_check_method(ce, check_flags, callable, fcc, error, method_key TSRMLS_CC);
 	} else {
 		fcc->initialized = 1;
 	}
@@ -240,7 +254,10 @@ inline zend_bool phalcon_exp_is_callable_method_ex(zend_class_entry *ce, zval *c
 	return 1;
 }
 
-int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length TSRMLS_DC)
+/**
+ * Call a method caching its function pointer address
+ */
+int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *key, unsigned int key_length, unsigned long hash_key, unsigned long method_key TSRMLS_DC)
 {
 	zend_uint i, exists = 0, is_phalcon_function = 0;
 	zend_class_entry *current_scope;
@@ -268,7 +285,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 	/* Check if a fci_cache is already loaded for this method */
 	if (PHALCON_GLOBAL(function_cache)) {
-		if (zend_hash_find(PHALCON_GLOBAL(function_cache), key, key_length, (void**) &function_handler) == SUCCESS) {
+		if (zend_hash_quick_find(PHALCON_GLOBAL(function_cache), key, key_length, hash_key, (void**) &function_handler) == SUCCESS) {
 			fci_cache->function_handler = *function_handler;
 			exists = 1;
 			is_phalcon_function = 1;
@@ -287,7 +304,8 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 		char *error = NULL;
 
 		if (is_phalcon_function) {
-			if (!phalcon_exp_is_callable_method_ex(ce, fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists TSRMLS_CC)) {
+			/** Use the Phalcon optimized version */
+			if (!phalcon_exp_is_callable_method_ex(ce, fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, fci_cache, &error, exists, method_key TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", key, error);
 					efree(error);
@@ -300,7 +318,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 				}
 			}
 		} else {
-
+			/** Use the slow function instead */
 			if (!zend_is_callable_ex(fci->function_name, fci->object_ptr, IS_CALLABLE_CHECK_SILENT, &callable_name, NULL, fci_cache, &error TSRMLS_CC)) {
 				if (error) {
 					zend_error(E_WARNING, "Invalid callback %s, %s", callable_name, error);
@@ -329,10 +347,11 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 					zend_hash_init(PHALCON_GLOBAL(function_cache), 0, NULL, NULL, 0);
 				}
 
-				zend_hash_update(
+				zend_hash_quick_update(
 					PHALCON_GLOBAL(function_cache),
 					key,
 					key_length,
+					hash_key,
 					&fci_cache->function_handler,
 					sizeof(zend_function *),
 					NULL

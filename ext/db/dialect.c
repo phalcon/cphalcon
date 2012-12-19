@@ -200,9 +200,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *binary_expr, *unary_expr = NULL, *expression_group;
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
 	zval *arguments_joined, *function_expression = NULL;
-	zval *exception_message;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
+	zval *list_expression, *exception_message;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -391,6 +392,41 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 	
 		RETURN_CTOR(function_expression);
+	}
+	
+	/** 
+	 * Resolve lists
+	 */
+	if (PHALCON_COMPARE_STRING(type, "list")) {
+	
+		PHALCON_INIT_VAR(sql_items);
+		array_init(sql_items);
+	
+		PHALCON_OBS_VAR(items);
+		phalcon_array_fetch_long(&items, expression, 0, PH_NOISY_CC);
+	
+		if (!phalcon_valid_foreach(items TSRMLS_CC)) {
+			return;
+		}
+	
+		ah1 = Z_ARRVAL_P(items);
+		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(item);
+	
+			PHALCON_INIT_NVAR(item_expression);
+			PHALCON_CALL_METHOD_PARAMS_2(item_expression, this_ptr, "getsqlexpression", item, escape_char);
+			phalcon_array_append(&sql_items, item_expression, PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah1, &hp1);
+		}
+	
+		PHALCON_INIT_VAR(list_expression);
+		phalcon_fast_join_str(list_expression, SL(", "), sql_items TSRMLS_CC);
+	
+		RETURN_CTOR(list_expression);
 	}
 	
 	/** 

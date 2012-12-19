@@ -271,6 +271,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		EIDENTIFIER = [\[] [a-zA-Z][a-zA-Z0-9\_\\]* [\]];
+		EIDENTIFIER {
+			token->opcode = PHQL_T_IDENTIFIER;
+			token->value = estrndup(q, YYCURSOR - q - 1);
+			token->len = YYCURSOR - q - 1;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		"+" {
 			token->opcode = PHQL_T_ADD;
 			return 0;

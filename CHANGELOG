@@ -10,6 +10,7 @@
  - Added Phalcon\Mvc\View\Engine\Volt\Compiler::addFunction to register user functions
  - Added Phalcon\Mvc\View\Engine\Volt\Compiler::addFilter to register user filters
  - Added Phalcon\Mvc\Model\Relation as class for model relationships
+ - Added '[' and ']' as delimiters to escape PHQL reserverd words
  - Added support for aliasing of model relationships in Phalcon\Mvc\Model
  - Relationships in Models are now case insensitive to be compliant with the PHP standard
  - Looking for a relationship in the models manager now performs a search in O(1) order
