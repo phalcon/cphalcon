@@ -277,7 +277,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 
-	zval *records, *valid = NULL, *current = NULL, *cache, *data, *serialized;
+	zval *records, *valid = NULL, *current = NULL, *cache, *column_types;
+	zval *data, *serialized;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -305,10 +306,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 	PHALCON_OBS_VAR(cache);
 	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	
+	PHALCON_OBS_VAR(column_types);
+	phalcon_read_property(&column_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(data);
-	array_init_size(data, 2);
+	array_init_size(data, 3);
 	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&data, SL("columnTypes"), &column_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
@@ -323,7 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 
-	zval *data, *resultset, *rows, *cache;
+	zval *data, *resultset, *rows, *cache, *column_types;
 
 	PHALCON_MM_GROW();
 
@@ -343,6 +348,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 		PHALCON_OBS_VAR(cache);
 		phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	
+		PHALCON_OBS_VAR(column_types);
+		phalcon_array_fetch_string(&column_types, resultset, SL("columnTypes"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_columnTypes"), column_types TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;

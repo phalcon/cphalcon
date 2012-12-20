@@ -117,6 +117,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 /**
  * Create a criteria for a especific model
  *
+ * @param Phalcon\DiInterface $dependencyInjector
  * @return Phalcon\Mvc\Model\CriteriaInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);

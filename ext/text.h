@@ -56,7 +56,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_text_endswith, 0, 0, 2)
 	ZEND_ARG_INFO(0, str)
-	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
 	ZEND_ARG_INFO(0, ignoreCase)
 ZEND_END_ARG_INFO()
 

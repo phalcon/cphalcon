@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute){
  * Checks if the internal meta-data container is empty
  *
  *<code>
- *var_dump($metaData->isEmpty());
+ *	var_dump($metaData->isEmpty());
  *</code>
  *
  * @return boolean
@@ -1198,7 +1198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
  * Resets internal meta-data in order to regenerate it
  *
  *<code>
- *$metaData->reset();
+ *	$metaData->reset();
  *</code>
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){

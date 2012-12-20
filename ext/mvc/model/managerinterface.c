@@ -62,6 +62,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastInitialized);
 /**
  * Loads a model throwing an exception if it doesn't exist
  *
+ * @param string $modelName
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);

@@ -109,6 +109,8 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 
 /**
  * Removes all events from the EventsManager
+ *
+ * @param string $type
  */
 PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 
@@ -142,6 +144,10 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it
+ *
+ *<code>
+ * $eventsManager->fire('db', $connection);
+ *</code>
  *
  * @param string $eventType
  * @param object $source
@@ -207,6 +213,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_INIT_VAR(event);
 	
 	PHALCON_INIT_VAR(status);
+	
+	/** 
+	 * Check if events are grouped by type
+	 */
 	if (phalcon_array_isset(events, type)) {
 	
 		PHALCON_OBS_VAR(fire_events);
@@ -225,6 +235,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				PHALCON_GET_FOREACH_VALUE(handler);
 	
 				if (Z_TYPE_P(handler) == IS_OBJECT) {
+	
+					/** 
+					 * Check if the event is a closure
+					 */
 					if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
@@ -249,6 +263,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 							}
 						}
 					} else {
+						/** 
+						 * Check if the listener has implemented an event with the same name
+						 */
 						if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);
@@ -277,6 +294,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		}
 	}
 	
+	/** 
+	 * Check if there are listeners for the event type itself
+	 */
 	if (phalcon_array_isset(events, event_type)) {
 	
 		PHALCON_OBS_NVAR(fire_events);
@@ -295,6 +315,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				PHALCON_GET_FOREACH_VALUE(handler);
 	
 				if (Z_TYPE_P(handler) == IS_OBJECT) {
+	
+					/** 
+					 * Check if the event is a closure
+					 */
 					if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
@@ -319,6 +343,9 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 							}
 						}
 					} else {
+						/** 
+						 * Check if the listener has implemented an event with the same name
+						 */
 						if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);

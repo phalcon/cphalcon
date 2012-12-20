@@ -81,7 +81,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 /**
  * Sets the dependency injector container.
  *
- * @param Phalcon\DiInterface $dispatcher
+ * @param Phalcon\DiInterface $dependencyInjector
  */
 PHP_METHOD(Phalcon_Tag, setDI){
 
@@ -327,7 +327,8 @@ PHP_METHOD(Phalcon_Tag, resetInput){
  *	echo Phalcon\Tag::linkTo('signup/register', 'Register Here!');
  *</code>
  *
- * @param array $parameters
+ * @param array|string $parameters
+ * @param   string $text
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, linkTo){
@@ -720,7 +721,7 @@ PHP_METHOD(Phalcon_Tag, radioField){
  * echo Phalcon\Tag::submitButton("Save")
  *</code>
  *
- * @param array $params
+ * @param array $parameters
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, submitButton){
@@ -752,6 +753,7 @@ PHP_METHOD(Phalcon_Tag, submitButton){
  *</code>
  *
  * @param array $parameters
+ * @param   array $data
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, selectStatic){
@@ -784,7 +786,8 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
  * 	));
  *</code>
  *
- * @param array $params
+ * @param array $parameters
+ * @param   array $data
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, select){
@@ -1064,7 +1067,7 @@ PHP_METHOD(Phalcon_Tag, setTitle){
 }
 
 /**
- * Add to title of view content
+ * Appends a text to current document title
  *
  * @param string $title
  */
@@ -1090,7 +1093,7 @@ PHP_METHOD(Phalcon_Tag, appendTitle){
 }
 
 /**
- * Add before the title of view content
+ * Prepends a text to current document title
  *
  * @param string $title
  */
@@ -1116,7 +1119,7 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 }
 
 /**
- * Get the title of view content
+ * Gets the current document title
  *
  * @return string
  */

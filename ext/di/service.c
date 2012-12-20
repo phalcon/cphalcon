@@ -44,6 +44,12 @@
  * Phalcon\DI\Service
  *
  * Represents individually a service in the services container
+ *
+ *<code>
+ * $service = new Phalcon\DI\Service('request', 'Phalcon\Http\Request');
+ * $request = $service->resolve();
+ *<code>
+ *
  */
 
 
@@ -180,6 +186,7 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition){
 /**
  * Resolves the service
  *
+ * @param array $parameters
  * @return mixed
  */
 PHP_METHOD(Phalcon_DI_Service, resolve){
@@ -200,6 +207,10 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	
 	PHALCON_OBS_VAR(shared);
 	phalcon_read_property(&shared, this_ptr, SL("_shared"), PH_NOISY_CC);
+	
+	/** 
+	 * Check if the service is shared
+	 */
 	if (zend_is_true(shared)) {
 	
 		PHALCON_OBS_VAR(shared_instance);
@@ -316,7 +327,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 }
 
 /**
- * Restore the interal state of a service
+ * Restore the internal state of a service
  *
  * @param array $attributes
  * @return Phalcon\DI\Service

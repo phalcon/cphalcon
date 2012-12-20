@@ -195,6 +195,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
  * Check if a model has certain attribute
  *
  * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $attribute
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
@@ -214,6 +215,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset);
 /**
  * Reads meta-data from the adapter
  *
+ * @param string $key
  * @return array
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);

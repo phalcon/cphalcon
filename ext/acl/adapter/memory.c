@@ -351,6 +351,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isResource){
  * </code>
  *
  * @param   Phalcon\Acl\Resource $resource
+ * @param   array $accessList
  * @return  boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
@@ -821,7 +822,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, deny){
  *
  * @param  string $role
  * @param  string $resource
- * @param  string $accessList
+ * @param  string $access
  * @return boolean
  */
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){

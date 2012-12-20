@@ -84,6 +84,7 @@ PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, getDefinition);
 /**
  * Resolves the service
  *
+ * @param array $parameters
  * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_DI_ServiceInterface, resolve);

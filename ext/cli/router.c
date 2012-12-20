@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_CLI_Router, setDefaultModule){
 /**
  * Sets the default controller name
  *
- * @param string $controllerName
+ * @param string $taskName
  */
 PHP_METHOD(Phalcon_CLI_Router, setDefaultTask){
 

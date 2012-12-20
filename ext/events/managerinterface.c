@@ -47,6 +47,8 @@ PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, attach);
 
 /**
  * Removes all events from the EventsManager
+ *
+ * @param string $type
  */
 PHALCON_DOC_METHOD(Phalcon_Events_ManagerInterface, dettachAll);
 

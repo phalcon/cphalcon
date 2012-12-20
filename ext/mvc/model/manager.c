@@ -1599,7 +1599,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery){
  *
  * @param string $phql
  * @param array $placeholders
- * @return Phalcon\Mvc\Model\Query
+ * @return Phalcon\Mvc\Model\QueryInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 

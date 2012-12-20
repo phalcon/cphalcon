@@ -57,6 +57,21 @@
  * way to get the required dependencies within a component.
  *
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
+ *
+ *<code>
+ * $di = new Phalcon\DI();
+ *
+ * //Using a string definition
+ * $di->set('request', 'Phalcon\Http\Request', true);
+ *
+ * //Using an anonymous function
+ * $di->set('request', function(){
+ *	  return new Phalcon\Http\Request();
+ * }, true);
+ *
+ * $request = $di->getRequest();
+ *
+ *</code>
  */
 
 
@@ -207,6 +222,7 @@ PHP_METHOD(Phalcon_DI, remove){
  *
  * @param string $name
  * @param mixed $config
+ * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, attempt){
@@ -241,6 +257,37 @@ PHP_METHOD(Phalcon_DI, attempt){
 	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Sets a service using a raw Phalcon\DI\Service definition
+ *
+ * @param string $name
+ * @param Phalcon\DI\ServiceInterface $rawDefinition
+ * @return Phalcon\DI\ServiceInterface
+ */
+PHP_METHOD(Phalcon_DI, setRaw){
+
+	zval *name, *raw_definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &raw_definition) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an object");
+		return;
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_services"), name, raw_definition TSRMLS_CC);
+	
+	RETURN_CCTOR(raw_definition);
 }
 
 /**
@@ -284,6 +331,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 /**
  * Returns a Phalcon\DI\Service instance
  *
+ * @param string $name
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, getService){
@@ -378,6 +426,9 @@ PHP_METHOD(Phalcon_DI, get){
 		}
 	}
 	
+	/** 
+	 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
+	 */
 	if (Z_TYPE_P(instance) == IS_OBJECT) {
 		if (phalcon_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(instance, "setdi", this_ptr);
@@ -516,6 +567,10 @@ PHP_METHOD(Phalcon_DI, __call){
 	
 	PHALCON_INIT_VAR(three);
 	ZVAL_LONG(three, 3);
+	
+	/** 
+	 * If the magic method start with 'get' we try to get a service with that name
+	 */
 	if (phalcon_start_with_str(method, SL("get"))) {
 	
 		PHALCON_OBS_VAR(services);
@@ -538,6 +593,9 @@ PHP_METHOD(Phalcon_DI, __call){
 			RETURN_CCTOR(instance);
 		}
 	} else {
+		/** 
+		 * If the magic method start with 'set' we try to set a service using that name
+		 */
 		if (phalcon_start_with_str(method, SL("set"))) {
 			if (phalcon_array_isset_long(arguments, 0)) {
 				PHALCON_INIT_NVAR(service_name);
@@ -554,6 +612,9 @@ PHP_METHOD(Phalcon_DI, __call){
 		}
 	}
 	
+	/** 
+	 * The method doesn't start with set/get throw an exception
+	 */
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);

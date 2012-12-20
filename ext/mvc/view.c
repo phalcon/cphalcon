@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
  * $this->view->setMainView('inicio');
  * </code>
  *
- * @param string $name
+ * @param string $viewPath
  */
 PHP_METHOD(Phalcon_Mvc_View, setMainView){
 

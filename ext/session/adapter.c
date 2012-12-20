@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions){
  * Gets a session variable from an application context
  *
  * @param string $index
- * @param mixed $defaultValue;
+ * @param mixed $defaultValue
  * @return mixed
  */
 PHP_METHOD(Phalcon_Session_Adapter, get){

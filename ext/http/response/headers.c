@@ -214,6 +214,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset){
 /**
  * Restore a Phalcon\Http\Response\Headers object
  *
+ * @param array $data
  * @return Phalcon\Http\Response\Headers
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){

@@ -64,6 +64,11 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect){
 /**
  * Generates the SQL for LIMIT clause
  *
+ *<code>
+ * $sql = $dialect->limit('SELECT * FROM robots', 10);
+ * echo $sql; // SELECT * FROM robots LIMIT 10
+ *</code>
+ *
  * @param string $sqlQuery
  * @param int $number
  * @return string
@@ -96,6 +101,11 @@ PHP_METHOD(Phalcon_Db_Dialect, limit){
 /**
  * Returns a SQL modified with a FOR UPDATE clause
  *
+ *<code>
+ * $sql = $dialect->forUpdate('SELECT * FROM robots');
+ * echo $sql; // SELECT * FROM robots FOR UPDATE
+ *</code>
+ *
  * @param string $sqlQuery
  * @return string
  */
@@ -116,6 +126,11 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate){
 
 /**
  * Returns a SQL modified with a LOCK IN SHARE MODE clause
+ *
+ *<code>
+ * $sql = $dialect->sharedLock('SELECT * FROM robots');
+ * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
+ *</code>
  *
  * @param string $sqlQuery
  * @return string
@@ -186,7 +201,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 }
 
 /**
- * Transform an intermediate representation for a expression into a database system valid expression
+ * Transforms an intermediate representation for a expression into a database system valid expression
  *
  * @param array $expression
  * @param string $escapeChar
@@ -449,7 +464,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 /**
  * Transform an intermediate representation for a schema/table into a database system valid expression
  *
- * @param array $expression
+ * @param array $table
  * @param string $escapeChar
  * @return string
  */

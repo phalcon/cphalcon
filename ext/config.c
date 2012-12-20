@@ -150,6 +150,9 @@ PHP_METHOD(Phalcon_Config, __construct){
  *<code>
  * var_dump(isset($config['database']));
  *</code>
+ *
+ * @param string $index
+ * @return boolean
  */
 PHP_METHOD(Phalcon_Config, offsetExists){
 
@@ -172,6 +175,10 @@ PHP_METHOD(Phalcon_Config, offsetExists){
  *<code>
  * echo $config->get('controllersDir', '../app/controllers/');
  *</code>
+ *
+ * @param string $index
+ * @param mixed $defaultValue
+ * @return mixed
  */
 PHP_METHOD(Phalcon_Config, get){
 
@@ -205,6 +212,9 @@ PHP_METHOD(Phalcon_Config, get){
  *<code>
  * print_r($config['database']);
  *</code>
+ *
+ * @param string $index
+ * @return string
  */
 PHP_METHOD(Phalcon_Config, offsetGet){
 
@@ -227,6 +237,9 @@ PHP_METHOD(Phalcon_Config, offsetGet){
  *<code>
  * $config['database'] = array('type' => 'Sqlite');
  *</code>
+ *
+ * @param string $index
+ * @param mixed $value
  */
 PHP_METHOD(Phalcon_Config, offsetSet){
 
@@ -262,6 +275,8 @@ PHP_METHOD(Phalcon_Config, offsetSet){
  *<code>
  * unset($config['database']);
  *</code>
+ *
+ * @param string $index
  */
 PHP_METHOD(Phalcon_Config, offsetUnset){
 
@@ -278,8 +293,8 @@ PHP_METHOD(Phalcon_Config, offsetUnset){
  * Merges a configuration into the current one
  *
  *<code>
- *$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
- *$globalConfig->merge($config2);
+ *	$appConfig = new Phalcon\Config(array('database' => array('host' => 'localhost')));
+ *	$globalConfig->merge($config2);
  *</code>
  *
  * @param Phalcon\Config $config
@@ -348,7 +363,7 @@ PHP_METHOD(Phalcon_Config, merge){
  * Converts recursivelly the object to an array
  *
  *<code>
- *print_r($config->toArray());
+ *	print_r($config->toArray());
  *</code>
  *
  * @return array

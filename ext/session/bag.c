@@ -356,6 +356,7 @@ PHP_METHOD(Phalcon_Session_Bag, __get){
  * var_dump($user->has('name'));
  *</code>
  *
+ * @param string $property
  * @return boolean
  */
 PHP_METHOD(Phalcon_Session_Bag, has){

@@ -72,7 +72,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 2, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 3, phalcon_mvc_collectioninterface_ce, phalcon_di_injectionawareinterface_ce, phalcon_events_eventsawareinterface_ce);
 
 	return SUCCESS;
 }
@@ -600,6 +600,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		}
 	}
 	
+	/** 
+	 * Run validation
+	 */
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "validation", 1);
 	
@@ -615,6 +618,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 	}
 	
 	if (!zend_is_true(disable_events)) {
+	
+		/** 
+		 * Run Validation Callbacks After
+		 */
 		if (!zend_is_true(exists)) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterValidationOnCreate", 1);
@@ -1310,7 +1317,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
  * echo "The first mechanical robot name is ", $robot->name;
  *
  * //Get first virtual robot ordered by name
-  * $robot = Robots::findFirst(array(
+ * $robot = Robots::findFirst(array(
  *     array("type" => "mechanical"),
  *     "order" => array("name" => 1)
  * ));
@@ -1390,8 +1397,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
  *	   echo $robot->name, "\n";
  * }
  *
-  * //Get first 100 virtual robots ordered by name
-  * $robots = Robots::find(array(
+ * //Get first 100 virtual robots ordered by name
+ * $robots = Robots::find(array(
  *     array("type" => "virtual"),
  *     "order" => array("name" => 1),
  *     "limit" => 100

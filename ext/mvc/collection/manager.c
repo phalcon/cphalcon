@@ -77,6 +77,12 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, __construct){
 	
 }
 
+/**
+ * Check if a collection is already initialized
+ *
+ * @param string $collection
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 
 	zval *collection;
@@ -88,9 +94,19 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized){
 	RETURN_FALSE;
 }
 
+/**
+ * Initialize a model globally
+ *
+ * @param Phalcon\Mvc\CollectionInterface $collection
+ */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize){
 
+	zval *collection;
 
-	
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_FALSE;
 }
 

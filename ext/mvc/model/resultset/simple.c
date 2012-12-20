@@ -65,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
 /**
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
- * @param array $columnsMap
+ * @param array $columnMap
  * @param Phalcon\Mvc\Model $model
  * @param Phalcon\Db\Result\Pdo $result
  * @param Phalcon\Cache\Backend $cache
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
 	zval *type, *result = NULL, *records = NULL, *row_count, *model;
-	zval *cache, *data, *serialized;
+	zval *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -239,11 +239,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	PHALCON_OBS_VAR(cache);
 	phalcon_read_property(&cache, this_ptr, SL("_cache"), PH_NOISY_CC);
 	
+	PHALCON_OBS_VAR(column_map);
+	phalcon_read_property(&column_map, this_ptr, SL("_columnMap"), PH_NOISY_CC);
+	
 	PHALCON_INIT_VAR(data);
-	array_init_size(data, 3);
+	array_init_size(data, 4);
 	phalcon_array_update_string(&data, SL("model"), &model, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
@@ -258,7 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 
-	zval *data, *resultset, *model, *rows, *cache;
+	zval *data, *resultset, *model, *rows, *cache, *column_map;
 
 	PHALCON_MM_GROW();
 
@@ -282,6 +286,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize){
 		PHALCON_OBS_VAR(cache);
 		phalcon_array_fetch_string(&cache, resultset, SL("cache"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
+	
+		PHALCON_OBS_VAR(column_map);
+		phalcon_array_fetch_string(&column_map, resultset, SL("columnMap"), PH_NOISY_CC);
+		phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
 	} else {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
