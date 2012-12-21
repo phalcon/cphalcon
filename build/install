@@ -34,7 +34,7 @@ if [ $? != 0 ]; then
 		export CFLAGS="-O2 -fno-delete-null-pointer-checks"
 	fi
 fi
-rm -f t.t t.c
+rm -f t.t t.c t
 
 #Perform the compilation
 phpize
