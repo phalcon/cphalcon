@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Flash, __construct){
  * Set the if the output must be implictly flushed to the output or returned as string
  *
  * @param boolean $implicitFlush
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush){
  * Set the if the output must be implictly formatted with HTML
  *
  * @param boolean $automaticHtml
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 
@@ -138,6 +140,7 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
  * Set an array with CSS classes to format the messages
  *
  * @param array $cssClasses
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setCssClasses){
 

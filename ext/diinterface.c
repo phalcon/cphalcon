@@ -41,7 +41,7 @@ PHALCON_INIT_CLASS(Phalcon_DiInterface){
  * Registers a service in the services container
  *
  * @param string $alias
- * @param mixed $config
+ * @param mixed $definition
  * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
@@ -51,7 +51,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, set);
  * Registers an "always shared" service in the services container
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @return Phalcon\DI\ServiceInterface
  */
 PHALCON_DOC_METHOD(Phalcon_DiInterface, setShared);
@@ -69,7 +69,7 @@ PHALCON_DOC_METHOD(Phalcon_DiInterface, remove);
  * with the same name
  *
  * @param string $alias
- * @param mixed $config
+ * @param mixed $definition
  * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */

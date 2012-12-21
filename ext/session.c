@@ -41,7 +41,7 @@
  * With this, it's possible to use the same index to refer a variable
  * but it can be in different applications.
  *
- * <code>
+ *<code>
  * $session = new Phalcon\Session\Adapter\Files(array(
  *    'uniqueId' => 'my-private-app'
  * ));
@@ -51,7 +51,7 @@
  * $session->set('var', 'some-value');
  *
  * echo $session->get('var');
- * </code>
+ *</code>
  */
 
 

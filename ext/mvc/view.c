@@ -75,8 +75,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_layoutsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_view_ce, SL("_partialsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesBefore"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesAfter"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -157,7 +159,7 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
 }
 
 /**
- * Sets layouts directory. Depending of your platform, always add a trailing slash or backslash
+ * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $layoutsDir
  */
@@ -174,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
 }
 
 /**
- * Gets layouts directory
+ * Gets the current layouts sub-directory
  *
  * @return string
  */
@@ -185,10 +187,38 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
 }
 
 /**
+ * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ *
+ * @param string $partialsDir
+ */
+PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
+
+	zval *partials_dir;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partials_dir) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_partialsDir"), partials_dir TSRMLS_CC);
+	
+}
+
+/**
+ * Gets the current partials sub-directory
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
+
+
+	RETURN_MEMBER(this_ptr, "_partialsDir");
+}
+
+/**
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
  *
  * <code>
- * $view->setBasePath(__DIR__.'/');
+ * 	$view->setBasePath(__DIR__.'/');
  * </code>
  *
  * @param string $basePath
@@ -231,8 +261,8 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
  * Sets default view name. Must be a file without extension in the views directory
  *
  * <code>
- * //Renders as main view views-dir/inicio.phtml
- * $this->view->setMainView('inicio');
+ * 	//Renders as main view views-dir/inicio.phtml
+ * 	$this->view->setMainView('inicio');
  * </code>
  *
  * @param string $viewPath
@@ -800,6 +830,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		RETURN_MM_FALSE;
 	}
 	
+	/** 
+	 * Check if there is a layouts directory set
+	 */
 	PHALCON_OBS_VAR(layouts_dir);
 	phalcon_read_property(&layouts_dir, this_ptr, SL("_layoutsDir"), PH_NOISY_CC);
 	if (!zend_is_true(layouts_dir)) {
@@ -811,6 +844,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
 	
+	/** 
+	 * Load the template engines
+	 */
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines");
 	
@@ -837,6 +873,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 	PHALCON_INIT_VAR(cache);
 	
+	/** 
+	 * Start the cache if there is a cache level enabled
+	 */
 	PHALCON_OBS_VAR(cache_level);
 	phalcon_read_property(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
 	if (zend_is_true(cache_level)) {
@@ -845,6 +884,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Call beforeRender if there is an events manager
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -857,6 +900,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	}
 	
+	/** 
+	 * Get the current content in the buffer maybe some output from the controller
+	 */
 	PHALCON_INIT_NVAR(contents);
 	PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	phalcon_update_property_zval(this_ptr, SL("_content"), contents TSRMLS_CC);
@@ -867,6 +913,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_INIT_VAR(silence);
 	ZVAL_BOOL(silence, 1);
 	
+	/** 
+	 * Render level will tell use when stop
+	 */
 	PHALCON_OBS_VAR(render_level);
 	phalcon_read_property(&render_level, this_ptr, SL("_renderLevel"), PH_NOISY_CC);
 	if (zend_is_true(render_level)) {
@@ -1008,6 +1057,9 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	}
 	
+	/** 
+	 * Call afterRender event
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "view:afterRender", 1);
@@ -1018,7 +1070,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 }
 
 /**
- * Choose a view different to render than last-controller/last-action
+ * Choose different to render than last-controller/last-action
  *
  * <code>
  * class ProductsController extends Phalcon\Mvc\Controller
@@ -1079,8 +1131,8 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  * Renders a partial view
  *
  * <code>
- * //Show a partial inside another view
- * $this->partial('shared/footer');
+ * 	//Show a partial inside another view
+ * 	$this->partial('shared/footer');
  * </code>
  *
  * @param string $partialPath
@@ -1088,7 +1140,8 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
  */
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *zfalse, *engines, *content;
+	zval *partial_path, *zfalse, *partials_dir, *real_path;
+	zval *engines, *content;
 
 	PHALCON_MM_GROW();
 
@@ -1099,11 +1152,17 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	PHALCON_INIT_VAR(zfalse);
 	ZVAL_BOOL(zfalse, 0);
 	
+	PHALCON_OBS_VAR(partials_dir);
+	phalcon_read_property(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(real_path);
+	PHALCON_CONCAT_VV(real_path, partials_dir, partial_path);
+	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines");
 	
 	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, partial_path, zfalse, zfalse, zfalse);
+	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
 	RETURN_CCTOR(content);
 }
 
@@ -1160,6 +1219,11 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 	
 	PHALCON_INIT_VAR(view_cache);
 	PHALCON_CALL_METHOD_PARAMS_1(view_cache, dependency_injector, "getshared", cache_service);
+	if (Z_TYPE_P(view_cache) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid");
+		return;
+	}
+	
 	
 	RETURN_CCTOR(view_cache);
 }

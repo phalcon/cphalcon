@@ -52043,8 +52043,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_basePath"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_content"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_layoutsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_view_ce, SL("_partialsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesBefore"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_templatesAfter"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -52125,6 +52127,24 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
 
 
 	RETURN_MEMBER(this_ptr, "_layoutsDir");
+}
+
+PHP_METHOD(Phalcon_Mvc_View, setPartialsDir){
+
+	zval *partials_dir;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partials_dir) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_partialsDir"), partials_dir TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_View, getPartialsDir){
+
+
+	RETURN_MEMBER(this_ptr, "_partialsDir");
 }
 
 PHP_METHOD(Phalcon_Mvc_View, setBasePath){
@@ -52649,6 +52669,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -52843,7 +52864,8 @@ PHP_METHOD(Phalcon_Mvc_View, pick){
 
 PHP_METHOD(Phalcon_Mvc_View, partial){
 
-	zval *partial_path, *zfalse, *engines, *content;
+	zval *partial_path, *zfalse, *partials_dir, *real_path;
+	zval *engines, *content;
 
 	PHALCON_MM_GROW();
 
@@ -52854,11 +52876,17 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 	PHALCON_INIT_VAR(zfalse);
 	ZVAL_BOOL(zfalse, 0);
 	
+	PHALCON_OBS_VAR(partials_dir);
+	phalcon_read_property(&partials_dir, this_ptr, SL("_partialsDir"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(real_path);
+	PHALCON_CONCAT_VV(real_path, partials_dir, partial_path);
+	
 	PHALCON_INIT_VAR(engines);
 	PHALCON_CALL_METHOD(engines, this_ptr, "_loadtemplateengines");
 	
 	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, partial_path, zfalse, zfalse, zfalse);
+	PHALCON_CALL_METHOD_PARAMS_5(content, this_ptr, "_enginerender", engines, real_path, zfalse, zfalse, zfalse);
 	RETURN_CCTOR(content);
 }
 
@@ -52907,6 +52935,11 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 	
 	PHALCON_INIT_VAR(view_cache);
 	PHALCON_CALL_METHOD_PARAMS_1(view_cache, dependency_injector, "getshared", cache_service);
+	if (Z_TYPE_P(view_cache) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The injected caching service is invalid");
+		return;
+	}
+	
 	
 	RETURN_CCTOR(view_cache);
 }
@@ -63178,11 +63211,11 @@ PHP_METHOD(Phalcon_DI, __construct){
 
 PHP_METHOD(Phalcon_DI, set){
 
-	zval *name, *config, *shared = NULL, *service;
+	zval *name, *definition, *shared = NULL, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -63198,7 +63231,7 @@ PHP_METHOD(Phalcon_DI, set){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -63207,11 +63240,11 @@ PHP_METHOD(Phalcon_DI, set){
 
 PHP_METHOD(Phalcon_DI, setShared){
 
-	zval *name, *config, *shared, *service;
+	zval *name, *definition, *shared, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &config) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &definition) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -63225,7 +63258,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -63258,11 +63291,11 @@ PHP_METHOD(Phalcon_DI, remove){
 
 PHP_METHOD(Phalcon_DI, attempt){
 
-	zval *name, *config, *shared = NULL, *services, *service;
+	zval *name, *definition, *shared = NULL, *services, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -63281,7 +63314,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	if (!phalcon_array_isset(services, name)) {
 		PHALCON_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, config);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, definition);
 	
 		phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	}

@@ -35,6 +35,7 @@
 /**
  * Phalcon\Kernel
  *
+ * This class allows to change the internal behavior of the framework in runtime
  */
 
 

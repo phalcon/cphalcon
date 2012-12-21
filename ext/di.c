@@ -119,17 +119,17 @@ PHP_METHOD(Phalcon_DI, __construct){
  * Registers a service in the services container
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, set){
 
-	zval *name, *config, *shared = NULL, *service;
+	zval *name, *definition, *shared = NULL, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_DI, set){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -156,16 +156,16 @@ PHP_METHOD(Phalcon_DI, set){
  * Registers an "always shared" service in the services container
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, setShared){
 
-	zval *name, *config, *shared, *service;
+	zval *name, *definition, *shared, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &config) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &definition) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -221,17 +221,17 @@ PHP_METHOD(Phalcon_DI, remove){
  * with the same name
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, attempt){
 
-	zval *name, *config, *shared = NULL, *services, *service;
+	zval *name, *definition, *shared = NULL, *services, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	if (!phalcon_array_isset(services, name)) {
 		PHALCON_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, config);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, definition);
 	
 		phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	}
