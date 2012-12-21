@@ -920,9 +920,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	zval *relation, *method, *record, *parameters = NULL, *placeholders = NULL;
 	zval *pre_conditions = NULL, *conditions = NULL, *fields, *field = NULL;
 	zval *value = NULL, *referenced_field = NULL, *condition = NULL, *referenced_fields;
-	zval *position = NULL, *dependency_injector, *join_conditions;
-	zval *find_params, *find_arguments = NULL, *arguments;
-	zval *referenced_model, *referenced_entity;
+	zval *position = NULL, *join_conditions, *has_through;
+	zval *dependency_injector, *find_params, *find_arguments = NULL;
+	zval *arguments, *referenced_model, *referenced_entity;
 	zval *type, *retrieve_method = NULL, *call_object, *records;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -931,7 +931,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -1016,7 +1015,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		phalcon_array_append(&placeholders, value, PH_SEPARATE TSRMLS_CC);
 	} else {
 		/** 
-		 * Copound relation
+		 * Compound relation
 		 */
 		PHALCON_INIT_VAR(referenced_fields);
 		PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
@@ -1049,14 +1048,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	
 	}
 	
-	PHALCON_INIT_VAR(dependency_injector);
-	PHALCON_CALL_METHOD(dependency_injector, record, "getdi");
-	
 	/** 
 	 * We don't trust the user or the database so we use bound parameters
 	 */
 	PHALCON_INIT_VAR(join_conditions);
 	phalcon_fast_join_str(join_conditions, SL(" AND "), conditions TSRMLS_CC);
+	
+	/** 
+	 * Check if the relation is direct or through an intermediate model
+	 */
+	PHALCON_INIT_VAR(has_through);
+	PHALCON_CALL_METHOD(has_through, relation, "hasthrough");
+	if (zend_is_true(has_through)) {
+		zend_print_zval(join_conditions, 0);
+		RETURN_MM_NULL();
+	}
+	
+	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_CALL_METHOD(dependency_injector, record, "getdi");
 	
 	PHALCON_INIT_VAR(find_params);
 	array_init_size(find_params, 3);
@@ -1079,13 +1088,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	 */
 	PHALCON_INIT_VAR(referenced_model);
 	PHALCON_CALL_METHOD(referenced_model, relation, "getreferencedmodel");
-	ce0 = phalcon_fetch_class(referenced_model TSRMLS_CC);
 	
+	/** 
+	 * Load the referenced model
+	 */
 	PHALCON_INIT_VAR(referenced_entity);
-	object_init_ex(referenced_entity, ce0);
-	if (phalcon_has_constructor(referenced_entity TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(referenced_entity, "__construct", dependency_injector);
-	}
+	PHALCON_CALL_METHOD_PARAMS_1(referenced_entity, this_ptr, "load", referenced_model);
 	
 	/** 
 	 * Check the right method to get the data
@@ -1682,7 +1690,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 }
 
 /**
- * Returns the last query created or executed in the
+ * Returns the last query created or executed in the models manager
  *
  * @return Phalcon\Mvc\Model\QueryInterface
  */

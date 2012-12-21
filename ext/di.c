@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_DI, getServices){
  */
 PHP_METHOD(Phalcon_DI, __call){
 
-	zval *method, *arguments = NULL, *three, *services, *service_name = NULL;
+	zval *method, *arguments = NULL, *services, *service_name = NULL;
 	zval *possible_service = NULL, *instance = NULL, *handler;
 	zval *exception_message;
 
@@ -562,11 +562,7 @@ PHP_METHOD(Phalcon_DI, __call){
 
 	if (!arguments) {
 		PHALCON_INIT_NVAR(arguments);
-		array_init(arguments);
 	}
-	
-	PHALCON_INIT_VAR(three);
-	ZVAL_LONG(three, 3);
 	
 	/** 
 	 * If the magic method start with 'get' we try to get a service with that name
@@ -577,7 +573,7 @@ PHP_METHOD(Phalcon_DI, __call){
 		phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(service_name);
-		PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
+		phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(possible_service);
 		PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);
@@ -599,7 +595,7 @@ PHP_METHOD(Phalcon_DI, __call){
 		if (phalcon_start_with_str(method, SL("set"))) {
 			if (phalcon_array_isset_long(arguments, 0)) {
 				PHALCON_INIT_NVAR(service_name);
-				PHALCON_CALL_FUNC_PARAMS_2(service_name, "substr", method, three);
+				phalcon_substr(service_name, method, 3, 0 TSRMLS_CC);
 	
 				PHALCON_INIT_NVAR(possible_service);
 				PHALCON_CALL_FUNC_PARAMS_1(possible_service, "lcfirst", service_name);

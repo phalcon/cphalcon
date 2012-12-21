@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	}
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
 	
@@ -298,9 +298,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 }
 
 /**
- * Returns connection related to transaction
+ * Returns the connection related to transaction
  *
- * @return string
+ * @return Phalcon\Db\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection){
 

@@ -58,6 +58,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Relation){
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("BELONGS_TO"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_ONE"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_ONE_THROUGH"), 3 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("HAS_MANY_THROUGH"), 4 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("MANY_TO_MANY"), 3 TSRMLS_CC);
 
 	return SUCCESS;
@@ -164,8 +166,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeingKey){
 
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(options, SS("foreignKey"))) {
-		RETURN_MM_TRUE;
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("foreignKey"))) {
+			RETURN_MM_TRUE;
+		}
 	}
 	
 	RETURN_MM_FALSE;
@@ -184,12 +188,60 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey){
 
 	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (phalcon_array_isset_string(options, SS("foreignKey"))) {
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("foreignKey"))) {
 	
-		PHALCON_OBS_VAR(foreign_key);
-		phalcon_array_fetch_string(&foreign_key, options, SL("foreignKey"), PH_NOISY_CC);
-		if (zend_is_true(foreign_key)) {
-			RETURN_CCTOR(foreign_key);
+			PHALCON_OBS_VAR(foreign_key);
+			phalcon_array_fetch_string(&foreign_key, options, SL("foreignKey"), PH_NOISY_CC);
+			if (zend_is_true(foreign_key)) {
+				RETURN_CCTOR(foreign_key);
+			}
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Check whether the relation
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, hasThrough){
+
+	zval *options;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("through"))) {
+			RETURN_MM_TRUE;
+		}
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+/**
+ * Returns the 'through' relation if any
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Relation, getThrough){
+
+	zval *options, *through;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(options);
+	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		if (phalcon_array_isset_string(options, SS("through"))) {
+			PHALCON_OBS_VAR(through);
+			phalcon_array_fetch_string(&through, options, SL("through"), PH_NOISY_CC);
+			RETURN_CCTOR(through);
 		}
 	}
 	

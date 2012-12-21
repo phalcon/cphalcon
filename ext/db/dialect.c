@@ -151,7 +151,11 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 }
 
 /**
- * Gets a list of columns
+ * Gets a list of columns with escaped identifiers
+ *
+ *<code>
+ * echo $dialect->getColumnList(array('column1', 'column'));
+ *</code>
  *
  * @param array $columnList
  * @return string
@@ -209,8 +213,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 
-	zval *expression, *escape_char = NULL, *type, *name = NULL, *escaped_name;
-	zval *domain, *escaped_domain, *value = NULL, *operator = NULL;
+	zval *expression, *escape_char = NULL, *type, *name = NULL, *escaped_name = NULL;
+	zval *domain, *escaped_domain = NULL, *value = NULL, *operator = NULL;
 	zval *left = NULL, *expression_left = NULL, *right = NULL, *expression_right = NULL;
 	zval *binary_expr, *unary_expr = NULL, *expression_group;
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
@@ -233,9 +237,11 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}
 	
-	if (Z_TYPE_P(escape_char) == IS_NULL) {
-		PHALCON_OBS_NVAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		if (Z_TYPE_P(escape_char) == IS_NULL) {
+			PHALCON_OBS_NVAR(escape_char);
+			phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+		}
 	}
 	if (Z_TYPE_P(expression) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid SQL expression");
@@ -257,20 +263,34 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, expression, SL("name"), PH_NOISY_CC);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(escaped_name);
+			PHALCON_CONCAT_VVV(escaped_name, escape_char, name, escape_char);
+		} else {
+			PHALCON_CPY_WRT(escaped_name, name);
+		}
 	
-		PHALCON_INIT_VAR(escaped_name);
-		PHALCON_CONCAT_VVV(escaped_name, escape_char, name, escape_char);
+		/** 
+		 * A domain could be a table/schema
+		 */
 		if (phalcon_array_isset_string(expression, SS("domain"))) {
+	
 			PHALCON_OBS_VAR(domain);
 			phalcon_array_fetch_string(&domain, expression, SL("domain"), PH_NOISY_CC);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_VAR(escaped_domain);
+				PHALCON_CONCAT_VVVSV(escaped_domain, escape_char, domain, escape_char, ".", escaped_name);
+			} else {
+				PHALCON_INIT_NVAR(escaped_domain);
+				PHALCON_CONCAT_VSV(escaped_domain, domain, ".", escaped_name);
+			}
 	
-			PHALCON_INIT_VAR(escaped_domain);
-			PHALCON_CONCAT_VVVSV(escaped_domain, escape_char, domain, escape_char, ".", escaped_name);
+	
 			RETURN_CTOR(escaped_domain);
 		}
 	
 	
-		RETURN_CTOR(escaped_name);
+		RETURN_CCTOR(escaped_name);
 	}
 	
 	/** 
@@ -313,6 +333,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_OBS_NVAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
+	
+		/** 
+		 * Some unary operators uses the left operand...
+		 */
 		if (phalcon_array_isset_string(expression, SS("left"))) {
 			PHALCON_OBS_NVAR(left);
 			phalcon_array_fetch_string(&left, expression, SL("left"), PH_NOISY_CC);
@@ -325,6 +349,9 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 			RETURN_CTOR(unary_expr);
 		}
 	
+		/** 
+		 * ...Others uses the right operand
+		 */
 		if (phalcon_array_isset_string(expression, SS("right"))) {
 			PHALCON_OBS_NVAR(right);
 			phalcon_array_fetch_string(&right, expression, SL("right"), PH_NOISY_CC);
@@ -497,9 +524,12 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		 */
 		PHALCON_OBS_VAR(table_name);
 		phalcon_array_fetch_long(&table_name, table, 0, PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(sql_table);
-		PHALCON_CONCAT_VVV(sql_table, escape_char, table_name, escape_char);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(sql_table);
+			PHALCON_CONCAT_VVV(sql_table, escape_char, table_name, escape_char);
+		} else {
+			PHALCON_CPY_WRT(sql_table, table_name);
+		}
 	
 		/** 
 		 * The index '1' is the schema name
@@ -507,8 +537,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		PHALCON_OBS_VAR(schema_name);
 		phalcon_array_fetch_long(&schema_name, table, 1, PH_NOISY_CC);
 		if (Z_TYPE_P(schema_name) != IS_NULL) {
-			PHALCON_INIT_VAR(sql_schema);
-			PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_VAR(sql_schema);
+				PHALCON_CONCAT_VVVSV(sql_schema, escape_char, schema_name, escape_char, ".", sql_table);
+			} else {
+				PHALCON_INIT_NVAR(sql_schema);
+				PHALCON_CONCAT_VSV(sql_schema, schema_name, ".", sql_table);
+			}
 		} else {
 			PHALCON_CPY_WRT(sql_schema, sql_table);
 		}
@@ -517,23 +552,32 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 		 * The index '2' is the table alias
 		 */
 		if (phalcon_array_isset_long(table, 2)) {
+	
 			PHALCON_OBS_VAR(alias_name);
 			phalcon_array_fetch_long(&alias_name, table, 2, PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(sql_table_alias);
-			PHALCON_CONCAT_VSVVV(sql_table_alias, sql_schema, " AS ", escape_char, alias_name, escape_char);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_VAR(sql_table_alias);
+				PHALCON_CONCAT_VSVVV(sql_table_alias, sql_schema, " AS ", escape_char, alias_name, escape_char);
+			} else {
+				PHALCON_INIT_NVAR(sql_table_alias);
+				PHALCON_CONCAT_VSV(sql_table_alias, sql_schema, " AS ", alias_name);
+			}
 		} else {
 			PHALCON_CPY_WRT(sql_table_alias, sql_schema);
 		}
 	
 	
-		RETURN_CTOR(sql_table_alias);
+		RETURN_CCTOR(sql_table_alias);
 	}
 	
-	PHALCON_INIT_NVAR(sql_table);
-	PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_NVAR(sql_table);
+		PHALCON_CONCAT_VVV(sql_table, escape_char, table, escape_char);
+		RETURN_CCTOR(sql_table);
+	}
 	
-	RETURN_CTOR(sql_table);
+	
+	RETURN_CCTOR(table);
 }
 
 /**
@@ -544,10 +588,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
  */
 PHP_METHOD(Phalcon_Db_Dialect, select){
 
-	zval *definition, *escape_char, *columns, *selected_columns;
-	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *column_domain = NULL;
-	zval *column_domain_sql = NULL, *column_alias = NULL, *column_alias_sql = NULL;
-	zval *columns_sql = NULL, *tables, *selected_tables;
+	zval *definition, *escape_char = NULL, *columns, *selected_columns;
+	zval *column = NULL, *column_item = NULL, *column_sql = NULL, *columns_sql = NULL;
+	zval *column_domain = NULL, *column_domain_sql = NULL, *column_alias = NULL;
+	zval *column_alias_sql = NULL, *tables, *selected_tables;
 	zval *table = NULL, *sql_table = NULL, *tables_sql = NULL, *sql, *joins;
 	zval *join = NULL, *type = NULL, *sql_join = NULL, *join_conditions_array = NULL;
 	zval *join_expressions = NULL, *join_condition = NULL, *join_expression = NULL;
@@ -583,8 +627,12 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		return;
 	}
 	
-	PHALCON_OBS_VAR(escape_char);
-	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_OBS_VAR(escape_char);
+		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_NVAR(escape_char);
+	}
 	
 	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_string(&columns, definition, SL("columns"), PH_NOISY_CC);
@@ -616,8 +664,12 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 				if (PHALCON_COMPARE_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
 				} else {
-					PHALCON_INIT_NVAR(column_sql);
-					PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
+					if (PHALCON_GLOBAL(db).escape_identifiers) {
+						PHALCON_INIT_NVAR(column_sql);
+						PHALCON_CONCAT_VVV(column_sql, escape_char, column_item, escape_char);
+					} else {
+						PHALCON_CPY_WRT(columns_sql, column_item);
+					}
 				}
 			}
 	
@@ -627,8 +679,13 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			PHALCON_OBS_NVAR(column_domain);
 			phalcon_array_fetch_long(&column_domain, column, 1, PH_NOISY_CC);
 			if (zend_is_true(column_domain)) {
-				PHALCON_INIT_NVAR(column_domain_sql);
-				PHALCON_CONCAT_VVVSV(column_domain_sql, escape_char, column_domain, escape_char, ".", column_sql);
+				if (PHALCON_GLOBAL(db).escape_identifiers) {
+					PHALCON_INIT_NVAR(column_domain_sql);
+					PHALCON_CONCAT_VVVSV(column_domain_sql, escape_char, column_domain, escape_char, ".", column_sql);
+				} else {
+					PHALCON_INIT_NVAR(column_domain_sql);
+					PHALCON_CONCAT_VSV(column_domain_sql, column_domain, ".", column_sql);
+				}
 			} else {
 				PHALCON_CPY_WRT(column_domain_sql, column_sql);
 			}
@@ -641,8 +698,13 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 				PHALCON_OBS_NVAR(column_alias);
 				phalcon_array_fetch_long(&column_alias, column, 2, PH_NOISY_CC);
 				if (zend_is_true(column_alias)) {
-					PHALCON_INIT_NVAR(column_alias_sql);
-					PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " AS ", escape_char, column_alias, escape_char);
+					if (PHALCON_GLOBAL(db).escape_identifiers) {
+						PHALCON_INIT_NVAR(column_alias_sql);
+						PHALCON_CONCAT_VSVVV(column_alias_sql, column_domain_sql, " AS ", escape_char, column_alias, escape_char);
+					} else {
+						PHALCON_INIT_NVAR(column_alias_sql);
+						PHALCON_CONCAT_VSV(column_alias_sql, column_domain_sql, " AS ", column_alias);
+					}
 				} else {
 					PHALCON_CPY_WRT(column_alias_sql, column_domain_sql);
 				}

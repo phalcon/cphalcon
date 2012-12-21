@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *is_numeric, *one, *number_models, *invalid_condition;
 	zval *model = NULL, *service_name, *meta_data, *model_instance;
 	zval *no_primary = NULL, *primary_keys, *connection;
-	zval *first_primary_key, *column_map, *attribute_field = NULL;
+	zval *first_primary_key, *column_map = NULL, *attribute_field = NULL;
 	zval *exception_message, *primary_key_condition;
 	zval *phql, *columns, *selected_columns = NULL, *column = NULL;
 	zval *joined_columns = NULL, *alias = NULL, *selected_column = NULL;
@@ -678,8 +678,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 				/** 
 				 * The PHQL contains the renamed columns if available
 				 */
-				PHALCON_INIT_VAR(column_map);
-				PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model_instance);
+				if (PHALCON_GLOBAL(orm).column_renaming) {
+					PHALCON_INIT_VAR(column_map);
+					PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model_instance);
+				} else {
+					PHALCON_INIT_NVAR(column_map);
+				}
+	
 				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 					if (phalcon_array_isset(column_map, first_primary_key)) {
 						PHALCON_OBS_VAR(attribute_field);

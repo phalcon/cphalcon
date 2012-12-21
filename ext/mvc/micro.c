@@ -107,6 +107,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
 		return;
 	}
 	
+	/** 
+	 * We automatically set ourselves as application service
+	 */
 	PHALCON_INIT_VAR(service);
 	ZVAL_STRING(service, "application", 1);
 	
@@ -138,15 +141,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, map){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "add", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -167,15 +183,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, get){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to GET
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addget", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -196,15 +225,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, post){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to POST
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addpost", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 

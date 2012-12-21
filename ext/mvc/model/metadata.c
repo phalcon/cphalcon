@@ -245,6 +245,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 						PHALCON_CALL_METHOD(field_name, column, "getname");
 						phalcon_array_append(&attributes, field_name, PH_SEPARATE TSRMLS_CC);
 	
+						/** 
+						 * To mark fields as primary keys
+						 */
 						PHALCON_INIT_NVAR(feature);
 						PHALCON_CALL_METHOD(feature, column, "isprimary");
 						if (PHALCON_IS_TRUE(feature)) {
@@ -253,28 +256,43 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 							phalcon_array_append(&non_primary_keys, field_name, PH_SEPARATE TSRMLS_CC);
 						}
 	
+						/** 
+						 * To mark fields as numeric
+						 */
 						PHALCON_INIT_NVAR(feature);
 						PHALCON_CALL_METHOD(feature, column, "isnumeric");
 						if (PHALCON_IS_TRUE(feature)) {
 							phalcon_array_update_zval_bool(&numeric_typed, field_name, 1, PH_SEPARATE TSRMLS_CC);
 						}
 	
+						/** 
+						 * To mark fields as not null
+						 */
 						PHALCON_INIT_NVAR(feature);
 						PHALCON_CALL_METHOD(feature, column, "isnotnull");
 						if (PHALCON_IS_TRUE(feature)) {
 							phalcon_array_append(&not_null, field_name, PH_SEPARATE TSRMLS_CC);
 						}
 	
+						/** 
+						 * To mark fields as identity columns
+						 */
 						PHALCON_INIT_NVAR(feature);
 						PHALCON_CALL_METHOD(feature, column, "isautoincrement");
 						if (PHALCON_IS_TRUE(feature)) {
 							PHALCON_CPY_WRT(identity_field, field_name);
 						}
 	
+						/** 
+						 * To get the internal types
+						 */
 						PHALCON_INIT_NVAR(type);
 						PHALCON_CALL_METHOD(type, column, "gettype");
 						phalcon_array_update_zval(&field_types, field_name, &type, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+						/** 
+						 * To mark how the fields must be escaped
+						 */
 						PHALCON_INIT_NVAR(bind_type);
 						PHALCON_CALL_METHOD(bind_type, column, "getbindtype");
 						phalcon_array_update_zval(&field_bind_types, field_name, &bind_type, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -311,6 +329,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	/** 
 	 * Check for a column map, store in _columnMap in order and reversed order
 	 */
+	if (!PHALCON_GLOBAL(orm).column_renaming) {
+		RETURN_MM_NULL();
+	}
+	
 	PHALCON_INIT_VAR(key_name);
 	phalcon_fast_strtolower(key_name, class_name);
 	
@@ -378,6 +400,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 			phalcon_array_update_long(&model_column_map, 1, &reversed_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_array_update_zval(&column_map, key_name, &model_column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
+	
+			/** 
+			 * Write the data to the adapter
+			 */
 			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "write", prefix_key, model_column_map);
 		}
 	}

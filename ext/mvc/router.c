@@ -374,8 +374,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	zval *pattern = NULL, *paths = NULL, *position = NULL, *part = NULL, *match_position = NULL;
 	zval *namespace, *default_namespace, *module;
 	zval *default_module = NULL, *controller, *default_controller = NULL;
-	zval *action, *default_action = NULL, *params_str, *one;
-	zval *str_params, *slash, *params_merge, *default_params;
+	zval *action, *default_action = NULL, *params_str, *str_params;
+	zval *slash, *params_merge, *default_params;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -604,11 +604,8 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 			PHALCON_OBS_VAR(params_str);
 			phalcon_array_fetch_string(&params_str, parts, SL("params"), PH_NOISY_CC);
 	
-			PHALCON_INIT_VAR(one);
-			ZVAL_LONG(one, 1);
-	
 			PHALCON_INIT_VAR(str_params);
-			PHALCON_CALL_FUNC_PARAMS_2(str_params, "substr", params_str, one);
+			phalcon_substr(str_params, params_str, 1, 0 TSRMLS_CC);
 			if (zend_is_true(str_params)) {
 				PHALCON_INIT_VAR(slash);
 				ZVAL_STRING(slash, "/", 1);

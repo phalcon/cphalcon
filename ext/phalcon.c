@@ -499,6 +499,9 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 }
 
 PHP_RINIT_FUNCTION(phalcon){
+
+	php_phalcon_init_globals(PHALCON_VGLOBAL TSRMLS_CC);
+
 	return SUCCESS;
 }
 

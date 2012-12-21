@@ -956,10 +956,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, isUnderTransaction){
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	if (Z_TYPE_P(pdo) == IS_OBJECT) {
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD(status, pdo, "intransaction");
+		RETURN_CCTOR(status);
+	}
 	
-	PHALCON_INIT_VAR(status);
-	PHALCON_CALL_METHOD(status, pdo, "intransaction");
-	RETURN_CCTOR(status);
+	RETURN_MM_FALSE;
 }
 
 /**
