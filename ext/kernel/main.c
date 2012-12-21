@@ -38,7 +38,7 @@
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 
 	/* Memory options */
-    phalcon_globals->start_memory = NULL;
+	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
 	/* Cache options */

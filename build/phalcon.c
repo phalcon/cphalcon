@@ -1402,7 +1402,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 
 	/* Memory options */
-    phalcon_globals->start_memory = NULL;
+	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
 	/* Cache options */
@@ -1795,6 +1795,9 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 	}
 
 	#endif
+
+	PHALCON_GLOBAL(start_memory) = NULL;
+	PHALCON_GLOBAL(active_memory) = NULL;
 
 	return SUCCESS;
 
@@ -5856,6 +5859,12 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...)
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
+		if (Z_TYPE_P(str) == IS_NULL) {
+			RETURN_FALSE;
+		}
+		if (Z_TYPE_P(str) == IS_BOOL) {
+			RETURN_FALSE;
+		}
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_substr()");
 		RETURN_FALSE;
 	}
