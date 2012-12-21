@@ -17847,7 +17847,7 @@ PHP_METHOD(Phalcon_Db_Dialect, sharedLock){
 PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 
 	zval *column_list, *str_list, *escape_char, *column = NULL;
-	zval *column_quoted = NULL, *joined_list = NULL;
+	zval *column_quoted = NULL, *joined_list;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -17858,41 +17858,32 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 		RETURN_MM_NULL();
 	}
 
-	if (PHALCON_GLOBAL(db).escape_identifiers) {
+	PHALCON_INIT_VAR(str_list);
+	array_init(str_list);
 	
-		PHALCON_INIT_VAR(str_list);
-		array_init(str_list);
+	PHALCON_OBS_VAR(escape_char);
+	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
-		PHALCON_OBS_VAR(escape_char);
-		phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
-	
-		if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
-			return;
-		}
-	
-		ah0 = Z_ARRVAL_P(column_list);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_FOREACH_VALUE(column);
-	
-			PHALCON_INIT_NVAR(column_quoted);
-			PHALCON_CONCAT_VVV(column_quoted, escape_char, column, escape_char);
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(joined_list);
-		phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
-	
-		RETURN_CTOR(joined_list);
+	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
+		return;
 	}
 	
-	PHALCON_INIT_NVAR(joined_list);
-	phalcon_fast_join_str(joined_list, SL(", "), column_list TSRMLS_CC);
+	ah0 = Z_ARRVAL_P(column_list);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_VALUE(column);
+	
+		PHALCON_INIT_NVAR(column_quoted);
+		PHALCON_CONCAT_VVV(column_quoted, escape_char, column, escape_char);
+		phalcon_array_append(&str_list, column_quoted, PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	PHALCON_INIT_VAR(joined_list);
+	phalcon_fast_join_str(joined_list, SL(", "), str_list TSRMLS_CC);
 	
 	RETURN_CTOR(joined_list);
 }
@@ -18004,6 +17995,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	
 		PHALCON_OBS_NVAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
+	
 		if (phalcon_array_isset_string(expression, SS("left"))) {
 			PHALCON_OBS_NVAR(left);
 			phalcon_array_fetch_string(&left, expression, SL("left"), PH_NOISY_CC);
@@ -27603,7 +27595,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			return;
 		}
 	
-		if (!PHALCON_GLOBAL(orm).column_renaming) {
+		if (PHALCON_GLOBAL(orm).column_renaming) {
 			PHALCON_INIT_NVAR(column_map);
 			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", has_model);
 		} else {
@@ -57192,7 +57184,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 				PHALCON_CALL_METHOD(relation_class, relation, "getreferencedmodel");
 	
 				PHALCON_INIT_NVAR(referenced_model);
-				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", dependency_injector);
+				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", relation_class);
 	
 				PHALCON_INIT_NVAR(fields);
 				PHALCON_CALL_METHOD(fields, relation, "getfields");

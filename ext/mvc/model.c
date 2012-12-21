@@ -2037,8 +2037,11 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 				PHALCON_INIT_NVAR(relation_class);
 				PHALCON_CALL_METHOD(relation_class, relation, "getreferencedmodel");
 	
+				/** 
+				 * Load a plain instance from the models manager
+				 */
 				PHALCON_INIT_NVAR(referenced_model);
-				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", dependency_injector);
+				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", relation_class);
 	
 				PHALCON_INIT_NVAR(fields);
 				PHALCON_CALL_METHOD(fields, relation, "getfields");
