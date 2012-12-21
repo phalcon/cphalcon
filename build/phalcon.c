@@ -5859,12 +5859,19 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...)
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
+
 		if (Z_TYPE_P(str) == IS_NULL) {
 			RETURN_FALSE;
 		}
+
 		if (Z_TYPE_P(str) == IS_BOOL) {
 			RETURN_FALSE;
 		}
+
+		if (Z_TYPE_P(str) == IS_LONG) {
+			RETURN_EMPTY_STRING();
+		}
+
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_substr()");
 		RETURN_FALSE;
 	}
@@ -52363,7 +52370,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
 	
 }
 
-PHP_METHOD(Phalcon_Mvc_View, disableRenderLevel){
+PHP_METHOD(Phalcon_Mvc_View, disableLevel){
 
 	zval *level, *disabled;
 
@@ -52373,9 +52380,13 @@ PHP_METHOD(Phalcon_Mvc_View, disableRenderLevel){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(disabled);
-	ZVAL_BOOL(disabled, 1);
-	phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, disabled TSRMLS_CC);
+	if (Z_TYPE_P(level) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_disabledLevels"), level TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(disabled);
+		ZVAL_BOOL(disabled, 1);
+		phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, disabled TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -66762,6 +66773,7 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
+		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
 	return SUCCESS;
@@ -66783,6 +66795,7 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
+		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
 	return SUCCESS;

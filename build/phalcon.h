@@ -6843,7 +6843,7 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir);
 PHP_METHOD(Phalcon_Mvc_View, getPartialsDir);
 PHP_METHOD(Phalcon_Mvc_View, setBasePath);
 PHP_METHOD(Phalcon_Mvc_View, setRenderLevel);
-PHP_METHOD(Phalcon_Mvc_View, disableRenderLevel);
+PHP_METHOD(Phalcon_Mvc_View, disableLevel);
 PHP_METHOD(Phalcon_Mvc_View, setMainView);
 PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore);
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore);
@@ -6898,7 +6898,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_setrenderlevel, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_disablerenderlevel, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_disablelevel, 0, 0, 1)
 	ZEND_ARG_INFO(0, level)
 ZEND_END_ARG_INFO()
 
@@ -6964,7 +6964,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, getPartialsDir, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setBasePath, arginfo_phalcon_mvc_view_setbasepath, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setRenderLevel, arginfo_phalcon_mvc_view_setrenderlevel, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_View, disableRenderLevel, arginfo_phalcon_mvc_view_disablerenderlevel, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View, disableLevel, arginfo_phalcon_mvc_view_disablelevel, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setMainView, arginfo_phalcon_mvc_view_setmainview, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setTemplateBefore, arginfo_phalcon_mvc_view_settemplatebefore, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, cleanTemplateBefore, NULL, ZEND_ACC_PUBLIC) 

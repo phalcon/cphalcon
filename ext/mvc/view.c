@@ -260,9 +260,14 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
 /**
  * Disables an specific level of rendering
  *
- * @param int $level
+ *<code>
+ *Render all levels except ACTION level
+ *$this->view->disableLevel(View::LEVEL_ACTION_VIEW);
+ *</code>
+ *
+ * @param int|array $level
  */
-PHP_METHOD(Phalcon_Mvc_View, disableRenderLevel){
+PHP_METHOD(Phalcon_Mvc_View, disableLevel){
 
 	zval *level, *disabled;
 
@@ -272,9 +277,13 @@ PHP_METHOD(Phalcon_Mvc_View, disableRenderLevel){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(disabled);
-	ZVAL_BOOL(disabled, 1);
-	phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, disabled TSRMLS_CC);
+	if (Z_TYPE_P(level) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_disabledLevels"), level TSRMLS_CC);
+	} else {
+		PHALCON_INIT_VAR(disabled);
+		ZVAL_BOOL(disabled, 1);
+		phalcon_update_property_array(this_ptr, SL("_disabledLevels"), level, disabled TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }

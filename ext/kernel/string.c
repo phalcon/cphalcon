@@ -1166,12 +1166,19 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...)
 void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC) {
 
 	if (Z_TYPE_P(str) != IS_STRING) {
+
 		if (Z_TYPE_P(str) == IS_NULL) {
 			RETURN_FALSE;
 		}
+
 		if (Z_TYPE_P(str) == IS_BOOL) {
 			RETURN_FALSE;
 		}
+
+		if (Z_TYPE_P(str) == IS_LONG) {
+			RETURN_EMPTY_STRING();
+		}
+
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_substr()");
 		RETURN_FALSE;
 	}
