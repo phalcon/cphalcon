@@ -27603,7 +27603,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			return;
 		}
 	
-		if (!PHALCON_GLOBAL(orm).column_renaming) {
+		if (PHALCON_GLOBAL(orm).column_renaming) {
 			PHALCON_INIT_NVAR(column_map);
 			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", has_model);
 		} else {
@@ -57192,7 +57192,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 				PHALCON_CALL_METHOD(relation_class, relation, "getreferencedmodel");
 	
 				PHALCON_INIT_NVAR(referenced_model);
-				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", dependency_injector);
+				PHALCON_CALL_METHOD_PARAMS_1(referenced_model, manager, "load", relation_class);
 	
 				PHALCON_INIT_NVAR(fields);
 				PHALCON_CALL_METHOD(fields, relation, "getfields");
