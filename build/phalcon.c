@@ -33488,10 +33488,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnectionservice", connection_service);
 		}
 	
-		PHALCON_INIT_NVAR(events_manager);
-		PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", events_manager);
+		if (PHALCON_GLOBAL(orm).events) {
+	
+			PHALCON_INIT_NVAR(events_manager);
+			PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
+			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", events_manager);
+			}
 		}
 	}
 	
@@ -54777,6 +54780,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(mongo_collection);
 	PHALCON_CALL_METHOD_PARAMS_1(mongo_collection, connection, "selectcollection", source);
+	
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
@@ -54792,6 +54796,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(documents_cursor);
 	PHALCON_CALL_METHOD_PARAMS_1(documents_cursor, mongo_collection, "find", conditions);
+	
 	if (phalcon_array_isset_string(params, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
 		phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY_CC);
@@ -54811,14 +54816,18 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 	
 	if (PHALCON_IS_TRUE(unique)) {
+	
 		PHALCON_CALL_METHOD_NORETURN(documents_cursor, "rewind");
 	
 		PHALCON_INIT_VAR(document);
 		PHALCON_CALL_METHOD(document, documents_cursor, "current");
+		if (Z_TYPE_P(document) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(collection_cloned);
+			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+			RETURN_CCTOR(collection_cloned);
+		}
 	
-		PHALCON_INIT_VAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
-		RETURN_CCTOR(collection_cloned);
+		RETURN_MM_FALSE;
 	}
 	
 	PHALCON_INIT_VAR(collections);
@@ -55343,6 +55352,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(properties);
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
 	
+	
 	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
 		return;
 	}
@@ -55676,10 +55686,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_CollectionInterface){
 
 	return SUCCESS;
 }
-
-
-
-
 
 
 
