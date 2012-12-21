@@ -492,13 +492,15 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
-		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
 	return SUCCESS;
 }
 
 PHP_RINIT_FUNCTION(phalcon){
+
+	php_phalcon_init_globals(PHALCON_VGLOBAL TSRMLS_CC);
+
 	return SUCCESS;
 }
 
@@ -511,7 +513,6 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 	if (PHALCON_GLOBAL(function_cache) != NULL) {
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
-		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
 	return SUCCESS;

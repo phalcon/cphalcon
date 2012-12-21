@@ -1170,7 +1170,7 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 
 	zval *server_index, *name, *quality_one, *returned_parts;
-	zval *http_server, *pattern, *parts, *two, *dot_comma;
+	zval *http_server, *pattern, *parts, *dot_comma;
 	zval *part = NULL, *header_parts = NULL, *quality_part = NULL, *quality = NULL;
 	zval *header_name = NULL;
 	HashTable *ah0;
@@ -1197,9 +1197,6 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	PHALCON_INIT_VAR(parts);
 	PHALCON_CALL_FUNC_PARAMS_2(parts, "preg_split", pattern, http_server);
 	
-	PHALCON_INIT_VAR(two);
-	ZVAL_LONG(two, 2);
-	
 	PHALCON_INIT_VAR(dot_comma);
 	ZVAL_STRING(dot_comma, ";", 1);
 	
@@ -1221,7 +1218,7 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 			phalcon_array_fetch_long(&quality_part, header_parts, 1, PH_NOISY_CC);
 	
 			PHALCON_INIT_NVAR(quality);
-			PHALCON_CALL_FUNC_PARAMS_2(quality, "substr", quality_part, two);
+			phalcon_substr(quality, quality_part, 2, 0 TSRMLS_CC);
 		} else {
 			PHALCON_CPY_WRT(quality, quality_one);
 		}

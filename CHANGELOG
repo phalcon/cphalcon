@@ -38,7 +38,10 @@
  - Now Phalcon\Mvc\Router can be configured to remove extra slashes passed in the URI
  - In Phalcon\Mvc\Router the default route is '/' when none is giving
  - Improved serialization of Mvc\Model instances and complex resultsets
- - Added an option to change the layouts directory and partials directory
+ - Added an option to change the layouts directory and partials directory in Phalcon\Mvc\View
+ - Added an option to disable an specific level of rendering in Phalcon\Mvc\View
+ - Added Phalcon\Mvc\Model::setup to globally enable/disable specific features in the ORM
+ - Added Phalcon\Db::setup to globally enable/disable specific features in the database component
 
 0.7.0
  - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher

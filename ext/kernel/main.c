@@ -36,13 +36,28 @@
  * Initialize globals on each request or each thread started
  */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
+
+	/* Memory options */
     phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
+
+	/* Cache options */
 	phalcon_globals->function_cache = NULL;
+
+	/* Stats options */
 	#ifndef PHALCON_RELEASE
 	phalcon_globals->phalcon_stack_stats = 0;
 	phalcon_globals->phalcon_number_grows = 0;
 	#endif
+
+	/* ORM options*/
+	phalcon_globals->orm.events = 1;
+	phalcon_globals->orm.virtual_foreign_keys = 1;
+	phalcon_globals->orm.column_renaming = 1;
+	phalcon_globals->orm.not_null_validations = 1;
+
+	/* DB options */
+	phalcon_globals->db.escape_identifiers = 1;
 }
 
 /**

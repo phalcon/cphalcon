@@ -323,7 +323,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	zval *table, *values, *fields = NULL, *data_types = NULL, *exception_message;
 	zval *placeholders, *insert_values, *bind_data_types = NULL;
 	zval *value = NULL, *position = NULL, *str_value = NULL, *bind_type = NULL;
-	zval *escaped_table, *joined_values, *escaped_fields;
+	zval *escaped_table = NULL, *joined_values, *escaped_fields = NULL;
 	zval *field = NULL, *escaped_field = NULL, *joined_fields;
 	zval *insert_sql = NULL, *success;
 	HashTable *ah0, *ah1;
@@ -414,8 +414,12 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(escaped_table);
-	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_VAR(escaped_table);
+		PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	} else {
+		PHALCON_CPY_WRT(escaped_table, table);
+	}
 	
 	/** 
 	 * Build the final SQL INSERT statement
@@ -423,26 +427,31 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	PHALCON_INIT_VAR(joined_values);
 	phalcon_fast_join_str(joined_values, SL(", "), placeholders TSRMLS_CC);
 	if (Z_TYPE_P(fields) == IS_ARRAY) { 
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
 	
-		PHALCON_INIT_VAR(escaped_fields);
-		array_init(escaped_fields);
+			PHALCON_INIT_VAR(escaped_fields);
+			array_init(escaped_fields);
 	
-		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
-			return;
-		}
+			if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+				return;
+			}
 	
-		ah1 = Z_ARRVAL_P(fields);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+			ah1 = Z_ARRVAL_P(fields);
+			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
-		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(field);
+				PHALCON_GET_FOREACH_VALUE(field);
 	
-			PHALCON_INIT_NVAR(escaped_field);
-			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field);
-			phalcon_array_append(&escaped_fields, escaped_field, PH_SEPARATE TSRMLS_CC);
+				PHALCON_INIT_NVAR(escaped_field);
+				PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field);
+				phalcon_array_append(&escaped_fields, escaped_field, PH_SEPARATE TSRMLS_CC);
 	
-			zend_hash_move_forward_ex(ah1, &hp1);
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+		} else {
+			PHALCON_CPY_WRT(escaped_fields, fields);
 		}
 	
 		PHALCON_INIT_VAR(joined_fields);
@@ -490,7 +499,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	zval *data_types = NULL, *placeholders, *update_values;
 	zval *bind_data_types = NULL, *value = NULL, *position = NULL, *field = NULL;
 	zval *escaped_field = NULL, *set_clause_part = NULL, *bind_type = NULL;
-	zval *escaped_table, *set_clause, *update_sql = NULL;
+	zval *escaped_table = NULL, *set_clause, *update_sql = NULL;
 	zval *conditions, *where_bind, *where_types;
 	zval *success;
 	HashTable *ah0;
@@ -548,9 +557,13 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	
 			PHALCON_OBS_NVAR(field);
 			phalcon_array_fetch(&field, fields, position, PH_NOISY_CC);
+			if (PHALCON_GLOBAL(db).escape_identifiers) {
+				PHALCON_INIT_NVAR(escaped_field);
+				PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field);
+			} else {
+				PHALCON_CPY_WRT(escaped_field, field);
+			}
 	
-			PHALCON_INIT_NVAR(escaped_field);
-			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, this_ptr, "escapeidentifier", field);
 			if (Z_TYPE_P(value) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(set_clause_part);
 				PHALCON_CONCAT_VSV(set_clause_part, escaped_field, " = ", value);
@@ -584,8 +597,12 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(escaped_table);
-	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_VAR(escaped_table);
+		PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	} else {
+		PHALCON_CPY_WRT(escaped_table, table);
+	}
 	
 	PHALCON_INIT_VAR(set_clause);
 	phalcon_fast_join_str(set_clause, SL(", "), placeholders TSRMLS_CC);
@@ -659,7 +676,7 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 PHP_METHOD(Phalcon_Db_Adapter, delete){
 
 	zval *table, *where_condition = NULL, *placeholders = NULL;
-	zval *data_types = NULL, *escaped_table, *sql = NULL, *success;
+	zval *data_types = NULL, *escaped_table = NULL, *sql = NULL, *success;
 
 	PHALCON_MM_GROW();
 
@@ -679,8 +696,12 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 		PHALCON_INIT_NVAR(data_types);
 	}
 	
-	PHALCON_INIT_VAR(escaped_table);
-	PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_VAR(escaped_table);
+		PHALCON_CALL_METHOD_PARAMS_1(escaped_table, this_ptr, "escapeidentifier", table);
+	} else {
+		PHALCON_CPY_WRT(escaped_table, table);
+	}
 	if (Z_TYPE_P(where_condition) != IS_NULL) {
 		PHALCON_INIT_VAR(sql);
 		PHALCON_CONCAT_SVSV(sql, "DELETE FROM ", escaped_table, " WHERE ", where_condition);

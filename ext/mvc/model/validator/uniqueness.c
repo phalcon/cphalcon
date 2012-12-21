@@ -131,9 +131,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(bind_data_types);
 	PHALCON_CALL_METHOD_PARAMS_1(bind_data_types, meta_data, "getbindtypes", record);
-	
-	PHALCON_INIT_VAR(column_map);
-	PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", record);
+	if (PHALCON_GLOBAL(orm).column_renaming) {
+		PHALCON_INIT_VAR(column_map);
+		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", record);
+	} else {
+		PHALCON_INIT_NVAR(column_map);
+	}
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init(conditions);
@@ -263,8 +266,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		/** 
 		 * We build a query with the primary key attributes
 		 */
-		PHALCON_INIT_NVAR(column_map);
-		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", record);
+		if (PHALCON_GLOBAL(orm).column_renaming) {
+			PHALCON_INIT_NVAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", record);
+		} else {
+			PHALCON_INIT_NVAR(column_map);
+		}
 	
 		PHALCON_INIT_VAR(primary_fields);
 		PHALCON_CALL_METHOD_PARAMS_1(primary_fields, meta_data, "getprimarykeyattributes", record);

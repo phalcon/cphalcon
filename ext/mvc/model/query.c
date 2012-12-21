@@ -51,7 +51,8 @@
  *
  *<code>
  *
- * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b WHERE b.name = :name: ORDER BY c.name";
+ * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
+ *          WHERE b.name = :name: ORDER BY c.name";
  *
  * $result = $manager->executeQuery($phql, array(
  *   'name' => 'Lamborghini'
@@ -270,12 +271,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		/** 
 		 * Change the selected column by its real name on its mapped table
 		 */
-		PHALCON_OBS_VAR(model);
-		phalcon_array_fetch(&model, sql_aliases_models_instances, column_domain, PH_NOISY_CC);
+		if (PHALCON_GLOBAL(orm).column_renaming) {
+			PHALCON_OBS_VAR(model);
+			phalcon_array_fetch(&model, sql_aliases_models_instances, column_domain, PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(column_map);
-		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", model);
-		if (Z_TYPE_P(column_map) != IS_NULL) {
+			PHALCON_INIT_VAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", model);
+		} else {
+			PHALCON_INIT_NVAR(column_map);
+		}
+	
+		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 			if (phalcon_array_isset(column_map, column_name)) {
 				PHALCON_OBS_VAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
@@ -371,8 +377,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		/** 
 		 * Rename the column
 		 */
-		PHALCON_INIT_NVAR(column_map);
-		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", has_model);
+		if (!PHALCON_GLOBAL(orm).column_renaming) {
+			PHALCON_INIT_NVAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getreversecolumnmap", has_model);
+		} else {
+			PHALCON_INIT_NVAR(column_map);
+		}
+	
 		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 			if (phalcon_array_isset(column_map, column_name)) {
 				PHALCON_OBS_NVAR(real_column_name);
@@ -3175,8 +3186,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				/** 
 				 * If the resultset is complex we open every model into their columns
 				 */
-				PHALCON_INIT_NVAR(column_map);
-				PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", instance);
+				if (PHALCON_GLOBAL(orm).column_renaming) {
+					PHALCON_INIT_NVAR(column_map);
+					PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", instance);
+				} else {
+					PHALCON_INIT_NVAR(column_map);
+				}
 	
 				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 					return;
@@ -3412,7 +3427,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *intermediate, *bind_params, *bind_types;
 	zval *model_name, *manager, *models_instances;
 	zval *model = NULL, *connection, *meta_data, *attributes;
-	zval *automatic_fields = NULL, *fields = NULL, *column_map;
+	zval *automatic_fields = NULL, *fields = NULL, *column_map = NULL;
 	zval *values, *number_fields, *number_values;
 	zval *not_equal, *dialect, *double_colon, *empty_string;
 	zval *null_value, *not_exists, *insert_values;
@@ -3468,9 +3483,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	} else {
 		ZVAL_BOOL(automatic_fields, 1);
 		PHALCON_CPY_WRT(fields, attributes);
-	
-		PHALCON_INIT_VAR(column_map);
-		PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model);
+		if (PHALCON_GLOBAL(orm).column_renaming) {
+			PHALCON_INIT_VAR(column_map);
+			PHALCON_CALL_METHOD_PARAMS_1(column_map, meta_data, "getcolumnmap", model);
+		} else {
+			PHALCON_INIT_NVAR(column_map);
+		}
 	}
 	
 	PHALCON_OBS_VAR(values);

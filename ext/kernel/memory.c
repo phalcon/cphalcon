@@ -196,9 +196,6 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 
 	#endif
 
-	PHALCON_GLOBAL(active_memory) = NULL;
-	PHALCON_GLOBAL(start_memory) = NULL;
-
 	return SUCCESS;
 
 }

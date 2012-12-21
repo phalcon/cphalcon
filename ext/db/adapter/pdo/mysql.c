@@ -91,21 +91,31 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 	}
 
 	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
+	
 		PHALCON_OBS_VAR(domain);
 		phalcon_array_fetch_long(&domain, identifier, 0, PH_NOISY_CC);
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_long(&name, identifier, 1, PH_NOISY_CC);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(escaped);
+			PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
+		} else {
+			PHALCON_INIT_NVAR(escaped);
+			PHALCON_CONCAT_VSV(escaped, domain, ".", name);
+		}
 	
-		PHALCON_INIT_VAR(escaped);
-		PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
+	
+		RETURN_CTOR(escaped);
+	}
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_NVAR(escaped);
+		PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
 		RETURN_CTOR(escaped);
 	}
 	
-	PHALCON_INIT_NVAR(escaped);
-	PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
 	
-	RETURN_CTOR(escaped);
+	RETURN_CCTOR(identifier);
 }
 
 /**

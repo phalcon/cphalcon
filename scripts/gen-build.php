@@ -374,6 +374,6 @@ class Build_Generator
 }
 
 //Create the builds files based on the following directory
-$build = new Build_Generator('ext/', 'build/', true);
+$build = new Build_Generator('ext/', 'build/', false);
 
 //echo chr(97);

@@ -25,6 +25,7 @@
 
 #define PHALCON_MAX_MEMORY_STACK 48
 
+/* Memory frame */
 typedef struct _phalcon_memory_entry {
 	int pointer;
 	zval **addresses[PHALCON_MAX_MEMORY_STACK];
@@ -32,14 +33,40 @@ typedef struct _phalcon_memory_entry {
 	struct _phalcon_memory_entry *next;
 } phalcon_memory_entry;
 
+/* ORM options */
+typedef struct _phalcon_orm_options {
+	zend_bool events;
+	zend_bool virtual_foreign_keys;
+	zend_bool column_renaming;
+	zend_bool not_null_validations;
+} phalcon_orm_options;
+
+/* DB options */
+typedef struct _phalcon_db_options {
+	zend_bool escape_identifiers;
+} phalcon_db_options;
+
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
+
+	//Memory
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
+
+	//Function cache
 	HashTable *function_cache;
+
+	//Stats
 #ifndef PHALCON_RELEASE
 	unsigned int phalcon_stack_stats;
 	unsigned int phalcon_number_grows;
 #endif
+
+	//ORM
+	phalcon_orm_options orm;
+
+	//DB
+	phalcon_db_options db;
+
 ZEND_END_MODULE_GLOBALS(phalcon)
 
 #ifdef ZTS
@@ -52,6 +79,12 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 	#define PHALCON_GLOBAL(v) TSRMG(phalcon_globals_id, zend_phalcon_globals *, v)
 #else
 	#define PHALCON_GLOBAL(v) (phalcon_globals.v)
+#endif
+
+#ifdef ZTS
+	#define PHALCON_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_ls))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
+#else
+	#define PHALCON_VGLOBAL &(phalcon_globals)
 #endif
 
 extern zend_module_entry phalcon_module_entry;

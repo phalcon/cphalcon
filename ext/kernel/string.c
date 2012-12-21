@@ -369,7 +369,7 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -392,7 +392,7 @@ void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, i
 /**
  * Inmediate function resolution for stripos function
  */
-void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
@@ -1147,7 +1147,7 @@ void phalcon_remove_extra_slashes(zval *return_value, zval *str){
 }
 
 /**
- * This function is not external so we redeclare it here in the extension
+ * This function is not external in the Zend API so we redeclare it here in the extension
  */
 int phalcon_spprintf(char **message, int max_len, char *format, ...)
 {
@@ -1158,4 +1158,29 @@ int phalcon_spprintf(char **message, int max_len, char *format, ...)
     len = vspprintf(message, max_len, format, arg);
     va_end(arg);
     return len;
+}
+
+/**
+ * Makes a substr like the PHP function. This function doesn't support negative lengths
+ */
+void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC) {
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_substr()");
+		RETURN_FALSE;
+	}
+
+	if (Z_STRLEN_P(str) < from){
+		RETURN_FALSE;
+	}
+
+	if (!length || (Z_STRLEN_P(str) < (length + from))) {
+		length = Z_STRLEN_P(str) - from;
+	}
+
+	if (length <= 0){
+		RETURN_EMPTY_STRING();
+	}
+
+	RETURN_STRINGL(Z_STRVAL_P(str) + from, length, 1);
 }
