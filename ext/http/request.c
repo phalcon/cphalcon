@@ -56,7 +56,7 @@
  *			echo 'Request was made using POST and AJAX';
  *		}
  *	}
- * </code>
+ *</code>
  *
  */
 

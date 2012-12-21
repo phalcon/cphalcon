@@ -204,6 +204,10 @@ PHP_METHOD(Phalcon_Text, random){
  *  echo Phalcon\Text::startsWith("Hello", "he"); // false
  *  echo Phalcon\Text::startsWith("Hello", "he", false); // true
  *</code>
+ *
+ * @param string $str
+ * @param string $start
+ * @param boolean $ignoreCase
  */
 PHP_METHOD(Phalcon_Text, startsWith){
 
@@ -234,14 +238,18 @@ PHP_METHOD(Phalcon_Text, startsWith){
  *  echo Phalcon\Text::endsWith("Hello", "LLO"); // false
  *  echo Phalcon\Text::endsWith("Hello", "LLO", false); // true
  *</code>
+ *
+ * @param string $str
+ * @param string $end
+ * @param boolean $ignoreCase
  */
 PHP_METHOD(Phalcon_Text, endsWith){
 
-	zval *str, *start, *ignore_case = NULL;
+	zval *str, *end, *ignore_case = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &str, &start, &ignore_case) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &str, &end, &ignore_case) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -250,7 +258,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
 		ZVAL_BOOL(ignore_case, 1);
 	}
 	
-	if (phalcon_end_with(str, start, ignore_case)) {
+	if (phalcon_end_with(str, end, ignore_case)) {
 		RETURN_MM_TRUE;
 	}
 	RETURN_MM_FALSE;

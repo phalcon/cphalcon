@@ -371,6 +371,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 /**
  * Obtains a service from the DI
  *
+ * @param string $serviceName
  * @return object
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getService){

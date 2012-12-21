@@ -84,6 +84,8 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Frontend_None){
 
 /**
  * Phalcon\Cache\Frontend\None constructor
+ *
+ * @param array $frontendOptions
  */
 PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 

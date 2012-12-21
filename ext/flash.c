@@ -103,7 +103,8 @@ PHP_METHOD(Phalcon_Flash, __construct){
 /**
  * Set the if the output must be implictly flushed to the output or returned as string
  *
- * @param boolean $implicitFlash
+ * @param boolean $implicitFlush
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush){
  * Set the if the output must be implictly formatted with HTML
  *
  * @param boolean $automaticHtml
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 
@@ -138,6 +140,7 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
  * Set an array with CSS classes to format the messages
  *
  * @param array $cssClasses
+ * @return Phalcon\FlashInterface
  */
 PHP_METHOD(Phalcon_Flash, setCssClasses){
 
@@ -274,6 +277,10 @@ PHP_METHOD(Phalcon_Flash, warning){
 /**
  * Outputs a message formatting it with HTML
  *
+ *<code>
+ * $flash->outputMessage('error', $message);
+ *</code>
+ *
  * @param string $type
  * @param string $message
  */
@@ -324,10 +331,18 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	PHALCON_OBS_VAR(implicit_flush);
 	phalcon_read_property(&implicit_flush, this_ptr, SL("_implicitFlush"), PH_NOISY_CC);
 	if (Z_TYPE_P(message) == IS_ARRAY) { 
+	
+		/** 
+		 * We create the message with implicit flush or other
+		 */
 		if (PHALCON_IS_FALSE(implicit_flush)) {
 			PHALCON_INIT_VAR(content);
 			ZVAL_STRING(content, "", 1);
 		}
+	
+		/** 
+		 * We create the message with implicit flush or other
+		 */
 	
 		if (!phalcon_valid_foreach(message TSRMLS_CC)) {
 			return;
@@ -340,6 +355,9 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 	
 			PHALCON_GET_FOREACH_VALUE(msg);
 	
+			/** 
+			 * We create the applying formatting or not
+			 */
 			if (PHALCON_IS_TRUE(automatic_html)) {
 				PHALCON_INIT_NVAR(html_message);
 				PHALCON_CONCAT_SVSVSV(html_message, "<div", css_classes, ">", msg, "</div>", eol);
@@ -355,16 +373,26 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		/** 
+		 * We return the message as string if the implicit_flush is turned off
+		 */
 		if (PHALCON_IS_FALSE(implicit_flush)) {
 			RETURN_CTOR(content);
 		}
 	} else {
+		/** 
+		 * We create the applying formatting or not
+		 */
 		if (PHALCON_IS_TRUE(automatic_html)) {
 			PHALCON_INIT_NVAR(html_message);
 			PHALCON_CONCAT_SVSVSV(html_message, "<div", css_classes, ">", message, "</div>", eol);
 		} else {
 			PHALCON_CPY_WRT(html_message, message);
 		}
+	
+		/** 
+		 * We return the message as string if the implicit_flush is turned off
+		 */
 		if (PHALCON_IS_TRUE(implicit_flush)) {
 			zend_print_zval(html_message, 0);
 		} else {

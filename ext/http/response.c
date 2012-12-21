@@ -443,16 +443,20 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
  */
 PHP_METHOD(Phalcon_Http_Response, redirect){
 
-	zval *location, *external_redirect = NULL, *status_code = NULL;
+	zval *location = NULL, *external_redirect = NULL, *status_code = NULL;
 	zval *header = NULL, *dependency_injector, *service;
 	zval *url, *status_text, *header_name;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &location, &external_redirect, &status_code) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzz", &location, &external_redirect, &status_code) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!location) {
+		PHALCON_INIT_NVAR(location);
+	}
+	
 	if (!external_redirect) {
 		PHALCON_INIT_NVAR(external_redirect);
 		ZVAL_BOOL(external_redirect, 0);

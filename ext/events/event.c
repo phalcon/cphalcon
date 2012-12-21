@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_Event){
  * @param string $type
  * @param object $source
  * @param mixed $data
+ * @param boolean $cancelable
  */
 PHP_METHOD(Phalcon_Events_Event, __construct){
 

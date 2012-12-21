@@ -57,6 +57,21 @@
  * way to get the required dependencies within a component.
  *
  * Additionally, this pattern increases testability in the code, thus making it less prone to errors.
+ *
+ *<code>
+ * $di = new Phalcon\DI();
+ *
+ * //Using a string definition
+ * $di->set('request', 'Phalcon\Http\Request', true);
+ *
+ * //Using an anonymous function
+ * $di->set('request', function(){
+ *	  return new Phalcon\Http\Request();
+ * }, true);
+ *
+ * $request = $di->getRequest();
+ *
+ *</code>
  */
 
 
@@ -104,17 +119,17 @@ PHP_METHOD(Phalcon_DI, __construct){
  * Registers a service in the services container
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, set){
 
-	zval *name, *config, *shared = NULL, *service;
+	zval *name, *definition, *shared = NULL, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -130,7 +145,7 @@ PHP_METHOD(Phalcon_DI, set){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -141,16 +156,16 @@ PHP_METHOD(Phalcon_DI, set){
  * Registers an "always shared" service in the services container
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, setShared){
 
-	zval *name, *config, *shared, *service;
+	zval *name, *definition, *shared, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &config) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &definition) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -164,7 +179,7 @@ PHP_METHOD(Phalcon_DI, setShared){
 	
 	PHALCON_INIT_VAR(service);
 	object_init_ex(service, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, config, shared);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(service, "__construct", name, definition, shared);
 	
 	phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	
@@ -206,16 +221,17 @@ PHP_METHOD(Phalcon_DI, remove){
  * with the same name
  *
  * @param string $name
- * @param mixed $config
+ * @param mixed $definition
+ * @param boolean $shared
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, attempt){
 
-	zval *name, *config, *shared = NULL, *services, *service;
+	zval *name, *definition, *shared = NULL, *services, *service;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &config, &shared) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &name, &definition, &shared) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -234,13 +250,44 @@ PHP_METHOD(Phalcon_DI, attempt){
 	if (!phalcon_array_isset(services, name)) {
 		PHALCON_INIT_VAR(service);
 		object_init_ex(service, phalcon_di_service_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, config);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(service, "__construct", name, definition);
 	
 		phalcon_update_property_array(this_ptr, SL("_services"), name, service TSRMLS_CC);
 	}
 	
 	
 	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Sets a service using a raw Phalcon\DI\Service definition
+ *
+ * @param string $name
+ * @param Phalcon\DI\ServiceInterface $rawDefinition
+ * @return Phalcon\DI\ServiceInterface
+ */
+PHP_METHOD(Phalcon_DI, setRaw){
+
+	zval *name, *raw_definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &raw_definition) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service name must be a string");
+		return;
+	}
+	if (Z_TYPE_P(raw_definition) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service definition must be an object");
+		return;
+	}
+	
+	phalcon_update_property_array(this_ptr, SL("_services"), name, raw_definition TSRMLS_CC);
+	
+	RETURN_CCTOR(raw_definition);
 }
 
 /**
@@ -284,6 +331,7 @@ PHP_METHOD(Phalcon_DI, getRaw){
 /**
  * Returns a Phalcon\DI\Service instance
  *
+ * @param string $name
  * @return Phalcon\DI\ServiceInterface
  */
 PHP_METHOD(Phalcon_DI, getService){
@@ -378,6 +426,9 @@ PHP_METHOD(Phalcon_DI, get){
 		}
 	}
 	
+	/** 
+	 * Pass the DI itself if the instance implements Phalcon\DI\InjectionAwareInterface
+	 */
 	if (Z_TYPE_P(instance) == IS_OBJECT) {
 		if (phalcon_method_exists_ex(instance, SS("setdi") TSRMLS_CC) == SUCCESS) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(instance, "setdi", this_ptr);
@@ -516,6 +567,10 @@ PHP_METHOD(Phalcon_DI, __call){
 	
 	PHALCON_INIT_VAR(three);
 	ZVAL_LONG(three, 3);
+	
+	/** 
+	 * If the magic method start with 'get' we try to get a service with that name
+	 */
 	if (phalcon_start_with_str(method, SL("get"))) {
 	
 		PHALCON_OBS_VAR(services);
@@ -538,6 +593,9 @@ PHP_METHOD(Phalcon_DI, __call){
 			RETURN_CCTOR(instance);
 		}
 	} else {
+		/** 
+		 * If the magic method start with 'set' we try to set a service using that name
+		 */
 		if (phalcon_start_with_str(method, SL("set"))) {
 			if (phalcon_array_isset_long(arguments, 0)) {
 				PHALCON_INIT_NVAR(service_name);
@@ -554,6 +612,9 @@ PHP_METHOD(Phalcon_DI, __call){
 		}
 	}
 	
+	/** 
+	 * The method doesn't start with set/get throw an exception
+	 */
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "Call to undefined method or service '", method, "'");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_di_exception_ce, exception_message);

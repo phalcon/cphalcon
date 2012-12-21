@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Loader, getNamespaces){
 /**
  * Register directories on which "not found" classes could be found
  *
- * @param array $directories
+ * @param array $prefixes
  * @param boolean $merge
  * @return Phalcon\Loader
  */

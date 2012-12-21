@@ -8,7 +8,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/session", "adapterinterface.c baginterface.c exception.c adapter.c bag.c", "phalcon")
   ADD_SOURCES("ext/phalcon/session/adapter", "files.c", "phalcon")
   ADD_SOURCES("ext/phalcon/.", "loader.c di.c text.c exception.c db.c dispatcherinterface.c logger.c escaperinterface.c diinterface.c filterinterface.c flashinterface.c dispatcher.c translate.c tag.c kernel.c security.c session.c version.c flash.c config.c filter.c acl.c escaper.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc", "viewinterface.c dispatcherinterface.c router.c micro.c urlinterface.c view.c collection.c url.c controller.c dispatcher.c model.c modelinterface.c routerinterface.c application.c controllerinterface.c moduledefinitioninterface.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc", "viewinterface.c dispatcherinterface.c router.c micro.c urlinterface.c view.c collection.c url.c controller.c dispatcher.c model.c modelinterface.c routerinterface.c collectioninterface.c application.c controllerinterface.c moduledefinitioninterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/router", "exception.c route.c routeinterface.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/dispatcher", "exception.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/collection", "exception.c manager.c", "phalcon")

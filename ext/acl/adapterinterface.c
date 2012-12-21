@@ -91,6 +91,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isResource);
  * search, update, delete, etc or a list of them
  *
  * @param   Phalcon\Acl\ResourceInterface $resource
+ * @param   array $accessList
  * @return  boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, addResource);
@@ -135,7 +136,7 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, deny);
  *
  * @param  string $role
  * @param  string $resource
- * @param  string $accessList
+ * @param  string $access
  * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, isAllowed);

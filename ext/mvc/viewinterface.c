@@ -68,7 +68,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setRenderLevel);
 /**
  * Sets default view name. Must be a file without extension in the views directory
  *
- * @param string $name
+ * @param string $viewPath
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setMainView);
 

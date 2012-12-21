@@ -164,6 +164,8 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue){
 /**
  * Returns the cookie's value
  *
+ * @param string|array $filters
+ * @param string $defaultValue
  * @return mixed
  */
 PHP_METHOD(Phalcon_Http_Cookie, getValue){
@@ -267,7 +269,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getExpiration){
 /**
  * Sets the cookie's expiration time
  *
- * @param int $expire
+ * @param string $path
  * @return Phalcon\Http\Cookie
  */
 PHP_METHOD(Phalcon_Http_Cookie, setPath){

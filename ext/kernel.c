@@ -33,6 +33,13 @@
 #include "kernel/memory.h"
 
 /**
+ * Phalcon\Kernel
+ *
+ * This class allows to change the internal behavior of the framework in runtime
+ */
+
+
+/**
  * Phalcon\Kernel initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Kernel){
@@ -42,6 +49,12 @@ PHALCON_INIT_CLASS(Phalcon_Kernel){
 	return SUCCESS;
 }
 
+/**
+ * Produce a pre-computed hash key based on an string. This function produce different numbers in 32bit/64bit processors
+ *
+ * @param string $arrKey
+ * @return string
+ */
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey){
 
 	char *arKey, *strKey;

@@ -154,6 +154,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service_name);
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+		return;
+	}
+	
 	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(manager, "initialize", this_ptr);
 	
 	PHALCON_MM_RESTORE();
@@ -796,7 +801,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 /**
  * Create a criteria for a especific model
  *
- * @param Phalcon\DiInterface $dependencyInjector;
+ * @param Phalcon\DiInterface $dependencyInjector
  * @return Phalcon\Mvc\Model\Criteria
  */
 PHP_METHOD(Phalcon_Mvc_Model, query){
@@ -1742,6 +1747,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+		return;
+	}
 	
 	/** 
 	 * We check if some of the belongsTo relations act as virtual foreign key
@@ -1970,6 +1979,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+		return;
+	}
 	
 	/** 
 	 * We check if some of the hasOne/hasMany relations is a foreign key
@@ -3867,12 +3880,12 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(manager) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addhasone", this_ptr, fields, reference_model, referenced_fields, options);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 		return;
 	}
+	
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addhasone", this_ptr, fields, reference_model, referenced_fields, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -3926,12 +3939,12 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(manager) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addbelongsto", this_ptr, fields, reference_model, referenced_fields, options);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 		return;
 	}
+	
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addbelongsto", this_ptr, fields, reference_model, referenced_fields, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -3985,12 +3998,12 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 	
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(manager) == IS_OBJECT) {
-		PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addhasmany", this_ptr, fields, reference_model, referenced_fields, options);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 		return;
 	}
+	
+	PHALCON_CALL_METHOD_PARAMS_5_NORETURN(manager, "addhasmany", this_ptr, fields, reference_model, referenced_fields, options);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -4032,7 +4045,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 		return;
 	}
 	
@@ -4103,7 +4116,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
 	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "There is not models manager related to this model");
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
 		return;
 	}
 	
@@ -4244,13 +4257,13 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	
 	PHALCON_INIT_VAR(meta_data);
 	PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service);
-	
-	PHALCON_INIT_VAR(attributes);
-	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
 	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsMetadata' is not valid");
 		return;
 	}
+	
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
 	
 	PHALCON_INIT_VAR(null_value);
 	
@@ -4337,6 +4350,11 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 	return;
 }
 
+/**
+ * Returns a simple representation of the object that can be used with var_dump
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Mvc_Model, dump){
 
 	zval *array_data;
@@ -4346,5 +4364,46 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 	PHALCON_INIT_VAR(array_data);
 	PHALCON_CALL_FUNC_PARAMS_1(array_data, "get_object_vars", this_ptr);
 	RETURN_CCTOR(array_data);
+}
+
+/**
+ * This method implements the magic method wake up, this reinitializes the model using the default DI
+ *
+ */
+PHP_METHOD(Phalcon_Mvc_Model, __wakeup){
+
+	zval *dependency_injector, *service, *manager;
+
+	PHALCON_MM_GROW();
+
+	/** 
+	 * Obtain the default DI
+	 */
+	PHALCON_INIT_VAR(dependency_injector);
+	PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	
+	/** 
+	 * Gets the default modelsManager service
+	 */
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "modelsManager", 1);
+	
+	PHALCON_INIT_VAR(manager);
+	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
+	if (Z_TYPE_P(manager) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+		return;
+	}
+	
+	/** 
+	 * Initialize the object
+	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(manager, "initialize", this_ptr);
+	
+	PHALCON_MM_RESTORE();
 }
 

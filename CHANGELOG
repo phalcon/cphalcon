@@ -37,6 +37,8 @@
  - Fixed use of a common events manager databases in the ORM
  - Now Phalcon\Mvc\Router can be configured to remove extra slashes passed in the URI
  - In Phalcon\Mvc\Router the default route is '/' when none is giving
+ - Improved serialization of Mvc\Model instances and complex resultsets
+ - Added an option to change the layouts directory and partials directory
 
 0.7.0
  - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher

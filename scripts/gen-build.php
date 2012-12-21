@@ -280,6 +280,44 @@ class Build_Generator
 						continue;
 					}
 
+					/**
+					 * Pre-compute hash for method calls
+					 */
+					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_1_NORETURN\(([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_2_NORETURN\(([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+), ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_2\(([a-zA-Z\_]+), ([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+), ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_2_KEY('.$matches[1].', '.$matches[2].', "'.$matches[3].'", '.$matches[4].', '.$matches[5].', '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_3_NORETURN\(([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+), ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
+					if (preg_match('/PHALCON_CALL_METHOD_PARAMS_4_NORETURN\(([a-zA-Z\_]+), "([a-zA-Z\_]+)", ([a-zA-Z\_]+), ([a-zA-Z\_]+), ([a-zA-Z\_]+), ([a-zA-Z\_]+)\)/', $line, $matches)) {
+						$key = Phalcon\Kernel::preComputeHashKey($matches[2]);
+						$line = str_replace($matches[0], 'PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY('.$matches[1].', "'.$matches[2].'", '.$matches[3].', '.$matches[4].', '.$matches[5].', '.$matches[6].', '.$key.'UL)', $line);
+						fputs($fileHandler, $line);
+						continue;
+					}
+
 				}
 
 				fputs($fileHandler, $line);
@@ -336,6 +374,6 @@ class Build_Generator
 }
 
 //Create the builds files based on the following directory
-$build = new Build_Generator('ext/', 'build/', false);
+$build = new Build_Generator('ext/', 'build/', true);
 
 //echo chr(97);

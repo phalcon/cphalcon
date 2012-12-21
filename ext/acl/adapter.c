@@ -63,7 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Acl_Adapter){
 /**
  * Sets the events manager
  *
- * @param Phalcon\Events\ManagerInterface $eventManager
+ * @param Phalcon\Events\ManagerInterface $eventsManager
  */
 PHP_METHOD(Phalcon_Acl_Adapter, setEventsManager){
 
