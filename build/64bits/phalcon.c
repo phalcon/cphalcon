@@ -850,17 +850,21 @@ void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #if PHP_VERSION_ID < 50400
 #define PH_MEHASH_C , 0
 #define PH_MEHASH_D , unsigned long method_key
+#define PH_MEHASH_PASSTHRU , key
 #else
 #define PH_MEHASH_C
 #define PH_MEHASH_D
+#define PH_MEHASH_PASSTHRU
 #endif
 #else
 #if PHP_VERSION_ID < 50400
 #define PH_MEHASH_C , 0
 #define PH_MEHASH_D , unsigned long method_key
+#define PH_MEHASH_PASSTHRU , key
 #else
 #define PH_MEHASH_C
 #define PH_MEHASH_D
+#define PH_MEHASH_PASSTHRU
 #endif
 #endif
 
@@ -893,20 +897,20 @@ void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 #define PHALCON_CALL_METHOD_PARAMS_5_NORETURN(object, method_name, param1, param2, param3, param4, param5) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0 PH_MEHASH_C TSRMLS_CC)==FAILURE) return;
 
 /** Macros to call methods in the PHP userland with a precalculated hash key (not use these in development) */
-#define PHALCON_CALL_METHOD_KEY(return_value, object, method_name, key) if(phalcon_call_method(return_value, object, method_name, strlen(method_name), 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_NORETURN_KEY(object, method_name, key) if(phalcon_call_method(NULL, object, method_name, strlen(method_name), 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_KEY(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_NORETURN_KEY(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1_KEY(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2_KEY(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3_KEY(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4_KEY(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5_KEY(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1, key TSRMLS_CC)==FAILURE) return;
-#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN_KEY(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0, key TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_KEY(return_value, object, method_name, key) if(phalcon_call_method(return_value, object, method_name, strlen(method_name), 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_NORETURN_KEY(object, method_name, key) if(phalcon_call_method(NULL, object, method_name, strlen(method_name), 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_KEY(return_value, object, method_name, param_count, params, key) if(phalcon_call_method_params(return_value, object, method_name, strlen(method_name), param_count, params, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_NORETURN_KEY(object, method_name, param_count, params, key) if(phalcon_call_method_params(NULL, object, method_name, strlen(method_name), param_count, params, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1_KEY(return_value, object, method_name, param1, key) if(phalcon_call_method_one_param(return_value, object, method_name, strlen(method_name), param1, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, method_name, param1, key) if(phalcon_call_method_one_param(NULL, object, method_name, strlen(method_name), param1, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2_KEY(return_value, object, method_name, param1, param2, key) if(phalcon_call_method_two_params(return_value, object, method_name, strlen(method_name), param1, param2, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(object, method_name, param1, param2, key) if(phalcon_call_method_two_params(NULL, object, method_name, strlen(method_name), param1, param2, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3_KEY(return_value, object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(object, method_name, param1, param2, param3, key) if(phalcon_call_method_three_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4_KEY(return_value, object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_4_NORETURN_KEY(object, method_name, param1, param2, param3, param4, key) if(phalcon_call_method_four_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5_KEY(return_value, object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(return_value, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 1 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
+#define PHALCON_CALL_METHOD_PARAMS_5_NORETURN_KEY(object, method_name, param1, param2, param3, param4, param5, key) if(phalcon_call_method_five_params(NULL, object, method_name, strlen(method_name), param1, param2, param3, param4, param5, 0 PH_MEHASH_PASSTHRU TSRMLS_CC)==FAILURE) return;
 
 /** Use these macros to call functions in the parent class */
 #define PHALCON_CALL_PARENT_PARAMS(return_value, object, active_class, method_name, param_count, params) if(phalcon_call_parent_func_params(return_value, object, active_class, strlen(active_class), method_name, strlen(method_name), param_count, params, 1 TSRMLS_CC)==FAILURE) return;
@@ -1092,7 +1096,7 @@ void phalcon_get_class(zval *result, zval *object TSRMLS_DC);
 zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC);
 
 /** Class constants */
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC);
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC);
 
 /** Cloning/Instance of*/
 int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC);
@@ -1101,23 +1105,23 @@ int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_le
 
 /** Method exists */
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC);
-int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC);
+int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC);
 
 /** Isset properties */
-int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC);
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC);
 
 /** Reading properties */
-int phalcon_read_property(zval **result, zval *object, char *property_name, int property_length, int silent TSRMLS_DC);
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC);
 int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC);
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC);
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 
 /** Updating properties */
-int phalcon_update_property_long(zval *obj, char *property_name, int property_length, long value TSRMLS_DC);
-int phalcon_update_property_string(zval *object, char *property_name, int property_length, char *str, int str_length TSRMLS_DC);
-int phalcon_update_property_bool(zval *obj, char *property_name, int property_length, int value TSRMLS_DC);
-int phalcon_update_property_null(zval *obj, char *property_name, int property_length TSRMLS_DC);
-int phalcon_update_property_zval(zval *obj, char *property_name, int property_length, zval *value TSRMLS_DC);
+int phalcon_update_property_long(zval *obj, char *property_name, unsigned int property_length, long value TSRMLS_DC);
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC);
+int phalcon_update_property_bool(zval *obj, char *property_name, unsigned int property_length, int value TSRMLS_DC);
+int phalcon_update_property_null(zval *obj, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_update_property_zval(zval *obj, char *property_name, unsigned int property_length, zval *value TSRMLS_DC);
 int phalcon_update_property_zval_zval(zval *obj, zval *property, zval *value TSRMLS_DC);
 int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC);
 
@@ -1126,12 +1130,12 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
 
 /** Increment/Decrement properties */
-int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC);
-int phalcon_property_decr(zval *object, char *property_name, int property_length TSRMLS_DC);
+int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC);
 
 /** Static properties */
-int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC);
-int phalcon_update_static_property(char *class_name, int class_length, char *name, int name_length, zval *value TSRMLS_DC);
+int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC);
+int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC);
 
 /** Create instances */
 int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC);
@@ -1143,7 +1147,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 
 /** Fast char position */
 int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
-int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
+int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 void phalcon_fast_strlen(zval *return_value, zval *str);
@@ -3959,7 +3963,7 @@ void phalcon_merge_append(zval *left, zval *values TSRMLS_DC){
 
 
 
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC){
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC){
 
 	zval **result_ptr;
 
@@ -4079,7 +4083,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 	return status;
 }
 
-int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
 			return 1;
@@ -4107,7 +4111,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
 	}
 }
 
-static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *original_ce;
 
@@ -4121,7 +4125,7 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 	return original_ce;
 }
 
-int phalcon_read_property(zval **result, zval *object, char *property_name, int property_length, int silent TSRMLS_DC){
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC){
 
 	zval *property;
 	zend_class_entry *ce, *old_scope;
@@ -4174,7 +4178,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 	return FAILURE;
 }
 
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *property, *result;
 	zend_class_entry *ce, *old_scope;
@@ -4270,7 +4274,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 	return FAILURE;
 }
 
-int phalcon_update_property_long(zval *object, char *property_name, int property_length, long value TSRMLS_DC){
+int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -4288,7 +4292,7 @@ int phalcon_update_property_long(zval *object, char *property_name, int property
 	return SUCCESS;
 }
 
-int phalcon_update_property_string(zval *object, char *property_name, int property_length, char *str, int str_length TSRMLS_DC){
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC){
 
 	zval *value, *property;
 	zend_class_entry *ce, *old_scope;
@@ -4331,7 +4335,7 @@ int phalcon_update_property_string(zval *object, char *property_name, int proper
 	return SUCCESS;
 }
 
-int phalcon_update_property_bool(zval *object, char *property_name, int property_length, int value TSRMLS_DC){
+int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -4350,7 +4354,7 @@ int phalcon_update_property_bool(zval *object, char *property_name, int property
 	return SUCCESS;
 }
 
-int phalcon_update_property_null(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -4369,7 +4373,7 @@ int phalcon_update_property_null(zval *object, char *property_name, int property
 	return SUCCESS;
 }
 
-int phalcon_update_property_zval(zval *object, char *property_name, int property_length, zval *value TSRMLS_DC){
+int phalcon_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
 	zend_class_entry *ce, *old_scope;
 	zval *property;
@@ -4611,7 +4615,7 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	return FAILURE;
 }
 
-int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC){
+int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -4636,7 +4640,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 	return FAILURE;
 }
 
-int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC){
+int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
@@ -4648,7 +4652,7 @@ int phalcon_read_static_property(zval **result, char *class_name, int class_leng
 	return FAILURE;
 }
 
-int phalcon_update_static_property(char *class_name, int class_length, char *name, int name_length, zval *value TSRMLS_DC){
+int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
@@ -4740,7 +4744,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 	return SUCCESS;
 }
 
-int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -4763,7 +4767,7 @@ int phalcon_property_incr(zval *object, char *property_name, int property_length
 	return SUCCESS;
 }
 
-int phalcon_property_decr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -4857,7 +4861,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	HashTable      *arr;
 	HashPosition   pos;
 	smart_str      implstr = {0};
-	int            str_len, numelems, i = 0;
+	unsigned int   str_len, numelems, i = 0;
 	zval tmp_val;
 
 	if (Z_TYPE_P(pieces) != IS_ARRAY) {
@@ -4943,7 +4947,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 
 void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str camelize_str = {0};
 	char *marker, ch;
 
@@ -4988,7 +4992,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
 void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str uncamelize_str = {0};
 	char *marker, ch;
 
@@ -5051,7 +5055,7 @@ int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
 	return 0;
 }
 
-int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC){
+int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -5415,11 +5419,12 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, ulong *
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker;
-	unsigned int ch, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned char ch;
 	smart_str route_str = {0};
 	ulong position = 1;
 	zval *replace, replace_copy;
-	int i, use_copy, looking_placeholder = 0;
+	int use_copy, looking_placeholder = 0;
 
 	if (Z_TYPE_P(pattern) != IS_STRING || Z_TYPE_P(replacements) != IS_ARRAY || Z_TYPE_P(paths) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
@@ -5728,7 +5733,8 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 
 void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
 
-	long i, ch, rand_type;
+	long i, rand_type;
+	unsigned char ch;
 	smart_str random_str = {0};
 
 	if (Z_TYPE_P(type) != IS_LONG) {
@@ -28533,7 +28539,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(mongo_collection);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(mongo_collection, connection, "selectcollection", source, 4445757485292167793UL);
-	
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
@@ -28549,7 +28554,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(documents_cursor);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(documents_cursor, mongo_collection, "find", conditions, 210712410150UL);
-	
 	if (phalcon_array_isset_quick_string(params, SS("limit"), 6953744320644UL)) {
 		PHALCON_OBS_VAR(limit);
 		phalcon_array_fetch_quick_string(&limit, params, SS("limit"), 6953744320644UL, PH_NOISY_CC);
@@ -28569,18 +28573,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 	
 	if (PHALCON_IS_TRUE(unique)) {
-	
 		PHALCON_CALL_METHOD_NORETURN(documents_cursor, "rewind");
 	
 		PHALCON_INIT_VAR(document);
 		PHALCON_CALL_METHOD(document, documents_cursor, "current");
-		if (Z_TYPE_P(document) == IS_ARRAY) { 
-			PHALCON_INIT_VAR(collection_cloned);
-			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
-			RETURN_CCTOR(collection_cloned);
-		}
 	
-		RETURN_MM_FALSE;
+		PHALCON_INIT_VAR(collection_cloned);
+		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+		RETURN_CCTOR(collection_cloned);
 	}
 	
 	PHALCON_INIT_VAR(collections);
@@ -29105,7 +29105,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(properties);
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
 	
-	
 	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
 		return;
 	}
@@ -29439,6 +29438,10 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_CollectionInterface){
 
 	return SUCCESS;
 }
+
+
+
+
 
 
 
@@ -30866,13 +30869,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(model, "setconnectionservice", connection_service, 2824750417824007090UL);
 		}
 	
-		if (PHALCON_GLOBAL(orm).events) {
-	
-			PHALCON_INIT_NVAR(events_manager);
-			PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
-			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(model, "seteventsmanager", events_manager, 11566996094242426689UL);
-			}
+		PHALCON_INIT_NVAR(events_manager);
+		PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(model, "seteventsmanager", events_manager, 11566996094242426689UL);
 		}
 	}
 	
