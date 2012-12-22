@@ -14,12 +14,6 @@
 #  Authors: Andres Gutierrez <andres@phalconphp.com>
 #            Eduar Carvajal <eduar@phalconphp.com>
 
-#Clean current compilation
-if [ -f Makefile ]; then
-	make clean
-	phpize --clean
-fi
-
 # Check best compilation flags for GCC
 export CC="gcc"
 export CFLAGS="-march=native -mtune=native -O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer"
@@ -50,5 +44,14 @@ else
 	DIR=$1
 fi
 
+#Move to specified architecture
+cd $DIR
+
+#Clean current compilation
+if [ -f Makefile ]; then
+	make clean
+	phpize --clean
+fi
+
 #Perform the compilation
-cd $DIR && phpize && ./configure --enable-phalcon && make && make install && echo "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+phpize && ./configure --enable-phalcon && make && make install && echo "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
