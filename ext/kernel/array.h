@@ -19,15 +19,15 @@
 
 /** Check for index existence */
 extern int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index);
-extern int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index);
+extern int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index);
 extern int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length);
 
 /** Fast index existence checking */
-extern int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key);
+extern int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, ulong key);
 
 /** Unset existing indexes */
 extern int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index);
-extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index);
+extern int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index);
 extern int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length);
 
 /** Append elements to arrays */
@@ -45,10 +45,10 @@ extern int phalcon_array_update_string_bool(zval **arr, char *index, uint index_
 extern int phalcon_array_update_string_long(zval **arr, char *index, uint index_length, long value, int flags TSRMLS_DC);
 extern int phalcon_array_update_string_string(zval **arr, char *index, uint index_length, char *value, uint value_length, int flags TSRMLS_DC);
 
-extern int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC);
-extern int phalcon_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags TSRMLS_DC);
-extern int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, int flags TSRMLS_DC);
-extern int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, int flags TSRMLS_DC);
+extern int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags TSRMLS_DC);
+extern int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint value_length, int flags TSRMLS_DC);
+extern int phalcon_array_update_long_long(zval **arr, ulong index, long value, int flags TSRMLS_DC);
+extern int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC);
 
 /** Update/Append two dimension arrays */
 extern void phalcon_array_update_multi_2(zval **config, zval *index1, zval *index2, zval **value, int flags TSRMLS_DC);
@@ -66,7 +66,7 @@ extern void phalcon_array_update_zval_string_string_multi_3(zval **arr, zval *in
 /** Fetch items from arrays */
 extern int phalcon_array_fetch(zval **return_value, zval *arr, zval *index, int silent TSRMLS_DC);
 extern int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint index_length, int silent TSRMLS_DC);
-extern int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent TSRMLS_DC);
+extern int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int silent TSRMLS_DC);
 
 /** Merge+Append */
 extern void phalcon_merge_append(zval *left, zval *values TSRMLS_DC);

@@ -19,7 +19,7 @@
 
 /** Fast char position */
 extern int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
-extern int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
+extern int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 extern void phalcon_fast_strlen(zval *return_value, zval *str);

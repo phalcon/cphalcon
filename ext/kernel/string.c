@@ -109,7 +109,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	HashTable      *arr;
 	HashPosition   pos;
 	smart_str      implstr = {0};
-	int            str_len, numelems, i = 0;
+	unsigned int   str_len, numelems, i = 0;
 	zval tmp_val;
 
 	if (Z_TYPE_P(pieces) != IS_ARRAY) {
@@ -198,7 +198,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
  */
 void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str camelize_str = {0};
 	char *marker, ch;
 
@@ -246,7 +246,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
  */
 void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str uncamelize_str = {0};
 	char *marker, ch;
 
@@ -318,7 +318,7 @@ int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC){
+int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -622,7 +622,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 }
 
-zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
+zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, ulong *position, char *cursor, char *marker){
 
 	zval **zv, **tmp;
 	int result = FAILURE;
@@ -701,11 +701,12 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker;
-	unsigned int ch, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned char ch;
 	smart_str route_str = {0};
-	unsigned long position = 1;
+	ulong position = 1;
 	zval *replace, replace_copy;
-	int i, use_copy, looking_placeholder = 0;
+	int use_copy, looking_placeholder = 0;
 
 	if (Z_TYPE_P(pattern) != IS_STRING || Z_TYPE_P(replacements) != IS_ARRAY || Z_TYPE_P(paths) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
@@ -1026,7 +1027,8 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 
 void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
 
-	long i, ch, rand_type;
+	long i, rand_type;
+	unsigned char ch;
 	smart_str random_str = {0};
 
 	if (Z_TYPE_P(type) != IS_LONG) {

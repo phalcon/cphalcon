@@ -40,7 +40,7 @@
 /**
  * Reads class constant from string name and returns its value
  */
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC){
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC){
 
 	zval **result_ptr;
 
@@ -181,7 +181,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
 			return 1;
@@ -216,7 +216,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
  * Lookup exact class where a property is defined
  *
  */
-static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *original_ce;
 
@@ -233,7 +233,7 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 /**
  * Reads a property from an object
  */
-int phalcon_read_property(zval **result, zval *object, char *property_name, int property_length, int silent TSRMLS_DC){
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC){
 
 	zval *property;
 	zend_class_entry *ce, *old_scope;
@@ -289,7 +289,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 /**
  * Returns an object's member
  */
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *property, *result;
 	zend_class_entry *ce, *old_scope;
@@ -391,7 +391,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 /**
  * Checks whether obj is an object and updates property with long value
  */
-int phalcon_update_property_long(zval *object, char *property_name, int property_length, long value TSRMLS_DC){
+int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -412,7 +412,7 @@ int phalcon_update_property_long(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with string value
  */
-int phalcon_update_property_string(zval *object, char *property_name, int property_length, char *str, int str_length TSRMLS_DC){
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC){
 
 	zval *value, *property;
 	zend_class_entry *ce, *old_scope;
@@ -458,7 +458,7 @@ int phalcon_update_property_string(zval *object, char *property_name, int proper
 /**
  * Checks whether obj is an object and updates property with bool value
  */
-int phalcon_update_property_bool(zval *object, char *property_name, int property_length, int value TSRMLS_DC){
+int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -480,7 +480,7 @@ int phalcon_update_property_bool(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with null value
  */
-int phalcon_update_property_null(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -502,7 +502,7 @@ int phalcon_update_property_null(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with another zval
  */
-int phalcon_update_property_zval(zval *object, char *property_name, int property_length, zval *value TSRMLS_DC){
+int phalcon_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
 	zend_class_entry *ce, *old_scope;
 	zval *property;
@@ -762,7 +762,7 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC){
+int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -790,7 +790,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 /**
  * Query a static property value from a zend_class_entry
  */
-int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC){
+int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
@@ -805,7 +805,7 @@ int phalcon_read_static_property(zval **result, char *class_name, int class_leng
 /**
  * Update a static property
  */
-int phalcon_update_static_property(char *class_name, int class_length, char *name, int name_length, zval *value TSRMLS_DC){
+int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
@@ -906,7 +906,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 /**
  * Increments an object property
  */
-int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -932,7 +932,7 @@ int phalcon_property_incr(zval *object, char *property_name, int property_length
 /**
  * Decrements an object property
  */
-int phalcon_property_decr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;

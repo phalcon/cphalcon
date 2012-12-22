@@ -215,13 +215,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		/** 
 		 * Pass the events manager to each new instance
 		 */
-		if (PHALCON_GLOBAL(orm).events) {
-	
-			PHALCON_INIT_NVAR(events_manager);
-			PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
-			if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", events_manager);
-			}
+		PHALCON_INIT_NVAR(events_manager);
+		PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
+		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", events_manager);
 		}
 	}
 	

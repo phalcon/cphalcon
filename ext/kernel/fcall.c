@@ -1260,7 +1260,7 @@ int phalcon_lookup_class_ex(const char *name, int name_length, int use_autoload,
 	zend_fcall_info fcall_info;
 	zend_fcall_info_cache fcall_cache;
 	char dummy = 1;
-	unsigned long hash;
+	ulong hash;
 	ALLOCA_FLAG(use_heap)
 
 	if (name == NULL || !name_length) {
