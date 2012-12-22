@@ -28,7 +28,7 @@ gcc $CFLAGS t.c -o t 2> t.t
 if [ $? != 0 ]; then
 	chmod +x gcccpuopt
 	BFLAGS=`./gcccpuopt`
-	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions $BFLAGS"
+	export CFLAGS="-O2 -fno-delete-null-pointer-checks -finline-functions -fomit-frame-pointer $BFLAGS"
 	gcc $CFLAGS t.c -o t 2> t.t
 	if [ $? != 0 ]; then
 		export CFLAGS="-O2 -fno-delete-null-pointer-checks"
@@ -36,7 +36,19 @@ if [ $? != 0 ]; then
 fi
 rm -f t.t t.c t
 
-#Perform the compilation
-phpize
-./configure --enable-phalcon && make && make install && echo "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+#Check processor architecture
+if [ -z $1 ]; then
+	DIR="32bits"
+	gcc gccarch.c -o gccarch
+	if [ -f gccarch ]; then
+		P64BITS=`./gccarch`
+		if [ "$P64BITS" == "1" ]; then
+			DIR="64bits"
+		fi
+	fi
+else
+	DIR=$1
+fi
 
+#Perform the compilation
+cd $DIR && phpize && ./configure --enable-phalcon && make && make install && echo "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

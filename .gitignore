@@ -353,3 +353,4 @@ ext/mvc/model/relation.lo
 ext/security.lo
 ext/security/.libs/
 ext/security/exception.lo
+build/gccarch
