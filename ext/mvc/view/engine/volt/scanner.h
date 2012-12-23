@@ -123,6 +123,7 @@ typedef struct _phvolt_scanner_state {
 	int active_token;
 	char* start;
 	char* end;
+	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
 	zval *active_file;
