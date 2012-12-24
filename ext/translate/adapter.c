@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(translation);

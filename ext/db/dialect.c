@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}
@@ -508,7 +508,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}

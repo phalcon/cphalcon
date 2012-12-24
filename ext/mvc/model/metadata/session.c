@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 

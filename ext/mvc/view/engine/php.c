@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 
 	if (!must_clean) {
-		PHALCON_INIT_NVAR(must_clean);
+		PHALCON_INIT_VAR(must_clean);
 		ZVAL_BOOL(must_clean, 0);
 	}
 	

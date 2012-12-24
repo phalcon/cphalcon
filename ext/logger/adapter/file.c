@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (phalcon_array_isset_string(options, SS("mode"))) {
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
 	}
 	

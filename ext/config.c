@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 
 	if (!array_config) {
-		PHALCON_INIT_NVAR(array_config);
+		PHALCON_INIT_VAR(array_config);
 	}
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Config, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {

@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_OBS_VAR(translate);

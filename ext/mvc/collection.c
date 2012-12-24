@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -1341,7 +1341,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1424,7 +1424,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -1475,7 +1475,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {

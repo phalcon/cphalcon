@@ -95,15 +95,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	}
 
 	if (!sql_statement) {
-		PHALCON_INIT_NVAR(sql_statement);
+		PHALCON_INIT_VAR(sql_statement);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	if (Z_TYPE_P(result) != IS_OBJECT) {

@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	}
 
 	if (!cache) {
-		PHALCON_INIT_NVAR(cache);
+		PHALCON_INIT_VAR(cache);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);

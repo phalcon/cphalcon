@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(unique_id);

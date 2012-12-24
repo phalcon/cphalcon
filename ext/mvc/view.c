@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	/** 
@@ -1358,7 +1358,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 		ZVAL_BOOL(options, 1);
 	}
 	

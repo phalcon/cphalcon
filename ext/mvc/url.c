@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 	}
 
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	PHALCON_OBS_VAR(base_path);

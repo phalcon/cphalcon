@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	}
 
 	if (!auto_begin) {
-		PHALCON_INIT_NVAR(auto_begin);
+		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 1);
 	}
 	
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	}
 
 	if (!collect) {
-		PHALCON_INIT_NVAR(collect);
+		PHALCON_INIT_VAR(collect);
 		ZVAL_BOOL(collect, 1);
 	}
 	

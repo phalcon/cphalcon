@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
@@ -298,7 +298,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	}
 
 	if (!alias) {
-		PHALCON_INIT_NVAR(alias);
+		PHALCON_INIT_VAR(alias);
 	}
 	
 	PHALCON_OBS_VAR(models);
@@ -361,11 +361,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	}
 
 	if (!conditions) {
-		PHALCON_INIT_NVAR(conditions);
+		PHALCON_INIT_VAR(conditions);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_NVAR(alias);
+		PHALCON_INIT_VAR(alias);
 	}
 	
 	PHALCON_INIT_VAR(join);
@@ -510,7 +510,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	}
 
 	if (!offset) {
-		PHALCON_INIT_NVAR(offset);
+		PHALCON_INIT_VAR(offset);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
 	zval *joined_items = NULL, *having, *order, *order_items;
 	zval *order_item = NULL, *limit, *number, *offset = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *r0 = NULL, *r1 = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -901,17 +901,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 				PHALCON_GET_FOREACH_VALUE(group_item);
 	
-				PHALCON_INIT_NVAR(r0);
-				PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", group_item);
-				if (zend_is_true(r0)) {
+				if (phalcon_is_numeric(group_item)) {
 					phalcon_array_append(&group_items, group_item, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(group_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&group_items, group_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r1);
-						PHALCON_CONCAT_SVS(r1, "[", group_item, "]");
-						phalcon_array_append(&group_items, r1, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(r0);
+						PHALCON_CONCAT_SVS(r0, "[", group_item, "]");
+						phalcon_array_append(&group_items, r0, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	
@@ -922,9 +920,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			phalcon_fast_join_str(joined_items, SL(", "), group_items TSRMLS_CC);
 			PHALCON_SCONCAT_SV(phql, " GROUP BY ", joined_items);
 		} else {
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_1(r2, "is_numeric", group);
-			if (zend_is_true(r2)) {
+			if (phalcon_is_numeric(group)) {
 				PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
 			} else {
 				if (phalcon_memnstr_str(group, SL(".") TSRMLS_CC)) {
@@ -964,17 +960,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 				PHALCON_GET_FOREACH_VALUE(order_item);
 	
-				PHALCON_INIT_NVAR(r3);
-				PHALCON_CALL_FUNC_PARAMS_1(r3, "is_numeric", order_item);
-				if (zend_is_true(r3)) {
+				if (phalcon_is_numeric(order_item)) {
 					phalcon_array_append(&order_items, order_item, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(order_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&order_items, order_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r4);
-						PHALCON_CONCAT_SVS(r4, "[", order_item, "]");
-						phalcon_array_append(&order_items, r4, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(r1);
+						PHALCON_CONCAT_SVS(r1, "[", order_item, "]");
+						phalcon_array_append(&order_items, r1, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	

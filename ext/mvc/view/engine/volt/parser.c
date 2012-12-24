@@ -2287,8 +2287,8 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + strlen(state->start) +  Z_STRLEN_P(state->active_file));
-		if (strlen(state->start) > 16) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);

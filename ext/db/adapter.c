@@ -190,16 +190,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 	}
 
 	if (!fetch_mode) {
-		PHALCON_INIT_NVAR(fetch_mode);
+		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(result);
@@ -257,16 +257,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 	}
 
 	if (!fetch_mode) {
-		PHALCON_INIT_NVAR(fetch_mode);
+		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(results);
@@ -341,11 +341,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	}
 
 	if (!fields) {
-		PHALCON_INIT_NVAR(fields);
+		PHALCON_INIT_VAR(fields);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
@@ -517,11 +517,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	}
 
 	if (!where_condition) {
-		PHALCON_INIT_NVAR(where_condition);
+		PHALCON_INIT_VAR(where_condition);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	PHALCON_INIT_VAR(placeholders);
@@ -685,15 +685,15 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 	}
 
 	if (!where_condition) {
-		PHALCON_INIT_NVAR(where_condition);
+		PHALCON_INIT_VAR(where_condition);
 	}
 	
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -834,7 +834,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(exists);
@@ -960,7 +960,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -1292,7 +1292,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);

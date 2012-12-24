@@ -124,17 +124,17 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
 	
 	if (!manager_service) {
-		PHALCON_INIT_NVAR(manager_service);
+		PHALCON_INIT_VAR(manager_service);
 	}
 	
 	if (!db_service) {
-		PHALCON_INIT_NVAR(db_service);
+		PHALCON_INIT_VAR(db_service);
 	}
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 	}
 
 	if (!force_exists) {
-		PHALCON_INIT_NVAR(force_exists);
+		PHALCON_INIT_VAR(force_exists);
 		ZVAL_BOOL(force_exists, 1);
 	}
 	
@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 	}
 
 	if (!force_exists) {
-		PHALCON_INIT_NVAR(force_exists);
+		PHALCON_INIT_VAR(force_exists);
 		ZVAL_BOOL(force_exists, 1);
 	}
 	
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -739,7 +739,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -831,7 +831,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	}
 
 	if (!table) {
-		PHALCON_INIT_NVAR(table);
+		PHALCON_INIT_VAR(table);
 	} else {
 		PHALCON_SEPARATE_PARAM(table);
 	}
@@ -1241,7 +1241,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -1284,7 +1284,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -1327,7 +1327,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -1370,7 +1370,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -1413,7 +1413,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -2912,7 +2912,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -3097,7 +3097,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -3257,7 +3257,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(meta_data);
@@ -3961,7 +3961,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -4020,7 +4020,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -4079,7 +4079,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -4141,7 +4141,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -4187,7 +4187,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -4362,7 +4362,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
 	

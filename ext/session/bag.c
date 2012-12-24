@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	/** 

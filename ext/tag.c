@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	}
 
 	if (!text) {
-		PHALCON_INIT_NVAR(text);
+		PHALCON_INIT_VAR(text);
 	} else {
 		PHALCON_SEPARATE_PARAM(text);
 	}
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	}
 
 	if (!as_value) {
-		PHALCON_INIT_NVAR(as_value);
+		PHALCON_INIT_VAR(as_value);
 		ZVAL_BOOL(as_value, 0);
 	}
 	
@@ -767,7 +767,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(html);
@@ -801,7 +801,7 @@ PHP_METHOD(Phalcon_Tag, select){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(html);
@@ -943,7 +943,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
@@ -1171,11 +1171,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (!local) {
-		PHALCON_INIT_NVAR(local);
+		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
 		PHALCON_SEPARATE_PARAM(local);
@@ -1300,11 +1300,11 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (!local) {
-		PHALCON_INIT_NVAR(local);
+		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
 		PHALCON_SEPARATE_PARAM(local);
@@ -1410,7 +1410,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
@@ -1494,12 +1494,12 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	}
 
 	if (!separator) {
-		PHALCON_INIT_NVAR(separator);
+		PHALCON_INIT_VAR(separator);
 		ZVAL_STRING(separator, "-", 1);
 	}
 	
 	if (!lowercase) {
-		PHALCON_INIT_NVAR(lowercase);
+		PHALCON_INIT_VAR(lowercase);
 		ZVAL_BOOL(lowercase, 0);
 	}
 	

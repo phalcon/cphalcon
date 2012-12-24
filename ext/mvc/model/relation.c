@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);

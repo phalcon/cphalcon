@@ -86,11 +86,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_NVAR(http_methods);
+		PHALCON_INIT_VAR(http_methods);
 	}
 	
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "reconfigure", pattern, paths);
@@ -247,7 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (Z_TYPE_P(pattern) != IS_STRING) {

@@ -98,11 +98,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 	}
 
 	if (!field) {
-		PHALCON_INIT_NVAR(field);
+		PHALCON_INIT_VAR(field);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);

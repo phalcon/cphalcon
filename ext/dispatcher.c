@@ -343,11 +343,11 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(params);

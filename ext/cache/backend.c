@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(frontend) != IS_OBJECT) {
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	/** 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	}
 
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	

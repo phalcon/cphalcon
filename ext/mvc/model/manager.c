@@ -329,7 +329,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -468,7 +468,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
@@ -1102,26 +1102,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, relation, "gettype");
 	
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+			case 0:
+				PHALCON_INIT_VAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "find", 1);
-			goto ph_end_1;
-		}
+			case 1:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		ph_end_1:
-		if(0){}
+			case 2:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "find", 1);
+				break;
+	
+		}
 	} else {
 		PHALCON_CPY_WRT(retrieve_method, method);
 	}
@@ -1164,7 +1162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
@@ -1233,7 +1231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_many);
@@ -1302,7 +1300,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_one);
@@ -1621,7 +1619,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -1667,7 +1665,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

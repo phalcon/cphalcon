@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 	}
 
 	if (!phql) {
-		PHALCON_INIT_NVAR(phql);
+		PHALCON_INIT_VAR(phql);
 	}
 	
 	if (Z_TYPE_P(phql) != IS_NULL) {
@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	}
 
 	if (!quoting) {
-		PHALCON_INIT_NVAR(quoting);
+		PHALCON_INIT_VAR(quoting);
 		ZVAL_BOOL(quoting, 1);
 	}
 	
@@ -586,347 +586,317 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		PHALCON_OBS_VAR(expr_type);
 		phalcon_array_fetch_string(&expr_type, expr, SL("type"), PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(expr_type, 60 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
+		switch (phalcon_get_intval(expr_type)) {
+	
+			case 60:
+				PHALCON_INIT_VAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 61:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("="), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 62:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(">"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 270:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<>"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 271:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<="), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 272:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(">="), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 266:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("AND"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 267:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("OR"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 355:
+				PHALCON_INIT_NVAR(expr_return);
+				PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getqualified", expr);
+				break;
+	
+			case 43:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("+"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 45:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 42:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("*"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 47:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("/"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 37:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("%"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 356:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("parentheses"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 367:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 258:
+				PHALCON_OBS_VAR(expr_value);
+				phalcon_array_fetch_string(&expr_value, expr, SL("value"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 259:
+				PHALCON_OBS_NVAR(expr_value);
+				phalcon_array_fetch_string(&expr_value, expr, SL("value"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 260:
+				PHALCON_OBS_VAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
+				if (PHALCON_IS_TRUE(quoting)) {
+					PHALCON_INIT_VAR(escaped_value);
+					PHALCON_CALL_FUNC_PARAMS_1(escaped_value, "addslashes", value);
+	
+					PHALCON_INIT_NVAR(expr_value);
+					PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
+				} else {
+					PHALCON_CPY_WRT(expr_value, value);
+				}
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 273:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(question_mark);
+				ZVAL_STRING(question_mark, "?", 1);
+	
+				PHALCON_INIT_VAR(double_colon);
+				ZVAL_STRING(double_colon, ":", 1);
+	
+				PHALCON_INIT_VAR(placeholder);
+				phalcon_fast_str_replace(placeholder, question_mark, double_colon, value TSRMLS_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 274:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(placeholder);
+				PHALCON_CONCAT_SV(placeholder, ":", value);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
+				phalcon_array_update_string(&expr_return, SL("value"), &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 322:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("NULL"), 1);
+				break;
+	
+			case 268:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("LIKE"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 351:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT LIKE"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 33:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT "), 1);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 365:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NULL"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 366:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NOT NULL"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 315:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("IN"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 323:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT IN"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 330:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("DISTINCT "), 1);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 331:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("BETWEEN"), 1);
+				phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 350:
+				PHALCON_INIT_NVAR(expr_return);
+				PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getfunctioncall", expr);
+				break;
+	
+			default:
+				PHALCON_INIT_VAR(expression_message);
+				PHALCON_CONCAT_SV(expression_message, "Unknown expression type ", expr_type);
+	
+				PHALCON_INIT_VAR(expression);
+				object_init_ex(expression, phalcon_mvc_model_exception_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(expression, "__construct", expression_message);
+	
+				phalcon_throw_exception(expression TSRMLS_CC);
+				return;
+	
 		}
-	
-		if (phalcon_compare_strict_long(expr_type, 61 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("="), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 62 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(">"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 270 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<>"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 271 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<="), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 272 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(">="), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 266 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("AND"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 267 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("OR"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 355 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getqualified", expr);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 43 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("+"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 45 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 42 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("*"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 47 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("/"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 37 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("%"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 356 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("parentheses"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 367 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 258 TSRMLS_CC)) {
-			PHALCON_OBS_VAR(expr_value);
-			phalcon_array_fetch_string(&expr_value, expr, SL("value"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 259 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(expr_value);
-			phalcon_array_fetch_string(&expr_value, expr, SL("value"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 260 TSRMLS_CC)) {
-	
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
-			if (PHALCON_IS_TRUE(quoting)) {
-				PHALCON_INIT_VAR(escaped_value);
-				PHALCON_CALL_FUNC_PARAMS_1(escaped_value, "addslashes", value);
-	
-				PHALCON_INIT_NVAR(expr_value);
-				PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
-			} else {
-				PHALCON_CPY_WRT(expr_value, value);
-			}
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_string(&expr_return, SL("value"), &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 273 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(question_mark);
-			ZVAL_STRING(question_mark, "?", 1);
-	
-			PHALCON_INIT_VAR(double_colon);
-			ZVAL_STRING(double_colon, ":", 1);
-	
-			PHALCON_INIT_VAR(placeholder);
-			phalcon_fast_str_replace(placeholder, question_mark, double_colon, value TSRMLS_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
-			phalcon_array_update_string(&expr_return, SL("value"), &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 274 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(placeholder);
-			PHALCON_CONCAT_SV(placeholder, ":", value);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
-			phalcon_array_update_string(&expr_return, SL("value"), &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 322 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			add_assoc_stringl_ex(expr_return, SS("value"), SL("NULL"), 1);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 268 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("LIKE"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 351 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT LIKE"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 33 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT "), 1);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 365 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NULL"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 366 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NOT NULL"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 315 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("IN"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 323 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT IN"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 330 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("DISTINCT "), 1);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 331 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("BETWEEN"), 1);
-			phalcon_array_update_string(&expr_return, SL("left"), &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_string(&expr_return, SL("right"), &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 350 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			PHALCON_CALL_METHOD_PARAMS_1(expr_return, this_ptr, "_getfunctioncall", expr);
-			goto ph_end_0;
-		}
-	
-		PHALCON_INIT_VAR(expression_message);
-		PHALCON_CONCAT_SV(expression_message, "Unknown expression type ", expr_type);
-	
-		PHALCON_INIT_VAR(expression);
-		object_init_ex(expression, phalcon_mvc_model_exception_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(expression, "__construct", expression_message);
-	
-		phalcon_throw_exception(expression TSRMLS_CC);
-		return;
-	
-		ph_end_0:
 	
 		RETURN_CCTOR(expr_return);
 	}
@@ -1292,42 +1262,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, join, SL("type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 360 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(join_type);
-		ZVAL_STRING(join_type, "INNER", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 360:
+			PHALCON_INIT_VAR(join_type);
+			ZVAL_STRING(join_type, "INNER", 1);
+			break;
+	
+		case 361:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "LEFT", 1);
+			break;
+	
+		case 362:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "RIGHT", 1);
+			break;
+	
+		case 363:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "CROSS", 1);
+			break;
+	
+		case 364:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "FULL OUTER", 1);
+			break;
+	
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 361 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "LEFT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 362 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "RIGHT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 363 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "CROSS", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 364 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "FULL OUTER", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(join_type);
 }
@@ -2866,36 +2834,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 			phalcon_array_fetch_string(&type, ast, SL("type"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
 	
-			if (phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareselect");
-				goto ph_end_0;
+			switch (phalcon_get_intval(type)) {
+	
+				case 309:
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareselect");
+					break;
+	
+				case 306:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareinsert");
+					break;
+	
+				case 300:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareupdate");
+					break;
+	
+				case 303:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_preparedelete");
+					break;
+	
+				default:
+					PHALCON_INIT_VAR(exception_message);
+					PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+	
 			}
-	
-			if (phalcon_compare_strict_long(type, 306 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareinsert");
-				goto ph_end_0;
-			}
-	
-			if (phalcon_compare_strict_long(type, 300 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareupdate");
-				goto ph_end_0;
-			}
-	
-			if (phalcon_compare_strict_long(type, 303 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_preparedelete");
-				goto ph_end_0;
-			}
-	
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-			return;
-	
-			ph_end_0:
-			if(0){}
 		}
 	}
 	
@@ -3542,87 +3508,84 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 		PHALCON_OBS_NVAR(expr_value);
 		phalcon_array_fetch_string(&expr_value, value, SL("value"), PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 260 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+			case 260:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 259 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+			case 258:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 322 TSRMLS_CC)) {
-			PHALCON_CPY_WRT(insert_value, null_value);
-			goto ph_end_1;
-		}
+			case 259:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1(insert_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			case 322:
+				PHALCON_CPY_WRT(insert_value, null_value);
+				break;
 	
+			case 273:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(insert_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(insert_expr, dialect, "getsqlexpression", expr_value);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(insert_value);
+						phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			case 274:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(insert_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(insert_expr, dialect, "getsqlexpression", expr_value);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(insert_value);
+						phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			default:
 				PHALCON_INIT_NVAR(insert_expr);
 				PHALCON_CALL_METHOD_PARAMS_1(insert_expr, dialect, "getsqlexpression", expr_value);
 	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
+				PHALCON_INIT_NVAR(insert_value);
+				object_init_ex(insert_value, phalcon_db_rawvalue_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(insert_value, "__construct", insert_expr);
+	
+				break;
+	
 		}
-	
-		if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
-				PHALCON_INIT_NVAR(insert_expr);
-				PHALCON_CALL_METHOD_PARAMS_1(insert_expr, dialect, "getsqlexpression", expr_value);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
-		}
-	
-		PHALCON_INIT_NVAR(insert_expr);
-		PHALCON_CALL_METHOD_PARAMS_1(insert_expr, dialect, "getsqlexpression", expr_value);
-	
-		PHALCON_INIT_NVAR(insert_value);
-		object_init_ex(insert_value, phalcon_db_rawvalue_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(insert_value, "__construct", insert_expr);
-	
-		goto ph_end_1;
-	
-		ph_end_1:
 	
 		PHALCON_OBS_NVAR(field_name);
 		phalcon_array_fetch(&field_name, fields, number, PH_NOISY_CC);
@@ -3894,95 +3857,92 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		PHALCON_OBS_NVAR(expr_value);
 		phalcon_array_fetch_string(&expr_value, value, SL("value"), PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 260 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+			case 260:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 259 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
-			goto ph_end_1;
-		}
+			case 258:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 322 TSRMLS_CC)) {
-			PHALCON_CPY_WRT(update_value, null_value);
-			goto ph_end_1;
-		}
+			case 259:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1(update_value, dialect, "getsqlexpression", expr_value);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			case 322:
+				PHALCON_CPY_WRT(update_value, null_value);
+				break;
 	
+			case 273:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(update_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(update_expr, dialect, "getsqlexpression", expr_value);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(update_value);
+						phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
+						PHALCON_SEPARATE(select_bind_params);
+						phalcon_array_unset(select_bind_params, wildcard);
+						PHALCON_SEPARATE(select_bind_types);
+						phalcon_array_unset(select_bind_types, wildcard);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			case 274:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(update_expr);
+					PHALCON_CALL_METHOD_PARAMS_1(update_expr, dialect, "getsqlexpression", expr_value);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(update_value);
+						phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
+						PHALCON_SEPARATE(select_bind_params);
+						phalcon_array_unset(select_bind_params, wildcard);
+						PHALCON_SEPARATE(select_bind_types);
+						phalcon_array_unset(select_bind_types, wildcard);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			default:
 				PHALCON_INIT_NVAR(update_expr);
 				PHALCON_CALL_METHOD_PARAMS_1(update_expr, dialect, "getsqlexpression", expr_value);
 	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(update_value);
-					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
+				PHALCON_INIT_NVAR(update_value);
+				object_init_ex(update_value, phalcon_db_rawvalue_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(update_value, "__construct", update_expr);
+	
+				break;
+	
 		}
-	
-		if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
-				PHALCON_INIT_NVAR(update_expr);
-				PHALCON_CALL_METHOD_PARAMS_1(update_expr, dialect, "getsqlexpression", expr_value);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(update_value);
-					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
-		}
-	
-		PHALCON_INIT_NVAR(update_expr);
-		PHALCON_CALL_METHOD_PARAMS_1(update_expr, dialect, "getsqlexpression", expr_value);
-	
-		PHALCON_INIT_NVAR(update_value);
-		object_init_ex(update_value, phalcon_db_rawvalue_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(update_value, "__construct", update_expr);
-	
-		goto ph_end_1;
-	
-		ph_end_1:
 		phalcon_array_update_zval(&update_values, field_name, &update_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -4184,11 +4144,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_OBS_VAR(cache_options);
@@ -4270,36 +4230,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 309:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types);
+			break;
+	
+		case 306:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeinsert", intermediate, bind_params, bind_types);
+			break;
+	
+		case 300:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeupdate", intermediate, bind_params, bind_types);
+			break;
+	
+		case 303:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executedelete", intermediate, bind_params, bind_types);
+			break;
+	
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 306 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeinsert", intermediate, bind_params, bind_types);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 300 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executeupdate", intermediate, bind_params, bind_types);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 303 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3(result, this_ptr, "_executedelete", intermediate, bind_params, bind_types);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-	return;
-	
-	ph_end_0:
 	
 	/** 
 	 * We store the resultset in the cache if any

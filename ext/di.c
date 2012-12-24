@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_DI, set){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -382,7 +382,7 @@ PHP_METHOD(Phalcon_DI, get){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 	}
 	
 	/** 

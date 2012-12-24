@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	}
 
 	if (!exception_code) {
-		PHALCON_INIT_NVAR(exception_code);
+		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	}
 	
