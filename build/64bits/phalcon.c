@@ -206,10 +206,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define PHQL_T_MINUS 367
 
 /* list of tokens and their names */
-typedef struct _phql_token_names
-{
+typedef struct _phql_token_names {
 	unsigned int code;
 	char *name;
+	unsigned int length;
 } phql_token_names;
 
 /* active token state */
@@ -217,13 +217,14 @@ typedef struct _phql_scanner_state {
 	int active_token;
 	char* start;
 	char* end;
+	unsigned int start_length;
 } phql_scanner_state;
 
 /* extra information tokens */
 typedef struct _phql_scanner_token {
 	int opcode;
 	char *value;
-	int len;
+	unsigned int len;
 } phql_scanner_token;
 
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token);
@@ -236,7 +237,7 @@ const phql_token_names phql_tokens[];
 typedef struct _phql_parser_token {
 	int opcode;
 	char *token;
-	int token_len;
+	unsigned int token_len;
 	int free_flag;
 } phql_parser_token;
 
@@ -244,6 +245,7 @@ typedef struct _phql_parser_status {
 	int status;
 	zval *ret;
 	phql_scanner_state *scanner_state;
+	phql_scanner_token *token;
 	char *syntax_error;
 	zend_uint syntax_error_len;
 } phql_parser_status;
@@ -252,7 +254,7 @@ typedef struct _phql_parser_status {
 #define PHQL_PARSING_FAILED 0
 
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC);
-int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC);
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC);
 
 
 #define PHVOLT_COMMA                           1
@@ -420,6 +422,7 @@ typedef struct _phvolt_scanner_state {
 	int active_token;
 	char* start;
 	char* end;
+	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
 	zval *active_file;
@@ -1127,6 +1130,7 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 
 /** Updating array properties */
 int phalcon_update_property_array(zval *object, char *property, unsigned int property_length, zval *index, zval *value TSRMLS_DC);
+int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC);
 int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC);
 
 /** Increment/Decrement properties */
@@ -1223,7 +1227,8 @@ int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 void phalcon_cast(zval *result, zval *var, zend_uint type);
-
+long phalcon_get_intval(zval *op);
+int phalcon_is_numeric(zval *op);
 
 
 
@@ -4503,6 +4508,52 @@ int phalcon_update_property_array(zval *object, char *property, unsigned int pro
 	return SUCCESS;
 }
 
+int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			Z_DELREF_P(tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			separated = 1;
+		}
+
+		/** Convert the value to array if not is an array */
+		if (Z_TYPE_P(tmp) != IS_ARRAY) {
+			if (separated) {
+				convert_to_array(tmp);
+			} else {
+				zval_ptr_dtor(&tmp);
+				ALLOC_INIT_ZVAL(tmp);
+				array_init(tmp);
+				separated = 1;
+			}
+		}
+
+		Z_ADDREF_P(value);
+
+		zend_hash_update(Z_ARRVAL_P(tmp), index, index_length, &value, sizeof(zval *), NULL);
+
+		if (separated) {
+			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+		}
+
+		zval_ptr_dtor(&tmp);
+	}
+
+	return SUCCESS;
+}
+
 int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC) {
 
 	zval *tmp;
@@ -6238,6 +6289,58 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 			break;
 	}
 
+}
+
+long phalcon_get_intval(zval *op) {
+
+	int type;
+	long long_value;
+	double double_value;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return Z_LVAL_P(op);
+		case IS_BOOL:
+			return Z_BVAL_P(op);
+		case IS_DOUBLE:
+			return (long) Z_DVAL_P(op);
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))){
+				if (type == IS_LONG) {
+					return long_value;
+				} else {
+					if (type == IS_DOUBLE) {
+						return double_value;
+					} else {
+						return 0;
+					}
+				}
+			}
+	}
+
+	return 0;
+}
+
+int phalcon_is_numeric(zval *op) {
+
+	int type;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return 1;
+		case IS_BOOL:
+			return 0;
+		case IS_DOUBLE:
+			return 1;
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))){
+				if (type == IS_LONG || type == IS_DOUBLE) {
+					return 1;
+				}
+			}
+	}
+
+	return 0;
 }
 
 
@@ -8753,7 +8856,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	}
 
 	if (!access_inherits) {
-		PHALCON_INIT_NVAR(access_inherits);
+		PHALCON_INIT_VAR(access_inherits);
 	}
 	
 	if (Z_TYPE_P(role) == IS_OBJECT) {
@@ -8899,7 +9002,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	}
 
 	if (!access_list) {
-		PHALCON_INIT_NVAR(access_list);
+		PHALCON_INIT_VAR(access_list);
 	}
 	
 	if (Z_TYPE_P(resource) == IS_OBJECT) {
@@ -9738,7 +9841,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 	}
 
 	if (!description) {
-		PHALCON_INIT_NVAR(description);
+		PHALCON_INIT_VAR(description);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {
@@ -9827,7 +9930,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 	}
 
 	if (!description) {
-		PHALCON_INIT_NVAR(description);
+		PHALCON_INIT_VAR(description);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {
@@ -9936,7 +10039,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, get){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(frontend);
@@ -9974,19 +10077,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, save){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_NVAR(content);
+		PHALCON_INIT_VAR(content);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -10075,7 +10178,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, queryKeys){
 	}
 
 	if (!prefix) {
-		PHALCON_INIT_NVAR(prefix);
+		PHALCON_INIT_VAR(prefix);
 		ZVAL_STRING(prefix, "", 1);
 	}
 	
@@ -10125,11 +10228,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, exists){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
@@ -10187,7 +10290,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (phalcon_array_isset_quick_string(options, SS("cacheDir"), 249883698056833368UL)) {
@@ -10217,7 +10320,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(options);
@@ -10296,19 +10399,19 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_NVAR(content);
+		PHALCON_INIT_VAR(content);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -10424,7 +10527,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	}
 
 	if (!prefix) {
-		PHALCON_INIT_NVAR(prefix);
+		PHALCON_INIT_VAR(prefix);
 	}
 	
 	PHALCON_INIT_VAR(keys);
@@ -10491,11 +10594,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
@@ -10587,7 +10690,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	} else {
 		PHALCON_SEPARATE_PARAM(options);
 	}
@@ -10674,7 +10777,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, get){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(memcache);
@@ -10722,19 +10825,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_NVAR(content);
+		PHALCON_INIT_VAR(content);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -10889,7 +10992,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	}
 
 	if (!prefix) {
-		PHALCON_INIT_NVAR(prefix);
+		PHALCON_INIT_VAR(prefix);
 	}
 	
 	PHALCON_OBS_VAR(memcache);
@@ -10959,11 +11062,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
@@ -11055,7 +11158,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (!phalcon_array_isset_quick_string(options, SS("mongo"), 6953790605157UL)) {
@@ -11158,7 +11261,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(frontend);
@@ -11238,19 +11341,19 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_NVAR(content);
+		PHALCON_INIT_VAR(content);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -11376,7 +11479,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 	}
 
 	if (!prefix) {
-		PHALCON_INIT_NVAR(prefix);
+		PHALCON_INIT_VAR(prefix);
 	}
 	
 	PHALCON_INIT_VAR(collection);
@@ -11451,11 +11554,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, exists){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {
@@ -11528,7 +11631,7 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(frontend) != IS_OBJECT) {
@@ -11560,7 +11663,7 @@ PHP_METHOD(Phalcon_Cache_Backend, start){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_INIT_VAR(existing_cache);
@@ -11594,7 +11697,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	}
 
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -11735,7 +11838,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Base64, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -11852,7 +11955,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -11966,7 +12069,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	
@@ -12061,7 +12164,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -12344,7 +12447,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
 	
@@ -12576,7 +12679,7 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	}
 
 	if (!exception_code) {
-		PHALCON_INIT_NVAR(exception_code);
+		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	}
 	
@@ -13079,7 +13182,7 @@ PHP_METHOD(Phalcon_Config, __construct){
 	}
 
 	if (!array_config) {
-		PHALCON_INIT_NVAR(array_config);
+		PHALCON_INIT_VAR(array_config);
 	}
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
@@ -13148,7 +13251,7 @@ PHP_METHOD(Phalcon_Config, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
@@ -13421,7 +13524,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(columns);
@@ -13604,7 +13707,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect){
 	}
 
 	if (!descriptor) {
-		PHALCON_INIT_NVAR(descriptor);
+		PHALCON_INIT_VAR(descriptor);
 	} else {
 		PHALCON_SEPARATE_PARAM(descriptor);
 	}
@@ -13649,7 +13752,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(columns);
@@ -13849,7 +13952,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, connect){
 	}
 
 	if (!descriptor) {
-		PHALCON_INIT_NVAR(descriptor);
+		PHALCON_INIT_VAR(descriptor);
 	} else {
 		PHALCON_SEPARATE_PARAM(descriptor);
 	}
@@ -13889,7 +13992,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(columns);
@@ -14061,7 +14164,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -14176,7 +14279,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -14507,11 +14610,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_OBS_VAR(events_manager);
@@ -14581,11 +14684,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_OBS_VAR(events_manager);
@@ -14892,7 +14995,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 	}
 
 	if (!sequence_name) {
-		PHALCON_INIT_NVAR(sequence_name);
+		PHALCON_INIT_VAR(sequence_name);
 	}
 	
 	PHALCON_OBS_VAR(pdo);
@@ -14998,7 +15101,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -15093,7 +15196,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -15213,7 +15316,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, tableOptions){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -15372,16 +15475,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchOne){
 	}
 
 	if (!fetch_mode) {
-		PHALCON_INIT_NVAR(fetch_mode);
+		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(result);
@@ -15416,16 +15519,16 @@ PHP_METHOD(Phalcon_Db_Adapter, fetchAll){
 	}
 
 	if (!fetch_mode) {
-		PHALCON_INIT_NVAR(fetch_mode);
+		PHALCON_INIT_VAR(fetch_mode);
 		ZVAL_LONG(fetch_mode, 2);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_INIT_VAR(results);
@@ -15479,11 +15582,11 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	}
 
 	if (!fields) {
-		PHALCON_INIT_NVAR(fields);
+		PHALCON_INIT_VAR(fields);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	if (Z_TYPE_P(values) != IS_ARRAY) { 
@@ -15625,11 +15728,11 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	}
 
 	if (!where_condition) {
-		PHALCON_INIT_NVAR(where_condition);
+		PHALCON_INIT_VAR(where_condition);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	PHALCON_INIT_VAR(placeholders);
@@ -15763,15 +15866,15 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 	}
 
 	if (!where_condition) {
-		PHALCON_INIT_NVAR(where_condition);
+		PHALCON_INIT_VAR(where_condition);
 	}
 	
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	if (!data_types) {
-		PHALCON_INIT_NVAR(data_types);
+		PHALCON_INIT_VAR(data_types);
 	}
 	
 	if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -15842,7 +15945,7 @@ PHP_METHOD(Phalcon_Db_Adapter, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -15873,7 +15976,7 @@ PHP_METHOD(Phalcon_Db_Adapter, viewExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(exists);
@@ -15971,7 +16074,7 @@ PHP_METHOD(Phalcon_Db_Adapter, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -16216,7 +16319,7 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -16775,96 +16878,88 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(column_type, column, "gettype");
 	
-	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
+	switch (phalcon_get_intval(column_type)) {
 	
-		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
+		case 0:
+			PHALCON_INIT_VAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
 	
-		PHALCON_INIT_VAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
-	
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
-	
-		PHALCON_INIT_VAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-	
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", scale, ")");
-	
-		PHALCON_INIT_NVAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
-	
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATETIME", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHAR(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TEXT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-	
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "FLOAT", 1);
-	
-		PHALCON_INIT_NVAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-		if (zend_is_true(size)) {
-			PHALCON_SCONCAT_SV(column_sql, "(", size);
-			if (zend_is_true(scale)) {
-				PHALCON_SCONCAT_SVS(column_sql, ",", scale, ")");
-			} else {
-				phalcon_concat_self_str(&column_sql, SL(")") TSRMLS_CC);
+			PHALCON_INIT_VAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
 			}
-		}
 	
-		PHALCON_INIT_NVAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
+			break;
 	
-		goto ph_end_0;
+		case 1:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATE", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
+			break;
+	
+		case 3:
+			PHALCON_INIT_VAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+	
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", scale, ")");
+	
+			PHALCON_INIT_NVAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
+			}
+	
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATETIME", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "CHAR(", size, ")");
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TEXT", 1);
+			break;
+	
+		case 7:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "FLOAT", 1);
+	
+			PHALCON_INIT_NVAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+			if (zend_is_true(size)) {
+				PHALCON_SCONCAT_SV(column_sql, "(", size);
+				if (zend_is_true(scale)) {
+					PHALCON_SCONCAT_SVS(column_sql, ",", scale, ")");
+				} else {
+					phalcon_concat_self_str(&column_sql, SL(")") TSRMLS_CC);
+				}
+			}
+	
+			PHALCON_INIT_NVAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
+			}
+	
+			break;
+	
+		default:
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type");
+			return;
+	
 	}
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type");
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(column_sql);
 }
@@ -17456,7 +17551,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -17490,7 +17585,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -17515,7 +17610,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
@@ -17540,7 +17635,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -17565,7 +17660,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
@@ -17590,7 +17685,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -17616,7 +17711,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -17677,61 +17772,56 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(column_type, column, "gettype");
 	
-	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
-		ZVAL_STRING(column_sql, "INT", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(column_type)) {
+	
+		case 0:
+			PHALCON_INIT_VAR(column_sql);
+			ZVAL_STRING(column_sql, "INT", 1);
+			break;
+	
+		case 1:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATE", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
+			break;
+	
+		case 3:
+			PHALCON_INIT_VAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+	
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TIMESTAMP", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TEXT", 1);
+			break;
+	
+		case 7:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "FLOAT", 1);
+			break;
+	
+		default:
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHARACTER VARYING(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-	
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TEXT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "FLOAT", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized PostgreSQL data type");
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(column_sql);
 }
@@ -17903,7 +17993,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -17936,7 +18026,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -17961,7 +18051,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
@@ -17986,7 +18076,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -18011,7 +18101,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18030,7 +18120,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18056,7 +18146,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -18109,61 +18199,56 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(column_type, column, "gettype");
 	
-	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(column_sql);
-		ZVAL_STRING(column_sql, "INT", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(column_type)) {
+	
+		case 0:
+			PHALCON_INIT_VAR(column_sql);
+			ZVAL_STRING(column_sql, "INT", 1);
+			break;
+	
+		case 1:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATE", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
+			break;
+	
+		case 3:
+			PHALCON_INIT_VAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+	
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TIMESTAMP", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TEXT", 1);
+			break;
+	
+		case 7:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "FLOAT", 1);
+			break;
+	
+		default:
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Sqlite data type");
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-	
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "NUMERIC(", size, ",", scale, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TIMESTAMP", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHARACTER(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TEXT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "FLOAT", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized Sqlite data type");
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(column_sql);
 }
@@ -18335,7 +18420,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -18368,7 +18453,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18387,7 +18472,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18406,7 +18491,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18425,7 +18510,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18459,7 +18544,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -18478,7 +18563,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -18615,7 +18700,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
 	zval *arguments_joined, *function_expression = NULL;
 	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
-	zval *list_expression, *exception_message;
+	zval *list_expression, *group_expression;
+	zval *exception_message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -18627,7 +18713,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}
@@ -18830,7 +18916,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		PHALCON_INIT_VAR(list_expression);
 		phalcon_fast_join_str(list_expression, SL(", "), sql_items TSRMLS_CC);
 	
-		RETURN_CTOR(list_expression);
+		PHALCON_INIT_VAR(group_expression);
+		PHALCON_CONCAT_SVS(group_expression, "(", list_expression, ")");
+	
+		RETURN_CTOR(group_expression);
 	}
 	
 	if (PHALCON_COMPARE_STRING(type, "all")) {
@@ -18857,7 +18946,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}
@@ -19980,15 +20069,15 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct){
 	}
 
 	if (!sql_statement) {
-		PHALCON_INIT_NVAR(sql_statement);
+		PHALCON_INIT_VAR(sql_statement);
 	}
 	
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	if (Z_TYPE_P(result) != IS_OBJECT) {
@@ -20898,7 +20987,7 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -20976,7 +21065,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(shared);
@@ -21210,7 +21299,7 @@ PHP_METHOD(Phalcon_DI, set){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -21290,7 +21379,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -21410,7 +21499,7 @@ PHP_METHOD(Phalcon_DI, get){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -21475,7 +21564,7 @@ PHP_METHOD(Phalcon_DI, getShared){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -21546,7 +21635,7 @@ PHP_METHOD(Phalcon_DI, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 	}
 	
 	if (phalcon_start_with_str(method, SL("get"))) {
@@ -21877,11 +21966,11 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(params);
@@ -22645,11 +22734,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_NVAR(cancelable);
+		PHALCON_INIT_VAR(cancelable);
 		ZVAL_BOOL(cancelable, 1);
 	}
 	
@@ -22860,7 +22949,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	PHALCON_OBS_VAR(events);
@@ -22896,11 +22985,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_NVAR(cancelable);
+		PHALCON_INIT_VAR(cancelable);
 		ZVAL_BOOL(cancelable, 1);
 	}
 	
@@ -23670,11 +23759,11 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	if (!remove) {
-		PHALCON_INIT_NVAR(remove);
+		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
 	}
 	
@@ -23716,7 +23805,7 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	}
 
 	if (!remove) {
-		PHALCON_INIT_NVAR(remove);
+		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
 	}
 	
@@ -23781,7 +23870,7 @@ PHP_METHOD(Phalcon_Flash, __construct){
 	}
 
 	if (!css_classes) {
-		PHALCON_INIT_NVAR(css_classes);
+		PHALCON_INIT_VAR(css_classes);
 	} else {
 		PHALCON_SEPARATE_PARAM(css_classes);
 	}
@@ -24098,16 +24187,16 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 	}
 
 	if (!value) {
-		PHALCON_INIT_NVAR(value);
+		PHALCON_INIT_VAR(value);
 	}
 	
 	if (!expire) {
-		PHALCON_INIT_NVAR(expire);
+		PHALCON_INIT_VAR(expire);
 		ZVAL_LONG(expire, 0);
 	}
 	
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -24172,11 +24261,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(readed);
@@ -24474,11 +24563,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
@@ -24532,11 +24621,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
@@ -24590,11 +24679,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
@@ -24983,7 +25072,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	}
 
 	if (!trust_forwarded_header) {
-		PHALCON_INIT_NVAR(trust_forwarded_header);
+		PHALCON_INIT_VAR(trust_forwarded_header);
 		ZVAL_BOOL(trust_forwarded_header, 0);
 	}
 	
@@ -25651,16 +25740,16 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	}
 
 	if (!value) {
-		PHALCON_INIT_NVAR(value);
+		PHALCON_INIT_VAR(value);
 	}
 	
 	if (!expire) {
-		PHALCON_INIT_NVAR(expire);
+		PHALCON_INIT_VAR(expire);
 		ZVAL_LONG(expire, 0);
 	}
 	
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -26237,7 +26326,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	}
 
 	if (!charset) {
-		PHALCON_INIT_NVAR(charset);
+		PHALCON_INIT_VAR(charset);
 	}
 	
 	PHALCON_INIT_VAR(headers);
@@ -26270,16 +26359,16 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	}
 
 	if (!location) {
-		PHALCON_INIT_NVAR(location);
+		PHALCON_INIT_VAR(location);
 	}
 	
 	if (!external_redirect) {
-		PHALCON_INIT_NVAR(external_redirect);
+		PHALCON_INIT_VAR(external_redirect);
 		ZVAL_BOOL(external_redirect, 0);
 	}
 	
 	if (!status_code) {
-		PHALCON_INIT_NVAR(status_code);
+		PHALCON_INIT_VAR(status_code);
 		ZVAL_LONG(status_code, 302);
 	}
 	
@@ -26621,7 +26710,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -26661,7 +26750,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -26702,7 +26791,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -26742,7 +26831,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -27156,7 +27245,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (phalcon_array_isset_quick_string(options, SS("mode"), 210720916362UL)) {
@@ -27200,7 +27289,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
 	}
 	
@@ -27425,7 +27514,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, _applyFormat){
 	}
 
 	if (!time) {
-		PHALCON_INIT_NVAR(time);
+		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
 	} else {
 		PHALCON_SEPARATE_PARAM(time);
@@ -27498,70 +27587,63 @@ PHP_METHOD(Phalcon_Logger_Adapter, getTypeString){
 	}
 
 	
-	if (phalcon_compare_strict_long(type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type_str);
-		ZVAL_STRING(type_str, "DEBUG", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 7:
+			PHALCON_INIT_VAR(type_str);
+			ZVAL_STRING(type_str, "DEBUG", 1);
+			break;
+	
+		case 3:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "ERROR", 1);
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "WARNING", 1);
+			break;
+	
+		case 1:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CRITICAL", 1);
+			break;
+	
+		case 8:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CUSTOM", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "ALERT", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "NOTICE", 1);
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "INFO", 1);
+			break;
+	
+		case 0:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "EMERGENCE", 1);
+			break;
+	
+		case 9:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "SPECIAL", 1);
+			break;
+	
+		default:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CUSTOM", 1);
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ERROR", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "WARNING", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CRITICAL", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 8 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CUSTOM", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ALERT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "NOTICE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "INFO", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "EMERGENCE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 9 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "SPECIAL", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_NVAR(type_str);
-	ZVAL_STRING(type_str, "CUSTOM", 1);
-	
-	ph_end_0:
 	RETURN_CTOR(type_str);
 }
 
@@ -27767,7 +27849,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 	}
 
 	if (!time) {
-		PHALCON_INIT_NVAR(time);
+		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
 	}
 	
@@ -27879,7 +27961,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -27925,7 +28007,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -28242,7 +28324,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -29215,7 +29297,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -29260,7 +29342,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -29305,7 +29387,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_NULL) {
@@ -29604,7 +29686,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	}
 
 	if (!exception_code) {
-		PHALCON_INIT_NVAR(exception_code);
+		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	} else {
 		PHALCON_SEPARATE_PARAM(exception_code);
@@ -30045,7 +30127,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -30247,7 +30329,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 
 	zval *dependency_injector;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30259,10 +30340,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Dependency Injector is invalid");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "di", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, dependency_injector TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("di"), dependency_injector TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -30317,7 +30395,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 
 	zval *bind_params;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30329,10 +30406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bind parameters must be an Array");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "bind", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, bind_params TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("bind"), bind_params TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -30340,7 +30414,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 
 	zval *conditions;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30352,10 +30425,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "conditions", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, conditions TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -30363,7 +30433,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
 	zval *conditions;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30375,10 +30444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "conditions", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, conditions TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -30386,7 +30452,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 
 	zval *order_columns;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30398,10 +30463,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Order columns must be string");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "order", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, order_columns TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("order"), order_columns TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -30409,8 +30471,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 
 	zval *limit, *offset = NULL, *limit_clause;
-	zval *r0 = NULL;
-	zval *t0 = NULL, *t1 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30419,28 +30479,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	}
 
 	if (!offset) {
-		PHALCON_INIT_NVAR(offset);
+		PHALCON_INIT_VAR(offset);
 	}
 	
-	PHALCON_INIT_VAR(r0);
-	PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", limit);
-	if (!zend_is_true(r0)) {
+	if (!phalcon_is_numeric(limit)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Rows limit parameter must be integer");
 		return;
 	}
 	if (Z_TYPE_P(offset) == IS_NULL) {
-		PHALCON_INIT_VAR(t0);
-		ZVAL_STRING(t0, "limit", 1);
-		phalcon_update_property_array(this_ptr, SL("_params"), t0, limit TSRMLS_CC);
+		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(limit_clause);
 		array_init_size(limit_clause, 2);
 		phalcon_array_update_quick_string(&limit_clause, SS("number"), 229476614877774UL, &limit, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		phalcon_array_update_quick_string(&limit_clause, SS("offset"), 229477311624396UL, &offset, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(t1);
-		ZVAL_STRING(t1, "limit", 1);
-		phalcon_update_property_array(this_ptr, SL("_params"), t1, limit_clause TSRMLS_CC);
+		phalcon_update_property_array_string(this_ptr, SL("_params"), SS("limit"), limit_clause TSRMLS_CC);
 	}
 	
 	
@@ -30450,7 +30503,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 
 	zval *for_update = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30459,20 +30511,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 	}
 
 	if (!for_update) {
-		PHALCON_INIT_NVAR(for_update);
+		PHALCON_INIT_VAR(for_update);
 		ZVAL_BOOL(for_update, 1);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "for_update", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, for_update TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("for_update"), for_update TSRMLS_CC);
 	RETURN_CTOR(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 
 	zval *shared_lock = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -30481,13 +30530,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 	}
 
 	if (!shared_lock) {
-		PHALCON_INIT_NVAR(shared_lock);
+		PHALCON_INIT_VAR(shared_lock);
 		ZVAL_BOOL(shared_lock, 1);
 	}
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_STRING(t0, "shared_lock", 1);
-	phalcon_update_property_array(this_ptr, SL("_params"), t0, shared_lock TSRMLS_CC);
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("shared_lock"), shared_lock TSRMLS_CC);
 	RETURN_CTOR(this_ptr);
 }
 
@@ -30617,6 +30664,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 		PHALCON_INIT_VAR(bind);
 		array_init(bind);
+	
 	
 		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
 			return;
@@ -30956,7 +31004,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -31055,7 +31103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -31154,7 +31202,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -31402,7 +31450,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
@@ -31538,26 +31586,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, relation, "gettype");
 	
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+			case 0:
+				PHALCON_INIT_VAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "find", 1);
-			goto ph_end_1;
-		}
+			case 1:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		ph_end_1:
-		if(0){}
+			case 2:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "find", 1);
+				break;
+	
+		}
 	} else {
 		PHALCON_CPY_WRT(retrieve_method, method);
 	}
@@ -31587,7 +31633,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
@@ -31634,7 +31680,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_many);
@@ -31681,7 +31727,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_one);
@@ -31928,7 +31974,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -31962,7 +32008,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -32062,11 +32108,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Message, __construct){
 	}
 
 	if (!field) {
-		PHALCON_INIT_NVAR(field);
+		PHALCON_INIT_VAR(field);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_message"), message TSRMLS_CC);
@@ -32223,7 +32269,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apc, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -32329,7 +32375,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -32442,7 +32488,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
@@ -32509,7 +32555,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -33587,7 +33633,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
@@ -33716,7 +33762,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	}
 
 	if (!alias) {
-		PHALCON_INIT_NVAR(alias);
+		PHALCON_INIT_VAR(alias);
 	}
 	
 	PHALCON_OBS_VAR(models);
@@ -33762,11 +33808,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	}
 
 	if (!conditions) {
-		PHALCON_INIT_NVAR(conditions);
+		PHALCON_INIT_VAR(conditions);
 	}
 	
 	if (!alias) {
-		PHALCON_INIT_NVAR(alias);
+		PHALCON_INIT_VAR(alias);
 	}
 	
 	PHALCON_INIT_VAR(join);
@@ -33853,7 +33899,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	}
 
 	if (!offset) {
-		PHALCON_INIT_NVAR(offset);
+		PHALCON_INIT_VAR(offset);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
@@ -33898,9 +33944,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *selected_models, *selected_model = NULL, *joined_models;
 	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL;
 	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
-	zval *joined_items = NULL, *having, *order, *order_items;
-	zval *order_item = NULL, *limit, *number, *offset = NULL;
-	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL;
+	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
+	zval *order_items, *order_item = NULL, *limit, *number;
+	zval *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -34191,17 +34237,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 				PHALCON_GET_FOREACH_VALUE(group_item);
 	
-				PHALCON_INIT_NVAR(r0);
-				PHALCON_CALL_FUNC_PARAMS_1(r0, "is_numeric", group_item);
-				if (zend_is_true(r0)) {
+				if (phalcon_is_numeric(group_item)) {
 					phalcon_array_append(&group_items, group_item, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(group_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&group_items, group_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r1);
-						PHALCON_CONCAT_SVS(r1, "[", group_item, "]");
-						phalcon_array_append(&group_items, r1, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", group_item, "]");
+						phalcon_array_append(&group_items, escaped_item, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	
@@ -34212,9 +34256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			phalcon_fast_join_str(joined_items, SL(", "), group_items TSRMLS_CC);
 			PHALCON_SCONCAT_SV(phql, " GROUP BY ", joined_items);
 		} else {
-			PHALCON_INIT_VAR(r2);
-			PHALCON_CALL_FUNC_PARAMS_1(r2, "is_numeric", group);
-			if (zend_is_true(r2)) {
+			if (phalcon_is_numeric(group)) {
 				PHALCON_SCONCAT_SV(phql, " GROUP BY ", group);
 			} else {
 				if (phalcon_memnstr_str(group, SL(".") TSRMLS_CC)) {
@@ -34251,17 +34293,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 				PHALCON_GET_FOREACH_VALUE(order_item);
 	
-				PHALCON_INIT_NVAR(r3);
-				PHALCON_CALL_FUNC_PARAMS_1(r3, "is_numeric", order_item);
-				if (zend_is_true(r3)) {
+				if (phalcon_is_numeric(order_item)) {
 					phalcon_array_append(&order_items, order_item, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(order_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&order_items, order_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r4);
-						PHALCON_CONCAT_SVS(r4, "[", order_item, "]");
-						phalcon_array_append(&order_items, r4, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", order_item, "]");
+						phalcon_array_append(&order_items, escaped_item, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	
@@ -34428,8 +34468,7 @@ static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -34443,8 +34482,7 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
-	add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-	efree(T->token);
+	add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 	efree(T);
 
 	return ret;
@@ -34458,14 +34496,12 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B)
 	array_init(ret);
 	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", A->token, A->token_len, 1);
-		add_assoc_stringl(ret, "name", B->token, B->token_len, 1);
-		efree(B->token);
+		add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
 		efree(B);
 	} else {
-		add_assoc_stringl(ret, "name", A->token, A->token_len, 1);
+		add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
 	}
-	efree(A->token);
 	efree(A);
 
 	return ret;
@@ -34536,13 +34572,11 @@ static zval *phql_ret_limit_clause(phql_parser_token *L, phql_parser_token *O)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_stringl(ret, "number", L->token, L->token_len, 1);
-	efree(L->token);
+	add_assoc_stringl(ret, "number", L->token, L->token_len, 0);
 	efree(L);
 
 	if (O != NULL) {
-		add_assoc_stringl(ret, "offset", O->token, O->token_len, 1);
-		efree(O->token);
+		add_assoc_stringl(ret, "offset", O->token, O->token_len, 0);
 		efree(O);
 	}
 
@@ -34689,13 +34723,11 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 		add_assoc_zval(ret, "column", column);
 	}
 	if (identifier_column) {
-		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 1);
-		efree(identifier_column->token);
+		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
 		efree(identifier_column);
 	}
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 1);
-		efree(alias->token);
+		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -34711,8 +34743,7 @@ static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 	array_init(ret);
 	add_assoc_zval(ret, "qualifiedName", qualified_name);
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 1);
-		efree(alias->token);
+		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -34780,8 +34811,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", PHQL_T_FCALL);
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (arguments) {
@@ -34792,7 +34822,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 }
 
 
-// 400 "parser.c"
+// 390 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -35436,14 +35466,16 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 54:
     case 55:
     case 56:
-// 478 "parser.lemon"
+// 485 "parser.lemon"
 {
 	if ((yypminor->yy0)) {
-		efree((yypminor->yy0)->token);
+		if ((yypminor->yy0)->free_flag) {
+			efree((yypminor->yy0)->token);
+		}
 		efree((yypminor->yy0));
 	}
 }
-// 1092 "parser.c"
+// 1084 "parser.c"
       break;
     case 59:
     case 60:
@@ -35483,9 +35515,9 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 98:
     case 99:
     case 100:
-// 489 "parser.lemon"
+// 498 "parser.lemon"
 { zval_ptr_dtor(&(yypminor->yy42)); }
-// 1134 "parser.c"
+// 1126 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -35798,11 +35830,11 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-// 485 "parser.lemon"
+// 494 "parser.lemon"
 {
 	status->ret = yymsp[0].minor.yy42;
 }
-// 1494 "parser.c"
+// 1486 "parser.c"
         break;
       case 1:
       case 2:
@@ -35824,197 +35856,197 @@ static void yy_reduce(
       case 121:
       case 127:
       case 134:
-// 491 "parser.lemon"
+// 500 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
 }
-// 1520 "parser.c"
+// 1512 "parser.c"
         break;
       case 5:
-// 509 "parser.lemon"
+// 518 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[0].minor.yy42, NULL, NULL, NULL, NULL, NULL);
 }
-// 1527 "parser.c"
+// 1519 "parser.c"
         break;
       case 6:
-// 513 "parser.lemon"
+// 522 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL, NULL, NULL, NULL);
 }
-// 1534 "parser.c"
+// 1526 "parser.c"
         break;
       case 7:
-// 517 "parser.lemon"
+// 526 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL, NULL, NULL);
 }
-// 1541 "parser.c"
+// 1533 "parser.c"
         break;
       case 8:
-// 521 "parser.lemon"
+// 530 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1548 "parser.c"
+// 1540 "parser.c"
         break;
       case 9:
-// 525 "parser.lemon"
+// 534 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, NULL, yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL);
 }
-// 1555 "parser.c"
+// 1547 "parser.c"
         break;
       case 10:
-// 529 "parser.lemon"
+// 538 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, yymsp[0].minor.yy42, yymsp[-1].minor.yy42, NULL, NULL);
 }
-// 1562 "parser.c"
+// 1554 "parser.c"
         break;
       case 11:
-// 533 "parser.lemon"
+// 542 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-4].minor.yy42, yymsp[-3].minor.yy42, yymsp[-1].minor.yy42, yymsp[-2].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1569 "parser.c"
+// 1561 "parser.c"
         break;
       case 12:
-// 537 "parser.lemon"
+// 546 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-4].minor.yy42, yymsp[-3].minor.yy42, yymsp[0].minor.yy42, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL);
 }
-// 1576 "parser.c"
+// 1568 "parser.c"
         break;
       case 13:
-// 541 "parser.lemon"
+// 550 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL, NULL, NULL, yymsp[0].minor.yy42);
 }
-// 1583 "parser.c"
+// 1575 "parser.c"
         break;
       case 14:
-// 545 "parser.lemon"
+// 554 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL, NULL, yymsp[0].minor.yy42);
 }
-// 1590 "parser.c"
+// 1582 "parser.c"
         break;
       case 15:
-// 549 "parser.lemon"
+// 558 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, NULL, yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1597 "parser.c"
+// 1589 "parser.c"
         break;
       case 16:
-// 553 "parser.lemon"
+// 562 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-4].minor.yy42, yymsp[-3].minor.yy42, NULL, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1604 "parser.c"
+// 1596 "parser.c"
         break;
       case 17:
-// 557 "parser.lemon"
+// 566 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42, NULL, NULL, NULL);
 }
-// 1611 "parser.c"
+// 1603 "parser.c"
         break;
       case 18:
-// 561 "parser.lemon"
+// 570 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, NULL, yymsp[0].minor.yy42, yymsp[-1].minor.yy42, NULL, NULL);
 }
-// 1618 "parser.c"
+// 1610 "parser.c"
         break;
       case 19:
-// 565 "parser.lemon"
+// 574 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, NULL, yymsp[0].minor.yy42, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL);
 }
-// 1625 "parser.c"
+// 1617 "parser.c"
         break;
       case 20:
-// 569 "parser.lemon"
+// 578 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, NULL, yymsp[-1].minor.yy42, NULL, NULL, yymsp[0].minor.yy42);
 }
-// 1632 "parser.c"
+// 1624 "parser.c"
         break;
       case 21:
-// 573 "parser.lemon"
+// 582 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, NULL, yymsp[-1].minor.yy42, yymsp[-2].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1639 "parser.c"
+// 1631 "parser.c"
         break;
       case 22:
-// 577 "parser.lemon"
+// 586 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-5].minor.yy42, yymsp[-4].minor.yy42, yymsp[-1].minor.yy42, yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1646 "parser.c"
+// 1638 "parser.c"
         break;
       case 23:
-// 581 "parser.lemon"
+// 590 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-1].minor.yy42, NULL, NULL, yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1653 "parser.c"
+// 1645 "parser.c"
         break;
       case 24:
-// 585 "parser.lemon"
+// 594 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, NULL, NULL, yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1660 "parser.c"
+// 1652 "parser.c"
         break;
       case 25:
-// 589 "parser.lemon"
+// 598 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-2].minor.yy42, NULL, NULL, yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL);
 }
-// 1667 "parser.c"
+// 1659 "parser.c"
         break;
       case 26:
-// 593 "parser.lemon"
+// 602 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-3].minor.yy42, NULL, NULL, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1674 "parser.c"
+// 1666 "parser.c"
         break;
       case 27:
-// 597 "parser.lemon"
+// 606 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-4].minor.yy42, NULL, yymsp[-1].minor.yy42, yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1681 "parser.c"
+// 1673 "parser.c"
         break;
       case 28:
-// 601 "parser.lemon"
+// 610 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_statement(yymsp[-1].minor.yy42, NULL, NULL, NULL, NULL, yymsp[0].minor.yy42);
 }
-// 1688 "parser.c"
+// 1680 "parser.c"
         break;
       case 29:
-// 607 "parser.lemon"
+// 616 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_clause(yymsp[-2].minor.yy42, yymsp[0].minor.yy42, NULL);
   yy_destructor(20,&yymsp[-3].minor);
   yy_destructor(21,&yymsp[-1].minor);
 }
-// 1697 "parser.c"
+// 1689 "parser.c"
         break;
       case 30:
-// 611 "parser.lemon"
+// 620 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_select_clause(yymsp[-3].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(20,&yymsp[-4].minor);
   yy_destructor(21,&yymsp[-2].minor);
 }
-// 1706 "parser.c"
+// 1698 "parser.c"
         break;
       case 31:
       case 38:
@@ -36024,198 +36056,198 @@ static void yy_reduce(
       case 86:
       case 94:
       case 124:
-// 617 "parser.lemon"
+// 626 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_zval_list(yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(22,&yymsp[-1].minor);
 }
-// 1721 "parser.c"
+// 1713 "parser.c"
         break;
       case 33:
       case 126:
-// 627 "parser.lemon"
+// 636 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_column_item(PHQL_T_ALL, NULL, NULL, NULL);
   yy_destructor(12,&yymsp[0].minor);
 }
-// 1730 "parser.c"
+// 1722 "parser.c"
         break;
       case 34:
-// 631 "parser.lemon"
+// 640 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_column_item(PHQL_T_DOMAINALL, NULL, yymsp[-2].minor.yy0, NULL);
   yy_destructor(24,&yymsp[-1].minor);
   yy_destructor(12,&yymsp[0].minor);
 }
-// 1739 "parser.c"
+// 1731 "parser.c"
         break;
       case 35:
-// 635 "parser.lemon"
+// 644 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-2].minor.yy42, NULL, yymsp[0].minor.yy0);
   yy_destructor(25,&yymsp[-1].minor);
 }
-// 1747 "parser.c"
+// 1739 "parser.c"
         break;
       case 36:
-// 639 "parser.lemon"
+// 648 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_column_item(PHQL_T_EXPR, yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy0);
 }
-// 1754 "parser.c"
+// 1746 "parser.c"
         break;
       case 37:
-// 643 "parser.lemon"
+// 652 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_column_item(PHQL_T_EXPR, yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1761 "parser.c"
+// 1753 "parser.c"
         break;
       case 40:
-// 659 "parser.lemon"
+// 668 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_zval_list(yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1768 "parser.c"
+// 1760 "parser.c"
         break;
       case 43:
-// 676 "parser.lemon"
+// 685 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_item(yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1775 "parser.c"
+// 1767 "parser.c"
         break;
       case 44:
-// 681 "parser.lemon"
+// 690 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_item(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL);
 }
-// 1782 "parser.c"
+// 1774 "parser.c"
         break;
       case 45:
-// 686 "parser.lemon"
+// 695 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_item(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1789 "parser.c"
+// 1781 "parser.c"
         break;
       case 46:
-// 691 "parser.lemon"
+// 700 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_item(yymsp[-3].minor.yy42, yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1796 "parser.c"
+// 1788 "parser.c"
         break;
       case 47:
-// 697 "parser.lemon"
+// 706 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
   yy_destructor(25,&yymsp[-1].minor);
 }
-// 1804 "parser.c"
+// 1796 "parser.c"
         break;
       case 48:
       case 66:
       case 142:
-// 701 "parser.lemon"
+// 710 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_qualified_name(yymsp[0].minor.yy0, NULL);
 }
-// 1813 "parser.c"
+// 1805 "parser.c"
         break;
       case 49:
-// 707 "parser.lemon"
+// 716 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_INNERJOIN);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1821 "parser.c"
+// 1813 "parser.c"
         break;
       case 50:
-// 711 "parser.lemon"
+// 720 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_INNERJOIN);
   yy_destructor(27,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1830 "parser.c"
+// 1822 "parser.c"
         break;
       case 51:
-// 715 "parser.lemon"
+// 724 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_CROSSJOIN);
   yy_destructor(28,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1839 "parser.c"
+// 1831 "parser.c"
         break;
       case 52:
-// 719 "parser.lemon"
+// 728 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(29,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1848 "parser.c"
+// 1840 "parser.c"
         break;
       case 53:
-// 723 "parser.lemon"
+// 732 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_LEFTJOIN);
   yy_destructor(29,&yymsp[-2].minor);
   yy_destructor(30,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1858 "parser.c"
+// 1850 "parser.c"
         break;
       case 54:
-// 727 "parser.lemon"
+// 736 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(31,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1867 "parser.c"
+// 1859 "parser.c"
         break;
       case 55:
-// 731 "parser.lemon"
+// 740 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_RIGHTJOIN);
   yy_destructor(31,&yymsp[-2].minor);
   yy_destructor(30,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1877 "parser.c"
+// 1869 "parser.c"
         break;
       case 56:
-// 735 "parser.lemon"
+// 744 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(32,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1886 "parser.c"
+// 1878 "parser.c"
         break;
       case 57:
-// 739 "parser.lemon"
+// 748 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_join_type(PHQL_T_FULLJOIN);
   yy_destructor(32,&yymsp[-2].minor);
   yy_destructor(30,&yymsp[-1].minor);
   yy_destructor(26,&yymsp[0].minor);
 }
-// 1896 "parser.c"
+// 1888 "parser.c"
         break;
       case 58:
-// 745 "parser.lemon"
+// 754 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
   yy_destructor(33,&yymsp[-1].minor);
 }
-// 1904 "parser.c"
+// 1896 "parser.c"
         break;
       case 59:
-// 752 "parser.lemon"
+// 761 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_insert_statement(yymsp[-4].minor.yy42, NULL, yymsp[-1].minor.yy42);
   yy_destructor(34,&yymsp[-6].minor);
@@ -36224,10 +36256,10 @@ static void yy_reduce(
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 1916 "parser.c"
+// 1908 "parser.c"
         break;
       case 60:
-// 756 "parser.lemon"
+// 765 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_insert_statement(yymsp[-7].minor.yy42, yymsp[-5].minor.yy42, yymsp[-1].minor.yy42);
   yy_destructor(34,&yymsp[-9].minor);
@@ -36238,346 +36270,346 @@ static void yy_reduce(
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 1930 "parser.c"
+// 1922 "parser.c"
         break;
       case 67:
-// 794 "parser.lemon"
+// 803 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_statement(yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1937 "parser.c"
+// 1929 "parser.c"
         break;
       case 68:
-// 798 "parser.lemon"
+// 807 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_statement(yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL);
 }
-// 1944 "parser.c"
+// 1936 "parser.c"
         break;
       case 69:
-// 802 "parser.lemon"
+// 811 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_statement(yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1951 "parser.c"
+// 1943 "parser.c"
         break;
       case 70:
-// 806 "parser.lemon"
+// 815 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_statement(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 1958 "parser.c"
+// 1950 "parser.c"
         break;
       case 71:
-// 812 "parser.lemon"
+// 821 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_clause(yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(39,&yymsp[-3].minor);
   yy_destructor(40,&yymsp[-1].minor);
 }
-// 1967 "parser.c"
+// 1959 "parser.c"
         break;
       case 74:
-// 828 "parser.lemon"
+// 837 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_update_item(yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(2,&yymsp[-1].minor);
 }
-// 1975 "parser.c"
+// 1967 "parser.c"
         break;
       case 76:
-// 840 "parser.lemon"
+// 849 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_delete_statement(yymsp[0].minor.yy42, NULL, NULL);
 }
-// 1982 "parser.c"
+// 1974 "parser.c"
         break;
       case 77:
-// 844 "parser.lemon"
+// 853 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_delete_statement(yymsp[-1].minor.yy42, yymsp[0].minor.yy42, NULL);
 }
-// 1989 "parser.c"
+// 1981 "parser.c"
         break;
       case 78:
-// 848 "parser.lemon"
+// 857 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_delete_statement(yymsp[-1].minor.yy42, NULL, yymsp[0].minor.yy42);
 }
-// 1996 "parser.c"
+// 1988 "parser.c"
         break;
       case 79:
-// 852 "parser.lemon"
+// 861 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_delete_statement(yymsp[-2].minor.yy42, yymsp[-1].minor.yy42, yymsp[0].minor.yy42);
 }
-// 2003 "parser.c"
+// 1995 "parser.c"
         break;
       case 80:
-// 858 "parser.lemon"
+// 867 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_delete_clause(yymsp[0].minor.yy42);
   yy_destructor(41,&yymsp[-2].minor);
   yy_destructor(21,&yymsp[-1].minor);
 }
-// 2012 "parser.c"
+// 2004 "parser.c"
         break;
       case 81:
-// 864 "parser.lemon"
+// 873 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_assoc_name(yymsp[-2].minor.yy42, yymsp[0].minor.yy0);
   yy_destructor(25,&yymsp[-1].minor);
 }
-// 2020 "parser.c"
+// 2012 "parser.c"
         break;
       case 82:
-// 868 "parser.lemon"
+// 877 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_assoc_name(yymsp[-1].minor.yy42, yymsp[0].minor.yy0);
 }
-// 2027 "parser.c"
+// 2019 "parser.c"
         break;
       case 83:
-// 872 "parser.lemon"
+// 881 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_assoc_name(yymsp[0].minor.yy42, NULL);
 }
-// 2034 "parser.c"
+// 2026 "parser.c"
         break;
       case 84:
-// 878 "parser.lemon"
+// 887 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
   yy_destructor(42,&yymsp[-1].minor);
 }
-// 2042 "parser.c"
+// 2034 "parser.c"
         break;
       case 85:
-// 884 "parser.lemon"
+// 893 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
   yy_destructor(43,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[-1].minor);
 }
-// 2051 "parser.c"
+// 2043 "parser.c"
         break;
       case 88:
-// 900 "parser.lemon"
+// 909 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_order_item(yymsp[0].minor.yy42, 0);
 }
-// 2058 "parser.c"
+// 2050 "parser.c"
         break;
       case 89:
-// 904 "parser.lemon"
+// 913 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_order_item(yymsp[-1].minor.yy42, PHQL_T_ASC);
   yy_destructor(45,&yymsp[0].minor);
 }
-// 2066 "parser.c"
+// 2058 "parser.c"
         break;
       case 90:
-// 908 "parser.lemon"
+// 917 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_order_item(yymsp[-1].minor.yy42, PHQL_T_DESC);
   yy_destructor(46,&yymsp[0].minor);
 }
-// 2074 "parser.c"
+// 2066 "parser.c"
         break;
       case 92:
       case 97:
       case 135:
-// 916 "parser.lemon"
+// 925 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_literal_zval(PHQL_T_INTEGER, yymsp[0].minor.yy0);
 }
-// 2083 "parser.c"
+// 2075 "parser.c"
         break;
       case 93:
-// 922 "parser.lemon"
+// 931 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
   yy_destructor(48,&yymsp[-2].minor);
   yy_destructor(44,&yymsp[-1].minor);
 }
-// 2092 "parser.c"
+// 2084 "parser.c"
         break;
       case 98:
-// 948 "parser.lemon"
+// 957 "parser.lemon"
 {
 	yygotominor.yy42 = yymsp[0].minor.yy42;
   yy_destructor(49,&yymsp[-1].minor);
 }
-// 2100 "parser.c"
+// 2092 "parser.c"
         break;
       case 99:
       case 102:
-// 954 "parser.lemon"
+// 963 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_limit_clause(yymsp[0].minor.yy0, NULL);
   yy_destructor(50,&yymsp[-1].minor);
 }
-// 2109 "parser.c"
+// 2101 "parser.c"
         break;
       case 100:
-// 958 "parser.lemon"
+// 967 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_limit_clause(yymsp[0].minor.yy0, yymsp[-2].minor.yy0);
   yy_destructor(50,&yymsp[-3].minor);
   yy_destructor(22,&yymsp[-1].minor);
 }
-// 2118 "parser.c"
+// 2110 "parser.c"
         break;
       case 101:
-// 962 "parser.lemon"
+// 971 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_limit_clause(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(50,&yymsp[-3].minor);
   yy_destructor(51,&yymsp[-1].minor);
 }
-// 2127 "parser.c"
+// 2119 "parser.c"
         break;
       case 103:
-// 974 "parser.lemon"
+// 983 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_MINUS, NULL, yymsp[0].minor.yy42);
   yy_destructor(15,&yymsp[-1].minor);
 }
-// 2135 "parser.c"
+// 2127 "parser.c"
         break;
       case 104:
-// 978 "parser.lemon"
+// 987 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_SUB, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(15,&yymsp[-1].minor);
 }
-// 2143 "parser.c"
+// 2135 "parser.c"
         break;
       case 105:
-// 982 "parser.lemon"
+// 991 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_ADD, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(14,&yymsp[-1].minor);
 }
-// 2151 "parser.c"
+// 2143 "parser.c"
         break;
       case 106:
-// 986 "parser.lemon"
+// 995 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_MUL, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(12,&yymsp[-1].minor);
 }
-// 2159 "parser.c"
+// 2151 "parser.c"
         break;
       case 107:
-// 990 "parser.lemon"
+// 999 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_DIV, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(11,&yymsp[-1].minor);
 }
-// 2167 "parser.c"
+// 2159 "parser.c"
         break;
       case 108:
-// 994 "parser.lemon"
+// 1003 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_MOD, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(13,&yymsp[-1].minor);
 }
-// 2175 "parser.c"
+// 2167 "parser.c"
         break;
       case 109:
-// 998 "parser.lemon"
+// 1007 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_AND, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(8,&yymsp[-1].minor);
 }
-// 2183 "parser.c"
+// 2175 "parser.c"
         break;
       case 110:
-// 1002 "parser.lemon"
+// 1011 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_OR, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(9,&yymsp[-1].minor);
 }
-// 2191 "parser.c"
+// 2183 "parser.c"
         break;
       case 111:
-// 1006 "parser.lemon"
+// 1015 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_EQUALS, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(2,&yymsp[-1].minor);
 }
-// 2199 "parser.c"
+// 2191 "parser.c"
         break;
       case 112:
-// 1010 "parser.lemon"
+// 1019 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_NOTEQUALS, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(3,&yymsp[-1].minor);
 }
-// 2207 "parser.c"
+// 2199 "parser.c"
         break;
       case 113:
-// 1014 "parser.lemon"
+// 1023 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_LESS, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(4,&yymsp[-1].minor);
 }
-// 2215 "parser.c"
+// 2207 "parser.c"
         break;
       case 114:
-// 1018 "parser.lemon"
+// 1027 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_GREATER, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(5,&yymsp[-1].minor);
 }
-// 2223 "parser.c"
+// 2215 "parser.c"
         break;
       case 115:
-// 1022 "parser.lemon"
+// 1031 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_GREATEREQUAL, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(6,&yymsp[-1].minor);
 }
-// 2231 "parser.c"
+// 2223 "parser.c"
         break;
       case 116:
-// 1026 "parser.lemon"
+// 1035 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_LESSEQUAL, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(7,&yymsp[-1].minor);
 }
-// 2239 "parser.c"
+// 2231 "parser.c"
         break;
       case 117:
-// 1030 "parser.lemon"
+// 1039 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_LIKE, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(10,&yymsp[-1].minor);
 }
-// 2247 "parser.c"
+// 2239 "parser.c"
         break;
       case 118:
-// 1034 "parser.lemon"
+// 1043 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_NLIKE, yymsp[-3].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(19,&yymsp[-2].minor);
   yy_destructor(10,&yymsp[-1].minor);
 }
-// 2256 "parser.c"
+// 2248 "parser.c"
         break;
       case 119:
-// 1038 "parser.lemon"
+// 1047 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_IN, yymsp[-4].minor.yy42, yymsp[-1].minor.yy42);
   yy_destructor(17,&yymsp[-3].minor);
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 2266 "parser.c"
+// 2258 "parser.c"
         break;
       case 120:
-// 1042 "parser.lemon"
+// 1051 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_NOTIN, yymsp[-5].minor.yy42, yymsp[-1].minor.yy42);
   yy_destructor(19,&yymsp[-4].minor);
@@ -36585,128 +36617,128 @@ static void yy_reduce(
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 2277 "parser.c"
+// 2269 "parser.c"
         break;
       case 122:
-// 1052 "parser.lemon"
+// 1061 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_func_call(yymsp[-3].minor.yy0, yymsp[-1].minor.yy42);
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 2286 "parser.c"
+// 2278 "parser.c"
         break;
       case 123:
-// 1056 "parser.lemon"
+// 1065 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_func_call(yymsp[-2].minor.yy0, NULL);
   yy_destructor(37,&yymsp[-1].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 2295 "parser.c"
+// 2287 "parser.c"
         break;
       case 125:
-// 1066 "parser.lemon"
+// 1075 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_zval_list(yymsp[0].minor.yy42, NULL);
 }
-// 2302 "parser.c"
+// 2294 "parser.c"
         break;
       case 128:
-// 1080 "parser.lemon"
+// 1089 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_ISNULL, yymsp[-2].minor.yy42, NULL);
   yy_destructor(16,&yymsp[-1].minor);
   yy_destructor(52,&yymsp[0].minor);
 }
-// 2311 "parser.c"
+// 2303 "parser.c"
         break;
       case 129:
-// 1084 "parser.lemon"
+// 1093 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_ISNOTNULL, yymsp[-3].minor.yy42, NULL);
   yy_destructor(16,&yymsp[-2].minor);
   yy_destructor(19,&yymsp[-1].minor);
   yy_destructor(52,&yymsp[0].minor);
 }
-// 2321 "parser.c"
+// 2313 "parser.c"
         break;
       case 130:
-// 1088 "parser.lemon"
+// 1097 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_DISTINCT, NULL, yymsp[0].minor.yy42);
   yy_destructor(18,&yymsp[-1].minor);
 }
-// 2329 "parser.c"
+// 2321 "parser.c"
         break;
       case 131:
-// 1092 "parser.lemon"
+// 1101 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_BETWEEN, yymsp[-2].minor.yy42, yymsp[0].minor.yy42);
   yy_destructor(1,&yymsp[-1].minor);
 }
-// 2337 "parser.c"
+// 2329 "parser.c"
         break;
       case 132:
-// 1096 "parser.lemon"
+// 1105 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_NOT, NULL, yymsp[0].minor.yy42);
   yy_destructor(19,&yymsp[-1].minor);
 }
-// 2345 "parser.c"
+// 2337 "parser.c"
         break;
       case 133:
-// 1100 "parser.lemon"
+// 1109 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_expr(PHQL_T_ENCLOSED, yymsp[-1].minor.yy42, NULL);
   yy_destructor(37,&yymsp[-2].minor);
   yy_destructor(38,&yymsp[0].minor);
 }
-// 2354 "parser.c"
+// 2346 "parser.c"
         break;
       case 136:
-// 1112 "parser.lemon"
+// 1121 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_literal_zval(PHQL_T_STRING, yymsp[0].minor.yy0);
 }
-// 2361 "parser.c"
+// 2353 "parser.c"
         break;
       case 137:
-// 1116 "parser.lemon"
+// 1125 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_literal_zval(PHQL_T_DOUBLE, yymsp[0].minor.yy0);
 }
-// 2368 "parser.c"
+// 2360 "parser.c"
         break;
       case 138:
-// 1120 "parser.lemon"
+// 1129 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_literal_zval(PHQL_T_NULL, NULL);
   yy_destructor(52,&yymsp[0].minor);
 }
-// 2376 "parser.c"
+// 2368 "parser.c"
         break;
       case 139:
-// 1124 "parser.lemon"
+// 1133 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_placeholder_zval(PHQL_T_NPLACEHOLDER, yymsp[0].minor.yy0);
 }
-// 2383 "parser.c"
+// 2375 "parser.c"
         break;
       case 140:
-// 1128 "parser.lemon"
+// 1137 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_placeholder_zval(PHQL_T_SPLACEHOLDER, yymsp[0].minor.yy0);
 }
-// 2390 "parser.c"
+// 2382 "parser.c"
         break;
       case 141:
-// 1134 "parser.lemon"
+// 1143 "parser.lemon"
 {
 	yygotominor.yy42 = phql_ret_qualified_name(yymsp[-2].minor.yy0, yymsp[0].minor.yy0);
   yy_destructor(24,&yymsp[-1].minor);
 }
-// 2398 "parser.c"
+// 2390 "parser.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -36742,22 +36774,24 @@ static void yy_syntax_error(
 ){
   phql_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-// 428 "parser.lemon"
+// 418 "parser.lemon"
 
 	if (status->scanner_state->start) {
 		{
 
 			char *token_name = NULL;
 			int token_found = 0;
+			unsigned int token_length;
 			const phql_token_names *tokens = phql_tokens;
 			int active_token = status->scanner_state->active_token;
-			int near_length = strlen(status->scanner_state->start);
+			int near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 
 				do {
 					if (tokens->code == active_token) {
 						token_name = tokens->name;
+						token_length = tokens->length;
 						token_found = 1;
 						break;
 					}
@@ -36767,16 +36801,31 @@ static void yy_syntax_error(
 			}
 
 			if (!token_name) {
-				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+				token_length = strlen("UNKNOWN");
+				token_name = estrndup("UNKNOWN", token_length);
 				token_found = 0;
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + near_length;
-			status->syntax_error = emalloc(sizeof(char)*status->syntax_error_len);
+			status->syntax_error_len = 64 + status->token->len + token_length + near_length;
+			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+
 			if (near_length > 0) {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, near to %s", token_name, status->scanner_state->start);
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s'", token_name, status->token->value, status->scanner_state->start);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s'", token_name, status->scanner_state->start);
+				}
 			} else {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, at the end of query", token_name);
+				if (active_token != PHQL_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query", token_name, status->token->value);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query", token_name);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of query");
+				}
+				status->syntax_error[status->syntax_error_len-1] = '\0';
 			}
 
 			if (!token_found) {
@@ -36792,7 +36841,7 @@ static void yy_syntax_error(
 
 	status->status = PHQL_PARSING_FAILED;
 
-// 2490 "parser.c"
+// 2499 "parser.c"
   phql_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -36964,65 +37013,65 @@ void phql_(
 
 const phql_token_names phql_tokens[] =
 {
-  { PHQL_T_INTEGER,       "INTEGER" },
-  { PHQL_T_DOUBLE,        "DOUBLE" },
-  { PHQL_T_STRING,        "STRING" },
-  { PHQL_T_IDENTIFIER,    "IDENTIFIER" },
-  { PHQL_T_MINUS,         "MINUS"},
-  { PHQL_T_ADD,           "+" },
-  { PHQL_T_SUB,           "-" },
-  { PHQL_T_MUL,           "*" },
-  { PHQL_T_DIV,           "/" },
-  { PHQL_T_MOD,           "%%" },
-  { PHQL_T_AND,           "AND" },
-  { PHQL_T_OR,            "OR" },
-  { PHQL_T_LIKE,          "LIKE" },
-  { PHQL_T_DOT,           "DOT" },
-  { PHQL_T_COMMA,         "COMMA" },
-  { PHQL_T_EQUALS,        "EQUALS" },
-  { PHQL_T_NOTEQUALS,     "NOT EQUALS" },
-  { PHQL_T_NOT,           "NOT" },
-  { PHQL_T_LESS,          "<" },
-  { PHQL_T_LESSEQUAL,     "<=" },
-  { PHQL_T_GREATER,       ">" },
-  { PHQL_T_GREATEREQUAL,  ">=" },
-  { PHQL_T_BRACKET_OPEN,  "(" },
-  { PHQL_T_BRACKET_CLOSE, ")" },
-  { PHQL_T_NPLACEHOLDER,  "NUMERIC PLACEHOLDER" },
-  { PHQL_T_SPLACEHOLDER,  "STRING PLACEHOLDER" },
-  { PHQL_T_UPDATE,        "UPDATE" },
-  { PHQL_T_SET,           "SET" },
-  { PHQL_T_WHERE,         "WHERE" },
-  { PHQL_T_DELETE,        "DELETE" },
-  { PHQL_T_FROM,          "FROM" },
-  { PHQL_T_AS,            "AS" },
-  { PHQL_T_INSERT,        "INSERT" },
-  { PHQL_T_INTO,          "INTO" },
-  { PHQL_T_VALUES,        "VALUES" },
-  { PHQL_T_SELECT,        "SELECT" },
-  { PHQL_T_ORDER,         "ORDER" },
-  { PHQL_T_BY,            "BY" },
-  { PHQL_T_LIMIT,         "LIMIT" },
-  { PHQL_T_OFFSET,        "OFFSET" },
-  { PHQL_T_GROUP,         "GROUP" },
-  { PHQL_T_HAVING,        "HAVING" },
-  { PHQL_T_IN,            "IN" },
-  { PHQL_T_ON,            "ON" },
-  { PHQL_T_INNER,         "INNER" },
-  { PHQL_T_JOIN,          "JOIN" },
-  { PHQL_T_LEFT,          "LEFT" },
-  { PHQL_T_RIGHT,         "RIGHT" },
-  { PHQL_T_IS,            "IS" },
-  { PHQL_T_NULL,          "NULL" },
-  { PHQL_T_NOTIN,         "NOT IN" },
-  { PHQL_T_CROSS,         "CROSS" },
-  { PHQL_T_OUTER,         "OUTER" },
-  { PHQL_T_FULL,          "FULL" },
-  { PHQL_T_ASC,           "ASC" },
-  { PHQL_T_DESC,          "DESC" },
-  { PHQL_T_BETWEEN,       "BETWEEN" },
-  { PHQL_T_DISTINCT,      "DISTINCT" },
-  {  0, NULL }
+  { PHQL_T_INTEGER,       SL("INTEGER") },
+  { PHQL_T_DOUBLE,        SL("DOUBLE") },
+  { PHQL_T_STRING,        SL("STRING") },
+  { PHQL_T_IDENTIFIER,    SL("IDENTIFIER") },
+  { PHQL_T_MINUS,         SL("MINUS") },
+  { PHQL_T_ADD,           SL("+") },
+  { PHQL_T_SUB,           SL("-") },
+  { PHQL_T_MUL,           SL("*") },
+  { PHQL_T_DIV,           SL("/") },
+  { PHQL_T_MOD,           SL("%%") },
+  { PHQL_T_AND,           SL("AND") },
+  { PHQL_T_OR,            SL("OR") },
+  { PHQL_T_LIKE,          SL("LIKE") },
+  { PHQL_T_DOT,           SL("DOT") },
+  { PHQL_T_COMMA,         SL("COMMA") },
+  { PHQL_T_EQUALS,        SL("EQUALS") },
+  { PHQL_T_NOTEQUALS,     SL("NOT EQUALS") },
+  { PHQL_T_NOT,           SL("NOT") },
+  { PHQL_T_LESS,          SL("<") },
+  { PHQL_T_LESSEQUAL,     SL("<=") },
+  { PHQL_T_GREATER,       SL(">") },
+  { PHQL_T_GREATEREQUAL,  SL(">=") },
+  { PHQL_T_BRACKET_OPEN,  SL("(") },
+  { PHQL_T_BRACKET_CLOSE, SL(")") },
+  { PHQL_T_NPLACEHOLDER,  SL("NUMERIC PLACEHOLDER") },
+  { PHQL_T_SPLACEHOLDER,  SL("STRING PLACEHOLDER") },
+  { PHQL_T_UPDATE,        SL("UPDATE") },
+  { PHQL_T_SET,           SL("SET") },
+  { PHQL_T_WHERE,         SL("WHERE") },
+  { PHQL_T_DELETE,        SL("DELETE") },
+  { PHQL_T_FROM,          SL("FROM") },
+  { PHQL_T_AS,            SL("AS") },
+  { PHQL_T_INSERT,        SL("INSERT") },
+  { PHQL_T_INTO,          SL("INTO") },
+  { PHQL_T_VALUES,        SL("VALUES") },
+  { PHQL_T_SELECT,        SL("SELECT") },
+  { PHQL_T_ORDER,         SL("ORDER") },
+  { PHQL_T_BY,            SL("BY") },
+  { PHQL_T_LIMIT,         SL("LIMIT") },
+  { PHQL_T_OFFSET,        SL("OFFSET") },
+  { PHQL_T_GROUP,         SL("GROUP") },
+  { PHQL_T_HAVING,        SL("HAVING") },
+  { PHQL_T_IN,            SL("IN") },
+  { PHQL_T_ON,            SL("ON") },
+  { PHQL_T_INNER,         SL("INNER") },
+  { PHQL_T_JOIN,          SL("JOIN") },
+  { PHQL_T_LEFT,          SL("LEFT") },
+  { PHQL_T_RIGHT,         SL("RIGHT") },
+  { PHQL_T_IS,            SL("IS") },
+  { PHQL_T_NULL,          SL("NULL") },
+  { PHQL_T_NOTIN,         SL("NOT IN") },
+  { PHQL_T_CROSS,         SL("CROSS") },
+  { PHQL_T_OUTER,         SL("OUTER") },
+  { PHQL_T_FULL,          SL("FULL") },
+  { PHQL_T_ASC,           SL("ASC") },
+  { PHQL_T_DESC,          SL("DESC") },
+  { PHQL_T_BETWEEN,       SL("BETWEEN") },
+  { PHQL_T_DISTINCT,      SL("DISTINCT") },
+  { 0, NULL, 0 }
 };
 
 static void *phql_wrapper_alloc(size_t bytes){
@@ -37034,30 +37083,38 @@ static void phql_wrapper_free(void *pointer){
 }
 
 static void phql_parse_with_token(void* phql_parser, int opcode, int parsercode, phql_scanner_token *token, phql_parser_status *parser_status){
+
 	phql_parser_token *pToken;
+
 	pToken = emalloc(sizeof(phql_parser_token));
 	pToken->opcode = opcode;
-	pToken->token = estrndup(token->value, token->len);
+	pToken->token = token->value;
 	pToken->token_len = token->len;
+	pToken->free_flag = 1;
 	phql_(phql_parser, parsercode, pToken, parser_status);
-	efree(token->value);
+
+	token->value = NULL;
+	token->len = 0;
 }
 
 static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **error_msg TSRMLS_DC){
 
 	char *error, *error_part;
+	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + strlen(state->start));
-		if (strlen(state->start) > 16) {
+		length = 32 + state->start_length;
+		error = emalloc(sizeof(char) * length);
+		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
-			sprintf(error, "Parsing error before '%s...'", error_part);
+			snprintf(error, length, "Parsing error before '%s...'", error_part);
 			efree(error_part);
 		} else {
-			sprintf(error, "Parsing error before '%s'", state->start);
+			snprintf(error, length, "Parsing error before '%s'", state->start);
 		}
+		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
 		error = emalloc(sizeof(char) * 32);
@@ -37073,7 +37130,7 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 
 	ZVAL_NULL(result);
 
-	if(phql_internal_parse_phql(&result, Z_STRVAL_P(phql), &error_msg TSRMLS_CC) == FAILURE){
+	if(phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE){
 		phalcon_throw_exception_string(phalcon_mvc_model_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -37081,11 +37138,11 @@ int phql_parse_phql(zval *result, zval *phql TSRMLS_DC){
 	return SUCCESS;
 }
 
-int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_DC) {
+int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phql_scanner_state *state;
-	phql_scanner_token *token;
+	phql_scanner_token token;
 	int scanner_status, status = SUCCESS;
 	phql_parser_status *parser_status = NULL;
 	void* phql_parser;
@@ -37100,23 +37157,30 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	parser_status = emalloc(sizeof(phql_parser_status));
 	state = emalloc(sizeof(phql_scanner_state));
-	token = emalloc(sizeof(phql_scanner_token));
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
 	parser_status->syntax_error = NULL;
+	parser_status->token = &token;
 
 	state->active_token = 0;
 	state->start = phql;
-
+	state->start_length = 0;
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phql_get_token(state, token))) {
+	token.value = NULL;
+	token.len = 0;
 
-		state->active_token = token->opcode;
+	while(0 <= (scanner_status = phql_get_token(state, &token))) {
 
-		switch(token->opcode){
+		/* Calculate the 'start' length */
+		state->start_length = (phql + phql_length - state->start);
+
+		state->active_token = token.opcode;
+
+		/* Parse the token found */
+		switch(token.opcode){
 
 			case PHQL_T_IGNORE:
 				break;
@@ -37181,22 +37245,22 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				break;
 
 			case PHQL_T_INTEGER:
-				phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				break;
 			case PHQL_T_DOUBLE:
-				phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				break;
 			case PHQL_T_STRING:
-				phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				break;
 			case PHQL_T_IDENTIFIER:
-				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_IDENTIFIER, PHQL_IDENTIFIER, &token, parser_status);
 				break;
 			case PHQL_T_NPLACEHOLDER:
-				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_NPLACEHOLDER, PHQL_NPLACEHOLDER, &token, parser_status);
 				break;
 			case PHQL_T_SPLACEHOLDER:
-				phql_parse_with_token(phql_parser, PHQL_T_SPLACEHOLDER, PHQL_SPLACEHOLDER, token, parser_status);
+				phql_parse_with_token(phql_parser, PHQL_T_SPLACEHOLDER, PHQL_SPLACEHOLDER, &token, parser_status);
 				break;
 
 			case PHQL_T_FROM:
@@ -37294,8 +37358,8 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 				break;
 			default:
 				parser_status->status = PHQL_PARSING_FAILED;
-				error = emalloc(sizeof(char)*32);
-				sprintf(error, "scanner: unknown opcode %c", token->opcode);
+				error = emalloc(sizeof(char) * 32);
+				sprintf(error, "scanner: unknown opcode %c", token.opcode);
 				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, error, 1);
 				efree(error);
@@ -37333,7 +37397,7 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 		status = FAILURE;
 		if (parser_status->syntax_error) {
 			if (!*error_msg) {
-				PHALCON_ALLOC_ZVAL_MM(*error_msg);
+				PHALCON_INIT_VAR(*error_msg);
 				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
 			}
 			efree(parser_status->syntax_error);
@@ -37356,12 +37420,11 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 	efree(parser_status);
 	efree(state);
-	efree(token);
 
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Tue Dec 18 14:59:25 2012 */
+/* Generated by re2c 0.13.5 on Sat Dec 22 22:44:14 2012 */
 // 1 "scanner.re"
 
 
@@ -37370,7 +37433,7 @@ int phql_internal_parse_phql(zval **result, char *phql, zval **error_msg TSRMLS_
 
 
 
-#define YYCTYPE unsigned int
+#define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
 #define YYMARKER q
@@ -37380,7 +37443,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 	char *q = YYCURSOR;
 	int status = PHQL_SCANNER_RETCODE_IMPOSSIBLE;
 
-	while(PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
+	while (PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		
 // 45 "scanner.c"
@@ -41718,7 +41781,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, __construct){
 	}
 
 	if (!phql) {
-		PHALCON_INIT_NVAR(phql);
+		PHALCON_INIT_VAR(phql);
 	}
 	
 	if (Z_TYPE_P(phql) != IS_NULL) {
@@ -42077,7 +42140,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 	}
 
 	if (!quoting) {
-		PHALCON_INIT_NVAR(quoting);
+		PHALCON_INIT_VAR(quoting);
 		ZVAL_BOOL(quoting, 1);
 	}
 	
@@ -42105,347 +42168,317 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		PHALCON_OBS_VAR(expr_type);
 		phalcon_array_fetch_quick_string(&expr_type, expr, SS("type"), 210729590247UL, PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(expr_type, 60 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
+		switch (phalcon_get_intval(expr_type)) {
+	
+			case 60:
+				PHALCON_INIT_VAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 61:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("="), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 62:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(">"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 270:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<>"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 271:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("<="), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 272:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(">="), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 266:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("AND"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 267:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("OR"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 355:
+				PHALCON_INIT_NVAR(expr_return);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_return, this_ptr, "_getqualified", expr, 6491682018289116056UL);
+				break;
+	
+			case 43:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("+"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 45:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 42:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("*"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 47:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("/"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 37:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("%"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 356:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("parentheses"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 367:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 258:
+				PHALCON_OBS_VAR(expr_value);
+				phalcon_array_fetch_quick_string(&expr_value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 259:
+				PHALCON_OBS_NVAR(expr_value);
+				phalcon_array_fetch_quick_string(&expr_value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 260:
+				PHALCON_OBS_VAR(value);
+				phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+				if (PHALCON_IS_TRUE(quoting)) {
+					PHALCON_INIT_VAR(escaped_value);
+					PHALCON_CALL_FUNC_PARAMS_1(escaped_value, "addslashes", value);
+	
+					PHALCON_INIT_NVAR(expr_value);
+					PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
+				} else {
+					PHALCON_CPY_WRT(expr_value, value);
+				}
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 273:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(question_mark);
+				ZVAL_STRING(question_mark, "?", 1);
+	
+				PHALCON_INIT_VAR(double_colon);
+				ZVAL_STRING(double_colon, ":", 1);
+	
+				PHALCON_INIT_VAR(placeholder);
+				phalcon_fast_str_replace(placeholder, question_mark, double_colon, value TSRMLS_CC);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 274:
+				PHALCON_OBS_NVAR(value);
+				phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(placeholder);
+				PHALCON_CONCAT_SV(placeholder, ":", value);
+	
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 322:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 2);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
+				add_assoc_stringl_ex(expr_return, SS("value"), SL("NULL"), 1);
+				break;
+	
+			case 268:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("LIKE"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 351:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT LIKE"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 33:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT "), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 365:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NULL"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 366:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NOT NULL"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 315:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("IN"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 323:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT IN"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 330:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 3);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("DISTINCT "), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 331:
+				PHALCON_INIT_NVAR(expr_return);
+				array_init_size(expr_return, 4);
+				add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
+				add_assoc_stringl_ex(expr_return, SS("op"), SL("BETWEEN"), 1);
+				phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				break;
+	
+			case 350:
+				PHALCON_INIT_NVAR(expr_return);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_return, this_ptr, "_getfunctioncall", expr, 14170602964103082918UL);
+				break;
+	
+			default:
+				PHALCON_INIT_VAR(expression_message);
+				PHALCON_CONCAT_SV(expression_message, "Unknown expression type ", expr_type);
+	
+				PHALCON_INIT_VAR(expression);
+				object_init_ex(expression, phalcon_mvc_model_exception_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(expression, "__construct", expression_message, 14747615951113338888UL);
+	
+				phalcon_throw_exception(expression TSRMLS_CC);
+				return;
+	
 		}
-	
-		if (phalcon_compare_strict_long(expr_type, 61 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("="), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 62 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(">"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 270 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<>"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 271 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("<="), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 272 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(">="), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 266 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("AND"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 267 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("OR"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 355 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_return, this_ptr, "_getqualified", expr, 6491682018289116056UL);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 43 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("+"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 45 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 42 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("*"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 47 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("/"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 37 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("%"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 356 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("parentheses"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 367 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("-"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 258 TSRMLS_CC)) {
-			PHALCON_OBS_VAR(expr_value);
-			phalcon_array_fetch_quick_string(&expr_value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 259 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(expr_value);
-			phalcon_array_fetch_quick_string(&expr_value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 260 TSRMLS_CC)) {
-	
-			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-			if (PHALCON_IS_TRUE(quoting)) {
-				PHALCON_INIT_VAR(escaped_value);
-				PHALCON_CALL_FUNC_PARAMS_1(escaped_value, "addslashes", value);
-	
-				PHALCON_INIT_NVAR(expr_value);
-				PHALCON_CONCAT_SVS(expr_value, "'", escaped_value, "'");
-			} else {
-				PHALCON_CPY_WRT(expr_value, value);
-			}
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &expr_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 273 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(question_mark);
-			ZVAL_STRING(question_mark, "?", 1);
-	
-			PHALCON_INIT_VAR(double_colon);
-			ZVAL_STRING(double_colon, ":", 1);
-	
-			PHALCON_INIT_VAR(placeholder);
-			phalcon_fast_str_replace(placeholder, question_mark, double_colon, value TSRMLS_CC);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 274 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(placeholder);
-			PHALCON_CONCAT_SV(placeholder, ":", value);
-	
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("placeholder"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("value"), 6954126163842UL, &placeholder, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 322 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 2);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("literal"), 1);
-			add_assoc_stringl_ex(expr_return, SS("value"), SL("NULL"), 1);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 268 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("LIKE"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 351 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT LIKE"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 33 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT "), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 365 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NULL"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 366 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL(" IS NOT NULL"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 315 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("IN"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 323 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("NOT IN"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 330 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 3);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("unary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("DISTINCT "), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 331 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			array_init_size(expr_return, 4);
-			add_assoc_stringl_ex(expr_return, SS("type"), SL("binary-op"), 1);
-			add_assoc_stringl_ex(expr_return, SS("op"), SL("BETWEEN"), 1);
-			phalcon_array_update_quick_string(&expr_return, SS("left"), 210719373744UL, &left, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			phalcon_array_update_quick_string(&expr_return, SS("right"), 6953978916291UL, &right, PH_COPY | PH_SEPARATE TSRMLS_CC);
-			goto ph_end_0;
-		}
-	
-		if (phalcon_compare_strict_long(expr_type, 350 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(expr_return);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_return, this_ptr, "_getfunctioncall", expr, 14170602964103082918UL);
-			goto ph_end_0;
-		}
-	
-		PHALCON_INIT_VAR(expression_message);
-		PHALCON_CONCAT_SV(expression_message, "Unknown expression type ", expr_type);
-	
-		PHALCON_INIT_VAR(expression);
-		object_init_ex(expression, phalcon_mvc_model_exception_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(expression, "__construct", expression_message, 14747615951113338888UL);
-	
-		phalcon_throw_exception(expression TSRMLS_CC);
-		return;
-	
-		ph_end_0:
 	
 		RETURN_CCTOR(expr_return);
 	}
@@ -42745,42 +42778,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoinType){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_quick_string(&type, join, SS("type"), 210729590247UL, PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 360 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(join_type);
-		ZVAL_STRING(join_type, "INNER", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 360:
+			PHALCON_INIT_VAR(join_type);
+			ZVAL_STRING(join_type, "INNER", 1);
+			break;
+	
+		case 361:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "LEFT", 1);
+			break;
+	
+		case 362:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "RIGHT", 1);
+			break;
+	
+		case 363:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "CROSS", 1);
+			break;
+	
+		case 364:
+			PHALCON_INIT_NVAR(join_type);
+			ZVAL_STRING(join_type, "FULL OUTER", 1);
+			break;
+	
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 361 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "LEFT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 362 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "RIGHT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 363 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "CROSS", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 364 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(join_type);
-		ZVAL_STRING(join_type, "FULL OUTER", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SV(exception_message, "Unknown join type ", type);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(join_type);
 }
@@ -44074,36 +44105,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
 			phalcon_array_fetch_quick_string(&type, ast, SS("type"), 210729590247UL, PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
 	
-			if (phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareselect");
-				goto ph_end_0;
+			switch (phalcon_get_intval(type)) {
+	
+				case 309:
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareselect");
+					break;
+	
+				case 306:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareinsert");
+					break;
+	
+				case 300:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareupdate");
+					break;
+	
+				case 303:
+					PHALCON_INIT_NVAR(ir_phql);
+					PHALCON_CALL_METHOD(ir_phql, this_ptr, "_preparedelete");
+					break;
+	
+				default:
+					PHALCON_INIT_VAR(exception_message);
+					PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+	
 			}
-	
-			if (phalcon_compare_strict_long(type, 306 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareinsert");
-				goto ph_end_0;
-			}
-	
-			if (phalcon_compare_strict_long(type, 300 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_prepareupdate");
-				goto ph_end_0;
-			}
-	
-			if (phalcon_compare_strict_long(type, 303 TSRMLS_CC)) {
-				PHALCON_INIT_NVAR(ir_phql);
-				PHALCON_CALL_METHOD(ir_phql, this_ptr, "_preparedelete");
-				goto ph_end_0;
-			}
-	
-			PHALCON_INIT_VAR(exception_message);
-			PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
-			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-			return;
-	
-			ph_end_0:
-			if(0){}
 		}
 	}
 	
@@ -44673,87 +44702,84 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 		PHALCON_OBS_NVAR(expr_value);
 		phalcon_array_fetch_quick_string(&expr_value, value, SS("value"), 6954126163842UL, PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 260 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+			case 260:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 259 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(insert_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+			case 258:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 322 TSRMLS_CC)) {
-			PHALCON_CPY_WRT(insert_value, null_value);
-			goto ph_end_1;
-		}
+			case 259:
+				PHALCON_INIT_NVAR(insert_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			case 322:
+				PHALCON_CPY_WRT(insert_value, null_value);
+				break;
 	
+			case 273:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(insert_expr);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(insert_value);
+						phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			case 274:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(insert_expr);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(insert_value);
+						phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			default:
 				PHALCON_INIT_NVAR(insert_expr);
 				PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
 	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
+				PHALCON_INIT_NVAR(insert_value);
+				object_init_ex(insert_value, phalcon_db_rawvalue_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(insert_value, "__construct", insert_expr, 14747615951113338888UL);
+	
+				break;
+	
 		}
-	
-		if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
-				PHALCON_INIT_NVAR(insert_expr);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, insert_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(insert_value);
-					phalcon_array_fetch(&insert_value, bind_params, wildcard, PH_NOISY_CC);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
-		}
-	
-		PHALCON_INIT_NVAR(insert_expr);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(insert_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-	
-		PHALCON_INIT_NVAR(insert_value);
-		object_init_ex(insert_value, phalcon_db_rawvalue_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(insert_value, "__construct", insert_expr, 14747615951113338888UL);
-	
-		goto ph_end_1;
-	
-		ph_end_1:
 	
 		PHALCON_OBS_NVAR(field_name);
 		phalcon_array_fetch(&field_name, fields, number, PH_NOISY_CC);
@@ -44981,95 +45007,92 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 		PHALCON_OBS_NVAR(expr_value);
 		phalcon_array_fetch_quick_string(&expr_value, value, SS("value"), 6954126163842UL, PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 260 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+			case 260:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 259 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(update_value);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-			goto ph_end_1;
-		}
+			case 258:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 322 TSRMLS_CC)) {
-			PHALCON_CPY_WRT(update_value, null_value);
-			goto ph_end_1;
-		}
+			case 259:
+				PHALCON_INIT_NVAR(update_value);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(update_value, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+			case 322:
+				PHALCON_CPY_WRT(update_value, null_value);
+				break;
 	
+			case 273:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(update_expr);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(update_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(update_value);
+						phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
+						PHALCON_SEPARATE(select_bind_params);
+						phalcon_array_unset(select_bind_params, wildcard);
+						PHALCON_SEPARATE(select_bind_types);
+						phalcon_array_unset(select_bind_types, wildcard);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			case 274:
+				if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(update_expr);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(update_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
+	
+					PHALCON_INIT_NVAR(wildcard);
+					phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
+					if (phalcon_array_isset(bind_params, wildcard)) {
+						PHALCON_OBS_NVAR(update_value);
+						phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
+						PHALCON_SEPARATE(select_bind_params);
+						phalcon_array_unset(select_bind_params, wildcard);
+						PHALCON_SEPARATE(select_bind_types);
+						phalcon_array_unset(select_bind_types, wildcard);
+					} else {
+						PHALCON_INIT_NVAR(exception_message);
+						PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
+						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+						return;
+					}
+				} else {
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
+					return;
+				}
+				break;
+	
+			default:
 				PHALCON_INIT_NVAR(update_expr);
 				PHALCON_CALL_METHOD_PARAMS_1_KEY(update_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
 	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(update_value);
-					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
+				PHALCON_INIT_NVAR(update_value);
+				object_init_ex(update_value, phalcon_db_rawvalue_ce);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(update_value, "__construct", update_expr, 14747615951113338888UL);
+	
+				break;
+	
 		}
-	
-		if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-			if (Z_TYPE_P(bind_params) == IS_ARRAY) { 
-	
-				PHALCON_INIT_NVAR(update_expr);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(update_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-	
-				PHALCON_INIT_NVAR(wildcard);
-				phalcon_fast_str_replace(wildcard, double_colon, empty_string, update_expr TSRMLS_CC);
-				if (phalcon_array_isset(bind_params, wildcard)) {
-					PHALCON_OBS_NVAR(update_value);
-					phalcon_array_fetch(&update_value, bind_params, wildcard, PH_NOISY_CC);
-					PHALCON_SEPARATE(select_bind_params);
-					phalcon_array_unset(select_bind_params, wildcard);
-					PHALCON_SEPARATE(select_bind_types);
-					phalcon_array_unset(select_bind_types, wildcard);
-				} else {
-					PHALCON_INIT_NVAR(exception_message);
-					PHALCON_CONCAT_SVS(exception_message, "Bound parameter '", wildcard, "' cannot be replaced because it's not in the placeholders list");
-					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-					return;
-				}
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Bound parameter cannot be replaced because placeholders is not an array");
-				return;
-			}
-			goto ph_end_1;
-		}
-	
-		PHALCON_INIT_NVAR(update_expr);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(update_expr, dialect, "getsqlexpression", expr_value, 8379906507010273477UL);
-	
-		PHALCON_INIT_NVAR(update_value);
-		object_init_ex(update_value, phalcon_db_rawvalue_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(update_value, "__construct", update_expr, 14747615951113338888UL);
-	
-		goto ph_end_1;
-	
-		ph_end_1:
 		phalcon_array_update_zval(&update_values, field_name, &update_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -45235,11 +45258,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_OBS_VAR(cache_options);
@@ -45309,36 +45332,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	PHALCON_OBS_VAR(type);
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types, 5927943617597821367UL);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 309:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeselect", intermediate, bind_params, bind_types, 5927943617597821367UL);
+			break;
+	
+		case 306:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeinsert", intermediate, bind_params, bind_types, 5927943605043677996UL);
+			break;
+	
+		case 300:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeupdate", intermediate, bind_params, bind_types, 5927943620601633530UL);
+			break;
+	
+		case 303:
+			PHALCON_INIT_NVAR(result);
+			PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executedelete", intermediate, bind_params, bind_types, 5927943598225819850UL);
+			break;
+	
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 306 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeinsert", intermediate, bind_params, bind_types, 5927943605043677996UL);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 300 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executeupdate", intermediate, bind_params, bind_types, 5927943620601633530UL);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 303 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(result);
-		PHALCON_CALL_METHOD_PARAMS_3_KEY(result, this_ptr, "_executedelete", intermediate, bind_params, bind_types, 5927943598225819850UL);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SV(exception_message, "Unknown statement ", type);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-	return;
-	
-	ph_end_0:
 	
 	if (Z_TYPE_P(cache_options) != IS_NULL) {
 	
@@ -45453,7 +45475,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
@@ -45622,7 +45644,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	}
 
 	if (!cache) {
-		PHALCON_INIT_NVAR(cache);
+		PHALCON_INIT_VAR(cache);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);
@@ -45905,7 +45927,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	}
 
 	if (!cache) {
-		PHALCON_INIT_NVAR(cache);
+		PHALCON_INIT_VAR(cache);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_model"), model TSRMLS_CC);
@@ -46734,7 +46756,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -46802,7 +46824,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	}
 
 	if (!auto_begin) {
-		PHALCON_INIT_NVAR(auto_begin);
+		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 1);
 	}
 	
@@ -46926,7 +46948,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	}
 
 	if (!collect) {
-		PHALCON_INIT_NVAR(collect);
+		PHALCON_INIT_VAR(collect);
 		ZVAL_BOOL(collect, 1);
 	}
 	
@@ -47148,7 +47170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	}
 
 	if (!auto_begin) {
-		PHALCON_INIT_NVAR(auto_begin);
+		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 0);
 	}
 	
@@ -47254,13 +47276,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	}
 
 	if (!rollback_message) {
-		PHALCON_INIT_NVAR(rollback_message);
+		PHALCON_INIT_VAR(rollback_message);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_message);
 	}
 	
 	if (!rollback_record) {
-		PHALCON_INIT_NVAR(rollback_record);
+		PHALCON_INIT_VAR(rollback_record);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_record);
 	}
@@ -48410,11 +48432,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	}
 
 	if (!field) {
-		PHALCON_INIT_NVAR(field);
+		PHALCON_INIT_VAR(field);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	} else {
 		PHALCON_SEPARATE_PARAM(type);
 	}
@@ -48566,17 +48588,17 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
 	
 	if (!manager_service) {
-		PHALCON_INIT_NVAR(manager_service);
+		PHALCON_INIT_VAR(manager_service);
 	}
 	
 	if (!db_service) {
-		PHALCON_INIT_NVAR(db_service);
+		PHALCON_INIT_VAR(db_service);
 	}
 	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -48787,7 +48809,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 	}
 
 	if (!force_exists) {
-		PHALCON_INIT_NVAR(force_exists);
+		PHALCON_INIT_VAR(force_exists);
 		ZVAL_BOOL(force_exists, 1);
 	}
 	
@@ -48859,7 +48881,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 	}
 
 	if (!force_exists) {
-		PHALCON_INIT_NVAR(force_exists);
+		PHALCON_INIT_VAR(force_exists);
 		ZVAL_BOOL(force_exists, 1);
 	}
 	
@@ -48913,7 +48935,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -48976,7 +48998,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -49044,7 +49066,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	} else {
 		PHALCON_SEPARATE_PARAM(dependency_injector);
 	}
@@ -49086,7 +49108,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	}
 
 	if (!table) {
-		PHALCON_INIT_NVAR(table);
+		PHALCON_INIT_VAR(table);
 	} else {
 		PHALCON_SEPARATE_PARAM(table);
 	}
@@ -49381,7 +49403,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -49406,7 +49428,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -49431,7 +49453,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -49456,7 +49478,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -49481,7 +49503,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_INIT_VAR(function);
@@ -50640,7 +50662,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -50774,7 +50796,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -50905,7 +50927,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(meta_data);
@@ -51455,7 +51477,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -51493,7 +51515,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -51531,7 +51553,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -51569,7 +51591,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -51608,7 +51630,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -51753,7 +51775,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
 	
@@ -52087,11 +52109,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_NVAR(http_methods);
+		PHALCON_INIT_VAR(http_methods);
 	}
 	
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "reconfigure", pattern, paths, 15717105431553132894UL);
@@ -52231,7 +52253,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (Z_TYPE_P(pattern) != IS_STRING) {
@@ -52487,7 +52509,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 	}
 
 	if (!default_routes) {
-		PHALCON_INIT_NVAR(default_routes);
+		PHALCON_INIT_VAR(default_routes);
 		ZVAL_BOOL(default_routes, 1);
 	}
 	
@@ -52703,7 +52725,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	if (!zend_is_true(uri)) {
@@ -52934,11 +52956,11 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_NVAR(http_methods);
+		PHALCON_INIT_VAR(http_methods);
 	}
 	
 	PHALCON_INIT_VAR(route);
@@ -52960,7 +52982,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -52982,7 +53004,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -53004,7 +53026,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -53026,7 +53048,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -53048,7 +53070,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -53070,7 +53092,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -53440,7 +53462,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_INIT_VAR(base_uri);
@@ -53506,7 +53528,7 @@ PHP_METHOD(Phalcon_Mvc_Url, path){
 	}
 
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	PHALCON_OBS_VAR(base_path);
@@ -53637,7 +53659,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 
 	if (!must_clean) {
-		PHALCON_INIT_NVAR(must_clean);
+		PHALCON_INIT_VAR(must_clean);
 		ZVAL_BOOL(must_clean, 0);
 	}
 	
@@ -53729,7 +53751,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 	}
 
 	if (!view) {
-		PHALCON_INIT_NVAR(view);
+		PHALCON_INIT_VAR(view);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
@@ -54623,237 +54645,206 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	
 	PHALCON_INIT_NVAR(expr_code);
 	
-	if (phalcon_compare_strict_long(type, 33 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SV(expr_code, "!", right_code);
-		goto ph_end_1;
+	switch (phalcon_get_intval(type)) {
+	
+		case 33:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SV(expr_code, "!", right_code);
+			break;
+	
+		case 42:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " * ", right_code);
+			break;
+	
+		case 43:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " + ", right_code);
+			break;
+	
+		case 45:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " - ", right_code);
+			break;
+	
+		case 47:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " / ", right_code);
+			break;
+	
+		case 37:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " % ", right_code);
+			break;
+	
+		case 60:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " < ", right_code);
+			break;
+	
+		case 61:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " > ", right_code);
+			break;
+	
+		case 62:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " > ", right_code);
+			break;
+	
+		case 126:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " . ", right_code);
+			break;
+	
+		case 360:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVS(expr_code, "array(", left_code, ")");
+			break;
+	
+		case 258:
+			PHALCON_OBS_NVAR(expr_code);
+			phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			break;
+	
+		case 259:
+			PHALCON_OBS_NVAR(expr_code);
+			phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			break;
+	
+		case 260:
+			PHALCON_OBS_VAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_VAR(single_quote);
+			ZVAL_STRING(single_quote, "'", 1);
+	
+			PHALCON_INIT_VAR(escaped_quoute);
+			ZVAL_STRING(escaped_quoute, "\\'", 1);
+	
+			PHALCON_INIT_VAR(escaped_string);
+			phalcon_fast_str_replace(escaped_string, single_quote, escaped_quoute, value TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVS(expr_code, "'", escaped_string, "'");
+			break;
+	
+		case 261:
+			PHALCON_INIT_NVAR(expr_code);
+			ZVAL_STRING(expr_code, "null", 1);
+			break;
+	
+		case 262:
+			PHALCON_INIT_NVAR(expr_code);
+			ZVAL_STRING(expr_code, "false", 1);
+			break;
+	
+		case 263:
+			PHALCON_INIT_NVAR(expr_code);
+			ZVAL_STRING(expr_code, "true", 1);
+			break;
+	
+		case 265:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SV(expr_code, "$", value);
+			break;
+	
+		case 266:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " && ", right_code);
+			break;
+	
+		case 267:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " || ", right_code);
+			break;
+	
+		case 270:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " <= ", right_code);
+			break;
+	
+		case 271:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " >= ", right_code);
+			break;
+	
+		case 272:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " == ", right_code);
+			break;
+	
+		case 273:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " != ", right_code);
+			break;
+	
+		case 274:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " === ", right_code);
+			break;
+	
+		case 275:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSV(expr_code, left_code, " !== ", right_code);
+			break;
+	
+		case 276:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVSVS(expr_code, "range(", left_code, ", ", right_code, ")");
+			break;
+	
+		case 350:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_code, this_ptr, "functioncall", expr, 1412687781212234535UL);
+			break;
+	
+		case 356:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVS(expr_code, "(", left_code, ")");
+			break;
+	
+		case 361:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_VSVS(expr_code, left_code, "[", right_code, "]");
+			break;
+	
+		case 362:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVS(expr_code, "!isset(", left_code, ")");
+			break;
+	
+		case 363:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVS(expr_code, "isset(", left_code, ")");
+			break;
+	
+		case 367:
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SV(expr_code, "-", right_code);
+			break;
+	
+		case 364:
+			PHALCON_OBS_NVAR(expr_code);
+			phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			break;
+	
+		default:
+			PHALCON_OBS_VAR(line);
+			phalcon_array_fetch_quick_string(&line, expr, SS("line"), 210719525709UL, PH_NOISY_CC);
+	
+			PHALCON_OBS_VAR(file);
+			phalcon_array_fetch_quick_string(&file, expr, SS("file"), 210712408005UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVSVSV(exception_message, "Unknown expression ", type, " in ", file, " on line ", line);
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
+			return;
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 42 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " * ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 43 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " + ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 45 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " - ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 47 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " / ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 37 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " % ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 60 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " < ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 61 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " > ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 62 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " > ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 126 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " . ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 360 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVS(expr_code, "array(", left_code, ")");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 258 TSRMLS_CC)) {
-		PHALCON_OBS_NVAR(expr_code);
-		phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 259 TSRMLS_CC)) {
-		PHALCON_OBS_NVAR(expr_code);
-		phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 260 TSRMLS_CC)) {
-		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(single_quote);
-		ZVAL_STRING(single_quote, "'", 1);
-	
-		PHALCON_INIT_VAR(escaped_quoute);
-		ZVAL_STRING(escaped_quoute, "\\'", 1);
-	
-		PHALCON_INIT_VAR(escaped_string);
-		phalcon_fast_str_replace(escaped_string, single_quote, escaped_quoute, value TSRMLS_CC);
-	
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVS(expr_code, "'", escaped_string, "'");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 261 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		ZVAL_STRING(expr_code, "null", 1);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 262 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		ZVAL_STRING(expr_code, "false", 1);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 263 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		ZVAL_STRING(expr_code, "true", 1);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 265 TSRMLS_CC)) {
-		PHALCON_OBS_NVAR(value);
-		phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-	
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SV(expr_code, "$", value);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 266 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " && ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 267 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " || ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 270 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " <= ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 271 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " >= ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 272 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " == ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 273 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " != ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 274 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " === ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 275 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSV(expr_code, left_code, " !== ", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 276 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVSVS(expr_code, "range(", left_code, ", ", right_code, ")");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 350 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(expr_code, this_ptr, "functioncall", expr, 1412687781212234535UL);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 356 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVS(expr_code, "(", left_code, ")");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 361 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_VSVS(expr_code, left_code, "[", right_code, "]");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 362 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVS(expr_code, "!isset(", left_code, ")");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 363 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SVS(expr_code, "isset(", left_code, ")");
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 367 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(expr_code);
-		PHALCON_CONCAT_SV(expr_code, "-", right_code);
-		goto ph_end_1;
-	}
-	
-	if (phalcon_compare_strict_long(type, 364 TSRMLS_CC)) {
-		PHALCON_OBS_NVAR(expr_code);
-		phalcon_array_fetch_quick_string(&expr_code, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
-		goto ph_end_1;
-	}
-	
-	PHALCON_OBS_VAR(line);
-	phalcon_array_fetch_quick_string(&line, expr, SS("line"), 210719525709UL, PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(file);
-	phalcon_array_fetch_quick_string(&file, expr, SS("file"), 210712408005UL, PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVSVSV(exception_message, "Unknown expression ", type, " in ", file, " on line ", line);
-	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-	return;
-	
-	ph_end_1:
 	
 	RETURN_CCTOR(expr_code);
 }
@@ -54932,7 +54923,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	}
 
 	if (!extends_mode) {
-		PHALCON_INIT_NVAR(extends_mode);
+		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
@@ -54992,226 +54983,212 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 		PHALCON_OBS_NVAR(type);
 		phalcon_array_fetch_quick_string(&type, statement, SS("type"), 210729590247UL, PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 357 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(code);
-			phalcon_array_fetch_quick_string(&code, statement, SS("value"), 6954126163842UL, PH_NOISY_CC);
-			phalcon_concat_self(&compilation, code TSRMLS_CC);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 300 TSRMLS_CC)) {
+			case 357:
+				PHALCON_OBS_NVAR(code);
+				phalcon_array_fetch_quick_string(&code, statement, SS("value"), 6954126163842UL, PH_NOISY_CC);
+				phalcon_concat_self(&compilation, code TSRMLS_CC);
+				break;
 	
-			PHALCON_SCONCAT_SVS(compilation, "<?php if (", expr_code, ") { ?>");
-			PHALCON_OBS_NVAR(block_statements);
-			phalcon_array_fetch_quick_string(&block_statements, statement, SS("true_statements"), 16602151603430029932UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
-			phalcon_concat_self(&compilation, code TSRMLS_CC);
-			if (phalcon_array_isset_quick_string(statement, SS("false_statements"), 11933099914613101047UL)) {
-				phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
-	
+			case 300:
+				PHALCON_SCONCAT_SVS(compilation, "<?php if (", expr_code, ") { ?>");
 				PHALCON_OBS_NVAR(block_statements);
-				phalcon_array_fetch_quick_string(&block_statements, statement, SS("false_statements"), 11933099914613101047UL, PH_NOISY_CC);
+				phalcon_array_fetch_quick_string(&block_statements, statement, SS("true_statements"), 16602151603430029932UL, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
 				phalcon_concat_self(&compilation, code TSRMLS_CC);
-			}
+				if (phalcon_array_isset_quick_string(statement, SS("false_statements"), 11933099914613101047UL)) {
+					phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
 	
-			phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
-			goto ph_end_1;
-		}
+					PHALCON_OBS_NVAR(block_statements);
+					phalcon_array_fetch_quick_string(&block_statements, statement, SS("false_statements"), 11933099914613101047UL, PH_NOISY_CC);
 	
-		if (phalcon_compare_strict_long(type, 304 TSRMLS_CC)) {
-	
-			PHALCON_OBS_NVAR(variable);
-			phalcon_array_fetch_quick_string(&variable, statement, SS("variable"), 249910439228072139UL, PH_NOISY_CC);
-			if (phalcon_array_isset_quick_string(statement, SS("key"), 6385400142UL)) {
-				PHALCON_OBS_NVAR(key);
-				phalcon_array_fetch_quick_string(&key, statement, SS("key"), 6385400142UL, PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php foreach (", expr_code, " as $", key, " => $", variable, ") { ");
-			} else {
-				PHALCON_SCONCAT_SVSVS(compilation, "<?php foreach (", expr_code, " as $", variable, ") { ");
-			}
-	
-			if (phalcon_array_isset_quick_string(statement, SS("if_expr"), 7572495283078770UL)) {
-				PHALCON_OBS_NVAR(if_expr);
-				phalcon_array_fetch_quick_string(&if_expr, statement, SS("if_expr"), 7572495283078770UL, PH_NOISY_CC);
-	
-				PHALCON_INIT_NVAR(if_expr_code);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(if_expr_code, this_ptr, "expression", if_expr, 13873079485417079605UL);
-				PHALCON_SCONCAT_SVS(compilation, "if (", if_expr_code, ") { ?>");
-			} else {
-				phalcon_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
-			}
-	
-			PHALCON_OBS_NVAR(block_statements);
-			phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
-			phalcon_concat_self(&compilation, code TSRMLS_CC);
-			if (phalcon_array_isset_quick_string(statement, SS("if_expr"), 7572495283078770UL)) {
-				phalcon_concat_self_str(&compilation, SL("<?php } } ?>") TSRMLS_CC);
-			} else {
-				phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
-			}
-	
-			goto ph_end_1;
-		}
-	
-		if (phalcon_compare_strict_long(type, 306 TSRMLS_CC)) {
-			PHALCON_OBS_NVAR(variable);
-			phalcon_array_fetch_quick_string(&variable, statement, SS("variable"), 249910439228072139UL, PH_NOISY_CC);
-			PHALCON_SCONCAT_SVSVS(compilation, "<?php $", variable, " = ", expr_code, "; ?>");
-			goto ph_end_1;
-		}
-	
-		if (phalcon_compare_strict_long(type, 359 TSRMLS_CC)) {
-			PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
-			goto ph_end_1;
-		}
-	
-		if (phalcon_compare_strict_long(type, 307 TSRMLS_CC)) {
-	
-			PHALCON_OBS_NVAR(block_name);
-			phalcon_array_fetch_quick_string(&block_name, statement, SS("name"), 210721608966UL, PH_NOISY_CC);
-			if (phalcon_array_isset_quick_string(statement, SS("block_statements"), 17225665480563364567UL)) {
-				PHALCON_OBS_NVAR(block_statements);
-				phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
-			} else {
-				PHALCON_INIT_NVAR(block_statements);
-			}
-	
-			PHALCON_OBS_NVAR(blocks);
-			phalcon_read_property(&blocks, this_ptr, SL("_blocks"), PH_NOISY_CC);
-			if (zend_is_true(block_mode)) {
-				if (Z_TYPE_P(blocks) != IS_ARRAY) { 
-					PHALCON_INIT_NVAR(blocks);
-					array_init(blocks);
-				}
-	
-				if (Z_TYPE_P(compilation) != IS_NULL) {
-					phalcon_array_append(&blocks, compilation, PH_SEPARATE TSRMLS_CC);
-	
-					PHALCON_INIT_NVAR(compilation);
-				}
-	
-				phalcon_array_update_zval(&blocks, block_name, &block_statements, PH_COPY | PH_SEPARATE TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
-			} else {
-				if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
 					PHALCON_INIT_NVAR(code);
 					PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
 					phalcon_concat_self(&compilation, code TSRMLS_CC);
 				}
-			}
 	
-			goto ph_end_1;
-		}
+				phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 310 TSRMLS_CC)) {
+			case 304:
+				PHALCON_OBS_NVAR(variable);
+				phalcon_array_fetch_quick_string(&variable, statement, SS("variable"), 249910439228072139UL, PH_NOISY_CC);
+				if (phalcon_array_isset_quick_string(statement, SS("key"), 6385400142UL)) {
+					PHALCON_OBS_NVAR(key);
+					phalcon_array_fetch_quick_string(&key, statement, SS("key"), 6385400142UL, PH_NOISY_CC);
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php foreach (", expr_code, " as $", key, " => $", variable, ") { ");
+				} else {
+					PHALCON_SCONCAT_SVSVS(compilation, "<?php foreach (", expr_code, " as $", variable, ") { ");
+				}
 	
-			PHALCON_OBS_NVAR(path);
-			phalcon_array_fetch_quick_string(&path, statement, SS("path"), 210723988530UL, PH_NOISY_CC);
+				if (phalcon_array_isset_quick_string(statement, SS("if_expr"), 7572495283078770UL)) {
+					PHALCON_OBS_NVAR(if_expr);
+					phalcon_array_fetch_quick_string(&if_expr, statement, SS("if_expr"), 7572495283078770UL, PH_NOISY_CC);
 	
-			PHALCON_OBS_NVAR(view);
-			phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-			if (Z_TYPE_P(view) == IS_OBJECT) {
-				PHALCON_INIT_NVAR(views_dir);
-				PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
+					PHALCON_INIT_NVAR(if_expr_code);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(if_expr_code, this_ptr, "expression", if_expr, 13873079485417079605UL);
+					PHALCON_SCONCAT_SVS(compilation, "if (", if_expr_code, ") { ?>");
+				} else {
+					phalcon_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
+				}
 	
-				PHALCON_INIT_NVAR(final_path);
-				PHALCON_CONCAT_VV(final_path, views_dir, path);
-			} else {
-				PHALCON_CPY_WRT(final_path, path);
-			}
+				PHALCON_OBS_NVAR(block_statements);
+				phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
 	
-			PHALCON_INIT_NVAR(sub_compiler);
-			if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
+				phalcon_concat_self(&compilation, code TSRMLS_CC);
+				if (phalcon_array_isset_quick_string(statement, SS("if_expr"), 7572495283078770UL)) {
+					phalcon_concat_self_str(&compilation, SL("<?php } } ?>") TSRMLS_CC);
+				} else {
+					phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+				}
+	
+				break;
+	
+			case 306:
+				PHALCON_OBS_NVAR(variable);
+				phalcon_array_fetch_quick_string(&variable, statement, SS("variable"), 249910439228072139UL, PH_NOISY_CC);
+				PHALCON_SCONCAT_SVSVS(compilation, "<?php $", variable, " = ", expr_code, "; ?>");
+				break;
+	
+			case 359:
+				PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
+				break;
+	
+			case 307:
+				PHALCON_OBS_NVAR(block_name);
+				phalcon_array_fetch_quick_string(&block_name, statement, SS("name"), 210721608966UL, PH_NOISY_CC);
+				if (phalcon_array_isset_quick_string(statement, SS("block_statements"), 17225665480563364567UL)) {
+					PHALCON_OBS_NVAR(block_statements);
+					phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
+				} else {
+					PHALCON_INIT_NVAR(block_statements);
+				}
+	
+				PHALCON_OBS_NVAR(blocks);
+				phalcon_read_property(&blocks, this_ptr, SL("_blocks"), PH_NOISY_CC);
+				if (zend_is_true(block_mode)) {
+					if (Z_TYPE_P(blocks) != IS_ARRAY) { 
+						PHALCON_INIT_NVAR(blocks);
+						array_init(blocks);
+					}
+	
+					if (Z_TYPE_P(compilation) != IS_NULL) {
+						phalcon_array_append(&blocks, compilation, PH_SEPARATE TSRMLS_CC);
+	
+						PHALCON_INIT_NVAR(compilation);
+					}
+	
+					phalcon_array_update_zval(&blocks, block_name, &block_statements, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_update_property_zval(this_ptr, SL("_blocks"), blocks TSRMLS_CC);
+				} else {
+					if (Z_TYPE_P(block_statements) == IS_ARRAY) { 
+						PHALCON_INIT_NVAR(code);
+						PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
+						phalcon_concat_self(&compilation, code TSRMLS_CC);
+					}
+				}
+	
+				break;
+	
+			case 310:
+				PHALCON_OBS_NVAR(path);
+				phalcon_array_fetch_quick_string(&path, statement, SS("path"), 210723988530UL, PH_NOISY_CC);
+	
+				PHALCON_OBS_NVAR(view);
+				phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+				if (Z_TYPE_P(view) == IS_OBJECT) {
+					PHALCON_INIT_NVAR(views_dir);
+					PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
+	
+					PHALCON_INIT_NVAR(final_path);
+					PHALCON_CONCAT_VV(final_path, views_dir, path);
+				} else {
+					PHALCON_CPY_WRT(final_path, path);
+				}
+	
+				PHALCON_INIT_NVAR(sub_compiler);
+				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
+					return;
+				}
+	
+				PHALCON_INIT_NVAR(extended);
+				ZVAL_BOOL(extended, 1);
+	
+				PHALCON_INIT_NVAR(sub_compilation);
+				PHALCON_CALL_METHOD_PARAMS_2_KEY(sub_compilation, sub_compiler, "compile", final_path, extended, 7572251756029422UL);
+				phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_extendedBlocks"), sub_compilation TSRMLS_CC);
+				PHALCON_CPY_WRT(block_mode, extended);
+				break;
+	
+			case 313:
+				PHALCON_OBS_NVAR(path);
+				phalcon_array_fetch_quick_string(&path, statement, SS("path"), 210723988530UL, PH_NOISY_CC);
+	
+				PHALCON_OBS_NVAR(view);
+				phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+				if (Z_TYPE_P(view) == IS_OBJECT) {
+					PHALCON_INIT_NVAR(views_dir);
+					PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
+	
+					PHALCON_INIT_NVAR(final_path);
+					PHALCON_CONCAT_VV(final_path, views_dir, path);
+				} else {
+					PHALCON_CPY_WRT(final_path, path);
+				}
+	
+				PHALCON_INIT_NVAR(sub_compiler);
+				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
+					return;
+				}
+	
+				PHALCON_INIT_NVAR(sub_compilation);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(sub_compilation, sub_compiler, "compile", final_path, 7572251756029422UL);
+				phalcon_concat_self(&compilation, sub_compilation TSRMLS_CC);
+				break;
+	
+			case 314:
+				PHALCON_OBS_NVAR(key);
+				phalcon_array_fetch_quick_string(&key, statement, SS("key"), 6385400142UL, PH_NOISY_CC);
+				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $cacheKey", key, " = $this->viewCache->start(\"", key, "\"); if ($cacheKey", key, " === null) { ?>");
+				PHALCON_OBS_NVAR(block_statements);
+				phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
+				phalcon_concat_self(&compilation, code TSRMLS_CC);
+				if (phalcon_array_isset_quick_string(statement, SS("lifetime"), 249896700458061492UL)) {
+					PHALCON_OBS_NVAR(lifetime);
+					phalcon_array_fetch_quick_string(&lifetime, statement, SS("lifetime"), 249896700458061492UL, PH_NOISY_CC);
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\", null, ", lifetime, "); } else { echo $cacheKey", key, "; } ?>");
+				} else {
+					PHALCON_SCONCAT_SVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\"); } else { echo $cacheKey", key, "; } ?>");
+				}
+	
+				break;
+	
+			case 316:
+				PHALCON_SCONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
+				break;
+	
+			default:
+				PHALCON_OBS_NVAR(line);
+				phalcon_array_fetch_quick_string(&line, statement, SS("line"), 210719525709UL, PH_NOISY_CC);
+	
+				PHALCON_OBS_NVAR(file);
+				phalcon_array_fetch_quick_string(&file, statement, SS("file"), 210712408005UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(exception_message);
+				PHALCON_CONCAT_SVSVSV(exception_message, "Unknown statement ", type, " in ", file, " on line ", line);
+				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
 				return;
-			}
 	
-			PHALCON_INIT_NVAR(extended);
-			ZVAL_BOOL(extended, 1);
-	
-			PHALCON_INIT_NVAR(sub_compilation);
-			PHALCON_CALL_METHOD_PARAMS_2_KEY(sub_compilation, sub_compiler, "compile", final_path, extended, 7572251756029422UL);
-			phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
-			phalcon_update_property_zval(this_ptr, SL("_extendedBlocks"), sub_compilation TSRMLS_CC);
-			PHALCON_CPY_WRT(block_mode, extended);
-			goto ph_end_1;
 		}
-	
-		if (phalcon_compare_strict_long(type, 313 TSRMLS_CC)) {
-	
-			PHALCON_OBS_NVAR(path);
-			phalcon_array_fetch_quick_string(&path, statement, SS("path"), 210723988530UL, PH_NOISY_CC);
-	
-			PHALCON_OBS_NVAR(view);
-			phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-			if (Z_TYPE_P(view) == IS_OBJECT) {
-				PHALCON_INIT_NVAR(views_dir);
-				PHALCON_CALL_METHOD(views_dir, view, "getviewsdir");
-	
-				PHALCON_INIT_NVAR(final_path);
-				PHALCON_CONCAT_VV(final_path, views_dir, path);
-			} else {
-				PHALCON_CPY_WRT(final_path, path);
-			}
-	
-			PHALCON_INIT_NVAR(sub_compiler);
-			if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
-				return;
-			}
-	
-			PHALCON_INIT_NVAR(sub_compilation);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(sub_compilation, sub_compiler, "compile", final_path, 7572251756029422UL);
-			phalcon_concat_self(&compilation, sub_compilation TSRMLS_CC);
-			goto ph_end_1;
-		}
-	
-		if (phalcon_compare_strict_long(type, 314 TSRMLS_CC)) {
-	
-			PHALCON_OBS_NVAR(key);
-			phalcon_array_fetch_quick_string(&key, statement, SS("key"), 6385400142UL, PH_NOISY_CC);
-			PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $cacheKey", key, " = $this->viewCache->start(\"", key, "\"); if ($cacheKey", key, " === null) { ?>");
-			PHALCON_OBS_NVAR(block_statements);
-			phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 17225665480563364567UL, PH_NOISY_CC);
-	
-			PHALCON_INIT_NVAR(code);
-			PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 13327950426186998901UL);
-			phalcon_concat_self(&compilation, code TSRMLS_CC);
-			if (phalcon_array_isset_quick_string(statement, SS("lifetime"), 249896700458061492UL)) {
-				PHALCON_OBS_NVAR(lifetime);
-				phalcon_array_fetch_quick_string(&lifetime, statement, SS("lifetime"), 249896700458061492UL, PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\", null, ", lifetime, "); } else { echo $cacheKey", key, "; } ?>");
-			} else {
-				PHALCON_SCONCAT_SVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\"); } else { echo $cacheKey", key, "; } ?>");
-			}
-	
-			goto ph_end_1;
-		}
-	
-		if (phalcon_compare_strict_long(type, 316 TSRMLS_CC)) {
-			PHALCON_SCONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
-			goto ph_end_1;
-		}
-	
-		PHALCON_OBS_NVAR(line);
-		phalcon_array_fetch_quick_string(&line, statement, SS("line"), 210719525709UL, PH_NOISY_CC);
-	
-		PHALCON_OBS_NVAR(file);
-		phalcon_array_fetch_quick_string(&file, statement, SS("file"), 210712408005UL, PH_NOISY_CC);
-	
-		PHALCON_INIT_NVAR(exception_message);
-		PHALCON_CONCAT_SVSVSV(exception_message, "Unknown statement ", type, " in ", file, " on line ", line);
-		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-		return;
-	
-		ph_end_1:
-		if(0){}
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
@@ -55254,7 +55231,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	}
 
 	if (!extends_mode) {
-		PHALCON_INIT_NVAR(extends_mode);
+		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
@@ -55370,7 +55347,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 	}
 
 	if (!extends_mode) {
-		PHALCON_INIT_NVAR(extends_mode);
+		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
@@ -55402,7 +55379,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 	}
 
 	if (!extends_mode) {
-		PHALCON_INIT_NVAR(extends_mode);
+		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
@@ -55461,7 +55438,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	}
 
 	if (!extends_mode) {
-		PHALCON_INIT_NVAR(extends_mode);
+		PHALCON_INIT_VAR(extends_mode);
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
@@ -55671,8 +55648,7 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -55711,13 +55687,11 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	if (key) {
-		add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-		efree(key->token);
+		add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 		efree(key);
 	}
 
@@ -55744,13 +55718,11 @@ static zval *phvolt_ret_cache_statement(phvolt_parser_token *key, phvolt_parser_
 	array_init(ret);
 
 	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
-	add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-	efree(key->token);
+	add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 	efree(key);
 
 	if (lifetime) {
-		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 1);
-		efree(lifetime->token);
+		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 0);
 		efree(lifetime);
 	}
 	add_assoc_zval(ret, "block_statements", block_statements);
@@ -55770,8 +55742,7 @@ static zval *phvolt_ret_set_statement(phvolt_parser_token *variable, zval *expr,
 	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	add_assoc_zval(ret, "expr", expr);
@@ -55808,8 +55779,7 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (block_statements) {
@@ -55831,8 +55801,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -55851,8 +55820,7 @@ static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -55941,8 +55909,7 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 	array_init(ret);
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-		efree(name->token);
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
 
@@ -55998,7 +55965,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 }
 
 
-// 363 "parser.c"
+// 353 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -56622,14 +56589,16 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 53:
     case 54:
     case 55:
-// 439 "parser.lemon"
+// 429 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
-		efree((kkpminor->kk0)->token);
+		if ((kkpminor->kk0)->free_flag) {
+			efree((kkpminor->kk0)->token);
+		}
 		efree((kkpminor->kk0));
 	}
 }
-// 1035 "parser.c"
+// 1027 "parser.c"
       break;
     case 59:
     case 60:
@@ -56649,9 +56618,9 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 75:
     case 76:
     case 77:
-// 454 "parser.lemon"
+// 446 "parser.lemon"
 { zval_ptr_dtor(&(kkpminor->kk72)); }
-// 1057 "parser.c"
+// 1049 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -56898,11 +56867,11 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 446 "parser.lemon"
+// 438 "parser.lemon"
 {
 	status->ret = kkmsp[0].minor.kk72;
 }
-// 1351 "parser.c"
+// 1343 "parser.c"
         break;
       case 1:
       case 4:
@@ -56917,30 +56886,30 @@ static void kk_reduce(
       case 13:
       case 14:
       case 62:
-// 450 "parser.lemon"
+// 442 "parser.lemon"
 {
 	kkgotominor.kk72 = kkmsp[0].minor.kk72;
 }
-// 1370 "parser.c"
+// 1362 "parser.c"
         break;
       case 2:
-// 456 "parser.lemon"
+// 448 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(kkmsp[-1].minor.kk72, kkmsp[0].minor.kk72);
 }
-// 1377 "parser.c"
+// 1369 "parser.c"
         break;
       case 3:
       case 59:
       case 66:
-// 460 "parser.lemon"
+// 452 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk72);
 }
-// 1386 "parser.c"
+// 1378 "parser.c"
         break;
       case 15:
-// 512 "parser.lemon"
+// 504 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_if_statement(kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -56950,10 +56919,10 @@ static void kk_reduce(
   kk_destructor(28,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1399 "parser.c"
+// 1391 "parser.c"
         break;
       case 16:
-// 516 "parser.lemon"
+// 508 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_if_statement(kkmsp[-9].minor.kk72, kkmsp[-7].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -56966,10 +56935,10 @@ static void kk_reduce(
   kk_destructor(28,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1415 "parser.c"
+// 1407 "parser.c"
         break;
       case 17:
-// 522 "parser.lemon"
+// 514 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk72, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-9].minor);
@@ -56980,10 +56949,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1429 "parser.c"
+// 1421 "parser.c"
         break;
       case 18:
-// 526 "parser.lemon"
+// 518 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk72, kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -56995,10 +56964,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1444 "parser.c"
+// 1436 "parser.c"
         break;
       case 19:
-// 530 "parser.lemon"
+// 522 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk72, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -57010,10 +56979,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1459 "parser.c"
+// 1451 "parser.c"
         break;
       case 20:
-// 534 "parser.lemon"
+// 526 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk72, kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-13].minor);
@@ -57026,10 +56995,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1475 "parser.c"
+// 1467 "parser.c"
         break;
       case 21:
-// 540 "parser.lemon"
+// 532 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-5].minor);
@@ -57037,28 +57006,28 @@ static void kk_reduce(
   kk_destructor(35,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1486 "parser.c"
+// 1478 "parser.c"
         break;
       case 22:
-// 546 "parser.lemon"
+// 538 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_empty_statement(status->scanner_state);
   kk_destructor(25,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1495 "parser.c"
+// 1487 "parser.c"
         break;
       case 23:
-// 552 "parser.lemon"
+// 544 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(36,&kkmsp[-2].minor);
   kk_destructor(37,&kkmsp[0].minor);
 }
-// 1504 "parser.c"
+// 1496 "parser.c"
         break;
       case 24:
-// 558 "parser.lemon"
+// 550 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -57068,10 +57037,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1517 "parser.c"
+// 1509 "parser.c"
         break;
       case 25:
-// 562 "parser.lemon"
+// 554 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-6].minor);
@@ -57081,10 +57050,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1530 "parser.c"
+// 1522 "parser.c"
         break;
       case 26:
-// 568 "parser.lemon"
+// 560 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk0, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -57094,10 +57063,10 @@ static void kk_reduce(
   kk_destructor(41,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1543 "parser.c"
+// 1535 "parser.c"
         break;
       case 27:
-// 572 "parser.lemon"
+// 564 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk0, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-8].minor);
@@ -57107,362 +57076,362 @@ static void kk_reduce(
   kk_destructor(41,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1556 "parser.c"
+// 1548 "parser.c"
         break;
       case 28:
-// 578 "parser.lemon"
+// 570 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(43,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1566 "parser.c"
+// 1558 "parser.c"
         break;
       case 29:
-// 584 "parser.lemon"
+// 576 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(45,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1576 "parser.c"
+// 1568 "parser.c"
         break;
       case 30:
-// 590 "parser.lemon"
+// 582 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_do_statement(kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(46,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1586 "parser.c"
+// 1578 "parser.c"
         break;
       case 31:
-// 596 "parser.lemon"
+// 588 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1593 "parser.c"
+// 1585 "parser.c"
         break;
       case 32:
-// 602 "parser.lemon"
+// 594 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1601 "parser.c"
+// 1593 "parser.c"
         break;
       case 33:
-// 606 "parser.lemon"
+// 598 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1609 "parser.c"
+// 1601 "parser.c"
         break;
       case 34:
-// 610 "parser.lemon"
+// 602 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(19,&kkmsp[-1].minor);
 }
-// 1617 "parser.c"
+// 1609 "parser.c"
         break;
       case 35:
-// 614 "parser.lemon"
+// 606 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(17,&kkmsp[-1].minor);
 }
-// 1625 "parser.c"
+// 1617 "parser.c"
         break;
       case 36:
-// 618 "parser.lemon"
+// 610 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(16,&kkmsp[-1].minor);
 }
-// 1633 "parser.c"
+// 1625 "parser.c"
         break;
       case 37:
-// 622 "parser.lemon"
+// 614 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(18,&kkmsp[-1].minor);
 }
-// 1641 "parser.c"
+// 1633 "parser.c"
         break;
       case 38:
-// 626 "parser.lemon"
+// 618 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(4,&kkmsp[-1].minor);
 }
-// 1649 "parser.c"
+// 1641 "parser.c"
         break;
       case 39:
-// 630 "parser.lemon"
+// 622 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(5,&kkmsp[-1].minor);
 }
-// 1657 "parser.c"
+// 1649 "parser.c"
         break;
       case 40:
-// 634 "parser.lemon"
+// 626 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(21,&kkmsp[-1].minor);
 }
-// 1665 "parser.c"
+// 1657 "parser.c"
         break;
       case 41:
-// 638 "parser.lemon"
+// 630 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(15,&kkmsp[-1].minor);
 }
-// 1673 "parser.c"
+// 1665 "parser.c"
         break;
       case 42:
-// 642 "parser.lemon"
+// 634 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(3,&kkmsp[-1].minor);
 }
-// 1681 "parser.c"
+// 1673 "parser.c"
         break;
       case 43:
-// 646 "parser.lemon"
+// 638 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(7,&kkmsp[-1].minor);
 }
-// 1689 "parser.c"
+// 1681 "parser.c"
         break;
       case 44:
-// 650 "parser.lemon"
+// 642 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk72, NULL, status->scanner_state);
   kk_destructor(6,&kkmsp[-2].minor);
   kk_destructor(22,&kkmsp[-1].minor);
   kk_destructor(48,&kkmsp[0].minor);
 }
-// 1699 "parser.c"
+// 1691 "parser.c"
         break;
       case 45:
-// 654 "parser.lemon"
+// 646 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk72, NULL, status->scanner_state);
   kk_destructor(6,&kkmsp[-1].minor);
   kk_destructor(48,&kkmsp[0].minor);
 }
-// 1708 "parser.c"
+// 1700 "parser.c"
         break;
       case 46:
-// 658 "parser.lemon"
+// 650 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(6,&kkmsp[-1].minor);
 }
-// 1716 "parser.c"
+// 1708 "parser.c"
         break;
       case 47:
-// 662 "parser.lemon"
+// 654 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(8,&kkmsp[-1].minor);
 }
-// 1724 "parser.c"
+// 1716 "parser.c"
         break;
       case 48:
-// 666 "parser.lemon"
+// 658 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(13,&kkmsp[-1].minor);
 }
-// 1732 "parser.c"
+// 1724 "parser.c"
         break;
       case 49:
-// 670 "parser.lemon"
+// 662 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(14,&kkmsp[-1].minor);
 }
-// 1740 "parser.c"
+// 1732 "parser.c"
         break;
       case 50:
-// 674 "parser.lemon"
+// 666 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(9,&kkmsp[-1].minor);
 }
-// 1748 "parser.c"
+// 1740 "parser.c"
         break;
       case 51:
-// 678 "parser.lemon"
+// 670 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(10,&kkmsp[-1].minor);
 }
-// 1756 "parser.c"
+// 1748 "parser.c"
         break;
       case 52:
-// 682 "parser.lemon"
+// 674 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(11,&kkmsp[-1].minor);
 }
-// 1764 "parser.c"
+// 1756 "parser.c"
         break;
       case 53:
-// 686 "parser.lemon"
+// 678 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(12,&kkmsp[-1].minor);
 }
-// 1772 "parser.c"
+// 1764 "parser.c"
         break;
       case 54:
-// 690 "parser.lemon"
+// 682 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(24,&kkmsp[-1].minor);
 }
-// 1780 "parser.c"
+// 1772 "parser.c"
         break;
       case 55:
-// 694 "parser.lemon"
+// 686 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(22,&kkmsp[-1].minor);
 }
-// 1788 "parser.c"
+// 1780 "parser.c"
         break;
       case 56:
-// 698 "parser.lemon"
+// 690 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk72, NULL, status->scanner_state);
   kk_destructor(23,&kkmsp[-2].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1797 "parser.c"
+// 1789 "parser.c"
         break;
       case 57:
-// 702 "parser.lemon"
+// 694 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk72, NULL, status->scanner_state);
   kk_destructor(2,&kkmsp[-2].minor);
   kk_destructor(50,&kkmsp[0].minor);
 }
-// 1806 "parser.c"
+// 1798 "parser.c"
         break;
       case 58:
       case 65:
-// 708 "parser.lemon"
+// 700 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72);
   kk_destructor(1,&kkmsp[-1].minor);
 }
-// 1815 "parser.c"
+// 1807 "parser.c"
         break;
       case 60:
       case 68:
-// 716 "parser.lemon"
+// 708 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(51,&kkmsp[-1].minor);
 }
-// 1824 "parser.c"
+// 1816 "parser.c"
         break;
       case 61:
       case 67:
-// 720 "parser.lemon"
+// 712 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk72, status->scanner_state);
 }
-// 1832 "parser.c"
+// 1824 "parser.c"
         break;
       case 63:
-// 730 "parser.lemon"
+// 722 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_func_call(kkmsp[-3].minor.kk72, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(23,&kkmsp[-2].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1841 "parser.c"
+// 1833 "parser.c"
         break;
       case 64:
-// 734 "parser.lemon"
+// 726 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_func_call(kkmsp[-2].minor.kk72, NULL, status->scanner_state);
   kk_destructor(23,&kkmsp[-1].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1850 "parser.c"
+// 1842 "parser.c"
         break;
       case 69:
-// 758 "parser.lemon"
+// 750 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1857 "parser.c"
+// 1849 "parser.c"
         break;
       case 70:
-// 762 "parser.lemon"
+// 754 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk72, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(2,&kkmsp[-2].minor);
   kk_destructor(50,&kkmsp[0].minor);
 }
-// 1866 "parser.c"
+// 1858 "parser.c"
         break;
       case 71:
-// 766 "parser.lemon"
+// 758 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1873 "parser.c"
+// 1865 "parser.c"
         break;
       case 72:
-// 770 "parser.lemon"
+// 762 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1880 "parser.c"
+// 1872 "parser.c"
         break;
       case 73:
-// 774 "parser.lemon"
+// 766 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1887 "parser.c"
+// 1879 "parser.c"
         break;
       case 74:
-// 778 "parser.lemon"
+// 770 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
   kk_destructor(53,&kkmsp[0].minor);
 }
-// 1895 "parser.c"
+// 1887 "parser.c"
         break;
       case 75:
-// 782 "parser.lemon"
+// 774 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
   kk_destructor(54,&kkmsp[0].minor);
 }
-// 1903 "parser.c"
+// 1895 "parser.c"
         break;
       case 76:
-// 786 "parser.lemon"
+// 778 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
   kk_destructor(55,&kkmsp[0].minor);
 }
-// 1911 "parser.c"
+// 1903 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -57498,7 +57467,7 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-// 393 "parser.lemon"
+// 383 "parser.lemon"
 
 	if (status->scanner_state->start) {
 		{
@@ -57544,7 +57513,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 1999 "parser.c"
+// 1991 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -57778,17 +57747,26 @@ static void phvolt_wrapper_free(void *pointer){
 }
 
 static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parsercode, phvolt_scanner_token *token, phvolt_parser_status *parser_status){
+
 	phvolt_parser_token *pToken;
+
 	pToken = emalloc(sizeof(phvolt_parser_token));
 	pToken->opcode = opcode;
 	pToken->token = token->value;
 	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
 }
 
 static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
-	char *str = emalloc(sizeof(char) * (128 + Z_STRLEN_P(parser_status->scanner_state->active_file)));
-	sprintf(str, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+
+	unsigned int length = (128 + Z_STRLEN_P(parser_status->scanner_state->active_file));
+	char *str = emalloc(sizeof(char) * length);
+
+	snprintf(str, length, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+	str[length - 1] = '\0';
+
 	parser_status->syntax_error = estrndup(str, strlen(str));
 	efree(str);
 }
@@ -57800,8 +57778,8 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + strlen(state->start) +  Z_STRLEN_P(state->active_file));
-		if (strlen(state->start) > 16) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
@@ -57810,7 +57788,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) *(32 + Z_STRLEN_P(state->active_file)));
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
 		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -57856,7 +57834,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	char *error;
 	phvolt_scanner_state *state;
-	phvolt_scanner_token *token;
+	phvolt_scanner_token token;
 	int scanner_status, status = SUCCESS;
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
@@ -57878,7 +57856,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
-	token = emalloc(sizeof(phvolt_scanner_token));
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -57897,14 +57874,17 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->start_length = 0;
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, token))) {
+	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
-		state->active_token = token->opcode;
+		state->active_token = token.opcode;
 
-		switch(token->opcode){
+		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
+
+		switch(token.opcode){
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -58022,16 +58002,16 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_INTEGER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, &token, parser_status);
 				break;
 			case PHVOLT_T_DOUBLE:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, &token, parser_status);
 				break;
 			case PHVOLT_T_STRING:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, &token, parser_status);
 				break;
 			case PHVOLT_T_IDENTIFIER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, &token, parser_status);
 				break;
 
 			case PHVOLT_T_IF:
@@ -58072,18 +58052,18 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 						parser_status->status = PHVOLT_PARSING_FAILED;
 					}
-					efree(token->value);
+					efree(token.value);
 					break;
 				} else {
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						state->statement_position++;
 					}
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -58147,7 +58127,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				parser_status->status = PHVOLT_PARSING_FAILED;
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token->opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
 					PHALCON_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
@@ -58208,12 +58188,11 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	efree(parser_status);
 	efree(state);
-	efree(token);
 
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Sun Dec 16 03:47:11 2012 */
+/* Generated by re2c 0.13.5 on Sun Dec 23 14:07:23 2012 */
 // 1 "scanner.re"
 
 
@@ -61175,7 +61154,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	}
 
 	if (!must_clean) {
-		PHALCON_INIT_NVAR(must_clean);
+		PHALCON_INIT_VAR(must_clean);
 		ZVAL_BOOL(must_clean, 0);
 	}
 	
@@ -61317,7 +61296,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
@@ -61460,7 +61439,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
@@ -62013,7 +61992,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	PHALCON_OBS_VAR(disabled);
@@ -62398,7 +62377,7 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 		ZVAL_BOOL(options, 1);
 	}
 	
@@ -63234,7 +63213,7 @@ PHP_METHOD(Phalcon_Security, hash){
 	}
 
 	if (!work_factor) {
-		PHALCON_INIT_NVAR(work_factor);
+		PHALCON_INIT_VAR(work_factor);
 	} else {
 		PHALCON_SEPARATE_PARAM(work_factor);
 	}
@@ -63307,7 +63286,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	}
 
 	if (!number_bytes) {
-		PHALCON_INIT_NVAR(number_bytes);
+		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
 	}
 	
@@ -63357,7 +63336,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	}
 
 	if (!number_bytes) {
-		PHALCON_INIT_NVAR(number_bytes);
+		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
 	}
 	
@@ -63405,7 +63384,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	}
 
 	if (!token_key) {
-		PHALCON_INIT_NVAR(token_key);
+		PHALCON_INIT_VAR(token_key);
 	} else {
 		PHALCON_SEPARATE_PARAM(token_key);
 	}
@@ -63507,7 +63486,7 @@ PHP_METHOD(Phalcon_Session_Adapter, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -63582,7 +63561,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(unique_id);
@@ -63929,7 +63908,7 @@ PHP_METHOD(Phalcon_Session_Bag, get){
 	}
 
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(initalized);
@@ -64130,7 +64109,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
@@ -64633,7 +64612,7 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	}
 
 	if (!text) {
-		PHALCON_INIT_NVAR(text);
+		PHALCON_INIT_VAR(text);
 	} else {
 		PHALCON_SEPARATE_PARAM(text);
 	}
@@ -64727,7 +64706,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	}
 
 	if (!as_value) {
-		PHALCON_INIT_NVAR(as_value);
+		PHALCON_INIT_VAR(as_value);
 		ZVAL_BOOL(as_value, 0);
 	}
 	
@@ -64955,7 +64934,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(html);
@@ -64974,7 +64953,7 @@ PHP_METHOD(Phalcon_Tag, select){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	PHALCON_INIT_VAR(html);
@@ -65089,7 +65068,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
@@ -65280,11 +65259,11 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (!local) {
-		PHALCON_INIT_NVAR(local);
+		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
 		PHALCON_SEPARATE_PARAM(local);
@@ -65391,11 +65370,11 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (!local) {
-		PHALCON_INIT_NVAR(local);
+		PHALCON_INIT_VAR(local);
 		ZVAL_BOOL(local, 1);
 	} else {
 		PHALCON_SEPARATE_PARAM(local);
@@ -65495,7 +65474,7 @@ PHP_METHOD(Phalcon_Tag, image){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
@@ -65571,12 +65550,12 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	}
 
 	if (!separator) {
-		PHALCON_INIT_NVAR(separator);
+		PHALCON_INIT_VAR(separator);
 		ZVAL_STRING(separator, "-", 1);
 	}
 	
 	if (!lowercase) {
-		PHALCON_INIT_NVAR(lowercase);
+		PHALCON_INIT_VAR(lowercase);
 		ZVAL_BOOL(lowercase, 0);
 	}
 	
@@ -65734,7 +65713,7 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 
 	if (!separator) {
-		PHALCON_INIT_NVAR(separator);
+		PHALCON_INIT_VAR(separator);
 	} else {
 		PHALCON_SEPARATE_PARAM(separator);
 	}
@@ -65776,7 +65755,7 @@ PHP_METHOD(Phalcon_Text, random){
 	}
 
 	if (!length) {
-		PHALCON_INIT_NVAR(length);
+		PHALCON_INIT_VAR(length);
 		ZVAL_LONG(length, 8);
 	}
 	
@@ -65796,7 +65775,7 @@ PHP_METHOD(Phalcon_Text, startsWith){
 	}
 
 	if (!ignore_case) {
-		PHALCON_INIT_NVAR(ignore_case);
+		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
 	}
 	
@@ -65817,7 +65796,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
 	}
 
 	if (!ignore_case) {
-		PHALCON_INIT_NVAR(ignore_case);
+		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
 	}
 	
@@ -65944,7 +65923,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_OBS_VAR(translate);
@@ -66042,7 +66021,7 @@ PHP_METHOD(Phalcon_Translate_Adapter, _){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_INIT_VAR(translation);
@@ -66232,29 +66211,29 @@ PHP_METHOD(Phalcon_Version, get){
 	PHALCON_INIT_VAR(result);
 	PHALCON_CONCAT_VSVSVS(result, major, ".", medium, ".", minor, " ");
 	
-	if (phalcon_compare_strict_long(special, 1 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(suffix);
-		PHALCON_CONCAT_SV(suffix, "ALPHA ", special_number);
-		goto ph_end_0;
+	switch (phalcon_get_intval(special)) {
+	
+		case 1:
+			PHALCON_INIT_VAR(suffix);
+			PHALCON_CONCAT_SV(suffix, "ALPHA ", special_number);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(suffix);
+			PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
+			break;
+	
+		case 3:
+			PHALCON_INIT_NVAR(suffix);
+			PHALCON_CONCAT_SV(suffix, "RC ", special_number);
+			break;
+	
+		default:
+			PHALCON_INIT_NVAR(suffix);
+			ZVAL_STRING(suffix, "", 1);
+			break;
+	
 	}
-	
-	if (phalcon_compare_strict_long(special, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(suffix);
-		PHALCON_CONCAT_SV(suffix, "BETA ", special_number);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(special, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(suffix);
-		PHALCON_CONCAT_SV(suffix, "RC ", special_number);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_NVAR(suffix);
-	ZVAL_STRING(suffix, "", 1);
-	goto ph_end_0;
-	
-	ph_end_0:
 	phalcon_concat_self(&result, suffix TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(final_version);
