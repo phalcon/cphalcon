@@ -580,9 +580,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *selected_models, *selected_model = NULL, *joined_models;
 	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL;
 	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
-	zval *joined_items = NULL, *having, *order, *order_items;
-	zval *order_item = NULL, *limit, *number, *offset = NULL;
-	zval *r0 = NULL, *r1 = NULL;
+	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
+	zval *order_items, *order_item = NULL, *limit, *number;
+	zval *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -907,9 +907,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 					if (phalcon_memnstr_str(group_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&group_items, group_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r0);
-						PHALCON_CONCAT_SVS(r0, "[", group_item, "]");
-						phalcon_array_append(&group_items, r0, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", group_item, "]");
+						phalcon_array_append(&group_items, escaped_item, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	
@@ -966,9 +966,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 					if (phalcon_memnstr_str(order_item, SL(".") TSRMLS_CC)) {
 						phalcon_array_append(&order_items, order_item, PH_SEPARATE TSRMLS_CC);
 					} else {
-						PHALCON_INIT_NVAR(r1);
-						PHALCON_CONCAT_SVS(r1, "[", order_item, "]");
-						phalcon_array_append(&order_items, r1, PH_SEPARATE TSRMLS_CC);
+						PHALCON_INIT_NVAR(escaped_item);
+						PHALCON_CONCAT_SVS(escaped_item, "[", order_item, "]");
+						phalcon_array_append(&order_items, escaped_item, PH_SEPARATE TSRMLS_CC);
 					}
 				}
 	
