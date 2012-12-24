@@ -23,8 +23,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_ModelInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, dependencyInjector)
-	ZEND_ARG_INFO(0, managerService)
-	ZEND_ARG_INFO(0, dbService)
+	ZEND_ARG_INFO(0, modelsManager)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_settransaction, 0, 0, 1)

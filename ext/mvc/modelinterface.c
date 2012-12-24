@@ -41,8 +41,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_ModelInterface){
  * Phalcon\Mvc\Model constructor
  *
  * @param Phalcon\DiInterface $dependencyInjector
- * @param string $managerService
- * @param string $dbService
+ * @param Phalcon\Mvc\Model\ManagerInterface $modelsManager
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, __construct);
 
@@ -131,7 +130,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 
 /**
- * Allows to a calculate a summatory on a column that match the specified conditions
+ * Allows to calculate a summatory on a column that match the specified conditions
  *
  * @param array $parameters
  * @return double

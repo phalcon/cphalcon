@@ -88,96 +88,88 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 	PHALCON_INIT_VAR(column_type);
 	PHALCON_CALL_METHOD(column_type, column, "gettype");
 	
-	if (phalcon_compare_strict_long(column_type, 0 TSRMLS_CC)) {
+	switch (phalcon_get_intval(column_type)) {
 	
-		PHALCON_INIT_VAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
+		case 0:
+			PHALCON_INIT_VAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "INT(", size, ")");
 	
-		PHALCON_INIT_VAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
-	
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 3 TSRMLS_CC)) {
-	
-		PHALCON_INIT_VAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-	
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", scale, ")");
-	
-		PHALCON_INIT_NVAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
-	
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "DATETIME", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		PHALCON_CONCAT_SVS(column_sql, "CHAR(", size, ")");
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "TEXT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(column_type, 7 TSRMLS_CC)) {
-	
-		PHALCON_INIT_NVAR(column_sql);
-		ZVAL_STRING(column_sql, "FLOAT", 1);
-	
-		PHALCON_INIT_NVAR(scale);
-		PHALCON_CALL_METHOD(scale, column, "getscale");
-		if (zend_is_true(size)) {
-			PHALCON_SCONCAT_SV(column_sql, "(", size);
-			if (zend_is_true(scale)) {
-				PHALCON_SCONCAT_SVS(column_sql, ",", scale, ")");
-			} else {
-				phalcon_concat_self_str(&column_sql, SL(")") TSRMLS_CC);
+			PHALCON_INIT_VAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
 			}
-		}
 	
-		PHALCON_INIT_NVAR(is_unsigned);
-		PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
-		if (zend_is_true(is_unsigned)) {
-			phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
-		}
+			break;
 	
-		goto ph_end_0;
+		case 1:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATE", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "VARCHAR(", size, ")");
+			break;
+	
+		case 3:
+			PHALCON_INIT_VAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+	
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVSVS(column_sql, "DECIMAL(", size, ",", scale, ")");
+	
+			PHALCON_INIT_NVAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
+			}
+	
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "DATETIME", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(column_sql);
+			PHALCON_CONCAT_SVS(column_sql, "CHAR(", size, ")");
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "TEXT", 1);
+			break;
+	
+		case 7:
+			PHALCON_INIT_NVAR(column_sql);
+			ZVAL_STRING(column_sql, "FLOAT", 1);
+	
+			PHALCON_INIT_NVAR(scale);
+			PHALCON_CALL_METHOD(scale, column, "getscale");
+			if (zend_is_true(size)) {
+				PHALCON_SCONCAT_SV(column_sql, "(", size);
+				if (zend_is_true(scale)) {
+					PHALCON_SCONCAT_SVS(column_sql, ",", scale, ")");
+				} else {
+					phalcon_concat_self_str(&column_sql, SL(")") TSRMLS_CC);
+				}
+			}
+	
+			PHALCON_INIT_NVAR(is_unsigned);
+			PHALCON_CALL_METHOD(is_unsigned, column, "isunsigned");
+			if (zend_is_true(is_unsigned)) {
+				phalcon_concat_self_str(&column_sql, SL(" UNSIGNED") TSRMLS_CC);
+			}
+	
+			break;
+	
+		default:
+			PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type");
+			return;
+	
 	}
-	
-	PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Unrecognized MySQL data type");
-	return;
-	
-	ph_end_0:
 	
 	RETURN_CTOR(column_sql);
 }
@@ -886,7 +878,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 	}
 
 	if (!if_exists) {
-		PHALCON_INIT_NVAR(if_exists);
+		PHALCON_INIT_VAR(if_exists);
 		ZVAL_BOOL(if_exists, 1);
 	}
 	
@@ -930,7 +922,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -966,7 +958,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
@@ -1001,7 +993,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	if (zend_is_true(schema_name)) {
@@ -1033,7 +1025,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	if (zend_is_true(schema)) {
@@ -1065,7 +1057,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);
@@ -1098,7 +1090,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(sql);

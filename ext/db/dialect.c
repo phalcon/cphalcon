@@ -220,7 +220,8 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	zval *sql_arguments, *arguments, *argument = NULL, *argument_expression = NULL;
 	zval *arguments_joined, *function_expression = NULL;
 	zval *sql_items, *items, *item = NULL, *item_expression = NULL;
-	zval *list_expression, *exception_message;
+	zval *list_expression, *group_expression;
+	zval *exception_message;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
@@ -232,7 +233,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}
@@ -468,7 +469,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		PHALCON_INIT_VAR(list_expression);
 		phalcon_fast_join_str(list_expression, SL(", "), sql_items TSRMLS_CC);
 	
-		RETURN_CTOR(list_expression);
+		PHALCON_INIT_VAR(group_expression);
+		PHALCON_CONCAT_SVS(group_expression, "(", list_expression, ")");
+	
+		RETURN_CTOR(group_expression);
 	}
 	
 	/** 
@@ -508,7 +512,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable){
 	}
 
 	if (!escape_char) {
-		PHALCON_INIT_NVAR(escape_char);
+		PHALCON_INIT_VAR(escape_char);
 	} else {
 		PHALCON_SEPARATE_PARAM(escape_char);
 	}

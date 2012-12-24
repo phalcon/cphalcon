@@ -133,11 +133,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
@@ -207,11 +207,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
@@ -284,11 +284,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 	}
 
 	if (!trust_forwarded_header) {
-		PHALCON_INIT_NVAR(trust_forwarded_header);
+		PHALCON_INIT_VAR(trust_forwarded_header);
 		ZVAL_BOOL(trust_forwarded_header, 0);
 	}
 	

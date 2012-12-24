@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(empty_array);

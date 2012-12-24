@@ -1,0 +1,5 @@
+ARG_ENABLE("phalcon", "enable phalcon framework", "no", "-Iext/phalcon");
+
+if (PHP_PHALCON != "no") {
+  EXTENSION("phalcon", "phalcon.c");
+}

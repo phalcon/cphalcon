@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 	}
 
 	if (!description) {
-		PHALCON_INIT_NVAR(description);
+		PHALCON_INIT_VAR(description);
 	}
 	
 	if (PHALCON_COMPARE_STRING(name, "*")) {

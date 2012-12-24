@@ -18,10 +18,10 @@
 */
 
 #include "di/injectionawareinterface.h"
-#include "events/eventsawareinterface.h"
 #include "mvc/model/validatorinterface.h"
-#include "cache/backendinterface.h"
+#include "events/eventsawareinterface.h"
 #include "cache/frontendinterface.h"
+#include "cache/backendinterface.h"
 #include "mvc/model/metadatainterface.h"
 #include "db/dialectinterface.h"
 #include "db/adapterinterface.h"

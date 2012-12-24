@@ -59,34 +59,6 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setId);
 PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getId);
 
 /**
- * Sets the dependency injection container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setDI);
-
-/**
- * Returns the dependency injection container
- *
- * @return Phalcon\DiInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getDI);
-
-/**
- * Sets the event manager
- *
- * @param Phalcon\Events\ManagerInterface $eventsManager
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setEventsManager);
-
-/**
- * Returns the internal event manager
- *
- * @return Phalcon\Events\ManagerInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getEventsManager);
-
-/**
  * Returns an array with reserved properties that cannot be part of the insert/update
  *
  * @return array

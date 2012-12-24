@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 	}
 
 	if (!dependency_injector) {
-		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);

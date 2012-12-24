@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Flash, __construct){
 	}
 
 	if (!css_classes) {
-		PHALCON_INIT_NVAR(css_classes);
+		PHALCON_INIT_VAR(css_classes);
 	} else {
 		PHALCON_SEPARATE_PARAM(css_classes);
 	}

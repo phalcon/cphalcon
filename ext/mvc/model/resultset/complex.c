@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct){
 	}
 
 	if (!cache) {
-		PHALCON_INIT_NVAR(cache);
+		PHALCON_INIT_VAR(cache);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_columnTypes"), columns_types TSRMLS_CC);

@@ -120,16 +120,16 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set){
 	}
 
 	if (!value) {
-		PHALCON_INIT_NVAR(value);
+		PHALCON_INIT_VAR(value);
 	}
 	
 	if (!expire) {
-		PHALCON_INIT_NVAR(expire);
+		PHALCON_INIT_VAR(expire);
 		ZVAL_LONG(expire, 0);
 	}
 	
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {

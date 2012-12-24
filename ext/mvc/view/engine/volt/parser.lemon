@@ -62,8 +62,7 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -102,13 +101,11 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	if (key) {
-		add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-		efree(key->token);
+		add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 		efree(key);
 	}
 
@@ -135,13 +132,11 @@ static zval *phvolt_ret_cache_statement(phvolt_parser_token *key, phvolt_parser_
 	array_init(ret);
 
 	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
-	add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-	efree(key->token);
+	add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 	efree(key);
 
 	if (lifetime) {
-		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 1);
-		efree(lifetime->token);
+		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 0);
 		efree(lifetime);
 	}
 	add_assoc_zval(ret, "block_statements", block_statements);
@@ -161,8 +156,7 @@ static zval *phvolt_ret_set_statement(phvolt_parser_token *variable, zval *expr,
 	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	add_assoc_zval(ret, "expr", expr);
@@ -199,8 +193,7 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (block_statements) {
@@ -222,8 +215,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -242,8 +234,7 @@ static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -332,8 +323,7 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 	array_init(ret);
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-		efree(name->token);
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
 
@@ -438,7 +428,9 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 
 %token_destructor {
 	if ($$) {
-		efree($$->token);
+		if ($$->free_flag) {
+			efree($$->token);
+		}
 		efree($$);
 	}
 }

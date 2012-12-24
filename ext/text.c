@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Text, increment){
 	}
 
 	if (!separator) {
-		PHALCON_INIT_NVAR(separator);
+		PHALCON_INIT_VAR(separator);
 	} else {
 		PHALCON_SEPARATE_PARAM(separator);
 	}
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Text, random){
 	}
 
 	if (!length) {
-		PHALCON_INIT_NVAR(length);
+		PHALCON_INIT_VAR(length);
 		ZVAL_LONG(length, 8);
 	}
 	
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Text, startsWith){
 	}
 
 	if (!ignore_case) {
-		PHALCON_INIT_NVAR(ignore_case);
+		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
 	}
 	
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Text, endsWith){
 	}
 
 	if (!ignore_case) {
-		PHALCON_INIT_NVAR(ignore_case);
+		PHALCON_INIT_VAR(ignore_case);
 		ZVAL_BOOL(ignore_case, 1);
 	}
 	

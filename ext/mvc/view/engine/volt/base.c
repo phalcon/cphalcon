@@ -90,11 +90,15 @@ static void phvolt_wrapper_free(void *pointer){
  * Creates a parser_token to be passed to the parser
  */
 static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parsercode, phvolt_scanner_token *token, phvolt_parser_status *parser_status){
+
 	phvolt_parser_token *pToken;
+
 	pToken = emalloc(sizeof(phvolt_parser_token));
 	pToken->opcode = opcode;
 	pToken->token = token->value;
 	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
 }
 
@@ -102,8 +106,13 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
  * Creates an error message
  */
 static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
-	char *str = emalloc(sizeof(char) * (128 + Z_STRLEN_P(parser_status->scanner_state->active_file)));
-	sprintf(str, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+
+	unsigned int length = (128 + Z_STRLEN_P(parser_status->scanner_state->active_file));
+	char *str = emalloc(sizeof(char) * length);
+
+	snprintf(str, length, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+	str[length - 1] = '\0';
+
 	parser_status->syntax_error = estrndup(str, strlen(str));
 	efree(str);
 }
@@ -118,8 +127,8 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + strlen(state->start) +  Z_STRLEN_P(state->active_file));
-		if (strlen(state->start) > 16) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
@@ -128,7 +137,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) *(32 + Z_STRLEN_P(state->active_file)));
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
 		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -183,7 +192,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	char *error;
 	phvolt_scanner_state *state;
-	phvolt_scanner_token *token;
+	phvolt_scanner_token token;
 	int scanner_status, status = SUCCESS;
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
@@ -205,7 +214,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
-	token = emalloc(sizeof(phvolt_scanner_token));
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -224,14 +232,17 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->start_length = 0;
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, token))) {
+	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
-		state->active_token = token->opcode;
+		state->active_token = token.opcode;
 
-		switch(token->opcode){
+		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
+
+		switch(token.opcode){
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -349,16 +360,16 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_INTEGER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, &token, parser_status);
 				break;
 			case PHVOLT_T_DOUBLE:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, &token, parser_status);
 				break;
 			case PHVOLT_T_STRING:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, &token, parser_status);
 				break;
 			case PHVOLT_T_IDENTIFIER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, &token, parser_status);
 				break;
 
 			case PHVOLT_T_IF:
@@ -399,18 +410,18 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 						parser_status->status = PHVOLT_PARSING_FAILED;
 					}
-					efree(token->value);
+					efree(token.value);
 					break;
 				} else {
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						state->statement_position++;
 					}
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -474,7 +485,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				parser_status->status = PHVOLT_PARSING_FAILED;
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token->opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
 					PHALCON_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
@@ -535,7 +546,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	efree(parser_status);
 	efree(state);
-	efree(token);
 
 	return status;
 }

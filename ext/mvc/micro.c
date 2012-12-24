@@ -497,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

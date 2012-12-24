@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 	}
 
 	if (!auto_begin) {
-		PHALCON_INIT_NVAR(auto_begin);
+		PHALCON_INIT_VAR(auto_begin);
 		ZVAL_BOOL(auto_begin, 0);
 	}
 	
@@ -244,13 +244,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback){
 	}
 
 	if (!rollback_message) {
-		PHALCON_INIT_NVAR(rollback_message);
+		PHALCON_INIT_VAR(rollback_message);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_message);
 	}
 	
 	if (!rollback_record) {
-		PHALCON_INIT_NVAR(rollback_record);
+		PHALCON_INIT_VAR(rollback_record);
 	} else {
 		PHALCON_SEPARATE_PARAM(rollback_record);
 	}

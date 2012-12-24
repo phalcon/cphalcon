@@ -71,7 +71,7 @@ class Build_Generator
 		'ext/mvc/view/engine/volt/lempar.c' => true,
 	);
 
-	public function __construct($path, $destination='build/', $calculateHashKeys=false)
+	public function generate($path, $destination='build/', $calculateHashKeys=false)
 	{
 
 		$this->_path = $path;
@@ -396,6 +396,24 @@ class Build_Generator
 }
 
 //Create the builds files based on the following directory
-$build = new Build_Generator('ext/', 'build/', true);
+
+if (stripos(php_uname(), 'x86_64')!==false) {
+	echo 'Generating 64bits build... ';
+	$build = new Build_Generator();
+	$build->generate('ext/', 'build/64bits/', true);
+	echo 'OK', PHP_EOL;
+} else {
+	if (preg_match('/i[0-9]{1}86/', php_uname())) {
+		echo 'Generating 32bits build... ';
+		$build = new Build_Generator();
+		$build->generate('ext/', 'build/32bits/', true);
+		echo 'OK', PHP_EOL;
+	}
+}
+
+echo 'Generating safe build... ';
+$build = new Build_Generator();
+$build->generate('ext/', 'build/safe/', false);
+echo 'OK', PHP_EOL;
 
 //echo chr(97);

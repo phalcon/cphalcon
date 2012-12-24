@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Logger_Item, __construct){
 	}
 
 	if (!time) {
-		PHALCON_INIT_NVAR(time);
+		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
 	}
 	

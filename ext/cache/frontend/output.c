@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);

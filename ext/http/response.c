@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Http_Response, setContentType){
 	}
 
 	if (!charset) {
-		PHALCON_INIT_NVAR(charset);
+		PHALCON_INIT_VAR(charset);
 	}
 	
 	PHALCON_INIT_VAR(headers);
@@ -454,16 +454,16 @@ PHP_METHOD(Phalcon_Http_Response, redirect){
 	}
 
 	if (!location) {
-		PHALCON_INIT_NVAR(location);
+		PHALCON_INIT_VAR(location);
 	}
 	
 	if (!external_redirect) {
-		PHALCON_INIT_NVAR(external_redirect);
+		PHALCON_INIT_VAR(external_redirect);
 		ZVAL_BOOL(external_redirect, 0);
 	}
 	
 	if (!status_code) {
-		PHALCON_INIT_NVAR(status_code);
+		PHALCON_INIT_VAR(status_code);
 		ZVAL_LONG(status_code, 302);
 	}
 	

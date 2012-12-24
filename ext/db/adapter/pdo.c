@@ -369,11 +369,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	PHALCON_OBS_VAR(events_manager);
@@ -464,11 +464,11 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, execute){
 	}
 
 	if (!bind_params) {
-		PHALCON_INIT_NVAR(bind_params);
+		PHALCON_INIT_VAR(bind_params);
 	}
 	
 	if (!bind_types) {
-		PHALCON_INIT_NVAR(bind_types);
+		PHALCON_INIT_VAR(bind_types);
 	}
 	
 	/** 
@@ -866,7 +866,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
 	}
 
 	if (!sequence_name) {
-		PHALCON_INIT_NVAR(sequence_name);
+		PHALCON_INIT_VAR(sequence_name);
 	}
 	
 	PHALCON_OBS_VAR(pdo);
@@ -1013,7 +1013,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -1122,7 +1122,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_OBS_VAR(dialect);
@@ -1253,7 +1253,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, tableOptions){
 	}
 
 	if (!schema_name) {
-		PHALCON_INIT_NVAR(schema_name);
+		PHALCON_INIT_VAR(schema_name);
 	}
 	
 	PHALCON_OBS_VAR(dialect);

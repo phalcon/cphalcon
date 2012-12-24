@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	

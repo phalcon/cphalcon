@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Mvc_Application, registerModules){
 	}
 
 	if (!merge) {
-		PHALCON_INIT_NVAR(merge);
+		PHALCON_INIT_VAR(merge);
 		ZVAL_BOOL(merge, 0);
 	}
 	
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

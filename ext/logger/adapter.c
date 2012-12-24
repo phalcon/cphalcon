@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, _applyFormat){
 	}
 
 	if (!time) {
-		PHALCON_INIT_NVAR(time);
+		PHALCON_INIT_VAR(time);
 		ZVAL_LONG(time, 0);
 	} else {
 		PHALCON_SEPARATE_PARAM(time);
@@ -196,70 +196,63 @@ PHP_METHOD(Phalcon_Logger_Adapter, getTypeString){
 	}
 
 	
-	if (phalcon_compare_strict_long(type, 7 TSRMLS_CC)) {
-		PHALCON_INIT_VAR(type_str);
-		ZVAL_STRING(type_str, "DEBUG", 1);
-		goto ph_end_0;
+	switch (phalcon_get_intval(type)) {
+	
+		case 7:
+			PHALCON_INIT_VAR(type_str);
+			ZVAL_STRING(type_str, "DEBUG", 1);
+			break;
+	
+		case 3:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "ERROR", 1);
+			break;
+	
+		case 4:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "WARNING", 1);
+			break;
+	
+		case 1:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CRITICAL", 1);
+			break;
+	
+		case 8:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CUSTOM", 1);
+			break;
+	
+		case 2:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "ALERT", 1);
+			break;
+	
+		case 5:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "NOTICE", 1);
+			break;
+	
+		case 6:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "INFO", 1);
+			break;
+	
+		case 0:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "EMERGENCE", 1);
+			break;
+	
+		case 9:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "SPECIAL", 1);
+			break;
+	
+		default:
+			PHALCON_INIT_NVAR(type_str);
+			ZVAL_STRING(type_str, "CUSTOM", 1);
+	
 	}
-	
-	if (phalcon_compare_strict_long(type, 3 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ERROR", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 4 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "WARNING", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CRITICAL", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 8 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "CUSTOM", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "ALERT", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 5 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "NOTICE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 6 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "INFO", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "EMERGENCE", 1);
-		goto ph_end_0;
-	}
-	
-	if (phalcon_compare_strict_long(type, 9 TSRMLS_CC)) {
-		PHALCON_INIT_NVAR(type_str);
-		ZVAL_STRING(type_str, "SPECIAL", 1);
-		goto ph_end_0;
-	}
-	
-	PHALCON_INIT_NVAR(type_str);
-	ZVAL_STRING(type_str, "CUSTOM", 1);
-	
-	ph_end_0:
 	RETURN_CTOR(type_str);
 }
 

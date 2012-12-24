@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 	}
 
 	if (!access_inherits) {
-		PHALCON_INIT_NVAR(access_inherits);
+		PHALCON_INIT_VAR(access_inherits);
 	}
 	
 	if (Z_TYPE_P(role) == IS_OBJECT) {
@@ -367,7 +367,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResource){
 	}
 
 	if (!access_list) {
-		PHALCON_INIT_NVAR(access_list);
+		PHALCON_INIT_VAR(access_list);
 	}
 	
 	if (Z_TYPE_P(resource) == IS_OBJECT) {

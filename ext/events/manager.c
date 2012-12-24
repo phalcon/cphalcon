@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	PHALCON_OBS_VAR(events);
@@ -172,11 +172,11 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_NVAR(cancelable);
+		PHALCON_INIT_VAR(cancelable);
 		ZVAL_BOOL(cancelable, 1);
 	}
 	

@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_DI_Service, __construct){
 	}
 
 	if (!shared) {
-		PHALCON_INIT_NVAR(shared);
+		PHALCON_INIT_VAR(shared);
 		ZVAL_BOOL(shared, 0);
 	}
 	
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(shared);

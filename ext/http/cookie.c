@@ -85,16 +85,16 @@ PHP_METHOD(Phalcon_Http_Cookie, __construct){
 	}
 
 	if (!value) {
-		PHALCON_INIT_NVAR(value);
+		PHALCON_INIT_VAR(value);
 	}
 	
 	if (!expire) {
-		PHALCON_INIT_NVAR(expire);
+		PHALCON_INIT_VAR(expire);
 		ZVAL_LONG(expire, 0);
 	}
 	
 	if (!path) {
-		PHALCON_INIT_NVAR(path);
+		PHALCON_INIT_VAR(path);
 	}
 	
 	if (Z_TYPE_P(name) != IS_STRING) {
@@ -182,11 +182,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	}
 
 	if (!filters) {
-		PHALCON_INIT_NVAR(filters);
+		PHALCON_INIT_VAR(filters);
 	}
 	
 	if (!default_value) {
-		PHALCON_INIT_NVAR(default_value);
+		PHALCON_INIT_VAR(default_value);
 	}
 	
 	PHALCON_OBS_VAR(readed);

@@ -32,8 +32,7 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -72,13 +71,11 @@ static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_pars
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	if (key) {
-		add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-		efree(key->token);
+		add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 		efree(key);
 	}
 
@@ -105,13 +102,11 @@ static zval *phvolt_ret_cache_statement(phvolt_parser_token *key, phvolt_parser_
 	array_init(ret);
 
 	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
-	add_assoc_stringl(ret, "key", key->token, key->token_len, 1);
-	efree(key->token);
+	add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
 	efree(key);
 
 	if (lifetime) {
-		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 1);
-		efree(lifetime->token);
+		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 0);
 		efree(lifetime);
 	}
 	add_assoc_zval(ret, "block_statements", block_statements);
@@ -131,8 +126,7 @@ static zval *phvolt_ret_set_statement(phvolt_parser_token *variable, zval *expr,
 	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
 
-	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 1);
-	efree(variable->token);
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
 	efree(variable);
 
 	add_assoc_zval(ret, "expr", expr);
@@ -169,8 +163,7 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (block_statements) {
@@ -192,8 +185,7 @@ static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner
 	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -212,8 +204,7 @@ static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
 	Z_ADDREF_P(state->active_file);
@@ -302,8 +293,7 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt
 	array_init(ret);
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-		efree(name->token);
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
 
@@ -359,7 +349,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 }
 
 
-// 363 "parser.c"
+// 353 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -1024,14 +1014,16 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 53:
     case 54:
     case 55:
-// 439 "parser.lemon"
+// 429 "parser.lemon"
 {
 	if ((kkpminor->kk0)) {
-		efree((kkpminor->kk0)->token);
+		if ((kkpminor->kk0)->free_flag) {
+			efree((kkpminor->kk0)->token);
+		}
 		efree((kkpminor->kk0));
 	}
 }
-// 1035 "parser.c"
+// 1027 "parser.c"
       break;
     case 59:
     case 60:
@@ -1051,9 +1043,9 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 75:
     case 76:
     case 77:
-// 454 "parser.lemon"
+// 446 "parser.lemon"
 { zval_ptr_dtor(&(kkpminor->kk72)); }
-// 1057 "parser.c"
+// 1049 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1343,11 +1335,11 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 446 "parser.lemon"
+// 438 "parser.lemon"
 {
 	status->ret = kkmsp[0].minor.kk72;
 }
-// 1351 "parser.c"
+// 1343 "parser.c"
         break;
       case 1:
       case 4:
@@ -1362,30 +1354,30 @@ static void kk_reduce(
       case 13:
       case 14:
       case 62:
-// 450 "parser.lemon"
+// 442 "parser.lemon"
 {
 	kkgotominor.kk72 = kkmsp[0].minor.kk72;
 }
-// 1370 "parser.c"
+// 1362 "parser.c"
         break;
       case 2:
-// 456 "parser.lemon"
+// 448 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(kkmsp[-1].minor.kk72, kkmsp[0].minor.kk72);
 }
-// 1377 "parser.c"
+// 1369 "parser.c"
         break;
       case 3:
       case 59:
       case 66:
-// 460 "parser.lemon"
+// 452 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk72);
 }
-// 1386 "parser.c"
+// 1378 "parser.c"
         break;
       case 15:
-// 512 "parser.lemon"
+// 504 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_if_statement(kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -1395,10 +1387,10 @@ static void kk_reduce(
   kk_destructor(28,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1399 "parser.c"
+// 1391 "parser.c"
         break;
       case 16:
-// 516 "parser.lemon"
+// 508 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_if_statement(kkmsp[-9].minor.kk72, kkmsp[-7].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -1411,10 +1403,10 @@ static void kk_reduce(
   kk_destructor(28,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1415 "parser.c"
+// 1407 "parser.c"
         break;
       case 17:
-// 522 "parser.lemon"
+// 514 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk72, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-9].minor);
@@ -1425,10 +1417,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1429 "parser.c"
+// 1421 "parser.c"
         break;
       case 18:
-// 526 "parser.lemon"
+// 518 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk72, kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -1440,10 +1432,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1444 "parser.c"
+// 1436 "parser.c"
         break;
       case 19:
-// 530 "parser.lemon"
+// 522 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk72, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-11].minor);
@@ -1455,10 +1447,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1459 "parser.c"
+// 1451 "parser.c"
         break;
       case 20:
-// 534 "parser.lemon"
+// 526 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk72, kkmsp[-5].minor.kk72, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-13].minor);
@@ -1471,10 +1463,10 @@ static void kk_reduce(
   kk_destructor(33,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1475 "parser.c"
+// 1467 "parser.c"
         break;
       case 21:
-// 540 "parser.lemon"
+// 532 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-5].minor);
@@ -1482,28 +1474,28 @@ static void kk_reduce(
   kk_destructor(35,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1486 "parser.c"
+// 1478 "parser.c"
         break;
       case 22:
-// 546 "parser.lemon"
+// 538 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_empty_statement(status->scanner_state);
   kk_destructor(25,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1495 "parser.c"
+// 1487 "parser.c"
         break;
       case 23:
-// 552 "parser.lemon"
+// 544 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(36,&kkmsp[-2].minor);
   kk_destructor(37,&kkmsp[0].minor);
 }
-// 1504 "parser.c"
+// 1496 "parser.c"
         break;
       case 24:
-// 558 "parser.lemon"
+// 550 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -1513,10 +1505,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1517 "parser.c"
+// 1509 "parser.c"
         break;
       case 25:
-// 562 "parser.lemon"
+// 554 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
   kk_destructor(25,&kkmsp[-6].minor);
@@ -1526,10 +1518,10 @@ static void kk_reduce(
   kk_destructor(39,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1530 "parser.c"
+// 1522 "parser.c"
         break;
       case 26:
-// 568 "parser.lemon"
+// 560 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk0, NULL, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-7].minor);
@@ -1539,10 +1531,10 @@ static void kk_reduce(
   kk_destructor(41,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1543 "parser.c"
+// 1535 "parser.c"
         break;
       case 27:
-// 572 "parser.lemon"
+// 564 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk0, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-8].minor);
@@ -1552,362 +1544,362 @@ static void kk_reduce(
   kk_destructor(41,&kkmsp[-1].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1556 "parser.c"
+// 1548 "parser.c"
         break;
       case 28:
-// 578 "parser.lemon"
+// 570 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(43,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1566 "parser.c"
+// 1558 "parser.c"
         break;
       case 29:
-// 584 "parser.lemon"
+// 576 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(45,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1576 "parser.c"
+// 1568 "parser.c"
         break;
       case 30:
-// 590 "parser.lemon"
+// 582 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_do_statement(kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(25,&kkmsp[-3].minor);
   kk_destructor(46,&kkmsp[-2].minor);
   kk_destructor(27,&kkmsp[0].minor);
 }
-// 1586 "parser.c"
+// 1578 "parser.c"
         break;
       case 31:
-// 596 "parser.lemon"
+// 588 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1593 "parser.c"
+// 1585 "parser.c"
         break;
       case 32:
-// 602 "parser.lemon"
+// 594 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1601 "parser.c"
+// 1593 "parser.c"
         break;
       case 33:
-// 606 "parser.lemon"
+// 598 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(20,&kkmsp[-1].minor);
 }
-// 1609 "parser.c"
+// 1601 "parser.c"
         break;
       case 34:
-// 610 "parser.lemon"
+// 602 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(19,&kkmsp[-1].minor);
 }
-// 1617 "parser.c"
+// 1609 "parser.c"
         break;
       case 35:
-// 614 "parser.lemon"
+// 606 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(17,&kkmsp[-1].minor);
 }
-// 1625 "parser.c"
+// 1617 "parser.c"
         break;
       case 36:
-// 618 "parser.lemon"
+// 610 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(16,&kkmsp[-1].minor);
 }
-// 1633 "parser.c"
+// 1625 "parser.c"
         break;
       case 37:
-// 622 "parser.lemon"
+// 614 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(18,&kkmsp[-1].minor);
 }
-// 1641 "parser.c"
+// 1633 "parser.c"
         break;
       case 38:
-// 626 "parser.lemon"
+// 618 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(4,&kkmsp[-1].minor);
 }
-// 1649 "parser.c"
+// 1641 "parser.c"
         break;
       case 39:
-// 630 "parser.lemon"
+// 622 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(5,&kkmsp[-1].minor);
 }
-// 1657 "parser.c"
+// 1649 "parser.c"
         break;
       case 40:
-// 634 "parser.lemon"
+// 626 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(21,&kkmsp[-1].minor);
 }
-// 1665 "parser.c"
+// 1657 "parser.c"
         break;
       case 41:
-// 638 "parser.lemon"
+// 630 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(15,&kkmsp[-1].minor);
 }
-// 1673 "parser.c"
+// 1665 "parser.c"
         break;
       case 42:
-// 642 "parser.lemon"
+// 634 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(3,&kkmsp[-1].minor);
 }
-// 1681 "parser.c"
+// 1673 "parser.c"
         break;
       case 43:
-// 646 "parser.lemon"
+// 638 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(7,&kkmsp[-1].minor);
 }
-// 1689 "parser.c"
+// 1681 "parser.c"
         break;
       case 44:
-// 650 "parser.lemon"
+// 642 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk72, NULL, status->scanner_state);
   kk_destructor(6,&kkmsp[-2].minor);
   kk_destructor(22,&kkmsp[-1].minor);
   kk_destructor(48,&kkmsp[0].minor);
 }
-// 1699 "parser.c"
+// 1691 "parser.c"
         break;
       case 45:
-// 654 "parser.lemon"
+// 646 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk72, NULL, status->scanner_state);
   kk_destructor(6,&kkmsp[-1].minor);
   kk_destructor(48,&kkmsp[0].minor);
 }
-// 1708 "parser.c"
+// 1700 "parser.c"
         break;
       case 46:
-// 658 "parser.lemon"
+// 650 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(6,&kkmsp[-1].minor);
 }
-// 1716 "parser.c"
+// 1708 "parser.c"
         break;
       case 47:
-// 662 "parser.lemon"
+// 654 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(8,&kkmsp[-1].minor);
 }
-// 1724 "parser.c"
+// 1716 "parser.c"
         break;
       case 48:
-// 666 "parser.lemon"
+// 658 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(13,&kkmsp[-1].minor);
 }
-// 1732 "parser.c"
+// 1724 "parser.c"
         break;
       case 49:
-// 670 "parser.lemon"
+// 662 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(14,&kkmsp[-1].minor);
 }
-// 1740 "parser.c"
+// 1732 "parser.c"
         break;
       case 50:
-// 674 "parser.lemon"
+// 666 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(9,&kkmsp[-1].minor);
 }
-// 1748 "parser.c"
+// 1740 "parser.c"
         break;
       case 51:
-// 678 "parser.lemon"
+// 670 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(10,&kkmsp[-1].minor);
 }
-// 1756 "parser.c"
+// 1748 "parser.c"
         break;
       case 52:
-// 682 "parser.lemon"
+// 674 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(11,&kkmsp[-1].minor);
 }
-// 1764 "parser.c"
+// 1756 "parser.c"
         break;
       case 53:
-// 686 "parser.lemon"
+// 678 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(12,&kkmsp[-1].minor);
 }
-// 1772 "parser.c"
+// 1764 "parser.c"
         break;
       case 54:
-// 690 "parser.lemon"
+// 682 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(24,&kkmsp[-1].minor);
 }
-// 1780 "parser.c"
+// 1772 "parser.c"
         break;
       case 55:
-// 694 "parser.lemon"
+// 686 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(22,&kkmsp[-1].minor);
 }
-// 1788 "parser.c"
+// 1780 "parser.c"
         break;
       case 56:
-// 698 "parser.lemon"
+// 690 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk72, NULL, status->scanner_state);
   kk_destructor(23,&kkmsp[-2].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1797 "parser.c"
+// 1789 "parser.c"
         break;
       case 57:
-// 702 "parser.lemon"
+// 694 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk72, NULL, status->scanner_state);
   kk_destructor(2,&kkmsp[-2].minor);
   kk_destructor(50,&kkmsp[0].minor);
 }
-// 1806 "parser.c"
+// 1798 "parser.c"
         break;
       case 58:
       case 65:
-// 708 "parser.lemon"
+// 700 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_zval_list(kkmsp[-2].minor.kk72, kkmsp[0].minor.kk72);
   kk_destructor(1,&kkmsp[-1].minor);
 }
-// 1815 "parser.c"
+// 1807 "parser.c"
         break;
       case 60:
       case 68:
-// 716 "parser.lemon"
+// 708 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk72, status->scanner_state);
   kk_destructor(51,&kkmsp[-1].minor);
 }
-// 1824 "parser.c"
+// 1816 "parser.c"
         break;
       case 61:
       case 67:
-// 720 "parser.lemon"
+// 712 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk72, status->scanner_state);
 }
-// 1832 "parser.c"
+// 1824 "parser.c"
         break;
       case 63:
-// 730 "parser.lemon"
+// 722 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_func_call(kkmsp[-3].minor.kk72, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(23,&kkmsp[-2].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1841 "parser.c"
+// 1833 "parser.c"
         break;
       case 64:
-// 734 "parser.lemon"
+// 726 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_func_call(kkmsp[-2].minor.kk72, NULL, status->scanner_state);
   kk_destructor(23,&kkmsp[-1].minor);
   kk_destructor(49,&kkmsp[0].minor);
 }
-// 1850 "parser.c"
+// 1842 "parser.c"
         break;
       case 69:
-// 758 "parser.lemon"
+// 750 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1857 "parser.c"
+// 1849 "parser.c"
         break;
       case 70:
-// 762 "parser.lemon"
+// 754 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk72, kkmsp[-1].minor.kk72, status->scanner_state);
   kk_destructor(2,&kkmsp[-2].minor);
   kk_destructor(50,&kkmsp[0].minor);
 }
-// 1866 "parser.c"
+// 1858 "parser.c"
         break;
       case 71:
-// 766 "parser.lemon"
+// 758 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1873 "parser.c"
+// 1865 "parser.c"
         break;
       case 72:
-// 770 "parser.lemon"
+// 762 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1880 "parser.c"
+// 1872 "parser.c"
         break;
       case 73:
-// 774 "parser.lemon"
+// 766 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
 }
-// 1887 "parser.c"
+// 1879 "parser.c"
         break;
       case 74:
-// 778 "parser.lemon"
+// 770 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
   kk_destructor(53,&kkmsp[0].minor);
 }
-// 1895 "parser.c"
+// 1887 "parser.c"
         break;
       case 75:
-// 782 "parser.lemon"
+// 774 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
   kk_destructor(54,&kkmsp[0].minor);
 }
-// 1903 "parser.c"
+// 1895 "parser.c"
         break;
       case 76:
-// 786 "parser.lemon"
+// 778 "parser.lemon"
 {
 	kkgotominor.kk72 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
   kk_destructor(55,&kkmsp[0].minor);
 }
-// 1911 "parser.c"
+// 1903 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -1949,7 +1941,7 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-// 393 "parser.lemon"
+// 383 "parser.lemon"
 
 	if (status->scanner_state->start) {
 		{
@@ -1995,7 +1987,7 @@ static void kk_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 1999 "parser.c"
+// 1991 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -2258,11 +2250,15 @@ static void phvolt_wrapper_free(void *pointer){
  * Creates a parser_token to be passed to the parser
  */
 static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parsercode, phvolt_scanner_token *token, phvolt_parser_status *parser_status){
+
 	phvolt_parser_token *pToken;
+
 	pToken = emalloc(sizeof(phvolt_parser_token));
 	pToken->opcode = opcode;
 	pToken->token = token->value;
 	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
 }
 
@@ -2270,8 +2266,13 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
  * Creates an error message
  */
 static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
-	char *str = emalloc(sizeof(char) * (128 + Z_STRLEN_P(parser_status->scanner_state->active_file)));
-	sprintf(str, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+
+	unsigned int length = (128 + Z_STRLEN_P(parser_status->scanner_state->active_file));
+	char *str = emalloc(sizeof(char) * length);
+
+	snprintf(str, length, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+	str[length - 1] = '\0';
+
 	parser_status->syntax_error = estrndup(str, strlen(str));
 	efree(str);
 }
@@ -2286,8 +2287,8 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + strlen(state->start) +  Z_STRLEN_P(state->active_file));
-		if (strlen(state->start) > 16) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
 			efree(error_part);
@@ -2296,7 +2297,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) *(32 + Z_STRLEN_P(state->active_file)));
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
 		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -2351,7 +2352,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	char *error;
 	phvolt_scanner_state *state;
-	phvolt_scanner_token *token;
+	phvolt_scanner_token token;
 	int scanner_status, status = SUCCESS;
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
@@ -2373,7 +2374,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
-	token = emalloc(sizeof(phvolt_scanner_token));
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -2392,14 +2392,17 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->start_length = 0;
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, token))) {
+	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
-		state->active_token = token->opcode;
+		state->active_token = token.opcode;
 
-		switch(token->opcode){
+		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
+
+		switch(token.opcode){
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -2517,16 +2520,16 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				break;
 
 			case PHVOLT_T_INTEGER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, &token, parser_status);
 				break;
 			case PHVOLT_T_DOUBLE:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, &token, parser_status);
 				break;
 			case PHVOLT_T_STRING:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, &token, parser_status);
 				break;
 			case PHVOLT_T_IDENTIFIER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, &token, parser_status);
 				break;
 
 			case PHVOLT_T_IF:
@@ -2567,18 +2570,18 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 						parser_status->status = PHVOLT_PARSING_FAILED;
 					}
-					efree(token->value);
+					efree(token.value);
 					break;
 				} else {
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						state->statement_position++;
 					}
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -2642,7 +2645,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 				parser_status->status = PHVOLT_PARSING_FAILED;
 				if (!*error_msg) {
 					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
-					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token->opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
 					PHALCON_INIT_VAR(*error_msg);
 					ZVAL_STRING(*error_msg, error, 1);
 					efree(error);
@@ -2703,7 +2706,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 	efree(parser_status);
 	efree(state);
-	efree(token);
 
 	return status;
 }

@@ -230,11 +230,11 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages){
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
 	if (!remove) {
-		PHALCON_INIT_NVAR(remove);
+		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
 	}
 	
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	}
 
 	if (!remove) {
-		PHALCON_INIT_NVAR(remove);
+		PHALCON_INIT_VAR(remove);
 		ZVAL_BOOL(remove, 1);
 	}
 	

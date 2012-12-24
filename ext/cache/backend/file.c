@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (phalcon_array_isset_string(options, SS("cacheDir"))) {
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	}
 
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	PHALCON_OBS_VAR(options);
@@ -230,19 +230,19 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!content) {
-		PHALCON_INIT_NVAR(content);
+		PHALCON_INIT_VAR(content);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 	}
 
 	if (!prefix) {
-		PHALCON_INIT_NVAR(prefix);
+		PHALCON_INIT_VAR(prefix);
 	}
 	
 	PHALCON_INIT_VAR(keys);
@@ -450,11 +450,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 	}
 
 	if (!key_name) {
-		PHALCON_INIT_NVAR(key_name);
+		PHALCON_INIT_VAR(key_name);
 	}
 	
 	if (!lifetime) {
-		PHALCON_INIT_NVAR(lifetime);
+		PHALCON_INIT_VAR(lifetime);
 	}
 	
 	if (Z_TYPE_P(key_name) == IS_NULL) {

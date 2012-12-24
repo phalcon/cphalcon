@@ -37,9 +37,9 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/operators.h"
 #include "kernel/file.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -70,6 +70,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_aliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasMany"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasManySingle"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -156,8 +157,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 
-	zval *model, *class_name, *initialized, *events_manager = NULL;
-	zval *lowercased, *event_name, *model_base, *connection_service;
+	zval *model, *class_name, *initialized, *lowercased;
+	zval *events_manager, *event_name;
 
 	PHALCON_MM_GROW();
 
@@ -170,9 +171,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	
 	PHALCON_OBS_VAR(initialized);
 	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(events_manager);
-	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	/** 
 	 * Models are just initialized once per request
@@ -189,8 +187,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 		}
 	
 		/** 
-		 * If an EventsManager is available we pass it to every model initialized
+		 * If an EventsManager is available we pass to it every initialized model
 		 */
+		PHALCON_OBS_VAR(events_manager);
+		phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "modelsManager:afterInitialize", 1);
@@ -199,27 +199,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize){
 	
 		phalcon_update_property_array(this_ptr, SL("_initialized"), lowercased, model TSRMLS_CC);
 		phalcon_update_property_zval(this_ptr, SL("_lastInitialized"), model TSRMLS_CC);
-	} else {
-		PHALCON_OBS_VAR(model_base);
-		phalcon_array_fetch(&model_base, initialized, lowercased, PH_NOISY_CC);
-	
-		/** 
-		 * Pass the connection service to each new instance
-		 */
-		PHALCON_INIT_VAR(connection_service);
-		PHALCON_CALL_METHOD(connection_service, model_base, "getconnectionservice");
-		if (!PHALCON_COMPARE_STRING(connection_service, "db")) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "setconnectionservice", connection_service);
-		}
-	
-		/** 
-		 * Pass the events manager to each new instance
-		 */
-		PHALCON_INIT_NVAR(events_manager);
-		PHALCON_CALL_METHOD(events_manager, model_base, "geteventsmanager");
-		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "seteventsmanager", events_manager);
-		}
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -270,37 +249,224 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized){
  * Loads a model throwing an exception if it doesn't exist
  *
  * @param  string $modelName
+ * @param  boolean $newInstance
  * @return Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, load){
 
-	zval *model_name, *dependency_injector, *model;
+	zval *model_name, *new_instance = NULL, *initialized;
+	zval *lowercased, *model = NULL, *cloned, *dependency_injector;
 	zval *exception_message;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &model_name, &new_instance) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
+	if (!new_instance) {
+		PHALCON_INIT_VAR(new_instance);
+		ZVAL_BOOL(new_instance, 0);
+	}
+	
+	PHALCON_OBS_VAR(initialized);
+	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(lowercased);
+	phalcon_fast_strtolower(lowercased, model_name);
+	
+	/** 
+	 * Check if a model with the same is already loaded
+	 */
+	if (phalcon_array_isset(initialized, lowercased)) {
+	
+		PHALCON_OBS_VAR(model);
+		phalcon_array_fetch(&model, initialized, lowercased, PH_NOISY_CC);
+		if (zend_is_true(new_instance)) {
+			PHALCON_INIT_VAR(cloned);
+			if (phalcon_clone(cloned, model TSRMLS_CC) == FAILURE) {
+				return;
+			}
+			RETURN_CCTOR(cloned);
+		}
+	
+	
+		RETURN_CCTOR(model);
+	}
+	
+	/** 
+	 * Load it using an autoloader
+	 */
 	if (phalcon_class_exists(model_name TSRMLS_CC)) {
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		ce0 = phalcon_fetch_class(model_name TSRMLS_CC);
 	
-		PHALCON_INIT_VAR(model);
+		PHALCON_INIT_NVAR(model);
 		object_init_ex(model, ce0);
 		if (phalcon_has_constructor(model TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "__construct", dependency_injector);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "__construct", dependency_injector, this_ptr);
 		}
-		RETURN_CTOR(model);
+		RETURN_CCTOR(model);
 	}
 	
+	/** 
+	 * The model doesn't exist throw an exception
+	 */
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "The model '", model_name, "' could not be loaded");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
 	return;
+}
+
+/**
+ * Set a connection service for a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $connectionService
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService){
+
+	zval *model, *connection_service, *model_name;
+	zval *entity_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &connection_service) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(model_name);
+	phalcon_get_class(model_name, model TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_fast_strtolower(entity_name, model_name);
+	phalcon_update_property_array(this_ptr, SL("_connectionServices"), entity_name, connection_service TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the connection related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return Phalcon\Db\AdapterInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection){
+
+	zval *model, *service = NULL, *connection_services;
+	zval *model_name, *entity_name, *dependency_injector;
+	zval *connection;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "db", 1);
+	
+	PHALCON_OBS_VAR(connection_services);
+	phalcon_read_property(&connection_services, this_ptr, SL("_connectionServices"), PH_NOISY_CC);
+	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(model_name);
+		phalcon_get_class(model_name, model TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(entity_name);
+		phalcon_fast_strtolower(entity_name, model_name);
+		if (phalcon_array_isset(connection_services, entity_name)) {
+			PHALCON_OBS_NVAR(service);
+			phalcon_array_fetch(&service, connection_services, entity_name, PH_NOISY_CC);
+		}
+	}
+	
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(connection);
+	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "getshared", service);
+	if (Z_TYPE_P(connection) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid injected connection service");
+		return;
+	}
+	
+	
+	RETURN_CCTOR(connection);
+}
+
+/**
+ * Returns the service name related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnectionService){
+
+	zval *model, *connection_services, *model_name;
+	zval *entity_name, *connection;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(connection_services);
+	phalcon_read_property(&connection_services, this_ptr, SL("_connectionServices"), PH_NOISY_CC);
+	if (Z_TYPE_P(connection_services) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(model_name);
+		phalcon_get_class(model_name, model TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(entity_name);
+		phalcon_fast_strtolower(entity_name, model_name);
+		if (phalcon_array_isset(connection_services, entity_name)) {
+			PHALCON_OBS_VAR(connection);
+			phalcon_array_fetch(&connection, connection_services, entity_name, PH_NOISY_CC);
+			RETURN_CCTOR(connection);
+		}
+	}
+	
+	PHALCON_MM_RESTORE();
+	RETURN_STRING("db", 1);
+}
+
+/**
+ * Receives events generated in the models and dispatches them to a events-manager if available
+ *
+ * @param string $eventName
+ * @param Phalcon\Mvc\ModelInterface $model
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
+
+	zval *event_name, *model, *events_manager, *fire_event_name;
+	zval *status;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &event_name, &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(fire_event_name);
+		PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
+	
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", fire_event_name, model);
+		RETURN_CCTOR(status);
+	}
+	
+	RETURN_MM_NULL();
 }
 
 /**
@@ -329,7 +495,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -468,7 +634,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -606,7 +772,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(model_name);
@@ -939,7 +1105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	} else {
 		PHALCON_SEPARATE_PARAM(parameters);
 	}
@@ -1102,26 +1268,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, relation, "gettype");
 	
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
-			PHALCON_INIT_VAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+		switch (phalcon_get_intval(type)) {
 	
-		if (phalcon_compare_strict_long(type, 1 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "findFirst", 1);
-			goto ph_end_1;
-		}
+			case 0:
+				PHALCON_INIT_VAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
-			PHALCON_INIT_NVAR(retrieve_method);
-			ZVAL_STRING(retrieve_method, "find", 1);
-			goto ph_end_1;
-		}
+			case 1:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "findFirst", 1);
+				break;
 	
-		ph_end_1:
-		if(0){}
+			case 2:
+				PHALCON_INIT_NVAR(retrieve_method);
+				ZVAL_STRING(retrieve_method, "find", 1);
+				break;
+	
+		}
 	} else {
 		PHALCON_CPY_WRT(retrieve_method, method);
 	}
@@ -1164,7 +1328,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(belongs_to);
@@ -1233,7 +1397,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_many);
@@ -1302,7 +1466,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords){
 	}
 
 	if (!parameters) {
-		PHALCON_INIT_NVAR(parameters);
+		PHALCON_INIT_VAR(parameters);
 	}
 	
 	PHALCON_OBS_VAR(has_one);
@@ -1621,7 +1785,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery){
 	}
 
 	if (!placeholders) {
-		PHALCON_INIT_NVAR(placeholders);
+		PHALCON_INIT_VAR(placeholders);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -1667,7 +1831,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder){
 	}
 
 	if (!params) {
-		PHALCON_INIT_NVAR(params);
+		PHALCON_INIT_VAR(params);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);

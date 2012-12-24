@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct){
 	}
 
 	if (!default_routes) {
-		PHALCON_INIT_NVAR(default_routes);
+		PHALCON_INIT_VAR(default_routes);
 		ZVAL_BOOL(default_routes, 1);
 	}
 	
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	}
 
 	if (!uri) {
-		PHALCON_INIT_NVAR(uri);
+		PHALCON_INIT_VAR(uri);
 	}
 	
 	if (!zend_is_true(uri)) {
@@ -666,11 +666,11 @@ PHP_METHOD(Phalcon_Mvc_Router, add){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	if (!http_methods) {
-		PHALCON_INIT_NVAR(http_methods);
+		PHALCON_INIT_VAR(http_methods);
 	}
 	
 	/** 
@@ -702,7 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -731,7 +731,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -789,7 +789,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -818,7 +818,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);
@@ -847,7 +847,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 	}
 
 	if (!paths) {
-		PHALCON_INIT_NVAR(paths);
+		PHALCON_INIT_VAR(paths);
 	}
 	
 	PHALCON_INIT_VAR(method);

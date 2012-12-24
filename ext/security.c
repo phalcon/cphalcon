@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Security, hash){
 	}
 
 	if (!work_factor) {
-		PHALCON_INIT_NVAR(work_factor);
+		PHALCON_INIT_VAR(work_factor);
 	} else {
 		PHALCON_SEPARATE_PARAM(work_factor);
 	}
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	}
 
 	if (!number_bytes) {
-		PHALCON_INIT_NVAR(number_bytes);
+		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
 	}
 	
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Security, getToken){
 	}
 
 	if (!number_bytes) {
-		PHALCON_INIT_NVAR(number_bytes);
+		PHALCON_INIT_VAR(number_bytes);
 		ZVAL_LONG(number_bytes, 12);
 	}
 	
@@ -447,7 +447,7 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	}
 
 	if (!token_key) {
-		PHALCON_INIT_NVAR(token_key);
+		PHALCON_INIT_VAR(token_key);
 	} else {
 		PHALCON_SEPARATE_PARAM(token_key);
 	}

@@ -312,3 +312,61 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 	}
 
 }
+
+/**
+ * Returns the long value of a zval
+ */
+long phalcon_get_intval(zval *op) {
+
+	int type;
+	long long_value;
+	double double_value;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return Z_LVAL_P(op);
+		case IS_BOOL:
+			return Z_BVAL_P(op);
+		case IS_DOUBLE:
+			return (long) Z_DVAL_P(op);
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))){
+				if (type == IS_LONG) {
+					return long_value;
+				} else {
+					if (type == IS_DOUBLE) {
+						return double_value;
+					} else {
+						return 0;
+					}
+				}
+			}
+	}
+
+	return 0;
+}
+
+/**
+ * Returns the long value of a zval
+ */
+int phalcon_is_numeric(zval *op) {
+
+	int type;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return 1;
+		case IS_BOOL:
+			return 0;
+		case IS_DOUBLE:
+			return 1;
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))){
+				if (type == IS_LONG || type == IS_DOUBLE) {
+					return 1;
+				}
+			}
+	}
+
+	return 0;
+}

@@ -98,7 +98,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_None, __construct){
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	

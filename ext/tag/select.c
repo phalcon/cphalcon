@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 

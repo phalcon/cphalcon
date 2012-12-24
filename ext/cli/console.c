@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_CLI_Console, handle){
 	}
 
 	if (!arguments) {
-		PHALCON_INIT_NVAR(arguments);
+		PHALCON_INIT_VAR(arguments);
 		array_init(arguments);
 	}
 	

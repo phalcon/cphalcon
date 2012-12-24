@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(columns);

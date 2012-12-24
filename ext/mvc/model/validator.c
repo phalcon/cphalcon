@@ -105,11 +105,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	}
 
 	if (!field) {
-		PHALCON_INIT_NVAR(field);
+		PHALCON_INIT_VAR(field);
 	}
 	
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	} else {
 		PHALCON_SEPARATE_PARAM(type);
 	}
