@@ -21,7 +21,7 @@
  * so that we can send you a copy immediately.
  */
 
-use Phalcon\Text as Txt;
+use Phalcon\Text as PhText;
 
 class Text_UnitTest extends Phalcon_Test_UnitTestCase
 {
@@ -49,7 +49,7 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
         foreach ($camelizeTests as $input => $camelized) {
             $expected = $camelized;
-            $actual   = Txt::camelize($input);
+            $actual   = PhText::camelize($input);
             $this->assertEquals(
                 $expected,
                 $actual,
@@ -83,12 +83,117 @@ class Text_UnitTest extends Phalcon_Test_UnitTestCase
 
         foreach ($uncamelizeTests as $input => $uncamelized) {
             $expected = $uncamelized;
-            $actual   = Txt::uncamelize($input);
+            $actual   = PhText::uncamelize($input);
             $this->assertEquals(
                 $expected,
                 $actual,
                 sprintf($template, $input)
             );
+        }
+    }
+
+    public function testIncrement()
+    {
+        $this->assertEquals(PhText::increment('file'), 'file_1');
+        $this->assertEquals(PhText::increment('file_1'), 'file_2');
+        $this->assertEquals(PhText::increment('file_2'), 'file_3');
+        $this->assertEquals(PhText::increment('file_'), 'file_1');
+    }
+
+    public function testStartsWith()
+    {
+        $this->assertFalse(PhText::startsWith("", ""));
+        $this->assertFalse(PhText::startsWith("", "hello"));
+        $this->assertTrue(PhText::startsWith("Hello", "H"));
+        $this->assertTrue(PhText::startsWith("Hello", "He"));
+        $this->assertTrue(PhText::startsWith("Hello", "Hello"));
+        $this->assertFalse(PhText::startsWith("Hello", "hel"));
+        $this->assertFalse(PhText::startsWith("Hello", "hello"));
+        $this->assertFalse(PhText::startsWith("Hello", "hello", true));
+        $this->assertTrue(PhText::startsWith("Hello", "hello", false));
+        $this->assertTrue(PhText::startsWith("Hello", "h", false));
+    }
+
+    public function testEndsWith()
+    {
+        $this->assertFalse(PhText::endsWith("", ""));
+        $this->assertFalse(PhText::endsWith("", "hello"));
+        $this->assertTrue(PhText::endsWith("Hello", "o"));
+        $this->assertTrue(PhText::endsWith("Hello", "lo"));
+        $this->assertTrue(PhText::endsWith("Hello", "Hello"));
+        $this->assertFalse(PhText::endsWith("Hello", "LLO"));
+        $this->assertFalse(PhText::endsWith("Hello", "hello"));
+        $this->assertFalse(PhText::endsWith("Hello", "hello", true));
+        $this->assertTrue(PhText::endsWith("Hello", "hello", false));
+        $this->assertTrue(PhText::endsWith("Hello", "o", false));
+    }
+
+    public function testUpper()
+    {
+        $this->assertEquals(PhText::upper('hello'), 'HELLO');
+        $this->assertEquals(PhText::upper('HELLO'), 'HELLO');
+        $this->assertEquals(PhText::upper('1234'), '1234');
+    }
+
+    public function testLower()
+    {
+        $this->assertEquals(PhText::lower('hello'), 'hello');
+        $this->assertEquals(PhText::lower('HELLO'), 'hello');
+        $this->assertEquals(PhText::lower('1234'), '1234');
+    }
+
+    public function testRandomAlnum()
+    {
+        for ($i = 1; $i<10; $i++) 
+        {
+            $text = PhText::random(PhText::RANDOM_ALNUM, $i);
+            $this->assertEquals(preg_match('/[a-zA-Z0-9]+/', $text, $matches), 1);
+            $this->assertEquals($matches[0], $text);
+            $this->assertEquals(strlen($text), $i);
+        }
+    }
+
+    public function testRandomAlpha()
+    {
+        for ($i = 1; $i<10; $i++)
+        {
+            $text = PhText::random(PhText::RANDOM_ALPHA, $i);
+            $this->assertEquals(preg_match('/[a-zA-Z]+/', $text, $matches), 1);
+            $this->assertEquals($matches[0], $text);
+            $this->assertEquals(strlen($text), $i);
+        }
+    }
+
+    public function testRandomHexDec()
+    {
+        for ($i = 1; $i<10; $i++)
+        {
+            $text = PhText::random(PhText::RANDOM_HEXDEC, $i);
+            $this->assertEquals(preg_match('/[a-f0-9]+/', $text, $matches), 1);
+            $this->assertEquals($matches[0], $text);
+            $this->assertEquals(strlen($text), $i);
+        }
+    }
+
+    public function testRandomNumeric()
+    {
+        for ($i = 1; $i<10; $i++)
+        {
+            $text = PhText::random(PhText::RANDOM_NUMERIC, $i);
+            $this->assertEquals(preg_match('/[0-9]+/', $text, $matches), 1);
+            $this->assertEquals($matches[0], $text);
+            $this->assertEquals(strlen($text), $i);
+        }
+    }
+
+    public function testRandomNonZero()
+    {
+        for ($i = 1; $i<10; $i++)
+        {
+            $text = PhText::random(PhText::RANDOM_NOZERO, $i);
+            $this->assertEquals(preg_match('/[1-9]+/', $text, $matches), 1);
+            $this->assertEquals($matches[0], $text);
+            $this->assertEquals(strlen($text), $i);
         }
     }
 }
