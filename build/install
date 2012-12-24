@@ -54,4 +54,4 @@ if [ -f Makefile ]; then
 fi
 
 #Perform the compilation
-phpize && ./configure --enable-phalcon && make && make install && echo "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"
+phpize && ./configure --enable-phalcon && make && make install && echo -e "\nThanks for compiling Phalcon!\nBuild succeed: Please restart your web server to complete the installation"

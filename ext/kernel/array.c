@@ -102,7 +102,7 @@ int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, ui
 /**
  * Check if char index exists on an array zval using a pre-computed key
  */
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, ulong key){
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	} else {
@@ -116,7 +116,7 @@ int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *ind
 /**
  * Check if char index exists on an array zval
  */
-int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, ulong index){
+int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	} else {
@@ -181,7 +181,7 @@ int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint ind
 /**
  * Unsets long index from array
  */
-int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, ulong index){
+int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index){
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
@@ -360,7 +360,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 /**
  * Updates values on arrays by string indexes only with a pre-calculated hash
  */
-int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, ulong key, zval **value, int flags TSRMLS_DC){
+int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -436,7 +436,7 @@ int phalcon_array_update_string_string(zval **arr, char *index, uint index_lengt
 /**
  * Updates values on arrays by long indexes only
  */
-int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags TSRMLS_DC){
+int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC){
 
 	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -473,7 +473,7 @@ int phalcon_array_update_long(zval **arr, ulong index, zval **value, int flags T
 /**
  * Updates an array with a string value in a long index
  */
-int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint value_length, int flags TSRMLS_DC){
+int phalcon_array_update_long_string(zval **arr, unsigned long index, char *value, uint value_length, int flags TSRMLS_DC){
 
 	zval *zvalue;
 
@@ -486,7 +486,7 @@ int phalcon_array_update_long_string(zval **arr, ulong index, char *value, uint 
 /**
  * Updates an array with a bool value in a long index
  */
-int phalcon_array_update_long_bool(zval **arr, ulong index, int value, int flags TSRMLS_DC){
+int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, int flags TSRMLS_DC){
 
 	zval *zvalue;
 
@@ -622,7 +622,7 @@ int phalcon_array_fetch_string(zval **return_value, zval *arr, char *index, uint
 /**
  * Reads an item from an array using a string as index
  */
-int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, ulong key, int silent TSRMLS_DC){
+int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index, uint index_length, unsigned long key, int silent TSRMLS_DC){
 
 	zval **zv;
 	int result = FAILURE;
@@ -659,7 +659,7 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 /**
  * Reads an item from an array using a long as index
  */
-int phalcon_array_fetch_long(zval **return_value, zval *arr, ulong index, int silent TSRMLS_DC){
+int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned long index, int silent TSRMLS_DC){
 
 	zval **zv;
 	int result = FAILURE;

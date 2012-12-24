@@ -26,7 +26,7 @@
 
 #include "scanner.h"
 
-#define YYCTYPE unsigned int
+#define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
 #define YYMARKER q
@@ -36,7 +36,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 	char *q = YYCURSOR;
 	int status = PHQL_SCANNER_RETCODE_IMPOSSIBLE;
 
-	while(PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
+	while (PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		/*!re2c
 		re2c:indent:top = 2;

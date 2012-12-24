@@ -385,6 +385,9 @@ PHP_METHOD(Phalcon_DI, get){
 		PHALCON_INIT_VAR(parameters);
 	}
 	
+	/** 
+	 * A valid service alias is a string
+	 */
 	if (Z_TYPE_P(name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The service alias must be a string");
 		return;
@@ -393,12 +396,18 @@ PHP_METHOD(Phalcon_DI, get){
 	PHALCON_OBS_VAR(services);
 	phalcon_read_property(&services, this_ptr, SL("_services"), PH_NOISY_CC);
 	if (phalcon_array_isset(services, name)) {
+		/** 
+		 * The service is registered in the DI
+		 */
 		PHALCON_OBS_VAR(service);
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(instance);
 		PHALCON_CALL_METHOD_PARAMS_1(instance, service, "resolve", parameters);
 	} else {
+		/** 
+		 * The DI also acts as builder for any class even if it isn't defined in the DI
+		 */
 		if (phalcon_class_exists(name TSRMLS_CC)) {
 			if (Z_TYPE_P(parameters) == IS_ARRAY) { 
 				if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {

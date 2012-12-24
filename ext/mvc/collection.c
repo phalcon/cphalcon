@@ -483,6 +483,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	
 	PHALCON_INIT_VAR(mongo_collection);
 	PHALCON_CALL_METHOD_PARAMS_1(mongo_collection, connection, "selectcollection", source);
+	
+	/** 
+	 * Convert the string to an array
+	 */
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(conditions);
 		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
@@ -496,20 +500,33 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		}
 	}
 	
+	/** 
+	 * Perform the find
+	 */
 	PHALCON_INIT_VAR(documents_cursor);
 	PHALCON_CALL_METHOD_PARAMS_1(documents_cursor, mongo_collection, "find", conditions);
+	
+	/** 
+	 * Check if a 'limit' clause was defined
+	 */
 	if (phalcon_array_isset_string(params, SS("limit"))) {
 		PHALCON_OBS_VAR(limit);
 		phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "limit", limit);
 	}
 	
+	/** 
+	 * Check if a 'sort' clause was defined
+	 */
 	if (phalcon_array_isset_string(params, SS("sort"))) {
 		PHALCON_OBS_VAR(sort);
 		phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY_CC);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "sort", sort);
 	}
 	
+	/** 
+	 * Check if a 'skip' clause was defined
+	 */
 	if (phalcon_array_isset_string(params, SS("skip"))) {
 		PHALCON_OBS_NVAR(sort);
 		phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY_CC);
@@ -517,16 +534,26 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	}
 	
 	if (PHALCON_IS_TRUE(unique)) {
+	
+		/** 
+		 * Requesting a unique row
+		 */
 		PHALCON_CALL_METHOD_NORETURN(documents_cursor, "rewind");
 	
 		PHALCON_INIT_VAR(document);
 		PHALCON_CALL_METHOD(document, documents_cursor, "current");
+		if (Z_TYPE_P(document) == IS_ARRAY) { 
+			PHALCON_INIT_VAR(collection_cloned);
+			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+			RETURN_CCTOR(collection_cloned);
+		}
 	
-		PHALCON_INIT_VAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
-		RETURN_CCTOR(collection_cloned);
+		RETURN_MM_FALSE;
 	}
 	
+	/** 
+	 * Requesting a complete resultset
+	 */
 	PHALCON_INIT_VAR(collections);
 	array_init(collections);
 	
@@ -574,6 +601,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * Run Validation Callbacks Before
+	 */
 	if (!zend_is_true(disable_events)) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -645,6 +675,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 			RETURN_MM_FALSE;
 		}
 	
+		/** 
+		 * Run Before Callbacks
+		 */
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "beforeSave", 1);
 	
@@ -1165,6 +1198,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
 	
+	/** 
+	 * Choose a collection according to the collection name
+	 */
 	PHALCON_INIT_VAR(collection);
 	PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
 	
@@ -1183,6 +1219,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_OBS_VAR(disable_events);
 	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
 	
+	/** 
+	 * Execute the preSave hook
+	 */
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD_PARAMS_3(status, this_ptr, "_presave", dependency_injector, disable_events, exists);
 	if (PHALCON_IS_FALSE(status)) {
@@ -1197,6 +1236,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	
 	PHALCON_INIT_VAR(properties);
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
+	
+	/** 
+	 * We only assign values to the public properties
+	 */
 	
 	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
 		return;
@@ -1226,10 +1269,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(success);
 	ZVAL_BOOL(success, 0);
 	
+	/** 
+	 * We always use safe stores to get the success state
+	 */
 	PHALCON_INIT_VAR(options);
 	array_init_size(options, 1);
 	add_assoc_bool_ex(options, SS("safe"), 1);
 	
+	/** 
+	 * Save the document
+	 */
 	PHALCON_INIT_NVAR(status);
 	PHALCON_CALL_METHOD_PARAMS_2(status, collection, "save", data, options);
 	if (Z_TYPE_P(status) == IS_ARRAY) { 
@@ -1253,6 +1302,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		ZVAL_BOOL(success, 0);
 	}
 	
+	/** 
+	 * Call the postSave hooks
+	 */
 	PHALCON_INIT_VAR(post_success);
 	PHALCON_CALL_METHOD_PARAMS_3(post_success, this_ptr, "_postsave", disable_events, success, exists);
 	
