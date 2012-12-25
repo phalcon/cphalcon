@@ -1,3 +1,14 @@
+0.8.0a2
+ - Added support for behaviors in the ORM including: Phalcon\Mvc\Model\Behavior\Timestampable and Phalcon\Mvc\Model\Behavior\SoftDelete
+ - Improved serialization of Mvc\Model instances and complex resultsets
+ - Added an option to change the layouts directory and partials directory in Phalcon\Mvc\View
+ - Added an option to disable an specific level of rendering in Phalcon\Mvc\View
+ - Added Phalcon\Mvc\Model::setup to globally enable/disable specific features in the ORM
+ - Added Phalcon\Db::setup to globally enable/disable specific features in the database component
+ - Added Phalcon\Mvc\Model\Resultset::delete to delete every complete object returned in a resultset using a transaction
+ - Added Phalcon\Mvc\Model\Resultset::update to update every complete object returned in a resultset using a transaction
+ - Added support for converters in Phalcon\Mvc\Router
+
 0.8.0a1
  - Removed unnecessary intermediate zvals when retrieving array items reducing overall memory comsumption
  - Removed unnecessary intermediate zvals when retrieving object members reducing overall memory comsumption
@@ -38,11 +49,7 @@
  - Fixed use of a common events manager databases in the ORM
  - Now Phalcon\Mvc\Router can be configured to remove extra slashes passed in the URI
  - In Phalcon\Mvc\Router the default route is '/' when none is giving
- - Improved serialization of Mvc\Model instances and complex resultsets
- - Added an option to change the layouts directory and partials directory in Phalcon\Mvc\View
- - Added an option to disable an specific level of rendering in Phalcon\Mvc\View
- - Added Phalcon\Mvc\Model::setup to globally enable/disable specific features in the ORM
- - Added Phalcon\Db::setup to globally enable/disable specific features in the database component
+
 
 0.7.0
  - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher

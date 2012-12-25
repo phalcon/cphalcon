@@ -392,4 +392,59 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testConverters()
+	{
+
+		Phalcon\Mvc\Router\Route::reset();
+
+		$router = new Phalcon\Mvc\Router();
+
+		$router->add('/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country')
+		->convert('controller', function($controller){
+			return str_replace('-', '', $controller);
+		})
+		->convert('action', function($action){
+			return str_replace('-', '', $action);
+		});
+
+		$router->add('/([A-Z]+)/([0-9]+)', array(
+			'controller' => 1,
+			'action' => 'default',
+			'id' => 2,
+		))
+		->convert('controller', function($controller) {
+			return strtolower($controller);
+		})
+		->convert('action', function($action) {
+			if ($action == 'default') {
+				return 'index';
+			}
+			return $action;
+		})
+		->convert('id', function($id) {
+			return strrev($id);
+		});
+
+		$routes = array(
+			'/some-controller/my-action-name/this-is-a-country' => array(
+				'controller' => 'somecontroller',
+				'action' => 'myactionname',
+				'params' => array('this-is-a-country')
+			),
+			'/BINARY/1101' => array(
+				'controller' => 'binary',
+				'action' => 'index',
+				'params' => array(1011)
+			)
+		);
+
+		foreach ($routes as $route => $paths) {
+			$router->handle($route);
+			$this->assertTrue($router->wasMatched());
+			$this->assertEquals($paths['controller'], $router->getControllerName());
+			$this->assertEquals($paths['action'], $router->getActionName());
+		}
+
+	}
+
 }
