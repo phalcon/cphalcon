@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		 * Obtain the model's source from the _models list
 		 */
 		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, has_model TSRMLS_CC);
+		phalcon_get_class(class_name, has_model, 0 TSRMLS_CC);
 		if (phalcon_array_isset(models, class_name)) {
 			PHALCON_OBS_NVAR(source);
 			phalcon_array_fetch(&source, models, class_name, PH_NOISY_CC);
@@ -3673,7 +3673,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getRelatedRecords){
 	PHALCON_CALL_METHOD(source, model, "getsource");
 	
 	PHALCON_INIT_VAR(model_name);
-	phalcon_get_class(model_name, model TSRMLS_CC);
+	phalcon_get_class(model_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(select_column);
 	array_init_size(select_column, 1);

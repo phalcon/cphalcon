@@ -94,6 +94,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model){
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueKey"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_ce, SL("_uniqueTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_ce, SL("_skipped"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_NONE"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_ce, SL("OP_CREATE"), 1 TSRMLS_CC);
@@ -347,7 +348,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource){
 	phalcon_read_property(&source, this_ptr, SL("_source"), PH_NOISY_CC);
 	if (!zend_is_true(source)) {
 		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
+		phalcon_get_class_ns(class_name, this_ptr, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_NVAR(source);
 		phalcon_uncamelize(source, class_name TSRMLS_CC);
@@ -1470,14 +1471,14 @@ PHP_METHOD(Phalcon_Mvc_Model, average){
 }
 
 /**
- * Fires an internal event
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
  *
  * @param string $eventName
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Model, _callEvent){
+PHP_METHOD(Phalcon_Mvc_Model, fireEvent){
 
-	zval *event_name, *models_manager;
+	zval *event_name, *models_manager, *success;
 
 	PHALCON_MM_GROW();
 
@@ -1497,18 +1498,21 @@ PHP_METHOD(Phalcon_Mvc_Model, _callEvent){
 	 */
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "notifyevent", event_name, this_ptr);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_VAR(success);
+	PHALCON_CALL_METHOD_PARAMS_2(success, models_manager, "notifyevent", event_name, this_ptr);
+	
+	RETURN_CCTOR(success);
 }
 
 /**
- * Fires an internal event that cancels the operation
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * This method stops if one of the callbacks/listeners returns boolean false
  *
  * @param string $eventName
  * @return boolean
  */
-PHP_METHOD(Phalcon_Mvc_Model, _callEventCancel){
+PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel){
 
 	zval *event_name, *status = NULL, *models_manager;
 
@@ -1566,7 +1570,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
 		ZVAL_STRING(event_name, "notSaved", 1);
 	}
 	
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -1969,7 +1973,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			if (PHALCON_GLOBAL(orm).events) {
 				PHALCON_INIT_VAR(event_name);
 				ZVAL_STRING(event_name, "onValidationFails", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 				PHALCON_CALL_METHOD_NORETURN(this_ptr, "_canceloperation");
 			}
 			RETURN_MM_FALSE;
@@ -2173,7 +2177,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 			if (PHALCON_GLOBAL(orm).events) {
 				PHALCON_INIT_VAR(event_name);
 				ZVAL_STRING(event_name, "onValidationFails", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 				PHALCON_CALL_METHOD_NORETURN(this_ptr, "_canceloperation");
 			}
 			RETURN_MM_FALSE;
@@ -2199,6 +2203,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
 	zval *exception_message = NULL, *value = NULL, *is_numeric = NULL;
 	zval *is_identity_field = NULL, *message = NULL, *type = NULL, *model_message = NULL;
+	zval *skipped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2221,7 +2226,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		 * Call the beforeValidation
 		 */
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -2238,7 +2243,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		 * Call the specific beforeValidation event for the current action
 		 */
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -2265,6 +2270,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		PHALCON_CALL_METHOD_PARAMS_1(not_null, meta_data, "getnotnullattributes", this_ptr);
 		if (Z_TYPE_P(not_null) == IS_ARRAY) { 
 	
+			/** 
+			 * Gets the fields that are numeric, these are validated in a diferent way
+			 */
 			PHALCON_INIT_VAR(data_type_numeric);
 			PHALCON_CALL_METHOD_PARAMS_1(data_type_numeric, meta_data, "getdatatypesnumeric", this_ptr);
 			if (PHALCON_GLOBAL(orm).column_renaming) {
@@ -2391,7 +2399,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 				if (PHALCON_GLOBAL(orm).events) {
 					PHALCON_INIT_NVAR(event_name);
 					ZVAL_STRING(event_name, "onValidationFails", 1);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 					PHALCON_CALL_METHOD_NORETURN(this_ptr, "_canceloperation");
 				}
 				RETURN_MM_FALSE;
@@ -2403,12 +2411,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	ZVAL_STRING(event_name, "validation", 1);
 	
 	PHALCON_INIT_NVAR(status);
-	PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+	PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 	if (PHALCON_IS_FALSE(status)) {
 		if (PHALCON_GLOBAL(orm).events) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "onValidationFails", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 		}
 		RETURN_MM_FALSE;
 	}
@@ -2429,7 +2437,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		 * Run Validation Callbacks After
 		 */
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -2438,7 +2446,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		ZVAL_STRING(event_name, "afterValidation", 1);
 	
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -2450,7 +2458,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 		 * Run Before Callbacks
 		 */
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
 		}
@@ -2463,10 +2471,24 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			ZVAL_STRING(event_name, "beforeCreate", 1);
 		}
 	
+		phalcon_update_property_bool(this_ptr, SL("_skipped"), 0 TSRMLS_CC);
+	
+		/** 
+		 * The operation can be skipped here
+		 */
 		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
+		} else {
+			/** 
+			 * Always return true if the operation is skipped
+			 */
+			PHALCON_OBS_VAR(skipped);
+			phalcon_read_property(&skipped, this_ptr, SL("_skipped"), PH_NOISY_CC);
+			if (PHALCON_IS_TRUE(skipped)) {
+				RETURN_MM_TRUE;
+			}
 		}
 	}
 	
@@ -2498,18 +2520,18 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSave){
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterCreate", 1);
 		}
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 	
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "afterSave", 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 	
 		RETURN_CCTOR(success);
 	}
 	
 	PHALCON_INIT_NVAR(event_name);
 	ZVAL_STRING(event_name, "notSave", 1);
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 	PHALCON_CALL_METHOD_NORETURN(this_ptr, "_canceloperation");
 	RETURN_MM_FALSE;
 }
@@ -3367,15 +3389,13 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
  */
 PHP_METHOD(Phalcon_Mvc_Model, delete){
 
-	zval *meta_data, *connection, *check_foreign_keys;
-	zval *values, *bind_types, *conditions = NULL, *primary_keys;
+	zval *meta_data, *connection, *empty_array, *check_foreign_keys;
+	zval *values, *bind_types, *conditions, *primary_keys;
 	zval *bind_data_types, *column_map = NULL, *primary_key = NULL;
 	zval *exception_message = NULL, *attribute_field = NULL;
 	zval *value = NULL, *escaped_field = NULL, *primary_condition = NULL;
-	zval *bind_type = NULL, *event_name = NULL, *status, *schema;
-	zval *source, *table = NULL, *success;
-	zval *a0 = NULL;
-	zval *r0 = NULL;
+	zval *bind_type = NULL, *delete_conditions, *event_name = NULL;
+	zval *status, *skipped, *schema, *source, *table = NULL, *success;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -3393,9 +3413,9 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	 */
 	phalcon_update_property_long(this_ptr, SL("_operationMade"), 3 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(a0);
-	array_init(a0);
-	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), a0 TSRMLS_CC);
+	PHALCON_INIT_VAR(empty_array);
+	array_init(empty_array);
+	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	
 	/** 
 	 * Check if deleting the record violates a virtual foreign key
@@ -3472,11 +3492,17 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 			PHALCON_CPY_WRT(attribute_field, primary_key);
 		}
 	
+		/** 
+		 * If the attribute is currently set in the object add it to the conditions
+		 */
 		if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 			PHALCON_OBS_NVAR(value);
 			phalcon_read_property_zval(&value, this_ptr, attribute_field, PH_NOISY_CC);
 			phalcon_array_append(&values, value, PH_SEPARATE TSRMLS_CC);
 	
+			/** 
+			 * Escape the column identifier
+			 */
 			PHALCON_INIT_NVAR(escaped_field);
 			PHALCON_CALL_METHOD_PARAMS_1(escaped_field, connection, "escapeidentifier", primary_key);
 	
@@ -3495,18 +3521,30 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(r0);
-	phalcon_fast_join_str(r0, SL(" AND "), conditions TSRMLS_CC);
-	PHALCON_CPY_WRT(conditions, r0);
+	/** 
+	 * Join the conditions in the array using an AND operator
+	 */
+	PHALCON_INIT_VAR(delete_conditions);
+	phalcon_fast_join_str(delete_conditions, SL(" AND "), conditions TSRMLS_CC);
 	if (PHALCON_GLOBAL(orm).events) {
+		phalcon_update_property_bool(this_ptr, SL("_skipped"), 0 TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "beforeDelete", 1);
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "_calleventcancel", event_name);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
 		if (PHALCON_IS_FALSE(status)) {
 			RETURN_MM_FALSE;
+		} else {
+			/** 
+			 * The operation can be skipped
+			 */
+			PHALCON_OBS_VAR(skipped);
+			phalcon_read_property(&skipped, this_ptr, SL("_skipped"), PH_NOISY_CC);
+			if (PHALCON_IS_TRUE(skipped)) {
+				RETURN_MM_TRUE;
+			}
 		}
 	}
 	
@@ -3525,15 +3563,15 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	}
 	
 	/** 
-	 * Make the deletion
+	 * Do the deletion
 	 */
 	PHALCON_INIT_VAR(success);
-	PHALCON_CALL_METHOD_PARAMS_4(success, connection, "delete", table, conditions, values, bind_types);
+	PHALCON_CALL_METHOD_PARAMS_4(success, connection, "delete", table, delete_conditions, values, bind_types);
 	if (PHALCON_GLOBAL(orm).events) {
 		if (zend_is_true(success)) {
 			PHALCON_INIT_NVAR(event_name);
 			ZVAL_STRING(event_name, "afterDelete", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_callevent", event_name);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
 		}
 	}
 	
@@ -3555,6 +3593,23 @@ PHP_METHOD(Phalcon_Mvc_Model, getOperationMade){
 
 
 	RETURN_MEMBER(this_ptr, "_operationMade");
+}
+
+/**
+ * Skips the current operation forcing a success state
+ *
+ * @param boolean $skip
+ */
+PHP_METHOD(Phalcon_Mvc_Model, skipOperation){
+
+	zval *skip;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &skip) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_skipped"), skip TSRMLS_CC);
+	
 }
 
 /**
@@ -3948,7 +4003,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany){
  *       //A reference relation must be set
  *       $this->hasMany('id', 'RobotsParts', 'robots_id');
  *
- *       //Setup a many-many relation to Parts through RobotsParts
+ *       //Setup a many-to-many relation to Parts through RobotsParts
  *       $this->hasManyThrough('Parts', 'RobotsParts');
  *   }
  *
@@ -3982,6 +4037,48 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyThrough){
 }
 
 /**
+ * Setups a behavior in a model
+ *
+ *<code>
+ *
+ *use Phalcon\Mvc\Model\Behaviors\Timestampable;
+ *
+ *class Robots extends \Phalcon\Mvc\Model
+ *{
+ *
+ *   public function initialize()
+ *   {
+ *		$this->addBehavior(new Timestampable(
+ *			'onCreate' => array(
+ *				'field' => 'created_at',
+ *				'format' => 'Y-m-d'
+ *			)
+ *		));
+ *   }
+ *
+ *}
+ *</code>
+ *
+ * @param Phalcon\Mvc\Model\BehaviorInterface $behavior
+ */
+PHP_METHOD(Phalcon_Mvc_Model, addBehavior){
+
+	zval *behavior, *manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &behavior) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(manager);
+	phalcon_read_property(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(manager, "addbehavior", this_ptr, behavior);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Returns related records based on defined relations
  *
  * @param string $alias
@@ -4008,7 +4105,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated){
 	phalcon_read_property(&manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, this_ptr TSRMLS_CC);
+	phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
 	/** 
 	 * Query the relation by alias
@@ -4138,7 +4235,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 PHP_METHOD(Phalcon_Mvc_Model, __call){
 
 	zval *method, *arguments = NULL, *model_name, *records;
-	zval *exception_message;
+	zval *models_manager, *status, *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -4152,7 +4249,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	phalcon_get_class(model_name, this_ptr TSRMLS_CC);
+	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
 	
 	/** 
 	 * Check if there is a default action using the magic getter
@@ -4163,6 +4260,21 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 		RETURN_CCTOR(records);
 	}
 	
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Try to find a replacement for the missing method in a behavior/listener
+	 */
+	PHALCON_INIT_VAR(status);
+	PHALCON_CALL_METHOD_PARAMS_3(status, models_manager, "missingmethod", this_ptr, method, arguments);
+	if (Z_TYPE_P(status) != IS_NULL) {
+		RETURN_CCTOR(status);
+	}
+	
+	/** 
+	 * The method doesn't exist throw an exception
+	 */
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVSVS(exception_message, "The method \"", method, "\" doesn't exist on model \"", model_name, "\"");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);

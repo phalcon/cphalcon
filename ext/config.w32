@@ -21,7 +21,7 @@ if (PHP_PHALCON != "no") {
   ADD_SOURCES("ext/phalcon/mvc/model", "query.c resultsetinterface.c exception.c queryinterface.c transactioninterface.c metadatainterface.c messageinterface.c managerinterface.c criteria.c validatorinterface.c relation.c criteriainterface.c validator.c row.c behavior.c resultinterface.c metadata.c message.c manager.c resultset.c transaction.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/resultset", "complex.c simple.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/transaction", "exception.c managerinterface.c failed.c manager.c", "phalcon")
-  ADD_SOURCES("ext/phalcon/mvc/model/behavior", "timestampable.c", "phalcon")
+  ADD_SOURCES("ext/phalcon/mvc/model/behavior", "softdelete.c timestampable.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/model/metadata", "memory.c files.c apc.c session.c", "phalcon")
   ADD_SOURCES("ext/phalcon/mvc/user", "plugin.c module.c component.c", "phalcon")
   ADD_SOURCES("ext/phalcon/config", "exception.c", "phalcon")

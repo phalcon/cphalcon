@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	}
 
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model TSRMLS_CC);
+	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
 	if (Z_TYPE_P(key) != IS_NULL) {
 	
 		PHALCON_OBS_VAR(meta_data);
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap){
 	}
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model TSRMLS_CC);
+	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(key_name);
 	phalcon_fast_strtolower(key_name, class_name);
@@ -659,7 +659,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex){
 	}
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, model TSRMLS_CC);
+	phalcon_get_class(class_name, model, 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(key_name);
 	phalcon_fast_strtolower(key_name, class_name);

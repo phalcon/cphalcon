@@ -39,18 +39,23 @@
  * Finds the correct scope to execute the function
  */
 inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int method_len TSRMLS_DC){
+
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
+	unsigned long hash = zend_inline_hash_func(lcname, method_len+1);
+
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, lcname, method_len+1)) {
+		if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
 			EG(scope) = ce;
 			efree(lcname);
 			return SUCCESS;
 		}
 		ce = ce->parent;
 	}
+
 	if (lcname) {
 		efree(lcname);
 	}
+
 	return FAILURE;
 }
 
@@ -58,11 +63,14 @@ inline int phalcon_find_scope(zend_class_entry *ce, char *method_name, int metho
  * Find out the function scope on parent classes
  */
 inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, int active_class_len, char *method_name, int method_len TSRMLS_DC){
+
 	char *lcname = zend_str_tolower_dup(method_name, method_len);
+	unsigned long hash = zend_inline_hash_func(lcname, method_len+1);
+
 	while (ce) {
 		if (ce->name_length == active_class_len) {
 			if (!zend_binary_strcasecmp(ce->name, ce->name_length, active_class, active_class_len)) {
-				if (zend_hash_exists(&ce->function_table, lcname, method_len+1)) {
+				if (zend_hash_quick_exists(&ce->function_table, lcname, method_len+1, hash)) {
 					EG(scope) = ce;
 					efree(lcname);
 					return SUCCESS;
@@ -71,9 +79,11 @@ inline int phalcon_find_parent_scope(zend_class_entry *ce, char *active_class, i
 		}
 		ce = ce->parent;
 	}
+
 	if (lcname) {
 		efree(lcname);
 	}
+
 	return FAILURE;
 }
 

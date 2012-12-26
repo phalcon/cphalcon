@@ -177,8 +177,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	zval *path, *class_name = NULL, *module_object, *module_params;
 	zval *view, *namespace_name, *controller_name = NULL;
 	zval *action_name = NULL, *params = NULL, *dispatcher, *controller;
-	zval *response, *content;
-	zval *r0 = NULL;
+	zval *returned_response = NULL, *possible_response;
+	zval *response = NULL, *content;
 
 	PHALCON_MM_GROW();
 
@@ -263,11 +263,15 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 					}
 				} else {
 					PHALCON_INIT_NVAR(exception_msg);
-					PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "\" doesn't exist");
+					PHALCON_CONCAT_SVS(exception_msg, "Module definition path '", path, "' doesn't exist");
 					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_application_exception_ce, exception_msg);
 					return;
 				}
 			}
+	
+			/** 
+			 * Class name used to load the module definition
+			 */
 			if (phalcon_array_isset_string(module, SS("className"))) {
 				PHALCON_OBS_VAR(class_name);
 				phalcon_array_fetch_string(&class_name, module, SL("className"), PH_NOISY_CC);
@@ -293,8 +297,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				array_init_size(module_params, 1);
 				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
-				PHALCON_INIT_VAR(r0);
-				PHALCON_CALL_USER_FUNC_ARRAY(r0, module, module_params);
+				PHALCON_INIT_NVAR(status);
+				PHALCON_CALL_USER_FUNC_ARRAY(status, module_object, module_params);
 			} else {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
 				return;
@@ -373,8 +377,26 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 		}
 	}
 	
+	/** 
+	 * The dispatcher must return an object
+	 */
 	PHALCON_INIT_VAR(controller);
 	PHALCON_CALL_METHOD(controller, dispatcher, "dispatch");
+	
+	PHALCON_INIT_VAR(returned_response);
+	ZVAL_BOOL(returned_response, 0);
+	
+	/** 
+	 * Get the latest value returned by an action
+	 */
+	PHALCON_INIT_VAR(possible_response);
+	PHALCON_CALL_METHOD(possible_response, dispatcher, "getreturnedvalue");
+	if (Z_TYPE_P(possible_response) == IS_OBJECT) {
+		/** 
+		 * Check if the returned object is already a response
+		 */
+		phalcon_instance_of(returned_response, possible_response, phalcon_http_responseinterface_ce TSRMLS_CC);
+	}
 	
 	/** 
 	 * Calling afterHandleRequest
@@ -389,35 +411,43 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 * If the dispatcher returns an object we try to render the view in auto-rendering
 	 * mode
 	 */
-	if (Z_TYPE_P(controller) == IS_OBJECT) {
-		PHALCON_INIT_NVAR(controller_name);
-		PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername");
+	if (PHALCON_IS_FALSE(returned_response)) {
+		if (Z_TYPE_P(controller) == IS_OBJECT) {
+			PHALCON_INIT_NVAR(controller_name);
+			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername");
 	
-		PHALCON_INIT_NVAR(action_name);
-		PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname");
+			PHALCON_INIT_NVAR(action_name);
+			PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname");
 	
-		PHALCON_INIT_NVAR(params);
-		PHALCON_CALL_METHOD(params, dispatcher, "getparams");
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params);
+			PHALCON_INIT_NVAR(params);
+			PHALCON_CALL_METHOD(params, dispatcher, "getparams");
+			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params);
+		}
 	}
 	
 	/** 
 	 * Finish the view component (stop output buffering)
 	 */
 	PHALCON_CALL_METHOD_NORETURN(view, "finish");
+	if (PHALCON_IS_FALSE(returned_response)) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "response", 1);
 	
-	PHALCON_INIT_NVAR(service);
-	ZVAL_STRING(service, "response", 1);
+		PHALCON_INIT_VAR(response);
+		PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service);
 	
-	PHALCON_INIT_VAR(response);
-	PHALCON_CALL_METHOD_PARAMS_1(response, dependency_injector, "getshared", service);
-	
-	/** 
-	 * The content returned by the view is passed to the response service
-	 */
-	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD(content, view, "getcontent");
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", content);
+		/** 
+		 * The content returned by the view is passed to the response service
+		 */
+		PHALCON_INIT_VAR(content);
+		PHALCON_CALL_METHOD(content, view, "getcontent");
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(response, "setcontent", content);
+	} else {
+		/** 
+		 * We don't need to create a response because there is an already created one
+		 */
+		PHALCON_CPY_WRT(response, possible_response);
+	}
 	
 	/** 
 	 * Calling beforeSendResponse

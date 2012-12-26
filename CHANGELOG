@@ -8,6 +8,9 @@
  - Added Phalcon\Mvc\Model\Resultset::delete to delete every complete object returned in a resultset using a transaction
  - Added Phalcon\Mvc\Model\Resultset::update to update every complete object returned in a resultset using a transaction
  - Added support for converters in Phalcon\Mvc\Router
+ - Added Phalcon\Mvc\View::getRender to return contents of a template into a string
+ - Added methods to support HTTP method PATCH
+ - Now Phalcon\Mvc\Model uses the last part of a namespaced class name as source name
 
 0.8.0a1
  - Removed unnecessary intermediate zvals when retrieving array items reducing overall memory comsumption

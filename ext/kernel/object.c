@@ -89,17 +89,69 @@ int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_le
 }
 
 /**
- * Returns class name into result
+ * Returns a class name into a zval result
  */
-void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
+void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
+
 	zend_class_entry *ce;
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
+
 		ce = Z_OBJCE_P(object);
 		Z_STRLEN_P(result) = ce->name_length;
 		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
 		memcpy(Z_STRVAL_P(result), ce->name, ce->name_length);
 		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 		Z_TYPE_P(result) = IS_STRING;
+
+		if (lower) {
+			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+		}
+
+	} else {
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+	}
+}
+
+/**
+ * Returns a class name into a zval result
+ */
+void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
+
+	zend_class_entry *ce;
+	unsigned int i;
+	char *cursor;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		ce = Z_OBJCE_P(object);
+
+		i = ce->name_length;
+		cursor = ce->name + ce->name_length - 1;
+
+		while (i > 1) {
+			if ((*cursor) == '\\') {
+				break;
+			}
+			cursor--;
+			i--;
+		}
+
+		if (i == 1) {
+			i = 0;
+		}
+
+		Z_STRLEN_P(result) = ce->name_length - i;
+		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length - i + 1);
+		memcpy(Z_STRVAL_P(result), ce->name + i, ce->name_length - i);
+		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+		Z_TYPE_P(result) = IS_STRING;
+
+		if (lower) {
+			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+		}
+
 	} else {
 		ZVAL_NULL(result);
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
@@ -182,34 +234,43 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
  * Checks if property exists on object
  */
 int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+
+	unsigned long hash;
+
+	hash = zend_inline_hash_func(property_name, property_length);
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
+		if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash)) {
 			return 1;
 		} else {
-			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length);
+			return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length, hash);
 		}
-	} else {
-		return 0;
 	}
+
+	return 0;
 }
 
 /**
  * Checks if string property exists on object
  */
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
+
+	unsigned long hash;
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
-			if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)) {
+
+			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
+
+			if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash)) {
 				return 1;
 			} else {
-				return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
+				return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash);
 			}
-		} else {
-			return 0;
 		}
-	} else {
-		return 0;
 	}
+
+	return 0;
 }
 
 /**
@@ -219,10 +280,13 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
 static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *original_ce;
+	unsigned long hash;
+
+	hash = zend_inline_hash_func(property_name, property_length+1);
 
 	original_ce = ce;
 	while (ce) {
-		if (zend_hash_exists(&ce->properties_info, property_name, property_length+1)) {
+		if (zend_hash_quick_exists(&ce->properties_info, property_name, property_length+1, hash)) {
 			return ce;
 		}
 		ce = ce->parent;
@@ -774,12 +838,13 @@ int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char
 }
 
 /**
- * Check if method exists on certain object
+ * Check if a method is implemented on certain object
  */
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 
 	char *lcname;
 	zend_class_entry *ce;
+	unsigned long hash;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
@@ -796,8 +861,10 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	}
 
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
+	hash = zend_inline_hash_func(lcname, Z_STRLEN_P(method_name)+1);
+
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
+		if (zend_hash_quick_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1, hash)) {
 			efree(lcname);
 			return SUCCESS;
 		}
@@ -814,6 +881,7 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
+	unsigned long hash;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
@@ -825,9 +893,11 @@ int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int metho
 		}
 	}
 
+	hash = zend_inline_hash_func(method_name, method_len);
+
 	ce = Z_OBJCE_P(object);
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, method_name, method_len)) {
+		if (zend_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) {
 			return SUCCESS;
 		}
 		ce = ce->parent;

@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	 */
 	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
+		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(arguments);
 		array_init_size(arguments, 1);

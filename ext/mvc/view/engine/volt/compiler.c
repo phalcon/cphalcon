@@ -537,6 +537,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			RETURN_CCTOR(code);
 		}
 	
+		if (PHALCON_COMPARE_STRING(name, "url")) {
+			PHALCON_INIT_NVAR(code);
+			PHALCON_CONCAT_SVS(code, "$this->url-get(", arguments, ")");
+			RETURN_CCTOR(code);
+		}
+	
 		if (PHALCON_COMPARE_STRING(name, "date")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "date(", arguments, ")");

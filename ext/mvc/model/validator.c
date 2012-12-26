@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator, appendMessage){
 	
 	if (!zend_is_true(type)) {
 		PHALCON_INIT_VAR(class_name);
-		phalcon_get_class(class_name, this_ptr TSRMLS_CC);
+		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(suffix);
 		ZVAL_STRING(suffix, "Validator", 1);

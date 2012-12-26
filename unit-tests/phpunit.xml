@@ -46,6 +46,8 @@
 			<file>unit-tests/ModelsQueryBuilderTest.php</file>
 			<file>unit-tests/ModelsCriteriaTest.php</file>
 			<file>unit-tests/ModelsEventsTest.php</file>
+			<file>unit-tests/ModelsBehaviorsTest.php</file>
+			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 
 			<!-- NoSQL tests -->

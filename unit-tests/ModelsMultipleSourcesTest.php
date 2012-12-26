@@ -18,7 +18,7 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
+class ModelsMultipleSourcesTest extends PHPUnit_Framework_TestCase
 {
 
 	public function __construct()
@@ -54,35 +54,46 @@ class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
 		}, true);
 
 		$di->set('db', function() {
+			throw new Exception('Using default database source');
+		});
+
+		$di->set('dbOne', function() {
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		}, true);
+		});
+
+		$di->set('dbTwo', function() {
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
+		});
 
 	}
 
-	public function testBehaviorsTimestampable()
+	public function testSourcesStatic()
 	{
 
 		$this->_prepareDI();
 
-		$subscriber = new News\Subscribers();
-		$subscriber->email = 'some@some.com';
-		$subscriber->status = 'I';
-		$this->assertTrue($subscriber->save());
-		$this->assertTrue(preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $subscriber->created_at));
+		$robot = Store\Robots::findFirst();
+		$this->assertTrue(is_object($robot));
+		$this->assertTrue($robot->save());
+
+		$robotParts = $robot->getRobotParts();
+		$this->assertTrue(is_object($robotParts));
+
+		foreach ($robotParts as $robotPart) {
+			$this->assertTrue(is_object($robotPart->getRobot()));
+			$this->assertTrue(is_object($robotPart->getPart()));
+		}
 	}
 
-	public function testBehaviorsSoftDelete()
+	public function testSourcesInstance()
 	{
 
 		$this->_prepareDI();
 
-		$number = News\Subscribers::count();
-
-		$subscriber = News\Subscribers::findFirst();
-		$this->assertTrue($subscriber->delete());
-		$this->assertEquals($subscriber->status, 'D');
-		$this->assertEquals(News\Subscribers::count(), $number);
+		$robot = new Store\Robots();
+		$this->assertFalse($robot->save());
 	}
 
 }

@@ -993,6 +993,28 @@ PHP_METHOD(Phalcon_Http_Request, isPut){
 }
 
 /**
+ * Checks whether HTTP method is PATCH. if $_SERVER['REQUEST_METHOD']=='PATCH'
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Http_Request, isPatch){
+
+	zval *patch, *method, *is_patch;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(patch);
+	ZVAL_STRING(patch, "PATCH", 1);
+	
+	PHALCON_INIT_VAR(method);
+	PHALCON_CALL_METHOD(method, this_ptr, "getmethod");
+	
+	PHALCON_INIT_VAR(is_patch);
+	is_equal_function(is_patch, method, patch TSRMLS_CC);
+	RETURN_NCTOR(is_patch);
+}
+
+/**
  * Checks whether HTTP method is HEAD. if $_SERVER['REQUEST_METHOD']=='HEAD'
  *
  * @return boolean

@@ -109,8 +109,11 @@ class PHPUnit_Framework_TestCase
 					$class->$methodName();
 				}
 			}
+			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ')', PHP_EOL;
+		} else {
+			echo '[FAILED]', PHP_EOL;
 		}
-		echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ')', PHP_EOL;
+
 	}
 
 }

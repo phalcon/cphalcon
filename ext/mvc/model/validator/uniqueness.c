@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	phalcon_array_update_string(&params, SL("bindTypes"), &bind_types, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(class_name);
-	phalcon_get_class(class_name, record TSRMLS_CC);
+	phalcon_get_class(class_name, record, 0 TSRMLS_CC);
 	
 	/** 
 	 * Check using an standard count

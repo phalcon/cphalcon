@@ -59,7 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
-	zval *type, *model, *take_action, *time = NULL, *options;
+	zval *type, *model, *take_action, *options, *time = NULL;
 	zval *format, *generator, *field;
 
 	PHALCON_MM_GROW();
@@ -77,8 +77,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 		RETURN_MM_NULL();
 	}
 	
-	PHALCON_INIT_VAR(time);
-	
 	PHALCON_INIT_VAR(options);
 	PHALCON_CALL_METHOD_PARAMS_1(options, this_ptr, "getoptions", type);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
@@ -90,6 +88,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required");
 			return;
 		}
+	
+		PHALCON_INIT_VAR(time);
 		if (phalcon_array_isset_string(options, SS("format"))) {
 			/** 
 			 * Format is a format for date()

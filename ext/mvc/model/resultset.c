@@ -36,6 +36,7 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\Mvc\Model\Resultset
@@ -81,6 +82,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_count"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_rows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 6, phalcon_mvc_model_resultsetinterface_ce, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -559,5 +561,124 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, current){
 
 
 	RETURN_MEMBER(this_ptr, "_activeRow");
+}
+
+/**
+ * Returns the error messages produced by a batch operation
+ *
+ * @return Phalcon\Mvc\Model\MessageInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages){
+
+
+	RETURN_MEMBER(this_ptr, "_errorMessages");
+}
+
+/**
+ * Delete every record in the resultset
+ *
+ * @param Closure $conditionCallback
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete){
+
+	zval *condition_callback = NULL, *transaction = NULL, *record = NULL;
+	zval *connection = NULL, *parameters = NULL, *status = NULL, *messages = NULL;
+	zval *r0 = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &condition_callback) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!condition_callback) {
+		PHALCON_INIT_VAR(condition_callback);
+	}
+	
+	PHALCON_INIT_VAR(transaction);
+	ZVAL_BOOL(transaction, 0);
+	PHALCON_CALL_METHOD_NORETURN(this_ptr, "rewind");
+	
+	while (1) {
+	
+		PHALCON_INIT_NVAR(r0);
+		PHALCON_CALL_METHOD(r0, this_ptr, "valid");
+		if (zend_is_true(r0)) {
+		} else {
+			break;
+		}
+	
+		PHALCON_INIT_NVAR(record);
+		PHALCON_CALL_METHOD(record, this_ptr, "current");
+		if (PHALCON_IS_FALSE(transaction)) {
+	
+			/** 
+			 * We only can delete resultsets whose every element is a complete object
+			 */
+			if (phalcon_method_exists_ex(record, SS("getconnection") TSRMLS_CC) == SUCCESS) {
+				PHALCON_INIT_NVAR(connection);
+				PHALCON_CALL_METHOD(connection, record, "getconnection");
+				PHALCON_CALL_METHOD_NORETURN(connection, "begin");
+	
+				PHALCON_INIT_NVAR(transaction);
+				ZVAL_BOOL(transaction, 1);
+			} else {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Error Processing Request");
+				return;
+			}
+		}
+	
+		/** 
+		 * Perform additional validations
+		 */
+		if (Z_TYPE_P(condition_callback) == IS_OBJECT) {
+	
+			PHALCON_INIT_NVAR(parameters);
+			array_init_size(parameters, 1);
+			phalcon_array_append(&parameters, record, PH_SEPARATE TSRMLS_CC);
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_USER_FUNC_ARRAY(status, condition_callback, parameters);
+			if (PHALCON_IS_FALSE(status)) {
+				continue;
+			}
+		}
+	
+		/** 
+		 * Try to delete the record
+		 */
+		PHALCON_INIT_NVAR(status);
+		PHALCON_CALL_METHOD(status, record, "delete");
+		if (!zend_is_true(status)) {
+			/** 
+			 * Get the messages from the record that produce the error
+			 */
+			PHALCON_INIT_NVAR(messages);
+			PHALCON_CALL_METHOD(messages, record, "getmessages");
+			phalcon_update_property_zval(this_ptr, SL("_errorMessages"), messages TSRMLS_CC);
+	
+			/** 
+			 * Rollback the transaction
+			 */
+			PHALCON_CALL_METHOD_NORETURN(connection, "rollback");
+	
+			PHALCON_INIT_NVAR(transaction);
+			ZVAL_BOOL(transaction, 0);
+			break;
+		}
+	
+		PHALCON_CALL_METHOD_NORETURN(this_ptr, "next");
+	}
+	
+	/** 
+	 * Commit the transaction
+	 */
+	if (PHALCON_IS_TRUE(transaction)) {
+		PHALCON_CALL_METHOD_NORETURN(connection, "commit");
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 

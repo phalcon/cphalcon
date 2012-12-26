@@ -128,4 +128,15 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testGetRender()
+	{
+		$view = new Phalcon\Mvc\View();
+
+		$view->setViewsDir('unit-tests/views/');
+
+		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
+
+		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>'.PHP_EOL);
+	}
+
 }

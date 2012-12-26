@@ -400,6 +400,23 @@ PHP_METHOD(Phalcon_Dispatcher, isFinished){
 }
 
 /**
+ * Sets the latest returned value by an action manually
+ *
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Dispatcher, setReturnedValue){
+
+	zval *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_returnedValue"), value TSRMLS_CC);
+	
+}
+
+/**
  * Returns value returned by the lastest dispatched action
  *
  * @return mixed
@@ -482,6 +499,10 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 	
 		PHALCON_SEPARATE(number_dispatches);
 		increment_function(number_dispatches);
+	
+		/** 
+		 * Launch an exception after 256 forwards
+		 */
 		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
@@ -652,6 +673,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_INIT_NVAR(exception_message);
 			ZVAL_STRING(exception_message, "Action parameters must be an Array", 1);
 	
+			/** 
+			 * An invalid parameter variable was passed throw an exception
+			 */
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {
@@ -789,6 +813,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SVSVS(exception_message, "Action '", action_name, "' was not found on handler '", handler_name, "'");
 	
+			/** 
+			 * Try to throw an exception when an action isn't defined on the object
+			 */
 			PHALCON_INIT_NVAR(status);
 			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {

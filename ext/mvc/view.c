@@ -34,9 +34,9 @@
 
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/string.h"
@@ -261,8 +261,8 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel){
  * Disables an specific level of rendering
  *
  *<code>
- *Render all levels except ACTION level
- *$this->view->disableLevel(View::LEVEL_ACTION_VIEW);
+ * //Render all levels except ACTION level
+ * $this->view->disableLevel(View::LEVEL_ACTION_VIEW);
  *</code>
  *
  * @param int|array $level
@@ -389,6 +389,10 @@ PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter){
 /**
  * Adds parameters to views (alias of setVar)
  *
+ *<code>
+ *	$this->view->setParamToView('products', $products);
+ *</code>
+ *
  * @param string $key
  * @param mixed $value
  */
@@ -405,7 +409,39 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
 }
 
 /**
- * Adds parameters to views
+ * Set all the render params
+ *
+ *<code>
+ *	$this->view->setParamToView(array('products' => $products));
+ *</code>
+ *
+ * @param array $params
+ */
+PHP_METHOD(Phalcon_Mvc_View, setVars){
+
+	zval *params;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &params) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(params) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "The render parameters must be an array");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_viewParams"), params TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Set a single view parameter
+ *
+ *<code>
+ *	$this->view->setParamToView('products', $products);
+ *</code>
  *
  * @param string $key
  * @param mixed $value
@@ -529,6 +565,10 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 
 	PHALCON_OBS_VAR(engines);
 	phalcon_read_property(&engines, this_ptr, SL("_engines"), PH_NOISY_CC);
+	
+	/** 
+	 * If the engines aren't initialized 'engines' is false
+	 */
 	if (PHALCON_IS_FALSE(engines)) {
 	
 		PHALCON_OBS_VAR(dependency_injector);
@@ -671,6 +711,9 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 		PHALCON_OBS_VAR(cache_level);
 		phalcon_read_property(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
 	
+		/** 
+		 * Evaluate if we need to enter in 'cache' mode
+		 */
 		PHALCON_INIT_VAR(enter_cache);
 		is_smaller_or_equal_function(enter_cache, cache_level, render_level TSRMLS_CC);
 		if (zend_is_true(enter_cache)) {
@@ -931,6 +974,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
 		PHALCON_CPY_WRT(render_controller, controller_name);
 	} else {
+		/** 
+		 * The 'picked' view is an array, where the first element is controller and the
+		 * second the action
+		 */
 		PHALCON_OBS_NVAR(render_view);
 		phalcon_array_fetch_long(&render_view, pick_view, 0, PH_NOISY_CC);
 		if (phalcon_array_isset_long(pick_view, 1)) {
@@ -1261,6 +1308,72 @@ PHP_METHOD(Phalcon_Mvc_View, partial){
 }
 
 /**
+ * Perform the automatic rendering returning the output as a string
+ *
+ * <code>
+ * 	$template = $this->view->getRender('products', 'show', array('products' => $products));
+ * </code>
+ *
+ * @param string $controllerName
+ * @param string $actionName
+ * @param array $params
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getRender){
+
+	zval *controller_name, *action_name, *params = NULL;
+	zval *view, *content;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &controller_name, &action_name, &params) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!params) {
+		PHALCON_INIT_VAR(params);
+	}
+	
+	/** 
+	 * We must to clone the current view to keep the current state
+	 */
+	PHALCON_INIT_VAR(view);
+	if (phalcon_clone(view, this_ptr TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
+	/** 
+	 * Start the output buffering
+	 */
+	PHALCON_CALL_METHOD_NORETURN(view, "start");
+	
+	/** 
+	 * Set the render variables
+	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setvars", params);
+	}
+	
+	/** 
+	 * Perform the render passing only the controller and action
+	 */
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(view, "render", controller_name, action_name);
+	
+	/** 
+	 * Stop the output buffering
+	 */
+	PHALCON_CALL_METHOD_NORETURN(view, "finish");
+	
+	/** 
+	 * Get the processed content
+	 */
+	PHALCON_INIT_VAR(content);
+	PHALCON_CALL_METHOD(content, view, "getcontent");
+	
+	RETURN_CCTOR(content);
+}
+
+/**
  * Finishes the render process by stopping the output buffering
  */
 PHP_METHOD(Phalcon_Mvc_View, finish){
@@ -1311,6 +1424,9 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 		}
 	}
 	
+	/** 
+	 * The injected service must be an object
+	 */
 	PHALCON_INIT_VAR(view_cache);
 	PHALCON_CALL_METHOD_PARAMS_1(view_cache, dependency_injector, "getshared", cache_service);
 	if (Z_TYPE_P(view_cache) != IS_OBJECT) {
@@ -1388,6 +1504,9 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			array_init(view_options);
 		}
 	
+		/** 
+		 * Get the default cache options
+		 */
 		if (phalcon_array_isset_string(view_options, SS("cache"))) {
 			PHALCON_OBS_VAR(cache_options);
 			phalcon_array_fetch_string(&cache_options, view_options, SL("cache"), PH_NOISY_CC);
@@ -1414,6 +1533,9 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
+		/** 
+		 * Check if the user has defined a default cache level or use 5 as default
+		 */
 		if (phalcon_array_isset_string(cache_options, SS("level"))) {
 			PHALCON_OBS_VAR(cache_level);
 			phalcon_array_fetch_string(&cache_level, cache_options, SL("level"), PH_NOISY_CC);

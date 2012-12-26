@@ -280,6 +280,35 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
 }
 
 /**
+ * Maps a route to a handler that only matches if the HTTP method is PATCH
+ *
+ * @param string $routePattern
+ * @param callable $handler
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, patch){
+
+	zval *route_pattern, *handler, *router, *route;
+	zval *route_id;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &route_pattern, &handler) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(router);
+	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
+	
+	PHALCON_INIT_VAR(route);
+	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addpatch", route_pattern);
+	
+	PHALCON_INIT_VAR(route_id);
+	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
+	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	RETURN_CCTOR(route);
+}
+
+/**
  * Maps a route to a handler that only matches if the HTTP method is HEAD
  *
  * @param string $routePattern
