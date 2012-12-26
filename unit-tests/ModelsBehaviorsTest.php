@@ -69,7 +69,7 @@ class ModelsBehaviorsTest extends PHPUnit_Framework_TestCase
 		$subscriber->email = 'some@some.com';
 		$subscriber->status = 'I';
 		$this->assertTrue($subscriber->save());
-		$this->assertTrue(preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $subscriber->created_at));
+		$this->assertEquals(preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $subscriber->created_at), 1);
 	}
 
 	public function testBehaviorsSoftDelete()
