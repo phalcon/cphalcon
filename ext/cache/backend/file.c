@@ -126,9 +126,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
 	zval *key_name, *lifetime = NULL, *options, *prefix, *filtered;
 	zval *prefixed_key, *cache_dir, *cache_file;
-	zval *frontend, *time, *ttl = NULL, *modified_time, *difference;
-	zval *not_expired, *cached_content, *exception_message;
-	zval *processed;
+	zval *frontend, *timestamp, *ttl = NULL, *modified_time;
+	zval *difference, *not_expired, *cached_content;
+	zval *exception_message, *processed;
 
 	PHALCON_MM_GROW();
 
@@ -166,8 +166,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		/** 
 		 * Check if the file has expired
 		 */
-		PHALCON_INIT_VAR(time);
-		PHALCON_CALL_FUNC(time, "time");
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
 			PHALCON_INIT_VAR(ttl);
 			PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 		PHALCON_CALL_FUNC_PARAMS_1(modified_time, "filemtime", cache_file);
 	
 		PHALCON_INIT_VAR(difference);
-		sub_function(difference, time, ttl TSRMLS_CC);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(not_expired);
 		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
@@ -441,7 +441,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
 	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *filtered;
 	zval *options, *cache_dir, *cache_file, *frontend;
-	zval *time, *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *timestamp, *ttl = NULL, *modified_time, *difference;
+	zval *not_expired;
 
 	PHALCON_MM_GROW();
 
@@ -488,8 +489,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 			/** 
 			 * Check if the file has expired
 			 */
-			PHALCON_INIT_VAR(time);
-			PHALCON_CALL_FUNC(time, "time");
+			PHALCON_INIT_VAR(timestamp);
+			ZVAL_LONG(timestamp, (long) time(NULL));
 			if (Z_TYPE_P(lifetime) == IS_NULL) {
 				PHALCON_INIT_VAR(ttl);
 				PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
@@ -501,7 +502,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 			PHALCON_CALL_FUNC_PARAMS_1(modified_time, "filemtime", cache_file);
 	
 			PHALCON_INIT_VAR(difference);
-			sub_function(difference, time, ttl TSRMLS_CC);
+			sub_function(difference, timestamp, ttl TSRMLS_CC);
 	
 			PHALCON_INIT_VAR(not_expired);
 			is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);

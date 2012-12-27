@@ -501,7 +501,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		increment_function(number_dispatches);
 	
 		/** 
-		 * Launch an exception after 256 forwards
+		 * Throw an exception after 256 consecutive forwards
 		 */
 		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
 			PHALCON_INIT_NVAR(exception_code);

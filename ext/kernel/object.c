@@ -159,6 +159,21 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 }
 
 /**
+ * Returns the called in class in the current scope
+ */
+void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
+
+	if (EG(called_scope)) {
+		RETURN_STRINGL(EG(called_scope)->name, EG(called_scope)->name_length, 1);
+	} else {
+		if (!EG(scope))  {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_called_class() called from outside a class");
+		}
+	}
+
+}
+
+/**
  * Fetches a zend class entry from a zval value
  */
 zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){

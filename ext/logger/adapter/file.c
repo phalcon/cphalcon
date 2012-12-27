@@ -129,8 +129,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 
 	zval *message, *type = NULL, *file_handler, *transaction;
-	zval *time, *quenue_item, *applied_format, *eol;
-	zval *applied_eol;
+	zval *timestamp, *quenue_item, *applied_format;
+	zval *eol, *applied_eol;
 
 	PHALCON_MM_GROW();
 
@@ -153,12 +153,12 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (zend_is_true(transaction)) {
-		PHALCON_INIT_VAR(time);
-		PHALCON_CALL_FUNC(time, "time");
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
 	
 		PHALCON_INIT_VAR(quenue_item);
 		object_init_ex(quenue_item, phalcon_logger_item_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(quenue_item, "__construct", message, type, time);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(quenue_item, "__construct", message, type, timestamp);
 	
 		phalcon_update_property_array_append(this_ptr, SL("_quenue"), quenue_item TSRMLS_CC);
 	} else {

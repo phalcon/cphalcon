@@ -19,3 +19,4 @@
 
 extern int phalcon_file_exists(zval *filename TSRMLS_DC);
 extern int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC);
+extern void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC);

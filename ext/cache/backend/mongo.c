@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, _getCollection){
 PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 
 	zval *key_name, *lifetime = NULL, *frontend, *prefix, *prefixed_key;
-	zval *collection, *conditions, *document, *time;
+	zval *collection, *conditions, *document, *timestamp;
 	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 	zval *cached_content, *content;
 
@@ -253,8 +253,8 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 	PHALCON_CALL_METHOD_PARAMS_1(document, collection, "findone", conditions);
 	if (Z_TYPE_P(document) == IS_ARRAY) { 
 	
-		PHALCON_INIT_VAR(time);
-		PHALCON_CALL_FUNC(time, "time");
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
 		if (Z_TYPE_P(lifetime) == IS_NULL) {
 			PHALCON_INIT_VAR(ttl);
 			PHALCON_CALL_METHOD(ttl, frontend, "getlifetime");
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, get){
 		phalcon_array_fetch_string(&modified_time, document, SL("time"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(difference);
-		sub_function(difference, time, ttl TSRMLS_CC);
+		sub_function(difference, timestamp, ttl TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(not_expired);
 		is_smaller_function(not_expired, difference, modified_time TSRMLS_CC);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
 	zval *last_key = NULL, *prefix, *frontend, *cached_content = NULL;
-	zval *prepared_content, *ttl = NULL, *collection, *time;
+	zval *prepared_content, *ttl = NULL, *collection, *timestamp;
 	zval *conditions, *document, *data, *is_buffering;
 
 	PHALCON_MM_GROW();
@@ -372,11 +372,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, save){
 	PHALCON_INIT_VAR(collection);
 	PHALCON_CALL_METHOD(collection, this_ptr, "_getcollection");
 	
-	PHALCON_INIT_VAR(time);
-	PHALCON_CALL_FUNC(time, "time");
+	PHALCON_INIT_VAR(timestamp);
+	ZVAL_LONG(timestamp, (long) time(NULL));
 	
 	PHALCON_INIT_NVAR(ttl);
-	phalcon_add_function(ttl, lifetime, time TSRMLS_CC);
+	phalcon_add_function(ttl, lifetime, timestamp TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(conditions);
 	array_init_size(conditions, 1);

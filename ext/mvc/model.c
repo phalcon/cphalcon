@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	PHALCON_CALL_FUNC(model_name, "get_called_class");
+	phalcon_get_called_class(model_name  TSRMLS_CC);
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(params);
@@ -786,7 +786,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	PHALCON_CALL_FUNC(model_name, "get_called_class");
+	phalcon_get_called_class(model_name  TSRMLS_CC);
 	if (Z_TYPE_P(parameters) != IS_ARRAY) { 
 	
 		PHALCON_INIT_VAR(params);
@@ -880,7 +880,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	PHALCON_CALL_FUNC(model_name, "get_called_class");
+	phalcon_get_called_class(model_name  TSRMLS_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_INIT_NVAR(dependency_injector);
 		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
@@ -1189,7 +1189,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult){
 	}
 	
 	PHALCON_INIT_VAR(model_name);
-	PHALCON_CALL_FUNC(model_name, "get_called_class");
+	phalcon_get_called_class(model_name  TSRMLS_CC);
 	
 	/** 
 	 * Builds a query with the passed parameters

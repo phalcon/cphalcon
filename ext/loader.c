@@ -445,9 +445,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	zval *classes, *file_path = NULL, *extensions, *ds, *namespace_separator;
 	zval *empty_str, *zero, *namespaces, *directory = NULL;
 	zval *prefix = NULL, *prefix_namespace = NULL, *file_name = NULL;
-	zval *extension = NULL, *complete_path = NULL, *pseudo_separator;
-	zval *prefixes, *no_prefix_class = NULL, *ds_class_name;
-	zval *ns_class_name, *directories;
+	zval *fixed_directory = NULL, *extension = NULL, *complete_path = NULL;
+	zval *pseudo_separator, *prefixes, *no_prefix_class = NULL;
+	zval *ds_class_name, *ns_class_name, *directories;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -529,14 +529,26 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(prefix, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(directory);
 	
+			/** 
+			 * The class name must start with the current namespace
+			 */
 			if (phalcon_start_with(class_name, prefix, NULL)) {
 	
+				/** 
+				 * Append the namespace separator to the prefix
+				 */
 				PHALCON_INIT_NVAR(prefix_namespace);
 				PHALCON_CONCAT_VV(prefix_namespace, prefix, namespace_separator);
 	
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, prefix_namespace, empty_str, class_name TSRMLS_CC);
 				if (zend_is_true(file_name)) {
+	
+					/** 
+					 * Add a trailing directory separator if the user forgot to do that
+					 */
+					PHALCON_INIT_NVAR(fixed_directory);
+					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
 					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 						return;
@@ -550,10 +562,14 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						PHALCON_GET_FOREACH_VALUE(extension);
 	
 						PHALCON_INIT_NVAR(complete_path);
-						PHALCON_CONCAT_VVSV(complete_path, directory, file_name, ".", extension);
+						PHALCON_CONCAT_VVSV(complete_path, fixed_directory, file_name, ".", extension);
 	
 						PHALCON_INIT_NVAR(file_path);
 						phalcon_fast_str_replace(file_path, namespace_separator, ds, complete_path TSRMLS_CC);
+	
+						/** 
+						 * Check if a events manager is available
+						 */
 						if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 							phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
 	
@@ -562,6 +578,9 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 							PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 						}
 	
+						/** 
+						 * This is probably a good path, let's check if the file exist
+						 */
 						if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
@@ -570,9 +589,17 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 								ZVAL_STRING(event_name, "loader:pathFound", 1);
 								PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path);
 							}
+	
+							/** 
+							 * Simulate a require
+							 */
 							if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
 								return;
 							}
+	
+							/** 
+							 * Return true mean success
+							 */
 							RETURN_MM_TRUE;
 						}
 	
@@ -609,14 +636,29 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_GET_FOREACH_KEY(prefix, ah2, hp2);
 			PHALCON_GET_FOREACH_VALUE(directory);
 	
+			/** 
+			 * The class name starts with the prefix?
+			 */
 			if (phalcon_start_with(class_name, prefix, NULL)) {
 	
+				/** 
+				 * Remove the prefix from the class
+				 */
 				PHALCON_INIT_NVAR(no_prefix_class);
 				phalcon_fast_str_replace(no_prefix_class, prefix, empty_str, class_name TSRMLS_CC);
 	
+				/** 
+				 * Change the pseudo-separator '_' by the directory separator
+				 */
 				PHALCON_INIT_NVAR(file_name);
 				phalcon_fast_str_replace(file_name, pseudo_separator, ds, no_prefix_class TSRMLS_CC);
 				if (zend_is_true(file_name)) {
+	
+					/** 
+					 * Add a trailing directory separator if the user forgot to do that
+					 */
+					PHALCON_INIT_NVAR(fixed_directory);
+					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
 					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 						return;
@@ -630,7 +672,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						PHALCON_GET_FOREACH_VALUE(extension);
 	
 						PHALCON_INIT_NVAR(complete_path);
-						PHALCON_CONCAT_VVSV(complete_path, directory, file_name, ".", extension);
+						PHALCON_CONCAT_VVSV(complete_path, fixed_directory, file_name, ".", extension);
 	
 						PHALCON_INIT_NVAR(file_path);
 						phalcon_fast_str_replace(file_path, namespace_separator, ds, complete_path TSRMLS_CC);
@@ -643,6 +685,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						}
 	
 						if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
+	
+							/** 
+							 * Call 'pathFound' event
+							 */
 							if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 								phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
@@ -667,9 +713,15 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	}
 	
+	/** 
+	 * Change the pseudo-separator by the directory separator in the class name
+	 */
 	PHALCON_INIT_VAR(ds_class_name);
 	phalcon_fast_str_replace(ds_class_name, pseudo_separator, ds, class_name TSRMLS_CC);
 	
+	/** 
+	 * And change the namespace separator by directory separator too
+	 */
 	PHALCON_INIT_VAR(ns_class_name);
 	phalcon_fast_str_replace(ns_class_name, namespace_separator, ds, ds_class_name TSRMLS_CC);
 	
@@ -691,6 +743,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 			PHALCON_GET_FOREACH_VALUE(directory);
 	
+			/** 
+			 * Add a trailing directory separator if the user forgot to do that
+			 */
+			PHALCON_INIT_NVAR(fixed_directory);
+			phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
 			if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
 				return;
@@ -703,8 +760,11 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 				PHALCON_GET_FOREACH_VALUE(extension);
 	
+				/** 
+				 * Create a possible path for the file
+				 */
 				PHALCON_INIT_NVAR(file_path);
-				PHALCON_CONCAT_VVSV(file_path, directory, ns_class_name, ".", extension);
+				PHALCON_CONCAT_VVSV(file_path, fixed_directory, ns_class_name, ".", extension);
 				if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 					phalcon_update_property_zval(this_ptr, SL("_checkedPath"), file_path TSRMLS_CC);
 	
@@ -713,7 +773,14 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path);
 				}
 	
+				/** 
+				 * Check in every directory if the class exists here
+				 */
 				if (phalcon_file_exists(file_path TSRMLS_CC) == SUCCESS) {
+	
+					/** 
+					 * Call 'pathFound' event
+					 */
 					if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 						phalcon_update_property_zval(this_ptr, SL("_foundPath"), file_path TSRMLS_CC);
 	
@@ -721,9 +788,17 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 						ZVAL_STRING(event_name, "loader:pathFound", 1);
 						PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, file_path);
 					}
+	
+					/** 
+					 * Simulate a require
+					 */
 					if (phalcon_require(file_path TSRMLS_CC) == FAILURE) {
 						return;
 					}
+	
+					/** 
+					 * Return true meaning success
+					 */
 					RETURN_MM_TRUE;
 				}
 	
@@ -736,12 +811,18 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	
 	}
 	
+	/** 
+	 * Call 'afterCheckClass' event
+	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "loader:afterCheckClass", 1);
 		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "fire", event_name, this_ptr, class_name);
 	}
 	
+	/** 
+	 * Cannot find the class return false
+	 */
 	RETURN_MM_FALSE;
 }
 

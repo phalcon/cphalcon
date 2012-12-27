@@ -59,7 +59,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 
-	zval *type, *model, *take_action, *options, *time = NULL;
+	zval *type, *model, *take_action, *options, *timestamp = NULL;
 	zval *format, *generator, *field;
 
 	PHALCON_MM_GROW();
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			return;
 		}
 	
-		PHALCON_INIT_VAR(time);
+		PHALCON_INIT_VAR(timestamp);
 		if (phalcon_array_isset_string(options, SS("format"))) {
 			/** 
 			 * Format is a format for date()
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 			PHALCON_OBS_VAR(format);
 			phalcon_array_fetch_string(&format, options, SL("format"), PH_NOISY_CC);
 	
-			PHALCON_CALL_FUNC_PARAMS_1(time, "date", format);
+			PHALCON_CALL_FUNC_PARAMS_1(timestamp, "date", format);
 		} else {
 			if (phalcon_array_isset_string(options, SS("generator"))) {
 	
@@ -108,8 +108,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 				phalcon_array_fetch_string(&generator, options, SL("generator"), PH_NOISY_CC);
 				if (Z_TYPE_P(generator) == IS_OBJECT) {
 					if (phalcon_is_instance_of(generator, SL("Closure") TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(time);
-						PHALCON_CALL_USER_FUNC(time, generator);
+						PHALCON_INIT_NVAR(timestamp);
+						PHALCON_CALL_USER_FUNC(timestamp, generator);
 					}
 				}
 			}
@@ -118,14 +118,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify){
 		/** 
 		 * Last resort call time()
 		 */
-		if (Z_TYPE_P(time) == IS_NULL) {
-			PHALCON_INIT_NVAR(time);
-			PHALCON_CALL_FUNC(time, "time");
+		if (Z_TYPE_P(timestamp) == IS_NULL) {
+			PHALCON_INIT_NVAR(timestamp);
+			ZVAL_LONG(timestamp, (long) time(NULL));
 		}
 	
 		PHALCON_OBS_VAR(field);
 		phalcon_array_fetch_string(&field, options, SL("field"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "writeattribute", field, time);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(model, "writeattribute", field, timestamp);
 	}
 	
 	PHALCON_MM_RESTORE();

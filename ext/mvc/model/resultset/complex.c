@@ -122,6 +122,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	phalcon_read_property(&type, this_ptr, SL("_type"), PH_NOISY_CC);
 	if (zend_is_true(type)) {
 	
+		/** 
+		 * The result is bigger than 32 rows so it's retrieved one by one
+		 */
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (PHALCON_IS_NOT_FALSE(result)) {
@@ -132,141 +135,173 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			ZVAL_BOOL(row, 0);
 		}
 	} else {
+		/** 
+		 * The full rows are dumped in this_ptr->rows
+		 */
 		PHALCON_OBS_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
-		Z_SET_ISREF_P(rows);
-	
-		PHALCON_INIT_NVAR(row);
-		PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
-		Z_UNSET_ISREF_P(rows);
-		if (zend_is_true(row)) {
+		if (Z_TYPE_P(rows) == IS_ARRAY) { 
 			Z_SET_ISREF_P(rows);
-			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
+			PHALCON_INIT_NVAR(row);
+			PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
 			Z_UNSET_ISREF_P(rows);
+			if (Z_TYPE_P(row) == IS_OBJECT) {
+				Z_SET_ISREF_P(rows);
+				PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
+				Z_UNSET_ISREF_P(rows);
+			}
+		} else {
+			PHALCON_INIT_NVAR(row);
+			ZVAL_BOOL(row, 0);
 		}
 	}
 	
-	if (PHALCON_IS_NOT_FALSE(row)) {
+	/** 
+	 * Valid records are arrays
+	 */
+	if (Z_TYPE_P(row) == IS_ARRAY || Z_TYPE_P(row) == IS_OBJECT) {
 	
-		PHALCON_INIT_VAR(underscore);
-		ZVAL_STRING(underscore, "_", 1);
+		/** 
+		 * The result type=1 so we need to build every row
+		 */
+		if (zend_is_true(type)) {
 	
-		PHALCON_INIT_VAR(empty_str);
-		ZVAL_STRING(empty_str, "", 1);
+			PHALCON_INIT_VAR(underscore);
+			ZVAL_STRING(underscore, "_", 1);
 	
-		PHALCON_INIT_VAR(active_row);
-		object_init_ex(active_row, phalcon_mvc_model_row_ce);
+			PHALCON_INIT_VAR(empty_str);
+			ZVAL_STRING(empty_str, "", 1);
 	
-		PHALCON_OBS_VAR(columns_types);
-		phalcon_read_property(&columns_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
+			/** 
+			 * Each row in a complex result is a Phalcon_Mvc_Model_Row instance
+			 */
+			PHALCON_INIT_VAR(active_row);
+			object_init_ex(active_row, phalcon_mvc_model_row_ce);
 	
-		if (!phalcon_valid_foreach(columns_types TSRMLS_CC)) {
-			return;
-		}
+			PHALCON_OBS_VAR(columns_types);
+			phalcon_read_property(&columns_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	
-		ah0 = Z_ARRVAL_P(columns_types);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(column);
-	
-			PHALCON_OBS_NVAR(type);
-			phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
-			if (PHALCON_COMPARE_STRING(type, "object")) {
-	
-				/** 
-				 * Object columns are assigned column by column
-				 */
-				PHALCON_OBS_NVAR(source);
-				phalcon_array_fetch_string(&source, column, SL("column"), PH_NOISY_CC);
-	
-				PHALCON_OBS_NVAR(instance);
-				phalcon_array_fetch_string(&instance, column, SL("instance"), PH_NOISY_CC);
-	
-				PHALCON_OBS_NVAR(attributes);
-				phalcon_array_fetch_string(&attributes, column, SL("attributes"), PH_NOISY_CC);
-	
-				PHALCON_OBS_NVAR(column_map);
-				phalcon_array_fetch_string(&column_map, column, SL("columnMap"), PH_NOISY_CC);
-	
-				/** 
-				 * Assign the values from the _source_attribute notation to its real column name
-				 */
-				PHALCON_INIT_NVAR(row_model);
-				array_init(row_model);
-	
-				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
-					return;
-				}
-	
-				ah1 = Z_ARRVAL_P(attributes);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
-	
-				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-					PHALCON_GET_FOREACH_VALUE(attribute);
-	
-					PHALCON_INIT_NVAR(column_alias);
-					PHALCON_CONCAT_VVVV(column_alias, underscore, source, underscore, attribute);
-	
-					PHALCON_OBS_NVAR(value);
-					phalcon_array_fetch(&value, row, column_alias, PH_NOISY_CC);
-					phalcon_array_update_zval(&row_model, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-					zend_hash_move_forward_ex(ah1, &hp1);
-				}
-	
-				/** 
-				 * Assign the values to the attributes using a column map
-				 */
-				PHALCON_INIT_NVAR(model_attribute);
-				PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, row_model, column_map);
-	
-				/** 
-				 * The complete object is assigned to an attribute with the name of the alias or
-				 * the model name
-				 */
-				PHALCON_OBS_NVAR(attribute);
-				phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY_CC);
-				phalcon_update_property_zval_zval(active_row, attribute, model_attribute TSRMLS_CC);
-			} else {
-				/** 
-				 * Scalar columns are simply assigned to the result object
-				 */
-				if (phalcon_array_isset_string(column, SS("sqlAlias"))) {
-					PHALCON_OBS_NVAR(sql_alias);
-					phalcon_array_fetch_string(&sql_alias, column, SL("sqlAlias"), PH_NOISY_CC);
-	
-					PHALCON_OBS_NVAR(value);
-					phalcon_array_fetch(&value, row, sql_alias, PH_NOISY_CC);
-				} else {
-					PHALCON_OBS_NVAR(value);
-					phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
-				}
-	
-				/** 
-				 * If a 'balias' is defined is not an unnamed scalar
-				 */
-				if (phalcon_array_isset_string(column, SS("balias"))) {
-					phalcon_update_property_zval_zval(active_row, alias, value TSRMLS_CC);
-				} else {
-					PHALCON_INIT_NVAR(n_alias);
-					phalcon_fast_str_replace(n_alias, underscore, empty_str, alias TSRMLS_CC);
-					phalcon_update_property_zval_zval(active_row, n_alias, value TSRMLS_CC);
-				}
+			if (!phalcon_valid_foreach(columns_types TSRMLS_CC)) {
+				return;
 			}
 	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
+			ah0 = Z_ARRVAL_P(columns_types);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-		phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(column);
+	
+				PHALCON_OBS_NVAR(type);
+				phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
+				if (PHALCON_COMPARE_STRING(type, "object")) {
+	
+					/** 
+					 * Object columns are assigned column by column
+					 */
+					PHALCON_OBS_NVAR(source);
+					phalcon_array_fetch_string(&source, column, SL("column"), PH_NOISY_CC);
+	
+					PHALCON_OBS_NVAR(instance);
+					phalcon_array_fetch_string(&instance, column, SL("instance"), PH_NOISY_CC);
+	
+					PHALCON_OBS_NVAR(attributes);
+					phalcon_array_fetch_string(&attributes, column, SL("attributes"), PH_NOISY_CC);
+	
+					PHALCON_OBS_NVAR(column_map);
+					phalcon_array_fetch_string(&column_map, column, SL("columnMap"), PH_NOISY_CC);
+	
+					/** 
+					 * Assign the values from the _source_attribute notation to its real column name
+					 */
+					PHALCON_INIT_NVAR(row_model);
+					array_init(row_model);
+	
+					if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+						return;
+					}
+	
+					ah1 = Z_ARRVAL_P(attributes);
+					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	
+					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+						PHALCON_GET_FOREACH_VALUE(attribute);
+	
+						/** 
+						 * Columns are supposed to be in the form _table_field
+						 */
+						PHALCON_INIT_NVAR(column_alias);
+						PHALCON_CONCAT_VVVV(column_alias, underscore, source, underscore, attribute);
+	
+						PHALCON_OBS_NVAR(value);
+						phalcon_array_fetch(&value, row, column_alias, PH_NOISY_CC);
+						phalcon_array_update_zval(&row_model, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+						zend_hash_move_forward_ex(ah1, &hp1);
+					}
+	
+					/** 
+					 * Assign the values to the attributes using a column map
+					 */
+					PHALCON_INIT_NVAR(model_attribute);
+					PHALCON_CALL_STATIC_PARAMS_3(model_attribute, "phalcon\\mvc\\model", "dumpresultmap", instance, row_model, column_map);
+	
+					/** 
+					 * The complete object is assigned to an attribute with the name of the alias or
+					 * the model name
+					 */
+					PHALCON_OBS_NVAR(attribute);
+					phalcon_array_fetch_string(&attribute, column, SL("balias"), PH_NOISY_CC);
+					phalcon_update_property_zval_zval(active_row, attribute, model_attribute TSRMLS_CC);
+				} else {
+					/** 
+					 * Scalar columns are simply assigned to the result object
+					 */
+					if (phalcon_array_isset_string(column, SS("sqlAlias"))) {
+						PHALCON_OBS_NVAR(sql_alias);
+						phalcon_array_fetch_string(&sql_alias, column, SL("sqlAlias"), PH_NOISY_CC);
+	
+						PHALCON_OBS_NVAR(value);
+						phalcon_array_fetch(&value, row, sql_alias, PH_NOISY_CC);
+					} else {
+						PHALCON_OBS_NVAR(value);
+						phalcon_array_fetch(&value, row, alias, PH_NOISY_CC);
+					}
+	
+					/** 
+					 * If a 'balias' is defined is not an unnamed scalar
+					 */
+					if (phalcon_array_isset_string(column, SS("balias"))) {
+						phalcon_update_property_zval_zval(active_row, alias, value TSRMLS_CC);
+					} else {
+						PHALCON_INIT_NVAR(n_alias);
+						phalcon_fast_str_replace(n_alias, underscore, empty_str, alias TSRMLS_CC);
+						phalcon_update_property_zval_zval(active_row, n_alias, value TSRMLS_CC);
+					}
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+			/** 
+			 * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_activeRow"), active_row TSRMLS_CC);
+		} else {
+			/** 
+			 * The row is already built so we just assign it to activeRecord
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_activeRow"), row TSRMLS_CC);
+		}
 		RETURN_MM_TRUE;
-	} else {
-		phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
 	}
 	
+	/** 
+	 * There are no results to retrieve so we update this_ptr->activeRow as false
+	 */
+	phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
 	RETURN_MM_FALSE;
 }
 

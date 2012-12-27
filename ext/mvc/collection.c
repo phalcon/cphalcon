@@ -1404,7 +1404,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
 	}
 	
 	PHALCON_INIT_VAR(class_name);
-	PHALCON_CALL_FUNC(class_name, "get_called_class");
+	phalcon_get_called_class(class_name  TSRMLS_CC);
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(collection);
@@ -1487,7 +1487,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 	}
 	
 	PHALCON_INIT_VAR(class_name);
-	PHALCON_CALL_FUNC(class_name, "get_called_class");
+	phalcon_get_called_class(class_name  TSRMLS_CC);
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(collection);
@@ -1538,7 +1538,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	}
 	
 	PHALCON_INIT_VAR(class_name);
-	PHALCON_CALL_FUNC(class_name, "get_called_class");
+	phalcon_get_called_class(class_name  TSRMLS_CC);
 	ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(collection);
