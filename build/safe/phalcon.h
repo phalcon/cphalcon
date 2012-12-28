@@ -7109,7 +7109,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
 PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, dump);
-PHP_METHOD(Phalcon_Mvc_Model, __wakeup);
+PHP_METHOD(Phalcon_Mvc_Model, toArray);
 PHP_METHOD(Phalcon_Mvc_Model, setup);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
@@ -7297,7 +7297,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Mvc_Model, __wakeup, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, toArray, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setup, arginfo_phalcon_mvc_model_setup, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_FE_END
 };

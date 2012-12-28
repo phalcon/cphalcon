@@ -4482,6 +4482,10 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 /**
  * Returns a simple representation of the object that can be used with var_dump
  *
+ *<code>
+ * var_dump($robot->dump());
+ *</code>
+ *
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model, dump){
@@ -4496,44 +4500,59 @@ PHP_METHOD(Phalcon_Mvc_Model, dump){
 }
 
 /**
- * This method implements the magic method wake up, this reinitializes the model using the default DI
+ * Returns the instance as an array representation
  *
+ *<code>
+ * print_r($robot->toArray());
+ *</code>
+ *
+ * @return array
  */
-PHP_METHOD(Phalcon_Mvc_Model, __wakeup){
+PHP_METHOD(Phalcon_Mvc_Model, toArray){
 
-	zval *dependency_injector, *service, *manager;
+	zval *meta_data, *data, *null_value, *attributes;
+	zval *attribute = NULL, *value = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	/** 
-	 * Obtain the default DI
-	 */
-	PHALCON_INIT_VAR(dependency_injector);
-	PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
-	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+	PHALCON_INIT_VAR(meta_data);
+	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
+	
+	PHALCON_INIT_VAR(data);
+	array_init(data);
+	
+	PHALCON_INIT_VAR(null_value);
+	
+	PHALCON_INIT_VAR(attributes);
+	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
+	
+	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 		return;
 	}
 	
-	/** 
-	 * Gets the default modelsManager service
-	 */
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "modelsManager", 1);
+	ah0 = Z_ARRVAL_P(attributes);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	PHALCON_INIT_VAR(manager);
-	PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
-	if (Z_TYPE_P(manager) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
-		return;
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_VALUE(attribute);
+	
+		if (phalcon_isset_property_zval(this_ptr, attribute TSRMLS_CC)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_read_property_zval(&value, this_ptr, attribute, PH_NOISY_CC);
+			phalcon_array_update_zval(&data, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		} else {
+			phalcon_array_update_zval(&data, attribute, &null_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	/** 
-	 * Initialize the object
-	 */
-	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(manager, "initialize", this_ptr);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CTOR(data);
 }
 
 /**
