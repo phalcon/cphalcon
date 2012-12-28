@@ -141,14 +141,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 		PHALCON_OBS_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
-			Z_SET_ISREF_P(rows);
+	
 			PHALCON_INIT_NVAR(row);
-			PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
-			Z_UNSET_ISREF_P(rows);
+			phalcon_array_get_current(row, rows TSRMLS_CC);
 			if (Z_TYPE_P(row) == IS_OBJECT) {
-				Z_SET_ISREF_P(rows);
-				PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
-				Z_UNSET_ISREF_P(rows);
+				phalcon_array_next(rows);
 			}
 		} else {
 			PHALCON_INIT_NVAR(row);

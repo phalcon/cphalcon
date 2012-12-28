@@ -35,8 +35,8 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
-#include "kernel/exception.h"
 #include "kernel/array.h"
+#include "kernel/exception.h"
 
 /**
  * Phalcon\Mvc\Model\Resultset

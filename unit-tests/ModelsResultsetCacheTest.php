@@ -100,7 +100,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
@@ -126,7 +126,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
@@ -156,7 +156,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array(

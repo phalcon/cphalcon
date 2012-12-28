@@ -21,6 +21,8 @@
 class CacheResultsetTest extends PHPUnit_Framework_TestCase
 {
 
+	protected $di;
+
 	public function __construct()
 	{
 		spl_autoload_register(array($this, 'modelsAutoloader'));
@@ -48,22 +50,26 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsManager', function(){
 			return new Phalcon\Mvc\Model\Manager();
-		});
+		}, true);
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+		}, true);
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
 
-		$frontCache = new Phalcon\Cache\Frontend\Data();
+		$frontCache = new Phalcon\Cache\Frontend\Data(array(
+			'lifetime' => 3600
+		));
 
 		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
 			'cacheDir' => 'unit-tests/cache/'
 		));
+
+		$this->_di = $di;
 
 		return $cache;
 	}
@@ -106,6 +112,69 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 		$this->assertEquals(count($robots), 3);
 		$this->assertEquals($robots->count(), 3);
+
+	}
+
+	public function testCacheResultsetSimple()
+	{
+
+		$cache = $this->_getCache();
+
+		$modelsManager = $this->_di->get('modelsManager');
+
+		$robots = $modelsManager->executeQuery('SELECT * FROM Robots');
+
+		$cache->save('test-resultset', $robots);
+
+		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+
+		$robots = $cache->get('test-resultset');
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robots), 3);
+		$this->assertEquals($robots->count(), 3);
+
+	}
+
+	public function testCacheResultsetSimpleNoComplete()
+	{
+
+		$cache = $this->_getCache();
+
+		$modelsManager = $this->_di->get('modelsManager');
+
+		$robots = $modelsManager->executeQuery('SELECT id FROM Robots');
+
+		$cache->save('test-resultset', $robots);
+
+		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+
+		$robots = $cache->get('test-resultset');
+
+		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
+		$this->assertEquals(count($robots), 3);
+		$this->assertEquals($robots->count(), 3);
+
+	}
+
+	public function testCacheResultsetSimpleNoComplex()
+	{
+
+		$cache = $this->_getCache();
+
+		$modelsManager = $this->_di->get('modelsManager');
+
+		$results = $modelsManager->executeQuery('SELECT r.*, p.* FROM Robots r JOIN RobotsParts p');
+
+		$cache->save('test-resultset', $results);
+
+		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+
+		$results = $cache->get('test-resultset');
+
+		$this->assertEquals(get_class($results), 'Phalcon\Mvc\Model\Resultset\Complex');
+		$this->assertEquals(count($results), 3);
+		$this->assertEquals($results->count(), 3);
 
 	}
 

@@ -70,3 +70,7 @@ extern int phalcon_array_fetch_long(zval **return_value, zval *arr, unsigned lon
 
 /** Merge+Append */
 extern void phalcon_merge_append(zval *left, zval *values TSRMLS_DC);
+
+/* Traversing Arays */
+extern void phalcon_array_get_current(zval *return_value, zval *array TSRMLS_DC);
+extern void phalcon_array_next(zval *array);

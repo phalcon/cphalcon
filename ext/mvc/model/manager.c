@@ -70,6 +70,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Manager){
 
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_customEventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_connectionServices"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_aliases"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_manager_ce, SL("_hasMany"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -124,7 +125,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI){
 }
 
 /**
- * Sets the event manager
+ * Sets a global events manager
  *
  * @param Phalcon\Events\ManagerInterface $eventsManager
  */
@@ -149,6 +150,62 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager){
 
 
 	RETURN_MEMBER(this_ptr, "_eventsManager");
+}
+
+/**
+ * Sets a custom events manager for a specific model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Events\ManagerInterface $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager){
+
+	zval *model, *events_manager, *class_name;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &model, &events_manager) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(class_name);
+	phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+	phalcon_update_property_array(this_ptr, SL("_customEventsManager"), class_name, events_manager TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns a custom events manager related to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager){
+
+	zval *model, *custom_events_manager, *class_name;
+	zval *events_manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(custom_events_manager);
+	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_class(class_name, model, 1 TSRMLS_CC);
+		if (phalcon_array_isset(custom_events_manager, class_name)) {
+			PHALCON_OBS_VAR(events_manager);
+			phalcon_array_fetch(&events_manager, custom_events_manager, class_name, PH_NOISY_CC);
+			RETURN_CCTOR(events_manager);
+		}
+	}
+	
+	RETURN_MM_NULL();
 }
 
 /**
@@ -446,9 +503,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnectionService){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 
-	zval *event_name, *model, *behaviors, *entity_name;
+	zval *event_name, *model, *status = NULL, *behaviors, *entity_name = NULL;
 	zval *models_behaviors, *behavior = NULL, *events_manager;
-	zval *fire_event_name, *status;
+	zval *fire_event_name = NULL, *custom_events_manager;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -459,6 +516,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 		RETURN_MM_NULL();
 	}
 
+	PHALCON_INIT_VAR(status);
+	
 	/** 
 	 * Dispatch events to the global events manager
 	 */
@@ -487,7 +546,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	
 				PHALCON_GET_FOREACH_VALUE(behavior);
 	
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(behavior, "notify", event_name, model);
+				PHALCON_INIT_NVAR(status);
+				PHALCON_CALL_METHOD_PARAMS_2(status, behavior, "notify", event_name, model);
+				if (PHALCON_IS_FALSE(status)) {
+					RETURN_CCTOR(status);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -501,15 +564,41 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
 		PHALCON_INIT_VAR(fire_event_name);
 		PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
 	
-		PHALCON_INIT_VAR(status);
+		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, events_manager, "fire", fire_event_name, model);
-		RETURN_CCTOR(status);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_CCTOR(status);
+		}
 	}
 	
-	RETURN_MM_NULL();
+	/** 
+	 * A model can has an specific events manager for it
+	 */
+	PHALCON_OBS_VAR(custom_events_manager);
+	phalcon_read_property(&custom_events_manager, this_ptr, SL("_customEventsManager"), PH_NOISY_CC);
+	if (Z_TYPE_P(custom_events_manager) == IS_ARRAY) { 
+	
+		PHALCON_INIT_NVAR(entity_name);
+		phalcon_get_class(entity_name, model, 1 TSRMLS_CC);
+		if (phalcon_array_isset(custom_events_manager, entity_name)) {
+	
+			PHALCON_INIT_NVAR(fire_event_name);
+			PHALCON_CONCAT_SV(fire_event_name, "model:", event_name);
+	
+			PHALCON_INIT_NVAR(status);
+			PHALCON_CALL_METHOD_PARAMS_2(status, custom_events_manager, "fire", fire_event_name, model);
+			if (PHALCON_IS_FALSE(status)) {
+				RETURN_CCTOR(status);
+			}
+		}
+	}
+	
+	
+	RETURN_CCTOR(status);
 }
 
 /**

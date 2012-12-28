@@ -24,6 +24,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model);
 PHP_METHOD(Phalcon_Mvc_Model, __construct);
 PHP_METHOD(Phalcon_Mvc_Model, setDI);
 PHP_METHOD(Phalcon_Mvc_Model, getDI);
+PHP_METHOD(Phalcon_Mvc_Model, setEventsManager);
+PHP_METHOD(Phalcon_Mvc_Model, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData);
 PHP_METHOD(Phalcon_Mvc_Model, getModelsManager);
 PHP_METHOD(Phalcon_Mvc_Model, setTransaction);
@@ -210,6 +212,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, __construct, arginfo_phalcon_mvc_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_Model, setDI, arginfo_phalcon_mvc_model_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getDI, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, setEventsManager, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Model, getEventsManager, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, getModelsMetaData, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, getModelsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, setTransaction, arginfo_phalcon_mvc_model_settransaction, ZEND_ACC_PUBLIC) 

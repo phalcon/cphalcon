@@ -48,10 +48,12 @@
 			<file>unit-tests/ModelsEventsTest.php</file>
 			<file>unit-tests/ModelsBehaviorsTest.php</file>
 			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
+			<file>unit-tests/ModelsSerializeTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
+			<file>unit-tests/CollectionsEventsTest.php</file>
 
 			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>

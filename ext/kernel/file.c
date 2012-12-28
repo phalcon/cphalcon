@@ -95,9 +95,6 @@ void phalcon_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
  */
 void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC) {
 
-	char ch, *marker;
-	unsigned int length;
-
 	if (Z_TYPE_P(path) != IS_STRING || Z_TYPE_P(directory_separator) != IS_STRING) {
 		return;
 	}

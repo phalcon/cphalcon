@@ -162,6 +162,23 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, minimum);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, average);
 
 /**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEvent);
+
+/**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * This method stops if one of the callbacks/listeners returns boolean false
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEventCancel);
+
+/**
  * Appends a customized message on the validation process
  *
  * @param Phalcon\Mvc\Model\MessageInterface $message

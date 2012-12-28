@@ -207,6 +207,47 @@ PHP_METHOD(Phalcon_Mvc_Model, getDI){
 }
 
 /**
+ * Sets a custom events manager
+ *
+ * @param Phalcon\Events\ManagerInterface $eventsManager
+ */
+PHP_METHOD(Phalcon_Mvc_Model, setEventsManager){
+
+	zval *events_manager, *models_manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &events_manager) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setcustomeventsmanager", this_ptr, events_manager);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the custom events manager
+ *
+ * @return Phalcon\Events\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Model, getEventsManager){
+
+	zval *models_manager, *events_manager;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(events_manager);
+	PHALCON_CALL_METHOD_PARAMS_1(events_manager, models_manager, "getcustomeventsmanager", this_ptr);
+	RETURN_CCTOR(events_manager);
+}
+
+/**
  * Returns the models meta-data service related to the entity instance
  *
  * @return Phalcon\Mvc\Model\MetaDataInterface
@@ -221,6 +262,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 	phalcon_read_property(&meta_data, this_ptr, SL("_modelsMetaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(meta_data) != IS_OBJECT) {
 	
+		/** 
+		 * Check if the DI is valid
+		 */
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
@@ -231,6 +275,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 		PHALCON_INIT_VAR(service);
 		ZVAL_STRING(service, "modelsMetadata", 1);
 	
+		/** 
+		 * Obtain the models-metadata service from the DI
+		 */
 		PHALCON_INIT_NVAR(meta_data);
 		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service);
 		if (Z_TYPE_P(meta_data) != IS_OBJECT) {
@@ -238,6 +285,9 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData){
 			return;
 		}
 	
+		/** 
+		 * Update the models-metada property
+		 */
 		phalcon_update_property_zval(this_ptr, SL("_modelsMetaData"), meta_data TSRMLS_CC);
 	}
 	
@@ -278,7 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsManager){
  *  $robotPart->setTransaction($transaction);
  *  $robotPart->type = 'head';
  *  if ($robotPart->save() == false) {
- *    $transaction->rollback("Can't save robot part");
+ *    $transaction->rollback("Robot part cannot be saved");
  *  }
  *
  *  $transaction->commit();
@@ -307,16 +357,14 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction){
 		PHALCON_INIT_VAR(connection);
 		PHALCON_CALL_METHOD(connection, transaction, "getconnection");
 		phalcon_update_property_zval(this_ptr, SL("_connection"), connection TSRMLS_CC);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Transaction should be an object");
-		return;
+		RETURN_CTOR(this_ptr);
 	}
-	
-	RETURN_CTOR(this_ptr);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Transaction should be an object");
+	return;
 }
 
 /**
- * Sets table name which model should be mapped
+ * Sets table name which model should be mapped (deprecated)
  *
  * @param string $source
  * @return Phalcon\Mvc\Model
@@ -360,7 +408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSource){
 }
 
 /**
- * Sets schema name where table mapped is located
+ * Sets schema name where table mapped is located (deprecated)
  *
  * @param string $schema
  * @return Phalcon\Mvc\Model
@@ -4300,7 +4348,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	PHALCON_CALL_METHOD(meta_data, this_ptr, "getmodelsmetadata");
 	
 	/** 
-	 * We get the attributes to only serialize them
+	 * We get the model's attributes to only serialize them
 	 */
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1(attributes, meta_data, "getattributes", this_ptr);
@@ -4332,6 +4380,9 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
+	/** 
+	 * Use the standard serialize function to serialize the array data
+	 */
 	PHALCON_INIT_VAR(serialize);
 	PHALCON_CALL_FUNC_PARAMS_1(serialize, "serialize", data);
 	
@@ -4345,7 +4396,8 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
  */
 PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 
-	zval *data, *attributes, *value = NULL, *key = NULL;
+	zval *data, *attributes, *dependency_injector;
+	zval *service, *manager, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -4365,6 +4417,43 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 		PHALCON_INIT_VAR(attributes);
 		PHALCON_CALL_FUNC_PARAMS_1(attributes, "unserialize", data);
 		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
+	
+			/** 
+			 * Obtain the default DI
+			 */
+			PHALCON_INIT_VAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
+				return;
+			}
+	
+			/** 
+			 * Update the dependency injector
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+			/** 
+			 * Gets the default modelsManager service
+			 */
+			PHALCON_INIT_VAR(service);
+			ZVAL_STRING(service, "modelsManager", 1);
+	
+			PHALCON_INIT_VAR(manager);
+			PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
+			if (Z_TYPE_P(manager) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'modelsManager' is not valid");
+				return;
+			}
+	
+			/** 
+			 * Update the models manager
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
+	
+			/** 
+			 * Update the objects attributes
+			 */
 	
 			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
 				return;

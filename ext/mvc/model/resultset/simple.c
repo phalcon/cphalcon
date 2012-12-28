@@ -155,14 +155,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 		}
 	
 		if (Z_TYPE_P(rows) == IS_ARRAY) { 
-			Z_SET_ISREF_P(rows);
+	
 			PHALCON_INIT_NVAR(row);
-			PHALCON_CALL_FUNC_PARAMS_1(row, "current", rows);
-			Z_UNSET_ISREF_P(rows);
+			phalcon_array_get_current(row, rows TSRMLS_CC);
 			if (PHALCON_IS_NOT_FALSE(row)) {
-				Z_SET_ISREF_P(rows);
-				PHALCON_CALL_FUNC_PARAMS_1_NORETURN("next", rows);
-				Z_UNSET_ISREF_P(rows);
+				phalcon_array_next(rows);
 			}
 		} else {
 			PHALCON_INIT_NVAR(row);

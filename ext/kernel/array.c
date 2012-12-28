@@ -1016,3 +1016,29 @@ void phalcon_merge_append(zval *left, zval *values TSRMLS_DC){
 		add_next_index_zval(left, values);
 	}
 }
+
+/**
+ * Gets the current element in a zval hash
+ */
+void phalcon_array_get_current(zval *return_value, zval *array TSRMLS_DC){
+
+	zval **entry;
+
+	if (Z_TYPE_P(array) == IS_ARRAY) {
+		if (zend_hash_get_current_data(Z_ARRVAL_P(array), (void **) &entry) == FAILURE) {
+			RETURN_FALSE;
+		}
+		RETURN_ZVAL(*entry, 1, 0);
+	}
+
+	RETURN_FALSE;
+}
+
+/**
+ * Gets the current element in a zval hash
+ */
+void phalcon_array_next(zval *array){
+	if (Z_TYPE_P(array) == IS_ARRAY) {
+		zend_hash_move_forward(Z_ARRVAL_P(array));
+	}
+}

@@ -120,6 +120,23 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, writeAttribute);
 PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, dumpResult);
 
 /**
+ * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEvent);
+
+/**
+ * Fires an event, implicitly listeners in the events manager are notified
+ * This method stops if one of the callbacks/listeners returns boolean false
+ *
+ * @param string $eventName
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEventCancel);
+
+/**
  * Check whether validation process has generated any messages
  *
  *<code>
