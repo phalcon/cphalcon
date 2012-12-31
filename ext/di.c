@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_DI, get){
 		phalcon_array_fetch(&service, services, name, PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(instance);
-		PHALCON_CALL_METHOD_PARAMS_1(instance, service, "resolve", parameters);
+		PHALCON_CALL_METHOD_PARAMS_2(instance, service, "resolve", parameters, this_ptr);
 	} else {
 		/** 
 		 * The DI also acts as builder for any class even if it isn't defined in the DI
@@ -542,12 +542,99 @@ PHP_METHOD(Phalcon_DI, wasFreshInstance){
 /**
  * Return the services registered in the DI
  *
- * @return array
+ * @return Phalcon\DI\Service[]
  */
 PHP_METHOD(Phalcon_DI, getServices){
 
 
 	RETURN_MEMBER(this_ptr, "_services");
+}
+
+/**
+ * Check if a service is registered using the array syntax
+ *
+ * @param string $alias
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_DI, offsetExists){
+
+	zval *alias, *exists;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "has", alias);
+	RETURN_CCTOR(exists);
+}
+
+/**
+ * Allows to register a shared service using the array syntax
+ *
+ *<code>
+ *	$di['request'] = new Phalcon\Http\Request();
+ *</code>
+ *
+ * @param string $alias
+ * @param mixed $definition
+ */
+PHP_METHOD(Phalcon_DI, offsetSet){
+
+	zval *alias, *definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &alias, &definition) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setshared", alias, definition);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Allows to obtain a shared service using the array syntax
+ *
+ *<code>
+ *	var_dump($di['request']);
+ *</code>
+ *
+ * @param string $alias
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_DI, offsetGet){
+
+	zval *alias, *service;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(service);
+	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getshared", alias);
+	RETURN_CCTOR(service);
+}
+
+/**
+ * Removes a service from the services container using the array syntax
+ *
+ * @param string $alias
+ */
+PHP_METHOD(Phalcon_DI, offsetUnset){
+
+	zval *alias;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_CCTORW(alias);
 }
 
 /**

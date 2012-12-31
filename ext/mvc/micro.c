@@ -33,9 +33,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
 
@@ -74,17 +74,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Micro){
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_activeHandler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_micro_ce, SL("_returnedValue"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_class_implements(phalcon_mvc_micro_ce TSRMLS_CC, 1, zend_ce_arrayaccess);
+
 	return SUCCESS;
-}
-
-/**
- * Phalcon\Mvc\Micro constructor
- */
-PHP_METHOD(Phalcon_Mvc_Micro, __construct){
-
-
-	phalcon_update_property_empty_array(phalcon_mvc_micro_ce, this_ptr, SL("_handlers") TSRMLS_CC);
-	
 }
 
 /**
@@ -129,6 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, map){
 
@@ -171,6 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, map){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, get){
 
@@ -213,6 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, get){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, post){
 
@@ -255,6 +250,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, post){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, put){
 
@@ -267,15 +263,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to PUT
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addput", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -284,6 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, put){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, patch){
 
@@ -296,15 +306,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, patch){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to PATCH
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addpatch", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -313,6 +336,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, patch){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, head){
 
@@ -325,15 +349,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, head){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to HEAD
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addhead", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -342,6 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, head){
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, delete){
 
@@ -354,23 +392,37 @@ PHP_METHOD(Phalcon_Mvc_Micro, delete){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to DELETE
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "adddelete", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is GET
+ * Maps a route to a handler that only matches if the HTTP method is OPTIONS
  *
  * @param string $routePattern
  * @param callable $handler
+ * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHP_METHOD(Phalcon_Mvc_Micro, options){
 
@@ -383,15 +435,28 @@ PHP_METHOD(Phalcon_Mvc_Micro, options){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * We create a router even if there is no one in the DI
+	 */
 	PHALCON_INIT_VAR(router);
 	PHALCON_CALL_METHOD(router, this_ptr, "getrouter");
 	
+	/** 
+	 * Routes are added to the router restricting to OPTIONS
+	 */
 	PHALCON_INIT_VAR(route);
 	PHALCON_CALL_METHOD_PARAMS_1(route, router, "addoptions", route_pattern);
 	
+	/** 
+	 * Using the id produced by the router we store the handler
+	 */
 	PHALCON_INIT_VAR(route_id);
 	PHALCON_CALL_METHOD(route_id, route, "getrouteid");
 	phalcon_update_property_array(this_ptr, SL("_handlers"), route_id, handler TSRMLS_CC);
+	
+	/** 
+	 * The route is returned, the developer can add more things on it
+	 */
 	RETURN_CCTOR(route);
 }
 
@@ -419,7 +484,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound){
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 
-	zval *router = NULL, *service_name;
+	zval *router = NULL, *service_name, *remove;
 
 	PHALCON_MM_GROW();
 
@@ -431,12 +496,101 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter){
 	
 		PHALCON_INIT_NVAR(router);
 		PHALCON_CALL_METHOD_PARAMS_1(router, this_ptr, "getsharedservice", service_name);
+	
+		/** 
+		 * Clear the set routes if any
+		 */
 		PHALCON_CALL_METHOD_NORETURN(router, "clear");
+	
+		PHALCON_INIT_VAR(remove);
+		ZVAL_BOOL(remove, 1);
+	
+		/** 
+		 * Automatically remove extra slashes
+		 */
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(router, "removeextraslashes", remove);
+	
+		/** 
+		 * Update the internal router
+		 */
 		phalcon_update_property_zval(this_ptr, SL("_router"), router TSRMLS_CC);
 	}
 	
 	
 	RETURN_CCTOR(router);
+}
+
+/**
+ * Sets a service from the DI
+ *
+ * @param string $serviceName
+ * @param mixed $definition
+ * @param boolean $shared
+ * @return Phalcon\DI\ServiceInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, setService){
+
+	zval *service_name, *definition, *shared = NULL, *dependency_injector = NULL;
+	zval *service;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &service_name, &definition, &shared) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!shared) {
+		PHALCON_INIT_VAR(shared);
+		ZVAL_BOOL(shared, 0);
+	}
+	
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_NVAR(dependency_injector);
+		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
+		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
+	
+		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_VAR(service);
+	PHALCON_CALL_METHOD_PARAMS_3(service, dependency_injector, "set", service_name, definition, shared);
+	
+	RETURN_CCTOR(service);
+}
+
+/**
+ * Checks if a service is registered in the DI
+ *
+ * @param string $serviceName
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, hasService){
+
+	zval *service_name, *dependency_injector = NULL;
+	zval *exists;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_INIT_NVAR(dependency_injector);
+		object_init_ex(dependency_injector, phalcon_di_factorydefault_ce);
+		PHALCON_CALL_METHOD_NORETURN(dependency_injector, "__construct");
+	
+		phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, dependency_injector, "has", service_name);
+	
+	RETURN_CCTOR(exists);
 }
 
 /**
@@ -653,6 +807,9 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			return;
 		}
 	
+		/** 
+		 * Call the Not-Found handler
+		 */
 		PHALCON_INIT_NVAR(returned_value);
 		PHALCON_CALL_USER_FUNC(returned_value, not_found_handler);
 	
@@ -709,5 +866,92 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue){
 
 
 	RETURN_MEMBER(this_ptr, "_returnedValue");
+}
+
+/**
+ * Check if a service is registered in the internal services container using the array syntax
+ *
+ * @param string $alias
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, offsetExists){
+
+	zval *alias, *exists;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(exists);
+	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "hasservice", alias);
+	RETURN_CCTOR(exists);
+}
+
+/**
+ * Allows to register a shared service in the internal services container using the array syntax
+ *
+ *<code>
+ *	$app['request'] = new Phalcon\Http\Request();
+ *</code>
+ *
+ * @param string $alias
+ * @param mixed $definition
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, offsetSet){
+
+	zval *alias, *definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &alias, &definition) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "setservice", alias, definition);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Allows to obtain a shared service in the internal services container using the array syntax
+ *
+ *<code>
+ *	var_dump($di['request']);
+ *</code>
+ *
+ * @param string $alias
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, offsetGet){
+
+	zval *alias, *service;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(service);
+	PHALCON_CALL_METHOD_PARAMS_1(service, this_ptr, "getservice", alias);
+	RETURN_CCTOR(service);
+}
+
+/**
+ * Removes a service from the internal services container using the array syntax
+ *
+ * @param string $alias
+ */
+PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset){
+
+	zval *alias;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &alias) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_CCTORW(alias);
 }
 

@@ -924,9 +924,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
  */
 PHP_METHOD(Phalcon_Tag, form){
 
-	zval *parameters = NULL, *params = NULL, *dispatcher, *dispatch_params;
-	zval *action_parameters, *params_action = NULL, *controller_name;
-	zval *action_name, *url, *action = NULL, *form_action;
+	zval *parameters = NULL, *params = NULL, *params_action = NULL, *dispatcher;
+	zval *controller_name, *action_name, *url, *action;
 	zval *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -955,20 +954,17 @@ PHP_METHOD(Phalcon_Tag, form){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	
-	PHALCON_INIT_VAR(dispatcher);
-	PHALCON_CALL_SELF(dispatcher, this_ptr, "getdispatcherservice");
-	
-	PHALCON_INIT_VAR(dispatch_params);
-	PHALCON_CALL_METHOD(dispatch_params, dispatcher, "getparams");
-	
-	PHALCON_INIT_VAR(action_parameters);
-	phalcon_fast_join_str(action_parameters, SL("/"), dispatch_params TSRMLS_CC);
 	if (!phalcon_array_isset_long(params, 0)) {
 		if (phalcon_array_isset_string(params, SS("action"))) {
 			PHALCON_OBS_VAR(params_action);
 			phalcon_array_fetch_string(&params_action, params, SL("action"), PH_NOISY_CC);
 		} else {
+			/** 
+			 * If there is no action available create a URL based on the current controller
+			 */
+			PHALCON_INIT_VAR(dispatcher);
+			PHALCON_CALL_SELF(dispatcher, this_ptr, "getdispatcherservice");
+	
 			PHALCON_INIT_VAR(controller_name);
 			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername");
 	
@@ -983,23 +979,22 @@ PHP_METHOD(Phalcon_Tag, form){
 		phalcon_array_fetch_long(&params_action, params, 0, PH_NOISY_CC);
 	}
 	
+	/** 
+	 * By default the method is POST
+	 */
 	if (!phalcon_array_isset_string(params, SS("method"))) {
 		phalcon_array_update_string_string(&params, SL("method"), SL("post"), PH_SEPARATE TSRMLS_CC);
 	}
 	
 	PHALCON_INIT_VAR(url);
 	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
-	if (zend_is_true(action_parameters)) {
-		PHALCON_INIT_VAR(action);
-		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", params_action);
-	} else {
-		PHALCON_INIT_VAR(form_action);
-		PHALCON_CONCAT_VSV(form_action, params_action, "/", action_parameters);
 	
-		PHALCON_INIT_NVAR(action);
-		PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", form_action);
-	}
+	PHALCON_INIT_VAR(action);
+	PHALCON_CALL_METHOD_PARAMS_1(action, url, "get", params_action);
 	
+	/** 
+	 * Check for extra parameters
+	 */
 	if (phalcon_array_isset_string(params, SS("parameters"))) {
 		PHALCON_OBS_NVAR(parameters);
 		phalcon_array_fetch_string(&parameters, params, SL("parameters"), PH_NOISY_CC);
@@ -1051,6 +1046,10 @@ PHP_METHOD(Phalcon_Tag, endForm){
 
 /**
  * Set the title of view content
+ *
+ *<code>
+ * Phalcon\Tag::setTitle('Welcome to my Page');
+ *</code>
  *
  * @param string $title
  */
@@ -1347,6 +1346,9 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	}
 	
 	if (zend_is_true(local)) {
+		/** 
+		 * URLs are generated through the 'url' service
+		 */
 		PHALCON_INIT_VAR(url);
 		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	

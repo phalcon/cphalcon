@@ -32,7 +32,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_DiInterface){
 
-	PHALCON_REGISTER_INTERFACE(Phalcon, DiInterface, diinterface, phalcon_diinterface_method_entry);
+	PHALCON_REGISTER_INTERFACE_EX(Phalcon, DiInterface, diinterface, "arrayaccess", phalcon_diinterface_method_entry);
 
 	return SUCCESS;
 }

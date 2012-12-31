@@ -35,10 +35,10 @@
 #include "kernel/object.h"
 #include "kernel/file.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
+#include "kernel/array.h"
 
 /**
  * Phalcon\DI\Service
@@ -187,22 +187,27 @@ PHP_METHOD(Phalcon_DI_Service, getDefinition){
  * Resolves the service
  *
  * @param array $parameters
+ * @param Phalcon\DiInterface $dependencyInjector
  * @return mixed
  */
 PHP_METHOD(Phalcon_DI_Service, resolve){
 
-	zval *parameters = NULL, *shared, *shared_instance;
-	zval *found = NULL, *instance = NULL, *definition, *class_name;
-	zval *name, *exception_message;
+	zval *parameters = NULL, *dependency_injector = NULL, *shared;
+	zval *shared_instance, *found = NULL, *instance = NULL, *definition;
+	zval *builder, *name, *exception_message;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &parameters) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &parameters, &dependency_injector) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	if (!parameters) {
 		PHALCON_INIT_VAR(parameters);
+	}
+	
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
 	}
 	
 	PHALCON_OBS_VAR(shared);
@@ -274,33 +279,11 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 			 * Array definitions require a 'className' parameter
 			 */
 			if (Z_TYPE_P(definition) == IS_ARRAY) { 
-				if (!phalcon_array_isset_string(definition, SS("className"))) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Invalid service definition. Missing 'className' parameter");
-					return;
-				}
+				PHALCON_INIT_VAR(builder);
+				object_init_ex(builder, phalcon_di_service_builder_ce);
 	
-				PHALCON_OBS_VAR(class_name);
-				phalcon_array_fetch_string(&class_name, definition, SL("className"), PH_NOISY_CC);
-				if (Z_TYPE_P(parameters) == IS_ARRAY) { 
-					if (phalcon_fast_count_ev(parameters TSRMLS_CC)) {
-						PHALCON_INIT_NVAR(instance);
-						if (phalcon_create_instance_params(instance, class_name, parameters TSRMLS_CC) == FAILURE) {
-							return;
-						}
-					} else {
-						PHALCON_INIT_NVAR(instance);
-						if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-							return;
-						}
-					}
-				} else {
-					PHALCON_INIT_NVAR(instance);
-					if (phalcon_create_instance(instance, class_name TSRMLS_CC) == FAILURE) {
-						return;
-					}
-				}
-	
-	
+				PHALCON_INIT_NVAR(instance);
+				PHALCON_CALL_METHOD_PARAMS_3(instance, builder, "build", dependency_injector, definition, parameters);
 				RETURN_CCTOR(instance);
 			} else {
 				ZVAL_BOOL(found, 0);
@@ -308,6 +291,9 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 		}
 	}
 	
+	/** 
+	 * If the service can't be built, we must throw an exception
+	 */
 	if (PHALCON_IS_FALSE(found)) {
 		PHALCON_OBS_VAR(name);
 		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
@@ -324,6 +310,76 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 	
 	
 	RETURN_CCTOR(instance);
+}
+
+/**
+ * Changes a parameter in the definition without resolve the service
+ *
+ * @param long $position
+ * @param array $parameter
+ * @return Phalcon\DI\Service
+ */
+PHP_METHOD(Phalcon_DI_Service, setParameter){
+
+	zval *position, *parameter, *definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &position, &parameter) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(definition);
+	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters");
+		return;
+	}
+	
+	if (Z_TYPE_P(position) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Position must be integer");
+		return;
+	}
+	
+	if (Z_TYPE_P(parameter) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The parameter must be an array");
+		return;
+	}
+	
+	/** 
+	 * Update the parameter
+	 */
+	phalcon_array_update_zval(&definition, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+/**
+ *
+ */
+PHP_METHOD(Phalcon_DI_Service, getParameter){
+
+	zval *position, *definition;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(definition);
+	phalcon_read_property(&definition, this_ptr, SL("_definition"), PH_NOISY_CC);
+	if (Z_TYPE_P(definition) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters");
+		return;
+	}
+	
+	if (Z_TYPE_P(position) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "Position must be integer");
+		return;
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 /**
