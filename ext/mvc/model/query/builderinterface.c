@@ -117,6 +117,22 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);
 
 /**
+ * Appends a condition to the current conditions using a AND operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
+
+/**
+ * Appends a condition to the current conditions using a OR operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
+
+/**
  * Return the conditions for the query
  *
  * @return string|array

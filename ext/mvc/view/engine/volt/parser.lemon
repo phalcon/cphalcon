@@ -262,6 +262,24 @@ static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 	return ret;
 }
 
+static zval *phvolt_ret_autoescape_statement(int enable, zval *block_statements, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 5);
+
+	add_assoc_long(ret, "type", PHVOLT_T_AUTOESCAPE);
+	add_assoc_long(ret, "enable", enable);
+	add_assoc_zval(ret, "block_statements", block_statements);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
 static zval *phvolt_ret_empty_statement(phvolt_scanner_state *state)
 {
 	zval *ret;
@@ -269,6 +287,36 @@ static zval *phvolt_ret_empty_statement(phvolt_scanner_state *state)
 	MAKE_STD_ZVAL(ret);
 	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_EMPTY);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_break_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 3);
+	add_assoc_long(ret, "type", PHVOLT_T_BREAK);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_continue_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 3);
+	add_assoc_long(ret, "type", PHVOLT_T_CONTINUE);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -296,7 +344,7 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 
 				zval ** item;
 
-				if (zend_hash_get_current_data_ex(list, (void**)&item, &pos) == FAILURE) {
+				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
 					break;
 				}
 
@@ -495,6 +543,18 @@ statement(R) ::= do_statement(E) . {
 	R = E;
 }
 
+statement(R) ::= autoescape_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= break_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= continue_statement(E) . {
+	R = E;
+}
+
 statement(R) ::= empty_statement(E) . {
 	R = E;
 }
@@ -581,6 +641,28 @@ include_statement(R) ::= OPEN_DELIMITER INCLUDE STRING(S) CLOSE_DELIMITER . {
 
 do_statement(R) ::= OPEN_DELIMITER DO expr(E) CLOSE_DELIMITER . {
 	R = phvolt_ret_do_statement(E, status->scanner_state);
+}
+
+%destructor autoescape_statement { zval_ptr_dtor(&$$); }
+
+autoescape_statement(R) ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER . {
+	R = phvolt_ret_autoescape_statement(0, T, status->scanner_state);
+}
+
+autoescape_statement(R) ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER . {
+	R = phvolt_ret_autoescape_statement(1, T, status->scanner_state);
+}
+
+%destructor break_statement { zval_ptr_dtor(&$$); }
+
+break_statement(R) ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER . {
+	R = phvolt_ret_break_statement(status->scanner_state);
+}
+
+%destructor continue_statement { zval_ptr_dtor(&$$); }
+
+continue_statement(R) ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER . {
+	R = phvolt_ret_continue_statement(status->scanner_state);
 }
 
 %destructor raw_fragment { zval_ptr_dtor(&$$); }

@@ -502,6 +502,9 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey){
 	PHALCON_CALL_METHOD(reference_name, reference, "getname");
 	PHALCON_SCONCAT_SVSVS(sql, "`", reference_name, "`(", quoted_column_list, ") REFERENCES ");
 	
+	/** 
+	 * Add the schema
+	 */
 	PHALCON_INIT_VAR(referenced_schema);
 	PHALCON_CALL_METHOD(referenced_schema, reference, "getreferencedschema");
 	if (zend_is_true(referenced_schema)) {
@@ -782,6 +785,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	
 			PHALCON_INIT_NVAR(column_list);
 			PHALCON_CALL_METHOD_PARAMS_1(column_list, this_ptr, "getcolumnlist", columns);
+	
+			/** 
+			 * If the index name is primary we add a primary key
+			 */
 			if (PHALCON_COMPARE_STRING(index_name, "PRIMARY")) {
 				PHALCON_INIT_NVAR(index_sql);
 				PHALCON_CONCAT_SVS(index_sql, "PRIMARY KEY (", column_list, ")");
@@ -865,7 +872,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
  * @param  string $tableName
  * @param  string $schemaName
  * @param  boolean $ifExists
- * @return boolean
+ * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 
@@ -905,8 +912,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable){
 /**
  * Generates SQL checking for the existence of a schema.table
  *
- * <code>echo $dialect->tableExists("posts", "blog")</code>
- * <code>echo $dialect->tableExists("posts")</code>
+ * <code>
+ * echo $dialect->tableExists("posts", "blog");
+ * echo $dialect->tableExists("posts");
+ * </code>
  *
  * @param string $tableName
  * @param string $schemaName
@@ -940,7 +949,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists){
 /**
  * Generates SQL describing a table
  *
- * <code>
+ *<code>
  *	print_r($dialect->describeColumns("posts")) ?>
  *</code>
  *

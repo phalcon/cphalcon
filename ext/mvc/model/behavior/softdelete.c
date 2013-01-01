@@ -41,6 +41,8 @@
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
  *
+ * Instead of permanently delete a record it marks the record as
+ * deleted changing the value of a flag column
  */
 
 
@@ -51,9 +53,17 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\Behavior, SoftDelete, mvc_model_behavior_softdelete, "phalcon\\mvc\\model\\behavior", phalcon_mvc_model_behavior_softdelete_method_entry, 0);
 
+	zend_class_implements(phalcon_mvc_model_behavior_softdelete_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
+
 	return SUCCESS;
 }
 
+/**
+ * Listens for notifications from the models manager
+ *
+ * @param string $type
+ * @param Phalcon\Mvc\ModelInterface $model
+ */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
 	zval *type, *model, *options, *value, *field, *actual_value;

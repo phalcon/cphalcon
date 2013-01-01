@@ -38,6 +38,7 @@
 /**
  * Phalcon\Mvc\Model\Behavior
  *
+ * This is an optional base class for ORM behaviors
  */
 
 
@@ -140,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions){
  * This method receives the notifications from the EventsManager
  *
  * @param string $type
- * @param Phalcon\Mvc\Model\Behavior $model
+ * @param Phalcon\Mvc\ModelInterface $model
  */
 PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify){
 
@@ -154,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, notify){
 }
 
 /**
- * Calls a method when it's missing in the model
+ * Acts as fallbacks when a missing method is called on the model
  *
  * @param Phalcon\Mvc\ModelInterface $model
  * @param string $method

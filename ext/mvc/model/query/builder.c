@@ -35,10 +35,10 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/exception.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/file.h"
 #include "kernel/operators.h"
-#include "kernel/concat.h"
 #include "kernel/string.h"
 
 /**
@@ -78,21 +78,21 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_Builder){
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_forUpdate"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_builder_ce, SL("_sharedLock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_model_query_builder_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_model_query_builder_ce TSRMLS_CC, 2, phalcon_mvc_model_query_builderinterface_ce, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Phalcon\Mvc\Model\Query\Builder
+ * Phalcon\Mvc\Model\Query\Builder constructor
  *
  * @param array $params
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 
-	zval *params = NULL, *conditions = NULL, *group_clause, *having_clause;
-	zval *order_clause, *limit_clause, *for_update;
-	zval *shared_lock;
+	zval *params = NULL, *conditions = NULL, *columns, *group_clause;
+	zval *having_clause, *order_clause, *limit_clause;
+	zval *for_update, *shared_lock;
 
 	PHALCON_MM_GROW();
 
@@ -119,6 +119,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, __construct){
 				phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
 				phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 			}
+		}
+	
+		/** 
+		 * Assign COLUMNS clause
+		 */
+		if (phalcon_array_isset_string(params, SS("columns"))) {
+			PHALCON_OBS_VAR(columns);
+			phalcon_array_fetch_string(&columns, params, SL("columns"), PH_NOISY_CC);
+			phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
 		}
 	
 		/** 
@@ -391,7 +400,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
  * Sets the query conditions
  *
  *<code>
- *$builder->where('name = :name: AND id > :id:');
+ *	$builder->where('name = :name: AND id > :id:');
  *</code>
  *
  * @param string $conditions
@@ -407,6 +416,74 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
 	RETURN_CTORW(this_ptr);
+}
+
+/**
+ * Appends a condition to the current conditions using a AND operator
+ *
+ *<code>
+ *	$builder->andWhere('name = :name: AND id > :id:');
+ *</code>
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
+
+	zval *conditions, *current_conditions, *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(current_conditions);
+	phalcon_read_property(&current_conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
+	if (zend_is_true(current_conditions)) {
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") AND (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, current_conditions);
+	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Appends a condition to the current conditions using a OR operator
+ *
+ *<code>
+ *	$builder->orWhere('name = :name: AND id > :id:');
+ *</code>
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
+
+	zval *conditions, *current_conditions, *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(current_conditions);
+	phalcon_read_property(&current_conditions, this_ptr, SL("_conditions"), PH_NOISY_CC);
+	if (zend_is_true(current_conditions)) {
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") OR (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, current_conditions);
+	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
 }
 
 /**

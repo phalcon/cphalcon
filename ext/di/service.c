@@ -355,7 +355,10 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 }
 
 /**
+ * Returns a parameter in an specific position
  *
+ * @param int $position
+ * @return array
  */
 PHP_METHOD(Phalcon_DI_Service, getParameter){
 

@@ -78,7 +78,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					}
 
 					return PHVOLT_SCANNER_RETCODE_EOF;
-
 				}
 
 				return 0;
@@ -237,6 +236,30 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		'do' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DO;
+			return 0;
+		}
+
+		'autoescape' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_AUTOESCAPE;
+			return 0;
+		}
+
+		'endautoescape' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_ENDAUTOESCAPE;
+			return 0;
+		}
+
+		'continue' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_CONTINUE;
+			return 0;
+		}
+
+		'break' {
+			s->statement_position++;
+			token->opcode = PHVOLT_T_BREAK;
 			return 0;
 		}
 
