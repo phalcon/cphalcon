@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Mysql){
  * Gets the column name in MySQL
  *
  * @param Phalcon\Db\ColumnInterface $column
+ * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition){
 

@@ -63,6 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Postgresql){
  * Gets the column name in PostgreSQL
  *
  * @param Phalcon\Db\ColumnInterface $column
+ * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition){
 

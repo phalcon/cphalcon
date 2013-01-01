@@ -63,6 +63,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Dialect_Sqlite){
  * Gets the column name in Sqlite
  *
  * @param Phalcon\Db\ColumnInterface $column
+ * @return string
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition){
 
@@ -359,7 +360,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, _getTableOptions){
 }
 
 /**
- * Generates SQL to create a table in PostgreSQL
+ * Generates SQL to create a table in Sqlite
  *
  * @param 	string $tableName
  * @param string $schemaName
