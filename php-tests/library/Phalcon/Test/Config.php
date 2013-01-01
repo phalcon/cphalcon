@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Config.php
  * Phalcon_Test_Config
@@ -29,14 +30,14 @@ class Phalcon_Test_Config
             'db' => array(
                         'mysql'      => array(
                             'host'     => 'localhost',
-                            'username' => 'phalcon_user',
-                            'password' => '1234',
+                            'username' => 'root',
+                            'password' => '',
                             'dbname'   => 'phalcon_test',
                         ),
                         'postgresql' => array(
                             'host'     => '127.0.0.1',
                             'username' => 'postgres',
-                            'password' => '1234',
+                            'password' => '',
                             'dbname'   => 'phalcon_test',
                             'schema'   => 'public',
                         ),
