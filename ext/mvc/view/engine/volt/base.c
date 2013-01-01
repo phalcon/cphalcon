@@ -69,6 +69,10 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_INCLUDE,			"INCLUDE" },
   { PHVOLT_T_DO,				"DO" },
   { PHVOLT_T_IGNORE,			"WHITESPACE" },
+  { PHVOLT_T_AUTOESCAPE,		"AUTOESCAPE" },
+  { PHVOLT_T_ENDAUTOESCAPE,		"ENDAUTOESCAPE" },
+  { PHVOLT_T_CONTINUE,			"CONTINUE" },
+  { PHVOLT_T_BREAK,				"BREAK" },
   {  0, NULL }
 };
 
@@ -468,6 +472,22 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 
 			case PHVOLT_T_DO:
 				phvolt_(phvolt_parser, PHVOLT_DO, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_AUTOESCAPE:
+				phvolt_(phvolt_parser, PHVOLT_AUTOESCAPE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_ENDAUTOESCAPE:
+				phvolt_(phvolt_parser, PHVOLT_ENDAUTOESCAPE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_BREAK:
+				phvolt_(phvolt_parser, PHVOLT_BREAK, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_CONTINUE:
+				phvolt_(phvolt_parser, PHVOLT_CONTINUE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_EXTENDS:

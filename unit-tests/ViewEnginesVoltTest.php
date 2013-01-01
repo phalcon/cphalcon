@@ -18,7 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
@@ -398,6 +397,14 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);
 
+		$intermediate = $volt->parse('{% for v in [1, 2, 3] %} {% break %} {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 1);
+
+		$intermediate = $volt->parse('{% for v in [1, 2] %} {% continue %} {% endfor %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 1);
+
 		//set statement
 		$intermediate = $volt->parse('{% set a = 1 %}');
 		$this->assertTrue(is_array($intermediate));
@@ -432,6 +439,15 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($intermediate), 1);
 
 		$intermediate = $volt->parse('{% do super()|e %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 1);
+
+		//Autoescape
+		$intermediate = $volt->parse('{% autoescape true %} {% endautoescape %}');
+		$this->assertTrue(is_array($intermediate));
+		$this->assertEquals(count($intermediate), 1);
+
+		$intermediate = $volt->parse('{% autoescape false %} {% endautoescape %}');
 		$this->assertTrue(is_array($intermediate));
 		$this->assertEquals(count($intermediate), 1);
 
@@ -965,6 +981,12 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}');
 		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>');
 
+		$compilation = $volt->compileString('{% for a in 1..10 %}{% break %}{% endfor %}');
+		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?><?php break; ?><?php } ?>');
+
+		$compilation = $volt->compileString('{% for a in 1..10 %}{% continue %}{% endfor %}');
+		$this->assertEquals($compilation, '<?php foreach (range(1, 10) as $a) { ?><?php continue; ?><?php } ?>');
+
 		//set statement
 		$compilation = $volt->compileString('{% set a = 1 %}');
 		$this->assertEquals($compilation, '<?php $a = 1; ?>');
@@ -985,9 +1007,15 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$compilation = $volt->compileString('{% cache somekey 500 %} hello {% endcache %}');
 		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->viewCache->start("somekey"); if ($cacheKeysomekey === null) { ?> hello <?php $this->viewCache->save("somekey", null, 500); } else { echo $cacheKeysomekey; } ?>');
 
+		//Autoescape mode
+		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
+		$this->assertEquals($compilation, "<?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?><?php echo \$this->escaper->escapeHtml('hello'); ?><?php echo 'hello'; ?>");
+
 		//Mixed
 		$compilation = $volt->compileString('{# some comment #}{{ "hello" }}{# other comment }}');
 		$this->assertEquals($compilation, "<?php echo 'hello'; ?>");
+
+		//
 
 	}
 

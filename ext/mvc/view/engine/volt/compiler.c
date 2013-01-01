@@ -69,6 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Compiler){
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_arrayHelpers"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_view_engine_volt_compiler_ce, SL("_level"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extended"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_engine_volt_compiler_ce, SL("_autoescape"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_extendedBlocks"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_currentBlock"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_compiler_ce, SL("_blocks"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -1545,9 +1546,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	zval *compilation = NULL, *statement = NULL, *expr = NULL, *expr_code = NULL;
 	zval *line = NULL, *file = NULL, *exception_message = NULL, *type = NULL, *code = NULL;
 	zval *block_statements = NULL, *variable = NULL, *key = NULL, *if_expr = NULL;
-	zval *if_expr_code = NULL, *block_name = NULL, *blocks = NULL, *path = NULL;
-	zval *view = NULL, *views_dir = NULL, *final_path = NULL, *sub_compiler = NULL;
-	zval *sub_compilation = NULL, *lifetime = NULL, *level;
+	zval *if_expr_code = NULL, *autoescape = NULL, *block_name = NULL;
+	zval *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL, *final_path = NULL;
+	zval *sub_compiler = NULL, *sub_compilation = NULL, *lifetime = NULL;
+	zval *old_autoescape = NULL, *level;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1722,7 +1724,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				/** 
 				 * Echo statement
 				 */
-				PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
+				PHALCON_OBS_NVAR(autoescape);
+				phalcon_read_property(&autoescape, this_ptr, SL("_autoescape"), PH_NOISY_CC);
+				if (zend_is_true(autoescape)) {
+					PHALCON_SCONCAT_SVS(compilation, "<?php echo $this->escaper->escapeHtml(", expr_code, "); ?>");
+				} else {
+					PHALCON_SCONCAT_SVS(compilation, "<?php echo ", expr_code, "; ?>");
+				}
+	
 				break;
 	
 			case 307:
@@ -1864,6 +1873,31 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 			case 316:
 				PHALCON_SCONCAT_SVS(compilation, "<?php ", expr_code, "; ?>");
+				break;
+	
+			case 317:
+				PHALCON_OBS_NVAR(old_autoescape);
+				phalcon_read_property(&old_autoescape, this_ptr, SL("_autoescape"), PH_NOISY_CC);
+	
+				PHALCON_OBS_NVAR(autoescape);
+				phalcon_array_fetch_string(&autoescape, statement, SL("enable"), PH_NOISY_CC);
+				phalcon_update_property_zval(this_ptr, SL("_autoescape"), autoescape TSRMLS_CC);
+	
+				PHALCON_OBS_NVAR(block_statements);
+				phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(code);
+				PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
+				phalcon_concat_self(&compilation, code TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_autoescape"), old_autoescape TSRMLS_CC);
+				break;
+	
+			case 319:
+				phalcon_concat_self_str(&compilation, SL("<?php continue; ?>") TSRMLS_CC);
+				break;
+	
+			case 320:
+				phalcon_concat_self_str(&compilation, SL("<?php break; ?>") TSRMLS_CC);
 				break;
 	
 			default:
