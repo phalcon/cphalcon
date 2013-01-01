@@ -33,8 +33,8 @@
 #include "kernel/memory.h"
 
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 
@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(result)) {
+	if (Z_TYPE_P(result) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		if (PHALCON_IS_NOT_FALSE(result)) {
+		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_INIT_VAR(row);
 			PHALCON_CALL_METHOD_PARAMS_1(row, result, "fetch", result);
 		} else {
@@ -143,11 +143,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	} else {
 		PHALCON_OBS_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
-		if (Z_TYPE_P(rows) == IS_NULL) {
+		if (Z_TYPE_P(rows) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		if (PHALCON_IS_NOT_FALSE(result)) {
+		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_NORETURN(result, "execute");
 	
 			PHALCON_INIT_VAR(records);
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	} else {
 		PHALCON_OBS_NVAR(records);
 		phalcon_read_property(&records, this_ptr, SL("_rows"), PH_NOISY_CC);
-		if (Z_TYPE_P(records) == IS_NULL) {
+		if (Z_TYPE_P(records) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
 	

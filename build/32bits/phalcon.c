@@ -4212,7 +4212,7 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
 
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class expects an object");
 	}
 }
 
@@ -4227,7 +4227,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 		ce = Z_OBJCE_P(object);
 
 		i = ce->name_length;
-		cursor = ce->name + ce->name_length - 1;
+		cursor = (char *) (ce->name + ce->name_length - 1);
 
 		while (i > 1) {
 			if ((*cursor) == '\\') {
@@ -4253,7 +4253,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class_ns expects an object");
 	}
 }
 
@@ -23008,7 +23008,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
-	zval *text, *html_map = NULL;
+	zval *text, *html_quote_type, *encoding, *escaped;
 
 	PHALCON_MM_GROW();
 
@@ -23016,19 +23016,15 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(html_map);
-	phalcon_read_property(&html_map, this_ptr, SL("_htmlEscapeMap"), PH_NOISY_CC);
-	if (Z_TYPE_P(html_map) == IS_NULL) {
-		PHALCON_INIT_NVAR(html_map);
-		array_init_size(html_map, 4);
-		add_index_stringl(html_map, 34, SL("quot"), 1);
-		add_index_stringl(html_map, 38, SL("amp"), 1);
-		add_index_stringl(html_map, 60, SL("lt"), 1);
-		add_index_stringl(html_map, 62, SL("gt"), 1);
-		phalcon_update_property_zval(this_ptr, SL("_htmlEscapeMap"), html_map TSRMLS_CC);
-	}
+	PHALCON_OBS_VAR(html_quote_type);
+	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_OBS_VAR(encoding);
+	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(escaped);
+	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
+	RETURN_CCTOR(escaped);
 }
 
 PHP_METHOD(Phalcon_Escaper, cssSanitize){
@@ -26177,7 +26173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 	phalcon_update_property_zval(this_ptr, SL("_result"), result TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_columnMap"), column_map TSRMLS_CC);
-	if (PHALCON_IS_NOT_FALSE(result)) {
+	if (Z_TYPE_P(result) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(fetch_assoc);
 		ZVAL_LONG(fetch_assoc, 1);
@@ -26216,7 +26212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		if (PHALCON_IS_NOT_FALSE(result)) {
+		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_INIT_VAR(row);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(row, result, "fetch", result, 4247924303UL);
 		} else {
@@ -26226,11 +26222,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 	} else {
 		PHALCON_OBS_VAR(rows);
 		phalcon_read_property(&rows, this_ptr, SL("_rows"), PH_NOISY_CC);
-		if (Z_TYPE_P(rows) == IS_NULL) {
+		if (Z_TYPE_P(rows) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
@@ -26281,7 +26277,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-		if (PHALCON_IS_NOT_FALSE(result)) {
+		if (Z_TYPE_P(result) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_NORETURN(result, "execute");
 	
 			PHALCON_INIT_VAR(records);
@@ -26293,11 +26289,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	} else {
 		PHALCON_OBS_NVAR(records);
 		phalcon_read_property(&records, this_ptr, SL("_rows"), PH_NOISY_CC);
-		if (Z_TYPE_P(records) == IS_NULL) {
+		if (Z_TYPE_P(records) != IS_ARRAY) { 
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
 	
@@ -27997,6 +27993,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface){
 
 	return SUCCESS;
 }
+
+
+
 
 
 
@@ -31798,7 +31797,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
@@ -31920,7 +31919,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 	
 				PHALCON_OBS_NVAR(result);
 				phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-				if (PHALCON_IS_NOT_FALSE(result)) {
+				if (Z_TYPE_P(result) == IS_OBJECT) {
 					PHALCON_INIT_NVAR(rows);
 					PHALCON_CALL_METHOD(rows, result, "fetchall");
 					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
@@ -35055,6 +35054,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	phalcon_update_property_array(this_ptr, SL("_hasManySingle"), entity_name, single_relations TSRMLS_CC);
 	
 	RETURN_CTOR(relation);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
+
+
+	
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo){
@@ -39070,7 +39075,7 @@ static void yy_syntax_error(
 #define TOKEN (yyminor.yy0)
 // 418 "parser.lemon"
 
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;
@@ -39761,7 +39766,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
 
 
-/* Generated by re2c 0.13.5 on Sat Dec 22 22:44:14 2012 */
+/* Generated by re2c 0.13.5 on Tue Jan  1 18:04:50 2013 */
 // 1 "scanner.re"
 
 
@@ -50238,7 +50243,7 @@ static void kk_syntax_error(
 #define KTOKEN (kkminor.kk0)
 // 431 "parser.lemon"
 
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;
@@ -50981,7 +50986,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Mon Dec 31 12:47:10 2012 */
+/* Generated by re2c 0.13.5 on Tue Jan  1 18:02:20 2013 */
 // 1 "scanner.re"
 
 
@@ -51042,7 +51047,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 					}
 
 					return PHVOLT_SCANNER_RETCODE_EOF;
-
 				}
 
 				return 0;
@@ -51063,7 +51067,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		} else {
 
 		
-// 105 "scanner.c"
+// 104 "scanner.c"
 		{
 			KKCTYPE kkch;
 			unsigned int kkaccept = 0;
@@ -51166,7 +51170,7 @@ kk2:
 			kkch = *(KKMARKER = ++KKCURSOR);
 			goto kk228;
 kk3:
-// 106 "scanner.re"
+// 105 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_INTEGER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -51174,7 +51178,7 @@ kk3:
 			q = KKCURSOR;
 			return 0;
 		}
-// 216 "scanner.c"
+// 215 "scanner.c"
 kk4:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51187,7 +51191,7 @@ kk4:
 			default:	goto kk84;
 			}
 kk5:
-// 300 "scanner.re"
+// 299 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -51195,7 +51199,7 @@ kk5:
 			q = KKCURSOR;
 			return 0;
 		}
-// 237 "scanner.c"
+// 236 "scanner.c"
 kk6:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -51290,12 +51294,12 @@ kk16:
 			default:	goto kk17;
 			}
 kk17:
-// 454 "scanner.re"
+// 453 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 337 "scanner.c"
+// 336 "scanner.c"
 kk18:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51303,12 +51307,12 @@ kk18:
 			default:	goto kk19;
 			}
 kk19:
-// 328 "scanner.re"
+// 327 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MOD;
 			return 0;
 		}
-// 350 "scanner.c"
+// 349 "scanner.c"
 kk20:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -51330,44 +51334,44 @@ kk23:
 			goto kk84;
 kk24:
 			++KKCURSOR;
-// 308 "scanner.re"
+// 307 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ADD;
 			return 0;
 		}
-// 377 "scanner.c"
+// 376 "scanner.c"
 kk26:
 			++KKCURSOR;
-// 313 "scanner.re"
+// 312 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SUB;
 			return 0;
 		}
-// 385 "scanner.c"
+// 384 "scanner.c"
 kk28:
 			++KKCURSOR;
-// 318 "scanner.re"
+// 317 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MUL;
 			return 0;
 		}
-// 393 "scanner.c"
+// 392 "scanner.c"
 kk30:
 			++KKCURSOR;
-// 323 "scanner.re"
+// 322 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DIV;
 			return 0;
 		}
-// 401 "scanner.c"
+// 400 "scanner.c"
 kk32:
 			++KKCURSOR;
-// 333 "scanner.re"
+// 332 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_CONCAT;
 			return 0;
 		}
-// 409 "scanner.c"
+// 408 "scanner.c"
 kk34:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51375,52 +51379,52 @@ kk34:
 			default:	goto kk35;
 			}
 kk35:
-// 343 "scanner.re"
+// 342 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOT;
 			return 0;
 		}
-// 422 "scanner.c"
+// 421 "scanner.c"
 kk36:
 			++KKCURSOR;
-// 348 "scanner.re"
+// 347 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COMMA;
 			return 0;
 		}
-// 430 "scanner.c"
+// 429 "scanner.c"
 kk38:
 			++KKCURSOR;
-// 353 "scanner.re"
+// 352 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 438 "scanner.c"
+// 437 "scanner.c"
 kk40:
 			++KKCURSOR;
-// 358 "scanner.re"
+// 357 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 446 "scanner.c"
+// 445 "scanner.c"
 kk42:
 			++KKCURSOR;
-// 363 "scanner.re"
+// 362 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 454 "scanner.c"
+// 453 "scanner.c"
 kk44:
 			++KKCURSOR;
-// 368 "scanner.re"
+// 367 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 462 "scanner.c"
+// 461 "scanner.c"
 kk46:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51429,12 +51433,12 @@ kk46:
 			default:	goto kk47;
 			}
 kk47:
-// 418 "scanner.re"
+// 417 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESS;
 			return 0;
 		}
-// 476 "scanner.c"
+// 475 "scanner.c"
 kk48:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51442,12 +51446,12 @@ kk48:
 			default:	goto kk49;
 			}
 kk49:
-// 378 "scanner.re"
+// 377 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ASSIGN;
 			return 0;
 		}
-// 489 "scanner.c"
+// 488 "scanner.c"
 kk50:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51455,12 +51459,12 @@ kk50:
 			default:	goto kk51;
 			}
 kk51:
-// 423 "scanner.re"
+// 422 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATER;
 			return 0;
 		}
-// 502 "scanner.c"
+// 501 "scanner.c"
 kk52:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51468,56 +51472,56 @@ kk52:
 			default:	goto kk53;
 			}
 kk53:
-// 413 "scanner.re"
+// 412 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 515 "scanner.c"
+// 514 "scanner.c"
 kk54:
 			++KKCURSOR;
-// 428 "scanner.re"
+// 427 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_PIPE;
 			return 0;
 		}
-// 523 "scanner.c"
+// 522 "scanner.c"
 kk56:
 			++KKCURSOR;
-// 433 "scanner.re"
+// 432 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLECOLON;
 			return 0;
 		}
-// 531 "scanner.c"
+// 530 "scanner.c"
 kk58:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			goto kk66;
 kk59:
-// 438 "scanner.re"
+// 437 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 542 "scanner.c"
+// 541 "scanner.c"
 kk60:
 			++KKCURSOR;
-// 443 "scanner.re"
+// 442 "scanner.re"
 			{
 			s->active_line++;
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 551 "scanner.c"
+// 550 "scanner.c"
 kk62:
 			++KKCURSOR;
-// 449 "scanner.re"
+// 448 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 559 "scanner.c"
+// 558 "scanner.c"
 kk64:
 			kkch = *++KKCURSOR;
 			goto kk17;
@@ -51538,28 +51542,28 @@ kk67:
 			default:	goto kk68;
 			}
 kk68:
-// 393 "scanner.re"
+// 392 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 585 "scanner.c"
+// 584 "scanner.c"
 kk69:
 			++KKCURSOR;
-// 408 "scanner.re"
+// 407 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTIDENTICAL;
 			return 0;
 		}
-// 593 "scanner.c"
+// 592 "scanner.c"
 kk71:
 			++KKCURSOR;
-// 383 "scanner.re"
+// 382 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATEREQUAL;
 			return 0;
 		}
-// 601 "scanner.c"
+// 600 "scanner.c"
 kk73:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -51567,44 +51571,44 @@ kk73:
 			default:	goto kk74;
 			}
 kk74:
-// 388 "scanner.re"
+// 387 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_EQUALS;
 			return 0;
 		}
-// 614 "scanner.c"
+// 613 "scanner.c"
 kk75:
 			++KKCURSOR;
-// 403 "scanner.re"
+// 402 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTICAL;
 			return 0;
 		}
-// 622 "scanner.c"
+// 621 "scanner.c"
 kk77:
 			++KKCURSOR;
-// 398 "scanner.re"
+// 397 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 630 "scanner.c"
+// 629 "scanner.c"
 kk79:
 			++KKCURSOR;
-// 373 "scanner.re"
+// 372 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESSEQUAL;
 			return 0;
 		}
-// 638 "scanner.c"
+// 637 "scanner.c"
 kk81:
 			++KKCURSOR;
-// 338 "scanner.re"
+// 337 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_RANGE;
 			return 0;
 		}
-// 646 "scanner.c"
+// 645 "scanner.c"
 kk83:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
@@ -51701,7 +51705,7 @@ kk88:
 			}
 kk89:
 			++KKCURSOR;
-// 291 "scanner.re"
+// 290 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_STRING;
 			token->value = estrndup(q, KKCURSOR - q - 1);
@@ -51709,7 +51713,7 @@ kk89:
 			q = KKCURSOR;
 			return 0;
 		}
-// 751 "scanner.c"
+// 750 "scanner.c"
 kk91:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
@@ -51729,39 +51733,39 @@ kk93:
 			}
 kk94:
 			++KKCURSOR;
-// 284 "scanner.re"
+// 283 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
-// 777 "scanner.c"
+// 776 "scanner.c"
 kk96:
 			++KKCURSOR;
-// 272 "scanner.re"
+// 271 "scanner.re"
 			{
 			s->mode = PHVOLT_MODE_RAW;
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
 		}
-// 786 "scanner.c"
+// 785 "scanner.c"
 kk98:
 			++KKCURSOR;
-// 278 "scanner.re"
+// 277 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
-// 795 "scanner.c"
+// 794 "scanner.c"
 kk100:
 			++KKCURSOR;
-// 267 "scanner.re"
+// 266 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-// 803 "scanner.c"
+// 802 "scanner.c"
 kk102:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -51881,13 +51885,13 @@ kk109:
 			default:	goto kk110;
 			}
 kk110:
-// 255 "scanner.re"
+// 254 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CONTINUE;
 			return 0;
 		}
-// 929 "scanner.c"
+// 928 "scanner.c"
 kk111:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -51972,13 +51976,13 @@ kk113:
 			default:	goto kk114;
 			}
 kk114:
-// 226 "scanner.re"
+// 225 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CACHE;
 			return 0;
 		}
-// 1020 "scanner.c"
+// 1019 "scanner.c"
 kk115:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52056,13 +52060,13 @@ kk116:
 			default:	goto kk117;
 			}
 kk117:
-// 237 "scanner.re"
+// 236 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DO;
 			return 0;
 		}
-// 1104 "scanner.c"
+// 1103 "scanner.c"
 kk118:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52161,13 +52165,13 @@ kk122:
 			default:	goto kk123;
 			}
 kk123:
-// 214 "scanner.re"
+// 213 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DEFINED;
 			return 0;
 		}
-// 1209 "scanner.c"
+// 1208 "scanner.c"
 kk124:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52266,13 +52270,13 @@ kk128:
 			default:	goto kk129;
 			}
 kk129:
-// 261 "scanner.re"
+// 260 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_BREAK;
 			return 0;
 		}
-// 1314 "scanner.c"
+// 1313 "scanner.c"
 kk130:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52357,13 +52361,13 @@ kk132:
 			default:	goto kk133;
 			}
 kk133:
-// 185 "scanner.re"
+// 184 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_BLOCK;
 			return 0;
 		}
-// 1405 "scanner.c"
+// 1404 "scanner.c"
 kk134:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -52434,12 +52438,12 @@ kk134:
 			default:	goto kk135;
 			}
 kk135:
-// 180 "scanner.re"
+// 179 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OR;
 			return 0;
 		}
-// 1481 "scanner.c"
+// 1480 "scanner.c"
 kk136:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52573,13 +52577,13 @@ kk145:
 			default:	goto kk146;
 			}
 kk146:
-// 243 "scanner.re"
+// 242 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_AUTOESCAPE;
 			return 0;
 		}
-// 1621 "scanner.c"
+// 1620 "scanner.c"
 kk147:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -52650,12 +52654,12 @@ kk147:
 			default:	goto kk148;
 			}
 kk148:
-// 175 "scanner.re"
+// 174 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_AND;
 			return 0;
 		}
-// 1697 "scanner.c"
+// 1696 "scanner.c"
 kk149:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52740,12 +52744,12 @@ kk151:
 			default:	goto kk152;
 			}
 kk152:
-// 170 "scanner.re"
+// 169 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
-// 1787 "scanner.c"
+// 1786 "scanner.c"
 kk153:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52837,12 +52841,12 @@ kk156:
 			default:	goto kk157;
 			}
 kk157:
-// 160 "scanner.re"
+// 159 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
-// 1884 "scanner.c"
+// 1883 "scanner.c"
 kk158:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -52913,13 +52917,13 @@ kk158:
 			default:	goto kk159;
 			}
 kk159:
-// 208 "scanner.re"
+// 207 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 1961 "scanner.c"
+// 1960 "scanner.c"
 kk160:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -52997,12 +53001,12 @@ kk161:
 			default:	goto kk162;
 			}
 kk162:
-// 155 "scanner.re"
+// 154 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
-// 2044 "scanner.c"
+// 2043 "scanner.c"
 kk163:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53087,13 +53091,13 @@ kk165:
 			default:	goto kk166;
 			}
 kk166:
-// 139 "scanner.re"
+// 138 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
-// 2135 "scanner.c"
+// 2134 "scanner.c"
 kk167:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53178,12 +53182,12 @@ kk169:
 			default:	goto kk170;
 			}
 kk170:
-// 165 "scanner.re"
+// 164 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FALSE;
 			return 0;
 		}
-// 2225 "scanner.c"
+// 2224 "scanner.c"
 kk171:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53303,13 +53307,13 @@ kk178:
 			default:	goto kk179;
 			}
 kk179:
-// 196 "scanner.re"
+// 195 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_EXTENDS;
 			return 0;
 		}
-// 2351 "scanner.c"
+// 2350 "scanner.c"
 kk180:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53430,12 +53434,12 @@ kk186:
 			default:	goto kk187;
 			}
 kk187:
-// 134 "scanner.re"
+// 133 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
 		}
-// 2477 "scanner.c"
+// 2476 "scanner.c"
 kk188:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53513,12 +53517,12 @@ kk189:
 			default:	goto kk190;
 			}
 kk190:
-// 145 "scanner.re"
+// 144 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDFOR;
 			return 0;
 		}
-// 2560 "scanner.c"
+// 2559 "scanner.c"
 kk191:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53610,12 +53614,12 @@ kk194:
 			default:	goto kk195;
 			}
 kk195:
-// 232 "scanner.re"
+// 231 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDCACHE;
 			return 0;
 		}
-// 2657 "scanner.c"
+// 2656 "scanner.c"
 kk196:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53707,12 +53711,12 @@ kk199:
 			default:	goto kk200;
 			}
 kk200:
-// 191 "scanner.re"
+// 190 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDBLOCK;
 			return 0;
 		}
-// 2754 "scanner.c"
+// 2753 "scanner.c"
 kk201:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53839,13 +53843,13 @@ kk209:
 			default:	goto kk210;
 			}
 kk210:
-// 249 "scanner.re"
+// 248 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_ENDAUTOESCAPE;
 			return 0;
 		}
-// 2887 "scanner.c"
+// 2886 "scanner.c"
 kk211:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -53923,12 +53927,12 @@ kk212:
 			default:	goto kk213;
 			}
 kk213:
-// 129 "scanner.re"
+// 128 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ELSE;
 			return 0;
 		}
-// 2970 "scanner.c"
+// 2969 "scanner.c"
 kk214:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -53999,13 +54003,13 @@ kk214:
 			default:	goto kk215;
 			}
 kk215:
-// 123 "scanner.re"
+// 122 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IF;
 			return 0;
 		}
-// 3047 "scanner.c"
+// 3046 "scanner.c"
 kk216:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -54076,12 +54080,12 @@ kk216:
 			default:	goto kk217;
 			}
 kk217:
-// 150 "scanner.re"
+// 149 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IN;
 			return 0;
 		}
-// 3123 "scanner.c"
+// 3122 "scanner.c"
 kk218:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
@@ -54152,13 +54156,13 @@ kk218:
 			default:	goto kk219;
 			}
 kk219:
-// 202 "scanner.re"
+// 201 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IS;
 			return 0;
 		}
-// 3200 "scanner.c"
+// 3199 "scanner.c"
 kk220:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -54257,13 +54261,13 @@ kk224:
 			default:	goto kk225;
 			}
 kk225:
-// 220 "scanner.re"
+// 219 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_INCLUDE;
 			return 0;
 		}
-// 3305 "scanner.c"
+// 3304 "scanner.c"
 kk226:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
@@ -54315,7 +54319,7 @@ kk229:
 			default:	goto kk231;
 			}
 kk231:
-// 115 "scanner.re"
+// 114 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, KKCURSOR - start);
@@ -54323,9 +54327,9 @@ kk231:
 			q = KKCURSOR;
 			return 0;
 		}
-// 3365 "scanner.c"
+// 3364 "scanner.c"
 		}
-// 459 "scanner.re"
+// 458 "scanner.re"
 
 
 		}
@@ -68074,7 +68078,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
 
 PHP_METHOD(Phalcon_DI_Service, setParameter){
 
-	zval *position, *parameter, *definition;
+	zval *position, *parameter, *definition, *arguments = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -68099,14 +68103,26 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 		return;
 	}
 	
-	phalcon_array_update_zval(&definition, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (phalcon_array_isset_quick_string(definition, SS("arguments"), 3751272283UL)) {
+		PHALCON_OBS_VAR(arguments);
+		phalcon_array_fetch_quick_string(&arguments, definition, SS("arguments"), 3751272283UL, PH_NOISY_CC);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
+	phalcon_array_update_quick_string(&definition, SS("arguments"), 3751272283UL, &arguments, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
 
 PHP_METHOD(Phalcon_DI_Service, getParameter){
 
-	zval *position, *definition;
+	zval *position, *definition, *arguments, *parameter;
 
 	PHALCON_MM_GROW();
 
@@ -68126,7 +68142,18 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 		return;
 	}
 	
-	PHALCON_MM_RESTORE();
+	if (phalcon_array_isset_quick_string(definition, SS("arguments"), 3751272283UL)) {
+	
+		PHALCON_OBS_VAR(arguments);
+		phalcon_array_fetch_quick_string(&arguments, definition, SS("arguments"), 3751272283UL, PH_NOISY_CC);
+		if (phalcon_array_isset(arguments, position)) {
+			PHALCON_OBS_VAR(parameter);
+			phalcon_array_fetch(&parameter, arguments, position, PH_NOISY_CC);
+			RETURN_CCTOR(parameter);
+		}
+	}
+	
+	RETURN_MM_NULL();
 }
 
 PHP_METHOD(Phalcon_DI_Service, __set_state){

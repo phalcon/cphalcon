@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind){
 	
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-			if (PHALCON_IS_NOT_FALSE(result)) {
+			if (Z_TYPE_P(result) == IS_OBJECT) {
 				PHALCON_INIT_NVAR(rows);
 				PHALCON_CALL_METHOD(rows, result, "fetchall");
 				phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, count){
 	
 				PHALCON_OBS_NVAR(result);
 				phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
-				if (PHALCON_IS_NOT_FALSE(result)) {
+				if (Z_TYPE_P(result) == IS_OBJECT) {
 					PHALCON_INIT_NVAR(rows);
 					PHALCON_CALL_METHOD(rows, result, "fetchall");
 					phalcon_update_property_zval(this_ptr, SL("_rows"), rows TSRMLS_CC);

@@ -320,4 +320,60 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testResultsetNormalZerp()
+	{
+		$this->_prepareTestMysql();
+
+		$robots = Robots::find('id > 1000');
+
+		$this->assertEquals(count($robots), 0);
+		$this->assertEquals($robots->count(), 0);
+
+		//Using a foreach
+		$number = 0;
+		foreach ($robots as $robot) {
+			$number++;
+		}
+		$this->assertEquals($number, 0);
+
+		//Using a while
+		$number = 0;
+		$robots->rewind();
+		while ($robots->valid()) {
+			$robots->next();
+			$number++;
+		}
+		$this->assertEquals($number, 0);
+
+		$robots->seek(1);
+		$robots->valid();
+		$robot = $robots->current();
+		$this->assertFalse($robot);
+
+		$robot = $robots->getFirst();
+		$this->assertFalse($robot);
+
+		$robot = $robots->getLast();
+		$this->assertFalse($robot);
+
+		try {
+			$robot = $robots[0];
+			$this->assertFalse(true);
+		}
+		catch(Exception $e){
+			$this->assertEquals($e->getMessage(), 'The index does not exist in the cursor');
+		}
+
+		try {
+			$robot = $robots[2];
+			$this->assertFalse(true);
+		}
+		catch(Exception $e){
+			$this->assertEquals($e->getMessage(), 'The index does not exist in the cursor');
+		}
+
+		$this->assertFalse(isset($robots[0]));
+
+	}
+
 }
