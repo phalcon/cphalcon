@@ -40,6 +40,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne);
@@ -246,6 +247,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasOne, arginfo_phalcon_mvc_model_manager_addhasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, addBelongsTo, arginfo_phalcon_mvc_model_manager_addbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, addHasMany, arginfo_phalcon_mvc_model_manager_addhasmany, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, addHasManyThrough, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsBelongsTo, arginfo_phalcon_mvc_model_manager_existsbelongsto, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasMany, arginfo_phalcon_mvc_model_manager_existshasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, existsHasOne, arginfo_phalcon_mvc_model_manager_existshasone, ZEND_ACC_PUBLIC) 

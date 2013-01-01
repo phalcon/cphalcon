@@ -429,7 +429,7 @@ static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_st
 }
 
 %syntax_error {
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;

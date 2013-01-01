@@ -230,6 +230,35 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
 
 /**
+ * Binds a behavior to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\Model\BehaviorInterface $behavior
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
+
+/**
+ * Receives events generated in the models and dispatches them to a events-manager if available
+ * Notify the behaviors that are listening in the model
+ *
+ * @param string $eventName
+ * @param Phalcon\Mvc\ModelInterface $model
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
+
+/**
+ * Dispatch a event to the listeners and behaviors
+ * This method expects that the endpoint listeners/behaviors returns true
+ * meaning that a least one is implemented
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $eventName
+ * @param aray $data
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
+
+/**
  * Returns the last query created or executed in the
  *
  * @return Phalcon\Mvc\Model\QueryInterface

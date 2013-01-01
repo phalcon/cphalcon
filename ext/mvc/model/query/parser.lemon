@@ -416,7 +416,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 }
 
 %syntax_error {
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;

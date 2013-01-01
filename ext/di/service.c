@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_DI_Service, resolve){
  */
 PHP_METHOD(Phalcon_DI_Service, setParameter){
 
-	zval *position, *parameter, *definition;
+	zval *position, *parameter, *definition, *arguments = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -349,7 +349,25 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	/** 
 	 * Update the parameter
 	 */
-	phalcon_array_update_zval(&definition, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	if (phalcon_array_isset_string(definition, SS("arguments"))) {
+		PHALCON_OBS_VAR(arguments);
+		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY_CC);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	} else {
+		PHALCON_INIT_NVAR(arguments);
+		array_init_size(arguments, 1);
+		phalcon_array_update_zval(&arguments, position, &parameter, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
+	
+	/** 
+	 * Re-update the arguments
+	 */
+	phalcon_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Re-update the definition
+	 */
+	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -362,7 +380,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
  */
 PHP_METHOD(Phalcon_DI_Service, getParameter){
 
-	zval *position, *definition;
+	zval *position, *definition, *arguments, *parameter;
 
 	PHALCON_MM_GROW();
 
@@ -382,7 +400,21 @@ PHP_METHOD(Phalcon_DI_Service, getParameter){
 		return;
 	}
 	
-	PHALCON_MM_RESTORE();
+	/** 
+	 * Update the parameter
+	 */
+	if (phalcon_array_isset_string(definition, SS("arguments"))) {
+	
+		PHALCON_OBS_VAR(arguments);
+		phalcon_array_fetch_string(&arguments, definition, SL("arguments"), PH_NOISY_CC);
+		if (phalcon_array_isset(arguments, position)) {
+			PHALCON_OBS_VAR(parameter);
+			phalcon_array_fetch(&parameter, arguments, position, PH_NOISY_CC);
+			RETURN_CCTOR(parameter);
+		}
+	}
+	
+	RETURN_MM_NULL();
 }
 
 /**

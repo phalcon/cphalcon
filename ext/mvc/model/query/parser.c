@@ -2430,7 +2430,7 @@ static void yy_syntax_error(
 #define TOKEN (yyminor.yy0)
 // 418 "parser.lemon"
 
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;

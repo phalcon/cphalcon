@@ -2109,7 +2109,7 @@ static void kk_syntax_error(
 #define KTOKEN (kkminor.kk0)
 // 431 "parser.lemon"
 
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;

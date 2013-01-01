@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
-	zval *text, *html_map = NULL;
+	zval *text, *html_quote_type, *encoding, *escaped;
 
 	PHALCON_MM_GROW();
 
@@ -172,19 +172,15 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(html_map);
-	phalcon_read_property(&html_map, this_ptr, SL("_htmlEscapeMap"), PH_NOISY_CC);
-	if (Z_TYPE_P(html_map) == IS_NULL) {
-		PHALCON_INIT_NVAR(html_map);
-		array_init_size(html_map, 4);
-		add_index_stringl(html_map, 34, SL("quot"), 1);
-		add_index_stringl(html_map, 38, SL("amp"), 1);
-		add_index_stringl(html_map, 60, SL("lt"), 1);
-		add_index_stringl(html_map, 62, SL("gt"), 1);
-		phalcon_update_property_zval(this_ptr, SL("_htmlEscapeMap"), html_map TSRMLS_CC);
-	}
+	PHALCON_OBS_VAR(html_quote_type);
+	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_OBS_VAR(encoding);
+	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(escaped);
+	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
+	RETURN_CCTOR(escaped);
 }
 
 /**

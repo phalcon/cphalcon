@@ -606,7 +606,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
  * This method expects that the endpoint listeners/behaviors returns true
  * meaning that a least one is implemented
  *
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param string $eventName
+ * @param aray $data
  * @return boolean
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
@@ -1139,6 +1141,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany){
 	RETURN_CTOR(relation);
 }
 
+PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyThrough){
+
+
+	
+}
+
 /**
  * Checks whether a model has a belongsTo relation with another model
  *
@@ -1487,6 +1495,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	PHALCON_INIT_VAR(dependency_injector);
 	PHALCON_CALL_METHOD(dependency_injector, record, "getdi");
 	
+	/** 
+	 * Create a valid params array to pass to the find/findFirst method
+	 */
 	PHALCON_INIT_VAR(find_params);
 	array_init_size(find_params, 3);
 	phalcon_array_append(&find_params, join_conditions, PH_SEPARATE TSRMLS_CC);

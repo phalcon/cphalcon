@@ -110,7 +110,7 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
 
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class expects an object");
 	}
 }
 
@@ -128,7 +128,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 		ce = Z_OBJCE_P(object);
 
 		i = ce->name_length;
-		cursor = ce->name + ce->name_length - 1;
+		cursor = (char *) (ce->name + ce->name_length - 1);
 
 		while (i > 1) {
 			if ((*cursor) == '\\') {
@@ -154,7 +154,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class_ns expects an object");
 	}
 }
 

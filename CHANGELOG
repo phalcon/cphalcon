@@ -14,6 +14,7 @@
  - Phalcon\DI now implements ArrayAccess to get/set services
  - Phalcon\Mvc\Micro now implements ArrayAccess to get services from the related services container
  - Improved building of complex service definitions in the DI
+ - Added toArray method to Phalcon\Mvc\Model instances
  - Added autoescape mode in Volt
 
 0.8.0a1
