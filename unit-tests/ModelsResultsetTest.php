@@ -209,6 +209,50 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function _applyTestsBig($personas)
+	{
+
+		$this->assertEquals(count($personas), 33);
+		$this->assertEquals($personas->count(), 33);
+
+		//Using a foreach
+		$number = 0;
+		foreach ($personas as $persona) {
+			$number++;
+		}
+		$this->assertEquals($number, 33);
+
+		//Using a while
+		$number = 0;
+		$personas->rewind();
+		while ($personas->valid()) {
+			$persona = $personas->current();
+			$personas->next();
+			$number++;
+		}
+		$this->assertEquals($number, 33);
+
+		$personas->seek(1);
+		$personas->valid();
+		$persona = $personas->current();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas->getFirst();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas->getLast();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas[0];
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas[2];
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$this->assertFalse(isset($personas[40]));
+
+	}
+
 	public function testSerializeNormalMysql()
 	{
 
@@ -317,6 +361,57 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 
 		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeBigMysql()
+	{
+
+		$this->_prepareTestMysql();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
+
+	}
+
+	public function testSerializeBigPostgresql()
+	{
+
+		$this->_prepareTestPostgresql();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
+
+	}
+
+	public function testSerializeBigSqlite()
+	{
+
+		$this->_prepareTestSqlite();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
 
 	}
 

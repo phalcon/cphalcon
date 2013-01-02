@@ -196,13 +196,21 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
 
 /**
- * Query the relations between two models
+ * Query all the relationships defined on a model
  *
- * @param string $first
- * @param string $second
- * @return array
+ * @param string $modelName
+ * @return Phalcon\Mvc\RelationInterface[]
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
+
+/**
+ * Query the relations between two models
+ *
+ * @param string $firstModel
+ * @param string $secondModel
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween);
 
 /**
  * Creates a Phalcon\Mvc\Model\Query without execute it

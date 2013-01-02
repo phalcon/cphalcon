@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *type, *result = NULL, *active_row, *records = NULL, *row_count;
+	zval *type, *result = NULL, *active_row = NULL, *records = NULL, *row_count;
 	zval *model, *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
@@ -238,6 +238,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
+	
+				PHALCON_OBS_NVAR(active_row);
+				phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+	
+				/** 
+				 * Check if we need to re-execute the query
+				 */
+				if (Z_TYPE_P(active_row) != IS_NULL) {
+					PHALCON_CALL_METHOD_NORETURN(result, "execute");
+				}
+	
+				/** 
+				 * We fetch all the results in memory again
+				 */
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
 	

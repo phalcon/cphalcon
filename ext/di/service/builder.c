@@ -36,9 +36,9 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/file.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\DI\Service\Builder
@@ -69,9 +69,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 
 	zval *dependency_injector, *position, *argument;
 	zval *exception_message = NULL, *type, *name = NULL, *value = NULL, *instance_arguments;
-	zval *i0 = NULL, *i1 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
-	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
@@ -113,15 +110,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, ce0);
-			if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(c0);
-				ZVAL_STRING(c0, "The dependency injector container is not valid", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0);
-			}
-			phalcon_throw_exception(i0 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 			return;
 		}
 	
@@ -162,15 +151,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			ce1 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(i1);
-			object_init_ex(i1, ce1);
-			if (phalcon_has_constructor(i1 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(c1);
-				ZVAL_STRING(c1, "The dependency injector container is not valid", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c1);
-			}
-			phalcon_throw_exception(i1 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 			return;
 		}
 	

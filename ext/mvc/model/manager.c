@@ -1917,13 +1917,134 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 }
 
 /**
+ * Query all the relationships defined on a model
+ *
+ * @param string $modelName
+ * @return Phalcon\Mvc\RelationInterface[]
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
+
+	zval *model_name, *entity_name, *all_relations;
+	zval *belongs_to, *relations = NULL, *relation = NULL, *has_many;
+	zval *has_one;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_fast_strtolower(entity_name, model_name);
+	
+	PHALCON_INIT_VAR(all_relations);
+	array_init(all_relations);
+	
+	/** 
+	 * Get belongs-to relations
+	 */
+	PHALCON_OBS_VAR(belongs_to);
+	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
+		if (phalcon_array_isset(belongs_to, entity_name)) {
+	
+			PHALCON_OBS_VAR(relations);
+			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		}
+	}
+	
+	/** 
+	 * Get has-many relations
+	 */
+	PHALCON_OBS_VAR(has_many);
+	phalcon_read_property(&has_many, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
+		if (phalcon_array_isset(has_many, entity_name)) {
+	
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah1 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+		}
+	}
+	
+	/** 
+	 * Get has-one relations
+	 */
+	PHALCON_OBS_VAR(has_one);
+	phalcon_read_property(&has_one, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
+		if (phalcon_array_isset(has_one, entity_name)) {
+	
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah2 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
+	
+			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah2, &hp2);
+			}
+	
+		}
+	}
+	
+	
+	RETURN_CTOR(all_relations);
+}
+
+/**
  * Query the first relationship defined between two models
  *
  * @param string $first
  * @param string $second
  * @return Phalcon\Mvc\RelationInterface
  */
-PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
 
 	zval *first, *second, *first_name, *second_name;
 	zval *key_relation, *belongs_to, *relations = NULL;

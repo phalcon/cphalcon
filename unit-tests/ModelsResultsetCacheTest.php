@@ -92,6 +92,19 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
+	private function _prepareTestSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		return $di;
+	}
+
 	protected function _testCacheDefaultDI($di)
 	{
 
@@ -199,6 +212,12 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->_testCacheDefaultDI($di);
 	}
 
+	public function testCacheDefaultDISqlite()
+	{
+		$di = $this->_prepareTestSqlite();
+		$this->_testCacheDefaultDI($di);
+	}
+
 	public function testCacheDefaultDIBindingsMysql()
 	{
 		$di = $this->_prepareTestMysql();
@@ -211,17 +230,27 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->_testCacheDefaultDIBindings($di);
 	}
 
+	public function testCacheDefaultDIBindingsSqlite()
+	{
+		$di = $this->_prepareTestSqlite();
+		$this->_testCacheDefaultDIBindings($di);
+	}
+
 	public function testCacheOtherServiceMysql()
 	{
-
 		$di = $this->_prepareTestMysql();
 		$this->_testCacheOtherService($di);
 	}
 
 	public function testCacheOtherServicePostgresql()
 	{
+		$di = $this->_prepareTestPostgresql();
+		$robots = $this->_testCacheOtherService($di);
+	}
 
-		$di = $this->_prepareTestMysql();
+	public function testCacheOtherServiceSqlite()
+	{
+		$di = $this->_prepareTestSqlite();
 		$robots = $this->_testCacheOtherService($di);
 	}
 

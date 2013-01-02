@@ -1590,7 +1590,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 					 * Check for relations between models
 					 */
 					PHALCON_INIT_NVAR(relations);
-					PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelations", model_name, join_model);
+					PHALCON_CALL_METHOD_PARAMS_2(relations, manager, "getrelationsbetween", model_name, join_model);
 					if (Z_TYPE_P(relations) == IS_ARRAY) { 
 	
 						/** 

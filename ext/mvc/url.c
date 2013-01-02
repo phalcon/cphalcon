@@ -289,13 +289,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
 	
 		RETURN_CCTOR(final_uri);
-	} else {
-		PHALCON_INIT_NVAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, base_uri, uri);
-		RETURN_CCTOR(final_uri);
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_NVAR(final_uri);
+	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
+	
+	RETURN_CCTOR(final_uri);
 }
 
 /**
