@@ -320,7 +320,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testResultsetNormalZerp()
+	public function testResultsetNormalZero()
 	{
 		$this->_prepareTestMysql();
 

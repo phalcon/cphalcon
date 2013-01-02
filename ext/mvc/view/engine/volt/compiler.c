@@ -1854,7 +1854,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_OBS_NVAR(key);
 				phalcon_array_fetch_string(&key, statement, SL("key"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $cacheKey", key, " = $this->viewCache->start(\"", key, "\"); if ($cacheKey", key, " === null) { ?>");
+				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $cacheKey", key, " = $this->di['viewCache']->start('", key, "'); if ($cacheKey", key, " === null) { ?>");
 				PHALCON_OBS_NVAR(block_statements);
 				phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
 	
@@ -1864,9 +1864,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				if (phalcon_array_isset_string(statement, SS("lifetime"))) {
 					PHALCON_OBS_NVAR(lifetime);
 					phalcon_array_fetch_string(&lifetime, statement, SL("lifetime"), PH_NOISY_CC);
-					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\", null, ", lifetime, "); } else { echo $cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $this->di['viewCache']->save('", key, "', null, ", lifetime, "); } else { echo $cacheKey", key, "; } ?>");
 				} else {
-					PHALCON_SCONCAT_SVSVS(compilation, "<?php $this->viewCache->save(\"", key, "\"); } else { echo $cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVS(compilation, "<?php $this->di['viewCache']->save('", key, "'); } else { echo $cacheKey", key, "; } ?>");
 				}
 	
 				break;

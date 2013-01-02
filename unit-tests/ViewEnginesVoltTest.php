@@ -495,7 +495,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token {{ in eval code on line 1');
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected EOF in eval code');
 		}
 
 		try {
@@ -503,7 +503,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 			$this->assertTrue(false);
 		}
 		catch(Phalcon\Mvc\View\Exception $e){
-			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected token }} in eval code on line 1');
+			$this->assertEquals($e->getMessage(), 'Syntax error, unexpected EOF in eval code');
 		}
 
 		try {
@@ -1002,10 +1002,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		// Cache statement
 		$compilation = $volt->compileString('{% cache somekey %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->viewCache->start("somekey"); if ($cacheKeysomekey === null) { ?> hello <?php $this->viewCache->save("somekey"); } else { echo $cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->di[\'viewCache\']->start(\'somekey\'); if ($cacheKeysomekey === null) { ?> hello <?php $this->di[\'viewCache\']->save(\'somekey\'); } else { echo $cacheKeysomekey; } ?>');
 
 		$compilation = $volt->compileString('{% cache somekey 500 %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->viewCache->start("somekey"); if ($cacheKeysomekey === null) { ?> hello <?php $this->viewCache->save("somekey", null, 500); } else { echo $cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->di[\'viewCache\']->start(\'somekey\'); if ($cacheKeysomekey === null) { ?> hello <?php $this->di[\'viewCache\']->save(\'somekey\', null, 500); } else { echo $cacheKeysomekey; } ?>');
 
 		//Autoescape mode
 		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');
