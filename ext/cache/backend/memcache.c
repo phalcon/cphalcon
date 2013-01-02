@@ -308,6 +308,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, save){
 		PHALCON_CPY_WRT(cached_content, content);
 	}
 	
+	/** 
+	 * Prepare the content in the frontend
+	 */
 	PHALCON_INIT_VAR(prepared_content);
 	PHALCON_CALL_METHOD_PARAMS_1(prepared_content, frontend, "beforestore", cached_content);
 	if (Z_TYPE_P(lifetime) == IS_NULL) {
@@ -412,6 +415,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, delete){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(memcache, "set", special_key, keys);
 	}
 	
+	/** 
+	 * Delete the key from memcached
+	 */
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_1(success, memcache, "delete", prefixed_key);
 	
@@ -461,6 +467,9 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	PHALCON_OBS_VAR(special_key);
 	phalcon_array_fetch_string(&special_key, options, SL("statsKey"), PH_NOISY_CC);
 	
+	/** 
+	 * Get the key from memcached
+	 */
 	PHALCON_INIT_VAR(keys);
 	PHALCON_CALL_METHOD_PARAMS_1(keys, memcache, "get", special_key);
 	if (Z_TYPE_P(keys) == IS_ARRAY) { 
@@ -556,31 +565,5 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	}
 	
 	RETURN_MM_FALSE;
-}
-
-/**
- * Destructs the backend closing the memcached connection
- */
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, __destruct){
-
-	zval *memcache, *options, *persistent;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(memcache);
-	phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_P(memcache) == IS_OBJECT) {
-	
-		PHALCON_OBS_VAR(options);
-		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-		PHALCON_OBS_VAR(persistent);
-		phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY_CC);
-		if (!zend_is_true(persistent)) {
-			PHALCON_CALL_METHOD_NORETURN(memcache, "close");
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
 }
 

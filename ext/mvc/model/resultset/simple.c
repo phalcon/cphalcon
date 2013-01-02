@@ -101,6 +101,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 		PHALCON_INIT_VAR(row_count);
 		PHALCON_CALL_METHOD(row_count, result, "numrows");
 	
+		/** 
+		 * Check if it's a big resultset
+		 */
 		PHALCON_INIT_VAR(big_resultset);
 		is_smaller_function(big_resultset, limit, row_count TSRMLS_CC);
 		if (PHALCON_IS_TRUE(big_resultset)) {
@@ -109,6 +112,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 			phalcon_update_property_long(this_ptr, SL("_type"), 0 TSRMLS_CC);
 		}
 	
+		/** 
+		 * Update the row-count
+		 */
 		phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
 	}
 	
@@ -192,8 +198,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *type, *result = NULL, *records = NULL, *row_count, *model;
-	zval *cache, *column_map, *data, *serialized;
+	zval *type, *result = NULL, *active_row, *records = NULL, *row_count;
+	zval *model, *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -204,8 +210,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
-			PHALCON_CALL_METHOD_NORETURN(result, "execute");
 	
+			PHALCON_OBS_VAR(active_row);
+			phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+	
+			/** 
+			 * Check if we need to re-execute the query
+			 */
+			if (Z_TYPE_P(active_row) != IS_NULL) {
+				PHALCON_CALL_METHOD_NORETURN(result, "execute");
+			}
+	
+			/** 
+			 * We fetch all the results in memory
+			 */
 			PHALCON_INIT_VAR(records);
 			PHALCON_CALL_METHOD(records, result, "fetchall");
 		} else {
@@ -246,6 +264,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+	/** 
+	 * Force to re-execute the query
+	 */
+	phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
+	
+	/** 
+	 * Serialize the cache using the serialize function
+	 */
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
 	

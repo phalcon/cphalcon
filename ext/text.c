@@ -326,3 +326,21 @@ PHP_METHOD(Phalcon_Text, upper){
 	RETURN_CCTOR(upper);
 }
 
+/**
+ *
+ */
+PHP_METHOD(Phalcon_Text, x){
+
+	zval *x, *b;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(x);
+	ZVAL_LONG(x, 100);
+	
+	PHALCON_INIT_VAR(b);
+	ZVAL_LONG(b, 200);
+	
+	PHALCON_MM_RESTORE();
+}
+

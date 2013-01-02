@@ -821,6 +821,7 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 
 
 
+
 #define PHALCON_MEMORY_FRAME_CHUNK 16
 
 void phalcon_init_nvar(zval **var TSRMLS_DC);
@@ -11444,29 +11445,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, exists){
 	RETURN_MM_FALSE;
 }
 
-PHP_METHOD(Phalcon_Cache_Backend_Memcache, __destruct){
-
-	zval *memcache, *options, *persistent;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(memcache);
-	phalcon_read_property(&memcache, this_ptr, SL("_memcache"), PH_NOISY_CC);
-	if (Z_TYPE_P(memcache) == IS_OBJECT) {
-	
-		PHALCON_OBS_VAR(options);
-		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	
-		PHALCON_OBS_VAR(persistent);
-		phalcon_array_fetch_string(&persistent, options, SL("persistent"), PH_NOISY_CC);
-		if (!zend_is_true(persistent)) {
-			PHALCON_CALL_METHOD_NORETURN(memcache, "close");
-		}
-	}
-	
-	PHALCON_MM_RESTORE();
-}
-
 
 
 
@@ -19200,6 +19178,21 @@ PHP_METHOD(Phalcon_Text, upper){
 	RETURN_CCTOR(upper);
 }
 
+PHP_METHOD(Phalcon_Text, x){
+
+	zval *x, *b;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(x);
+	ZVAL_LONG(x, 100);
+	
+	PHALCON_INIT_VAR(b);
+	ZVAL_LONG(b, 200);
+	
+	PHALCON_MM_RESTORE();
+}
+
 
 
 
@@ -26266,8 +26259,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *type, *result = NULL, *records = NULL, *row_count, *model;
-	zval *cache, *column_map, *data, *serialized;
+	zval *type, *result = NULL, *active_row, *records = NULL, *row_count;
+	zval *model, *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
 
@@ -26278,7 +26271,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 		PHALCON_OBS_VAR(result);
 		phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 		if (Z_TYPE_P(result) == IS_OBJECT) {
-			PHALCON_CALL_METHOD_NORETURN(result, "execute");
+	
+			PHALCON_OBS_VAR(active_row);
+			phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+	
+			if (Z_TYPE_P(active_row) != IS_NULL) {
+				PHALCON_CALL_METHOD_NORETURN(result, "execute");
+			}
 	
 			PHALCON_INIT_VAR(records);
 			PHALCON_CALL_METHOD(records, result, "fetchall");
@@ -26319,6 +26318,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	phalcon_array_update_string(&data, SL("cache"), &cache, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("rows"), &records, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&data, SL("columnMap"), &column_map, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	phalcon_update_property_bool(this_ptr, SL("_activeRow"), 0 TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
