@@ -1002,10 +1002,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		// Cache statement
 		$compilation = $volt->compileString('{% cache somekey %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->di[\'viewCache\']->start(\'somekey\'); if ($cacheKeysomekey === null) { ?> hello <?php $this->di[\'viewCache\']->save(\'somekey\'); } else { echo $cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $_cachesomekey = $this->di->get(\'viewCache\'); $_cacheKeysomekey = $_cachesomekey->start(\'somekey\'); if ($_cacheKeysomekey === null) { ?> hello <?php $_cachesomekey->save(\'somekey\'); } else { echo $_cacheKeysomekey; } ?>');
 
 		$compilation = $volt->compileString('{% cache somekey 500 %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $cacheKeysomekey = $this->di[\'viewCache\']->start(\'somekey\'); if ($cacheKeysomekey === null) { ?> hello <?php $this->di[\'viewCache\']->save(\'somekey\', null, 500); } else { echo $cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $_cachesomekey = $this->di->get(\'viewCache\'); $_cacheKeysomekey = $_cachesomekey->start(\'somekey\'); if ($_cacheKeysomekey === null) { ?> hello <?php $_cachesomekey->save(\'somekey\', null, 500); } else { echo $_cacheKeysomekey; } ?>');
 
 		//Autoescape mode
 		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');

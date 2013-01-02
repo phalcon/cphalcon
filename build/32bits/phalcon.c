@@ -47486,8 +47486,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	zval *block_statements = NULL, *variable = NULL, *key = NULL, *if_expr = NULL;
 	zval *if_expr_code = NULL, *autoescape = NULL, *block_name = NULL;
 	zval *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL, *final_path = NULL;
-	zval *sub_compiler = NULL, *sub_compilation = NULL, *lifetime = NULL;
-	zval *old_autoescape = NULL, *level;
+	zval *sub_compiler = NULL, *sub_compilation = NULL, *compiled_path = NULL;
+	zval *lifetime = NULL, *old_autoescape = NULL, *level;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -47699,11 +47699,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					return;
 				}
 	
-				PHALCON_INIT_NVAR(extended);
-				ZVAL_BOOL(extended, 1);
-	
 				PHALCON_INIT_NVAR(sub_compilation);
 				PHALCON_CALL_METHOD_PARAMS_2_KEY(sub_compilation, sub_compiler, "compile", final_path, extended, 1074882030UL);
+	
+				if (Z_TYPE_P(sub_compilation) == IS_NULL) {
+					PHALCON_INIT_NVAR(compiled_path);
+					PHALCON_CALL_METHOD(compiled_path, sub_compiler, "getcompiledtemplatepath");
+	
+					PHALCON_INIT_NVAR(sub_compilation);
+					PHALCON_CALL_FUNC_PARAMS_1(sub_compilation, "file_get_contents", compiled_path);
+				}
+	
 				phalcon_update_property_bool(this_ptr, SL("_extended"), 1 TSRMLS_CC);
 				phalcon_update_property_zval(this_ptr, SL("_extendedBlocks"), sub_compilation TSRMLS_CC);
 				PHALCON_CPY_WRT(block_mode, extended);
@@ -47725,32 +47731,48 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					PHALCON_CPY_WRT(final_path, path);
 				}
 	
+				PHALCON_INIT_NVAR(extended);
+				ZVAL_BOOL(extended, 0);
+	
 				PHALCON_INIT_NVAR(sub_compiler);
 				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
 					return;
 				}
 	
 				PHALCON_INIT_NVAR(sub_compilation);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(sub_compilation, sub_compiler, "compile", final_path, 1074882030UL);
+				PHALCON_CALL_METHOD_PARAMS_2_KEY(sub_compilation, sub_compiler, "compile", final_path, extended, 1074882030UL);
+	
+				if (Z_TYPE_P(sub_compilation) == IS_NULL) {
+					PHALCON_INIT_NVAR(compiled_path);
+					PHALCON_CALL_METHOD(compiled_path, sub_compiler, "getcompiledtemplatepath");
+	
+					PHALCON_INIT_NVAR(sub_compilation);
+					PHALCON_CALL_FUNC_PARAMS_1(sub_compilation, "file_get_contents", compiled_path);
+				}
+	
 				phalcon_concat_self(&compilation, sub_compilation TSRMLS_CC);
 				break;
 	
 			case 314:
 				PHALCON_OBS_NVAR(key);
 				phalcon_array_fetch_quick_string(&key, statement, SS("key"), 2090432846UL, PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $cacheKey", key, " = $this->di['viewCache']->start('", key, "'); if ($cacheKey", key, " === null) { ?>");
+				PHALCON_SCONCAT_SVS(compilation, "<?php $_cache", key, " = $this->di->get('viewCache'); ");
+				PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey", key, " = $_cache", key, "->start('", key, "'); ");
+				PHALCON_SCONCAT_SVS(compilation, "if ($_cacheKey", key, " === null) { ?>");
 				PHALCON_OBS_NVAR(block_statements);
 				phalcon_array_fetch_quick_string(&block_statements, statement, SS("block_statements"), 883954391UL, PH_NOISY_CC);
 	
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CALL_METHOD_PARAMS_2_KEY(code, this_ptr, "_statementlist", block_statements, extends_mode, 1357145205UL);
 				phalcon_concat_self(&compilation, code TSRMLS_CC);
+	
 				if (phalcon_array_isset_quick_string(statement, SS("lifetime"), 2639810228UL)) {
 					PHALCON_OBS_NVAR(lifetime);
 					phalcon_array_fetch_quick_string(&lifetime, statement, SS("lifetime"), 2639810228UL, PH_NOISY_CC);
-					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $this->di['viewCache']->save('", key, "', null, ", lifetime, "); } else { echo $cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache", key, "->save('", key, "', null, ", lifetime, "); ");
+					PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey", key, "; } ?>");
 				} else {
-					PHALCON_SCONCAT_SVSVS(compilation, "<?php $this->di['viewCache']->save('", key, "'); } else { echo $cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache", key, "->save('", key, "'); } else { echo $_cacheKey", key, "; } ?>");
 				}
 	
 				break;
