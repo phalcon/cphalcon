@@ -1186,9 +1186,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_gethasoneandha
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_getrelations, 0, 0, 2)
-	ZEND_ARG_INFO(0, first)
-	ZEND_ARG_INFO(0, second)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_getrelations, 0, 0, 1)
+	ZEND_ARG_INFO(0, modelName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_getrelationsbetween, 0, 0, 2)
+	ZEND_ARG_INFO(0, firstModel)
+	ZEND_ARG_INFO(0, secondModel)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_managerinterface_createquery, 0, 0, 1)
@@ -1239,6 +1243,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_managerinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, getHasOne, arginfo_phalcon_mvc_model_managerinterface_gethasone)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany, arginfo_phalcon_mvc_model_managerinterface_gethasoneandhasmany)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, getRelations, arginfo_phalcon_mvc_model_managerinterface_getrelations)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween, arginfo_phalcon_mvc_model_managerinterface_getrelationsbetween)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, createQuery, arginfo_phalcon_mvc_model_managerinterface_createquery)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, executeQuery, arginfo_phalcon_mvc_model_managerinterface_executequery)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ManagerInterface, createBuilder, arginfo_phalcon_mvc_model_managerinterface_createbuilder)
@@ -8399,6 +8404,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations);
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery);
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder);
@@ -8554,7 +8560,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0,
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 0, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 0, 1)
+	ZEND_ARG_INFO(0, modelName)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationsbetween, 0, 0, 2)
 	ZEND_ARG_INFO(0, first)
 	ZEND_ARG_INFO(0, second)
 ZEND_END_ARG_INFO()
@@ -8606,6 +8616,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasOne, arginfo_phalcon_mvc_model_manager_gethasone, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany, arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, getRelations, arginfo_phalcon_mvc_model_manager_getrelations, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Manager, getRelationsBetween, arginfo_phalcon_mvc_model_manager_getrelationsbetween, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, createQuery, arginfo_phalcon_mvc_model_manager_createquery, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, executeQuery, arginfo_phalcon_mvc_model_manager_executequery, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Manager, createBuilder, arginfo_phalcon_mvc_model_manager_createbuilder, ZEND_ACC_PUBLIC) 
