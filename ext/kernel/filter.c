@@ -118,7 +118,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 void phalcon_is_basic_charset(zval *return_value, zval *param){
 
 	unsigned int i;
-	unsigned char ch;
+	char ch;
 	int iso88591 = 0;
 
 	for (i=0; i < Z_STRLEN_P(param); i++) {
@@ -126,7 +126,7 @@ void phalcon_is_basic_charset(zval *return_value, zval *param){
 		if (ch == 172 || (ch >= 128 && ch <= 159)) {
 			continue;
 		}
-		if (ch >= 160 && ch <= 255) {
+		if (ch >= 160 && ch < 255) {
 			iso88591 = 1;
 			continue;
 		}
@@ -171,6 +171,9 @@ char *phalcon_longtohex(unsigned long value) {
 	return estrndup(ptr, end - ptr);
 }
 
+/**
+ * Perform escaping of non-alphanumeric characters to different formats
+ */
 void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra){
 
 	unsigned int i;
@@ -266,7 +269,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		smart_str_appendl(&escaped_str, escape_char, escape_length);
 		smart_str_appendl(&escaped_str, hex, sizeof(hex)-1);
 		if (escape_extra != '\0') {
-			smart_str_appendc(&escaped_str, ' ');
+			smart_str_appendc(&escaped_str, escape_extra);
 		}
 
 		efree(hex);
@@ -287,14 +290,23 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 
 }
 
+/**
+ * Escapes non-alphanumeric characters to \HH+space
+ */
 void phalcon_escape_css(zval *return_value, zval *param) {
 	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ');
 }
 
+/**
+ * Escapes non-alphanumeric characters to \xHH+
+ */
 void phalcon_escape_js(zval *return_value, zval *param) {
 	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0');
 }
 
+/**
+ * Escapes non-alphanumeric characters to &xHH;
+ */
 void phalcon_escape_htmlattr(zval *return_value, zval *param) {
 	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';');
 }
