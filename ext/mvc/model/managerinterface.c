@@ -75,6 +75,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
 
@@ -86,6 +87,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
 
@@ -97,6 +99,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
 

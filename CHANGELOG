@@ -1,3 +1,6 @@
+0.8.0b1
+ - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)
+
 0.8.0a2
  - Added support for behaviors in the ORM including: Phalcon\Mvc\Model\Behavior\Timestampable and Phalcon\Mvc\Model\Behavior\SoftDelete
  - Improved serialization of Mvc\Model instances and complex resultsets
