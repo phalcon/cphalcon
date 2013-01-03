@@ -155,10 +155,26 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 	return result;
 }
 
+char *phalcon_longtohex(unsigned long value) {
+
+	static char digits[] = "0123456789abcdef";
+	char buf[(sizeof(unsigned long) << 3) + 1];
+	char *ptr, *end;
+
+	end = ptr = buf + sizeof(buf) - 1;
+	*ptr = '\0';
+	do {
+		*--ptr = digits[value % 16];
+		value /= 16;
+	} while (ptr > buf && value);
+
+	return estrndup(ptr, end - ptr);
+}
+
 void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra){
 
 	unsigned int i;
-	zval copy, long_temp;
+	zval copy;
 	smart_str escaped_str = {0};
 	char machine_little_endian, *hex;
 	int big_endian_long_map[4];
@@ -242,8 +258,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		/**
 		 * Convert character to hexadecimal
 		 */
-		ZVAL_LONG(&long_temp, value);
-		hex = _php_math_longtobase(&long_temp, 16);
+		hex = phalcon_longtohex(value);
 
 		/**
 		 * Append the escaped character
