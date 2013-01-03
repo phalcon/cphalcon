@@ -40,7 +40,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	protected function _getCache(){
+	protected function _getCache($adapter='File'){
 
 		@unlink('unit-tests/cache/testresultset');
 
@@ -65,9 +65,23 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 			'lifetime' => 3600
 		));
 
-		$cache = new Phalcon\Cache\Backend\File($frontCache, array(
-			'cacheDir' => 'unit-tests/cache/'
-		));
+		switch ($adapter) {
+			case 'File':
+				$cache = new Phalcon\Cache\Backend\File($frontCache, array(
+					'cacheDir' => 'unit-tests/cache/'
+				));
+				break;
+			case 'Memcached':
+				$cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
+					"host" => "localhost",
+					"port" => "11211"
+				));
+				break;
+			default:
+				throw new Exception("Unknown cache adapter");
+		}
+
+		$di->set('modelsCache', $cache);
 
 		$this->_di = $di;
 
@@ -176,6 +190,26 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($results), 3);
 		$this->assertEquals($results->count(), 3);
 
+	}
+
+	public function testCacheResultsetSimpleMemcached()
+	{
+
+		$cache = $this->_getCache('Memcached');
+
+		$key = 'test-resultset-'.mt_rand(0, 9999);
+
+		$people = People::findFirst(array(
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$this->assertTrue(is_object($people));
+
+		$people = $cache->get($key);
+
+		$this->assertEquals(get_class($people), 'People');
 	}
 
 }

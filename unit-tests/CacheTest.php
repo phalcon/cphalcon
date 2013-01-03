@@ -156,10 +156,8 @@ class CacheTest extends PHPUnit_Framework_TestCase
 			return false;
 		}
 
-		return false;
-
 		$memcache = new Memcache();
-		$this->assertFalse(!$memcache->connect('127.0.0.1', 11211));
+		$this->assertFalse(!$memcache->connect('127.0.0.1'));
 
 		return $memcache;
 	}

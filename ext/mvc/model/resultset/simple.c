@@ -254,10 +254,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 				 */
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
+				phalcon_update_property_zval(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
+				/** 
+				 * Update the row count
+				 */
 				PHALCON_INIT_VAR(row_count);
 				phalcon_fast_count(row_count, records TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_rows"), row_count TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
 			}
 		}
 	}

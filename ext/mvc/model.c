@@ -821,7 +821,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset, *record;
+	zval *unique, *resultset;
 
 	PHALCON_MM_GROW();
 
@@ -890,19 +890,21 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "cache", cache);
 	}
 	
+	PHALCON_INIT_VAR(unique);
+	ZVAL_BOOL(unique, 1);
+	
+	/** 
+	 * Return only the first row
+	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setuniquerow", unique);
+	
 	/** 
 	 * Execute the query passing the bind-params and casting-types
 	 */
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types);
 	
-	/** 
-	 * Return only the first record
-	 */
-	PHALCON_INIT_VAR(record);
-	PHALCON_CALL_METHOD(record, resultset, "getfirst");
-	
-	RETURN_CCTOR(record);
+	RETURN_CCTOR(resultset);
 }
 
 /**

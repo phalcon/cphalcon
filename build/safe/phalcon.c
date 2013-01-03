@@ -26545,10 +26545,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 	
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
+				phalcon_update_property_zval(this_ptr, SL("_rows"), records TSRMLS_CC);
 	
 				PHALCON_INIT_VAR(row_count);
 				phalcon_fast_count(row_count, records TSRMLS_CC);
-				phalcon_update_property_zval(this_ptr, SL("_rows"), row_count TSRMLS_CC);
+				phalcon_update_property_zval(this_ptr, SL("_count"), row_count TSRMLS_CC);
 			}
 		}
 	}
@@ -28323,6 +28324,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query){
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_modelsInstances"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_cacheOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_query_ce, SL("_uniqueRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_SELECT"), 309 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_model_query_ce, SL("TYPE_INSERT"), 306 TSRMLS_CC);
@@ -28402,6 +28404,24 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
 
 
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
+
+	zval *unique_row;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &unique_row) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow){
+
+
+	RETURN_MEMBER(this_ptr, "_uniqueRow");
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
@@ -31813,7 +31833,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	zval *bind_params = NULL, *bind_types = NULL, *cache_options;
 	zval *key, *lifetime = NULL, *cache_service = NULL, *dependency_injector;
 	zval *cache, *result = NULL, *is_fresh, *intermediate;
-	zval *type, *exception_message;
+	zval *type, *exception_message, *unique_row;
+	zval *prepared_result = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -31926,17 +31947,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 	}
 	
+	PHALCON_OBS_VAR(unique_row);
+	phalcon_read_property(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
+	if (zend_is_true(unique_row)) {
+		PHALCON_INIT_VAR(prepared_result);
+		PHALCON_CALL_METHOD(prepared_result, result, "getfirst");
+	} else {
+		PHALCON_CPY_WRT(prepared_result, result);
+	}
+	
 	if (Z_TYPE_P(cache_options) != IS_NULL) {
 	
 		if (!phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, result, lifetime);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, prepared_result, lifetime);
 	}
 	
 	
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(prepared_result);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
@@ -58996,7 +59026,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 
 	zval *parameters = NULL, *model_name, *params = NULL, *builder;
 	zval *one, *query, *bind_params = NULL, *bind_types = NULL, *cache;
-	zval *resultset, *record;
+	zval *unique, *resultset;
 
 	PHALCON_MM_GROW();
 
@@ -59053,13 +59083,15 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst){
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "cache", cache);
 	}
 	
+	PHALCON_INIT_VAR(unique);
+	ZVAL_BOOL(unique, 1);
+	
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(query, "setuniquerow", unique);
+	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_METHOD_PARAMS_2(resultset, query, "execute", bind_params, bind_types);
 	
-	PHALCON_INIT_VAR(record);
-	PHALCON_CALL_METHOD(record, resultset, "getfirst");
-	
-	RETURN_CCTOR(record);
+	RETURN_CCTOR(resultset);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model, query){
