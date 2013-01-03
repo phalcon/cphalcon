@@ -4161,11 +4161,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeDelete){
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 
-	zval *bind_params = NULL, *bind_types = NULL, *cache_options;
-	zval *key, *lifetime = NULL, *cache_service = NULL, *dependency_injector;
-	zval *cache, *result = NULL, *is_fresh, *intermediate;
-	zval *type, *exception_message, *unique_row;
-	zval *prepared_result = NULL;
+	zval *bind_params = NULL, *bind_types = NULL, *unique_row;
+	zval *cache_options, *key, *lifetime = NULL, *cache_service = NULL;
+	zval *dependency_injector, *cache, *result = NULL, *is_fresh;
+	zval *prepared_result = NULL, *intermediate, *type;
+	zval *exception_message;
 
 	PHALCON_MM_GROW();
 
@@ -4180,6 +4180,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	if (!bind_types) {
 		PHALCON_INIT_VAR(bind_types);
 	}
+	
+	PHALCON_OBS_VAR(unique_row);
+	phalcon_read_property(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
 	
 	PHALCON_OBS_VAR(cache_options);
 	phalcon_read_property(&cache_options, this_ptr, SL("_cacheOptions"), PH_NOISY_CC);
@@ -4227,25 +4230,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 		PHALCON_INIT_VAR(cache);
 		PHALCON_CALL_METHOD_PARAMS_1(cache, dependency_injector, "getshared", cache_service);
-		if (Z_TYPE_P(cache) == IS_OBJECT) {
-	
-			PHALCON_INIT_VAR(result);
-			PHALCON_CALL_METHOD_PARAMS_2(result, cache, "get", key, lifetime);
-			if (Z_TYPE_P(result) != IS_NULL) {
-				if (Z_TYPE_P(result) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
-					return;
-				}
-	
-				PHALCON_INIT_VAR(is_fresh);
-				ZVAL_BOOL(is_fresh, 0);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setisfresh", is_fresh);
-	
-				RETURN_CCTOR(result);
-			}
-		} else {
+		if (Z_TYPE_P(cache) != IS_OBJECT) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache service must be an object");
 			return;
+		}
+	
+		PHALCON_INIT_VAR(result);
+		PHALCON_CALL_METHOD_PARAMS_2(result, cache, "get", key, lifetime);
+		if (Z_TYPE_P(result) != IS_NULL) {
+			if (Z_TYPE_P(result) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The cache didn't return a valid resultset");
+				return;
+			}
+	
+			PHALCON_INIT_VAR(is_fresh);
+			ZVAL_BOOL(is_fresh, 0);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(result, "setisfresh", is_fresh);
+	
+			/** 
+			 * Check if only the first row must be returned
+			 */
+			if (zend_is_true(unique_row)) {
+				PHALCON_INIT_VAR(prepared_result);
+				PHALCON_CALL_METHOD(prepared_result, result, "getfirst");
+			} else {
+				PHALCON_CPY_WRT(prepared_result, result);
+			}
+	
+	
+			RETURN_CCTOR(prepared_result);
 		}
 	
 		phalcon_update_property_zval(this_ptr, SL("_cache"), cache TSRMLS_CC);
@@ -4291,18 +4304,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	}
 	
 	/** 
-	 * Check if only the first row must be returned
-	 */
-	PHALCON_OBS_VAR(unique_row);
-	phalcon_read_property(&unique_row, this_ptr, SL("_uniqueRow"), PH_NOISY_CC);
-	if (zend_is_true(unique_row)) {
-		PHALCON_INIT_VAR(prepared_result);
-		PHALCON_CALL_METHOD(prepared_result, result, "getfirst");
-	} else {
-		PHALCON_CPY_WRT(prepared_result, result);
-	}
-	
-	/** 
 	 * We store the resultset in the cache if any
 	 */
 	if (Z_TYPE_P(cache_options) != IS_NULL) {
@@ -4314,7 +4315,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, prepared_result, lifetime);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(cache, "save", key, result, lifetime);
+	}
+	
+	/** 
+	 * Check if only the first row must be returned
+	 */
+	if (zend_is_true(unique_row)) {
+		PHALCON_INIT_NVAR(prepared_result);
+		PHALCON_CALL_METHOD(prepared_result, result, "getfirst");
+	} else {
+		PHALCON_CPY_WRT(prepared_result, result);
 	}
 	
 	

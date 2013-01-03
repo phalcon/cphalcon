@@ -118,7 +118,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 void phalcon_is_basic_charset(zval *return_value, zval *param){
 
 	unsigned int i;
-	char ch;
+	unsigned int ch;
 	int iso88591 = 0;
 
 	for (i=0; i < Z_STRLEN_P(param); i++) {
@@ -126,7 +126,7 @@ void phalcon_is_basic_charset(zval *return_value, zval *param){
 		if (ch == 172 || (ch >= 128 && ch <= 159)) {
 			continue;
 		}
-		if (ch >= 160 && ch < 255) {
+		if (ch >= 160 && ch <= 255) {
 			iso88591 = 1;
 			continue;
 		}
@@ -267,7 +267,7 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		 * Append the escaped character
 		 */
 		smart_str_appendl(&escaped_str, escape_char, escape_length);
-		smart_str_appendl(&escaped_str, hex, sizeof(hex)-1);
+		smart_str_appendl(&escaped_str, hex, strlen(hex));
 		if (escape_extra != '\0') {
 			smart_str_appendc(&escaped_str, escape_extra);
 		}
