@@ -199,6 +199,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$key = 'test-resultset-'.mt_rand(0, 9999);
 
+		//Single
 		$people = People::findFirst(array(
 			'cache' => array(
 				'key' => $key
@@ -208,8 +209,40 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_object($people));
 
 		$people = $cache->get($key);
-
 		$this->assertEquals(get_class($people), 'People');
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people), 'People');
+
+		$key = 'test-resultset-'.mt_rand(0, 9999);
+
+		//Multiple
+		$people = People::find(array(
+			'limit' => 35,
+			'cache' => array(
+				'key' => $key
+			)
+		));
+
+		$number = 0;
+		foreach ($people as $individual) {
+			$this->assertTrue(is_object($individual));
+			$number++;
+		}
+		$this->assertEquals($number, 35);
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$number = 0;
+		foreach ($people as $individual) {
+			$this->assertTrue(is_object($individual));
+			$number++;
+		}
+		$this->assertEquals($number, 35);
+
+		$people = $cache->get($key);
+		$this->assertEquals(get_class($people), 'Phalcon\Mvc\Model\Resultset\Simple');
 	}
 
 }

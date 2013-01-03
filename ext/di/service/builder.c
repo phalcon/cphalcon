@@ -60,7 +60,7 @@ PHALCON_INIT_CLASS(Phalcon_DI_Service_Builder){
 /**
  * Resolves a constructor/call parameter
  *
- * @param Phalcon\DiService $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param int $position
  * @param array $argument
  * @return mixed
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 /**
  * Resolves an array of parameters
  *
- * @param Phalcon\DiService $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param array $arguments
  * @return arguments
  */
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 /**
  * Builds a service using a complex service definition
  *
- * @param Phalcon\DiService $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param array $definition
  * @param array $parameters
  * @return mixed
