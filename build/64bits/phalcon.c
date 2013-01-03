@@ -1351,6 +1351,14 @@ void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned 
 void phalcon_filter_alphanum(zval *return_value, zval *param);
 void phalcon_filter_identifier(zval *return_value, zval *param);
 
+/** Encoding */
+void phalcon_is_basic_charset(zval *return_value, zval *param);
+
+/** Escaping */
+void phalcon_escape_css(zval *return_value, zval *param);
+void phalcon_escape_js(zval *return_value, zval *param);
+void phalcon_escape_htmlattr(zval *return_value, zval *param);
+
 
 
 /** Operators */
@@ -6221,7 +6229,8 @@ void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned 
 
 void phalcon_filter_alphanum(zval *return_value, zval *param){
 
-	int i, ch;
+	unsigned int i;
+	unsigned char ch;
 	smart_str filtered_str = {0};
 	zval copy;
 	int use_copy = 0;
@@ -6256,7 +6265,8 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 
 void phalcon_filter_identifier(zval *return_value, zval *param){
 
-	int i, ch;
+	unsigned int i;
+	unsigned char ch;
 	zval copy;
 	smart_str filtered_str = {0};
 	int use_copy = 0;
@@ -6288,6 +6298,168 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 		RETURN_EMPTY_STRING();
 	}
 
+}
+
+void phalcon_is_basic_charset(zval *return_value, zval *param){
+
+	unsigned int i;
+	unsigned char ch;
+	int iso88591 = 0;
+
+	for (i=0; i < Z_STRLEN_P(param); i++) {
+		ch = Z_STRVAL_P(param)[i];
+		if (ch == 172 || (ch >= 128 && ch <= 159)) {
+			continue;
+		}
+		if (ch >= 160 && ch <= 255) {
+			iso88591 = 1;
+			continue;
+		}
+		RETURN_FALSE;
+	}
+
+	if (!iso88591) {
+		RETURN_STRING("ASCII", 1);
+	}
+
+	RETURN_STRING("ISO-8859-1", 1);
+}
+
+static long phalcon_unpack(char *data, int size, int issigned, int *map)
+{
+	long result;
+	char *cresult = (char *) &result;
+	int i;
+
+	result = issigned ? -1 : 0;
+
+	for (i = 0; i < size; i++) {
+		cresult[map[i]] = *data++;
+	}
+
+	return result;
+}
+
+char *phalcon_longtohex(unsigned long value) {
+
+	static char digits[] = "0123456789abcdef";
+	char buf[(sizeof(unsigned long) << 3) + 1];
+	char *ptr, *end;
+
+	end = ptr = buf + sizeof(buf) - 1;
+	*ptr = '\0';
+	do {
+		*--ptr = digits[value % 16];
+		value /= 16;
+	} while (ptr > buf && value);
+
+	return estrndup(ptr, end - ptr);
+}
+
+void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra){
+
+	unsigned int i;
+	zval copy;
+	smart_str escaped_str = {0};
+	char machine_little_endian, *hex;
+	int big_endian_long_map[4];
+	int use_copy = 0, machine_endian_check = 1;
+	int issigned = 0;
+	long value;
+
+	if (Z_TYPE_P(param) != IS_STRING) {
+		zend_make_printable_zval(param, &copy, &use_copy);
+		if (use_copy) {
+			param = &copy;
+		}
+	}
+
+	if (Z_STRLEN_P(param) <= 0) {
+		RETURN_FALSE;
+	}
+
+	machine_little_endian = ((char *) &machine_endian_check)[0];
+	if (machine_little_endian) {
+		big_endian_long_map[0] = 3;
+		big_endian_long_map[1] = 2;
+		big_endian_long_map[2] = 1;
+		big_endian_long_map[3] = 0;
+	} else {
+		int size = sizeof(Z_LVAL_P(param));
+		big_endian_long_map[0] = size - 4;
+		big_endian_long_map[1] = size - 3;
+		big_endian_long_map[2] = size - 2;
+		big_endian_long_map[3] = size - 1;
+	}
+
+	if ((Z_STRLEN_P(param) % 4) != 0) {
+		RETURN_FALSE;
+	}
+
+	for (i = 0; i < Z_STRLEN_P(param); i+=4) {
+
+		issigned = Z_STRVAL_P(param)[i] & 0x80;
+
+		value = 0;
+		if (sizeof(long) > 4 && issigned) {
+			value = ~INT_MAX;
+		}
+
+		value |= phalcon_unpack(&Z_STRVAL_P(param)[i], 4, issigned, big_endian_long_map);
+		if (sizeof(long) > 4) {
+			value = (unsigned int) value;
+		}
+
+		if (value == '\0') {
+			RETURN_FALSE;
+		}
+
+		if ((value >= 'A' && value <= 'Z') || (value >= 'a' && value <= 'z')) {
+			smart_str_appendc(&escaped_str, (unsigned char) value);
+			continue;
+		}
+
+		if (value >= '0' && value <= '9') {
+			smart_str_appendc(&escaped_str, (unsigned char) value);
+			continue;
+		}
+
+		hex = phalcon_longtohex(value);
+
+		smart_str_appendl(&escaped_str, escape_char, escape_length);
+		smart_str_appendl(&escaped_str, hex, sizeof(hex)-1);
+		if (escape_extra != '\0') {
+			smart_str_appendc(&escaped_str, ' ');
+		}
+
+		efree(hex);
+	}
+
+	if (use_copy) {
+		zval_dtor(param);
+	}
+
+	smart_str_0(&escaped_str);
+
+	if (escaped_str.len) {
+		RETURN_STRINGL(escaped_str.c, escaped_str.len, 0);
+	} else {
+		smart_str_free(&escaped_str);
+		RETURN_EMPTY_STRING();
+	}
+
+}
+
+void phalcon_escape_css(zval *return_value, zval *param) {
+	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ');
+}
+
+void phalcon_escape_js(zval *return_value, zval *param) {
+	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0');
+}
+
+void phalcon_escape_htmlattr(zval *return_value, zval *param) {
+	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';');
 }
 
 
@@ -21233,9 +21405,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 
 	zval *dependency_injector, *position, *argument;
 	zval *exception_message = NULL, *type, *name = NULL, *value = NULL, *instance_arguments;
-	zval *i0 = NULL, *i1 = NULL;
-	zval *c0 = NULL, *c1 = NULL;
-	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
@@ -21268,15 +21437,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(i0);
-			object_init_ex(i0, ce0);
-			if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(c0);
-				ZVAL_STRING(c0, "The dependency injector container is not valid", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", c0);
-			}
-			phalcon_throw_exception(i0 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 			return;
 		}
 	
@@ -21311,15 +21472,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 			return;
 		}
 		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-			ce1 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(i1);
-			object_init_ex(i1, ce1);
-			if (phalcon_has_constructor(i1 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(c1);
-				ZVAL_STRING(c1, "The dependency injector container is not valid", 1);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i1, "__construct", c1);
-			}
-			phalcon_throw_exception(i1 TSRMLS_CC);
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "The dependency injector container is not valid");
 			return;
 		}
 	
@@ -23330,6 +23483,97 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 	
 }
 
+PHP_METHOD(Phalcon_Escaper, detectEncoding){
+
+	zval *str, *charset = NULL, *strict_check, *detected = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(charset);
+	phalcon_is_basic_charset(charset, str);
+	if (Z_TYPE_P(charset) == IS_STRING) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_VAR(strict_check);
+	ZVAL_BOOL(strict_check, 1);
+	
+	PHALCON_INIT_NVAR(charset);
+	ZVAL_STRING(charset, "UTF-32", 1);
+	
+	PHALCON_INIT_VAR(detected);
+	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	if (zend_is_true(detected)) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_NVAR(charset);
+	ZVAL_STRING(charset, "UTF-16", 1);
+	
+	PHALCON_INIT_NVAR(detected);
+	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	if (zend_is_true(detected)) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_NVAR(charset);
+	ZVAL_STRING(charset, "UTF-8", 1);
+	
+	PHALCON_INIT_NVAR(detected);
+	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	if (zend_is_true(detected)) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_NVAR(charset);
+	ZVAL_STRING(charset, "ISO-8859-1", 1);
+	
+	PHALCON_INIT_NVAR(detected);
+	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	if (zend_is_true(detected)) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_NVAR(charset);
+	ZVAL_STRING(charset, "ASCII", 1);
+	
+	PHALCON_INIT_NVAR(detected);
+	PHALCON_CALL_FUNC_PARAMS_3(detected, "mb_detect_encoding", str, charset, strict_check);
+	if (zend_is_true(detected)) {
+		RETURN_CTOR(charset);
+	}
+	
+	PHALCON_INIT_NVAR(charset);
+	PHALCON_CALL_FUNC_PARAMS_1(charset, "mb_detect_encoding", str);
+	
+	RETURN_CCTOR(charset);
+}
+
+PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
+
+	zval *str, *encoding, *charset, *encoded;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &str) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(encoding);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(encoding, this_ptr, "detectencoding", str, 5116643067360444677UL);
+	
+	PHALCON_INIT_VAR(charset);
+	ZVAL_STRING(charset, "UTF-32", 1);
+	
+	PHALCON_INIT_VAR(encoded);
+	PHALCON_CALL_FUNC_PARAMS_3(encoded, "mb_convert_encoding", str, charset, encoding);
+	RETURN_CCTOR(encoded);
+}
+
 PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 	zval *text, *html_quote_type, *encoding, *escaped;
@@ -23359,66 +23603,33 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 
-	zval *text, *html_quote_type, *encoding, *escaped;
+	zval *attribute, *normalized, *sanitized;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &text) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &attribute) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(html_quote_type);
-	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(encoding);
-	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(escaped);
-	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
-	RETURN_CCTOR(escaped);
-}
-
-PHP_METHOD(Phalcon_Escaper, cssSanitize){
-
-	zval *matches, *chr, *length, *ord = NULL, *format, *css_sanitize;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &matches) == FAILURE) {
-		RETURN_MM_NULL();
+	if (Z_TYPE_P(attribute) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The HTML string must be string");
+		return;
 	}
-
-	if (Z_TYPE_P(matches) == IS_ARRAY) { 
-		if (phalcon_array_isset_long(matches, 0)) {
+	if (zend_is_true(attribute)) {
+		PHALCON_INIT_VAR(normalized);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", attribute, 16805794311876743261UL);
 	
-			PHALCON_OBS_VAR(chr);
-			phalcon_array_fetch_long(&chr, matches, 0, PH_NOISY_CC);
-	
-			PHALCON_INIT_VAR(length);
-			phalcon_fast_strlen(length, chr);
-			if (phalcon_compare_strict_long(length, 1 TSRMLS_CC)) {
-				PHALCON_INIT_VAR(ord);
-				PHALCON_CALL_FUNC_PARAMS_1(ord, "ord", chr);
-			} else {
-				PHALCON_INIT_NVAR(ord);
-				PHALCON_CALL_FUNC_PARAMS_1(ord, "hexdec", chr);
-			}
-	
-			PHALCON_INIT_VAR(format);
-			ZVAL_STRING(format, "\\%X ", 1);
-	
-			PHALCON_INIT_VAR(css_sanitize);
-			PHALCON_CALL_FUNC_PARAMS_2(css_sanitize, "sprintf", format, ord);
-	
-			RETURN_CCTOR(css_sanitize);
-		}
+		PHALCON_INIT_VAR(sanitized);
+		phalcon_escape_htmlattr(sanitized, normalized);
+		RETURN_CTOR(sanitized);
 	}
+	
 	RETURN_MM_NULL();
 }
 
 PHP_METHOD(Phalcon_Escaper, escapeCss){
 
-	zval *css, *pattern, *callback, *sanitized;
+	zval *css, *normalized, *sanitized;
 
 	PHALCON_MM_GROW();
 
@@ -23431,17 +23642,38 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 		return;
 	}
 	if (zend_is_true(css)) {
-		PHALCON_INIT_VAR(pattern);
-		ZVAL_STRING(pattern, "/[^a-z0-9]/iSu", 1);
-	
-		PHALCON_INIT_VAR(callback);
-		array_init_size(callback, 2);
-		phalcon_array_append(&callback, this_ptr, PH_SEPARATE TSRMLS_CC);
-		add_next_index_stringl(callback, SL("cssSanitize"), 1);
+		PHALCON_INIT_VAR(normalized);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", css, 16805794311876743261UL);
 	
 		PHALCON_INIT_VAR(sanitized);
-		PHALCON_CALL_FUNC_PARAMS_3(sanitized, "preg_replace_callback", pattern, callback, css);
-		RETURN_CCTOR(sanitized);
+		phalcon_escape_css(sanitized, normalized);
+		RETURN_CTOR(sanitized);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Escaper, escapeJs){
+
+	zval *js, *normalized, *sanitized;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &js) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(js) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The Javascript string must be string");
+		return;
+	}
+	if (zend_is_true(js)) {
+		PHALCON_INIT_VAR(normalized);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", js, 16805794311876743261UL);
+	
+		PHALCON_INIT_VAR(sanitized);
+		phalcon_escape_js(sanitized, normalized);
+		RETURN_CTOR(sanitized);
 	}
 	
 	RETURN_MM_NULL();
@@ -33693,6 +33925,112 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany){
 
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 
+	zval *model_name, *entity_name, *all_relations;
+	zval *belongs_to, *relations = NULL, *relation = NULL, *has_many;
+	zval *has_one;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &model_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(entity_name);
+	phalcon_fast_strtolower(entity_name, model_name);
+	
+	PHALCON_INIT_VAR(all_relations);
+	array_init(all_relations);
+	
+	PHALCON_OBS_VAR(belongs_to);
+	phalcon_read_property(&belongs_to, this_ptr, SL("_belongsToSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(belongs_to) == IS_ARRAY) { 
+		if (phalcon_array_isset(belongs_to, entity_name)) {
+	
+			PHALCON_OBS_VAR(relations);
+			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		}
+	}
+	
+	PHALCON_OBS_VAR(has_many);
+	phalcon_read_property(&has_many, this_ptr, SL("_hasManySingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_many) == IS_ARRAY) { 
+		if (phalcon_array_isset(has_many, entity_name)) {
+	
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah1 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
+	
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah1, &hp1);
+			}
+	
+		}
+	}
+	
+	PHALCON_OBS_VAR(has_one);
+	phalcon_read_property(&has_one, this_ptr, SL("_hasOneSingle"), PH_NOISY_CC);
+	if (Z_TYPE_P(has_one) == IS_ARRAY) { 
+		if (phalcon_array_isset(has_one, entity_name)) {
+	
+			PHALCON_OBS_NVAR(relations);
+			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
+	
+			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+				return;
+			}
+	
+			ah2 = Z_ARRVAL_P(relations);
+			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
+	
+			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(relation);
+	
+				phalcon_array_append(&all_relations, relation, PH_SEPARATE TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah2, &hp2);
+			}
+	
+		}
+	}
+	
+	
+	RETURN_CTOR(all_relations);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween){
+
 	zval *first, *second, *first_name, *second_name;
 	zval *key_relation, *belongs_to, *relations = NULL;
 	zval *has_many, *has_one;
@@ -33858,6 +34196,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface){
 
 	return SUCCESS;
 }
+
 
 
 
@@ -44909,7 +45248,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 				if (PHALCON_IS_FALSE(relation)) {
 	
 					PHALCON_INIT_NVAR(relations);
-					PHALCON_CALL_METHOD_PARAMS_2_KEY(relations, manager, "getrelations", model_name, join_model, 2281768252011143574UL);
+					PHALCON_CALL_METHOD_PARAMS_2_KEY(relations, manager, "getrelationsbetween", model_name, join_model, 11697386255018188320UL);
 					if (Z_TYPE_P(relations) == IS_ARRAY) { 
 	
 						PHALCON_INIT_NVAR(number_relations);
@@ -47929,7 +48268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, valid){
 
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 
-	zval *type, *result = NULL, *active_row, *records = NULL, *row_count;
+	zval *type, *result = NULL, *active_row = NULL, *records = NULL, *row_count;
 	zval *model, *cache, *column_map, *data, *serialized;
 
 	PHALCON_MM_GROW();
@@ -47963,6 +48302,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize){
 			PHALCON_OBS_NVAR(result);
 			phalcon_read_property(&result, this_ptr, SL("_result"), PH_NOISY_CC);
 			if (Z_TYPE_P(result) == IS_OBJECT) {
+	
+				PHALCON_OBS_NVAR(active_row);
+				phalcon_read_property(&active_row, this_ptr, SL("_activeRow"), PH_NOISY_CC);
+	
+				if (Z_TYPE_P(active_row) != IS_NULL) {
+					PHALCON_CALL_METHOD_NORETURN(result, "execute");
+				}
+	
 				PHALCON_INIT_NVAR(records);
 				PHALCON_CALL_METHOD(records, result, "fetchall");
 	
@@ -55473,13 +55820,12 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
 	
 		RETURN_CCTOR(final_uri);
-	} else {
-		PHALCON_INIT_NVAR(final_uri);
-		PHALCON_CONCAT_VV(final_uri, base_uri, uri);
-		RETURN_CCTOR(final_uri);
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_INIT_NVAR(final_uri);
+	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
+	
+	RETURN_CCTOR(final_uri);
 }
 
 PHP_METHOD(Phalcon_Mvc_Url, path){
@@ -68610,17 +68956,8 @@ PHP_METHOD(Phalcon_Text, upper){
 
 PHP_METHOD(Phalcon_Text, x){
 
-	zval *x, *b;
 
-	PHALCON_MM_GROW();
-
-	PHALCON_INIT_VAR(x);
-	ZVAL_LONG(x, 100);
 	
-	PHALCON_INIT_VAR(b);
-	ZVAL_LONG(b, 200);
-	
-	PHALCON_MM_RESTORE();
 }
 
 
