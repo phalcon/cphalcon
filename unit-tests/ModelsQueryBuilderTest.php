@@ -248,7 +248,6 @@ class ModelsQueryBuilderTest extends PHPUnit_Framework_TestCase
 						->limit(10, 5)
 						->getPhql();
 		$this->assertEquals($phql, 'SELECT [Robots].* FROM [Robots] LIMIT 10 OFFSET 5');
-
 	}
 
 }

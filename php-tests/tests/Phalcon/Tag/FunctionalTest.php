@@ -41,7 +41,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
     {
         $params = 'about/index';
 
-        $expected = '<form action="/about/index" method="post">';
+        $expected = '<form method="post" action="/about/index">';
         $actual   = Tg::form($params);
 
         $this->assertEquals(
@@ -62,7 +62,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
     {
         $params = 'somestring';
 
-        $expected = '<form action="/somestring" method="post">';
+        $expected = '<form method="post" action="/somestring">';
         $actual   = Tg::form($params);
 
         $this->assertEquals(
@@ -86,7 +86,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
             'method' => 'get',
         );
 
-        $expected = '<form action="/about/list" method="get">';
+        $expected = '<form method="get" action="/about/list">';
         $actual   = Tg::form($params);
 
         $this->assertEquals(
@@ -110,7 +110,7 @@ class Tag_FunctionalTest extends Phalcon_Test_FunctionalTestCase
             'method' => 'post',
         );
 
-        $expected = '<form action="/about/list" method="post">';
+        $expected = '<form method="post" action="/about/list">';
         $actual   = Tg::form($params);
 
         $this->assertEquals(
