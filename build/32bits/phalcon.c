@@ -57052,7 +57052,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 				phalcon_array_append(&module_params, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
 				PHALCON_INIT_NVAR(status);
-				PHALCON_CALL_USER_FUNC_ARRAY(status, module_object, module_params);
+				PHALCON_CALL_USER_FUNC_ARRAY(status, module, module_params);
 			} else {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_application_exception_ce, "Invalid module definition");
 				return;
