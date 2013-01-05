@@ -68,6 +68,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsFromInput($di);
 	}
 
 	public function testModelsPostgresql()
@@ -120,6 +121,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePeople = $people->getFirst();
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
+		//Order + limit
 		$personas = Personas::query()->where("estado='A'")->order("nombres")->limit(100)->execute();
 		$people = People::find(array(
 			"estado='A'",
@@ -132,6 +134,7 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePeople = $people->getFirst();
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
+		//Bind params + Limit
 		$personas = Personas::query()
 			->where("estado=?1")
 			->bind(array(1 => "A"))
@@ -151,11 +154,32 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePeople = $people->getFirst();
 		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
 
+		//Limit + Offset
+		$personas = Personas::query()
+			->where("estado=?1")
+			->bind(array(1 => "A"))
+			->order("nombres")
+			->limit(100, 10)
+			->execute();
+
+		$people = People::find(array(
+			"estado=?1",
+			"bind" => array(1 => "A"),
+			"order" => "nombres",
+			"limit" => array('number' => 100, 'offset' => 10)
+		));
+		$this->assertEquals(count($personas), count($people));
+
+		$somePersona = $personas->getFirst();
+		$somePeople = $people->getFirst();
+		$this->assertEquals($somePersona->cedula, $somePeople->cedula);
+
 		$personas = Personas::query()
 			->where("estado=:estado:")
 			->bind(array("estado" => "A"))
 			->order("nombres")
-			->limit(100)->execute();
+			->limit(100)
+			->execute();
 
 		$people = People::find(array(
 			"estado=:estado:",
@@ -233,6 +257,52 @@ class ModelsCriteriaTest extends PHPUnit_Framework_TestCase
 		$somePersoner = $personers->getFirst();
 		$this->assertTrue(is_object($somePersoner));
 		$this->assertEquals(get_class($somePersoner), 'Personers');
+	}
+
+	protected function _executeTestsFromInput($di)
+	{
+
+		$data = array();
+		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
+        $this->assertEquals($criteria->getParams(), NULL);
+
+        $data = array('id' => 1);
+		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
+        $this->assertEquals($criteria->getParams(), array(
+			'conditions' => 'id=:id:',
+			'bind' => array(
+				'id' => 1,
+			),
+		));
+
+		$data = array('name' => 'ol');
+		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
+        $this->assertEquals($criteria->getParams(), array(
+			'conditions' => 'name LIKE :name:',
+			'bind' => array(
+				'name' => '%ol%',
+			),
+		));
+
+		$data = array('id' => 1, 'name' => 'ol');
+		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
+		$this->assertEquals($criteria->getParams(), array(
+			'conditions' => 'id=:id: AND name LIKE :name:',
+			'bind' => array(
+				'id' => 1,
+				'name' => '%ol%',
+			)
+		));
+
+		$data = array('id' => 1, 'name' => 'ol', 'other' => true);
+		$criteria = \Phalcon\Mvc\Model\Criteria::fromInput($di, "Robots", $data);
+		$this->assertEquals($criteria->getParams(), array(
+			'conditions' => 'id=:id: AND name LIKE :name:',
+			'bind' => array(
+				'id' => 1,
+				'name' => '%ol%',
+			)
+		));
 	}
 
 }

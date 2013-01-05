@@ -501,8 +501,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getWhere){
  * Sets a ORDER BY condition clause
  *
  *<code>
- *$builder->orderBy('Robots.name');
- *$builder->orderBy(array('1', 'Robots.name'));
+ *	$builder->orderBy('Robots.name');
+ *	$builder->orderBy(array('1', 'Robots.name'));
  *</code>
  *
  * @param string $orderBy
@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy){
 }
 
 /**
- * Return the set ORDER BY clause
+ * Returns the set ORDER BY clause
  *
  * @return string|array
  */
@@ -568,8 +568,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving){
  * Sets a LIMIT clause, optionally a offset clause
  *
  *<code>
- *$builder->limit(100);
- *$builder->limit(100, 20);
+ *	$builder->limit(100);
+ *	$builder->limit(100, 20);
  *</code>
  *
  * @param int $limit
@@ -1073,9 +1073,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			if (phalcon_array_isset_string(limit, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", limit, " OFFSET ", offset);
+				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
 			} else {
-				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
 			}
 		} else {
 			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);

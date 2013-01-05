@@ -24332,9 +24332,8 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 PHP_METHOD(Phalcon_Tag, form){
 
-	zval *parameters = NULL, *params = NULL, *params_action = NULL, *dispatcher;
-	zval *controller_name, *action_name, *url, *action;
-	zval *code, *avalue = NULL, *key = NULL;
+	zval *parameters = NULL, *params = NULL, *params_action, *url;
+	zval *action, *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -24362,26 +24361,10 @@ PHP_METHOD(Phalcon_Tag, form){
 	} else {
 		PHALCON_CPY_WRT(params, parameters);
 	}
-	if (!phalcon_array_isset_long(params, 0)) {
-		if (phalcon_array_isset_string(params, SS("action"))) {
-			PHALCON_OBS_VAR(params_action);
-			phalcon_array_fetch_string(&params_action, params, SL("action"), PH_NOISY_CC);
-		} else {
-			PHALCON_INIT_VAR(dispatcher);
-			PHALCON_CALL_SELF(dispatcher, this_ptr, "getdispatcherservice");
-	
-			PHALCON_INIT_VAR(controller_name);
-			PHALCON_CALL_METHOD(controller_name, dispatcher, "getcontrollername");
-	
-			PHALCON_INIT_VAR(action_name);
-			PHALCON_CALL_METHOD(action_name, dispatcher, "getactionname");
-	
-			PHALCON_INIT_NVAR(params_action);
-			PHALCON_CONCAT_VSV(params_action, controller_name, "/", action_name);
-		}
-	} else {
-		PHALCON_OBS_NVAR(params_action);
+	if (phalcon_array_isset_long(params, 0)) {
+		PHALCON_OBS_VAR(params_action);
 		phalcon_array_fetch_long(&params_action, params, 0, PH_NOISY_CC);
+		phalcon_array_update_string(&params, SL("action"), &params_action, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	}
 	
 	if (!phalcon_array_isset_string(params, SS("method"))) {
@@ -24401,7 +24384,7 @@ PHP_METHOD(Phalcon_Tag, form){
 	}
 	
 	PHALCON_INIT_VAR(code);
-	PHALCON_CONCAT_SVS(code, "<form action=\"", action, "\"");
+	ZVAL_STRING(code, "<form", 1);
 	
 	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 		return;
@@ -37031,9 +37014,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			if (phalcon_array_isset_string(limit, SS("offset"))) {
 				PHALCON_OBS_VAR(offset);
 				phalcon_array_fetch_string(&offset, limit, SL("offset"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", limit, " OFFSET ", offset);
+				PHALCON_SCONCAT_SVSV(phql, " LIMIT ", number, " OFFSET ", offset);
 			} else {
-				PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
+				PHALCON_SCONCAT_SV(phql, " LIMIT ", number);
 			}
 		} else {
 			PHALCON_SCONCAT_SV(phql, " LIMIT ", limit);
