@@ -24332,7 +24332,7 @@ PHP_METHOD(Phalcon_Tag, textArea){
 
 PHP_METHOD(Phalcon_Tag, form){
 
-	zval *parameters = NULL, *params = NULL, *params_action, *url;
+	zval *parameters = NULL, *params = NULL, *params_action = NULL, *url;
 	zval *action, *code, *avalue = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -24364,18 +24364,27 @@ PHP_METHOD(Phalcon_Tag, form){
 	if (phalcon_array_isset_long(params, 0)) {
 		PHALCON_OBS_VAR(params_action);
 		phalcon_array_fetch_long(&params_action, params, 0, PH_NOISY_CC);
-		phalcon_array_update_quick_string(&params, SS("action"), 502132067UL, &params_action, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	} else {
+		if (phalcon_array_isset_quick_string(params, SS("action"), 502132067UL)) {
+			PHALCON_OBS_NVAR(params_action);
+			phalcon_array_fetch_quick_string(&params_action, params, SS("action"), 502132067UL, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(params_action);
+		}
 	}
 	
 	if (!phalcon_array_isset_quick_string(params, SS("method"), 3193080326UL)) {
 		phalcon_array_update_string_string(&params, SL("method"), SL("post"), PH_SEPARATE TSRMLS_CC);
 	}
 	
-	PHALCON_INIT_VAR(url);
-	PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
+	if (Z_TYPE_P(params_action) != IS_NULL) {
+		PHALCON_INIT_VAR(url);
+		PHALCON_CALL_SELF(url, this_ptr, "geturlservice");
 	
-	PHALCON_INIT_VAR(action);
-	PHALCON_CALL_METHOD_PARAMS_1_KEY(action, url, "get", params_action, 2090288933UL);
+		PHALCON_INIT_VAR(action);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(action, url, "get", params_action, 2090288933UL);
+		phalcon_array_update_quick_string(&params, SS("action"), 502132067UL, &action, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	}
 	
 	if (phalcon_array_isset_quick_string(params, SS("parameters"), 3941032889UL)) {
 		PHALCON_OBS_NVAR(parameters);
