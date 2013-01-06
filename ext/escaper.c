@@ -282,9 +282,9 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(escaped);
-	PHALCON_CALL_FUNC_PARAMS_3(escaped, "htmlspecialchars", text, html_quote_type, encoding);
+	phalcon_escape_html(escaped, text, html_quote_type, encoding);
 	
-	RETURN_CCTOR(escaped);
+	RETURN_CTOR(escaped);
 }
 
 /**

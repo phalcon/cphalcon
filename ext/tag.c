@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
  */
 PHP_METHOD(Phalcon_Tag, setDefault){
 
-	zval *id, *value, *is_scalar;
+	zval *id, *value;
 	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -221,11 +221,8 @@ PHP_METHOD(Phalcon_Tag, setDefault){
 		RETURN_MM_NULL();
 	}
 
-	if (zend_is_true(value)) {
-	
-		PHALCON_INIT_VAR(is_scalar);
-		PHALCON_CALL_FUNC_PARAMS_1(is_scalar, "is_scalar", value);
-		if (PHALCON_IS_FALSE(is_scalar)) {
+	if (Z_TYPE_P(value) != IS_NULL) {
+		if (PHALCON_IS_SCALAR(value)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "Only scalar values can be assigned to UI components");
 			return;
 		}

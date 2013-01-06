@@ -45,21 +45,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface){
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, __construct);
 
 /**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @return Phalcon\Mvc\Model\Query\BuilderInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setDI);
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getDI);
-
-/**
  * Sets the columns to be queried
  *
  * @param string|array $columns

@@ -28,3 +28,4 @@ extern void phalcon_is_basic_charset(zval *return_value, zval *param);
 extern void phalcon_escape_css(zval *return_value, zval *param);
 extern void phalcon_escape_js(zval *return_value, zval *param);
 extern void phalcon_escape_htmlattr(zval *return_value, zval *param);
+extern void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC);
