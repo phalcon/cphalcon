@@ -71,7 +71,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Collection){
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_UPDATE"), 2 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_mvc_collection_ce, SL("OP_DELETE"), 3 TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 2, phalcon_mvc_collectioninterface_ce, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_collection_ce TSRMLS_CC, 3, phalcon_mvc_collectioninterface_ce, phalcon_di_injectionawareinterface_ce, zend_ce_serializable);
 
 	return SUCCESS;
 }
@@ -1499,6 +1499,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 /**
  * Perform a count over a collection
  *
+ *<code>
+ * echo 'There are ', Robots::count(), ' robots';
+ *</code>
+ *
  * @param array $parameters
  * @return array
  */
@@ -1622,6 +1626,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		PHALCON_INIT_NVAR(status);
 		PHALCON_CALL_METHOD_PARAMS_2(status, collection, "remove", id_condition, options);
 		if (Z_TYPE_P(status) == IS_ARRAY) { 
+	
+			/** 
+			 * Check the operation status
+			 */
 			if (phalcon_array_isset_string(status, SS("ok"))) {
 	
 				PHALCON_OBS_VAR(ok);
@@ -1644,6 +1652,161 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 		RETURN_NCTOR(success);
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
+	return;
+}
+
+/**
+ * Serializes the object ignoring connections or protected properties
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, serialize){
+
+	zval *data, *reserved, *properties, *value = NULL, *key = NULL, *serialize;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(data);
+	array_init(data);
+	
+	PHALCON_INIT_VAR(reserved);
+	PHALCON_CALL_METHOD(reserved, this_ptr, "getreservedattributes");
+	
+	PHALCON_INIT_VAR(properties);
+	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
+	
+	/** 
+	 * We only assign values to the public properties
+	 */
+	
+	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
+		return;
+	}
+	
+	ah0 = Z_ARRVAL_P(properties);
+	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(value);
+	
+		if (PHALCON_COMPARE_STRING(key, "_id")) {
+			if (Z_TYPE_P(value) != IS_NULL) {
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
+		} else {
+			if (!phalcon_array_isset(reserved, key)) {
+				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			}
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	/** 
+	 * Use the standard serialize function to serialize the array data
+	 */
+	PHALCON_INIT_VAR(serialize);
+	PHALCON_CALL_FUNC_PARAMS_1(serialize, "serialize", data);
+	
+	RETURN_CCTOR(serialize);
+}
+
+/**
+ * Unserializes the object from a serialized string
+ *
+ * @param string $data
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
+
+	zval *data, *attributes, *dependency_injector;
+	zval *service, *manager, *value = NULL, *key = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	char *hash_index;
+	uint hash_index_len;
+	ulong hash_num;
+	int hash_type;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(data) == IS_STRING) {
+	
+		PHALCON_INIT_VAR(attributes);
+		PHALCON_CALL_FUNC_PARAMS_1(attributes, "unserialize", data);
+		if (Z_TYPE_P(attributes) == IS_ARRAY) { 
+	
+			/** 
+			 * Obtain the default DI
+			 */
+			PHALCON_INIT_VAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+			if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "A dependency injector container is required to obtain the services related to the ODM");
+				return;
+			}
+	
+			/** 
+			 * Update the dependency injector
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
+	
+			/** 
+			 * Gets the default modelsManager service
+			 */
+			PHALCON_INIT_VAR(service);
+			ZVAL_STRING(service, "collectionManager", 1);
+	
+			PHALCON_INIT_VAR(manager);
+			PHALCON_CALL_METHOD_PARAMS_1(manager, dependency_injector, "getshared", service);
+			if (Z_TYPE_P(manager) != IS_OBJECT) {
+				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The injected service 'collectionManager' is not valid");
+				return;
+			}
+	
+			/** 
+			 * Update the models manager
+			 */
+			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
+	
+			/** 
+			 * Update the objects attributes
+			 */
+	
+			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				return;
+			}
+	
+			ah0 = Z_ARRVAL_P(attributes);
+			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(value);
+	
+				phalcon_update_property_zval_zval(this_ptr, key, value TSRMLS_CC);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+			RETURN_MM_NULL();
+		}
+	}
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 	return;
 }
 

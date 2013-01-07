@@ -103,6 +103,21 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testOverrideLayout()
+	{
+
+		$view = new Phalcon\Mvc\View();
+
+		$view->setViewsDir('unit-tests/views/');
+
+		//Override controller layout
+		$view->start();
+		$view->setLayout('test6');
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>'.PHP_EOL);
+	}
+
 	public function testPartials()
 	{
 

@@ -54,6 +54,7 @@
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
 			<file>unit-tests/CollectionsEventsTest.php</file>
+			<file>unit-tests/CollectionsSerializeTest.php</file>
 
 			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>

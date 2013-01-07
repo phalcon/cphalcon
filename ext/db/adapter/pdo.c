@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	zend_class_entry *ce0;
+	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
@@ -144,30 +144,37 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	}
 
 	if (Z_TYPE_P(descriptor) == IS_NULL) {
-		PHALCON_OBS_VAR(descriptor);
+		PHALCON_OBS_NVAR(descriptor);
 		phalcon_read_property(&descriptor, this_ptr, SL("_descriptor"), PH_NOISY_CC);
 	}
 
+	/**
+	 * Check for a username or use null as default
+	 */
 	if (phalcon_array_isset_string(descriptor, SS("username"))) {
 		PHALCON_OBS_VAR(username);
 		phalcon_array_fetch_string(&username, descriptor, SL("username"), PH_NOISY_CC);
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("username"));
 	} else {
-		PHALCON_INIT_VAR(username);
-		ZVAL_NULL(username);
+		PHALCON_INIT_NVAR(username);
 	}
 
+	/**
+	 * Check for a password or use null as default
+	 */
 	if (phalcon_array_isset_string(descriptor, SS("password"))) {
 		PHALCON_OBS_VAR(password);
 		phalcon_array_fetch_string(&password, descriptor, SL("password"), PH_NOISY_CC);
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("password"));
 	} else {
-		PHALCON_INIT_VAR(password);
-		ZVAL_NULL(password);
+		PHALCON_INIT_NVAR(password);
 	}
 
+	/**
+	 * Check if the user has defined a custom dsn
+	 */
 	if (!phalcon_array_isset_string(descriptor, SS("dsn"))) {
 
 		PHALCON_INIT_VAR(dsn_parts);
@@ -182,24 +189,20 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
-			PHALCON_INIT_NVAR(key);
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 			PHALCON_GET_FOREACH_VALUE(value);
 
 			PHALCON_INIT_NVAR(dsn_attribute);
 			PHALCON_CONCAT_VSV(dsn_attribute, key, "=", value);
-			phalcon_array_append(&dsn_parts, dsn_attribute, 0 TSRMLS_CC);
+			phalcon_array_append(&dsn_parts, dsn_attribute, PH_SEPARATE TSRMLS_CC);
 
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 
-		PHALCON_INIT_VAR(dot_comma);
-		ZVAL_STRING(dot_comma, ";", 1);
-
 		PHALCON_INIT_VAR(dsn_attributes);
-		phalcon_fast_join(dsn_attributes, dot_comma, dsn_parts TSRMLS_CC);
+		phalcon_fast_join_str(dsn_attributes, SL(";"), dsn_parts TSRMLS_CC);
 	} else {
-		PHALCON_OBS_VAR(dsn_attributes);
+		PHALCON_OBS_NVAR(dsn_attributes);
 		phalcon_array_fetch_string(&dsn_attributes, descriptor, SL("dsn"), PH_NOISY_CC);
 	}
 
@@ -209,25 +212,42 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	PHALCON_INIT_VAR(dsn);
 	PHALCON_CONCAT_VSV(dsn, pdo_type, ":", dsn_attributes);
 
-	PHALCON_INIT_VAR(options);
-	array_init(options);
-	add_index_long(options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION);
-	add_index_long(options, PDO_ATTR_CASE, PDO_CASE_LOWER);
-	add_index_long(options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL);
+	/**
+	 * Check if the developer has defined custom options or create one from scratch
+	 */
+	if (phalcon_array_isset_string(descriptor, SS("options"))) {
+		PHALCON_OBS_VAR(options);
+		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
+	} else {
+		PHALCON_INIT_NVAR(options);
+		array_init(options);
+	}
 
+	phalcon_array_update_long_long(&options, PDO_ATTR_ERRMODE, PDO_ERRMODE_EXCEPTION, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long_long(&options, PDO_ATTR_CASE, PDO_CASE_LOWER, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE TSRMLS_CC);
+
+	/**
+	 * Check if the connection must be persistent
+	 */
 	if (phalcon_array_isset_string(descriptor, SS("persistent"))) {
+
 		PHALCON_OBS_VAR(persistent);
 		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
-			phalcon_array_update_long_bool(&options, PDO_ATTR_PERSISTENT, 1, 0 TSRMLS_CC);
+			phalcon_array_update_long_bool(&options, PDO_ATTR_PERSISTENT, 1, PH_SEPARATE TSRMLS_CC);
 		}
 	}
 
-	ce0 = zend_fetch_class(SL("PDO"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	/**
+	 * Create the connection using PDO
+	 */
+	ce = zend_fetch_class(SL("PDO"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 
 	PHALCON_INIT_VAR(pdo);
-	object_init_ex(pdo, ce0);
+	object_init_ex(pdo, ce);
 	PHALCON_CALL_METHOD_PARAMS_4_NORETURN(pdo, "__construct", dsn, username, password, options);
+
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), pdo TSRMLS_CC);
 
 	PHALCON_MM_RESTORE();

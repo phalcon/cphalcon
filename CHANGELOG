@@ -1,5 +1,9 @@
 0.8.0b1
  - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)
+ - Added serialization of Mvc\Collection instances
+ - Added Phalcon\Mvc\View::setLayout to change the layout instead of looking for a controller with the same name as the latest controller dispatched
+ - Now is possible to pass an option called 'options' to any of the Phalcon\Db\Adapter\Pdo adapters to set extra
+ PDO options in the connection
 
 0.8.0a2
  - Added support for behaviors in the ORM including: Phalcon\Mvc\Model\Behavior\Timestampable and Phalcon\Mvc\Model\Behavior\SoftDelete

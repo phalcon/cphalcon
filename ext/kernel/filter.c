@@ -54,7 +54,7 @@ void phalcon_filter_alphanum(zval *return_value, zval *param){
 
 	for (i=0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
-		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58)) {
+		if ((ch > 96 && ch < 123)||(ch > 64 && ch < 91)||(ch > 47 && ch < 58)) {
 			smart_str_appendc(&filtered_str, ch);
 		}
 	}
@@ -91,7 +91,7 @@ void phalcon_filter_identifier(zval *return_value, zval *param){
 		}
 	}
 
-	for (i = 0; i < Z_STRLEN_P(param); i++) {
+	for (i=0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if ((ch > 96 && ch < 123) || (ch > 64 && ch < 91) || (ch > 47 && ch < 58) || ch == 95) {
 			smart_str_appendc(&filtered_str, ch);
@@ -122,7 +122,7 @@ void phalcon_is_basic_charset(zval *return_value, zval *param){
 	unsigned int ch;
 	int iso88591 = 0;
 
-	for (i = 0; i < Z_STRLEN_P(param); i++) {
+	for (i=0; i < Z_STRLEN_P(param); i++) {
 		ch = Z_STRVAL_P(param)[i];
 		if (ch == 172 || (ch >= 128 && ch <= 159)) {
 			continue;
@@ -156,23 +156,20 @@ static long phalcon_unpack(char *data, int size, int issigned, int *map)
 	return result;
 }
 
-/**
- * Converts long numbers to hexadecimal strings
- */
 char *phalcon_longtohex(unsigned long value) {
 
 	static char digits[] = "0123456789abcdef";
-	char buffer[(sizeof(unsigned long) << 3) + 1];
-	char *marker, *end;
+	char buf[(sizeof(unsigned long) << 3) + 1];
+	char *ptr, *end;
 
-	end = marker = buffer + sizeof(buffer) - 1;
-	*marker = '\0';
+	end = ptr = buf + sizeof(buf) - 1;
+	*ptr = '\0';
 	do {
-		*--marker = digits[value % 16];
+		*--ptr = digits[value % 16];
 		value /= 16;
-	} while (marker > buffer && value);
+	} while (ptr > buf && value);
 
-	return estrndup(marker, end - marker);
+	return estrndup(ptr, end - ptr);
 }
 
 /**
@@ -338,6 +335,6 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 		RETURN_ZVAL(str, 1, 0);
 	}
 
-	escaped = php_escape_html_entities_ex(Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset), 1 TSRMLS_CC);
+	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
 	RETURN_STRINGL(escaped, length, 0);
 }

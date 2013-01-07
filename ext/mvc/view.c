@@ -77,6 +77,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View){
 	zend_declare_property_long(phalcon_mvc_view_ce, SL("_renderLevel"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_disabledLevels"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_ce, SL("_layout"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_layoutsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_view_ce, SL("_partialsDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_view_ce, SL("_viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -161,6 +162,10 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir){
 /**
  * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
  *
+ *<code>
+ * $view->setLayoutsDir('../common/layouts/');
+ *</code>
+ *
  * @param string $layoutsDir
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir){
@@ -188,6 +193,10 @@ PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir){
 
 /**
  * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ *
+ **<code>
+ * $view->setPartialsDir('../common/partials/');
+ *</code>
  *
  * @param string $partialsDir
  */
@@ -308,6 +317,49 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView){
 
 	phalcon_update_property_zval(this_ptr, SL("_mainView"), view_path TSRMLS_CC);
 	
+}
+
+/**
+ * Returns the name of the main view
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getMainView){
+
+
+	RETURN_MEMBER(this_ptr, "_mainView");
+}
+
+/**
+ * Change the layout to be used instead of using the name of the latest controller name
+ *
+ * <code>
+ * 	$this->view->setLayout('main');
+ * </code>
+ *
+ * @param string $layout
+ */
+PHP_METHOD(Phalcon_Mvc_View, setLayout){
+
+	zval *layout;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &layout) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_layout"), layout TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the name of the main view
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View, getLayout){
+
+
+	RETURN_MEMBER(this_ptr, "_layout");
 }
 
 /**
@@ -908,8 +960,8 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines){
 PHP_METHOD(Phalcon_Mvc_View, render){
 
 	zval *controller_name, *action_name, *params = NULL;
-	zval *disabled, *contents = NULL, *layouts_dir = NULL, *engines;
-	zval *pick_view, *render_view = NULL, *render_controller = NULL;
+	zval *disabled, *contents = NULL, *layouts_dir = NULL, *layout;
+	zval *layout_name = NULL, *engines, *pick_view, *render_view = NULL;
 	zval *pick_view_action, *cache = NULL, *cache_level;
 	zval *events_manager, *event_name = NULL, *status, *must_clean;
 	zval *silence = NULL, *disabled_levels, *render_level;
@@ -944,6 +996,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		RETURN_MM_FALSE;
 	}
 	
+	phalcon_update_property_zval(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
+	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
+	
 	/** 
 	 * Check if there is a layouts directory set
 	 */
@@ -954,9 +1010,16 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		ZVAL_STRING(layouts_dir, "layouts/", 1);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_controllerName"), controller_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_actionName"), action_name TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_params"), params TSRMLS_CC);
+	/** 
+	 * Check if the user has defined a custom layout
+	 */
+	PHALCON_OBS_VAR(layout);
+	phalcon_read_property(&layout, this_ptr, SL("_layout"), PH_NOISY_CC);
+	if (zend_is_true(layout)) {
+		PHALCON_CPY_WRT(layout_name, layout);
+	} else {
+		PHALCON_CPY_WRT(layout_name, controller_name);
+	}
 	
 	/** 
 	 * Load the template engines
@@ -972,7 +1035,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	if (Z_TYPE_P(pick_view) == IS_NULL) {
 		PHALCON_INIT_VAR(render_view);
 		PHALCON_CONCAT_VSV(render_view, controller_name, "/", action_name);
-		PHALCON_CPY_WRT(render_controller, controller_name);
 	} else {
 		/** 
 		 * The 'picked' view is an array, where the first element is controller and the
@@ -983,9 +1045,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		if (phalcon_array_isset_long(pick_view, 1)) {
 			PHALCON_OBS_VAR(pick_view_action);
 			phalcon_array_fetch_long(&pick_view_action, pick_view, 1, PH_NOISY_CC);
-			PHALCON_CPY_WRT(render_controller, pick_view_action);
-		} else {
-			PHALCON_CPY_WRT(render_controller, controller_name);
+			PHALCON_CPY_WRT(layout_name, pick_view_action);
 		}
 	}
 	
@@ -1112,7 +1172,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		if (PHALCON_IS_TRUE(enter_level)) {
 			if (!phalcon_array_isset(disabled_levels, render_level)) {
 				PHALCON_INIT_NVAR(view_temp_path);
-				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, render_controller);
+				PHALCON_CONCAT_VV(view_temp_path, layouts_dir, layout_name);
 				PHALCON_CALL_METHOD_PARAMS_5_NORETURN(this_ptr, "_enginerender", engines, view_temp_path, silence, must_clean, cache);
 			}
 		}

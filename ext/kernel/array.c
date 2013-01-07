@@ -484,6 +484,19 @@ int phalcon_array_update_long_string(zval **arr, unsigned long index, char *valu
 }
 
 /**
+ * Updates an array with a long value in a long index
+ */
+int phalcon_array_update_long_long(zval **arr, unsigned long index, long value, int flags TSRMLS_DC){
+
+	zval *zvalue;
+
+	ALLOC_INIT_ZVAL(zvalue);
+	ZVAL_LONG(zvalue, value);
+
+	return phalcon_array_update_long(arr, index, &zvalue, flags TSRMLS_CC);
+}
+
+/**
  * Updates an array with a bool value in a long index
  */
 int phalcon_array_update_long_bool(zval **arr, unsigned long index, int value, int flags TSRMLS_DC){
