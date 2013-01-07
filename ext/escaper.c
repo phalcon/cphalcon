@@ -72,6 +72,10 @@ PHALCON_INIT_CLASS(Phalcon_Escaper){
 /**
  * Sets the encoding to be used by the escaper
  *
+ *<code>
+ * $escaper->setEncoding('utf-8');
+ *</code>
+ *
  * @param string $encoding
  */
 PHP_METHOD(Phalcon_Escaper, setEnconding){
@@ -107,18 +111,29 @@ PHP_METHOD(Phalcon_Escaper, getEncoding){
 /**
  * Sets the HTML quoting type for htmlspecialchars
  *
+ *<code>
+ * $escaper->setHtmlQuoteType(ENT_XHTML);
+ *</code>
+ *
  * @param int $quoteType
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
 	zval *quote_type;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &quote_type) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(quote_type) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -270,21 +285,18 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(text) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The text must be string");
-		return;
+	if (Z_TYPE_P(text) == IS_STRING) {
+		PHALCON_OBS_VAR(html_quote_type);
+		phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(encoding);
+		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(escaped);
+		phalcon_escape_html(escaped, text, html_quote_type, encoding);
+		RETURN_CTOR(escaped);
 	}
-	
-	PHALCON_OBS_VAR(html_quote_type);
-	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(encoding);
-	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(escaped);
-	phalcon_escape_html(escaped, text, html_quote_type, encoding);
-	
-	RETURN_CTOR(escaped);
+	RETURN_MM_NULL();
 }
 
 /**
@@ -303,25 +315,22 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(attribute) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The HTML string must be string");
-		return;
-	}
-	if (zend_is_true(attribute)) {
-		/** 
-		 * Normalize encoding to UTF-32
-		 */
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", attribute);
+	if (Z_TYPE_P(attribute) == IS_STRING) {
+		if (zend_is_true(attribute)) {
+			/** 
+			 * Normalize encoding to UTF-32
+			 */
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", attribute);
 	
-		/** 
-		 * Escape the string
-		 */
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_htmlattr(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			/** 
+			 * Escape the string
+			 */
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_htmlattr(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -341,25 +350,22 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(css) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The CSS must be string");
-		return;
-	}
-	if (zend_is_true(css)) {
-		/** 
-		 * Normalize encoding to UTF-32
-		 */
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", css);
+	if (Z_TYPE_P(css) == IS_STRING) {
+		if (zend_is_true(css)) {
+			/** 
+			 * Normalize encoding to UTF-32
+			 */
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", css);
 	
-		/** 
-		 * Escape the string
-		 */
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_css(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			/** 
+			 * Escape the string
+			 */
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_css(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -379,25 +385,22 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(js) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The Javascript string must be string");
-		return;
-	}
-	if (zend_is_true(js)) {
-		/** 
-		 * Normalize encoding to UTF-32
-		 */
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", js);
+	if (Z_TYPE_P(js) == IS_STRING) {
+		if (zend_is_true(js)) {
+			/** 
+			 * Normalize encoding to UTF-32
+			 */
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1(normalized, this_ptr, "normalizeencoding", js);
 	
-		/** 
-		 * Escape the string
-		 */
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_js(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			/** 
+			 * Escape the string
+			 */
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_js(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 

@@ -103,6 +103,8 @@ class Build_Generator
 #include "ext/standard/php_filestat.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+#include "ext/standard/php_math.h"
+#include "ext/standard/html.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"

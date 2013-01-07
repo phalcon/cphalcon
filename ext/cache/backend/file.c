@@ -36,7 +36,6 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/filter.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/operators.h"
@@ -124,11 +123,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
-	zval *key_name, *lifetime = NULL, *options, *prefix, *filtered;
-	zval *prefixed_key, *cache_dir, *cache_file;
-	zval *frontend, *timestamp, *ttl = NULL, *modified_time;
-	zval *difference, *not_expired, *cached_content;
-	zval *exception_message, *processed;
+	zval *key_name, *lifetime = NULL, *options, *prefix, *prefixed_key;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content, *exception_message;
+	zval *processed;
 
 	PHALCON_MM_GROW();
 
@@ -146,11 +145,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(filtered);
-	phalcon_filter_alphanum(filtered, key_name);
-	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
@@ -219,9 +215,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 PHP_METHOD(Phalcon_Cache_Backend_File, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval *last_key = NULL, *prefix, *filtered, *frontend, *options;
-	zval *cache_dir, *cache_file, *cached_content = NULL;
-	zval *prepared_content, *status, *is_buffering;
+	zval *last_key = NULL, *prefix, *frontend, *options, *cache_dir;
+	zval *cache_file, *cached_content = NULL, *prepared_content;
+	zval *status, *is_buffering;
 
 	PHALCON_MM_GROW();
 
@@ -253,11 +249,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_filter_alphanum(filtered, key_name);
-	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, prefix, filtered);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -318,7 +311,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 
-	zval *key_name, *options, *prefix, *filtered, *prefixed_key;
+	zval *key_name, *options, *prefix, *prefixed_key;
 	zval *cache_dir, *cache_file, *success;
 
 	PHALCON_MM_GROW();
@@ -333,11 +326,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(filtered);
-	phalcon_filter_alphanum(filtered, key_name);
-	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_string(&cache_dir, options, SL("cacheDir"), PH_NOISY_CC);
@@ -439,10 +429,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
  */
 PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
-	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *filtered;
-	zval *options, *cache_dir, *cache_file, *frontend;
-	zval *timestamp, *ttl = NULL, *modified_time, *difference;
-	zval *not_expired;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *options;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 
 	PHALCON_MM_GROW();
 
@@ -465,11 +454,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_filter_alphanum(filtered, key_name);
-	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, prefix, filtered);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (zend_is_true(last_key)) {
 	

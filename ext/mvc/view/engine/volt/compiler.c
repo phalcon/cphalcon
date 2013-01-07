@@ -941,6 +941,33 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	}
 	
 	/** 
+	 * 'escapecss' filter uses the escaper component to filter css
+	 */
+	if (PHALCON_COMPARE_STRING(name, "escape_css")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeCss(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
+	 * 'escapejs' filter uses the escaper component to escape javascript
+	 */
+	if (PHALCON_COMPARE_STRING(name, "escape_js")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeJs(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
+	 * 'escapeattr' filter uses the escaper component to escape html attributes
+	 */
+	if (PHALCON_COMPARE_STRING(name, "escape_attr")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtmlAttr(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
 	 * 'trim' calls the "trim" function in the PHP userland
 	 */
 	if (PHALCON_COMPARE_STRING(name, "trim")) {
