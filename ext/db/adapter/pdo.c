@@ -119,8 +119,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, __construct){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
-	zval *descriptor = NULL, *username, *password, *dsn_parts;
-	zval *value = NULL, *key = NULL, *dsn_attribute = NULL, *dot_comma, *dsn_attributes;
+	zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts;
+	zval *value = NULL, *key = NULL, *dsn_attribute = NULL, *dsn_attributes = NULL;
 	zval *pdo_type, *dsn, *options = NULL, *persistent, *pdo;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("username"));
 	} else {
-		PHALCON_INIT_NVAR(username);
+		PHALCON_INIT_VAR(username);
 	}
 
 	/**
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("password"));
 	} else {
-		PHALCON_INIT_NVAR(password);
+		PHALCON_INIT_VAR(password);
 	}
 
 	/**
