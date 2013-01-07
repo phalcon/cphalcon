@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 	zval *descriptor = NULL, *username, *password, *dsn_parts;
 	zval *value = NULL, *key = NULL, *dsn_attribute = NULL, *dot_comma, *dsn_attributes;
-	zval *pdo_type, *dsn, *options, *persistent, *pdo;
+	zval *pdo_type, *dsn, *options = NULL, *persistent, *pdo;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_OBS_VAR(options);
 		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 		array_init(options);
 	}
 
@@ -231,7 +231,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	 * Check if the connection must be persistent
 	 */
 	if (phalcon_array_isset_string(descriptor, SS("persistent"))) {
-
 		PHALCON_OBS_VAR(persistent);
 		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
