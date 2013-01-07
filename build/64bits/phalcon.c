@@ -172,6 +172,8 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/php_filestat.h"
 #include "ext/standard/php_rand.h"
 #include "ext/standard/php_lcg.h"
+#include "ext/standard/php_math.h"
+#include "ext/standard/html.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
@@ -10799,11 +10801,11 @@ PHP_METHOD(Phalcon_Cache_Backend_File, __construct){
 
 PHP_METHOD(Phalcon_Cache_Backend_File, get){
 
-	zval *key_name, *lifetime = NULL, *options, *prefix, *filtered;
-	zval *prefixed_key, *cache_dir, *cache_file;
-	zval *frontend, *timestamp, *ttl = NULL, *modified_time;
-	zval *difference, *not_expired, *cached_content;
-	zval *exception_message, *processed;
+	zval *key_name, *lifetime = NULL, *options, *prefix, *prefixed_key;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
+	zval *cached_content, *exception_message;
+	zval *processed;
 
 	PHALCON_MM_GROW();
 
@@ -10821,11 +10823,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(filtered);
-	phalcon_filter_alphanum(filtered, key_name);
-	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	phalcon_update_property_zval(this_ptr, SL("_lastKey"), prefixed_key TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(cache_dir);
@@ -10880,9 +10879,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, get){
 PHP_METHOD(Phalcon_Cache_Backend_File, save){
 
 	zval *key_name = NULL, *content = NULL, *lifetime = NULL, *stop_buffer = NULL;
-	zval *last_key = NULL, *prefix, *filtered, *frontend, *options;
-	zval *cache_dir, *cache_file, *cached_content = NULL;
-	zval *prepared_content, *status, *is_buffering;
+	zval *last_key = NULL, *prefix, *frontend, *options, *cache_dir;
+	zval *cache_file, *cached_content = NULL, *prepared_content;
+	zval *status, *is_buffering;
 
 	PHALCON_MM_GROW();
 
@@ -10914,11 +10913,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_filter_alphanum(filtered, key_name);
-	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, prefix, filtered);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (!zend_is_true(last_key)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "The cache must be started first");
@@ -10970,7 +10966,7 @@ PHP_METHOD(Phalcon_Cache_Backend_File, save){
 
 PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 
-	zval *key_name, *options, *prefix, *filtered, *prefixed_key;
+	zval *key_name, *options, *prefix, *prefixed_key;
 	zval *cache_dir, *cache_file, *success;
 
 	PHALCON_MM_GROW();
@@ -10985,11 +10981,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, delete){
 	PHALCON_OBS_VAR(prefix);
 	phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(filtered);
-	phalcon_filter_alphanum(filtered, key_name);
-	
 	PHALCON_INIT_VAR(prefixed_key);
-	PHALCON_CONCAT_VV(prefixed_key, prefix, filtered);
+	PHALCON_CONCAT_VV(prefixed_key, prefix, key_name);
 	
 	PHALCON_OBS_VAR(cache_dir);
 	phalcon_array_fetch_quick_string(&cache_dir, options, SS("cacheDir"), 249883698056833368UL, PH_NOISY_CC);
@@ -11075,10 +11068,9 @@ PHP_METHOD(Phalcon_Cache_Backend_File, queryKeys){
 
 PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 
-	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *filtered;
-	zval *options, *cache_dir, *cache_file, *frontend;
-	zval *timestamp, *ttl = NULL, *modified_time, *difference;
-	zval *not_expired;
+	zval *key_name = NULL, *lifetime = NULL, *last_key = NULL, *prefix, *options;
+	zval *cache_dir, *cache_file, *frontend, *timestamp;
+	zval *ttl = NULL, *modified_time, *difference, *not_expired;
 
 	PHALCON_MM_GROW();
 
@@ -11101,11 +11093,8 @@ PHP_METHOD(Phalcon_Cache_Backend_File, exists){
 		PHALCON_OBS_VAR(prefix);
 		phalcon_read_property(&prefix, this_ptr, SL("_prefix"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(filtered);
-		phalcon_filter_alphanum(filtered, key_name);
-	
 		PHALCON_INIT_NVAR(last_key);
-		PHALCON_CONCAT_VV(last_key, prefix, filtered);
+		PHALCON_CONCAT_VV(last_key, prefix, key_name);
 	}
 	if (zend_is_true(last_key)) {
 	
@@ -16998,6 +16987,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Column){
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_NULL"), 0 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_INT"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_STR"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_BOOL"), 5 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_PARAM_DECIMAL"), 32 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_column_ce, SL("BIND_SKIP"), 1024 TSRMLS_CC);
 
@@ -23516,12 +23506,19 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType){
 
 	zval *quote_type;
 
+	PHALCON_MM_GROW();
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &quote_type) == FAILURE) {
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
+	if (Z_TYPE_P(quote_type) != IS_LONG) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The quoting type is not valid");
+		return;
+	}
 	phalcon_update_property_zval(this_ptr, SL("_htmlQuoteType"), quote_type TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Escaper, detectEncoding){
@@ -23625,21 +23622,18 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(text) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The text must be string");
-		return;
+	if (Z_TYPE_P(text) == IS_STRING) {
+		PHALCON_OBS_VAR(html_quote_type);
+		phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(encoding);
+		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(escaped);
+		phalcon_escape_html(escaped, text, html_quote_type, encoding);
+		RETURN_CTOR(escaped);
 	}
-	
-	PHALCON_OBS_VAR(html_quote_type);
-	phalcon_read_property(&html_quote_type, this_ptr, SL("_htmlQuoteType"), PH_NOISY_CC);
-	
-	PHALCON_OBS_VAR(encoding);
-	phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(escaped);
-	phalcon_escape_html(escaped, text, html_quote_type, encoding);
-	
-	RETURN_CTOR(escaped);
+	RETURN_MM_NULL();
 }
 
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
@@ -23652,19 +23646,16 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(attribute) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The HTML string must be string");
-		return;
-	}
-	if (zend_is_true(attribute)) {
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", attribute, 16805794311876743261UL);
+	if (Z_TYPE_P(attribute) == IS_STRING) {
+		if (zend_is_true(attribute)) {
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", attribute, 16805794311876743261UL);
 	
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_htmlattr(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_htmlattr(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -23678,19 +23669,16 @@ PHP_METHOD(Phalcon_Escaper, escapeCss){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(css) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The CSS must be string");
-		return;
-	}
-	if (zend_is_true(css)) {
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", css, 16805794311876743261UL);
+	if (Z_TYPE_P(css) == IS_STRING) {
+		if (zend_is_true(css)) {
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", css, 16805794311876743261UL);
 	
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_css(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_css(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -23704,19 +23692,16 @@ PHP_METHOD(Phalcon_Escaper, escapeJs){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(js) != IS_STRING) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "The Javascript string must be string");
-		return;
-	}
-	if (zend_is_true(js)) {
-		PHALCON_INIT_VAR(normalized);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", js, 16805794311876743261UL);
+	if (Z_TYPE_P(js) == IS_STRING) {
+		if (zend_is_true(js)) {
+			PHALCON_INIT_VAR(normalized);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(normalized, this_ptr, "normalizeencoding", js, 16805794311876743261UL);
 	
-		PHALCON_INIT_VAR(sanitized);
-		phalcon_escape_js(sanitized, normalized);
-		RETURN_CTOR(sanitized);
+			PHALCON_INIT_VAR(sanitized);
+			phalcon_escape_js(sanitized, normalized);
+			RETURN_CTOR(sanitized);
+		}
 	}
-	
 	RETURN_MM_NULL();
 }
 
@@ -56930,6 +56915,24 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	if (PHALCON_COMPARE_STRING(name, "escape")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	if (PHALCON_COMPARE_STRING(name, "escape_css")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeCss(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	if (PHALCON_COMPARE_STRING(name, "escape_js")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeJs(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	if (PHALCON_COMPARE_STRING(name, "escape_attr")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtmlAttr(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
