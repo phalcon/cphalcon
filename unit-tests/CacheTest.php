@@ -127,7 +127,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		//Save
 		$cache->save('test-data', "nothing interesting");
 
-		$this->assertTrue(file_exists('unit-tests/cache/testdata'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-data'));
 
 		//Get
 		$cachedContent = $cache->get('test-data');
@@ -386,7 +386,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 		return true;
 	}
 
-	public function testOutputMongoCache()
+	public function _testOutputMongoCache()
 	{
 
 		$ready = $this->_prepareMongo();
@@ -457,7 +457,7 @@ class CacheTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	public function testDataMongoCache()
+	public function _testDataMongoCache()
 	{
 
 		$ready = $this->_prepareMongo();
