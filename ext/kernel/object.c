@@ -797,7 +797,6 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 				zval_ptr_dtor(&tmp);
 				ALLOC_INIT_ZVAL(tmp);
 				array_init(tmp);
-				Z_ADDREF_P(tmp);
 				separated = 1;
 			}
 		}

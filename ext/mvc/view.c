@@ -248,8 +248,8 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
  * Sets the render level for the view
  *
  * <code>
- * //Render the view related to the controller only
- * $this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
+ * 	//Render the view related to the controller only
+ * 	$this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
  * </code>
  *
  * @param string $level

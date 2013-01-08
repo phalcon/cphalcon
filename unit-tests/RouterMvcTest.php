@@ -447,4 +447,58 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testGroups()
+	{
+
+		$router = new Phalcon\Mvc\Router(false);
+
+		$blog = new Phalcon\Mvc\Router\Group(array(
+			'module' => 'blog',
+			'controller' => 'index'
+		));
+
+		$blog->setPrefix('/blog');
+
+		$blog->add('/save', array(
+			'action' => 'save'
+		));
+
+		$blog->add('/edit/{id}', array(
+			'action' => 'edit'
+		));
+
+		$blog->add('/about', array(
+			'controller' => 'about',
+			'action' => 'index'
+		));
+
+		$router->mount($blog);
+
+		$routes = array(
+			'/blog/save' => array(
+				'module' => 'blog',
+				'controller' => 'index',
+				'action' => 'save',
+			),
+			'/blog/edit/1' => array(
+				'module' => 'blog',
+				'controller' => 'index',
+				'action' => 'edit'
+			),
+			'/blog/about' => array(
+				'module' => 'blog',
+				'controller' => 'about',
+				'action' => 'index'
+			),
+		);
+
+		foreach ($routes as $route => $paths) {
+			$router->handle($route);
+			$this->assertTrue($router->wasMatched());
+			$this->assertEquals($paths['module'], $router->getModuleName());
+			$this->assertEquals($paths['controller'], $router->getControllerName());
+			$this->assertEquals($paths['action'], $router->getActionName());
+		}
+	}
+
 }

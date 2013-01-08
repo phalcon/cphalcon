@@ -974,6 +974,42 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead){
 }
 
 /**
+ * Mounts a group of routes in the router
+ *
+ * @param Phalcon\Mvc\Router\Group $route
+ */
+PHP_METHOD(Phalcon_Mvc_Router, mount){
+
+	zval *group, *routes, *group_routes, *new_routes;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &group) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(group) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The group of routes is not valid");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(routes);
+	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(group_routes);
+	PHALCON_CALL_METHOD(group_routes, group, "getroutes");
+	if (Z_TYPE_P(routes) == IS_ARRAY) { 
+		PHALCON_INIT_VAR(new_routes);
+		PHALCON_CALL_FUNC_PARAMS_2(new_routes, "array_merge", routes, group_routes);
+		phalcon_update_property_zval(this_ptr, SL("_routes"), new_routes TSRMLS_CC);
+	} else {
+		phalcon_update_property_zval(this_ptr, SL("_routes"), group_routes TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Removes all the pre-defined routes
  */
 PHP_METHOD(Phalcon_Mvc_Router, clear){

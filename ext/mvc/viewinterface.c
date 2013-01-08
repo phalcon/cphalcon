@@ -52,6 +52,34 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setViewsDir);
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getViewsDir);
 
 /**
+ * Sets the layouts sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ *
+ * @param string $layoutsDir
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayoutsDir);
+
+/**
+ * Gets the current layouts sub-directory
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getLayoutsDir);
+
+/**
+ * Sets a partials sub-directory. Must be a directory under the views directory. Depending of your platform, always add a trailing slash or backslash
+ *
+ * @param string $partialsDir
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setPartialsDir);
+
+/**
+ * Gets the current partials sub-directory
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getPartialsDir);
+
+/**
  * Sets base path. Depending of your platform, always add a trailing slash or backslash
  *
  * @param string $basePath
@@ -71,6 +99,27 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setRenderLevel);
  * @param string $viewPath
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setMainView);
+
+/**
+ * Returns the name of the main view
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getMainView);
+
+/**
+ * Change the layout to be used instead of using the name of the latest controller name
+ *
+ * @param string $layout
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayout);
+
+/**
+ * Returns the name of the main view
+ *
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ViewInterface, getLayout);
 
 /**
  * Appends template before controller layout
