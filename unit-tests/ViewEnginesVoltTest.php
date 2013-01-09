@@ -21,7 +21,7 @@
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	public function testVoltParser()
+	/*public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -1074,7 +1074,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php if ($some_eval) { ?>
 Clearly, the song is: <?php echo $this->getContent(); ?>.
 <?php } ?>');
-	}
+	}*/
 
 	public function testVoltCompileFileExtends()
 	{

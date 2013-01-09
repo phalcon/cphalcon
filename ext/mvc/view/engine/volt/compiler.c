@@ -1825,6 +1825,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					PHALCON_CPY_WRT(final_path, path);
 				}
 	
+				PHALCON_INIT_NVAR(extended);
+				ZVAL_BOOL(extended, 1);
+	
 				/** 
 				 * Perform a subcompilation of the extended file
 				 */

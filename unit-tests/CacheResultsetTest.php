@@ -95,7 +95,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('test-resultset', Robots::find(array('order' => 'id')));
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-resultset'));
 
 		$robots = $cache->get('test-resultset');
 
@@ -119,7 +119,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 			'order' => 'id'
 		)));
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-resultset'));
 
 		$robots = $cache->get('test-resultset');
 
@@ -140,7 +140,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('test-resultset', $robots);
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-resultset'));
 
 		$robots = $cache->get('test-resultset');
 
@@ -161,7 +161,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('test-resultset', $robots);
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-resultset'));
 
 		$robots = $cache->get('test-resultset');
 
@@ -182,7 +182,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 		$cache->save('test-resultset', $results);
 
-		$this->assertTrue(file_exists('unit-tests/cache/testresultset'));
+		$this->assertTrue(file_exists('unit-tests/cache/test-resultset'));
 
 		$results = $cache->get('test-resultset');
 

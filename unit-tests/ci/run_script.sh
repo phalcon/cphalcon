@@ -13,6 +13,8 @@ if [ $STATUS != 0 ]; then
 	else
 		echo "No core dump was generated"
 	fi
+
+	exit $STATUS
 fi
 
 $PHP_BIN ./php-tests/ci/phpunit.php --debug -c php-tests/tests/phpunit.xml
