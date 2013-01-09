@@ -68,8 +68,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &message, &record) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_record"), record TSRMLS_CC);
@@ -89,17 +88,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(record);
+	PHALCON_OBS_VAR(record);
 	phalcon_read_property(&record, this_ptr, SL("_record"), PH_NOISY_CC);
 	if (Z_TYPE_P(record) != IS_NULL) {
 		PHALCON_INIT_NVAR(record);
-		PHALCON_CALL_METHOD(record, record, "getmessages", PH_NO_CHECK);
-	
+		PHALCON_CALL_METHOD(record, record, "getmessages");
 		RETURN_CCTOR(record);
 	}
 	
 	PHALCON_INIT_VAR(messages);
-	PHALCON_CALL_METHOD(messages, this_ptr, "getmessage", PH_NO_CHECK);
+	PHALCON_CALL_METHOD(messages, this_ptr, "getmessage");
 	
 	RETURN_CCTOR(messages);
 }

@@ -403,7 +403,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 /**
  * Bind params to a SQL statement
  *
- * @param string $sql
+ * @param string $sqlStatement
  * @param array $params
  */
 PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, bindParams);
@@ -411,7 +411,7 @@ PHALCON_DOC_METHOD(Phalcon_Db_AdapterInterface, bindParams);
 /**
  * Converts bound params like :name: or ?1 into ? bind params
  *
- * @param string $sql
+ * @param string $sqlStatement
  * @param array $params
  * @return array
  */

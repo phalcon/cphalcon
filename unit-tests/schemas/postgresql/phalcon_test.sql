@@ -9,14 +9,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -59,7 +59,7 @@ ALTER TABLE public.customers OWNER TO postgres;
 
 
 --
--- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE parts (
@@ -71,7 +71,7 @@ CREATE TABLE parts (
 ALTER TABLE public.parts OWNER TO postgres;
 
 --
--- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE personas (
@@ -92,7 +92,7 @@ CREATE TABLE personas (
 ALTER TABLE public.personas OWNER TO postgres;
 
 --
--- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE personnes (
@@ -113,7 +113,7 @@ CREATE TABLE personnes (
 ALTER TABLE public.personnes OWNER TO postgres;
 
 --
--- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE prueba (
@@ -154,7 +154,7 @@ SELECT pg_catalog.setval('prueba_id_seq', 636, true);
 
 
 --
--- Name: robots; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE robots (
@@ -196,7 +196,7 @@ SELECT pg_catalog.setval('robots_id_seq', 1, false);
 
 
 --
--- Name: robots_parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots_parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE robots_parts (
@@ -237,7 +237,7 @@ SELECT pg_catalog.setval('robots_parts_id_seq', 1, false);
 
 
 --
--- Name: subscriptores; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: subscriptores; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE subscriptores (
@@ -279,7 +279,7 @@ SELECT pg_catalog.setval('subscriptores_id_seq', 1, false);
 
 
 --
--- Name: tipo_documento; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: tipo_documento; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE tipo_documento (
@@ -6806,7 +6806,7 @@ COPY tipo_documento (id, detalle) FROM stdin;
 
 
 --
--- Name: parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY parts
@@ -6814,7 +6814,7 @@ ALTER TABLE ONLY parts
 
 
 --
--- Name: personas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: personas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY personas
@@ -6822,7 +6822,7 @@ ALTER TABLE ONLY personas
 
 
 --
--- Name: personnes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: personnes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY personnes
@@ -6830,7 +6830,7 @@ ALTER TABLE ONLY personnes
 
 
 --
--- Name: prueba_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: prueba_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY prueba
@@ -6838,7 +6838,7 @@ ALTER TABLE ONLY prueba
 
 
 --
--- Name: robots_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY robots_parts
@@ -6846,7 +6846,7 @@ ALTER TABLE ONLY robots_parts
 
 
 --
--- Name: robots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY robots
@@ -6854,7 +6854,7 @@ ALTER TABLE ONLY robots
 
 
 --
--- Name: subscriptores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: subscriptores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY subscriptores
@@ -6862,7 +6862,7 @@ ALTER TABLE ONLY subscriptores
 
 
 --
--- Name: tipo_documento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: tipo_documento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY tipo_documento
@@ -6870,21 +6870,21 @@ ALTER TABLE ONLY tipo_documento
 
 
 --
--- Name: personas_estado_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: personas_estado_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE INDEX personas_estado_idx ON personas USING btree (estado);
 
 
 --
--- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE INDEX robots_parts_parts_id ON robots_parts USING btree (parts_id);
 
 
 --
--- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE INDEX robots_parts_robots_id ON robots_parts USING btree (robots_id);

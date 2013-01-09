@@ -44,7 +44,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_setcontenttype, 0,
 	ZEND_ARG_INFO(0, charset)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_redirect, 0, 0, 0)
 	ZEND_ARG_INFO(0, location)
 	ZEND_ARG_INFO(0, externalRedirect)
 	ZEND_ARG_INFO(0, statusCode)

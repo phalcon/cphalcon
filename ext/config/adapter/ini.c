@@ -103,8 +103,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &file_path) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(config);
@@ -135,11 +134,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	ah0 = Z_ARRVAL_P(ini_config);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
-		}
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(section, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(directives);
@@ -152,11 +147,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		ah1 = Z_ARRVAL_P(directives);
 		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
-		ph_cycle_start_1:
-	
-			if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
-				goto ph_cycle_end_1;
-			}
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(key, ah1, hp1);
 			PHALCON_GET_FOREACH_VALUE(value);
@@ -165,10 +156,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 				PHALCON_INIT_NVAR(directive_parts);
 				phalcon_fast_explode(directive_parts, dot, key TSRMLS_CC);
 	
-				PHALCON_INIT_NVAR(left_part);
+				PHALCON_OBS_NVAR(left_part);
 				phalcon_array_fetch_long(&left_part, directive_parts, 0, PH_NOISY_CC);
 	
-				PHALCON_INIT_NVAR(right_part);
+				PHALCON_OBS_NVAR(right_part);
 				phalcon_array_fetch_long(&right_part, directive_parts, 1, PH_NOISY_CC);
 				phalcon_array_update_zval_zval_zval_multi_3(&config, section, left_part, right_part, &value, 0 TSRMLS_CC);
 			} else {
@@ -176,15 +167,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 			}
 	
 			zend_hash_move_forward_ex(ah1, &hp1);
-			goto ph_cycle_start_1;
-	
-		ph_cycle_end_1:
+		}
 	
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
-	
-	ph_cycle_end_0:
+	}
 	
 	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Config\\Adapter\\Ini", "__construct", config);
 	

@@ -29,6 +29,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/concat.h"
 
 #include "Zend/zend_exceptions.h"
 #include "Zend/zend_interfaces.h"
@@ -77,7 +78,7 @@ int phalcon_compare_mtime(zval *filename1, zval *filename2 TSRMLS_DC){
 }
 
 /**
- * Executes the filemtime funciton without function lookup
+ * Executes the filemtime function without function lookup
  */
 void phalcon_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
 
@@ -87,4 +88,25 @@ void phalcon_fast_filemtime(zval *return_value, zval *filename TSRMLS_DC){
 	}
 
 	php_stat(Z_STRVAL_P(filename), (php_stat_len) Z_STRLEN_P(filename), FS_MTIME, return_value TSRMLS_CC);
+}
+
+/**
+ * Adds a trailing directory separator if the path doesn't have it
+ */
+void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator TSRMLS_DC) {
+
+	if (Z_TYPE_P(path) != IS_STRING || Z_TYPE_P(directory_separator) != IS_STRING) {
+		return;
+	}
+
+	if (Z_STRLEN_P(path) > 0 && Z_STRLEN_P(directory_separator) > 0) {
+		if (Z_STRVAL_P(path)[Z_STRLEN_P(path)-1] != Z_STRVAL_P(directory_separator)[0]) {
+			PHALCON_CONCAT_VV(*return_value, path, directory_separator);
+			return;
+		}
+	}
+
+	zval_ptr_dtor(return_value);
+	*return_value = path;
+	Z_ADDREF_P(path);
 }

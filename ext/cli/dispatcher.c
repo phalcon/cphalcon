@@ -153,30 +153,29 @@ PHP_METHOD(Phalcon_CLI_Dispatcher, _throwDispatchException){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &exception_code) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!exception_code) {
-		PHALCON_INIT_NVAR(exception_code);
+		PHALCON_INIT_VAR(exception_code);
 		ZVAL_LONG(exception_code, 0);
 	}
 	
 	PHALCON_INIT_VAR(exception);
 	object_init_ex(exception, phalcon_cli_dispatcher_exception_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code);
 	
-	PHALCON_INIT_VAR(events_manager);
+	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+	
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "dispatch:beforeException", 1);
 	
 		PHALCON_INIT_VAR(status);
-		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3(status, events_manager, "fire", event_name, this_ptr, exception);
 		if (PHALCON_IS_FALSE(status)) {
-			PHALCON_MM_RESTORE();
-			RETURN_FALSE;
+			RETURN_MM_FALSE;
 		}
 	}
 	

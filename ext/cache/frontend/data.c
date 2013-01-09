@@ -102,12 +102,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -123,18 +122,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, __construct){
 PHP_METHOD(Phalcon_Cache_Frontend_Data, getLifetime){
 
 	zval *options, *lifetime;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(lifetime);
+		if (phalcon_array_isset_string(options, SS("lifetime"))) {
+			PHALCON_OBS_VAR(lifetime);
 			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
-	
 			RETURN_CCTOR(lifetime);
 		}
 	}
@@ -195,13 +191,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, beforeStore){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(serialized);
 	PHALCON_CALL_FUNC_PARAMS_1(serialized, "serialize", data);
-	
 	RETURN_CCTOR(serialized);
 }
 
@@ -217,13 +211,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Data, afterRetrieve){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(unserialized);
 	PHALCON_CALL_FUNC_PARAMS_1(unserialized, "unserialize", data);
-	
 	RETURN_CCTOR(unserialized);
 }
 

@@ -103,6 +103,21 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	public function testOverrideLayout()
+	{
+
+		$view = new Phalcon\Mvc\View();
+
+		$view->setViewsDir('unit-tests/views/');
+
+		//Override controller layout
+		$view->start();
+		$view->setLayout('test6');
+		$view->render('test3', 'other');
+		$view->finish();
+		$this->assertEquals($view->getContent(), '<html>Well, this is the view content: here.</html>'.PHP_EOL);
+	}
+
 	public function testPartials()
 	{
 
@@ -126,6 +141,17 @@ class ViewTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($view->getContent(), '<html>Hey, this is a partial, also le-this<br />Hey, this is a second partial, also le-this</html>'.PHP_EOL);
 
+	}
+
+	public function testGetRender()
+	{
+		$view = new Phalcon\Mvc\View();
+
+		$view->setViewsDir('unit-tests/views/');
+
+		$content = $view->getRender('test5', 'index', array('cool_var' => 'le-this'));
+
+		$this->assertEquals($content, '<html>Hey, this is a partial, also le-this</html>'.PHP_EOL);
 	}
 
 }

@@ -34,6 +34,18 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 		$tests = array(
 			array(
+				'uri' => '',
+				'controller' => 'index',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
+				'uri' => '/',
+				'controller' => 'index',
+				'action' => 'index',
+				'params' => array()
+			),
+			array(
 				'uri' => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
 				'controller' => 'documentation',
 				'action' => 'index',
@@ -126,6 +138,11 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		);
 
 		$router = new Phalcon\Mvc\Router();
+
+		$router->add('/', array(
+			'controller' => 'index',
+			'action' => 'index'
+		));
 
 		$router->add('/system/:controller/a/:action/:params', array(
 			'controller' => 1,
@@ -327,30 +344,6 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/*public function testRouterNamespace()
-	{
-		$router = new Phalcon\Mvc\Router();
-
-		$tests = array(
-			array(
-				'method' => null,
-				'uri' => '/account/follower',
-				'controller' => "Account\\Follower",
-				'action' => '',
-				'params' => array(),
-			),
-		);
-
-		$router->add('/:namespace/:controller', array(
-			'namespace' => 1,
-			'controller' => 2,
-		));
-
-		foreach ($tests as $n => $test) {
-			$this->_runTest($router, $test);
-		}
-	}*/
-
 	public function testNamedRoutes()
 	{
 
@@ -364,6 +357,148 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($usersAdd, $router->getRouteByName('usersAdd'));
 		$this->assertEquals($usersFind, $router->getRouteById(0));
 
+	}
+
+	public function testExtraSlashes()
+	{
+
+		Phalcon\Mvc\Router\Route::reset();
+
+		$router = new Phalcon\Mvc\Router();
+
+		$router->removeExtraSlashes(true);
+
+		$routes = array(
+			'/index/' => array(
+				'controller' => 'index',
+				'action' => '',
+			),
+			'/session/start/' => array(
+				'controller' => 'session',
+				'action' => 'start'
+			),
+			'/users/edit/100/' => array(
+				'controller' => 'users',
+				'action' => 'edit'
+			),
+		);
+
+		foreach ($routes as $route => $paths) {
+			$router->handle($route);
+			$this->assertTrue($router->wasMatched());
+			$this->assertEquals($paths['controller'], $router->getControllerName());
+			$this->assertEquals($paths['action'], $router->getActionName());
+		}
+
+	}
+
+	public function testConverters()
+	{
+
+		Phalcon\Mvc\Router\Route::reset();
+
+		$router = new Phalcon\Mvc\Router();
+
+		$router->add('/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country')
+		->convert('controller', function($controller){
+			return str_replace('-', '', $controller);
+		})
+		->convert('action', function($action){
+			return str_replace('-', '', $action);
+		});
+
+		$router->add('/([A-Z]+)/([0-9]+)', array(
+			'controller' => 1,
+			'action' => 'default',
+			'id' => 2,
+		))
+		->convert('controller', function($controller) {
+			return strtolower($controller);
+		})
+		->convert('action', function($action) {
+			if ($action == 'default') {
+				return 'index';
+			}
+			return $action;
+		})
+		->convert('id', function($id) {
+			return strrev($id);
+		});
+
+		$routes = array(
+			'/some-controller/my-action-name/this-is-a-country' => array(
+				'controller' => 'somecontroller',
+				'action' => 'myactionname',
+				'params' => array('this-is-a-country')
+			),
+			'/BINARY/1101' => array(
+				'controller' => 'binary',
+				'action' => 'index',
+				'params' => array(1011)
+			)
+		);
+
+		foreach ($routes as $route => $paths) {
+			$router->handle($route);
+			$this->assertTrue($router->wasMatched());
+			$this->assertEquals($paths['controller'], $router->getControllerName());
+			$this->assertEquals($paths['action'], $router->getActionName());
+		}
+
+	}
+
+	public function testGroups()
+	{
+
+		$router = new Phalcon\Mvc\Router(false);
+
+		$blog = new Phalcon\Mvc\Router\Group(array(
+			'module' => 'blog',
+			'controller' => 'index'
+		));
+
+		$blog->setPrefix('/blog');
+
+		$blog->add('/save', array(
+			'action' => 'save'
+		));
+
+		$blog->add('/edit/{id}', array(
+			'action' => 'edit'
+		));
+
+		$blog->add('/about', array(
+			'controller' => 'about',
+			'action' => 'index'
+		));
+
+		$router->mount($blog);
+
+		$routes = array(
+			'/blog/save' => array(
+				'module' => 'blog',
+				'controller' => 'index',
+				'action' => 'save',
+			),
+			'/blog/edit/1' => array(
+				'module' => 'blog',
+				'controller' => 'index',
+				'action' => 'edit'
+			),
+			'/blog/about' => array(
+				'module' => 'blog',
+				'controller' => 'about',
+				'action' => 'index'
+			),
+		);
+
+		foreach ($routes as $route => $paths) {
+			$router->handle($route);
+			$this->assertTrue($router->wasMatched());
+			$this->assertEquals($paths['module'], $router->getModuleName());
+			$this->assertEquals($paths['controller'], $router->getControllerName());
+			$this->assertEquals($paths['action'], $router->getActionName());
+		}
 	}
 
 }

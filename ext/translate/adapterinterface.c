@@ -40,7 +40,7 @@ PHALCON_INIT_CLASS(Phalcon_Translate_AdapterInterface){
 /**
  * Phalcon\Translate\Adapter\NativeArray constructor
  *
- * @param array $data
+ * @param array $options
  */
 PHALCON_DOC_METHOD(Phalcon_Translate_AdapterInterface, __construct);
 

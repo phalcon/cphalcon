@@ -35,11 +35,12 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 /**
  * Reads class constant from string name and returns its value
  */
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, int constant_length TSRMLS_DC){
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC){
 
 	zval **result_ptr;
 
@@ -88,21 +89,88 @@ int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_le
 }
 
 /**
- * Returns class name into result
+ * Returns a class name into a zval result
  */
-void phalcon_get_class(zval *result, zval *object TSRMLS_DC){
+void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
+
 	zend_class_entry *ce;
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
+
 		ce = Z_OBJCE_P(object);
 		Z_STRLEN_P(result) = ce->name_length;
 		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length + 1);
 		memcpy(Z_STRVAL_P(result), ce->name, ce->name_length);
 		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 		Z_TYPE_P(result) = IS_STRING;
+
+		if (lower) {
+			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+		}
+
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "get_class expects an object");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class expects an object");
 	}
+}
+
+/**
+ * Returns a class name into a zval result
+ */
+void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
+
+	zend_class_entry *ce;
+	unsigned int i;
+	char *cursor;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		ce = Z_OBJCE_P(object);
+
+		i = ce->name_length;
+		cursor = (char *) (ce->name + ce->name_length - 1);
+
+		while (i > 1) {
+			if ((*cursor) == '\\') {
+				break;
+			}
+			cursor--;
+			i--;
+		}
+
+		if (i == 1) {
+			i = 0;
+		}
+
+		Z_STRLEN_P(result) = ce->name_length - i;
+		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length - i + 1);
+		memcpy(Z_STRVAL_P(result), ce->name + i, ce->name_length - i);
+		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+		Z_TYPE_P(result) = IS_STRING;
+
+		if (lower) {
+			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+		}
+
+	} else {
+		ZVAL_NULL(result);
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class_ns expects an object");
+	}
+}
+
+/**
+ * Returns the called in class in the current scope
+ */
+void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
+
+	if (EG(called_scope)) {
+		RETURN_STRINGL(EG(called_scope)->name, EG(called_scope)->name_length, 1);
+	} else {
+		if (!EG(scope))  {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_called_class() called from outside a class");
+		}
+	}
+
 }
 
 /**
@@ -180,48 +248,60 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+
+	unsigned long hash;
+
+	hash = zend_inline_hash_func(property_name, property_length);
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-		if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length)) {
+		if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, property_name, property_length, hash)) {
 			return 1;
 		} else {
-			return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length);
+			return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), property_name, property_length, hash);
 		}
-	} else {
-		return 0;
 	}
+
+	return 0;
 }
 
 /**
  * Checks if string property exists on object
  */
 int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
+
+	unsigned long hash;
+
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
-			if (zend_hash_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1)) {
+
+			hash = zend_inline_hash_func(Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
+
+			if (zend_hash_quick_exists(&Z_OBJCE_P(object)->properties_info, Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash)) {
 				return 1;
 			} else {
-				return zend_hash_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1);
+				return zend_hash_quick_exists(Z_OBJ_HT_P(object)->get_properties(object TSRMLS_CC), Z_STRVAL_P(property), Z_STRLEN_P(property)+1, hash);
 			}
-		} else {
-			return 0;
 		}
-	} else {
-		return 0;
 	}
+
+	return 0;
 }
 
 /**
  * Lookup exact class where a property is defined
  *
  */
-static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *original_ce;
+	unsigned long hash;
+
+	hash = zend_inline_hash_func(property_name, property_length+1);
 
 	original_ce = ce;
 	while (ce) {
-		if (zend_hash_exists(&ce->properties_info, property_name, property_length+1)) {
+		if (zend_hash_quick_exists(&ce->properties_info, property_name, property_length+1, hash)) {
 			return ce;
 		}
 		ce = ce->parent;
@@ -232,10 +312,10 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 /**
  * Reads a property from an object
  */
-int phalcon_read_property(zval **result, zval *object, char *property_name, int property_length, int silent TSRMLS_DC){
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC){
 
-	zval *tmp = NULL;
-	zend_class_entry *ce;
+	zval *property;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
@@ -244,10 +324,34 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 			ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 		}
 
-		tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
-		Z_ADDREF_P(tmp);
-		zval_ptr_dtor(result);
-		*result = tmp;
+		old_scope = EG(scope);
+		EG(scope) = ce;
+
+		if (!Z_OBJ_HT_P(object)->read_property) {
+
+			ALLOC_INIT_ZVAL(*result);
+			ZVAL_NULL(*result);
+
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
+			return FAILURE;
+		}
+
+		MAKE_STD_ZVAL(property);
+		ZVAL_STRINGL(property, property_name, property_length, 0);
+
+		#if PHP_VERSION_ID < 50400
+		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+		#else
+		*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+		#endif
+
+		Z_ADDREF_PP(result);
+
+		ZVAL_NULL(property);
+		zval_ptr_dtor(&property);
+
+		EG(scope) = old_scope;
+
 		return SUCCESS;
 	} else {
 		if (silent == PH_NOISY) {
@@ -255,16 +359,19 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, int 
 		}
 	}
 
+	ALLOC_INIT_ZVAL(*result);
+	ZVAL_NULL(*result);
+
 	return FAILURE;
 }
 
 /**
  * Returns an object's member
  */
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
-	zval *tmp = NULL;
-	zend_class_entry *ce;
+	zval *property, *result;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 
@@ -273,9 +380,32 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 			ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 		}
 
-		tmp = zend_read_property(ce, object, property_name, property_length, 0 TSRMLS_CC);
-		ZVAL_ZVAL(return_value, tmp, 1, 0);
+		old_scope = EG(scope);
+		EG(scope) = ce;
+
+		if (!Z_OBJ_HT_P(object)->read_property) {
+			ZVAL_NULL(return_value);
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", property_name, ce->name);
+			return FAILURE;
+		}
+
+		MAKE_STD_ZVAL(property);
+		ZVAL_STRINGL(property, property_name, property_length, 0);
+
+		#if PHP_VERSION_ID < 50400
+		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+		#else
+		result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+		#endif
+
+		ZVAL_NULL(property);
+		zval_ptr_dtor(&property);
+
+		EG(scope) = old_scope;
+
+		ZVAL_ZVAL(return_value, result, 1, 0);
 		return SUCCESS;
+
 	} else {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
 	}
@@ -288,8 +418,7 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
  */
 int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC){
 
-	zval *tmp = NULL;
-	zend_class_entry *ce;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		if (Z_TYPE_P(property) == IS_STRING) {
@@ -299,24 +428,49 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 				ce = phalcon_lookup_class_ce(ce, Z_STRVAL_P(property), Z_STRLEN_P(property) TSRMLS_CC);
 			}
 
-			tmp = zend_read_property(ce, object, Z_STRVAL_P(property), Z_STRLEN_P(property), 0 TSRMLS_CC);
-			Z_ADDREF_P(tmp);
-			zval_ptr_dtor(result);
-			*result = tmp;
+			old_scope = EG(scope);
+			EG(scope) = ce;
+
+			if (!Z_OBJ_HT_P(object)->read_property) {
+
+				ALLOC_INIT_ZVAL(*result);
+				ZVAL_NULL(*result);
+
+				php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be read", Z_STRVAL_P(property), ce->name);
+				return FAILURE;
+			}
+
+			#if PHP_VERSION_ID < 50400
+			*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R TSRMLS_CC);
+			#else
+			*result = Z_OBJ_HT_P(object)->read_property(object, property, BP_VAR_R, 0 TSRMLS_CC);
+			#endif
+
+			Z_ADDREF_PP(result);
+
+			EG(scope) = old_scope;
+			return SUCCESS;
+		} else {
+			if (silent == PH_NOISY) {
+				php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot access empty property %d", Z_TYPE_P(property));
+			}
 		}
 	} else {
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Trying to get property of non-object");
-			return FAILURE;
 		}
 	}
-	return SUCCESS;
+
+	ALLOC_INIT_ZVAL(*result);
+	ZVAL_NULL(*result);
+
+	return FAILURE;
 }
 
 /**
  * Checks whether obj is an object and updates property with long value
  */
-int phalcon_update_property_long(zval *object, char *property_name, int property_length, long value TSRMLS_DC){
+int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -337,9 +491,10 @@ int phalcon_update_property_long(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with string value
  */
-int phalcon_update_property_string(zval *object, char *property_name, int property_length, char *value TSRMLS_DC){
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC){
 
-	zend_class_entry *ce;
+	zval *value, *property;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
@@ -351,7 +506,30 @@ int phalcon_update_property_string(zval *object, char *property_name, int proper
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	zend_update_property_string(ce, object, property_name, property_length, value TSRMLS_CC);
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
+		return FAILURE;
+	}
+
+	MAKE_STD_ZVAL(value);
+	ZVAL_STRINGL(value, str, str_length, 1);
+
+	MAKE_STD_ZVAL(property);
+	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
+	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
+
+	ZVAL_NULL(property);
+	zval_ptr_dtor(&property);
+
+	EG(scope) = old_scope;
 
 	return SUCCESS;
 }
@@ -359,7 +537,7 @@ int phalcon_update_property_string(zval *object, char *property_name, int proper
 /**
  * Checks whether obj is an object and updates property with bool value
  */
-int phalcon_update_property_bool(zval *object, char *property_name, int property_length, int value TSRMLS_DC){
+int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -381,7 +559,7 @@ int phalcon_update_property_bool(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with null value
  */
-int phalcon_update_property_null(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zend_class_entry *ce;
 
@@ -403,9 +581,10 @@ int phalcon_update_property_null(zval *object, char *property_name, int property
 /**
  * Checks whether obj is an object and updates property with another zval
  */
-int phalcon_update_property_zval(zval *object, char *property_name, int property_length, zval *value TSRMLS_DC){
+int phalcon_update_property_zval(zval *object, char *property_name, unsigned int property_length, zval *value TSRMLS_DC){
 
-	zend_class_entry *ce;
+	zend_class_entry *ce, *old_scope;
+	zval *property;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
@@ -417,7 +596,27 @@ int phalcon_update_property_zval(zval *object, char *property_name, int property
 		ce = phalcon_lookup_class_ce(ce, property_name, property_length TSRMLS_CC);
 	}
 
-	zend_update_property(ce, object, property_name, property_length, value TSRMLS_CC);
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
+		return FAILURE;
+	}
+
+	MAKE_STD_ZVAL(property);
+	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
+	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
+
+	ZVAL_NULL(property);
+	zval_ptr_dtor(&property);
+
+	EG(scope) = old_scope;
 
 	return SUCCESS;
 }
@@ -427,7 +626,7 @@ int phalcon_update_property_zval(zval *object, char *property_name, int property
  */
 int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value TSRMLS_DC){
 
-	zend_class_entry *ce;
+	zend_class_entry *ce, *old_scope;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
@@ -444,7 +643,173 @@ int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value 
 		ce = phalcon_lookup_class_ce(ce, Z_STRVAL_P(property), Z_STRLEN_P(property) TSRMLS_CC);
 	}
 
-	zend_update_property(ce, object, Z_STRVAL_P(property), Z_STRLEN_P(property), value TSRMLS_CC);
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", Z_STRVAL_P(property), ce->name);
+		return FAILURE;
+	}
+
+	#if PHP_VERSION_ID < 50400
+	Z_OBJ_HT_P(object)->write_property(object, property, value TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, value, 0 TSRMLS_CC);
+	#endif
+
+	EG(scope) = old_scope;
+
+	return SUCCESS;
+}
+
+/**
+ * Updates an array property
+ */
+int phalcon_update_property_array(zval *object, char *property, unsigned int property_length, zval *index, zval *value TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			Z_DELREF_P(tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			separated = 1;
+		}
+
+		/** Convert the value to array if not is an array */
+		if (Z_TYPE_P(tmp) != IS_ARRAY) {
+			if (separated) {
+				convert_to_array(tmp);
+			} else {
+				zval_ptr_dtor(&tmp);
+				ALLOC_INIT_ZVAL(tmp);
+				array_init(tmp);
+				separated = 1;
+			}
+		}
+
+		Z_ADDREF_P(value);
+
+		if (Z_TYPE_P(index) == IS_STRING) {
+			zend_hash_update(Z_ARRVAL_P(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, &value, sizeof(zval *), NULL);
+		} else {
+			if (Z_TYPE_P(index) == IS_LONG) {
+				zend_hash_index_update(Z_ARRVAL_P(tmp), Z_LVAL_P(index), &value, sizeof(zval *), NULL);
+			}
+		}
+
+		if (separated) {
+			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+		}
+
+		zval_ptr_dtor(&tmp);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Updates an array property using a string index
+ */
+int phalcon_update_property_array_string(zval *object, char *property, unsigned int property_length, char *index, unsigned int index_length, zval *value TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			Z_DELREF_P(tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			separated = 1;
+		}
+
+		/** Convert the value to array if not is an array */
+		if (Z_TYPE_P(tmp) != IS_ARRAY) {
+			if (separated) {
+				convert_to_array(tmp);
+			} else {
+				zval_ptr_dtor(&tmp);
+				ALLOC_INIT_ZVAL(tmp);
+				array_init(tmp);
+				separated = 1;
+			}
+		}
+
+		Z_ADDREF_P(value);
+
+		zend_hash_update(Z_ARRVAL_P(tmp), index, index_length, &value, sizeof(zval *), NULL);
+
+		if (separated) {
+			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+		}
+
+		zval_ptr_dtor(&tmp);
+	}
+
+	return SUCCESS;
+}
+
+/**
+ * Appends a zval value to an array property
+ */
+int phalcon_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value TSRMLS_DC) {
+
+	zval *tmp;
+	int separated = 0;
+
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+
+		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+		/** Separation only when refcount > 2 */
+		if (Z_REFCOUNT_P(tmp) > 2) {
+			zval *new_zv;
+			Z_DELREF_P(tmp);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, tmp);
+			tmp = new_zv;
+			zval_copy_ctor(new_zv);
+			separated = 1;
+		}
+
+		/** Convert the value to array if not is an array */
+		if (Z_TYPE_P(tmp) != IS_ARRAY) {
+			if (separated) {
+				convert_to_array(tmp);
+			} else {
+				zval_ptr_dtor(&tmp);
+				ALLOC_INIT_ZVAL(tmp);
+				array_init(tmp);
+				separated = 1;
+			}
+		}
+
+		Z_ADDREF_P(value);
+		add_next_index_zval(tmp, value);
+
+		if (separated) {
+			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+		}
+
+		zval_ptr_dtor(&tmp);
+	}
 
 	return SUCCESS;
 }
@@ -452,25 +817,48 @@ int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value 
 /**
  * Intializes an object property with an empty array
  */
-int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property, unsigned int property_length TSRMLS_DC){
+int phalcon_update_property_empty_array(zend_class_entry *ce, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
-	zval *empty_array;
+	zval *empty_array, *property;
+	zend_class_entry *old_scope;
 
 	ALLOC_INIT_ZVAL(empty_array);
 	array_init(empty_array);
 	Z_SET_REFCOUNT_P(empty_array, 0);
-	zend_update_property(ce, object, property, property_length, empty_array TSRMLS_CC);
+
+	old_scope = EG(scope);
+	EG(scope) = ce;
+
+	if (!Z_OBJ_HT_P(object)->write_property) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Property %s of class %s cannot be updated", property_name, ce->name);
+		return FAILURE;
+	}
+
+	MAKE_STD_ZVAL(property);
+	ZVAL_STRINGL(property, property_name, property_length, 0);
+
+	#if PHP_VERSION_ID < 50400
+	Z_OBJ_HT_P(object)->write_property(object, property, empty_array TSRMLS_CC);
+	#else
+	Z_OBJ_HT_P(object)->write_property(object, property, empty_array, 0 TSRMLS_CC);
+	#endif
+
+	ZVAL_NULL(property);
+	zval_ptr_dtor(&property);
+
+	EG(scope) = old_scope;
 
 	return SUCCESS;
 }
 
 /**
- * Check if method exists on certain object
+ * Check if a method is implemented on certain object
  */
 int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 
 	char *lcname;
 	zend_class_entry *ce;
+	unsigned long hash;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
@@ -487,8 +875,10 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 	}
 
 	lcname = zend_str_tolower_dup(Z_STRVAL_P(method_name), Z_STRLEN_P(method_name));
+	hash = zend_inline_hash_func(lcname, Z_STRLEN_P(method_name)+1);
+
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1)) {
+		if (zend_hash_quick_exists(&ce->function_table, lcname, Z_STRLEN_P(method_name)+1, hash)) {
 			efree(lcname);
 			return SUCCESS;
 		}
@@ -502,9 +892,10 @@ int phalcon_method_exists(zval *object, zval *method_name TSRMLS_DC){
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSRMLS_DC){
+int phalcon_method_exists_ex(zval *object, char *method_name, unsigned int method_len TSRMLS_DC){
 
 	zend_class_entry *ce;
+	unsigned long hash;
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
 		ce = Z_OBJCE_P(object);
@@ -516,9 +907,11 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 		}
 	}
 
+	hash = zend_inline_hash_func(method_name, method_len);
+
 	ce = Z_OBJCE_P(object);
 	while (ce) {
-		if (zend_hash_exists(&ce->function_table, method_name, method_len)) {
+		if (zend_hash_quick_exists(&ce->function_table, method_name, method_len, hash)) {
 			return SUCCESS;
 		}
 		ce = ce->parent;
@@ -530,7 +923,7 @@ int phalcon_method_exists_ex(zval *object, char *method_name, int method_len TSR
 /**
  * Query a static property value from a zend_class_entry
  */
-int phalcon_read_static_property(zval **result, char *class_name, int class_length, char *property_name, int property_length TSRMLS_DC){
+int phalcon_read_static_property(zval **result, char *class_name, unsigned int class_length, char *property_name, unsigned int property_length TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		*result = zend_read_static_property(*ce, property_name, property_length, PH_FETCH_CLASS_SILENT);
@@ -545,7 +938,7 @@ int phalcon_read_static_property(zval **result, char *class_name, int class_leng
 /**
  * Update a static property
  */
-int phalcon_update_static_property(char *class_name, int class_length, char *name, int name_length, zval *value TSRMLS_DC){
+int phalcon_update_static_property(char *class_name, unsigned int class_length, char *name, unsigned int name_length, zval *value TSRMLS_DC){
 	zend_class_entry **ce;
 	if (zend_lookup_class(class_name, class_length, &ce TSRMLS_CC) == SUCCESS) {
 		return zend_update_static_property(*ce, name, name_length, value TSRMLS_CC);
@@ -571,8 +964,10 @@ int phalcon_create_instance(zval *return_value, zval *class_name TSRMLS_DC){
 	}
 
 	object_init_ex(return_value, ce);
-	if (phalcon_call_method(NULL, return_value, SL("__construct"), PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
-		return FAILURE;
+	if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+		if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+			return FAILURE;
+		}
 	}
 
 	return SUCCESS;
@@ -622,15 +1017,19 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 			params_array[i] = *item;
 		}
 
-		if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
-			efree(params_array);
-			return FAILURE;
+		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+			if (phalcon_call_method_params(NULL, return_value, SL("__construct"), (zend_uint) param_count, params_array, 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+				efree(params_array);
+				return FAILURE;
+			}
 		}
 
 		efree(params_array);
 	} else {
-		if (phalcon_call_method(NULL, return_value, SL("__construct"), PH_CHECK, 0 TSRMLS_CC) == FAILURE) {
-			return FAILURE;
+		if (phalcon_has_constructor(return_value TSRMLS_CC)) {
+			if (phalcon_call_method(NULL, return_value, SL("__construct"), 0 PH_MEHASH_C TSRMLS_CC) == FAILURE) {
+				return FAILURE;
+			}
 		}
 	}
 
@@ -640,7 +1039,7 @@ int phalcon_create_instance_params(zval *return_value, zval *class_name, zval *p
 /**
  * Increments an object property
  */
-int phalcon_property_incr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_incr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;
@@ -666,7 +1065,7 @@ int phalcon_property_incr(zval *object, char *property_name, int property_length
 /**
  * Decrements an object property
  */
-int phalcon_property_decr(zval *object, char *property_name, int property_length TSRMLS_DC){
+int phalcon_property_decr(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
 
 	zval *tmp = NULL;
 	zend_class_entry *ce;

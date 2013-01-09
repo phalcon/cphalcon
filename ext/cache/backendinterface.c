@@ -49,6 +49,7 @@ PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, __construct);
  * Starts a cache. The $keyname allows to identify the created fragment
  *
  * @param int|string $keyName
+ * @param   long $lifetime
  * @return  mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Cache_BackendInterface, start);

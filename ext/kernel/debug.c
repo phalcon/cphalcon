@@ -24,19 +24,7 @@
 #include "php.h"
 #include "php_phalcon.h"
 #include "kernel/debug.h"
-
-/**
- * Applies sprintf function to a variable list
- */
-int phalcon_spprintf(char **message, int max_len, char *format, ...){
-	va_list arg;
-	int len;
-
-	va_start(arg, format);
-	len = vspprintf(message, max_len, format, arg);
-	va_end(arg);
-	return len;
-}
+#include "kernel/string.h"
 
 #ifndef PHALCON_RELEASE
 

@@ -70,7 +70,6 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 
 		$di = $this->_getDI();
 
-
 		$expected = array(
 			'models' => array(
 				'Robots',
@@ -2116,6 +2115,44 @@ class ModelsQueryParsingTest extends PHPUnit_Framework_TestCase
 			),
 		);
 		$query = new Query('SELECT * FROM Some\Products WHERE Some\Products.created_at < now()');
+		$query->setDI($di);
+		$this->assertEquals($query->parse(), $expected);
+
+		$expected = array(
+			'models' => array(
+				'Robots',
+			),
+			'tables' => array(
+				'robots',
+			),
+			'columns' => array(
+				array(
+					'type' => 'object',
+					'model' => 'Robots',
+					'column' => 'robots',
+				),
+			),
+			'where' => array(
+				'type' => 'binary-op',
+				'op' => 'IN',
+				'left' => array(
+					'type' => 'qualified',
+					'domain' => 'robots',
+					'name' => 'id',
+					'balias' => 'id',
+				),
+				'right' => array(
+					'type' => 'list',
+					array(
+						array(
+							'type' => 'literal',
+							'value' => '1',
+						)
+					),
+				),
+			),
+		);
+		$query = new Query('SELECT * FROM Robots WHERE Robots.id IN (1)');
 		$query->setDI($di);
 		$this->assertEquals($query->parse(), $expected);
 

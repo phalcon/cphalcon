@@ -21,7 +21,6 @@ extern zend_class_entry *phalcon_mvc_model_criteria_ce;
 
 PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Criteria);
 
-PHP_METHOD(Phalcon_Mvc_Model_Criteria, __construct);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName);
@@ -85,7 +84,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_frominput, 0, 0, 3)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_mvc_model_criteria_method_entry){
-	PHP_ME(Phalcon_Mvc_Model_Criteria, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setDI, arginfo_phalcon_mvc_model_criteria_setdi, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Criteria, setModelName, arginfo_phalcon_mvc_model_criteria_setmodelname, ZEND_ACC_PUBLIC) 

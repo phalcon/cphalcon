@@ -112,35 +112,32 @@ PHP_METHOD(Phalcon_Db_Index, getColumns){
 PHP_METHOD(Phalcon_Db_Index, __set_state){
 
 	zval *data, *index_name, *columns, *index;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	eval_int = phalcon_array_isset_string(data, SS("_indexName"));
-	if (!eval_int) {
+	if (!phalcon_array_isset_string(data, SS("_indexName"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_indexName parameter is required");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(data, SS("_columns"));
-	if (!eval_int) {
+	if (!phalcon_array_isset_string(data, SS("_columns"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "_columns parameter is required");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(index_name);
+	PHALCON_OBS_VAR(index_name);
 	phalcon_array_fetch_string(&index_name, data, SL("_indexName"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(columns);
+	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(index);
 	object_init_ex(index, phalcon_db_index_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns);
+	
 	
 	RETURN_CTOR(index);
 }

@@ -87,27 +87,35 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, escapeIdentifier){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &identifier) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(identifier) == IS_ARRAY) { 
-		PHALCON_INIT_VAR(domain);
+	
+		PHALCON_OBS_VAR(domain);
 		phalcon_array_fetch_long(&domain, identifier, 0, PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(name);
+		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_long(&name, identifier, 1, PH_NOISY_CC);
+		if (PHALCON_GLOBAL(db).escape_identifiers) {
+			PHALCON_INIT_VAR(escaped);
+			PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
+		} else {
+			PHALCON_INIT_NVAR(escaped);
+			PHALCON_CONCAT_VSV(escaped, domain, ".", name);
+		}
 	
-		PHALCON_INIT_VAR(escaped);
-		PHALCON_CONCAT_SVSVS(escaped, "`", domain, "`.`", name, "`");
 	
 		RETURN_CTOR(escaped);
 	}
+	if (PHALCON_GLOBAL(db).escape_identifiers) {
+		PHALCON_INIT_NVAR(escaped);
+		PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
+		RETURN_CTOR(escaped);
+	}
 	
-	PHALCON_INIT_NVAR(escaped);
-	PHALCON_CONCAT_SVS(escaped, "`", identifier, "`");
 	
-	RETURN_CTOR(escaped);
+	RETURN_CCTOR(identifier);
 }
 
 /**
@@ -130,33 +138,31 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &table, &schema) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!schema) {
-		PHALCON_INIT_NVAR(schema);
+		PHALCON_INIT_VAR(schema);
 	}
 	
 	PHALCON_INIT_VAR(columns);
 	array_init(columns);
 	
-	PHALCON_INIT_VAR(dialect);
+	PHALCON_OBS_VAR(dialect);
 	phalcon_read_property(&dialect, this_ptr, SL("_dialect"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(sql);
-	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(sql, dialect, "describecolumns", table, schema);
 	
 	PHALCON_INIT_VAR(fetch_assoc);
 	phalcon_get_class_constant(fetch_assoc, phalcon_db_ce, SS("FETCH_ASSOC") TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(describe);
-	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
 	
 	PHALCON_INIT_VAR(old_column);
 	
@@ -170,22 +176,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	ah0 = Z_ARRVAL_P(describe);
 	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
-		}
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(field);
 	
 		PHALCON_INIT_NVAR(definition);
-		array_init(definition);
+		array_init_size(definition, 1);
 		add_assoc_long_ex(definition, SS("bindType"), 2);
 	
 		/** 
 		 * By checking every column type we convert it to a Phalcon\Db\Column
 		 */
-		PHALCON_INIT_NVAR(column_type);
+		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_string(&column_type, field, SL("type"), PH_NOISY_CC);
 		if (phalcon_memnstr_str(column_type, SL("int") TSRMLS_CC)) {
 			phalcon_array_update_string_long(&definition, SL("type"), 0, PH_SEPARATE TSRMLS_CC);
@@ -235,6 +237,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		 * If the column type has a parentheses we try to get the column size from it
 		 */
 		if (phalcon_memnstr_str(column_type, SL("(") TSRMLS_CC)) {
+	
 			PHALCON_INIT_NVAR(matches);
 			array_init(matches);
 			Z_SET_ISREF_P(matches);
@@ -243,9 +246,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			PHALCON_CALL_FUNC_PARAMS_3(pos, "preg_match", size_pattern, column_type, matches);
 			Z_UNSET_ISREF_P(matches);
 			if (zend_is_true(pos)) {
-				eval_int = phalcon_array_isset_long(matches, 1);
-				if (eval_int) {
-					PHALCON_INIT_NVAR(match_one);
+				if (phalcon_array_isset_long(matches, 1)) {
+					PHALCON_OBS_NVAR(match_one);
 					phalcon_array_fetch_long(&match_one, matches, 1, PH_NOISY_CC);
 					phalcon_array_update_string(&definition, SL("size"), &match_one, PH_COPY | PH_SEPARATE TSRMLS_CC);
 				}
@@ -268,7 +270,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		/** 
 		 * Check if the field is primary key
 		 */
-		PHALCON_INIT_NVAR(attribute);
+		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
@@ -277,7 +279,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		/** 
 		 * Check if the column allows null values
 		 */
-		PHALCON_INIT_NVAR(attribute);
+		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
@@ -286,25 +288,24 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 		/** 
 		 * Check if the column is auto increment
 		 */
-		PHALCON_INIT_NVAR(attribute);
+		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
 		if (PHALCON_COMPARE_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
-		PHALCON_INIT_NVAR(column_name);
+		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
 	
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);
+	
 		phalcon_array_append(&columns, column, PH_SEPARATE TSRMLS_CC);
 		PHALCON_CPY_WRT(old_column, column_name);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
-	
-	ph_cycle_end_0:
+	}
 	
 	
 	RETURN_CTOR(columns);

@@ -74,23 +74,20 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Session){
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 
 	zval *options = NULL, *suffix, *empty_array;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(options, SS("suffix"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(suffix);
+		if (phalcon_array_isset_string(options, SS("suffix"))) {
+			PHALCON_OBS_VAR(suffix);
 			phalcon_array_fetch_string(&suffix, options, SL("suffix"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_suffix"), suffix TSRMLS_CC);
 		}
@@ -106,6 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 /**
  * Reads meta-data from $_SESSION
  *
+ * @param string $key
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
@@ -113,40 +111,35 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 	zval *key, *session = NULL, *suffix, *suffix_key, *meta_data;
 	zval *g0 = NULL;
 	zval *r0 = NULL, *r1 = NULL;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
+	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
 	PHALCON_CPY_WRT(session, g0);
 	
-	PHALCON_INIT_VAR(suffix);
+	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(suffix_key);
 	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
-	eval_int = phalcon_array_isset(session, suffix_key);
-	if (eval_int) {
-		PHALCON_INIT_VAR(r0);
-		phalcon_array_fetch(&r0, session, suffix_key, PH_NOISY_CC);
-		eval_int = phalcon_array_isset(r0, key);
-		if (eval_int) {
-			PHALCON_INIT_VAR(r1);
-			phalcon_array_fetch(&r1, session, suffix_key, PH_NOISY_CC);
-			PHALCON_INIT_VAR(meta_data);
-			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
+	if (phalcon_array_isset(session, suffix_key)) {
 	
+		PHALCON_OBS_VAR(r0);
+		phalcon_array_fetch(&r0, session, suffix_key, PH_NOISY_CC);
+		if (phalcon_array_isset(r0, key)) {
+			PHALCON_OBS_VAR(r1);
+			phalcon_array_fetch(&r1, session, suffix_key, PH_NOISY_CC);
+			PHALCON_OBS_VAR(meta_data);
+			phalcon_array_fetch(&meta_data, r1, key, PH_NOISY_CC);
 			RETURN_CCTOR(meta_data);
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -163,16 +156,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(suffix);
+	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(suffix_key);
 	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
-	phalcon_get_global(&g0, SL("_SESSION")+1 TSRMLS_CC);
+	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
 	phalcon_array_update_multi_2(&g0, suffix_key, key, &data, 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

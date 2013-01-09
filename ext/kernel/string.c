@@ -22,9 +22,17 @@
 #include "php_main.h"
 #include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_string.h"
+#include "ext/standard/php_rand.h"
+#include "ext/standard/php_lcg.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+
+#define PH_RANDOM_ALNUM 0
+#define PH_RANDOM_ALPHA 1
+#define PH_RANDOM_HEXDEC 2
+#define PH_RANDOM_NUMERIC 3
+#define PH_RANDOM_NOZERO 4
 
 /**
  * Fast call to php strlen
@@ -46,6 +54,34 @@ void phalcon_fast_strlen(zval *return_value, zval *str){
 	if (use_copy) {
 		zval_dtor(str);
 	}
+}
+
+/**
+ * Fast call to php strlen
+ */
+void phalcon_fast_strtolower(zval *return_value, zval *str){
+
+	zval copy;
+	int use_copy = 0;
+	char *lower_str;
+	unsigned int length;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		zend_make_printable_zval(str, &copy, &use_copy);
+		if (use_copy) {
+			str = &copy;
+		}
+	}
+
+	length = Z_STRLEN_P(str);
+	lower_str = estrndup(Z_STRVAL_P(str), length);
+	php_strtolower(lower_str, length);
+
+	if (use_copy) {
+		zval_dtor(str);
+	}
+
+	ZVAL_STRINGL(return_value, lower_str, length, 0);
 }
 
 /**
@@ -73,7 +109,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
 	HashTable      *arr;
 	HashPosition   pos;
 	smart_str      implstr = {0};
-	int            str_len, numelems, i = 0;
+	unsigned int   str_len, numelems, i = 0;
 	zval tmp_val;
 
 	if (Z_TYPE_P(pieces) != IS_ARRAY) {
@@ -162,7 +198,7 @@ void phalcon_fast_join_str(zval *return_value, char *glue, unsigned int glue_len
  */
 void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str camelize_str = {0};
 	char *marker, ch;
 
@@ -210,7 +246,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
  */
 void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 
-	int i;
+	unsigned int i;
 	smart_str uncamelize_str = {0};
 	char *marker, ch;
 
@@ -282,7 +318,7 @@ int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC){
 /**
  * Check if a string is contained into another
  */
-int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC){
+int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -333,7 +369,7 @@ void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS
 /**
  * Inmediate function resolution for strpos function
  */
-void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 
@@ -356,7 +392,7 @@ void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, i
 /**
  * Inmediate function resolution for stripos function
  */
-void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC){
+void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC){
 
 	char *found = NULL;
 	char *needle_dup, *haystack_dup;
@@ -586,7 +622,7 @@ void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches){
 
 }
 
-zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, ulong *position, char *cursor, char *marker){
+zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigned long *position, char *cursor, char *marker){
 
 	zval **zv, **tmp;
 	int result = FAILURE;
@@ -665,11 +701,12 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, ulong *
 void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC){
 
 	char *cursor, *marker;
-	unsigned int ch, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned int i, bracket_count = 0, parentheses_count = 0, intermediate;
+	unsigned char ch;
 	smart_str route_str = {0};
-	ulong position = 1;
+	unsigned long position = 1;
 	zval *replace, replace_copy;
-	int i, use_copy, looking_placeholder = 0;
+	int use_copy, looking_placeholder = 0;
 
 	if (Z_TYPE_P(pattern) != IS_STRING || Z_TYPE_P(replacements) != IS_ARRAY || Z_TYPE_P(paths) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
@@ -812,12 +849,17 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 /**
  * Checks if a zval string starts with a zval string
  */
-int phalcon_start_with(zval *str, zval *compared){
+int phalcon_start_with(zval *str, zval *compared, zval *ignore_case){
 
-	int i;
+	int ignore = 1;
+	unsigned int i, number;
 	char *op1_cursor, *op2_cursor;
 
 	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
+		return 0;
+	}
+
+	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str)) {
 		return 0;
 	}
 
@@ -825,11 +867,31 @@ int phalcon_start_with(zval *str, zval *compared){
 		return 0;
 	}
 
+	if (ignore_case) {
+		ignore = zend_is_true(ignore_case);
+	}
+
+	if (Z_STRLEN_P(compared) < Z_STRLEN_P(str)) {
+		number = Z_STRLEN_P(compared);
+	} else {
+		number = Z_STRLEN_P(str);
+	}
+
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
-	for (i = 0; i<Z_STRLEN_P(compared); i++){
-		if ((*op1_cursor) != (*op2_cursor)) {
-			return 0;
+	for (i = 0; i < number; i++) {
+		if (ignore) {
+			if ((*op1_cursor) != (*op2_cursor)) {
+				return 0;
+			}
+		} else {
+			if ((*op1_cursor) != (*op2_cursor)) {
+				if (((*op1_cursor)+32) != (*op2_cursor)) {
+					if ((*op1_cursor-32) != (*op2_cursor)) {
+						return 0;
+					}
+				}
+			}
 		}
 		op1_cursor++;
 		op2_cursor++;
@@ -844,7 +906,7 @@ int phalcon_start_with(zval *str, zval *compared){
 int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length){
 
 	char *op1_cursor, *op2_cursor;
-	int i;
+	unsigned int i, number;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
@@ -854,9 +916,15 @@ int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_leng
 		return 0;
 	}
 
+	if (compared_length < Z_STRLEN_P(str)) {
+		number = compared_length;
+	} else {
+		number = Z_STRLEN_P(str);
+	}
+
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = compared;
-	for (i = 0; i<compared_length; i++){
+	for (i = 0; i<number; i++){
 		if ((*op1_cursor) != (*op2_cursor)) {
 			return 0;
 		}
@@ -865,4 +933,269 @@ int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_leng
 	}
 
 	return 1;
+}
+
+/**
+ * Checks if a string starts with other  string
+ */
+int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length){
+
+	char *op1_cursor, *op2_cursor;
+	unsigned int i, number;
+
+	if (compared_length > str_length) {
+		return 0;
+	}
+
+	if (compared_length < str_length) {
+		number = compared_length;
+	} else {
+		number = str_length;
+	}
+
+	op1_cursor = str;
+	op2_cursor = compared;
+	for (i = 0; i<number; i++){
+		if ((*op1_cursor) != (*op2_cursor)) {
+			return 0;
+		}
+		op1_cursor++;
+		op2_cursor++;
+	}
+
+	return 1;
+}
+
+/**
+ * Checks if a zval string ends with a zval string
+ */
+int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
+
+	int ignore = 1, number = 0;
+	unsigned int i;
+	char *op1_cursor, *op2_cursor;
+
+	if (Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(compared) != IS_STRING) {
+		return 0;
+	}
+
+	if (!Z_STRLEN_P(compared) || !Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	if (Z_STRLEN_P(compared) > Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	if (ignore_case) {
+		ignore = zend_is_true(ignore_case);
+	}
+
+	op1_cursor = Z_STRVAL_P(str);
+	op2_cursor = Z_STRVAL_P(compared);
+
+	op1_cursor += (Z_STRLEN_P(str)-1);
+	op2_cursor += (Z_STRLEN_P(compared)-1);
+
+	if (Z_STRLEN_P(compared) < Z_STRLEN_P(str)) {
+		number = Z_STRLEN_P(compared);
+	} else {
+		number = Z_STRLEN_P(str);
+	}
+
+	for (i = number; i > 0; i--) {
+		if (ignore) {
+			if ((*op1_cursor) != (*op2_cursor)) {
+				return 0;
+			}
+		} else {
+			if ((*op1_cursor) != (*op2_cursor)) {
+				if (((*op1_cursor)+32) != (*op2_cursor)) {
+					if ((*op1_cursor-32) != (*op2_cursor)) {
+						return 0;
+					}
+				}
+			}
+		}
+		op1_cursor--;
+		op2_cursor--;
+	}
+
+	return 1;
+}
+
+
+void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
+
+	long i, rand_type;
+	unsigned char ch;
+	smart_str random_str = {0};
+
+	if (Z_TYPE_P(type) != IS_LONG) {
+		return;
+	}
+
+	if (Z_LVAL_P(type) > PH_RANDOM_NOZERO) {
+		return;
+	}
+
+	if (Z_TYPE_P(length) != IS_LONG) {
+		return;
+	}
+
+	/** Generate seed */
+	if (!BG(mt_rand_is_seeded)) {
+		php_mt_srand(GENERATE_SEED() TSRMLS_CC);
+	}
+
+	for (i = 0; i < Z_LVAL_P(length); i++) {
+
+		switch (Z_LVAL_P(type)) {
+			case PH_RANDOM_ALNUM:
+				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(rand_type, 0, 3, PHP_MT_RAND_MAX);
+				break;
+			case PH_RANDOM_ALPHA:
+				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(rand_type, 1, 2, PHP_MT_RAND_MAX);
+				break;
+			case PH_RANDOM_HEXDEC:
+				rand_type = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(rand_type, 0, 1, PHP_MT_RAND_MAX);
+				break;
+			case PH_RANDOM_NUMERIC:
+				rand_type = 0;
+				break;
+			case PH_RANDOM_NOZERO:
+				rand_type = 5;
+				break;
+			default:
+				continue;
+		}
+
+		switch (rand_type) {
+			case 0:
+				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(ch, '0', '9', PHP_MT_RAND_MAX);
+				break;
+			case 1:
+				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(ch, 'a', 'f', PHP_MT_RAND_MAX);
+				break;
+			case 2:
+				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(ch, 'a', 'z', PHP_MT_RAND_MAX);
+				break;
+			case 3:
+				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(ch, 'A', 'Z', PHP_MT_RAND_MAX);
+				break;
+			case 5:
+				ch = (long) (php_mt_rand(TSRMLS_C) >> 1);
+				RAND_RANGE(ch, '1', '9', PHP_MT_RAND_MAX);
+				break;
+			default:
+				continue;
+		}
+
+		smart_str_appendc(&random_str, (unsigned int) ch);
+	}
+
+
+	smart_str_0(&random_str);
+
+	if (random_str.len) {
+		RETURN_STRINGL(random_str.c, random_str.len, 0);
+	} else {
+		smart_str_free(&random_str);
+		RETURN_EMPTY_STRING();
+	}
+
+}
+
+/**
+ * Removes slashes at the end of a string
+ */
+void phalcon_remove_extra_slashes(zval *return_value, zval *str){
+
+	char *cursor, *removed_str;
+	unsigned int i;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		RETURN_EMPTY_STRING();
+		return;
+	}
+
+	if (Z_STRLEN_P(str) > 1) {
+		cursor = Z_STRVAL_P(str);
+		cursor += (Z_STRLEN_P(str)-1);
+		for (i = Z_STRLEN_P(str); i > 0; i--) {
+			if ((*cursor) == '/') {
+				cursor--;
+				continue;
+			}
+			break;
+		}
+	} else {
+		i = Z_STRLEN_P(str);
+	}
+
+	removed_str = emalloc(i + 1);
+	memcpy(removed_str, Z_STRVAL_P(str), i);
+	removed_str[i] = '\0';
+
+	RETURN_STRINGL(removed_str, i, 0);
+
+}
+
+/**
+ * This function is not external in the Zend API so we redeclare it here in the extension
+ */
+int phalcon_spprintf(char **message, int max_len, char *format, ...)
+{
+    va_list arg;
+    int len;
+
+    va_start(arg, format);
+    len = vspprintf(message, max_len, format, arg);
+    va_end(arg);
+    return len;
+}
+
+/**
+ * Makes a substr like the PHP function. This function doesn't support negative lengths
+ */
+void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC) {
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+
+		if (Z_TYPE_P(str) == IS_NULL) {
+			RETURN_FALSE;
+		}
+
+		if (Z_TYPE_P(str) == IS_BOOL) {
+			RETURN_FALSE;
+		}
+
+		if (Z_TYPE_P(str) == IS_LONG) {
+			RETURN_EMPTY_STRING();
+		}
+
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_substr()");
+		RETURN_FALSE;
+	}
+
+	if (Z_STRLEN_P(str) < from){
+		RETURN_FALSE;
+	}
+
+	if (!length || (Z_STRLEN_P(str) < (length + from))) {
+		length = Z_STRLEN_P(str) - from;
+	}
+
+	if (length <= 0){
+		RETURN_EMPTY_STRING();
+	}
+
+	RETURN_STRINGL(Z_STRVAL_P(str) + from, length, 1);
 }

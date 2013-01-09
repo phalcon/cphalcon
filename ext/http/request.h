@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod);
 PHP_METHOD(Phalcon_Http_Request, isPost);
 PHP_METHOD(Phalcon_Http_Request, isGet);
 PHP_METHOD(Phalcon_Http_Request, isPut);
+PHP_METHOD(Phalcon_Http_Request, isPatch);
 PHP_METHOD(Phalcon_Http_Request, isHead);
 PHP_METHOD(Phalcon_Http_Request, isDelete);
 PHP_METHOD(Phalcon_Http_Request, isOptions);
@@ -143,6 +144,7 @@ PHALCON_INIT_FUNCS(phalcon_http_request_method_entry){
 	PHP_ME(Phalcon_Http_Request, isPost, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isGet, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isPut, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Http_Request, isPatch, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isHead, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isDelete, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Http_Request, isOptions, NULL, ZEND_ACC_PUBLIC) 
