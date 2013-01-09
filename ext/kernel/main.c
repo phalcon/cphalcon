@@ -41,6 +41,9 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
+	/* Virtual Symbol Tables */
+	phalcon_globals->symbol_tables = NULL;
+
 	/* Cache options */
 	phalcon_globals->function_cache = NULL;
 
@@ -243,6 +246,59 @@ int phalcon_is_callable(zval *var TSRMLS_DC){
 	}
 
 	return (int) retval;
+}
+
+/**
+ * Creates virtual symbol tables dinamically
+ */
+void phalcon_create_symbol_table(TSRMLS_D) {
+
+	if (!PHALCON_GLOBAL(symbol_tables)) {
+		PHALCON_GLOBAL(symbol_tables) = emalloc(sizeof(HashTable **) * 4);
+		PHALCON_GLOBAL(number_symbol_tables) = 1;
+	} else {
+		if ((PHALCON_GLOBAL(number_symbol_tables) % 4) == 0) {
+			PHALCON_GLOBAL(symbol_tables) = erealloc(PHALCON_GLOBAL(symbol_tables), sizeof(HashTable **) * 4 + PHALCON_GLOBAL(number_symbol_tables));
+		}
+		PHALCON_GLOBAL(number_symbol_tables)++;
+	}
+
+	PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1] = EG(active_symbol_table);
+	EG(active_symbol_table) = NULL;
+}
+
+/**
+ * Restores a virtual symbol table
+ */
+void phalcon_restore_symbol_table(TSRMLS_D) {
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+
+		EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1];
+
+		PHALCON_GLOBAL(number_symbol_tables)--;
+
+		if (PHALCON_GLOBAL(number_symbol_tables) == 0) {
+			efree(PHALCON_GLOBAL(symbol_tables));
+			PHALCON_GLOBAL(symbol_tables) = NULL;
+		}
+	}
+}
+
+/**
+ * Restores all the virtual symbol tables
+ */
+void phalcon_clean_symbol_tables(TSRMLS_D) {
+
+	unsigned int i;
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
+			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
+		}
+		efree(PHALCON_GLOBAL(symbol_tables));
+		PHALCON_GLOBAL(symbol_tables) = NULL;
+	}
 }
 
 /**

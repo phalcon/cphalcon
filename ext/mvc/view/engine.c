@@ -124,3 +124,14 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	RETURN_CCTOR(content);
 }
 
+/**
+ * Returns the view component related to the adapter
+ *
+ * @return Phalcon\Mvc\ViewInterface
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView){
+
+
+	RETURN_MEMBER(this_ptr, "_view");
+}
+

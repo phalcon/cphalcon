@@ -74,7 +74,10 @@
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
+
+			<!-- Micro MVC -->
 			<file>unit-tests/MicroMvcTest.php</file>
+			<file>unit-tests/MicroMvcEventsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

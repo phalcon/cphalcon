@@ -69,6 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request){
 	PHALCON_REGISTER_CLASS(Phalcon\\Http, Request, http_request, phalcon_http_request_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 2, phalcon_http_requestinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -599,16 +600,28 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
  */
 PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
-	zval *input, *contents;
+	zval *raw_body, *input, *contents;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(input);
-	ZVAL_STRING(input, "php://input", 1);
+	PHALCON_OBS_VAR(raw_body);
+	phalcon_read_property(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
+	if (zend_is_true(raw_body)) {
+		PHALCON_INIT_VAR(input);
+		ZVAL_STRING(input, "php://input", 1);
 	
-	PHALCON_INIT_VAR(contents);
-	PHALCON_CALL_FUNC_PARAMS_1(contents, "file_get_contents", input);
-	RETURN_CCTOR(contents);
+		PHALCON_INIT_VAR(contents);
+		PHALCON_CALL_FUNC_PARAMS_1(contents, "file_get_contents", input);
+	
+		/** 
+		 * We need store the read raw body because it can be read again
+		 */
+		phalcon_update_property_zval(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
+		RETURN_CCTOR(contents);
+	}
+	
+	
+	RETURN_CCTOR(raw_body);
 }
 
 /**

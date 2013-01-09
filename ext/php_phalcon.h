@@ -52,6 +52,10 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	phalcon_memory_entry *start_memory;
 	phalcon_memory_entry *active_memory;
 
+	//Virtual Symbol Tables
+	unsigned int number_symbol_tables;
+	HashTable **symbol_tables;
+
 	//Function cache
 	HashTable *function_cache;
 

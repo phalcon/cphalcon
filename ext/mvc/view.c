@@ -1064,6 +1064,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	/** 
+	 * Create a virtual symbol table
+	 */
+	phalcon_create_symbol_table(TSRMLS_C);
+	
+	/** 
 	 * Call beforeRender if there is an events manager
 	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -1259,6 +1264,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	}
 	
 	/** 
+	 * Restore the virtual symbol table
+	 */
+	phalcon_restore_symbol_table(TSRMLS_C);
+	
+	/** 
 	 * Call afterRender event
 	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -1395,12 +1405,17 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	}
 	
 	/** 
-	 * We must to clone the current view to keep the current state
+	 * We must to clone the current view to keep the old state
 	 */
 	PHALCON_INIT_VAR(view);
 	if (phalcon_clone(view, this_ptr TSRMLS_CC) == FAILURE) {
 		return;
 	}
+	
+	/** 
+	 * The component must be reset to its defaults
+	 */
+	PHALCON_CALL_METHOD_NORETURN(view, "reset");
 	
 	/** 
 	 * Start the output buffering
@@ -1422,7 +1437,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	/** 
 	 * Stop the output buffering
 	 */
-	PHALCON_CALL_METHOD_NORETURN(view, "finish");
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
 	
 	/** 
 	 * Get the processed content

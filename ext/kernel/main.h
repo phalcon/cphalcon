@@ -65,6 +65,11 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
+/* Virtual symbol tables */
+extern void phalcon_create_symbol_table(TSRMLS_D);
+extern void phalcon_restore_symbol_table(TSRMLS_D);
+extern void phalcon_clean_symbol_tables(TSRMLS_D);
+
 /** Export symbols to active symbol table */
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);

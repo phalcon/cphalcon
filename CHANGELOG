@@ -7,6 +7,7 @@
  - Removed filtering of keys from Phalcon\Cache\Backend\File
  - Support for creating groups of routes using Phalcon\Router\Route\Group
  - Added Phalcon\Mvc\Micro middleware events
+ - Implemented virtual scopes in Phalcon\Mvc\View
 
 0.8.0a2
  - Added support for behaviors in the ORM including: Phalcon\Mvc\Model\Behavior\Timestampable and Phalcon\Mvc\Model\Behavior\SoftDelete
