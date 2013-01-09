@@ -6550,7 +6550,7 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 		RETURN_ZVAL(str, 1, 0);
 	}
 
-	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), (size_t *) &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
+	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, (int) Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
 	RETURN_STRINGL(escaped, length, 0);
 }
 
@@ -19613,7 +19613,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_CCTOR(filtered);
 	}
 	
-	PHALCON_INIT_NVAR(filtered);
 	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
 		PHALCON_INIT_VAR(type);
@@ -23342,7 +23341,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_escape_html(escaped, text, html_quote_type, encoding);
+		phalcon_escape_html(escaped, text, html_quote_type, encoding TSRMLS_CC);
 		RETURN_CTOR(escaped);
 	}
 	RETURN_MM_NULL();
@@ -63108,8 +63107,8 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 8);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 2);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 4);
+	add_next_index_long(version, 0);
 	RETURN_CTOR(version);
 }
 
