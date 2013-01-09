@@ -31,7 +31,7 @@
 
 void phalcon_make_printable_zval(zval *expr, zval *expr_copy, int *use_copy){
 	zend_make_printable_zval(expr, expr_copy, use_copy);
-	if(use_copy){
+	if (use_copy) {
 		Z_SET_REFCOUNT_P(expr_copy, 1);
 		Z_UNSET_ISREF_P(expr_copy);
 	}
@@ -52,55 +52,92 @@ int phalcon_and_function(zval *result, zval *left, zval *right){
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self(zval *left, zval *right TSRMLS_DC){
+void phalcon_concat_self(zval **left, zval *right TSRMLS_DC){
 
-	zval left_copy;
+	zval left_copy, right_copy;
 	uint length;
-	int use_copy = 0;
+	int use_copy_left = 0, use_copy_right = 0;
 
-	if (Z_TYPE_P(left) != IS_STRING) {
-		phalcon_make_printable_zval(left, &left_copy, &use_copy);
-		if (use_copy) {
-			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+	if (Z_TYPE_P(right) != IS_STRING) {
+		phalcon_make_printable_zval(right, &right_copy, &use_copy_right);
+		if (use_copy_right) {
+			PHALCON_CPY_WRT_CTOR(right, (&right_copy));
 		}
 	}
 
-	length = Z_STRLEN_P(left) + Z_STRLEN_P(right);
-	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+	if (Z_TYPE_PP(left) == IS_NULL) {
 
-	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
-	Z_STRVAL_P(left)[length] = 0;
-	Z_STRLEN_P(left) = length;
-	Z_TYPE_P(left) = IS_STRING;
+		Z_STRVAL_PP(left) = emalloc(Z_STRLEN_P(right)+1);
+		memcpy(Z_STRVAL_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
+		Z_STRVAL_PP(left)[Z_STRLEN_P(right)] = 0;
+		Z_STRLEN_PP(left) = Z_STRLEN_P(right);
+		Z_TYPE_PP(left) = IS_STRING;
 
-	if (use_copy) {
+		if (use_copy_right) {
+			zval_dtor(&right_copy);
+		}
+
+		return;
+	}
+
+	if (Z_TYPE_PP(left) != IS_STRING) {
+		phalcon_make_printable_zval(*left, &left_copy, &use_copy_left);
+		if (use_copy_left) {
+			PHALCON_CPY_WRT_CTOR(*left, (&left_copy));
+		}
+	}
+
+	length = Z_STRLEN_PP(left) + Z_STRLEN_P(right);
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length+1);
+
+	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), Z_STRVAL_P(right), Z_STRLEN_P(right));
+	Z_STRVAL_PP(left)[length] = 0;
+	Z_STRLEN_PP(left) = length;
+	Z_TYPE_PP(left) = IS_STRING;
+
+	if (use_copy_left) {
 		zval_dtor(&left_copy);
+	}
+
+	if (use_copy_right) {
+		zval_dtor(&right_copy);
 	}
 }
 
 /**
  * Appends the content of the right operator to the left operator
  */
-void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC){
+void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC){
 
 	zval left_copy;
 	uint length;
 	int use_copy = 0;
 
-	if (Z_TYPE_P(left) != IS_STRING) {
-		phalcon_make_printable_zval(left, &left_copy, &use_copy);
+	if (Z_TYPE_PP(left) == IS_NULL) {
+
+		Z_STRVAL_PP(left) = emalloc(right_length + 1);
+		memcpy(Z_STRVAL_PP(left), right, right_length);
+		Z_STRVAL_PP(left)[right_length] = 0;
+		Z_STRLEN_PP(left) = right_length;
+		Z_TYPE_PP(left) = IS_STRING;
+
+		return;
+	}
+
+	if (Z_TYPE_PP(left) != IS_STRING) {
+		phalcon_make_printable_zval(*left, &left_copy, &use_copy);
 		if (use_copy) {
-			PHALCON_CPY_WRT_CTOR(left, (&left_copy));
+			PHALCON_CPY_WRT_CTOR(*left, (&left_copy));
 		}
 	}
 
-	length = Z_STRLEN_P(left) + right_length;
-	Z_STRVAL_P(left) = erealloc(Z_STRVAL_P(left), length+1);
+	length = Z_STRLEN_PP(left) + right_length;
+	Z_STRVAL_PP(left) = erealloc(Z_STRVAL_PP(left), length + 1);
 
-	memcpy(Z_STRVAL_P(left)+Z_STRLEN_P(left), right, right_length);
-	Z_STRVAL_P(left)[length] = 0;
-	Z_STRLEN_P(left) = length;
-	Z_TYPE_P(left) = IS_STRING;
+	memcpy(Z_STRVAL_PP(left) + Z_STRLEN_PP(left), right, right_length);
+	Z_STRVAL_PP(left)[length] = 0;
+	Z_STRLEN_PP(left) = length;
+	Z_TYPE_PP(left) = IS_STRING;
 
 	if (use_copy) {
 		zval_dtor(&left_copy);
@@ -274,4 +311,62 @@ void phalcon_cast(zval *result, zval *var, zend_uint type){
 			break;
 	}
 
+}
+
+/**
+ * Returns the long value of a zval
+ */
+long phalcon_get_intval(zval *op) {
+
+	int type;
+	long long_value;
+	double double_value;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return Z_LVAL_P(op);
+		case IS_BOOL:
+			return Z_BVAL_P(op);
+		case IS_DOUBLE:
+			return (long) Z_DVAL_P(op);
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), &long_value, &double_value, 0))){
+				if (type == IS_LONG) {
+					return long_value;
+				} else {
+					if (type == IS_DOUBLE) {
+						return double_value;
+					} else {
+						return 0;
+					}
+				}
+			}
+	}
+
+	return 0;
+}
+
+/**
+ * Returns the long value of a zval
+ */
+int phalcon_is_numeric(zval *op) {
+
+	int type;
+
+	switch (Z_TYPE_P(op)) {
+		case IS_LONG:
+			return 1;
+		case IS_BOOL:
+			return 0;
+		case IS_DOUBLE:
+			return 1;
+		case IS_STRING:
+			if((type = is_numeric_string(Z_STRVAL_P(op), Z_STRLEN_P(op), NULL, NULL, 0))){
+				if (type == IS_LONG || type == IS_DOUBLE) {
+					return 1;
+				}
+			}
+	}
+
+	return 0;
 }

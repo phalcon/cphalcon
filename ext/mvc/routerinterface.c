@@ -200,6 +200,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRoutes);
 /**
  * Returns a route object by its id
  *
+ * @param string $id
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteById);
@@ -207,6 +208,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteById);
 /**
  * Returns a route object by its name
  *
+ * @param string $name
  * @return Phalcon\Mvc\Router\RouteInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_RouterInterface, getRouteByName);

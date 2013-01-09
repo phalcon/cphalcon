@@ -92,6 +92,19 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		return $di;
 	}
 
+	private function _prepareTestSqlite()
+	{
+
+		$di = $this->_getDI();
+
+		$di->set('db', function(){
+			require 'unit-tests/config.db.php';
+			return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+		});
+
+		return $di;
+	}
+
 	protected function _testCacheDefaultDI($di)
 	{
 
@@ -100,7 +113,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
@@ -126,7 +139,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array('key' => 'some'),
@@ -156,7 +169,7 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 			return new Phalcon\Cache\Backend\File($frontCache, array(
 				'cacheDir' => 'unit-tests/cache/'
 			));
-		});
+		}, true);
 
 		$robots = Robots::find(array(
 			'cache' => array(
@@ -180,10 +193,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'other-some');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'othersome',
+			0 => 'other-some',
 		));
 	}
 
@@ -199,6 +212,12 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->_testCacheDefaultDI($di);
 	}
 
+	public function testCacheDefaultDISqlite()
+	{
+		$di = $this->_prepareTestSqlite();
+		$this->_testCacheDefaultDI($di);
+	}
+
 	public function testCacheDefaultDIBindingsMysql()
 	{
 		$di = $this->_prepareTestMysql();
@@ -211,17 +230,27 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->_testCacheDefaultDIBindings($di);
 	}
 
+	public function testCacheDefaultDIBindingsSqlite()
+	{
+		$di = $this->_prepareTestSqlite();
+		$this->_testCacheDefaultDIBindings($di);
+	}
+
 	public function testCacheOtherServiceMysql()
 	{
-
 		$di = $this->_prepareTestMysql();
 		$this->_testCacheOtherService($di);
 	}
 
 	public function testCacheOtherServicePostgresql()
 	{
+		$di = $this->_prepareTestPostgresql();
+		$robots = $this->_testCacheOtherService($di);
+	}
 
-		$di = $this->_prepareTestMysql();
+	public function testCacheOtherServiceSqlite()
+	{
+		$di = $this->_prepareTestSqlite();
 		$robots = $this->_testCacheOtherService($di);
 	}
 

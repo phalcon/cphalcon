@@ -17,8 +17,6 @@
   +------------------------------------------------------------------------+
 */
 
-extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
-
 #ifndef PHALCON_RELEASE
 
 #define PHV(v) phalcon_vdump(v)

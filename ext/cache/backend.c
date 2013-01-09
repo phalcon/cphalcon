@@ -41,8 +41,7 @@
 /**
  * Phalcon\Cache\Backend
  *
- * This class implements common functionality for backend adapters. All the backend cache adapter must
- * extend this class
+ * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
  */
 
 
@@ -72,27 +71,27 @@ PHALCON_INIT_CLASS(Phalcon_Cache_Backend){
 PHP_METHOD(Phalcon_Cache_Backend, __construct){
 
 	zval *frontend, *options = NULL, *prefix;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &frontend, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
-		array_init(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	if (Z_TYPE_P(frontend) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_cache_exception_ce, "Frontend must be an Object");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(options, SS("prefix"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(prefix);
+	
+	/** 
+	 * A common option is the prefix
+	 */
+	if (phalcon_array_isset_string(options, SS("prefix"))) {
+		PHALCON_OBS_VAR(prefix);
 		phalcon_array_fetch_string(&prefix, options, SL("prefix"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
 	}
@@ -107,28 +106,36 @@ PHP_METHOD(Phalcon_Cache_Backend, __construct){
  * Starts a cache. The $keyname allows to identify the created fragment
  *
  * @param int|string $keyName
+ * @param   long $lifetime
  * @return  mixed
  */
 PHP_METHOD(Phalcon_Cache_Backend, start){
 
-	zval *key_name, *existing_cache, *fresh = NULL, *frontend;
+	zval *key_name, *lifetime = NULL, *existing_cache, *fresh = NULL;
+	zval *frontend;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key_name) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &key_name, &lifetime) == FAILURE) {
+		RETURN_MM_NULL();
 	}
 
+	if (!lifetime) {
+		PHALCON_INIT_VAR(lifetime);
+	}
+	
+	/** 
+	 * Get the cache content verifying if it was expired
+	 */
 	PHALCON_INIT_VAR(existing_cache);
-	PHALCON_CALL_METHOD_PARAMS_1(existing_cache, this_ptr, "get", key_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2(existing_cache, this_ptr, "get", key_name, lifetime);
 	if (Z_TYPE_P(existing_cache) == IS_NULL) {
 		PHALCON_INIT_VAR(fresh);
 		ZVAL_BOOL(fresh, 1);
 	
-		PHALCON_INIT_VAR(frontend);
+		PHALCON_OBS_VAR(frontend);
 		phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_NORETURN(frontend, "start", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(frontend, "start");
 	} else {
 		PHALCON_INIT_NVAR(fresh);
 		ZVAL_BOOL(fresh, 0);
@@ -152,19 +159,18 @@ PHP_METHOD(Phalcon_Cache_Backend, stop){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &stop_buffer) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!stop_buffer) {
-		PHALCON_INIT_NVAR(stop_buffer);
+		PHALCON_INIT_VAR(stop_buffer);
 		ZVAL_BOOL(stop_buffer, 1);
 	}
 	
-	PHALCON_INIT_VAR(frontend);
+	PHALCON_OBS_VAR(frontend);
 	phalcon_read_property(&frontend, this_ptr, SL("_frontend"), PH_NOISY_CC);
 	if (PHALCON_IS_TRUE(stop_buffer)) {
-		PHALCON_CALL_METHOD_NORETURN(frontend, "stop", PH_NO_CHECK);
+		PHALCON_CALL_METHOD_NORETURN(frontend, "stop");
 	}
 	
 	phalcon_update_property_bool(this_ptr, SL("_started"), 0 TSRMLS_CC);

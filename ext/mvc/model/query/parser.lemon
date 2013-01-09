@@ -60,8 +60,7 @@ static zval *phql_ret_literal_zval(int type, phql_parser_token *T)
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
 
@@ -73,10 +72,9 @@ static zval *phql_ret_placeholder_zval(int type, phql_parser_token *T)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_long(ret, "type", type);
-	add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-	efree(T->token);
+	add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 	efree(T);
 
 	return ret;
@@ -90,14 +88,12 @@ static zval *phql_ret_qualified_name(phql_parser_token *A, phql_parser_token *B)
 	array_init(ret);
 	add_assoc_long(ret, "type", PHQL_T_QUALIFIED);
 	if (B != NULL) {
-		add_assoc_stringl(ret, "domain", A->token, A->token_len, 1);
-		add_assoc_stringl(ret, "name", B->token, B->token_len, 1);
-		efree(B->token);
+		add_assoc_stringl(ret, "domain", A->token, A->token_len, 0);
+		add_assoc_stringl(ret, "name", B->token, B->token_len, 0);
 		efree(B);
 	} else {
-		add_assoc_stringl(ret, "name", A->token, A->token_len, 1);
+		add_assoc_stringl(ret, "name", A->token, A->token_len, 0);
 	}
-	efree(A->token);
 	efree(A);
 
 	return ret;
@@ -168,13 +164,11 @@ static zval *phql_ret_limit_clause(phql_parser_token *L, phql_parser_token *O)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	add_assoc_stringl(ret, "number", L->token, L->token_len, 1);
-	efree(L->token);
+	add_assoc_stringl(ret, "number", L->token, L->token_len, 0);
 	efree(L);
 
 	if (O != NULL) {
-		add_assoc_stringl(ret, "offset", O->token, O->token_len, 1);
-		efree(O->token);
+		add_assoc_stringl(ret, "offset", O->token, O->token_len, 0);
 		efree(O);
 	}
 
@@ -222,7 +216,7 @@ static zval *phql_ret_update_clause(zval *tables, zval *values)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_zval(ret, "tables", tables);
 	add_assoc_zval(ret, "values", values);
 
@@ -235,7 +229,7 @@ static zval *phql_ret_update_item(zval *column, zval *expr)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 2);
 	add_assoc_zval(ret, "column", column);
 	add_assoc_zval(ret, "expr", expr);
 
@@ -266,7 +260,7 @@ static zval *phql_ret_delete_clause(zval *tables)
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 1);
 	add_assoc_zval(ret, "tables", tables);
 
 	return ret;
@@ -302,7 +296,9 @@ static zval *phql_ret_zval_list(zval *list_left, zval *right_list)
 		add_next_index_zval(ret, list_left);
 	}
 
-	add_next_index_zval(ret, right_list);
+	if (right_list) {
+		add_next_index_zval(ret, right_list);
+	}
 
 	return ret;
 }
@@ -319,13 +315,11 @@ static zval *phql_ret_column_item(int type, zval *column, phql_parser_token *ide
 		add_assoc_zval(ret, "column", column);
 	}
 	if (identifier_column) {
-		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 1);
-		efree(identifier_column->token);
+		add_assoc_stringl(ret, "column", identifier_column->token, identifier_column->token_len, 0);
 		efree(identifier_column);
 	}
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 1);
-		efree(alias->token);
+		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -341,8 +335,7 @@ static zval *phql_ret_assoc_name(zval *qualified_name, phql_parser_token *alias)
 	array_init(ret);
 	add_assoc_zval(ret, "qualifiedName", qualified_name);
 	if (alias) {
-		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 1);
-		efree(alias->token);
+		add_assoc_stringl(ret, "alias", alias->token, alias->token_len, 0);
 		efree(alias);
 	}
 
@@ -410,8 +403,7 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", PHQL_T_FCALL);
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (arguments) {
@@ -424,20 +416,22 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 }
 
 %syntax_error {
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;
 			int token_found = 0;
+			unsigned int token_length;
 			const phql_token_names *tokens = phql_tokens;
 			int active_token = status->scanner_state->active_token;
-			int near_length = strlen(status->scanner_state->start);
+			int near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 
 				do {
 					if (tokens->code == active_token) {
 						token_name = tokens->name;
+						token_length = tokens->length;
 						token_found = 1;
 						break;
 					}
@@ -447,16 +441,31 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 			}
 
 			if (!token_name) {
-				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+				token_length = strlen("UNKNOWN");
+				token_name = estrndup("UNKNOWN", token_length);
 				token_found = 0;
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + near_length;
-			status->syntax_error = emalloc(sizeof(char)*status->syntax_error_len);
+			status->syntax_error_len = 64 + status->token->len + token_length + near_length;
+			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+
 			if (near_length > 0) {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, near to %s", token_name, status->scanner_state->start);
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s'", token_name, status->token->value, status->scanner_state->start);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s'", token_name, status->scanner_state->start);
+				}
 			} else {
-				sprintf(status->syntax_error, "Syntax error, unexpected token %s, at the end of query", token_name);
+				if (active_token != PHQL_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of query", token_name, status->token->value);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of query", token_name);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of query");
+				}
+				status->syntax_error[status->syntax_error_len-1] = '\0';
 			}
 
 			if (!token_found) {
@@ -475,7 +484,9 @@ static zval *phql_ret_func_call(phql_parser_token *name, zval *arguments)
 
 %token_destructor {
 	if ($$) {
-		efree($$->token);
+		if ($$->free_flag) {
+			efree($$->token);
+		}
 		efree($$);
 	}
 }
@@ -1062,7 +1073,7 @@ argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
 }
 
 argument_list(R) ::= argument_item(I) . {
-	R = I;
+	R = phql_ret_zval_list(I, NULL);
 }
 
 %destructor argument_item { zval_ptr_dtor(&$$); }

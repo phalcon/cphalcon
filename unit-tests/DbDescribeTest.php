@@ -514,15 +514,15 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array(
-			'customers',
-			'parts',
-			'personas',
-			'personnes',
-			'prueba',
-			'robots',
-			'robots_parts',
-			'subscriptores',
-			'tipo_documento'
+			0 => 'customers',
+			1 => 'parts',
+			2 => 'personas',
+			3 => 'personnes',
+			4 => 'prueba',
+			5 => 'robots',
+			6 => 'robots_parts',
+			7 => 'subscriptores',
+			8 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
@@ -546,7 +546,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($describe, $expectedDescribe);
 
 		//Table Options
-		$expectedOptions = array (
+		$expectedOptions = array(
 			'table_type' => 'BASE TABLE',
 			'auto_increment' => NULL,
 			'engine' => 'InnoDB',
@@ -612,16 +612,16 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$connection = new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
 
 		//List tables
-		$expectedTables = array(
-            'customers',
-			'parts',
-			'personas',
-			'personnes',
-			'prueba',
-			'robots',
-			'robots_parts',
-			'subscriptores',
-			'tipo_documento'
+		$expectedTables = array (
+			0 => 'customers',
+			1 => 'parts',
+			2 => 'personas',
+			3 => 'personnes',
+			4 => 'prueba',
+			5 => 'robots',
+			6 => 'robots_parts',
+			7 => 'subscriptores',
+			8 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();
@@ -701,17 +701,17 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 		$connection = new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
 
 		//List tables
-		$expectedTables = array(
-            'customers',
-			'parts',
-			'personas',
-			'personnes',
-			'prueba',
-			'robots',
-			'robots_parts',
-            'sqlite_sequence',
-            'subscriptores',
-			'tipo_documento'
+		$expectedTables = array (
+			0 => 'customers',
+			1 => 'parts',
+			2 => 'personas',
+			3 => 'personnes',
+			4 => 'prueba',
+			5 => 'robots',
+			6 => 'robots_parts',
+			7 => 'sqlite_sequence',
+			8 => 'subscriptores',
+			9 => 'tipo_documento',
 		);
 
 		$tables = $connection->listTables();

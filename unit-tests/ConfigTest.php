@@ -118,4 +118,71 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($config, $expectedConfig);
 	}
 
+	public function testConfigMerge()
+	{
+
+		$config1 = new Phalcon\Config(array(
+			"controllersDir" => "../x/y/z",
+			"modelsDir" => "../x/y/z",
+			"database" => array(
+				"adapter"  => "Mysql",
+				"host"     => "localhost",
+				"username" => "scott",
+				"password" => "cheetah",
+				"name"     => "test_db",
+				"charset" => array(
+					"primary" => "utf8"
+				),
+				"alternatives" => array(
+					"primary" => "latin1",
+					"second" => "latin1"
+				)
+			),
+		));
+
+		$config2 = new Phalcon\Config(array(
+			"modelsDir" => "../x/y/z",
+			"database" => array(
+				"adapter"  => "Postgresql",
+				"host"     => "localhost",
+				"username" => "peter",
+				"options" => array(
+					"case" => "lower"
+				),
+				"alternatives" => array(
+					"primary" => "swedish",
+					"third" => "american"
+				)
+			),
+		));
+
+		$config1->merge($config2);
+
+		$expected = Phalcon\Config::__set_state(array(
+			'controllersDir' => '../x/y/z',
+			'modelsDir' => '../x/y/z',
+			'database' => Phalcon\Config::__set_state(array(
+				'adapter' => 'Postgresql',
+				'host' => 'localhost',
+				'username' => 'peter',
+				'password' => 'cheetah',
+				'name' => 'test_db',
+				'charset' => Phalcon\Config::__set_state(array(
+					'primary' => 'utf8',
+				)),
+				'alternatives' => Phalcon\Config::__set_state(array(
+					'primary' => 'swedish',
+					'second' => 'latin1',
+					'third' => 'american',
+				)),
+				'options' => Phalcon\Config::__set_state(array(
+					'case' => 'lower',
+				)),
+			)),
+		));
+
+		$this->assertEquals($config1, $expected);
+
+	}
+
 }

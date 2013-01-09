@@ -112,12 +112,11 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &frontend_options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!frontend_options) {
-		PHALCON_INIT_NVAR(frontend_options);
+		PHALCON_INIT_VAR(frontend_options);
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_frontendOptions"), frontend_options TSRMLS_CC);
@@ -133,18 +132,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, __construct){
 PHP_METHOD(Phalcon_Cache_Frontend_Output, getLifetime){
 
 	zval *options, *lifetime;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_frontendOptions"), PH_NOISY_CC);
 	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(options, SS("lifetime"));
-		if (eval_int) {
-			PHALCON_INIT_VAR(lifetime);
+		if (phalcon_array_isset_string(options, SS("lifetime"))) {
+			PHALCON_OBS_VAR(lifetime);
 			phalcon_array_fetch_string(&lifetime, options, SL("lifetime"), PH_NOISY_CC);
-	
 			RETURN_CCTOR(lifetime);
 		}
 	}
@@ -164,9 +160,8 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, isBuffering){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(buffering);
+	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
-	
 	RETURN_CCTOR(buffering);
 }
 
@@ -195,17 +190,15 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, getContent){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(buffering);
+	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
-	
 		RETURN_CCTOR(contents);
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_NULL();
+	RETURN_MM_NULL();
 }
 
 /**
@@ -217,7 +210,7 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, stop){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(buffering);
+	PHALCON_OBS_VAR(buffering);
 	phalcon_read_property(&buffering, this_ptr, SL("_buffering"), PH_NOISY_CC);
 	if (zend_is_true(buffering)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
@@ -241,7 +234,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, beforeStore){
 		RETURN_NULL();
 	}
 
-	
 	RETURN_CCTORW(data);
 }
 
@@ -258,7 +250,6 @@ PHP_METHOD(Phalcon_Cache_Frontend_Output, afterRetrieve){
 		RETURN_NULL();
 	}
 
-	
 	RETURN_CCTORW(data);
 }
 

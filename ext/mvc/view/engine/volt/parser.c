@@ -4,7 +4,7 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-// 37 "parser.lemon"
+// 38 "parser.lemon"
 
 
 #ifdef HAVE_CONFIG_H
@@ -24,7 +24,7 @@
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T)
+static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -32,15 +32,18 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T)
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
 	if (T) {
-		add_assoc_stringl(ret, "value", T->token, T->token_len, 1);
-		efree(T->token);
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
 		efree(T);
 	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
 
-static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *false_statements)
+static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *false_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -53,49 +56,105 @@ static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *fa
 		add_assoc_zval(ret, "false_statements", false_statements);
 	}
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_for_statement(zval *qualified_name, zval *expr, zval *block_statements)
+static zval *phvolt_ret_for_statement(phvolt_parser_token *variable, phvolt_parser_token *key, zval *expr, zval *if_expr, zval *block_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_FOR);
-	add_assoc_zval(ret, "qualified", qualified_name);
+
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
+	efree(variable);
+
+	if (key) {
+		add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
+		efree(key);
+	}
+
 	add_assoc_zval(ret, "expr", expr);
+
+	if (if_expr) {
+		add_assoc_zval(ret, "if_expr", if_expr);
+	}
+
 	add_assoc_zval(ret, "block_statements", block_statements);
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_set_statement(zval *qualified_name, zval *expr)
+static zval *phvolt_ret_cache_statement(phvolt_parser_token *key, phvolt_parser_token *lifetime, zval *block_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
+
+	add_assoc_long(ret, "type", PHVOLT_T_CACHE);
+	add_assoc_stringl(ret, "key", key->token, key->token_len, 0);
+	efree(key);
+
+	if (lifetime) {
+		add_assoc_stringl(ret, "lifetime", lifetime->token, lifetime->token_len, 0);
+		efree(lifetime);
+	}
+	add_assoc_zval(ret, "block_statements", block_statements);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_set_statement(phvolt_parser_token *variable, zval *expr, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 5);
 	add_assoc_long(ret, "type", PHVOLT_T_SET);
-	add_assoc_zval(ret, "qualified", qualified_name);
+
+	add_assoc_stringl(ret, "variable", variable->token, variable->token_len, 0);
+	efree(variable);
+
 	add_assoc_zval(ret, "expr", expr);
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_echo_statement(zval *expr)
+static zval *phvolt_ret_echo_statement(zval *expr, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 	add_assoc_long(ret, "type", PHVOLT_T_ECHO);
 	add_assoc_zval(ret, "expr", expr);
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_statements)
+static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -104,74 +163,134 @@ static zval *phvolt_ret_block_statement(phvolt_parser_token *name, zval *block_s
 
 	add_assoc_long(ret, "type", PHVOLT_T_BLOCK);
 
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
+	add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 	efree(name);
 
 	if (block_statements) {
 		add_assoc_zval(ret, "block_statements", block_statements);
 	}
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_extends_statement(phvolt_parser_token *P)
+static zval *phvolt_ret_extends_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_EXTENDS);
-
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
 
-static zval *phvolt_ret_include_statement(phvolt_parser_token *P)
+static zval *phvolt_ret_include_statement(phvolt_parser_token *P, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
 
 	add_assoc_long(ret, "type", PHVOLT_T_INCLUDE);
 
-	add_assoc_stringl(ret, "path", P->token, P->token_len, 1);
-	efree(P->token);
+	add_assoc_stringl(ret, "path", P->token, P->token_len, 0);
 	efree(P);
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_empty_statement()
+static zval *phvolt_ret_do_statement(zval *expr, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
+	array_init_size(ret, 4);
+
+	add_assoc_long(ret, "type", PHVOLT_T_DO);
+
+	add_assoc_zval(ret, "expr", expr);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_autoescape_statement(int enable, zval *block_statements, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 5);
+
+	add_assoc_long(ret, "type", PHVOLT_T_AUTOESCAPE);
+	add_assoc_long(ret, "enable", enable);
+	add_assoc_zval(ret, "block_statements", block_statements);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_empty_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 3);
 	add_assoc_long(ret, "type", PHVOLT_T_EMPTY);
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_qualified_name(zval *A, phvolt_parser_token *B)
+static zval *phvolt_ret_break_statement(phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-	add_assoc_long(ret, "type", PHVOLT_T_QUALIFIED);
-	if (A != NULL) {
-		add_assoc_zval(ret, "qualified", A);
-	}
+	array_init_size(ret, 3);
+	add_assoc_long(ret, "type", PHVOLT_T_BREAK);
 
-	add_assoc_stringl(ret, "name", B->token, B->token_len, 1);
-	efree(B->token);
-	efree(B);
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_continue_statement(phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init_size(ret, 3);
+	add_assoc_long(ret, "type", PHVOLT_T_CONTINUE);
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
@@ -186,24 +305,27 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 
-	list = Z_ARRVAL_P(list_left);
-	if (zend_hash_index_exists(list, 0)) {
-		zend_hash_internal_pointer_reset_ex(list, &pos);
-		for (;; zend_hash_move_forward_ex(list, &pos)) {
+	if (list_left) {
 
-			zval ** item;
+		list = Z_ARRVAL_P(list_left);
+		if (zend_hash_index_exists(list, 0)) {
+			zend_hash_internal_pointer_reset_ex(list, &pos);
+			for (;; zend_hash_move_forward_ex(list, &pos)) {
 
-			if (zend_hash_get_current_data_ex(list, (void**)&item, &pos) == FAILURE) {
-				break;
+				zval ** item;
+
+				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+					break;
+				}
+
+				Z_ADDREF_PP(item);
+				add_next_index_zval(ret, *item);
+
 			}
-
-			Z_ADDREF_PP(item);
-			add_next_index_zval(ret, *item);
-
+			zval_ptr_dtor(&list_left);
+		} else {
+			add_next_index_zval(ret, list_left);
 		}
-		zval_ptr_dtor(&list_left);
-	} else {
-		add_next_index_zval(ret, list_left);
 	}
 
 	add_next_index_zval(ret, right_list);
@@ -211,7 +333,7 @@ static zval *phvolt_ret_zval_list(zval *list_left, zval *right_list)
 	return ret;
 }
 
-static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr)
+static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -219,32 +341,41 @@ static zval *phvolt_ret_named_item(phvolt_parser_token *name, zval *expr)
 	array_init(ret);
 	add_assoc_zval(ret, "expr", expr);
 	if (name != NULL) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-		efree(name->token);
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
 
-static zval *phvolt_ret_expr(int type, zval *left, zval *right)
+static zval *phvolt_ret_expr(int type, zval *left, zval *right, phvolt_scanner_state *state)
 {
 	zval *ret;
 
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", type);
+
 	if (left) {
 		add_assoc_zval(ret, "left", left);
 	}
+
 	if (right) {
 		add_assoc_zval(ret, "right", right);
 	}
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
-static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
+static zval *phvolt_ret_func_call(zval *expr, zval *arguments, phvolt_scanner_state *state)
 {
 
 	zval *ret;
@@ -252,19 +383,21 @@ static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
 	MAKE_STD_ZVAL(ret);
 	array_init(ret);
 	add_assoc_long(ret, "type", PHVOLT_T_FCALL);
-	add_assoc_stringl(ret, "name", name->token, name->token_len, 1);
-	efree(name->token);
-	efree(name);
+	add_assoc_zval(ret, "name", expr);
 
 	if (arguments) {
 		add_assoc_zval(ret, "arguments", arguments);
 	}
 
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
 	return ret;
 }
 
 
-// 268 "parser.c"
+// 401 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -314,23 +447,23 @@ static zval *phvolt_ret_func_call(phvolt_parser_token *name, zval *arguments)
 **                       defined, then do no error processing.
 */
 #define KKCODETYPE unsigned char
-#define KKNOCODE 75
-#define KKACTIONTYPE unsigned char
+#define KKNOCODE 86
+#define KKACTIONTYPE unsigned short int
 #define phvolt_KTOKENTYPE phvolt_parser_token*
 typedef union {
   phvolt_KTOKENTYPE kk0;
-  zval* kk96;
-  int kk149;
+  zval* kk58;
+  int kk171;
 } KKMINORTYPE;
 #define KKSTACKDEPTH 100
 #define phvolt_ARG_SDECL phvolt_parser_status *status;
 #define phvolt_ARG_PDECL ,phvolt_parser_status *status
 #define phvolt_ARG_FETCH phvolt_parser_status *status = kkpParser->status
 #define phvolt_ARG_STORE kkpParser->status = status
-#define KKNSTATE 147
-#define KKNRULE 70
-#define KKERRORSYMBOL 53
-#define KKERRSYMDT kk149
+#define KKNSTATE 206
+#define KKNRULE 84
+#define KKERRORSYMBOL 60
+#define KKERRSYMDT kk171
 #define KK_NO_ACTION      (KKNSTATE+KKNRULE+2)
 #define KK_ACCEPT_ACTION  (KKNSTATE+KKNRULE+1)
 #define KK_ERROR_ACTION   (KKNSTATE+KKNRULE)
@@ -383,181 +516,295 @@ typedef union {
 **  kk_default[]       Default action for each state.
 */
 static KKACTIONTYPE kk_action[] = {
- /*     0 */    80,   60,   64,   62,   66,   72,   74,   76,   78,   68,
- /*    10 */    70,   52,   54,   58,   48,   46,   50,   44,   41,   56,
- /*    20 */   147,   20,   89,  108,   16,   93,   97,   80,   60,   64,
- /*    30 */    62,   66,   72,   74,   76,   78,   68,   70,   52,   54,
- /*    40 */    58,   48,   46,   50,   44,   41,   56,   22,   15,  108,
- /*    50 */    26,   31,   97,  124,   80,   60,   64,   62,   66,   72,
- /*    60 */    74,   76,   78,   68,   70,   52,   54,   58,   48,   46,
- /*    70 */    50,   44,   41,   56,   28,   30,  108,   35,   40,   97,
- /*    80 */    37,   80,   60,   64,   62,   66,   72,   74,   76,   78,
- /*    90 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
- /*   100 */    56,   80,   60,   64,   62,   66,   72,   74,   76,   78,
- /*   110 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
- /*   120 */    56,   44,   41,   56,   95,   82,  218,    1,    2,  143,
- /*   130 */     4,    5,    6,    7,    8,    9,   10,   11,   12,  109,
- /*   140 */    99,   39,  108,  109,   87,   97,   29,   80,   60,   64,
- /*   150 */    62,   66,   72,   74,   76,   78,   68,   70,   52,   54,
- /*   160 */    58,   48,   46,   50,   44,   41,   56,   17,  143,    4,
- /*   170 */     5,    6,    7,    8,    9,   10,   11,   12,  106,  110,
- /*   180 */   141,  127,  128,   80,   60,   64,   62,   66,   72,   74,
- /*   190 */    76,   78,   68,   70,   52,   54,   58,   48,   46,   50,
- /*   200 */    44,   41,   56,   64,   62,   66,   72,   74,   76,   78,
- /*   210 */    68,   70,   52,   54,   58,   48,   46,   50,   44,   41,
- /*   220 */    56,   88,   23,  143,    4,    5,    6,    7,    8,    9,
- /*   230 */    10,   11,   12,   48,   46,   50,   44,   41,   56,   42,
- /*   240 */   132,  120,   32,  143,    4,    5,    6,    7,    8,    9,
- /*   250 */    10,   11,   12,  103,  100,  108,   98,  146,   97,  112,
- /*   260 */   104,  134,  122,   85,  135,   88,  137,  111,  113,  114,
- /*   270 */   115,  116,  129,  143,    4,    5,    6,    7,    8,    9,
- /*   280 */    10,   11,   12,   42,   92,   83,   88,    3,    4,    5,
- /*   290 */     6,    7,    8,    9,   10,   11,   12,  102,  123,  108,
- /*   300 */    98,  138,   97,  105,   42,  146,   83,   85,  117,  146,
- /*   310 */   146,  111,  113,  114,  115,  116,   89,  108,   90,  119,
- /*   320 */    97,   98,   43,  108,  112,  146,   97,  121,   85,   91,
- /*   330 */    88,  146,  111,  113,  114,  115,  116,  146,   14,  125,
- /*   340 */    19,   21,   27,   45,  108,   36,  146,   97,   42,  126,
- /*   350 */    83,   88,  133,  146,  136,   52,   54,   58,   48,   46,
- /*   360 */    50,   44,   41,   56,  146,   98,   47,  108,  112,   42,
- /*   370 */    97,   83,   85,  146,   88,  146,  111,  113,  114,  115,
- /*   380 */   116,   49,  108,   51,  108,   97,   98,   97,  146,   94,
- /*   390 */   146,  146,   42,   85,   83,  146,  109,  111,  113,  114,
- /*   400 */   115,  116,  146,   14,  125,   25,   38,   27,  146,   98,
- /*   410 */    36,  148,  105,  146,  126,  146,   85,  133,  146,  136,
- /*   420 */   111,  113,  114,  115,  116,   14,  125,  146,  146,   27,
- /*   430 */   146,   34,   36,   14,  125,   13,  126,   27,  146,  133,
- /*   440 */    36,  136,   13,  146,  126,  139,  131,  133,  146,  136,
- /*   450 */    14,  125,  139,  142,   27,  146,  146,   36,   14,  125,
- /*   460 */   142,  126,   27,  145,  133,   36,  136,  146,  146,  126,
- /*   470 */   146,  146,  133,  146,  136,   58,   48,   46,   50,   44,
- /*   480 */    41,   56,  100,  108,  146,   18,   97,  101,  118,   24,
- /*   490 */    33,  146,  146,   53,  108,  139,  146,   97,  146,  139,
- /*   500 */   139,   55,  108,  142,  146,   97,  146,  142,  142,   57,
- /*   510 */   108,  146,  146,   97,   59,  108,  146,  146,   97,   61,
- /*   520 */   108,   63,  108,   97,  146,   97,   65,  108,  146,  146,
- /*   530 */    97,   67,  108,  146,  146,   97,  146,   69,  108,  146,
- /*   540 */   146,   97,   71,  108,   73,  108,   97,  146,   97,   75,
- /*   550 */   108,   77,  108,   97,  146,   97,   79,  108,   81,  108,
- /*   560 */    97,  146,   97,   84,  108,   86,  108,   97,  144,   97,
- /*   570 */    96,  108,  146,  130,   97,  107,  108,  146,  139,   97,
- /*   580 */   146,  140,  108,  139,  146,   97,  142,  146,  146,  146,
- /*   590 */   146,  142,
+ /*     0 */    89,   65,   57,   59,   69,   67,   71,   77,   79,   81,
+ /*    10 */    83,   73,   75,   63,   53,   51,   55,   49,   46,   61,
+ /*    20 */    20,   87,   85,  106,  183,   36,  206,   89,   65,   57,
+ /*    30 */    59,   69,   67,   71,   77,   79,   81,   83,   73,   75,
+ /*    40 */    63,   53,   51,   55,   49,   46,   61,   35,   87,   85,
+ /*    50 */   106,  199,  194,   33,   89,   65,   57,   59,   69,   67,
+ /*    60 */    71,   77,   79,   81,   83,   73,   75,   63,   53,   51,
+ /*    70 */    55,   49,   46,   61,  190,   87,   85,   25,   98,   21,
+ /*    80 */   102,  106,   89,   65,   57,   59,   69,   67,   71,   77,
+ /*    90 */    79,   81,   83,   73,   75,   63,   53,   51,   55,   49,
+ /*   100 */    46,   61,   27,   87,   85,   34,   31,   45,   87,   85,
+ /*   110 */    89,   65,   57,   59,   69,   67,   71,   77,   79,   81,
+ /*   120 */    83,   73,   75,   63,   53,   51,   55,   49,   46,   61,
+ /*   130 */    44,   87,   85,  106,   89,   65,   57,   59,   69,   67,
+ /*   140 */    71,   77,   79,   81,   83,   73,   75,   63,   53,   51,
+ /*   150 */    55,   49,   46,   61,   40,   87,   85,   63,   53,   51,
+ /*   160 */    55,   49,   46,   61,   91,   87,   85,   89,   65,   57,
+ /*   170 */    59,   69,   67,   71,   77,   79,   81,   83,   73,   75,
+ /*   180 */    63,   53,   51,   55,   49,   46,   61,   96,   87,   85,
+ /*   190 */   127,   48,  151,  106,  106,   89,   65,   57,   59,   69,
+ /*   200 */    67,   71,   77,   79,   81,   83,   73,   75,   63,   53,
+ /*   210 */    51,   55,   49,   46,   61,   42,   87,   85,   53,   51,
+ /*   220 */    55,   49,   46,   61,   43,   87,   85,   49,   46,   61,
+ /*   230 */   165,   87,   85,   89,   65,   57,   59,   69,   67,   71,
+ /*   240 */    77,   79,   81,   83,   73,   75,   63,   53,   51,   55,
+ /*   250 */    49,   46,   61,   50,   87,   85,  106,   52,  185,  130,
+ /*   260 */   106,   89,   65,   57,   59,   69,   67,   71,   77,   79,
+ /*   270 */    81,   83,   73,   75,   63,   53,   51,   55,   49,   46,
+ /*   280 */    61,  104,   87,   85,   54,   56,  201,  106,  106,   89,
+ /*   290 */    65,   57,   59,   69,   67,   71,   77,   79,   81,   83,
+ /*   300 */    73,   75,   63,   53,   51,   55,   49,   46,   61,  120,
+ /*   310 */    87,   85,   57,   59,   69,   67,   71,   77,   79,   81,
+ /*   320 */    83,   73,   75,   63,   53,   51,   55,   49,   46,   61,
+ /*   330 */   131,   87,   85,  291,    1,    2,  167,    4,    5,    6,
+ /*   340 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   350 */    17,   69,   67,   71,   77,   79,   81,   83,   73,   75,
+ /*   360 */    63,   53,   51,   55,   49,   46,   61,  135,   87,   85,
+ /*   370 */    22,  167,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   380 */    12,   13,   14,   15,   16,   17,   28,  167,    4,    5,
+ /*   390 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
+ /*   400 */    16,   17,   37,  167,    4,    5,    6,    7,    8,    9,
+ /*   410 */    10,   11,   12,   13,   14,   15,   16,   17,  132,  167,
+ /*   420 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   430 */    14,   15,   16,   17,  139,  167,    4,    5,    6,    7,
+ /*   440 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   450 */   155,  167,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   460 */    12,   13,   14,   15,   16,   17,  170,  167,    4,    5,
+ /*   470 */     6,    7,    8,    9,   10,   11,   12,   13,   14,   15,
+ /*   480 */    16,   17,  176,  167,    4,    5,    6,    7,    8,    9,
+ /*   490 */    10,   11,   12,   13,   14,   15,   16,   17,  186,  167,
+ /*   500 */     4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
+ /*   510 */    14,   15,   16,   17,  195,  167,    4,    5,    6,    7,
+ /*   520 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   530 */   202,  167,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   540 */    12,   13,   14,   15,   16,   17,    3,    4,    5,    6,
+ /*   550 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   560 */    17,   19,  128,   24,   26,   32,   18,   88,  137,   41,
+ /*   570 */   106,  115,  123,  129,  142,  136,   58,  163,  143,  106,
+ /*   580 */   146,  149,  152,  117,   23,  145,  159,  161,   19,  128,
+ /*   590 */    30,  138,   32,   29,  166,  163,   41,  101,   88,  144,
+ /*   600 */   129,  106,  136,  118,  163,  143,  174,  146,  149,  152,
+ /*   610 */   147,  148,  166,  159,  161,   19,  128,  154,  158,   32,
+ /*   620 */    38,  166,   39,   41,  153,   60,  168,  129,  106,  136,
+ /*   630 */    62,  163,  143,  106,  146,  149,  152,  116,  180,  160,
+ /*   640 */   159,  161,   19,  128,  162,  169,   32,  133,  166,  163,
+ /*   650 */    41,  173,  100,  175,  129,  134,  136,   64,  163,  143,
+ /*   660 */   106,  146,  149,  152,  179,  182,  166,  159,  161,   19,
+ /*   670 */   128,  189,  191,   32,  140,  166,   66,   41,  192,  106,
+ /*   680 */   198,  129,  205,  136,  141,  163,  143,  171,  146,  149,
+ /*   690 */   152,  171,  156,  171,  159,  161,   19,  128,  171,  171,
+ /*   700 */    32,  171,  166,  163,   41,  171,  164,  171,  129,  106,
+ /*   710 */   136,   68,  163,  143,  106,  146,  149,  152,  171,  157,
+ /*   720 */   166,  159,  161,   19,  128,  171,  171,   32,  177,  166,
+ /*   730 */    70,   41,  171,  106,  171,  129,  207,  136,   72,  163,
+ /*   740 */   143,  106,  146,  149,  152,  171,  172,  171,  159,  161,
+ /*   750 */    19,  128,  171,  171,   32,  187,  166,   74,   41,  171,
+ /*   760 */   106,   18,  129,  171,  136,  178,  163,  143,  171,  146,
+ /*   770 */   149,  152,  163,   19,  128,  159,  161,   32,  171,  171,
+ /*   780 */   171,   41,  171,  166,  196,  129,  181,  136,   76,  166,
+ /*   790 */   143,  106,  146,  149,  152,  163,   19,  128,  159,  161,
+ /*   800 */    32,  171,   78,  188,   41,  106,  171,  203,  129,  171,
+ /*   810 */   136,   80,  166,  143,  106,  146,  149,  152,  163,   19,
+ /*   820 */   128,  159,  161,   32,  171,  171,  197,   41,  171,   82,
+ /*   830 */   171,  129,  106,  136,   84,  166,  143,  106,  146,  149,
+ /*   840 */   152,  171,   19,  128,  159,  161,   32,  171,  171,  204,
+ /*   850 */    41,  171,   86,  171,  129,  106,  136,   90,  171,  143,
+ /*   860 */   106,  146,  149,  152,  171,   19,  128,  159,  161,   32,
+ /*   870 */   171,   93,  171,   41,  106,   95,   97,  129,  106,  136,
+ /*   880 */   105,  171,  143,  106,  146,  149,  152,  171,  171,  171,
+ /*   890 */   159,  161,  121,  171,   47,  106,  124,   94,  171,   98,
+ /*   900 */    99,  114,  106,  150,  171,  107,  106,  184,  171,  193,
+ /*   910 */   106,  200,  106,  171,  106,  171,  108,  171,  109,   97,
+ /*   920 */   171,  171,  112,  171,  113,  171,  171,  171,  126,  171,
+ /*   930 */   171,   97,  110,  111,  171,  171,  171,   47,  171,   92,
+ /*   940 */    94,  171,  171,  171,  171,  171,  171,  171,  107,   47,
+ /*   950 */   171,   92,   94,  171,  171,  171,  171,  171,  171,  108,
+ /*   960 */   107,  119,  171,  171,   97,  112,  171,  113,  171,  171,
+ /*   970 */   171,  108,  122,  109,  171,  110,  111,  112,  171,  113,
+ /*   980 */   171,  171,   47,  125,   92,   94,  171,  110,  111,  171,
+ /*   990 */   171,  171,  171,  107,  171,  171,   97,  171,  171,  171,
+ /*  1000 */   171,  171,  171,  171,  108,  171,  109,  171,  171,  171,
+ /*  1010 */   112,  171,  113,  171,   47,  171,   92,   94,  171,   97,
+ /*  1020 */   110,  111,  171,  171,  171,  107,  171,  171,  171,  171,
+ /*  1030 */   171,  171,  171,  171,  171,  171,  108,   47,  103,   92,
+ /*  1040 */    94,  171,  112,  171,  113,  171,  171,  171,  107,  171,
+ /*  1050 */   171,  171,  110,  111,  171,  171,  171,  171,  171,  108,
+ /*  1060 */   171,  119,  171,  171,  171,  112,  171,  113,  171,  171,
+ /*  1070 */   171,  171,  171,  171,  171,  110,  111,
 };
 static KKCODETYPE kk_lookahead[] = {
  /*     0 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
  /*    10 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
- /*    20 */     0,   26,   67,   68,   26,   70,   71,    2,    3,    4,
+ /*    20 */    79,   23,   24,   82,   26,   27,    0,    2,    3,    4,
  /*    30 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*    40 */    15,   16,   17,   18,   19,   20,   21,   26,   67,   68,
- /*    50 */    26,   26,   71,   37,    2,    3,    4,    5,    6,    7,
+ /*    40 */    15,   16,   17,   18,   19,   20,   21,   79,   23,   24,
+ /*    50 */    82,   26,   27,   31,    2,    3,    4,    5,    6,    7,
  /*    60 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
- /*    70 */    18,   19,   20,   21,   68,   67,   68,   26,   26,   71,
- /*    80 */    68,    2,    3,    4,    5,    6,    7,    8,    9,   10,
- /*    90 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   100 */    21,    2,    3,    4,    5,    6,    7,    8,    9,   10,
- /*   110 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   120 */    21,   19,   20,   21,   47,   46,   54,   55,   56,   57,
- /*   130 */    58,   59,   60,   61,   62,   63,   64,   65,   66,   23,
- /*   140 */    44,   67,   68,   23,   45,   71,   30,    2,    3,    4,
- /*   150 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
- /*   160 */    15,   16,   17,   18,   19,   20,   21,   56,   57,   58,
- /*   170 */    59,   60,   61,   62,   63,   64,   65,   66,   47,   37,
- /*   180 */    35,   37,   26,    2,    3,    4,    5,    6,    7,    8,
- /*   190 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
- /*   200 */    19,   20,   21,    4,    5,    6,    7,    8,    9,   10,
- /*   210 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
- /*   220 */    21,    2,   56,   57,   58,   59,   60,   61,   62,   63,
- /*   230 */    64,   65,   66,   16,   17,   18,   19,   20,   21,   20,
- /*   240 */    26,   22,   56,   57,   58,   59,   60,   61,   62,   63,
- /*   250 */    64,   65,   66,    1,   67,   68,   37,   74,   71,   40,
- /*   260 */    73,   40,   43,   44,   26,    2,   40,   48,   49,   50,
- /*   270 */    51,   52,   56,   57,   58,   59,   60,   61,   62,   63,
- /*   280 */    64,   65,   66,   20,    1,   22,    2,   57,   58,   59,
- /*   290 */    60,   61,   62,   63,   64,   65,   66,   45,   67,   68,
- /*   300 */    37,   26,   71,   40,   20,   26,   22,   44,   45,   74,
- /*   310 */    74,   48,   49,   50,   51,   52,   67,   68,   69,   70,
- /*   320 */    71,   37,   67,   68,   40,   74,   71,   43,   44,   46,
- /*   330 */     2,   74,   48,   49,   50,   51,   52,   74,   25,   26,
- /*   340 */    27,   28,   29,   67,   68,   32,   74,   71,   20,   36,
- /*   350 */    22,    2,   39,   74,   41,   13,   14,   15,   16,   17,
- /*   360 */    18,   19,   20,   21,   74,   37,   67,   68,   40,   20,
- /*   370 */    71,   22,   44,   74,    2,   74,   48,   49,   50,   51,
- /*   380 */    52,   67,   68,   67,   68,   71,   37,   71,   74,   40,
- /*   390 */    74,   74,   20,   44,   22,   74,   23,   48,   49,   50,
- /*   400 */    51,   52,   74,   25,   26,   27,   33,   29,   74,   37,
- /*   410 */    32,    0,   40,   74,   36,   74,   44,   39,   74,   41,
- /*   420 */    48,   49,   50,   51,   52,   25,   26,   74,   74,   29,
- /*   430 */    74,   31,   32,   25,   26,   24,   36,   29,   74,   39,
- /*   440 */    32,   41,   24,   74,   36,   34,   38,   39,   74,   41,
- /*   450 */    25,   26,   34,   42,   29,   74,   74,   32,   25,   26,
- /*   460 */    42,   36,   29,   38,   39,   32,   41,   74,   74,   36,
- /*   470 */    74,   74,   39,   74,   41,   15,   16,   17,   18,   19,
- /*   480 */    20,   21,   67,   68,   74,   24,   71,   72,   73,   24,
- /*   490 */    24,   74,   74,   67,   68,   34,   74,   71,   74,   34,
- /*   500 */    34,   67,   68,   42,   74,   71,   74,   42,   42,   67,
- /*   510 */    68,   74,   74,   71,   67,   68,   74,   74,   71,   67,
- /*   520 */    68,   67,   68,   71,   74,   71,   67,   68,   74,   74,
- /*   530 */    71,   67,   68,   74,   74,   71,   74,   67,   68,   74,
- /*   540 */    74,   71,   67,   68,   67,   68,   71,   74,   71,   67,
- /*   550 */    68,   67,   68,   71,   74,   71,   67,   68,   67,   68,
- /*   560 */    71,   74,   71,   67,   68,   67,   68,   71,   24,   71,
- /*   570 */    67,   68,   74,   24,   71,   67,   68,   74,   34,   71,
- /*   580 */    74,   67,   68,   34,   74,   71,   42,   74,   74,   74,
- /*   590 */    74,   42,
+ /*    70 */    18,   19,   20,   21,    1,   23,   24,   27,   79,   27,
+ /*    80 */    81,   82,    2,    3,    4,    5,    6,    7,    8,    9,
+ /*    90 */    10,   11,   12,   13,   14,   15,   16,   17,   18,   19,
+ /*   100 */    20,   21,   27,   23,   24,   32,   27,   27,   23,   24,
+ /*   110 */     2,    3,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   120 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   130 */    79,   23,   24,   82,    2,    3,    4,    5,    6,    7,
+ /*   140 */     8,    9,   10,   11,   12,   13,   14,   15,   16,   17,
+ /*   150 */    18,   19,   20,   21,   27,   23,   24,   15,   16,   17,
+ /*   160 */    18,   19,   20,   21,   56,   23,   24,    2,    3,    4,
+ /*   170 */     5,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   180 */    15,   16,   17,   18,   19,   20,   21,   55,   23,   24,
+ /*   190 */    79,   79,   27,   82,   82,    2,    3,    4,    5,    6,
+ /*   200 */     7,    8,    9,   10,   11,   12,   13,   14,   15,   16,
+ /*   210 */    17,   18,   19,   20,   21,   31,   23,   24,   16,   17,
+ /*   220 */    18,   19,   20,   21,   35,   23,   24,   19,   20,   21,
+ /*   230 */    37,   23,   24,    2,    3,    4,    5,    6,    7,    8,
+ /*   240 */     9,   10,   11,   12,   13,   14,   15,   16,   17,   18,
+ /*   250 */    19,   20,   21,   79,   23,   24,   82,   79,   27,   31,
+ /*   260 */    82,    2,    3,    4,    5,    6,    7,    8,    9,   10,
+ /*   270 */    11,   12,   13,   14,   15,   16,   17,   18,   19,   20,
+ /*   280 */    21,   57,   23,   24,   79,   79,   27,   82,   82,    2,
+ /*   290 */     3,    4,    5,    6,    7,    8,    9,   10,   11,   12,
+ /*   300 */    13,   14,   15,   16,   17,   18,   19,   20,   21,   57,
+ /*   310 */    23,   24,    4,    5,    6,    7,    8,    9,   10,   11,
+ /*   320 */    12,   13,   14,   15,   16,   17,   18,   19,   20,   21,
+ /*   330 */    27,   23,   24,   61,   62,   63,   64,   65,   66,   67,
+ /*   340 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+ /*   350 */    78,    6,    7,    8,    9,   10,   11,   12,   13,   14,
+ /*   360 */    15,   16,   17,   18,   19,   20,   21,   27,   23,   24,
+ /*   370 */    63,   64,   65,   66,   67,   68,   69,   70,   71,   72,
+ /*   380 */    73,   74,   75,   76,   77,   78,   63,   64,   65,   66,
+ /*   390 */    67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
+ /*   400 */    77,   78,   63,   64,   65,   66,   67,   68,   69,   70,
+ /*   410 */    71,   72,   73,   74,   75,   76,   77,   78,   63,   64,
+ /*   420 */    65,   66,   67,   68,   69,   70,   71,   72,   73,   74,
+ /*   430 */    75,   76,   77,   78,   63,   64,   65,   66,   67,   68,
+ /*   440 */    69,   70,   71,   72,   73,   74,   75,   76,   77,   78,
+ /*   450 */    63,   64,   65,   66,   67,   68,   69,   70,   71,   72,
+ /*   460 */    73,   74,   75,   76,   77,   78,   63,   64,   65,   66,
+ /*   470 */    67,   68,   69,   70,   71,   72,   73,   74,   75,   76,
+ /*   480 */    77,   78,   63,   64,   65,   66,   67,   68,   69,   70,
+ /*   490 */    71,   72,   73,   74,   75,   76,   77,   78,   63,   64,
+ /*   500 */    65,   66,   67,   68,   69,   70,   71,   72,   73,   74,
+ /*   510 */    75,   76,   77,   78,   63,   64,   65,   66,   67,   68,
+ /*   520 */    69,   70,   71,   72,   73,   74,   75,   76,   77,   78,
+ /*   530 */    63,   64,   65,   66,   67,   68,   69,   70,   71,   72,
+ /*   540 */    73,   74,   75,   76,   77,   78,   64,   65,   66,   67,
+ /*   550 */    68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+ /*   560 */    78,   26,   27,   28,   29,   30,   25,   79,   31,   34,
+ /*   570 */    82,   83,   84,   38,   27,   40,   79,   36,   43,   82,
+ /*   580 */    45,   46,   47,    1,   25,   27,   51,   52,   26,   27,
+ /*   590 */    28,   27,   30,   25,   53,   36,   34,    1,   79,   44,
+ /*   600 */    38,   82,   40,   84,   36,   43,   42,   45,   46,   47,
+ /*   610 */    44,   27,   53,   51,   52,   26,   27,   27,   27,   30,
+ /*   620 */    25,   53,   33,   34,   48,   79,   50,   38,   82,   40,
+ /*   630 */    79,   36,   43,   82,   45,   46,   47,   55,   25,   27,
+ /*   640 */    51,   52,   26,   27,   27,   27,   30,   25,   53,   36,
+ /*   650 */    34,   27,   56,   27,   38,   39,   40,   79,   36,   43,
+ /*   660 */    82,   45,   46,   47,   27,   27,   53,   51,   52,   26,
+ /*   670 */    27,   27,   31,   30,   25,   53,   79,   34,   32,   82,
+ /*   680 */    27,   38,   27,   40,   41,   36,   43,   85,   45,   46,
+ /*   690 */    47,   85,   25,   85,   51,   52,   26,   27,   85,   85,
+ /*   700 */    30,   25,   53,   36,   34,   85,   79,   85,   38,   82,
+ /*   710 */    40,   79,   36,   43,   82,   45,   46,   47,   85,   49,
+ /*   720 */    53,   51,   52,   26,   27,   85,   85,   30,   25,   53,
+ /*   730 */    79,   34,   85,   82,   85,   38,    0,   40,   79,   36,
+ /*   740 */    43,   82,   45,   46,   47,   85,   49,   85,   51,   52,
+ /*   750 */    26,   27,   85,   85,   30,   25,   53,   79,   34,   85,
+ /*   760 */    82,   25,   38,   85,   40,   41,   36,   43,   85,   45,
+ /*   770 */    46,   47,   36,   26,   27,   51,   52,   30,   85,   85,
+ /*   780 */    85,   34,   85,   53,   25,   38,   39,   40,   79,   53,
+ /*   790 */    43,   82,   45,   46,   47,   36,   26,   27,   51,   52,
+ /*   800 */    30,   85,   79,   33,   34,   82,   85,   25,   38,   85,
+ /*   810 */    40,   79,   53,   43,   82,   45,   46,   47,   36,   26,
+ /*   820 */    27,   51,   52,   30,   85,   85,   33,   34,   85,   79,
+ /*   830 */    85,   38,   82,   40,   79,   53,   43,   82,   45,   46,
+ /*   840 */    47,   85,   26,   27,   51,   52,   30,   85,   85,   33,
+ /*   850 */    34,   85,   79,   85,   38,   82,   40,   79,   85,   43,
+ /*   860 */    82,   45,   46,   47,   85,   26,   27,   51,   52,   30,
+ /*   870 */    85,   79,   85,   34,   82,   79,    2,   38,   82,   40,
+ /*   880 */    79,   85,   43,   82,   45,   46,   47,   85,   85,   85,
+ /*   890 */    51,   52,   79,   85,   20,   82,   22,   23,   85,   79,
+ /*   900 */    80,   81,   82,   79,   85,   31,   82,   79,   85,   79,
+ /*   910 */    82,   79,   82,   85,   82,   85,   42,   85,   44,    2,
+ /*   920 */    85,   85,   48,   85,   50,   85,   85,   85,   54,   85,
+ /*   930 */    85,    2,   58,   59,   85,   85,   85,   20,   85,   22,
+ /*   940 */    23,   85,   85,   85,   85,   85,   85,   85,   31,   20,
+ /*   950 */    85,   22,   23,   85,   85,   85,   85,   85,   85,   42,
+ /*   960 */    31,   44,   85,   85,    2,   48,   85,   50,   85,   85,
+ /*   970 */    85,   42,   55,   44,   85,   58,   59,   48,   85,   50,
+ /*   980 */    85,   85,   20,   54,   22,   23,   85,   58,   59,   85,
+ /*   990 */    85,   85,   85,   31,   85,   85,    2,   85,   85,   85,
+ /*  1000 */    85,   85,   85,   85,   42,   85,   44,   85,   85,   85,
+ /*  1010 */    48,   85,   50,   85,   20,   85,   22,   23,   85,    2,
+ /*  1020 */    58,   59,   85,   85,   85,   31,   85,   85,   85,   85,
+ /*  1030 */    85,   85,   85,   85,   85,   85,   42,   20,   44,   22,
+ /*  1040 */    23,   85,   48,   85,   50,   85,   85,   85,   31,   85,
+ /*  1050 */    85,   85,   58,   59,   85,   85,   85,   85,   85,   42,
+ /*  1060 */    85,   44,   85,   85,   85,   48,   85,   50,   85,   85,
+ /*  1070 */    85,   85,   85,   85,   85,   58,   59,
 };
-#define KK_SHIFT_USE_DFLT (-6)
+#define KK_SHIFT_USE_DFLT (-3)
 static short kk_shift_ofst[] = {
- /*     0 */   418,   20,  411,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
- /*    10 */    -6,   -6,   -6,  433,  328,   -2,  418,  461,  313,   -5,
- /*    20 */    -6,   21,  418,  465,  378,   24,   -6,   16,  116,  328,
- /*    30 */    25,  418,  466,  400,   51,   -6,   16,  373,  328,   52,
- /*    40 */    -6,  328,  328,   -6,  328,   -6,  328,  102,  328,  102,
- /*    50 */   328,  102,  328,  460,  328,  460,  328,   -6,  328,  217,
- /*    60 */   328,  199,  328,  342,  219,  342,  328,  342,  328,  342,
- /*    70 */   328,  342,  328,  342,  328,  342,  328,  342,  328,  342,
- /*    80 */   328,   79,   -6,  328,   -6,  328,   99,   -6,  349,  181,
- /*    90 */   283,   -6,  349,   -6,   77,  328,  181,   -6,   96,  263,
- /*   100 */   181,  252,   -6,  372,   -6,  131,  328,  181,  120,  142,
- /*   110 */    -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,
- /*   120 */   284,   -6,   -6,   -6,   -6,   -6,  144,  156,  544,  549,
- /*   130 */   408,  214,   -6,  221,  238,   -6,  226,  275,   -6,  328,
- /*   140 */   145,   -6,   -6,   -6,  425,  279,   -6,
+ /*     0 */   541,   26,  736,   -3,   -3,   -3,   -3,   -3,   -3,   -3,
+ /*    10 */    -3,   -3,   -3,   -3,   -3,   -3,   -3,   -3,  839,  962,
+ /*    20 */    52,  541,  559,  535,   50,   -3,   75,  541,  568,  562,
+ /*    30 */    79,   -3,   22,   73,  962,   -2,  541,  595,  589,  127,
+ /*    40 */    -3,  184,  189,  962,   80,   -3,  962,  962,   85,  962,
+ /*    50 */    85,  962,  208,  962,  208,  962,  208,  962,  345,  962,
+ /*    60 */   345,  962,   85,  962,  202,  962,  308,  962,  142,  874,
+ /*    70 */   142,  962,  142,  962,  142,  962,  142,  962,  142,  962,
+ /*    80 */   142,  962,  142,  962,  142,  962,   -3,  917,  287,  962,
+ /*    90 */   108,   -3,  962,   85,  962,  132,   -3,  994,  287,  596,
+ /*   100 */    -3,  994,   -3,  224,  962,  287,   -3,   -3,   -3,   -3,
+ /*   110 */    -3,   -3,   -3,   -3,   -3,  582,   -3, 1017,   -3,  252,
+ /*   120 */   962,  287,   -3,   -3,  929,   -3,   -3,   85,   -3,  228,
+ /*   130 */   303,  613,  622,  616,  340,   -3,  537,  564,  541,  649,
+ /*   140 */   643,  547,   -3,  555,  558,   -3,  566,  584,   -3,  962,
+ /*   150 */   165,   -3,  576,  590,  541,  667,  670,  591,   -3,  612,
+ /*   160 */    -3,  617,   -3,  962,  193,   -3,   -3,   -3,  618,  541,
+ /*   170 */   676,  697,  624,   -3,  626,  541,  703,  724,  637,   -3,
+ /*   180 */   747,  638,   -3,  962,  231,  541,  730,  770,  644,   -3,
+ /*   190 */   641,  646,  962,   25,  541,  759,  793,  653,   -3,  962,
+ /*   200 */   259,  541,  782,  816,  655,   -3,
 };
-#define KK_REDUCE_USE_DFLT (-46)
+#define KK_REDUCE_USE_DFLT (-60)
 static short kk_reduce_ofst[] = {
- /*     0 */    72,  -46,  230,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
- /*    10 */   -46,  -46,  -46,  -46,  -19,  -46,  111,  230,  -46,  -46,
- /*    20 */   -46,  -46,  166,  230,  -46,  -46,  -46,    6,  -46,    8,
- /*    30 */   -46,  186,  230,  -46,  -46,  -46,   12,  -46,   74,  -46,
- /*    40 */   -46,  231,  255,  -46,  276,  -46,  299,  -46,  314,  -46,
- /*    50 */   316,  -46,  426,  -46,  434,  -46,  442,  -46,  447,  -46,
- /*    60 */   452,  -46,  454,  -46,  459,  -46,  464,  -46,  470,  -46,
- /*    70 */   475,  -46,  477,  -46,  482,  -46,  484,  -46,  489,  -46,
- /*    80 */   491,  -46,  -46,  496,  -46,  498,  -46,  -46,  249,  -46,
- /*    90 */   -46,  -46,  -45,  -46,  -46,  503,  -46,  -46,  -46,  415,
- /*   100 */   -46,  -46,  -46,  187,  -46,  -46,  508,  -46,  -46,  -46,
- /*   110 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,
- /*   120 */   496,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  216,  230,
- /*   130 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  -46,  514,
- /*   140 */   -46,  -46,  -46,  -46,  -46,  -46,  -46,
+ /*     0 */   272,  -60,  482,  -60,  -60,  -60,  -60,  -60,  -60,  -60,
+ /*    10 */   -60,  -60,  -60,  -60,  -60,  -60,  -60,  -60,  -60,  -59,
+ /*    20 */   -60,  307,  482,  -60,  -60,  -60,  -60,  323,  482,  -60,
+ /*    30 */   -60,  -60,  -60,  -60,  -32,  -60,  339,  482,  -60,  -60,
+ /*    40 */   -60,  -60,  -60,   51,  -60,  -60,  111,  112,  -60,  174,
+ /*    50 */   -60,  178,  -60,  205,  -60,  206,  -60,  497,  -60,  546,
+ /*    60 */   -60,  551,  -60,  578,  -60,  597,  -60,  632,  -60,  651,
+ /*    70 */   -60,  659,  -60,  678,  -60,  709,  -60,  723,  -60,  732,
+ /*    80 */   -60,  750,  -60,  755,  -60,  773,  -60,  488,  -60,  778,
+ /*    90 */   -60,  -60,  792,  -60,  796,  -60,  -60,  820,  -60,  -60,
+ /*   100 */   -60,   -1,  -60,  -60,  801,  -60,  -60,  -60,  -60,  -60,
+ /*   110 */   -60,  -60,  -60,  -60,  -60,  -60,  -60,  519,  -60,  -60,
+ /*   120 */   813,  -60,  -60,  -60,  792,  -60,  -60,  -60,  -60,  -60,
+ /*   130 */   -60,  355,  482,  -60,  -60,  -60,  -60,  -60,  371,  482,
+ /*   140 */   -60,  -60,  -60,  -60,  -60,  -60,  -60,  -60,  -60,  824,
+ /*   150 */   -60,  -60,  -60,  -60,  387,  482,  -60,  -60,  -60,  -60,
+ /*   160 */   -60,  -60,  -60,  627,  -60,  -60,  -60,  -60,  -60,  403,
+ /*   170 */   482,  -60,  -60,  -60,  -60,  419,  482,  -60,  -60,  -60,
+ /*   180 */   -60,  -60,  -60,  828,  -60,  435,  482,  -60,  -60,  -60,
+ /*   190 */   -60,  -60,  830,  -60,  451,  482,  -60,  -60,  -60,  832,
+ /*   200 */   -60,  467,  482,  -60,  -60,  -60,
 };
 static KKACTIONTYPE kk_default[] = {
- /*     0 */   217,  217,  217,  149,  151,  152,  153,  154,  155,  156,
- /*    10 */   157,  158,  159,  217,  217,  217,  217,  217,  217,  217,
- /*    20 */   160,  217,  217,  217,  217,  217,  161,  217,  217,  217,
- /*    30 */   217,  217,  217,  217,  217,  162,  217,  217,  217,  217,
- /*    40 */   163,  217,  217,  171,  217,  173,  217,  174,  217,  175,
- /*    50 */   217,  176,  217,  177,  217,  178,  217,  179,  217,  180,
- /*    60 */   217,  181,  217,  182,  217,  185,  217,  186,  217,  187,
- /*    70 */   217,  188,  217,  189,  217,  190,  217,  191,  217,  192,
- /*    80 */   217,  217,  208,  217,  193,  217,  217,  194,  217,  199,
- /*    90 */   217,  195,  217,  196,  210,  217,  198,  200,  216,  217,
- /*   100 */   205,  217,  201,  217,  203,  210,  217,  206,  207,  217,
- /*   110 */   215,  209,  210,  211,  212,  213,  214,  202,  204,  197,
- /*   120 */   217,  183,  184,  172,  216,  164,  217,  217,  217,  217,
- /*   130 */   217,  217,  166,  217,  217,  168,  217,  217,  169,  217,
- /*   140 */   217,  165,  170,  150,  217,  217,  167,
+ /*     0 */   290,  290,  290,  208,  210,  211,  212,  213,  214,  215,
+ /*    10 */   216,  217,  218,  219,  220,  221,  222,  223,  290,  290,
+ /*    20 */   290,  290,  290,  290,  290,  224,  290,  290,  290,  290,
+ /*    30 */   290,  225,  290,  290,  290,  290,  290,  290,  290,  290,
+ /*    40 */   226,  290,  290,  290,  290,  230,  290,  290,  245,  290,
+ /*    50 */   247,  290,  248,  290,  249,  290,  250,  290,  251,  290,
+ /*    60 */   252,  290,  253,  290,  254,  290,  255,  290,  256,  290,
+ /*    70 */   259,  290,  260,  290,  261,  290,  262,  290,  263,  290,
+ /*    80 */   264,  290,  265,  290,  266,  290,  267,  290,  280,  290,
+ /*    90 */   290,  283,  290,  268,  290,  290,  269,  290,  274,  290,
+ /*   100 */   270,  290,  271,  285,  290,  273,  275,  282,  284,  285,
+ /*   110 */   286,  287,  288,  289,  272,  290,  276,  290,  278,  285,
+ /*   120 */   290,  281,  277,  279,  290,  257,  258,  246,  231,  290,
+ /*   130 */   290,  290,  290,  290,  290,  233,  290,  290,  290,  290,
+ /*   140 */   290,  290,  235,  290,  290,  237,  290,  290,  238,  290,
+ /*   150 */   290,  239,  290,  290,  290,  290,  290,  290,  240,  290,
+ /*   160 */   242,  290,  243,  290,  290,  232,  244,  209,  290,  290,
+ /*   170 */   290,  290,  290,  241,  290,  290,  290,  290,  290,  236,
+ /*   180 */   290,  290,  234,  290,  290,  290,  290,  290,  290,  227,
+ /*   190 */   290,  290,  290,  290,  290,  290,  290,  290,  228,  290,
+ /*   200 */   290,  290,  290,  290,  290,  229,
 };
 #define KK_SZ_ACTTAB (sizeof(kk_action)/sizeof(kk_action[0]))
 
@@ -644,24 +891,27 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 ** are required.  The following table supplies these names */
 static const char *kkTokenName[] = { 
   "$",             "COMMA",         "SBRACKET_OPEN",  "RANGE",       
-  "IS",            "EQUALS",        "NOTEQUALS",     "LESS",        
-  "GREATER",       "GREATEREQUAL",  "LESSEQUAL",     "IDENTICAL",   
-  "NOTIDENTICAL",  "AND",           "OR",            "PIPE",        
+  "AND",           "OR",            "IS",            "EQUALS",      
+  "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
+  "LESSEQUAL",     "IDENTICAL",     "NOTIDENTICAL",  "PIPE",        
   "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "CONCAT",        "NOT",           "DOT",         
-  "OPEN_DELIMITER",  "IF",            "CLOSE_DELIMITER",  "ENDIF",       
-  "ELSE",          "FOR",           "IN",            "ENDFOR",      
-  "SET",           "ASSIGN",        "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",
-  "BLOCK",         "IDENTIFIER",    "ENDBLOCK",      "EXTENDS",     
-  "STRING",        "INCLUDE",       "RAW_FRAGMENT",  "DEFINED",     
-  "BRACKET_OPEN",  "BRACKET_CLOSE",  "SBRACKET_CLOSE",  "DOUBLECOLON", 
-  "INTEGER",       "DOUBLE",        "NULL",          "FALSE",       
-  "TRUE",          "error",         "program",       "volt_language",
-  "statement_list",  "statement",     "raw_fragment",  "if_statement",
-  "for_statement",  "set_statement",  "echo_statement",  "block_statement",
-  "extends_statement",  "include_statement",  "empty_statement",  "expr",        
-  "qualified_name",  "array_list",    "array_item",    "function_call",
-  "argument_list",  "argument_item",
+  "MINUS",         "CONCAT",        "NOT",           "BRACKET_OPEN",
+  "DOT",           "OPEN_DELIMITER",  "IF",            "CLOSE_DELIMITER",
+  "ENDIF",         "ELSE",          "FOR",           "IDENTIFIER",  
+  "IN",            "ENDFOR",        "SET",           "ASSIGN",      
+  "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",  "BLOCK",         "ENDBLOCK",    
+  "CACHE",         "ENDCACHE",      "INTEGER",       "EXTENDS",     
+  "STRING",        "INCLUDE",       "DO",            "AUTOESCAPE",  
+  "FALSE",         "ENDAUTOESCAPE",  "TRUE",          "BREAK",       
+  "CONTINUE",      "RAW_FRAGMENT",  "DEFINED",       "BRACKET_CLOSE",
+  "SBRACKET_CLOSE",  "DOUBLECOLON",   "DOUBLE",        "NULL",        
+  "error",         "program",       "volt_language",  "statement_list",
+  "statement",     "raw_fragment",  "if_statement",  "for_statement",
+  "set_statement",  "echo_statement",  "block_statement",  "cache_statement",
+  "extends_statement",  "include_statement",  "do_statement",  "autoescape_statement",
+  "break_statement",  "continue_statement",  "empty_statement",  "expr",        
+  "array_list",    "array_item",    "function_call",  "argument_list",
+  "argument_item",
 };
 #endif /* NDEBUG */
 
@@ -679,66 +929,80 @@ static const char *kkRuleName[] = {
  /*   7 */ "statement ::= set_statement",
  /*   8 */ "statement ::= echo_statement",
  /*   9 */ "statement ::= block_statement",
- /*  10 */ "statement ::= extends_statement",
- /*  11 */ "statement ::= include_statement",
- /*  12 */ "statement ::= empty_statement",
- /*  13 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  14 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
- /*  15 */ "for_statement ::= OPEN_DELIMITER FOR qualified_name IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
- /*  16 */ "set_statement ::= OPEN_DELIMITER SET qualified_name ASSIGN expr CLOSE_DELIMITER",
- /*  17 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
- /*  18 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
- /*  19 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  20 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
- /*  21 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
- /*  22 */ "include_statement ::= OPEN_DELIMITER INCLUDE STRING CLOSE_DELIMITER",
- /*  23 */ "raw_fragment ::= RAW_FRAGMENT",
- /*  24 */ "expr ::= MINUS expr",
- /*  25 */ "expr ::= expr MINUS expr",
- /*  26 */ "expr ::= expr PLUS expr",
- /*  27 */ "expr ::= expr TIMES expr",
- /*  28 */ "expr ::= expr DIVIDE expr",
- /*  29 */ "expr ::= expr MOD expr",
- /*  30 */ "expr ::= expr AND expr",
- /*  31 */ "expr ::= expr OR expr",
- /*  32 */ "expr ::= expr CONCAT expr",
- /*  33 */ "expr ::= expr PIPE expr",
- /*  34 */ "expr ::= expr RANGE expr",
- /*  35 */ "expr ::= expr EQUALS expr",
- /*  36 */ "expr ::= expr IS NOT DEFINED",
- /*  37 */ "expr ::= expr IS DEFINED",
- /*  38 */ "expr ::= expr IS expr",
- /*  39 */ "expr ::= expr NOTEQUALS expr",
- /*  40 */ "expr ::= expr IDENTICAL expr",
- /*  41 */ "expr ::= expr NOTIDENTICAL expr",
- /*  42 */ "expr ::= expr LESS expr",
- /*  43 */ "expr ::= expr GREATER expr",
- /*  44 */ "expr ::= expr GREATEREQUAL expr",
- /*  45 */ "expr ::= expr LESSEQUAL expr",
- /*  46 */ "expr ::= NOT expr",
- /*  47 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
- /*  48 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
- /*  49 */ "array_list ::= array_list COMMA array_item",
- /*  50 */ "array_list ::= array_item",
- /*  51 */ "array_item ::= STRING DOUBLECOLON expr",
- /*  52 */ "array_item ::= expr",
- /*  53 */ "expr ::= function_call",
- /*  54 */ "function_call ::= IDENTIFIER BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  55 */ "function_call ::= IDENTIFIER BRACKET_OPEN BRACKET_CLOSE",
- /*  56 */ "argument_list ::= argument_list COMMA argument_item",
- /*  57 */ "argument_list ::= argument_item",
- /*  58 */ "argument_item ::= expr",
- /*  59 */ "argument_item ::= STRING DOUBLECOLON expr",
- /*  60 */ "expr ::= qualified_name",
- /*  61 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
- /*  62 */ "expr ::= INTEGER",
- /*  63 */ "expr ::= STRING",
- /*  64 */ "expr ::= DOUBLE",
- /*  65 */ "expr ::= NULL",
- /*  66 */ "expr ::= FALSE",
- /*  67 */ "expr ::= TRUE",
- /*  68 */ "qualified_name ::= qualified_name DOT IDENTIFIER",
- /*  69 */ "qualified_name ::= IDENTIFIER",
+ /*  10 */ "statement ::= cache_statement",
+ /*  11 */ "statement ::= extends_statement",
+ /*  12 */ "statement ::= include_statement",
+ /*  13 */ "statement ::= do_statement",
+ /*  14 */ "statement ::= autoescape_statement",
+ /*  15 */ "statement ::= break_statement",
+ /*  16 */ "statement ::= continue_statement",
+ /*  17 */ "statement ::= empty_statement",
+ /*  18 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  19 */ "if_statement ::= OPEN_DELIMITER IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDIF CLOSE_DELIMITER",
+ /*  20 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  21 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  22 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  23 */ "for_statement ::= OPEN_DELIMITER FOR IDENTIFIER COMMA IDENTIFIER IN expr IF expr CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDFOR CLOSE_DELIMITER",
+ /*  24 */ "set_statement ::= OPEN_DELIMITER SET IDENTIFIER ASSIGN expr CLOSE_DELIMITER",
+ /*  25 */ "empty_statement ::= OPEN_DELIMITER CLOSE_DELIMITER",
+ /*  26 */ "echo_statement ::= OPEN_EDELIMITER expr CLOSE_EDELIMITER",
+ /*  27 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  28 */ "block_statement ::= OPEN_DELIMITER BLOCK IDENTIFIER CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER",
+ /*  29 */ "cache_statement ::= OPEN_DELIMITER CACHE IDENTIFIER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  30 */ "cache_statement ::= OPEN_DELIMITER CACHE IDENTIFIER INTEGER CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER",
+ /*  31 */ "extends_statement ::= OPEN_DELIMITER EXTENDS STRING CLOSE_DELIMITER",
+ /*  32 */ "include_statement ::= OPEN_DELIMITER INCLUDE STRING CLOSE_DELIMITER",
+ /*  33 */ "do_statement ::= OPEN_DELIMITER DO expr CLOSE_DELIMITER",
+ /*  34 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  35 */ "autoescape_statement ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER",
+ /*  36 */ "break_statement ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER",
+ /*  37 */ "continue_statement ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER",
+ /*  38 */ "raw_fragment ::= RAW_FRAGMENT",
+ /*  39 */ "expr ::= MINUS expr",
+ /*  40 */ "expr ::= expr MINUS expr",
+ /*  41 */ "expr ::= expr PLUS expr",
+ /*  42 */ "expr ::= expr TIMES expr",
+ /*  43 */ "expr ::= expr DIVIDE expr",
+ /*  44 */ "expr ::= expr MOD expr",
+ /*  45 */ "expr ::= expr AND expr",
+ /*  46 */ "expr ::= expr OR expr",
+ /*  47 */ "expr ::= expr CONCAT expr",
+ /*  48 */ "expr ::= expr PIPE expr",
+ /*  49 */ "expr ::= expr RANGE expr",
+ /*  50 */ "expr ::= expr EQUALS expr",
+ /*  51 */ "expr ::= expr IS NOT DEFINED",
+ /*  52 */ "expr ::= expr IS DEFINED",
+ /*  53 */ "expr ::= expr IS expr",
+ /*  54 */ "expr ::= expr NOTEQUALS expr",
+ /*  55 */ "expr ::= expr IDENTICAL expr",
+ /*  56 */ "expr ::= expr NOTIDENTICAL expr",
+ /*  57 */ "expr ::= expr LESS expr",
+ /*  58 */ "expr ::= expr GREATER expr",
+ /*  59 */ "expr ::= expr GREATEREQUAL expr",
+ /*  60 */ "expr ::= expr LESSEQUAL expr",
+ /*  61 */ "expr ::= expr DOT expr",
+ /*  62 */ "expr ::= NOT expr",
+ /*  63 */ "expr ::= BRACKET_OPEN expr BRACKET_CLOSE",
+ /*  64 */ "expr ::= SBRACKET_OPEN array_list SBRACKET_CLOSE",
+ /*  65 */ "array_list ::= array_list COMMA array_item",
+ /*  66 */ "array_list ::= array_item",
+ /*  67 */ "array_item ::= STRING DOUBLECOLON expr",
+ /*  68 */ "array_item ::= expr",
+ /*  69 */ "expr ::= function_call",
+ /*  70 */ "function_call ::= expr BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  71 */ "function_call ::= expr BRACKET_OPEN BRACKET_CLOSE",
+ /*  72 */ "argument_list ::= argument_list COMMA argument_item",
+ /*  73 */ "argument_list ::= argument_item",
+ /*  74 */ "argument_item ::= expr",
+ /*  75 */ "argument_item ::= STRING DOUBLECOLON expr",
+ /*  76 */ "expr ::= IDENTIFIER",
+ /*  77 */ "expr ::= expr SBRACKET_OPEN expr SBRACKET_CLOSE",
+ /*  78 */ "expr ::= INTEGER",
+ /*  79 */ "expr ::= STRING",
+ /*  80 */ "expr ::= DOUBLE",
+ /*  81 */ "expr ::= NULL",
+ /*  82 */ "expr ::= FALSE",
+ /*  83 */ "expr ::= TRUE",
 };
 #endif /* NDEBUG */
 
@@ -848,22 +1112,24 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 50:
     case 51:
     case 52:
-// 342 "parser.lemon"
-{
-	if ((kkpminor->kk0)) {
-		efree((kkpminor->kk0)->token);
-		efree((kkpminor->kk0));
-	}
-}
-// 859 "parser.c"
-      break;
+    case 53:
+    case 54:
+    case 55:
     case 56:
     case 57:
     case 58:
     case 59:
-    case 60:
-    case 61:
-    case 62:
+// 477 "parser.lemon"
+{
+	if ((kkpminor->kk0)) {
+		if ((kkpminor->kk0)->free_flag) {
+			efree((kkpminor->kk0)->token);
+		}
+		efree((kkpminor->kk0));
+	}
+}
+// 1132 "parser.c"
+      break;
     case 63:
     case 64:
     case 65:
@@ -871,12 +1137,23 @@ static void kk_destructor(KKCODETYPE kkmajor, KKMINORTYPE *kkpminor){
     case 67:
     case 68:
     case 69:
+    case 70:
     case 71:
     case 72:
     case 73:
-// 357 "parser.lemon"
-{ zval_ptr_dtor(&(kkpminor->kk96)); }
-// 880 "parser.c"
+    case 74:
+    case 75:
+    case 76:
+    case 77:
+    case 78:
+    case 79:
+    case 80:
+    case 82:
+    case 83:
+    case 84:
+// 494 "parser.lemon"
+{ zval_ptr_dtor(&(kkpminor->kk58)); }
+// 1157 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1052,76 +1329,90 @@ static struct {
   KKCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } kkRuleInfo[] = {
-  { 54, 1 },
-  { 55, 1 },
-  { 56, 2 },
-  { 56, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 57, 1 },
-  { 59, 8 },
-  { 59, 12 },
-  { 60, 10 },
-  { 61, 6 },
-  { 66, 2 },
-  { 62, 3 },
-  { 63, 8 },
-  { 63, 7 },
-  { 64, 4 },
-  { 65, 4 },
-  { 58, 1 },
-  { 67, 2 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 4 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 3 },
-  { 67, 2 },
-  { 67, 3 },
-  { 67, 3 },
+  { 61, 1 },
+  { 62, 1 },
+  { 63, 2 },
+  { 63, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 64, 1 },
+  { 66, 8 },
+  { 66, 12 },
+  { 67, 10 },
+  { 67, 12 },
+  { 67, 12 },
+  { 67, 14 },
+  { 68, 6 },
+  { 78, 2 },
   { 69, 3 },
-  { 69, 1 },
-  { 70, 3 },
-  { 70, 1 },
-  { 67, 1 },
-  { 71, 4 },
-  { 71, 3 },
-  { 72, 3 },
-  { 72, 1 },
-  { 73, 1 },
-  { 73, 3 },
-  { 67, 1 },
-  { 67, 4 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 67, 1 },
-  { 68, 3 },
-  { 68, 1 },
+  { 70, 8 },
+  { 70, 7 },
+  { 71, 8 },
+  { 71, 9 },
+  { 72, 4 },
+  { 73, 4 },
+  { 74, 4 },
+  { 75, 8 },
+  { 75, 8 },
+  { 76, 3 },
+  { 77, 3 },
+  { 65, 1 },
+  { 79, 2 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 4 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 3 },
+  { 79, 2 },
+  { 79, 3 },
+  { 79, 3 },
+  { 80, 3 },
+  { 80, 1 },
+  { 81, 3 },
+  { 81, 1 },
+  { 79, 1 },
+  { 82, 4 },
+  { 82, 3 },
+  { 83, 3 },
+  { 83, 1 },
+  { 84, 1 },
+  { 84, 3 },
+  { 79, 1 },
+  { 79, 4 },
+  { 79, 1 },
+  { 79, 1 },
+  { 79, 1 },
+  { 79, 1 },
+  { 79, 1 },
+  { 79, 1 },
 };
 
 static void kk_accept(kkParser*);  /* Forward Declaration */
@@ -1159,14 +1450,13 @@ static void kk_reduce(
   **     break;
   */
       case 0:
-// 349 "parser.lemon"
+// 486 "parser.lemon"
 {
-	status->ret = kkmsp[0].minor.kk96;
+	status->ret = kkmsp[0].minor.kk58;
 }
-// 1167 "parser.c"
+// 1458 "parser.c"
         break;
       case 1:
-      case 3:
       case 4:
       case 5:
       case 6:
@@ -1176,465 +1466,606 @@ static void kk_reduce(
       case 10:
       case 11:
       case 12:
-      case 50:
-      case 53:
-      case 57:
-      case 60:
-// 353 "parser.lemon"
+      case 13:
+      case 14:
+      case 15:
+      case 16:
+      case 17:
+      case 69:
+// 490 "parser.lemon"
 {
-	kkgotominor.kk96 = kkmsp[0].minor.kk96;
+	kkgotominor.kk58 = kkmsp[0].minor.kk58;
 }
-// 1188 "parser.c"
+// 1480 "parser.c"
         break;
       case 2:
-// 359 "parser.lemon"
+// 496 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_zval_list(kkmsp[-1].minor.kk96, kkmsp[0].minor.kk96);
+	kkgotominor.kk58 = phvolt_ret_zval_list(kkmsp[-1].minor.kk58, kkmsp[0].minor.kk58);
 }
-// 1195 "parser.c"
+// 1487 "parser.c"
         break;
-      case 13:
-// 407 "parser.lemon"
+      case 3:
+      case 66:
+      case 73:
+// 500 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_if_statement(kkmsp[-5].minor.kk96, kkmsp[-3].minor.kk96, NULL);
-  kk_destructor(24,&kkmsp[-7].minor);
-  kk_destructor(25,&kkmsp[-6].minor);
-  kk_destructor(26,&kkmsp[-4].minor);
-  kk_destructor(24,&kkmsp[-2].minor);
-  kk_destructor(27,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_zval_list(NULL, kkmsp[0].minor.kk58);
 }
-// 1208 "parser.c"
-        break;
-      case 14:
-// 411 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_if_statement(kkmsp[-9].minor.kk96, kkmsp[-7].minor.kk96, kkmsp[-3].minor.kk96);
-  kk_destructor(24,&kkmsp[-11].minor);
-  kk_destructor(25,&kkmsp[-10].minor);
-  kk_destructor(26,&kkmsp[-8].minor);
-  kk_destructor(24,&kkmsp[-6].minor);
-  kk_destructor(28,&kkmsp[-5].minor);
-  kk_destructor(26,&kkmsp[-4].minor);
-  kk_destructor(24,&kkmsp[-2].minor);
-  kk_destructor(27,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1224 "parser.c"
-        break;
-      case 15:
-// 417 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_for_statement(kkmsp[-7].minor.kk96, kkmsp[-5].minor.kk96, kkmsp[-3].minor.kk96);
-  kk_destructor(24,&kkmsp[-9].minor);
-  kk_destructor(29,&kkmsp[-8].minor);
-  kk_destructor(30,&kkmsp[-6].minor);
-  kk_destructor(26,&kkmsp[-4].minor);
-  kk_destructor(24,&kkmsp[-2].minor);
-  kk_destructor(31,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1238 "parser.c"
-        break;
-      case 16:
-// 423 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_set_statement(kkmsp[-3].minor.kk96, kkmsp[-1].minor.kk96);
-  kk_destructor(24,&kkmsp[-5].minor);
-  kk_destructor(32,&kkmsp[-4].minor);
-  kk_destructor(33,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1249 "parser.c"
-        break;
-      case 17:
-// 429 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_empty_statement();
-  kk_destructor(24,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1258 "parser.c"
+// 1496 "parser.c"
         break;
       case 18:
-// 435 "parser.lemon"
+// 564 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk96);
-  kk_destructor(34,&kkmsp[-2].minor);
-  kk_destructor(35,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_if_statement(kkmsp[-5].minor.kk58, kkmsp[-3].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(25,&kkmsp[-7].minor);
+  kk_destructor(26,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(28,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
-// 1267 "parser.c"
+// 1509 "parser.c"
         break;
       case 19:
-// 441 "parser.lemon"
+// 568 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk96);
-  kk_destructor(24,&kkmsp[-7].minor);
-  kk_destructor(36,&kkmsp[-6].minor);
-  kk_destructor(26,&kkmsp[-4].minor);
-  kk_destructor(24,&kkmsp[-2].minor);
-  kk_destructor(38,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1280 "parser.c"
-        break;
-      case 20:
-// 445 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL);
-  kk_destructor(24,&kkmsp[-6].minor);
-  kk_destructor(36,&kkmsp[-5].minor);
-  kk_destructor(26,&kkmsp[-3].minor);
-  kk_destructor(24,&kkmsp[-2].minor);
-  kk_destructor(38,&kkmsp[-1].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1293 "parser.c"
-        break;
-      case 21:
-// 451 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0);
-  kk_destructor(24,&kkmsp[-3].minor);
-  kk_destructor(39,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1303 "parser.c"
-        break;
-      case 22:
-// 457 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0);
-  kk_destructor(24,&kkmsp[-3].minor);
-  kk_destructor(41,&kkmsp[-2].minor);
-  kk_destructor(26,&kkmsp[0].minor);
-}
-// 1313 "parser.c"
-        break;
-      case 23:
-// 463 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0);
-}
-// 1320 "parser.c"
-        break;
-      case 24:
-// 469 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk96);
-  kk_destructor(20,&kkmsp[-1].minor);
-}
-// 1328 "parser.c"
-        break;
-      case 25:
-// 473 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(20,&kkmsp[-1].minor);
-}
-// 1336 "parser.c"
-        break;
-      case 26:
-// 477 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(19,&kkmsp[-1].minor);
-}
-// 1344 "parser.c"
-        break;
-      case 27:
-// 481 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(17,&kkmsp[-1].minor);
-}
-// 1352 "parser.c"
-        break;
-      case 28:
-// 485 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(16,&kkmsp[-1].minor);
-}
-// 1360 "parser.c"
-        break;
-      case 29:
-// 489 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(18,&kkmsp[-1].minor);
-}
-// 1368 "parser.c"
-        break;
-      case 30:
-// 493 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(13,&kkmsp[-1].minor);
-}
-// 1376 "parser.c"
-        break;
-      case 31:
-// 497 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(14,&kkmsp[-1].minor);
-}
-// 1384 "parser.c"
-        break;
-      case 32:
-// 501 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(21,&kkmsp[-1].minor);
-}
-// 1392 "parser.c"
-        break;
-      case 33:
-// 505 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(15,&kkmsp[-1].minor);
-}
-// 1400 "parser.c"
-        break;
-      case 34:
-// 509 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(3,&kkmsp[-1].minor);
-}
-// 1408 "parser.c"
-        break;
-      case 35:
-// 513 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(5,&kkmsp[-1].minor);
-}
-// 1416 "parser.c"
-        break;
-      case 36:
-// 517 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk96, NULL);
-  kk_destructor(4,&kkmsp[-2].minor);
-  kk_destructor(22,&kkmsp[-1].minor);
-  kk_destructor(43,&kkmsp[0].minor);
-}
-// 1426 "parser.c"
-        break;
-      case 37:
-// 521 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk96, NULL);
-  kk_destructor(4,&kkmsp[-1].minor);
-  kk_destructor(43,&kkmsp[0].minor);
-}
-// 1435 "parser.c"
-        break;
-      case 38:
-// 525 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(4,&kkmsp[-1].minor);
-}
-// 1443 "parser.c"
-        break;
-      case 39:
-// 529 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(6,&kkmsp[-1].minor);
-}
-// 1451 "parser.c"
-        break;
-      case 40:
-// 533 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(11,&kkmsp[-1].minor);
-}
-// 1459 "parser.c"
-        break;
-      case 41:
-// 537 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(12,&kkmsp[-1].minor);
-}
-// 1467 "parser.c"
-        break;
-      case 42:
-// 541 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(7,&kkmsp[-1].minor);
-}
-// 1475 "parser.c"
-        break;
-      case 43:
-// 545 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(8,&kkmsp[-1].minor);
-}
-// 1483 "parser.c"
-        break;
-      case 44:
-// 549 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(9,&kkmsp[-1].minor);
-}
-// 1491 "parser.c"
-        break;
-      case 45:
-// 553 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(10,&kkmsp[-1].minor);
-}
-// 1499 "parser.c"
-        break;
-      case 46:
-// 557 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk96);
-  kk_destructor(22,&kkmsp[-1].minor);
-}
-// 1507 "parser.c"
-        break;
-      case 47:
-// 561 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk96, NULL);
-  kk_destructor(44,&kkmsp[-2].minor);
-  kk_destructor(45,&kkmsp[0].minor);
-}
-// 1516 "parser.c"
-        break;
-      case 48:
-// 565 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk96, NULL);
-  kk_destructor(2,&kkmsp[-2].minor);
-  kk_destructor(46,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_if_statement(kkmsp[-9].minor.kk58, kkmsp[-7].minor.kk58, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-11].minor);
+  kk_destructor(26,&kkmsp[-10].minor);
+  kk_destructor(27,&kkmsp[-8].minor);
+  kk_destructor(25,&kkmsp[-6].minor);
+  kk_destructor(29,&kkmsp[-5].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(28,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
 // 1525 "parser.c"
         break;
-      case 49:
-      case 56:
-// 571 "parser.lemon"
+      case 20:
+// 574 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_zval_list(kkmsp[-2].minor.kk96, kkmsp[0].minor.kk96);
-  kk_destructor(1,&kkmsp[-1].minor);
+	kkgotominor.kk58 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, NULL, kkmsp[-5].minor.kk58, NULL, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-9].minor);
+  kk_destructor(30,&kkmsp[-8].minor);
+  kk_destructor(32,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
-// 1534 "parser.c"
+// 1539 "parser.c"
         break;
-      case 51:
-      case 59:
-// 579 "parser.lemon"
+      case 21:
+// 578 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk96);
-  kk_destructor(47,&kkmsp[-1].minor);
+	kkgotominor.kk58 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, NULL, kkmsp[-7].minor.kk58, kkmsp[-5].minor.kk58, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-11].minor);
+  kk_destructor(30,&kkmsp[-10].minor);
+  kk_destructor(32,&kkmsp[-8].minor);
+  kk_destructor(26,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
-// 1543 "parser.c"
+// 1554 "parser.c"
         break;
-      case 52:
-      case 58:
-// 583 "parser.lemon"
+      case 22:
+// 582 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk96);
-}
-// 1551 "parser.c"
-        break;
-      case 54:
-// 593 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_func_call(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk96);
-  kk_destructor(44,&kkmsp[-2].minor);
-  kk_destructor(45,&kkmsp[0].minor);
-}
-// 1560 "parser.c"
-        break;
-      case 55:
-// 597 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_func_call(kkmsp[-2].minor.kk0, NULL);
-  kk_destructor(44,&kkmsp[-1].minor);
-  kk_destructor(45,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_for_statement(kkmsp[-7].minor.kk0, kkmsp[-9].minor.kk0, kkmsp[-5].minor.kk58, NULL, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-11].minor);
+  kk_destructor(30,&kkmsp[-10].minor);
+  kk_destructor(1,&kkmsp[-8].minor);
+  kk_destructor(32,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
 // 1569 "parser.c"
         break;
-      case 61:
-// 625 "parser.lemon"
+      case 23:
+// 586 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk96, kkmsp[-1].minor.kk96);
-  kk_destructor(2,&kkmsp[-2].minor);
-  kk_destructor(46,&kkmsp[0].minor);
-}
-// 1578 "parser.c"
-        break;
-      case 62:
-// 629 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0);
+	kkgotominor.kk58 = phvolt_ret_for_statement(kkmsp[-9].minor.kk0, kkmsp[-11].minor.kk0, kkmsp[-7].minor.kk58, kkmsp[-5].minor.kk58, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-13].minor);
+  kk_destructor(30,&kkmsp[-12].minor);
+  kk_destructor(1,&kkmsp[-10].minor);
+  kk_destructor(32,&kkmsp[-8].minor);
+  kk_destructor(26,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(33,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
 // 1585 "parser.c"
         break;
-      case 63:
-// 633 "parser.lemon"
+      case 24:
+// 592 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0);
+	kkgotominor.kk58 = phvolt_ret_set_statement(kkmsp[-3].minor.kk0, kkmsp[-1].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-5].minor);
+  kk_destructor(34,&kkmsp[-4].minor);
+  kk_destructor(35,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[0].minor);
 }
-// 1592 "parser.c"
+// 1596 "parser.c"
+        break;
+      case 25:
+// 598 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_empty_statement(status->scanner_state);
+  kk_destructor(25,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1605 "parser.c"
+        break;
+      case 26:
+// 604 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_echo_statement(kkmsp[-1].minor.kk58, status->scanner_state);
+  kk_destructor(36,&kkmsp[-2].minor);
+  kk_destructor(37,&kkmsp[0].minor);
+}
+// 1614 "parser.c"
+        break;
+      case 27:
+// 610 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_block_statement(kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-7].minor);
+  kk_destructor(38,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1627 "parser.c"
+        break;
+      case 28:
+// 614 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_block_statement(kkmsp[-4].minor.kk0, NULL, status->scanner_state);
+  kk_destructor(25,&kkmsp[-6].minor);
+  kk_destructor(38,&kkmsp[-5].minor);
+  kk_destructor(27,&kkmsp[-3].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(39,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1640 "parser.c"
+        break;
+      case 29:
+// 620 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_cache_statement(kkmsp[-5].minor.kk0, NULL, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-7].minor);
+  kk_destructor(40,&kkmsp[-6].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(41,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1653 "parser.c"
+        break;
+      case 30:
+// 624 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_cache_statement(kkmsp[-6].minor.kk0, kkmsp[-5].minor.kk0, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-8].minor);
+  kk_destructor(40,&kkmsp[-7].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(41,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1666 "parser.c"
+        break;
+      case 31:
+// 630 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_extends_statement(kkmsp[-1].minor.kk0, status->scanner_state);
+  kk_destructor(25,&kkmsp[-3].minor);
+  kk_destructor(43,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1676 "parser.c"
+        break;
+      case 32:
+// 636 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_include_statement(kkmsp[-1].minor.kk0, status->scanner_state);
+  kk_destructor(25,&kkmsp[-3].minor);
+  kk_destructor(45,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1686 "parser.c"
+        break;
+      case 33:
+// 642 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_do_statement(kkmsp[-1].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-3].minor);
+  kk_destructor(46,&kkmsp[-2].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1696 "parser.c"
+        break;
+      case 34:
+// 648 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_autoescape_statement(0, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-7].minor);
+  kk_destructor(47,&kkmsp[-6].minor);
+  kk_destructor(48,&kkmsp[-5].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(49,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1710 "parser.c"
+        break;
+      case 35:
+// 652 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_autoescape_statement(1, kkmsp[-3].minor.kk58, status->scanner_state);
+  kk_destructor(25,&kkmsp[-7].minor);
+  kk_destructor(47,&kkmsp[-6].minor);
+  kk_destructor(50,&kkmsp[-5].minor);
+  kk_destructor(27,&kkmsp[-4].minor);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(49,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1724 "parser.c"
+        break;
+      case 36:
+// 658 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_break_statement(status->scanner_state);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(51,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1734 "parser.c"
+        break;
+      case 37:
+// 664 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_continue_statement(status->scanner_state);
+  kk_destructor(25,&kkmsp[-2].minor);
+  kk_destructor(52,&kkmsp[-1].minor);
+  kk_destructor(27,&kkmsp[0].minor);
+}
+// 1744 "parser.c"
+        break;
+      case 38:
+// 670 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_RAW_FRAGMENT, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 1751 "parser.c"
+        break;
+      case 39:
+// 676 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_MINUS, NULL, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(20,&kkmsp[-1].minor);
+}
+// 1759 "parser.c"
+        break;
+      case 40:
+// 680 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_SUB, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(20,&kkmsp[-1].minor);
+}
+// 1767 "parser.c"
+        break;
+      case 41:
+// 684 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_ADD, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(19,&kkmsp[-1].minor);
+}
+// 1775 "parser.c"
+        break;
+      case 42:
+// 688 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_MUL, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(17,&kkmsp[-1].minor);
+}
+// 1783 "parser.c"
+        break;
+      case 43:
+// 692 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_DIV, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(16,&kkmsp[-1].minor);
+}
+// 1791 "parser.c"
+        break;
+      case 44:
+// 696 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_MOD, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(18,&kkmsp[-1].minor);
+}
+// 1799 "parser.c"
+        break;
+      case 45:
+// 700 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_AND, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(4,&kkmsp[-1].minor);
+}
+// 1807 "parser.c"
+        break;
+      case 46:
+// 704 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_OR, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(5,&kkmsp[-1].minor);
+}
+// 1815 "parser.c"
+        break;
+      case 47:
+// 708 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_CONCAT, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(21,&kkmsp[-1].minor);
+}
+// 1823 "parser.c"
+        break;
+      case 48:
+// 712 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_PIPE, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(15,&kkmsp[-1].minor);
+}
+// 1831 "parser.c"
+        break;
+      case 49:
+// 716 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_RANGE, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(3,&kkmsp[-1].minor);
+}
+// 1839 "parser.c"
+        break;
+      case 50:
+// 720 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_EQUALS, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(7,&kkmsp[-1].minor);
+}
+// 1847 "parser.c"
+        break;
+      case 51:
+// 724 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_NOT_ISSET, kkmsp[-3].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-2].minor);
+  kk_destructor(22,&kkmsp[-1].minor);
+  kk_destructor(54,&kkmsp[0].minor);
+}
+// 1857 "parser.c"
+        break;
+      case 52:
+// 728 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_ISSET, kkmsp[-2].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(6,&kkmsp[-1].minor);
+  kk_destructor(54,&kkmsp[0].minor);
+}
+// 1866 "parser.c"
+        break;
+      case 53:
+// 732 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_IS, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(6,&kkmsp[-1].minor);
+}
+// 1874 "parser.c"
+        break;
+      case 54:
+// 736 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_NOTEQUALS, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(8,&kkmsp[-1].minor);
+}
+// 1882 "parser.c"
+        break;
+      case 55:
+// 740 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_IDENTICAL, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(13,&kkmsp[-1].minor);
+}
+// 1890 "parser.c"
+        break;
+      case 56:
+// 744 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_NOTIDENTICAL, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(14,&kkmsp[-1].minor);
+}
+// 1898 "parser.c"
+        break;
+      case 57:
+// 748 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_LESS, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(9,&kkmsp[-1].minor);
+}
+// 1906 "parser.c"
+        break;
+      case 58:
+// 752 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_GREATER, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(10,&kkmsp[-1].minor);
+}
+// 1914 "parser.c"
+        break;
+      case 59:
+// 756 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_GREATEREQUAL, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(11,&kkmsp[-1].minor);
+}
+// 1922 "parser.c"
+        break;
+      case 60:
+// 760 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_LESSEQUAL, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(12,&kkmsp[-1].minor);
+}
+// 1930 "parser.c"
+        break;
+      case 61:
+// 764 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_DOT, kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(24,&kkmsp[-1].minor);
+}
+// 1938 "parser.c"
+        break;
+      case 62:
+// 768 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_NOT, NULL, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(22,&kkmsp[-1].minor);
+}
+// 1946 "parser.c"
+        break;
+      case 63:
+// 772 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_ENCLOSED, kkmsp[-1].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(55,&kkmsp[0].minor);
+}
+// 1955 "parser.c"
         break;
       case 64:
-// 637 "parser.lemon"
+// 776 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0);
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_ARRAY, kkmsp[-1].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(56,&kkmsp[0].minor);
 }
-// 1599 "parser.c"
+// 1964 "parser.c"
         break;
       case 65:
-// 641 "parser.lemon"
+      case 72:
+// 782 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL);
-  kk_destructor(50,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_zval_list(kkmsp[-2].minor.kk58, kkmsp[0].minor.kk58);
+  kk_destructor(1,&kkmsp[-1].minor);
 }
-// 1607 "parser.c"
-        break;
-      case 66:
-// 645 "parser.lemon"
-{
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL);
-  kk_destructor(51,&kkmsp[0].minor);
-}
-// 1615 "parser.c"
+// 1973 "parser.c"
         break;
       case 67:
-// 649 "parser.lemon"
+      case 75:
+// 790 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL);
-  kk_destructor(52,&kkmsp[0].minor);
+	kkgotominor.kk58 = phvolt_ret_named_item(kkmsp[-2].minor.kk0, kkmsp[0].minor.kk58, status->scanner_state);
+  kk_destructor(57,&kkmsp[-1].minor);
 }
-// 1623 "parser.c"
+// 1982 "parser.c"
         break;
       case 68:
-// 655 "parser.lemon"
+      case 74:
+// 794 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_qualified_name(kkmsp[-2].minor.kk96, kkmsp[0].minor.kk0);
-  kk_destructor(23,&kkmsp[-1].minor);
+	kkgotominor.kk58 = phvolt_ret_named_item(NULL, kkmsp[0].minor.kk58, status->scanner_state);
 }
-// 1631 "parser.c"
+// 1990 "parser.c"
         break;
-      case 69:
-// 659 "parser.lemon"
+      case 70:
+// 804 "parser.lemon"
 {
-	kkgotominor.kk96 = phvolt_ret_qualified_name(NULL, kkmsp[0].minor.kk0);
+	kkgotominor.kk58 = phvolt_ret_func_call(kkmsp[-3].minor.kk58, kkmsp[-1].minor.kk58, status->scanner_state);
+  kk_destructor(23,&kkmsp[-2].minor);
+  kk_destructor(55,&kkmsp[0].minor);
 }
-// 1638 "parser.c"
+// 1999 "parser.c"
+        break;
+      case 71:
+// 808 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_func_call(kkmsp[-2].minor.kk58, NULL, status->scanner_state);
+  kk_destructor(23,&kkmsp[-1].minor);
+  kk_destructor(55,&kkmsp[0].minor);
+}
+// 2008 "parser.c"
+        break;
+      case 76:
+// 832 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2015 "parser.c"
+        break;
+      case 77:
+// 836 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, kkmsp[-3].minor.kk58, kkmsp[-1].minor.kk58, status->scanner_state);
+  kk_destructor(2,&kkmsp[-2].minor);
+  kk_destructor(56,&kkmsp[0].minor);
+}
+// 2024 "parser.c"
+        break;
+      case 78:
+// 840 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2031 "parser.c"
+        break;
+      case 79:
+// 844 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_STRING, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2038 "parser.c"
+        break;
+      case 80:
+// 848 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_DOUBLE, kkmsp[0].minor.kk0, status->scanner_state);
+}
+// 2045 "parser.c"
+        break;
+      case 81:
+// 852 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_NULL, NULL, status->scanner_state);
+  kk_destructor(59,&kkmsp[0].minor);
+}
+// 2053 "parser.c"
+        break;
+      case 82:
+// 856 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_FALSE, NULL, status->scanner_state);
+  kk_destructor(48,&kkmsp[0].minor);
+}
+// 2061 "parser.c"
+        break;
+      case 83:
+// 860 "parser.lemon"
+{
+	kkgotominor.kk58 = phvolt_ret_literal_zval(PHVOLT_T_TRUE, NULL, status->scanner_state);
+  kk_destructor(50,&kkmsp[0].minor);
+}
+// 2069 "parser.c"
         break;
   };
   kkgoto = kkRuleInfo[kkruleno].lhs;
@@ -1676,9 +2107,9 @@ static void kk_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define KTOKEN (kkminor.kk0)
-// 297 "parser.lemon"
+// 431 "parser.lemon"
 
-	if (status->scanner_state->start) {
+	if (status->scanner_state->start_length) {
 		{
 
 			char *token_name = NULL;
@@ -1704,9 +2135,9 @@ static void kk_syntax_error(
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name);
-			status->syntax_error = emalloc(sizeof(char)*status->syntax_error_len);
-			sprintf(status->syntax_error, "Syntax error, unexpected token %s on line %d", token_name, status->scanner_state->active_line);
+			status->syntax_error_len = 64 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
+			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+			sprintf(status->syntax_error, "Syntax error, unexpected token %s in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
 
 			if (!token_found) {
 				if (token_name) {
@@ -1715,13 +2146,14 @@ static void kk_syntax_error(
 			}
 		}
 	} else {
-		status->syntax_error_len = strlen("Syntax error, unexpected EOF");
-		status->syntax_error = estrndup("Syntax error, unexpected EOF", status->syntax_error_len);
+		status->syntax_error_len = 48 + Z_STRLEN_P(status->scanner_state->active_file);
+		status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+		sprintf(status->syntax_error, "Syntax error, unexpected EOF in %s", Z_STRVAL_P(status->scanner_state->active_file));
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 1725 "parser.c"
+// 2157 "parser.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1924,6 +2356,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_DIV,           	"/" },
   { PHVOLT_T_MOD,           	"%%" },
   { PHVOLT_T_NOT,           	"!" },
+  { PHVOLT_T_CONCAT,           	"~" },
   { PHVOLT_T_AND,           	"AND" },
   { PHVOLT_T_OR,            	"OR" },
   { PHVOLT_T_DOT,           	"DOT" },
@@ -1954,10 +2387,18 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_ASSIGN,           	"ASSIGN" },
   { PHVOLT_T_BLOCK,           	"BLOCK" },
   { PHVOLT_T_ENDBLOCK,          "ENDBLOCK" },
+  { PHVOLT_T_CACHE,           	"CACHE" },
+  { PHVOLT_T_ENDCACHE,        	"ENDCACHE" },
   { PHVOLT_T_EXTENDS,			"EXTENDS" },
   { PHVOLT_T_IS,				"IS" },
   { PHVOLT_T_DEFINED,			"DEFINED" },
   { PHVOLT_T_INCLUDE,			"INCLUDE" },
+  { PHVOLT_T_DO,				"DO" },
+  { PHVOLT_T_IGNORE,			"WHITESPACE" },
+  { PHVOLT_T_AUTOESCAPE,		"AUTOESCAPE" },
+  { PHVOLT_T_ENDAUTOESCAPE,		"ENDAUTOESCAPE" },
+  { PHVOLT_T_CONTINUE,			"CONTINUE" },
+  { PHVOLT_T_BREAK,				"BREAK" },
   {  0, NULL }
 };
 
@@ -1979,11 +2420,15 @@ static void phvolt_wrapper_free(void *pointer){
  * Creates a parser_token to be passed to the parser
  */
 static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parsercode, phvolt_scanner_token *token, phvolt_parser_status *parser_status){
+
 	phvolt_parser_token *pToken;
+
 	pToken = emalloc(sizeof(phvolt_parser_token));
 	pToken->opcode = opcode;
 	pToken->token = token->value;
 	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
 	phvolt_(phvolt_parser, parsercode, pToken, parser_status);
 }
 
@@ -1991,27 +2436,59 @@ static void phvolt_parse_with_token(void* phvolt_parser, int opcode, int parserc
  * Creates an error message
  */
 static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *message){
-	char *str = emalloc(sizeof(char) * 128);
-	sprintf(str, "%s on line %d", message, parser_status->scanner_state->active_line);
+
+	unsigned int length = (128 + Z_STRLEN_P(parser_status->scanner_state->active_file));
+	char *str = emalloc(sizeof(char) * length);
+
+	snprintf(str, length, "%s in %s on line %d", message, Z_STRVAL_P(parser_status->scanner_state->active_file), parser_status->scanner_state->active_line);
+	str[length - 1] = '\0';
+
 	parser_status->syntax_error = estrndup(str, strlen(str));
 	efree(str);
 }
 
 /**
- * Receives the volt code and tokenizes/parses it
+ * Creates an error message when it's triggered by the scanner
  */
-int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
+static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+
+	char *error, *error_part;
+	phvolt_scanner_state *state = parser_status->scanner_state;
+
+	PHALCON_INIT_VAR(*error_msg);
+	if (state->start) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
+			error_part = estrndup(state->start, 16);
+			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			efree(error_part);
+		} else {
+			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+		}
+		ZVAL_STRING(*error_msg, error, 1);
+	} else {
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
+		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		ZVAL_STRING(*error_msg, error, 1);
+	}
+	efree(error);
+}
+
+/**
+ * Receives the volt code tokenizes and parses it
+ */
+int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC){
 
 	zval *error_msg = NULL;
 
 	ZVAL_NULL(result);
 
 	if (Z_TYPE_P(view_code) != IS_STRING) {
-		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, SL("View code must be a string") TSRMLS_CC);
 		return FAILURE;
 	}
 
-	if(phvolt_internal_parse_view(&result, Z_STRVAL_P(view_code), Z_STRLEN_P(view_code), &error_msg TSRMLS_CC) == FAILURE){
+	if(phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE){
 		phalcon_throw_exception_string(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
 		return FAILURE;
 	}
@@ -2020,11 +2497,13 @@ int phvolt_parse_view(zval *result, zval *view_code TSRMLS_DC){
 }
 
 /**
- * Checks if token contains only black characters
+ * Checks whether the token has only blank characters
  */
 int phvolt_is_blank_string(phvolt_scanner_token *token){
-	int i;
-	char ch, *marker = token->value;
+
+	char *marker = token->value;
+	unsigned int ch, i;
+
 	for (i = 0; i < token->len; i++) {
 		ch = *marker;
 		if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r' && ch != 11) {
@@ -2032,37 +2511,39 @@ int phvolt_is_blank_string(phvolt_scanner_token *token){
 		}
 		marker++;
 	}
+
 	return 1;
 }
 
 /**
  * Parses a volt template returning an intermediate array representation
  */
-int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view_length, zval **error_msg TSRMLS_DC) {
+int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC) {
 
 	char *error;
 	phvolt_scanner_state *state;
-	phvolt_scanner_token *token;
+	phvolt_scanner_token token;
 	int scanner_status, status = SUCCESS;
 	phvolt_parser_status *parser_status = NULL;
 	void* phvolt_parser;
 
-	if (!view_code) {
+	/** Check if the view has code */
+	if (!Z_STRVAL_P(view_code)) {
 		PHALCON_INIT_VAR(*error_msg);
 		ZVAL_STRING(*error_msg, "View code cannot be null", 1);
 		return FAILURE;
 	}
 
-	if (!view_length) {
+	if (!Z_STRLEN_P(view_code)) {
 		array_init(*result);
 		return SUCCESS;
 	}
 
+	/** Start the reentrant parser */
 	phvolt_parser = phvolt_Alloc(phvolt_wrapper_alloc);
 
 	parser_status = emalloc(sizeof(phvolt_parser_status));
 	state = emalloc(sizeof(phvolt_scanner_state));
-	token = emalloc(sizeof(phvolt_scanner_token));
 
 	parser_status->status = PHVOLT_PARSING_OK;
 	parser_status->scanner_state = state;
@@ -2071,23 +2552,27 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 	/** Initialize the scanner state */
 	state->active_token = 0;
-	state->start = view_code;
+	state->start = Z_STRVAL_P(view_code);
 	state->mode = PHVOLT_MODE_RAW;
 	state->raw_buffer = emalloc(sizeof(char) * PHVOLT_RAW_BUFFER_SIZE);
 	state->raw_buffer_size = PHVOLT_RAW_BUFFER_SIZE;
 	state->raw_buffer_cursor = 0;
+	state->active_file = template_path;
 	state->active_line = 1;
 	state->statement_position = 0;
 	state->extends_mode = 0;
 	state->block_level = 0;
+	state->start_length = 0;
 
 	state->end = state->start;
 
-	while(0 <= (scanner_status = phvolt_get_token(state, token))) {
+	while(0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
-		state->active_token = token->opcode;
+		state->active_token = token.opcode;
 
-		switch(token->opcode){
+		state->start_length = (Z_STRVAL_P(view_code) + Z_STRLEN_P(view_code) - state->start);
+
+		switch(token.opcode){
 
 			case PHVOLT_T_IGNORE:
 				break;
@@ -2205,16 +2690,16 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 				break;
 
 			case PHVOLT_T_INTEGER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_INTEGER, PHVOLT_INTEGER, &token, parser_status);
 				break;
 			case PHVOLT_T_DOUBLE:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_DOUBLE, PHVOLT_DOUBLE, &token, parser_status);
 				break;
 			case PHVOLT_T_STRING:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_STRING, PHVOLT_STRING, &token, parser_status);
 				break;
 			case PHVOLT_T_IDENTIFIER:
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_IDENTIFIER, PHVOLT_IDENTIFIER, &token, parser_status);
 				break;
 
 			case PHVOLT_T_IF:
@@ -2255,15 +2740,18 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 			case PHVOLT_T_RAW_FRAGMENT:
 				if (state->extends_mode == 1 && state->block_level == 0){
-					if(!phvolt_is_blank_string(token)){
+					if(!phvolt_is_blank_string(&token)){
 						phvolt_create_error_msg(parser_status, "Child templates only may contain blocks");
 						parser_status->status = PHVOLT_PARSING_FAILED;
-					} else {
-						efree(token->value);
 					}
+					efree(token.value);
 					break;
+				} else {
+					if(!phvolt_is_blank_string(&token)){
+						state->statement_position++;
+					}
 				}
-				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, token, parser_status);
+				phvolt_parse_with_token(phvolt_parser, PHVOLT_T_RAW_FRAGMENT, PHVOLT_RAW_FRAGMENT, &token, parser_status);
 				break;
 
 			case PHVOLT_T_SET:
@@ -2293,12 +2781,39 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 				phvolt_(phvolt_parser, PHVOLT_ENDBLOCK, NULL, parser_status);
 				break;
 
+			case PHVOLT_T_CACHE:
+				phvolt_(phvolt_parser, PHVOLT_CACHE, NULL, parser_status);
+				break;
+			case PHVOLT_T_ENDCACHE:
+				phvolt_(phvolt_parser, PHVOLT_ENDCACHE, NULL, parser_status);
+				break;
+
 			case PHVOLT_T_INCLUDE:
 				phvolt_(phvolt_parser, PHVOLT_INCLUDE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_DEFINED:
 				phvolt_(phvolt_parser, PHVOLT_DEFINED, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_DO:
+				phvolt_(phvolt_parser, PHVOLT_DO, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_AUTOESCAPE:
+				phvolt_(phvolt_parser, PHVOLT_AUTOESCAPE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_ENDAUTOESCAPE:
+				phvolt_(phvolt_parser, PHVOLT_ENDAUTOESCAPE, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_BREAK:
+				phvolt_(phvolt_parser, PHVOLT_BREAK, NULL, parser_status);
+				break;
+
+			case PHVOLT_T_CONTINUE:
+				phvolt_(phvolt_parser, PHVOLT_CONTINUE, NULL, parser_status);
 				break;
 
 			case PHVOLT_T_EXTENDS:
@@ -2314,11 +2829,13 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 			default:
 				parser_status->status = PHVOLT_PARSING_FAILED;
-				error = emalloc(sizeof(char) * 32);
-				sprintf(error, "Scanner: unknown opcode %c", token->opcode);
-				PHALCON_INIT_VAR(*error_msg);
-				ZVAL_STRING(*error_msg, error, 1);
-				efree(error);
+				if (!*error_msg) {
+					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, error, 1);
+					efree(error);
+				}
 				break;
 		}
 
@@ -2330,24 +2847,12 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 		state->end = state->start;
 	}
 
-	state->active_token = 0;
-	state->start = NULL;
-	efree(state->raw_buffer);
-
 	if (status != FAILURE) {
 		switch (scanner_status) {
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
-					PHALCON_INIT_VAR(*error_msg);
-					if (state->start) {
-						error = emalloc(sizeof(char) *(48 + strlen(state->start)));
-						sprintf(error, "Parsing error near to %s (%d)", state->start, status);
-						ZVAL_STRING(*error_msg, error, 1);
-						efree(error);
-					} else {
-						ZVAL_STRING(*error_msg, "Parsing error near to EOF", 1);
-					}
+					phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
 				}
 				status = FAILURE;
 				break;
@@ -2355,6 +2860,10 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 				phvolt_(phvolt_parser, 0, NULL, parser_status);
 		}
 	}
+
+	state->active_token = 0;
+	state->start = NULL;
+	efree(state->raw_buffer);
 
 	if (parser_status->status != PHVOLT_PARSING_OK) {
 		status = FAILURE;
@@ -2383,7 +2892,6 @@ int phvolt_internal_parse_view(zval **result, char *view_code, unsigned int view
 
 	efree(parser_status);
 	efree(state);
-	efree(token);
 
 	return status;
 }

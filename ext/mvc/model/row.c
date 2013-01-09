@@ -80,14 +80,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 
 	zval *index;
-	int eval_int;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	eval_int = phalcon_isset_property_zval(this_ptr, index TSRMLS_CC);
-	if (eval_int) {
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
 		RETURN_TRUE;
 	}
 	RETURN_FALSE;
@@ -102,20 +100,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists){
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet){
 
 	zval *index, *value;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &index) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	eval_int = phalcon_isset_property_zval(this_ptr, index TSRMLS_CC);
-	if (eval_int) {
-		PHALCON_INIT_VAR(value);
+	if (phalcon_isset_property_zval(this_ptr, index TSRMLS_CC)) {
+		PHALCON_OBS_VAR(value);
 		phalcon_read_property_zval(&value, this_ptr, index, PH_NOISY_CC);
-	
 		RETURN_CCTOR(value);
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row");
@@ -135,8 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &index, &value) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");
@@ -155,8 +148,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object");

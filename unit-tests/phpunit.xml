@@ -45,10 +45,16 @@
 			<file>unit-tests/ModelsQueryExecuteTest.php</file>
 			<file>unit-tests/ModelsQueryBuilderTest.php</file>
 			<file>unit-tests/ModelsCriteriaTest.php</file>
+			<file>unit-tests/ModelsEventsTest.php</file>
+			<file>unit-tests/ModelsBehaviorsTest.php</file>
+			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
+			<file>unit-tests/ModelsSerializeTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>
+			<file>unit-tests/CollectionsEventsTest.php</file>
+			<file>unit-tests/CollectionsSerializeTest.php</file>
 
 			<!-- Cache Resultsets -->
 			<file>unit-tests/CacheResultsetTest.php</file>
@@ -64,11 +70,14 @@
 			<file>unit-tests/SessionTest.php</file>
 			<file>unit-tests/PaginatorTest.php</file>
 			<file>unit-tests/LoaderTest.php</file>
+			<file>unit-tests/SecurityTest.php</file>
 
 			<!-- Complex components/Integral tests -->
 			<file>unit-tests/ModelsResultsetCacheTest.php</file>
+
+			<!-- Micro MVC -->
 			<file>unit-tests/MicroMvcTest.php</file>
-			<file>unit-tests/ApplicationMvcTest.php</file>
+			<file>unit-tests/MicroMvcEventsTest.php</file>
 
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>

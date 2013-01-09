@@ -18,6 +18,11 @@
   +------------------------------------------------------------------------+
 */
 
+class SimpleComponent
+{
+
+}
+
 class SomeComponent
 {
 
@@ -182,6 +187,12 @@ class DiTest extends PHPUnit_Framework_TestCase
 	{
 		$this->_di->set('service1', 'some-service');
 		$this->assertEquals($this->_di->getRaw('service1'), 'some-service');
+	}
+
+	public function testArrayAccess()
+	{
+		$this->_di['simple'] = 'SimpleComponent';
+		$this->assertEquals(get_class($this->_di['simple']), 'SimpleComponent');
 	}
 
 	public function testFactoryDefault()

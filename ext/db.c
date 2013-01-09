@@ -32,6 +32,10 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "kernel/exception.h"
+#include "kernel/array.h"
+#include "kernel/fcall.h"
+
 /**
  * Phalcon\Db
  *
@@ -75,7 +79,7 @@
  */
 PHALCON_INIT_CLASS(Phalcon_Db){
 
-	PHALCON_REGISTER_CLASS(Phalcon, Db, db, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon, Db, db, phalcon_db_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_ASSOC"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_BOTH"), 2 TSRMLS_CC);
@@ -83,5 +87,37 @@ PHALCON_INIT_CLASS(Phalcon_Db){
 	zend_declare_class_constant_long(phalcon_db_ce, SL("FETCH_OBJ"), 4 TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+/**
+ * Enables/disables options in the Database component
+ *
+ * @param array $options
+ */
+PHP_METHOD(Phalcon_Db, setup){
+
+	zval *options, *escape_identifiers;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(options) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Options must be an array");
+		return;
+	}
+	
+	/** 
+	 * Enables/Disables globally the escaping of SQL identifiers
+	 */
+	if (phalcon_array_isset_string(options, SS("escapeSqlIdentifiers"))) {
+		PHALCON_OBS_VAR(escape_identifiers);
+		phalcon_array_fetch_string(&escape_identifiers, options, SL("escapeSqlIdentifiers"), PH_NOISY_CC);
+		PHALCON_GLOBAL(db).escape_identifiers = zend_is_true(escape_identifiers);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 

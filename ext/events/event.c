@@ -65,6 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Events_Event){
  * @param string $type
  * @param object $source
  * @param mixed $data
+ * @param boolean $cancelable
  */
 PHP_METHOD(Phalcon_Events_Event, __construct){
 
@@ -73,16 +74,15 @@ PHP_METHOD(Phalcon_Events_Event, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &type, &source, &data, &cancelable) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_NVAR(cancelable);
+		PHALCON_INIT_VAR(cancelable);
 		ZVAL_BOOL(cancelable, 1);
 	}
 	
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Events_Event, stop){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(cancelable);
+	PHALCON_OBS_VAR(cancelable);
 	phalcon_read_property(&cancelable, this_ptr, SL("_cancelable"), PH_NOISY_CC);
 	if (zend_is_true(cancelable)) {
 		phalcon_update_property_bool(this_ptr, SL("_stopped"), 1 TSRMLS_CC);

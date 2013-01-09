@@ -85,6 +85,13 @@
 #define PHVOLT_T_IS 311
 #define PHVOLT_T_DEFINED 312
 #define PHVOLT_T_INCLUDE 313
+#define PHVOLT_T_CACHE 314
+#define PHVOLT_T_ENDCACHE 315
+#define PHVOLT_T_DO 316
+#define PHVOLT_T_AUTOESCAPE 317
+#define PHVOLT_T_ENDAUTOESCAPE 318
+#define PHVOLT_T_CONTINUE 319
+#define PHVOLT_T_BREAK 320
 
 /** Delimiters */
 #define PHVOLT_T_OPEN_DELIMITER  330
@@ -104,23 +111,26 @@
 #define PHVOLT_T_ARRAYACCESS 361
 #define PHVOLT_T_NOT_ISSET 362
 #define PHVOLT_T_ISSET 363
+#define PHVOLT_T_RESOLVED_EXPR 364
 
 #define PHVOLT_T_MINUS 367
 
-/* list of tokens and their names */
+/* List of tokens and their names */
 typedef struct _phvolt_token_names
 {
 	unsigned int code;
 	char *name;
 } phvolt_token_names;
 
-/* active token state */
+/* Active token state */
 typedef struct _phvolt_scanner_state {
 	int active_token;
 	char* start;
 	char* end;
+	unsigned int start_length;
 	int mode;
 	unsigned int active_line;
+	zval *active_file;
 	unsigned int statement_position;
 	unsigned int extends_mode;
 	unsigned int block_level;
@@ -129,7 +139,7 @@ typedef struct _phvolt_scanner_state {
 	unsigned int raw_buffer_size;
 } phvolt_scanner_state;
 
-/* extra information tokens */
+/* Extra information tokens */
 typedef struct _phvolt_scanner_token {
 	int opcode;
 	char *value;
@@ -139,4 +149,3 @@ typedef struct _phvolt_scanner_token {
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
-

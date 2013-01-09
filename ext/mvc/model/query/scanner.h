@@ -1,20 +1,20 @@
 
 /*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework                                                      |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
-  |          Eduar Carvajal <eduar@phalconphp.com>                         |
-  +------------------------------------------------------------------------+
+	+------------------------------------------------------------------------+
+	| Phalcon Framework                                                      |
+	+------------------------------------------------------------------------+
+	| Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+	+------------------------------------------------------------------------+
+	| This source file is subject to the New BSD License that is bundled     |
+	| with this package in the file docs/LICENSE.txt.                        |
+	|                                                                        |
+	| If you did not receive a copy of the license and are unable to         |
+	| obtain it through the world-wide-web, please send an email             |
+	| to license@phalconphp.com so we can send you a copy immediately.       |
+	+------------------------------------------------------------------------+
+	| Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+	|          Eduar Carvajal <eduar@phalconphp.com>                         |
+	+------------------------------------------------------------------------+
 */
 
 #define PHQL_SCANNER_RETCODE_EOF -1
@@ -110,24 +110,25 @@
 #define PHQL_T_MINUS 367
 
 /* list of tokens and their names */
-typedef struct _phql_token_names
-{
-    unsigned int code;
-    char *name;
+typedef struct _phql_token_names {
+	unsigned int code;
+	char *name;
+	unsigned int length;
 } phql_token_names;
 
 /* active token state */
 typedef struct _phql_scanner_state {
-  int active_token;
+	int active_token;
 	char* start;
 	char* end;
+	unsigned int start_length;
 } phql_scanner_state;
 
 /* extra information tokens */
 typedef struct _phql_scanner_token {
 	int opcode;
 	char *value;
-	int len;
+	unsigned int len;
 } phql_scanner_token;
 
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token);

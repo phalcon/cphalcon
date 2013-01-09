@@ -32,12 +32,12 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
+#include "kernel/object.h"
 
 /**
  * Phalcon\Logger\Adapter\File
@@ -45,11 +45,11 @@
  * Adapter to store logs in plain text files
  *
  *<code>
- *$logger = new Phalcon\Logger\Adapter\File("app/logs/test.log");
- *$logger->log("This is a message");
- *$logger->log("This is an error", Phalcon\Logger::ERROR);
- *$logger->error("This is another error");
- *$logger->close();
+ *	$logger = new \Phalcon\Logger\Adapter\File("app/logs/test.log");
+ *	$logger->log("This is a message");
+ *	$logger->log("This is an error", \Phalcon\Logger::ERROR);
+ *	$logger->error("This is another error");
+ *	$logger->close();
  *</code>
  */
 
@@ -81,25 +81,19 @@ PHALCON_INIT_CLASS(Phalcon_Logger_Adapter_File){
 PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 
 	zval *name, *options = NULL, *mode = NULL, *handler, *exception_message;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_logger_adapter_file_ce, this_ptr, SL("_quenue") TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &name, &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
-		array_init(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
-	eval_int = phalcon_array_isset_string(options, SS("mode"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(mode);
+	if (phalcon_array_isset_string(options, SS("mode"))) {
+		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY_CC);
 	} else {
 		PHALCON_INIT_NVAR(mode);
@@ -135,46 +129,41 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __construct){
 PHP_METHOD(Phalcon_Logger_Adapter_File, log){
 
 	zval *message, *type = NULL, *file_handler, *transaction;
-	zval *time, *quenue_item, *applied_format, *eol;
-	zval *applied_eol;
-	zval *t0 = NULL;
+	zval *timestamp, *quenue_item, *applied_format;
+	zval *eol, *applied_eol;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 7);
 	}
 	
-	PHALCON_INIT_VAR(file_handler);
+	PHALCON_OBS_VAR(file_handler);
 	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	if (!zend_is_true(file_handler)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "Cannot send message to the log because it is invalid");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(transaction);
+	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (zend_is_true(transaction)) {
-		PHALCON_INIT_VAR(time);
-		PHALCON_CALL_FUNC(time, "time");
+		PHALCON_INIT_VAR(timestamp);
+		ZVAL_LONG(timestamp, (long) time(NULL));
 	
 		PHALCON_INIT_VAR(quenue_item);
 		object_init_ex(quenue_item, phalcon_logger_item_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(quenue_item, "__construct", message, type, time, PH_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(quenue_item, "__construct", message, type, timestamp);
 	
-		PHALCON_INIT_VAR(t0);
-		phalcon_read_property(&t0, this_ptr, SL("_quenue"), PH_NOISY_CC);
-		phalcon_array_append(&t0, quenue_item, 0 TSRMLS_CC);
-		phalcon_update_property_zval(this_ptr, SL("_quenue"), t0 TSRMLS_CC);
+		phalcon_update_property_array_append(this_ptr, SL("_quenue"), quenue_item TSRMLS_CC);
 	} else {
 		PHALCON_INIT_VAR(applied_format);
-		PHALCON_CALL_METHOD_PARAMS_2(applied_format, this_ptr, "_applyformat", message, type, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_2(applied_format, this_ptr, "_applyformat", message, type);
 	
 		PHALCON_INIT_VAR(eol);
 		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
@@ -204,7 +193,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, begin){
   */
 PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 
-	zval *transaction, *file_handler, *quenue, *eol;
+	zval *transaction, *quenue, *eol, *file_handler;
 	zval *message = NULL, *message_str = NULL, *type = NULL, *time = NULL, *applied_format = NULL;
 	zval *applied_eol = NULL;
 	HashTable *ah0;
@@ -213,7 +202,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(transaction);
+	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
@@ -222,52 +211,50 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 	
 	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(file_handler);
-	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
-	
-	PHALCON_INIT_VAR(quenue);
+	/** 
+	 * Check if the quenue has something to log
+	 */
+	PHALCON_OBS_VAR(quenue);
 	phalcon_read_property(&quenue, this_ptr, SL("_quenue"), PH_NOISY_CC);
+	if (Z_TYPE_P(quenue) == IS_ARRAY) { 
 	
-	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+		PHALCON_INIT_VAR(eol);
+		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	
-	if (!phalcon_valid_foreach(quenue TSRMLS_CC)) {
-		return;
-	}
+		PHALCON_OBS_VAR(file_handler);
+		phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	
-	ah0 = Z_ARRVAL_P(quenue);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
+		if (!phalcon_valid_foreach(quenue TSRMLS_CC)) {
+			return;
 		}
 	
-		PHALCON_GET_FOREACH_VALUE(message);
+		ah0 = Z_ARRVAL_P(quenue);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-		PHALCON_INIT_NVAR(message_str);
-		PHALCON_CALL_METHOD(message_str, message, "getmessage", PH_NO_CHECK);
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_INIT_NVAR(type);
-		PHALCON_CALL_METHOD(type, message, "gettype", PH_NO_CHECK);
+			PHALCON_GET_FOREACH_VALUE(message);
 	
-		PHALCON_INIT_NVAR(time);
-		PHALCON_CALL_METHOD(time, message, "gettime", PH_NO_CHECK);
+			PHALCON_INIT_NVAR(message_str);
+			PHALCON_CALL_METHOD(message_str, message, "getmessage");
 	
-		PHALCON_INIT_NVAR(applied_format);
-		PHALCON_CALL_METHOD_PARAMS_3(applied_format, this_ptr, "_applyformat", message_str, type, time, PH_NO_CHECK);
+			PHALCON_INIT_NVAR(type);
+			PHALCON_CALL_METHOD(type, message, "gettype");
 	
-		PHALCON_INIT_NVAR(applied_eol);
-		PHALCON_CONCAT_VV(applied_eol, applied_format, eol);
-		PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", file_handler, applied_eol);
+			PHALCON_INIT_NVAR(time);
+			PHALCON_CALL_METHOD(time, message, "gettime");
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
+			PHALCON_INIT_NVAR(applied_format);
+			PHALCON_CALL_METHOD_PARAMS_3(applied_format, this_ptr, "_applyformat", message_str, type, time);
 	
-	ph_cycle_end_0:
-	if(0){}
+			PHALCON_INIT_NVAR(applied_eol);
+			PHALCON_CONCAT_VV(applied_eol, applied_format, eol);
+			PHALCON_CALL_FUNC_PARAMS_2_NORETURN("fwrite", file_handler, applied_eol);
 	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -282,7 +269,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, rollback){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(transaction);
+	PHALCON_OBS_VAR(transaction);
 	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
 	if (!zend_is_true(transaction)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
@@ -309,12 +296,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(file_handler);
+	PHALCON_OBS_VAR(file_handler);
 	phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_1(success, "fclose", file_handler);
-	
 	RETURN_CCTOR(success);
 }
 
@@ -325,18 +311,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, close){
 PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 
 	zval *path, *options, *mode = NULL, *file_handler;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(path);
+	PHALCON_OBS_VAR(path);
 	phalcon_read_property(&path, this_ptr, SL("_path"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(options);
+	PHALCON_OBS_VAR(options);
 	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	eval_int = phalcon_array_isset_string(options, SS("mode"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(mode);
+	if (phalcon_array_isset_string(options, SS("mode"))) {
+		PHALCON_OBS_VAR(mode);
 		phalcon_array_fetch_string(&mode, options, SL("mode"), PH_NOISY_CC);
 	} else {
 		PHALCON_INIT_NVAR(mode);

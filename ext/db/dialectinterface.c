@@ -187,6 +187,9 @@ PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, createTable);
 /**
  * Generates SQL to drop a table
  *
+ * @param string $tableName
+ * @param string $schemaName
+ * @return string
  */
 PHALCON_DOC_METHOD(Phalcon_Db_DialectInterface, dropTable);
 

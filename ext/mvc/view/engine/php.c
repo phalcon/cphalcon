@@ -65,7 +65,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
-	zval *path, *params, *must_clean, *value = NULL, *key = NULL, *contents;
+	zval *path, *params, *must_clean = NULL, *value = NULL, *key = NULL, *contents;
 	zval *view;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -77,39 +77,40 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &path, &params, &must_clean) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &path, &params, &must_clean) == FAILURE) {
+		RETURN_MM_NULL();
 	}
 
+	if (!must_clean) {
+		PHALCON_INIT_VAR(must_clean);
+		ZVAL_BOOL(must_clean, 0);
+	}
+	
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
-		}
-	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
-	
-		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 			return;
 		}
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
+		ah0 = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_end_0:
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+			PHALCON_GET_FOREACH_VALUE(value);
+	
+			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+				return;
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
 	
 	if (phalcon_require(path TSRMLS_CC) == FAILURE) {
 		return;
@@ -118,9 +119,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	
-		PHALCON_INIT_VAR(view);
+		PHALCON_OBS_VAR(view);
 		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents);
 	}
 	
 	PHALCON_MM_RESTORE();

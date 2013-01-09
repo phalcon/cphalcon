@@ -63,15 +63,22 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine, __construct){
 
-	zval *view, *dependency_injector;
+	zval *view, *dependency_injector = NULL;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &view, &dependency_injector) == FAILURE) {
-		RETURN_NULL();
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &view, &dependency_injector) == FAILURE) {
+		RETURN_MM_NULL();
 	}
 
+	if (!dependency_injector) {
+		PHALCON_INIT_VAR(dependency_injector);
+	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**
@@ -85,12 +92,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, getContent){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(view);
+	PHALCON_OBS_VAR(view);
 	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD(content, view, "getcontent", PH_NO_CHECK);
-	
+	PHALCON_CALL_METHOD(content, view, "getcontent");
 	RETURN_CCTOR(content);
 }
 
@@ -107,16 +113,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &partial_path) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(view);
+	PHALCON_OBS_VAR(view);
 	phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(content);
-	PHALCON_CALL_METHOD_PARAMS_1(content, view, "partial", partial_path, PH_NO_CHECK);
-	
+	PHALCON_CALL_METHOD_PARAMS_1(content, view, "partial", partial_path);
 	RETURN_CCTOR(content);
+}
+
+/**
+ * Returns the view component related to the adapter
+ *
+ * @return Phalcon\Mvc\ViewInterface
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView){
+
+
+	RETURN_MEMBER(this_ptr, "_view");
 }
 

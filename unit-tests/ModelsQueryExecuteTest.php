@@ -176,10 +176,22 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Robots', $robots[0]);
 		$this->assertEquals(count($robots), 3);
 
+		$result = $manager->executeQuery('SELECT id, name FROM Robots');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+
 		$result = $manager->executeQuery('SELECT Robots.name FROM Robots');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 3);
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+
+		$result = $manager->executeQuery('SELECT LENGTH(name) AS the_length FROM Robots');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->the_length));
+		$this->assertEquals($result[0]->the_length, 8);
 
 		$result = $manager->executeQuery('SELECT LENGTH(Robots.name) AS the_length FROM Robots');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
@@ -249,6 +261,13 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(isset($result[0]->name));
 		$this->assertEquals($result[0]->name, 'Terminator');
 
+		$result = $manager->executeQuery('SELECT name le_name FROM Robots ORDER BY name ASC LIMIT 4');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+		$this->assertTrue(isset($result[0]->le_name));
+		$this->assertEquals($result[0]->le_name, 'Astro Boy');
+
 		$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT 4');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
 		$this->assertEquals(count($result), 3);
@@ -294,7 +313,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($result), 1);
 		$this->assertEquals($result[0]->number, 1);
 
-		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r ORDER BY r.id');
+		$result = $manager->executeQuery('SELECT r.id, r.* FROM Robots r');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertNotEquals(gettype($result[0]->id), 'object');
 		$this->assertEquals(gettype($result[0]->r), 'object');
@@ -337,7 +356,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->r->id, 1);
 		$this->assertEquals($result[1]->p->id, 2);
 
-		// Joins with namespaces
+		/** Joins with namespaces */
 		$result = $manager->executeQuery('SELECT Some\Robots.*, Some\RobotsParts.* FROM Some\Robots JOIN Some\RobotsParts ON Some\Robots.id = Some\RobotsParts.robots_id ORDER BY Some\Robots.id, Some\RobotsParts.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->{'some\Robots'}), 'object');
@@ -350,7 +369,7 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[1]->{'some\Robots'}->id, 1);
 		$this->assertEquals($result[1]->{'some\RobotsParts'}->id, 2);
 
-		// Joins with namespaces and aliases
+		/** Joins with namespaces and aliases */
 		$result = $manager->executeQuery('SELECT r.*, p.* FROM Some\Robots r JOIN Some\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id');
 		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
 		$this->assertEquals(gettype($result[0]->r), 'object');
@@ -362,6 +381,17 @@ class ModelsQueryExecuteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result[0]->p->id, 1);
 		$this->assertEquals($result[1]->r->id, 1);
 		$this->assertEquals($result[1]->p->id, 2);
+
+		$result = $manager->executeQuery('SELECT id, name FROM Some\Robots');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 3);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+
+		$result = $manager->executeQuery('SELECT id, name FROM Some\Robots ORDER BY name DESC LIMIT 2');
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $result);
+		$this->assertEquals(count($result), 2);
+		$this->assertInstanceOf('Phalcon\Mvc\Model\Row', $result[0]);
+
 
 	}
 

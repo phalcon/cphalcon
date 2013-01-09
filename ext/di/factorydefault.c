@@ -63,8 +63,8 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *flash;
-	zval *flash_session, *session, *session_bag;
+	zval *response, *request, *filter, *escaper, *security;
+	zval *flash, *flash_session, *session, *session_bag;
 	zval *events_manager, *transaction_manager;
 	zval *services;
 
@@ -83,7 +83,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(router);
 	object_init_ex(router, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(router, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(router, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "dispatcher", 1);
@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(dispatcher);
 	object_init_ex(dispatcher, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(dispatcher, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(dispatcher, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "url", 1);
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(url);
 	object_init_ex(url, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(url, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(url, "__construct", name, definition, shared);
 	
 	/** 
 	 * Models manager for ORM
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(models_manager);
 	object_init_ex(models_manager, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(models_manager, "__construct", name, definition, shared);
 	
 	/** 
 	 * Models meta-data using the Memory adapter
@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(models_metadata);
 	object_init_ex(models_metadata, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_metadata, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(models_metadata, "__construct", name, definition, shared);
 	
 	/** 
 	 * Request/Response are always shared
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(response);
 	object_init_ex(response, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(response, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(response, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "request", 1);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(request);
 	object_init_ex(request, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(request, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(request, "__construct", name, definition, shared);
 	
 	/** 
 	 * Filter/Escaper services are always shared
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(filter);
 	object_init_ex(filter, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(filter, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(filter, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "escaper", 1);
@@ -175,7 +175,20 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(escaper);
 	object_init_ex(escaper, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
+	
+	/** 
+	 * Security doesn't need to be shared, but anyways we register it as shared
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "security", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Security", 1);
+	
+	PHALCON_INIT_VAR(security);
+	object_init_ex(security, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
 	
 	/** 
 	 * Flash services are always shared
@@ -188,7 +201,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(flash);
 	object_init_ex(flash, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "flashSession", 1);
@@ -198,7 +211,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(flash_session);
 	object_init_ex(flash_session, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash_session, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(flash_session, "__construct", name, definition, shared);
 	
 	/** 
 	 * Session is always shared
@@ -211,7 +224,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(session);
 	object_init_ex(session, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(session, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(session, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(name);
 	ZVAL_STRING(name, "sessionBag", 1);
@@ -221,7 +234,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(session_bag);
 	object_init_ex(session_bag, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session_bag, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(session_bag, "__construct", name, definition);
 	
 	/** 
 	 * Events Manager is always shared
@@ -234,17 +247,20 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	
 	PHALCON_INIT_VAR(events_manager);
 	object_init_ex(events_manager, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "__construct", name, definition, shared, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(events_manager, "__construct", name, definition, shared);
 	
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Transaction\\Manager", 1);
 	
 	PHALCON_INIT_VAR(transaction_manager);
 	object_init_ex(transaction_manager, phalcon_di_service_ce);
-	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(transaction_manager, "__construct", name, definition, PH_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(transaction_manager, "__construct", name, definition, shared);
 	
+	/** 
+	 * Register services
+	 */
 	PHALCON_INIT_VAR(services);
-	array_init(services);
+	array_init_size(services, 16);
 	phalcon_array_update_string(&services, SL("router"), &router, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("dispatcher"), &dispatcher, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("url"), &url, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -254,6 +270,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("request"), &request, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("filter"), &filter, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("escaper"), &escaper, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&services, SL("security"), &security, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flash"), &flash, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("flashSession"), &flash_session, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("session"), &session, PH_COPY | PH_SEPARATE TSRMLS_CC);

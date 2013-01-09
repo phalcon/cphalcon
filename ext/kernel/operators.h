@@ -31,12 +31,16 @@
 #define PHALCON_IS_EMPTY(var) Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var))
 #define PHALCON_IS_NOT_EMPTY(var) !(Z_TYPE_P(var) == IS_NULL || (Z_TYPE_P(var) == IS_STRING && !Z_STRLEN_P(var)))
 
+/** Is scalar */
+#define PHALCON_IS_SCALAR(var) Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE
+#define PHALCON_IS_NOT_SCALAR(var) !(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
+
 /** Operator functions */
 extern int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 extern int phalcon_and_function(zval *result, zval *left, zval *right);
 
-extern void phalcon_concat_self(zval *left, zval *right TSRMLS_DC);
-extern void phalcon_concat_self_str(zval *left, char *right, int right_length TSRMLS_DC);
+extern void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
+extern void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC);
 
 extern int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
 
@@ -46,3 +50,5 @@ extern int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
 extern int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 extern void phalcon_cast(zval *result, zval *var, zend_uint type);
+extern long phalcon_get_intval(zval *op);
+extern int phalcon_is_numeric(zval *op);
