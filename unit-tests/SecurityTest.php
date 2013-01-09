@@ -23,6 +23,12 @@ class SecurityTest extends PHPUnit_Framework_TestCase
 
 	public function testHash()
 	{
+
+		if (!extension_loaded('openssl')) {
+			$this->markTestSkipped('Warning: openssl extension is not loaded');
+			return;
+		}
+
 		$security = new Phalcon\Security();
 
 		for ($i = 8; $i < 12; $i++) {

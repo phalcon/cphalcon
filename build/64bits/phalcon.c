@@ -34110,8 +34110,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	PHALCON_INIT_VAR(has_through);
 	PHALCON_CALL_METHOD(has_through, relation, "hasthrough");
 	if (zend_is_true(has_through)) {
-		zend_print_zval(join_conditions, 0);
-		RETURN_MM_NULL();
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Not implemented");
+		return;
 	}
 	
 	PHALCON_INIT_VAR(dependency_injector);
@@ -58357,6 +58357,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				} else {
 					PHALCON_CPY_WRT(final_path, path);
 				}
+	
+				PHALCON_INIT_NVAR(extended);
+				ZVAL_BOOL(extended, 1);
 	
 				PHALCON_INIT_NVAR(sub_compiler);
 				if (phalcon_clone(sub_compiler, this_ptr TSRMLS_CC) == FAILURE) {
