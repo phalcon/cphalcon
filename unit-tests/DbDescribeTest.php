@@ -514,7 +514,7 @@ class DbDescribeTest extends PHPUnit_Framework_TestCase
 
 		//List tables
 		$expectedTables = array(
-			0 => 'offer',
+			0 => 'customers',
 			1 => 'parts',
 			2 => 'personas',
 			3 => 'personnes',

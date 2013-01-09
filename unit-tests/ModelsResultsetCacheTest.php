@@ -193,10 +193,10 @@ class ModelsResultsetCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(count($robots), 3);
 		$this->assertFalse($robots->isFresh());
 
-		$this->assertEquals($robots->getCache()->getLastKey(), 'othersome');
+		$this->assertEquals($robots->getCache()->getLastKey(), 'other-some');
 
 		$this->assertEquals($robots->getCache()->queryKeys(), array(
-			0 => 'othersome',
+			0 => 'other-some',
 		));
 	}
 
