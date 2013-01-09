@@ -112,6 +112,10 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($song->name, 'Lotus Flower');
 		$this->assertEquals($song->artist, 'Radiohead');
 
+		//No results
+		$song = Songs::findFirst(array('conditions' => array('artist' => 'Lana')));
+		$this->assertFalse($song);
+
 		//Passing parameters to find
 		$songs = Songs::find(array(
 			array('artist' => 'Massive Attack')

@@ -19,16 +19,17 @@
 
 /** Fast char position */
 extern int phalcon_memnstr(zval *haystack, zval *needle TSRMLS_DC);
-extern int phalcon_memnstr_str(zval *haystack, char *needle, int needle_length TSRMLS_DC);
+extern int phalcon_memnstr_str(zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 
 /** Function replacement */
 extern void phalcon_fast_strlen(zval *return_value, zval *str);
+extern void phalcon_fast_strtolower(zval *return_value, zval *str);
 extern void phalcon_fast_join(zval *result, zval *glue, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_join_str(zval *result, char *glue, unsigned int glue_length, zval *pieces TSRMLS_DC);
 extern void phalcon_fast_explode(zval *result, zval *delimiter, zval *str TSRMLS_DC);
 extern void phalcon_fast_strpos(zval *return_value, zval *haystack, zval *needle TSRMLS_DC);
-extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
-extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, int needle_length TSRMLS_DC);
+extern void phalcon_fast_strpos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
+extern void phalcon_fast_stripos_str(zval *return_value, zval *haystack, char *needle, unsigned int needle_length TSRMLS_DC);
 extern void phalcon_fast_str_replace(zval *return_value, zval *search, zval *replace, zval *subject TSRMLS_DC);
 
 /** Camelize/Uncamelize */
@@ -39,6 +40,20 @@ extern void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC);
 extern void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches);
 extern void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri TSRMLS_DC);
 
-/** Start with */
-extern int phalcon_start_with(zval *str, zval *compared);
+/** Starts/Ends with */
+extern int phalcon_start_with(zval *str, zval *compared, zval *ignore_case);
 extern int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);
+extern int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
+extern int phalcon_end_with(zval *str, zval *compared, zval *ignore_case);
+
+/** Random string */
+extern void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);
+
+/* Strips extra slashes */
+extern void phalcon_remove_extra_slashes(zval *return_value, zval *str);
+
+/** ssprintf */
+extern int phalcon_spprintf(char **message, int max_len, char *format, ...);
+
+/* Substr */
+void phalcon_substr(zval *return_value, zval *str, unsigned long from, unsigned long length TSRMLS_DC);

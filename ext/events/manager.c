@@ -72,13 +72,11 @@ PHALCON_INIT_CLASS(Phalcon_Events_Manager){
 PHP_METHOD(Phalcon_Events_Manager, attach){
 
 	zval *event_type, *handler, *events = NULL, *empty_array;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &event_type, &handler) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(event_type) != IS_STRING) {
@@ -90,15 +88,14 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(events);
+	PHALCON_OBS_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
 		PHALCON_INIT_NVAR(events);
 		array_init(events);
 	}
 	
-	eval_int = phalcon_array_isset(events, event_type);
-	if (!eval_int) {
+	if (!phalcon_array_isset(events, event_type)) {
 		PHALCON_INIT_VAR(empty_array);
 		array_init(empty_array);
 		phalcon_array_update_zval(&events, event_type, &empty_array, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -112,30 +109,29 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 
 /**
  * Removes all events from the EventsManager
+ *
+ * @param string $type
  */
 PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 
 	zval *type = NULL, *events = NULL, *null_value;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!type) {
-		PHALCON_INIT_NVAR(type);
+		PHALCON_INIT_VAR(type);
 	}
 	
-	PHALCON_INIT_VAR(events);
+	PHALCON_OBS_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(type) == IS_NULL) {
 		PHALCON_INIT_NVAR(events);
 	} else {
-		eval_int = phalcon_array_isset(events, type);
-		if (eval_int) {
+		if (phalcon_array_isset(events, type)) {
 			PHALCON_INIT_VAR(null_value);
 			phalcon_array_update_zval(&events, type, &null_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
@@ -148,6 +144,10 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 
 /**
  * Fires a event in the events manager causing that the acive listeners will be notified about it
+ *
+ *<code>
+ * $eventsManager->fire('db', $connection);
+ *</code>
  *
  * @param string $eventType
  * @param object $source
@@ -164,21 +164,19 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|zz", &event_type, &source, &data, &cancelable) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!data) {
-		PHALCON_INIT_NVAR(data);
+		PHALCON_INIT_VAR(data);
 	}
 	
 	if (!cancelable) {
-		PHALCON_INIT_NVAR(cancelable);
+		PHALCON_INIT_VAR(cancelable);
 		ZVAL_BOOL(cancelable, 1);
 	}
 	
@@ -187,11 +185,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(events);
+	PHALCON_OBS_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) != IS_ARRAY) { 
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 	
 	if (!phalcon_memnstr_str(event_type, SL(":") TSRMLS_CC)) {
@@ -207,18 +204,22 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 	PHALCON_INIT_VAR(event_parts);
 	phalcon_fast_explode(event_parts, colon, event_type TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(type);
+	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_long(&type, event_parts, 0, PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(event_name);
+	PHALCON_OBS_VAR(event_name);
 	phalcon_array_fetch_long(&event_name, event_parts, 1, PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(event);
 	
 	PHALCON_INIT_VAR(status);
-	eval_int = phalcon_array_isset(events, type);
-	if (eval_int) {
-		PHALCON_INIT_VAR(fire_events);
+	
+	/** 
+	 * Check if events are grouped by type
+	 */
+	if (phalcon_array_isset(events, type)) {
+	
+		PHALCON_OBS_VAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
@@ -229,23 +230,23 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			ah0 = Z_ARRVAL_P(fire_events);
 			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-			ph_cycle_start_0:
-	
-				if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-					goto ph_cycle_end_0;
-				}
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(handler);
 	
 				if (Z_TYPE_P(handler) == IS_OBJECT) {
+	
+					/** 
+					 * Check if the event is a closure
+					 */
 					if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
 							object_init_ex(event, phalcon_events_event_ce);
-							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable);
 	
 							PHALCON_INIT_NVAR(arguments);
-							array_init(arguments);
+							array_init_size(arguments, 3);
 							phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
 							phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
 							phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
@@ -254,27 +255,33 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 						PHALCON_INIT_NVAR(status);
 						PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 						if (zend_is_true(cancelable)) {
+	
 							PHALCON_INIT_NVAR(is_stopped);
-							PHALCON_CALL_METHOD(is_stopped, event, "isstopped", PH_NO_CHECK);
+							PHALCON_CALL_METHOD(is_stopped, event, "isstopped");
 							if (zend_is_true(is_stopped)) {
-								goto ph_cycle_end_0;
+								break;
 							}
 						}
 					} else {
+						/** 
+						 * Check if the listener has implemented an event with the same name
+						 */
 						if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);
 								object_init_ex(event, phalcon_events_event_ce);
-								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
+								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable);
+	
 							}
 	
 							PHALCON_INIT_NVAR(status);
-							PHALCON_CALL_METHOD_PARAMS_3(status, handler, Z_STRVAL_P(event_name), event, source, data, PH_NO_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 							if (zend_is_true(cancelable)) {
+	
 								PHALCON_INIT_NVAR(is_stopped);
-								PHALCON_CALL_METHOD(is_stopped, event, "isstopped", PH_NO_CHECK);
+								PHALCON_CALL_METHOD(is_stopped, event, "isstopped");
 								if (zend_is_true(is_stopped)) {
-									goto ph_cycle_end_0;
+									break;
 								}
 							}
 						}
@@ -282,17 +289,17 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
-				goto ph_cycle_start_0;
-	
-			ph_cycle_end_0:
-			if(0){}
+			}
 	
 		}
 	}
 	
-	eval_int = phalcon_array_isset(events, event_type);
-	if (eval_int) {
-		PHALCON_INIT_NVAR(fire_events);
+	/** 
+	 * Check if there are listeners for the event type itself
+	 */
+	if (phalcon_array_isset(events, event_type)) {
+	
+		PHALCON_OBS_NVAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
@@ -303,23 +310,23 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			ah1 = Z_ARRVAL_P(fire_events);
 			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
-			ph_cycle_start_1:
-	
-				if (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) != SUCCESS) {
-					goto ph_cycle_end_1;
-				}
+			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(handler);
 	
 				if (Z_TYPE_P(handler) == IS_OBJECT) {
+	
+					/** 
+					 * Check if the event is a closure
+					 */
 					if (phalcon_is_instance_of(handler, SL("Closure") TSRMLS_CC)) {
 						if (Z_TYPE_P(event) == IS_NULL) {
 							PHALCON_INIT_NVAR(event);
 							object_init_ex(event, phalcon_events_event_ce);
-							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable);
 	
 							PHALCON_INIT_NVAR(arguments);
-							array_init(arguments);
+							array_init_size(arguments, 3);
 							phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
 							phalcon_array_append(&arguments, source, PH_SEPARATE TSRMLS_CC);
 							phalcon_array_append(&arguments, data, PH_SEPARATE TSRMLS_CC);
@@ -328,27 +335,33 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 						PHALCON_INIT_NVAR(status);
 						PHALCON_CALL_USER_FUNC_ARRAY(status, handler, arguments);
 						if (zend_is_true(cancelable)) {
+	
 							PHALCON_INIT_NVAR(is_stopped);
-							PHALCON_CALL_METHOD(is_stopped, event, "isstopped", PH_NO_CHECK);
+							PHALCON_CALL_METHOD(is_stopped, event, "isstopped");
 							if (zend_is_true(is_stopped)) {
-								goto ph_cycle_end_1;
+								break;
 							}
 						}
 					} else {
+						/** 
+						 * Check if the listener has implemented an event with the same name
+						 */
 						if (phalcon_method_exists(handler, event_name TSRMLS_CC) == SUCCESS) {
 							if (Z_TYPE_P(event) == IS_NULL) {
 								PHALCON_INIT_NVAR(event);
 								object_init_ex(event, phalcon_events_event_ce);
-								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable, PH_CHECK);
+								PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable);
+	
 							}
 	
 							PHALCON_INIT_NVAR(status);
-							PHALCON_CALL_METHOD_PARAMS_3(status, handler, Z_STRVAL_P(event_name), event, source, data, PH_NO_CHECK);
+							PHALCON_CALL_METHOD_PARAMS_3(status, handler, Z_STRVAL_P(event_name), event, source, data);
 							if (zend_is_true(cancelable)) {
+	
 								PHALCON_INIT_NVAR(is_stopped);
-								PHALCON_CALL_METHOD(is_stopped, event, "isstopped", PH_NO_CHECK);
+								PHALCON_CALL_METHOD(is_stopped, event, "isstopped");
 								if (zend_is_true(is_stopped)) {
-									goto ph_cycle_end_1;
+									break;
 								}
 							}
 						}
@@ -356,10 +369,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				}
 	
 				zend_hash_move_forward_ex(ah1, &hp1);
-				goto ph_cycle_start_1;
-	
-			ph_cycle_end_1:
-			if(0){}
+			}
 	
 		}
 	}
@@ -377,27 +387,22 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 
 	zval *type, *events;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(events);
+	PHALCON_OBS_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset(events, type);
-		if (eval_int) {
-			PHALCON_MM_RESTORE();
-			RETURN_TRUE;
+		if (phalcon_array_isset(events, type)) {
+			RETURN_MM_TRUE;
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_FALSE;
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -409,23 +414,19 @@ PHP_METHOD(Phalcon_Events_Manager, hasListeners){
 PHP_METHOD(Phalcon_Events_Manager, getListeners){
 
 	zval *type, *events, *fire_events;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &type) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(events);
+	PHALCON_OBS_VAR(events);
 	phalcon_read_property(&events, this_ptr, SL("_events"), PH_NOISY_CC);
 	if (Z_TYPE_P(events) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset(events, type);
-		if (eval_int) {
-			PHALCON_INIT_VAR(fire_events);
+		if (phalcon_array_isset(events, type)) {
+			PHALCON_OBS_VAR(fire_events);
 			phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
-	
 			RETURN_CCTOR(fire_events);
 		}
 	}

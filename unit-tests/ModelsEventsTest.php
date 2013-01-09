@@ -18,63 +18,6 @@
   +------------------------------------------------------------------------+
 */
 
-class ModelsListener
-{
-
-	protected $_test;
-
-	protected $_trace = '';
-
-	protected $_stop = '';
-
-	protected $_actionName;
-
-	public function __construct($test)
-	{
-		$this->_test = $test;
-	}
-
-	public function stopAt($eventName)
-	{
-		$this->_trace = array();
-		$this->_stop = $eventName;
-	}
-
-	public function setActionName($actionName)
-	{
-		$this->_actionName = $actionName;
-	}
-
-	public function beforeDispatch(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
-	{
-		$this->_trace[] = 'beforeDispatch';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
-		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
-		if ($this->_stop == 'beforeDispatch') {
-			return false;
-		}
-	}
-
-	public function beforeNotFoundAction(Phalcon\Events\Event $event, Phalcon\Mvc\Dispatcher $dispatcher)
-	{
-		$this->_trace[] = 'beforeNotFoundAction';
-		$this->_test->assertEquals('test2', $dispatcher->getControllerName());
-		$this->_test->assertEquals($this->_actionName, $dispatcher->getActionName());
-		return false;
-	}
-
-	public function clearTrace()
-	{
-		$this->_trace = array();
-	}
-
-	public function getTrace()
-	{
-		return $this->_trace;
-	}
-
-}
-
 class ModelsEventsTest extends PHPUnit_Framework_TestCase
 {
 
@@ -95,27 +38,148 @@ class ModelsEventsTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testEvents()
+	protected function _prepareDI(&$trace)
 	{
+		Phalcon\DI::reset();
 
-		/*Phalcon\DI::reset();
+		$eventsManager = new Phalcon\Events\Manager();
+
+		$eventsManager->attach('model', function($event, $model) use (&$trace) {
+			if (!isset($trace[$event->getType()][get_class($model)])) {
+				$trace[$event->getType()][get_class($model)] = 1;
+			} else {
+				$trace[$event->getType()][get_class($model)]++;
+			}
+		});
 
 		$di = new Phalcon\DI();
 
-		$di->set('modelsManager', function(){
-			return new Phalcon\Mvc\Model\Manager();
-		});
+		$di->set('modelsManager', function() use ($eventsManager) {
+
+			$modelsManager = new Phalcon\Mvc\Model\Manager();
+
+			$modelsManager->setEventsManager($eventsManager);
+
+			return $modelsManager;
+		}, true);
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+		}, true);
 
 		$di->set('db', function(){
 			require 'unit-tests/config.db.php';
 			return new Phalcon\Db\Adapter\Pdo\Mysql($configMysql);
-		});
+		}, true);
+	}
 
-		$this->_executeTests($di);*/
+	public function testEventsCreate()
+	{
+
+		$trace = array();
+
+		$this->_prepareDI($trace);
+
+		$robot = new GossipRobots();
+
+		$robot->name = 'Test';
+		$robot->year = 2000;
+		$robot->type = 'Some Type';
+
+		$robot->trace = &$trace;
+
+		$robot->save();
+
+		$this->assertEquals($trace, array(
+			'beforeValidation' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeValidationOnCreate' => array(
+				'GossipRobots' => 1,
+			),
+			'validation' => array(
+				'GossipRobots' => 2,
+			),
+			'afterValidationOnCreate' => array(
+				'GossipRobots' => 1,
+			),
+			'afterValidation' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeSave' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeCreate' => array(
+				'GossipRobots' => 1,
+			)
+		));
+
+	}
+
+	public function testEventsUpdate()
+	{
+
+		$trace = array();
+
+		$this->_prepareDI($trace);
+
+		$robot = GossipRobots::findFirst();
+
+		$robot->trace = &$trace;
+
+		$robot->save();
+
+		$this->assertEquals($trace, array(
+			'beforeValidation' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeValidationOnUpdate' => array(
+				'GossipRobots' => 2,
+			),
+			'validation' => array(
+				'GossipRobots' => 2,
+			),
+			'afterValidationOnUpdate' => array(
+				'GossipRobots' => 2,
+			),
+			'afterValidation' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeSave' => array(
+				'GossipRobots' => 2,
+			),
+			'beforeUpdate' => array(
+				'GossipRobots' => 2,
+			),
+			'afterUpdate' => array(
+				'GossipRobots' => 2,
+			),
+			'afterSave' => array(
+				'GossipRobots' => 2,
+			),
+		));
+
+	}
+
+	public function testEventsDelete()
+	{
+
+		$trace = array();
+
+		$this->_prepareDI($trace);
+
+		$robot = GossipRobots::findFirst();
+
+		$robot->trace = &$trace;
+
+		$robot->delete();
+
+		$this->assertEquals($trace, array(
+			'beforeDelete' => array(
+				'GossipRobots' => 1,
+			)
+		));
+
 	}
 
 }

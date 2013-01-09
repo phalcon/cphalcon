@@ -36,12 +36,31 @@
  * Initialize globals on each request or each thread started
  */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
-    phalcon_globals->start_memory = NULL;
+
+	/* Memory options */
+	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
+
+	/* Virtual Symbol Tables */
+	phalcon_globals->symbol_tables = NULL;
+
+	/* Cache options */
+	phalcon_globals->function_cache = NULL;
+
+	/* Stats options */
 	#ifndef PHALCON_RELEASE
 	phalcon_globals->phalcon_stack_stats = 0;
 	phalcon_globals->phalcon_number_grows = 0;
 	#endif
+
+	/* ORM options*/
+	phalcon_globals->orm.events = 1;
+	phalcon_globals->orm.virtual_foreign_keys = 1;
+	phalcon_globals->orm.column_renaming = 1;
+	phalcon_globals->orm.not_null_validations = 1;
+
+	/* DB options */
+	phalcon_globals->db.escape_identifiers = 1;
 }
 
 /**
@@ -230,87 +249,56 @@ int phalcon_is_callable(zval *var TSRMLS_DC){
 }
 
 /**
- * Filter alphanum string
+ * Creates virtual symbol tables dinamically
  */
-int phalcon_filter_alphanum(zval *result, zval *param){
+void phalcon_create_symbol_table(TSRMLS_D) {
 
-	int i, ch, alloc = 0;
-	char temp[2048];
-	zval copy;
-	int use_copy = 0;
-
-	if (Z_TYPE_P(param) != IS_STRING) {
-		zend_make_printable_zval(param, &copy, &use_copy);
-		if (use_copy) {
-			param = &copy;
-		}
-	}
-
-	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
-		ch = Z_STRVAL_P(param)[i];
-		if ((ch>96 && ch<123)||(ch>64 && ch<91)||(ch>47 && ch<58)) {
-			temp[alloc] = ch;
-			alloc++;
-		}
-	}
-
-	if (alloc > 0) {
-		Z_TYPE_P(result) = IS_STRING;
-		Z_STRLEN_P(result) = alloc;
-		Z_STRVAL_P(result) = (char *) emalloc(alloc+1);
-		memcpy(Z_STRVAL_P(result), temp, alloc);
-		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+	if (!PHALCON_GLOBAL(symbol_tables)) {
+		PHALCON_GLOBAL(symbol_tables) = emalloc(sizeof(HashTable **) * 4);
+		PHALCON_GLOBAL(number_symbol_tables) = 1;
 	} else {
-		ZVAL_STRING(result, "", 1);
+		if ((PHALCON_GLOBAL(number_symbol_tables) % 4) == 0) {
+			PHALCON_GLOBAL(symbol_tables) = erealloc(PHALCON_GLOBAL(symbol_tables), sizeof(HashTable **) * 4 + PHALCON_GLOBAL(number_symbol_tables));
+		}
+		PHALCON_GLOBAL(number_symbol_tables)++;
 	}
 
-	if (use_copy) {
-		zval_dtor(param);
-	}
-
-	return SUCCESS;
+	PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1] = EG(active_symbol_table);
+	EG(active_symbol_table) = NULL;
 }
 
 /**
- * Filter identifiers string like variables or database columns/tables
+ * Restores a virtual symbol table
  */
-int phalcon_filter_identifier(zval *result, zval *param){
+void phalcon_restore_symbol_table(TSRMLS_D) {
 
-	int i, ch, alloc = 0;
-	char temp[2048];
-	zval copy;
-	int use_copy = 0;
+	if (PHALCON_GLOBAL(symbol_tables)) {
 
-	if (Z_TYPE_P(param) != IS_STRING) {
-		zend_make_printable_zval(param, &copy, &use_copy);
-		if (use_copy) {
-			param = &copy;
+		EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1];
+
+		PHALCON_GLOBAL(number_symbol_tables)--;
+
+		if (PHALCON_GLOBAL(number_symbol_tables) == 0) {
+			efree(PHALCON_GLOBAL(symbol_tables));
+			PHALCON_GLOBAL(symbol_tables) = NULL;
 		}
 	}
+}
 
-	for (i=0; i < Z_STRLEN_P(param) && i < 2048; i++) {
-		ch = Z_STRVAL_P(param)[i];
-		if ((ch>96 && ch<123) || (ch>64 && ch<91) || (ch>47 && ch<58) || ch==95) {
-			temp[alloc] = ch;
-			alloc++;
+/**
+ * Restores all the virtual symbol tables
+ */
+void phalcon_clean_symbol_tables(TSRMLS_D) {
+
+	unsigned int i;
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
+			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
 		}
+		efree(PHALCON_GLOBAL(symbol_tables));
+		PHALCON_GLOBAL(symbol_tables) = NULL;
 	}
-
-	if (alloc > 0) {
-		Z_TYPE_P(result) = IS_STRING;
-		Z_STRLEN_P(result) = alloc;
-		Z_STRVAL_P(result) = (char *) emalloc(alloc+1);
-		memcpy(Z_STRVAL_P(result), temp, alloc);
-		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
-	} else {
-		ZVAL_STRING(result, "", 1);
-	}
-
-	if (use_copy) {
-		zval_dtor(param);
-	}
-
-	return SUCCESS;
 }
 
 /**

@@ -32,15 +32,12 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
-#include "kernel/array.h"
-#include "kernel/string.h"
-#include "kernel/concat.h"
-#include "kernel/file.h"
+#include "kernel/operators.h"
 #include "kernel/require.h"
+#include "kernel/string.h"
 
 /**
  * Phalcon\Mvc\View\Engine\Volt
@@ -57,38 +54,11 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Volt, mvc_view_engine_volt, "phalcon\\mvc\\view\\engine", phalcon_mvc_view_engine_volt_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_volt_ce, SL("_compiler"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_mvc_view_engine_volt_ce TSRMLS_CC, 2, phalcon_mvc_view_engineinterface_ce, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_mvc_view_engine_volt_ce TSRMLS_CC, 1, phalcon_mvc_view_engineinterface_ce);
 
 	return SUCCESS;
-}
-
-/**
- * Sets the dependency injection container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setDI){
-
-	zval *dependency_injector;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dependency_injector) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
-	
-}
-
-/**
- * Returns the dependency injection container
- *
- * @return Phalcon\DiInterface
- */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getDI){
-
-
-	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
 /**
@@ -103,8 +73,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(options) != IS_ARRAY) { 
@@ -128,6 +97,49 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
 }
 
 /**
+ * Returns the Volt's compiler
+ *
+ * @return Phalcon\Mvc\View\Engine\Volt\Compiler
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
+
+	zval *compiler = NULL, *view, *options, *dependency_injector;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(compiler);
+	phalcon_read_property(&compiler, this_ptr, SL("_compiler"), PH_NOISY_CC);
+	if (Z_TYPE_P(compiler) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(view);
+		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(options);
+		phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(dependency_injector);
+		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	
+		PHALCON_INIT_NVAR(compiler);
+		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "__construct", view);
+	
+		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector);
+		}
+	
+		if (Z_TYPE_P(options) == IS_ARRAY) { 
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setoptions", options);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_compiler"), compiler TSRMLS_CC);
+	}
+	
+	
+	RETURN_CCTOR(compiler);
+}
+
+/**
  * Renders a view using the template engine
  *
  * @param string $templatePath
@@ -136,13 +148,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions){
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 
-	zval *template_path, *params, *must_clean, *stat = NULL;
-	zval *compile_always = NULL, *compiled_path = NULL, *compiled_separator = NULL;
-	zval *compiled_extension = NULL, *options, *win_separator;
-	zval *unix_separator, *template_win_path;
-	zval *template_sep_path = NULL, *compiled_template_path;
-	zval *dependency_injector = NULL, *compiler = NULL, *exception_message;
-	zval *value = NULL, *key = NULL, *contents, *view;
+	zval *template_path, *params, *must_clean = NULL, *compiler;
+	zval *compiled_template_path, *value = NULL, *key = NULL, *contents;
+	zval *view;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -150,182 +158,57 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	uint hash_index_len;
 	ulong hash_num;
 	int hash_type;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &template_path, &params, &must_clean) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|z", &template_path, &params, &must_clean) == FAILURE) {
+		RETURN_MM_NULL();
 	}
 
+	if (!must_clean) {
+		PHALCON_INIT_VAR(must_clean);
+		ZVAL_BOOL(must_clean, 0);
+	}
+	
 	if (PHALCON_IS_TRUE(must_clean)) {
 		PHALCON_CALL_FUNC_NORETURN("ob_clean");
 	}
 	
-	PHALCON_INIT_VAR(stat);
-	ZVAL_BOOL(stat, 1);
-	
-	PHALCON_INIT_VAR(compile_always);
-	ZVAL_BOOL(compile_always, 0);
-	
-	PHALCON_INIT_VAR(compiled_path);
-	
-	PHALCON_INIT_VAR(compiled_separator);
-	ZVAL_STRING(compiled_separator, "%%", 1);
-	
-	PHALCON_INIT_VAR(compiled_extension);
-	ZVAL_STRING(compiled_extension, ".php", 1);
-	
-	PHALCON_INIT_VAR(options);
-	phalcon_read_property(&options, this_ptr, SL("_options"), PH_NOISY_CC);
-	if (Z_TYPE_P(options) == IS_ARRAY) { 
-		eval_int = phalcon_array_isset_string(options, SS("compileAlways"));
-		if (eval_int) {
-			phalcon_array_fetch_string(&compile_always, options, SL("compileAlways"), PH_NOISY_CC);
-			if (Z_TYPE_P(compile_always) != IS_BOOL) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compileAlways must be a bool value");
-				return;
-			}
-		}
-		eval_int = phalcon_array_isset_string(options, SS("compiledPath"));
-		if (eval_int) {
-			phalcon_array_fetch_string(&compiled_path, options, SL("compiledPath"), PH_NOISY_CC);
-			if (Z_TYPE_P(compiled_path) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledPath must be a string");
-				return;
-			}
-		}
-	
-		/** 
-		 * There is no compiled separator by default
-		 */
-		eval_int = phalcon_array_isset_string(options, SS("compiledSeparator"));
-		if (eval_int) {
-			PHALCON_INIT_NVAR(compiled_separator);
-			phalcon_array_fetch_string(&compiled_separator, options, SL("compiledSeparator"), PH_NOISY_CC);
-			if (Z_TYPE_P(compiled_separator) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledSeparator must be a string");
-				return;
-			}
-		}
-	
-		/** 
-		 * By default the compile extension is .php
-		 */
-		eval_int = phalcon_array_isset_string(options, SS("compiledExtension"));
-		if (eval_int) {
-			PHALCON_INIT_NVAR(compiled_extension);
-			phalcon_array_fetch_string(&compiled_extension, options, SL("compiledExtension"), PH_NOISY_CC);
-			if (Z_TYPE_P(compiled_extension) != IS_STRING) {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "compiledExtension must be a string");
-				return;
-			}
-		}
-	
-		eval_int = phalcon_array_isset_string(options, SS("stat"));
-		if (eval_int) {
-			phalcon_array_fetch_string(&stat, options, SL("stat"), PH_NOISY_CC);
-		}
-	}
-	
-	if (Z_TYPE_P(compiled_path) != IS_NULL) {
-		PHALCON_INIT_VAR(win_separator);
-		ZVAL_STRING(win_separator, "\\", 1);
-	
-		PHALCON_INIT_VAR(unix_separator);
-		ZVAL_STRING(unix_separator, "/", 1);
-	
-		PHALCON_INIT_VAR(template_win_path);
-		phalcon_fast_str_replace(template_win_path, win_separator, compiled_separator, template_path TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(template_sep_path);
-		phalcon_fast_str_replace(template_sep_path, unix_separator, compiled_separator, template_win_path TSRMLS_CC);
-	} else {
-		PHALCON_CPY_WRT(template_sep_path, template_path);
-	}
+	/** 
+	 * The compilation process is done by Phalcon\Mvc\View\Engine\Volt\Compiler
+	 */
+	PHALCON_INIT_VAR(compiler);
+	PHALCON_CALL_METHOD(compiler, this_ptr, "getcompiler");
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "compile", template_path);
 	
 	PHALCON_INIT_VAR(compiled_template_path);
-	PHALCON_CONCAT_VVV(compiled_template_path, compiled_path, template_sep_path, compiled_extension);
-	if (zend_is_true(compile_always)) {
-		/** 
-		 * Compile always must be used only in the development stage
-		 */
-		PHALCON_INIT_VAR(dependency_injector);
-		phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(compiler);
-		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
-	} else {
-		if (PHALCON_IS_TRUE(stat)) {
-			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == SUCCESS) {
-				/** 
-				 * Compare modification timestamps to check if the file needs to be recompiled
-				 */
-				if (phalcon_compare_mtime(template_path, compiled_template_path TSRMLS_CC)) {
-					PHALCON_INIT_NVAR(dependency_injector);
-					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-					PHALCON_INIT_NVAR(compiler);
-					object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
-					PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
-				}
-			} else {
-				/** 
-				 * The file doesn't exist so we compile the php version for the first time
-				 */
-				PHALCON_INIT_NVAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-	
-				PHALCON_INIT_NVAR(compiler);
-				object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector, PH_NO_CHECK);
-				PHALCON_CALL_METHOD_PARAMS_2_NORETURN(compiler, "compile", template_path, compiled_template_path, PH_NO_CHECK);
-			}
-		} else {
-			/** 
-			 * Stat is off but the compiled file doesn't exist
-			 */
-			if (phalcon_file_exists(compiled_template_path TSRMLS_CC) == FAILURE) {
-				PHALCON_INIT_VAR(exception_message);
-				PHALCON_CONCAT_SVS(exception_message, "Compiled template file ", compiled_template_path, " does not exist");
-				PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_view_exception_ce, exception_message);
-				return;
-			}
-		}
-	}
+	PHALCON_CALL_METHOD(compiled_template_path, compiler, "getcompiledtemplatepath");
 	
 	/** 
 	 * Export the variables the current symbol table
 	 */
+	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	ph_cycle_start_0:
-	
-		if (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) != SUCCESS) {
-			goto ph_cycle_end_0;
-		}
-	
-		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-		PHALCON_GET_FOREACH_VALUE(value);
-	
-		if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
 			return;
 		}
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
-		goto ph_cycle_start_0;
+		ah0 = Z_ARRVAL_P(params);
+		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
-	ph_cycle_end_0:
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+			PHALCON_GET_FOREACH_VALUE(value);
+	
+			if (phalcon_set_symbol(key, value TSRMLS_CC) == FAILURE){
+				return;
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
 	
 	if (phalcon_require(compiled_template_path TSRMLS_CC) == FAILURE) {
 		return;
@@ -334,16 +217,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 		PHALCON_INIT_VAR(contents);
 		PHALCON_CALL_FUNC(contents, "ob_get_contents");
 	
-		PHALCON_INIT_VAR(view);
+		PHALCON_OBS_VAR(view);
 		phalcon_read_property(&view, this_ptr, SL("_view"), PH_NOISY_CC);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(view, "setcontent", contents);
 	}
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
- * Length filter
+ * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
  *
  * @param mixed $item
  * @return int
@@ -355,18 +238,60 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &item) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(item) == IS_STRING) {
+	if (Z_TYPE_P(item) == IS_OBJECT) {
 		PHALCON_INIT_VAR(length);
-		phalcon_fast_strlen(length, item);
-	} else {
-		PHALCON_INIT_NVAR(length);
 		phalcon_fast_count(length, item TSRMLS_CC);
+	} else {
+		if (Z_TYPE_P(item) == IS_OBJECT) {
+			PHALCON_INIT_NVAR(length);
+			phalcon_fast_count(length, item TSRMLS_CC);
+		} else {
+			if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
+				PHALCON_INIT_NVAR(length);
+				PHALCON_CALL_FUNC_PARAMS_1(length, "mb_strlen", item);
+			} else {
+				PHALCON_INIT_NVAR(length);
+				phalcon_fast_strlen(length, item);
+			}
+		}
 	}
 	
 	RETURN_CCTOR(length);
+}
+
+/**
+ * Performs a string conversion
+ *
+ * @param string $text
+ * @param string $from
+ * @param string $to
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
+
+	zval *text, *from, *to, *converted = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &text, &from, &to) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_VAR(converted);
+		PHALCON_CALL_FUNC_PARAMS_3(converted, "mb_convert_encoding", text, from, to);
+		RETURN_CCTOR(converted);
+	} else {
+		if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
+			PHALCON_INIT_NVAR(converted);
+			PHALCON_CALL_FUNC_PARAMS_3(converted, "iconv", from, to, text);
+			RETURN_CCTOR(converted);
+		}
+	}
+	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+	return;
 }
 

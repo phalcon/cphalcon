@@ -62,6 +62,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastInitialized);
 /**
  * Loads a model throwing an exception if it doesn't exist
  *
+ * @param string $modelName
  * @return Phalcon\Mvc\ModelInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
@@ -74,6 +75,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, load);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\Model\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
 
@@ -85,6 +87,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\Model\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
 
@@ -96,6 +99,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBelongsTo);
  * @param string $referenceModel
  * @param mixed $referencedFields
  * @param array $options
+ * @return 	Phalcon\Mvc\Model\RelationInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
 
@@ -195,13 +199,21 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
 
 /**
- * Query the relations between two models
+ * Query all the relationships defined on a model
  *
- * @param string $first
- * @param string $second
- * @return array
+ * @param string $modelName
+ * @return Phalcon\Mvc\RelationInterface[]
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelations);
+
+/**
+ * Query the relations between two models
+ *
+ * @param string $firstModel
+ * @param string $secondModel
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationsBetween);
 
 /**
  * Creates a Phalcon\Mvc\Model\Query without execute it
@@ -227,4 +239,40 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
  * @return Phalcon\Mvc\Model\Query\BuilderInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
+
+/**
+ * Binds a behavior to a model
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param Phalcon\Mvc\Model\BehaviorInterface $behavior
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addBehavior);
+
+/**
+ * Receives events generated in the models and dispatches them to a events-manager if available
+ * Notify the behaviors that are listening in the model
+ *
+ * @param string $eventName
+ * @param Phalcon\Mvc\ModelInterface $model
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
+
+/**
+ * Dispatch a event to the listeners and behaviors
+ * This method expects that the endpoint listeners/behaviors returns true
+ * meaning that a least one is implemented
+ *
+ * @param Phalcon\Mvc\ModelInterface $model
+ * @param string $eventName
+ * @param aray $data
+ * @return boolean
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
+
+/**
+ * Returns the last query created or executed in the
+ *
+ * @return Phalcon\Mvc\Model\QueryInterface
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getLastQuery);
 

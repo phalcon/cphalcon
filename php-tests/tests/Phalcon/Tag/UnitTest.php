@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhalconTestHelper.php
  * \Phalcon\Tag\UnitTest

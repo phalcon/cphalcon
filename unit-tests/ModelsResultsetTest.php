@@ -171,8 +171,7 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 
 		//Using a foreach
 		$number = 0;
-		foreach ($robots as $key => $robot) {
-			$this->assertEquals($key, $number);
+		foreach ($robots as $robot) {
 			$this->assertEquals($robot->id, $number+1);
 			$number++;
 		}
@@ -187,34 +186,70 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 			$robots->next();
 			$number++;
 		}
-		$this->assertEquals($robots->key(), 3);
 		$this->assertEquals($number, 3);
 
-		//Seeking first
 		$robots->seek(1);
 		$robots->valid();
 		$robot = $robots->current();
 		$this->assertEquals($robot->id, 2);
-		$this->assertEquals($robots->key(), 1);
 
-		//Getting First
 		$robot = $robots->getFirst();
 		$this->assertEquals($robot->id, 1);
-		$this->assertEquals($robots->key(), 0);
 
 		$robot = $robots->getLast();
 		$this->assertEquals($robot->id, 3);
-		$this->assertEquals($robots->key(), 2);
 
 		$robot = $robots[0];
 		$this->assertEquals($robot->id, 1);
-		$this->assertEquals($robots->key(), 0);
 
 		$robot = $robots[2];
 		$this->assertEquals($robot->id, 3);
-		$this->assertEquals($robots->key(), 2);
 
 		$this->assertFalse(isset($robots[4]));
+
+	}
+
+	public function _applyTestsBig($personas)
+	{
+
+		$this->assertEquals(count($personas), 33);
+		$this->assertEquals($personas->count(), 33);
+
+		//Using a foreach
+		$number = 0;
+		foreach ($personas as $persona) {
+			$number++;
+		}
+		$this->assertEquals($number, 33);
+
+		//Using a while
+		$number = 0;
+		$personas->rewind();
+		while ($personas->valid()) {
+			$persona = $personas->current();
+			$personas->next();
+			$number++;
+		}
+		$this->assertEquals($number, 33);
+
+		$personas->seek(1);
+		$personas->valid();
+		$persona = $personas->current();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas->getFirst();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas->getLast();
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas[0];
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$persona = $personas[2];
+		$this->assertEquals(get_class($persona), 'Personas');
+
+		$this->assertFalse(isset($personas[40]));
 
 	}
 
@@ -326,6 +361,113 @@ class ModelsResultsetTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(get_class($robots), 'Phalcon\Mvc\Model\Resultset\Simple');
 
 		$this->_applyTests($robots);
+
+	}
+
+	public function testSerializeBigMysql()
+	{
+
+		$this->_prepareTestMysql();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
+
+	}
+
+	public function testSerializeBigPostgresql()
+	{
+
+		$this->_prepareTestPostgresql();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
+
+	}
+
+	public function testSerializeBigSqlite()
+	{
+
+		$this->_prepareTestSqlite();
+
+		$data = serialize(Personas::find(array(
+			'limit' => 33
+		)));
+
+		$personas = unserialize($data);
+
+		$this->assertEquals(get_class($personas), 'Phalcon\Mvc\Model\Resultset\Simple');
+
+		$this->_applyTestsBig($personas);
+
+	}
+
+	public function testResultsetNormalZero()
+	{
+		$this->_prepareTestMysql();
+
+		$robots = Robots::find('id > 1000');
+
+		$this->assertEquals(count($robots), 0);
+		$this->assertEquals($robots->count(), 0);
+
+		//Using a foreach
+		$number = 0;
+		foreach ($robots as $robot) {
+			$number++;
+		}
+		$this->assertEquals($number, 0);
+
+		//Using a while
+		$number = 0;
+		$robots->rewind();
+		while ($robots->valid()) {
+			$robots->next();
+			$number++;
+		}
+		$this->assertEquals($number, 0);
+
+		$robots->seek(1);
+		$robots->valid();
+		$robot = $robots->current();
+		$this->assertFalse($robot);
+
+		$robot = $robots->getFirst();
+		$this->assertFalse($robot);
+
+		$robot = $robots->getLast();
+		$this->assertFalse($robot);
+
+		try {
+			$robot = $robots[0];
+			$this->assertFalse(true);
+		}
+		catch(Exception $e){
+			$this->assertEquals($e->getMessage(), 'The index does not exist in the cursor');
+		}
+
+		try {
+			$robot = $robots[2];
+			$this->assertFalse(true);
+		}
+		catch(Exception $e){
+			$this->assertEquals($e->getMessage(), 'The index does not exist in the cursor');
+		}
+
+		$this->assertFalse(isset($robots[0]));
 
 	}
 

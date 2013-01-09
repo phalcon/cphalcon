@@ -86,36 +86,31 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request_File){
 PHP_METHOD(Phalcon_Http_Request_File, __construct){
 
 	zval *file, *name, *temp_name, *size;
-	int eval_int;
 
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &file) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (Z_TYPE_P(file) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_http_request_exception_ce, "Phalcon\\Http\\Request\\File requires a valid uploaded file");
 		return;
 	}
-	eval_int = phalcon_array_isset_string(file, SS("name"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(name);
+	if (phalcon_array_isset_string(file, SS("name"))) {
+		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, file, SL("name"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(file, SS("tmp_name"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(temp_name);
+	if (phalcon_array_isset_string(file, SS("tmp_name"))) {
+		PHALCON_OBS_VAR(temp_name);
 		phalcon_array_fetch_string(&temp_name, file, SL("tmp_name"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_tmp"), temp_name TSRMLS_CC);
 	}
 	
-	eval_int = phalcon_array_isset_string(file, SS("size"));
-	if (eval_int) {
-		PHALCON_INIT_VAR(size);
+	if (phalcon_array_isset_string(file, SS("size"))) {
+		PHALCON_OBS_VAR(size);
 		phalcon_array_fetch_string(&size, file, SL("size"), PH_NOISY_CC);
 		phalcon_update_property_zval(this_ptr, SL("_size"), size TSRMLS_CC);
 	}
@@ -169,16 +164,14 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &destination) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
-	PHALCON_INIT_VAR(temp_file);
+	PHALCON_OBS_VAR(temp_file);
 	phalcon_read_property(&temp_file, this_ptr, SL("_tmp"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_FUNC_PARAMS_2(success, "move_uploaded_file", temp_file, destination);
-	
 	RETURN_CCTOR(success);
 }
 

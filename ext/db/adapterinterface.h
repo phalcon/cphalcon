@@ -189,7 +189,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_bindparams, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapterinterface_convertboundparams, 0, 0, 2)
-	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_INFO(0, sqlStatement)
 	ZEND_ARG_INFO(0, params)
 ZEND_END_ARG_INFO()
 

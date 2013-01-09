@@ -151,15 +151,14 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds){
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(final_time);
+	PHALCON_OBS_VAR(final_time);
 	phalcon_read_property(&final_time, this_ptr, SL("_finalTime"), PH_NOISY_CC);
 	
-	PHALCON_INIT_VAR(initial_time);
+	PHALCON_OBS_VAR(initial_time);
 	phalcon_read_property(&initial_time, this_ptr, SL("_initialTime"), PH_NOISY_CC);
 	
 	PHALCON_INIT_VAR(elapsed);
 	sub_function(elapsed, final_time, initial_time TSRMLS_CC);
-	
 	RETURN_CTOR(elapsed);
 }
 

@@ -83,6 +83,14 @@ PHALCON_DOC_METHOD(Phalcon_EscaperInterface, escapeHtmlAttr);
 PHALCON_DOC_METHOD(Phalcon_EscaperInterface, escapeCss);
 
 /**
+ * Escape Javascript strings by replacing non-alphanumeric chars by their hexadecimal representation
+ *
+ * @param string $js
+ * @return string
+ */
+PHALCON_DOC_METHOD(Phalcon_EscaperInterface, escapeJs);
+
+/**
  * Escapes a URL. Internally uses rawurlencode
  *
  * @param string $url

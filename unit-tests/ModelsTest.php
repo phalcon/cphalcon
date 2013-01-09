@@ -213,7 +213,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($number, 20);
 
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 9999);
+		$persona->cedula = 'CELL'.mt_rand(0, 999999);
 		$this->assertFalse($persona->save());
 
 		//Messages
@@ -245,7 +245,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Save
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 9999);
+		$persona->cedula = 'CELL'.mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST';
 		$persona->telefono = '1';
@@ -254,7 +254,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($persona->save());
 
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 9999);
+		$persona->cedula = 'CELL'.mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST LOST';
 		$persona->telefono = '2';
@@ -293,7 +293,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Create
 		$persona = new Personas($di);
-		$persona->cedula = 'CELL'.mt_rand(0, 9999);
+		$persona->cedula = 'CELL'.mt_rand(0, 999999);
 		$persona->tipo_documento_id = 1;
 		$persona->nombres = 'LOST CREATE';
 		$persona->telefono = '1';
@@ -303,7 +303,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$persona = new Personas($di);
 		$this->assertTrue($persona->create(array(
-			'cedula' => 'CELL'.mt_rand(0, 9999),
+			'cedula' => 'CELL'.mt_rand(0, 999999),
 			'tipo_documento_id' => 1,
 			'nombres' => 'LOST CREATE',
 			'telefono' => '1',
@@ -426,7 +426,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($number, 20);
 
 		$personer = new Personers($di);
-		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$this->assertFalse($personer->save());
 
 		//Messages
@@ -458,7 +458,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Save
 		$personer = new Personers($di);
-		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST';
 		$personer->telefon = '1';
@@ -467,7 +467,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($personer->save());
 
 		$personer = new Personers($di);
-		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST LOST';
 		$personer->telefon = '2';
@@ -506,7 +506,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		//Create
 		$personer = new Personers($di);
-		$personer->borgerId = 'CELL'.mt_rand(0, 9999);
+		$personer->borgerId = 'CELL'.mt_rand(0, 999999);
 		$personer->slagBorgerId = 1;
 		$personer->navnes = 'LOST CREATE';
 		$personer->telefon = '2';
@@ -516,7 +516,7 @@ class ModelsTest extends PHPUnit_Framework_TestCase
 
 		$personer = new Personers($di);
 		$this->assertTrue($personer->create(array(
-			'borgerId' => 'CELL'.mt_rand(0, 9999),
+			'borgerId' => 'CELL'.mt_rand(0, 999999),
 			'slagBorgerId' => 1,
 			'navnes' => 'LOST CREATE',
 			'telefon' => '1',

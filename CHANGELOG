@@ -1,16 +1,85 @@
+0.8.0b1
+ - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)
+ - Added serialization of Mvc\Collection instances
+ - Added Phalcon\Mvc\View::setLayout to change the layout instead of looking for a controller with the same name as the latest controller dispatched
+ - Now is possible to pass an option called 'options' to any of the Phalcon\Db\Adapter\Pdo adapters to set extra
+ PDO options in the connection
+ - Removed filtering of keys from Phalcon\Cache\Backend\File
+ - Support for creating groups of routes using Phalcon\Router\Route\Group
+ - Added Phalcon\Mvc\Micro middleware events
+ - Implemented virtual scopes in Phalcon\Mvc\View
+
+0.8.0a2
+ - Added support for behaviors in the ORM including: Phalcon\Mvc\Model\Behavior\Timestampable and Phalcon\Mvc\Model\Behavior\SoftDelete
+ - Improved serialization of Mvc\Model instances and complex resultsets
+ - Added an option to change the layouts directory and partials directory in Phalcon\Mvc\View
+ - Added an option to disable an specific level of rendering in Phalcon\Mvc\View
+ - Added Phalcon\Mvc\Model::setup to globally enable/disable specific features in the ORM
+ - Added Phalcon\Db::setup to globally enable/disable specific features in the database component
+ - Added Phalcon\Mvc\Model\Resultset::delete to delete every complete object returned in a resultset using a transaction
+ - Added Phalcon\Mvc\Model\Resultset::update to update every complete object returned in a resultset using a transaction
+ - Added support for converters in Phalcon\Mvc\Router
+ - Added Phalcon\Mvc\View::getRender to return contents of a template into a string
+ - Added methods to support HTTP method PATCH
+ - Now Phalcon\Mvc\Model uses the last part of a namespaced class name as source name
+ - Phalcon\DI now implements ArrayAccess to get/set services
+ - Phalcon\Mvc\Micro now implements ArrayAccess to get services from the related services container
+ - Improved building of complex service definitions in the DI
+ - Added toArray method to Phalcon\Mvc\Model instances
+ - Added autoescape mode in Volt
+
+0.8.0a1
+ - Removed unnecessary intermediate zvals when retrieving array items reducing overall memory comsumption
+ - Removed unnecessary intermediate zvals when retrieving object members reducing overall memory comsumption
+ - Removed PH_CHECK constant making simpler calling functions and methods internally
+ - Added Phalcon\Text::increment, Phalcon\Text::random, Phalcon\Text::lower, Phalcon\Text::upper, Phalcon\Text::startsWith, Phalcon\Text::endsWith
+ - Added Phalcon\Config::merge to merge recursively a configuration with another one
+ - Added Phalcon\Config::toArray method to recursively convert an object to an array
+ - Improved Volt runtime error/syntax error messages including always line and file
+ - Added Phalcon\Security providing a set of functions to improve the security in Phalcon applications like bcrypt password hashing and CSRF protection
+ - Added Phalcon\Mvc\View\Engine\Volt\Compiler::addFunction to register user functions
+ - Added Phalcon\Mvc\View\Engine\Volt\Compiler::addFilter to register user filters
+ - Added Phalcon\Mvc\Model\Relation as class for model relationships
+ - Added '[' and ']' as delimiters to escape PHQL reserverd words
+ - Reduced memory usage in PHQL parser/tokenizer
+ - Added support for aliasing of model relationships in Phalcon\Mvc\Model
+ - Relationships in Models are now case insensitive to be compliant with the PHP standard
+ - Looking for a relationship in the models manager now performs a search in O(1) order
+ - Added "cache" statement in Volt to cache view fragments
+ - Added "do" statement to Volt to execute an expression without printing its evaluated value
+ - Added "include" statement to Volt to perform a statical include of other views in compiling time
+ - Added an internal method cache to speed up overall execution
+ - Reduced memory allocation when reading/writing properties from objects
+ - Added missing Phalcon\Mvc\Collection::getMessages() and Phalcon\Mvc\Collection::appendMessage
+ - Added Phalcon\Config::get method to obtain a value from the configuration object setting a default value
+ - Added an optional default value to Phalcon\Session\Adapter::get if this method returns a null value
+ - Added OO methods to Phalcon\Session\Bag::get
+ - Added an optional default value to Phalcon\Session\Bag::get if this method returns a null value
+ - Added multiple inheritance and two-way replacement of blocks in Volt
+ - Added evaluation of "tests" to Volt
+ - Added support to call methods and read properties in sub-objects in Volt
+ - Volt now checks if a variable name is a registered service and injects it to the views
+ - The "For" statement in Volt now supports get the current key and add an optional if evaluation
+ - Added support to read PHP constants in Volt
+ - Added "prefix" option to Volt, allowing prefixing the resulting compiled paths
+ - Now registerAutoloader in module definitions receives the services container (DI) as first parameter
+ - Fixed skipAttributes methods in Phalcon\Mvc\Model
+ - Fixed use of muliples databases in the ORM
+ - Fixed use of a common events manager databases in the ORM
+ - Now Phalcon\Mvc\Router can be configured to remove extra slashes passed in the URI
+ - In Phalcon\Mvc\Router the default route is '/' when none is giving
+
+
 0.7.0
  - Now the namespace can be set in a path of the route and it will passed automatically to the dispatcher
- - Implementing URL generation based on routed without regular expressions
+ - Implementing URL generation based on routes without regular expressions
  - Now is possible register a template engine in Phalcon\Mvc\View with an anonymous function
  - Passing 'compileAlways' => true as option for Volt makes that the templates will be always compiled instead of checking if they have changes
  - Now Phalcon\Cache\Backend adapters return false in the "exists" method if the cache has expired
- - Reduced number of re-executions when using scrollable cursors
- - Reducing class entry resolution in function calls
- - Disabling search of class execution scope when classes don't have a parent class
- - Removing unnecessary duplication of memory when printing string zvals
+ - Fixed bug in Phalcon\Db\Result\Pdo::seek when using bind parameters
 
 0.7.0b1
- - Implemented a fast way to retrieve object's members without add a memory frame
+ - Implemented a fast way to retrieve object's members without adding a memory frame
  - Now Phalcon\Mvc\Dispatcher checks for methods beforeExecuteRoute and afterExecuteRoute in the controller handler
  - Added phalcon_start_with to check if a zval string starts with other string avoiding substrs in PHP userland
  - Added interfaces to most classes helping the developer to easily create component replacements and add new adapters/classes
@@ -26,7 +95,7 @@
  - Implemented independent column map for models and a full escaping system for columns/tables/schemas according to the database system conventions
  - Added a $merge parameter to Phalcon\Mvc\Application::registerModules to merge new modules with current ones
  - Phalcon\Mvc\Application now allows registering a module using an anonymous function
- - Added Phalcon\Mvc\Model\Query\Builder to aid in the creation of PHQL queries using an OO interface
+ - Added Phalcon\Mvc\Model\Query\Builder aiding in the creation of PHQL queries using an OO interface
  - Support for COUNT(DISTINCT x) syntax in PHQL
  - Allowing user-defined messages in most Phalcon\Mvc\Model\Validators
  - Now Phalcon\Mvc\Model\Validator\StringLength uses mb_strlen when it is available

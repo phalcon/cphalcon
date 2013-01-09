@@ -26,9 +26,6 @@
 #define PH_NOISY_CC PH_NOISY TSRMLS_CC
 #define PH_SILENT_CC PH_SILENT TSRMLS_CC
 
-#define PH_CHECK 1
-#define PH_NO_CHECK 0
-
 #define PH_SEPARATE 256
 #define PH_COPY 1024
 #define PH_CTOR 4096
@@ -64,13 +61,14 @@ extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
-/** Low level filters */
-extern int phalcon_filter_alphanum(zval *result, zval *param);
-extern int phalcon_filter_identifier(zval *result, zval *param);
-
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
+
+/* Virtual symbol tables */
+extern void phalcon_create_symbol_table(TSRMLS_D);
+extern void phalcon_restore_symbol_table(TSRMLS_D);
+extern void phalcon_clean_symbol_tables(TSRMLS_D);
 
 /** Export symbols to active symbol table */
 extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
@@ -190,6 +188,16 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 #define RETURN_MEMBER(object, member_name) \
  	phalcon_return_property(return_value, object, SL(member_name) TSRMLS_CC); \
 	return;
+
+/** Return null restoring memory frame */
+#define RETURN_MM_NULL() PHALCON_MM_RESTORE(); RETURN_NULL();
+
+/** Return bool restoring memory frame */
+#define RETURN_MM_FALSE PHALCON_MM_RESTORE(); RETURN_FALSE;
+#define RETURN_MM_TRUE PHALCON_MM_RESTORE(); RETURN_TRUE;
+
+/** Return string restoring memory frame */
+#define RETURN_MM_STRING(str) RETURN_STRING(str); PHALCON_MM_RESTORE();
 
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \

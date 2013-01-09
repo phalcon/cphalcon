@@ -91,15 +91,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
 	
 	PHALCON_INIT_VAR(field_name);
-	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", option, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(field_name, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field_name) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
@@ -109,8 +108,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 	 * A value is null when it is identical to null or a empty string
 	 */
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field_name);
 	if (PHALCON_IS_EMPTY(value)) {
+	
 		/** 
 		 * Check if the developer has defined a custom message
 		 */
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "'", field_name, "' is required");
@@ -126,12 +126,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_PresenceOf, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "PresenceOf", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type, PH_NO_CHECK);
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field_name, type);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	RETURN_MM_TRUE;
 }
 

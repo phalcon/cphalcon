@@ -45,21 +45,6 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface){
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, __construct);
 
 /**
- * Sets the DependencyInjector container
- *
- * @param Phalcon\DiInterface $dependencyInjector
- * @return Phalcon\Mvc\Model\Query\BuilderInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, setDI);
-
-/**
- * Returns the DependencyInjector container
- *
- * @return Phalcon\DiInterface
- */
-PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getDI);
-
-/**
  * Sets the columns to be queried
  *
  * @param string|array $columns
@@ -99,7 +84,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, addFrom);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getFrom);
 
 /**
- * Sets the models who makes part of the query
+ * Adds a INNER join to the query
  *
  * @param string $model
  * @param string $conditions
@@ -115,6 +100,22 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
  * @return Phalcon\Mvc\Model\Query\BuilderInterface
  */
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, where);
+
+/**
+ * Appends a condition to the current conditions using a AND operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, andWhere);
+
+/**
+ * Appends a condition to the current conditions using a OR operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orWhere);
 
 /**
  * Return the conditions for the query
@@ -147,7 +148,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, getOrderBy);
 PHALCON_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, having);
 
 /**
- * Return the columns to be queried
+ * Returns the HAVING condition clause
  *
  * @return string|array
  */

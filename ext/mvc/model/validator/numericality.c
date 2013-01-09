@@ -89,22 +89,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &record) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	PHALCON_INIT_VAR(option);
 	ZVAL_STRING(option, "field", 1);
 	
 	PHALCON_INIT_VAR(field);
-	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(field, this_ptr, "getoption", option);
 	if (Z_TYPE_P(field) != IS_STRING) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Field name must be a string");
 		return;
 	}
 	
 	PHALCON_INIT_VAR(value);
-	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field, PH_NO_CHECK);
+	PHALCON_CALL_METHOD_PARAMS_1(value, record, "readattribute", field);
 	
 	/** 
 	 * Check if the value is numeric using is_numeric in the PHP userland
@@ -112,6 +111,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	PHALCON_INIT_VAR(is_numeric);
 	PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
 	if (!zend_is_true(is_numeric)) {
+	
 		/** 
 		 * Check if the developer has defined a custom message
 		 */
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 		ZVAL_STRING(option, "message", 1);
 	
 		PHALCON_INIT_VAR(message);
-		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option, PH_NO_CHECK);
+		PHALCON_CALL_METHOD_PARAMS_1(message, this_ptr, "getoption", option);
 		if (!zend_is_true(message)) {
 			PHALCON_INIT_NVAR(message);
 			PHALCON_CONCAT_SVS(message, "Value of field '", field, "' must be numeric");
@@ -127,12 +127,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Numericality, validate){
 	
 		PHALCON_INIT_VAR(type);
 		ZVAL_STRING(type, "Numericality", 1);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type, PH_NO_CHECK);
-		PHALCON_MM_RESTORE();
-		RETURN_FALSE;
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "appendmessage", message, field, type);
+		RETURN_MM_FALSE;
 	}
 	
-	PHALCON_MM_RESTORE();
-	RETURN_TRUE;
+	RETURN_MM_TRUE;
 }
 

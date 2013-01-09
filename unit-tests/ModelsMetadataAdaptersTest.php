@@ -22,7 +22,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 {
 
 	private $_data = array(
-		'robots' => array(
+		'meta-robots' => array(
 			0 => array(
 				0 => 'id',
 				1 => 'name',
@@ -63,7 +63,7 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			10 => array(),
 			11 => array()
 		),
-		'Robots' => array(
+		'map-robots' => array(
 			0 => null,
 			1 => null,
 		)
@@ -188,8 +188,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$this->assertEquals(apc_fetch('$PMM$my-local-approbots'), $this->_data['robots']);
-		$this->assertEquals(apc_fetch('$PMM$my-local-appRobots'), $this->_data['Robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmeta-robots'), $this->_data['meta-robots']);
+		$this->assertEquals(apc_fetch('$PMM$my-local-appmap-robots'), $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 
@@ -208,8 +208,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 			));
 		});
 
-		@unlink('unit-tests/cache/robots.php');
-		@unlink('unit-tests/cache/Robots.php');
+		@unlink('unit-tests/cache/meta-robots.php');
+		@unlink('unit-tests/cache/map-robots.php');
 
 		$metaData = $di->getShared('modelsMetadata');
 
@@ -219,8 +219,8 @@ class ModelsMetadataAdaptersTest extends PHPUnit_Framework_TestCase
 
 		Robots::findFirst();
 
-		$this->assertEquals(require 'unit-tests/cache/robots.php', $this->_data['robots']);
-		$this->assertEquals(require 'unit-tests/cache/Robots.php', $this->_data['Robots']);
+		$this->assertEquals(require 'unit-tests/cache/meta-robots.php', $this->_data['meta-robots']);
+		$this->assertEquals(require 'unit-tests/cache/map-robots.php', $this->_data['map-robots']);
 
 		$this->assertFalse($metaData->isEmpty());
 

@@ -23,7 +23,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_View_Engine_Php);
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php_render, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_php_render, 0, 0, 2)
 	ZEND_ARG_INFO(0, path)
 	ZEND_ARG_INFO(0, params)
 	ZEND_ARG_INFO(0, mustClean)

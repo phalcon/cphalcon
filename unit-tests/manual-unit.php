@@ -20,6 +20,10 @@
 
 error_reporting(E_ALL | E_NOTICE | E_STRICT);
 
+if (function_exists('xhprof_enable')) {
+	xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+}
+
 class PHPUnit_Framework_TestCase
 {
 
@@ -105,8 +109,11 @@ class PHPUnit_Framework_TestCase
 					$class->$methodName();
 				}
 			}
+			echo '[OK]', ' (', memory_get_usage(true), ') (', memory_get_usage(false), ')', PHP_EOL;
+		} else {
+			echo '[FAILED]', PHP_EOL;
 		}
-		echo '[OK]', PHP_EOL;
+
 	}
 
 }
@@ -152,6 +159,21 @@ try {
 }
 catch(Exception $e){
 	echo $e->getMessage(), PHP_EOL;
-	echo $e->getTraceAsString(), PHP_EOL;
-	//print_r($e->getTrace());
+	//echo $e->getTraceAsString(), PHP_EOL;
+	print_r($e->getTrace());
+}
+
+if (function_exists('xhprof_enable')) {
+
+	$xhprof_data = xhprof_disable('/tmp');
+
+	$XHPROF_ROOT = "/var/www/xhprof/";
+	include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
+	include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+
+	$xhprof_runs = new XHProfRuns_Default();
+	$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");
+
+	echo "http://192.168.0.27/xhprof/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
+
 }

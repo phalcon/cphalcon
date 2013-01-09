@@ -66,12 +66,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 	PHALCON_MM_GROW();
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &options) == FAILURE) {
-		PHALCON_MM_RESTORE();
-		RETURN_NULL();
+		RETURN_MM_NULL();
 	}
 
 	if (!options) {
-		PHALCON_INIT_NVAR(options);
+		PHALCON_INIT_VAR(options);
 	}
 	
 	PHALCON_INIT_VAR(empty_array);
@@ -84,6 +83,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct){
 /**
  * Reads the meta-data from temporal memory
  *
+ * @param string $key
  * @return array
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read){

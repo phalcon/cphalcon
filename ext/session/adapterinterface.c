@@ -69,6 +69,8 @@ PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, getOptions);
  * Gets a session variable from an application context
  *
  * @param string $index
+ * @param mixed $defaultValue
+ * @return mixed
  */
 PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, get);
 
@@ -84,6 +86,7 @@ PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, set);
  * Check whether a session variable is set in an application context
  *
  * @param string $index
+ * @return boolean
  */
 PHALCON_DOC_METHOD(Phalcon_Session_AdapterInterface, has);
 
