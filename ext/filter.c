@@ -214,7 +214,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_CCTOR(filtered);
 	}
 	
-	PHALCON_INIT_NVAR(filtered);
 	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
 		/** 

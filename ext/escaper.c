@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_escape_html(escaped, text, html_quote_type, encoding);
+		phalcon_escape_html(escaped, text, html_quote_type, encoding TSRMLS_CC);
 		RETURN_CTOR(escaped);
 	}
 	RETURN_MM_NULL();
