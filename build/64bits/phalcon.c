@@ -656,6 +656,11 @@ int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 int phalcon_valid_foreach(zval *arr TSRMLS_DC);
 
+/* Virtual symbol tables */
+void phalcon_create_symbol_table(TSRMLS_D);
+void phalcon_restore_symbol_table(TSRMLS_D);
+void phalcon_clean_symbol_tables(TSRMLS_D);
+
 /** Export symbols to active symbol table */
 int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
 int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
@@ -1584,6 +1589,9 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	phalcon_globals->start_memory = NULL;
 	phalcon_globals->active_memory = NULL;
 
+	/* Virtual Symbol Tables */
+	phalcon_globals->symbol_tables = NULL;
+
 	/* Cache options */
 	phalcon_globals->function_cache = NULL;
 
@@ -1765,6 +1773,50 @@ int phalcon_is_callable(zval *var TSRMLS_DC){
 	}
 
 	return (int) retval;
+}
+
+void phalcon_create_symbol_table(TSRMLS_D) {
+
+	if (!PHALCON_GLOBAL(symbol_tables)) {
+		PHALCON_GLOBAL(symbol_tables) = emalloc(sizeof(HashTable **) * 4);
+		PHALCON_GLOBAL(number_symbol_tables) = 1;
+	} else {
+		if ((PHALCON_GLOBAL(number_symbol_tables) % 4) == 0) {
+			PHALCON_GLOBAL(symbol_tables) = erealloc(PHALCON_GLOBAL(symbol_tables), sizeof(HashTable **) * 4 + PHALCON_GLOBAL(number_symbol_tables));
+		}
+		PHALCON_GLOBAL(number_symbol_tables)++;
+	}
+
+	PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1] = EG(active_symbol_table);
+	EG(active_symbol_table) = NULL;
+}
+
+void phalcon_restore_symbol_table(TSRMLS_D) {
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+
+		EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1];
+
+		PHALCON_GLOBAL(number_symbol_tables)--;
+
+		if (PHALCON_GLOBAL(number_symbol_tables) == 0) {
+			efree(PHALCON_GLOBAL(symbol_tables));
+			PHALCON_GLOBAL(symbol_tables) = NULL;
+		}
+	}
+}
+
+void phalcon_clean_symbol_tables(TSRMLS_D) {
+
+	unsigned int i;
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
+			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
+		}
+		efree(PHALCON_GLOBAL(symbol_tables));
+		PHALCON_GLOBAL(symbol_tables) = NULL;
+	}
 }
 
 int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
@@ -25570,6 +25622,7 @@ PHALCON_INIT_CLASS(Phalcon_Http_Request){
 	PHALCON_REGISTER_CLASS(Phalcon\\Http, Request, http_request, phalcon_http_request_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_request_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_request_ce, SL("_rawBody"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_http_request_ce, SL("_filter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_http_request_ce TSRMLS_CC, 2, phalcon_http_requestinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -25978,16 +26031,25 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 
 PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
-	zval *input, *contents;
+	zval *raw_body, *input, *contents;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_INIT_VAR(input);
-	ZVAL_STRING(input, "php://input", 1);
+	PHALCON_OBS_VAR(raw_body);
+	phalcon_read_property(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
+	if (zend_is_true(raw_body)) {
+		PHALCON_INIT_VAR(input);
+		ZVAL_STRING(input, "php://input", 1);
 	
-	PHALCON_INIT_VAR(contents);
-	PHALCON_CALL_FUNC_PARAMS_1(contents, "file_get_contents", input);
-	RETURN_CCTOR(contents);
+		PHALCON_INIT_VAR(contents);
+		PHALCON_CALL_FUNC_PARAMS_1(contents, "file_get_contents", input);
+	
+		phalcon_update_property_zval(this_ptr, SL("_rawBody"), contents TSRMLS_CC);
+		RETURN_CCTOR(contents);
+	}
+	
+	
+	RETURN_CCTOR(raw_body);
 }
 
 PHP_METHOD(Phalcon_Http_Request, getServerAddress){
@@ -65252,6 +65314,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine, partial){
 	RETURN_CCTOR(content);
 }
 
+PHP_METHOD(Phalcon_Mvc_View_Engine, getView){
+
+
+	RETURN_MEMBER(this_ptr, "_view");
+}
+
 
 
 
@@ -66019,6 +66087,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
+	phalcon_create_symbol_table(TSRMLS_C);
+	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -66178,6 +66248,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		}
 	}
 	
+	phalcon_restore_symbol_table(TSRMLS_C);
+	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
 		ZVAL_STRING(event_name, "view:afterRender", 1);
@@ -66273,6 +66345,8 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 		return;
 	}
 	
+	PHALCON_CALL_METHOD_NORETURN(view, "reset");
+	
 	PHALCON_CALL_METHOD_NORETURN(view, "start");
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
@@ -66281,7 +66355,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender){
 	
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(view, "render", controller_name, action_name, 229481155841157UL);
 	
-	PHALCON_CALL_METHOD_NORETURN(view, "finish");
+	PHALCON_CALL_FUNC_NORETURN("ob_end_clean");
 	
 	PHALCON_INIT_VAR(content);
 	PHALCON_CALL_METHOD(content, view, "getcontent");
@@ -70762,6 +70836,10 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
+	if (PHALCON_GLOBAL(symbol_tables) != NULL) {
+		phalcon_clean_symbol_tables(TSRMLS_C);
+	}
+
 	return SUCCESS;
 }
 
@@ -70782,6 +70860,10 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
 		PHALCON_GLOBAL(function_cache) = NULL;
+	}
+
+	if (PHALCON_GLOBAL(symbol_tables) != NULL) {
+		phalcon_clean_symbol_tables(TSRMLS_C);
 	}
 
 	return SUCCESS;
