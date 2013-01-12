@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -663,10 +663,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -804,12 +800,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+			if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(columns);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -832,12 +826,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_NVAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(models);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -872,12 +864,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(selected_models);
 		array_init(selected_models);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -910,12 +900,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	phalcon_read_property(&joins, this_ptr, SL("_joins"), PH_NOISY_CC);
 	if (Z_TYPE_P(joins) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
+		if (!phalcon_is_iterable(joins, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah3 = Z_ARRVAL_P(joins);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -967,12 +955,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(group_items);
 			array_init(group_items);
 	
-			if (!phalcon_valid_foreach(group TSRMLS_CC)) {
+			if (!phalcon_is_iterable(group, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah4 = Z_ARRVAL_P(group);
-			zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -1026,12 +1012,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(order_items);
 			array_init(order_items);
 	
-			if (!phalcon_valid_foreach(order TSRMLS_CC)) {
+			if (!phalcon_is_iterable(order, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah5 = Z_ARRVAL_P(order);
-			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	

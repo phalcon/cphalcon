@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -63,7 +63,7 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
-extern int phalcon_valid_foreach(zval *arr TSRMLS_DC);
+extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Virtual symbol tables */
 extern void phalcon_create_symbol_table(TSRMLS_D);
@@ -201,13 +201,20 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
 
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
-	PHALCON_INIT_NVAR(var); \
-	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
-	if (hash_type == HASH_KEY_IS_STRING) { \
-		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
-	} else { \
-		if (hash_type == HASH_KEY_IS_LONG) { \
-			ZVAL_LONG(var, hash_num); \
+	{\
+		int hash_type; \
+		char *hash_index; \
+		uint hash_index_len; \
+		ulong hash_num; \
+		 \
+		PHALCON_INIT_NVAR(var); \
+		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
+		if (hash_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+		} else { \
+			if (hash_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, hash_num); \
+			}\
 		}\
 	}
 

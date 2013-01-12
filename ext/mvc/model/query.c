@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -193,6 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getDI){
  * Tells to the query if only the first row in the resultset must be resturned
  *
  * @param boolean $uniqueRow
+ * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
 
@@ -203,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -339,12 +340,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		PHALCON_OBS_VAR(models_instances);
 		phalcon_read_property(&models_instances, this_ptr, SL("_modelsInstances"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(models_instances TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models_instances, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models_instances);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -506,12 +505,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 			PHALCON_INIT_VAR(function_args);
 			array_init(function_args);
 	
-			if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+			if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(arguments);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -947,12 +944,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		PHALCON_INIT_VAR(list_items);
 		array_init(list_items);
 	
-		if (!phalcon_valid_foreach(expr TSRMLS_CC)) {
+		if (!phalcon_is_iterable(expr, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(expr);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -996,10 +991,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1025,12 +1016,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(models);
 		phalcon_read_property(&models, this_ptr, SL("_models"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1354,10 +1343,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1410,12 +1395,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	}
 	
 	
-	if (!phalcon_valid_foreach(select_joins TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_joins, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(select_joins);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1542,12 +1525,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	PHALCON_INIT_VAR(join_pre_condition);
 	array_init(join_pre_condition);
 	
-	if (!phalcon_valid_foreach(select_joins TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_joins, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(select_joins);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1577,12 +1558,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	PHALCON_OBS_NVAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(from_models TSRMLS_CC)) {
+	if (!phalcon_is_iterable(from_models, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah2 = Z_ARRVAL_P(from_models);
-	zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -1592,12 +1571,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		PHALCON_INIT_NVAR(has_relations);
 		ZVAL_BOOL(has_relations, 0);
 	
-		if (!phalcon_valid_foreach(join_models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(join_models, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah3 = Z_ARRVAL_P(join_models);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -1775,12 +1752,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	PHALCON_INIT_VAR(order_parts);
 	array_init(order_parts);
 	
-	if (!phalcon_valid_foreach(order_columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(order_columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(order_columns);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1852,12 +1827,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 		PHALCON_INIT_VAR(group_parts);
 		array_init(group_parts);
 	
-		if (!phalcon_valid_foreach(group TSRMLS_CC)) {
+		if (!phalcon_is_iterable(group, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(group);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1995,12 +1968,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	 * Processing selected columns
 	 */
 	
-	if (!phalcon_valid_foreach(selected_models TSRMLS_CC)) {
+	if (!phalcon_is_iterable(selected_models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(selected_models);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2133,12 +2104,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	PHALCON_INIT_VAR(sql_column_aliases);
 	array_init(sql_column_aliases);
 	
-	if (!phalcon_valid_foreach(select_columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_columns, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(select_columns);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2147,12 +2116,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_INIT_NVAR(sql_column_group);
 		PHALCON_CALL_METHOD_PARAMS_1(sql_column_group, this_ptr, "_getselectcolumn", column);
 	
-		if (!phalcon_valid_foreach(sql_column_group TSRMLS_CC)) {
+		if (!phalcon_is_iterable(sql_column_group, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(sql_column_group);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -2358,12 +2325,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	PHALCON_OBS_VAR(values);
 	phalcon_array_fetch_string(&values, ast, SL("values"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2399,12 +2364,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 		PHALCON_OBS_VAR(fields);
 		phalcon_array_fetch_string(&fields, ast, SL("fields"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(fields);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2512,12 +2475,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(update_tables TSRMLS_CC)) {
+	if (!phalcon_is_iterable(update_tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(update_tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2597,12 +2558,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	PHALCON_INIT_VAR(not_quoting);
 	ZVAL_BOOL(not_quoting, 0);
 	
-	if (!phalcon_valid_foreach(update_values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(update_values, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(update_values);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2729,12 +2688,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(delete_tables TSRMLS_CC)) {
+	if (!phalcon_is_iterable(delete_tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(delete_tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2908,6 +2865,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, parse){
  * Sets the cache parameters of the query
  *
  * @param array $cacheOptions
+ * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 
@@ -2918,7 +2876,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -2969,10 +2927,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -3025,12 +2979,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(connections);
 		array_init(connections);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3083,12 +3035,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(number_objects);
 	ZVAL_LONG(number_objects, 0);
 	
-	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(columns, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(columns);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3147,14 +3097,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(columns, &ah2, &hp2, 1, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ALLOC_HASHTABLE(ah2);
-	zend_hash_init(ah2, 0, NULL, NULL, 0);
-	zend_hash_copy(ah2, Z_ARRVAL_P(columns), NULL, NULL, sizeof(zval*));
-	zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -3188,12 +3134,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 					PHALCON_INIT_NVAR(column_map);
 				}
 	
-				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				if (!phalcon_is_iterable(attributes, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah3 = Z_ARRVAL_P(attributes);
-				zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 				while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -3223,12 +3167,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				 * Query only the columns that are registered as attributes in the metaData
 				 */
 	
-				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				if (!phalcon_is_iterable(attributes, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah4 = Z_ARRVAL_P(attributes);
-				zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 				while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -3300,12 +3242,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(processed);
 		array_init(processed);
 	
-		if (!phalcon_valid_foreach(bind_params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(bind_params, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah5 = Z_ARRVAL_P(bind_params);
-		zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -3335,12 +3275,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(processed_types);
 		array_init(processed_types);
 	
-		if (!phalcon_valid_foreach(bind_types TSRMLS_CC)) {
+		if (!phalcon_is_iterable(bind_types, &ah6, &hp6, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah6 = Z_ARRVAL_P(bind_types);
-		zend_hash_internal_pointer_reset_ex(ah6, &hp6);
 	
 		while (zend_hash_get_current_data_ex(ah6, (void**) &hd, &hp6) == SUCCESS) {
 	
@@ -3433,10 +3371,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -3519,12 +3453,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	PHALCON_INIT_VAR(insert_values);
 	array_init(insert_values);
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3792,10 +3724,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -3862,12 +3790,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 	PHALCON_INIT_VAR(null_value);
 	
-	if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+	if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(fields);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4336,6 +4262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
  * Sets the type of PHQL statement to be executed
  *
  * @param int $type
+ * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
 
@@ -4346,7 +4273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 /**
@@ -4364,6 +4291,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getType){
  * Allows to set the IR to be executed
  *
  * @param array $intermediate
+ * @return Phalcon\Mvc\Model\Query
  */
 PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate){
 
@@ -4374,7 +4302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_intermediate"), intermediate TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 /**

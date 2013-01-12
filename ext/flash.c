@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -154,12 +154,10 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
-		return;
+		RETURN_CTOR(this_ptr);
 	}
-	
-	RETURN_CTOR(this_ptr);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	return;
 }
 
 /**
@@ -344,12 +342,10 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		 * We create the message with implicit flush or other
 		 */
 	
-		if (!phalcon_valid_foreach(message TSRMLS_CC)) {
+		if (!phalcon_is_iterable(message, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(message);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -437,12 +437,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 	
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access_list);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -509,12 +507,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access_list);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -598,12 +594,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		PHALCON_OBS_VAR(access_list);
 		phalcon_read_property(&access_list, this_ptr, SL("_accessList"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -622,12 +616,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		}
 	
 	
-		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(access);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -835,10 +827,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -887,12 +875,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	PHALCON_OBS_VAR(access_roles);
 	phalcon_array_fetch(&access_roles, t0, role, PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
+	if (!phalcon_is_iterable(access_roles, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(access_roles);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -918,12 +904,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	if (Z_TYPE_P(have_access) == IS_NULL) {
 	
-		if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_roles, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(access_roles);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -978,10 +962,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -992,13 +972,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	phalcon_fast_count(number_roles, roles TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(pow_roles);
-	mul_function(pow_roles, number_roles, number_roles TSRMLS_CC);
+	Z_LVAL_P(pow_roles) = Z_LVAL_P(number_roles) * Z_LVAL_P(number_roles);
 	
 	PHALCON_INIT_VAR(two);
 	ZVAL_LONG(two, 2);
 	
 	PHALCON_INIT_VAR(middle_roles);
-	div_function(middle_roles, pow_roles, two TSRMLS_CC);
+	ZVAL_DOUBLE(middle_roles, Z_LVAL_P(pow_roles) / Z_LVAL_P(two));
 	
 	PHALCON_INIT_VAR(middle);
 	PHALCON_CALL_FUNC_PARAMS_1(middle, "ceil", middle_roles);
@@ -1011,22 +991,20 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
-	ph_cycle_start_0:
+	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
 		is_smaller_or_equal_function(r0, i, middle TSRMLS_CC);
-		if (!zend_is_true(r0)) {
-			goto ph_cycle_end_0;
+		if (zend_is_true(r0)) {
+			break;
 		}
 		PHALCON_OBS_NVAR(internal_access);
 		phalcon_read_property(&internal_access, this_ptr, SL("_access"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(roles_names TSRMLS_CC)) {
+		if (!phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(roles_names);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1038,12 +1016,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 				PHALCON_OBS_NVAR(r1);
 				phalcon_array_fetch(&r1, roles_inherits, role_name, PH_NOISY_CC);
 	
-				if (!phalcon_valid_foreach(r1 TSRMLS_CC)) {
+				if (!phalcon_is_iterable(r1, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah1 = Z_ARRVAL_P(r1);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1054,12 +1030,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 						PHALCON_OBS_NVAR(inherit_internal);
 						phalcon_array_fetch(&inherit_internal, internal_access, role_inherit, PH_NOISY_CC);
 	
-						if (!phalcon_valid_foreach(inherit_internal TSRMLS_CC)) {
+						if (!phalcon_is_iterable(inherit_internal, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 							return;
 						}
 	
-						ah2 = Z_ARRVAL_P(inherit_internal);
-						zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -1067,12 +1041,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 							PHALCON_GET_FOREACH_VALUE(access);
 	
 	
-							if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+							if (!phalcon_is_iterable(access, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 								return;
 							}
 	
-							ah3 = Z_ARRVAL_P(access);
-							zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -1119,9 +1091,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	
 		PHALCON_SEPARATE(i);
 		increment_function(i);
-		goto ph_cycle_start_0;
-	ph_cycle_end_0:
-	if(0){}
+	}
 	
 	PHALCON_MM_RESTORE();
 }

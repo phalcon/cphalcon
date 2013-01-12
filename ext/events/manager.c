@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -223,12 +223,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
-			if (!phalcon_valid_foreach(fire_events TSRMLS_CC)) {
+			if (!phalcon_is_iterable(fire_events, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(fire_events);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -303,12 +301,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
-			if (!phalcon_valid_foreach(fire_events TSRMLS_CC)) {
+			if (!phalcon_is_iterable(fire_events, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(fire_events);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

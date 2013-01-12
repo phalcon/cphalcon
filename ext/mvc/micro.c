@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -775,12 +775,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			 * Calls the before handlers
 			 */
 	
-			if (!phalcon_valid_foreach(before_handlers TSRMLS_CC)) {
+			if (!phalcon_is_iterable(before_handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(before_handlers);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -833,12 +831,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 			 * Calls the after handlers
 			 */
 	
-			if (!phalcon_valid_foreach(after_handlers TSRMLS_CC)) {
+			if (!phalcon_is_iterable(after_handlers, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(after_handlers);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -915,12 +911,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		 * Calls the finish handlers
 		 */
 	
-		if (!phalcon_valid_foreach(finish_handlers TSRMLS_CC)) {
+		if (!phalcon_is_iterable(finish_handlers, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(finish_handlers);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	

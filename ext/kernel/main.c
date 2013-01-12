@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -35,7 +35,7 @@
 /**
  * Initialize globals on each request or each thread started
  */
-void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
+void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* Memory options */
 	phalcon_globals->start_memory = NULL;
@@ -66,7 +66,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 /**
  * Initializes internal interface with extends
  */
-zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC){
+zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC) {
 
 	zend_class_entry *ce, **pce;
 
@@ -85,7 +85,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 /**
  * Initilializes super global variables if doesn't
  */
-int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -102,7 +102,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
 /**
  * Gets the global zval into PG macro
  */
-int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC){
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -133,7 +133,7 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 /**
  * Makes fast count on implicit array types
  */
-void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
+void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
@@ -179,51 +179,52 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
 /**
  * Makes fast count on implicit array types without creating a return zval value
  */
-int phalcon_fast_count_ev(zval *value TSRMLS_DC){
+int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
-	} else {
-		if (Z_TYPE_P(value) == IS_OBJECT) {
+	}
 
-			#ifdef HAVE_SPL
-			zval *retval = NULL;
-			#endif
+	if (Z_TYPE_P(value) == IS_OBJECT) {
 
-			if (Z_OBJ_HT_P(value)->count_elements) {
-				Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
+
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			return (int) count > 0;
+		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				count = Z_LVAL_P(retval);
+				zval_ptr_dtor(&retval);
 				return (int) count > 0;
 			}
-
-			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
-				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
-				if (retval) {
-					convert_to_long_ex(&retval);
-					count = Z_LVAL_P(retval);
-					zval_ptr_dtor(&retval);
-					return (int) count > 0;
-				}
-				return 0;
-			}
-			#endif
-
 			return 0;
-		} else {
-			if (Z_TYPE_P(value) == IS_NULL) {
-				return 0;
-			}
+		}
+		#endif
+
+		return 0;
+	} else {
+		if (Z_TYPE_P(value) == IS_NULL) {
+			return 0;
 		}
 	}
+
 	return 1;
 }
 
 /**
  * Check if method exists on certain object using explicit char param
  */
-int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC){
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC) {
 
 	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
 		return SUCCESS;
@@ -235,7 +236,7 @@ int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS
 /**
  * Checks if a zval is callable
  */
-int phalcon_is_callable(zval *var TSRMLS_DC){
+int phalcon_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
 	zend_bool retval;
@@ -304,7 +305,7 @@ void phalcon_clean_symbol_tables(TSRMLS_D) {
 /**
  * Exports symbols to the active symbol table
  */
-int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
+int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -326,7 +327,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 /**
  * Exports a string symbol to the active symbol table
  */
-int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC){
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -344,20 +345,36 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 }
 
 /**
- * Generates error when foreach is invalid
+ * Initialize an array to start an iteration over it
  */
-int phalcon_valid_foreach(zval *arr TSRMLS_DC){
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid argument supplied for foreach()");
+int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
+
+	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "The argument is not iterable()");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}
+
+	if (duplicate) {
+		ALLOC_HASHTABLE(*arr_hash);
+		zend_hash_init(*arr_hash, 0, NULL, NULL, 0);
+		zend_hash_copy(*arr_hash, Z_ARRVAL_P(arr), NULL, NULL, sizeof(zval*));
+	} else {
+		*arr_hash = Z_ARRVAL_P(arr);
+	}
+
+	if (reverse) {
+		zend_hash_internal_pointer_end_ex(*arr_hash, hash_position);
+	} else {
+		zend_hash_internal_pointer_reset_ex(*arr_hash, hash_position);
+	}
+
 	return 1;
 }
 
 /**
  * Generates error when inherited class isn't found
  */
-void phalcon_inherit_not_found(char *class_name, char *inherit_name){
+void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }

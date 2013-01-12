@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -49,11 +49,11 @@
  * define his/her own filters
  *
  *<code>
- *$filter = new Phalcon\Filter();
- *$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
- *$filter->sanitize("hello<<", "string"); // returns "hello"
- *$filter->sanitize("!100a019", "int"); // returns "100019"
- *$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
+ *	$filter = new Phalcon\Filter();
+ *	$filter->sanitize("some(one)@exa\\mple.com", "email"); // returns "someone@example.com"
+ *	$filter->sanitize("hello<<", "string"); // returns "hello"
+ *	$filter->sanitize("!100a019", "int"); // returns "100019"
+ *	$filter->sanitize("!100a019.01a", "float"); // returns "100019.01"
  *</code>
  *
  */
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Filter, add){
 }
 
 /**
- * Sanizites a value with a specified single or set of filters
+ * Sanitizes a value with a specified single or set of filters
  *
  * @param  mixed $value
  * @param  mixed $filters
@@ -139,12 +139,10 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
 	
-			if (!phalcon_valid_foreach(filters TSRMLS_CC)) {
+			if (!phalcon_is_iterable(filters, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(filters);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -170,7 +168,7 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 }
 
 /**
- * Internal sanizite wrapper to filter_var
+ * Internal sanitize wrapper to filter_var
  *
  * @param  mixed $value
  * @param  string $filter

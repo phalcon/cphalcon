@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -32,9 +32,9 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -48,27 +48,28 @@
  *<code>
  *try {
  *
- *  $transaction = Phalcon\Mvc\Model\Transaction\Manager::get();
+ *  $manager = new Phalcon\Mvc\Model\Transaction\Manager();
+ *
+ *  $transaction = $manager->get();
  *
  *  $robot = new Robots();
  *  $robot->setTransaction($transaction);
  *  $robot->name = 'WALL·E';
  *  $robot->created_at = date('Y-m-d');
- *  if($robot->save()==false){
+ *  if ($robot->save() == false) {
  *    $transaction->rollback("Can't save robot");
  *  }
  *
  *  $robotPart = new RobotParts();
  *  $robotPart->setTransaction($transaction);
  *  $robotPart->type = 'head';
- *  if($robotPart->save()==false){
+ *  if ($robotPart->save() == false) {
  *    $transaction->rollback("Can't save robot part");
  *  }
  *
  *  $transaction->commit();
  *
- *}
- *catch(Phalcon\Mvc\Model\Transaction\Failed $e){
+ *} catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
  *  echo 'Failed, reason: ', $e->getMessage();
  *}
  *
@@ -101,17 +102,16 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction){
  *
  * @param Phalcon\DiInterface $dependencyInjector
  * @param boolean $autoBegin
+ * @param string $service
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
-	zval *dependency_injector, *auto_begin = NULL, *service;
+	zval *dependency_injector, *auto_begin = NULL, *service = NULL;
 	zval *connection;
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_mvc_model_transaction_ce, this_ptr, SL("_messages") TSRMLS_CC);
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &dependency_injector, &auto_begin) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &dependency_injector, &auto_begin, &service) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -120,13 +120,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		ZVAL_BOOL(auto_begin, 0);
 	}
 	
+	if (!service) {
+		PHALCON_INIT_VAR(service);
+	} else {
+		PHALCON_SEPARATE_PARAM(service);
+	}
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "db", 1);
+	if (Z_TYPE_P(service) != IS_STRING) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "db", 1);
+	}
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD_PARAMS_1(connection, dependency_injector, "get", service);

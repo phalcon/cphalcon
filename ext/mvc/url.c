@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -288,13 +288,13 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(final_uri);
 		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
 	
-		RETURN_CCTOR(final_uri);
+		RETURN_CTOR(final_uri);
 	}
 	
 	PHALCON_INIT_NVAR(final_uri);
 	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
 	
-	RETURN_CCTOR(final_uri);
+	RETURN_CTOR(final_uri);
 }
 
 /**

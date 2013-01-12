@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -70,10 +70,6 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -120,7 +116,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	if (!phalcon_array_isset_string(params, SS("value"))) {
 		PHALCON_INIT_VAR(value);
-		PHALCON_CALL_STATIC_PARAMS_1(value, "phalcon\\tag", "getvalue", id);
+		PHALCON_CALL_STATIC_PARAMS_2(value, "phalcon\\tag", "getvalue", id, params);
 	} else {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, params, SL("value"), PH_NOISY_CC);
@@ -160,12 +156,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	ZVAL_STRING(code, "<select", 1);
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -188,6 +182,9 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	PHALCON_INIT_VAR(close_option);
 	PHALCON_CONCAT_SV(close_option, "</option>", eol);
 	if (zend_is_true(use_empty)) {
+		/** 
+		 * Create an empty value
+		 */
 		PHALCON_SCONCAT_SVSVV(code, "\t<option value=\"", empty_value, "\">", empty_text, close_option);
 		PHALCON_SEPARATE(params);
 		phalcon_array_unset_string(params, SS("useEmpty"));
@@ -201,6 +198,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	}
 	
 	if (Z_TYPE_P(options) == IS_OBJECT) {
+	
+		/** 
+		 * The options is a resultset
+		 */
 		if (!phalcon_array_isset_string(params, SS("using"))) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter is required");
 			return;
@@ -213,11 +214,17 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 			}
 		}
 	
+		/** 
+		 * Create the SELECT's option from a resultset
+		 */
 		PHALCON_INIT_VAR(resultset_options);
 		PHALCON_CALL_SELF_PARAMS_4(resultset_options, this_ptr, "_optionsfromresultset", options, using, value, close_option);
 		phalcon_concat_self(&code, resultset_options TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(options) == IS_ARRAY) { 
+			/** 
+			 * Create the SELECT's option from an array
+			 */
 			PHALCON_INIT_VAR(array_options);
 			PHALCON_CALL_SELF_PARAMS_3(array_options, this_ptr, "_optionsfromarray", options, value, close_option);
 			phalcon_concat_self(&code, array_options TSRMLS_CC);
@@ -272,15 +279,27 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromResultset){
 		PHALCON_OBS_NVAR(using_one);
 		phalcon_array_fetch_long(&using_one, using, 1, PH_NOISY_CC);
 	
+		/** 
+		 * Get the current option
+		 */
 		PHALCON_INIT_NVAR(option);
 		PHALCON_CALL_METHOD(option, resultset, "current");
 	
+		/** 
+		 * Read the value attribute from the model
+		 */
 		PHALCON_INIT_NVAR(option_value);
 		PHALCON_CALL_METHOD_PARAMS_1(option_value, option, "readattribute", using_zero);
 	
+		/** 
+		 * Read the text attribute from the model
+		 */
 		PHALCON_INIT_NVAR(option_text);
 		PHALCON_CALL_METHOD_PARAMS_1(option_text, option, "readattribute", using_one);
 	
+		/** 
+		 * If the value is equal to the option's value we mark it as selected
+		 */
 		PHALCON_INIT_NVAR(is_equals);
 		is_equal_function(is_equals, value, option_value TSRMLS_CC);
 		if (PHALCON_IS_TRUE(is_equals)) {
@@ -310,10 +329,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -324,12 +339,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	
-	if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(data);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

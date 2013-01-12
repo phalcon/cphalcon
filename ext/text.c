@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 	PHALCON_INIT_VAR(camelized);
 	phalcon_camelize(camelized, str TSRMLS_CC);
-	RETURN_CCTOR(camelized);
+	RETURN_CTOR(camelized);
 }
 
 /**
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	PHALCON_INIT_VAR(uncamelized);
 	phalcon_uncamelize(uncamelized, str TSRMLS_CC);
-	RETURN_CCTOR(uncamelized);
+	RETURN_CTOR(uncamelized);
 }
 
 /**
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Text, random){
 	
 	PHALCON_INIT_VAR(random);
 	phalcon_random_string(random, type, length TSRMLS_CC);
-	RETURN_CCTOR(random);
+	RETURN_CTOR(random);
 }
 
 /**

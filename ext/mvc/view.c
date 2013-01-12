@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -608,10 +608,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -651,12 +647,10 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
-			if (!phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
+			if (!phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(registered_engines);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -727,10 +721,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -840,12 +830,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	 * Views are rendered in each engine
 	 */
 	
-	if (!phalcon_valid_foreach(engines TSRMLS_CC)) {
+	if (!phalcon_is_iterable(engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(engines);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1143,12 +1131,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_before TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah0 = Z_ARRVAL_P(templates_before);
-					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1202,12 +1188,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_after TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(templates_after);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1554,10 +1538,6 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1591,12 +1571,10 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		}
 	
 	
-		if (!phalcon_valid_foreach(options TSRMLS_CC)) {
+		if (!phalcon_is_iterable(options, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(options);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -95,10 +95,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -127,12 +123,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_INIT_VAR(dot);
 	ZVAL_STRING(dot, ".", 1);
 	
-	if (!phalcon_valid_foreach(ini_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(ini_config);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -140,12 +134,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_GET_FOREACH_VALUE(directives);
 	
 	
-		if (!phalcon_valid_foreach(directives TSRMLS_CC)) {
+		if (!phalcon_is_iterable(directives, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(directives);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

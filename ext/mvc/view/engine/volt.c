@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -124,10 +124,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler){
 		object_init_ex(compiler, phalcon_mvc_view_engine_volt_compiler_ce);
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "__construct", view);
 	
+		/** 
+		 * Pass the IoC to the compiler only it's an object
+		 */
 		if (Z_TYPE_P(dependency_injector) == IS_OBJECT) {
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setdi", dependency_injector);
 		}
 	
+		/** 
+		 * Pass the options to the compiler only they're an array
+		 */
 		if (Z_TYPE_P(options) == IS_ARRAY) { 
 			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(compiler, "setoptions", options);
 		}
@@ -154,10 +160,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -189,12 +191,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	 */
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -246,11 +246,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 		phalcon_fast_count(length, item TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(item) == IS_OBJECT) {
-			PHALCON_INIT_NVAR(length);
 			phalcon_fast_count(length, item TSRMLS_CC);
 		} else {
 			if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(length);
 				PHALCON_CALL_FUNC_PARAMS_1(length, "mb_strlen", item);
 			} else {
 				PHALCON_INIT_NVAR(length);

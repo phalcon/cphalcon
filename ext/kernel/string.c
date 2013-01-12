@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -204,6 +204,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for camelize()");
+		RETURN_EMPTY_STRING();
 		return;
 	}
 
@@ -234,9 +235,9 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	smart_str_0(&camelize_str);
 
 	if (camelize_str.len) {
-		ZVAL_STRINGL(return_value, camelize_str.c, camelize_str.len, 0);
+		RETURN_STRINGL(camelize_str.c, camelize_str.len, 0);
 	} else {
-		ZVAL_STRING(return_value, "", 1);
+		RETURN_EMPTY_STRING();
 	}
 
 }
@@ -271,9 +272,9 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	smart_str_0(&uncamelize_str);
 
 	if (uncamelize_str.len) {
-		ZVAL_STRINGL(return_value, uncamelize_str.c, uncamelize_str.len, 0);
+		RETURN_STRINGL(uncamelize_str.c, uncamelize_str.len, 0);
 	} else {
-		ZVAL_STRING(return_value, "", 1);
+		RETURN_EMPTY_STRING();
 	}
 }
 

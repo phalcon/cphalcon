@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -122,14 +122,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts;
 	zval *value = NULL, *key = NULL, *dsn_attribute = NULL, *dsn_attributes = NULL;
 	zval *pdo_type, *dsn, *options = NULL, *persistent, *pdo;
+	zend_class_entry *ce;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
-	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
@@ -157,7 +153,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("username"));
 	} else {
-		PHALCON_INIT_VAR(username);
+		PHALCON_INIT_NVAR(username);
 	}
 
 	/**
@@ -169,7 +165,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("password"));
 	} else {
-		PHALCON_INIT_VAR(password);
+		PHALCON_INIT_NVAR(password);
 	}
 
 	/**
@@ -180,12 +176,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_INIT_VAR(dsn_parts);
 		array_init(dsn_parts);
 
-		if (!phalcon_valid_foreach(descriptor TSRMLS_CC)) {
+		if (!phalcon_is_iterable(descriptor, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-
-		ah0 = Z_ARRVAL_P(descriptor);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -219,7 +212,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_OBS_VAR(options);
 		phalcon_array_fetch_string(&options, descriptor, SL("options"), PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(options);
+		PHALCON_INIT_NVAR(options);
 		array_init(options);
 	}
 
@@ -231,6 +224,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	 * Check if the connection must be persistent
 	 */
 	if (phalcon_array_isset_string(descriptor, SS("persistent"))) {
+
 		PHALCON_OBS_VAR(persistent);
 		phalcon_array_fetch_string(&persistent, descriptor, SL("persistent"), PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
@@ -249,8 +243,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), pdo TSRMLS_CC);
 
-	PHALCON_MM_RESTORE();
-}
+	PHALCON_MM_RESTORE();}
 
 /**
  * Executes a prepared statement binding. This function uses integer indexes starting from zero
@@ -272,10 +265,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -286,12 +275,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 
-	if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+	if (!phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-
-	ah0 = Z_ARRVAL_P(placeholders);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -666,10 +652,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -684,12 +666,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 			PHALCON_OBS_VAR(pdo);
 			phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+			if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(params);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -797,12 +777,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	PHALCON_CPY_WRT(status, r0);
 	if (zend_is_true(status)) {
 	
-		if (!phalcon_valid_foreach(matches TSRMLS_CC)) {
+		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(matches);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1020,10 +998,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1053,12 +1027,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1082,12 +1054,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	
-	if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(indexes);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1129,10 +1099,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1162,12 +1128,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2(describe, this_ptr, "fetchall", sql, fetch_assoc);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1205,12 +1169,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
-	if (!phalcon_valid_foreach(references TSRMLS_CC)) {
+	if (!phalcon_is_iterable(references, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(references);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

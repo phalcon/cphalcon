@@ -1,0 +1,192 @@
+
+/*
+  +------------------------------------------------------------------------+
+  | Phalcon Framework                                                      |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@phalconphp.com so we can send you a copy immediately.       |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@phalconphp.com>                      |
+  |          Eduar Carvajal <eduar@phalconphp.com>                         |
+  +------------------------------------------------------------------------+
+*/
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
+
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
+
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+#include "kernel/exception.h"
+#include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "annotations/scanner.h"
+#include "annotations/annot.h"
+#include "kernel/array.h"
+#include "kernel/file.h"
+
+/**
+ * Phalcon\Annotations\Reader
+ *
+ */
+
+
+/**
+ * Phalcon\Annotations\Reader initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Annotations_Reader){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reader, annotations_reader, phalcon_annotations_reader_method_entry, 0);
+
+	return SUCCESS;
+}
+
+/**
+ * Reads annotations from the class, methods and properties
+ *
+ * @param string $className
+ * @return array
+ */
+PHP_METHOD(Phalcon_Annotations_Reader, parse){
+
+	zval *class_name, *annotations, *reflection;
+	zval *comment = NULL, *file = NULL, *line = NULL, *class_annotations;
+	zval *methods, *annotations_methods, *method = NULL;
+	zval *method_annotations = NULL, *name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(class_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	array_init(annotations);
+	ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(reflection);
+	object_init_ex(reflection, ce0);
+	if (phalcon_has_constructor(reflection TSRMLS_CC)) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(reflection, "__construct", class_name);
+	}
+	
+	PHALCON_INIT_VAR(comment);
+	PHALCON_CALL_METHOD(comment, reflection, "getdoccomment");
+	if (Z_TYPE_P(comment) == IS_STRING) {
+	
+		/** 
+		 * Get the file where the class was declared
+		 */
+		PHALCON_INIT_VAR(file);
+		PHALCON_CALL_METHOD(file, reflection, "getfilename");
+	
+		/** 
+		 * Get the line where the class was declared
+		 */
+		PHALCON_INIT_VAR(line);
+		PHALCON_CALL_METHOD(line, reflection, "getstartline");
+	
+		/** 
+		 * Read annotations from class
+		 */
+		PHALCON_INIT_VAR(class_annotations);
+		if (phannot_parse_annotations(class_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
+			return;
+		}
+	
+		/** 
+		 * Append the class annotations to the annotations var
+		 */
+		if (Z_TYPE_P(class_annotations) == IS_ARRAY) { 
+			phalcon_array_update_string(&annotations, SL("class"), &class_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	/** 
+	 * Get the class methods
+	 */
+	PHALCON_INIT_VAR(methods);
+	PHALCON_CALL_METHOD(methods, reflection, "getmethods");
+	if (phalcon_fast_count_ev(methods TSRMLS_CC)) {
+	
+		PHALCON_INIT_VAR(annotations_methods);
+		array_init(annotations_methods);
+	
+		if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(method);
+	
+			/** 
+			 * Read comment from method
+			 */
+			PHALCON_INIT_NVAR(comment);
+			PHALCON_CALL_METHOD(comment, method, "getdoccomment");
+			if (Z_TYPE_P(comment) == IS_STRING) {
+	
+				/** 
+				 * Get the file where the method was declared
+				 */
+				PHALCON_INIT_NVAR(file);
+				PHALCON_CALL_METHOD(file, method, "getfilename");
+	
+				/** 
+				 * Get the line where the method was declared
+				 */
+				PHALCON_INIT_NVAR(line);
+				PHALCON_CALL_METHOD(line, method, "getstartline");
+	
+				/** 
+				 * Read annotations from class
+				 */
+				PHALCON_INIT_NVAR(method_annotations);
+				if (phannot_parse_annotations(method_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
+					return;
+				}
+				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
+					PHALCON_OBS_NVAR(name);
+					phalcon_read_property(&name, method, SL("name"), PH_NOISY_CC);
+					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		if (phalcon_fast_count_ev(annotations_methods TSRMLS_CC)) {
+			phalcon_array_update_string(&annotations, SL("methods"), &annotations_methods, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	
+	RETURN_CTOR(annotations);
+}
+

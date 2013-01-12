@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -35,10 +35,10 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/file.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 #include "kernel/string.h"
 
 /**
@@ -197,6 +197,84 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 		return;
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Appends a condition to the current conditions using an AND operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
+
+	zval *conditions, *params, *current_conditions;
+	zval *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(conditions) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("conditions"))) {
+		PHALCON_OBS_VAR(current_conditions);
+		phalcon_array_fetch_string(&current_conditions, params, SL("conditions"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") AND (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, conditions);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+/**
+ * Appends a condition to the current conditions using an OR operator
+ *
+ * @param string $conditions
+ * @return Phalcon\Mvc\Model\Criteria
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
+
+	zval *conditions, *params, *current_conditions;
+	zval *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(conditions) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_string(params, SS("conditions"))) {
+		PHALCON_OBS_VAR(current_conditions);
+		phalcon_array_fetch_string(&current_conditions, params, SL("conditions"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") OR (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, conditions);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
@@ -455,10 +533,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -503,12 +577,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		 * We look for attributes in the array passed as data
 		 */
 	
-		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(data);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

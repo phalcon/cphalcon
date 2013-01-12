@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 /**
  * Returns the value of the _id property
  *
- * @return MongoId
+ * @return \MongoId
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getId){
 
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService){
 /**
  * Retrieves a database connection
  *
- * @return MongoDb
+ * @return \MongoDb
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getConnection){
 
@@ -462,10 +462,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -487,12 +483,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
 		return;
 	}
 	
-	if (!phalcon_valid_foreach(document TSRMLS_CC)) {
+	if (!phalcon_is_iterable(document, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(document);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -513,7 +507,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
  *
  * @param array $params
  * @param Phalcon\Mvc\Collection $collection
- * @param MongoDb $connection
+ * @param \MongoDb $connection
  * @param boolean $unique
  * @return array
  */
@@ -615,12 +609,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	PHALCON_INIT_VAR(documents_array);
 	PHALCON_CALL_FUNC_PARAMS_1(documents_array, "iterator_to_array", documents_cursor);
 	
-	if (!phalcon_valid_foreach(documents_array TSRMLS_CC)) {
+	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(documents_array);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -640,7 +632,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 /**
  * Executes internal hooks before save a document
  *
- * @param Phalcon\DI $dependencyInjector
+ * @param Phalcon\DiInterface $dependencyInjector
  * @param boolean $disableEvents
  * @param boolean $exists
  * @return boolean
@@ -857,12 +849,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, validator, "getmessages");
 	
-		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(messages);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1033,7 +1023,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
 /**
  * Checks if the document exists in the collection
  *
- * @param MongoCollection $collection
+ * @param \MongoCollection $collection
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 
@@ -1166,10 +1156,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1229,12 +1215,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	 * We only assign values to the public properties
 	 */
 	
-	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
+	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(properties);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1666,10 +1650,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1686,12 +1666,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	 * We only assign values to the public properties
 	 */
 	
-	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
+	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(properties);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1732,10 +1710,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -1786,12 +1760,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			 * Update the objects attributes
 			 */
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

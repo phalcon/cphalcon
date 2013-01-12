@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Phalcon Framework                                                      |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2012 Phalcon Team (http://www.phalconphp.com)       |
+  | Copyright (c) 2011-2013 Phalcon Team (http://www.phalconphp.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -180,12 +180,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 	PHALCON_OBS_VAR(escape_char);
 	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
+	if (!phalcon_is_iterable(column_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(column_list);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -405,12 +403,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 			PHALCON_OBS_VAR(arguments);
 			phalcon_array_fetch_string(&arguments, expression, SL("arguments"), PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+			if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(arguments);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -448,12 +444,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		PHALCON_OBS_VAR(items);
 		phalcon_array_fetch_long(&items, expression, 0, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(items TSRMLS_CC)) {
+		if (!phalcon_is_iterable(items, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(items);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -645,12 +639,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(selected_columns);
 		array_init(selected_columns);
 	
-		if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+		if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(columns);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -737,12 +729,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(selected_tables);
 		array_init(selected_tables);
 	
-		if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
+		if (!phalcon_is_iterable(tables, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(tables);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -772,12 +762,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_OBS_VAR(joins);
 		phalcon_array_fetch_string(&joins, definition, SL("joins"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
+		if (!phalcon_is_iterable(joins, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(joins);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -808,12 +796,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 					PHALCON_INIT_NVAR(join_expressions);
 					array_init(join_expressions);
 	
-					if (!phalcon_valid_foreach(join_conditions_array TSRMLS_CC)) {
+					if (!phalcon_is_iterable(join_conditions_array, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah3 = Z_ARRVAL_P(join_conditions_array);
-					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -862,12 +848,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_OBS_VAR(group_fields);
 		phalcon_array_fetch_string(&group_fields, definition, SL("group"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(group_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(group_fields, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah4 = Z_ARRVAL_P(group_fields);
-		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -911,12 +895,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 	
-		if (!phalcon_valid_foreach(order_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(order_fields, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah5 = Z_ARRVAL_P(order_fields);
-		zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
