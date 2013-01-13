@@ -195,8 +195,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
 			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+					phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
@@ -206,8 +206,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 						} else {
-							if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
+							if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+								phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
 							} else {
 								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
 									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);

@@ -751,6 +751,15 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			phalcon_concat_self_str(&column_line, SL(" AUTO_INCREMENT") TSRMLS_CC);
 		}
 	
+		/** 
+		 * Mark the column as primary key
+		 */
+		PHALCON_INIT_NVAR(attribute);
+		PHALCON_CALL_METHOD(attribute, column, "isprimary");
+		if (zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
+		}
+	
 		phalcon_array_append(&create_lines, column_line, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);

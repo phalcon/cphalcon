@@ -33,6 +33,7 @@ const phannot_token_names phannot_tokens[] =
 	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
  	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
 	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
 	{  0, NULL }
 };
 
@@ -120,21 +121,77 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
 
-	int start_mode = 1, i;
+	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
 
 	(*start_lines) = 0;
 
 	for (i = 0; i < length; i++) {
+
 		ch = comment[i];
+
 		if (start_mode) {
 			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
 				continue;
 			}
 			start_mode = 0;
 		}
-		smart_str_appendc(&processed_str, ch);
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
 		if (ch == '\n') {
 			(*start_lines)++;
 			start_mode = 1;
@@ -198,6 +255,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	/**
@@ -287,6 +345,9 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			case PHANNOT_T_IDENTIFIER:
 				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
 				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
 
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;

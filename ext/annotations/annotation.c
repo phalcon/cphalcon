@@ -58,7 +58,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation){
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 
-	zval *reflection_data, *name, *arguments, *expr_arguments;
+	zval *reflection_data, *name = NULL, *arguments, *expr_arguments;
 	zval *argument = NULL, *expr = NULL, *resolved_argument = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -104,7 +104,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 	
 			PHALCON_INIT_NVAR(resolved_argument);
 			PHALCON_CALL_METHOD_PARAMS_1(resolved_argument, this_ptr, "getexpression", expr);
-			phalcon_array_append(&arguments, resolved_argument, PH_SEPARATE TSRMLS_CC);
+			if (phalcon_array_isset_string(argument, SS("name"))) {
+				PHALCON_OBS_NVAR(name);
+				phalcon_array_fetch_string(&name, argument, SL("name"), PH_NOISY_CC);
+				phalcon_array_update_zval(&arguments, name, &resolved_argument, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_append(&arguments, resolved_argument, PH_SEPARATE TSRMLS_CC);
+			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -125,7 +131,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName){
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 
 	zval *expr = NULL, *type, *value = NULL, *array_value, *items, *item = NULL;
-	zval *resolved_item = NULL, *exception_message;
+	zval *resolved_item = NULL, *name = NULL, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -163,6 +169,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
 			RETURN_CCTOR(value);
 	
+		case 307:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_string(&value, expr, SL("value"), PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
 		case 304:
 			RETURN_MM_NULL();
 	
@@ -193,7 +204,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 	
 				PHALCON_INIT_NVAR(resolved_item);
 				PHALCON_CALL_METHOD_PARAMS_1(resolved_item, this_ptr, "getexpression", expr);
-				phalcon_array_append(&array_value, resolved_item, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_array_isset_string(item, SS("name"))) {
+					PHALCON_OBS_NVAR(name);
+					phalcon_array_fetch_string(&name, item, SL("name"), PH_NOISY_CC);
+					phalcon_array_update_zval(&array_value, name, &resolved_item, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_array_append(&array_value, resolved_item, PH_SEPARATE TSRMLS_CC);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -222,6 +239,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArguments){
 
 
 	RETURN_MEMBER(this_ptr, "_arguments");
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
+
+	zval *arguments, *number;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(number);
+	phalcon_fast_count(number, arguments TSRMLS_CC);
+	RETURN_NCTOR(number);
 }
 
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
@@ -264,17 +295,43 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 	RETURN_MM_FALSE;
 }
 
-PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 
-	zval *arguments, *number;
+	zval *name, *arguments, *value;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arguments, name, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
 	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, arguments TSRMLS_CC);
-	RETURN_NCTOR(number);
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
+
+	zval *name, *arguments;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 

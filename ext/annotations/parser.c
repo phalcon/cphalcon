@@ -93,7 +93,7 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 	return ret;
 }
 
-static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr, phannot_scanner_state *state)
+static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 {
 	zval *ret;
 
@@ -104,10 +104,6 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr, phan
 		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
-
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
@@ -138,8 +134,34 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 	return ret;
 }
 
+/*static zval *phannot_ret_docblock_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
+{
 
-// 143 "parser.c"
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHANNOT_T_DOCBLOCK_ANNOTATION);
+
+	if (name) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name);
+	}
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}*/
+
+
+// 165 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -189,23 +211,23 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 **                       defined, then do no error processing.
 */
 #define JJCODETYPE unsigned char
-#define JJNOCODE 28
+#define JJNOCODE 29
 #define JJACTIONTYPE unsigned char
 #define phannot_JTOKENTYPE phannot_parser_token*
 typedef union {
   phannot_JTOKENTYPE jj0;
-  zval* jj36;
-  int jj55;
+  zval* jj8;
+  int jj57;
 } JJMINORTYPE;
 #define JJSTACKDEPTH 100
 #define phannot_ARG_SDECL phannot_parser_status *status;
 #define phannot_ARG_PDECL ,phannot_parser_status *status
 #define phannot_ARG_FETCH phannot_parser_status *status = jjpParser->status
 #define phannot_ARG_STORE jjpParser->status = status
-#define JJNSTATE 40
-#define JJNRULE 25
+#define JJNSTATE 41
+#define JJNRULE 26
 #define JJERRORSYMBOL 18
-#define JJERRSYMDT jj55
+#define JJERRSYMDT jj57
 #define JJ_NO_ACTION      (JJNSTATE+JJNRULE+2)
 #define JJ_ACCEPT_ACTION  (JJNSTATE+JJNRULE+1)
 #define JJ_ERROR_ACTION   (JJNSTATE+JJNRULE)
@@ -258,48 +280,53 @@ typedef union {
 **  jj_default[]       Default action for each state.
 */
 static JJACTIONTYPE jj_action[] = {
- /*     0 */     4,   28,   15,   38,   12,   14,   16,   18,   20,   21,
- /*    10 */    22,   23,   24,    4,   31,    4,   28,   15,   40,   12,
- /*    20 */    30,   16,   18,   20,   21,   22,   23,   24,    3,   31,
- /*    30 */     4,   17,   15,    6,   19,   35,   16,   18,   20,   21,
- /*    40 */    22,   23,   24,    5,   31,   15,    7,   27,   11,   16,
- /*    50 */    54,   54,   15,   25,   27,   11,   16,   15,   32,   27,
- /*    60 */    11,   16,   66,    1,    2,   39,   41,   15,    4,   10,
- /*    70 */    11,   16,   15,    9,    9,   37,   16,    8,   13,   36,
- /*    80 */     9,   29,   34,   54,   54,   54,   54,   54,   26,   54,
- /*    90 */    54,   54,   54,   54,   54,   54,   33,
+ /*     0 */     5,   29,   16,   39,   13,   15,   17,   19,   21,   22,
+ /*    10 */    23,   24,   25,    5,   32,    5,   29,   16,   41,   13,
+ /*    20 */    31,   17,   19,   21,   22,   23,   24,   25,    6,   32,
+ /*    30 */     5,   18,   16,    7,   20,   36,   17,   19,   21,   22,
+ /*    40 */    23,   24,   25,   56,   32,   68,    1,    2,   40,    4,
+ /*    50 */    16,    8,   28,   12,   17,   16,   26,   28,   12,   17,
+ /*    60 */    56,   16,   33,   28,   12,   17,   16,   56,   11,   12,
+ /*    70 */    17,   16,    3,    4,   38,   17,   42,   56,    5,   56,
+ /*    80 */    10,   14,   37,   10,    9,   10,   56,   56,   30,   35,
+ /*    90 */    56,   56,   56,   56,   56,   56,   56,   27,   56,   56,
+ /*   100 */    56,   34,
 };
 static JJCODETYPE jj_lookahead[] = {
- /*     0 */     2,    3,   22,    5,    6,   25,   26,    9,   10,   11,
- /*    10 */    12,   13,   14,    2,   16,    2,    3,   22,    0,    6,
- /*    20 */    25,   26,    9,   10,   11,   12,   13,   14,   22,   16,
- /*    30 */     2,    3,   22,    4,    6,   25,   26,    9,   10,   11,
- /*    40 */    12,   13,   14,    3,   16,   22,   23,   24,   25,   26,
- /*    50 */    27,   27,   22,   23,   24,   25,   26,   22,   23,   24,
- /*    60 */    25,   26,   19,   20,   21,   22,    0,   22,    2,   24,
- /*    70 */    25,   26,   22,    1,    1,   25,   26,    5,    7,    8,
- /*    80 */     1,    7,    8,   27,   27,   27,   27,   27,   15,   27,
- /*    90 */    27,   27,   27,   27,   27,   27,   17,
+ /*     0 */     2,    3,   23,    5,    6,   26,   27,    9,   10,   11,
+ /*    10 */    12,   13,   14,    2,   16,    2,    3,   23,    0,    6,
+ /*    20 */    26,   27,    9,   10,   11,   12,   13,   14,    3,   16,
+ /*    30 */     2,    3,   23,    4,    6,   26,   27,    9,   10,   11,
+ /*    40 */    12,   13,   14,   28,   16,   19,   20,   21,   22,   23,
+ /*    50 */    23,   24,   25,   26,   27,   23,   24,   25,   26,   27,
+ /*    60 */    28,   23,   24,   25,   26,   27,   23,   28,   25,   26,
+ /*    70 */    27,   23,   22,   23,   26,   27,    0,   28,    2,   28,
+ /*    80 */     1,    7,    8,    1,    5,    1,   28,   28,    7,    8,
+ /*    90 */    28,   28,   28,   28,   28,   28,   28,   15,   28,   28,
+ /*   100 */    28,   17,
 };
 #define JJ_SHIFT_USE_DFLT (-3)
 static signed char jj_shift_ofst[] = {
- /*     0 */    11,   18,   66,   -3,   40,   29,   -2,   72,   -3,   13,
- /*    10 */    -3,   -3,   71,   28,   -3,   -3,   -3,   -3,   -3,   -3,
- /*    20 */    -3,   -3,   -3,   -3,   13,   73,   -3,   -3,   74,   28,
- /*    30 */    -3,   13,   79,   -3,   28,   -3,   28,   -3,   -3,   -3,
+ /*     0 */    11,   18,   76,   -3,   -3,   25,   29,   -2,   79,   -3,
+ /*    10 */    13,   -3,   -3,   74,   28,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   -3,   13,   82,   -3,   -3,   81,
+ /*    30 */    28,   -3,   13,   84,   -3,   28,   -3,   28,   -3,   -3,
+ /*    40 */    -3,
 };
-#define JJ_REDUCE_USE_DFLT (-21)
+#define JJ_REDUCE_USE_DFLT (-22)
 static signed char jj_reduce_ofst[] = {
- /*     0 */    43,  -21,    6,  -21,  -21,  -21,   23,  -21,  -21,   45,
- /*    10 */   -21,  -21,  -21,  -20,  -21,  -21,  -21,  -21,  -21,  -21,
- /*    20 */   -21,  -21,  -21,  -21,   30,  -21,  -21,  -21,  -21,   -5,
- /*    30 */   -21,   35,  -21,  -21,   10,  -21,   50,  -21,  -21,  -21,
+ /*     0 */    26,  -22,   50,  -22,  -22,  -22,  -22,   27,  -22,  -22,
+ /*    10 */    43,  -22,  -22,  -22,  -21,  -22,  -22,  -22,  -22,  -22,
+ /*    20 */   -22,  -22,  -22,  -22,  -22,   32,  -22,  -22,  -22,  -22,
+ /*    30 */    -6,  -22,   38,  -22,  -22,    9,  -22,   48,  -22,  -22,
+ /*    40 */   -22,
 };
 static JJACTIONTYPE jj_default[] = {
- /*     0 */    65,   65,   65,   42,   65,   46,   65,   65,   44,   65,
- /*    10 */    47,   49,   58,   65,   50,   54,   55,   56,   57,   58,
- /*    20 */    59,   60,   61,   62,   65,   65,   63,   48,   56,   65,
- /*    30 */    52,   65,   65,   64,   65,   53,   65,   51,   45,   43,
+ /*     0 */    67,   67,   67,   43,   45,   67,   48,   67,   67,   46,
+ /*    10 */    67,   49,   51,   60,   67,   52,   56,   57,   58,   59,
+ /*    20 */    60,   61,   62,   63,   64,   67,   67,   65,   50,   58,
+ /*    30 */    67,   54,   67,   67,   66,   67,   55,   67,   53,   47,
+ /*    40 */    44,
 };
 #define JJ_SZ_ACTTAB (sizeof(jj_action)/sizeof(jj_action[0]))
 
@@ -390,8 +417,8 @@ static const char *jjTokenName[] = {
   "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
   "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
-  "annotation_language",  "annotation_list",  "annotation",    "argument_list",
-  "argument_item",  "expr",          "array",       
+  "annotation_language",  "annotation_list",  "annotation_item",  "annotation",  
+  "argument_list",  "argument_item",  "expr",          "array",       
 };
 #endif /* NDEBUG */
 
@@ -401,29 +428,30 @@ static const char *jjTokenName[] = {
 static const char *jjRuleName[] = {
  /*   0 */ "program ::= annotation_language",
  /*   1 */ "annotation_language ::= annotation_list",
- /*   2 */ "annotation_list ::= annotation_list annotation",
- /*   3 */ "annotation_list ::= annotation",
- /*   4 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
- /*   6 */ "annotation ::= AT IDENTIFIER",
- /*   7 */ "argument_list ::= argument_list COMMA argument_item",
- /*   8 */ "argument_list ::= argument_item",
- /*   9 */ "argument_item ::= expr",
- /*  10 */ "argument_item ::= STRING EQUALS expr",
- /*  11 */ "argument_item ::= STRING COLON expr",
- /*  12 */ "argument_item ::= IDENTIFIER EQUALS expr",
- /*  13 */ "argument_item ::= IDENTIFIER COLON expr",
- /*  14 */ "expr ::= annotation",
- /*  15 */ "expr ::= array",
- /*  16 */ "expr ::= IDENTIFIER",
- /*  17 */ "expr ::= INTEGER",
- /*  18 */ "expr ::= STRING",
- /*  19 */ "expr ::= DOUBLE",
- /*  20 */ "expr ::= NULL",
- /*  21 */ "expr ::= FALSE",
- /*  22 */ "expr ::= TRUE",
- /*  23 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  24 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
+ /*   2 */ "annotation_list ::= annotation_list annotation_item",
+ /*   3 */ "annotation_list ::= annotation_item",
+ /*   4 */ "annotation_item ::= annotation",
+ /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /*   6 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /*   7 */ "annotation ::= AT IDENTIFIER",
+ /*   8 */ "argument_list ::= argument_list COMMA argument_item",
+ /*   9 */ "argument_list ::= argument_item",
+ /*  10 */ "argument_item ::= expr",
+ /*  11 */ "argument_item ::= STRING EQUALS expr",
+ /*  12 */ "argument_item ::= STRING COLON expr",
+ /*  13 */ "argument_item ::= IDENTIFIER EQUALS expr",
+ /*  14 */ "argument_item ::= IDENTIFIER COLON expr",
+ /*  15 */ "expr ::= annotation",
+ /*  16 */ "expr ::= array",
+ /*  17 */ "expr ::= IDENTIFIER",
+ /*  18 */ "expr ::= INTEGER",
+ /*  19 */ "expr ::= STRING",
+ /*  20 */ "expr ::= DOUBLE",
+ /*  21 */ "expr ::= NULL",
+ /*  22 */ "expr ::= FALSE",
+ /*  23 */ "expr ::= TRUE",
+ /*  24 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  25 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
 };
 #endif /* NDEBUG */
 
@@ -498,7 +526,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 207 "parser.lemon"
+// 248 "parser.lemon"
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -507,15 +535,18 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 511 "parser.c"
+// 539 "parser.c"
       break;
+    case 20:
     case 21:
     case 22:
     case 23:
     case 24:
-// 224 "parser.lemon"
-{ zval_ptr_dtor(&(jjpminor->jj36)); }
-// 519 "parser.c"
+    case 25:
+    case 26:
+// 261 "parser.lemon"
+{ zval_ptr_dtor(&(jjpminor->jj8)); }
+// 550 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -695,27 +726,28 @@ static struct {
   { 20, 1 },
   { 21, 2 },
   { 21, 1 },
-  { 22, 5 },
-  { 22, 4 },
-  { 22, 2 },
-  { 23, 3 },
-  { 23, 1 },
+  { 22, 1 },
+  { 23, 5 },
+  { 23, 4 },
+  { 23, 2 },
+  { 24, 3 },
   { 24, 1 },
-  { 24, 3 },
-  { 24, 3 },
-  { 24, 3 },
-  { 24, 3 },
   { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 26, 3 },
-  { 26, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 27, 3 },
+  { 27, 3 },
 };
 
 static void jj_accept(jjParser*);  /* Forward Declaration */
@@ -753,166 +785,167 @@ static void jj_reduce(
   **     break;
   */
       case 0:
-// 216 "parser.lemon"
+// 257 "parser.lemon"
 {
-	status->ret = jjmsp[0].minor.jj36;
+	status->ret = jjmsp[0].minor.jj8;
 }
-// 761 "parser.c"
+// 793 "parser.c"
         break;
       case 1:
-      case 14:
+      case 4:
       case 15:
-// 220 "parser.lemon"
+      case 16:
+// 263 "parser.lemon"
 {
-	jjgotominor.jj36 = jjmsp[0].minor.jj36;
+	jjgotominor.jj8 = jjmsp[0].minor.jj8;
 }
-// 770 "parser.c"
+// 803 "parser.c"
         break;
       case 2:
-// 226 "parser.lemon"
+// 269 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-1].minor.jj8, jjmsp[0].minor.jj8);
 }
-// 777 "parser.c"
+// 810 "parser.c"
         break;
       case 3:
-      case 8:
-// 230 "parser.lemon"
+      case 9:
+// 273 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj8);
 }
-// 785 "parser.c"
+// 818 "parser.c"
         break;
-      case 4:
-// 236 "parser.lemon"
+      case 5:
+// 289 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj8, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 795 "parser.c"
+// 828 "parser.c"
         break;
-      case 5:
-// 240 "parser.lemon"
+      case 6:
+// 293 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 805 "parser.c"
-        break;
-      case 6:
-// 244 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
-  jj_destructor(2,&jjmsp[-1].minor);
-}
-// 813 "parser.c"
+// 838 "parser.c"
         break;
       case 7:
-// 250 "parser.lemon"
+// 297 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
-  jj_destructor(1,&jjmsp[-1].minor);
-}
-// 821 "parser.c"
-        break;
-      case 9:
-// 260 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36, status->scanner_state);
-}
-// 828 "parser.c"
-        break;
-      case 10:
-      case 12:
-// 264 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36, status->scanner_state);
-  jj_destructor(7,&jjmsp[-1].minor);
-}
-// 837 "parser.c"
-        break;
-      case 11:
-      case 13:
-// 268 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36, status->scanner_state);
-  jj_destructor(8,&jjmsp[-1].minor);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
+  jj_destructor(2,&jjmsp[-1].minor);
 }
 // 846 "parser.c"
         break;
-      case 16:
-// 288 "parser.lemon"
+      case 8:
+// 309 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-2].minor.jj8, jjmsp[0].minor.jj8);
+  jj_destructor(1,&jjmsp[-1].minor);
 }
-// 853 "parser.c"
+// 854 "parser.c"
+        break;
+      case 10:
+// 329 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj8);
+}
+// 861 "parser.c"
+        break;
+      case 11:
+      case 13:
+// 333 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(7,&jjmsp[-1].minor);
+}
+// 870 "parser.c"
+        break;
+      case 12:
+      case 14:
+// 337 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(8,&jjmsp[-1].minor);
+}
+// 879 "parser.c"
         break;
       case 17:
-// 292 "parser.lemon"
+// 365 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-// 860 "parser.c"
+// 886 "parser.c"
         break;
       case 18:
-// 296 "parser.lemon"
+// 369 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 867 "parser.c"
+// 893 "parser.c"
         break;
       case 19:
-// 300 "parser.lemon"
+// 373 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 874 "parser.c"
+// 900 "parser.c"
         break;
       case 20:
-// 304 "parser.lemon"
+// 377 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
-  jj_destructor(11,&jjmsp[0].minor);
-}
-// 882 "parser.c"
-        break;
-      case 21:
-// 308 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
-  jj_destructor(12,&jjmsp[0].minor);
-}
-// 890 "parser.c"
-        break;
-      case 22:
-// 312 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
-  jj_destructor(13,&jjmsp[0].minor);
-}
-// 898 "parser.c"
-        break;
-      case 23:
-// 316 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
-  jj_destructor(14,&jjmsp[-2].minor);
-  jj_destructor(15,&jjmsp[0].minor);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
 // 907 "parser.c"
         break;
-      case 24:
-// 320 "parser.lemon"
+      case 21:
+// 381 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
+  jj_destructor(11,&jjmsp[0].minor);
+}
+// 915 "parser.c"
+        break;
+      case 22:
+// 385 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
+  jj_destructor(12,&jjmsp[0].minor);
+}
+// 923 "parser.c"
+        break;
+      case 23:
+// 389 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
+  jj_destructor(13,&jjmsp[0].minor);
+}
+// 931 "parser.c"
+        break;
+      case 24:
+// 393 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+  jj_destructor(14,&jjmsp[-2].minor);
+  jj_destructor(15,&jjmsp[0].minor);
+}
+// 940 "parser.c"
+        break;
+      case 25:
+// 397 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 916 "parser.c"
+// 949 "parser.c"
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -954,7 +987,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 163 "parser.lemon"
+// 185 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		{
@@ -963,6 +996,7 @@ static void jj_syntax_error(
 			const phannot_token_names *tokens = phannot_tokens;
 			int token_found = 0;
 			int active_token = status->scanner_state->active_token;
+			int near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 				do {
@@ -980,9 +1014,27 @@ static void jj_syntax_error(
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
+			status->syntax_error_len = 128 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
 			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-			sprintf(status->syntax_error, "Syntax error, unexpected token %s in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+
+			if (near_length > 0) {
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				}
+			} else {
+				if (active_token != PHANNOT_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d");
+				}
+				status->syntax_error[status->syntax_error_len-1] = '\0';
+			}
 
 			if (!token_found) {
 				if (token_name) {
@@ -998,7 +1050,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1002 "parser.c"
+// 1054 "parser.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1204,6 +1256,7 @@ const phannot_token_names phannot_tokens[] =
 	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
  	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
 	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
 	{  0, NULL }
 };
 
@@ -1291,21 +1344,77 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
  */
 void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
 
-	int start_mode = 1, i;
+	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
 
 	(*start_lines) = 0;
 
 	for (i = 0; i < length; i++) {
+
 		ch = comment[i];
+
 		if (start_mode) {
 			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
 				continue;
 			}
 			start_mode = 0;
 		}
-		smart_str_appendc(&processed_str, ch);
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
 		if (ch == '\n') {
 			(*start_lines)++;
 			start_mode = 1;
@@ -1369,6 +1478,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	/**
@@ -1458,6 +1568,9 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			case PHANNOT_T_IDENTIFIER:
 				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
 				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
 
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;

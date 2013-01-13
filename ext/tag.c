@@ -58,7 +58,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_tag_ce, SL("_documentType"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
@@ -617,15 +617,15 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	/** 
-	 * Check if Doctype is XHTML
-	 */
 	PHALCON_INIT_VAR(five);
 	ZVAL_LONG(five, 5);
 	
 	PHALCON_OBS_VAR(doctype);
 	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
 	
+	/** 
+	 * Check if Doctype is XHTML
+	 */
 	PHALCON_INIT_VAR(is_xhtml);
 	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
 	if (zend_is_true(is_xhtml)) {
@@ -1223,7 +1223,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *doctype;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
+	zval *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1313,9 +1314,18 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	/** 
+	 * Check if Doctype is XHTML
+	 */
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -1453,7 +1463,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
-	zval *src, *code, *value = NULL, *key = NULL, *doctype;
+	zval *src, *code, *value = NULL, *key = NULL, *five, *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1515,9 +1525,18 @@ PHP_METHOD(Phalcon_Tag, image){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	/** 
+	 * Check if Doctype is XHTML
+	 */
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);

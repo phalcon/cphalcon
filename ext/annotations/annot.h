@@ -28,6 +28,7 @@ typedef struct _phannot_parser_status {
 	int status;
 	zval *ret;
 	phannot_scanner_state *scanner_state;
+	phannot_scanner_token *token;
 	char *syntax_error;
 	zend_uint syntax_error_len;
 } phannot_parser_status;

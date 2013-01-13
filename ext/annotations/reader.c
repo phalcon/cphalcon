@@ -190,3 +190,42 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	RETURN_CTOR(annotations);
 }
 
+/**
+ * Parses a raw doc block returning the annotations found
+ *
+ * @param string $docBlock
+ * @return array
+ */
+PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
+
+	zval *doc_block, *file = NULL, *line = NULL, *annotations;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &doc_block, &file, &line) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!file) {
+		PHALCON_INIT_VAR(file);
+	} else {
+		PHALCON_SEPARATE_PARAM(file);
+	}
+	
+	if (!line) {
+		PHALCON_INIT_VAR(line);
+	}
+	
+	if (Z_TYPE_P(file) != IS_STRING) {
+		PHALCON_INIT_NVAR(file);
+		ZVAL_STRING(file, "eval code", 1);
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	if (phannot_parse_annotations(annotations, doc_block, file, line TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
+	RETURN_CTOR(annotations);
+}
+

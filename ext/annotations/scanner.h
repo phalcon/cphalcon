@@ -25,8 +25,9 @@
 #define PHANNOT_MODE_RAW 0
 #define PHANNOT_MODE_ANNOTATION 1
 
-#define PHANNOT_T_IGNORE 299
+#define PHANNOT_T_IGNORE 297
 
+#define PHANNOT_T_DOCBLOCK_ANNOTATION 299
 #define PHANNOT_T_ANNOTATION 300
 
 /* Literals & Identifiers */
@@ -38,6 +39,7 @@
 #define PHANNOT_T_TRUE 306
 #define PHANNOT_T_IDENTIFIER 307
 #define PHANNOT_T_ARRAY 308
+#define PHANNOT_T_ARBITRARY_TEXT 309
 
 /* Operators */
 #define PHANNOT_T_AT '@'
