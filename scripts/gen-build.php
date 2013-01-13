@@ -32,6 +32,9 @@ class Build_Generator
 		'mvc/view/engine/volt/parser.h',
 		'mvc/view/engine/volt/scanner.h',
 		'mvc/view/engine/volt/volt.h',
+		'annotations/parser.h',
+		'annotations/scanner.h',
+		'annotations/annot.h',
 		'kernel/main.h',
 		'kernel/memory.h',
 		'kernel/fcall.h',
@@ -63,6 +66,9 @@ class Build_Generator
 	);
 
 	private $_exclusions = array(
+		'ext/annotations/base.c' => true,
+		'ext/annotations/lemon.c' => true,
+		'ext/annotations/lempar.c' => true,
 		'ext/mvc/model/query/base.c' => true,
 		'ext/mvc/model/query/lemon.c' => true,
 		'ext/mvc/model/query/lempar.c' => true,
@@ -146,9 +152,11 @@ class Build_Generator
 	private function _createHeader($path)
 	{
 		$fp = fopen($this->_destination.'phalcon.h', 'w');
+		echo $path.'phalcon.h', PHP_EOL;
 		foreach (file($path.'phalcon.h') as $line) {
 			if (preg_match('/^#include "(.*)"/', $line, $matches)) {
 				$openComment = false;
+				echo $path.$matches[1], PHP_EOL;
 				foreach(file($path.$matches[1]) as $hline){
 					$trimLine = trim($hline);
 					if ($trimLine=='/*'||$trimLine=='/**') {
@@ -211,6 +219,7 @@ class Build_Generator
 	 */
 	private function _appendSource($path)
 	{
+		echo $path, PHP_EOL;
 		$openComment = false;
 		$fileHandler = $this->_fileHandler;
 		$exceptions = array('php.h', 'config.h', 'php_phalcon.h', 'phalcon.h');
@@ -360,6 +369,7 @@ class Build_Generator
 	private function _checkHeaders($path)
 	{
 		$exceptions = array('php.h', 'config.h', 'php_phalcon.h', 'phalcon.h');
+		echo $path, PHP_EOL;
 		foreach (file($path) as $line) {
 			if (preg_match('/^#include "(.+)"/', $line, $matches)) {
 
