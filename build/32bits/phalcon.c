@@ -9368,8 +9368,9 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 #define PHANNOT_MODE_RAW 0
 #define PHANNOT_MODE_ANNOTATION 1
 
-#define PHANNOT_T_IGNORE 299
+#define PHANNOT_T_IGNORE 297
 
+#define PHANNOT_T_DOCBLOCK_ANNOTATION 299
 #define PHANNOT_T_ANNOTATION 300
 
 /* Literals & Identifiers */
@@ -9381,6 +9382,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 #define PHANNOT_T_TRUE 306
 #define PHANNOT_T_IDENTIFIER 307
 #define PHANNOT_T_ARRAY 308
+#define PHANNOT_T_ARBITRARY_TEXT 309
 
 /* Operators */
 #define PHANNOT_T_AT '@'
@@ -9437,6 +9439,7 @@ typedef struct _phannot_parser_status {
 	int status;
 	zval *ret;
 	phannot_scanner_state *scanner_state;
+	phannot_scanner_token *token;
 	char *syntax_error;
 	zend_uint syntax_error_len;
 } phannot_parser_status;
@@ -13760,8 +13763,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
 			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+					phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
@@ -13771,8 +13774,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 						} else {
-							if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
+							if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+								phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
 							} else {
 								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
 									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
@@ -17935,6 +17938,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_CALL_METHOD(attribute, column, "isautoincrement");
 		if (zend_is_true(attribute)) {
 			phalcon_concat_self_str(&column_line, SL(" AUTO_INCREMENT") TSRMLS_CC);
+		}
+	
+		PHALCON_INIT_NVAR(attribute);
+		PHALCON_CALL_METHOD(attribute, column, "isprimary");
+		if (zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
 		}
 	
 		phalcon_array_append(&create_lines, column_line, PH_SEPARATE TSRMLS_CC);
@@ -23739,7 +23748,7 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_tag_ce, SL("_documentType"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
@@ -24636,7 +24645,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *doctype;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
+	zval *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -24726,9 +24736,15 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -24839,7 +24855,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
-	zval *src, *code, *value = NULL, *key = NULL, *doctype;
+	zval *src, *code, *value = NULL, *key = NULL, *five, *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -24901,9 +24917,15 @@ PHP_METHOD(Phalcon_Tag, image){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -45516,6 +45538,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations){
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Annotations, mvc_router_annotations, "phalcon\\mvc\\router", phalcon_mvc_router_annotations_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSufix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSufix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_routePrefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -45547,17 +45570,19 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	phalcon_array_append(&scope, prefix, PH_SEPARATE TSRMLS_CC);
 	phalcon_array_append(&scope, handler, PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
 	RETURN_CTOR(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 
-	zval *uri = NULL, *real_uri = NULL, *annotations_service = NULL, *handlers;
-	zval *controller_sufix, *scope = NULL, *prefix = NULL, *dependency_injector = NULL;
-	zval *service = NULL, *handler = NULL, *sufixed = NULL, *handler_annotations = NULL;
-	zval *class_annotations = NULL, *annotations = NULL, *annotation = NULL;
-	zval *method_annotations = NULL, *method = NULL;
+	zval *uri = NULL, *real_uri = NULL, *processed, *annotations_service = NULL;
+	zval *handlers, *controller_sufix, *scope = NULL, *prefix = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *handler = NULL;
+	zval *sufixed = NULL, *handler_annotations = NULL, *class_annotations = NULL;
+	zval *annotations = NULL, *annotation = NULL, *method_annotations = NULL;
+	zval *lowercased = NULL, *collection = NULL, *method = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
@@ -45579,127 +45604,140 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 		PHALCON_CPY_WRT(real_uri, uri);
 	}
 	
-	PHALCON_INIT_VAR(annotations_service);
+	PHALCON_OBS_VAR(processed);
+	phalcon_read_property(&processed, this_ptr, SL("_processed"), PH_NOISY_CC);
+	if (!zend_is_true(processed)) {
 	
-	PHALCON_OBS_VAR(handlers);
-	phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
+		PHALCON_INIT_VAR(annotations_service);
 	
-	PHALCON_OBS_VAR(controller_sufix);
-	phalcon_read_property(&controller_sufix, this_ptr, SL("_controllerSufix"), PH_NOISY_CC);
+		PHALCON_OBS_VAR(handlers);
+		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
 	
-	if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-		return;
-	}
+		PHALCON_OBS_VAR(controller_sufix);
+		phalcon_read_property(&controller_sufix, this_ptr, SL("_controllerSufix"), PH_NOISY_CC);
+	
+		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
 	
 	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-		PHALCON_GET_FOREACH_VALUE(scope);
+			PHALCON_GET_FOREACH_VALUE(scope);
 	
-		if (Z_TYPE_P(scope) == IS_ARRAY) { 
+			if (Z_TYPE_P(scope) == IS_ARRAY) { 
 	
-			PHALCON_OBS_NVAR(prefix);
-			phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
-			if (Z_TYPE_P(prefix) == IS_STRING) {
-				if (!phalcon_start_with(real_uri, prefix, NULL)) {
-					zend_hash_move_forward_ex(ah0, &hp0);
-					continue;
-				}
-			}
-	
-			if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
-	
-				PHALCON_OBS_NVAR(dependency_injector);
-				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
-				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
-					return;
+				PHALCON_OBS_NVAR(prefix);
+				phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
+				if (Z_TYPE_P(prefix) == IS_STRING) {
+					if (!phalcon_start_with(real_uri, prefix, NULL)) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
 				}
 	
-				PHALCON_INIT_NVAR(service);
-				ZVAL_STRING(service, "annotations", 1);
+				if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
 	
-				PHALCON_INIT_NVAR(annotations_service);
-				PHALCON_CALL_METHOD_PARAMS_1_KEY(annotations_service, dependency_injector, "getshared", service, 1727570332UL);
-			}
-	
-			PHALCON_OBS_NVAR(handler);
-			phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
-			phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
-	
-			PHALCON_INIT_NVAR(sufixed);
-			PHALCON_CONCAT_VV(sufixed, handler, controller_sufix);
-	
-			PHALCON_INIT_NVAR(handler_annotations);
-			PHALCON_CALL_METHOD_PARAMS_1_KEY(handler_annotations, annotations_service, "get", sufixed, 2090288933UL);
-	
-			PHALCON_INIT_NVAR(class_annotations);
-			PHALCON_CALL_METHOD(class_annotations, handler_annotations, "getclassannotations");
-			if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
-	
-				PHALCON_INIT_NVAR(annotations);
-				PHALCON_CALL_METHOD(annotations, class_annotations, "getannotations");
-				if (Z_TYPE_P(annotations) == IS_ARRAY) { 
-	
-					if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+					PHALCON_OBS_NVAR(dependency_injector);
+					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
 						return;
 					}
 	
+					PHALCON_INIT_NVAR(service);
+					ZVAL_STRING(service, "annotations", 1);
 	
-					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
-	
-						PHALCON_GET_FOREACH_VALUE(annotation);
-	
-						PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "processcontrollerannotation", handler, annotation, 1441174403UL);
-	
-						zend_hash_move_forward_ex(ah1, &hp1);
-					}
-	
-				}
-			}
-	
-			PHALCON_INIT_NVAR(method_annotations);
-			PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodannotations");
-			if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
-	
-				if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
-					return;
+					PHALCON_INIT_NVAR(annotations_service);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(annotations_service, dependency_injector, "getshared", service, 1727570332UL);
 				}
 	
+				PHALCON_OBS_NVAR(handler);
+				phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
+				phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
 	
-				while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+				PHALCON_INIT_NVAR(sufixed);
+				PHALCON_CONCAT_VV(sufixed, handler, controller_sufix);
 	
-					PHALCON_GET_FOREACH_KEY(method, ah2, hp2);
-					PHALCON_GET_FOREACH_VALUE(annotations);
+				PHALCON_INIT_NVAR(handler_annotations);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(handler_annotations, annotations_service, "get", sufixed, 2090288933UL);
 	
+				PHALCON_INIT_NVAR(class_annotations);
+				PHALCON_CALL_METHOD(class_annotations, handler_annotations, "getclassannotations");
+				if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+	
+					PHALCON_INIT_NVAR(annotations);
+					PHALCON_CALL_METHOD(annotations, class_annotations, "getannotations");
 					if (Z_TYPE_P(annotations) == IS_ARRAY) { 
 	
-						if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+						if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 							return;
 						}
 	
 	
-						while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 							PHALCON_GET_FOREACH_VALUE(annotation);
 	
-							PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(this_ptr, "processactionannotation", handler, method, annotation, 3018293437UL);
+							PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "processcontrollerannotation", handler, annotation, 1441174403UL);
 	
-							zend_hash_move_forward_ex(ah3, &hp3);
+							zend_hash_move_forward_ex(ah1, &hp1);
 						}
 	
 					}
-	
-					zend_hash_move_forward_ex(ah2, &hp2);
 				}
 	
+				PHALCON_INIT_NVAR(method_annotations);
+				PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodannotations");
+				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(lowercased);
+					phalcon_fast_strtolower(lowercased, handler);
+	
+					if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+						return;
+					}
+	
+	
+					while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+						PHALCON_GET_FOREACH_KEY(method, ah2, hp2);
+						PHALCON_GET_FOREACH_VALUE(collection);
+	
+						if (Z_TYPE_P(collection) == IS_OBJECT) {
+	
+							PHALCON_INIT_NVAR(annotations);
+							PHALCON_CALL_METHOD(annotations, collection, "getannotations");
+	
+							if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+								return;
+							}
+	
+	
+							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+	
+								PHALCON_GET_FOREACH_VALUE(annotation);
+	
+								PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(this_ptr, "processactionannotation", lowercased, method, annotation, 3018293437UL);
+	
+								zend_hash_move_forward_ex(ah3, &hp3);
+							}
+	
+						}
+	
+						zend_hash_move_forward_ex(ah2, &hp2);
+					}
+	
+				}
 			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
+		phalcon_update_property_bool(this_ptr, SL("_processed"), 1 TSRMLS_CC);
 	}
 	
-	PHALCON_CALL_PARENT_NORETURN(this_ptr, "Phalcon\\Mvc\\Router\\Annotations", "handle");
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Router\\Annotations", "handle", real_uri);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -45720,6 +45758,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(name, annotation, "getname");
+	
 	if (PHALCON_COMPARE_STRING(name, "RoutePrefix")) {
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
@@ -45734,10 +45773,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 
-	zval *controller, *action, *annotation, *action_sufix;
-	zval *empty_str, *real_action_name, *action_name;
-	zval *route_prefix, *name, *parameter = NULL, *paths = NULL, *position;
-	zval *value, *uri = NULL, *route, *methods;
+	zval *controller, *action, *annotation, *is_route = NULL;
+	zval *methods = NULL, *name, *action_sufix, *empty_str;
+	zval *real_action_name, *action_name, *route_prefix;
+	zval *parameter = NULL, *paths = NULL, *position, *value, *uri = NULL, *route;
+	zval *converts, *convert = NULL, *param = NULL, *route_name;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -45745,24 +45788,61 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(action_sufix);
-	phalcon_read_property(&action_sufix, this_ptr, SL("_actionSufix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(is_route);
+	ZVAL_BOOL(is_route, 0);
 	
-	PHALCON_INIT_VAR(empty_str);
-	ZVAL_STRING(empty_str, "", 1);
-	
-	PHALCON_INIT_VAR(real_action_name);
-	phalcon_fast_str_replace(real_action_name, action_sufix, empty_str, action TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(action_name);
-	phalcon_fast_strtolower(action_name, real_action_name);
-	
-	PHALCON_OBS_VAR(route_prefix);
-	phalcon_read_property(&route_prefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
+	PHALCON_INIT_VAR(methods);
 	
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(name, annotation, "getname");
+	
 	if (PHALCON_COMPARE_STRING(name, "Route")) {
+		ZVAL_BOOL(is_route, 1);
+	} else {
+		if (PHALCON_COMPARE_STRING(name, "Get")) {
+			ZVAL_BOOL(is_route, 1);
+	
+			ZVAL_STRING(methods, "GET", 1);
+		} else {
+			if (PHALCON_COMPARE_STRING(name, "Post")) {
+				ZVAL_BOOL(is_route, 1);
+	
+				PHALCON_INIT_NVAR(methods);
+				ZVAL_STRING(methods, "POST", 1);
+			} else {
+				if (PHALCON_COMPARE_STRING(name, "Put")) {
+					ZVAL_BOOL(is_route, 1);
+	
+					PHALCON_INIT_NVAR(methods);
+					ZVAL_STRING(methods, "PUT", 1);
+				} else {
+					if (PHALCON_COMPARE_STRING(name, "Options")) {
+						ZVAL_BOOL(is_route, 1);
+	
+						PHALCON_INIT_NVAR(methods);
+						ZVAL_STRING(methods, "OPTIONS", 1);
+					}
+				}
+			}
+		}
+	}
+	
+	if (PHALCON_IS_TRUE(is_route)) {
+	
+		PHALCON_OBS_VAR(action_sufix);
+		phalcon_read_property(&action_sufix, this_ptr, SL("_actionSufix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(empty_str);
+		ZVAL_STRING(empty_str, "", 1);
+	
+		PHALCON_INIT_VAR(real_action_name);
+		phalcon_fast_str_replace(real_action_name, action_sufix, empty_str, action TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(action_name);
+		phalcon_fast_strtolower(action_name, real_action_name);
+	
+		PHALCON_OBS_VAR(route_prefix);
+		phalcon_read_property(&route_prefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(parameter);
 		ZVAL_STRING(parameter, "paths", 1);
@@ -45775,35 +45855,80 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		}
 	
 		phalcon_array_update_quick_string(&paths, SS("controller"), 2892024105UL, &controller, PH_COPY | PH_SEPARATE TSRMLS_CC);
-		phalcon_array_update_quick_string(&paths, SS("action"), 502132067UL, &action, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_quick_string(&paths, SS("action"), 502132067UL, &action_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
 	
 		PHALCON_INIT_VAR(value);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(value, annotation, "getargument", position, 3874091272UL);
+	
 		if (Z_TYPE_P(value) != IS_NULL) {
-			PHALCON_INIT_VAR(uri);
-			PHALCON_CONCAT_VV(uri, route_prefix, action_name);
+			if (!PHALCON_COMPARE_STRING(value, "/")) {
+				PHALCON_INIT_VAR(uri);
+				PHALCON_CONCAT_VV(uri, route_prefix, value);
+			} else {
+				PHALCON_CPY_WRT(uri, route_prefix);
+			}
 		} else {
-			PHALCON_CPY_WRT(uri, route_prefix);
+			PHALCON_INIT_NVAR(uri);
+			PHALCON_CONCAT_VV(uri, route_prefix, action_name);
 		}
 	
 		PHALCON_INIT_VAR(route);
 		PHALCON_CALL_METHOD_PARAMS_2_KEY(route, this_ptr, "add", uri, paths, 2090071694UL);
+		if (Z_TYPE_P(methods) == IS_NULL) {
+	
+			PHALCON_INIT_NVAR(parameter);
+			ZVAL_STRING(parameter, "methods", 1);
+	
+			PHALCON_INIT_NVAR(methods);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(methods, annotation, "getnamedparameter", parameter, 3202516043UL);
+			if (Z_TYPE_P(methods) == IS_ARRAY) { 
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 2090831717UL);
+			} else {
+				if (Z_TYPE_P(methods) == IS_STRING) {
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 2090831717UL);
+				}
+			}
+		} else {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 2090831717UL);
+		}
 	
 		PHALCON_INIT_NVAR(parameter);
-		ZVAL_STRING(parameter, "methods", 1);
+		ZVAL_STRING(parameter, "converts", 1);
 	
-		PHALCON_INIT_VAR(methods);
-		PHALCON_CALL_METHOD_PARAMS_1_KEY(methods, annotation, "getnamedparameter", parameter, 3202516043UL);
-		if (Z_TYPE_P(methods) == IS_ARRAY) { 
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 2090831717UL);
-		} else {
-			if (Z_TYPE_P(methods) == IS_STRING) {
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 2090831717UL);
+		PHALCON_INIT_VAR(converts);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(converts, annotation, "getnamedparameter", parameter, 3202516043UL);
+		if (Z_TYPE_P(converts) == IS_ARRAY) { 
+	
+			if (!phalcon_is_iterable(converts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
 			}
+	
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(param, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(convert);
+	
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(route, "convert", param, convert, 1120996230UL);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
 		}
+	
+		PHALCON_INIT_NVAR(parameter);
+		ZVAL_STRING(parameter, "name", 1);
+	
+		PHALCON_INIT_VAR(route_name);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(route_name, annotation, "getnamedparameter", parameter, 3202516043UL);
+		if (Z_TYPE_P(route_name) == IS_STRING) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "setname", route_name, 311681298UL);
+		}
+	
+		RETURN_MM_TRUE;
 	}
 	
 	PHALCON_MM_RESTORE();
@@ -73145,6 +73270,39 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	RETURN_CTOR(annotations);
 }
 
+PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
+
+	zval *doc_block, *file = NULL, *line = NULL, *annotations;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &doc_block, &file, &line) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!file) {
+		PHALCON_INIT_VAR(file);
+	} else {
+		PHALCON_SEPARATE_PARAM(file);
+	}
+	
+	if (!line) {
+		PHALCON_INIT_VAR(line);
+	}
+	
+	if (Z_TYPE_P(file) != IS_STRING) {
+		PHALCON_INIT_NVAR(file);
+		ZVAL_STRING(file, "eval code", 1);
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	if (phannot_parse_annotations(annotations, doc_block, file, line TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
+	RETURN_CTOR(annotations);
+}
+
 
 
 
@@ -73165,6 +73323,7 @@ const phannot_token_names phannot_tokens[] =
 	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
  	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
 	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
 	{  0, NULL }
 };
 
@@ -73234,21 +73393,77 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 
 void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
 
-	int start_mode = 1, i;
+	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
 
 	(*start_lines) = 0;
 
 	for (i = 0; i < length; i++) {
+
 		ch = comment[i];
+
 		if (start_mode) {
 			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
 				continue;
 			}
 			start_mode = 0;
 		}
-		smart_str_appendc(&processed_str, ch);
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
 		if (ch == '\n') {
 			(*start_lines)++;
 			start_mode = 1;
@@ -73300,6 +73515,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	state->active_token = 0;
@@ -73383,6 +73599,9 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			case PHANNOT_T_IDENTIFIER:
 				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
 				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
 
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
@@ -73536,7 +73755,7 @@ static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
 	return ret;
 }
 
-static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr, phannot_scanner_state *state)
+static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
 {
 	zval *ret;
 
@@ -73547,10 +73766,6 @@ static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr, phan
 		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
 		efree(name);
 	}
-
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
 
 	return ret;
 }
@@ -73581,8 +73796,34 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 	return ret;
 }
 
+/*static zval *phannot_ret_docblock_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
+{
 
-// 143 "parser.c"
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHANNOT_T_DOCBLOCK_ANNOTATION);
+
+	if (name) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name);
+	}
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}*/
+
+
+// 165 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -73625,23 +73866,23 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 **                       defined, then do no error processing.
 */
 #define JJCODETYPE unsigned char
-#define JJNOCODE 28
+#define JJNOCODE 29
 #define JJACTIONTYPE unsigned char
 #define phannot_JTOKENTYPE phannot_parser_token*
 typedef union {
   phannot_JTOKENTYPE jj0;
-  zval* jj36;
-  int jj55;
+  zval* jj8;
+  int jj57;
 } JJMINORTYPE;
 #define JJSTACKDEPTH 100
 #define phannot_ARG_SDECL phannot_parser_status *status;
 #define phannot_ARG_PDECL ,phannot_parser_status *status
 #define phannot_ARG_FETCH phannot_parser_status *status = jjpParser->status
 #define phannot_ARG_STORE jjpParser->status = status
-#define JJNSTATE 40
-#define JJNRULE 25
+#define JJNSTATE 41
+#define JJNRULE 26
 #define JJERRORSYMBOL 18
-#define JJERRSYMDT jj55
+#define JJERRSYMDT jj57
 #define JJ_NO_ACTION      (JJNSTATE+JJNRULE+2)
 #define JJ_ACCEPT_ACTION  (JJNSTATE+JJNRULE+1)
 #define JJ_ERROR_ACTION   (JJNSTATE+JJNRULE)
@@ -73694,48 +73935,53 @@ typedef union {
 **  jj_default[]       Default action for each state.
 */
 static JJACTIONTYPE jj_action[] = {
- /*     0 */     4,   28,   15,   38,   12,   14,   16,   18,   20,   21,
- /*    10 */    22,   23,   24,    4,   31,    4,   28,   15,   40,   12,
- /*    20 */    30,   16,   18,   20,   21,   22,   23,   24,    3,   31,
- /*    30 */     4,   17,   15,    6,   19,   35,   16,   18,   20,   21,
- /*    40 */    22,   23,   24,    5,   31,   15,    7,   27,   11,   16,
- /*    50 */    54,   54,   15,   25,   27,   11,   16,   15,   32,   27,
- /*    60 */    11,   16,   66,    1,    2,   39,   41,   15,    4,   10,
- /*    70 */    11,   16,   15,    9,    9,   37,   16,    8,   13,   36,
- /*    80 */     9,   29,   34,   54,   54,   54,   54,   54,   26,   54,
- /*    90 */    54,   54,   54,   54,   54,   54,   33,
+ /*     0 */     5,   29,   16,   39,   13,   15,   17,   19,   21,   22,
+ /*    10 */    23,   24,   25,    5,   32,    5,   29,   16,   41,   13,
+ /*    20 */    31,   17,   19,   21,   22,   23,   24,   25,    6,   32,
+ /*    30 */     5,   18,   16,    7,   20,   36,   17,   19,   21,   22,
+ /*    40 */    23,   24,   25,   56,   32,   68,    1,    2,   40,    4,
+ /*    50 */    16,    8,   28,   12,   17,   16,   26,   28,   12,   17,
+ /*    60 */    56,   16,   33,   28,   12,   17,   16,   56,   11,   12,
+ /*    70 */    17,   16,    3,    4,   38,   17,   42,   56,    5,   56,
+ /*    80 */    10,   14,   37,   10,    9,   10,   56,   56,   30,   35,
+ /*    90 */    56,   56,   56,   56,   56,   56,   56,   27,   56,   56,
+ /*   100 */    56,   34,
 };
 static JJCODETYPE jj_lookahead[] = {
- /*     0 */     2,    3,   22,    5,    6,   25,   26,    9,   10,   11,
- /*    10 */    12,   13,   14,    2,   16,    2,    3,   22,    0,    6,
- /*    20 */    25,   26,    9,   10,   11,   12,   13,   14,   22,   16,
- /*    30 */     2,    3,   22,    4,    6,   25,   26,    9,   10,   11,
- /*    40 */    12,   13,   14,    3,   16,   22,   23,   24,   25,   26,
- /*    50 */    27,   27,   22,   23,   24,   25,   26,   22,   23,   24,
- /*    60 */    25,   26,   19,   20,   21,   22,    0,   22,    2,   24,
- /*    70 */    25,   26,   22,    1,    1,   25,   26,    5,    7,    8,
- /*    80 */     1,    7,    8,   27,   27,   27,   27,   27,   15,   27,
- /*    90 */    27,   27,   27,   27,   27,   27,   17,
+ /*     0 */     2,    3,   23,    5,    6,   26,   27,    9,   10,   11,
+ /*    10 */    12,   13,   14,    2,   16,    2,    3,   23,    0,    6,
+ /*    20 */    26,   27,    9,   10,   11,   12,   13,   14,    3,   16,
+ /*    30 */     2,    3,   23,    4,    6,   26,   27,    9,   10,   11,
+ /*    40 */    12,   13,   14,   28,   16,   19,   20,   21,   22,   23,
+ /*    50 */    23,   24,   25,   26,   27,   23,   24,   25,   26,   27,
+ /*    60 */    28,   23,   24,   25,   26,   27,   23,   28,   25,   26,
+ /*    70 */    27,   23,   22,   23,   26,   27,    0,   28,    2,   28,
+ /*    80 */     1,    7,    8,    1,    5,    1,   28,   28,    7,    8,
+ /*    90 */    28,   28,   28,   28,   28,   28,   28,   15,   28,   28,
+ /*   100 */    28,   17,
 };
 #define JJ_SHIFT_USE_DFLT (-3)
 static signed char jj_shift_ofst[] = {
- /*     0 */    11,   18,   66,   -3,   40,   29,   -2,   72,   -3,   13,
- /*    10 */    -3,   -3,   71,   28,   -3,   -3,   -3,   -3,   -3,   -3,
- /*    20 */    -3,   -3,   -3,   -3,   13,   73,   -3,   -3,   74,   28,
- /*    30 */    -3,   13,   79,   -3,   28,   -3,   28,   -3,   -3,   -3,
+ /*     0 */    11,   18,   76,   -3,   -3,   25,   29,   -2,   79,   -3,
+ /*    10 */    13,   -3,   -3,   74,   28,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   -3,   13,   82,   -3,   -3,   81,
+ /*    30 */    28,   -3,   13,   84,   -3,   28,   -3,   28,   -3,   -3,
+ /*    40 */    -3,
 };
-#define JJ_REDUCE_USE_DFLT (-21)
+#define JJ_REDUCE_USE_DFLT (-22)
 static signed char jj_reduce_ofst[] = {
- /*     0 */    43,  -21,    6,  -21,  -21,  -21,   23,  -21,  -21,   45,
- /*    10 */   -21,  -21,  -21,  -20,  -21,  -21,  -21,  -21,  -21,  -21,
- /*    20 */   -21,  -21,  -21,  -21,   30,  -21,  -21,  -21,  -21,   -5,
- /*    30 */   -21,   35,  -21,  -21,   10,  -21,   50,  -21,  -21,  -21,
+ /*     0 */    26,  -22,   50,  -22,  -22,  -22,  -22,   27,  -22,  -22,
+ /*    10 */    43,  -22,  -22,  -22,  -21,  -22,  -22,  -22,  -22,  -22,
+ /*    20 */   -22,  -22,  -22,  -22,  -22,   32,  -22,  -22,  -22,  -22,
+ /*    30 */    -6,  -22,   38,  -22,  -22,    9,  -22,   48,  -22,  -22,
+ /*    40 */   -22,
 };
 static JJACTIONTYPE jj_default[] = {
- /*     0 */    65,   65,   65,   42,   65,   46,   65,   65,   44,   65,
- /*    10 */    47,   49,   58,   65,   50,   54,   55,   56,   57,   58,
- /*    20 */    59,   60,   61,   62,   65,   65,   63,   48,   56,   65,
- /*    30 */    52,   65,   65,   64,   65,   53,   65,   51,   45,   43,
+ /*     0 */    67,   67,   67,   43,   45,   67,   48,   67,   67,   46,
+ /*    10 */    67,   49,   51,   60,   67,   52,   56,   57,   58,   59,
+ /*    20 */    60,   61,   62,   63,   64,   67,   67,   65,   50,   58,
+ /*    30 */    67,   54,   67,   67,   66,   67,   55,   67,   53,   47,
+ /*    40 */    44,
 };
 #define JJ_SZ_ACTTAB (sizeof(jj_action)/sizeof(jj_action[0]))
 
@@ -73808,8 +74054,8 @@ static const char *jjTokenName[] = {
   "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
   "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
-  "annotation_language",  "annotation_list",  "annotation",    "argument_list",
-  "argument_item",  "expr",          "array",       
+  "annotation_language",  "annotation_list",  "annotation_item",  "annotation",  
+  "argument_list",  "argument_item",  "expr",          "array",       
 };
 #endif /* NDEBUG */
 
@@ -73819,29 +74065,30 @@ static const char *jjTokenName[] = {
 static const char *jjRuleName[] = {
  /*   0 */ "program ::= annotation_language",
  /*   1 */ "annotation_language ::= annotation_list",
- /*   2 */ "annotation_list ::= annotation_list annotation",
- /*   3 */ "annotation_list ::= annotation",
- /*   4 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
- /*   6 */ "annotation ::= AT IDENTIFIER",
- /*   7 */ "argument_list ::= argument_list COMMA argument_item",
- /*   8 */ "argument_list ::= argument_item",
- /*   9 */ "argument_item ::= expr",
- /*  10 */ "argument_item ::= STRING EQUALS expr",
- /*  11 */ "argument_item ::= STRING COLON expr",
- /*  12 */ "argument_item ::= IDENTIFIER EQUALS expr",
- /*  13 */ "argument_item ::= IDENTIFIER COLON expr",
- /*  14 */ "expr ::= annotation",
- /*  15 */ "expr ::= array",
- /*  16 */ "expr ::= IDENTIFIER",
- /*  17 */ "expr ::= INTEGER",
- /*  18 */ "expr ::= STRING",
- /*  19 */ "expr ::= DOUBLE",
- /*  20 */ "expr ::= NULL",
- /*  21 */ "expr ::= FALSE",
- /*  22 */ "expr ::= TRUE",
- /*  23 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  24 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
+ /*   2 */ "annotation_list ::= annotation_list annotation_item",
+ /*   3 */ "annotation_list ::= annotation_item",
+ /*   4 */ "annotation_item ::= annotation",
+ /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /*   6 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /*   7 */ "annotation ::= AT IDENTIFIER",
+ /*   8 */ "argument_list ::= argument_list COMMA argument_item",
+ /*   9 */ "argument_list ::= argument_item",
+ /*  10 */ "argument_item ::= expr",
+ /*  11 */ "argument_item ::= STRING EQUALS expr",
+ /*  12 */ "argument_item ::= STRING COLON expr",
+ /*  13 */ "argument_item ::= IDENTIFIER EQUALS expr",
+ /*  14 */ "argument_item ::= IDENTIFIER COLON expr",
+ /*  15 */ "expr ::= annotation",
+ /*  16 */ "expr ::= array",
+ /*  17 */ "expr ::= IDENTIFIER",
+ /*  18 */ "expr ::= INTEGER",
+ /*  19 */ "expr ::= STRING",
+ /*  20 */ "expr ::= DOUBLE",
+ /*  21 */ "expr ::= NULL",
+ /*  22 */ "expr ::= FALSE",
+ /*  23 */ "expr ::= TRUE",
+ /*  24 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  25 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
 };
 #endif /* NDEBUG */
 
@@ -73900,7 +74147,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 207 "parser.lemon"
+// 248 "parser.lemon"
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -73909,15 +74156,18 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 511 "parser.c"
+// 539 "parser.c"
       break;
+    case 20:
     case 21:
     case 22:
     case 23:
     case 24:
-// 224 "parser.lemon"
-{ zval_ptr_dtor(&(jjpminor->jj36)); }
-// 519 "parser.c"
+    case 25:
+    case 26:
+// 261 "parser.lemon"
+{ zval_ptr_dtor(&(jjpminor->jj8)); }
+// 550 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -74058,27 +74308,28 @@ static struct {
   { 20, 1 },
   { 21, 2 },
   { 21, 1 },
-  { 22, 5 },
-  { 22, 4 },
-  { 22, 2 },
-  { 23, 3 },
-  { 23, 1 },
+  { 22, 1 },
+  { 23, 5 },
+  { 23, 4 },
+  { 23, 2 },
+  { 24, 3 },
   { 24, 1 },
-  { 24, 3 },
-  { 24, 3 },
-  { 24, 3 },
-  { 24, 3 },
   { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 25, 1 },
-  { 26, 3 },
-  { 26, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 27, 3 },
+  { 27, 3 },
 };
 
 static void jj_accept(jjParser*);  /* Forward Declaration */
@@ -74112,166 +74363,167 @@ static void jj_reduce(
   **     break;
   */
       case 0:
-// 216 "parser.lemon"
+// 257 "parser.lemon"
 {
-	status->ret = jjmsp[0].minor.jj36;
+	status->ret = jjmsp[0].minor.jj8;
 }
-// 761 "parser.c"
+// 793 "parser.c"
         break;
       case 1:
-      case 14:
+      case 4:
       case 15:
-// 220 "parser.lemon"
+      case 16:
+// 263 "parser.lemon"
 {
-	jjgotominor.jj36 = jjmsp[0].minor.jj36;
+	jjgotominor.jj8 = jjmsp[0].minor.jj8;
 }
-// 770 "parser.c"
+// 803 "parser.c"
         break;
       case 2:
-// 226 "parser.lemon"
+// 269 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-1].minor.jj8, jjmsp[0].minor.jj8);
 }
-// 777 "parser.c"
+// 810 "parser.c"
         break;
       case 3:
-      case 8:
-// 230 "parser.lemon"
+      case 9:
+// 273 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj8);
 }
-// 785 "parser.c"
+// 818 "parser.c"
         break;
-      case 4:
-// 236 "parser.lemon"
+      case 5:
+// 289 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj8, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 795 "parser.c"
+// 828 "parser.c"
         break;
-      case 5:
-// 240 "parser.lemon"
+      case 6:
+// 293 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 805 "parser.c"
-        break;
-      case 6:
-// 244 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
-  jj_destructor(2,&jjmsp[-1].minor);
-}
-// 813 "parser.c"
+// 838 "parser.c"
         break;
       case 7:
-// 250 "parser.lemon"
+// 297 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
-  jj_destructor(1,&jjmsp[-1].minor);
-}
-// 821 "parser.c"
-        break;
-      case 9:
-// 260 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36, status->scanner_state);
-}
-// 828 "parser.c"
-        break;
-      case 10:
-      case 12:
-// 264 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36, status->scanner_state);
-  jj_destructor(7,&jjmsp[-1].minor);
-}
-// 837 "parser.c"
-        break;
-      case 11:
-      case 13:
-// 268 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36, status->scanner_state);
-  jj_destructor(8,&jjmsp[-1].minor);
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
+  jj_destructor(2,&jjmsp[-1].minor);
 }
 // 846 "parser.c"
         break;
-      case 16:
-// 288 "parser.lemon"
+      case 8:
+// 309 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-2].minor.jj8, jjmsp[0].minor.jj8);
+  jj_destructor(1,&jjmsp[-1].minor);
 }
-// 853 "parser.c"
+// 854 "parser.c"
+        break;
+      case 10:
+// 329 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj8);
+}
+// 861 "parser.c"
+        break;
+      case 11:
+      case 13:
+// 333 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(7,&jjmsp[-1].minor);
+}
+// 870 "parser.c"
+        break;
+      case 12:
+      case 14:
+// 337 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(8,&jjmsp[-1].minor);
+}
+// 879 "parser.c"
         break;
       case 17:
-// 292 "parser.lemon"
+// 365 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
 }
-// 860 "parser.c"
+// 886 "parser.c"
         break;
       case 18:
-// 296 "parser.lemon"
+// 369 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 867 "parser.c"
+// 893 "parser.c"
         break;
       case 19:
-// 300 "parser.lemon"
+// 373 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 874 "parser.c"
+// 900 "parser.c"
         break;
       case 20:
-// 304 "parser.lemon"
+// 377 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
-  jj_destructor(11,&jjmsp[0].minor);
-}
-// 882 "parser.c"
-        break;
-      case 21:
-// 308 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
-  jj_destructor(12,&jjmsp[0].minor);
-}
-// 890 "parser.c"
-        break;
-      case 22:
-// 312 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
-  jj_destructor(13,&jjmsp[0].minor);
-}
-// 898 "parser.c"
-        break;
-      case 23:
-// 316 "parser.lemon"
-{
-	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
-  jj_destructor(14,&jjmsp[-2].minor);
-  jj_destructor(15,&jjmsp[0].minor);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
 // 907 "parser.c"
         break;
-      case 24:
-// 320 "parser.lemon"
+      case 21:
+// 381 "parser.lemon"
 {
-	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
+  jj_destructor(11,&jjmsp[0].minor);
+}
+// 915 "parser.c"
+        break;
+      case 22:
+// 385 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
+  jj_destructor(12,&jjmsp[0].minor);
+}
+// 923 "parser.c"
+        break;
+      case 23:
+// 389 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
+  jj_destructor(13,&jjmsp[0].minor);
+}
+// 931 "parser.c"
+        break;
+      case 24:
+// 393 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+  jj_destructor(14,&jjmsp[-2].minor);
+  jj_destructor(15,&jjmsp[0].minor);
+}
+// 940 "parser.c"
+        break;
+      case 25:
+// 397 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 916 "parser.c"
+// 949 "parser.c"
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -74307,7 +74559,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 163 "parser.lemon"
+// 185 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		{
@@ -74316,6 +74568,7 @@ static void jj_syntax_error(
 			const phannot_token_names *tokens = phannot_tokens;
 			int token_found = 0;
 			int active_token = status->scanner_state->active_token;
+			int near_length = status->scanner_state->start_length;
 
 			if (active_token) {
 				do {
@@ -74333,9 +74586,27 @@ static void jj_syntax_error(
 				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
 			}
 
-			status->syntax_error_len = 64 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
+			status->syntax_error_len = 128 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
 			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
-			sprintf(status->syntax_error, "Syntax error, unexpected token %s in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+
+			if (near_length > 0) {
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				}
+			} else {
+				if (active_token != PHANNOT_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d");
+				}
+				status->syntax_error[status->syntax_error_len-1] = '\0';
+			}
 
 			if (!token_found) {
 				if (token_name) {
@@ -74351,7 +74622,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1002 "parser.c"
+// 1054 "parser.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -74537,6 +74808,7 @@ const phannot_token_names phannot_tokens[] =
 	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
  	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
 	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
 	{  0, NULL }
 };
 
@@ -74606,21 +74878,77 @@ int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval
 
 void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
 
-	int start_mode = 1, i;
+	int start_mode = 1, j, i, open_parentheses;
 	smart_str processed_str = {0};
 	char ch;
 
 	(*start_lines) = 0;
 
 	for (i = 0; i < length; i++) {
+
 		ch = comment[i];
+
 		if (start_mode) {
 			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
 				continue;
 			}
 			start_mode = 0;
 		}
-		smart_str_appendc(&processed_str, ch);
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
 		if (ch == '\n') {
 			(*start_lines)++;
 			start_mode = 1;
@@ -74672,6 +75000,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 	parser_status->status = PHANNOT_PARSING_OK;
 	parser_status->scanner_state = state;
 	parser_status->ret = NULL;
+	parser_status->token = &token;
 	parser_status->syntax_error = NULL;
 
 	state->active_token = 0;
@@ -74755,6 +75084,9 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 			case PHANNOT_T_IDENTIFIER:
 				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
 				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
 
 			default:
 				parser_status->status = PHANNOT_PARSING_FAILED;
@@ -74986,7 +75318,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation){
 
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 
-	zval *reflection_data, *name, *arguments, *expr_arguments;
+	zval *reflection_data, *name = NULL, *arguments, *expr_arguments;
 	zval *argument = NULL, *expr = NULL, *resolved_argument = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
@@ -75029,7 +75361,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 	
 			PHALCON_INIT_NVAR(resolved_argument);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(resolved_argument, this_ptr, "getexpression", expr, 2208543925UL);
-			phalcon_array_append(&arguments, resolved_argument, PH_SEPARATE TSRMLS_CC);
+			if (phalcon_array_isset_quick_string(argument, SS("name"), 268211462UL)) {
+				PHALCON_OBS_NVAR(name);
+				phalcon_array_fetch_quick_string(&name, argument, SS("name"), 268211462UL, PH_NOISY_CC);
+				phalcon_array_update_zval(&arguments, name, &resolved_argument, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_append(&arguments, resolved_argument, PH_SEPARATE TSRMLS_CC);
+			}
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -75050,7 +75388,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName){
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 
 	zval *expr = NULL, *type, *value = NULL, *array_value, *items, *item = NULL;
-	zval *resolved_item = NULL, *exception_message;
+	zval *resolved_item = NULL, *name = NULL, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -75088,6 +75426,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 574111618UL, PH_NOISY_CC);
 			RETURN_CCTOR(value);
 	
+		case 307:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 574111618UL, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
 		case 304:
 			RETURN_MM_NULL();
 	
@@ -75118,7 +75461,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 	
 				PHALCON_INIT_NVAR(resolved_item);
 				PHALCON_CALL_METHOD_PARAMS_1_KEY(resolved_item, this_ptr, "getexpression", expr, 2208543925UL);
-				phalcon_array_append(&array_value, resolved_item, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_array_isset_quick_string(item, SS("name"), 268211462UL)) {
+					PHALCON_OBS_NVAR(name);
+					phalcon_array_fetch_quick_string(&name, item, SS("name"), 268211462UL, PH_NOISY_CC);
+					phalcon_array_update_zval(&array_value, name, &resolved_item, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_array_append(&array_value, resolved_item, PH_SEPARATE TSRMLS_CC);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -75147,6 +75496,20 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArguments){
 
 
 	RETURN_MEMBER(this_ptr, "_arguments");
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
+
+	zval *arguments, *number;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(number);
+	phalcon_fast_count(number, arguments TSRMLS_CC);
+	RETURN_NCTOR(number);
 }
 
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
@@ -75189,23 +75552,49 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 	RETURN_MM_FALSE;
 }
 
-PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 
-	zval *arguments, *number;
+	zval *name, *arguments, *value;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
 	PHALCON_OBS_VAR(arguments);
 	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arguments, name, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
 	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, arguments TSRMLS_CC);
-	RETURN_NCTOR(number);
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
+
+	zval *name, *arguments;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
 }
 
 
 
-/* Generated by re2c 0.13.5 on Sat Jan 12 17:21:13 2013 */
+/* Generated by re2c 0.13.5 on Sat Jan 12 22:26:44 2013 */
 // 1 "scanner.re"
 
 
