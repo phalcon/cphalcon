@@ -654,7 +654,7 @@ int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
 /* Utils functions */
 void phalcon_inherit_not_found(char *class_name, char *inherit_name);
-int phalcon_valid_foreach(zval *arr TSRMLS_DC);
+int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
 /* Virtual symbol tables */
 void phalcon_create_symbol_table(TSRMLS_D);
@@ -765,13 +765,20 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 
 /** Foreach */
 #define PHALCON_GET_FOREACH_KEY(var, hash, hash_pointer) \
-	PHALCON_INIT_NVAR(var); \
-	hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
-	if (hash_type == HASH_KEY_IS_STRING) { \
-		ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
-	} else { \
-		if (hash_type == HASH_KEY_IS_LONG) { \
-			ZVAL_LONG(var, hash_num); \
+	{\
+		int hash_type; \
+		char *hash_index; \
+		uint hash_index_len; \
+		ulong hash_num; \
+		 \
+		PHALCON_INIT_NVAR(var); \
+		hash_type = zend_hash_get_current_key_ex(hash, &hash_index, &hash_index_len, &hash_num, 0, &hash_pointer); \
+		if (hash_type == HASH_KEY_IS_STRING) { \
+			ZVAL_STRINGL(var, hash_index, hash_index_len-1, 1); \
+		} else { \
+			if (hash_type == HASH_KEY_IS_LONG) { \
+				ZVAL_LONG(var, hash_num); \
+			}\
 		}\
 	}
 
@@ -1583,7 +1590,7 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 
 
-void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
+void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 
 	/* Memory options */
 	phalcon_globals->start_memory = NULL;
@@ -1611,7 +1618,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC){
 	phalcon_globals->db.escape_identifiers = 1;
 }
 
-zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC){
+zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC) {
 
 	zend_class_entry *ce, **pce;
 
@@ -1627,7 +1634,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 	return ce;
 }
 
-int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
+int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -1641,7 +1648,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC){
 	return SUCCESS;
 }
 
-int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC){
+int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC) {
 
 	zval **gv;
 
@@ -1669,7 +1676,7 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 	return SUCCESS;
 }
 
-void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
+void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
@@ -1712,48 +1719,49 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC){
 	ZVAL_LONG(result, 1);
 }
 
-int phalcon_fast_count_ev(zval *value TSRMLS_DC){
+int phalcon_fast_count_ev(zval *value TSRMLS_DC) {
 
 	long count = 0;
 
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		return (int) zend_hash_num_elements(Z_ARRVAL_P(value)) > 0;
-	} else {
-		if (Z_TYPE_P(value) == IS_OBJECT) {
+	}
 
-			#ifdef HAVE_SPL
-			zval *retval = NULL;
-			#endif
+	if (Z_TYPE_P(value) == IS_OBJECT) {
 
-			if (Z_OBJ_HT_P(value)->count_elements) {
-				Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+		#ifdef HAVE_SPL
+		zval *retval = NULL;
+		#endif
+
+		if (Z_OBJ_HT_P(value)->count_elements) {
+			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			return (int) count > 0;
+		}
+
+		#ifdef HAVE_SPL
+		if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
+			zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
+			if (retval) {
+				convert_to_long_ex(&retval);
+				count = Z_LVAL_P(retval);
+				zval_ptr_dtor(&retval);
 				return (int) count > 0;
 			}
-
-			#ifdef HAVE_SPL
-			if (Z_OBJ_HT_P(value)->get_class_entry && instanceof_function(Z_OBJCE_P(value), spl_ce_Countable TSRMLS_CC)) {
-				zend_call_method_with_0_params(&value, NULL, NULL, "count", &retval);
-				if (retval) {
-					convert_to_long_ex(&retval);
-					count = Z_LVAL_P(retval);
-					zval_ptr_dtor(&retval);
-					return (int) count > 0;
-				}
-				return 0;
-			}
-			#endif
-
 			return 0;
-		} else {
-			if (Z_TYPE_P(value) == IS_NULL) {
-				return 0;
-			}
+		}
+		#endif
+
+		return 0;
+	} else {
+		if (Z_TYPE_P(value) == IS_NULL) {
+			return 0;
 		}
 	}
+
 	return 1;
 }
 
-int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC){
+int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC) {
 
 	if (zend_hash_exists(CG(function_table), method_name, method_len)) {
 		return SUCCESS;
@@ -1762,7 +1770,7 @@ int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS
 	return FAILURE;
 }
 
-int phalcon_is_callable(zval *var TSRMLS_DC){
+int phalcon_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
 	zend_bool retval;
@@ -1819,7 +1827,7 @@ void phalcon_clean_symbol_tables(TSRMLS_D) {
 	}
 }
 
-int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
+int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -1838,7 +1846,7 @@ int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC){
 	return SUCCESS;
 }
 
-int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC){
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
 
 	if (!EG(active_symbol_table)) {
 		zend_rebuild_symbol_table(TSRMLS_C);
@@ -1855,16 +1863,32 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 	return SUCCESS;
 }
 
-int phalcon_valid_foreach(zval *arr TSRMLS_DC){
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
-		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Invalid argument supplied for foreach()");
+int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
+
+	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
+		php_error_docref(NULL TSRMLS_CC, E_ERROR, "The argument is not iterable()");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return 0;
 	}
+
+	if (duplicate) {
+		ALLOC_HASHTABLE(*arr_hash);
+		zend_hash_init(*arr_hash, 0, NULL, NULL, 0);
+		zend_hash_copy(*arr_hash, Z_ARRVAL_P(arr), NULL, NULL, sizeof(zval*));
+	} else {
+		*arr_hash = Z_ARRVAL_P(arr);
+	}
+
+	if (reverse) {
+		zend_hash_internal_pointer_end_ex(*arr_hash, hash_position);
+	} else {
+		zend_hash_internal_pointer_reset_ex(*arr_hash, hash_position);
+	}
+
 	return 1;
 }
 
-void phalcon_inherit_not_found(char *class_name, char *inherit_name){
+void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 	fprintf(stderr, "Phalcon Error: Class to extend '%s' was not found when registering class '%s'\n", class_name, inherit_name);
 }
 
@@ -5184,6 +5208,7 @@ int phalcon_property_decr(zval *object, char *property_name, unsigned int proper
 
 
 
+
 #define PH_RANDOM_ALNUM 0
 #define PH_RANDOM_ALPHA 1
 #define PH_RANDOM_HEXDEC 2
@@ -5343,6 +5368,7 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 
 	if (Z_TYPE_P(str) != IS_STRING) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for camelize()");
+		RETURN_EMPTY_STRING();
 		return;
 	}
 
@@ -5373,9 +5399,9 @@ void phalcon_camelize(zval *return_value, zval *str TSRMLS_DC){
 	smart_str_0(&camelize_str);
 
 	if (camelize_str.len) {
-		ZVAL_STRINGL(return_value, camelize_str.c, camelize_str.len, 0);
+		RETURN_STRINGL(camelize_str.c, camelize_str.len, 0);
 	} else {
-		ZVAL_STRING(return_value, "", 1);
+		RETURN_EMPTY_STRING();
 	}
 
 }
@@ -5407,9 +5433,9 @@ void phalcon_uncamelize(zval *return_value, zval *str TSRMLS_DC){
 	smart_str_0(&uncamelize_str);
 
 	if (uncamelize_str.len) {
-		ZVAL_STRINGL(return_value, uncamelize_str.c, uncamelize_str.len, 0);
+		RETURN_STRINGL(uncamelize_str.c, uncamelize_str.len, 0);
 	} else {
-		ZVAL_STRING(return_value, "", 1);
+		RETURN_EMPTY_STRING();
 	}
 }
 
@@ -6532,7 +6558,12 @@ void phalcon_escape_htmlattr(zval *return_value, zval *param) {
 
 void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval *charset TSRMLS_DC) {
 
+	#if PHP_VERSION_ID < 50400
 	int length;
+	#else
+	unsigned int length;
+	#endif
+
 	char *escaped;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
@@ -6551,6 +6582,7 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 	}
 
 	escaped = php_escape_html_entities((unsigned char*) Z_STRVAL_P(str), Z_STRLEN_P(str), &length, 0, Z_LVAL_P(quote_style), Z_STRVAL_P(charset) TSRMLS_CC);
+
 	RETURN_STRINGL(escaped, length, 0);
 }
 
@@ -8737,6 +8769,7 @@ int PHALCON_FASTCALL phalcon_internal_require(zval *return_value, zval *require_
 
 				destroy_op_array(new_op_array TSRMLS_CC);
 				efree(new_op_array);
+
 				if (!EG(exception)) {
 					if (EG(return_value_ptr_ptr)) {
 						if (return_value) {
@@ -9312,6 +9345,118 @@ int phalcon_exp_call_method(zend_fcall_info *fci, zend_class_entry *ce, char *ke
 
 #endif
 
+#define PHANNOT_COMMA                           1
+#define PHANNOT_AT                              2
+#define PHANNOT_IDENTIFIER                      3
+#define PHANNOT_PARENTHESES_OPEN                4
+#define PHANNOT_PARENTHESES_CLOSE               5
+#define PHANNOT_STRING                          6
+#define PHANNOT_EQUALS                          7
+#define PHANNOT_COLON                           8
+#define PHANNOT_INTEGER                         9
+#define PHANNOT_DOUBLE                         10
+#define PHANNOT_NULL                           11
+#define PHANNOT_FALSE                          12
+#define PHANNOT_TRUE                           13
+#define PHANNOT_BRACKET_OPEN                   14
+#define PHANNOT_BRACKET_CLOSE                  15
+#define PHANNOT_SBRACKET_OPEN                  16
+#define PHANNOT_SBRACKET_CLOSE                 17
+
+
+
+
+#define PHANNOT_SCANNER_RETCODE_EOF -1
+#define PHANNOT_SCANNER_RETCODE_ERR -2
+#define PHANNOT_SCANNER_RETCODE_IMPOSSIBLE -3
+
+/** Modes */
+#define PHANNOT_MODE_RAW 0
+#define PHANNOT_MODE_ANNOTATION 1
+
+#define PHANNOT_T_IGNORE 297
+
+#define PHANNOT_T_DOCBLOCK_ANNOTATION 299
+#define PHANNOT_T_ANNOTATION 300
+
+/* Literals & Identifiers */
+#define PHANNOT_T_INTEGER 301
+#define PHANNOT_T_DOUBLE 302
+#define PHANNOT_T_STRING 303
+#define PHANNOT_T_NULL 304
+#define PHANNOT_T_FALSE 305
+#define PHANNOT_T_TRUE 306
+#define PHANNOT_T_IDENTIFIER 307
+#define PHANNOT_T_ARRAY 308
+#define PHANNOT_T_ARBITRARY_TEXT 309
+
+/* Operators */
+#define PHANNOT_T_AT '@'
+#define PHANNOT_T_DOT '.'
+#define PHANNOT_T_COMMA ','
+#define PHANNOT_T_EQUALS '='
+#define PHANNOT_T_COLON ':'
+#define PHANNOT_T_BRACKET_OPEN '{'
+#define PHANNOT_T_BRACKET_CLOSE '}'
+#define PHANNOT_T_SBRACKET_OPEN '['
+#define PHANNOT_T_SBRACKET_CLOSE ']'
+#define PHANNOT_T_PARENTHESES_OPEN '('
+#define PHANNOT_T_PARENTHESES_CLOSE ')'
+
+/* List of tokens and their names */
+typedef struct _phannot_token_names {
+	unsigned int code;
+	char *name;
+} phannot_token_names;
+
+/* Active token state */
+typedef struct _phannot_scanner_state {
+	int active_token;
+	char* start;
+	char* end;
+	unsigned int start_length;
+	int mode;
+	unsigned int active_line;
+	zval *active_file;
+} phannot_scanner_state;
+
+/* Extra information tokens */
+typedef struct _phannot_scanner_token {
+	int opcode;
+	char *value;
+	int len;
+} phannot_scanner_token;
+
+int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token);
+
+const phannot_token_names phannot_tokens[];
+
+
+
+
+typedef struct _phannot_parser_token {
+	int opcode;
+	char *token;
+	int token_len;
+	int free_flag;
+} phannot_parser_token;
+
+typedef struct _phannot_parser_status {
+	int status;
+	zval *ret;
+	phannot_scanner_state *scanner_state;
+	phannot_scanner_token *token;
+	char *syntax_error;
+	zend_uint syntax_error_len;
+} phannot_parser_status;
+
+#define PHANNOT_PARSING_OK 1
+#define PHANNOT_PARSING_FAILED 0
+
+int phannot_parse_annotations(zval *result, zval *view_code, zval *template_path, zval *line TSRMLS_DC);
+int phannot_internal_parse_annotations(zval **result, zval *view_code, zval *template_path, zval *line, zval **error_msg TSRMLS_DC);
+
+
 
 
 #define PDO_ATTR_ERRMODE 3
@@ -9611,12 +9756,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 	
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access_list);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -9677,12 +9820,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 
 	if (Z_TYPE_P(access_list) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(access_list TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access_list);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -9758,12 +9899,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		PHALCON_OBS_VAR(access_list);
 		phalcon_read_property(&access_list, this_ptr, SL("_accessList"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(access);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -9782,12 +9921,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		}
 	
 	
-		if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(access);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -9930,10 +10067,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -9982,12 +10115,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	PHALCON_OBS_VAR(access_roles);
 	phalcon_array_fetch(&access_roles, t0, role, PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
+	if (!phalcon_is_iterable(access_roles, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(access_roles);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -10013,12 +10144,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	
 	if (Z_TYPE_P(have_access) == IS_NULL) {
 	
-		if (!phalcon_valid_foreach(access_roles TSRMLS_CC)) {
+		if (!phalcon_is_iterable(access_roles, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(access_roles);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -10069,10 +10198,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -10083,13 +10208,13 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	phalcon_fast_count(number_roles, roles TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(pow_roles);
-	mul_function(pow_roles, number_roles, number_roles TSRMLS_CC);
+	Z_LVAL_P(pow_roles) = Z_LVAL_P(number_roles) * Z_LVAL_P(number_roles);
 	
 	PHALCON_INIT_VAR(two);
 	ZVAL_LONG(two, 2);
 	
 	PHALCON_INIT_VAR(middle_roles);
-	div_function(middle_roles, pow_roles, two TSRMLS_CC);
+	ZVAL_DOUBLE(middle_roles, Z_LVAL_P(pow_roles) / Z_LVAL_P(two));
 	
 	PHALCON_INIT_VAR(middle);
 	PHALCON_CALL_FUNC_PARAMS_1(middle, "ceil", middle_roles);
@@ -10102,22 +10227,20 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	
 	PHALCON_INIT_VAR(i);
 	ZVAL_LONG(i, 0);
-	ph_cycle_start_0:
+	while (1) {
 	
 		PHALCON_INIT_NVAR(r0);
 		is_smaller_or_equal_function(r0, i, middle TSRMLS_CC);
-		if (!zend_is_true(r0)) {
-			goto ph_cycle_end_0;
+		if (zend_is_true(r0)) {
+			break;
 		}
 		PHALCON_OBS_NVAR(internal_access);
 		phalcon_read_property(&internal_access, this_ptr, SL("_access"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(roles_names TSRMLS_CC)) {
+		if (!phalcon_is_iterable(roles_names, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(roles_names);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -10129,12 +10252,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 				PHALCON_OBS_NVAR(r1);
 				phalcon_array_fetch(&r1, roles_inherits, role_name, PH_NOISY_CC);
 	
-				if (!phalcon_valid_foreach(r1 TSRMLS_CC)) {
+				if (!phalcon_is_iterable(r1, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah1 = Z_ARRVAL_P(r1);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -10145,12 +10266,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 						PHALCON_OBS_NVAR(inherit_internal);
 						phalcon_array_fetch(&inherit_internal, internal_access, role_inherit, PH_NOISY_CC);
 	
-						if (!phalcon_valid_foreach(inherit_internal TSRMLS_CC)) {
+						if (!phalcon_is_iterable(inherit_internal, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 							return;
 						}
 	
-						ah2 = Z_ARRVAL_P(inherit_internal);
-						zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -10158,12 +10277,10 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 							PHALCON_GET_FOREACH_VALUE(access);
 	
 	
-							if (!phalcon_valid_foreach(access TSRMLS_CC)) {
+							if (!phalcon_is_iterable(access, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 								return;
 							}
 	
-							ah3 = Z_ARRVAL_P(access);
-							zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -10210,9 +10327,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 	
 		PHALCON_SEPARATE(i);
 		increment_function(i);
-		goto ph_cycle_start_0;
-	ph_cycle_end_0:
-	if(0){}
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -10550,6 +10665,8442 @@ PHALCON_INIT_CLASS(Phalcon_Acl){
 	return SUCCESS;
 }
 
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
+
+	zval *key;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
+
+	zval *key, *data;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	RETURN_NULL();
+}
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Adapter, annotations_adapter, phalcon_annotations_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+
+	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter, get){
+
+	zval *class_name, *annotations, *class_annotations = NULL;
+	zval *reader, *parsed_annotations;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) == IS_ARRAY) { 
+		if (phalcon_array_isset(annotations, class_name)) {
+			PHALCON_OBS_VAR(class_annotations);
+			phalcon_array_fetch(&class_annotations, annotations, class_name, PH_NOISY_CC);
+			RETURN_CCTOR(class_annotations);
+		}
+	}
+	
+	PHALCON_INIT_NVAR(class_annotations);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(class_annotations, this_ptr, "read", class_name, 210726483297UL);
+	if (Z_TYPE_P(class_annotations) == IS_NULL) {
+	
+		PHALCON_INIT_VAR(reader);
+		object_init_ex(reader, phalcon_annotations_reader_ce);
+	
+		PHALCON_INIT_VAR(parsed_annotations);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(parsed_annotations, reader, "parse", class_name, 6953891564928UL);
+		if (Z_TYPE_P(parsed_annotations) == IS_ARRAY) { 
+			PHALCON_INIT_NVAR(class_annotations);
+			object_init_ex(class_annotations, phalcon_annotations_reflection_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(class_annotations, "__construct", parsed_annotations, 14747615951113338888UL);
+	
+			phalcon_update_property_array(this_ptr, SL("_annotations"), class_name, class_annotations TSRMLS_CC);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "write", class_name, class_annotations, 6954185350992UL);
+		}
+	}
+	
+	
+	RETURN_CCTOR(class_annotations);
+}
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Annotation, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
+
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("_exprArguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
+
+	zval *reflection_data, *name = NULL, *arguments, *expr_arguments;
+	zval *argument = NULL, *expr = NULL, *resolved_argument = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reflection_data) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(reflection_data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(name);
+	phalcon_array_fetch_quick_string(&name, reflection_data, SS("name"), 210721608966UL, PH_NOISY_CC);
+	phalcon_update_property_zval(this_ptr, SL("_name"), name TSRMLS_CC);
+	
+	if (phalcon_array_isset_quick_string(reflection_data, SS("arguments"), 8246093309468467035UL)) {
+	
+		PHALCON_INIT_VAR(arguments);
+		array_init(arguments);
+	
+		PHALCON_OBS_VAR(expr_arguments);
+		phalcon_array_fetch_quick_string(&expr_arguments, reflection_data, SS("arguments"), 8246093309468467035UL, PH_NOISY_CC);
+	
+		if (!phalcon_is_iterable(expr_arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(argument);
+	
+			PHALCON_OBS_NVAR(expr);
+			phalcon_array_fetch_quick_string(&expr, argument, SS("expr"), 210711765924UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_NVAR(resolved_argument);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(resolved_argument, this_ptr, "getexpression", expr, 1492353644096631989UL);
+			if (phalcon_array_isset_quick_string(argument, SS("name"), 210721608966UL)) {
+				PHALCON_OBS_NVAR(name);
+				phalcon_array_fetch_quick_string(&name, argument, SS("name"), 210721608966UL, PH_NOISY_CC);
+				phalcon_array_update_zval(&arguments, name, &resolved_argument, PH_COPY | PH_SEPARATE TSRMLS_CC);
+			} else {
+				phalcon_array_append(&arguments, resolved_argument, PH_SEPARATE TSRMLS_CC);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		phalcon_update_property_zval(this_ptr, SL("_arguments"), arguments TSRMLS_CC);
+		phalcon_update_property_zval(this_ptr, SL("_exprArguments"), expr_arguments TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getName){
+
+
+	RETURN_MEMBER(this_ptr, "_name");
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
+
+	zval *expr = NULL, *type, *value = NULL, *array_value, *items, *item = NULL;
+	zval *resolved_item = NULL, *name = NULL, *exception_message;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &expr) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_SEPARATE_PARAM(expr);
+	
+	if (Z_TYPE_P(expr) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The expression is not valid");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(type);
+	phalcon_array_fetch_quick_string(&type, expr, SS("type"), 210729590247UL, PH_NOISY_CC);
+	
+	switch (phalcon_get_intval(type)) {
+	
+		case 301:
+			PHALCON_OBS_VAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
+		case 302:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
+		case 303:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
+		case 307:
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch_quick_string(&value, expr, SS("value"), 6954126163842UL, PH_NOISY_CC);
+			RETURN_CCTOR(value);
+	
+		case 304:
+			RETURN_MM_NULL();
+	
+		case 305:
+			RETURN_MM_FALSE;
+	
+		case 306:
+			RETURN_MM_TRUE;
+	
+		case 308:
+			PHALCON_INIT_VAR(array_value);
+			array_init(array_value);
+	
+			PHALCON_OBS_VAR(items);
+			phalcon_array_fetch_quick_string(&items, expr, SS("items"), 6953639676423UL, PH_NOISY_CC);
+	
+			if (!phalcon_is_iterable(items, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_VALUE(item);
+	
+				PHALCON_OBS_NVAR(expr);
+				phalcon_array_fetch_quick_string(&expr, item, SS("expr"), 210711765924UL, PH_NOISY_CC);
+	
+				PHALCON_INIT_NVAR(resolved_item);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(resolved_item, this_ptr, "getexpression", expr, 1492353644096631989UL);
+				if (phalcon_array_isset_quick_string(item, SS("name"), 210721608966UL)) {
+					PHALCON_OBS_NVAR(name);
+					phalcon_array_fetch_quick_string(&name, item, SS("name"), 210721608966UL, PH_NOISY_CC);
+					phalcon_array_update_zval(&array_value, name, &resolved_item, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_array_append(&array_value, resolved_item, PH_SEPARATE TSRMLS_CC);
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+	
+			RETURN_CTOR(array_value);
+	
+		default:
+			PHALCON_INIT_VAR(exception_message);
+			PHALCON_CONCAT_SVS(exception_message, "The expression ", type, " is unknown");
+			PHALCON_THROW_EXCEPTION_ZVAL(phalcon_annotations_exception_ce, exception_message);
+			return;
+	
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments){
+
+
+	RETURN_MEMBER(this_ptr, "_exprArguments");
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getArguments){
+
+
+	RETURN_MEMBER(this_ptr, "_arguments");
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
+
+	zval *arguments, *number;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(number);
+	phalcon_fast_count(number, arguments TSRMLS_CC);
+	RETURN_NCTOR(number);
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
+
+	zval *position, *arguments, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, position)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arguments, position, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
+
+	zval *position, *arguments;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &position) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, position)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
+
+	zval *name, *arguments, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, arguments, name, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
+
+	zval *name, *arguments;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(arguments);
+	phalcon_read_property(&arguments, this_ptr, SL("_arguments"), PH_NOISY_CC);
+	if (phalcon_array_isset(arguments, name)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+
+
+
+
+const phannot_token_names phannot_tokens[] =
+{
+	{ PHANNOT_T_INTEGER,       		"INTEGER" },
+	{ PHANNOT_T_DOUBLE,        		"DOUBLE" },
+	{ PHANNOT_T_STRING,        		"STRING" },
+	{ PHANNOT_T_IDENTIFIER,    		"IDENTIFIER" },
+	{ PHANNOT_T_AT,	   	    		"@" },
+	{ PHANNOT_T_COMMA,	   	    	"," },
+	{ PHANNOT_T_EQUALS,       		"=" },
+	{ PHANNOT_T_COLON,            	":" },
+	{ PHANNOT_T_PARENTHESES_OPEN,  	"(" },
+	{ PHANNOT_T_PARENTHESES_CLOSE, 	")" },
+	{ PHANNOT_T_BRACKET_OPEN,     	"{" },
+	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
+ 	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
+	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
+	{  0, NULL }
+};
+
+static void *phannot_wrapper_alloc(size_t bytes){
+	return emalloc(bytes);
+}
+
+static void phannot_wrapper_free(void *pointer){
+	efree(pointer);
+}
+
+static void phannot_parse_with_token(void* phannot_parser, int opcode, int parsercode, phannot_scanner_token *token, phannot_parser_status *parser_status){
+
+	phannot_parser_token *pToken;
+
+	pToken = emalloc(sizeof(phannot_parser_token));
+	pToken->opcode = opcode;
+	pToken->token = token->value;
+	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
+	phannot_(phannot_parser, parsercode, pToken, parser_status);
+}
+
+static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+
+	char *error, *error_part;
+	phannot_scanner_state *state = parser_status->scanner_state;
+
+	PHALCON_INIT_VAR(*error_msg);
+	if (state->start) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
+			error_part = estrndup(state->start, 16);
+			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			efree(error_part);
+		} else {
+			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+		}
+		ZVAL_STRING(*error_msg, error, 1);
+	} else {
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
+		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		ZVAL_STRING(*error_msg, error, 1);
+	}
+	efree(error);
+}
+
+int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC){
+
+	zval *error_msg = NULL;
+
+	ZVAL_NULL(result);
+
+	if (Z_TYPE_P(comment) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, SL("Comment must be a string") TSRMLS_CC);
+		return FAILURE;
+	}
+
+	if(phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
+
+	int start_mode = 1, j, i, open_parentheses;
+	smart_str processed_str = {0};
+	char ch;
+
+	(*start_lines) = 0;
+
+	for (i = 0; i < length; i++) {
+
+		ch = comment[i];
+
+		if (start_mode) {
+			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+				continue;
+			}
+			start_mode = 0;
+		}
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
+		if (ch == '\n') {
+			(*start_lines)++;
+			start_mode = 1;
+		}
+	}
+
+	smart_str_0(&processed_str);
+
+	if (processed_str.len) {
+		RETURN_STRINGL(processed_str.c, processed_str.len, 0);
+	} else {
+		RETURN_EMPTY_STRING();
+	}
+}
+
+int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_path, zval *line, zval **error_msg TSRMLS_DC) {
+
+	char *error;
+	phannot_scanner_state *state;
+	phannot_scanner_token token;
+	int scanner_status, status = SUCCESS, start_lines;
+	phannot_parser_status *parser_status = NULL;
+	void* phannot_parser;
+	zval processed_comment;
+
+	if (!Z_STRVAL_P(comment)) {
+		ZVAL_BOOL(*result, 0);
+		return FAILURE;
+	}
+
+	if (Z_STRLEN_P(comment) < 2) {
+		ZVAL_BOOL(*result, 0);
+		return SUCCESS;
+	}
+
+	phannot_remove_comment_separators(&processed_comment, Z_STRVAL_P(comment), Z_STRLEN_P(comment), &start_lines);
+
+	if (Z_STRLEN(processed_comment) < 2) {
+		ZVAL_BOOL(*result, 0);
+		efree(Z_STRVAL(processed_comment));
+		return SUCCESS;
+	}
+
+	phannot_parser = phannot_Alloc(phannot_wrapper_alloc);
+
+	parser_status = emalloc(sizeof(phannot_parser_status));
+	state = emalloc(sizeof(phannot_scanner_state));
+
+	parser_status->status = PHANNOT_PARSING_OK;
+	parser_status->scanner_state = state;
+	parser_status->ret = NULL;
+	parser_status->token = &token;
+	parser_status->syntax_error = NULL;
+
+	state->active_token = 0;
+	state->start = Z_STRVAL(processed_comment);
+	state->start_length = 0;
+	state->mode = PHANNOT_MODE_RAW;
+	state->active_file = file_path;
+
+	if (Z_TYPE_P(line) == IS_LONG) {
+		state->active_line = Z_LVAL_P(line) - start_lines;
+	} else {
+		state->active_line = 1;
+	}
+
+	state->end = state->start;
+
+	while(0 <= (scanner_status = phannot_get_token(state, &token))) {
+
+		state->active_token = token.opcode;
+
+		state->start_length = (Z_STRVAL_P(comment) + Z_STRLEN_P(comment) - state->start);
+
+		switch (token.opcode) {
+
+			case PHANNOT_T_IGNORE:
+				break;
+
+			case PHANNOT_T_AT:
+				phannot_(phannot_parser, PHANNOT_AT, NULL, parser_status);
+				break;
+			case PHANNOT_T_COMMA:
+				phannot_(phannot_parser, PHANNOT_COMMA, NULL, parser_status);
+				break;
+			case PHANNOT_T_EQUALS:
+				phannot_(phannot_parser, PHANNOT_EQUALS, NULL, parser_status);
+				break;
+			case PHANNOT_T_COLON:
+				phannot_(phannot_parser, PHANNOT_COLON, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_PARENTHESES_OPEN:
+				phannot_(phannot_parser, PHANNOT_PARENTHESES_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_PARENTHESES_CLOSE:
+				phannot_(phannot_parser, PHANNOT_PARENTHESES_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_BRACKET_OPEN:
+				phannot_(phannot_parser, PHANNOT_BRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_BRACKET_CLOSE:
+				phannot_(phannot_parser, PHANNOT_BRACKET_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_SBRACKET_OPEN:
+				phannot_(phannot_parser, PHANNOT_SBRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_SBRACKET_CLOSE:
+				phannot_(phannot_parser, PHANNOT_SBRACKET_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_NULL:
+				phannot_(phannot_parser, PHANNOT_NULL, NULL, parser_status);
+				break;
+			case PHANNOT_T_TRUE:
+				phannot_(phannot_parser, PHANNOT_TRUE, NULL, parser_status);
+				break;
+			case PHANNOT_T_FALSE:
+				phannot_(phannot_parser, PHANNOT_FALSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_INTEGER:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_INTEGER, PHANNOT_INTEGER, &token, parser_status);
+				break;
+			case PHANNOT_T_DOUBLE:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_DOUBLE, PHANNOT_DOUBLE, &token, parser_status);
+				break;
+			case PHANNOT_T_STRING:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_STRING, PHANNOT_STRING, &token, parser_status);
+				break;
+			case PHANNOT_T_IDENTIFIER:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
+				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
+
+			default:
+				parser_status->status = PHANNOT_PARSING_FAILED;
+				if (!*error_msg) {
+					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, error, 1);
+					efree(error);
+				}
+				break;
+		}
+
+		if (parser_status->status != PHANNOT_PARSING_OK) {
+			status = FAILURE;
+			break;
+		}
+
+		state->end = state->start;
+	}
+
+	if (status != FAILURE) {
+		switch (scanner_status) {
+			case PHANNOT_SCANNER_RETCODE_ERR:
+			case PHANNOT_SCANNER_RETCODE_IMPOSSIBLE:
+				if (!*error_msg) {
+					phannot_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+				}
+				status = FAILURE;
+				break;
+			default:
+				phannot_(phannot_parser, 0, NULL, parser_status);
+		}
+	}
+
+	state->active_token = 0;
+	state->start = NULL;
+
+	if (parser_status->status != PHANNOT_PARSING_OK) {
+		status = FAILURE;
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_INIT_VAR(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
+	}
+
+	phannot_Free(phannot_parser, phannot_wrapper_free);
+
+	if (status != FAILURE) {
+		if (parser_status->status == PHANNOT_PARSING_OK) {
+			if (parser_status->ret) {
+				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+				ZVAL_NULL(parser_status->ret);
+				zval_ptr_dtor(&parser_status->ret);
+			} else {
+				array_init(*result);
+			}
+		}
+	}
+
+	efree(Z_STRVAL(processed_comment));
+
+	efree(parser_status);
+	efree(state);
+
+	return status;
+}
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Collection, annotations_collection, phalcon_annotations_collection_method_entry, 0);
+
+	zend_declare_property_long(phalcon_annotations_collection_ce, SL("_position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_collection_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, __construct){
+
+	zval *reflection_data, *annotations, *annotation_data = NULL;
+	zval *annotation = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reflection_data) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(reflection_data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Reflection data must be an array");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	array_init(annotations);
+	
+	if (!phalcon_is_iterable(reflection_data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_VALUE(annotation_data);
+	
+		PHALCON_INIT_NVAR(annotation);
+		object_init_ex(annotation, phalcon_annotations_annotation_ce);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(annotation, "__construct", annotation_data, 14747615951113338888UL);
+	
+		phalcon_array_append(&annotations, annotation, PH_SEPARATE TSRMLS_CC);
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	phalcon_update_property_zval(this_ptr, SL("_annotations"), annotations TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, rewind){
+
+
+	phalcon_update_property_long(this_ptr, SL("_position"), 0 TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, current){
+
+	zval *position, *annotations, *annotation;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(position);
+	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (phalcon_array_isset(annotations, position)) {
+		PHALCON_OBS_VAR(annotation);
+		phalcon_array_fetch(&annotation, annotations, position, PH_NOISY_CC);
+		RETURN_CCTOR(annotation);
+	}
+	
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, key){
+
+
+	RETURN_MEMBER(this_ptr, "_position");
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, next){
+
+
+	phalcon_property_incr(this_ptr, SL("_position") TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, valid){
+
+	zval *position, *annotations;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(position);
+	phalcon_read_property(&position, this_ptr, SL("_position"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	if (phalcon_array_isset(annotations, position)) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
+
+
+	RETURN_MEMBER(this_ptr, "_annotations");
+}
+
+PHP_METHOD(Phalcon_Annotations_Collection, getAnnotation){
+
+
+	
+}
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Exception){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations, Exception, annotations_exception, "phalcon\\exception", NULL, 0);
+
+	return SUCCESS;
+}
+
+
+
+
+#ifndef __WIN32__
+#   if defined(_WIN32) || defined(WIN32)
+#	define __WIN32__
+#   endif
+#endif
+
+/* #define PRIVATE static */
+#define PRIVATE
+
+#ifdef TEST
+#define MAXRHS 5       /* Set low to exercise exception code */
+#else
+#define MAXRHS 1000
+#endif
+
+char *msort();
+void *malloc();
+
+/******** From the file "action.h" *************************************/
+struct action *Action_new();
+struct action *Action_sort();
+
+/********* From the file "assert.h" ************************************/
+void myassert();
+#ifndef NDEBUG
+#  define assert(X) if(!(X))myassert(__FILE__,__LINE__)
+#else
+#  define assert(X)
+#endif
+
+/********** From the file "build.h" ************************************/
+void FindRulePrecedences();
+void FindFirstSets();
+void FindStates();
+void FindLinks();
+void FindFollowSets();
+void FindActions();
+
+/********* From the file "configlist.h" *********************************/
+void Configlist_init(/* void */);
+struct config *Configlist_add(/* struct rule *, int */);
+struct config *Configlist_addbasis(/* struct rule *, int */);
+void Configlist_closure(/* void */);
+void Configlist_sort(/* void */);
+void Configlist_sortbasis(/* void */);
+struct config *Configlist_return(/* void */);
+struct config *Configlist_basis(/* void */);
+void Configlist_eat(/* struct config * */);
+void Configlist_reset(/* void */);
+
+/********* From the file "error.h" ***************************************/
+void ErrorMsg(const char *, int,const char *, ...);
+
+/****** From the file "option.h" ******************************************/
+struct s_options {
+  enum { OPT_FLAG=1,  OPT_INT,  OPT_DBL,  OPT_STR,
+         OPT_FFLAG, OPT_FINT, OPT_FDBL, OPT_FSTR} type;
+  char *label;
+  char *arg;
+  char *message;
+};
+int    OptInit(/* char**,struct s_options*,FILE* */);
+int    OptNArgs(/* void */);
+char  *OptArg(/* int */);
+void   OptErr(/* int */);
+void   OptPrint(/* void */);
+
+/******** From the file "parse.h" *****************************************/
+void Parse(/* struct lemon *lemp */);
+
+/********* From the file "plink.h" ***************************************/
+struct plink *Plink_new(/* void */);
+void Plink_add(/* struct plink **, struct config * */);
+void Plink_copy(/* struct plink **, struct plink * */);
+void Plink_delete(/* struct plink * */);
+
+/********** From the file "report.h" *************************************/
+void Reprint(/* struct lemon * */);
+void ReportOutput(/* struct lemon * */);
+void ReportTable(/* struct lemon * */);
+void ReportHeader(/* struct lemon * */);
+void CompressTables(/* struct lemon * */);
+
+/********** From the file "set.h" ****************************************/
+void  SetSize(/* int N */);             /* All sets will be of size N */
+char *SetNew(/* void */);               /* A new set for element 0..N */
+void  SetFree(/* char* */);             /* Deallocate a set */
+
+int SetAdd(/* char*,int */);            /* Add element to a set */
+int SetUnion(/* char *A,char *B */);    /* A <- A U B, thru element N */
+
+#define SetFind(X,Y) (X[Y])       /* True if Y is in set X */
+
+/********** From the file "struct.h" *************************************/
+
+typedef enum {B_FALSE=0, B_TRUE} Boolean;
+
+/* Symbols (terminals and nonterminals) of the grammar are stored
+** in the following: */
+struct symbol {
+  char *name;              /* Name of the symbol */
+  int index;               /* Index number for this symbol */
+  enum {
+    TERMINAL,
+    NONTERMINAL
+  } type;                  /* Symbols are all either TERMINALS or NTs */
+  struct rule *rule;       /* Linked list of rules of this (if an NT) */
+  struct symbol *fallback; /* fallback token in case this token doesn't parse */
+  int prec;                /* Precedence if defined (-1 otherwise) */
+  enum e_assoc {
+    LEFT,
+    RIGHT,
+    NONE,
+    UNK
+  } assoc;                 /* Associativity if predecence is defined */
+  char *firstset;          /* First-set for all rules of this symbol */
+  Boolean lambda;          /* True if NT and can generate an empty string */
+  char *destructor;        /* Code which executes whenever this symbol is
+                           ** popped from the stack during error processing */
+  int destructorln;        /* Line number of destructor code */
+  char *datatype;          /* The data type of information held by this
+                           ** object. Only used if type==NONTERMINAL */
+  int dtnum;               /* The data type number.  In the parser, the value
+                           ** stack is a union.  The .yy%d element of this
+                           ** union is the correct data type for this object */
+};
+
+/* Each production rule in the grammar is stored in the following
+** structure.  */
+struct rule {
+  struct symbol *lhs;      /* Left-hand side of the rule */
+  char *lhsalias;          /* Alias for the LHS (NULL if none) */
+  int ruleline;            /* Line number for the rule */
+  int nrhs;                /* Number of RHS symbols */
+  struct symbol **rhs;     /* The RHS symbols */
+  char **rhsalias;         /* An alias for each RHS symbol (NULL if none) */
+  int line;                /* Line number at which code begins */
+  char *code;              /* The code executed when this rule is reduced */
+  struct symbol *precsym;  /* Precedence symbol for this rule */
+  int index;               /* An index number for this rule */
+  Boolean canReduce;       /* True if this rule is ever reduced */
+  struct rule *nextlhs;    /* Next rule with the same LHS */
+  struct rule *next;       /* Next rule in the global list */
+};
+
+/* A configuration is a production rule of the grammar together with
+** a mark (dot) showing how much of that rule has been processed so far.
+** Configurations also contain a follow-set which is a list of terminal
+** symbols which are allowed to immediately follow the end of the rule.
+** Every configuration is recorded as an instance of the following: */
+struct config {
+  struct rule *rp;         /* The rule upon which the configuration is based */
+  int dot;                 /* The parse point */
+  char *fws;               /* Follow-set for this configuration only */
+  struct plink *fplp;      /* Follow-set forward propagation links */
+  struct plink *bplp;      /* Follow-set backwards propagation links */
+  struct state *stp;       /* Pointer to state which contains this */
+  enum {
+    COMPLETE,              /* The status is used during followset and */
+    INCOMPLETE             /*    shift computations */
+  } status;
+  struct config *next;     /* Next configuration in the state */
+  struct config *bp;       /* The next basis configuration */
+};
+
+/* Every shift or reduce operation is stored as one of the following */
+struct action {
+  struct symbol *sp;       /* The look-ahead symbol */
+  enum e_action {
+    SHIFT,
+    ACCEPT,
+    REDUCE,
+    ERROR,
+    CONFLICT,                /* Was a reduce, but part of a conflict */
+    SH_RESOLVED,             /* Was a shift.  Precedence resolved conflict */
+    RD_RESOLVED,             /* Was reduce.  Precedence resolved conflict */
+    NOT_USED                 /* Deleted by compression */
+  } type;
+  union {
+    struct state *stp;     /* The new state, if a shift */
+    struct rule *rp;       /* The rule, if a reduce */
+  } x;
+  struct action *next;     /* Next action for this state */
+  struct action *collide;  /* Next action with the same hash */
+};
+
+/* Each state of the generated parser's finite state machine
+** is encoded as an instance of the following structure. */
+struct state {
+  struct config *bp;       /* The basis configurations for this state */
+  struct config *cfp;      /* All configurations in this set */
+  int index;               /* Sequencial number for this state */
+  struct action *ap;       /* Array of actions for this state */
+  int nTknAct, nNtAct;     /* Number of actions on terminals and nonterminals */
+  int iTknOfst, iNtOfst;   /* yy_action[] offset for terminals and nonterms */
+  int iDflt;               /* Default action */
+};
+#define NO_OFFSET (-2147483647)
+
+/* A followset propagation link indicates that the contents of one
+** configuration followset should be propagated to another whenever
+** the first changes. */
+struct plink {
+  struct config *cfp;      /* The configuration to which linked */
+  struct plink *next;      /* The next propagate link */
+};
+
+/* The state vector for the entire parser generator is recorded as
+** follows.  (LEMON uses no global variables and makes little use of
+** static variables.  Fields in the following structure can be thought
+** of as begin global variables in the program.) */
+struct lemon {
+  struct state **sorted;   /* Table of states sorted by state number */
+  struct rule *rule;       /* List of all rules */
+  int nstate;              /* Number of states */
+  int nrule;               /* Number of rules */
+  int nsymbol;             /* Number of terminal and nonterminal symbols */
+  int nterminal;           /* Number of terminal symbols */
+  struct symbol **symbols; /* Sorted array of pointers to symbols */
+  int errorcnt;            /* Number of errors */
+  struct symbol *errsym;   /* The error symbol */
+  char *name;              /* Name of the generated parser */
+  char *arg;               /* Declaration of the 3th argument to parser */
+  char *tokentype;         /* Type of terminal symbols in the parser stack */
+  char *vartype;           /* The default type of non-terminal symbols */
+  char *start;             /* Name of the start symbol for the grammar */
+  char *stacksize;         /* Size of the parser stack */
+  char *include;           /* Code to put at the start of the C file */
+  int  includeln;          /* Line number for start of include code */
+  char *error;             /* Code to execute when an error is seen */
+  int  errorln;            /* Line number for start of error code */
+  char *overflow;          /* Code to execute on a stack overflow */
+  int  overflowln;         /* Line number for start of overflow code */
+  char *failure;           /* Code to execute on parser failure */
+  int  failureln;          /* Line number for start of failure code */
+  char *accept;            /* Code to execute when the parser excepts */
+  int  acceptln;           /* Line number for the start of accept code */
+  char *extracode;         /* Code appended to the generated file */
+  int  extracodeln;        /* Line number for the start of the extra code */
+  char *tokendest;         /* Code to execute to destroy token data */
+  int  tokendestln;        /* Line number for token destroyer code */
+  char *vardest;           /* Code for the default non-terminal destructor */
+  int  vardestln;          /* Line number for default non-term destructor code*/
+  char *filename;          /* Name of the input file */
+  char *outname;           /* Name of the current output file */
+  char *tokenprefix;       /* A prefix added to token names in the .h file */
+  int nconflict;           /* Number of parsing conflicts */
+  int tablesize;           /* Size of the parse tables */
+  int basisflag;           /* Print only basis configurations */
+  int has_fallback;        /* True if any %fallback is seen in the grammer */
+  char *argv0;             /* Name of the program */
+};
+
+#define MemoryCheck(X) if((X)==0){ \
+  extern void memory_error(); \
+  memory_error(); \
+}
+
+/**************** From the file "table.h" *********************************/
+
+/* Routines for handling a strings */
+
+char *Strsafe();
+
+void Strsafe_init(/* void */);
+int Strsafe_insert(/* char * */);
+char *Strsafe_find(/* char * */);
+
+/* Routines for handling symbols of the grammar */
+
+struct symbol *Symbol_new();
+int Symbolcmpp(/* struct symbol **, struct symbol ** */);
+void Symbol_init(/* void */);
+int Symbol_insert(/* struct symbol *, char * */);
+struct symbol *Symbol_find(/* char * */);
+struct symbol *Symbol_Nth(/* int */);
+int Symbol_count(/*  */);
+struct symbol **Symbol_arrayof(/*  */);
+
+/* Routines to manage the state table */
+
+int Configcmp(/* struct config *, struct config * */);
+struct state *State_new();
+void State_init(/* void */);
+int State_insert(/* struct state *, struct config * */);
+struct state *State_find(/* struct config * */);
+struct state **State_arrayof(/*  */);
+
+/* Routines used for efficiency in Configlist_add */
+
+void Configtable_init(/* void */);
+int Configtable_insert(/* struct config * */);
+struct config *Configtable_find(/* struct config * */);
+void Configtable_clear(/* int(*)(struct config *) */);
+/****************** From the file "action.c" *******************************/
+
+/* Allocate a new parser action */
+struct action *Action_new(){
+  static struct action *freelist = 0;
+  struct action *new;
+
+  if( freelist==0 ){
+    int i;
+    int amt = 100;
+    freelist = (struct action *)malloc( sizeof(struct action)*amt );
+    if( freelist==0 ){
+      fprintf(stderr,"Unable to allocate memory for a new parser action.");
+      exit(1);
+    }
+    for(i=0; i<amt-1; i++) freelist[i].next = &freelist[i+1];
+    freelist[amt-1].next = 0;
+  }
+  new = freelist;
+  freelist = freelist->next;
+  return new;
+}
+
+/* Compare two actions */
+static int actioncmp(ap1,ap2)
+struct action *ap1;
+struct action *ap2;
+{
+  int rc;
+  rc = ap1->sp->index - ap2->sp->index;
+  if( rc==0 ) rc = (int)ap1->type - (int)ap2->type;
+  if( rc==0 ){
+    assert( ap1->type==REDUCE || ap1->type==RD_RESOLVED || ap1->type==CONFLICT);
+    assert( ap2->type==REDUCE || ap2->type==RD_RESOLVED || ap2->type==CONFLICT);
+    rc = ap1->x.rp->index - ap2->x.rp->index;
+  }
+  return rc;
+}
+
+/* Sort parser actions */
+struct action *Action_sort(ap)
+struct action *ap;
+{
+  ap = (struct action *)msort((char *)ap,(char **)&ap->next,actioncmp);
+  return ap;
+}
+
+void Action_add(app,type,sp,arg)
+struct action **app;
+enum e_action type;
+struct symbol *sp;
+char *arg;
+{
+  struct action *new;
+  new = Action_new();
+  new->next = *app;
+  *app = new;
+  new->type = type;
+  new->sp = sp;
+  if( type==SHIFT ){
+    new->x.stp = (struct state *)arg;
+  }else{
+    new->x.rp = (struct rule *)arg;
+  }
+}
+/********************** New code to implement the "acttab" module ***********/
+
+typedef struct acttab acttab;
+struct acttab {
+  int nAction;                 /* Number of used slots in aAction[] */
+  int nActionAlloc;            /* Slots allocated for aAction[] */
+  struct {
+    int lookahead;             /* Value of the lookahead token */
+    int action;                /* Action to take on the given lookahead */
+  } *aAction,                  /* The yy_action[] table under construction */
+    *aLookahead;               /* A single new transaction set */
+  int mnLookahead;             /* Minimum aLookahead[].lookahead */
+  int mnAction;                /* Action associated with mnLookahead */
+  int mxLookahead;             /* Maximum aLookahead[].lookahead */
+  int nLookahead;              /* Used slots in aLookahead[] */
+  int nLookaheadAlloc;         /* Slots allocated in aLookahead[] */
+};
+
+/* Return the number of entries in the yy_action table */
+#define acttab_size(X) ((X)->nAction)
+
+/* The value for the N-th entry in yy_action */
+#define acttab_yyaction(X,N)  ((X)->aAction[N].action)
+
+/* The value for the N-th entry in yy_lookahead */
+#define acttab_yylookahead(X,N)  ((X)->aAction[N].lookahead)
+
+/* Free all memory associated with the given acttab */
+void acttab_free(acttab *p){
+  free( p->aAction );
+  free( p->aLookahead );
+  free( p );
+}
+
+/* Allocate a new acttab structure */
+acttab *acttab_alloc(void){
+  acttab *p = malloc( sizeof(*p) );
+  if( p==0 ){
+    fprintf(stderr,"Unable to allocate memory for a new acttab.");
+    exit(1);
+  }
+  memset(p, 0, sizeof(*p));
+  return p;
+}
+
+/* Add a new action to the current transaction set
+*/
+void acttab_action(acttab *p, int lookahead, int action){
+  if( p->nLookahead>=p->nLookaheadAlloc ){
+    p->nLookaheadAlloc += 25;
+    p->aLookahead = realloc( p->aLookahead,
+                             sizeof(p->aLookahead[0])*p->nLookaheadAlloc );
+    if( p->aLookahead==0 ){
+      fprintf(stderr,"malloc failed\n");
+      exit(1);
+    }
+  }
+  if( p->nLookahead==0 ){
+    p->mxLookahead = lookahead;
+    p->mnLookahead = lookahead;
+    p->mnAction = action;
+  }else{
+    if( p->mxLookahead<lookahead ) p->mxLookahead = lookahead;
+    if( p->mnLookahead>lookahead ){
+      p->mnLookahead = lookahead;
+      p->mnAction = action;
+    }
+  }
+  p->aLookahead[p->nLookahead].lookahead = lookahead;
+  p->aLookahead[p->nLookahead].action = action;
+  p->nLookahead++;
+}
+
+int acttab_insert(acttab *p){
+  int i, j, k, n;
+  assert( p->nLookahead>0 );
+
+  /* Make sure we have enough space to hold the expanded action table
+  ** in the worst case.  The worst case occurs if the transaction set
+  ** must be appended to the current action table
+  */
+  n = p->mxLookahead + 1;
+  if( p->nAction + n >= p->nActionAlloc ){
+    int oldAlloc = p->nActionAlloc;
+    p->nActionAlloc = p->nAction + n + p->nActionAlloc + 20;
+    p->aAction = realloc( p->aAction,
+                          sizeof(p->aAction[0])*p->nActionAlloc);
+    if( p->aAction==0 ){
+      fprintf(stderr,"malloc failed\n");
+      exit(1);
+    }
+    for(i=oldAlloc; i<p->nActionAlloc; i++){
+      p->aAction[i].lookahead = -1;
+      p->aAction[i].action = -1;
+    }
+  }
+
+  /* Scan the existing action table looking for an offset where we can
+  ** insert the current transaction set.  Fall out of the loop when that
+  ** offset is found.  In the worst case, we fall out of the loop when
+  ** i reaches p->nAction, which means we append the new transaction set.
+  **
+  ** i is the index in p->aAction[] where p->mnLookahead is inserted.
+  */
+  for(i=0; i<p->nAction+p->mnLookahead; i++){
+    if( p->aAction[i].lookahead<0 ){
+      for(j=0; j<p->nLookahead; j++){
+        k = p->aLookahead[j].lookahead - p->mnLookahead + i;
+        if( k<0 ) break;
+        if( p->aAction[k].lookahead>=0 ) break;
+      }
+      if( j<p->nLookahead ) continue;
+      for(j=0; j<p->nAction; j++){
+        if( p->aAction[j].lookahead==j+p->mnLookahead-i ) break;
+      }
+      if( j==p->nAction ){
+        break;  /* Fits in empty slots */
+      }
+    }else if( p->aAction[i].lookahead==p->mnLookahead ){
+      if( p->aAction[i].action!=p->mnAction ) continue;
+      for(j=0; j<p->nLookahead; j++){
+        k = p->aLookahead[j].lookahead - p->mnLookahead + i;
+        if( k<0 || k>=p->nAction ) break;
+        if( p->aLookahead[j].lookahead!=p->aAction[k].lookahead ) break;
+        if( p->aLookahead[j].action!=p->aAction[k].action ) break;
+      }
+      if( j<p->nLookahead ) continue;
+      n = 0;
+      for(j=0; j<p->nAction; j++){
+        if( p->aAction[j].lookahead<0 ) continue;
+        if( p->aAction[j].lookahead==j+p->mnLookahead-i ) n++;
+      }
+      if( n==p->nLookahead ){
+        break;  /* Same as a prior transaction set */
+      }
+    }
+  }
+  /* Insert transaction set at index i. */
+  for(j=0; j<p->nLookahead; j++){
+    k = p->aLookahead[j].lookahead - p->mnLookahead + i;
+    p->aAction[k] = p->aLookahead[j];
+    if( k>=p->nAction ) p->nAction = k+1;
+  }
+  p->nLookahead = 0;
+
+  /* Return the offset that is added to the lookahead in order to get the
+  ** index into yy_action of the action */
+  return i - p->mnLookahead;
+}
+
+/********************** From the file "assert.c" ****************************/
+void myassert(file,line)
+char *file;
+int line;
+{
+  fprintf(stderr,"Assertion failed on line %d of file \"%s\"\n",line,file);
+  exit(1);
+}
+/********************** From the file "build.c" *****************************/
+
+/* Find a precedence symbol of every rule in the grammar.
+** 
+** Those rules which have a precedence symbol coded in the input
+** grammar using the "[symbol]" construct will already have the
+** rp->precsym field filled.  Other rules take as their precedence
+** symbol the first RHS symbol with a defined precedence.  If there
+** are not RHS symbols with a defined precedence, the precedence
+** symbol field is left blank.
+*/
+void FindRulePrecedences(xp)
+struct lemon *xp;
+{
+  struct rule *rp;
+  for(rp=xp->rule; rp; rp=rp->next){
+    if( rp->precsym==0 ){
+      int i;
+      for(i=0; i<rp->nrhs; i++){
+        if( rp->rhs[i]->prec>=0 ){
+          rp->precsym = rp->rhs[i];
+          break;
+	}
+      }
+    }
+  }
+  return;
+}
+
+/* Find all nonterminals which will generate the empty string.
+** Then go back and compute the first sets of every nonterminal.
+** The first set is the set of all terminal symbols which can begin
+** a string generated by that nonterminal.
+*/
+void FindFirstSets(lemp)
+struct lemon *lemp;
+{
+  int i;
+  struct rule *rp;
+  int progress;
+
+  for(i=0; i<lemp->nsymbol; i++){
+    lemp->symbols[i]->lambda = B_FALSE;
+  }
+  for(i=lemp->nterminal; i<lemp->nsymbol; i++){
+    lemp->symbols[i]->firstset = SetNew();
+  }
+
+  /* First compute all lambdas */
+  do{
+    progress = 0;
+    for(rp=lemp->rule; rp; rp=rp->next){
+      if( rp->lhs->lambda ) continue;
+      for(i=0; i<rp->nrhs; i++){
+         if( rp->rhs[i]->lambda==B_FALSE ) break;
+      }
+      if( i==rp->nrhs ){
+        rp->lhs->lambda = B_TRUE;
+        progress = 1;
+      }
+    }
+  }while( progress );
+
+  /* Now compute all first sets */
+  do{
+    struct symbol *s1, *s2;
+    progress = 0;
+    for(rp=lemp->rule; rp; rp=rp->next){
+      s1 = rp->lhs;
+      for(i=0; i<rp->nrhs; i++){
+        s2 = rp->rhs[i];
+        if( s2->type==TERMINAL ){
+          progress += SetAdd(s1->firstset,s2->index);
+          break;
+	}else if( s1==s2 ){
+          if( s1->lambda==B_FALSE ) break;
+	}else{
+          progress += SetUnion(s1->firstset,s2->firstset);
+          if( s2->lambda==B_FALSE ) break;
+	}
+      }
+    }
+  }while( progress );
+  return;
+}
+
+/* Compute all LR(0) states for the grammar.  Links
+** are added to between some states so that the LR(1) follow sets
+** can be computed later.
+*/
+PRIVATE struct state *getstate(/* struct lemon * */);  /* forward reference */
+void FindStates(lemp)
+struct lemon *lemp;
+{
+  struct symbol *sp;
+  struct rule *rp;
+
+  Configlist_init();
+
+  /* Find the start symbol */
+  if( lemp->start ){
+    sp = Symbol_find(lemp->start);
+    if( sp==0 ){
+      ErrorMsg(lemp->filename,0,
+"The specified start symbol \"%s\" is not \
+in a nonterminal of the grammar.  \"%s\" will be used as the start \
+symbol instead.",lemp->start,lemp->rule->lhs->name);
+      lemp->errorcnt++;
+      sp = lemp->rule->lhs;
+    }
+  }else{
+    sp = lemp->rule->lhs;
+  }
+
+  /* Make sure the start symbol doesn't occur on the right-hand side of
+  ** any rule.  Report an error if it does.  (YACC would generate a new
+  ** start symbol in this case.) */
+  for(rp=lemp->rule; rp; rp=rp->next){
+    int i;
+    for(i=0; i<rp->nrhs; i++){
+      if( rp->rhs[i]==sp ){
+        ErrorMsg(lemp->filename,0,
+"The start symbol \"%s\" occurs on the \
+right-hand side of a rule. This will result in a parser which \
+does not work properly.",sp->name);
+        lemp->errorcnt++;
+      }
+    }
+  }
+
+  /* The basis configuration set for the first state
+  ** is all rules which have the start symbol as their
+  ** left-hand side */
+  for(rp=sp->rule; rp; rp=rp->nextlhs){
+    struct config *newcfp;
+    newcfp = Configlist_addbasis(rp,0);
+    SetAdd(newcfp->fws,0);
+  }
+
+  /* Compute the first state.  All other states will be
+  ** computed automatically during the computation of the first one.
+  ** The returned pointer to the first state is not used. */
+  (void)getstate(lemp);
+  return;
+}
+
+/* Return a pointer to a state which is described by the configuration
+** list which has been built from calls to Configlist_add.
+*/
+PRIVATE void buildshifts(/* struct lemon *, struct state * */); /* Forwd ref */
+PRIVATE struct state *getstate(lemp)
+struct lemon *lemp;
+{
+  struct config *cfp, *bp;
+  struct state *stp;
+
+  /* Extract the sorted basis of the new state.  The basis was constructed
+  ** by prior calls to "Configlist_addbasis()". */
+  Configlist_sortbasis();
+  bp = Configlist_basis();
+
+  /* Get a state with the same basis */
+  stp = State_find(bp);
+  if( stp ){
+    /* A state with the same basis already exists!  Copy all the follow-set
+    ** propagation links from the state under construction into the
+    ** preexisting state, then return a pointer to the preexisting state */
+    struct config *x, *y;
+    for(x=bp, y=stp->bp; x && y; x=x->bp, y=y->bp){
+      Plink_copy(&y->bplp,x->bplp);
+      Plink_delete(x->fplp);
+      x->fplp = x->bplp = 0;
+    }
+    cfp = Configlist_return();
+    Configlist_eat(cfp);
+  }else{
+    /* This really is a new state.  Construct all the details */
+    Configlist_closure(lemp);    /* Compute the configuration closure */
+    Configlist_sort();           /* Sort the configuration closure */
+    cfp = Configlist_return();   /* Get a pointer to the config list */
+    stp = State_new();           /* A new state structure */
+    MemoryCheck(stp);
+    stp->bp = bp;                /* Remember the configuration basis */
+    stp->cfp = cfp;              /* Remember the configuration closure */
+    stp->index = lemp->nstate++; /* Every state gets a sequence number */
+    stp->ap = 0;                 /* No actions, yet. */
+    State_insert(stp,stp->bp);   /* Add to the state table */
+    buildshifts(lemp,stp);       /* Recursively compute successor states */
+  }
+  return stp;
+}
+
+/* Construct all successor states to the given state.  A "successor"
+** state is any state which can be reached by a shift action.
+*/
+PRIVATE void buildshifts(lemp,stp)
+struct lemon *lemp;
+struct state *stp;     /* The state from which successors are computed */
+{
+  struct config *cfp;  /* For looping thru the config closure of "stp" */
+  struct config *bcfp; /* For the inner loop on config closure of "stp" */
+  struct config *new;  /* */
+  struct symbol *sp;   /* Symbol following the dot in configuration "cfp" */
+  struct symbol *bsp;  /* Symbol following the dot in configuration "bcfp" */
+  struct state *newstp; /* A pointer to a successor state */
+
+  /* Each configuration becomes complete after it contibutes to a successor
+  ** state.  Initially, all configurations are incomplete */
+  for(cfp=stp->cfp; cfp; cfp=cfp->next) cfp->status = INCOMPLETE;
+
+  /* Loop through all configurations of the state "stp" */
+  for(cfp=stp->cfp; cfp; cfp=cfp->next){
+    if( cfp->status==COMPLETE ) continue;    /* Already used by inner loop */
+    if( cfp->dot>=cfp->rp->nrhs ) continue;  /* Can't shift this config */
+    Configlist_reset();                      /* Reset the new config set */
+    sp = cfp->rp->rhs[cfp->dot];             /* Symbol after the dot */
+
+    /* For every configuration in the state "stp" which has the symbol "sp"
+    ** following its dot, add the same configuration to the basis set under
+    ** construction but with the dot shifted one symbol to the right. */
+    for(bcfp=cfp; bcfp; bcfp=bcfp->next){
+      if( bcfp->status==COMPLETE ) continue;    /* Already used */
+      if( bcfp->dot>=bcfp->rp->nrhs ) continue; /* Can't shift this one */
+      bsp = bcfp->rp->rhs[bcfp->dot];           /* Get symbol after dot */
+      if( bsp!=sp ) continue;                   /* Must be same as for "cfp" */
+      bcfp->status = COMPLETE;                  /* Mark this config as used */
+      new = Configlist_addbasis(bcfp->rp,bcfp->dot+1);
+      Plink_add(&new->bplp,bcfp);
+    }
+
+    /* Get a pointer to the state described by the basis configuration set
+    ** constructed in the preceding loop */
+    newstp = getstate(lemp);
+
+    /* The state "newstp" is reached from the state "stp" by a shift action
+    ** on the symbol "sp" */
+    Action_add(&stp->ap,SHIFT,sp,(char *)newstp);
+  }
+}
+
+void FindLinks(lemp)
+struct lemon *lemp;
+{
+  int i;
+  struct config *cfp, *other;
+  struct state *stp;
+  struct plink *plp;
+
+  /* Housekeeping detail:
+  ** Add to every propagate link a pointer back to the state to
+  ** which the link is attached. */
+  for(i=0; i<lemp->nstate; i++){
+    stp = lemp->sorted[i];
+    for(cfp=stp->cfp; cfp; cfp=cfp->next){
+      cfp->stp = stp;
+    }
+  }
+
+  /* Convert all backlinks into forward links.  Only the forward
+  ** links are used in the follow-set computation. */
+  for(i=0; i<lemp->nstate; i++){
+    stp = lemp->sorted[i];
+    for(cfp=stp->cfp; cfp; cfp=cfp->next){
+      for(plp=cfp->bplp; plp; plp=plp->next){
+        other = plp->cfp;
+        Plink_add(&other->fplp,cfp);
+      }
+    }
+  }
+}
+
+/* Compute all followsets.
+**
+** A followset is the set of all symbols which can come immediately
+** after a configuration.
+*/
+void FindFollowSets(lemp)
+struct lemon *lemp;
+{
+  int i;
+  struct config *cfp;
+  struct plink *plp;
+  int progress;
+  int change;
+
+  for(i=0; i<lemp->nstate; i++){
+    for(cfp=lemp->sorted[i]->cfp; cfp; cfp=cfp->next){
+      cfp->status = INCOMPLETE;
+    }
+  }
+  
+  do{
+    progress = 0;
+    for(i=0; i<lemp->nstate; i++){
+      for(cfp=lemp->sorted[i]->cfp; cfp; cfp=cfp->next){
+        if( cfp->status==COMPLETE ) continue;
+        for(plp=cfp->fplp; plp; plp=plp->next){
+          change = SetUnion(plp->cfp->fws,cfp->fws);
+          if( change ){
+            plp->cfp->status = INCOMPLETE;
+            progress = 1;
+	  }
+	}
+        cfp->status = COMPLETE;
+      }
+    }
+  }while( progress );
+}
+
+static int resolve_conflict();
+
+/* Compute the reduce actions, and resolve conflicts.
+*/
+void FindActions(lemp)
+struct lemon *lemp;
+{
+  int i,j;
+  struct config *cfp;
+  struct state *stp;
+  struct symbol *sp;
+  struct rule *rp;
+
+  /* Add all of the reduce actions 
+  ** A reduce action is added for each element of the followset of
+  ** a configuration which has its dot at the extreme right.
+  */
+  for(i=0; i<lemp->nstate; i++){   /* Loop over all states */
+    stp = lemp->sorted[i];
+    for(cfp=stp->cfp; cfp; cfp=cfp->next){  /* Loop over all configurations */
+      if( cfp->rp->nrhs==cfp->dot ){        /* Is dot at extreme right? */
+        for(j=0; j<lemp->nterminal; j++){
+          if( SetFind(cfp->fws,j) ){
+            /* Add a reduce action to the state "stp" which will reduce by the
+            ** rule "cfp->rp" if the lookahead symbol is "lemp->symbols[j]" */
+            Action_add(&stp->ap,REDUCE,lemp->symbols[j],(char *)cfp->rp);
+          }
+	}
+      }
+    }
+  }
+
+  /* Add the accepting token */
+  if( lemp->start ){
+    sp = Symbol_find(lemp->start);
+    if( sp==0 ) sp = lemp->rule->lhs;
+  }else{
+    sp = lemp->rule->lhs;
+  }
+  /* Add to the first state (which is always the starting state of the
+  ** finite state machine) an action to ACCEPT if the lookahead is the
+  ** start nonterminal.  */
+  Action_add(&lemp->sorted[0]->ap,ACCEPT,sp,0);
+
+  /* Resolve conflicts */
+  for(i=0; i<lemp->nstate; i++){
+    struct action *ap, *nap;
+    struct state *stp;
+    stp = lemp->sorted[i];
+    assert( stp->ap );
+    stp->ap = Action_sort(stp->ap);
+    for(ap=stp->ap; ap && ap->next; ap=ap->next){
+      for(nap=ap->next; nap && nap->sp==ap->sp; nap=nap->next){
+         /* The two actions "ap" and "nap" have the same lookahead.
+         ** Figure out which one should be used */
+         lemp->nconflict += resolve_conflict(ap,nap,lemp->errsym);
+      }
+    }
+  }
+
+  /* Report an error for each rule that can never be reduced. */
+  for(rp=lemp->rule; rp; rp=rp->next) rp->canReduce = B_FALSE;
+  for(i=0; i<lemp->nstate; i++){
+    struct action *ap;
+    for(ap=lemp->sorted[i]->ap; ap; ap=ap->next){
+      if( ap->type==REDUCE ) ap->x.rp->canReduce = B_TRUE;
+    }
+  }
+  for(rp=lemp->rule; rp; rp=rp->next){
+    if( rp->canReduce ) continue;
+    ErrorMsg(lemp->filename,rp->ruleline,"This rule can not be reduced.\n");
+    lemp->errorcnt++;
+  }
+}
+
+/* Resolve a conflict between the two given actions.  If the
+** conflict can't be resolve, return non-zero.
+**
+** NO LONGER TRUE:
+**   To resolve a conflict, first look to see if either action
+**   is on an error rule.  In that case, take the action which
+**   is not associated with the error rule.  If neither or both
+**   actions are associated with an error rule, then try to
+**   use precedence to resolve the conflict.
+**
+** If either action is a SHIFT, then it must be apx.  This
+** function won't work if apx->type==REDUCE and apy->type==SHIFT.
+*/
+static int resolve_conflict(apx,apy,errsym)
+struct action *apx;
+struct action *apy;
+struct symbol *errsym;   /* The error symbol (if defined.  NULL otherwise) */
+{
+  struct symbol *spx, *spy;
+  int errcnt = 0;
+  assert( apx->sp==apy->sp );  /* Otherwise there would be no conflict */
+  if( apx->type==SHIFT && apy->type==REDUCE ){
+    spx = apx->sp;
+    spy = apy->x.rp->precsym;
+    if( spy==0 || spx->prec<0 || spy->prec<0 ){
+      /* Not enough precedence information. */
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
+      apy->type = CONFLICT;
+      errcnt++;
+    }else if( spx->prec>spy->prec ){    /* Lower precedence wins */
+      apy->type = RD_RESOLVED;
+    }else if( spx->prec<spy->prec ){
+      apx->type = SH_RESOLVED;
+    }else if( spx->prec==spy->prec && spx->assoc==RIGHT ){ /* Use operator */
+      apy->type = RD_RESOLVED;                             /* associativity */
+    }else if( spx->prec==spy->prec && spx->assoc==LEFT ){  /* to break tie */
+      apx->type = SH_RESOLVED;
+    }else{
+      assert( spx->prec==spy->prec && spx->assoc==NONE );
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
+      apy->type = CONFLICT;
+      errcnt++;
+    }
+  }else if( apx->type==REDUCE && apy->type==REDUCE ){
+    spx = apx->x.rp->precsym;
+    spy = apy->x.rp->precsym;
+    if( spx==0 || spy==0 || spx->prec<0 || spy->prec<0 || spx->prec==spy->prec ){
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
+      apy->type = CONFLICT;
+      errcnt++;
+    }else if( spx->prec>spy->prec ){
+      apy->type = RD_RESOLVED;
+    }else if( spx->prec<spy->prec ){
+      apx->type = RD_RESOLVED;
+    }
+  }else{
+    assert( 
+      apx->type==SH_RESOLVED ||
+      apx->type==RD_RESOLVED ||
+      apx->type==CONFLICT ||
+      apy->type==SH_RESOLVED ||
+      apy->type==RD_RESOLVED ||
+      apy->type==CONFLICT
+    );
+    /* The REDUCE/SHIFT case cannot happen because SHIFTs come before
+    ** REDUCEs on the list.  If we reach this point it must be because
+    ** the parser conflict had already been resolved. */
+  }
+  return errcnt;
+}
+/********************* From the file "configlist.c" *************************/
+
+static struct config *freelist = 0;      /* List of free configurations */
+static struct config *current = 0;       /* Top of list of configurations */
+static struct config **currentend = 0;   /* Last on list of configs */
+static struct config *basis = 0;         /* Top of list of basis configs */
+static struct config **basisend = 0;     /* End of list of basis configs */
+
+/* Return a pointer to a new configuration */
+PRIVATE struct config *newconfig(){
+  struct config *new;
+  if( freelist==0 ){
+    int i;
+    int amt = 3;
+    freelist = (struct config *)malloc( sizeof(struct config)*amt );
+    if( freelist==0 ){
+      fprintf(stderr,"Unable to allocate memory for a new configuration.");
+      exit(1);
+    }
+    for(i=0; i<amt-1; i++) freelist[i].next = &freelist[i+1];
+    freelist[amt-1].next = 0;
+  }
+  new = freelist;
+  freelist = freelist->next;
+  return new;
+}
+
+/* The configuration "old" is no longer used */
+PRIVATE void deleteconfig(old)
+struct config *old;
+{
+  old->next = freelist;
+  freelist = old;
+}
+
+/* Initialized the configuration list builder */
+void Configlist_init(){
+  current = 0;
+  currentend = &current;
+  basis = 0;
+  basisend = &basis;
+  Configtable_init();
+  return;
+}
+
+/* Initialized the configuration list builder */
+void Configlist_reset(){
+  current = 0;
+  currentend = &current;
+  basis = 0;
+  basisend = &basis;
+  Configtable_clear(0);
+  return;
+}
+
+/* Add another configuration to the configuration list */
+struct config *Configlist_add(rp,dot)
+struct rule *rp;    /* The rule */
+int dot;            /* Index into the RHS of the rule where the dot goes */
+{
+  struct config *cfp, model;
+
+  assert( currentend!=0 );
+  model.rp = rp;
+  model.dot = dot;
+  cfp = Configtable_find(&model);
+  if( cfp==0 ){
+    cfp = newconfig();
+    cfp->rp = rp;
+    cfp->dot = dot;
+    cfp->fws = SetNew();
+    cfp->stp = 0;
+    cfp->fplp = cfp->bplp = 0;
+    cfp->next = 0;
+    cfp->bp = 0;
+    *currentend = cfp;
+    currentend = &cfp->next;
+    Configtable_insert(cfp);
+  }
+  return cfp;
+}
+
+/* Add a basis configuration to the configuration list */
+struct config *Configlist_addbasis(rp,dot)
+struct rule *rp;
+int dot;
+{
+  struct config *cfp, model;
+
+  assert( basisend!=0 );
+  assert( currentend!=0 );
+  model.rp = rp;
+  model.dot = dot;
+  cfp = Configtable_find(&model);
+  if( cfp==0 ){
+    cfp = newconfig();
+    cfp->rp = rp;
+    cfp->dot = dot;
+    cfp->fws = SetNew();
+    cfp->stp = 0;
+    cfp->fplp = cfp->bplp = 0;
+    cfp->next = 0;
+    cfp->bp = 0;
+    *currentend = cfp;
+    currentend = &cfp->next;
+    *basisend = cfp;
+    basisend = &cfp->bp;
+    Configtable_insert(cfp);
+  }
+  return cfp;
+}
+
+/* Compute the closure of the configuration list */
+void Configlist_closure(lemp)
+struct lemon *lemp;
+{
+  struct config *cfp, *newcfp;
+  struct rule *rp, *newrp;
+  struct symbol *sp, *xsp;
+  int i, dot;
+
+  assert( currentend!=0 );
+  for(cfp=current; cfp; cfp=cfp->next){
+    rp = cfp->rp;
+    dot = cfp->dot;
+    if( dot>=rp->nrhs ) continue;
+    sp = rp->rhs[dot];
+    if( sp->type==NONTERMINAL ){
+      if( sp->rule==0 && sp!=lemp->errsym ){
+        ErrorMsg(lemp->filename,rp->line,"Nonterminal \"%s\" has no rules.",
+          sp->name);
+        lemp->errorcnt++;
+      }
+      for(newrp=sp->rule; newrp; newrp=newrp->nextlhs){
+        newcfp = Configlist_add(newrp,0);
+        for(i=dot+1; i<rp->nrhs; i++){
+          xsp = rp->rhs[i];
+          if( xsp->type==TERMINAL ){
+            SetAdd(newcfp->fws,xsp->index);
+            break;
+	  }else{
+            SetUnion(newcfp->fws,xsp->firstset);
+            if( xsp->lambda==B_FALSE ) break;
+	  }
+	}
+        if( i==rp->nrhs ) Plink_add(&cfp->fplp,newcfp);
+      }
+    }
+  }
+  return;
+}
+
+/* Sort the configuration list */
+void Configlist_sort(){
+  current = (struct config *)msort((char *)current,(char **)&(current->next),Configcmp);
+  currentend = 0;
+  return;
+}
+
+/* Sort the basis configuration list */
+void Configlist_sortbasis(){
+  basis = (struct config *)msort((char *)current,(char **)&(current->bp),Configcmp);
+  basisend = 0;
+  return;
+}
+
+/* Return a pointer to the head of the configuration list and
+** reset the list */
+struct config *Configlist_return(){
+  struct config *old;
+  old = current;
+  current = 0;
+  currentend = 0;
+  return old;
+}
+
+/* Return a pointer to the head of the configuration list and
+** reset the list */
+struct config *Configlist_basis(){
+  struct config *old;
+  old = basis;
+  basis = 0;
+  basisend = 0;
+  return old;
+}
+
+/* Free all elements of the given configuration list */
+void Configlist_eat(cfp)
+struct config *cfp;
+{
+  struct config *nextcfp;
+  for(; cfp; cfp=nextcfp){
+    nextcfp = cfp->next;
+    assert( cfp->fplp==0 );
+    assert( cfp->bplp==0 );
+    if( cfp->fws ) SetFree(cfp->fws);
+    deleteconfig(cfp);
+  }
+  return;
+}
+/***************** From the file "error.c" *********************************/
+
+/* Find a good place to break "msg" so that its length is at least "min"
+** but no more than "max".  Make the point as close to max as possible.
+*/
+static int findbreak(msg,min,max)
+char *msg;
+int min;
+int max;
+{
+  int i,spot;
+  char c;
+  for(i=spot=min; i<=max; i++){
+    c = msg[i];
+    if( c=='\t' ) msg[i] = ' ';
+    if( c=='\n' ){ msg[i] = ' '; spot = i; break; }
+    if( c==0 ){ spot = i; break; }
+    if( c=='-' && i<max-1 ) spot = i+1;
+    if( c==' ' ) spot = i;
+  }
+  return spot;
+}
+
+#define ERRMSGSIZE  10000 /* Hope this is big enough.  No way to error check */
+#define LINEWIDTH      79 /* Max width of any output line */
+#define PREFIXLIMIT    30 /* Max width of the prefix on each line */
+void ErrorMsg(const char *filename, int lineno, const char *format, ...){
+  char errmsg[ERRMSGSIZE];
+  char prefix[PREFIXLIMIT+10];
+  int errmsgsize;
+  int prefixsize;
+  int availablewidth;
+  va_list ap;
+  int end, restart, base;
+
+  va_start(ap, format);
+  /* Prepare a prefix to be prepended to every output line */
+  if( lineno>0 ){
+    sprintf(prefix,"%.*s:%d: ",PREFIXLIMIT-10,filename,lineno);
+  }else{
+    sprintf(prefix,"%.*s: ",PREFIXLIMIT-10,filename);
+  }
+  prefixsize = strlen(prefix);
+  availablewidth = LINEWIDTH - prefixsize;
+
+  /* Generate the error message */
+  vsprintf(errmsg,format,ap);
+  va_end(ap);
+  errmsgsize = strlen(errmsg);
+  /* Remove trailing '\n's from the error message. */
+  while( errmsgsize>0 && errmsg[errmsgsize-1]=='\n' ){
+     errmsg[--errmsgsize] = 0;
+  }
+
+  /* Print the error message */
+  base = 0;
+  while( errmsg[base]!=0 ){
+    end = restart = findbreak(&errmsg[base],0,availablewidth);
+    restart += base;
+    while( errmsg[restart]==' ' ) restart++;
+    fprintf(stdout,"%s%.*s\n",prefix,end,&errmsg[base]);
+    base = restart;
+  }
+}
+/**************** From the file "main.c" ************************************/
+
+/* Report an out-of-memory condition and abort.  This function
+** is used mostly by the "MemoryCheck" macro in struct.h
+*/
+void memory_error(){
+  fprintf(stderr,"Out of memory.  Aborting...\n");
+  exit(1);
+}
+
+static int nDefine = 0;      /* Number of -D options on the command line */
+static char **azDefine = 0;  /* Name of the -D macros */
+
+/* This routine is called with the argument to each -D command-line option.
+** Add the macro defined to the azDefine array.
+*/
+static void handle_D_option(char *z){
+  char **paz;
+  nDefine++;
+  azDefine = realloc(azDefine, sizeof(azDefine[0])*nDefine);
+  if( azDefine==0 ){
+    fprintf(stderr,"out of memory\n");
+    exit(1);
+  }
+  paz = &azDefine[nDefine-1];
+  *paz = malloc( strlen(z)+1 );
+  if( *paz==0 ){
+    fprintf(stderr,"out of memory\n");
+    exit(1);
+  }
+  strcpy(*paz, z);
+  for(z=*paz; *z && *z!='='; z++){}
+  *z = 0;
+}
+
+
+/* The main program.  Parse the command line and do it... */
+int main(argc,argv)
+int argc;
+char **argv;
+{
+  static int version = 0;
+  static int rpflag = 0;
+  static int basisflag = 0;
+  static int compress = 0;
+  static int quiet = 0;
+  static int statistics = 0;
+  static int mhflag = 0;
+  static struct s_options options[] = {
+    {OPT_FLAG, "b", (char*)&basisflag, "Print only the basis in report."},
+    {OPT_FLAG, "c", (char*)&compress, "Don't compress the action table."},
+    {OPT_FSTR, "D", (char*)handle_D_option, "Define an %ifdef macro."},
+    {OPT_FLAG, "g", (char*)&rpflag, "Print grammar without actions."},
+    {OPT_FLAG, "m", (char*)&mhflag, "Output a makeheaders compatible file"},
+    {OPT_FLAG, "q", (char*)&quiet, "(Quiet) Don't print the report file."},
+    {OPT_FLAG, "s", (char*)&statistics,
+                                   "Print parser stats to standard output."},
+    {OPT_FLAG, "x", (char*)&version, "Print the version number."},
+    {OPT_FLAG,0,0,0}
+  };
+  int i;
+  struct lemon lem;
+
+  OptInit(argv,options,stderr);
+  if( version ){
+     printf("Lemon version 1.0\n");
+     exit(0); 
+  }
+  if( OptNArgs()!=1 ){
+    fprintf(stderr,"Exactly one filename argument is required.\n");
+    exit(1);
+  }
+  lem.errorcnt = 0;
+
+  /* Initialize the machine */
+  Strsafe_init();
+  Symbol_init();
+  State_init();
+  lem.argv0 = argv[0];
+  lem.filename = OptArg(0);
+  lem.basisflag = basisflag;
+  lem.has_fallback = 0;
+  lem.nconflict = 0;
+  lem.name = lem.include = lem.arg = lem.tokentype = lem.start = 0;
+  lem.vartype = 0;
+  lem.stacksize = 0;
+  lem.error = lem.overflow = lem.failure = lem.accept = lem.tokendest =
+     lem.tokenprefix = lem.outname = lem.extracode = 0;
+  lem.vardest = 0;
+  lem.tablesize = 0;
+  Symbol_new("$");
+  lem.errsym = Symbol_new("error");
+
+  /* Parse the input file */
+  Parse(&lem);
+  if( lem.errorcnt ) exit(lem.errorcnt);
+  if( lem.rule==0 ){
+    fprintf(stderr,"Empty grammar.\n");
+    exit(1);
+  }
+
+  /* Count and index the symbols of the grammar */
+  lem.nsymbol = Symbol_count();
+  Symbol_new("{default}");
+  lem.symbols = Symbol_arrayof();
+  for(i=0; i<=lem.nsymbol; i++) lem.symbols[i]->index = i;
+  qsort(lem.symbols,lem.nsymbol+1,sizeof(struct symbol*),
+        (int(*)())Symbolcmpp);
+  for(i=0; i<=lem.nsymbol; i++) lem.symbols[i]->index = i;
+  for(i=1; isupper(lem.symbols[i]->name[0]); i++);
+  lem.nterminal = i;
+
+  /* Generate a reprint of the grammar, if requested on the command line */
+  if( rpflag ){
+    Reprint(&lem);
+  }else{
+    /* Initialize the size for all follow and first sets */
+    SetSize(lem.nterminal);
+
+    /* Find the precedence for every production rule (that has one) */
+    FindRulePrecedences(&lem);
+
+    /* Compute the lambda-nonterminals and the first-sets for every
+    ** nonterminal */
+    FindFirstSets(&lem);
+
+    /* Compute all LR(0) states.  Also record follow-set propagation
+    ** links so that the follow-set can be computed later */
+    lem.nstate = 0;
+    FindStates(&lem);
+    lem.sorted = State_arrayof();
+
+    /* Tie up loose ends on the propagation links */
+    FindLinks(&lem);
+
+    /* Compute the follow set of every reducible configuration */
+    FindFollowSets(&lem);
+
+    /* Compute the action tables */
+    FindActions(&lem);
+
+    /* Compress the action tables */
+    if( compress==0 ) CompressTables(&lem);
+
+    /* Generate a report of the parser generated.  (the "y.output" file) */
+    if( !quiet ) ReportOutput(&lem);
+
+    /* Generate the source code for the parser */
+    ReportTable(&lem, mhflag);
+
+    /* Produce a header file for use by the scanner.  (This step is
+    ** omitted if the "-m" option is used because makeheaders will
+    ** generate the file for us.) */
+    if( !mhflag ) ReportHeader(&lem);
+  }
+  if( statistics ){
+    printf("Parser statistics: %d terminals, %d nonterminals, %d rules\n",
+      lem.nterminal, lem.nsymbol - lem.nterminal, lem.nrule);
+    printf("                   %d states, %d parser table entries, %d conflicts\n",
+      lem.nstate, lem.tablesize, lem.nconflict);
+  }
+  if( lem.nconflict ){
+    fprintf(stderr,"%d parsing conflicts.\n",lem.nconflict);
+  }
+  exit(lem.errorcnt + lem.nconflict);
+  return (lem.errorcnt + lem.nconflict);
+}
+/******************** From the file "msort.c" *******************************/
+
+#define NEXT(A) (*(char**)(((unsigned long)A)+offset))
+
+static char *merge(a,b,cmp,offset)
+char *a;
+char *b;
+int (*cmp)();
+int offset;
+{
+  char *ptr, *head;
+
+  if( a==0 ){
+    head = b;
+  }else if( b==0 ){
+    head = a;
+  }else{
+    if( (*cmp)(a,b)<0 ){
+      ptr = a;
+      a = NEXT(a);
+    }else{
+      ptr = b;
+      b = NEXT(b);
+    }
+    head = ptr;
+    while( a && b ){
+      if( (*cmp)(a,b)<0 ){
+        NEXT(ptr) = a;
+        ptr = a;
+        a = NEXT(a);
+      }else{
+        NEXT(ptr) = b;
+        ptr = b;
+        b = NEXT(b);
+      }
+    }
+    if( a ) NEXT(ptr) = a;
+    else    NEXT(ptr) = b;
+  }
+  return head;
+}
+
+#define LISTSIZE 30
+char *msort(list,next,cmp)
+char *list;
+char **next;
+int (*cmp)();
+{
+  unsigned long offset;
+  char *ep;
+  char *set[LISTSIZE];
+  int i;
+  offset = (unsigned long)next - (unsigned long)list;
+  for(i=0; i<LISTSIZE; i++) set[i] = 0;
+  while( list ){
+    ep = list;
+    list = NEXT(list);
+    NEXT(ep) = 0;
+    for(i=0; i<LISTSIZE-1 && set[i]!=0; i++){
+      ep = merge(ep,set[i],cmp,offset);
+      set[i] = 0;
+    }
+    set[i] = ep;
+  }
+  ep = 0;
+  for(i=0; i<LISTSIZE; i++) if( set[i] ) ep = merge(ep,set[i],cmp,offset);
+  return ep;
+}
+/************************ From the file "option.c" **************************/
+static char **argv;
+static struct s_options *op;
+static FILE *errstream;
+
+#define ISOPT(X) ((X)[0]=='-'||(X)[0]=='+'||strchr((X),'=')!=0)
+
+static void errline(n,k,err)
+int n;
+int k;
+FILE *err;
+{
+  int spcnt, i;
+  spcnt = 0;
+  if( argv[0] ) fprintf(err,"%s",argv[0]);
+  spcnt = strlen(argv[0]) + 1;
+  for(i=1; i<n && argv[i]; i++){
+    fprintf(err," %s",argv[i]);
+    spcnt += strlen(argv[i]+1);
+  }
+  spcnt += k;
+  for(; argv[i]; i++) fprintf(err," %s",argv[i]);
+  if( spcnt<20 ){
+    fprintf(err,"\n%*s^-- here\n",spcnt,"");
+  }else{
+    fprintf(err,"\n%*shere --^\n",spcnt-7,"");
+  }
+}
+
+static int argindex(n)
+int n;
+{
+  int i;
+  int dashdash = 0;
+  if( argv!=0 && *argv!=0 ){
+    for(i=1; argv[i]; i++){
+      if( dashdash || !ISOPT(argv[i]) ){
+        if( n==0 ) return i;
+        n--;
+      }
+      if( strcmp(argv[i],"--")==0 ) dashdash = 1;
+    }
+  }
+  return -1;
+}
+
+static char emsg[] = "Command line syntax error: ";
+
+static int handleflags(i,err)
+int i;
+FILE *err;
+{
+  int v;
+  int errcnt = 0;
+  int j;
+  for(j=0; op[j].label; j++){
+    if( strncmp(&argv[i][1],op[j].label,strlen(op[j].label))==0 ) break;
+  }
+  v = argv[i][0]=='-' ? 1 : 0;
+  if( op[j].label==0 ){
+    if( err ){
+      fprintf(err,"%sundefined option.\n",emsg);
+      errline(i,1,err);
+    }
+    errcnt++;
+  }else if( op[j].type==OPT_FLAG ){
+    *((int*)op[j].arg) = v;
+  }else if( op[j].type==OPT_FFLAG ){
+    (*(void(*)())(op[j].arg))(v);
+  }else if( op[j].type==OPT_FSTR ){
+    (*(void(*)())(op[j].arg))(&argv[i][2]);
+  }else{
+    if( err ){
+      fprintf(err,"%smissing argument on switch.\n",emsg);
+      errline(i,1,err);
+    }
+    errcnt++;
+  }
+  return errcnt;
+}
+
+static int handleswitch(i,err)
+int i;
+FILE *err;
+{
+  int lv = 0;
+  double dv = 0.0;
+  char *sv = 0, *end;
+  char *cp;
+  int j;
+  int errcnt = 0;
+  cp = strchr(argv[i],'=');
+  *cp = 0;
+  for(j=0; op[j].label; j++){
+    if( strcmp(argv[i],op[j].label)==0 ) break;
+  }
+  *cp = '=';
+  if( op[j].label==0 ){
+    if( err ){
+      fprintf(err,"%sundefined option.\n",emsg);
+      errline(i,0,err);
+    }
+    errcnt++;
+  }else{
+    cp++;
+    switch( op[j].type ){
+      case OPT_FLAG:
+      case OPT_FFLAG:
+        if( err ){
+          fprintf(err,"%soption requires an argument.\n",emsg);
+          errline(i,0,err);
+        }
+        errcnt++;
+        break;
+      case OPT_DBL:
+      case OPT_FDBL:
+        dv = strtod(cp,&end);
+        if( *end ){
+          if( err ){
+            fprintf(err,"%sillegal character in floating-point argument.\n",emsg);
+            errline(i,((unsigned long)end)-(unsigned long)argv[i],err);
+          }
+          errcnt++;
+        }
+        break;
+      case OPT_INT:
+      case OPT_FINT:
+        lv = strtol(cp,&end,0);
+        if( *end ){
+          if( err ){
+            fprintf(err,"%sillegal character in integer argument.\n",emsg);
+            errline(i,((unsigned long)end)-(unsigned long)argv[i],err);
+          }
+          errcnt++;
+        }
+        break;
+      case OPT_STR:
+      case OPT_FSTR:
+        sv = cp;
+        break;
+    }
+    switch( op[j].type ){
+      case OPT_FLAG:
+      case OPT_FFLAG:
+        break;
+      case OPT_DBL:
+        *(double*)(op[j].arg) = dv;
+        break;
+      case OPT_FDBL:
+        (*(void(*)())(op[j].arg))(dv);
+        break;
+      case OPT_INT:
+        *(int*)(op[j].arg) = lv;
+        break;
+      case OPT_FINT:
+        (*(void(*)())(op[j].arg))((int)lv);
+        break;
+      case OPT_STR:
+        *(char**)(op[j].arg) = sv;
+        break;
+      case OPT_FSTR:
+        (*(void(*)())(op[j].arg))(sv);
+        break;
+    }
+  }
+  return errcnt;
+}
+
+int OptInit(a,o,err)
+char **a;
+struct s_options *o;
+FILE *err;
+{
+  int errcnt = 0;
+  argv = a;
+  op = o;
+  errstream = err;
+  if( argv && *argv && op ){
+    int i;
+    for(i=1; argv[i]; i++){
+      if( argv[i][0]=='+' || argv[i][0]=='-' ){
+        errcnt += handleflags(i,err);
+      }else if( strchr(argv[i],'=') ){
+        errcnt += handleswitch(i,err);
+      }
+    }
+  }
+  if( errcnt>0 ){
+    fprintf(err,"Valid command line options for \"%s\" are:\n",*a);
+    OptPrint();
+    exit(1);
+  }
+  return 0;
+}
+
+int OptNArgs(){
+  int cnt = 0;
+  int dashdash = 0;
+  int i;
+  if( argv!=0 && argv[0]!=0 ){
+    for(i=1; argv[i]; i++){
+      if( dashdash || !ISOPT(argv[i]) ) cnt++;
+      if( strcmp(argv[i],"--")==0 ) dashdash = 1;
+    }
+  }
+  return cnt;
+}
+
+char *OptArg(n)
+int n;
+{
+  int i;
+  i = argindex(n);
+  return i>=0 ? argv[i] : 0;
+}
+
+void OptErr(n)
+int n;
+{
+  int i;
+  i = argindex(n);
+  if( i>=0 ) errline(i,0,errstream);
+}
+
+void OptPrint(){
+  int i;
+  int max, len;
+  max = 0;
+  for(i=0; op[i].label; i++){
+    len = strlen(op[i].label) + 1;
+    switch( op[i].type ){
+      case OPT_FLAG:
+      case OPT_FFLAG:
+        break;
+      case OPT_INT:
+      case OPT_FINT:
+        len += 9;       /* length of "<integer>" */
+        break;
+      case OPT_DBL:
+      case OPT_FDBL:
+        len += 6;       /* length of "<real>" */
+        break;
+      case OPT_STR:
+      case OPT_FSTR:
+        len += 8;       /* length of "<string>" */
+        break;
+    }
+    if( len>max ) max = len;
+  }
+  for(i=0; op[i].label; i++){
+    switch( op[i].type ){
+      case OPT_FLAG:
+      case OPT_FFLAG:
+        fprintf(errstream,"  -%-*s  %s\n",max,op[i].label,op[i].message);
+        break;
+      case OPT_INT:
+      case OPT_FINT:
+        fprintf(errstream,"  %s=<integer>%*s  %s\n",op[i].label,
+          (int)(max-strlen(op[i].label)-9),"",op[i].message);
+        break;
+      case OPT_DBL:
+      case OPT_FDBL:
+        fprintf(errstream,"  %s=<real>%*s  %s\n",op[i].label,
+          (int)(max-strlen(op[i].label)-6),"",op[i].message);
+        break;
+      case OPT_STR:
+      case OPT_FSTR:
+        fprintf(errstream,"  %s=<string>%*s  %s\n",op[i].label,
+          (int)(max-strlen(op[i].label)-8),"",op[i].message);
+        break;
+    }
+  }
+}
+/*********************** From the file "parse.c" ****************************/
+
+/* The state of the parser */
+struct pstate {
+  char *filename;       /* Name of the input file */
+  int tokenlineno;      /* Linenumber at which current token starts */
+  int errorcnt;         /* Number of errors so far */
+  char *tokenstart;     /* Text of current token */
+  struct lemon *gp;     /* Global state vector */
+  enum e_state {
+    INITIALIZE,
+    WAITING_FOR_DECL_OR_RULE,
+    WAITING_FOR_DECL_KEYWORD,
+    WAITING_FOR_DECL_ARG,
+    WAITING_FOR_PRECEDENCE_SYMBOL,
+    WAITING_FOR_ARROW,
+    IN_RHS,
+    LHS_ALIAS_1,
+    LHS_ALIAS_2,
+    LHS_ALIAS_3,
+    RHS_ALIAS_1,
+    RHS_ALIAS_2,
+    PRECEDENCE_MARK_1,
+    PRECEDENCE_MARK_2,
+    RESYNC_AFTER_RULE_ERROR,
+    RESYNC_AFTER_DECL_ERROR,
+    WAITING_FOR_DESTRUCTOR_SYMBOL,
+    WAITING_FOR_DATATYPE_SYMBOL,
+    WAITING_FOR_FALLBACK_ID
+  } state;                   /* The state of the parser */
+  struct symbol *fallback;   /* The fallback token */
+  struct symbol *lhs;        /* Left-hand side of current rule */
+  char *lhsalias;            /* Alias for the LHS */
+  int nrhs;                  /* Number of right-hand side symbols seen */
+  struct symbol *rhs[MAXRHS];  /* RHS symbols */
+  char *alias[MAXRHS];       /* Aliases for each RHS symbol (or NULL) */
+  struct rule *prevrule;     /* Previous rule parsed */
+  char *declkeyword;         /* Keyword of a declaration */
+  char **declargslot;        /* Where the declaration argument should be put */
+  int *decllnslot;           /* Where the declaration linenumber is put */
+  enum e_assoc declassoc;    /* Assign this association to decl arguments */
+  int preccounter;           /* Assign this precedence to decl arguments */
+  struct rule *firstrule;    /* Pointer to first rule in the grammar */
+  struct rule *lastrule;     /* Pointer to the most recently parsed rule */
+};
+
+/* Parse a single token */
+static void parseonetoken(psp)
+struct pstate *psp;
+{
+  char *x;
+  x = Strsafe(psp->tokenstart);     /* Save the token permanently */
+#if 0
+  printf("%s:%d: Token=[%s] state=%d\n",psp->filename,psp->tokenlineno,
+    x,psp->state);
+#endif
+  switch( psp->state ){
+    case INITIALIZE:
+      psp->prevrule = 0;
+      psp->preccounter = 0;
+      psp->firstrule = psp->lastrule = 0;
+      psp->gp->nrule = 0;
+      /* Fall thru to next case */
+    case WAITING_FOR_DECL_OR_RULE:
+      if( x[0]=='%' ){
+        psp->state = WAITING_FOR_DECL_KEYWORD;
+      }else if( islower(x[0]) ){
+        psp->lhs = Symbol_new(x);
+        psp->nrhs = 0;
+        psp->lhsalias = 0;
+        psp->state = WAITING_FOR_ARROW;
+      }else if( x[0]=='{' ){
+        if( psp->prevrule==0 ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+"There is not prior rule opon which to attach the code \
+fragment which begins on this line.");
+          psp->errorcnt++;
+	}else if( psp->prevrule->code!=0 ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+"Code fragment beginning on this line is not the first \
+to follow the previous rule.");
+          psp->errorcnt++;
+        }else{
+          psp->prevrule->line = psp->tokenlineno;
+          psp->prevrule->code = &x[1];
+	}
+      }else if( x[0]=='[' ){
+        psp->state = PRECEDENCE_MARK_1;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Token \"%s\" should be either \"%%\" or a nonterminal name.",
+          x);
+        psp->errorcnt++;
+      }
+      break;
+    case PRECEDENCE_MARK_1:
+      if( !isupper(x[0]) ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "The precedence symbol must be a terminal.");
+        psp->errorcnt++;
+      }else if( psp->prevrule==0 ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "There is no prior rule to assign precedence \"[%s]\".",x);
+        psp->errorcnt++;
+      }else if( psp->prevrule->precsym!=0 ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+"Precedence mark on this line is not the first \
+to follow the previous rule.");
+        psp->errorcnt++;
+      }else{
+        psp->prevrule->precsym = Symbol_new(x);
+      }
+      psp->state = PRECEDENCE_MARK_2;
+      break;
+    case PRECEDENCE_MARK_2:
+      if( x[0]!=']' ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Missing \"]\" on precedence mark.");
+        psp->errorcnt++;
+      }
+      psp->state = WAITING_FOR_DECL_OR_RULE;
+      break;
+    case WAITING_FOR_ARROW:
+      if( x[0]==':' && x[1]==':' && x[2]=='=' ){
+        psp->state = IN_RHS;
+      }else if( x[0]=='(' ){
+        psp->state = LHS_ALIAS_1;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Expected to see a \":\" following the LHS symbol \"%s\".",
+          psp->lhs->name);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case LHS_ALIAS_1:
+      if( isalpha(x[0]) ){
+        psp->lhsalias = x;
+        psp->state = LHS_ALIAS_2;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "\"%s\" is not a valid alias for the LHS \"%s\"\n",
+          x,psp->lhs->name);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case LHS_ALIAS_2:
+      if( x[0]==')' ){
+        psp->state = LHS_ALIAS_3;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Missing \")\" following LHS alias name \"%s\".",psp->lhsalias);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case LHS_ALIAS_3:
+      if( x[0]==':' && x[1]==':' && x[2]=='=' ){
+        psp->state = IN_RHS;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Missing \"->\" following: \"%s(%s)\".",
+           psp->lhs->name,psp->lhsalias);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case IN_RHS:
+      if( x[0]=='.' ){
+        struct rule *rp;
+        rp = (struct rule *)malloc( sizeof(struct rule) + 
+             sizeof(struct symbol*)*psp->nrhs + sizeof(char*)*psp->nrhs );
+        if( rp==0 ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+            "Can't allocate enough memory for this rule.");
+          psp->errorcnt++;
+          psp->prevrule = 0;
+	}else{
+          int i;
+          rp->ruleline = psp->tokenlineno;
+          rp->rhs = (struct symbol**)&rp[1];
+          rp->rhsalias = (char**)&(rp->rhs[psp->nrhs]);
+          for(i=0; i<psp->nrhs; i++){
+            rp->rhs[i] = psp->rhs[i];
+            rp->rhsalias[i] = psp->alias[i];
+	  }
+          rp->lhs = psp->lhs;
+          rp->lhsalias = psp->lhsalias;
+          rp->nrhs = psp->nrhs;
+          rp->code = 0;
+          rp->precsym = 0;
+          rp->index = psp->gp->nrule++;
+          rp->nextlhs = rp->lhs->rule;
+          rp->lhs->rule = rp;
+          rp->next = 0;
+          if( psp->firstrule==0 ){
+            psp->firstrule = psp->lastrule = rp;
+	  }else{
+            psp->lastrule->next = rp;
+            psp->lastrule = rp;
+	  }
+          psp->prevrule = rp;
+	}
+        psp->state = WAITING_FOR_DECL_OR_RULE;
+      }else if( isalpha(x[0]) ){
+        if( psp->nrhs>=MAXRHS ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+            "Too many symbol on RHS or rule beginning at \"%s\".",
+            x);
+          psp->errorcnt++;
+          psp->state = RESYNC_AFTER_RULE_ERROR;
+	}else{
+          psp->rhs[psp->nrhs] = Symbol_new(x);
+          psp->alias[psp->nrhs] = 0;
+          psp->nrhs++;
+	}
+      }else if( x[0]=='(' && psp->nrhs>0 ){
+        psp->state = RHS_ALIAS_1;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Illegal character on RHS of rule: \"%s\".",x);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case RHS_ALIAS_1:
+      if( isalpha(x[0]) ){
+        psp->alias[psp->nrhs-1] = x;
+        psp->state = RHS_ALIAS_2;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "\"%s\" is not a valid alias for the RHS symbol \"%s\"\n",
+          x,psp->rhs[psp->nrhs-1]->name);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case RHS_ALIAS_2:
+      if( x[0]==')' ){
+        psp->state = IN_RHS;
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Missing \")\" following LHS alias name \"%s\".",psp->lhsalias);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_RULE_ERROR;
+      }
+      break;
+    case WAITING_FOR_DECL_KEYWORD:
+      if( isalpha(x[0]) ){
+        psp->declkeyword = x;
+        psp->declargslot = 0;
+        psp->decllnslot = 0;
+        psp->state = WAITING_FOR_DECL_ARG;
+        if( strcmp(x,"name")==0 ){
+          psp->declargslot = &(psp->gp->name);
+	}else if( strcmp(x,"include")==0 ){
+          psp->declargslot = &(psp->gp->include);
+          psp->decllnslot = &psp->gp->includeln;
+	}else if( strcmp(x,"code")==0 ){
+          psp->declargslot = &(psp->gp->extracode);
+          psp->decllnslot = &psp->gp->extracodeln;
+	}else if( strcmp(x,"token_destructor")==0 ){
+          psp->declargslot = &psp->gp->tokendest;
+          psp->decllnslot = &psp->gp->tokendestln;
+	}else if( strcmp(x,"default_destructor")==0 ){
+          psp->declargslot = &psp->gp->vardest;
+          psp->decllnslot = &psp->gp->vardestln;
+	}else if( strcmp(x,"token_prefix")==0 ){
+          psp->declargslot = &psp->gp->tokenprefix;
+	}else if( strcmp(x,"syntax_error")==0 ){
+          psp->declargslot = &(psp->gp->error);
+          psp->decllnslot = &psp->gp->errorln;
+	}else if( strcmp(x,"parse_accept")==0 ){
+          psp->declargslot = &(psp->gp->accept);
+          psp->decllnslot = &psp->gp->acceptln;
+	}else if( strcmp(x,"parse_failure")==0 ){
+          psp->declargslot = &(psp->gp->failure);
+          psp->decllnslot = &psp->gp->failureln;
+	}else if( strcmp(x,"stack_overflow")==0 ){
+          psp->declargslot = &(psp->gp->overflow);
+          psp->decllnslot = &psp->gp->overflowln;
+        }else if( strcmp(x,"extra_argument")==0 ){
+          psp->declargslot = &(psp->gp->arg);
+        }else if( strcmp(x,"token_type")==0 ){
+          psp->declargslot = &(psp->gp->tokentype);
+        }else if( strcmp(x,"default_type")==0 ){
+          psp->declargslot = &(psp->gp->vartype);
+        }else if( strcmp(x,"stack_size")==0 ){
+          psp->declargslot = &(psp->gp->stacksize);
+        }else if( strcmp(x,"start_symbol")==0 ){
+          psp->declargslot = &(psp->gp->start);
+        }else if( strcmp(x,"left")==0 ){
+          psp->preccounter++;
+          psp->declassoc = LEFT;
+          psp->state = WAITING_FOR_PRECEDENCE_SYMBOL;
+        }else if( strcmp(x,"right")==0 ){
+          psp->preccounter++;
+          psp->declassoc = RIGHT;
+          psp->state = WAITING_FOR_PRECEDENCE_SYMBOL;
+        }else if( strcmp(x,"nonassoc")==0 ){
+          psp->preccounter++;
+          psp->declassoc = NONE;
+          psp->state = WAITING_FOR_PRECEDENCE_SYMBOL;
+	}else if( strcmp(x,"destructor")==0 ){
+          psp->state = WAITING_FOR_DESTRUCTOR_SYMBOL;
+	}else if( strcmp(x,"type")==0 ){
+          psp->state = WAITING_FOR_DATATYPE_SYMBOL;
+        }else if( strcmp(x,"fallback")==0 ){
+          psp->fallback = 0;
+          psp->state = WAITING_FOR_FALLBACK_ID;
+        }else{
+          ErrorMsg(psp->filename,psp->tokenlineno,
+            "Unknown declaration keyword: \"%%%s\".",x);
+          psp->errorcnt++;
+          psp->state = RESYNC_AFTER_DECL_ERROR;
+	}
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Illegal declaration keyword: \"%s\".",x);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_DECL_ERROR;
+      }
+      break;
+    case WAITING_FOR_DESTRUCTOR_SYMBOL:
+      if( !isalpha(x[0]) ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Symbol name missing after %destructor keyword");
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_DECL_ERROR;
+      }else{
+        struct symbol *sp = Symbol_new(x);
+        psp->declargslot = &sp->destructor;
+        psp->decllnslot = &sp->destructorln;
+        psp->state = WAITING_FOR_DECL_ARG;
+      }
+      break;
+    case WAITING_FOR_DATATYPE_SYMBOL:
+      if( !isalpha(x[0]) ){
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Symbol name missing after %destructor keyword");
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_DECL_ERROR;
+      }else{
+        struct symbol *sp = Symbol_new(x);
+        psp->declargslot = &sp->datatype;
+        psp->decllnslot = 0;
+        psp->state = WAITING_FOR_DECL_ARG;
+      }
+      break;
+    case WAITING_FOR_PRECEDENCE_SYMBOL:
+      if( x[0]=='.' ){
+        psp->state = WAITING_FOR_DECL_OR_RULE;
+      }else if( isupper(x[0]) ){
+        struct symbol *sp;
+        sp = Symbol_new(x);
+        if( sp->prec>=0 ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+            "Symbol \"%s\" has already be given a precedence.",x);
+          psp->errorcnt++;
+	}else{
+          sp->prec = psp->preccounter;
+          sp->assoc = psp->declassoc;
+	}
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Can't assign a precedence to \"%s\".",x);
+        psp->errorcnt++;
+      }
+      break;
+    case WAITING_FOR_DECL_ARG:
+      if( (x[0]=='{' || x[0]=='\"' || isalnum(x[0])) ){
+        if( *(psp->declargslot)!=0 ){
+          ErrorMsg(psp->filename,psp->tokenlineno,
+            "The argument \"%s\" to declaration \"%%%s\" is not the first.",
+            x[0]=='\"' ? &x[1] : x,psp->declkeyword);
+          psp->errorcnt++;
+          psp->state = RESYNC_AFTER_DECL_ERROR;
+	}else{
+          *(psp->declargslot) = (x[0]=='\"' || x[0]=='{') ? &x[1] : x;
+          if( psp->decllnslot ) *psp->decllnslot = psp->tokenlineno;
+          psp->state = WAITING_FOR_DECL_OR_RULE;
+	}
+      }else{
+        ErrorMsg(psp->filename,psp->tokenlineno,
+          "Illegal argument to %%%s: %s",psp->declkeyword,x);
+        psp->errorcnt++;
+        psp->state = RESYNC_AFTER_DECL_ERROR;
+      }
+      break;
+    case WAITING_FOR_FALLBACK_ID:
+      if( x[0]=='.' ){
+        psp->state = WAITING_FOR_DECL_OR_RULE;
+      }else if( !isupper(x[0]) ){
+        ErrorMsg(psp->filename, psp->tokenlineno,
+          "%%fallback argument \"%s\" should be a token", x);
+        psp->errorcnt++;
+      }else{
+        struct symbol *sp = Symbol_new(x);
+        if( psp->fallback==0 ){
+          psp->fallback = sp;
+        }else if( sp->fallback ){
+          ErrorMsg(psp->filename, psp->tokenlineno,
+            "More than one fallback assigned to token %s", x);
+          psp->errorcnt++;
+        }else{
+          sp->fallback = psp->fallback;
+          psp->gp->has_fallback = 1;
+        }
+      }
+      break;
+    case RESYNC_AFTER_RULE_ERROR:
+/*      if( x[0]=='.' ) psp->state = WAITING_FOR_DECL_OR_RULE;
+**      break; */
+    case RESYNC_AFTER_DECL_ERROR:
+      if( x[0]=='.' ) psp->state = WAITING_FOR_DECL_OR_RULE;
+      if( x[0]=='%' ) psp->state = WAITING_FOR_DECL_KEYWORD;
+      break;
+  }
+}
+
+/* Run the proprocessor over the input file text.  The global variables
+** azDefine[0] through azDefine[nDefine-1] contains the names of all defined
+** macros.  This routine looks for "%ifdef" and "%ifndef" and "%endif" and
+** comments them out.  Text in between is also commented out as appropriate.
+*/
+static preprocess_input(char *z){
+  int i, j, k, n;
+  int exclude = 0;
+  int start;
+  int lineno = 1;
+  int start_lineno;
+  for(i=0; z[i]; i++){
+    if( z[i]=='\n' ) lineno++;
+    if( z[i]!='%' || (i>0 && z[i-1]!='\n') ) continue;
+    if( strncmp(&z[i],"%endif",6)==0 && isspace(z[i+6]) ){
+      if( exclude ){
+        exclude--;
+        if( exclude==0 ){
+          for(j=start; j<i; j++) if( z[j]!='\n' ) z[j] = ' ';
+        }
+      }
+      for(j=i; z[j] && z[j]!='\n'; j++) z[j] = ' ';
+    }else if( (strncmp(&z[i],"%ifdef",6)==0 && isspace(z[i+6]))
+          || (strncmp(&z[i],"%ifndef",7)==0 && isspace(z[i+7])) ){
+      if( exclude ){
+        exclude++;
+      }else{
+        for(j=i+7; isspace(z[j]); j++){}
+        for(n=0; z[j+n] && !isspace(z[j+n]); n++){}
+        exclude = 1;
+        for(k=0; k<nDefine; k++){
+          if( strncmp(azDefine[k],&z[j],n)==0 && strlen(azDefine[k])==n ){
+            exclude = 0;
+            break;
+          }
+        }
+        if( z[i+3]=='n' ) exclude = !exclude;
+        if( exclude ){
+          start = i;
+          start_lineno = lineno;
+        }
+      }
+      for(j=i; z[j] && z[j]!='\n'; j++) z[j] = ' ';
+    }
+  }
+  if( exclude ){
+    fprintf(stderr,"unterminated %%ifdef starting on line %d\n", start_lineno);
+    exit(1);
+  }
+}
+
+/* In spite of its name, this function is really a scanner.  It read
+** in the entire input file (all at once) then tokenizes it.  Each
+** token is passed to the function "parseonetoken" which builds all
+** the appropriate data structures in the global state vector "gp".
+*/
+void Parse(gp)
+struct lemon *gp;
+{
+  struct pstate ps;
+  FILE *fp;
+  char *filebuf;
+  int filesize;
+  int lineno;
+  int c;
+  char *cp, *nextcp;
+  int startline = 0;
+
+  ps.gp = gp;
+  ps.filename = gp->filename;
+  ps.errorcnt = 0;
+  ps.state = INITIALIZE;
+
+  /* Begin by reading the input file */
+  fp = fopen(ps.filename,"rb");
+  if( fp==0 ){
+    ErrorMsg(ps.filename,0,"Can't open this file for reading.");
+    gp->errorcnt++;
+    return;
+  }
+  fseek(fp,0,2);
+  filesize = ftell(fp);
+  rewind(fp);
+  filebuf = (char *)malloc( filesize+1 );
+  if( filebuf==0 ){
+    ErrorMsg(ps.filename,0,"Can't allocate %d of memory to hold this file.",
+      filesize+1);
+    gp->errorcnt++;
+    return;
+  }
+  if( fread(filebuf,1,filesize,fp)!=filesize ){
+    ErrorMsg(ps.filename,0,"Can't read in all %d bytes of this file.",
+      filesize);
+    free(filebuf);
+    gp->errorcnt++;
+    return;
+  }
+  fclose(fp);
+  filebuf[filesize] = 0;
+
+  /* Make an initial pass through the file to handle %ifdef and %ifndef */
+  preprocess_input(filebuf);
+
+  /* Now scan the text of the input file */
+  lineno = 1;
+  for(cp=filebuf; (c= *cp)!=0; ){
+    if( c=='\n' ) lineno++;              /* Keep track of the line number */
+    if( isspace(c) ){ cp++; continue; }  /* Skip all white space */
+    if( c=='/' && cp[1]=='/' ){          /* Skip C++ style comments */
+      cp+=2;
+      while( (c= *cp)!=0 && c!='\n' ) cp++;
+      continue;
+    }
+    if( c=='/' && cp[1]=='*' ){          /* Skip C style comments */
+      cp+=2;
+      while( (c= *cp)!=0 && (c!='/' || cp[-1]!='*') ){
+        if( c=='\n' ) lineno++;
+        cp++;
+      }
+      if( c ) cp++;
+      continue;
+    }
+    ps.tokenstart = cp;                /* Mark the beginning of the token */
+    ps.tokenlineno = lineno;           /* Linenumber on which token begins */
+    if( c=='\"' ){                     /* String literals */
+      cp++;
+      while( (c= *cp)!=0 && c!='\"' ){
+        if( c=='\n' ) lineno++;
+        cp++;
+      }
+      if( c==0 ){
+        ErrorMsg(ps.filename,startline,
+"String starting on this line is not terminated before the end of the file.");
+        ps.errorcnt++;
+        nextcp = cp;
+      }else{
+        nextcp = cp+1;
+      }
+    }else if( c=='{' ){               /* A block of C code */
+      int level;
+      cp++;
+      for(level=1; (c= *cp)!=0 && (level>1 || c!='}'); cp++){
+        if( c=='\n' ) lineno++;
+        else if( c=='{' ) level++;
+        else if( c=='}' ) level--;
+        else if( c=='/' && cp[1]=='*' ){  /* Skip comments */
+          int prevc;
+          cp = &cp[2];
+          prevc = 0;
+          while( (c= *cp)!=0 && (c!='/' || prevc!='*') ){
+            if( c=='\n' ) lineno++;
+            prevc = c;
+            cp++;
+	  }
+	}else if( c=='/' && cp[1]=='/' ){  /* Skip C++ style comments too */
+          cp = &cp[2];
+          while( (c= *cp)!=0 && c!='\n' ) cp++;
+          if( c ) lineno++;
+	}else if( c=='\'' || c=='\"' ){    /* String a character literals */
+          int startchar, prevc;
+          startchar = c;
+          prevc = 0;
+          for(cp++; (c= *cp)!=0 && (c!=startchar || prevc=='\\'); cp++){
+            if( c=='\n' ) lineno++;
+            if( prevc=='\\' ) prevc = 0;
+            else              prevc = c;
+	  }
+	}
+      }
+      if( c==0 ){
+        ErrorMsg(ps.filename,ps.tokenlineno,
+"C code starting on this line is not terminated before the end of the file.");
+        ps.errorcnt++;
+        nextcp = cp;
+      }else{
+        nextcp = cp+1;
+      }
+    }else if( isalnum(c) ){          /* Identifiers */
+      while( (c= *cp)!=0 && (isalnum(c) || c=='_') ) cp++;
+      nextcp = cp;
+    }else if( c==':' && cp[1]==':' && cp[2]=='=' ){ /* The operator "::=" */
+      cp += 3;
+      nextcp = cp;
+    }else{                          /* All other (one character) operators */
+      cp++;
+      nextcp = cp;
+    }
+    c = *cp;
+    *cp = 0;                        /* Null terminate the token */
+    parseonetoken(&ps);             /* Parse the token */
+    *cp = c;                        /* Restore the buffer */
+    cp = nextcp;
+  }
+  free(filebuf);                    /* Release the buffer after parsing */
+  gp->rule = ps.firstrule;
+  gp->errorcnt = ps.errorcnt;
+}
+/*************************** From the file "plink.c" *********************/
+static struct plink *plink_freelist = 0;
+
+/* Allocate a new plink */
+struct plink *Plink_new(){
+  struct plink *new;
+
+  if( plink_freelist==0 ){
+    int i;
+    int amt = 100;
+    plink_freelist = (struct plink *)malloc( sizeof(struct plink)*amt );
+    if( plink_freelist==0 ){
+      fprintf(stderr,
+      "Unable to allocate memory for a new follow-set propagation link.\n");
+      exit(1);
+    }
+    for(i=0; i<amt-1; i++) plink_freelist[i].next = &plink_freelist[i+1];
+    plink_freelist[amt-1].next = 0;
+  }
+  new = plink_freelist;
+  plink_freelist = plink_freelist->next;
+  return new;
+}
+
+/* Add a plink to a plink list */
+void Plink_add(plpp,cfp)
+struct plink **plpp;
+struct config *cfp;
+{
+  struct plink *new;
+  new = Plink_new();
+  new->next = *plpp;
+  *plpp = new;
+  new->cfp = cfp;
+}
+
+/* Transfer every plink on the list "from" to the list "to" */
+void Plink_copy(to,from)
+struct plink **to;
+struct plink *from;
+{
+  struct plink *nextpl;
+  while( from ){
+    nextpl = from->next;
+    from->next = *to;
+    *to = from;
+    from = nextpl;
+  }
+}
+
+/* Delete every plink on the list */
+void Plink_delete(plp)
+struct plink *plp;
+{
+  struct plink *nextpl;
+
+  while( plp ){
+    nextpl = plp->next;
+    plp->next = plink_freelist;
+    plink_freelist = plp;
+    plp = nextpl;
+  }
+}
+/*********************** From the file "report.c" **************************/
+
+/* Generate a filename with the given suffix.  Space to hold the
+** name comes from malloc() and must be freed by the calling
+** function.
+*/
+PRIVATE char *file_makename(lemp,suffix)
+struct lemon *lemp;
+char *suffix;
+{
+  char *name;
+  char *cp;
+
+  name = malloc( strlen(lemp->filename) + strlen(suffix) + 5 );
+  if( name==0 ){
+    fprintf(stderr,"Can't allocate space for a filename.\n");
+    exit(1);
+  }
+  strcpy(name,lemp->filename);
+  cp = strrchr(name,'.');
+  if( cp ) *cp = 0;
+  strcat(name,suffix);
+  return name;
+}
+
+/* Open a file with a name based on the name of the input file,
+** but with a different (specified) suffix, and return a pointer
+** to the stream */
+PRIVATE FILE *file_open(lemp,suffix,mode)
+struct lemon *lemp;
+char *suffix;
+char *mode;
+{
+  FILE *fp;
+
+  if( lemp->outname ) free(lemp->outname);
+  lemp->outname = file_makename(lemp, suffix);
+  fp = fopen(lemp->outname,mode);
+  if( fp==0 && *mode=='w' ){
+    fprintf(stderr,"Can't open file \"%s\".\n",lemp->outname);
+    lemp->errorcnt++;
+    return 0;
+  }
+  return fp;
+}
+
+/* Duplicate the input file without comments and without actions 
+** on rules */
+void Reprint(lemp)
+struct lemon *lemp;
+{
+  struct rule *rp;
+  struct symbol *sp;
+  int i, j, maxlen, len, ncolumns, skip;
+  printf("// Reprint of input file \"%s\".\n// Symbols:\n",lemp->filename);
+  maxlen = 10;
+  for(i=0; i<lemp->nsymbol; i++){
+    sp = lemp->symbols[i];
+    len = strlen(sp->name);
+    if( len>maxlen ) maxlen = len;
+  }
+  ncolumns = 76/(maxlen+5);
+  if( ncolumns<1 ) ncolumns = 1;
+  skip = (lemp->nsymbol + ncolumns - 1)/ncolumns;
+  for(i=0; i<skip; i++){
+    printf("//");
+    for(j=i; j<lemp->nsymbol; j+=skip){
+      sp = lemp->symbols[j];
+      assert( sp->index==j );
+      printf(" %3d %-*.*s",j,maxlen,maxlen,sp->name);
+    }
+    printf("\n");
+  }
+  for(rp=lemp->rule; rp; rp=rp->next){
+    printf("%s",rp->lhs->name);
+/*    if( rp->lhsalias ) printf("(%s)",rp->lhsalias); */
+    printf(" ::=");
+    for(i=0; i<rp->nrhs; i++){
+      printf(" %s",rp->rhs[i]->name);
+/*      if( rp->rhsalias[i] ) printf("(%s)",rp->rhsalias[i]); */
+    }
+    printf(".");
+    if( rp->precsym ) printf(" [%s]",rp->precsym->name);
+/*    if( rp->code ) printf("\n    %s",rp->code); */
+    printf("\n");
+  }
+}
+
+void ConfigPrint(fp,cfp)
+FILE *fp;
+struct config *cfp;
+{
+  struct rule *rp;
+  int i;
+  rp = cfp->rp;
+  fprintf(fp,"%s ::=",rp->lhs->name);
+  for(i=0; i<=rp->nrhs; i++){
+    if( i==cfp->dot ) fprintf(fp," *");
+    if( i==rp->nrhs ) break;
+    fprintf(fp," %s",rp->rhs[i]->name);
+  }
+}
+
+/* #define TEST */
+#ifdef TEST
+/* Print a set */
+PRIVATE void SetPrint(out,set,lemp)
+FILE *out;
+char *set;
+struct lemon *lemp;
+{
+  int i;
+  char *spacer;
+  spacer = "";
+  fprintf(out,"%12s[","");
+  for(i=0; i<lemp->nterminal; i++){
+    if( SetFind(set,i) ){
+      fprintf(out,"%s%s",spacer,lemp->symbols[i]->name);
+      spacer = " ";
+    }
+  }
+  fprintf(out,"]\n");
+}
+
+/* Print a plink chain */
+PRIVATE void PlinkPrint(out,plp,tag)
+FILE *out;
+struct plink *plp;
+char *tag;
+{
+  while( plp ){
+    fprintf(out,"%12s%s (state %2d) ","",tag,plp->cfp->stp->index);
+    ConfigPrint(out,plp->cfp);
+    fprintf(out,"\n");
+    plp = plp->next;
+  }
+}
+#endif
+
+/* Print an action to the given file descriptor.  Return FALSE if
+** nothing was actually printed.
+*/
+int PrintAction(struct action *ap, FILE *fp, int indent){
+  int result = 1;
+  switch( ap->type ){
+    case SHIFT:
+      fprintf(fp,"%*s shift  %d",indent,ap->sp->name,ap->x.stp->index);
+      break;
+    case REDUCE:
+      fprintf(fp,"%*s reduce %d",indent,ap->sp->name,ap->x.rp->index);
+      break;
+    case ACCEPT:
+      fprintf(fp,"%*s accept",indent,ap->sp->name);
+      break;
+    case ERROR:
+      fprintf(fp,"%*s error",indent,ap->sp->name);
+      break;
+    case CONFLICT:
+      fprintf(fp,"%*s reduce %-3d ** Parsing conflict **",
+        indent,ap->sp->name,ap->x.rp->index);
+      break;
+    case SH_RESOLVED:
+    case RD_RESOLVED:
+    case NOT_USED:
+      result = 0;
+      break;
+  }
+  return result;
+}
+
+/* Generate the "y.output" log file */
+void ReportOutput(lemp)
+struct lemon *lemp;
+{
+  int i;
+  struct state *stp;
+  struct config *cfp;
+  struct action *ap;
+  FILE *fp;
+
+  fp = file_open(lemp,".out","w");
+  if( fp==0 ) return;
+  fprintf(fp," \b");
+  for(i=0; i<lemp->nstate; i++){
+    stp = lemp->sorted[i];
+    fprintf(fp,"State %d:\n",stp->index);
+    if( lemp->basisflag ) cfp=stp->bp;
+    else                  cfp=stp->cfp;
+    while( cfp ){
+      char buf[20];
+      if( cfp->dot==cfp->rp->nrhs ){
+        sprintf(buf,"(%d)",cfp->rp->index);
+        fprintf(fp,"    %5s ",buf);
+      }else{
+        fprintf(fp,"          ");
+      }
+      ConfigPrint(fp,cfp);
+      fprintf(fp,"\n");
+#ifdef TEST
+      SetPrint(fp,cfp->fws,lemp);
+      PlinkPrint(fp,cfp->fplp,"To  ");
+      PlinkPrint(fp,cfp->bplp,"From");
+#endif
+      if( lemp->basisflag ) cfp=cfp->bp;
+      else                  cfp=cfp->next;
+    }
+    fprintf(fp,"\n");
+    for(ap=stp->ap; ap; ap=ap->next){
+      if( PrintAction(ap,fp,30) ) fprintf(fp,"\n");
+    }
+    fprintf(fp,"\n");
+  }
+  fclose(fp);
+  return;
+}
+
+/* Search for the file "name" which is in the same directory as
+** the exacutable */
+PRIVATE char *pathsearch(argv0,name,modemask)
+char *argv0;
+char *name;
+int modemask;
+{
+  char *pathlist;
+  char *path,*cp;
+  char c;
+  extern int access();
+
+#ifdef __WIN32__
+  cp = strrchr(argv0,'\\');
+#else
+  cp = strrchr(argv0,'/');
+#endif
+  if( cp ){
+    c = *cp;
+    *cp = 0;
+    path = (char *)malloc( strlen(argv0) + strlen(name) + 2 );
+    if( path ) sprintf(path,"%s/%s",argv0,name);
+    *cp = c;
+  }else{
+    extern char *getenv();
+    pathlist = getenv("PATH");
+    if( pathlist==0 ) pathlist = ".:/bin:/usr/bin";
+    path = (char *)malloc( strlen(pathlist)+strlen(name)+2 );
+    if( path!=0 ){
+      while( *pathlist ){
+        cp = strchr(pathlist,':');
+        if( cp==0 ) cp = &pathlist[strlen(pathlist)];
+        c = *cp;
+        *cp = 0;
+        sprintf(path,"%s/%s",pathlist,name);
+        *cp = c;
+        if( c==0 ) pathlist = "";
+        else pathlist = &cp[1];
+        if( access(path,modemask)==0 ) break;
+      }
+    }
+  }
+  return path;
+}
+
+/* Given an action, compute the integer value for that action
+** which is to be put in the action table of the generated machine.
+** Return negative if no action should be generated.
+*/
+PRIVATE int compute_action(lemp,ap)
+struct lemon *lemp;
+struct action *ap;
+{
+  int act;
+  switch( ap->type ){
+    case SHIFT:  act = ap->x.stp->index;               break;
+    case REDUCE: act = ap->x.rp->index + lemp->nstate; break;
+    case ERROR:  act = lemp->nstate + lemp->nrule;     break;
+    case ACCEPT: act = lemp->nstate + lemp->nrule + 1; break;
+    default:     act = -1; break;
+  }
+  return act;
+}
+
+#define LINESIZE 1000
+/* The next cluster of routines are for reading the template file
+** and writing the results to the generated parser */
+/* The first function transfers data from "in" to "out" until
+** a line is seen which begins with "%%".  The line number is
+** tracked.
+**
+** if name!=0, then any word that begin with "Parse" is changed to
+** begin with *name instead.
+*/
+PRIVATE void tplt_xfer(name,in,out,lineno)
+char *name;
+FILE *in;
+FILE *out;
+int *lineno;
+{
+  int i, iStart;
+  char line[LINESIZE];
+  while( fgets(line,LINESIZE,in) && (line[0]!='%' || line[1]!='%') ){
+    (*lineno)++;
+    iStart = 0;
+    if( name ){
+      for(i=0; line[i]; i++){
+        if( line[i]=='P' && strncmp(&line[i],"Parse",5)==0
+          && (i==0 || !isalpha(line[i-1]))
+        ){
+          if( i>iStart ) fprintf(out,"%.*s",i-iStart,&line[iStart]);
+          fprintf(out,"%s",name);
+          i += 4;
+          iStart = i+1;
+        }
+      }
+    }
+    fprintf(out,"%s",&line[iStart]);
+  }
+}
+
+/* The next function finds the template file and opens it, returning
+** a pointer to the opened file. */
+PRIVATE FILE *tplt_open(lemp)
+struct lemon *lemp;
+{
+  static char templatename[] = "lempar.c";
+  char buf[1000];
+  FILE *in;
+  char *tpltname;
+  char *cp;
+
+  cp = strrchr(lemp->filename,'.');
+  if( cp ){
+    sprintf(buf,"%.*s.lt",(int)(cp-lemp->filename),lemp->filename);
+  }else{
+    sprintf(buf,"%s.lt",lemp->filename);
+  }
+  if( access(buf,004)==0 ){
+    tpltname = buf;
+  }else if( access(templatename,004)==0 ){
+    tpltname = templatename;
+  }else{
+    tpltname = pathsearch(lemp->argv0,templatename,0);
+  }
+  if( tpltname==0 ){
+    fprintf(stderr,"Can't find the parser driver template file \"%s\".\n",
+    templatename);
+    lemp->errorcnt++;
+    return 0;
+  }
+  in = fopen(tpltname,"r");
+  if( in==0 ){
+    fprintf(stderr,"Can't open the template file \"%s\".\n",templatename);
+    lemp->errorcnt++;
+    return 0;
+  }
+  return in;
+}
+
+/* Print a string to the file and keep the linenumber up to date */
+PRIVATE void tplt_print(out,lemp,str,strln,lineno)
+FILE *out;
+struct lemon *lemp;
+char *str;
+int strln;
+int *lineno;
+{
+  if( str==0 ) return;
+  fprintf(out,"#line %d \"%s\"\n",strln,lemp->filename); (*lineno)++;
+  while( *str ){
+    if( *str=='\n' ) (*lineno)++;
+    putc(*str,out);
+    str++;
+  }
+  fprintf(out,"\n#line %d \"%s\"\n",*lineno+2,lemp->outname); (*lineno)+=2;
+  return;
+}
+
+void emit_destructor_code(out,sp,lemp,lineno)
+FILE *out;
+struct symbol *sp;
+struct lemon *lemp;
+int *lineno;
+{
+ char *cp = 0;
+
+ int linecnt = 0;
+ if( sp->type==TERMINAL ){
+   cp = lemp->tokendest;
+   if( cp==0 ) return;
+   fprintf(out,"#line %d \"%s\"\n{",lemp->tokendestln,lemp->filename);
+ }else if( sp->destructor ){
+   cp = sp->destructor;
+   fprintf(out,"#line %d \"%s\"\n{",sp->destructorln,lemp->filename);
+ }else if( lemp->vardest ){
+   cp = lemp->vardest;
+   if( cp==0 ) return;
+   fprintf(out,"#line %d \"%s\"\n{",lemp->vardestln,lemp->filename);
+ }else{
+   assert( 0 );  /* Cannot happen */
+ }
+ for(; *cp; cp++){
+   if( *cp=='$' && cp[1]=='$' ){
+     fprintf(out,"(yypminor->yy%d)",sp->dtnum);
+     cp++;
+     continue;
+   }
+   if( *cp=='\n' ) linecnt++;
+   fputc(*cp,out);
+ }
+ (*lineno) += 3 + linecnt;
+ fprintf(out,"}\n#line %d \"%s\"\n",*lineno,lemp->outname);
+ return;
+}
+
+int has_destructor(sp, lemp)
+struct symbol *sp;
+struct lemon *lemp;
+{
+  int ret;
+  if( sp->type==TERMINAL ){
+    ret = lemp->tokendest!=0;
+  }else{
+    ret = lemp->vardest!=0 || sp->destructor!=0;
+  }
+  return ret;
+}
+
+PRIVATE char *append_str(char *zText, int n, int p1, int p2){
+  static char *z = 0;
+  static int alloced = 0;
+  static int used = 0;
+  int i, c;
+  char zInt[40];
+
+  if( zText==0 ){
+    used = 0;
+    return z;
+  }
+  if( n<=0 ){
+    if( n<0 ){
+      used += n;
+      assert( used>=0 );
+    }
+    n = strlen(zText);
+  }
+  if( n+sizeof(zInt)*2+used >= alloced ){
+    alloced = n + sizeof(zInt)*2 + used + 200;
+    z = realloc(z,  alloced);
+  }
+  if( z==0 ) return "";
+  while( n-- > 0 ){
+    c = *(zText++);
+    if( c=='%' && zText[0]=='d' ){
+      sprintf(zInt, "%d", p1);
+      p1 = p2;
+      strcpy(&z[used], zInt);
+      used += strlen(&z[used]);
+      zText++;
+      n--;
+    }else{
+      z[used++] = c;
+    }
+  }
+  z[used] = 0;
+  return z;
+}
+
+PRIVATE char *translate_code(struct lemon *lemp, struct rule *rp){
+  char *cp, *xp;
+  int i;
+  char lhsused = 0;    /* True if the LHS element has been used */
+  char used[MAXRHS];   /* True for each RHS element which is used */
+
+  for(i=0; i<rp->nrhs; i++) used[i] = 0;
+  lhsused = 0;
+
+  append_str(0,0,0,0);
+  for(cp=rp->code; *cp; cp++){
+    if( isalpha(*cp) && (cp==rp->code || (!isalnum(cp[-1]) && cp[-1]!='_')) ){
+      char saved;
+      for(xp= &cp[1]; isalnum(*xp) || *xp=='_'; xp++);
+      saved = *xp;
+      *xp = 0;
+      if( rp->lhsalias && strcmp(cp,rp->lhsalias)==0 ){
+        append_str("yygotominor.yy%d",0,rp->lhs->dtnum,0);
+        cp = xp;
+        lhsused = 1;
+      }else{
+        for(i=0; i<rp->nrhs; i++){
+          if( rp->rhsalias[i] && strcmp(cp,rp->rhsalias[i])==0 ){
+            if( cp!=rp->code && cp[-1]=='@' ){
+              /* If the argument is of the form @X then substituted
+              ** the token number of X, not the value of X */
+              append_str("yymsp[%d].major",-1,i-rp->nrhs+1,0);
+            }else{
+              append_str("yymsp[%d].minor.yy%d",0,
+                         i-rp->nrhs+1,rp->rhs[i]->dtnum);
+            }
+            cp = xp;
+            used[i] = 1;
+            break;
+          }
+        }
+      }
+      *xp = saved;
+    }
+    append_str(cp, 1, 0, 0);
+  } /* End loop */
+
+  /* Check to make sure the LHS has been used */
+  if( rp->lhsalias && !lhsused ){
+    ErrorMsg(lemp->filename,rp->ruleline,
+      "Label \"%s\" for \"%s(%s)\" is never used.",
+        rp->lhsalias,rp->lhs->name,rp->lhsalias);
+    lemp->errorcnt++;
+  }
+
+  /* Generate destructor code for RHS symbols which are not used in the
+  ** reduce code */
+  for(i=0; i<rp->nrhs; i++){
+    if( rp->rhsalias[i] && !used[i] ){
+      ErrorMsg(lemp->filename,rp->ruleline,
+        "Label %s for \"%s(%s)\" is never used.",
+        rp->rhsalias[i],rp->rhs[i]->name,rp->rhsalias[i]);
+      lemp->errorcnt++;
+    }else if( rp->rhsalias[i]==0 ){
+      if( has_destructor(rp->rhs[i],lemp) ){
+        append_str("  yy_destructor(%d,&yymsp[%d].minor);\n", 0,
+           rp->rhs[i]->index,i-rp->nrhs+1);
+      }else{
+        /* No destructor defined for this term */
+      }
+    }
+  }
+  cp = append_str(0,0,0,0);
+  rp->code = Strsafe(cp);
+}
+
+PRIVATE void emit_code(out,rp,lemp,lineno)
+FILE *out;
+struct rule *rp;
+struct lemon *lemp;
+int *lineno;
+{
+ char *cp;
+ int linecnt = 0;
+
+ /* Generate code to do the reduce action */
+ if( rp->code ){
+   fprintf(out,"#line %d \"%s\"\n{",rp->line,lemp->filename);
+   fprintf(out,"%s",rp->code);
+   for(cp=rp->code; *cp; cp++){
+     if( *cp=='\n' ) linecnt++;
+   } /* End loop */
+   (*lineno) += 3 + linecnt;
+   fprintf(out,"}\n#line %d \"%s\"\n",*lineno,lemp->outname);
+ } /* End if( rp->code ) */
+
+ return;
+}
+
+void print_stack_union(out,lemp,plineno,mhflag)
+FILE *out;                  /* The output stream */
+struct lemon *lemp;         /* The main info structure for this parser */
+int *plineno;               /* Pointer to the line number */
+int mhflag;                 /* True if generating makeheaders output */
+{
+  int lineno = *plineno;    /* The line number of the output */
+  char **types;             /* A hash table of datatypes */
+  int arraysize;            /* Size of the "types" array */
+  int maxdtlength;          /* Maximum length of any ".datatype" field. */
+  char *stddt;              /* Standardized name for a datatype */
+  int i,j;                  /* Loop counters */
+  int hash;                 /* For hashing the name of a type */
+  char *name;               /* Name of the parser */
+
+  /* Allocate and initialize types[] and allocate stddt[] */
+  arraysize = lemp->nsymbol * 2;
+  types = (char**)malloc( arraysize * sizeof(char*) );
+  for(i=0; i<arraysize; i++) types[i] = 0;
+  maxdtlength = 0;
+  if( lemp->vartype ){
+    maxdtlength = strlen(lemp->vartype);
+  }
+  for(i=0; i<lemp->nsymbol; i++){
+    int len;
+    struct symbol *sp = lemp->symbols[i];
+    if( sp->datatype==0 ) continue;
+    len = strlen(sp->datatype);
+    if( len>maxdtlength ) maxdtlength = len;
+  }
+  stddt = (char*)malloc( maxdtlength*2 + 1 );
+  if( types==0 || stddt==0 ){
+    fprintf(stderr,"Out of memory.\n");
+    exit(1);
+  }
+
+  /* Build a hash table of datatypes. The ".dtnum" field of each symbol
+  ** is filled in with the hash index plus 1.  A ".dtnum" value of 0 is
+  ** used for terminal symbols.  If there is no %default_type defined then
+  ** 0 is also used as the .dtnum value for nonterminals which do not specify
+  ** a datatype using the %type directive.
+  */
+  for(i=0; i<lemp->nsymbol; i++){
+    struct symbol *sp = lemp->symbols[i];
+    char *cp;
+    if( sp==lemp->errsym ){
+      sp->dtnum = arraysize+1;
+      continue;
+    }
+    if( sp->type!=NONTERMINAL || (sp->datatype==0 && lemp->vartype==0) ){
+      sp->dtnum = 0;
+      continue;
+    }
+    cp = sp->datatype;
+    if( cp==0 ) cp = lemp->vartype;
+    j = 0;
+    while( isspace(*cp) ) cp++;
+    while( *cp ) stddt[j++] = *cp++;
+    while( j>0 && isspace(stddt[j-1]) ) j--;
+    stddt[j] = 0;
+    hash = 0;
+    for(j=0; stddt[j]; j++){
+      hash = hash*53 + stddt[j];
+    }
+    hash = (hash & 0x7fffffff)%arraysize;
+    while( types[hash] ){
+      if( strcmp(types[hash],stddt)==0 ){
+        sp->dtnum = hash + 1;
+        break;
+      }
+      hash++;
+      if( hash>=arraysize ) hash = 0;
+    }
+    if( types[hash]==0 ){
+      sp->dtnum = hash + 1;
+      types[hash] = (char*)malloc( strlen(stddt)+1 );
+      if( types[hash]==0 ){
+        fprintf(stderr,"Out of memory.\n");
+        exit(1);
+      }
+      strcpy(types[hash],stddt);
+    }
+  }
+
+  /* Print out the definition of YYTOKENTYPE and YYMINORTYPE */
+  name = lemp->name ? lemp->name : "Parse";
+  lineno = *plineno;
+  if( mhflag ){ fprintf(out,"#if INTERFACE\n"); lineno++; }
+  fprintf(out,"#define %sTOKENTYPE %s\n",name,
+    lemp->tokentype?lemp->tokentype:"void*");  lineno++;
+  if( mhflag ){ fprintf(out,"#endif\n"); lineno++; }
+  fprintf(out,"typedef union {\n"); lineno++;
+  fprintf(out,"  %sTOKENTYPE yy0;\n",name); lineno++;
+  for(i=0; i<arraysize; i++){
+    if( types[i]==0 ) continue;
+    fprintf(out,"  %s yy%d;\n",types[i],i+1); lineno++;
+    free(types[i]);
+  }
+  fprintf(out,"  int yy%d;\n",lemp->errsym->dtnum); lineno++;
+  free(stddt);
+  free(types);
+  fprintf(out,"} YYMINORTYPE;\n"); lineno++;
+  *plineno = lineno;
+}
+
+static const char *minimum_size_type(int lwr, int upr){
+  if( lwr>=0 ){
+    if( upr<=255 ){
+      return "unsigned char";
+    }else if( upr<65535 ){
+      return "unsigned short int";
+    }else{
+      return "unsigned int";
+    }
+  }else if( lwr>=-127 && upr<=127 ){
+    return "signed char";
+  }else if( lwr>=-32767 && upr<32767 ){
+    return "short";
+  }else{
+    return "int";
+  }
+}
+
+struct axset {
+  struct state *stp;   /* A pointer to a state */
+  int isTkn;           /* True to use tokens.  False for non-terminals */
+  int nAction;         /* Number of actions */
+};
+
+static int axset_compare(const void *a, const void *b){
+  struct axset *p1 = (struct axset*)a;
+  struct axset *p2 = (struct axset*)b;
+  return p2->nAction - p1->nAction;
+}
+
+/* Generate C source code for the parser */
+void ReportTable(lemp, mhflag)
+struct lemon *lemp;
+int mhflag;     /* Output in makeheaders format if true */
+{
+  FILE *out, *in;
+  char line[LINESIZE];
+  int  lineno;
+  struct state *stp;
+  struct action *ap;
+  struct rule *rp;
+  struct acttab *pActtab;
+  int i, j, n;
+  char *name;
+  int mnTknOfst, mxTknOfst;
+  int mnNtOfst, mxNtOfst;
+  struct axset *ax;
+
+  in = tplt_open(lemp);
+  if( in==0 ) return;
+  out = file_open(lemp,".c","w");
+  if( out==0 ){
+    fclose(in);
+    return;
+  }
+  lineno = 1;
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate the include code, if any */
+  tplt_print(out,lemp,lemp->include,lemp->includeln,&lineno);
+  if( mhflag ){
+    char *name = file_makename(lemp, ".h");
+    fprintf(out,"#include \"%s\"\n", name); lineno++;
+    free(name);
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate #defines for all tokens */
+  if( mhflag ){
+    char *prefix;
+    fprintf(out,"#if INTERFACE\n"); lineno++;
+    if( lemp->tokenprefix ) prefix = lemp->tokenprefix;
+    else                    prefix = "";
+    for(i=1; i<lemp->nterminal; i++){
+      fprintf(out,"#define %s%-30s %2d\n",prefix,lemp->symbols[i]->name,i);
+      lineno++;
+    }
+    fprintf(out,"#endif\n"); lineno++;
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate the defines */
+  fprintf(out,"#define YYCODETYPE %s\n",
+    minimum_size_type(0, lemp->nsymbol+5)); lineno++;
+  fprintf(out,"#define YYNOCODE %d\n",lemp->nsymbol+1);  lineno++;
+  fprintf(out,"#define YYACTIONTYPE %s\n",
+    minimum_size_type(0, lemp->nstate+lemp->nrule+5));  lineno++;
+  print_stack_union(out,lemp,&lineno,mhflag);
+  if( lemp->stacksize ){
+    if( atoi(lemp->stacksize)<=0 ){
+      ErrorMsg(lemp->filename,0,
+"Illegal stack size: [%s].  The stack size should be an integer constant.",
+        lemp->stacksize);
+      lemp->errorcnt++;
+      lemp->stacksize = "100";
+    }
+    fprintf(out,"#define YYSTACKDEPTH %s\n",lemp->stacksize);  lineno++;
+  }else{
+    fprintf(out,"#define YYSTACKDEPTH 100\n");  lineno++;
+  }
+  if( mhflag ){
+    fprintf(out,"#if INTERFACE\n"); lineno++;
+  }
+  name = lemp->name ? lemp->name : "Parse";
+  if( lemp->arg && lemp->arg[0] ){
+    int i;
+    i = strlen(lemp->arg);
+    while( i>=1 && isspace(lemp->arg[i-1]) ) i--;
+    while( i>=1 && (isalnum(lemp->arg[i-1]) || lemp->arg[i-1]=='_') ) i--;
+    fprintf(out,"#define %sARG_SDECL %s;\n",name,lemp->arg);  lineno++;
+    fprintf(out,"#define %sARG_PDECL ,%s\n",name,lemp->arg);  lineno++;
+    fprintf(out,"#define %sARG_FETCH %s = yypParser->%s\n",
+                 name,lemp->arg,&lemp->arg[i]);  lineno++;
+    fprintf(out,"#define %sARG_STORE yypParser->%s = %s\n",
+                 name,&lemp->arg[i],&lemp->arg[i]);  lineno++;
+  }else{
+    fprintf(out,"#define %sARG_SDECL\n",name);  lineno++;
+    fprintf(out,"#define %sARG_PDECL\n",name);  lineno++;
+    fprintf(out,"#define %sARG_FETCH\n",name); lineno++;
+    fprintf(out,"#define %sARG_STORE\n",name); lineno++;
+  }
+  if( mhflag ){
+    fprintf(out,"#endif\n"); lineno++;
+  }
+  fprintf(out,"#define YYNSTATE %d\n",lemp->nstate);  lineno++;
+  fprintf(out,"#define YYNRULE %d\n",lemp->nrule);  lineno++;
+  fprintf(out,"#define YYERRORSYMBOL %d\n",lemp->errsym->index);  lineno++;
+  fprintf(out,"#define YYERRSYMDT yy%d\n",lemp->errsym->dtnum);  lineno++;
+  if( lemp->has_fallback ){
+    fprintf(out,"#define YYFALLBACK 1\n");  lineno++;
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate the action table and its associates:
+  **
+  **  yy_action[]        A single table containing all actions.
+  **  yy_lookahead[]     A table containing the lookahead for each entry in
+  **                     yy_action.  Used to detect hash collisions.
+  **  yy_shift_ofst[]    For each state, the offset into yy_action for
+  **                     shifting terminals.
+  **  yy_reduce_ofst[]   For each state, the offset into yy_action for
+  **                     shifting non-terminals after a reduce.
+  **  yy_default[]       Default action for each state.
+  */
+
+  /* Compute the actions on all states and count them up */
+  ax = malloc( sizeof(ax[0])*lemp->nstate*2 );
+  if( ax==0 ){
+    fprintf(stderr,"malloc failed\n");
+    exit(1);
+  }
+  for(i=0; i<lemp->nstate; i++){
+    stp = lemp->sorted[i];
+    stp->nTknAct = stp->nNtAct = 0;
+    stp->iDflt = lemp->nstate + lemp->nrule;
+    stp->iTknOfst = NO_OFFSET;
+    stp->iNtOfst = NO_OFFSET;
+    for(ap=stp->ap; ap; ap=ap->next){
+      if( compute_action(lemp,ap)>=0 ){
+        if( ap->sp->index<lemp->nterminal ){
+          stp->nTknAct++;
+        }else if( ap->sp->index<lemp->nsymbol ){
+          stp->nNtAct++;
+        }else{
+          stp->iDflt = compute_action(lemp, ap);
+        }
+      }
+    }
+    ax[i*2].stp = stp;
+    ax[i*2].isTkn = 1;
+    ax[i*2].nAction = stp->nTknAct;
+    ax[i*2+1].stp = stp;
+    ax[i*2+1].isTkn = 0;
+    ax[i*2+1].nAction = stp->nNtAct;
+  }
+  mxTknOfst = mnTknOfst = 0;
+  mxNtOfst = mnNtOfst = 0;
+
+  /* Compute the action table.  In order to try to keep the size of the
+  ** action table to a minimum, the heuristic of placing the largest action
+  ** sets first is used.
+  */
+  qsort(ax, lemp->nstate*2, sizeof(ax[0]), axset_compare);
+  pActtab = acttab_alloc();
+  for(i=0; i<lemp->nstate*2 && ax[i].nAction>0; i++){
+    stp = ax[i].stp;
+    if( ax[i].isTkn ){
+      for(ap=stp->ap; ap; ap=ap->next){
+        int action;
+        if( ap->sp->index>=lemp->nterminal ) continue;
+        action = compute_action(lemp, ap);
+        if( action<0 ) continue;
+        acttab_action(pActtab, ap->sp->index, action);
+      }
+      stp->iTknOfst = acttab_insert(pActtab);
+      if( stp->iTknOfst<mnTknOfst ) mnTknOfst = stp->iTknOfst;
+      if( stp->iTknOfst>mxTknOfst ) mxTknOfst = stp->iTknOfst;
+    }else{
+      for(ap=stp->ap; ap; ap=ap->next){
+        int action;
+        if( ap->sp->index<lemp->nterminal ) continue;
+        if( ap->sp->index==lemp->nsymbol ) continue;
+        action = compute_action(lemp, ap);
+        if( action<0 ) continue;
+        acttab_action(pActtab, ap->sp->index, action);
+      }
+      stp->iNtOfst = acttab_insert(pActtab);
+      if( stp->iNtOfst<mnNtOfst ) mnNtOfst = stp->iNtOfst;
+      if( stp->iNtOfst>mxNtOfst ) mxNtOfst = stp->iNtOfst;
+    }
+  }
+  free(ax);
+
+  /* Output the yy_action table */
+  fprintf(out,"static YYACTIONTYPE yy_action[] = {\n"); lineno++;
+  n = acttab_size(pActtab);
+  for(i=j=0; i<n; i++){
+    int action = acttab_yyaction(pActtab, i);
+    if( action<0 ) action = lemp->nsymbol + lemp->nrule + 2;
+    if( j==0 ) fprintf(out," /* %5d */ ", i);
+    fprintf(out, " %4d,", action);
+    if( j==9 || i==n-1 ){
+      fprintf(out, "\n"); lineno++;
+      j = 0;
+    }else{
+      j++;
+    }
+  }
+  fprintf(out, "};\n"); lineno++;
+
+  /* Output the yy_lookahead table */
+  fprintf(out,"static YYCODETYPE yy_lookahead[] = {\n"); lineno++;
+  for(i=j=0; i<n; i++){
+    int la = acttab_yylookahead(pActtab, i);
+    if( la<0 ) la = lemp->nsymbol;
+    if( j==0 ) fprintf(out," /* %5d */ ", i);
+    fprintf(out, " %4d,", la);
+    if( j==9 || i==n-1 ){
+      fprintf(out, "\n"); lineno++;
+      j = 0;
+    }else{
+      j++;
+    }
+  }
+  fprintf(out, "};\n"); lineno++;
+
+  /* Output the yy_shift_ofst[] table */
+  fprintf(out, "#define YY_SHIFT_USE_DFLT (%d)\n", mnTknOfst-1); lineno++;
+  fprintf(out, "static %s yy_shift_ofst[] = {\n", 
+          minimum_size_type(mnTknOfst-1, mxTknOfst)); lineno++;
+  n = lemp->nstate;
+  for(i=j=0; i<n; i++){
+    int ofst;
+    stp = lemp->sorted[i];
+    ofst = stp->iTknOfst;
+    if( ofst==NO_OFFSET ) ofst = mnTknOfst - 1;
+    if( j==0 ) fprintf(out," /* %5d */ ", i);
+    fprintf(out, " %4d,", ofst);
+    if( j==9 || i==n-1 ){
+      fprintf(out, "\n"); lineno++;
+      j = 0;
+    }else{
+      j++;
+    }
+  }
+  fprintf(out, "};\n"); lineno++;
+
+  /* Output the yy_reduce_ofst[] table */
+  fprintf(out, "#define YY_REDUCE_USE_DFLT (%d)\n", mnNtOfst-1); lineno++;
+  fprintf(out, "static %s yy_reduce_ofst[] = {\n", 
+          minimum_size_type(mnNtOfst-1, mxNtOfst)); lineno++;
+  n = lemp->nstate;
+  for(i=j=0; i<n; i++){
+    int ofst;
+    stp = lemp->sorted[i];
+    ofst = stp->iNtOfst;
+    if( ofst==NO_OFFSET ) ofst = mnNtOfst - 1;
+    if( j==0 ) fprintf(out," /* %5d */ ", i);
+    fprintf(out, " %4d,", ofst);
+    if( j==9 || i==n-1 ){
+      fprintf(out, "\n"); lineno++;
+      j = 0;
+    }else{
+      j++;
+    }
+  }
+  fprintf(out, "};\n"); lineno++;
+
+  /* Output the default action table */
+  fprintf(out, "static YYACTIONTYPE yy_default[] = {\n"); lineno++;
+  n = lemp->nstate;
+  for(i=j=0; i<n; i++){
+    stp = lemp->sorted[i];
+    if( j==0 ) fprintf(out," /* %5d */ ", i);
+    fprintf(out, " %4d,", stp->iDflt);
+    if( j==9 || i==n-1 ){
+      fprintf(out, "\n"); lineno++;
+      j = 0;
+    }else{
+      j++;
+    }
+  }
+  fprintf(out, "};\n"); lineno++;
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate the table of fallback tokens.
+  */
+  if( lemp->has_fallback ){
+    for(i=0; i<lemp->nterminal; i++){
+      struct symbol *p = lemp->symbols[i];
+      if( p->fallback==0 ){
+        fprintf(out, "    0,  /* %10s => nothing */\n", p->name);
+      }else{
+        fprintf(out, "  %3d,  /* %10s => %s */\n", p->fallback->index,
+          p->name, p->fallback->name);
+      }
+      lineno++;
+    }
+  }
+  tplt_xfer(lemp->name, in, out, &lineno);
+
+  /* Generate a table containing the symbolic name of every symbol
+  */
+  for(i=0; i<lemp->nsymbol; i++){
+    sprintf(line,"\"%s\",",lemp->symbols[i]->name);
+    fprintf(out,"  %-15s",line);
+    if( (i&3)==3 ){ fprintf(out,"\n"); lineno++; }
+  }
+  if( (i&3)!=0 ){ fprintf(out,"\n"); lineno++; }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate a table containing a text string that describes every
+  ** rule in the rule set of the grammer.  This information is used
+  ** when tracing REDUCE actions.
+  */
+  for(i=0, rp=lemp->rule; rp; rp=rp->next, i++){
+    assert( rp->index==i );
+    fprintf(out," /* %3d */ \"%s ::=", i, rp->lhs->name);
+    for(j=0; j<rp->nrhs; j++) fprintf(out," %s",rp->rhs[j]->name);
+    fprintf(out,"\",\n"); lineno++;
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which executes every time a symbol is popped from
+  ** the stack while processing errors or while destroying the parser. 
+  ** (In other words, generate the %destructor actions)
+  */
+  if( lemp->tokendest ){
+    for(i=0; i<lemp->nsymbol; i++){
+      struct symbol *sp = lemp->symbols[i];
+      if( sp==0 || sp->type!=TERMINAL ) continue;
+      fprintf(out,"    case %d:\n",sp->index); lineno++;
+    }
+    for(i=0; i<lemp->nsymbol && lemp->symbols[i]->type!=TERMINAL; i++);
+    if( i<lemp->nsymbol ){
+      emit_destructor_code(out,lemp->symbols[i],lemp,&lineno);
+      fprintf(out,"      break;\n"); lineno++;
+    }
+  }
+  for(i=0; i<lemp->nsymbol; i++){
+    struct symbol *sp = lemp->symbols[i];
+    if( sp==0 || sp->type==TERMINAL || sp->destructor==0 ) continue;
+    fprintf(out,"    case %d:\n",sp->index); lineno++;
+
+    /* Combine duplicate destructors into a single case */
+    for(j=i+1; j<lemp->nsymbol; j++){
+      struct symbol *sp2 = lemp->symbols[j];
+      if( sp2 && sp2->type!=TERMINAL && sp2->destructor
+          && sp2->dtnum==sp->dtnum
+          && strcmp(sp->destructor,sp2->destructor)==0 ){
+         fprintf(out,"    case %d:\n",sp2->index); lineno++;
+         sp2->destructor = 0;
+      }
+    }
+
+    emit_destructor_code(out,lemp->symbols[i],lemp,&lineno);
+    fprintf(out,"      break;\n"); lineno++;
+  }
+  if( lemp->vardest ){
+    struct symbol *dflt_sp = 0;
+    for(i=0; i<lemp->nsymbol; i++){
+      struct symbol *sp = lemp->symbols[i];
+      if( sp==0 || sp->type==TERMINAL ||
+          sp->index<=0 || sp->destructor!=0 ) continue;
+      fprintf(out,"    case %d:\n",sp->index); lineno++;
+      dflt_sp = sp;
+    }
+    if( dflt_sp!=0 ){
+      emit_destructor_code(out,dflt_sp,lemp,&lineno);
+      fprintf(out,"      break;\n"); lineno++;
+    }
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which executes whenever the parser stack overflows */
+  tplt_print(out,lemp,lemp->overflow,lemp->overflowln,&lineno);
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate the table of rule information 
+  **
+  ** Note: This code depends on the fact that rules are number
+  ** sequentually beginning with 0.
+  */
+  for(rp=lemp->rule; rp; rp=rp->next){
+    fprintf(out,"  { %d, %d },\n",rp->lhs->index,rp->nrhs); lineno++;
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which execution during each REDUCE action */
+  for(rp=lemp->rule; rp; rp=rp->next){
+    if( rp->code ) translate_code(lemp, rp);
+  }
+  for(rp=lemp->rule; rp; rp=rp->next){
+    struct rule *rp2;
+    if( rp->code==0 ) continue;
+    fprintf(out,"      case %d:\n",rp->index); lineno++;
+    for(rp2=rp->next; rp2; rp2=rp2->next){
+      if( rp2->code==rp->code ){
+        fprintf(out,"      case %d:\n",rp2->index); lineno++;
+        rp2->code = 0;
+      }
+    }
+    emit_code(out,rp,lemp,&lineno);
+    fprintf(out,"        break;\n"); lineno++;
+  }
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which executes if a parse fails */
+  tplt_print(out,lemp,lemp->failure,lemp->failureln,&lineno);
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which executes when a syntax error occurs */
+  tplt_print(out,lemp,lemp->error,lemp->errorln,&lineno);
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Generate code which executes when the parser accepts its input */
+  tplt_print(out,lemp,lemp->accept,lemp->acceptln,&lineno);
+  tplt_xfer(lemp->name,in,out,&lineno);
+
+  /* Append any addition code the user desires */
+  tplt_print(out,lemp,lemp->extracode,lemp->extracodeln,&lineno);
+
+  fclose(in);
+  fclose(out);
+  return;
+}
+
+/* Generate a header file for the parser */
+void ReportHeader(lemp)
+struct lemon *lemp;
+{
+  FILE *out, *in;
+  char *prefix;
+  char line[LINESIZE];
+  char pattern[LINESIZE];
+  int i;
+
+  if( lemp->tokenprefix ) prefix = lemp->tokenprefix;
+  else                    prefix = "";
+  in = file_open(lemp,".h","r");
+  if( in ){
+    for(i=1; i<lemp->nterminal && fgets(line,LINESIZE,in); i++){
+      sprintf(pattern,"#define %s%-30s %2d\n",prefix,lemp->symbols[i]->name,i);
+      if( strcmp(line,pattern) ) break;
+    }
+    fclose(in);
+    if( i==lemp->nterminal ){
+      /* No change in the file.  Don't rewrite it. */
+      return;
+    }
+  }
+  out = file_open(lemp,".h","w");
+  if( out ){
+    for(i=1; i<lemp->nterminal; i++){
+      fprintf(out,"#define %s%-30s %2d\n",prefix,lemp->symbols[i]->name,i);
+    }
+    fclose(out);  
+  }
+  return;
+}
+
+/* Reduce the size of the action tables, if possible, by making use
+** of defaults.
+**
+** In this version, we take the most frequent REDUCE action and make
+** it the default.  Only default a reduce if there are more than one.
+*/
+void CompressTables(lemp)
+struct lemon *lemp;
+{
+  struct state *stp;
+  struct action *ap, *ap2;
+  struct rule *rp, *rp2, *rbest;
+  int nbest, n;
+  int i;
+
+  for(i=0; i<lemp->nstate; i++){
+    stp = lemp->sorted[i];
+    nbest = 0;
+    rbest = 0;
+
+    for(ap=stp->ap; ap; ap=ap->next){
+      if( ap->type!=REDUCE ) continue;
+      rp = ap->x.rp;
+      if( rp==rbest ) continue;
+      n = 1;
+      for(ap2=ap->next; ap2; ap2=ap2->next){
+        if( ap2->type!=REDUCE ) continue;
+        rp2 = ap2->x.rp;
+        if( rp2==rbest ) continue;
+        if( rp2==rp ) n++;
+      }
+      if( n>nbest ){
+        nbest = n;
+        rbest = rp;
+      }
+    }
+ 
+    /* Do not make a default if the number of rules to default
+    ** is not at least 2 */
+    if( nbest<2 ) continue;
+
+
+    /* Combine matching REDUCE actions into a single default */
+    for(ap=stp->ap; ap; ap=ap->next){
+      if( ap->type==REDUCE && ap->x.rp==rbest ) break;
+    }
+    assert( ap );
+    ap->sp = Symbol_new("{default}");
+    for(ap=ap->next; ap; ap=ap->next){
+      if( ap->type==REDUCE && ap->x.rp==rbest ) ap->type = NOT_USED;
+    }
+    stp->ap = Action_sort(stp->ap);
+  }
+}
+
+/***************** From the file "set.c" ************************************/
+
+static int size = 0;
+
+/* Set the set size */
+void SetSize(n)
+int n;
+{
+  size = n+1;
+}
+
+/* Allocate a new set */
+char *SetNew(){
+  char *s;
+  int i;
+  s = (char*)malloc( size );
+  if( s==0 ){
+    extern void memory_error();
+    memory_error();
+  }
+  for(i=0; i<size; i++) s[i] = 0;
+  return s;
+}
+
+/* Deallocate a set */
+void SetFree(s)
+char *s;
+{
+  free(s);
+}
+
+/* Add a new element to the set.  Return TRUE if the element was added
+** and FALSE if it was already there. */
+int SetAdd(s,e)
+char *s;
+int e;
+{
+  int rv;
+  rv = s[e];
+  s[e] = 1;
+  return !rv;
+}
+
+/* Add every element of s2 to s1.  Return TRUE if s1 changes. */
+int SetUnion(s1,s2)
+char *s1;
+char *s2;
+{
+  int i, progress;
+  progress = 0;
+  for(i=0; i<size; i++){
+    if( s2[i]==0 ) continue;
+    if( s1[i]==0 ){
+      progress = 1;
+      s1[i] = 1;
+    }
+  }
+  return progress;
+}
+/********************** From the file "table.c" ****************************/
+
+PRIVATE int strhash(x)
+char *x;
+{
+  int h = 0;
+  while( *x) h = h*13 + *(x++);
+  return h;
+}
+
+/* Works like strdup, sort of.  Save a string in malloced memory, but
+** keep strings in a table so that the same string is not in more
+** than one place.
+*/
+char *Strsafe(y)
+char *y;
+{
+  char *z;
+
+  z = Strsafe_find(y);
+  if( z==0 && (z=malloc( strlen(y)+1 ))!=0 ){
+    strcpy(z,y);
+    Strsafe_insert(z);
+  }
+  MemoryCheck(z);
+  return z;
+}
+
+/* There is one instance of the following structure for each
+** associative array of type "x1".
+*/
+struct s_x1 {
+  int size;               /* The number of available slots. */
+                          /*   Must be a power of 2 greater than or */
+                          /*   equal to 1 */
+  int count;              /* Number of currently slots filled */
+  struct s_x1node *tbl;  /* The data stored here */
+  struct s_x1node **ht;  /* Hash table for lookups */
+};
+
+/* There is one instance of this structure for every data element
+** in an associative array of type "x1".
+*/
+typedef struct s_x1node {
+  char *data;                  /* The data */
+  struct s_x1node *next;   /* Next entry with the same hash */
+  struct s_x1node **from;  /* Previous link */
+} x1node;
+
+/* There is only one instance of the array, which is the following */
+static struct s_x1 *x1a;
+
+/* Allocate a new associative array */
+void Strsafe_init(){
+  if( x1a ) return;
+  x1a = (struct s_x1*)malloc( sizeof(struct s_x1) );
+  if( x1a ){
+    x1a->size = 1024;
+    x1a->count = 0;
+    x1a->tbl = (x1node*)malloc( 
+      (sizeof(x1node) + sizeof(x1node*))*1024 );
+    if( x1a->tbl==0 ){
+      free(x1a);
+      x1a = 0;
+    }else{
+      int i;
+      x1a->ht = (x1node**)&(x1a->tbl[1024]);
+      for(i=0; i<1024; i++) x1a->ht[i] = 0;
+    }
+  }
+}
+/* Insert a new record into the array.  Return TRUE if successful.
+** Prior data with the same key is NOT overwritten */
+int Strsafe_insert(data)
+char *data;
+{
+  x1node *np;
+  int h;
+  int ph;
+
+  if( x1a==0 ) return 0;
+  ph = strhash(data);
+  h = ph & (x1a->size-1);
+  np = x1a->ht[h];
+  while( np ){
+    if( strcmp(np->data,data)==0 ){
+      /* An existing entry with the same key is found. */
+      /* Fail because overwrite is not allows. */
+      return 0;
+    }
+    np = np->next;
+  }
+  if( x1a->count>=x1a->size ){
+    /* Need to make the hash table bigger */
+    int i,size;
+    struct s_x1 array;
+    array.size = size = x1a->size*2;
+    array.count = x1a->count;
+    array.tbl = (x1node*)malloc(
+      (sizeof(x1node) + sizeof(x1node*))*size );
+    if( array.tbl==0 ) return 0;  /* Fail due to malloc failure */
+    array.ht = (x1node**)&(array.tbl[size]);
+    for(i=0; i<size; i++) array.ht[i] = 0;
+    for(i=0; i<x1a->count; i++){
+      x1node *oldnp, *newnp;
+      oldnp = &(x1a->tbl[i]);
+      h = strhash(oldnp->data) & (size-1);
+      newnp = &(array.tbl[i]);
+      if( array.ht[h] ) array.ht[h]->from = &(newnp->next);
+      newnp->next = array.ht[h];
+      newnp->data = oldnp->data;
+      newnp->from = &(array.ht[h]);
+      array.ht[h] = newnp;
+    }
+    free(x1a->tbl);
+    *x1a = array;
+  }
+  /* Insert the new data */
+  h = ph & (x1a->size-1);
+  np = &(x1a->tbl[x1a->count++]);
+  np->data = data;
+  if( x1a->ht[h] ) x1a->ht[h]->from = &(np->next);
+  np->next = x1a->ht[h];
+  x1a->ht[h] = np;
+  np->from = &(x1a->ht[h]);
+  return 1;
+}
+
+/* Return a pointer to data assigned to the given key.  Return NULL
+** if no such key. */
+char *Strsafe_find(key)
+char *key;
+{
+  int h;
+  x1node *np;
+
+  if( x1a==0 ) return 0;
+  h = strhash(key) & (x1a->size-1);
+  np = x1a->ht[h];
+  while( np ){
+    if( strcmp(np->data,key)==0 ) break;
+    np = np->next;
+  }
+  return np ? np->data : 0;
+}
+
+/* Return a pointer to the (terminal or nonterminal) symbol "x".
+** Create a new symbol if this is the first time "x" has been seen.
+*/
+struct symbol *Symbol_new(x)
+char *x;
+{
+  struct symbol *sp;
+
+  sp = Symbol_find(x);
+  if( sp==0 ){
+    sp = (struct symbol *)malloc( sizeof(struct symbol) );
+    MemoryCheck(sp);
+    sp->name = Strsafe(x);
+    sp->type = isupper(*x) ? TERMINAL : NONTERMINAL;
+    sp->rule = 0;
+    sp->fallback = 0;
+    sp->prec = -1;
+    sp->assoc = UNK;
+    sp->firstset = 0;
+    sp->lambda = B_FALSE;
+    sp->destructor = 0;
+    sp->datatype = 0;
+    Symbol_insert(sp,sp->name);
+  }
+  return sp;
+}
+
+/* Compare two symbols for working purposes
+**
+** Symbols that begin with upper case letters (terminals or tokens)
+** must sort before symbols that begin with lower case letters
+** (non-terminals).  Other than that, the order does not matter.
+**
+** We find experimentally that leaving the symbols in their original
+** order (the order they appeared in the grammar file) gives the
+** smallest parser tables in SQLite.
+*/
+int Symbolcmpp(struct symbol **a, struct symbol **b){
+  int i1 = (**a).index + 10000000*((**a).name[0]>'Z');
+  int i2 = (**b).index + 10000000*((**b).name[0]>'Z');
+  return i1-i2;
+}
+
+/* There is one instance of the following structure for each
+** associative array of type "x2".
+*/
+struct s_x2 {
+  int size;               /* The number of available slots. */
+                          /*   Must be a power of 2 greater than or */
+                          /*   equal to 1 */
+  int count;              /* Number of currently slots filled */
+  struct s_x2node *tbl;  /* The data stored here */
+  struct s_x2node **ht;  /* Hash table for lookups */
+};
+
+/* There is one instance of this structure for every data element
+** in an associative array of type "x2".
+*/
+typedef struct s_x2node {
+  struct symbol *data;                  /* The data */
+  char *key;                   /* The key */
+  struct s_x2node *next;   /* Next entry with the same hash */
+  struct s_x2node **from;  /* Previous link */
+} x2node;
+
+/* There is only one instance of the array, which is the following */
+static struct s_x2 *x2a;
+
+/* Allocate a new associative array */
+void Symbol_init(){
+  if( x2a ) return;
+  x2a = (struct s_x2*)malloc( sizeof(struct s_x2) );
+  if( x2a ){
+    x2a->size = 128;
+    x2a->count = 0;
+    x2a->tbl = (x2node*)malloc( 
+      (sizeof(x2node) + sizeof(x2node*))*128 );
+    if( x2a->tbl==0 ){
+      free(x2a);
+      x2a = 0;
+    }else{
+      int i;
+      x2a->ht = (x2node**)&(x2a->tbl[128]);
+      for(i=0; i<128; i++) x2a->ht[i] = 0;
+    }
+  }
+}
+/* Insert a new record into the array.  Return TRUE if successful.
+** Prior data with the same key is NOT overwritten */
+int Symbol_insert(data,key)
+struct symbol *data;
+char *key;
+{
+  x2node *np;
+  int h;
+  int ph;
+
+  if( x2a==0 ) return 0;
+  ph = strhash(key);
+  h = ph & (x2a->size-1);
+  np = x2a->ht[h];
+  while( np ){
+    if( strcmp(np->key,key)==0 ){
+      /* An existing entry with the same key is found. */
+      /* Fail because overwrite is not allows. */
+      return 0;
+    }
+    np = np->next;
+  }
+  if( x2a->count>=x2a->size ){
+    /* Need to make the hash table bigger */
+    int i,size;
+    struct s_x2 array;
+    array.size = size = x2a->size*2;
+    array.count = x2a->count;
+    array.tbl = (x2node*)malloc(
+      (sizeof(x2node) + sizeof(x2node*))*size );
+    if( array.tbl==0 ) return 0;  /* Fail due to malloc failure */
+    array.ht = (x2node**)&(array.tbl[size]);
+    for(i=0; i<size; i++) array.ht[i] = 0;
+    for(i=0; i<x2a->count; i++){
+      x2node *oldnp, *newnp;
+      oldnp = &(x2a->tbl[i]);
+      h = strhash(oldnp->key) & (size-1);
+      newnp = &(array.tbl[i]);
+      if( array.ht[h] ) array.ht[h]->from = &(newnp->next);
+      newnp->next = array.ht[h];
+      newnp->key = oldnp->key;
+      newnp->data = oldnp->data;
+      newnp->from = &(array.ht[h]);
+      array.ht[h] = newnp;
+    }
+    free(x2a->tbl);
+    *x2a = array;
+  }
+  /* Insert the new data */
+  h = ph & (x2a->size-1);
+  np = &(x2a->tbl[x2a->count++]);
+  np->key = key;
+  np->data = data;
+  if( x2a->ht[h] ) x2a->ht[h]->from = &(np->next);
+  np->next = x2a->ht[h];
+  x2a->ht[h] = np;
+  np->from = &(x2a->ht[h]);
+  return 1;
+}
+
+/* Return a pointer to data assigned to the given key.  Return NULL
+** if no such key. */
+struct symbol *Symbol_find(key)
+char *key;
+{
+  int h;
+  x2node *np;
+
+  if( x2a==0 ) return 0;
+  h = strhash(key) & (x2a->size-1);
+  np = x2a->ht[h];
+  while( np ){
+    if( strcmp(np->key,key)==0 ) break;
+    np = np->next;
+  }
+  return np ? np->data : 0;
+}
+
+/* Return the n-th data.  Return NULL if n is out of range. */
+struct symbol *Symbol_Nth(n)
+int n;
+{
+  struct symbol *data;
+  if( x2a && n>0 && n<=x2a->count ){
+    data = x2a->tbl[n-1].data;
+  }else{
+    data = 0;
+  }
+  return data;
+}
+
+/* Return the size of the array */
+int Symbol_count()
+{
+  return x2a ? x2a->count : 0;
+}
+
+/* Return an array of pointers to all data in the table.
+** The array is obtained from malloc.  Return NULL if memory allocation
+** problems, or if the array is empty. */
+struct symbol **Symbol_arrayof()
+{
+  struct symbol **array;
+  int i,size;
+  if( x2a==0 ) return 0;
+  size = x2a->count;
+  array = (struct symbol **)malloc( sizeof(struct symbol *)*size );
+  if( array ){
+    for(i=0; i<size; i++) array[i] = x2a->tbl[i].data;
+  }
+  return array;
+}
+
+/* Compare two configurations */
+int Configcmp(a,b)
+struct config *a;
+struct config *b;
+{
+  int x;
+  x = a->rp->index - b->rp->index;
+  if( x==0 ) x = a->dot - b->dot;
+  return x;
+}
+
+/* Compare two states */
+PRIVATE int statecmp(a,b)
+struct config *a;
+struct config *b;
+{
+  int rc;
+  for(rc=0; rc==0 && a && b;  a=a->bp, b=b->bp){
+    rc = a->rp->index - b->rp->index;
+    if( rc==0 ) rc = a->dot - b->dot;
+  }
+  if( rc==0 ){
+    if( a ) rc = 1;
+    if( b ) rc = -1;
+  }
+  return rc;
+}
+
+/* Hash a state */
+PRIVATE int statehash(a)
+struct config *a;
+{
+  int h=0;
+  while( a ){
+    h = h*571 + a->rp->index*37 + a->dot;
+    a = a->bp;
+  }
+  return h;
+}
+
+/* Allocate a new state structure */
+struct state *State_new()
+{
+  struct state *new;
+  new = (struct state *)malloc( sizeof(struct state) );
+  MemoryCheck(new);
+  return new;
+}
+
+/* There is one instance of the following structure for each
+** associative array of type "x3".
+*/
+struct s_x3 {
+  int size;               /* The number of available slots. */
+                          /*   Must be a power of 2 greater than or */
+                          /*   equal to 1 */
+  int count;              /* Number of currently slots filled */
+  struct s_x3node *tbl;  /* The data stored here */
+  struct s_x3node **ht;  /* Hash table for lookups */
+};
+
+/* There is one instance of this structure for every data element
+** in an associative array of type "x3".
+*/
+typedef struct s_x3node {
+  struct state *data;                  /* The data */
+  struct config *key;                   /* The key */
+  struct s_x3node *next;   /* Next entry with the same hash */
+  struct s_x3node **from;  /* Previous link */
+} x3node;
+
+/* There is only one instance of the array, which is the following */
+static struct s_x3 *x3a;
+
+/* Allocate a new associative array */
+void State_init(){
+  if( x3a ) return;
+  x3a = (struct s_x3*)malloc( sizeof(struct s_x3) );
+  if( x3a ){
+    x3a->size = 128;
+    x3a->count = 0;
+    x3a->tbl = (x3node*)malloc( 
+      (sizeof(x3node) + sizeof(x3node*))*128 );
+    if( x3a->tbl==0 ){
+      free(x3a);
+      x3a = 0;
+    }else{
+      int i;
+      x3a->ht = (x3node**)&(x3a->tbl[128]);
+      for(i=0; i<128; i++) x3a->ht[i] = 0;
+    }
+  }
+}
+/* Insert a new record into the array.  Return TRUE if successful.
+** Prior data with the same key is NOT overwritten */
+int State_insert(data,key)
+struct state *data;
+struct config *key;
+{
+  x3node *np;
+  int h;
+  int ph;
+
+  if( x3a==0 ) return 0;
+  ph = statehash(key);
+  h = ph & (x3a->size-1);
+  np = x3a->ht[h];
+  while( np ){
+    if( statecmp(np->key,key)==0 ){
+      /* An existing entry with the same key is found. */
+      /* Fail because overwrite is not allows. */
+      return 0;
+    }
+    np = np->next;
+  }
+  if( x3a->count>=x3a->size ){
+    /* Need to make the hash table bigger */
+    int i,size;
+    struct s_x3 array;
+    array.size = size = x3a->size*2;
+    array.count = x3a->count;
+    array.tbl = (x3node*)malloc(
+      (sizeof(x3node) + sizeof(x3node*))*size );
+    if( array.tbl==0 ) return 0;  /* Fail due to malloc failure */
+    array.ht = (x3node**)&(array.tbl[size]);
+    for(i=0; i<size; i++) array.ht[i] = 0;
+    for(i=0; i<x3a->count; i++){
+      x3node *oldnp, *newnp;
+      oldnp = &(x3a->tbl[i]);
+      h = statehash(oldnp->key) & (size-1);
+      newnp = &(array.tbl[i]);
+      if( array.ht[h] ) array.ht[h]->from = &(newnp->next);
+      newnp->next = array.ht[h];
+      newnp->key = oldnp->key;
+      newnp->data = oldnp->data;
+      newnp->from = &(array.ht[h]);
+      array.ht[h] = newnp;
+    }
+    free(x3a->tbl);
+    *x3a = array;
+  }
+  /* Insert the new data */
+  h = ph & (x3a->size-1);
+  np = &(x3a->tbl[x3a->count++]);
+  np->key = key;
+  np->data = data;
+  if( x3a->ht[h] ) x3a->ht[h]->from = &(np->next);
+  np->next = x3a->ht[h];
+  x3a->ht[h] = np;
+  np->from = &(x3a->ht[h]);
+  return 1;
+}
+
+/* Return a pointer to data assigned to the given key.  Return NULL
+** if no such key. */
+struct state *State_find(key)
+struct config *key;
+{
+  int h;
+  x3node *np;
+
+  if( x3a==0 ) return 0;
+  h = statehash(key) & (x3a->size-1);
+  np = x3a->ht[h];
+  while( np ){
+    if( statecmp(np->key,key)==0 ) break;
+    np = np->next;
+  }
+  return np ? np->data : 0;
+}
+
+/* Return an array of pointers to all data in the table.
+** The array is obtained from malloc.  Return NULL if memory allocation
+** problems, or if the array is empty. */
+struct state **State_arrayof()
+{
+  struct state **array;
+  int i,size;
+  if( x3a==0 ) return 0;
+  size = x3a->count;
+  array = (struct state **)malloc( sizeof(struct state *)*size );
+  if( array ){
+    for(i=0; i<size; i++) array[i] = x3a->tbl[i].data;
+  }
+  return array;
+}
+
+/* Hash a configuration */
+PRIVATE int confighash(a)
+struct config *a;
+{
+  int h=0;
+  h = h*571 + a->rp->index*37 + a->dot;
+  return h;
+}
+
+/* There is one instance of the following structure for each
+** associative array of type "x4".
+*/
+struct s_x4 {
+  int size;               /* The number of available slots. */
+                          /*   Must be a power of 2 greater than or */
+                          /*   equal to 1 */
+  int count;              /* Number of currently slots filled */
+  struct s_x4node *tbl;  /* The data stored here */
+  struct s_x4node **ht;  /* Hash table for lookups */
+};
+
+/* There is one instance of this structure for every data element
+** in an associative array of type "x4".
+*/
+typedef struct s_x4node {
+  struct config *data;                  /* The data */
+  struct s_x4node *next;   /* Next entry with the same hash */
+  struct s_x4node **from;  /* Previous link */
+} x4node;
+
+/* There is only one instance of the array, which is the following */
+static struct s_x4 *x4a;
+
+/* Allocate a new associative array */
+void Configtable_init(){
+  if( x4a ) return;
+  x4a = (struct s_x4*)malloc( sizeof(struct s_x4) );
+  if( x4a ){
+    x4a->size = 64;
+    x4a->count = 0;
+    x4a->tbl = (x4node*)malloc( 
+      (sizeof(x4node) + sizeof(x4node*))*64 );
+    if( x4a->tbl==0 ){
+      free(x4a);
+      x4a = 0;
+    }else{
+      int i;
+      x4a->ht = (x4node**)&(x4a->tbl[64]);
+      for(i=0; i<64; i++) x4a->ht[i] = 0;
+    }
+  }
+}
+/* Insert a new record into the array.  Return TRUE if successful.
+** Prior data with the same key is NOT overwritten */
+int Configtable_insert(data)
+struct config *data;
+{
+  x4node *np;
+  int h;
+  int ph;
+
+  if( x4a==0 ) return 0;
+  ph = confighash(data);
+  h = ph & (x4a->size-1);
+  np = x4a->ht[h];
+  while( np ){
+    if( Configcmp(np->data,data)==0 ){
+      /* An existing entry with the same key is found. */
+      /* Fail because overwrite is not allows. */
+      return 0;
+    }
+    np = np->next;
+  }
+  if( x4a->count>=x4a->size ){
+    /* Need to make the hash table bigger */
+    int i,size;
+    struct s_x4 array;
+    array.size = size = x4a->size*2;
+    array.count = x4a->count;
+    array.tbl = (x4node*)malloc(
+      (sizeof(x4node) + sizeof(x4node*))*size );
+    if( array.tbl==0 ) return 0;  /* Fail due to malloc failure */
+    array.ht = (x4node**)&(array.tbl[size]);
+    for(i=0; i<size; i++) array.ht[i] = 0;
+    for(i=0; i<x4a->count; i++){
+      x4node *oldnp, *newnp;
+      oldnp = &(x4a->tbl[i]);
+      h = confighash(oldnp->data) & (size-1);
+      newnp = &(array.tbl[i]);
+      if( array.ht[h] ) array.ht[h]->from = &(newnp->next);
+      newnp->next = array.ht[h];
+      newnp->data = oldnp->data;
+      newnp->from = &(array.ht[h]);
+      array.ht[h] = newnp;
+    }
+    free(x4a->tbl);
+    *x4a = array;
+  }
+  /* Insert the new data */
+  h = ph & (x4a->size-1);
+  np = &(x4a->tbl[x4a->count++]);
+  np->data = data;
+  if( x4a->ht[h] ) x4a->ht[h]->from = &(np->next);
+  np->next = x4a->ht[h];
+  x4a->ht[h] = np;
+  np->from = &(x4a->ht[h]);
+  return 1;
+}
+
+/* Return a pointer to data assigned to the given key.  Return NULL
+** if no such key. */
+struct config *Configtable_find(key)
+struct config *key;
+{
+  int h;
+  x4node *np;
+
+  if( x4a==0 ) return 0;
+  h = confighash(key) & (x4a->size-1);
+  np = x4a->ht[h];
+  while( np ){
+    if( Configcmp(np->data,key)==0 ) break;
+    np = np->next;
+  }
+  return np ? np->data : 0;
+}
+
+/* Remove all data from the table.  Pass each data to the function "f"
+** as it is removed.  ("f" may be null to avoid this step.) */
+void Configtable_clear(f)
+int(*f)(/* struct config * */);
+{
+  int i;
+  if( x4a==0 || x4a->count==0 ) return;
+  if( f ) for(i=0; i<x4a->count; i++) (*f)(x4a->tbl[i].data);
+  for(i=0; i<x4a->size; i++) x4a->ht[i] = 0;
+  x4a->count = 0;
+  return;
+}
+
+
+/* Driver template for the LEMON parser generator.
+** The author disclaims copyright to this source code.
+*/
+/* First off, code is include which follows the "include" declaration
+** in the input file. */
+%%
+/* Next is all token values, in a form suitable for use by makeheaders.
+** This section will be null unless lemon is run with the -m switch.
+*/
+%%
+/* Make sure the INTERFACE macro is defined.
+*/
+#ifndef INTERFACE
+# define INTERFACE 1
+#endif
+/* The next thing included is series of defines which control
+** various aspects of the generated parser.
+**    YYCODETYPE         is the data type used for storing terminal
+**                       and nonterminal numbers.  "unsigned char" is
+**                       used if there are fewer than 250 terminals
+**                       and nonterminals.  "int" is used otherwise.
+**    YYNOCODE           is a number of type YYCODETYPE which corresponds
+**                       to no legal terminal or nonterminal number.  This
+**                       number is used to fill in empty slots of the hash 
+**                       table.
+**    YYFALLBACK         If defined, this indicates that one or more tokens
+**                       have fall-back values which should be used if the
+**                       original value of the token will not parse.
+**    YYACTIONTYPE       is the data type used for storing terminal
+**                       and nonterminal numbers.  "unsigned char" is
+**                       used if there are fewer than 250 rules and
+**                       states combined.  "int" is used otherwise.
+**    ParseTOKENTYPE     is the data type used for minor tokens given 
+**                       directly to the parser from the tokenizer.
+**    YYMINORTYPE        is the data type used for all minor tokens.
+**                       This is typically a union of many types, one of
+**                       which is ParseTOKENTYPE.  The entry in the union
+**                       for base tokens is called "yy0".
+**    YYSTACKDEPTH       is the maximum depth of the parser's stack.
+**    ParseARG_SDECL     A static variable declaration for the %extra_argument
+**    ParseARG_PDECL     A parameter declaration for the %extra_argument
+**    ParseARG_STORE     Code to store %extra_argument into yypParser
+**    ParseARG_FETCH     Code to extract %extra_argument from yypParser
+**    YYNSTATE           the combined number of states.
+**    YYNRULE            the number of rules in the grammar
+**    YYERRORSYMBOL      is the code number of the error symbol.  If not
+**                       defined, then do no error processing.
+*/
+%%
+#define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
+#define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
+#define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
+
+/* Next are that tables used to determine what action to take based on the
+** current state and lookahead token.  These tables are used to implement
+** functions that take a state number and lookahead value and return an
+** action integer.  
+**
+** Suppose the action integer is N.  Then the action is determined as
+** follows
+**
+**   0 <= N < YYNSTATE                  Shift N.  That is, push the lookahead
+**                                      token onto the stack and goto state N.
+**
+**   YYNSTATE <= N < YYNSTATE+YYNRULE   Reduce by rule N-YYNSTATE.
+**
+**   N == YYNSTATE+YYNRULE              A syntax error has occurred.
+**
+**   N == YYNSTATE+YYNRULE+1            The parser accepts its input.
+**
+**   N == YYNSTATE+YYNRULE+2            No such action.  Denotes unused
+**                                      slots in the yy_action[] table.
+**
+** The action table is constructed as a single large table named yy_action[].
+** Given state S and lookahead X, the action is computed as
+**
+**      yy_action[ yy_shift_ofst[S] + X ]
+**
+** If the index value yy_shift_ofst[S]+X is out of range or if the value
+** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
+** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
+** and that yy_default[S] should be used instead.  
+**
+** The formula above is for computing the action when the lookahead is
+** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
+** a reduce action) then the yy_reduce_ofst[] array is used in place of
+** the yy_shift_ofst[] array and YY_REDUCE_USE_DFLT is used in place of
+** YY_SHIFT_USE_DFLT.
+**
+** The following are the tables generated in this section:
+**
+**  yy_action[]        A single table containing all actions.
+**  yy_lookahead[]     A table containing the lookahead for each entry in
+**                     yy_action.  Used to detect hash collisions.
+**  yy_shift_ofst[]    For each state, the offset into yy_action for
+**                     shifting terminals.
+**  yy_reduce_ofst[]   For each state, the offset into yy_action for
+**                     shifting non-terminals after a reduce.
+**  yy_default[]       Default action for each state.
+*/
+%%
+#define YY_SZ_ACTTAB (sizeof(yy_action)/sizeof(yy_action[0]))
+
+/* The next table maps tokens into fallback tokens.  If a construct
+** like the following:
+** 
+**      %fallback ID X Y Z.
+**
+** appears in the grammer, then ID becomes a fallback token for X, Y,
+** and Z.  Whenever one of the tokens X, Y, or Z is input to the parser
+** but it does not parse, the type of the token is changed to ID and
+** the parse is retried before an error is thrown.
+*/
+#ifdef YYFALLBACK
+static const YYCODETYPE yyFallback[] = {
+%%
+};
+#endif /* YYFALLBACK */
+
+/* The following structure represents a single element of the
+** parser's stack.  Information stored includes:
+**
+**   +  The state number for the parser at this level of the stack.
+**
+**   +  The value of the token stored at this level of the stack.
+**      (In other words, the "major" token.)
+**
+**   +  The semantic value stored at this level of the stack.  This is
+**      the information used by the action routines in the grammar.
+**      It is sometimes called the "minor" token.
+*/
+struct yyStackEntry {
+  int stateno;       /* The state-number */
+  int major;         /* The major token value.  This is the code
+                     ** number for the token at this stack level */
+  YYMINORTYPE minor; /* The user-supplied minor token value.  This
+                     ** is the value of the token  */
+};
+typedef struct yyStackEntry yyStackEntry;
+
+/* The state of the parser is completely contained in an instance of
+** the following structure */
+struct yyParser {
+  int yyidx;                    /* Index of top element in stack */
+  int yyerrcnt;                 /* Shifts left before out of the error */
+  ParseARG_SDECL                /* A place to hold %extra_argument */
+  yyStackEntry yystack[YYSTACKDEPTH];  /* The parser's stack */
+};
+typedef struct yyParser yyParser;
+
+#ifndef NDEBUG
+static FILE *yyTraceFILE = 0;
+static char *yyTracePrompt = 0;
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+void ParseTrace(FILE *TraceFILE, char *zTracePrompt){
+  yyTraceFILE = TraceFILE;
+  yyTracePrompt = zTracePrompt;
+  if( yyTraceFILE==0 ) yyTracePrompt = 0;
+  else if( yyTracePrompt==0 ) yyTraceFILE = 0;
+}
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+/* For tracing shifts, the names of all terminals and nonterminals
+** are required.  The following table supplies these names */
+static const char *yyTokenName[] = { 
+%%
+};
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+/* For tracing reduce actions, the names of all rules are required.
+*/
+static const char *yyRuleName[] = {
+%%
+};
+#endif /* NDEBUG */
+
+const char *ParseTokenName(int tokenType){
+#ifndef NDEBUG
+  if( tokenType>0 && tokenType<(sizeof(yyTokenName)/sizeof(yyTokenName[0])) ){
+    return yyTokenName[tokenType];
+  }else{
+    return "Unknown";
+  }
+#else
+  return "";
+#endif
+}
+
+void *ParseAlloc(void *(*mallocProc)(size_t)){
+  yyParser *pParser;
+  pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
+  if( pParser ){
+    pParser->yyidx = -1;
+  }
+  return pParser;
+}
+
+/* The following function deletes the value associated with a
+** symbol.  The symbol can be either a terminal or nonterminal.
+** "yymajor" is the symbol code, and "yypminor" is a pointer to
+** the value.
+*/
+static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
+  switch( yymajor ){
+    /* Here is inserted the actions which take place when a
+    ** terminal or non-terminal is destroyed.  This can happen
+    ** when the symbol is popped from the stack during a
+    ** reduce or during error processing or when a parser is 
+    ** being destroyed before it is finished parsing.
+    **
+    ** Note: during a reduce, the only symbols destroyed are those
+    ** which appear on the RHS of the rule, but which are not used
+    ** inside the C code.
+    */
+%%
+    default:  break;   /* If no destructor action specified: do nothing */
+  }
+}
+
+static int yy_pop_parser_stack(yyParser *pParser){
+  YYCODETYPE yymajor;
+  yyStackEntry *yytos = &pParser->yystack[pParser->yyidx];
+
+  if( pParser->yyidx<0 ) return 0;
+#ifndef NDEBUG
+  if( yyTraceFILE && pParser->yyidx>=0 ){
+    fprintf(yyTraceFILE,"%sPopping %s\n",
+      yyTracePrompt,
+      yyTokenName[yytos->major]);
+  }
+#endif
+  yymajor = yytos->major;
+  yy_destructor( yymajor, &yytos->minor);
+  pParser->yyidx--;
+  return yymajor;
+}
+
+void ParseFree(
+  void *p,                    /* The parser to be deleted */
+  void (*freeProc)(void*)     /* Function used to reclaim memory */
+){
+  yyParser *pParser = (yyParser*)p;
+  if( pParser==0 ) return;
+  while( pParser->yyidx>=0 ) yy_pop_parser_stack(pParser);
+  (*freeProc)((void*)pParser);
+}
+
+static int yy_find_shift_action(
+  yyParser *pParser,        /* The parser */
+  int iLookAhead            /* The look-ahead token */
+){
+  int i;
+  int stateno = pParser->yystack[pParser->yyidx].stateno;
+ 
+  /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
+  i = yy_shift_ofst[stateno];
+  if( i==YY_SHIFT_USE_DFLT ){
+    return yy_default[stateno];
+  }
+  if( iLookAhead==YYNOCODE ){
+    return YY_NO_ACTION;
+  }
+  i += iLookAhead;
+  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+#ifdef YYFALLBACK
+    int iFallback;            /* Fallback token */
+    if( iLookAhead<sizeof(yyFallback)/sizeof(yyFallback[0])
+           && (iFallback = yyFallback[iLookAhead])!=0 ){
+#ifndef NDEBUG
+      if( yyTraceFILE ){
+        fprintf(yyTraceFILE, "%sFALLBACK %s => %s\n",
+           yyTracePrompt, yyTokenName[iLookAhead], yyTokenName[iFallback]);
+      }
+#endif
+      return yy_find_shift_action(pParser, iFallback);
+    }
+#endif
+    return yy_default[stateno];
+  }else{
+    return yy_action[i];
+  }
+}
+
+static int yy_find_reduce_action(
+  yyParser *pParser,        /* The parser */
+  int iLookAhead            /* The look-ahead token */
+){
+  int i;
+  int stateno = pParser->yystack[pParser->yyidx].stateno;
+ 
+  i = yy_reduce_ofst[stateno];
+  if( i==YY_REDUCE_USE_DFLT ){
+    return yy_default[stateno];
+  }
+  if( iLookAhead==YYNOCODE ){
+    return YY_NO_ACTION;
+  }
+  i += iLookAhead;
+  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+    return yy_default[stateno];
+  }else{
+    return yy_action[i];
+  }
+}
+
+static void yy_shift(
+  yyParser *yypParser,          /* The parser to be shifted */
+  int yyNewState,               /* The new state to shift in */
+  int yyMajor,                  /* The major token to shift in */
+  YYMINORTYPE *yypMinor         /* Pointer ot the minor token to shift in */
+){
+  yyStackEntry *yytos;
+  yypParser->yyidx++;
+  if( yypParser->yyidx>=YYSTACKDEPTH ){
+     ParseARG_FETCH;
+     yypParser->yyidx--;
+#ifndef NDEBUG
+     if( yyTraceFILE ){
+       fprintf(yyTraceFILE,"%sStack Overflow!\n",yyTracePrompt);
+     }
+#endif
+     while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+     /* Here code is inserted which will execute if the parser
+     ** stack every overflows */
+%%
+     ParseARG_STORE; /* Suppress warning about unused %extra_argument var */
+     return;
+  }
+  yytos = &yypParser->yystack[yypParser->yyidx];
+  yytos->stateno = yyNewState;
+  yytos->major = yyMajor;
+  yytos->minor = *yypMinor;
+#ifndef NDEBUG
+  if( yyTraceFILE && yypParser->yyidx>0 ){
+    int i;
+    fprintf(yyTraceFILE,"%sShift %d\n",yyTracePrompt,yyNewState);
+    fprintf(yyTraceFILE,"%sStack:",yyTracePrompt);
+    for(i=1; i<=yypParser->yyidx; i++)
+      fprintf(yyTraceFILE," %s",yyTokenName[yypParser->yystack[i].major]);
+    fprintf(yyTraceFILE,"\n");
+  }
+#endif
+}
+
+/* The following table contains information about every rule that
+** is used during the reduce.
+*/
+static struct {
+  YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
+  unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
+} yyRuleInfo[] = {
+%%
+};
+
+static void yy_accept(yyParser*);  /* Forward Declaration */
+
+static void yy_reduce(
+  yyParser *yypParser,         /* The parser */
+  int yyruleno                 /* Number of the rule by which to reduce */
+){
+  int yygoto;                     /* The next state */
+  int yyact;                      /* The next action */
+  YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
+  yyStackEntry *yymsp;            /* The top of the parser's stack */
+  int yysize;                     /* Amount to pop the stack */
+  ParseARG_FETCH;
+  yymsp = &yypParser->yystack[yypParser->yyidx];
+#ifndef NDEBUG
+  if( yyTraceFILE && yyruleno>=0 
+        && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
+    fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
+      yyRuleName[yyruleno]);
+  }
+#endif /* NDEBUG */
+
+  switch( yyruleno ){
+  /* Beginning here are the reduction cases.  A typical example
+  ** follows:
+  **   case 0:
+  **  #line <lineno> <grammarfile>
+  **     { ... }           // User supplied code
+  **  #line <lineno> <thisfile>
+  **     break;
+  */
+%%
+  };
+  yygoto = yyRuleInfo[yyruleno].lhs;
+  yysize = yyRuleInfo[yyruleno].nrhs;
+  yypParser->yyidx -= yysize;
+  yyact = yy_find_reduce_action(yypParser,yygoto);
+  if( yyact < YYNSTATE ){
+    yy_shift(yypParser,yyact,yygoto,&yygotominor);
+  }else if( yyact == YYNSTATE + YYNRULE + 1 ){
+    yy_accept(yypParser);
+  }
+}
+
+static void yy_parse_failed(
+  yyParser *yypParser           /* The parser */
+){
+  ParseARG_FETCH;
+#ifndef NDEBUG
+  if( yyTraceFILE ){
+    fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
+  }
+#endif
+  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  /* Here code is inserted which will be executed whenever the
+  ** parser fails */
+%%
+  ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+static void yy_syntax_error(
+  yyParser *yypParser,           /* The parser */
+  int yymajor,                   /* The major type of the error token */
+  YYMINORTYPE yyminor            /* The minor type of the error token */
+){
+  ParseARG_FETCH;
+#define TOKEN (yyminor.yy0)
+%%
+  ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+static void yy_accept(
+  yyParser *yypParser           /* The parser */
+){
+  ParseARG_FETCH;
+#ifndef NDEBUG
+  if( yyTraceFILE ){
+    fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
+  }
+#endif
+  while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
+  /* Here code is inserted which will be executed whenever the
+  ** parser accepts */
+%%
+  ParseARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+/* The main parser program.
+** The first argument is a pointer to a structure obtained from
+** "ParseAlloc" which describes the current state of the parser.
+** The second argument is the major token number.  The third is
+** the minor token.  The fourth optional argument is whatever the
+** user wants (and specified in the grammar) and is available for
+** use by the action routines.
+**
+** Inputs:
+** <ul>
+** <li> A pointer to the parser (an opaque structure.)
+** <li> The major token number.
+** <li> The minor token number.
+** <li> An option argument of a grammar-specified type.
+** </ul>
+**
+** Outputs:
+** None.
+*/
+void Parse(
+  void *yyp,                   /* The parser */
+  int yymajor,                 /* The major token code number */
+  ParseTOKENTYPE yyminor       /* The value for the token */
+  ParseARG_PDECL               /* Optional %extra_argument parameter */
+){
+  YYMINORTYPE yyminorunion;
+  int yyact;            /* The parser action. */
+  int yyendofinput;     /* True if we are at the end of input */
+  int yyerrorhit = 0;   /* True if yymajor has invoked an error */
+  yyParser *yypParser;  /* The parser */
+
+  /* (re)initialize the parser, if necessary */
+  yypParser = (yyParser*)yyp;
+  if( yypParser->yyidx<0 ){
+    if( yymajor==0 ) return;
+    yypParser->yyidx = 0;
+    yypParser->yyerrcnt = -1;
+    yypParser->yystack[0].stateno = 0;
+    yypParser->yystack[0].major = 0;
+  }
+  yyminorunion.yy0 = yyminor;
+  yyendofinput = (yymajor==0);
+  ParseARG_STORE;
+
+#ifndef NDEBUG
+  if( yyTraceFILE ){
+    fprintf(yyTraceFILE,"%sInput %s\n",yyTracePrompt,yyTokenName[yymajor]);
+  }
+#endif
+
+  do{
+    yyact = yy_find_shift_action(yypParser,yymajor);
+    if( yyact<YYNSTATE ){
+      yy_shift(yypParser,yyact,yymajor,&yyminorunion);
+      yypParser->yyerrcnt--;
+      if( yyendofinput && yypParser->yyidx>=0 ){
+        yymajor = 0;
+      }else{
+        yymajor = YYNOCODE;
+      }
+    }else if( yyact < YYNSTATE + YYNRULE ){
+      yy_reduce(yypParser,yyact-YYNSTATE);
+    }else if( yyact == YY_ERROR_ACTION ){
+      int yymx;
+#ifndef NDEBUG
+      if( yyTraceFILE ){
+        fprintf(yyTraceFILE,"%sSyntax Error!\n",yyTracePrompt);
+      }
+#endif
+#ifdef YYERRORSYMBOL
+      /* A syntax error has occurred.
+      ** The response to an error depends upon whether or not the
+      ** grammar defines an error token "ERROR".  
+      **
+      ** This is what we do if the grammar does define ERROR:
+      **
+      **  * Call the %syntax_error function.
+      **
+      **  * Begin popping the stack until we enter a state where
+      **    it is legal to shift the error symbol, then shift
+      **    the error symbol.
+      **
+      **  * Set the error count to three.
+      **
+      **  * Begin accepting and shifting new tokens.  No new error
+      **    processing will occur until three tokens have been
+      **    shifted successfully.
+      **
+      */
+      if( yypParser->yyerrcnt<0 ){
+        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      }
+      yymx = yypParser->yystack[yypParser->yyidx].major;
+      if( yymx==YYERRORSYMBOL || yyerrorhit ){
+#ifndef NDEBUG
+        if( yyTraceFILE ){
+          fprintf(yyTraceFILE,"%sDiscard input token %s\n",
+             yyTracePrompt,yyTokenName[yymajor]);
+        }
+#endif
+        yy_destructor(yymajor,&yyminorunion);
+        yymajor = YYNOCODE;
+      }else{
+         while(
+          yypParser->yyidx >= 0 &&
+          yymx != YYERRORSYMBOL &&
+          (yyact = yy_find_shift_action(yypParser,YYERRORSYMBOL)) >= YYNSTATE
+        ){
+          yy_pop_parser_stack(yypParser);
+        }
+        if( yypParser->yyidx < 0 || yymajor==0 ){
+          yy_destructor(yymajor,&yyminorunion);
+          yy_parse_failed(yypParser);
+          yymajor = YYNOCODE;
+        }else if( yymx!=YYERRORSYMBOL ){
+          YYMINORTYPE u2;
+          u2.YYERRSYMDT = 0;
+          yy_shift(yypParser,yyact,YYERRORSYMBOL,&u2);
+        }
+      }
+      yypParser->yyerrcnt = 3;
+      yyerrorhit = 1;
+#else  /* YYERRORSYMBOL is not defined */
+      /* This is what we do if the grammar does not define ERROR:
+      **
+      **  * Report an error message, and throw away the input token.
+      **
+      **  * If the input token is $, then fail the parse.
+      **
+      ** As before, subsequent error messages are suppressed until
+      ** three input tokens have been successfully shifted.
+      */
+      if( yypParser->yyerrcnt<=0 ){
+        yy_syntax_error(yypParser,yymajor,yyminorunion);
+      }
+      yypParser->yyerrcnt = 3;
+      yy_destructor(yymajor,&yyminorunion);
+      if( yyendofinput ){
+        yy_parse_failed(yypParser);
+      }
+      yymajor = YYNOCODE;
+#endif
+    }else{
+      yy_accept(yypParser);
+      yymajor = YYNOCODE;
+    }
+  }while( yymajor!=YYNOCODE && yypParser->yyidx>=0 );
+  return;
+}
+
+
+/* Driver template for the LEMON parser generator.
+** The author disclaims copyright to this source code.
+*/
+/* First off, code is include which follows the "include" declaration
+** in the input file. */
+// 28 "parser.lemon"
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+static zval *phannot_ret_literal_zval(int type, phannot_parser_token *T)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", type);
+	if (T) {
+		add_assoc_stringl(ret, "value", T->token, T->token_len, 0);
+		efree(T);
+	}
+
+	return ret;
+}
+
+static zval *phannot_ret_array(zval *items)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHANNOT_T_ARRAY);
+
+	if (items) {
+		add_assoc_zval(ret, "items", items);
+	}
+
+	return ret;
+}
+
+static zval *phannot_ret_zval_list(zval *list_left, zval *right_list)
+{
+
+	zval *ret;
+	HashPosition pos;
+	HashTable *list;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	if (list_left) {
+
+		list = Z_ARRVAL_P(list_left);
+		if (zend_hash_index_exists(list, 0)) {
+			zend_hash_internal_pointer_reset_ex(list, &pos);
+			for (;; zend_hash_move_forward_ex(list, &pos)) {
+
+				zval ** item;
+
+				if (zend_hash_get_current_data_ex(list, (void**) &item, &pos) == FAILURE) {
+					break;
+				}
+
+				Z_ADDREF_PP(item);
+				add_next_index_zval(ret, *item);
+
+			}
+			zval_ptr_dtor(&list_left);
+		} else {
+			add_next_index_zval(ret, list_left);
+		}
+	}
+
+	add_next_index_zval(ret, right_list);
+
+	return ret;
+}
+
+static zval *phannot_ret_named_item(phannot_parser_token *name, zval *expr)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_zval(ret, "expr", expr);
+	if (name != NULL) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name);
+	}
+
+	return ret;
+}
+
+static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
+{
+
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHANNOT_T_ANNOTATION);
+
+	if (name) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name);
+	}
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+/*static zval *phannot_ret_docblock_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
+{
+
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+
+	add_assoc_long(ret, "type", PHANNOT_T_DOCBLOCK_ANNOTATION);
+
+	if (name) {
+		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
+		efree(name);
+	}
+
+	if (arguments) {
+		add_assoc_zval(ret, "arguments", arguments);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}*/
+
+
+// 165 "parser.c"
+/* Next is all token values, in a form suitable for use by makeheaders.
+** This section will be null unless lemon is run with the -m switch.
+*/
+/* Make sure the INTERFACE macro is defined.
+*/
+#ifndef INTERFACE
+# define INTERFACE 1
+#endif
+/* The next thing included is series of defines which control
+** various aspects of the generated parser.
+**    JJCODETYPE         is the data type used for storing terminal
+**                       and nonterminal numbers.  "unsigned char" is
+**                       used if there are fewer than 250 terminals
+**                       and nonterminals.  "int" is used otherwise.
+**    JJNOCODE           is a number of type JJCODETYPE which corresponds
+**                       to no legal terminal or nonterminal number.  This
+**                       number is used to fill in empty slots of the hash 
+**                       table.
+**    JJFALLBACK         If defined, this indicates that one or more tokens
+**                       have fall-back values which should be used if the
+**                       original value of the token will not parse.
+**    JJACTIONTYPE       is the data type used for storing terminal
+**                       and nonterminal numbers.  "unsigned char" is
+**                       used if there are fewer than 250 rules and
+**                       states combined.  "int" is used otherwise.
+**    phannot_JTOKENTYPE     is the data type used for minor tokens given 
+**                       directly to the parser from the tokenizer.
+**    JJMINORTYPE        is the data type used for all minor tokens.
+**                       This is typically a union of many types, one of
+**                       which is phannot_JTOKENTYPE.  The entry in the union
+**                       for base tokens is called "jj0".
+**    JJSTACKDEPTH       is the maximum depth of the parser's stack.
+**    phannot_ARG_SDECL     A static variable declaration for the %extra_argument
+**    phannot_ARG_PDECL     A parameter declaration for the %extra_argument
+**    phannot_ARG_STORE     Code to store %extra_argument into jjpParser
+**    phannot_ARG_FETCH     Code to extract %extra_argument from jjpParser
+**    JJNSTATE           the combined number of states.
+**    JJNRULE            the number of rules in the grammar
+**    JJERRORSYMBOL      is the code number of the error symbol.  If not
+**                       defined, then do no error processing.
+*/
+#define JJCODETYPE unsigned char
+#define JJNOCODE 29
+#define JJACTIONTYPE unsigned char
+#define phannot_JTOKENTYPE phannot_parser_token*
+typedef union {
+  phannot_JTOKENTYPE jj0;
+  zval* jj8;
+  int jj57;
+} JJMINORTYPE;
+#define JJSTACKDEPTH 100
+#define phannot_ARG_SDECL phannot_parser_status *status;
+#define phannot_ARG_PDECL ,phannot_parser_status *status
+#define phannot_ARG_FETCH phannot_parser_status *status = jjpParser->status
+#define phannot_ARG_STORE jjpParser->status = status
+#define JJNSTATE 41
+#define JJNRULE 26
+#define JJERRORSYMBOL 18
+#define JJERRSYMDT jj57
+#define JJ_NO_ACTION      (JJNSTATE+JJNRULE+2)
+#define JJ_ACCEPT_ACTION  (JJNSTATE+JJNRULE+1)
+#define JJ_ERROR_ACTION   (JJNSTATE+JJNRULE)
+
+/* Next are that tables used to determine what action to take based on the
+** current state and lookahead token.  These tables are used to implement
+** functions that take a state number and lookahead value and return an
+** action integer.  
+**
+** Suppose the action integer is N.  Then the action is determined as
+** follows
+**
+**   0 <= N < JJNSTATE                  Shift N.  That is, push the lookahead
+**                                      token onto the stack and goto state N.
+**
+**   JJNSTATE <= N < JJNSTATE+JJNRULE   Reduce by rule N-JJNSTATE.
+**
+**   N == JJNSTATE+JJNRULE              A syntax error has occurred.
+**
+**   N == JJNSTATE+JJNRULE+1            The parser accepts its input.
+**
+**   N == JJNSTATE+JJNRULE+2            No such action.  Denotes unused
+**                                      slots in the jj_action[] table.
+**
+** The action table is constructed as a single large table named jj_action[].
+** Given state S and lookahead X, the action is computed as
+**
+**      jj_action[ jj_shift_ofst[S] + X ]
+**
+** If the index value jj_shift_ofst[S]+X is out of range or if the value
+** jj_lookahead[jj_shift_ofst[S]+X] is not equal to X or if jj_shift_ofst[S]
+** is equal to JJ_SHIFT_USE_DFLT, it means that the action is not in the table
+** and that jj_default[S] should be used instead.  
+**
+** The formula above is for computing the action when the lookahead is
+** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
+** a reduce action) then the jj_reduce_ofst[] array is used in place of
+** the jj_shift_ofst[] array and JJ_REDUCE_USE_DFLT is used in place of
+** JJ_SHIFT_USE_DFLT.
+**
+** The following are the tables generated in this section:
+**
+**  jj_action[]        A single table containing all actions.
+**  jj_lookahead[]     A table containing the lookahead for each entry in
+**                     jj_action.  Used to detect hash collisions.
+**  jj_shift_ofst[]    For each state, the offset into jj_action for
+**                     shifting terminals.
+**  jj_reduce_ofst[]   For each state, the offset into jj_action for
+**                     shifting non-terminals after a reduce.
+**  jj_default[]       Default action for each state.
+*/
+static JJACTIONTYPE jj_action[] = {
+ /*     0 */     5,   29,   16,   39,   13,   15,   17,   19,   21,   22,
+ /*    10 */    23,   24,   25,    5,   32,    5,   29,   16,   41,   13,
+ /*    20 */    31,   17,   19,   21,   22,   23,   24,   25,    6,   32,
+ /*    30 */     5,   18,   16,    7,   20,   36,   17,   19,   21,   22,
+ /*    40 */    23,   24,   25,   56,   32,   68,    1,    2,   40,    4,
+ /*    50 */    16,    8,   28,   12,   17,   16,   26,   28,   12,   17,
+ /*    60 */    56,   16,   33,   28,   12,   17,   16,   56,   11,   12,
+ /*    70 */    17,   16,    3,    4,   38,   17,   42,   56,    5,   56,
+ /*    80 */    10,   14,   37,   10,    9,   10,   56,   56,   30,   35,
+ /*    90 */    56,   56,   56,   56,   56,   56,   56,   27,   56,   56,
+ /*   100 */    56,   34,
+};
+static JJCODETYPE jj_lookahead[] = {
+ /*     0 */     2,    3,   23,    5,    6,   26,   27,    9,   10,   11,
+ /*    10 */    12,   13,   14,    2,   16,    2,    3,   23,    0,    6,
+ /*    20 */    26,   27,    9,   10,   11,   12,   13,   14,    3,   16,
+ /*    30 */     2,    3,   23,    4,    6,   26,   27,    9,   10,   11,
+ /*    40 */    12,   13,   14,   28,   16,   19,   20,   21,   22,   23,
+ /*    50 */    23,   24,   25,   26,   27,   23,   24,   25,   26,   27,
+ /*    60 */    28,   23,   24,   25,   26,   27,   23,   28,   25,   26,
+ /*    70 */    27,   23,   22,   23,   26,   27,    0,   28,    2,   28,
+ /*    80 */     1,    7,    8,    1,    5,    1,   28,   28,    7,    8,
+ /*    90 */    28,   28,   28,   28,   28,   28,   28,   15,   28,   28,
+ /*   100 */    28,   17,
+};
+#define JJ_SHIFT_USE_DFLT (-3)
+static signed char jj_shift_ofst[] = {
+ /*     0 */    11,   18,   76,   -3,   -3,   25,   29,   -2,   79,   -3,
+ /*    10 */    13,   -3,   -3,   74,   28,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   -3,   13,   82,   -3,   -3,   81,
+ /*    30 */    28,   -3,   13,   84,   -3,   28,   -3,   28,   -3,   -3,
+ /*    40 */    -3,
+};
+#define JJ_REDUCE_USE_DFLT (-22)
+static signed char jj_reduce_ofst[] = {
+ /*     0 */    26,  -22,   50,  -22,  -22,  -22,  -22,   27,  -22,  -22,
+ /*    10 */    43,  -22,  -22,  -22,  -21,  -22,  -22,  -22,  -22,  -22,
+ /*    20 */   -22,  -22,  -22,  -22,  -22,   32,  -22,  -22,  -22,  -22,
+ /*    30 */    -6,  -22,   38,  -22,  -22,    9,  -22,   48,  -22,  -22,
+ /*    40 */   -22,
+};
+static JJACTIONTYPE jj_default[] = {
+ /*     0 */    67,   67,   67,   43,   45,   67,   48,   67,   67,   46,
+ /*    10 */    67,   49,   51,   60,   67,   52,   56,   57,   58,   59,
+ /*    20 */    60,   61,   62,   63,   64,   67,   67,   65,   50,   58,
+ /*    30 */    67,   54,   67,   67,   66,   67,   55,   67,   53,   47,
+ /*    40 */    44,
+};
+#define JJ_SZ_ACTTAB (sizeof(jj_action)/sizeof(jj_action[0]))
+
+/* The next table maps tokens into fallback tokens.  If a construct
+** like the following:
+** 
+**      %fallback ID X Y Z.
+**
+** appears in the grammer, then ID becomes a fallback token for X, Y,
+** and Z.  Whenever one of the tokens X, Y, or Z is input to the parser
+** but it does not parse, the type of the token is changed to ID and
+** the parse is retried before an error is thrown.
+*/
+#ifdef JJFALLBACK
+static const JJCODETYPE jjFallback[] = {
+};
+#endif /* JJFALLBACK */
+
+/* The following structure represents a single element of the
+** parser's stack.  Information stored includes:
+**
+**   +  The state number for the parser at this level of the stack.
+**
+**   +  The value of the token stored at this level of the stack.
+**      (In other words, the "major" token.)
+**
+**   +  The semantic value stored at this level of the stack.  This is
+**      the information used by the action routines in the grammar.
+**      It is sometimes called the "minor" token.
+*/
+struct jjStackEntry {
+  int stateno;       /* The state-number */
+  int major;         /* The major token value.  This is the code
+                     ** number for the token at this stack level */
+  JJMINORTYPE minor; /* The user-supplied minor token value.  This
+                     ** is the value of the token  */
+};
+typedef struct jjStackEntry jjStackEntry;
+
+/* The state of the parser is completely contained in an instance of
+** the following structure */
+struct jjParser {
+  int jjidx;                    /* Index of top element in stack */
+  int jjerrcnt;                 /* Shifts left before out of the error */
+  phannot_ARG_SDECL                /* A place to hold %extra_argument */
+  jjStackEntry jjstack[JJSTACKDEPTH];  /* The parser's stack */
+};
+typedef struct jjParser jjParser;
+
+#ifndef NDEBUG
+static FILE *jjTraceFILE = 0;
+static char *jjTracePrompt = 0;
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+void phannot_Trace(FILE *TraceFILE, char *zTracePrompt){
+  jjTraceFILE = TraceFILE;
+  jjTracePrompt = zTracePrompt;
+  if( jjTraceFILE==0 ) jjTracePrompt = 0;
+  else if( jjTracePrompt==0 ) jjTraceFILE = 0;
+}
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+/* For tracing shifts, the names of all terminals and nonterminals
+** are required.  The following table supplies these names */
+static const char *jjTokenName[] = { 
+  "$",             "COMMA",         "AT",            "IDENTIFIER",  
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",      
+  "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
+  "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
+  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
+  "annotation_language",  "annotation_list",  "annotation_item",  "annotation",  
+  "argument_list",  "argument_item",  "expr",          "array",       
+};
+#endif /* NDEBUG */
+
+#ifndef NDEBUG
+/* For tracing reduce actions, the names of all rules are required.
+*/
+static const char *jjRuleName[] = {
+ /*   0 */ "program ::= annotation_language",
+ /*   1 */ "annotation_language ::= annotation_list",
+ /*   2 */ "annotation_list ::= annotation_list annotation_item",
+ /*   3 */ "annotation_list ::= annotation_item",
+ /*   4 */ "annotation_item ::= annotation",
+ /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /*   6 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /*   7 */ "annotation ::= AT IDENTIFIER",
+ /*   8 */ "argument_list ::= argument_list COMMA argument_item",
+ /*   9 */ "argument_list ::= argument_item",
+ /*  10 */ "argument_item ::= expr",
+ /*  11 */ "argument_item ::= STRING EQUALS expr",
+ /*  12 */ "argument_item ::= STRING COLON expr",
+ /*  13 */ "argument_item ::= IDENTIFIER EQUALS expr",
+ /*  14 */ "argument_item ::= IDENTIFIER COLON expr",
+ /*  15 */ "expr ::= annotation",
+ /*  16 */ "expr ::= array",
+ /*  17 */ "expr ::= IDENTIFIER",
+ /*  18 */ "expr ::= INTEGER",
+ /*  19 */ "expr ::= STRING",
+ /*  20 */ "expr ::= DOUBLE",
+ /*  21 */ "expr ::= NULL",
+ /*  22 */ "expr ::= FALSE",
+ /*  23 */ "expr ::= TRUE",
+ /*  24 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  25 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
+};
+#endif /* NDEBUG */
+
+const char *phannot_TokenName(int tokenType){
+#ifndef NDEBUG
+  if( tokenType>0 && tokenType<(sizeof(jjTokenName)/sizeof(jjTokenName[0])) ){
+    return jjTokenName[tokenType];
+  }else{
+    return "Unknown";
+  }
+#else
+  return "";
+#endif
+}
+
+void *phannot_Alloc(void *(*mallocProc)(size_t)){
+  jjParser *pParser;
+  pParser = (jjParser*)(*mallocProc)( (size_t)sizeof(jjParser) );
+  if( pParser ){
+    pParser->jjidx = -1;
+  }
+  return pParser;
+}
+
+/* The following function deletes the value associated with a
+** symbol.  The symbol can be either a terminal or nonterminal.
+** "jjmajor" is the symbol code, and "jjpminor" is a pointer to
+** the value.
+*/
+static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
+  switch( jjmajor ){
+    /* Here is inserted the actions which take place when a
+    ** terminal or non-terminal is destroyed.  This can happen
+    ** when the symbol is popped from the stack during a
+    ** reduce or during error processing or when a parser is 
+    ** being destroyed before it is finished parsing.
+    **
+    ** Note: during a reduce, the only symbols destroyed are those
+    ** which appear on the RHS of the rule, but which are not used
+    ** inside the C code.
+    */
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+// 248 "parser.lemon"
+{
+	if ((jjpminor->jj0)) {
+		if ((jjpminor->jj0)->free_flag) {
+			efree((jjpminor->jj0)->token);
+		}
+		efree((jjpminor->jj0));
+	}
+}
+// 539 "parser.c"
+      break;
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 26:
+// 261 "parser.lemon"
+{ zval_ptr_dtor(&(jjpminor->jj8)); }
+// 550 "parser.c"
+      break;
+    default:  break;   /* If no destructor action specified: do nothing */
+  }
+}
+
+static int jj_pop_parser_stack(jjParser *pParser){
+  JJCODETYPE jjmajor;
+  jjStackEntry *jjtos = &pParser->jjstack[pParser->jjidx];
+
+  if( pParser->jjidx<0 ) return 0;
+#ifndef NDEBUG
+  if( jjTraceFILE && pParser->jjidx>=0 ){
+    fprintf(jjTraceFILE,"%sPopping %s\n",
+      jjTracePrompt,
+      jjTokenName[jjtos->major]);
+  }
+#endif
+  jjmajor = jjtos->major;
+  jj_destructor( jjmajor, &jjtos->minor);
+  pParser->jjidx--;
+  return jjmajor;
+}
+
+void phannot_Free(
+  void *p,                    /* The parser to be deleted */
+  void (*freeProc)(void*)     /* Function used to reclaim memory */
+){
+  jjParser *pParser = (jjParser*)p;
+  if( pParser==0 ) return;
+  while( pParser->jjidx>=0 ) jj_pop_parser_stack(pParser);
+  (*freeProc)((void*)pParser);
+}
+
+static int jj_find_shift_action(
+  jjParser *pParser,        /* The parser */
+  int iLookAhead            /* The look-ahead token */
+){
+  int i;
+  int stateno = pParser->jjstack[pParser->jjidx].stateno;
+ 
+  /* if( pParser->jjidx<0 ) return JJ_NO_ACTION;  */
+  i = jj_shift_ofst[stateno];
+  if( i==JJ_SHIFT_USE_DFLT ){
+    return jj_default[stateno];
+  }
+  if( iLookAhead==JJNOCODE ){
+    return JJ_NO_ACTION;
+  }
+  i += iLookAhead;
+  if( i<0 || i>=JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
+#ifdef JJFALLBACK
+    int iFallback;            /* Fallback token */
+    if( iLookAhead<sizeof(jjFallback)/sizeof(jjFallback[0])
+           && (iFallback = jjFallback[iLookAhead])!=0 ){
+#ifndef NDEBUG
+      if( jjTraceFILE ){
+        fprintf(jjTraceFILE, "%sFALLBACK %s => %s\n",
+           jjTracePrompt, jjTokenName[iLookAhead], jjTokenName[iFallback]);
+      }
+#endif
+      return jj_find_shift_action(pParser, iFallback);
+    }
+#endif
+    return jj_default[stateno];
+  }else{
+    return jj_action[i];
+  }
+}
+
+static int jj_find_reduce_action(
+  jjParser *pParser,        /* The parser */
+  int iLookAhead            /* The look-ahead token */
+){
+  int i;
+  int stateno = pParser->jjstack[pParser->jjidx].stateno;
+ 
+  i = jj_reduce_ofst[stateno];
+  if( i==JJ_REDUCE_USE_DFLT ){
+    return jj_default[stateno];
+  }
+  if( iLookAhead==JJNOCODE ){
+    return JJ_NO_ACTION;
+  }
+  i += iLookAhead;
+  if( i<0 || i>=JJ_SZ_ACTTAB || jj_lookahead[i]!=iLookAhead ){
+    return jj_default[stateno];
+  }else{
+    return jj_action[i];
+  }
+}
+
+static void jj_shift(
+  jjParser *jjpParser,          /* The parser to be shifted */
+  int jjNewState,               /* The new state to shift in */
+  int jjMajor,                  /* The major token to shift in */
+  JJMINORTYPE *jjpMinor         /* Pointer ot the minor token to shift in */
+){
+  jjStackEntry *jjtos;
+  jjpParser->jjidx++;
+  if( jjpParser->jjidx>=JJSTACKDEPTH ){
+     phannot_ARG_FETCH;
+     jjpParser->jjidx--;
+#ifndef NDEBUG
+     if( jjTraceFILE ){
+       fprintf(jjTraceFILE,"%sStack Overflow!\n",jjTracePrompt);
+     }
+#endif
+     while( jjpParser->jjidx>=0 ) jj_pop_parser_stack(jjpParser);
+     /* Here code is inserted which will execute if the parser
+     ** stack every overflows */
+     phannot_ARG_STORE; /* Suppress warning about unused %extra_argument var */
+     return;
+  }
+  jjtos = &jjpParser->jjstack[jjpParser->jjidx];
+  jjtos->stateno = jjNewState;
+  jjtos->major = jjMajor;
+  jjtos->minor = *jjpMinor;
+#ifndef NDEBUG
+  if( jjTraceFILE && jjpParser->jjidx>0 ){
+    int i;
+    fprintf(jjTraceFILE,"%sShift %d\n",jjTracePrompt,jjNewState);
+    fprintf(jjTraceFILE,"%sStack:",jjTracePrompt);
+    for(i=1; i<=jjpParser->jjidx; i++)
+      fprintf(jjTraceFILE," %s",jjTokenName[jjpParser->jjstack[i].major]);
+    fprintf(jjTraceFILE,"\n");
+  }
+#endif
+}
+
+/* The following table contains information about every rule that
+** is used during the reduce.
+*/
+static struct {
+  JJCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
+  unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
+} jjRuleInfo[] = {
+  { 19, 1 },
+  { 20, 1 },
+  { 21, 2 },
+  { 21, 1 },
+  { 22, 1 },
+  { 23, 5 },
+  { 23, 4 },
+  { 23, 2 },
+  { 24, 3 },
+  { 24, 1 },
+  { 25, 1 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 25, 3 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 26, 1 },
+  { 27, 3 },
+  { 27, 3 },
+};
+
+static void jj_accept(jjParser*);  /* Forward Declaration */
+
+static void jj_reduce(
+  jjParser *jjpParser,         /* The parser */
+  int jjruleno                 /* Number of the rule by which to reduce */
+){
+  int jjgoto;                     /* The next state */
+  int jjact;                      /* The next action */
+  JJMINORTYPE jjgotominor;        /* The LHS of the rule reduced */
+  jjStackEntry *jjmsp;            /* The top of the parser's stack */
+  int jjsize;                     /* Amount to pop the stack */
+  phannot_ARG_FETCH;
+  jjmsp = &jjpParser->jjstack[jjpParser->jjidx];
+#ifndef NDEBUG
+  if( jjTraceFILE && jjruleno>=0 
+        && jjruleno<sizeof(jjRuleName)/sizeof(jjRuleName[0]) ){
+    fprintf(jjTraceFILE, "%sReduce [%s].\n", jjTracePrompt,
+      jjRuleName[jjruleno]);
+  }
+#endif /* NDEBUG */
+
+  switch( jjruleno ){
+  /* Beginning here are the reduction cases.  A typical example
+  ** follows:
+  **   case 0:
+  **  // <lineno> <grammarfile>
+  **     { ... }           // User supplied code
+  **  // <lineno> <thisfile>
+  **     break;
+  */
+      case 0:
+// 257 "parser.lemon"
+{
+	status->ret = jjmsp[0].minor.jj8;
+}
+// 793 "parser.c"
+        break;
+      case 1:
+      case 4:
+      case 15:
+      case 16:
+// 263 "parser.lemon"
+{
+	jjgotominor.jj8 = jjmsp[0].minor.jj8;
+}
+// 803 "parser.c"
+        break;
+      case 2:
+// 269 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-1].minor.jj8, jjmsp[0].minor.jj8);
+}
+// 810 "parser.c"
+        break;
+      case 3:
+      case 9:
+// 273 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj8);
+}
+// 818 "parser.c"
+        break;
+      case 5:
+// 289 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj8, status->scanner_state);
+  jj_destructor(2,&jjmsp[-4].minor);
+  jj_destructor(4,&jjmsp[-2].minor);
+  jj_destructor(5,&jjmsp[0].minor);
+}
+// 828 "parser.c"
+        break;
+      case 6:
+// 293 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
+  jj_destructor(2,&jjmsp[-3].minor);
+  jj_destructor(4,&jjmsp[-1].minor);
+  jj_destructor(5,&jjmsp[0].minor);
+}
+// 838 "parser.c"
+        break;
+      case 7:
+// 297 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
+  jj_destructor(2,&jjmsp[-1].minor);
+}
+// 846 "parser.c"
+        break;
+      case 8:
+// 309 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-2].minor.jj8, jjmsp[0].minor.jj8);
+  jj_destructor(1,&jjmsp[-1].minor);
+}
+// 854 "parser.c"
+        break;
+      case 10:
+// 329 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj8);
+}
+// 861 "parser.c"
+        break;
+      case 11:
+      case 13:
+// 333 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(7,&jjmsp[-1].minor);
+}
+// 870 "parser.c"
+        break;
+      case 12:
+      case 14:
+// 337 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+  jj_destructor(8,&jjmsp[-1].minor);
+}
+// 879 "parser.c"
+        break;
+      case 17:
+// 365 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
+}
+// 886 "parser.c"
+        break;
+      case 18:
+// 369 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
+}
+// 893 "parser.c"
+        break;
+      case 19:
+// 373 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
+}
+// 900 "parser.c"
+        break;
+      case 20:
+// 377 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
+}
+// 907 "parser.c"
+        break;
+      case 21:
+// 381 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
+  jj_destructor(11,&jjmsp[0].minor);
+}
+// 915 "parser.c"
+        break;
+      case 22:
+// 385 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
+  jj_destructor(12,&jjmsp[0].minor);
+}
+// 923 "parser.c"
+        break;
+      case 23:
+// 389 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
+  jj_destructor(13,&jjmsp[0].minor);
+}
+// 931 "parser.c"
+        break;
+      case 24:
+// 393 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+  jj_destructor(14,&jjmsp[-2].minor);
+  jj_destructor(15,&jjmsp[0].minor);
+}
+// 940 "parser.c"
+        break;
+      case 25:
+// 397 "parser.lemon"
+{
+	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+  jj_destructor(16,&jjmsp[-2].minor);
+  jj_destructor(17,&jjmsp[0].minor);
+}
+// 949 "parser.c"
+        break;
+  };
+  jjgoto = jjRuleInfo[jjruleno].lhs;
+  jjsize = jjRuleInfo[jjruleno].nrhs;
+  jjpParser->jjidx -= jjsize;
+  jjact = jj_find_reduce_action(jjpParser,jjgoto);
+  if( jjact < JJNSTATE ){
+    jj_shift(jjpParser,jjact,jjgoto,&jjgotominor);
+  }else if( jjact == JJNSTATE + JJNRULE + 1 ){
+    jj_accept(jjpParser);
+  }
+}
+
+static void jj_parse_failed(
+  jjParser *jjpParser           /* The parser */
+){
+  phannot_ARG_FETCH;
+#ifndef NDEBUG
+  if( jjTraceFILE ){
+    fprintf(jjTraceFILE,"%sFail!\n",jjTracePrompt);
+  }
+#endif
+  while( jjpParser->jjidx>=0 ) jj_pop_parser_stack(jjpParser);
+  /* Here code is inserted which will be executed whenever the
+  ** parser fails */
+  phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+static void jj_syntax_error(
+  jjParser *jjpParser,           /* The parser */
+  int jjmajor,                   /* The major type of the error token */
+  JJMINORTYPE jjminor            /* The minor type of the error token */
+){
+  phannot_ARG_FETCH;
+#define JTOKEN (jjminor.jj0)
+// 185 "parser.lemon"
+
+	if (status->scanner_state->start_length) {
+		{
+
+			char *token_name = NULL;
+			const phannot_token_names *tokens = phannot_tokens;
+			int token_found = 0;
+			int active_token = status->scanner_state->active_token;
+			int near_length = status->scanner_state->start_length;
+
+			if (active_token) {
+				do {
+					if (tokens->code == active_token) {
+						token_found = 1;
+						token_name = tokens->name;
+						break;
+					}
+					++tokens;
+				} while (tokens[0].code != 0);
+			}
+
+			if (!token_name) {
+				token_found = 0;
+				token_name = estrndup("UNKNOWN", strlen("UNKNOWN"));
+			}
+
+			status->syntax_error_len = 128 + strlen(token_name) + Z_STRLEN_P(status->scanner_state->active_file);
+			status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+
+			if (near_length > 0) {
+				if (status->token->value) {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), near to '%s' in %s on line %d", token_name, status->token->value, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, near to '%s' in %s on line %d", token_name, status->scanner_state->start, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+				}
+			} else {
+				if (active_token != PHANNOT_T_IGNORE) {
+					if (status->token->value) {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s(%s), at the end of docblock in %s on line %d", token_name, status->token->value, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					} else {
+						snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected token %s, at the end of docblock in %s on line %d", token_name, Z_STRVAL_P(status->scanner_state->active_file), status->scanner_state->active_line);
+					}
+				} else {
+					snprintf(status->syntax_error, status->syntax_error_len, "Syntax error, unexpected EOF, at the end of docblock in %s on line %d");
+				}
+				status->syntax_error[status->syntax_error_len-1] = '\0';
+			}
+
+			if (!token_found) {
+				if (token_name) {
+					efree(token_name);
+				}
+			}
+		}
+	} else {
+		status->syntax_error_len = 48 + Z_STRLEN_P(status->scanner_state->active_file);
+		status->syntax_error = emalloc(sizeof(char) * status->syntax_error_len);
+		sprintf(status->syntax_error, "Syntax error, unexpected EOF in %s", Z_STRVAL_P(status->scanner_state->active_file));
+	}
+
+	status->status = PHANNOT_PARSING_FAILED;
+
+// 1054 "parser.c"
+  phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+static void jj_accept(
+  jjParser *jjpParser           /* The parser */
+){
+  phannot_ARG_FETCH;
+#ifndef NDEBUG
+  if( jjTraceFILE ){
+    fprintf(jjTraceFILE,"%sAccept!\n",jjTracePrompt);
+  }
+#endif
+  while( jjpParser->jjidx>=0 ) jj_pop_parser_stack(jjpParser);
+  /* Here code is inserted which will be executed whenever the
+  ** parser accepts */
+  phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
+}
+
+/* The main parser program.
+** The first argument is a pointer to a structure obtained from
+** "phannot_Alloc" which describes the current state of the parser.
+** The second argument is the major token number.  The third is
+** the minor token.  The fourth optional argument is whatever the
+** user wants (and specified in the grammar) and is available for
+** use by the action routines.
+**
+** Inputs:
+** <ul>
+** <li> A pointer to the parser (an opaque structure.)
+** <li> The major token number.
+** <li> The minor token number.
+** <li> An option argument of a grammar-specified type.
+** </ul>
+**
+** Outputs:
+** None.
+*/
+void phannot_(
+  void *jjp,                   /* The parser */
+  int jjmajor,                 /* The major token code number */
+  phannot_JTOKENTYPE jjminor       /* The value for the token */
+  phannot_ARG_PDECL               /* Optional %extra_argument parameter */
+){
+  JJMINORTYPE jjminorunion;
+  int jjact;            /* The parser action. */
+  int jjendofinput;     /* True if we are at the end of input */
+  int jjerrorhit = 0;   /* True if jjmajor has invoked an error */
+  jjParser *jjpParser;  /* The parser */
+
+  /* (re)initialize the parser, if necessary */
+  jjpParser = (jjParser*)jjp;
+  if( jjpParser->jjidx<0 ){
+    if( jjmajor==0 ) return;
+    jjpParser->jjidx = 0;
+    jjpParser->jjerrcnt = -1;
+    jjpParser->jjstack[0].stateno = 0;
+    jjpParser->jjstack[0].major = 0;
+  }
+  jjminorunion.jj0 = jjminor;
+  jjendofinput = (jjmajor==0);
+  phannot_ARG_STORE;
+
+#ifndef NDEBUG
+  if( jjTraceFILE ){
+    fprintf(jjTraceFILE,"%sInput %s\n",jjTracePrompt,jjTokenName[jjmajor]);
+  }
+#endif
+
+  do{
+    jjact = jj_find_shift_action(jjpParser,jjmajor);
+    if( jjact<JJNSTATE ){
+      jj_shift(jjpParser,jjact,jjmajor,&jjminorunion);
+      jjpParser->jjerrcnt--;
+      if( jjendofinput && jjpParser->jjidx>=0 ){
+        jjmajor = 0;
+      }else{
+        jjmajor = JJNOCODE;
+      }
+    }else if( jjact < JJNSTATE + JJNRULE ){
+      jj_reduce(jjpParser,jjact-JJNSTATE);
+    }else if( jjact == JJ_ERROR_ACTION ){
+      int jjmx;
+#ifndef NDEBUG
+      if( jjTraceFILE ){
+        fprintf(jjTraceFILE,"%sSyntax Error!\n",jjTracePrompt);
+      }
+#endif
+#ifdef JJERRORSYMBOL
+      /* A syntax error has occurred.
+      ** The response to an error depends upon whether or not the
+      ** grammar defines an error token "ERROR".  
+      **
+      ** This is what we do if the grammar does define ERROR:
+      **
+      **  * Call the %syntax_error function.
+      **
+      **  * Begin popping the stack until we enter a state where
+      **    it is legal to shift the error symbol, then shift
+      **    the error symbol.
+      **
+      **  * Set the error count to three.
+      **
+      **  * Begin accepting and shifting new tokens.  No new error
+      **    processing will occur until three tokens have been
+      **    shifted successfully.
+      **
+      */
+      if( jjpParser->jjerrcnt<0 ){
+        jj_syntax_error(jjpParser,jjmajor,jjminorunion);
+      }
+      jjmx = jjpParser->jjstack[jjpParser->jjidx].major;
+      if( jjmx==JJERRORSYMBOL || jjerrorhit ){
+#ifndef NDEBUG
+        if( jjTraceFILE ){
+          fprintf(jjTraceFILE,"%sDiscard input token %s\n",
+             jjTracePrompt,jjTokenName[jjmajor]);
+        }
+#endif
+        jj_destructor(jjmajor,&jjminorunion);
+        jjmajor = JJNOCODE;
+      }else{
+         while(
+          jjpParser->jjidx >= 0 &&
+          jjmx != JJERRORSYMBOL &&
+          (jjact = jj_find_shift_action(jjpParser,JJERRORSYMBOL)) >= JJNSTATE
+        ){
+          jj_pop_parser_stack(jjpParser);
+        }
+        if( jjpParser->jjidx < 0 || jjmajor==0 ){
+          jj_destructor(jjmajor,&jjminorunion);
+          jj_parse_failed(jjpParser);
+          jjmajor = JJNOCODE;
+        }else if( jjmx!=JJERRORSYMBOL ){
+          JJMINORTYPE u2;
+          u2.JJERRSYMDT = 0;
+          jj_shift(jjpParser,jjact,JJERRORSYMBOL,&u2);
+        }
+      }
+      jjpParser->jjerrcnt = 3;
+      jjerrorhit = 1;
+#else  /* JJERRORSYMBOL is not defined */
+      /* This is what we do if the grammar does not define ERROR:
+      **
+      **  * Report an error message, and throw away the input token.
+      **
+      **  * If the input token is $, then fail the parse.
+      **
+      ** As before, subsequent error messages are suppressed until
+      ** three input tokens have been successfully shifted.
+      */
+      if( jjpParser->jjerrcnt<=0 ){
+        jj_syntax_error(jjpParser,jjmajor,jjminorunion);
+      }
+      jjpParser->jjerrcnt = 3;
+      jj_destructor(jjmajor,&jjminorunion);
+      if( jjendofinput ){
+        jj_parse_failed(jjpParser);
+      }
+      jjmajor = JJNOCODE;
+#endif
+    }else{
+      jj_accept(jjpParser);
+      jjmajor = JJNOCODE;
+    }
+  }while( jjmajor!=JJNOCODE && jjpParser->jjidx>=0 );
+  return;
+}
+
+
+const phannot_token_names phannot_tokens[] =
+{
+	{ PHANNOT_T_INTEGER,       		"INTEGER" },
+	{ PHANNOT_T_DOUBLE,        		"DOUBLE" },
+	{ PHANNOT_T_STRING,        		"STRING" },
+	{ PHANNOT_T_IDENTIFIER,    		"IDENTIFIER" },
+	{ PHANNOT_T_AT,	   	    		"@" },
+	{ PHANNOT_T_COMMA,	   	    	"," },
+	{ PHANNOT_T_EQUALS,       		"=" },
+	{ PHANNOT_T_COLON,            	":" },
+	{ PHANNOT_T_PARENTHESES_OPEN,  	"(" },
+	{ PHANNOT_T_PARENTHESES_CLOSE, 	")" },
+	{ PHANNOT_T_BRACKET_OPEN,     	"{" },
+	{ PHANNOT_T_BRACKET_CLOSE,    	"}" },
+ 	{ PHANNOT_T_SBRACKET_OPEN,    	"[" },
+	{ PHANNOT_T_SBRACKET_CLOSE,   	"]" },
+	{ PHANNOT_T_ARBITRARY_TEXT, 	"ARBITRARY TEXT" },
+	{  0, NULL }
+};
+
+static void *phannot_wrapper_alloc(size_t bytes){
+	return emalloc(bytes);
+}
+
+static void phannot_wrapper_free(void *pointer){
+	efree(pointer);
+}
+
+static void phannot_parse_with_token(void* phannot_parser, int opcode, int parsercode, phannot_scanner_token *token, phannot_parser_status *parser_status){
+
+	phannot_parser_token *pToken;
+
+	pToken = emalloc(sizeof(phannot_parser_token));
+	pToken->opcode = opcode;
+	pToken->token = token->value;
+	pToken->token_len = token->len;
+	pToken->free_flag = 1;
+
+	phannot_(phannot_parser, parsercode, pToken, parser_status);
+}
+
+static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval **error_msg TSRMLS_DC){
+
+	char *error, *error_part;
+	phannot_scanner_state *state = parser_status->scanner_state;
+
+	PHALCON_INIT_VAR(*error_msg);
+	if (state->start) {
+		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		if (state->start_length > 16) {
+			error_part = estrndup(state->start, 16);
+			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
+			efree(error_part);
+		} else {
+			sprintf(error, "Parsing error before '%s' in %s on line %d", state->start, Z_STRVAL_P(state->active_file), state->active_line);
+		}
+		ZVAL_STRING(*error_msg, error, 1);
+	} else {
+		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
+		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
+		ZVAL_STRING(*error_msg, error, 1);
+	}
+	efree(error);
+}
+
+int phannot_parse_annotations(zval *result, zval *comment, zval *file_path, zval *line TSRMLS_DC){
+
+	zval *error_msg = NULL;
+
+	ZVAL_NULL(result);
+
+	if (Z_TYPE_P(comment) != IS_STRING) {
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, SL("Comment must be a string") TSRMLS_CC);
+		return FAILURE;
+	}
+
+	if(phannot_internal_parse_annotations(&result, comment, file_path, line, &error_msg TSRMLS_CC) == FAILURE){
+		phalcon_throw_exception_string(phalcon_annotations_exception_ce, Z_STRVAL_P(error_msg), Z_STRLEN_P(error_msg) TSRMLS_CC);
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+void phannot_remove_comment_separators(zval *return_value, char *comment, int length, int *start_lines) {
+
+	int start_mode = 1, j, i, open_parentheses;
+	smart_str processed_str = {0};
+	char ch;
+
+	(*start_lines) = 0;
+
+	for (i = 0; i < length; i++) {
+
+		ch = comment[i];
+
+		if (start_mode) {
+			if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+				continue;
+			}
+			start_mode = 0;
+		}
+
+		if (ch == '@') {
+
+			smart_str_appendc(&processed_str, ch);
+			i++;
+
+			open_parentheses = 0;
+			for (j = i; j < length; j++) {
+
+				ch = comment[j];
+
+				if (start_mode) {
+					if (ch == ' ' || ch == '*' || ch == '/' || ch == '\t' || ch == 11) {
+						continue;
+					}
+					start_mode = 0;
+				}
+
+				if (open_parentheses == 0) {
+
+					if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+						smart_str_appendc(&processed_str, ch);
+						continue;
+					}
+
+					if (ch == '(') {
+						smart_str_appendc(&processed_str, ch);
+						open_parentheses++;
+						continue;
+					}
+
+				} else {
+
+					smart_str_appendc(&processed_str, ch);
+
+					if (ch == ')') {
+						open_parentheses--;
+					}
+
+					if (ch == '\n') {
+						(*start_lines)++;
+						start_mode = 1;
+					}
+
+					if (open_parentheses > 0) {
+						continue;
+					}
+				}
+
+				i = j;
+				smart_str_appendc(&processed_str, ' ');
+				break;
+			}
+		}
+
+		if (ch == '\n') {
+			(*start_lines)++;
+			start_mode = 1;
+		}
+	}
+
+	smart_str_0(&processed_str);
+
+	if (processed_str.len) {
+		RETURN_STRINGL(processed_str.c, processed_str.len, 0);
+	} else {
+		RETURN_EMPTY_STRING();
+	}
+}
+
+int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_path, zval *line, zval **error_msg TSRMLS_DC) {
+
+	char *error;
+	phannot_scanner_state *state;
+	phannot_scanner_token token;
+	int scanner_status, status = SUCCESS, start_lines;
+	phannot_parser_status *parser_status = NULL;
+	void* phannot_parser;
+	zval processed_comment;
+
+	if (!Z_STRVAL_P(comment)) {
+		ZVAL_BOOL(*result, 0);
+		return FAILURE;
+	}
+
+	if (Z_STRLEN_P(comment) < 2) {
+		ZVAL_BOOL(*result, 0);
+		return SUCCESS;
+	}
+
+	phannot_remove_comment_separators(&processed_comment, Z_STRVAL_P(comment), Z_STRLEN_P(comment), &start_lines);
+
+	if (Z_STRLEN(processed_comment) < 2) {
+		ZVAL_BOOL(*result, 0);
+		efree(Z_STRVAL(processed_comment));
+		return SUCCESS;
+	}
+
+	phannot_parser = phannot_Alloc(phannot_wrapper_alloc);
+
+	parser_status = emalloc(sizeof(phannot_parser_status));
+	state = emalloc(sizeof(phannot_scanner_state));
+
+	parser_status->status = PHANNOT_PARSING_OK;
+	parser_status->scanner_state = state;
+	parser_status->ret = NULL;
+	parser_status->token = &token;
+	parser_status->syntax_error = NULL;
+
+	state->active_token = 0;
+	state->start = Z_STRVAL(processed_comment);
+	state->start_length = 0;
+	state->mode = PHANNOT_MODE_RAW;
+	state->active_file = file_path;
+
+	if (Z_TYPE_P(line) == IS_LONG) {
+		state->active_line = Z_LVAL_P(line) - start_lines;
+	} else {
+		state->active_line = 1;
+	}
+
+	state->end = state->start;
+
+	while(0 <= (scanner_status = phannot_get_token(state, &token))) {
+
+		state->active_token = token.opcode;
+
+		state->start_length = (Z_STRVAL_P(comment) + Z_STRLEN_P(comment) - state->start);
+
+		switch (token.opcode) {
+
+			case PHANNOT_T_IGNORE:
+				break;
+
+			case PHANNOT_T_AT:
+				phannot_(phannot_parser, PHANNOT_AT, NULL, parser_status);
+				break;
+			case PHANNOT_T_COMMA:
+				phannot_(phannot_parser, PHANNOT_COMMA, NULL, parser_status);
+				break;
+			case PHANNOT_T_EQUALS:
+				phannot_(phannot_parser, PHANNOT_EQUALS, NULL, parser_status);
+				break;
+			case PHANNOT_T_COLON:
+				phannot_(phannot_parser, PHANNOT_COLON, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_PARENTHESES_OPEN:
+				phannot_(phannot_parser, PHANNOT_PARENTHESES_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_PARENTHESES_CLOSE:
+				phannot_(phannot_parser, PHANNOT_PARENTHESES_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_BRACKET_OPEN:
+				phannot_(phannot_parser, PHANNOT_BRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_BRACKET_CLOSE:
+				phannot_(phannot_parser, PHANNOT_BRACKET_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_SBRACKET_OPEN:
+				phannot_(phannot_parser, PHANNOT_SBRACKET_OPEN, NULL, parser_status);
+				break;
+			case PHANNOT_T_SBRACKET_CLOSE:
+				phannot_(phannot_parser, PHANNOT_SBRACKET_CLOSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_NULL:
+				phannot_(phannot_parser, PHANNOT_NULL, NULL, parser_status);
+				break;
+			case PHANNOT_T_TRUE:
+				phannot_(phannot_parser, PHANNOT_TRUE, NULL, parser_status);
+				break;
+			case PHANNOT_T_FALSE:
+				phannot_(phannot_parser, PHANNOT_FALSE, NULL, parser_status);
+				break;
+
+			case PHANNOT_T_INTEGER:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_INTEGER, PHANNOT_INTEGER, &token, parser_status);
+				break;
+			case PHANNOT_T_DOUBLE:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_DOUBLE, PHANNOT_DOUBLE, &token, parser_status);
+				break;
+			case PHANNOT_T_STRING:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_STRING, PHANNOT_STRING, &token, parser_status);
+				break;
+			case PHANNOT_T_IDENTIFIER:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_IDENTIFIER, PHANNOT_IDENTIFIER, &token, parser_status);
+				break;
+			/*case PHANNOT_T_ARBITRARY_TEXT:
+				phannot_parse_with_token(phannot_parser, PHANNOT_T_ARBITRARY_TEXT, PHANNOT_ARBITRARY_TEXT, &token, parser_status);
+				break;*/
+
+			default:
+				parser_status->status = PHANNOT_PARSING_FAILED;
+				if (!*error_msg) {
+					error = emalloc(sizeof(char) * (48 + Z_STRLEN_P(state->active_file)));
+					sprintf(error, "Scanner: unknown opcode %d on in %s line %d", token.opcode, Z_STRVAL_P(state->active_file), state->active_line);
+					PHALCON_INIT_VAR(*error_msg);
+					ZVAL_STRING(*error_msg, error, 1);
+					efree(error);
+				}
+				break;
+		}
+
+		if (parser_status->status != PHANNOT_PARSING_OK) {
+			status = FAILURE;
+			break;
+		}
+
+		state->end = state->start;
+	}
+
+	if (status != FAILURE) {
+		switch (scanner_status) {
+			case PHANNOT_SCANNER_RETCODE_ERR:
+			case PHANNOT_SCANNER_RETCODE_IMPOSSIBLE:
+				if (!*error_msg) {
+					phannot_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+				}
+				status = FAILURE;
+				break;
+			default:
+				phannot_(phannot_parser, 0, NULL, parser_status);
+		}
+	}
+
+	state->active_token = 0;
+	state->start = NULL;
+
+	if (parser_status->status != PHANNOT_PARSING_OK) {
+		status = FAILURE;
+		if (parser_status->syntax_error) {
+			if (!*error_msg) {
+				PHALCON_INIT_VAR(*error_msg);
+				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
+			}
+			efree(parser_status->syntax_error);
+		}
+	}
+
+	phannot_Free(phannot_parser, phannot_wrapper_free);
+
+	if (status != FAILURE) {
+		if (parser_status->status == PHANNOT_PARSING_OK) {
+			if (parser_status->ret) {
+				ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
+				ZVAL_NULL(parser_status->ret);
+				zval_ptr_dtor(&parser_status->ret);
+			} else {
+				array_init(*result);
+			}
+		}
+	}
+
+	efree(Z_STRVAL(processed_comment));
+
+	efree(parser_status);
+	efree(state);
+
+	return status;
+}
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Reader){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reader, annotations_reader, phalcon_annotations_reader_method_entry, 0);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Reader, parse){
+
+	zval *class_name, *annotations, *reflection;
+	zval *comment = NULL, *file = NULL, *line = NULL, *class_annotations;
+	zval *methods, *annotations_methods, *method = NULL;
+	zval *method_annotations = NULL, *name = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+	zend_class_entry *ce0;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(class_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "The class name must be an object");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	array_init(annotations);
+	ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(reflection);
+	object_init_ex(reflection, ce0);
+	if (phalcon_has_constructor(reflection TSRMLS_CC)) {
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(reflection, "__construct", class_name, 14747615951113338888UL);
+	}
+	
+	PHALCON_INIT_VAR(comment);
+	PHALCON_CALL_METHOD(comment, reflection, "getdoccomment");
+	if (Z_TYPE_P(comment) == IS_STRING) {
+	
+		PHALCON_INIT_VAR(file);
+		PHALCON_CALL_METHOD(file, reflection, "getfilename");
+	
+		PHALCON_INIT_VAR(line);
+		PHALCON_CALL_METHOD(line, reflection, "getstartline");
+	
+		PHALCON_INIT_VAR(class_annotations);
+		if (phannot_parse_annotations(class_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
+			return;
+		}
+	
+		if (Z_TYPE_P(class_annotations) == IS_ARRAY) { 
+			phalcon_array_update_quick_string(&annotations, SS("class"), 6953395239483UL, &class_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	PHALCON_INIT_VAR(methods);
+	PHALCON_CALL_METHOD(methods, reflection, "getmethods");
+	if (phalcon_fast_count_ev(methods TSRMLS_CC)) {
+	
+		PHALCON_INIT_VAR(annotations_methods);
+		array_init(annotations_methods);
+	
+		if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(method);
+	
+			PHALCON_INIT_NVAR(comment);
+			PHALCON_CALL_METHOD(comment, method, "getdoccomment");
+			if (Z_TYPE_P(comment) == IS_STRING) {
+	
+				PHALCON_INIT_NVAR(file);
+				PHALCON_CALL_METHOD(file, method, "getfilename");
+	
+				PHALCON_INIT_NVAR(line);
+				PHALCON_CALL_METHOD(line, method, "getstartline");
+	
+				PHALCON_INIT_NVAR(method_annotations);
+				if (phannot_parse_annotations(method_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
+					return;
+				}
+				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
+					PHALCON_OBS_NVAR(name);
+					phalcon_read_property(&name, method, SL("name"), PH_NOISY_CC);
+					phalcon_array_update_zval(&annotations_methods, name, &method_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		if (phalcon_fast_count_ev(annotations_methods TSRMLS_CC)) {
+			phalcon_array_update_quick_string(&annotations, SS("methods"), 7572665290447257UL, &annotations_methods, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	
+	RETURN_CTOR(annotations);
+}
+
+PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
+
+	zval *doc_block, *file = NULL, *line = NULL, *annotations;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &doc_block, &file, &line) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!file) {
+		PHALCON_INIT_VAR(file);
+	} else {
+		PHALCON_SEPARATE_PARAM(file);
+	}
+	
+	if (!line) {
+		PHALCON_INIT_VAR(line);
+	}
+	
+	if (Z_TYPE_P(file) != IS_STRING) {
+		PHALCON_INIT_NVAR(file);
+		ZVAL_STRING(file, "eval code", 1);
+	}
+	
+	PHALCON_INIT_VAR(annotations);
+	if (phannot_parse_annotations(annotations, doc_block, file, line TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	
+	RETURN_CTOR(annotations);
+}
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reflection, annotations_reflection, phalcon_annotations_reflection_method_entry, 0);
+
+	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_reflectionData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_classAnnotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_methodAnnotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
+
+	zval *reflection_data;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reflection_data) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
+
+	zval *annotations, *reflection_data, *reflection_class;
+	zval *collection;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_classAnnotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(reflection_data);
+		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		if (phalcon_array_isset_quick_string(reflection_data, SS("class"), 6953395239483UL)) {
+			PHALCON_OBS_VAR(reflection_class);
+			phalcon_array_fetch_quick_string(&reflection_class, reflection_data, SS("class"), 6953395239483UL, PH_NOISY_CC);
+	
+			PHALCON_INIT_VAR(collection);
+			object_init_ex(collection, phalcon_annotations_collection_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(collection, "__construct", reflection_class, 14747615951113338888UL);
+	
+			phalcon_update_property_zval(this_ptr, SL("_classAnnotations"), collection TSRMLS_CC);
+			RETURN_CTOR(collection);
+		}
+	
+		phalcon_update_property_bool(this_ptr, SL("_classAnnotations"), 0 TSRMLS_CC);
+		RETURN_MM_FALSE;
+	}
+	
+	
+	RETURN_CCTOR(annotations);
+}
+
+PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
+
+	zval *annotations, *reflection_data, *reflection_methods;
+	zval *collections, *reflection_method = NULL, *method_name = NULL;
+	zval *i0 = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_methodAnnotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(reflection_data);
+		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		if (phalcon_array_isset_quick_string(reflection_data, SS("methods"), 7572665290447257UL)) {
+	
+			PHALCON_OBS_VAR(reflection_methods);
+			phalcon_array_fetch_quick_string(&reflection_methods, reflection_data, SS("methods"), 7572665290447257UL, PH_NOISY_CC);
+			if (phalcon_fast_count_ev(reflection_methods TSRMLS_CC)) {
+	
+				PHALCON_INIT_VAR(collections);
+				array_init(collections);
+	
+				if (!phalcon_is_iterable(reflection_methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+					return;
+				}
+	
+	
+				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+					PHALCON_GET_FOREACH_KEY(method_name, ah0, hp0);
+					PHALCON_GET_FOREACH_VALUE(reflection_method);
+	
+					PHALCON_INIT_NVAR(i0);
+					object_init_ex(i0, phalcon_annotations_collection_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", reflection_method);
+	
+					phalcon_array_update_zval(&collections, method_name, &i0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					zend_hash_move_forward_ex(ah0, &hp0);
+				}
+	
+				phalcon_update_property_zval(this_ptr, SL("_methodAnnotations"), collections TSRMLS_CC);
+	
+				RETURN_CTOR(collections);
+			}
+		}
+	
+		phalcon_update_property_bool(this_ptr, SL("_methodAnnotations"), 0 TSRMLS_CC);
+		RETURN_MM_FALSE;
+	}
+	
+	
+	RETURN_CCTOR(annotations);
+}
+
+PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData){
+
+
+	RETURN_MEMBER(this_ptr, "_reflectionData");
+}
+
+
+
+/* Generated by re2c 0.13.5 on Sat Jan 12 22:26:44 2013 */
+// 1 "scanner.re"
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+#define JJCTYPE unsigned char
+#define JJCURSOR (s->start)
+#define JJLIMIT (s->end)
+#define JJMARKER q
+
+int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
+
+	char next, *q = JJCURSOR, *start = JJCURSOR;
+	int status = PHANNOT_SCANNER_RETCODE_IMPOSSIBLE;
+
+	while (PHANNOT_SCANNER_RETCODE_IMPOSSIBLE == status) {
+
+		if (s->mode == PHANNOT_MODE_RAW) {
+
+			if (*JJCURSOR == '\n') {
+				s->active_line++;
+			}
+
+			next = *(JJCURSOR+1);
+
+			if (*JJCURSOR == '\0' || *JJCURSOR == '@') {
+				if ((next >= 'A' && next <= 'Z') || (next >= 'a' && next <= 'z')) {
+					s->mode = PHANNOT_MODE_ANNOTATION;
+					continue;
+				}
+			}
+
+			++JJCURSOR;
+			token->opcode = PHANNOT_T_IGNORE;
+			return 0;
+
+		} else {
+
+		
+// 66 "scanner.c"
+		{
+			JJCTYPE jjch;
+			unsigned int jjaccept = 0;
+
+			jjch = *JJCURSOR;
+			switch (jjch) {
+			case 0x00:	goto jj36;
+			case '\t':
+			case '\r':
+			case ' ':	goto jj32;
+			case '\n':	goto jj34;
+			case '"':	goto jj8;
+			case '\'':	goto jj10;
+			case '(':	goto jj12;
+			case ')':	goto jj14;
+			case ',':	goto jj30;
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':	goto jj2;
+			case ':':	goto jj28;
+			case '=':	goto jj26;
+			case '@':	goto jj24;
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto jj11;
+			case 'F':
+			case 'f':	goto jj6;
+			case 'N':
+			case 'n':	goto jj4;
+			case 'T':
+			case 't':	goto jj7;
+			case '[':	goto jj20;
+			case ']':	goto jj22;
+			case '{':	goto jj16;
+			case '}':	goto jj18;
+			default:	goto jj38;
+			}
+jj2:
+			jjaccept = 0;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			goto jj67;
+jj3:
+// 67 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_INTEGER;
+			token->value = estrndup(start, JJCURSOR - start);
+			token->len = JJCURSOR - start;
+			q = JJCURSOR;
+			return 0;
+		}
+// 167 "scanner.c"
+jj4:
+			++JJCURSOR;
+			switch ((jjch = *JJCURSOR)) {
+			case 'U':
+			case 'u':	goto jj61;
+			default:	goto jj42;
+			}
+jj5:
+// 109 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_IDENTIFIER;
+			token->value = estrndup(start, JJCURSOR - start);
+			token->len = JJCURSOR - start;
+			q = JJCURSOR;
+			return 0;
+		}
+// 184 "scanner.c"
+jj6:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'A':
+			case 'a':	goto jj56;
+			default:	goto jj42;
+			}
+jj7:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'R':
+			case 'r':	goto jj52;
+			default:	goto jj42;
+			}
+jj8:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch >= 0x01) goto jj50;
+jj9:
+// 183 "scanner.re"
+			{
+			status = PHANNOT_SCANNER_RETCODE_ERR;
+			break;
+		}
+// 209 "scanner.c"
+jj10:
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch <= 0x00) goto jj9;
+			goto jj44;
+jj11:
+			jjch = *++JJCURSOR;
+			goto jj42;
+jj12:
+			++JJCURSOR;
+// 117 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_PARENTHESES_OPEN;
+			return 0;
+		}
+// 225 "scanner.c"
+jj14:
+			++JJCURSOR;
+// 122 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_PARENTHESES_CLOSE;
+			return 0;
+		}
+// 233 "scanner.c"
+jj16:
+			++JJCURSOR;
+// 127 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_BRACKET_OPEN;
+			return 0;
+		}
+// 241 "scanner.c"
+jj18:
+			++JJCURSOR;
+// 132 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_BRACKET_CLOSE;
+			return 0;
+		}
+// 249 "scanner.c"
+jj20:
+			++JJCURSOR;
+// 137 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_SBRACKET_OPEN;
+			return 0;
+		}
+// 257 "scanner.c"
+jj22:
+			++JJCURSOR;
+// 142 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_SBRACKET_CLOSE;
+			return 0;
+		}
+// 265 "scanner.c"
+jj24:
+			++JJCURSOR;
+// 147 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_AT;
+			return 0;
+		}
+// 273 "scanner.c"
+jj26:
+			++JJCURSOR;
+// 152 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_EQUALS;
+			return 0;
+		}
+// 281 "scanner.c"
+jj28:
+			++JJCURSOR;
+// 157 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_COLON;
+			return 0;
+		}
+// 289 "scanner.c"
+jj30:
+			++JJCURSOR;
+// 162 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_COMMA;
+			return 0;
+		}
+// 297 "scanner.c"
+jj32:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			goto jj40;
+jj33:
+// 167 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_IGNORE;
+			return 0;
+		}
+// 308 "scanner.c"
+jj34:
+			++JJCURSOR;
+// 172 "scanner.re"
+			{
+			s->active_line++;
+			token->opcode = PHANNOT_T_IGNORE;
+			return 0;
+		}
+// 317 "scanner.c"
+jj36:
+			++JJCURSOR;
+// 178 "scanner.re"
+			{
+			status = PHANNOT_SCANNER_RETCODE_EOF;
+			break;
+		}
+// 325 "scanner.c"
+jj38:
+			jjch = *++JJCURSOR;
+			goto jj9;
+jj39:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj40:
+			switch (jjch) {
+			case '\t':
+			case '\r':
+			case ' ':	goto jj39;
+			default:	goto jj33;
+			}
+jj41:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj42:
+			switch (jjch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto jj41;
+			default:	goto jj5;
+			}
+jj43:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj44:
+			switch (jjch) {
+			case 0x00:	goto jj45;
+			case '\'':	goto jj47;
+			case '\\':	goto jj46;
+			default:	goto jj43;
+			}
+jj45:
+			JJCURSOR = JJMARKER;
+			switch (jjaccept) {
+			case 0: 	goto jj3;
+			case 1: 	goto jj9;
+			}
+jj46:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			switch (jjch) {
+			case '\n':	goto jj45;
+			default:	goto jj43;
+			}
+jj47:
+			++JJCURSOR;
+// 100 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_STRING;
+			token->value = estrndup(q, JJCURSOR - q - 1);
+			token->len = JJCURSOR - q - 1;
+			q = JJCURSOR;
+			return 0;
+		}
+// 443 "scanner.c"
+jj49:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj50:
+			switch (jjch) {
+			case 0x00:	goto jj45;
+			case '"':	goto jj47;
+			case '\\':	goto jj51;
+			default:	goto jj49;
+			}
+jj51:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			switch (jjch) {
+			case '\n':	goto jj45;
+			default:	goto jj49;
+			}
+jj52:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'U':
+			case 'u':	goto jj53;
+			default:	goto jj42;
+			}
+jj53:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'E':
+			case 'e':	goto jj54;
+			default:	goto jj42;
+			}
+jj54:
+			++JJCURSOR;
+			switch ((jjch = *JJCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto jj41;
+			default:	goto jj55;
+			}
+jj55:
+// 94 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_TRUE;
+			return 0;
+		}
+// 550 "scanner.c"
+jj56:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'L':
+			case 'l':	goto jj57;
+			default:	goto jj42;
+			}
+jj57:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'S':
+			case 's':	goto jj58;
+			default:	goto jj42;
+			}
+jj58:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'E':
+			case 'e':	goto jj59;
+			default:	goto jj42;
+			}
+jj59:
+			++JJCURSOR;
+			switch ((jjch = *JJCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto jj41;
+			default:	goto jj60;
+			}
+jj60:
+// 89 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_FALSE;
+			return 0;
+		}
+// 647 "scanner.c"
+jj61:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'L':
+			case 'l':	goto jj62;
+			default:	goto jj42;
+			}
+jj62:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'L':
+			case 'l':	goto jj63;
+			default:	goto jj42;
+			}
+jj63:
+			++JJCURSOR;
+			switch ((jjch = *JJCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto jj41;
+			default:	goto jj64;
+			}
+jj64:
+// 84 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_NULL;
+			return 0;
+		}
+// 737 "scanner.c"
+jj65:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':	goto jj68;
+			default:	goto jj45;
+			}
+jj66:
+			jjaccept = 0;
+			JJMARKER = ++JJCURSOR;
+			jjch = *JJCURSOR;
+jj67:
+			switch (jjch) {
+			case '.':	goto jj65;
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':	goto jj66;
+			default:	goto jj3;
+			}
+jj68:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			switch (jjch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':	goto jj68;
+			default:	goto jj70;
+			}
+jj70:
+// 76 "scanner.re"
+			{
+			token->opcode = PHANNOT_T_DOUBLE;
+			token->value = estrndup(start, JJCURSOR - start);
+			token->len = JJCURSOR - start;
+			q = JJCURSOR;
+			return 0;
+		}
+// 797 "scanner.c"
+		}
+// 188 "scanner.re"
+
+
+		}
+	}
+
+	return status;
+}
 
 
 
@@ -11513,10 +20064,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -11550,12 +20097,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Memcache, queryKeys){
 		PHALCON_INIT_VAR(prefixed_keys);
 		array_init(prefixed_keys);
 	
-		if (!phalcon_valid_foreach(keys TSRMLS_CC)) {
+		if (!phalcon_is_iterable(keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(keys);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -12030,12 +20575,10 @@ PHP_METHOD(Phalcon_Cache_Backend_Mongo, queryKeys){
 	PHALCON_INIT_VAR(documents_array);
 	PHALCON_CALL_FUNC_PARAMS_1(documents_array, "iterator_to_array", documents);
 	
-	if (!phalcon_valid_foreach(documents_array TSRMLS_CC)) {
+	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(documents_array);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -13550,10 +22093,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -13582,12 +22121,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 	PHALCON_INIT_VAR(dot);
 	ZVAL_STRING(dot, ".", 1);
 	
-	if (!phalcon_valid_foreach(ini_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(ini_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(ini_config);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -13595,12 +22132,10 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct){
 		PHALCON_GET_FOREACH_VALUE(directives);
 	
 	
-		if (!phalcon_valid_foreach(directives TSRMLS_CC)) {
+		if (!phalcon_is_iterable(directives, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(directives);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -13680,10 +22215,6 @@ PHP_METHOD(Phalcon_Config, __construct){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -13697,12 +22228,10 @@ PHP_METHOD(Phalcon_Config, __construct){
 	
 	if (Z_TYPE_P(array_config) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+		if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(array_config);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -13836,10 +22365,6 @@ PHP_METHOD(Phalcon_Config, merge){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -13855,12 +22380,10 @@ PHP_METHOD(Phalcon_Config, merge){
 	PHALCON_INIT_VAR(array_config);
 	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", config);
 	
-	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(array_config);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -13896,24 +22419,16 @@ PHP_METHOD(Phalcon_Config, toArray){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_INIT_VAR(array_config);
 	PHALCON_CALL_FUNC_PARAMS_1(array_config, "get_object_vars", this_ptr);
 	
-	if (!phalcon_valid_foreach(array_config TSRMLS_CC)) {
+	if (!phalcon_is_iterable(array_config, &ah0, &hp0, 1, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ALLOC_HASHTABLE(ah0);
-	zend_hash_init(ah0, 0, NULL, NULL, 0);
-	zend_hash_copy(ah0, Z_ARRVAL_P(array_config), NULL, NULL, sizeof(zval*));
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14057,12 +22572,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	PHALCON_INIT_VAR(size_pattern);
 	ZVAL_STRING(size_pattern, "#\\(([0-9]+)(,[0-9]+)*\\)#", 1);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14082,8 +22595,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 			if (phalcon_memnstr_str(column_type, SL("varchar") TSRMLS_CC)) {
 				phalcon_array_update_string_long(&definition, SL("type"), 2, PH_SEPARATE TSRMLS_CC);
 			} else {
-				if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
-					phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
+				if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
+					phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
 				} else {
 					if (phalcon_memnstr_str(column_type, SL("decimal") TSRMLS_CC)) {
 						phalcon_array_update_string_long(&definition, SL("type"), 3, PH_SEPARATE TSRMLS_CC);
@@ -14093,8 +22606,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 						if (phalcon_memnstr_str(column_type, SL("char") TSRMLS_CC)) {
 							phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
 						} else {
-							if (phalcon_memnstr_str(column_type, SL("datetime") TSRMLS_CC)) {
-								phalcon_array_update_string_long(&definition, SL("type"), 4, PH_SEPARATE TSRMLS_CC);
+							if (phalcon_memnstr_str(column_type, SL("date") TSRMLS_CC)) {
+								phalcon_array_update_string_long(&definition, SL("type"), 1, PH_SEPARATE TSRMLS_CC);
 							} else {
 								if (phalcon_memnstr_str(column_type, SL("text") TSRMLS_CC)) {
 									phalcon_array_update_string_long(&definition, SL("type"), 6, PH_SEPARATE TSRMLS_CC);
@@ -14282,12 +22795,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 	PHALCON_INIT_VAR(old_column);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14525,12 +23036,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns){
 	
 	PHALCON_INIT_VAR(old_column);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14662,10 +23171,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	HashTable *ah0, *ah1, *ah2;
 	HashPosition hp0, hp1, hp2;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -14692,12 +23197,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14717,12 +23220,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 		PHALCON_INIT_NVAR(describe_index);
 		PHALCON_CALL_METHOD_PARAMS_2_KEY(describe_index, this_ptr, "fetchall", sql_index_describe, fetch_assoc, 249888109520341512UL);
 	
-		if (!phalcon_valid_foreach(describe_index TSRMLS_CC)) {
+		if (!phalcon_is_iterable(describe_index, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(describe_index);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -14742,12 +23243,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeIndexes){
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	
-	if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(indexes, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah2 = Z_ARRVAL_P(indexes);
-	zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -14777,10 +23276,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -14807,12 +23302,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeReferences){
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -14907,14 +23400,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	zval *descriptor = NULL, *username = NULL, *password = NULL, *dsn_parts;
 	zval *value = NULL, *key = NULL, *dsn_attribute = NULL, *dsn_attributes = NULL;
 	zval *pdo_type, *dsn, *options = NULL, *persistent, *pdo;
+	zend_class_entry *ce;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
-	zend_class_entry *ce;
 
 	PHALCON_MM_GROW();
 
@@ -14939,7 +23428,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("username"));
 	} else {
-		PHALCON_INIT_VAR(username);
+		PHALCON_INIT_NVAR(username);
 	}
 
 	if (phalcon_array_isset_quick_string(descriptor, SS("password"), 249902002485748536UL)) {
@@ -14948,7 +23437,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_SEPARATE_PARAM(descriptor);
 		phalcon_array_unset_string(descriptor, SS("password"));
 	} else {
-		PHALCON_INIT_VAR(password);
+		PHALCON_INIT_NVAR(password);
 	}
 
 	if (!phalcon_array_isset_quick_string(descriptor, SS("dsn"), 6385163466UL)) {
@@ -14956,12 +23445,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_INIT_VAR(dsn_parts);
 		array_init(dsn_parts);
 
-		if (!phalcon_valid_foreach(descriptor TSRMLS_CC)) {
+		if (!phalcon_is_iterable(descriptor, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-
-		ah0 = Z_ARRVAL_P(descriptor);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -14992,7 +23478,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 		PHALCON_OBS_VAR(options);
 		phalcon_array_fetch_quick_string(&options, descriptor, SS("options"), 7572764734677681UL, PH_NOISY_CC);
 	} else {
-		PHALCON_INIT_VAR(options);
+		PHALCON_INIT_NVAR(options);
 		array_init(options);
 	}
 
@@ -15001,6 +23487,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 	phalcon_array_update_long_long(&options, PDO_ATTR_CURSOR, PDO_CURSOR_SCROLL, PH_SEPARATE TSRMLS_CC);
 
 	if (phalcon_array_isset_quick_string(descriptor, SS("persistent"), 13889047896653944054UL)) {
+
 		PHALCON_OBS_VAR(persistent);
 		phalcon_array_fetch_quick_string(&persistent, descriptor, SS("persistent"), 13889047896653944054UL, PH_NOISY_CC);
 		if (zend_is_true(persistent)) {
@@ -15016,8 +23503,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect){
 
 	phalcon_update_property_zval(this_ptr, SL("_pdo"), pdo TSRMLS_CC);
 
-	PHALCON_MM_RESTORE();
-}
+	PHALCON_MM_RESTORE();}
 
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 
@@ -15026,10 +23512,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -15040,12 +23522,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared){
 	PHALCON_INIT_VAR(one);
 	ZVAL_LONG(one, 1);
 
-	if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+	if (!phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-
-	ah0 = Z_ARRVAL_P(placeholders);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 
@@ -15325,10 +23804,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -15343,12 +23818,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 			PHALCON_OBS_VAR(pdo);
 			phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+			if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(params);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -15439,12 +23912,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 	PHALCON_CPY_WRT(status, r0);
 	if (zend_is_true(status)) {
 	
-		if (!phalcon_valid_foreach(matches TSRMLS_CC)) {
+		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(matches);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -15600,10 +24071,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -15630,12 +24097,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(indexes);
 	array_init(indexes);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -15659,12 +24124,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	PHALCON_INIT_VAR(index_objects);
 	array_init(index_objects);
 	
-	if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(indexes);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -15695,10 +24158,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -15728,12 +24187,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_INIT_VAR(describe);
 	PHALCON_CALL_METHOD_PARAMS_2_KEY(describe, this_ptr, "fetchall", sql, fetch_assoc, 249888109520341512UL);
 	
-	if (!phalcon_valid_foreach(describe TSRMLS_CC)) {
+	if (!phalcon_is_iterable(describe, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(describe);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -15771,12 +24228,10 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	PHALCON_INIT_VAR(reference_objects);
 	array_init(reference_objects);
 	
-	if (!phalcon_valid_foreach(references TSRMLS_CC)) {
+	if (!phalcon_is_iterable(references, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(references);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -16081,10 +24536,6 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -16124,12 +24575,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 	}
 	
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -16177,12 +24626,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 			PHALCON_INIT_VAR(escaped_fields);
 			array_init(escaped_fields);
 	
-			if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+			if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(fields);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -16227,10 +24674,6 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -16259,12 +24702,10 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 	}
 	
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -16848,12 +25289,10 @@ PHP_METHOD(Phalcon_Db_Adapter, listTables){
 	PHALCON_INIT_VAR(all_tables);
 	array_init(all_tables);
 	
-	if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
+	if (!phalcon_is_iterable(tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -17916,12 +26355,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_quick_string(&columns, definition, SS("columns"), 7572251722970022UL, PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(columns);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -17948,6 +26385,12 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			phalcon_concat_self_str(&column_line, SL(" AUTO_INCREMENT") TSRMLS_CC);
 		}
 	
+		PHALCON_INIT_NVAR(attribute);
+		PHALCON_CALL_METHOD(attribute, column, "isprimary");
+		if (zend_is_true(attribute)) {
+			phalcon_concat_self_str(&column_line, SL(" PRIMARY KEY") TSRMLS_CC);
+		}
+	
 		phalcon_array_append(&create_lines, column_line, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -17958,12 +26401,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_OBS_VAR(indexes);
 		phalcon_array_fetch_quick_string(&indexes, definition, SS("indexes"), 7572505810487541UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(indexes TSRMLS_CC)) {
+		if (!phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(indexes);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -17998,12 +26439,10 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		PHALCON_OBS_VAR(references);
 		phalcon_array_fetch_quick_string(&references, definition, SS("references"), 13892093592130971367UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(references TSRMLS_CC)) {
+		if (!phalcon_is_iterable(references, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(references);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -19180,12 +27619,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 	PHALCON_OBS_VAR(escape_char);
 	phalcon_read_property(&escape_char, this_ptr, SL("_escapeChar"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(column_list TSRMLS_CC)) {
+	if (!phalcon_is_iterable(column_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(column_list);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -19368,12 +27805,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 			PHALCON_OBS_VAR(arguments);
 			phalcon_array_fetch_quick_string(&arguments, expression, SS("arguments"), 8246093309468467035UL, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+			if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(arguments);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -19408,12 +27843,10 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		PHALCON_OBS_VAR(items);
 		phalcon_array_fetch_long(&items, expression, 0, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(items TSRMLS_CC)) {
+		if (!phalcon_is_iterable(items, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(items);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -19577,12 +28010,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(selected_columns);
 		array_init(selected_columns);
 	
-		if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+		if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(columns);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -19657,12 +28088,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(selected_tables);
 		array_init(selected_tables);
 	
-		if (!phalcon_valid_foreach(tables TSRMLS_CC)) {
+		if (!phalcon_is_iterable(tables, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(tables);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -19689,12 +28118,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_OBS_VAR(joins);
 		phalcon_array_fetch_quick_string(&joins, definition, SS("joins"), 6953673027048UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
+		if (!phalcon_is_iterable(joins, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(joins);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -19722,12 +28149,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 					PHALCON_INIT_NVAR(join_expressions);
 					array_init(join_expressions);
 	
-					if (!phalcon_valid_foreach(join_conditions_array TSRMLS_CC)) {
+					if (!phalcon_is_iterable(join_conditions_array, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah3 = Z_ARRVAL_P(join_conditions_array);
-					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -19770,12 +28195,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_OBS_VAR(group_fields);
 		phalcon_array_fetch_quick_string(&group_fields, definition, SS("group"), 6953559401778UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(group_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(group_fields, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah4 = Z_ARRVAL_P(group_fields);
-		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -19813,12 +28236,10 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		PHALCON_INIT_VAR(order_items);
 		array_init(order_items);
 	
-		if (!phalcon_valid_foreach(order_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(order_fields, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah5 = Z_ARRVAL_P(order_fields);
-		zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -20241,7 +28662,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements){
 	
 	PHALCON_INIT_VAR(number_profiles);
 	phalcon_fast_count(number_profiles, all_profiles TSRMLS_CC);
-	RETURN_CCTOR(number_profiles);
+	RETURN_NCTOR(number_profiles);
 }
 
 PHP_METHOD(Phalcon_Db_Profiler, getTotalElapsedSeconds){
@@ -21587,10 +30008,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -21606,12 +30023,10 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 	PHALCON_INIT_VAR(build_arguments);
 	array_init(build_arguments);
 	
-	if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+	if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(arguments);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -21639,10 +30054,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -21713,12 +30124,10 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		}
 	
 	
-		if (!phalcon_valid_foreach(param_calls TSRMLS_CC)) {
+		if (!phalcon_is_iterable(param_calls, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(param_calls);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -21791,12 +30200,10 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		}
 	
 	
-		if (!phalcon_valid_foreach(param_calls TSRMLS_CC)) {
+		if (!phalcon_is_iterable(param_calls, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(param_calls);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -21841,7 +30248,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 	}
 	
 	
-	RETURN_CCTOR(instance);
+	RETURN_CTOR(instance);
 }
 
 
@@ -23680,7 +32087,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml){
 		phalcon_read_property(&encoding, this_ptr, SL("_encoding"), PH_NOISY_CC);
 	
 		PHALCON_INIT_VAR(escaped);
-		phalcon_escape_html(escaped, text, html_quote_type, encoding);
+		phalcon_escape_html(escaped, text, html_quote_type, encoding TSRMLS_CC);
 		RETURN_CTOR(escaped);
 	}
 	RETURN_MM_NULL();
@@ -24130,12 +32537,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
-			if (!phalcon_valid_foreach(fire_events TSRMLS_CC)) {
+			if (!phalcon_is_iterable(fire_events, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(fire_events);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -24201,12 +32606,10 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		phalcon_array_fetch(&fire_events, events, event_type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_ARRAY) { 
 	
-			if (!phalcon_valid_foreach(fire_events TSRMLS_CC)) {
+			if (!phalcon_is_iterable(fire_events, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(fire_events);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -24445,12 +32848,10 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		PHALCON_CPY_WRT(new_value, value);
 		if (Z_TYPE_P(value) != IS_NULL) {
 	
-			if (!phalcon_valid_foreach(filters TSRMLS_CC)) {
+			if (!phalcon_is_iterable(filters, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(filters);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -24510,7 +32911,6 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		RETURN_CCTOR(filtered);
 	}
 	
-	PHALCON_INIT_NVAR(filtered);
 	
 	if (PHALCON_COMPARE_STRING(filter, "email")) {
 		PHALCON_INIT_VAR(type);
@@ -24890,10 +33290,6 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -24910,12 +33306,10 @@ PHP_METHOD(Phalcon_Flash_Session, output){
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(messages, this_ptr, "_getsessionmessages", remove, 4025173003893052000UL);
 	if (Z_TYPE_P(messages) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(messages);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -25021,12 +33415,10 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
-		return;
+		RETURN_CTOR(this_ptr);
 	}
-	
-	RETURN_CTOR(this_ptr);
+	PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
+	return;
 }
 
 PHP_METHOD(Phalcon_Flash, error){
@@ -25155,12 +33547,10 @@ PHP_METHOD(Phalcon_Flash, outputMessage){
 		}
 	
 	
-		if (!phalcon_valid_foreach(message TSRMLS_CC)) {
+		if (!phalcon_is_iterable(message, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(message);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -26280,12 +34670,10 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 		RETURN_NCTOR(is_equals);
 	} else {
 	
-		if (!phalcon_valid_foreach(methods TSRMLS_CC)) {
+		if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(methods);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -26464,12 +34852,10 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 		PHALCON_INIT_VAR(files);
 		array_init(files);
 	
-		if (!phalcon_valid_foreach(super_files TSRMLS_CC)) {
+		if (!phalcon_is_iterable(super_files, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(super_files);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -26544,12 +34930,10 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 	PHALCON_INIT_VAR(dot_comma);
 	ZVAL_STRING(dot_comma, ";", 1);
 	
-	if (!phalcon_valid_foreach(parts TSRMLS_CC)) {
+	if (!phalcon_is_iterable(parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(parts);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -26606,12 +34990,10 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	PHALCON_INIT_VAR(selected_name);
 	ZVAL_STRING(selected_name, "", 1);
 	
-	if (!phalcon_valid_foreach(quality_parts TSRMLS_CC)) {
+	if (!phalcon_is_iterable(quality_parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(quality_parts);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -27073,10 +35455,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -27090,12 +35468,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 		PHALCON_OBS_VAR(headers);
 		phalcon_read_property(&headers, this_ptr, SL("_headers"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(headers TSRMLS_CC)) {
+		if (!phalcon_is_iterable(headers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(headers);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -27138,10 +35514,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -27158,12 +35530,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 		PHALCON_OBS_VAR(data_headers);
 		phalcon_array_fetch_quick_string(&data_headers, data, SS("_headers"), 249878373060459264UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(data_headers TSRMLS_CC)) {
+		if (!phalcon_is_iterable(data_headers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(data_headers);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -27229,6 +35599,38 @@ PHALCON_INIT_CLASS(Phalcon_Http_Response){
 	zend_class_implements(phalcon_http_response_ce TSRMLS_CC, 2, phalcon_http_responseinterface_ce, phalcon_di_injectionawareinterface_ce);
 
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Http_Response, __construct){
+
+	zval *content = NULL, *code = NULL, *status = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zzz", &content, &code, &status) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!content) {
+		PHALCON_INIT_VAR(content);
+	}
+	
+	if (!code) {
+		PHALCON_INIT_VAR(code);
+	}
+	
+	if (!status) {
+		PHALCON_INIT_VAR(status);
+	}
+	
+	if (Z_TYPE_P(content) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_content"), content TSRMLS_CC);
+	}
+	if (Z_TYPE_P(code) != IS_NULL) {
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "setstatuscode", code, status, 16361794455252792912UL);
+	}
+	
+	PHALCON_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Http_Response, setDI){
@@ -27614,12 +36016,10 @@ PHP_METHOD(Phalcon_Http_Response, send){
 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
 	
 		RETURN_CTOR(this_ptr);
-	} else {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
-		return;
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_THROW_EXCEPTION_STR(phalcon_http_response_exception_ce, "Response was already sent");
+	return;
 }
 
 
@@ -28036,10 +36436,6 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -28096,12 +36492,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&namespaces, this_ptr, SL("_namespaces"), PH_NOISY_CC);
 	if (Z_TYPE_P(namespaces) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(namespaces TSRMLS_CC)) {
+		if (!phalcon_is_iterable(namespaces, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(namespaces);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -28120,12 +36514,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+					if (!phalcon_is_iterable(extensions, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(extensions);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -28179,12 +36571,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&prefixes, this_ptr, SL("_prefixes"), PH_NOISY_CC);
 	if (Z_TYPE_P(prefixes) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(prefixes TSRMLS_CC)) {
+		if (!phalcon_is_iterable(prefixes, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(prefixes);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -28203,12 +36593,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 					PHALCON_INIT_NVAR(fixed_directory);
 					phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-					if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+					if (!phalcon_is_iterable(extensions, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah3 = Z_ARRVAL_P(extensions);
-					zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -28263,12 +36651,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 	phalcon_read_property(&directories, this_ptr, SL("_directories"), PH_NOISY_CC);
 	if (Z_TYPE_P(directories) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(directories TSRMLS_CC)) {
+		if (!phalcon_is_iterable(directories, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah4 = Z_ARRVAL_P(directories);
-		zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -28277,12 +36663,10 @@ PHP_METHOD(Phalcon_Loader, autoLoad){
 			PHALCON_INIT_NVAR(fixed_directory);
 			phalcon_fix_path(&fixed_directory, directory, ds TSRMLS_CC);
 	
-			if (!phalcon_valid_foreach(extensions TSRMLS_CC)) {
+			if (!phalcon_is_iterable(extensions, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah5 = Z_ARRVAL_P(extensions);
-			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -28502,12 +36886,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, commit){
 		PHALCON_OBS_VAR(file_handler);
 		phalcon_read_property(&file_handler, this_ptr, SL("_fileHandler"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(quenue TSRMLS_CC)) {
+		if (!phalcon_is_iterable(quenue, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(quenue);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -29989,10 +38371,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -30014,12 +38392,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
 		return;
 	}
 	
-	if (!phalcon_valid_foreach(document TSRMLS_CC)) {
+	if (!phalcon_is_iterable(document, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(document);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -30112,12 +38488,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	PHALCON_INIT_VAR(documents_array);
 	PHALCON_CALL_FUNC_PARAMS_1(documents_array, "iterator_to_array", documents_cursor);
 	
-	if (!phalcon_valid_foreach(documents_array TSRMLS_CC)) {
+	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(documents_array);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -30301,12 +38675,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, validator, "getmessages");
 	
-		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(messages);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -30505,10 +38877,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -30559,12 +38927,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
 	
 	
-	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
+	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(properties);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -30884,10 +39250,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -30901,12 +39263,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
 	
 	
-	if (!phalcon_valid_foreach(properties TSRMLS_CC)) {
+	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(properties);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -30939,10 +39299,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -30978,12 +39334,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
 	
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -31942,12 +40296,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		if (Z_TYPE_P(before_handlers) == IS_ARRAY) { 
 	
 	
-			if (!phalcon_valid_foreach(before_handlers TSRMLS_CC)) {
+			if (!phalcon_is_iterable(before_handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(before_handlers);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -31988,12 +40340,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 		if (Z_TYPE_P(after_handlers) == IS_ARRAY) { 
 	
 	
-			if (!phalcon_valid_foreach(after_handlers TSRMLS_CC)) {
+			if (!phalcon_is_iterable(after_handlers, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(after_handlers);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -32055,12 +40405,10 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle){
 	if (Z_TYPE_P(finish_handlers) == IS_ARRAY) { 
 	
 	
-		if (!phalcon_valid_foreach(finish_handlers TSRMLS_CC)) {
+		if (!phalcon_is_iterable(finish_handlers, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(finish_handlers);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -32283,12 +40631,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 				PHALCON_INIT_VAR(messages);
 				PHALCON_CALL_METHOD(messages, update_model, "getmessages");
 	
-				if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+				if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah0 = Z_ARRVAL_P(messages);
-				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -32655,6 +41001,72 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 	RETURN_CTOR(this_ptr);
 }
 
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
+
+	zval *conditions, *params, *current_conditions;
+	zval *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(conditions) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_quick_string(params, SS("conditions"), 13869595219804857727UL)) {
+		PHALCON_OBS_VAR(current_conditions);
+		phalcon_array_fetch_quick_string(&current_conditions, params, SS("conditions"), 13869595219804857727UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") AND (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, conditions);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
+
+	zval *conditions, *params, *current_conditions;
+	zval *new_conditions = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &conditions) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(conditions) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Conditions must be string");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_params"), PH_NOISY_CC);
+	if (phalcon_array_isset_quick_string(params, SS("conditions"), 13869595219804857727UL)) {
+		PHALCON_OBS_VAR(current_conditions);
+		phalcon_array_fetch_quick_string(&current_conditions, params, SS("conditions"), 13869595219804857727UL, PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(new_conditions);
+		PHALCON_CONCAT_SVSVS(new_conditions, "(", current_conditions, ") OR (", conditions, ")");
+	} else {
+		PHALCON_CPY_WRT(new_conditions, conditions);
+	}
+	
+	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 
 	zval *conditions;
@@ -32846,10 +41258,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -32891,12 +41299,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 		array_init(bind);
 	
 	
-		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(data);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -33389,12 +41795,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(models_behaviors TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(models_behaviors);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -33475,12 +41879,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 			PHALCON_OBS_VAR(models_behaviors);
 			phalcon_array_fetch(&models_behaviors, behaviors, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(models_behaviors TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(models_behaviors);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -33995,10 +42397,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -34076,12 +42474,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 		PHALCON_INIT_VAR(referenced_fields);
 		PHALCON_CALL_METHOD(referenced_fields, relation, "getreferencedfields");
 	
-		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(fields);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -34458,12 +42854,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_VAR(relations);
 			phalcon_array_fetch(&relations, belongs_to, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -34485,12 +42879,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_many, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -34512,12 +42904,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			PHALCON_OBS_NVAR(relations);
 			phalcon_array_fetch(&relations, has_one, entity_name, PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+			if (!phalcon_is_iterable(relations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah2 = Z_ARRVAL_P(relations);
-			zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -35342,10 +43732,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -35447,12 +43833,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 					PHALCON_INIT_VAR(identity_field);
 					ZVAL_BOOL(identity_field, 0);
 	
-					if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+					if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah0 = Z_ARRVAL_P(columns);
-					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -35559,12 +43943,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, _initialize){
 				array_init(reversed_column_map);
 				PHALCON_CPY_WRT(ordered_column_map, user_column_map);
 	
-				if (!phalcon_valid_foreach(user_column_map TSRMLS_CC)) {
+				if (!phalcon_is_iterable(user_column_map, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah1 = Z_ARRVAL_P(user_column_map);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -36662,10 +45044,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -36793,12 +45171,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+			if (!phalcon_is_iterable(columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(columns);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -36821,12 +45197,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_NVAR(selected_columns);
 			array_init(selected_columns);
 	
-			if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+			if (!phalcon_is_iterable(models, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah1 = Z_ARRVAL_P(models);
-			zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -36858,12 +45232,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(selected_models);
 		array_init(selected_models);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -36893,12 +45265,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	phalcon_read_property(&joins, this_ptr, SL("_joins"), PH_NOISY_CC);
 	if (Z_TYPE_P(joins) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(joins TSRMLS_CC)) {
+		if (!phalcon_is_iterable(joins, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah3 = Z_ARRVAL_P(joins);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -36938,12 +45308,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(group_items);
 			array_init(group_items);
 	
-			if (!phalcon_valid_foreach(group TSRMLS_CC)) {
+			if (!phalcon_is_iterable(group, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah4 = Z_ARRVAL_P(group);
-			zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 			while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -36994,12 +45362,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 			PHALCON_INIT_VAR(order_items);
 			array_init(order_items);
 	
-			if (!phalcon_valid_foreach(order TSRMLS_CC)) {
+			if (!phalcon_is_iterable(order, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah5 = Z_ARRVAL_P(order);
-			zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 			while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -37153,7 +45519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 		return;
 	}
 	
-	RETURN_CCTOR(intermediate);
+	RETURN_CTOR(intermediate);
 }
 
 
@@ -44562,7 +52928,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, getUniqueRow){
@@ -44669,12 +53035,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		PHALCON_OBS_VAR(models_instances);
 		phalcon_read_property(&models_instances, this_ptr, SL("_modelsInstances"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(models_instances TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models_instances, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models_instances);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -44809,12 +53173,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 			PHALCON_INIT_VAR(function_args);
 			array_init(function_args);
 	
-			if (!phalcon_valid_foreach(arguments TSRMLS_CC)) {
+			if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(arguments);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -45225,12 +53587,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 		PHALCON_INIT_VAR(list_items);
 		array_init(list_items);
 	
-		if (!phalcon_valid_foreach(expr TSRMLS_CC)) {
+		if (!phalcon_is_iterable(expr, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(expr);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -45267,10 +53627,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -45293,12 +53649,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(models);
 		phalcon_read_property(&models, this_ptr, SL("_models"), PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -45566,10 +53920,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	HashTable *ah0, *ah1, *ah2, *ah3;
 	HashPosition hp0, hp1, hp2, hp3;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -45622,12 +53972,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	}
 	
 	
-	if (!phalcon_valid_foreach(select_joins TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_joins, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(select_joins);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -45706,12 +54054,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	PHALCON_INIT_VAR(join_pre_condition);
 	array_init(join_pre_condition);
 	
-	if (!phalcon_valid_foreach(select_joins TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_joins, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(select_joins);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -45735,12 +54081,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 	PHALCON_OBS_NVAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(from_models TSRMLS_CC)) {
+	if (!phalcon_is_iterable(from_models, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah2 = Z_ARRVAL_P(from_models);
-	zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -45750,12 +54094,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		PHALCON_INIT_NVAR(has_relations);
 		ZVAL_BOOL(has_relations, 0);
 	
-		if (!phalcon_valid_foreach(join_models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(join_models, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah3 = Z_ARRVAL_P(join_models);
-		zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -45891,12 +54233,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	PHALCON_INIT_VAR(order_parts);
 	array_init(order_parts);
 	
-	if (!phalcon_valid_foreach(order_columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(order_columns, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(order_columns);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -45956,12 +54296,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 		PHALCON_INIT_VAR(group_parts);
 		array_init(group_parts);
 	
-		if (!phalcon_valid_foreach(group TSRMLS_CC)) {
+		if (!phalcon_is_iterable(group, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(group);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -46066,12 +54404,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
 	
-	if (!phalcon_valid_foreach(selected_models TSRMLS_CC)) {
+	if (!phalcon_is_iterable(selected_models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(selected_models);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -46182,12 +54518,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 	PHALCON_INIT_VAR(sql_column_aliases);
 	array_init(sql_column_aliases);
 	
-	if (!phalcon_valid_foreach(select_columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(select_columns, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(select_columns);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -46196,12 +54530,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		PHALCON_INIT_NVAR(sql_column_group);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(sql_column_group, this_ptr, "_getselectcolumn", column, 16594755089970257330UL);
 	
-		if (!phalcon_valid_foreach(sql_column_group TSRMLS_CC)) {
+		if (!phalcon_is_iterable(sql_column_group, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah2 = Z_ARRVAL_P(sql_column_group);
-		zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -46369,12 +54701,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 	PHALCON_OBS_VAR(values);
 	phalcon_array_fetch_quick_string(&values, ast, SS("values"), 229486163410581UL, PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -46410,12 +54740,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 		PHALCON_OBS_VAR(fields);
 		phalcon_array_fetch_quick_string(&fields, ast, SS("fields"), 229465804380252UL, PH_NOISY_CC);
 	
-		if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(fields);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -46514,12 +54842,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(update_tables TSRMLS_CC)) {
+	if (!phalcon_is_iterable(update_tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(update_tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -46596,12 +54922,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	PHALCON_INIT_VAR(not_quoting);
 	ZVAL_BOOL(not_quoting, 0);
 	
-	if (!phalcon_valid_foreach(update_values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(update_values, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(update_values);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -46719,12 +55043,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	PHALCON_OBS_VAR(manager);
 	phalcon_read_property(&manager, this_ptr, SL("_manager"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(delete_tables TSRMLS_CC)) {
+	if (!phalcon_is_iterable(delete_tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(delete_tables);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -46886,7 +55208,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, getCacheOptions){
@@ -46919,10 +55241,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5, *ah6;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5, hp6;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -46966,12 +55284,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(connections);
 		array_init(connections);
 	
-		if (!phalcon_valid_foreach(models TSRMLS_CC)) {
+		if (!phalcon_is_iterable(models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(models);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -47021,12 +55337,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_INIT_VAR(number_objects);
 	ZVAL_LONG(number_objects, 0);
 	
-	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(columns, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah1 = Z_ARRVAL_P(columns);
-	zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -47079,14 +55393,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(columns TSRMLS_CC)) {
+	if (!phalcon_is_iterable(columns, &ah2, &hp2, 1, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ALLOC_HASHTABLE(ah2);
-	zend_hash_init(ah2, 0, NULL, NULL, 0);
-	zend_hash_copy(ah2, Z_ARRVAL_P(columns), NULL, NULL, sizeof(zval*));
-	zend_hash_internal_pointer_reset_ex(ah2, &hp2);
 	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -47117,12 +55427,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 					PHALCON_INIT_NVAR(column_map);
 				}
 	
-				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				if (!phalcon_is_iterable(attributes, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah3 = Z_ARRVAL_P(attributes);
-				zend_hash_internal_pointer_reset_ex(ah3, &hp3);
 	
 				while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -47146,12 +55454,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				phalcon_array_update_string_multi_2(&columns, alias, SL("columnMap"), &column_map, 0 TSRMLS_CC);
 			} else {
 	
-				if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+				if (!phalcon_is_iterable(attributes, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah4 = Z_ARRVAL_P(attributes);
-				zend_hash_internal_pointer_reset_ex(ah4, &hp4);
 	
 				while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -47213,12 +55519,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(processed);
 		array_init(processed);
 	
-		if (!phalcon_valid_foreach(bind_params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(bind_params, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah5 = Z_ARRVAL_P(bind_params);
-		zend_hash_internal_pointer_reset_ex(ah5, &hp5);
 	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
@@ -47245,12 +55549,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		PHALCON_INIT_VAR(processed_types);
 		array_init(processed_types);
 	
-		if (!phalcon_valid_foreach(bind_types TSRMLS_CC)) {
+		if (!phalcon_is_iterable(bind_types, &ah6, &hp6, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah6 = Z_ARRVAL_P(bind_types);
-		zend_hash_internal_pointer_reset_ex(ah6, &hp6);
 	
 		while (zend_hash_get_current_data_ex(ah6, (void**) &hd, &hp6) == SUCCESS) {
 	
@@ -47329,10 +55631,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -47415,12 +55713,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	PHALCON_INIT_VAR(insert_values);
 	array_init(insert_values);
 	
-	if (!phalcon_valid_foreach(values TSRMLS_CC)) {
+	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(values);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -47654,10 +55950,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -47714,12 +56006,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	
 	PHALCON_INIT_VAR(null_value);
 	
-	if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+	if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(fields);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -48133,7 +56423,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, getType){
@@ -48151,7 +56441,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_intermediate"), intermediate TSRMLS_CC);
-	
+	RETURN_CTORW(this_ptr);
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_Query, getIntermediate){
@@ -48447,10 +56737,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -48499,12 +56785,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 			PHALCON_OBS_VAR(columns_types);
 			phalcon_read_property(&columns_types, this_ptr, SL("_columnTypes"), PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(columns_types TSRMLS_CC)) {
+			if (!phalcon_is_iterable(columns_types, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(columns_types);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -48530,12 +56814,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 					PHALCON_INIT_NVAR(row_model);
 					array_init(row_model);
 	
-					if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+					if (!phalcon_is_iterable(attributes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(attributes);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -49622,7 +57904,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager){
 
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_bool(phalcon_mvc_model_transaction_manager_ce, SL("_initialized"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_model_transaction_manager_ce, SL("_rollbackPendent"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_long(phalcon_mvc_model_transaction_manager_ce, SL("_number"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_transaction_manager_ce, SL("_service"), "db", ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_transaction_manager_ce, SL("_transactions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_transaction_manager_ce TSRMLS_CC, 2, phalcon_mvc_model_transaction_managerinterface_ce, phalcon_di_injectionawareinterface_ce);
@@ -49636,8 +57920,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct){
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_mvc_model_transaction_manager_ce, this_ptr, SL("_transactions") TSRMLS_CC);
-	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &dependency_injector) == FAILURE) {
 		RETURN_MM_NULL();
 	}
@@ -49681,6 +57963,42 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI){
 	RETURN_MEMBER(this_ptr, "_dependencyInjector");
 }
 
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService){
+
+	zval *service;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &service) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_service"), service TSRMLS_CC);
+	RETURN_CTORW(this_ptr);
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDbService){
+
+
+	RETURN_MEMBER(this_ptr, "_service");
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent){
+
+	zval *rollback_pendent;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &rollback_pendent) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_rollbackPendent"), rollback_pendent TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getRollbackPendent){
+
+
+	RETURN_MEMBER(this_ptr, "_rollbackPendent");
+}
+
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
 	zval *zero, *number, *has_transactions;
@@ -49700,9 +58018,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has){
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 
-	zval *auto_begin = NULL, *initialized, *rollback_pendent;
-	zval *dependency_injector, *number, *transaction = NULL;
-	zval *one, *position, *transactions, *false_value;
+	zval *auto_begin = NULL, *initialized, *rollback_pendent = NULL;
+	zval *dependency_injector, *number, *service;
+	zval *transaction = NULL, *one, *position, *transactions;
+	zval *false_value;
 
 	PHALCON_MM_GROW();
 
@@ -49718,11 +58037,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	PHALCON_OBS_VAR(initialized);
 	phalcon_read_property(&initialized, this_ptr, SL("_initialized"), PH_NOISY_CC);
 	if (zend_is_true(initialized)) {
-		PHALCON_INIT_VAR(rollback_pendent);
-		array_init_size(rollback_pendent, 2);
-		phalcon_array_append(&rollback_pendent, this_ptr, PH_SEPARATE TSRMLS_CC);
-		add_next_index_stringl(rollback_pendent, SL("rollbackPendent"), 1);
-		PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", rollback_pendent);
+	
+		PHALCON_OBS_VAR(rollback_pendent);
+		phalcon_read_property(&rollback_pendent, this_ptr, SL("_rollbackPendent"), PH_NOISY_CC);
+		if (zend_is_true(rollback_pendent)) {
+			PHALCON_INIT_NVAR(rollback_pendent);
+			array_init_size(rollback_pendent, 2);
+			phalcon_array_append(&rollback_pendent, this_ptr, PH_SEPARATE TSRMLS_CC);
+			add_next_index_stringl(rollback_pendent, SL("rollbackPendent"), 1);
+			PHALCON_CALL_FUNC_PARAMS_1_NORETURN("register_shutdown_function", rollback_pendent);
+		}
+	
 		phalcon_update_property_bool(this_ptr, SL("_initialized"), 1 TSRMLS_CC);
 	}
 	
@@ -49736,9 +58061,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get){
 	PHALCON_OBS_VAR(number);
 	phalcon_read_property(&number, this_ptr, SL("_number"), PH_NOISY_CC);
 	if (!zend_is_true(number)) {
+		PHALCON_OBS_VAR(service);
+		phalcon_read_property(&service, this_ptr, SL("_service"), PH_NOISY_CC);
+	
 		PHALCON_INIT_VAR(transaction);
 		object_init_ex(transaction, phalcon_mvc_model_transaction_ce);
-		PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(transaction, "__construct", dependency_injector, auto_begin, 14747615951113338888UL);
+		PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(transaction, "__construct", dependency_injector, auto_begin, service, 14747615951113338888UL);
 	
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(transaction, "settransactionmanager", this_ptr, 3048497419342467442UL);
 		phalcon_update_property_array_append(this_ptr, SL("_transactions"), transaction TSRMLS_CC);
@@ -49792,30 +58120,30 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit){
 
 	PHALCON_OBS_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
-	if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(transactions);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_FOREACH_VALUE(transaction);
-	
-		PHALCON_INIT_NVAR(connection);
-		PHALCON_CALL_METHOD(connection, transaction, "getconnection");
-	
-		PHALCON_INIT_NVAR(is_under_transaction);
-		PHALCON_CALL_METHOD(is_under_transaction, connection, "isundertransaction");
-		if (zend_is_true(is_under_transaction)) {
-			PHALCON_CALL_METHOD_NORETURN(connection, "commit");
+		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
 		}
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
-	}
 	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(transaction);
+	
+			PHALCON_INIT_NVAR(connection);
+			PHALCON_CALL_METHOD(connection, transaction, "getconnection");
+	
+			PHALCON_INIT_NVAR(is_under_transaction);
+			PHALCON_CALL_METHOD(is_under_transaction, connection, "isundertransaction");
+			if (zend_is_true(is_under_transaction)) {
+				PHALCON_CALL_METHOD_NORETURN(connection, "commit");
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -49841,35 +58169,35 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback){
 	
 	PHALCON_OBS_VAR(transactions);
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
+	if (Z_TYPE_P(transactions) == IS_ARRAY) { 
 	
-	if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
-		return;
-	}
-	
-	ah0 = Z_ARRVAL_P(transactions);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
-	
-	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-		PHALCON_GET_FOREACH_VALUE(transaction);
-	
-		PHALCON_INIT_NVAR(connection);
-		PHALCON_CALL_METHOD(connection, transaction, "getconnection");
-	
-		PHALCON_INIT_NVAR(is_under_transaction);
-		PHALCON_CALL_METHOD(is_under_transaction, connection, "isundertransaction");
-		if (zend_is_true(is_under_transaction)) {
-			PHALCON_CALL_METHOD_NORETURN(connection, "rollback");
-			PHALCON_CALL_METHOD_NORETURN(connection, "close");
+		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
 		}
 	
-		if (zend_is_true(collect)) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(this_ptr, "_collecttransaction", transaction, 1079315561195488016UL);
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(transaction);
+	
+			PHALCON_INIT_NVAR(connection);
+			PHALCON_CALL_METHOD(connection, transaction, "getconnection");
+	
+			PHALCON_INIT_NVAR(is_under_transaction);
+			PHALCON_CALL_METHOD(is_under_transaction, connection, "isundertransaction");
+			if (zend_is_true(is_under_transaction)) {
+				PHALCON_CALL_METHOD_NORETURN(connection, "rollback");
+				PHALCON_CALL_METHOD_NORETURN(connection, "close");
+			}
+	
+			if (zend_is_true(collect)) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(this_ptr, "_collecttransaction", transaction, 1079315561195488016UL);
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	
 	
 	PHALCON_MM_RESTORE();
 }
@@ -49926,12 +58254,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 		PHALCON_INIT_VAR(new_transactions);
 		array_init(new_transactions);
 	
-		if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
+		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(transactions);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -49966,12 +58292,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions){
 	phalcon_read_property(&transactions, this_ptr, SL("_transactions"), PH_NOISY_CC);
 	if (phalcon_fast_count_ev(transactions TSRMLS_CC)) {
 	
-		if (!phalcon_valid_foreach(transactions TSRMLS_CC)) {
+		if (!phalcon_is_iterable(transactions, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(transactions);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -50045,14 +58369,12 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Transaction){
 
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 
-	zval *dependency_injector, *auto_begin = NULL, *service;
+	zval *dependency_injector, *auto_begin = NULL, *service = NULL;
 	zval *connection;
 
 	PHALCON_MM_GROW();
 
-	phalcon_update_property_empty_array(phalcon_mvc_model_transaction_ce, this_ptr, SL("_messages") TSRMLS_CC);
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &dependency_injector, &auto_begin) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zz", &dependency_injector, &auto_begin, &service) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -50061,13 +58383,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct){
 		ZVAL_BOOL(auto_begin, 0);
 	}
 	
+	if (!service) {
+		PHALCON_INIT_VAR(service);
+	} else {
+		PHALCON_SEPARATE_PARAM(service);
+	}
+	
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_transaction_exception_ce, "A dependency injector container is required to obtain the services related to the ORM");
 		return;
 	}
-	
-	PHALCON_INIT_VAR(service);
-	ZVAL_STRING(service, "db", 1);
+	if (Z_TYPE_P(service) != IS_STRING) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "db", 1);
+	}
 	
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(connection, dependency_injector, "get", service, 6385256229UL);
@@ -51074,12 +59403,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	if (Z_TYPE_P(field) == IS_ARRAY) { 
 	
 	
-		if (!phalcon_valid_foreach(field TSRMLS_CC)) {
+		if (!phalcon_is_iterable(field, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(field);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -51174,12 +59501,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 		PHALCON_INIT_VAR(primary_fields);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(primary_fields, meta_data, "getprimarykeyattributes", record, 793468103090340665UL);
 	
-		if (!phalcon_valid_foreach(primary_fields TSRMLS_CC)) {
+		if (!phalcon_is_iterable(primary_fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah1 = Z_ARRVAL_P(primary_fields);
-		zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -51748,10 +60073,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -51772,12 +60093,10 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 		}
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, "setforceexists", force_exists, 4319697993288369184UL);
 	
-		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(data);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -51820,10 +60139,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -51844,12 +60159,10 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		}
 		PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(object, "setforceexists", force_exists, 4319697993288369184UL);
 	
-		if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(data);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -52103,12 +60416,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			array_init(unique_types);
 	
 	
-			if (!phalcon_valid_foreach(primary_keys TSRMLS_CC)) {
+			if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(primary_keys);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -52594,12 +60905,10 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 		PHALCON_INIT_VAR(messages);
 		PHALCON_CALL_METHOD(messages, validator, "getmessages");
 	
-		if (!phalcon_valid_foreach(messages TSRMLS_CC)) {
+		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(messages);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -52640,20 +60949,17 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages){
 
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 
-	zval *manager, *belongs_to, *error = NULL, *relation = NULL, *foreign_key = NULL;
+	zval *manager, *belongs_to, *relation = NULL, *foreign_key = NULL;
 	zval *relation_class = NULL, *referenced_model = NULL, *conditions = NULL;
 	zval *bind_params = NULL, *fields = NULL, *referenced_fields = NULL;
 	zval *field = NULL, *position = NULL, *value = NULL, *referenced_field = NULL;
 	zval *condition = NULL, *extra_conditions = NULL, *join_conditions = NULL;
 	zval *parameters = NULL, *rowcount = NULL, *user_message = NULL, *joined_fields = NULL;
 	zval *type = NULL, *message = NULL, *event_name;
+	zend_bool error;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -52663,16 +60969,12 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 	PHALCON_INIT_VAR(belongs_to);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(belongs_to, manager, "getbelongsto", this_ptr, 2281025686104229842UL);
 	if (phalcon_fast_count_ev(belongs_to TSRMLS_CC)) {
+		error = 0;
 	
-		PHALCON_INIT_VAR(error);
-		ZVAL_BOOL(error, 0);
-	
-		if (!phalcon_valid_foreach(belongs_to TSRMLS_CC)) {
+		if (!phalcon_is_iterable(belongs_to, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(belongs_to);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -52702,12 +61004,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 				if (Z_TYPE_P(fields) == IS_ARRAY) { 
 	
 	
-					if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+					if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(fields);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -52788,9 +61088,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 					PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(message, "__construct", user_message, fields, type, 14747615951113338888UL);
 	
 					PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(this_ptr, "appendmessage", message, 2989013970055964674UL);
-	
-					PHALCON_INIT_NVAR(error);
-					ZVAL_BOOL(error, 1);
+					error = 1;
 					break;
 				}
 			}
@@ -52798,7 +61096,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-		if (PHALCON_IS_TRUE(error)) {
+		if (error) {
 			if (PHALCON_GLOBAL(orm).events) {
 				PHALCON_INIT_VAR(event_name);
 				ZVAL_STRING(event_name, "onValidationFails", 1);
@@ -52824,10 +61122,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -52841,12 +61135,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 		PHALCON_INIT_VAR(error);
 		ZVAL_BOOL(error, 0);
 	
-		if (!phalcon_valid_foreach(relations TSRMLS_CC)) {
+		if (!phalcon_is_iterable(relations, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(relations);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -52875,12 +61167,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 				array_init(bind_params);
 				if (Z_TYPE_P(fields) == IS_ARRAY) { 
 	
-					if (!phalcon_valid_foreach(fields TSRMLS_CC)) {
+					if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(fields);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -53059,12 +61349,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	
 			PHALCON_INIT_VAR(null_value);
 	
-			if (!phalcon_valid_foreach(not_null TSRMLS_CC)) {
+			if (!phalcon_is_iterable(not_null, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(not_null);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53312,12 +61600,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	}
 	
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53492,12 +61778,10 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 	}
 	
 	
-	if (!phalcon_valid_foreach(non_primary TSRMLS_CC)) {
+	if (!phalcon_is_iterable(non_primary, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(non_primary);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53594,12 +61878,10 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			PHALCON_INIT_VAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(attributes, meta_data, "getattributes", this_ptr, 1486047312355765964UL);
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53720,12 +62002,10 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 			PHALCON_INIT_VAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(attributes, meta_data, "getattributes", this_ptr, 1486047312355765964UL);
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53837,12 +62117,10 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			PHALCON_INIT_VAR(attributes);
 			PHALCON_CALL_METHOD_PARAMS_1_KEY(attributes, meta_data, "getattributes", this_ptr, 1486047312355765964UL);
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -53983,12 +62261,10 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	}
 	
 	
-	if (!phalcon_valid_foreach(primary_keys TSRMLS_CC)) {
+	if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(primary_keys);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54160,12 +62436,10 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54208,12 +62482,10 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54255,12 +62527,10 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	PHALCON_INIT_VAR(keys_attributes);
 	array_init(keys_attributes);
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54561,12 +62831,10 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	PHALCON_INIT_VAR(data);
 	array_init(data);
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54596,10 +62864,6 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -54635,12 +62899,10 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 			phalcon_update_property_zval(this_ptr, SL("_modelsManager"), manager TSRMLS_CC);
 	
 	
-			if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(attributes);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54691,12 +62953,10 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	PHALCON_INIT_VAR(attributes);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(attributes, meta_data, "getattributes", this_ptr, 1486047312355765964UL);
 	
-	if (!phalcon_valid_foreach(attributes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(attributes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -54822,6 +63082,420 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_ModuleDefinitionInterface){
 }
 
 
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
+
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations){
+
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Annotations, mvc_router_annotations, "phalcon\\mvc\\router", phalcon_mvc_router_annotations_method_entry, 0);
+
+	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_handlers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_router_annotations_ce, SL("_processed"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_controllerSufix"), "Controller", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_router_annotations_ce, SL("_actionSufix"), "Action", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("_routePrefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
+
+	zval *handler, *prefix = NULL, *scope;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &handler, &prefix) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!prefix) {
+		PHALCON_INIT_VAR(prefix);
+	}
+	
+	if (Z_TYPE_P(handler) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "The handler must be a class name");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(scope);
+	array_init_size(scope, 2);
+	phalcon_array_append(&scope, prefix, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&scope, handler, PH_SEPARATE TSRMLS_CC);
+	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
+	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
+	
+	RETURN_CTOR(this_ptr);
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
+
+	zval *uri = NULL, *real_uri = NULL, *processed, *annotations_service = NULL;
+	zval *handlers, *controller_sufix, *scope = NULL, *prefix = NULL;
+	zval *dependency_injector = NULL, *service = NULL, *handler = NULL;
+	zval *sufixed = NULL, *handler_annotations = NULL, *class_annotations = NULL;
+	zval *annotations = NULL, *annotation = NULL, *method_annotations = NULL;
+	zval *lowercased = NULL, *collection = NULL, *method = NULL;
+	HashTable *ah0, *ah1, *ah2, *ah3;
+	HashPosition hp0, hp1, hp2, hp3;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &uri) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!uri) {
+		PHALCON_INIT_VAR(uri);
+	}
+	
+	if (!zend_is_true(uri)) {
+		PHALCON_INIT_VAR(real_uri);
+		PHALCON_CALL_METHOD(real_uri, this_ptr, "_getrewriteuri");
+	} else {
+		PHALCON_CPY_WRT(real_uri, uri);
+	}
+	
+	PHALCON_OBS_VAR(processed);
+	phalcon_read_property(&processed, this_ptr, SL("_processed"), PH_NOISY_CC);
+	if (!zend_is_true(processed)) {
+	
+		PHALCON_INIT_VAR(annotations_service);
+	
+		PHALCON_OBS_VAR(handlers);
+		phalcon_read_property(&handlers, this_ptr, SL("_handlers"), PH_NOISY_CC);
+	
+		PHALCON_OBS_VAR(controller_sufix);
+		phalcon_read_property(&controller_sufix, this_ptr, SL("_controllerSufix"), PH_NOISY_CC);
+	
+		if (!phalcon_is_iterable(handlers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(scope);
+	
+			if (Z_TYPE_P(scope) == IS_ARRAY) { 
+	
+				PHALCON_OBS_NVAR(prefix);
+				phalcon_array_fetch_long(&prefix, scope, 0, PH_NOISY_CC);
+				if (Z_TYPE_P(prefix) == IS_STRING) {
+					if (!phalcon_start_with(real_uri, prefix, NULL)) {
+						zend_hash_move_forward_ex(ah0, &hp0);
+						continue;
+					}
+				}
+	
+				if (Z_TYPE_P(annotations_service) != IS_OBJECT) {
+	
+					PHALCON_OBS_NVAR(dependency_injector);
+					phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+					if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+						PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'annotations' service");
+						return;
+					}
+	
+					PHALCON_INIT_NVAR(service);
+					ZVAL_STRING(service, "annotations", 1);
+	
+					PHALCON_INIT_NVAR(annotations_service);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(annotations_service, dependency_injector, "getshared", service, 8246354046319370652UL);
+				}
+	
+				PHALCON_OBS_NVAR(handler);
+				phalcon_array_fetch_long(&handler, scope, 1, PH_NOISY_CC);
+				phalcon_update_property_null(this_ptr, SL("_routePrefix") TSRMLS_CC);
+	
+				PHALCON_INIT_NVAR(sufixed);
+				PHALCON_CONCAT_VV(sufixed, handler, controller_sufix);
+	
+				PHALCON_INIT_NVAR(handler_annotations);
+				PHALCON_CALL_METHOD_PARAMS_1_KEY(handler_annotations, annotations_service, "get", sufixed, 6385256229UL);
+	
+				PHALCON_INIT_NVAR(class_annotations);
+				PHALCON_CALL_METHOD(class_annotations, handler_annotations, "getclassannotations");
+				if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+	
+					PHALCON_INIT_NVAR(annotations);
+					PHALCON_CALL_METHOD(annotations, class_annotations, "getannotations");
+					if (Z_TYPE_P(annotations) == IS_ARRAY) { 
+	
+						if (!phalcon_is_iterable(annotations, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
+							return;
+						}
+	
+	
+						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
+	
+							PHALCON_GET_FOREACH_VALUE(annotation);
+	
+							PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(this_ptr, "processcontrollerannotation", handler, annotation, 15085804420818441091UL);
+	
+							zend_hash_move_forward_ex(ah1, &hp1);
+						}
+	
+					}
+				}
+	
+				PHALCON_INIT_NVAR(method_annotations);
+				PHALCON_CALL_METHOD(method_annotations, handler_annotations, "getmethodannotations");
+				if (Z_TYPE_P(method_annotations) == IS_ARRAY) { 
+	
+					PHALCON_INIT_NVAR(lowercased);
+					phalcon_fast_strtolower(lowercased, handler);
+	
+					if (!phalcon_is_iterable(method_annotations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+						return;
+					}
+	
+	
+					while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+						PHALCON_GET_FOREACH_KEY(method, ah2, hp2);
+						PHALCON_GET_FOREACH_VALUE(collection);
+	
+						if (Z_TYPE_P(collection) == IS_OBJECT) {
+	
+							PHALCON_INIT_NVAR(annotations);
+							PHALCON_CALL_METHOD(annotations, collection, "getannotations");
+	
+							if (!phalcon_is_iterable(annotations, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
+								return;
+							}
+	
+	
+							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
+	
+								PHALCON_GET_FOREACH_VALUE(annotation);
+	
+								PHALCON_CALL_METHOD_PARAMS_3_NORETURN_KEY(this_ptr, "processactionannotation", lowercased, method, annotation, 3363648669317824701UL);
+	
+								zend_hash_move_forward_ex(ah3, &hp3);
+							}
+	
+						}
+	
+						zend_hash_move_forward_ex(ah2, &hp2);
+					}
+	
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		phalcon_update_property_bool(this_ptr, SL("_processed"), 1 TSRMLS_CC);
+	}
+	
+	PHALCON_CALL_PARENT_PARAMS_1_NORETURN(this_ptr, "Phalcon\\Mvc\\Router\\Annotations", "handle", real_uri);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
+
+	zval *handler, *annotation, *lowercased, *name;
+	zval *position, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &handler, &annotation) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(lowercased);
+	phalcon_fast_strtolower(lowercased, handler);
+	
+	PHALCON_INIT_VAR(name);
+	PHALCON_CALL_METHOD(name, annotation, "getname");
+	
+	if (PHALCON_COMPARE_STRING(name, "RoutePrefix")) {
+		PHALCON_INIT_VAR(position);
+		ZVAL_LONG(position, 0);
+	
+		PHALCON_INIT_VAR(value);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(value, annotation, "getargument", position, 15161911737657717000UL);
+		phalcon_update_property_zval(this_ptr, SL("_routePrefix"), value TSRMLS_CC);
+	}
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
+
+	zval *controller, *action, *annotation, *is_route = NULL;
+	zval *methods = NULL, *name, *action_sufix, *empty_str;
+	zval *real_action_name, *action_name, *route_prefix;
+	zval *parameter = NULL, *paths = NULL, *position, *value, *uri = NULL, *route;
+	zval *converts, *convert = NULL, *param = NULL, *route_name;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &controller, &action, &annotation) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(is_route);
+	ZVAL_BOOL(is_route, 0);
+	
+	PHALCON_INIT_VAR(methods);
+	
+	PHALCON_INIT_VAR(name);
+	PHALCON_CALL_METHOD(name, annotation, "getname");
+	
+	if (PHALCON_COMPARE_STRING(name, "Route")) {
+		ZVAL_BOOL(is_route, 1);
+	} else {
+		if (PHALCON_COMPARE_STRING(name, "Get")) {
+			ZVAL_BOOL(is_route, 1);
+	
+			ZVAL_STRING(methods, "GET", 1);
+		} else {
+			if (PHALCON_COMPARE_STRING(name, "Post")) {
+				ZVAL_BOOL(is_route, 1);
+	
+				PHALCON_INIT_NVAR(methods);
+				ZVAL_STRING(methods, "POST", 1);
+			} else {
+				if (PHALCON_COMPARE_STRING(name, "Put")) {
+					ZVAL_BOOL(is_route, 1);
+	
+					PHALCON_INIT_NVAR(methods);
+					ZVAL_STRING(methods, "PUT", 1);
+				} else {
+					if (PHALCON_COMPARE_STRING(name, "Options")) {
+						ZVAL_BOOL(is_route, 1);
+	
+						PHALCON_INIT_NVAR(methods);
+						ZVAL_STRING(methods, "OPTIONS", 1);
+					}
+				}
+			}
+		}
+	}
+	
+	if (PHALCON_IS_TRUE(is_route)) {
+	
+		PHALCON_OBS_VAR(action_sufix);
+		phalcon_read_property(&action_sufix, this_ptr, SL("_actionSufix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(empty_str);
+		ZVAL_STRING(empty_str, "", 1);
+	
+		PHALCON_INIT_VAR(real_action_name);
+		phalcon_fast_str_replace(real_action_name, action_sufix, empty_str, action TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(action_name);
+		phalcon_fast_strtolower(action_name, real_action_name);
+	
+		PHALCON_OBS_VAR(route_prefix);
+		phalcon_read_property(&route_prefix, this_ptr, SL("_routePrefix"), PH_NOISY_CC);
+	
+		PHALCON_INIT_VAR(parameter);
+		ZVAL_STRING(parameter, "paths", 1);
+	
+		PHALCON_INIT_VAR(paths);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(paths, annotation, "getnamedparameter", parameter, 410715171529589835UL);
+		if (Z_TYPE_P(paths) != IS_ARRAY) { 
+			PHALCON_INIT_NVAR(paths);
+			array_init(paths);
+		}
+	
+		phalcon_array_update_quick_string(&paths, SS("controller"), 13869595913130920233UL, &controller, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		phalcon_array_update_quick_string(&paths, SS("action"), 229459129920867UL, &action_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(position);
+		ZVAL_LONG(position, 0);
+	
+		PHALCON_INIT_VAR(value);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(value, annotation, "getargument", position, 15161911737657717000UL);
+	
+		if (Z_TYPE_P(value) != IS_NULL) {
+			if (!PHALCON_COMPARE_STRING(value, "/")) {
+				PHALCON_INIT_VAR(uri);
+				PHALCON_CONCAT_VV(uri, route_prefix, value);
+			} else {
+				PHALCON_CPY_WRT(uri, route_prefix);
+			}
+		} else {
+			PHALCON_INIT_NVAR(uri);
+			PHALCON_CONCAT_VV(uri, route_prefix, action_name);
+		}
+	
+		PHALCON_INIT_VAR(route);
+		PHALCON_CALL_METHOD_PARAMS_2_KEY(route, this_ptr, "add", uri, paths, 6385038990UL);
+		if (Z_TYPE_P(methods) == IS_NULL) {
+	
+			PHALCON_INIT_NVAR(parameter);
+			ZVAL_STRING(parameter, "methods", 1);
+	
+			PHALCON_INIT_NVAR(methods);
+			PHALCON_CALL_METHOD_PARAMS_1_KEY(methods, annotation, "getnamedparameter", parameter, 410715171529589835UL);
+			if (Z_TYPE_P(methods) == IS_ARRAY) { 
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 6385799013UL);
+			} else {
+				if (Z_TYPE_P(methods) == IS_STRING) {
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 6385799013UL);
+				}
+			}
+		} else {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "via", methods, 6385799013UL);
+		}
+	
+		PHALCON_INIT_NVAR(parameter);
+		ZVAL_STRING(parameter, "converts", 1);
+	
+		PHALCON_INIT_VAR(converts);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(converts, annotation, "getnamedparameter", parameter, 410715171529589835UL);
+		if (Z_TYPE_P(converts) == IS_ARRAY) { 
+	
+			if (!phalcon_is_iterable(converts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(param, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(convert);
+	
+				PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(route, "convert", param, convert, 7572251802143622UL);
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		}
+	
+		PHALCON_INIT_NVAR(parameter);
+		ZVAL_STRING(parameter, "name", 1);
+	
+		PHALCON_INIT_VAR(route_name);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(route_name, annotation, "getnamedparameter", parameter, 410715171529589835UL);
+		if (Z_TYPE_P(route_name) == IS_STRING) {
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(route, "setname", route_name, 7572921007726866UL);
+		}
+	
+		RETURN_MM_TRUE;
+	}
+	
+	PHALCON_MM_RESTORE();
+}
 
 
 
@@ -55477,10 +64151,6 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -55490,12 +64160,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths){
 	PHALCON_OBS_VAR(paths);
 	phalcon_read_property(&paths, this_ptr, SL("_paths"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(paths TSRMLS_CC)) {
+	if (!phalcon_is_iterable(paths, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(paths);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -55837,10 +64505,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -55885,12 +64549,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 1 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_end_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -55905,7 +64567,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_OBS_NVAR(dependency_injector);
 				phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 				if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_dispatcher_exception_ce, "A dependency injection container is required to access the 'request' service");
+					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_router_exception_ce, "A dependency injection container is required to access the 'request' service");
 					return;
 				}
 	
@@ -55947,12 +64609,10 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				PHALCON_INIT_NVAR(converters);
 				PHALCON_CALL_METHOD(converters, route, "getconverters");
 	
-				if (!phalcon_valid_foreach(paths TSRMLS_CC)) {
+				if (!phalcon_is_iterable(paths, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah1 = Z_ARRVAL_P(paths);
-				zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -56401,12 +65061,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -56443,12 +65101,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	PHALCON_OBS_VAR(routes);
 	phalcon_read_property(&routes, this_ptr, SL("_routes"), PH_NOISY_CC);
 	
-	if (!phalcon_valid_foreach(routes TSRMLS_CC)) {
+	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(routes);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -56722,13 +65378,13 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(final_uri);
 		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
 	
-		RETURN_CCTOR(final_uri);
+		RETURN_CTOR(final_uri);
 	}
 	
 	PHALCON_INIT_NVAR(final_uri);
 	PHALCON_CONCAT_VV(final_uri, base_uri, uri);
 	
-	RETURN_CCTOR(final_uri);
+	RETURN_CTOR(final_uri);
 }
 
 PHP_METHOD(Phalcon_Mvc_Url, path){
@@ -56861,10 +65517,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -56882,12 +65534,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render){
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -57804,12 +66454,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		PHALCON_INIT_VAR(items);
 		array_init(items);
 	
-		if (!phalcon_valid_foreach(expr TSRMLS_CC)) {
+		if (!phalcon_is_iterable(expr, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(expr);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -58110,12 +66758,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementListOrExtends){
 	ZVAL_BOOL(is_statement_list, 1);
 	if (!phalcon_array_isset_quick_string(statements, SS("type"), 210729590247UL)) {
 	
-		if (!phalcon_valid_foreach(statements TSRMLS_CC)) {
+		if (!phalcon_is_iterable(statements, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(statements);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -58183,12 +66829,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 	PHALCON_INIT_VAR(compilation);
 	
-	if (!phalcon_valid_foreach(statements TSRMLS_CC)) {
+	if (!phalcon_is_iterable(statements, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(statements);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -58516,10 +67160,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -58561,12 +67201,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _compileSource){
 			PHALCON_OBS_VAR(extended_blocks);
 			phalcon_read_property(&extended_blocks, this_ptr, SL("_extendedBlocks"), PH_NOISY_CC);
 	
-			if (!phalcon_valid_foreach(extended_blocks TSRMLS_CC)) {
+			if (!phalcon_is_iterable(extended_blocks, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(extended_blocks);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -58918,7 +67556,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse){
 	if (phvolt_parse_view(intermediate, view_code, current_path TSRMLS_CC) == FAILURE) {
 		return;
 	}
-	RETURN_CCTOR(intermediate);
+	RETURN_CTOR(intermediate);
 }
 
 
@@ -65122,10 +73760,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -65151,12 +73785,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render){
 	
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -65202,11 +73834,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length){
 		phalcon_fast_count(length, item TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(item) == IS_OBJECT) {
-			PHALCON_INIT_NVAR(length);
 			phalcon_fast_count(length, item TSRMLS_CC);
 		} else {
 			if (phalcon_function_exists_ex(SS("mb_strlen") TSRMLS_CC) == SUCCESS) {
-				PHALCON_INIT_NVAR(length);
 				PHALCON_CALL_FUNC_PARAMS_1(length, "mb_strlen", item);
 			} else {
 				PHALCON_INIT_NVAR(length);
@@ -65734,10 +74364,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -65771,12 +74397,10 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 			phalcon_array_append(&arguments, this_ptr, PH_SEPARATE TSRMLS_CC);
 			phalcon_array_append(&arguments, dependency_injector, PH_SEPARATE TSRMLS_CC);
 	
-			if (!phalcon_valid_foreach(registered_engines TSRMLS_CC)) {
+			if (!phalcon_is_iterable(registered_engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
 	
-			ah0 = Z_ARRVAL_P(registered_engines);
-			zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -65832,10 +74456,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -65923,12 +74543,10 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	}
 	
 	
-	if (!phalcon_valid_foreach(engines TSRMLS_CC)) {
+	if (!phalcon_is_iterable(engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(engines);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -66146,12 +74764,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_before TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_before, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah0 = Z_ARRVAL_P(templates_before);
-					zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -66196,12 +74812,10 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	
 					ZVAL_BOOL(silence, 0);
 	
-					if (!phalcon_valid_foreach(templates_after TSRMLS_CC)) {
+					if (!phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
 	
-					ah1 = Z_ARRVAL_P(templates_after);
-					zend_hash_internal_pointer_reset_ex(ah1, &hp1);
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -66451,10 +75065,6 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -66485,12 +75095,10 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		}
 	
 	
-		if (!phalcon_valid_foreach(options TSRMLS_CC)) {
+		if (!phalcon_is_iterable(options, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(options);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -67291,7 +75899,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes){
 		break;
 	}
 	
-	RETURN_CCTOR(safe_bytes);
+	RETURN_CTOR(safe_bytes);
 }
 
 PHP_METHOD(Phalcon_Security, hash){
@@ -67414,7 +76022,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey){
 	ZVAL_STRING(key, "$PHALCON/CSRF/KEY$", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(session, "set", key, safe_bytes, 6385687473UL);
 	
-	RETURN_CCTOR(safe_bytes);
+	RETURN_CTOR(safe_bytes);
 }
 
 PHP_METHOD(Phalcon_Security, getToken){
@@ -68190,10 +76798,6 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -68240,7 +76844,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	
 	if (!phalcon_array_isset_quick_string(params, SS("value"), 6954126163842UL)) {
 		PHALCON_INIT_VAR(value);
-		PHALCON_CALL_STATIC_PARAMS_1(value, "phalcon\\tag", "getvalue", id);
+		PHALCON_CALL_STATIC_PARAMS_2(value, "phalcon\\tag", "getvalue", id, params);
 	} else {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_quick_string(&value, params, SS("value"), 6954126163842UL, PH_NOISY_CC);
@@ -68280,12 +76884,10 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	ZVAL_STRING(code, "<select", 1);
 	if (Z_TYPE_P(params) == IS_ARRAY) { 
 	
-		if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+		if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
-		ah0 = Z_ARRVAL_P(params);
-		zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -68321,6 +76923,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField){
 	}
 	
 	if (Z_TYPE_P(options) == IS_OBJECT) {
+	
 		if (!phalcon_array_isset_quick_string(params, SS("using"), 6954108259659UL)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "The 'using' parameter is required");
 			return;
@@ -68414,10 +77017,6 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -68428,12 +77027,10 @@ PHP_METHOD(Phalcon_Tag_Select, _optionsFromArray){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "", 1);
 	
-	if (!phalcon_valid_foreach(data TSRMLS_CC)) {
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(data);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -68474,10 +77071,12 @@ PHALCON_INIT_CLASS(Phalcon_Tag){
 
 	zend_declare_property_null(phalcon_tag_ce, SL("_displayValues"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_documentTitle"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
-	zend_declare_property_null(phalcon_tag_ce, SL("_documentType"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_long(phalcon_tag_ce, SL("_documentType"), 11, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dependencyInjector"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_urlService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 	zend_declare_property_null(phalcon_tag_ce, SL("_dispatcherService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_null(phalcon_tag_ce, SL("_escaperService"), ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
+	zend_declare_property_bool(phalcon_tag_ce, SL("_autoEscape"), 1, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC TSRMLS_CC);
 
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML32"), 1 TSRMLS_CC);
 	zend_declare_class_constant_long(phalcon_tag_ce, SL("HTML401_STRICT"), 2 TSRMLS_CC);
@@ -68532,7 +77131,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService){
 
 	PHALCON_OBS_VAR(url);
 	phalcon_read_static_property(&url, SL("phalcon\\tag"), SL("_urlService") TSRMLS_CC);
-	if (Z_TYPE_P(url) == IS_NULL) {
+	if (Z_TYPE_P(url) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
@@ -68566,7 +77165,7 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 
 	PHALCON_OBS_VAR(dispatcher);
 	phalcon_read_static_property(&dispatcher, SL("phalcon\\tag"), SL("_dispatcherService") TSRMLS_CC);
-	if (Z_TYPE_P(dispatcher) == IS_NULL) {
+	if (Z_TYPE_P(dispatcher) != IS_OBJECT) {
 	
 		PHALCON_OBS_VAR(dependency_injector);
 		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
@@ -68590,6 +77189,52 @@ PHP_METHOD(Phalcon_Tag, getDispatcherService){
 	
 	
 	RETURN_CCTOR(dispatcher);
+}
+
+PHP_METHOD(Phalcon_Tag, getEscaperService){
+
+	zval *escaper = NULL, *dependency_injector = NULL, *service;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(escaper);
+	phalcon_read_static_property(&escaper, SL("phalcon\\tag"), SL("_escaperService") TSRMLS_CC);
+	if (Z_TYPE_P(escaper) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(dependency_injector);
+		phalcon_read_static_property(&dependency_injector, SL("phalcon\\tag"), SL("_dependencyInjector") TSRMLS_CC);
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_INIT_NVAR(dependency_injector);
+			PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		}
+	
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_tag_exception_ce, "A dependency injector container is required to obtain the \"dispatcher\" service");
+			return;
+		}
+	
+		PHALCON_INIT_VAR(service);
+		ZVAL_STRING(service, "escaper", 1);
+	
+		PHALCON_INIT_NVAR(escaper);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(escaper, dependency_injector, "getshared", service, 8246354046319370652UL);
+		phalcon_update_static_property(SL("phalcon\\tag"), SL("_escaperService"), escaper TSRMLS_CC);
+	}
+	
+	
+	RETURN_CCTOR(escaper);
+}
+
+PHP_METHOD(Phalcon_Tag, setAutoescape){
+
+	zval *autoescape;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &autoescape) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_static_property(SL("phalcon\\tag"), SL("_autoEscape"), autoescape TSRMLS_CC);
+	
 }
 
 PHP_METHOD(Phalcon_Tag, setDefault){
@@ -68638,33 +77283,63 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 
 PHP_METHOD(Phalcon_Tag, getValue){
 
-	zval *name, *display_values, *default_value;
-	zval *post = NULL, *post_name;
+	zval *name, *params, *display_values, *value = NULL, *autoescape = NULL;
+	zval *escaper = NULL, *escaped_value = NULL;
 	zval *g0 = NULL;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &name) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &name, &params) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
 	PHALCON_OBS_VAR(display_values);
 	phalcon_read_static_property(&display_values, SL("phalcon\\tag"), SL("_displayValues") TSRMLS_CC);
+	
 	if (phalcon_array_isset(display_values, name)) {
-		PHALCON_OBS_VAR(default_value);
-		phalcon_array_fetch(&default_value, display_values, name, PH_NOISY_CC);
-		RETURN_CCTOR(default_value);
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, display_values, name, PH_NOISY_CC);
 	} else {
 		phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
-		PHALCON_CPY_WRT(post, g0);
-		if (phalcon_array_isset(post, name)) {
-			PHALCON_OBS_VAR(post_name);
-			phalcon_array_fetch(&post_name, post, name, PH_NOISY_CC);
-			RETURN_CCTOR(post_name);
+		if (phalcon_array_isset(g0, name)) {
+			PHALCON_OBS_NVAR(value);
+			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		} else {
+			RETURN_MM_NULL();
 		}
 	}
 	
-	PHALCON_MM_RESTORE();
+	PHALCON_OBS_VAR(autoescape);
+	phalcon_read_static_property(&autoescape, SL("phalcon\\tag"), SL("_autoEscape") TSRMLS_CC);
+	
+	if (zend_is_true(autoescape)) {
+		PHALCON_INIT_VAR(escaper);
+		PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	
+		PHALCON_INIT_VAR(escaped_value);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 17825527249539383654UL);
+		RETURN_CCTOR(escaped_value);
+	} else {
+		if (Z_TYPE_P(params) == IS_ARRAY) { 
+	
+			if (phalcon_array_isset_quick_string(params, SS("escape"), 229464901511670UL)) {
+	
+				PHALCON_OBS_NVAR(autoescape);
+				phalcon_array_fetch_quick_string(&autoescape, params, SS("escape"), 229464901511670UL, PH_NOISY_CC);
+				if (zend_is_true(autoescape)) {
+					PHALCON_INIT_NVAR(escaper);
+					PHALCON_CALL_SELF(escaper, this_ptr, "getescaperservice");
+	
+					PHALCON_INIT_NVAR(escaped_value);
+					PHALCON_CALL_METHOD_PARAMS_1_KEY(escaped_value, escaper, "escapehtmlattr", value, 17825527249539383654UL);
+					RETURN_CCTOR(escaped_value);
+				}
+			}
+		}
+	}
+	
+	
+	RETURN_CCTOR(value);
 }
 
 PHP_METHOD(Phalcon_Tag, resetInput){
@@ -68690,10 +77365,6 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -68753,12 +77424,10 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<a href=\"", internal_url, "\"");
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -68780,14 +77449,10 @@ PHP_METHOD(Phalcon_Tag, linkTo){
 PHP_METHOD(Phalcon_Tag, _inputField){
 
 	zval *type, *parameters, *as_value = NULL, *params = NULL, *value = NULL;
-	zval *id = NULL, *name, *code, *key = NULL, *doctype;
+	zval *id = NULL, *name, *code, *key = NULL, *five, *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -68833,7 +77498,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 	
 		if (!phalcon_array_isset_quick_string(params, SS("value"), 6954126163842UL)) {
-			PHALCON_CALL_SELF_PARAMS_1(value, this_ptr, "getvalue", id);
+			PHALCON_CALL_SELF_PARAMS_2(value, this_ptr, "getvalue", id, params);
 			phalcon_array_update_quick_string(&params, SS("value"), 6954126163842UL, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 		}
 	} else {
@@ -68853,12 +77518,10 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	PHALCON_INIT_VAR(code);
 	PHALCON_CONCAT_SVS(code, "<input type=\"", type, "\"");
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -68872,9 +77535,15 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -69058,10 +77727,6 @@ PHP_METHOD(Phalcon_Tag, textArea){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -69107,18 +77772,16 @@ PHP_METHOD(Phalcon_Tag, textArea){
 		phalcon_array_unset_string(params, SS("value"));
 	} else {
 		PHALCON_INIT_NVAR(content);
-		PHALCON_CALL_SELF_PARAMS_1(content, this_ptr, "getvalue", id);
+		PHALCON_CALL_SELF_PARAMS_2(content, this_ptr, "getvalue", id, params);
 	}
 	
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<textarea", 1);
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -69144,10 +77807,6 @@ PHP_METHOD(Phalcon_Tag, form){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -69202,12 +77861,10 @@ PHP_METHOD(Phalcon_Tag, form){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<form", 1);
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -69311,14 +77968,11 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
 
 	zval *parameters = NULL, *local = NULL, *params = NULL, *first_param;
-	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *doctype;
+	zval *url, *url_href, *href, *code, *value = NULL, *key = NULL, *five;
+	zval *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -69388,12 +78042,10 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<link rel=\"stylesheet\"", 1);
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -69407,9 +78059,15 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -69426,10 +78084,6 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -69499,12 +78153,10 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<script", 1);
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -69526,14 +78178,10 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude){
 PHP_METHOD(Phalcon_Tag, image){
 
 	zval *parameters = NULL, *params = NULL, *first_param, *url, *url_src;
-	zval *src, *code, *value = NULL, *key = NULL, *doctype;
+	zval *src, *code, *value = NULL, *key = NULL, *five, *doctype, *is_xhtml;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -69575,12 +78223,10 @@ PHP_METHOD(Phalcon_Tag, image){
 	PHALCON_INIT_VAR(code);
 	ZVAL_STRING(code, "<img", 1);
 	
-	if (!phalcon_valid_foreach(params TSRMLS_CC)) {
+	if (!phalcon_is_iterable(params, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
 	
-	ah0 = Z_ARRVAL_P(params);
-	zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -69594,9 +78240,15 @@ PHP_METHOD(Phalcon_Tag, image){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
-	PHALCON_INIT_VAR(doctype);
-	PHALCON_CALL_SELF(doctype, this_ptr, "getdoctype");
-	if (phalcon_memnstr_str(doctype, SL("XHTML") TSRMLS_CC)) {
+	PHALCON_INIT_VAR(five);
+	ZVAL_LONG(five, 5);
+	
+	PHALCON_OBS_VAR(doctype);
+	phalcon_read_static_property(&doctype, SL("phalcon\\tag"), SL("_documentType") TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(is_xhtml);
+	is_smaller_function(is_xhtml, five, doctype TSRMLS_CC);
+	if (zend_is_true(is_xhtml)) {
 		phalcon_concat_self_str(&code, SL(" />") TSRMLS_CC);
 	} else {
 		phalcon_concat_self_str(&code, SL(">") TSRMLS_CC);
@@ -69751,7 +78403,7 @@ PHP_METHOD(Phalcon_Text, camelize){
 
 	PHALCON_INIT_VAR(camelized);
 	phalcon_camelize(camelized, str TSRMLS_CC);
-	RETURN_CCTOR(camelized);
+	RETURN_CTOR(camelized);
 }
 
 PHP_METHOD(Phalcon_Text, uncamelize){
@@ -69766,7 +78418,7 @@ PHP_METHOD(Phalcon_Text, uncamelize){
 
 	PHALCON_INIT_VAR(uncamelized);
 	phalcon_uncamelize(uncamelized, str TSRMLS_CC);
-	RETURN_CCTOR(uncamelized);
+	RETURN_CTOR(uncamelized);
 }
 
 PHP_METHOD(Phalcon_Text, increment){
@@ -69829,7 +78481,7 @@ PHP_METHOD(Phalcon_Text, random){
 	
 	PHALCON_INIT_VAR(random);
 	phalcon_random_string(random, type, length TSRMLS_CC);
-	RETURN_CCTOR(random);
+	RETURN_CTOR(random);
 }
 
 PHP_METHOD(Phalcon_Text, startsWith){
@@ -69985,10 +78637,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	char *hash_index;
-	uint hash_index_len;
-	ulong hash_num;
-	int hash_type;
 
 	PHALCON_MM_GROW();
 
@@ -70009,12 +78657,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query){
 		if (Z_TYPE_P(placeholders) == IS_ARRAY) { 
 			if (phalcon_fast_count_ev(placeholders TSRMLS_CC)) {
 	
-				if (!phalcon_valid_foreach(placeholders TSRMLS_CC)) {
+				if (!phalcon_is_iterable(placeholders, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 					return;
 				}
 	
-				ah0 = Z_ARRVAL_P(placeholders);
-				zend_hash_internal_pointer_reset_ex(ah0, &hp0);
 	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -70250,10 +78896,10 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	PHALCON_INIT_VAR(version);
 	array_init_size(version, 5);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 8);
+	add_next_index_long(version, 9);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 4);
-	add_next_index_long(version, 0);
+	add_next_index_long(version, 1);
+	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
 
@@ -70365,22 +79011,22 @@ PHP_METHOD(Phalcon_Version, getId){
 
 
 
-zend_class_entry *phalcon_acl_ce;
-zend_class_entry *phalcon_di_ce;
 zend_class_entry *phalcon_text_ce;
-zend_class_entry *phalcon_db_ce;
 zend_class_entry *phalcon_tag_ce;
+zend_class_entry *phalcon_di_ce;
+zend_class_entry *phalcon_acl_ce;
+zend_class_entry *phalcon_db_ce;
 zend_class_entry *phalcon_cache_backend_ce;
 zend_class_entry *phalcon_cache_exception_ce;
-zend_class_entry *phalcon_cache_backend_apc_ce;
-zend_class_entry *phalcon_cache_backend_file_ce;
-zend_class_entry *phalcon_cache_backend_mongo_ce;
-zend_class_entry *phalcon_cache_frontend_none_ce;
 zend_class_entry *phalcon_cache_frontend_data_ce;
+zend_class_entry *phalcon_cache_backend_mongo_ce;
+zend_class_entry *phalcon_cache_backend_apc_ce;
+zend_class_entry *phalcon_cache_frontend_none_ce;
+zend_class_entry *phalcon_cache_backend_file_ce;
 zend_class_entry *phalcon_cache_backendinterface_ce;
-zend_class_entry *phalcon_cache_frontendinterface_ce;
 zend_class_entry *phalcon_cache_frontend_base64_ce;
 zend_class_entry *phalcon_cache_backend_memcache_ce;
+zend_class_entry *phalcon_cache_frontendinterface_ce;
 zend_class_entry *phalcon_cache_frontend_output_ce;
 zend_class_entry *phalcon_tag_select_ce;
 zend_class_entry *phalcon_tag_exception_ce;
@@ -70389,12 +79035,12 @@ zend_class_entry *phalcon_paginator_adapter_model_ce;
 zend_class_entry *phalcon_paginator_adapterinterface_ce;
 zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 zend_class_entry *phalcon_db_index_ce;
-zend_class_entry *phalcon_db_profiler_ce;
 zend_class_entry *phalcon_db_adapter_ce;
-zend_class_entry *phalcon_db_reference_ce;
-zend_class_entry *phalcon_db_exception_ce;
+zend_class_entry *phalcon_db_profiler_ce;
 zend_class_entry *phalcon_db_dialect_ce;
+zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_db_column_ce;
+zend_class_entry *phalcon_db_reference_ce;
 zend_class_entry *phalcon_db_rawvalue_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
 zend_class_entry *phalcon_db_adapterinterface_ce;
@@ -70403,8 +79049,8 @@ zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 zend_class_entry *phalcon_db_columninterface_ce;
 zend_class_entry *phalcon_db_dialect_mysql_ce;
-zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_db_dialect_sqlite_ce;
+zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_db_dialect_postgresql_ce;
 zend_class_entry *phalcon_db_indexinterface_ce;
 zend_class_entry *phalcon_db_profiler_item_ce;
@@ -70420,16 +79066,16 @@ zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_roleinterface_ce;
 zend_class_entry *phalcon_acl_resourceinterface_ce;
 zend_class_entry *phalcon_security_ce;
-zend_class_entry *phalcon_session_ce;
 zend_class_entry *phalcon_version_ce;
 zend_class_entry *phalcon_kernel_ce;
+zend_class_entry *phalcon_session_ce;
 zend_class_entry *phalcon_security_exception_ce;
 zend_class_entry *phalcon_session_bag_ce;
 zend_class_entry *phalcon_session_adapter_ce;
 zend_class_entry *phalcon_session_baginterface_ce;
 zend_class_entry *phalcon_session_exception_ce;
-zend_class_entry *phalcon_session_adapter_files_ce;
 zend_class_entry *phalcon_session_adapterinterface_ce;
+zend_class_entry *phalcon_session_adapter_files_ce;
 zend_class_entry *phalcon_filter_ce;
 zend_class_entry *phalcon_di_exception_ce;
 zend_class_entry *phalcon_di_service_ce;
@@ -70437,28 +79083,35 @@ zend_class_entry *phalcon_di_factorydefault_ce;
 zend_class_entry *phalcon_di_factorydefault_cli_ce;
 zend_class_entry *phalcon_di_injectable_ce;
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
-zend_class_entry *phalcon_di_service_builder_ce;
 zend_class_entry *phalcon_di_serviceinterface_ce;
+zend_class_entry *phalcon_di_service_builder_ce;
 zend_class_entry *phalcon_diinterface_ce;
-zend_class_entry *phalcon_filter_exception_ce;
 zend_class_entry *phalcon_filterinterface_ce;
+zend_class_entry *phalcon_filter_exception_ce;
 zend_class_entry *phalcon_dispatcher_ce;
 zend_class_entry *phalcon_dispatcherinterface_ce;
-zend_class_entry *phalcon_cli_task_ce;
 zend_class_entry *phalcon_flash_ce;
+zend_class_entry *phalcon_cli_task_ce;
 zend_class_entry *phalcon_flash_direct_ce;
-zend_class_entry *phalcon_flashinterface_ce;
 zend_class_entry *phalcon_flash_session_ce;
+zend_class_entry *phalcon_flashinterface_ce;
 zend_class_entry *phalcon_flash_exception_ce;
-zend_class_entry *phalcon_cli_console_ce;
 zend_class_entry *phalcon_cli_router_ce;
+zend_class_entry *phalcon_cli_console_ce;
 zend_class_entry *phalcon_cli_dispatcher_ce;
 zend_class_entry *phalcon_cli_console_exception_ce;
 zend_class_entry *phalcon_cli_dispatcher_exception_ce;
 zend_class_entry *phalcon_cli_router_exception_ce;
-zend_class_entry *phalcon_loader_ce;
+zend_class_entry *phalcon_annotations_adapter_ce;
+zend_class_entry *phalcon_annotations_reader_ce;
+zend_class_entry *phalcon_annotations_annotation_ce;
+zend_class_entry *phalcon_annotations_reflection_ce;
+zend_class_entry *phalcon_annotations_exception_ce;
+zend_class_entry *phalcon_annotations_collection_ce;
+zend_class_entry *phalcon_annotations_adapter_memory_ce;
 zend_class_entry *phalcon_logger_ce;
 zend_class_entry *phalcon_config_ce;
+zend_class_entry *phalcon_loader_ce;
 zend_class_entry *phalcon_loader_exception_ce;
 zend_class_entry *phalcon_logger_item_ce;
 zend_class_entry *phalcon_logger_adapter_ce;
@@ -70475,107 +79128,108 @@ zend_class_entry *phalcon_translate_adapter_nativearray_ce;
 zend_class_entry *phalcon_escaper_ce;
 zend_class_entry *phalcon_escaperinterface_ce;
 zend_class_entry *phalcon_escaper_exception_ce;
-zend_class_entry *phalcon_http_cookie_ce;
 zend_class_entry *phalcon_http_request_ce;
+zend_class_entry *phalcon_http_cookie_ce;
 zend_class_entry *phalcon_http_response_ce;
 zend_class_entry *phalcon_http_request_file_ce;
 zend_class_entry *phalcon_http_cookie_exception_ce;
-zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_http_responseinterface_ce;
-zend_class_entry *phalcon_http_request_exception_ce;
+zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_http_response_cookies_ce;
 zend_class_entry *phalcon_http_requestinterface_ce;
+zend_class_entry *phalcon_http_request_exception_ce;
 zend_class_entry *phalcon_http_response_headers_ce;
 zend_class_entry *phalcon_http_request_fileinterface_ce;
 zend_class_entry *phalcon_http_response_headersinterface_ce;
-zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_url_ce;
-zend_class_entry *phalcon_mvc_micro_ce;
+zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_router_ce;
+zend_class_entry *phalcon_mvc_micro_ce;
+zend_class_entry *phalcon_mvc_model_row_ce;
+zend_class_entry *phalcon_mvc_controller_ce;
 zend_class_entry *phalcon_mvc_collection_ce;
 zend_class_entry *phalcon_mvc_urlinterface_ce;
-zend_class_entry *phalcon_mvc_view_engine_ce;
-zend_class_entry *phalcon_mvc_controller_ce;
 zend_class_entry *phalcon_mvc_application_ce;
-zend_class_entry *phalcon_mvc_model_row_ce;
+zend_class_entry *phalcon_mvc_view_engine_ce;
 zend_class_entry *phalcon_mvc_dispatcher_ce;
 zend_class_entry *phalcon_mvc_model_query_ce;
-zend_class_entry *phalcon_mvc_router_group_ce;
 zend_class_entry *phalcon_mvc_router_route_ce;
 zend_class_entry *phalcon_mvc_user_module_ce;
+zend_class_entry *phalcon_mvc_router_group_ce;
 zend_class_entry *phalcon_mvc_user_plugin_ce;
 zend_class_entry *phalcon_mvc_application_exception_ce;
-zend_class_entry *phalcon_mvc_controllerinterface_ce;
 zend_class_entry *phalcon_mvc_collectioninterface_ce;
+zend_class_entry *phalcon_mvc_controllerinterface_ce;
 zend_class_entry *phalcon_mvc_collection_manager_ce;
 zend_class_entry *phalcon_mvc_collection_exception_ce;
 zend_class_entry *phalcon_mvc_dispatcherinterface_ce;
 zend_class_entry *phalcon_mvc_dispatcher_exception_ce;
-zend_class_entry *phalcon_mvc_modelinterface_ce;
-zend_class_entry *phalcon_mvc_model_criteria_ce;
-zend_class_entry *phalcon_mvc_model_metadata_ce;
-zend_class_entry *phalcon_mvc_model_validator_ce;
-zend_class_entry *phalcon_mvc_micro_collection_ce;
-zend_class_entry *phalcon_mvc_model_resultset_ce;
-zend_class_entry *phalcon_mvc_model_relation_ce;
-zend_class_entry *phalcon_mvc_micro_exception_ce;
-zend_class_entry *phalcon_mvc_model_manager_ce;
-zend_class_entry *phalcon_mvc_model_behavior_ce;
-zend_class_entry *phalcon_mvc_model_query_lang_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
+zend_class_entry *phalcon_mvc_model_query_lang_ce;
+zend_class_entry *phalcon_mvc_model_resultset_ce;
+zend_class_entry *phalcon_mvc_model_criteria_ce;
 zend_class_entry *phalcon_mvc_model_message_ce;
+zend_class_entry *phalcon_mvc_micro_collection_ce;
+zend_class_entry *phalcon_mvc_micro_exception_ce;
+zend_class_entry *phalcon_mvc_model_behavior_ce;
+zend_class_entry *phalcon_mvc_model_relation_ce;
+zend_class_entry *phalcon_mvc_modelinterface_ce;
+zend_class_entry *phalcon_mvc_model_manager_ce;
+zend_class_entry *phalcon_mvc_model_validator_ce;
+zend_class_entry *phalcon_mvc_model_metadata_ce;
 zend_class_entry *phalcon_mvc_model_query_builder_ce;
 zend_class_entry *phalcon_mvc_model_transaction_ce;
-zend_class_entry *phalcon_mvc_model_query_status_ce;
 zend_class_entry *phalcon_mvc_model_queryinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadata_files_ce;
 zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
+zend_class_entry *phalcon_mvc_model_query_status_ce;
 zend_class_entry *phalcon_mvc_model_metadata_session_ce;
-zend_class_entry *phalcon_mvc_model_resultset_simple_ce;
-zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
-zend_class_entry *phalcon_mvc_model_validator_email_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
+zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
 zend_class_entry *phalcon_mvc_model_managerinterface_ce;
+zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
 zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
-zend_class_entry *phalcon_mvc_model_resultinterface_ce;
-zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
+zend_class_entry *phalcon_mvc_model_resultset_simple_ce;
+zend_class_entry *phalcon_mvc_model_messageinterface_ce;
 zend_class_entry *phalcon_mvc_model_validatorinterface_ce;
 zend_class_entry *phalcon_mvc_model_transaction_failed_ce;
-zend_class_entry *phalcon_mvc_model_validator_regex_ce;
-zend_class_entry *phalcon_mvc_model_criteriainterface_ce;
-zend_class_entry *phalcon_mvc_model_relationinterface_ce;
-zend_class_entry *phalcon_mvc_model_messageinterface_ce;
+zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
 zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
-zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
-zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
+zend_class_entry *phalcon_mvc_model_relationinterface_ce;
+zend_class_entry *phalcon_mvc_model_resultinterface_ce;
+zend_class_entry *phalcon_mvc_model_validator_email_ce;
+zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
-zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
-zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
-zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
-zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
-zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
+zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
+zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
+zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
 zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
-zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
+zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
+zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
+zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 zend_class_entry *phalcon_mvc_model_transactioninterface_ce;
+zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
 zend_class_entry *phalcon_mvc_model_transaction_manager_ce;
+zend_class_entry *phalcon_mvc_model_validator_presenceof_ce;
 zend_class_entry *phalcon_mvc_model_transaction_managerinterface_ce;
 zend_class_entry *phalcon_mvc_moduledefinitioninterface_ce;
-zend_class_entry *phalcon_mvc_routerinterface_ce;
 zend_class_entry *phalcon_mvc_router_exception_ce;
+zend_class_entry *phalcon_mvc_routerinterface_ce;
+zend_class_entry *phalcon_mvc_router_annotations_ce;
 zend_class_entry *phalcon_mvc_router_routeinterface_ce;
 zend_class_entry *phalcon_mvc_url_exception_ce;
 zend_class_entry *phalcon_mvc_user_component_ce;
-zend_class_entry *phalcon_mvc_view_engine_php_ce;
-zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_viewinterface_ce;
 zend_class_entry *phalcon_mvc_view_exception_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_ce;
+zend_class_entry *phalcon_mvc_view_engine_php_ce;
 zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 zend_class_entry *phalcon_events_event_ce;
-zend_class_entry *phalcon_events_manager_ce;
 zend_class_entry *phalcon_events_exception_ce;
+zend_class_entry *phalcon_events_manager_ce;
 zend_class_entry *phalcon_events_managerinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
 zend_class_entry *phalcon_exception_ce;
@@ -70611,35 +79265,35 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_ValidatorInterface);
 	PHALCON_INIT(Phalcon_Events_EventsAwareInterface);
-	PHALCON_INIT(Phalcon_Cache_BackendInterface);
-	PHALCON_INIT(Phalcon_Cache_FrontendInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaDataInterface);
-	PHALCON_INIT(Phalcon_Db_DialectInterface);
+	PHALCON_INIT(Phalcon_Cache_FrontendInterface);
+	PHALCON_INIT(Phalcon_Cache_BackendInterface);
 	PHALCON_INIT(Phalcon_Db_AdapterInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_ResultInterface);
+	PHALCON_INIT(Phalcon_Db_DialectInterface);
+	PHALCON_INIT(Phalcon_Mvc_View_EngineInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_ResultsetInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_BehaviorInterface);
 	PHALCON_INIT(Phalcon_FlashInterface);
-	PHALCON_INIT(Phalcon_Mvc_View_EngineInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_ResultInterface);
 	PHALCON_INIT(Phalcon_Paginator_AdapterInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_ResultsetInterface);
 	PHALCON_INIT(Phalcon_DispatcherInterface);
 	PHALCON_INIT(Phalcon_Exception);
 	PHALCON_INIT(Phalcon_DI_Injectable);
-	PHALCON_INIT(Phalcon_Mvc_Model_TransactionInterface);
-	PHALCON_INIT(Phalcon_Mvc_ViewInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_ManagerInterface);
-	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
-	PHALCON_INIT(Phalcon_Mvc_ModelInterface);
-	PHALCON_INIT(Phalcon_Mvc_UrlInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_QueryInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query_BuilderInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_Query_StatusInterface);
+	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_QueryInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_ManagerInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_CriteriaInterface);
+	PHALCON_INIT(Phalcon_Mvc_ViewInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_RelationInterface);
+	PHALCON_INIT(Phalcon_Mvc_UrlInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_MessageInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_ManagerInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_RelationInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_CriteriaInterface);
-	PHALCON_INIT(Phalcon_Acl_RoleInterface);
-	PHALCON_INIT(Phalcon_Mvc_RouterInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_Query_StatusInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_TransactionInterface);
+	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
+	PHALCON_INIT(Phalcon_Acl_ResourceInterface);
+	PHALCON_INIT(Phalcon_Acl_AdapterInterface);
 	PHALCON_INIT(Phalcon_Session_BagInterface);
 	PHALCON_INIT(Phalcon_FilterInterface);
 	PHALCON_INIT(Phalcon_Http_RequestInterface);
@@ -70650,14 +79304,14 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Translate_AdapterInterface);
 	PHALCON_INIT(Phalcon_Session_AdapterInterface);
 	PHALCON_INIT(Phalcon_Http_ResponseInterface);
-	PHALCON_INIT(Phalcon_Db_ReferenceInterface);
-	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
-	PHALCON_INIT(Phalcon_Acl_ResourceInterface);
-	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
-	PHALCON_INIT(Phalcon_Acl_AdapterInterface);
 	PHALCON_INIT(Phalcon_Mvc_Router_RouteInterface);
-	PHALCON_INIT(Phalcon_DiInterface);
+	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
+	PHALCON_INIT(Phalcon_Mvc_RouterInterface);
+	PHALCON_INIT(Phalcon_Mvc_ModelInterface);
+	PHALCON_INIT(Phalcon_Acl_RoleInterface);
+	PHALCON_INIT(Phalcon_Db_ReferenceInterface);
 	PHALCON_INIT(Phalcon_Http_Request_FileInterface);
+	PHALCON_INIT(Phalcon_DiInterface);
 	PHALCON_INIT(Phalcon_Db_IndexInterface);
 	PHALCON_INIT(Phalcon_Db_ColumnInterface);
 	PHALCON_INIT(Phalcon_Db_Adapter);
@@ -70666,31 +79320,33 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Cache_Backend);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo);
 	PHALCON_INIT(Phalcon_Db_Dialect);
-	PHALCON_INIT(Phalcon_Dispatcher);
+	PHALCON_INIT(Phalcon_Mvc_Model_Resultset);
 	PHALCON_INIT(Phalcon_DI);
+	PHALCON_INIT(Phalcon_Dispatcher);
 	PHALCON_INIT(Phalcon_Flash);
 	PHALCON_INIT(Phalcon_Mvc_Model_Behavior);
-	PHALCON_INIT(Phalcon_Mvc_Model_Resultset);
 	PHALCON_INIT(Phalcon_Mvc_View_Engine);
-	PHALCON_INIT(Phalcon_Session_Adapter);
 	PHALCON_INIT(Phalcon_Translate_Adapter);
-	PHALCON_INIT(Phalcon_Logger_Adapter);
 	PHALCON_INIT(Phalcon_DI_FactoryDefault);
+	PHALCON_INIT(Phalcon_Logger_Adapter);
+	PHALCON_INIT(Phalcon_Session_Adapter);
+	PHALCON_INIT(Phalcon_Mvc_Router);
+	PHALCON_INIT(Phalcon_Annotations_Adapter);
+	PHALCON_INIT(Phalcon_Mvc_Model_Exception);
 	PHALCON_INIT(Phalcon_Config);
 	PHALCON_INIT(Phalcon_Acl_Adapter);
-	PHALCON_INIT(Phalcon_Mvc_Model_Exception);
+	PHALCON_INIT(Phalcon_Db);
 	PHALCON_INIT(Phalcon_Tag);
 	PHALCON_INIT(Phalcon_Acl);
-	PHALCON_INIT(Phalcon_Db);
 	PHALCON_INIT(Phalcon_Cache_Exception);
 	PHALCON_INIT(Phalcon_Cache_Backend_File);
 	PHALCON_INIT(Phalcon_Cache_Backend_Apc);
 	PHALCON_INIT(Phalcon_Cache_Backend_Mongo);
 	PHALCON_INIT(Phalcon_Cache_Backend_Memcache);
-	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
-	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
 	PHALCON_INIT(Phalcon_Cache_Frontend_Base64);
 	PHALCON_INIT(Phalcon_Cache_Frontend_None);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
 	PHALCON_INIT(Phalcon_Tag_Select);
 	PHALCON_INIT(Phalcon_Tag_Exception);
 	PHALCON_INIT(Phalcon_Paginator_Exception);
@@ -70701,22 +79357,22 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Mysql);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Sqlite);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Postgresql);
-	PHALCON_INIT(Phalcon_Db_Dialect_Sqlite);
 	PHALCON_INIT(Phalcon_Db_Dialect_Mysql);
+	PHALCON_INIT(Phalcon_Db_Dialect_Sqlite);
 	PHALCON_INIT(Phalcon_Db_Dialect_Postgresql);
 	PHALCON_INIT(Phalcon_Db_Exception);
 	PHALCON_INIT(Phalcon_Db_Profiler);
 	PHALCON_INIT(Phalcon_Db_Profiler_Item);
-	PHALCON_INIT(Phalcon_Db_Reference);
 	PHALCON_INIT(Phalcon_Db_RawValue);
+	PHALCON_INIT(Phalcon_Db_Reference);
 	PHALCON_INIT(Phalcon_Db_Result_Pdo);
 	PHALCON_INIT(Phalcon_Db_ResultInterface);
 	PHALCON_INIT(Phalcon_Acl_Role);
 	PHALCON_INIT(Phalcon_Acl_Resource);
 	PHALCON_INIT(Phalcon_Acl_Adapter_Memory);
 	PHALCON_INIT(Phalcon_Acl_Exception);
-	PHALCON_INIT(Phalcon_Text);
 	PHALCON_INIT(Phalcon_Kernel);
+	PHALCON_INIT(Phalcon_Text);
 	PHALCON_INIT(Phalcon_Security);
 	PHALCON_INIT(Phalcon_Security_Exception);
 	PHALCON_INIT(Phalcon_Version);
@@ -70731,8 +79387,8 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_DI_Service_Builder);
 	PHALCON_INIT(Phalcon_Filter_Exception);
 	PHALCON_INIT(Phalcon_Flash_Direct);
-	PHALCON_INIT(Phalcon_Flash_Exception);
 	PHALCON_INIT(Phalcon_Flash_Session);
+	PHALCON_INIT(Phalcon_Flash_Exception);
 	PHALCON_INIT(Phalcon_CLI_Task);
 	PHALCON_INIT(Phalcon_CLI_Console);
 	PHALCON_INIT(Phalcon_CLI_Router);
@@ -70740,14 +79396,20 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_CLI_Dispatcher);
 	PHALCON_INIT(Phalcon_CLI_Dispatcher_Exception);
 	PHALCON_INIT(Phalcon_CLI_Router_Exception);
-	PHALCON_INIT(Phalcon_Logger);
+	PHALCON_INIT(Phalcon_Annotations_Reader);
+	PHALCON_INIT(Phalcon_Annotations_Exception);
+	PHALCON_INIT(Phalcon_Annotations_Collection);
+	PHALCON_INIT(Phalcon_Annotations_Reflection);
+	PHALCON_INIT(Phalcon_Annotations_Annotation);
+	PHALCON_INIT(Phalcon_Annotations_Adapter_Memory);
 	PHALCON_INIT(Phalcon_Loader);
+	PHALCON_INIT(Phalcon_Logger);
 	PHALCON_INIT(Phalcon_Loader_Exception);
 	PHALCON_INIT(Phalcon_Logger_Item);
 	PHALCON_INIT(Phalcon_Logger_Exception);
 	PHALCON_INIT(Phalcon_Logger_Adapter_File);
-	PHALCON_INIT(Phalcon_Config_Exception);
 	PHALCON_INIT(Phalcon_Config_Adapter_Ini);
+	PHALCON_INIT(Phalcon_Config_Exception);
 	PHALCON_INIT(Phalcon_Translate);
 	PHALCON_INIT(Phalcon_Translate_Exception);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
@@ -70758,61 +79420,61 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Http_Response);
 	PHALCON_INIT(Phalcon_Http_Cookie_Exception);
 	PHALCON_INIT(Phalcon_Http_Request_File);
-	PHALCON_INIT(Phalcon_Http_Response_Headers);
 	PHALCON_INIT(Phalcon_Http_Response_Cookies);
+	PHALCON_INIT(Phalcon_Http_Response_Headers);
 	PHALCON_INIT(Phalcon_Http_Request_Exception);
 	PHALCON_INIT(Phalcon_Http_Response_Exception);
-	PHALCON_INIT(Phalcon_Mvc_Micro);
 	PHALCON_INIT(Phalcon_Mvc_View);
-	PHALCON_INIT(Phalcon_Mvc_Url);
+	PHALCON_INIT(Phalcon_Mvc_Micro);
 	PHALCON_INIT(Phalcon_Mvc_Model);
-	PHALCON_INIT(Phalcon_Mvc_Router);
+	PHALCON_INIT(Phalcon_Mvc_Url);
 	PHALCON_INIT(Phalcon_Mvc_Application);
 	PHALCON_INIT(Phalcon_Mvc_Application_Exception);
-	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection);
-	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
+	PHALCON_INIT(Phalcon_Mvc_Controller);
 	PHALCON_INIT(Phalcon_Mvc_Collection_Manager);
+	PHALCON_INIT(Phalcon_Mvc_Collection_Exception);
 	PHALCON_INIT(Phalcon_Mvc_ControllerInterface);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher);
 	PHALCON_INIT(Phalcon_Mvc_Dispatcher_Exception);
-	PHALCON_INIT(Phalcon_Mvc_Model_Query);
 	PHALCON_INIT(Phalcon_Mvc_Model_Row);
+	PHALCON_INIT(Phalcon_Mvc_Model_Query);
 	PHALCON_INIT(Phalcon_Mvc_Micro_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Micro_Collection);
-	PHALCON_INIT(Phalcon_Mvc_Model_Criteria);
-	PHALCON_INIT(Phalcon_Mvc_Model_Relation);
-	PHALCON_INIT(Phalcon_Mvc_Model_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Model_Message);
-	PHALCON_INIT(Phalcon_Mvc_Model_Transaction);
+	PHALCON_INIT(Phalcon_Mvc_Model_Relation);
+	PHALCON_INIT(Phalcon_Mvc_Model_Criteria);
+	PHALCON_INIT(Phalcon_Mvc_Model_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query_Lang);
+	PHALCON_INIT(Phalcon_Mvc_Model_Transaction);
 	PHALCON_INIT(Phalcon_Mvc_Model_Query_Builder);
+	PHALCON_INIT(Phalcon_Mvc_Model_Query_Status);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Apc);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Files);
-	PHALCON_INIT(Phalcon_Mvc_Model_Query_Status);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Regex);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Email);
+	PHALCON_INIT(Phalcon_Mvc_Model_Resultset_Complex);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Memory);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData_Session);
 	PHALCON_INIT(Phalcon_Mvc_Model_Resultset_Simple);
-	PHALCON_INIT(Phalcon_Mvc_Model_Resultset_Complex);
-	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Regex);
-	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Uniqueness);
-	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Failed);
-	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_PresenceOf);
+	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Manager);
 	PHALCON_INIT(Phalcon_Mvc_Model_Behavior_SoftDelete);
+	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Failed);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Uniqueness);
 	PHALCON_INIT(Phalcon_Mvc_Model_Behavior_Timestampable);
 	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_Exception);
-	PHALCON_INIT(Phalcon_Mvc_Model_Validator_StringLength);
-	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Numericality);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Inclusionin);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Numericality);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator_Exclusionin);
+	PHALCON_INIT(Phalcon_Mvc_Model_Validator_StringLength);
 	PHALCON_INIT(Phalcon_Mvc_ModuleDefinitionInterface);
-	PHALCON_INIT(Phalcon_Mvc_Router_Group);
 	PHALCON_INIT(Phalcon_Mvc_Router_Route);
+	PHALCON_INIT(Phalcon_Mvc_Router_Group);
 	PHALCON_INIT(Phalcon_Mvc_Router_Exception);
-	PHALCON_INIT(Phalcon_Mvc_User_Plugin);
+	PHALCON_INIT(Phalcon_Mvc_Router_Annotations);
 	PHALCON_INIT(Phalcon_Mvc_User_Module);
+	PHALCON_INIT(Phalcon_Mvc_User_Plugin);
 	PHALCON_INIT(Phalcon_Mvc_Url_Exception);
 	PHALCON_INIT(Phalcon_Mvc_User_Component);
 	PHALCON_INIT(Phalcon_Mvc_View_Exception);
