@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName){
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 
 	zval *expr = NULL, *type, *value = NULL, *array_value, *items, *item = NULL;
-	zval *resolved_item = NULL, *name = NULL, *exception_message;
+	zval *resolved_item = NULL, *name = NULL, *annotation, *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -217,6 +217,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 	
 	
 			RETURN_CTOR(array_value);
+	
+		case 300:
+			PHALCON_INIT_VAR(annotation);
+			object_init_ex(annotation, phalcon_annotations_annotation_ce);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(annotation, "__construct", expr);
+	
+			RETURN_CTOR(annotation);
 	
 		default:
 			PHALCON_INIT_VAR(exception_message);

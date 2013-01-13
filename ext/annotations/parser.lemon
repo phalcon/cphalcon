@@ -154,32 +154,6 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 	return ret;
 }
 
-/*static zval *phannot_ret_docblock_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
-{
-
-	zval *ret;
-
-	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-
-	add_assoc_long(ret, "type", PHANNOT_T_DOCBLOCK_ANNOTATION);
-
-	if (name) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
-		efree(name);
-	}
-
-	if (arguments) {
-		add_assoc_zval(ret, "arguments", arguments);
-	}
-
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
-
-	return ret;
-}*/
-
 }
 
 %syntax_error {
@@ -266,23 +240,14 @@ annotation_language(R) ::= annotation_list(L) . {
 
 %destructor annotation_list { zval_ptr_dtor(&$$); }
 
-annotation_list(R) ::= annotation_list(L) annotation_item(S) . {
+annotation_list(R) ::= annotation_list(L) annotation(S) . {
 	R = phannot_ret_zval_list(L, S);
 }
 
-annotation_list(R) ::= annotation_item(S) . {
+annotation_list(R) ::= annotation(S) . {
 	R = phannot_ret_zval_list(NULL, S);
 }
 
-%destructor annotation_item { zval_ptr_dtor(&$$); }
-
-annotation_item(R) ::= annotation(A) . {
-	R = A;
-}
-
-/*annotation_item(R) ::= annotation_docblock(D) . {
-	R = D;
-}*/
 
 %destructor annotation { zval_ptr_dtor(&$$); }
 
@@ -298,12 +263,6 @@ annotation(R) ::= AT IDENTIFIER(I) . {
 	R = phannot_ret_annotation(I, NULL, status->scanner_state);
 }
 
-/*%destructor annotation_docblock { zval_ptr_dtor(&$$); }
-
-annotation_docblock(R) ::= AT IDENTIFIER(I) arbitrary_text_list(L) . {
-	R = phannot_ret_docblock_annotation(I, L, status->scanner_state);
-}*/
-
 %destructor argument_list { zval_ptr_dtor(&$$); }
 
 argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
@@ -313,16 +272,6 @@ argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
 argument_list(R) ::= argument_item(I) . {
 	R = phannot_ret_zval_list(NULL, I);
 }
-
-/*%destructor arbitrary_text_list { zval_ptr_dtor(&$$); }
-
-arbitrary_text_list(R) ::= arbitrary_text_list(L) arbitrary_text(I) . {
-	R = phannot_ret_zval_list(L, I);
-}
-
-arbitrary_text_list(R) ::= arbitrary_text(I) . {
-	R = phannot_ret_zval_list(NULL, I);
-}*/
 
 %destructor argument_item { zval_ptr_dtor(&$$); }
 
@@ -345,12 +294,6 @@ argument_item(R) ::= IDENTIFIER(I) EQUALS expr(E) . {
 argument_item(R) ::= IDENTIFIER(I) COLON expr(E) . {
 	R = phannot_ret_named_item(I, E);
 }
-
-/*%destructor arbitrary_text { zval_ptr_dtor(&$$); }
-
-arbitrary_text(R) ::= ARBITRARY_TEXT(I) . {
-	R = phannot_ret_literal_zval(PHANNOT_T_ARBITRARY_TEXT, I);
-}*/
 
 %destructor expr { zval_ptr_dtor(&$$); }
 

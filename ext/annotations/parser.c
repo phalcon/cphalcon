@@ -134,34 +134,8 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 	return ret;
 }
 
-/*static zval *phannot_ret_docblock_annotation(phannot_parser_token *name, zval *arguments, phannot_scanner_state *state)
-{
 
-	zval *ret;
-
-	MAKE_STD_ZVAL(ret);
-	array_init(ret);
-
-	add_assoc_long(ret, "type", PHANNOT_T_DOCBLOCK_ANNOTATION);
-
-	if (name) {
-		add_assoc_stringl(ret, "name", name->token, name->token_len, 0);
-		efree(name);
-	}
-
-	if (arguments) {
-		add_assoc_zval(ret, "arguments", arguments);
-	}
-
-	Z_ADDREF_P(state->active_file);
-	add_assoc_zval(ret, "file", state->active_file);
-	add_assoc_long(ret, "line", state->active_line);
-
-	return ret;
-}*/
-
-
-// 165 "parser.c"
+// 139 "parser.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -211,23 +185,23 @@ static zval *phannot_ret_annotation(phannot_parser_token *name, zval *arguments,
 **                       defined, then do no error processing.
 */
 #define JJCODETYPE unsigned char
-#define JJNOCODE 29
+#define JJNOCODE 28
 #define JJACTIONTYPE unsigned char
 #define phannot_JTOKENTYPE phannot_parser_token*
 typedef union {
   phannot_JTOKENTYPE jj0;
-  zval* jj8;
-  int jj57;
+  zval* jj36;
+  int jj55;
 } JJMINORTYPE;
 #define JJSTACKDEPTH 100
 #define phannot_ARG_SDECL phannot_parser_status *status;
 #define phannot_ARG_PDECL ,phannot_parser_status *status
 #define phannot_ARG_FETCH phannot_parser_status *status = jjpParser->status
 #define phannot_ARG_STORE jjpParser->status = status
-#define JJNSTATE 41
-#define JJNRULE 26
+#define JJNSTATE 40
+#define JJNRULE 25
 #define JJERRORSYMBOL 18
-#define JJERRSYMDT jj57
+#define JJERRSYMDT jj55
 #define JJ_NO_ACTION      (JJNSTATE+JJNRULE+2)
 #define JJ_ACCEPT_ACTION  (JJNSTATE+JJNRULE+1)
 #define JJ_ERROR_ACTION   (JJNSTATE+JJNRULE)
@@ -280,53 +254,48 @@ typedef union {
 **  jj_default[]       Default action for each state.
 */
 static JJACTIONTYPE jj_action[] = {
- /*     0 */     5,   29,   16,   39,   13,   15,   17,   19,   21,   22,
- /*    10 */    23,   24,   25,    5,   32,    5,   29,   16,   41,   13,
- /*    20 */    31,   17,   19,   21,   22,   23,   24,   25,    6,   32,
- /*    30 */     5,   18,   16,    7,   20,   36,   17,   19,   21,   22,
- /*    40 */    23,   24,   25,   56,   32,   68,    1,    2,   40,    4,
- /*    50 */    16,    8,   28,   12,   17,   16,   26,   28,   12,   17,
- /*    60 */    56,   16,   33,   28,   12,   17,   16,   56,   11,   12,
- /*    70 */    17,   16,    3,    4,   38,   17,   42,   56,    5,   56,
- /*    80 */    10,   14,   37,   10,    9,   10,   56,   56,   30,   35,
- /*    90 */    56,   56,   56,   56,   56,   56,   56,   27,   56,   56,
- /*   100 */    56,   34,
+ /*     0 */     4,   28,   15,   38,   12,   14,   16,   18,   20,   21,
+ /*    10 */    22,   23,   24,    4,   31,    4,   28,   15,   40,   12,
+ /*    20 */    30,   16,   18,   20,   21,   22,   23,   24,    3,   31,
+ /*    30 */     4,   17,   15,    6,   19,   35,   16,   18,   20,   21,
+ /*    40 */    22,   23,   24,    5,   31,   15,    7,   27,   11,   16,
+ /*    50 */    54,   54,   15,   25,   27,   11,   16,   15,   32,   27,
+ /*    60 */    11,   16,   66,    1,    2,   39,   41,   15,    4,   10,
+ /*    70 */    11,   16,   15,    9,    9,   37,   16,    8,   13,   36,
+ /*    80 */     9,   29,   34,   54,   54,   54,   54,   54,   26,   54,
+ /*    90 */    54,   54,   54,   54,   54,   54,   33,
 };
 static JJCODETYPE jj_lookahead[] = {
- /*     0 */     2,    3,   23,    5,    6,   26,   27,    9,   10,   11,
- /*    10 */    12,   13,   14,    2,   16,    2,    3,   23,    0,    6,
- /*    20 */    26,   27,    9,   10,   11,   12,   13,   14,    3,   16,
- /*    30 */     2,    3,   23,    4,    6,   26,   27,    9,   10,   11,
- /*    40 */    12,   13,   14,   28,   16,   19,   20,   21,   22,   23,
- /*    50 */    23,   24,   25,   26,   27,   23,   24,   25,   26,   27,
- /*    60 */    28,   23,   24,   25,   26,   27,   23,   28,   25,   26,
- /*    70 */    27,   23,   22,   23,   26,   27,    0,   28,    2,   28,
- /*    80 */     1,    7,    8,    1,    5,    1,   28,   28,    7,    8,
- /*    90 */    28,   28,   28,   28,   28,   28,   28,   15,   28,   28,
- /*   100 */    28,   17,
+ /*     0 */     2,    3,   22,    5,    6,   25,   26,    9,   10,   11,
+ /*    10 */    12,   13,   14,    2,   16,    2,    3,   22,    0,    6,
+ /*    20 */    25,   26,    9,   10,   11,   12,   13,   14,   22,   16,
+ /*    30 */     2,    3,   22,    4,    6,   25,   26,    9,   10,   11,
+ /*    40 */    12,   13,   14,    3,   16,   22,   23,   24,   25,   26,
+ /*    50 */    27,   27,   22,   23,   24,   25,   26,   22,   23,   24,
+ /*    60 */    25,   26,   19,   20,   21,   22,    0,   22,    2,   24,
+ /*    70 */    25,   26,   22,    1,    1,   25,   26,    5,    7,    8,
+ /*    80 */     1,    7,    8,   27,   27,   27,   27,   27,   15,   27,
+ /*    90 */    27,   27,   27,   27,   27,   27,   17,
 };
 #define JJ_SHIFT_USE_DFLT (-3)
 static signed char jj_shift_ofst[] = {
- /*     0 */    11,   18,   76,   -3,   -3,   25,   29,   -2,   79,   -3,
- /*    10 */    13,   -3,   -3,   74,   28,   -3,   -3,   -3,   -3,   -3,
- /*    20 */    -3,   -3,   -3,   -3,   -3,   13,   82,   -3,   -3,   81,
- /*    30 */    28,   -3,   13,   84,   -3,   28,   -3,   28,   -3,   -3,
- /*    40 */    -3,
+ /*     0 */    11,   18,   66,   -3,   40,   29,   -2,   72,   -3,   13,
+ /*    10 */    -3,   -3,   71,   28,   -3,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   13,   73,   -3,   -3,   74,   28,
+ /*    30 */    -3,   13,   79,   -3,   28,   -3,   28,   -3,   -3,   -3,
 };
-#define JJ_REDUCE_USE_DFLT (-22)
+#define JJ_REDUCE_USE_DFLT (-21)
 static signed char jj_reduce_ofst[] = {
- /*     0 */    26,  -22,   50,  -22,  -22,  -22,  -22,   27,  -22,  -22,
- /*    10 */    43,  -22,  -22,  -22,  -21,  -22,  -22,  -22,  -22,  -22,
- /*    20 */   -22,  -22,  -22,  -22,  -22,   32,  -22,  -22,  -22,  -22,
- /*    30 */    -6,  -22,   38,  -22,  -22,    9,  -22,   48,  -22,  -22,
- /*    40 */   -22,
+ /*     0 */    43,  -21,    6,  -21,  -21,  -21,   23,  -21,  -21,   45,
+ /*    10 */   -21,  -21,  -21,  -20,  -21,  -21,  -21,  -21,  -21,  -21,
+ /*    20 */   -21,  -21,  -21,  -21,   30,  -21,  -21,  -21,  -21,   -5,
+ /*    30 */   -21,   35,  -21,  -21,   10,  -21,   50,  -21,  -21,  -21,
 };
 static JJACTIONTYPE jj_default[] = {
- /*     0 */    67,   67,   67,   43,   45,   67,   48,   67,   67,   46,
- /*    10 */    67,   49,   51,   60,   67,   52,   56,   57,   58,   59,
- /*    20 */    60,   61,   62,   63,   64,   67,   67,   65,   50,   58,
- /*    30 */    67,   54,   67,   67,   66,   67,   55,   67,   53,   47,
- /*    40 */    44,
+ /*     0 */    65,   65,   65,   42,   65,   46,   65,   65,   44,   65,
+ /*    10 */    47,   49,   58,   65,   50,   54,   55,   56,   57,   58,
+ /*    20 */    59,   60,   61,   62,   65,   65,   63,   48,   56,   65,
+ /*    30 */    52,   65,   65,   64,   65,   53,   65,   51,   45,   43,
 };
 #define JJ_SZ_ACTTAB (sizeof(jj_action)/sizeof(jj_action[0]))
 
@@ -417,8 +386,8 @@ static const char *jjTokenName[] = {
   "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
   "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
-  "annotation_language",  "annotation_list",  "annotation_item",  "annotation",  
-  "argument_list",  "argument_item",  "expr",          "array",       
+  "annotation_language",  "annotation_list",  "annotation",    "argument_list",
+  "argument_item",  "expr",          "array",       
 };
 #endif /* NDEBUG */
 
@@ -428,30 +397,29 @@ static const char *jjTokenName[] = {
 static const char *jjRuleName[] = {
  /*   0 */ "program ::= annotation_language",
  /*   1 */ "annotation_language ::= annotation_list",
- /*   2 */ "annotation_list ::= annotation_list annotation_item",
- /*   3 */ "annotation_list ::= annotation_item",
- /*   4 */ "annotation_item ::= annotation",
- /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
- /*   6 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
- /*   7 */ "annotation ::= AT IDENTIFIER",
- /*   8 */ "argument_list ::= argument_list COMMA argument_item",
- /*   9 */ "argument_list ::= argument_item",
- /*  10 */ "argument_item ::= expr",
- /*  11 */ "argument_item ::= STRING EQUALS expr",
- /*  12 */ "argument_item ::= STRING COLON expr",
- /*  13 */ "argument_item ::= IDENTIFIER EQUALS expr",
- /*  14 */ "argument_item ::= IDENTIFIER COLON expr",
- /*  15 */ "expr ::= annotation",
- /*  16 */ "expr ::= array",
- /*  17 */ "expr ::= IDENTIFIER",
- /*  18 */ "expr ::= INTEGER",
- /*  19 */ "expr ::= STRING",
- /*  20 */ "expr ::= DOUBLE",
- /*  21 */ "expr ::= NULL",
- /*  22 */ "expr ::= FALSE",
- /*  23 */ "expr ::= TRUE",
- /*  24 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
- /*  25 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
+ /*   2 */ "annotation_list ::= annotation_list annotation",
+ /*   3 */ "annotation_list ::= annotation",
+ /*   4 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN argument_list PARENTHESES_CLOSE",
+ /*   5 */ "annotation ::= AT IDENTIFIER PARENTHESES_OPEN PARENTHESES_CLOSE",
+ /*   6 */ "annotation ::= AT IDENTIFIER",
+ /*   7 */ "argument_list ::= argument_list COMMA argument_item",
+ /*   8 */ "argument_list ::= argument_item",
+ /*   9 */ "argument_item ::= expr",
+ /*  10 */ "argument_item ::= STRING EQUALS expr",
+ /*  11 */ "argument_item ::= STRING COLON expr",
+ /*  12 */ "argument_item ::= IDENTIFIER EQUALS expr",
+ /*  13 */ "argument_item ::= IDENTIFIER COLON expr",
+ /*  14 */ "expr ::= annotation",
+ /*  15 */ "expr ::= array",
+ /*  16 */ "expr ::= IDENTIFIER",
+ /*  17 */ "expr ::= INTEGER",
+ /*  18 */ "expr ::= STRING",
+ /*  19 */ "expr ::= DOUBLE",
+ /*  20 */ "expr ::= NULL",
+ /*  21 */ "expr ::= FALSE",
+ /*  22 */ "expr ::= TRUE",
+ /*  23 */ "array ::= BRACKET_OPEN argument_list BRACKET_CLOSE",
+ /*  24 */ "array ::= SBRACKET_OPEN argument_list SBRACKET_CLOSE",
 };
 #endif /* NDEBUG */
 
@@ -526,7 +494,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 15:
     case 16:
     case 17:
-// 248 "parser.lemon"
+// 222 "parser.lemon"
 {
 	if ((jjpminor->jj0)) {
 		if ((jjpminor->jj0)->free_flag) {
@@ -535,7 +503,7 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
 		efree((jjpminor->jj0));
 	}
 }
-// 539 "parser.c"
+// 507 "parser.c"
       break;
     case 20:
     case 21:
@@ -543,10 +511,9 @@ static void jj_destructor(JJCODETYPE jjmajor, JJMINORTYPE *jjpminor){
     case 23:
     case 24:
     case 25:
-    case 26:
-// 261 "parser.lemon"
-{ zval_ptr_dtor(&(jjpminor->jj8)); }
-// 550 "parser.c"
+// 235 "parser.lemon"
+{ zval_ptr_dtor(&(jjpminor->jj36)); }
+// 517 "parser.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -726,28 +693,27 @@ static struct {
   { 20, 1 },
   { 21, 2 },
   { 21, 1 },
-  { 22, 1 },
-  { 23, 5 },
-  { 23, 4 },
-  { 23, 2 },
-  { 24, 3 },
+  { 22, 5 },
+  { 22, 4 },
+  { 22, 2 },
+  { 23, 3 },
+  { 23, 1 },
   { 24, 1 },
+  { 24, 3 },
+  { 24, 3 },
+  { 24, 3 },
+  { 24, 3 },
   { 25, 1 },
-  { 25, 3 },
-  { 25, 3 },
-  { 25, 3 },
-  { 25, 3 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 26, 1 },
-  { 27, 3 },
-  { 27, 3 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 25, 1 },
+  { 26, 3 },
+  { 26, 3 },
 };
 
 static void jj_accept(jjParser*);  /* Forward Declaration */
@@ -785,167 +751,166 @@ static void jj_reduce(
   **     break;
   */
       case 0:
-// 257 "parser.lemon"
+// 231 "parser.lemon"
 {
-	status->ret = jjmsp[0].minor.jj8;
+	status->ret = jjmsp[0].minor.jj36;
 }
-// 793 "parser.c"
+// 759 "parser.c"
         break;
       case 1:
-      case 4:
+      case 14:
       case 15:
-      case 16:
-// 263 "parser.lemon"
+// 237 "parser.lemon"
 {
-	jjgotominor.jj8 = jjmsp[0].minor.jj8;
+	jjgotominor.jj36 = jjmsp[0].minor.jj36;
 }
-// 803 "parser.c"
+// 768 "parser.c"
         break;
       case 2:
-// 269 "parser.lemon"
+// 243 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-1].minor.jj8, jjmsp[0].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-1].minor.jj36, jjmsp[0].minor.jj36);
 }
-// 810 "parser.c"
+// 775 "parser.c"
         break;
       case 3:
-      case 9:
-// 273 "parser.lemon"
+      case 8:
+// 247 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_zval_list(NULL, jjmsp[0].minor.jj36);
 }
-// 818 "parser.c"
+// 783 "parser.c"
         break;
-      case 5:
-// 289 "parser.lemon"
+      case 4:
+// 254 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj8, status->scanner_state);
+	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-3].minor.jj0, jjmsp[-1].minor.jj36, status->scanner_state);
   jj_destructor(2,&jjmsp[-4].minor);
   jj_destructor(4,&jjmsp[-2].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 828 "parser.c"
+// 793 "parser.c"
         break;
-      case 6:
-// 293 "parser.lemon"
+      case 5:
+// 258 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
+	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[-2].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-3].minor);
   jj_destructor(4,&jjmsp[-1].minor);
   jj_destructor(5,&jjmsp[0].minor);
 }
-// 838 "parser.c"
+// 803 "parser.c"
         break;
-      case 7:
-// 297 "parser.lemon"
+      case 6:
+// 262 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
+	jjgotominor.jj36 = phannot_ret_annotation(jjmsp[0].minor.jj0, NULL, status->scanner_state);
   jj_destructor(2,&jjmsp[-1].minor);
 }
-// 846 "parser.c"
+// 811 "parser.c"
         break;
-      case 8:
-// 309 "parser.lemon"
+      case 7:
+// 268 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_zval_list(jjmsp[-2].minor.jj8, jjmsp[0].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_zval_list(jjmsp[-2].minor.jj36, jjmsp[0].minor.jj36);
   jj_destructor(1,&jjmsp[-1].minor);
 }
-// 854 "parser.c"
+// 819 "parser.c"
+        break;
+      case 9:
+// 278 "parser.lemon"
+{
+	jjgotominor.jj36 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj36);
+}
+// 826 "parser.c"
         break;
       case 10:
-// 329 "parser.lemon"
+      case 12:
+// 282 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_named_item(NULL, jjmsp[0].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
+  jj_destructor(7,&jjmsp[-1].minor);
 }
-// 861 "parser.c"
+// 835 "parser.c"
         break;
       case 11:
       case 13:
-// 333 "parser.lemon"
+// 286 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
-  jj_destructor(7,&jjmsp[-1].minor);
-}
-// 870 "parser.c"
-        break;
-      case 12:
-      case 14:
-// 337 "parser.lemon"
-{
-	jjgotominor.jj8 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_named_item(jjmsp[-2].minor.jj0, jjmsp[0].minor.jj36);
   jj_destructor(8,&jjmsp[-1].minor);
 }
-// 879 "parser.c"
+// 844 "parser.c"
+        break;
+      case 16:
+// 308 "parser.lemon"
+{
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
+}
+// 851 "parser.c"
         break;
       case 17:
-// 365 "parser.lemon"
+// 312 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_IDENTIFIER, jjmsp[0].minor.jj0);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
 }
-// 886 "parser.c"
+// 858 "parser.c"
         break;
       case 18:
-// 369 "parser.lemon"
+// 316 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_INTEGER, jjmsp[0].minor.jj0);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
 }
-// 893 "parser.c"
+// 865 "parser.c"
         break;
       case 19:
-// 373 "parser.lemon"
+// 320 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_STRING, jjmsp[0].minor.jj0);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
 }
-// 900 "parser.c"
+// 872 "parser.c"
         break;
       case 20:
-// 377 "parser.lemon"
+// 324 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_DOUBLE, jjmsp[0].minor.jj0);
-}
-// 907 "parser.c"
-        break;
-      case 21:
-// 381 "parser.lemon"
-{
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_NULL, NULL);
   jj_destructor(11,&jjmsp[0].minor);
 }
-// 915 "parser.c"
+// 880 "parser.c"
         break;
-      case 22:
-// 385 "parser.lemon"
+      case 21:
+// 328 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_FALSE, NULL);
   jj_destructor(12,&jjmsp[0].minor);
 }
-// 923 "parser.c"
+// 888 "parser.c"
         break;
-      case 23:
-// 389 "parser.lemon"
+      case 22:
+// 332 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
+	jjgotominor.jj36 = phannot_ret_literal_zval(PHANNOT_T_TRUE, NULL);
   jj_destructor(13,&jjmsp[0].minor);
 }
-// 931 "parser.c"
+// 896 "parser.c"
         break;
-      case 24:
-// 393 "parser.lemon"
+      case 23:
+// 336 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(14,&jjmsp[-2].minor);
   jj_destructor(15,&jjmsp[0].minor);
 }
-// 940 "parser.c"
+// 905 "parser.c"
         break;
-      case 25:
-// 397 "parser.lemon"
+      case 24:
+// 340 "parser.lemon"
 {
-	jjgotominor.jj8 = phannot_ret_array(jjmsp[-1].minor.jj8);
+	jjgotominor.jj36 = phannot_ret_array(jjmsp[-1].minor.jj36);
   jj_destructor(16,&jjmsp[-2].minor);
   jj_destructor(17,&jjmsp[0].minor);
 }
-// 949 "parser.c"
+// 914 "parser.c"
         break;
   };
   jjgoto = jjRuleInfo[jjruleno].lhs;
@@ -987,7 +952,7 @@ static void jj_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define JTOKEN (jjminor.jj0)
-// 185 "parser.lemon"
+// 159 "parser.lemon"
 
 	if (status->scanner_state->start_length) {
 		{
@@ -1050,7 +1015,7 @@ static void jj_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-// 1054 "parser.c"
+// 1019 "parser.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -1288,6 +1253,9 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 	pToken->free_flag = 1;
 
 	phannot_(phannot_parser, parsercode, pToken, parser_status);
+
+	token->value = NULL;
+	token->len = 0;
 }
 
 /**
@@ -1395,13 +1363,17 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 					smart_str_appendc(&processed_str, ch);
 
-					if (ch == ')') {
-						open_parentheses--;
-					}
-
-					if (ch == '\n') {
-						(*start_lines)++;
-						start_mode = 1;
+					if (ch == '(') {
+						open_parentheses++;
+					} else {
+						if (ch == ')') {
+							open_parentheses--;
+						} else {
+							if (ch == '\n') {
+								(*start_lines)++;
+								start_mode = 1;
+							}
+						}
 					}
 
 					if (open_parentheses > 0) {

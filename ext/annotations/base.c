@@ -65,6 +65,9 @@ static void phannot_parse_with_token(void* phannot_parser, int opcode, int parse
 	pToken->free_flag = 1;
 
 	phannot_(phannot_parser, parsercode, pToken, parser_status);
+
+	token->value = NULL;
+	token->len = 0;
 }
 
 /**
@@ -172,13 +175,17 @@ void phannot_remove_comment_separators(zval *return_value, char *comment, int le
 
 					smart_str_appendc(&processed_str, ch);
 
-					if (ch == ')') {
-						open_parentheses--;
-					}
-
-					if (ch == '\n') {
-						(*start_lines)++;
-						start_mode = 1;
+					if (ch == '(') {
+						open_parentheses++;
+					} else {
+						if (ch == ')') {
+							open_parentheses--;
+						} else {
+							if (ch == '\n') {
+								(*start_lines)++;
+								start_mode = 1;
+							}
+						}
 					}
 
 					if (open_parentheses > 0) {
