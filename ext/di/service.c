@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_DI_Service, setParameter){
 	 */
 	phalcon_update_property_zval(this_ptr, SL("_definition"), definition TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

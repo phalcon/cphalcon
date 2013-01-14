@@ -1080,7 +1080,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, before){
 	}
 
 	phalcon_update_property_array_append(this_ptr, SL("_beforeHandlers"), handler TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -1098,7 +1098,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, after){
 	}
 
 	phalcon_update_property_array_append(this_ptr, SL("_afterHandlers"), handler TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -1116,6 +1116,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish){
 	}
 
 	phalcon_update_property_array_append(this_ptr, SL("_finishHandlers"), handler TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 

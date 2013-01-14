@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Filter, add){
 	
 	phalcon_update_property_array(this_ptr, SL("_filters"), name, handler TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

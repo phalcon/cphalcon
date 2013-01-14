@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_service"), service TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**

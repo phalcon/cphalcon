@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_prefix"), prefix TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**

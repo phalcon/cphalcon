@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_model"), model_name TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("bind"), bind_params TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, addWhere){
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere){
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("conditions"), conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, order){
 	}
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("order"), order_columns TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -365,7 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate){
 	}
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("for_update"), for_update TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock){
 	}
 	
 	phalcon_update_property_array_string(this_ptr, SL("_params"), SS("shared_lock"), shared_lock TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

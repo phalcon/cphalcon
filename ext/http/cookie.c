@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue){
 
 	phalcon_update_property_zval(this_ptr, SL("_value"), value TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_readed"), 1 TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setExpiration){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_expire"), expire TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Http_Cookie, setPath){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_path"), path TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**

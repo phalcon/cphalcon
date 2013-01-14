@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setSource){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_source"), source TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService){
 	PHALCON_OBS_VAR(models_manager);
 	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "setconnectionservice", this_ptr, connection_service);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

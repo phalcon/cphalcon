@@ -1701,3 +1701,56 @@ PHP_METHOD(Phalcon_Mvc_View, reset){
 	
 }
 
+/**
+ * Magic method to pass variables to the views
+ *
+ *<code>
+ *	$this->view->products = $products;
+ *</code>
+ *
+ * @param string $key
+ * @param mixed $value
+ */
+PHP_METHOD(Phalcon_Mvc_View, __set){
+
+	zval *key, *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_array(this_ptr, SL("_viewParams"), key, value TSRMLS_CC);
+	
+}
+
+/**
+ * Magic method to retrieve a variable passed to the view
+ *
+ *<code>
+ *	echo $this->view->products;
+ *</code>
+ *
+ * @param string $key
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_View, __get){
+
+	zval *key, *params, *value;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(params);
+	phalcon_read_property(&params, this_ptr, SL("_viewParams"), PH_NOISY_CC);
+	if (phalcon_array_isset(params, key)) {
+		PHALCON_OBS_VAR(value);
+		phalcon_array_fetch(&value, params, key, PH_NOISY_CC);
+		RETURN_CCTOR(value);
+	}
+	
+	RETURN_MM_NULL();
+}
+

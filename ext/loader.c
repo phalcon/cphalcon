@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_extensions"), extensions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Loader, registerNamespaces){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Loader, registerPrefixes){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Loader, registerDirs){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Loader, registerClasses){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -405,7 +405,7 @@ PHP_METHOD(Phalcon_Loader, register){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Loader, unregister){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

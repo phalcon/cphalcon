@@ -1,3 +1,11 @@
+0.9.0a1
+ - Added Phalcon\Annotations, a general purpose component to read annotations from docblocks
+ - Phalcon\Mvc\Model now supports saving related records using magic methods with a unique call to 'save'
+ - Adding autoescaping option to Phalcon\Tag
+ - Added andWhere/orWhere to Phalcon\Mvc\Model\Criteria
+ - Added passing an HTTP body to the Phalcon\Http\Response's constructor
+ - Phalcon\Mvc\View is now able to pass variables to the views using magic methods
+
 0.8.0b1
  - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)
  - Added serialization of Mvc\Collection instances

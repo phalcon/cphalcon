@@ -66,10 +66,12 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 
 	zval *class_name, *annotations, *reflection;
 	zval *comment = NULL, *file = NULL, *line = NULL, *class_annotations;
+	zval *properties, *annotations_properties;
+	zval *property = NULL, *property_annotations = NULL, *name = NULL;
 	zval *methods, *annotations_methods, *method = NULL;
-	zval *method_annotations = NULL, *name = NULL;
-	HashTable *ah0;
-	HashPosition hp0;
+	zval *method_annotations = NULL;
+	HashTable *ah0, *ah1;
+	HashPosition hp0, hp1;
 	zval **hd;
 	zend_class_entry *ce0;
 
@@ -127,6 +129,66 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	}
 	
 	/** 
+	 * Get the class properties
+	 */
+	PHALCON_INIT_VAR(properties);
+	PHALCON_CALL_METHOD(properties, reflection, "getproperties");
+	if (phalcon_fast_count_ev(properties TSRMLS_CC)) {
+	
+		/** 
+		 * Line declaration for properties isn't available
+		 */
+		PHALCON_INIT_NVAR(line);
+		ZVAL_LONG(line, 1);
+	
+		PHALCON_INIT_VAR(annotations_properties);
+		array_init(annotations_properties);
+	
+		if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(property);
+	
+			/** 
+			 * Read comment from method
+			 */
+			PHALCON_INIT_NVAR(comment);
+			PHALCON_CALL_METHOD(comment, property, "getdoccomment");
+			if (Z_TYPE_P(comment) == IS_STRING) {
+	
+				/** 
+				 * Get the file where the property was declared
+				 */
+				PHALCON_INIT_NVAR(file);
+				PHALCON_CALL_METHOD(file, reflection, "getfilename");
+	
+				/** 
+				 * Read annotations from the docblock
+				 */
+				PHALCON_INIT_NVAR(property_annotations);
+				if (phannot_parse_annotations(property_annotations, comment, file, line TSRMLS_CC) == FAILURE) {
+					return;
+				}
+				if (Z_TYPE_P(property_annotations) == IS_ARRAY) { 
+					PHALCON_OBS_NVAR(name);
+					phalcon_read_property(&name, property, SL("name"), PH_NOISY_CC);
+					phalcon_array_update_zval(&annotations_properties, name, &property_annotations, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				}
+			}
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
+		if (phalcon_fast_count_ev(annotations_properties TSRMLS_CC)) {
+			phalcon_array_update_string(&annotations, SL("properties"), &annotations_properties, PH_COPY | PH_SEPARATE TSRMLS_CC);
+		}
+	}
+	
+	/** 
 	 * Get the class methods
 	 */
 	PHALCON_INIT_VAR(methods);
@@ -136,12 +198,12 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		PHALCON_INIT_VAR(annotations_methods);
 		array_init(annotations_methods);
 	
-		if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable(methods, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
 	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(method);
 	
@@ -178,7 +240,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 				}
 			}
 	
-			zend_hash_move_forward_ex(ah0, &hp0);
+			zend_hash_move_forward_ex(ah1, &hp1);
 		}
 	
 		if (phalcon_fast_count_ev(annotations_methods TSRMLS_CC)) {

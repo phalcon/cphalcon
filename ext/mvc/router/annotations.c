@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	phalcon_update_property_array_append(this_ptr, SL("_handlers"), scope TSRMLS_CC);
 	phalcon_update_property_bool(this_ptr, SL("_processed"), 0 TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){

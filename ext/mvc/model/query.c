@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setUniqueRow){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_uniqueRow"), unique_row TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -2876,7 +2876,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, cache){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_cacheOptions"), cache_options TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -4273,7 +4273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setType){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_type"), type TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -4302,7 +4302,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, setIntermediate){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_intermediate"), intermediate TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**

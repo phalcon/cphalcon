@@ -56,15 +56,15 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Row){
 }
 
 /**
- * Forces that a model doesn't need to be checked if exists before store it
+ * Set the current object's state
  *
- * @param boolean $forceExists
+ * @param int $dirtyState
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, setForceExists){
+PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState){
 
-	zval *force_exists;
+	zval *dirty_state;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &force_exists) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &dirty_state) == FAILURE) {
 		RETURN_NULL();
 	}
 

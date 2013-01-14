@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, setDI){
 	}
 	phalcon_update_property_zval(this_ptr, SL("_dependencyInjector"), dependency_injector TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, columns){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_columns"), columns TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, from){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, addFrom){
 	
 	phalcon_update_property_zval(this_ptr, SL("_models"), models TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, join){
 	phalcon_array_append(&joins, join, PH_SEPARATE TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_joins"), joins TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, where){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), conditions TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -449,7 +449,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, andWhere){
 	
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -483,7 +483,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orWhere){
 	
 	phalcon_update_property_zval(this_ptr, SL("_conditions"), new_conditions TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -517,7 +517,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, orderBy){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_order"), order_by TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_having"), having TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -592,7 +592,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	
 	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
 	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_group"), group TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**

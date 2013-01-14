@@ -47,6 +47,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_reflectionData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_classAnnotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_methodAnnotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("_propertyAnnotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -106,7 +107,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
 
 	zval *annotations, *reflection_data, *reflection_methods;
 	zval *collections, *reflection_method = NULL, *method_name = NULL;
-	zval *i0 = NULL;
+	zval *collection = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -138,11 +139,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
 					PHALCON_GET_FOREACH_KEY(method_name, ah0, hp0);
 					PHALCON_GET_FOREACH_VALUE(reflection_method);
 	
-					PHALCON_INIT_NVAR(i0);
-					object_init_ex(i0, phalcon_annotations_collection_ce);
-					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", reflection_method);
+					PHALCON_INIT_NVAR(collection);
+					object_init_ex(collection, phalcon_annotations_collection_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(collection, "__construct", reflection_method);
 	
-					phalcon_array_update_zval(&collections, method_name, &i0, PH_COPY | PH_SEPARATE TSRMLS_CC);
+					phalcon_array_update_zval(&collections, method_name, &collection, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
 					zend_hash_move_forward_ex(ah0, &hp0);
 				}
@@ -154,6 +155,65 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
 		}
 	
 		phalcon_update_property_bool(this_ptr, SL("_methodAnnotations"), 0 TSRMLS_CC);
+		RETURN_MM_FALSE;
+	}
+	
+	
+	RETURN_CCTOR(annotations);
+}
+
+PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
+
+	zval *annotations, *reflection_data, *reflection_properties;
+	zval *collections, *reflection_property = NULL, *property = NULL;
+	zval *collection = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_propertyAnnotations"), PH_NOISY_CC);
+	if (Z_TYPE_P(annotations) != IS_OBJECT) {
+	
+		PHALCON_OBS_VAR(reflection_data);
+		phalcon_read_property(&reflection_data, this_ptr, SL("_reflectionData"), PH_NOISY_CC);
+		if (phalcon_array_isset_string(reflection_data, SS("properties"))) {
+	
+			PHALCON_OBS_VAR(reflection_properties);
+			phalcon_array_fetch_string(&reflection_properties, reflection_data, SL("properties"), PH_NOISY_CC);
+			if (phalcon_fast_count_ev(reflection_properties TSRMLS_CC)) {
+	
+				PHALCON_INIT_VAR(collections);
+				array_init(collections);
+	
+				if (!phalcon_is_iterable(reflection_properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+					return;
+				}
+	
+	
+				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+					PHALCON_GET_FOREACH_KEY(property, ah0, hp0);
+					PHALCON_GET_FOREACH_VALUE(reflection_property);
+	
+					PHALCON_INIT_NVAR(collection);
+					object_init_ex(collection, phalcon_annotations_collection_ce);
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(collection, "__construct", reflection_property);
+	
+					phalcon_array_update_zval(&collections, property, &collection, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+					zend_hash_move_forward_ex(ah0, &hp0);
+				}
+	
+				phalcon_update_property_zval(this_ptr, SL("_propertyAnnotations"), collections TSRMLS_CC);
+	
+				RETURN_CTOR(collections);
+			}
+		}
+	
+		phalcon_update_property_bool(this_ptr, SL("_propertyAnnotations"), 0 TSRMLS_CC);
 		RETURN_MM_FALSE;
 	}
 	

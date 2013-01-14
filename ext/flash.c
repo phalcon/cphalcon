@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Flash, setImplicitFlush){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_implicitFlush"), implicit_flush TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Flash, setAutomaticHtml){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_automaticHtml"), automatic_html TSRMLS_CC);
-	RETURN_CTORW(this_ptr);
+	RETURN_THISW();
 }
 
 /**
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Flash, setCssClasses){
 
 	if (Z_TYPE_P(css_classes) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_cssClasses"), css_classes TSRMLS_CC);
-		RETURN_CTOR(this_ptr);
+		RETURN_THIS();
 	}
 	PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "CSS classes must be an Array");
 	return;

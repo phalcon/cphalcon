@@ -127,9 +127,7 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
  * Return zval with always ctor
  */
 #define RETURN_CTOR(var) { \
-		*(return_value) = *(var); \
-		phalcon_copy_ctor(return_value, var); \
-		INIT_PZVAL(return_value) \
+		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	PHALCON_MM_RESTORE(); \
 	return;
@@ -138,11 +136,24 @@ extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval 
  * Return zval with always ctor, without restoring the memory stack
  */
 #define RETURN_CTORW(var) { \
-		*(return_value) = *(var); \
-		phalcon_copy_ctor(return_value, var); \
-		INIT_PZVAL(return_value) \
+		RETVAL_ZVAL(var, 1, 0); \
 	} \
 	return;
+
+/**
+ * Return this pointer
+ */
+#define RETURN_THIS() { \
+		RETVAL_ZVAL(this_ptr, 1, 0); \
+	} \
+	PHALCON_MM_RESTORE(); \
+	return;
+
+/**
+ * Return zval with always ctor, without restoring the memory stack
+ */
+#define RETURN_THISW() \
+	RETURN_ZVAL(this_ptr, 1, 0);
 
 /**
  * Returns variables without ctor

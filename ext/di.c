@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_DI, attempt){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**

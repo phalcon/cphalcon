@@ -68,6 +68,7 @@ PHALCON_INIT_CLASS(Phalcon_Db_Adapter_Pdo){
 
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_db_adapter_pdo_ce, SL("_affectedRows"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_adapter_pdo_ce, SL("_transactionLevel"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
@@ -885,15 +886,44 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, lastInsertId){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
 
-	zval *pdo, *status;
+	zval *pdo, *transaction_level, *events_manager;
+	zval *event_name, *status;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	if (Z_TYPE_P(pdo) != IS_OBJECT) {
+		RETURN_MM_FALSE;
+	}
+	
+	/** 
+	 * Check the transaction nesting level
+	 */
+	PHALCON_OBS_VAR(transaction_level);
+	phalcon_read_property(&transaction_level, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	if (zend_is_true(transaction_level)) {
+		phalcon_property_incr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+		RETURN_MM_FALSE;
+	}
+	
+	phalcon_property_incr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+	
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Notify the events manager about the started transaction
+	 */
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "db:beginTransaction", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+	}
 	
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(status, pdo, "begintransaction");
+	
 	RETURN_CCTOR(status);
 }
 
@@ -904,15 +934,46 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, begin){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
 
-	zval *pdo, *status;
+	zval *pdo, *transaction_level, *events_manager;
+	zval *event_name, *status;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	if (Z_TYPE_P(pdo) != IS_OBJECT) {
+		RETURN_MM_FALSE;
+	}
+	
+	/** 
+	 * Reduce the transaction nesting level
+	 */
+	phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+	
+	/** 
+	 * Check the transaction nesting level
+	 */
+	PHALCON_OBS_VAR(transaction_level);
+	phalcon_read_property(&transaction_level, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	if (zend_is_true(transaction_level)) {
+		RETURN_MM_FALSE;
+	}
+	
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Notify the events manager about the rollbacked transaction
+	 */
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "db:rollbackTransaction", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+	}
 	
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(status, pdo, "rollback");
+	
 	RETURN_CCTOR(status);
 }
 
@@ -923,15 +984,46 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, rollback){
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo, commit){
 
-	zval *pdo, *status;
+	zval *pdo, *transaction_level, *events_manager;
+	zval *event_name, *status;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(pdo);
 	phalcon_read_property(&pdo, this_ptr, SL("_pdo"), PH_NOISY_CC);
+	if (Z_TYPE_P(pdo) != IS_OBJECT) {
+		RETURN_MM_FALSE;
+	}
+	
+	/** 
+	 * Reduce the transaction nesting level
+	 */
+	phalcon_property_decr(this_ptr, SL("_transactionLevel") TSRMLS_CC);
+	
+	/** 
+	 * Check the transaction nesting level
+	 */
+	PHALCON_OBS_VAR(transaction_level);
+	phalcon_read_property(&transaction_level, this_ptr, SL("_transactionLevel"), PH_NOISY_CC);
+	if (zend_is_true(transaction_level)) {
+		RETURN_MM_FALSE;
+	}
+	
+	PHALCON_OBS_VAR(events_manager);
+	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
+	
+	/** 
+	 * Notify the events manager about the commited transaction
+	 */
+	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "db:commitTransaction", 1);
+		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
+	}
 	
 	PHALCON_INIT_VAR(status);
 	PHALCON_CALL_METHOD(status, pdo, "commit");
+	
 	RETURN_CCTOR(status);
 }
 

@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile){
 	
 	phalcon_update_property_zval(this_ptr, SL("_activeProfile"), active_profile TSRMLS_CC);
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile){
 	}
 	
 	
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset){
 	PHALCON_INIT_VAR(empty_arr);
 	array_init(empty_arr);
 	phalcon_update_property_zval(this_ptr, SL("_allProfiles"), empty_arr TSRMLS_CC);
-	RETURN_CTOR(this_ptr);
+	RETURN_THIS();
 }
 
 /**
