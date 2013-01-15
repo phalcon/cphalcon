@@ -27,6 +27,7 @@
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
 %left LIKE .
+%left BITWISE_AND BITWISE_OR .
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS .
 %left IS .
@@ -1010,6 +1011,14 @@ expr(R) ::= expr(O1) AND expr(O2) . {
 
 expr(R) ::= expr(O1) OR expr(O2) . {
 	R = phql_ret_expr(PHQL_T_OR, O1, O2);
+}
+
+expr(R) ::= expr(O1) BITWISE_AND expr(O2) . {
+	R = phql_ret_expr(PHQL_T_BITWISE_AND, O1, O2);
+}
+
+expr(R) ::= expr(O1) BITWISE_OR expr(O2) . {
+	R = phql_ret_expr(PHQL_T_BITWISE_OR, O1, O2);
 }
 
 expr(R) ::= expr(O1) EQUALS expr(O2) . {

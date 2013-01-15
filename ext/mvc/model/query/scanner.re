@@ -365,6 +365,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		"&" {
+			token->opcode = PHQL_T_BITWISE_AND;
+			return 0;
+		}
+
+		"|" {
+			token->opcode = PHQL_T_BITWISE_OR;
+			return 0;
+		}
+
 		[ \t\n\r]+ {
 			token->opcode = PHQL_T_IGNORE;
 			return 0;

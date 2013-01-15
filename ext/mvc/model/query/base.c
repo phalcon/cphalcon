@@ -28,6 +28,8 @@ const phql_token_names phql_tokens[] =
   { PHQL_T_SUB,           SL("-") },
   { PHQL_T_MUL,           SL("*") },
   { PHQL_T_DIV,           SL("/") },
+  { PHQL_T_BITWISE_AND,   SL("&") },
+  { PHQL_T_BITWISE_OR,    SL("|") },
   { PHQL_T_MOD,           SL("%%") },
   { PHQL_T_AND,           SL("AND") },
   { PHQL_T_OR,            SL("OR") },
@@ -244,6 +246,12 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				break;
 			case PHQL_T_NOT:
 				phql_(phql_parser, PHQL_NOT, NULL, parser_status);
+				break;
+			case PHQL_T_BITWISE_AND:
+				phql_(phql_parser, PHQL_BITWISE_AND, NULL, parser_status);
+				break;
+			case PHQL_T_BITWISE_OR:
+				phql_(phql_parser, PHQL_BITWISE_OR, NULL, parser_status);
 				break;
 			case PHQL_T_DOT:
 				phql_(phql_parser, PHQL_DOT, NULL, parser_status);
