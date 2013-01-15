@@ -18,10 +18,51 @@
   +------------------------------------------------------------------------+
 */
 
+class SomeObject implements Iterator, Countable
+{
+	private $_data = array();
+
+	private $_pointer = 0;
+
+	public function __construct($data){
+		$this->_data = $data;
+	}
+
+	public function count()
+	{
+		return count($this->_data);
+	}
+
+	public function current()
+	{
+		return $this->_data[$this->_pointer];
+	}
+
+	public function key()
+	{
+		return $this->_pointer;
+	}
+
+	public function next()
+	{
+		++$this->_pointer;
+	}
+
+	public function rewind()
+	{
+		$this->_pointer = 0;
+	}
+
+	public function valid()
+	{
+		return $this->_pointer < count($this->_data);
+	}
+}
+
 class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 {
 
-	/*public function testVoltParser()
+	public function testVoltParser()
 	{
 
 		$volt = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
@@ -1074,7 +1115,7 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($compilation, '<?php if ($some_eval) { ?>
 Clearly, the song is: <?php echo $this->getContent(); ?>.
 <?php } ?>');
-	}*/
+	}
 
 	public function testVoltCompileFileExtends()
 	{
@@ -1261,6 +1302,33 @@ Clearly, the song is: <?php echo $this->getContent(); ?>.
 		$view->finish();
 		$this->assertEquals($view->getContent(), 'Clearly, the song is: Two songs: Le Song Le Song.'."\n");
 
+	}
+
+	public function testVoltEngineBuiltInFunctions()
+	{
+
+		@unlink('unit-tests/views/test11/index.volt.php');
+
+		$di = new Phalcon\DI();
+
+		$view = new Phalcon\Mvc\View();
+		$view->setDI($di);
+		$view->setViewsDir('unit-tests/views/');
+
+		$view->registerEngines(array(
+			'.volt' => 'Phalcon\Mvc\View\Engine\Volt'
+		));
+
+		$view->setVar('arr', array(1, 2, 3, 4));
+		$view->setVar('obj', new SomeObject(array(1, 2, 3, 4)));
+		$view->setVar('str', 'hello');
+		$view->setVar('no_str', 1234);
+
+		$view->start();
+		$view->render('test11', 'index');
+		$view->finish();
+
+		$this->assertEquals($view->getContent(), 'Length Array: 4Length Object: 4Length String: 5Length No String: 4Slice Array: 1,2,3,4Slice Array: 2,3Slice Array: 1,2,3Slice Object: 2,3,4Slice Object: 2,3Slice Object: 1,2Slice String: helSlice String: elSlice String: lloSlice No String: 123Slice No String: 23Slice No String: 34');
 	}
 
 }
