@@ -119,6 +119,7 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
  */
 void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
+	int found = 0;
 	zend_class_entry *ce;
 	unsigned int i, class_length;
 	char *cursor, *class_name;
@@ -150,17 +151,22 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
 	while (i > 1) {
 		if ((*cursor) == '\\') {
+			found = 1;
 			break;
 		}
 		cursor--;
 		i--;
 	}
 
-	Z_STRLEN_P(result) = class_length - i;
-	Z_STRVAL_P(result) = (char *) emalloc(class_length - i + 1);
-	memcpy(Z_STRVAL_P(result), class_name + i, class_length - i);
-	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
-	Z_TYPE_P(result) = IS_STRING;
+	if (found) {
+		Z_STRLEN_P(result) = class_length - i;
+		Z_STRVAL_P(result) = (char *) emalloc(class_length - i + 1);
+		memcpy(Z_STRVAL_P(result), class_name + i, class_length - i);
+		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+		Z_TYPE_P(result) = IS_STRING;
+	} else {
+		ZVAL_STRINGL(result, class_name, class_length, 1);
+	}
 
 	if (lower) {
 		zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
@@ -174,6 +180,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 
 	zend_class_entry *ce;
+	int found = 0;
 	unsigned int i, j, class_length;
 	char *cursor, *class_name;
 
@@ -205,6 +212,7 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 
 	while (i > 1) {
 		if ((*cursor) == '\\') {
+			found = 1;
 			break;
 		}
 		cursor--;
@@ -217,11 +225,16 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 	}
 
 	if (j > 0) {
-		Z_STRLEN_P(result) = class_length - j - 1;
-		Z_STRVAL_P(result) = (char *) emalloc(class_length - j);
-		memcpy(Z_STRVAL_P(result), class_name, class_length - j - 1);
-		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
-		Z_TYPE_P(result) = IS_STRING;
+
+		if (found) {
+			Z_STRLEN_P(result) = class_length - j - 1;
+			Z_STRVAL_P(result) = (char *) emalloc(class_length - j);
+			memcpy(Z_STRVAL_P(result), class_name, class_length - j - 1);
+			Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+			Z_TYPE_P(result) = IS_STRING;
+		} else {
+			ZVAL_STRINGL(result, class_name, class_length, 1);
+		}
 
 		if (lower) {
 			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
@@ -251,12 +264,13 @@ void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
  * Fetches a zend class entry from a zval value
  */
 zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
+
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
-	} else {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
-		return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 	}
+
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
+	return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 }
 
 /**

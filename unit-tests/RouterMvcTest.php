@@ -29,7 +29,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($router->getParams(), $test['params']);
 	}
 
-	/*public function testRouter()
+	public function testRouter()
 	{
 
 		$tests = array(
@@ -499,7 +499,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($paths['controller'], $router->getControllerName());
 			$this->assertEquals($paths['action'], $router->getActionName());
 		}
-	}*/
+	}
 
 	public function testShortPaths()
 	{
