@@ -3655,6 +3655,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParams);
 PHP_METHOD(Phalcon_Dispatcher, getParams);
 PHP_METHOD(Phalcon_Dispatcher, setParam);
 PHP_METHOD(Phalcon_Dispatcher, getParam);
+PHP_METHOD(Phalcon_Dispatcher, getActiveMethod);
 PHP_METHOD(Phalcon_Dispatcher, isFinished);
 PHP_METHOD(Phalcon_Dispatcher, setReturnedValue);
 PHP_METHOD(Phalcon_Dispatcher, getReturnedValue);
@@ -3730,6 +3731,7 @@ PHALCON_INIT_FUNCS(phalcon_dispatcher_method_entry){
 	PHP_ME(Phalcon_Dispatcher, getParams, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setParam, arginfo_phalcon_dispatcher_setparam, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getParam, arginfo_phalcon_dispatcher_getparam, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Dispatcher, getActiveMethod, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, isFinished, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, setReturnedValue, arginfo_phalcon_dispatcher_setreturnedvalue, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Dispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC) 
@@ -4232,13 +4234,20 @@ zend_class_entry *phalcon_annotations_adapter_ce;
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter);
 
 PHP_METHOD(Phalcon_Annotations_Adapter, get);
+PHP_METHOD(Phalcon_Annotations_Adapter, getMethod);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, className)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_adapter_getmethod, 0, 0, 2)
+	ZEND_ARG_INFO(0, className)
+	ZEND_ARG_INFO(0, methodName)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_annotations_adapter_method_entry){
 	PHP_ME(Phalcon_Annotations_Adapter, get, arginfo_phalcon_annotations_adapter_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Annotations_Adapter, getMethod, arginfo_phalcon_annotations_adapter_getmethod, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -6656,10 +6665,19 @@ PHP_METHOD(Phalcon_Annotations_Collection, key);
 PHP_METHOD(Phalcon_Annotations_Collection, next);
 PHP_METHOD(Phalcon_Annotations_Collection, valid);
 PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations);
-PHP_METHOD(Phalcon_Annotations_Collection, getAnnotation);
+PHP_METHOD(Phalcon_Annotations_Collection, get);
+PHP_METHOD(Phalcon_Annotations_Collection, has);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection___construct, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, reflectionData)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection_get, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_collection_has, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_annotations_collection_method_entry){
@@ -6670,7 +6688,8 @@ PHALCON_INIT_FUNCS(phalcon_annotations_collection_method_entry){
 	PHP_ME(Phalcon_Annotations_Collection, next, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Collection, valid, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Collection, getAnnotations, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Collection, getAnnotation, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Annotations_Collection, get, arginfo_phalcon_annotations_collection_get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Annotations_Collection, has, arginfo_phalcon_annotations_collection_has, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -7552,6 +7571,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial);
 PHP_METHOD(Phalcon_Mvc_View, getRender);
 PHP_METHOD(Phalcon_Mvc_View, finish);
 PHP_METHOD(Phalcon_Mvc_View, _createCache);
+PHP_METHOD(Phalcon_Mvc_View, isCaching);
 PHP_METHOD(Phalcon_Mvc_View, getCache);
 PHP_METHOD(Phalcon_Mvc_View, cache);
 PHP_METHOD(Phalcon_Mvc_View, setContent);
@@ -7703,6 +7723,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, getRender, arginfo_phalcon_mvc_view_getrender, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, finish, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, _createCache, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View, isCaching, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getCache, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, cache, arginfo_phalcon_mvc_view_cache, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setContent, arginfo_phalcon_mvc_view_setcontent, ZEND_ACC_PUBLIC) 
@@ -7952,6 +7973,8 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, __call);
 PHP_METHOD(Phalcon_Mvc_Model, __set);
+PHP_METHOD(Phalcon_Mvc_Model, __get);
+PHP_METHOD(Phalcon_Mvc_Model, __isset);
 PHP_METHOD(Phalcon_Mvc_Model, serialize);
 PHP_METHOD(Phalcon_Mvc_Model, unserialize);
 PHP_METHOD(Phalcon_Mvc_Model, dump);
@@ -8076,6 +8099,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___set, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___get, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___isset, 0, 0, 1)
+	ZEND_ARG_INFO(0, property)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_unserialize, 0, 0, 1)
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
@@ -8149,6 +8180,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_method_entry){
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Model, __call, arginfo_phalcon_mvc_model___call, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, __set, arginfo_phalcon_mvc_model___set, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, __get, arginfo_phalcon_mvc_model___get, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model, __isset, arginfo_phalcon_mvc_model___isset, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, unserialize, arginfo_phalcon_mvc_model_unserialize, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model, dump, NULL, ZEND_ACC_PUBLIC) 
@@ -10151,6 +10184,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding);
+PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
 	ZEND_ARG_INFO(0, options)
@@ -10172,6 +10206,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_converencoding, 0, 0
 	ZEND_ARG_INFO(0, to)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_slice, 0, 0, 2)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
+ZEND_END_ARG_INFO()
+
 PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, setOptions, arginfo_phalcon_mvc_view_engine_volt_setoptions, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getOptions, NULL, ZEND_ACC_PUBLIC) 
@@ -10179,6 +10219,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry){
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engine_volt_render, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, converEncoding, arginfo_phalcon_mvc_view_engine_volt_converencoding, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
