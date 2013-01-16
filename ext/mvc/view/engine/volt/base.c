@@ -41,6 +41,7 @@ const phvolt_token_names phvolt_tokens[] =
   { PHVOLT_T_NOTIDENTICAL,  	"NOT IDENTICAL" },
   { PHVOLT_T_NOT,           	"NOT" },
   { PHVOLT_T_RANGE,           	"RANGE" },
+  { PHVOLT_T_DOUBLECOLON,       "DOUBLECOLON" },
   { PHVOLT_T_LESS,          	"<" },
   { PHVOLT_T_LESSEQUAL,     	"<=" },
   { PHVOLT_T_GREATER,       	">" },

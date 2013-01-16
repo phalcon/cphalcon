@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Http_Request, isSecureRequest){
 }
 
 /**
- * Gets HTTP raws request body
+ * Gets HTTP raw request body
  *
  * @return string
  */
@@ -606,7 +606,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 	PHALCON_OBS_VAR(raw_body);
 	phalcon_read_property(&raw_body, this_ptr, SL("_rawBody"), PH_NOISY_CC);
-	if (zend_is_true(raw_body)) {
+	if (!zend_is_true(raw_body)) {
 		PHALCON_INIT_VAR(input);
 		ZVAL_STRING(input, "php://input", 1);
 	
@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 }
 
 /**
- * Gets most possibly client IPv4 Address. This methods search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
+ * Gets most possible client IPv4 Address. This method search in $_SERVER['REMOTE_ADDR'] and optionally in $_SERVER['HTTP_X_FORWARDED_FOR']
  *
  * @param boolean $trustForwardedHeader
  * @return string
@@ -1098,23 +1098,22 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
-	zval *files = NULL, *number_files, *has_files;
+	zval *files = NULL, *zero, *number_files, *has_files;
 	zval *g0 = NULL;
-	zval *t0 = NULL;
 
 	PHALCON_MM_GROW();
 
 	phalcon_get_global(&g0, SS("_FILES") TSRMLS_CC);
 	PHALCON_CPY_WRT(files, g0);
 	
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
 	PHALCON_INIT_VAR(number_files);
 	phalcon_fast_count(number_files, g0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
 	PHALCON_INIT_VAR(has_files);
-	is_smaller_function(has_files, t0, number_files TSRMLS_CC);
+	is_smaller_function(has_files, zero, number_files TSRMLS_CC);
 	RETURN_NCTOR(has_files);
 }
 

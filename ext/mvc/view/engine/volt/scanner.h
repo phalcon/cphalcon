@@ -112,12 +112,12 @@
 #define PHVOLT_T_NOT_ISSET 362
 #define PHVOLT_T_ISSET 363
 #define PHVOLT_T_RESOLVED_EXPR 364
+#define PHVOLT_T_SLICE 365
 
 #define PHVOLT_T_MINUS 367
 
 /* List of tokens and their names */
-typedef struct _phvolt_token_names
-{
+typedef struct _phvolt_token_names {
 	unsigned int code;
 	char *name;
 } phvolt_token_names;

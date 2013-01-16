@@ -4695,6 +4695,83 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	PHALCON_MM_RESTORE();
 }
 
+PHP_METHOD(Phalcon_Mvc_Model, __get){
+
+	zval *property, *model_name, *manager, *relation;
+	zval *call_args, *call_object, *result, *error_msg;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(model_name);
+	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(manager);
+	PHALCON_CALL_METHOD(manager, this_ptr, "getmodelsmanager");
+	
+	/** 
+	 * Check if the property is a relationship
+	 */
+	PHALCON_INIT_VAR(relation);
+	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, property);
+	if (Z_TYPE_P(relation) == IS_OBJECT) {
+		PHALCON_INIT_VAR(call_args);
+		array_init_size(call_args, 4);
+		phalcon_array_append(&call_args, relation, PH_SEPARATE TSRMLS_CC);
+		add_next_index_null(call_args);
+		phalcon_array_append(&call_args, this_ptr, PH_SEPARATE TSRMLS_CC);
+		add_next_index_null(call_args);
+	
+		PHALCON_INIT_VAR(call_object);
+		array_init_size(call_object, 2);
+		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
+		add_next_index_stringl(call_object, SL("getRelationRecords"), 1);
+	
+		PHALCON_INIT_VAR(result);
+		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
+		RETURN_CCTOR(result);
+	}
+	
+	/** 
+	 * A notice is shown if the property is not defined and it isn't a relationship
+	 */
+	PHALCON_INIT_VAR(error_msg);
+	PHALCON_CONCAT_SVSV(error_msg, "Access to undefined property ", model_name, "::", property);
+	PHALCON_CALL_FUNC_PARAMS_1_NORETURN("trigger_error", error_msg);
+	RETURN_MM_NULL();
+}
+
+PHP_METHOD(Phalcon_Mvc_Model, __isset){
+
+	zval *property, *model_name, *manager, *relation;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &property) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(model_name);
+	phalcon_get_class(model_name, this_ptr, 0 TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(manager);
+	PHALCON_CALL_METHOD(manager, this_ptr, "getmodelsmanager");
+	
+	/** 
+	 * Check if the property is a relationship
+	 */
+	PHALCON_INIT_VAR(relation);
+	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, property);
+	if (Z_TYPE_P(relation) == IS_OBJECT) {
+		RETURN_MM_TRUE;
+	}
+	
+	RETURN_MM_FALSE;
+}
+
 /**
  * Serializes the object ignoring connections or static properties
  *

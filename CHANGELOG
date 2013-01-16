@@ -5,6 +5,7 @@
  - Added andWhere/orWhere to Phalcon\Mvc\Model\Criteria
  - Added passing an HTTP body to the Phalcon\Http\Response's constructor
  - Phalcon\Mvc\View is now able to pass variables to the views using magic methods
+ - Support for slice with filter and built-in syntax in Volt
 
 0.8.0b1
  - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)

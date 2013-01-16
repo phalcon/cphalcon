@@ -1025,6 +1025,49 @@ int phalcon_end_with(zval *str, zval *compared, zval *ignore_case){
 	return 1;
 }
 
+/**
+ * Checks if a zval string ends with a *char string
+ */
+int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length){
+
+	int number = 0;
+	unsigned int i;
+	char *op1_cursor, *op2_cursor;
+
+	if (Z_TYPE_P(str) != IS_STRING) {
+		return 0;
+	}
+
+	if (!compared_length || !Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	if (compared_length > Z_STRLEN_P(str)) {
+		return 0;
+	}
+
+	op1_cursor = Z_STRVAL_P(str);
+	op2_cursor = compared;
+
+	op1_cursor += (Z_STRLEN_P(str) - 1);
+	op2_cursor += (compared_length - 1);
+
+	if (compared_length < Z_STRLEN_P(str)) {
+		number = compared_length;
+	} else {
+		number = Z_STRLEN_P(str);
+	}
+
+	for (i = number; i > 0; i--) {
+		if ((*op1_cursor) != (*op2_cursor)) {
+			return 0;
+		}
+		op1_cursor--;
+		op2_cursor--;
+	}
+
+	return 1;
+}
 
 void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC){
 

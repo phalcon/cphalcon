@@ -1125,11 +1125,20 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	}
 	
 	/** 
+	 * 'slice' slices string/arrays/traversable objects
+	 */
+	if (PHALCON_COMPARE_STRING(name, "slice")) {
+		PHALCON_INIT_NVAR(code);
+		PHALCON_CONCAT_SVS(code, "$this->slice(", arguments, ")");
+		RETURN_CCTOR(code);
+	}
+	
+	/** 
 	 * 'default' checks if a variable is empty
 	 */
 	if (PHALCON_COMPARE_STRING(name, "default")) {
 		PHALCON_INIT_NVAR(code);
-		PHALCON_CONCAT_SVSVSVS(code, "empty(", left, ") ? (", arguments, ") : (", left, ")");
+		PHALCON_CONCAT_SVSVSVS(code, "(empty(", left, ") ? (", arguments, ") : (", left, "))");
 		RETURN_CCTOR(code);
 	}
 	
@@ -1170,7 +1179,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	zval *single_expr_code = NULL, *name = NULL, *parameter = NULL, *type;
 	zval *left, *left_code, *right_code = NULL, *right, *value = NULL;
 	zval *single_quote, *escaped_quoute, *escaped_string;
-	zval *line, *file, *exception_message;
+	zval *start, *start_code = NULL, *end, *end_code = NULL, *line, *file;
+	zval *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1453,6 +1463,39 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		case 361:
 			PHALCON_INIT_NVAR(expr_code);
 			PHALCON_CONCAT_VSVS(expr_code, left_code, "[", right_code, "]");
+			break;
+	
+		case 365:
+			/** 
+			 * Evaluate the start part of the slice
+			 */
+			if (phalcon_array_isset_string(expr, SS("start"))) {
+				PHALCON_OBS_VAR(start);
+				phalcon_array_fetch_string(&start, expr, SL("start"), PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(start_code);
+				PHALCON_CALL_METHOD_PARAMS_1(start_code, this_ptr, "expression", start);
+			} else {
+				PHALCON_INIT_NVAR(start_code);
+				ZVAL_STRING(start_code, "null", 1);
+			}
+	
+			/** 
+			 * Evaluate the end part of the slice
+			 */
+			if (phalcon_array_isset_string(expr, SS("end"))) {
+				PHALCON_OBS_VAR(end);
+				phalcon_array_fetch_string(&end, expr, SL("end"), PH_NOISY_CC);
+	
+				PHALCON_INIT_VAR(end_code);
+				PHALCON_CALL_METHOD_PARAMS_1(end_code, this_ptr, "expression", end);
+			} else {
+				PHALCON_INIT_NVAR(end_code);
+				ZVAL_STRING(end_code, "null", 1);
+			}
+	
+			PHALCON_INIT_NVAR(expr_code);
+			PHALCON_CONCAT_SVSVSVS(expr_code, "$this->slice(", left_code, ", ", start_code, ", ", end_code, ")");
 			break;
 	
 		case 362:

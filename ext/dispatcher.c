@@ -36,9 +36,9 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 
 /**
  * Phalcon\Dispatcher
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Dispatcher, setActionName){
 }
 
 /**
- * Gets last dispatched action name
+ * Gets the lastest dispatched action name
  *
  * @return string
  */
@@ -386,6 +386,28 @@ PHP_METHOD(Phalcon_Dispatcher, getParam){
 	
 	
 	RETURN_CCTOR(default_value);
+}
+
+/**
+ * Returns the current method to be/executed in the dispatcher
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Dispatcher, getActiveMethod){
+
+	zval *suffix, *action_name, *method_name;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(suffix);
+	phalcon_read_property(&suffix, this_ptr, SL("_actionSuffix"), PH_NOISY_CC);
+	
+	PHALCON_OBS_VAR(action_name);
+	phalcon_read_property(&action_name, this_ptr, SL("_actionName"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(method_name);
+	PHALCON_CONCAT_VV(method_name, action_name, suffix);
+	RETURN_CTOR(method_name);
 }
 
 /**
@@ -579,11 +601,24 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CPY_WRT(camelized_class, handler_name);
 		}
 	
-		PHALCON_INIT_NVAR(handler_class);
-		PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+		/** 
+		 * Create the complete controller class name prepending the namespace
+		 */
+		if (zend_is_true(namespace_name)) {
+			if (phalcon_end_with_str(namespace_name, SL("\\"))) {
+				PHALCON_INIT_NVAR(handler_class);
+				PHALCON_CONCAT_VVV(handler_class, namespace_name, camelized_class, handler_suffix);
+			} else {
+				PHALCON_INIT_NVAR(handler_class);
+				PHALCON_CONCAT_VSVV(handler_class, namespace_name, "\\", camelized_class, handler_suffix);
+			}
+		} else {
+			PHALCON_INIT_NVAR(handler_class);
+			PHALCON_CONCAT_VV(handler_class, camelized_class, handler_suffix);
+		}
 	
 		/** 
-		 * Handlers are retrieved as shared instances from the Services Container
+		 * Handlers are retrieved as shared instances from the Service Container
 		 */
 		PHALCON_INIT_NVAR(has_service);
 		PHALCON_CALL_METHOD_PARAMS_1(has_service, dependency_injector, "has", handler_class);

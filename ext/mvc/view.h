@@ -57,6 +57,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial);
 PHP_METHOD(Phalcon_Mvc_View, getRender);
 PHP_METHOD(Phalcon_Mvc_View, finish);
 PHP_METHOD(Phalcon_Mvc_View, _createCache);
+PHP_METHOD(Phalcon_Mvc_View, isCaching);
 PHP_METHOD(Phalcon_Mvc_View, getCache);
 PHP_METHOD(Phalcon_Mvc_View, cache);
 PHP_METHOD(Phalcon_Mvc_View, setContent);
@@ -208,6 +209,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_view_method_entry){
 	PHP_ME(Phalcon_Mvc_View, getRender, arginfo_phalcon_mvc_view_getrender, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, finish, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, _createCache, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_View, isCaching, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, getCache, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, cache, arginfo_phalcon_mvc_view_cache, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_View, setContent, arginfo_phalcon_mvc_view_setcontent, ZEND_ACC_PUBLIC) 

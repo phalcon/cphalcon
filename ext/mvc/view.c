@@ -126,7 +126,9 @@ PHP_METHOD(Phalcon_Mvc_View, __construct){
 		PHALCON_INIT_VAR(options);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	if (Z_TYPE_P(options) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_options"), options TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -249,7 +251,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath){
  *
  * <code>
  * 	//Render the view related to the controller only
- * 	$this->view->setRenderLevel(Phalcon\Mvc\View::LEVEL_VIEW);
+ * 	$this->view->setRenderLevel(View::LEVEL_VIEW);
  * </code>
  *
  * @param string $level
@@ -1495,6 +1497,28 @@ PHP_METHOD(Phalcon_Mvc_View, _createCache){
 	
 	
 	RETURN_CCTOR(view_cache);
+}
+
+/**
+ * Check if the component is currently caching the output content
+ *
+ * @return boolean
+ */
+PHP_METHOD(Phalcon_Mvc_View, isCaching){
+
+	zval *zero, *cache_level, *is_caching;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(zero);
+	ZVAL_LONG(zero, 0);
+	
+	PHALCON_OBS_VAR(cache_level);
+	phalcon_read_property(&cache_level, this_ptr, SL("_cacheLevel"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(is_caching);
+	is_smaller_function(is_caching, zero, cache_level TSRMLS_CC);
+	RETURN_NCTOR(is_caching);
 }
 
 /**

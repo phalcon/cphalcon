@@ -45,6 +45,7 @@ extern int phalcon_start_with(zval *str, zval *compared, zval *ignore_case);
 extern int phalcon_start_with_str(zval *str, char *compared, unsigned int compared_length);
 extern int phalcon_start_with_str_str(char *str, unsigned int str_length, char *compared, unsigned int compared_length);
 extern int phalcon_end_with(zval *str, zval *compared, zval *ignore_case);
+extern int phalcon_end_with_str(zval *str, char *compared, unsigned int compared_length);
 
 /** Random string */
 extern void phalcon_random_string(zval *return_value, zval *type, zval *length TSRMLS_DC);

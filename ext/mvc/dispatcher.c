@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 /**
  * Returns the lastest dispatched controller
  *
- * @return Phalcon\Mvc\Controller
+ * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController){
 /**
  * Returns the active controller in the dispatcher
  *
- * @return Phalcon\Mvc\Controller
+ * @return Phalcon\Mvc\ControllerInterface
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController){
 

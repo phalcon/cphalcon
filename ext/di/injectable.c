@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_DI_Injectable, getEventsManager){
  */
 PHP_METHOD(Phalcon_DI_Injectable, __get){
 
-	zval *property_name, *dependency_injector;
+	zval *property_name, *dependency_injector = NULL;
 	zval *has_service, *service = NULL, *class_name, *arguments;
 	zval *persistent, *error_msg;
 
@@ -145,8 +145,13 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	PHALCON_OBS_VAR(dependency_injector);
 	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
 	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
-		return;
+	
+		PHALCON_INIT_NVAR(dependency_injector);
+		PHALCON_CALL_STATIC(dependency_injector, "phalcon\\di", "getdefault");
+		if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_di_exception_ce, "A dependency injection object is required to access the application services");
+			return;
+		}
 	}
 	
 	/** 

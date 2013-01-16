@@ -164,6 +164,13 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding){
 	}
 	
 	/** 
+	 * We require mbstring extension here
+	 */
+	if (phalcon_function_exists_ex(SS("mb_detect_encoding") TSRMLS_CC) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+	
+	/** 
 	 * Strict encoding detection with fallback to non-strict detection.
 	 */
 	PHALCON_INIT_VAR(strict_check);
@@ -254,6 +261,14 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 		RETURN_MM_NULL();
 	}
 
+	/** 
+	 * mbstring is required here
+	 */
+	if (phalcon_function_exists_ex(SS("mb_convert_encoding") TSRMLS_CC) == FAILURE) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required");
+		return;
+	}
+	
 	PHALCON_INIT_VAR(encoding);
 	PHALCON_CALL_METHOD_PARAMS_1(encoding, this_ptr, "detectencoding", str);
 	
@@ -266,6 +281,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding){
 	 */
 	PHALCON_INIT_VAR(encoded);
 	PHALCON_CALL_FUNC_PARAMS_3(encoded, "mb_convert_encoding", str, charset, encoding);
+	
 	RETURN_CCTOR(encoded);
 }
 

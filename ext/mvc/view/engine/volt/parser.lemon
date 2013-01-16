@@ -23,7 +23,8 @@
 %extra_argument {phvolt_parser_status *status}
 %name phvolt_
 
-%left COMMA .
+
+%left COMMA DOUBLECOLON .
 %right SBRACKET_OPEN .
 %left RANGE .
 %left AND OR .
@@ -31,8 +32,8 @@
 %left PIPE .
 %left DIVIDE TIMES MOD .
 %left PLUS MINUS CONCAT .
+%right BRACKET_OPEN .
 %right NOT .
-%left BRACKET_OPEN .
 %left DOT .
 
 %include {
@@ -396,6 +397,30 @@ static zval *phvolt_ret_expr(int type, zval *left, zval *right, phvolt_scanner_s
 
 	if (right) {
 		add_assoc_zval(ret, "right", right);
+	}
+
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_slice(zval *left, zval *start, zval *end, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_SLICE);
+	add_assoc_zval(ret, "left", left);
+
+	if (start != NULL) {
+		add_assoc_zval(ret, "start", start);
+	}
+
+	if (end != NULL) {
+		add_assoc_zval(ret, "end", end);
 	}
 
 	Z_ADDREF_P(state->active_file);
@@ -777,6 +802,32 @@ expr(R) ::= SBRACKET_OPEN array_list(A) SBRACKET_CLOSE . {
 	R = phvolt_ret_expr(PHVOLT_T_ARRAY, A, NULL, status->scanner_state);
 }
 
+expr(R) ::= expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
+	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN DOUBLECOLON slice_offset(N) SBRACKET_CLOSE . {
+	R = phvolt_ret_slice(E, NULL, N, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN slice_offset(S) DOUBLECOLON SBRACKET_CLOSE . {
+	R = phvolt_ret_slice(E, S, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN slice_offset(S) DOUBLECOLON slice_offset(N) SBRACKET_CLOSE . {
+	R = phvolt_ret_slice(E, S, N, status->scanner_state);
+}
+
+%destructor slice_offset { zval_ptr_dtor(&$$); }
+
+slice_offset(R) ::= INTEGER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+slice_offset(R) ::= IDENTIFIER(I) . {
+	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
 %destructor array_list { zval_ptr_dtor(&$$); }
 
 array_list(R) ::= array_list(L) COMMA array_item(I) . {
@@ -786,6 +837,8 @@ array_list(R) ::= array_list(L) COMMA array_item(I) . {
 array_list(R) ::= array_item(I) . {
 	R = phvolt_ret_zval_list(NULL, I);
 }
+
+%destructor array_item { zval_ptr_dtor(&$$); }
 
 array_item(R) ::= STRING(S) DOUBLECOLON expr(E) . {
 	R = phvolt_ret_named_item(S, E, status->scanner_state);
@@ -831,10 +884,6 @@ argument_item(R) ::= STRING(S) DOUBLECOLON expr(E) . {
 
 expr(R) ::= IDENTIFIER(I) . {
 	R = phvolt_ret_literal_zval(PHVOLT_T_IDENTIFIER, I, status->scanner_state);
-}
-
-expr(R) ::= expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
-	R = phvolt_ret_expr(PHVOLT_T_ARRAYACCESS, E, D, status->scanner_state);
 }
 
 expr(R) ::= INTEGER(I) . {
