@@ -539,7 +539,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(behavior);
@@ -644,7 +643,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod){
 			if (!phalcon_is_iterable(models_behaviors, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1444,7 +1442,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
@@ -1948,7 +1945,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(relation);
@@ -1976,7 +1972,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(relation);
@@ -2003,7 +1998,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations){
 			if (!phalcon_is_iterable(relations, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	

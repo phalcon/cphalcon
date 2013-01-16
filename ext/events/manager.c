@@ -227,7 +227,6 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(handler);
@@ -304,7 +303,6 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 			if (!phalcon_is_iterable(fire_events, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

@@ -459,7 +459,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(route);
@@ -536,7 +535,6 @@ PHP_METHOD(Phalcon_Mvc_Router, handle){
 				if (!phalcon_is_iterable(paths, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 					return;
 				}
-	
 	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1142,7 +1140,6 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(route);
@@ -1187,7 +1184,6 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	if (!phalcon_is_iterable(routes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

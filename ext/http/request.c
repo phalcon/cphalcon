@@ -917,7 +917,6 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(method);
@@ -1144,7 +1143,6 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(file);
@@ -1234,7 +1232,6 @@ PHP_METHOD(Phalcon_Http_Request, _getQualityHeader){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(part);
@@ -1300,7 +1297,6 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	if (!phalcon_is_iterable(quality_parts, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

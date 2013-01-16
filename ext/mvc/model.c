@@ -588,7 +588,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
@@ -674,7 +673,6 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1031,7 +1029,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 			if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1736,7 +1733,6 @@ PHP_METHOD(Phalcon_Mvc_Model, validate){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(message);
@@ -1858,7 +1854,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(relation);
@@ -1900,7 +1895,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeys){
 					if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2065,7 +2059,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(relation);
@@ -2105,7 +2098,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverse){
 					if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2335,7 +2327,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 			if (!phalcon_is_iterable(not_null, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -2633,7 +2624,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(field);
@@ -2847,7 +2837,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(field);
@@ -2961,7 +2950,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
@@ -3019,7 +3007,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 						if (!phalcon_is_iterable(messages, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 							return;
 						}
-	
 	
 						while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3091,7 +3078,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 	if (!phalcon_is_iterable(related, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3166,7 +3152,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(record_after);
@@ -3189,7 +3174,6 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 					if (!phalcon_is_iterable(messages, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
 	
 					while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -3293,7 +3277,6 @@ PHP_METHOD(Phalcon_Mvc_Model, save){
 			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3512,7 +3495,6 @@ PHP_METHOD(Phalcon_Mvc_Model, create){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(attribute);
@@ -3655,7 +3637,6 @@ PHP_METHOD(Phalcon_Mvc_Model, update){
 			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3834,7 +3815,6 @@ PHP_METHOD(Phalcon_Mvc_Model, delete){
 	if (!phalcon_is_iterable(primary_keys, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4084,7 +4064,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(attribute);
@@ -4149,7 +4128,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(attribute);
@@ -4212,7 +4190,6 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate){
 	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4595,7 +4572,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords){
 }
 
 /**
- * Handles methods when a method does not exist
+ * Handles method calls when a method is not implemented
  *
  * @param string $method
  * @param array $arguments
@@ -4651,7 +4628,112 @@ PHP_METHOD(Phalcon_Mvc_Model, __call){
 }
 
 /**
+ * Handles method calls when a static method is not implemented
+ *
+ * @param string $method
+ * @param array $arguments
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
+
+	zval *method, *arguments = NULL, *extra_method = NULL, *type = NULL;
+	zval *model_name, *exception_message = NULL, *value;
+	zval *uncamelized, *conditions, *bind_params;
+	zval *parameters, *result;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &method, &arguments) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!arguments) {
+		PHALCON_INIT_VAR(arguments);
+		array_init(arguments);
+	}
+	
+	PHALCON_INIT_VAR(extra_method);
+	
+	/** 
+	 * Check if the method starts with 'findFirst'
+	 */
+	if (phalcon_start_with_str(method, SL("findFirstBy"))) {
+		PHALCON_INIT_VAR(type);
+		ZVAL_STRING(type, "findFirst", 1);
+	
+		phalcon_substr(extra_method, method, 11, 0 TSRMLS_CC);
+	}
+	
+	/** 
+	 * Check if the method starts with 'find'
+	 */
+	if (Z_TYPE_P(extra_method) == IS_NULL) {
+		if (phalcon_start_with_str(method, SL("findBy"))) {
+			PHALCON_INIT_NVAR(type);
+			ZVAL_STRING(type, "find", 1);
+	
+			PHALCON_INIT_NVAR(extra_method);
+			phalcon_substr(extra_method, method, 7, 0 TSRMLS_CC);
+		}
+	}
+	
+	/** 
+	 * The called class is the model
+	 */
+	PHALCON_INIT_VAR(model_name);
+	phalcon_get_called_class(model_name  TSRMLS_CC);
+	if (!zend_is_true(extra_method)) {
+		/** 
+		 * The method doesn't exist throw an exception
+		 */
+		PHALCON_INIT_VAR(exception_message);
+		PHALCON_CONCAT_SVSVS(exception_message, "The static method \"", method, "\" doesn't exist on model \"", model_name, "\"");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+		return;
+	}
+	
+	if (!phalcon_array_isset_long(arguments, 0)) {
+		PHALCON_INIT_NVAR(exception_message);
+		PHALCON_CONCAT_SVS(exception_message, "The static method \"", method, "\" requires one argument");
+		PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+		return;
+	}
+	
+	PHALCON_OBS_VAR(value);
+	phalcon_array_fetch_long(&value, arguments, 0, PH_NOISY_CC);
+	
+	/** 
+	 * Get the real method name
+	 */
+	PHALCON_INIT_VAR(uncamelized);
+	phalcon_uncamelize(uncamelized, extra_method TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(conditions);
+	PHALCON_CONCAT_VS(conditions, uncamelized, " = ?0");
+	
+	PHALCON_INIT_VAR(bind_params);
+	array_init_size(bind_params, 1);
+	phalcon_array_append(&bind_params, value, PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(parameters);
+	array_init_size(parameters, 2);
+	phalcon_array_update_string(&parameters, SL("conditions"), &conditions, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	phalcon_array_update_string(&parameters, SL("bind"), &bind_params, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Execute the query
+	 */
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(result, model_name, Z_STRVAL_P(type), parameters);
+	
+	RETURN_CCTOR(result);
+}
+
+/**
  * Magic method to assign values to the the model
+ *
+ * @param string $property
+ * @param mixed $value
  */
 PHP_METHOD(Phalcon_Mvc_Model, __set){
 
@@ -4692,9 +4774,15 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 	
 	phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
 	
-	PHALCON_MM_RESTORE();
+	RETURN_CCTOR(value);
 }
 
+/**
+ * Magic method to get related records using the relation alias as a property
+ *
+ * @param string $property
+ * @return Phalcon\Mvc\Model\Resultset
+ */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
 	zval *property, *model_name, *manager, *relation;
@@ -4744,6 +4832,11 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	RETURN_MM_NULL();
 }
 
+/**
+ * Magic method to check if a property is a valid relation
+ *
+ * @param string $property
+ */
 PHP_METHOD(Phalcon_Mvc_Model, __isset){
 
 	zval *property, *model_name, *manager, *relation;
@@ -4804,7 +4897,6 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize){
 	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -4896,7 +4988,6 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
@@ -4967,7 +5058,6 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray){
 	if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -94,7 +94,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(argument);
@@ -193,7 +192,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 			if (!phalcon_is_iterable(items, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

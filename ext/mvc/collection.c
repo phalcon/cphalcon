@@ -487,7 +487,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
@@ -612,7 +611,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	if (!phalcon_is_iterable(documents_array, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -852,7 +850,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
 		if (!phalcon_is_iterable(messages, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1218,7 +1215,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1670,7 +1666,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
@@ -1763,7 +1758,6 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize){
 			if (!phalcon_is_iterable(attributes, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

@@ -184,7 +184,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnList){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(column);
@@ -407,7 +406,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_VALUE(argument);
@@ -447,7 +445,6 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		if (!phalcon_is_iterable(items, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -643,7 +640,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(column);
@@ -733,7 +729,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(table);
@@ -765,7 +760,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		if (!phalcon_is_iterable(joins, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -799,7 +793,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 					if (!phalcon_is_iterable(join_conditions_array, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
 	
 					while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -852,7 +845,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(group_field);
@@ -898,7 +890,6 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 		if (!phalcon_is_iterable(order_fields, &ah5, &hp5, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	

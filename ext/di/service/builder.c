@@ -223,7 +223,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameters){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
@@ -353,7 +352,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(position, ah0, hp0);
@@ -455,7 +453,6 @@ PHP_METHOD(Phalcon_DI_Service_Builder, build){
 		if (!phalcon_is_iterable(param_calls, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

@@ -441,7 +441,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addResourceAccess){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(access_name);
@@ -510,7 +509,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, dropResourceAccess){
 		if (!phalcon_is_iterable(access_list, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -598,7 +596,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(access_name);
@@ -619,7 +616,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		if (!phalcon_is_iterable(access, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -879,7 +875,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
@@ -907,7 +902,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		if (!phalcon_is_iterable(access_roles, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1005,7 +999,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(role_name, ah0, hp0);
@@ -1020,7 +1013,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 					return;
 				}
 	
-	
 				while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 					PHALCON_GET_FOREACH_VALUE(role_inherit);
@@ -1034,7 +1026,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 							return;
 						}
 	
-	
 						while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
 							PHALCON_GET_FOREACH_KEY(resource_name, ah2, hp2);
@@ -1044,7 +1035,6 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _rebuildAccessList){
 							if (!phalcon_is_iterable(access, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 								return;
 							}
-	
 	
 							while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	

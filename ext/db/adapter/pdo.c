@@ -671,7 +671,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_KEY(index, ah0, hp0);
@@ -781,7 +780,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams){
 		if (!phalcon_is_iterable(matches, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1123,7 +1121,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(index);
@@ -1149,7 +1146,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeIndexes){
 	if (!phalcon_is_iterable(indexes, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1224,7 +1220,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(reference);
@@ -1264,7 +1259,6 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, describeReferences){
 	if (!phalcon_is_iterable(references, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

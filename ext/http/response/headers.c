@@ -165,7 +165,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(header, ah0, hp0);
@@ -236,7 +235,6 @@ PHP_METHOD(Phalcon_Http_Response_Headers, __set_state){
 		if (!phalcon_is_iterable(data_headers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

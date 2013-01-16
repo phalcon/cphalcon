@@ -719,7 +719,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(column);
@@ -777,7 +776,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(index);
@@ -820,7 +818,6 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 		if (!phalcon_is_iterable(references, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	

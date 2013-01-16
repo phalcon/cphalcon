@@ -29,7 +29,7 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($router->getParams(), $test['params']);
 	}
 
-	public function testRouter()
+	/*public function testRouter()
 	{
 
 		$tests = array(
@@ -499,6 +499,56 @@ class RouterMvcTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($paths['controller'], $router->getControllerName());
 			$this->assertEquals($paths['action'], $router->getActionName());
 		}
+	}*/
+
+	public function testShortPaths()
+	{
+		$router = new Phalcon\Mvc\Router(false);
+
+		$route = $router->add("/route0", "Feed");
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => 'Feed'
+		));
+
+		$route = $router->add("/route1", "Feed::get");
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => 'Feed',
+			'action' => 'get',
+		));
+
+		$route = $router->add("/route2", "News::Posts::show");
+		$this->assertEquals($route->getPaths(), array(
+			'module' => 'News',
+			'controller' => 'Posts',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route3", "MyApp\\Controllers\\Posts::show");
+		$this->assertEquals($route->getPaths(), array(
+			'namespace' => 'MyApp\\Controllers',
+			'controller' => 'Posts',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route3", "MyApp\\Controllers\\::show");
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => '',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route3", "News::MyApp\\Controllers\\Posts::show");
+		$this->assertEquals($route->getPaths(), array(
+			'module' => 'News',
+			'namespace' => 'MyApp\\Controllers',
+			'controller' => 'Posts',
+			'action' => 'show',
+		));
+
+		$route = $router->add("/route3", "\\Posts::show");
+		$this->assertEquals($route->getPaths(), array(
+			'controller' => 'Posts',
+			'action' => 'show',
+		));
 	}
 
 }

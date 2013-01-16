@@ -148,7 +148,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(property);
@@ -201,7 +200,6 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 		if (!phalcon_is_iterable(methods, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	

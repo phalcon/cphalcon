@@ -149,7 +149,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 					return;
 				}
 	
-	
 				while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 					PHALCON_GET_FOREACH_VALUE(message);

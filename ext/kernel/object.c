@@ -120,42 +120,116 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
 void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
 	zend_class_entry *ce;
-	unsigned int i;
-	char *cursor;
+	unsigned int i, class_length;
+	char *cursor, *class_name;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		if (Z_TYPE_P(object) != IS_STRING) {
+			ZVAL_NULL(result);
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class_ns expects an object");
+			return;
+		}
+	}
 
 	if (Z_TYPE_P(object) == IS_OBJECT) {
-
 		ce = Z_OBJCE_P(object);
+		class_name = ce->name;
+		class_length = ce->name_length;
+	} else {
+		class_name = Z_STRVAL_P(object);
+		class_length = Z_STRLEN_P(object);
+	}
 
-		i = ce->name_length;
-		cursor = (char *) (ce->name + ce->name_length - 1);
+	if (!class_length) {
+		ZVAL_NULL(result);
+		return;
+	}
 
-		while (i > 1) {
-			if ((*cursor) == '\\') {
-				break;
-			}
-			cursor--;
-			i--;
+	i = class_length;
+	cursor = (char *) (class_name + class_length - 1);
+
+	while (i > 1) {
+		if ((*cursor) == '\\') {
+			break;
 		}
+		cursor--;
+		i--;
+	}
 
-		if (i == 1) {
-			i = 0;
+	Z_STRLEN_P(result) = class_length - i;
+	Z_STRVAL_P(result) = (char *) emalloc(class_length - i + 1);
+	memcpy(Z_STRVAL_P(result), class_name + i, class_length - i);
+	Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
+	Z_TYPE_P(result) = IS_STRING;
+
+	if (lower) {
+		zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
+	}
+
+}
+
+/**
+ * Returns a namespace from a class name
+ */
+void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
+
+	zend_class_entry *ce;
+	unsigned int i, j, class_length;
+	char *cursor, *class_name;
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		if (Z_TYPE_P(object) != IS_STRING) {
+			php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_ns_class expects an object");
+			ZVAL_NULL(result);
+			return;
 		}
+	}
 
-		Z_STRLEN_P(result) = ce->name_length - i;
-		Z_STRVAL_P(result) = (char *) emalloc(ce->name_length - i + 1);
-		memcpy(Z_STRVAL_P(result), ce->name + i, ce->name_length - i);
+	if (Z_TYPE_P(object) == IS_OBJECT) {
+		ce = Z_OBJCE_P(object);
+		class_name = ce->name;
+		class_length = ce->name_length;
+	} else {
+		class_name = Z_STRVAL_P(object);
+		class_length = Z_STRLEN_P(object);
+	}
+
+	if (!class_length) {
+		ZVAL_NULL(result);
+		return;
+	}
+
+	j = 0;
+	i = class_length;
+	cursor = (char *) (class_name + class_length - 1);
+
+	while (i > 1) {
+		if ((*cursor) == '\\') {
+			break;
+		}
+		cursor--;
+		i--;
+		j++;
+	}
+
+	if (j == 1) {
+		j = 0;
+	}
+
+	if (j > 0) {
+		Z_STRLEN_P(result) = class_length - j - 1;
+		Z_STRVAL_P(result) = (char *) emalloc(class_length - j);
+		memcpy(Z_STRVAL_P(result), class_name, class_length - j - 1);
 		Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 		Z_TYPE_P(result) = IS_STRING;
 
 		if (lower) {
 			zend_str_tolower(Z_STRVAL_P(result), Z_STRLEN_P(result));
 		}
-
 	} else {
 		ZVAL_NULL(result);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_class_ns expects an object");
 	}
+
 }
 
 /**

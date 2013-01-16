@@ -344,7 +344,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(model);
@@ -508,7 +507,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getFunctionCall){
 			if (!phalcon_is_iterable(arguments, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 				return;
 			}
-	
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -966,7 +964,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getExpression){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(expr_list_item);
@@ -1037,7 +1034,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		if (!phalcon_is_iterable(models, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1417,7 +1413,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(join_item);
@@ -1547,7 +1542,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(join_item);
@@ -1580,7 +1574,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(model_name, ah2, hp2);
@@ -1592,7 +1585,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoins){
 		if (!phalcon_is_iterable(join_models, &ah3, &hp3, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
@@ -1774,7 +1766,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(order_item);
@@ -1848,7 +1839,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getGroupClause){
 		if (!phalcon_is_iterable(group, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1990,7 +1980,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(selected_model);
@@ -2126,7 +2115,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(column);
@@ -2137,7 +2125,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 		if (!phalcon_is_iterable(sql_column_group, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
@@ -2347,7 +2334,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(expr_value);
@@ -2385,7 +2371,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareInsert){
 		if (!phalcon_is_iterable(fields, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2497,7 +2482,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_VALUE(table);
@@ -2579,7 +2563,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareUpdate){
 	if (!phalcon_is_iterable(update_values, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -2709,7 +2692,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareDelete){
 	if (!phalcon_is_iterable(delete_tables, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3001,7 +2983,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_VALUE(model_name);
@@ -3056,7 +3037,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	if (!phalcon_is_iterable(columns, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -3119,7 +3099,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		return;
 	}
 	
-	
 	while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
 	
 		PHALCON_GET_FOREACH_KEY(alias, ah2, hp2);
@@ -3156,7 +3135,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 					return;
 				}
 	
-	
 				while (zend_hash_get_current_data_ex(ah3, (void**) &hd, &hp3) == SUCCESS) {
 	
 					PHALCON_GET_FOREACH_VALUE(attribute);
@@ -3188,7 +3166,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 				if (!phalcon_is_iterable(attributes, &ah4, &hp4, 0, 0 TSRMLS_CC)) {
 					return;
 				}
-	
 	
 				while (zend_hash_get_current_data_ex(ah4, (void**) &hd, &hp4) == SUCCESS) {
 	
@@ -3264,7 +3241,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			return;
 		}
 	
-	
 		while (zend_hash_get_current_data_ex(ah5, (void**) &hd, &hp5) == SUCCESS) {
 	
 			PHALCON_GET_FOREACH_KEY(wildcard, ah5, hp5);
@@ -3296,7 +3272,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 		if (!phalcon_is_iterable(bind_types, &ah6, &hp6, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah6, (void**) &hd, &hp6) == SUCCESS) {
 	
@@ -3474,7 +3449,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	if (!phalcon_is_iterable(values, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -3811,7 +3785,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeUpdate){
 	if (!phalcon_is_iterable(fields, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	

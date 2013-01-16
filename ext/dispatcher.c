@@ -584,6 +584,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				continue;
 			}
 	
+			/** 
+			 * Check if the user made a forward in the listener
+			 */
 			PHALCON_OBS_NVAR(finished);
 			phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 			if (PHALCON_IS_FALSE(finished)) {
@@ -645,6 +648,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 			PHALCON_CALL_METHOD_PARAMS_2(status, this_ptr, "_throwdispatchexception", exception_message, exception_code);
 			if (PHALCON_IS_FALSE(status)) {
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -743,6 +749,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					continue;
 				}
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -764,6 +773,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 					continue;
 				}
 	
+				/** 
+				 * Check if the user made a forward in the listener
+				 */
 				PHALCON_OBS_NVAR(finished);
 				phalcon_read_property(&finished, this_ptr, SL("_finished"), PH_NOISY_CC);
 				if (PHALCON_IS_FALSE(finished)) {
@@ -771,6 +783,9 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 				}
 			}
 	
+			/** 
+			 * Create a call handler
+			 */
 			PHALCON_INIT_NVAR(call_object);
 			array_init_size(call_object, 2);
 			phalcon_array_append(&call_object, handler, PH_SEPARATE TSRMLS_CC);

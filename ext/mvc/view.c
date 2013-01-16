@@ -653,7 +653,6 @@ PHP_METHOD(Phalcon_Mvc_View, _loadTemplateEngines){
 				return;
 			}
 	
-	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 				PHALCON_GET_FOREACH_KEY(extension, ah0, hp0);
@@ -835,7 +834,6 @@ PHP_METHOD(Phalcon_Mvc_View, _engineRender){
 	if (!phalcon_is_iterable(engines, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 		return;
 	}
-	
 	
 	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
@@ -1137,7 +1135,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 						return;
 					}
 	
-	
 					while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
 						PHALCON_GET_FOREACH_VALUE(template_before);
@@ -1193,7 +1190,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 					if (!phalcon_is_iterable(templates_after, &ah1, &hp1, 0, 0 TSRMLS_CC)) {
 						return;
 					}
-	
 	
 					while (zend_hash_get_current_data_ex(ah1, (void**) &hd, &hp1) == SUCCESS) {
 	
@@ -1598,7 +1594,6 @@ PHP_METHOD(Phalcon_Mvc_View, cache){
 		if (!phalcon_is_iterable(options, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
-	
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
