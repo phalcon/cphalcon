@@ -3,6 +3,8 @@
 class GossipRobots extends Phalcon\Mvc\Model
 {
 
+	public $trace;
+
 	public function getSource()
 	{
 		return 'robots';

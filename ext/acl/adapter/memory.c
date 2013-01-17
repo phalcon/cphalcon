@@ -942,6 +942,28 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 }
 
 /**
+ * Return an array with every role registered in the list
+ *
+ * @return Phalcon\Acl\Role[]
+ */
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, getRoles){
+
+
+	RETURN_MEMBER(this_ptr, "_roles");
+}
+
+/**
+ * Return an array with every resource registered in the list
+ *
+ * @return Phalcon\Acl\Resources[]
+ */
+PHP_METHOD(Phalcon_Acl_Adapter_Memory, getResources){
+
+
+	RETURN_MEMBER(this_ptr, "_resources");
+}
+
+/**
  * Rebuild the list of access from the inherit lists
  *
  */

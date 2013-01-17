@@ -92,6 +92,8 @@ PHALCON_INIT_FUNCS(phalcon_acl_adapterinterface_method_entry){
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getActiveRole, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getActiveResource, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getActiveAccess, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getRoles, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Acl_AdapterInterface, getResources, NULL)
 	PHP_FE_END
 };
 

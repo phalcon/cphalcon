@@ -412,6 +412,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getQualified){
 		}
 	
 		if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+	
+			/** 
+			 * The real column name is in the column map
+			 */
 			if (phalcon_array_isset(column_map, column_name)) {
 				PHALCON_OBS_NVAR(real_column_name);
 				phalcon_array_fetch(&real_column_name, column_map, column_name, PH_NOISY_CC);
@@ -3399,6 +3403,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(automatic_fields);
 	ZVAL_BOOL(automatic_fields, 0);
+	
+	/** 
+	 * The 'fields' index may already have the fields to be used in the query
+	 */
 	if (phalcon_array_isset_string(intermediate, SS("fields"))) {
 		PHALCON_OBS_VAR(fields);
 		phalcon_array_fetch_string(&fields, intermediate, SL("fields"), PH_NOISY_CC);

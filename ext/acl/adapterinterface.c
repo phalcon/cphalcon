@@ -162,3 +162,17 @@ PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveResource);
  */
 PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
 
+/**
+ * Return an array with every role registered in the list
+ *
+ * @return Phalcon\Acl\RoleInterface[]
+ */
+PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getRoles);
+
+/**
+ * Return an array with every resource registered in the list
+ *
+ * @return Phalcon\Acl\ResourcesInterface[]
+ */
+PHALCON_DOC_METHOD(Phalcon_Acl_AdapterInterface, getResources);
+
