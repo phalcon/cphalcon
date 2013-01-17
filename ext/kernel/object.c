@@ -314,7 +314,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 				Z_OBJVAL_P(destiny) = clone_call(obj TSRMLS_CC);
 				Z_TYPE_P(destiny) = IS_OBJECT;
 				Z_SET_REFCOUNT_P(destiny, 1);
-				Z_SET_ISREF_P(destiny);
+				Z_UNSET_ISREF_P(destiny);
 				if (EG(exception)) {
 					zval_ptr_dtor(&destiny);
 				}

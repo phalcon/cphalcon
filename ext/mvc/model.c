@@ -4653,7 +4653,6 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic){
 
 	if (!arguments) {
 		PHALCON_INIT_VAR(arguments);
-		array_init(arguments);
 	}
 	
 	PHALCON_INIT_VAR(extra_method);

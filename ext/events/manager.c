@@ -32,6 +32,7 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
+#include "ext/spl/spl_heap.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
@@ -76,7 +77,6 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 
 	zval *event_type, *handler, *priority = NULL, *events = NULL;
 	zval *priority_quenue = NULL, *mode;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -109,9 +109,8 @@ PHP_METHOD(Phalcon_Events_Manager, attach){
 		/** 
 		 * Create an SplPriorityQuenue to store the events with priorities
 		 */
-		ce0 = zend_fetch_class(SL("SplPriorityQueue"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 		PHALCON_INIT_VAR(priority_quenue);
-		object_init_ex(priority_quenue, ce0);
+		object_init_ex(priority_quenue, spl_ce_SplPriorityQueue);
 		if (phalcon_has_constructor(priority_quenue TSRMLS_CC)) {
 			PHALCON_CALL_METHOD_NORETURN(priority_quenue, "__construct");
 		}
@@ -232,8 +231,8 @@ PHP_METHOD(Phalcon_Events_Manager, dettachAll){
 PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 
 	zval *queue, *event, *status = NULL, *arguments = NULL, *event_name;
-	zval *cancelable, *collect, *iterator, *handler = NULL;
-	zval *source = NULL, *data = NULL, *is_stopped = NULL;
+	zval *source, *data, *cancelable, *collect, *iterator;
+	zval *handler = NULL, *is_stopped = NULL;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -260,6 +259,18 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	 */
 	PHALCON_INIT_VAR(event_name);
 	PHALCON_CALL_METHOD(event_name, event, "gettype");
+	
+	/** 
+	 * Get the object who triggered the event
+	 */
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, event, "getsource");
+	
+	/** 
+	 * Get extra data passed to the event
+	 */
+	PHALCON_INIT_VAR(data);
+	PHALCON_CALL_METHOD(data, event, "getdata");
 	
 	/** 
 	 * Tell if the event is cancelable
@@ -315,12 +326,6 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 				 * Create the closure arguments
 				 */
 				if (Z_TYPE_P(arguments) == IS_NULL) {
-					PHALCON_INIT_NVAR(source);
-					PHALCON_CALL_METHOD(source, event, "getsource");
-	
-					PHALCON_INIT_NVAR(data);
-					PHALCON_CALL_METHOD(data, event, "getdata");
-	
 					PHALCON_INIT_NVAR(arguments);
 					array_init_size(arguments, 3);
 					phalcon_array_append(&arguments, event, PH_SEPARATE TSRMLS_CC);
