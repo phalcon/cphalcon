@@ -174,7 +174,7 @@ PHP includes the Zend Engine, freely available at
 #include "ext/standard/php_lcg.h"
 #include "ext/standard/php_math.h"
 #include "ext/standard/html.h"
-#include "ext/spl/spl_heap"
+#include "ext/spl/spl_heap.h"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
