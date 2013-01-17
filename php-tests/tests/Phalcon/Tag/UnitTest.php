@@ -740,7 +740,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E">';
+                  . 'id="some_field_name" value="Wall&#x2d;E">';
         Tg::setDefault('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -772,7 +772,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
     {
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E">';
+                  . 'id="some_field_name" value="Wall&#x2d;E">';
         Tg::displayTo('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -805,7 +805,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDoctype(Tg::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E" />';
+                  . 'id="some_field_name" value="Wall&#x2d;E" />';
         Tg::setDefault('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -839,7 +839,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDoctype(Tg::XHTML10_STRICT);
         $options  = 'some_field_name';
         $expected = '<input type="text" name="some_field_name" '
-                  . 'id="some_field_name" value="Wall-E" />';
+                  . 'id="some_field_name" value="Wall&#x2d;E" />';
         Tg::displayTo('some_field_name', 'Wall-E');
         $actual   = Tg::textField($options);
 
@@ -974,7 +974,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::textField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1001,7 +1001,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::textField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1186,7 +1186,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::textField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -1215,7 +1215,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="text" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::textField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
@@ -1398,7 +1398,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
-                  . 'some_default_value</textarea>';
+                  . 'some&#x5f;default&#x5f;value</textarea>';
         $actual   = Tg::textArea($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1425,7 +1425,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<textarea class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name">'
-                  . 'some_default_value</textarea>';
+                  . 'some&#x5f;default&#x5f;value</textarea>';
         $actual   = Tg::textArea($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1606,7 +1606,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::hiddenField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -1633,7 +1633,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::hiddenField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -1818,7 +1818,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::hiddenField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -1847,7 +1847,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="hidden" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::hiddenField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
@@ -2032,7 +2032,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::passwordField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -2059,7 +2059,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::passwordField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -2245,7 +2245,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::passwordField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -2274,7 +2274,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="password" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::passwordField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
@@ -2458,7 +2458,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::fileField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -2485,7 +2485,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::fileField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -2670,7 +2670,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::fileField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -2699,7 +2699,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="file" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::fileField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
@@ -2883,7 +2883,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+                  . 'value="some&#x5f;default&#x5f;value" checked="checked">';
         $actual   = Tg::checkField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -2910,7 +2910,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked">';
+                  . 'value="some&#x5f;default&#x5f;value" checked="checked">';
         $actual   = Tg::checkField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -3095,7 +3095,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+                  . 'value="some&#x5f;default&#x5f;value" checked="checked" />';
         $actual   = Tg::checkField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -3124,7 +3124,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="checkbox" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" checked="checked" />';
+                  . 'value="some&#x5f;default&#x5f;value" checked="checked" />';
         $actual   = Tg::checkField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
@@ -3308,7 +3308,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::radioField($options);
         Tg::setDefault('some_field_name', '');
 
@@ -3335,7 +3335,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value">';
+                  . 'value="some&#x5f;default&#x5f;value">';
         $actual   = Tg::radioField($options);
         Tg::displayTo('some_field_name', '');
 
@@ -3520,7 +3520,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::setDefault('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::radioField($options);
         Tg::setDefault('some_field_name', '');
         Tg::setDoctype('');
@@ -3549,7 +3549,7 @@ class Tag_UnitTest extends Phalcon_Test_UnitTestCase
         Tg::displayTo('some_field_name', 'some_default_value');
         $expected = '<input type="radio" class="some_class" size="10" '
                   . 'name="some_field_name" id="some_field_name" '
-                  . 'value="some_default_value" />';
+                  . 'value="some&#x5f;default&#x5f;value" />';
         $actual   = Tg::radioField($options);
         Tg::displayTo('some_field_name', '');
         Tg::setDoctype('');
