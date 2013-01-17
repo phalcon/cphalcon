@@ -149,7 +149,7 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 	i = class_length;
 	cursor = (char *) (class_name + class_length - 1);
 
-	while (i > 1) {
+	while (i > 0) {
 		if ((*cursor) == '\\') {
 			found = 1;
 			break;
@@ -210,7 +210,7 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 	i = class_length;
 	cursor = (char *) (class_name + class_length - 1);
 
-	while (i > 1) {
+	while (i > 0) {
 		if ((*cursor) == '\\') {
 			found = 1;
 			break;
@@ -218,10 +218,6 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 		cursor--;
 		i--;
 		j++;
-	}
-
-	if (j == 1) {
-		j = 0;
 	}
 
 	if (j > 0) {
@@ -233,7 +229,7 @@ void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
 			Z_STRVAL_P(result)[Z_STRLEN_P(result)] = 0;
 			Z_TYPE_P(result) = IS_STRING;
 		} else {
-			ZVAL_STRINGL(result, class_name, class_length, 1);
+			ZVAL_EMPTY_STRING(result);
 		}
 
 		if (lower) {

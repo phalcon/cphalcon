@@ -55,7 +55,7 @@
  * ));
  *
  * //Create the Cache setting memcached connection options
- * $cache = new Phalcon\Cache\Backend\File($frontCache, array(
+ * $cache = new Phalcon\Cache\Backend\Memcache($frontCache, array(
  *		'host' => 'localhost',
  *		'port' => 11211,
  *  	'persistent' => false

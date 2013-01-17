@@ -226,12 +226,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 										phalcon_array_update_string(&definition, SL("size"), &numeric_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
 										phalcon_array_update_string_long(&definition, SL("bindType"), 32, PH_SEPARATE TSRMLS_CC);
 									} else {
-										if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
-											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+										if (phalcon_memnstr_str(column_type, SL("bool") TSRMLS_CC)) {
+											phalcon_array_update_string_long(&definition, SL("type"), 8, PH_SEPARATE TSRMLS_CC);
+											phalcon_array_update_string_long(&definition, SL("size"), 0, PH_SEPARATE TSRMLS_CC);
+											phalcon_array_update_string_long(&definition, SL("bindType"), 5, PH_SEPARATE TSRMLS_CC);
 										} else {
-											phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
-											phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+											if (phalcon_memnstr_str(column_type, SL("uuid") TSRMLS_CC)) {
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+												phalcon_array_update_string_long(&definition, SL("size"), 36, PH_SEPARATE TSRMLS_CC);
+											} else {
+												phalcon_array_update_string_long(&definition, SL("type"), 5, PH_SEPARATE TSRMLS_CC);
+												phalcon_array_update_string(&definition, SL("size"), &char_size, PH_COPY | PH_SEPARATE TSRMLS_CC);
+											}
 										}
 									}
 								}
@@ -273,6 +279,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 		PHALCON_OBS_NVAR(column_name);
 		phalcon_array_fetch_string(&column_name, field, SL("field"), PH_NOISY_CC);
 	
+		/** 
+		 * Create a Phalcon\Db\Column to abstract the column
+		 */
 		PHALCON_INIT_NVAR(column);
 		object_init_ex(column, phalcon_db_column_ce);
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(column, "__construct", column_name, definition);

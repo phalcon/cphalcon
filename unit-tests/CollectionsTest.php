@@ -116,6 +116,9 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$song = Songs::findFirst(array('conditions' => array('artist' => 'Lana')));
 		$this->assertFalse($song);
 
+		$song = Songs::findFirst(array(array('artist' => 'Lana')));
+		$this->assertFalse($song);
+
 		//Passing parameters to find
 		$songs = Songs::find(array(
 			array('artist' => 'Massive Attack')

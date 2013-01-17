@@ -672,6 +672,8 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 		ALLOC_INIT_ZVAL(return_value);
 	}
 
+	Z_ADDREF_P(mixed_name);
+
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);
 	add_next_index_zval(fn, mixed_name);
@@ -714,6 +716,8 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	if (!noreturn) {
 		ALLOC_INIT_ZVAL(return_value);
 	}
+
+	Z_ADDREF_P(mixed_name);
 
 	ALLOC_INIT_ZVAL(fn);
 	array_init_size(fn, 2);

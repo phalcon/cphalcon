@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 	zval *pattern, *paths = NULL, *module_name = NULL, *controller_name = NULL;
 	zval *action_name = NULL, *double_colon, *parts, *number_parts;
 	zval *route_paths = NULL, *real_class_name = NULL, *namespace_name;
-	zval *pcre_pattern = NULL, *compiled_pattern = NULL;
+	zval *lower_name, *pcre_pattern = NULL, *compiled_pattern = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -395,9 +395,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, reConfigure){
 				}
 	
 				/** 
+				 * Always pass the controller to lowercase
+				 */
+				PHALCON_INIT_VAR(lower_name);
+				phalcon_fast_strtolower(lower_name, real_class_name);
+	
+				/** 
 				 * Update the controller path
 				 */
-				phalcon_array_update_string(&route_paths, SL("controller"), &real_class_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				phalcon_array_update_string(&route_paths, SL("controller"), &lower_name, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
 	
 			/** 
