@@ -111,6 +111,7 @@ class Build_Generator
 #include "ext/standard/php_lcg.h"
 #include "ext/standard/php_math.h"
 #include "ext/standard/html.h"
+#include "ext/spl/spl_heap"
 
 #include "Zend/zend_API.h"
 #include "Zend/zend_operators.h"
@@ -384,6 +385,11 @@ class Build_Generator
 				}
 
 				if (strpos($line, 'php_') !== false) {
+					//echo $line, PHP_EOL;
+					continue;
+				}
+
+				if (strpos($line, 'spl_') !== false) {
 					//echo $line, PHP_EOL;
 					continue;
 				}
