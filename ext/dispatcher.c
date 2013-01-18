@@ -525,7 +525,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		/** 
 		 * Throw an exception after 256 consecutive forwards
 		 */
-		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(number_dispatches, 256)) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
 	

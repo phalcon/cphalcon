@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	 * Check if the field is auto-increment/serial
 	 */
 	if (phalcon_array_isset_string(definition, SS("autoIncrement"))) {
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(type, 0)) {
 			PHALCON_OBS_VAR(auto_increment);
 			phalcon_array_fetch_string(&auto_increment, definition, SL("autoIncrement"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), auto_increment TSRMLS_CC);

@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		RETURN_CCTOR(service);
 	}
 	
-	if (PHALCON_COMPARE_STRING(property_name, "di")) {
+	if (PHALCON_IS_STRING(property_name, "di")) {
 		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 	/** 
 	 * Accessing the persistent property will create a session bag in any class
 	 */
-	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
+	if (PHALCON_IS_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	

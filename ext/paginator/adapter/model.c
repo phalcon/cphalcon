@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	mod_function(remainder, n, show TSRMLS_CC);
 	
 	div_function(possible_pages, n, show TSRMLS_CC);
-	if (!phalcon_compare_strict_long(remainder, 0 TSRMLS_CC)) {
+	if (!PHALCON_IS_LONG(remainder, 0)) {
 		PHALCON_INIT_NVAR(next);
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	

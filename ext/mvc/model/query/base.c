@@ -116,7 +116,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		length = 32 + state->start_length;
+		length = 48 + state->start_length;
 		error = emalloc(sizeof(char) * length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
@@ -128,7 +128,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * 32);
+		error = emalloc(sizeof(char) * 48);
 		sprintf(error, "Parsing error near to EOF");
 		ZVAL_STRING(*error_msg, error, 1);
 	}

@@ -370,3 +370,21 @@ int phalcon_is_numeric(zval *op) {
 
 	return 0;
 }
+
+/**
+ * Check if two zvals are equal
+ */
+int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_equal_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+/**
+ * Check if two zvals are identical
+ */
+int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_identical_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}

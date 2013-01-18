@@ -1004,7 +1004,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
 	
 		PHALCON_OBS_VAR(operation_made);
 		phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
-		if (phalcon_compare_strict_long(operation_made, 3 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(operation_made, 3)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "notDeleted", 1);
 		} else {
@@ -1221,7 +1221,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 	
-		if (PHALCON_COMPARE_STRING(key, "_id")) {
+		if (PHALCON_IS_STRING(key, "_id")) {
 			if (Z_TYPE_P(value) != IS_NULL) {
 				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
@@ -1671,7 +1671,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 	
-		if (PHALCON_COMPARE_STRING(key, "_id")) {
+		if (PHALCON_IS_STRING(key, "_id")) {
 			if (Z_TYPE_P(value) != IS_NULL) {
 				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}

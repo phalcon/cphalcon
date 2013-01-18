@@ -792,7 +792,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			/** 
 			 * If the index name is primary we add a primary key
 			 */
-			if (PHALCON_COMPARE_STRING(index_name, "PRIMARY")) {
+			if (PHALCON_IS_STRING(index_name, "PRIMARY")) {
 				PHALCON_INIT_NVAR(index_sql);
 				PHALCON_CONCAT_SVS(index_sql, "PRIMARY KEY (", column_list, ")");
 			} else {

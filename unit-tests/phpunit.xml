@@ -79,11 +79,15 @@
 			<file>unit-tests/MicroMvcTest.php</file>
 			<file>unit-tests/MicroMvcEventsTest.php</file>
 
+			<!-- Annotations -->
+			<file>unit-tests/AnnotationsTest.php</file>
+
 			<!-- CLI tests -->
 			<file>unit-tests/RouterCliTest.php</file>
 			<file>unit-tests/DispatcherCliTest.php</file>
 			<file>unit-tests/TasksCliTest.php</file>
 			<file>unit-tests/ConsoleCliTest.php</file>
+
 		</testsuite>
 	</testsuites>
 </phpunit>

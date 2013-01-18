@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	/** 
 	 * @RoutePrefix add a prefix for all the routes defined in the model
 	 */
-	if (PHALCON_COMPARE_STRING(name, "RoutePrefix")) {
+	if (PHALCON_IS_STRING(name, "RoutePrefix")) {
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
 	
@@ -333,27 +333,27 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	/** 
 	 * Find if the route is for adding routes
 	 */
-	if (PHALCON_COMPARE_STRING(name, "Route")) {
+	if (PHALCON_IS_STRING(name, "Route")) {
 		ZVAL_BOOL(is_route, 1);
 	} else {
-		if (PHALCON_COMPARE_STRING(name, "Get")) {
+		if (PHALCON_IS_STRING(name, "Get")) {
 			ZVAL_BOOL(is_route, 1);
 	
 			ZVAL_STRING(methods, "GET", 1);
 		} else {
-			if (PHALCON_COMPARE_STRING(name, "Post")) {
+			if (PHALCON_IS_STRING(name, "Post")) {
 				ZVAL_BOOL(is_route, 1);
 	
 				PHALCON_INIT_NVAR(methods);
 				ZVAL_STRING(methods, "POST", 1);
 			} else {
-				if (PHALCON_COMPARE_STRING(name, "Put")) {
+				if (PHALCON_IS_STRING(name, "Put")) {
 					ZVAL_BOOL(is_route, 1);
 	
 					PHALCON_INIT_NVAR(methods);
 					ZVAL_STRING(methods, "PUT", 1);
 				} else {
-					if (PHALCON_COMPARE_STRING(name, "Options")) {
+					if (PHALCON_IS_STRING(name, "Options")) {
 						ZVAL_BOOL(is_route, 1);
 	
 						PHALCON_INIT_NVAR(methods);
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		 * Create the route using the prefix
 		 */
 		if (Z_TYPE_P(value) != IS_NULL) {
-			if (!PHALCON_COMPARE_STRING(value, "/")) {
+			if (!PHALCON_IS_STRING(value, "/")) {
 				PHALCON_INIT_VAR(uri);
 				PHALCON_CONCAT_VV(uri, route_prefix, value);
 			} else {

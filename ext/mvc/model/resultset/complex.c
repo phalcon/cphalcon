@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	
 				PHALCON_OBS_NVAR(type);
 				phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
-				if (PHALCON_COMPARE_STRING(type, "object")) {
+				if (PHALCON_IS_STRING(type, "object")) {
 	
 					/** 
 					 * Object columns are assigned column by column

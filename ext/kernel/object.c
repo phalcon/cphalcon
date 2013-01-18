@@ -66,7 +66,7 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 		return FAILURE;
 	} else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
-	}
+	}	
 
 	return SUCCESS;
 }

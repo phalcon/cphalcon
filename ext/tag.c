@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 	/** 
 	 * Automatically check inputs
 	 */
-	if (PHALCON_COMPARE_STRING(type, "checkbox")) {
+	if (PHALCON_IS_STRING(type, "checkbox")) {
 		if (zend_is_true(value)) {
 			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 		}

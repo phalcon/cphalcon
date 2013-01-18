@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve qualified expressions
 	 */
-	if (PHALCON_COMPARE_STRING(type, "qualified")) {
+	if (PHALCON_IS_STRING(type, "qualified")) {
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, expression, SL("name"), PH_NOISY_CC);
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve literal expressions
 	 */
-	if (PHALCON_COMPARE_STRING(type, "literal")) {
+	if (PHALCON_IS_STRING(type, "literal")) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY_CC);
 		RETURN_CCTOR(value);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve binary operations expressions
 	 */
-	if (PHALCON_COMPARE_STRING(type, "binary-op")) {
+	if (PHALCON_IS_STRING(type, "binary-op")) {
 		PHALCON_OBS_VAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
 	
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve unary operations expressions
 	 */
-	if (PHALCON_COMPARE_STRING(type, "unary-op")) {
+	if (PHALCON_IS_STRING(type, "unary-op")) {
 	
 		PHALCON_OBS_NVAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve placeholder
 	 */
-	if (PHALCON_COMPARE_STRING(type, "placeholder")) {
+	if (PHALCON_IS_STRING(type, "placeholder")) {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY_CC);
 		RETURN_CCTOR(value);
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve parentheses
 	 */
-	if (PHALCON_COMPARE_STRING(type, "parentheses")) {
+	if (PHALCON_IS_STRING(type, "parentheses")) {
 		PHALCON_OBS_NVAR(left);
 		phalcon_array_fetch_string(&left, expression, SL("left"), PH_NOISY_CC);
 	
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve function calls
 	 */
-	if (PHALCON_COMPARE_STRING(type, "functionCall")) {
+	if (PHALCON_IS_STRING(type, "functionCall")) {
 	
 		PHALCON_OBS_NVAR(name);
 		phalcon_array_fetch_string(&name, expression, SL("name"), PH_NOISY_CC);
@@ -434,7 +434,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve lists
 	 */
-	if (PHALCON_COMPARE_STRING(type, "list")) {
+	if (PHALCON_IS_STRING(type, "list")) {
 	
 		PHALCON_INIT_VAR(sql_items);
 		array_init(sql_items);
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	/** 
 	 * Resolve *
 	 */
-	if (PHALCON_COMPARE_STRING(type, "all")) {
+	if (PHALCON_IS_STRING(type, "all")) {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("*", 1);
 	}
@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 				PHALCON_INIT_NVAR(column_sql);
 				PHALCON_CALL_METHOD_PARAMS_2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
 			} else {
-				if (PHALCON_COMPARE_STRING(column_item, "*")) {
+				if (PHALCON_IS_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
 				} else {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {

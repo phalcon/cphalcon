@@ -461,7 +461,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 
 	PHALCON_OBS_VAR(argument_type);
 	phalcon_array_fetch_string(&argument_type, argument, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(argument_type, 352 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(argument_type, 352)) {
 		PHALCON_INIT_VAR(argument_expr);
 		array_init_size(argument_expr, 1);
 		add_assoc_stringl_ex(argument_expr, SS("type"), SL("all"), 1);
@@ -1004,9 +1004,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL, *sql_aliases;
 	zval *column_domain, *exception_message = NULL, *sql_column_alias = NULL;
 	zval *sql_aliases_models, *sql_models_aliases;
-	zval *best_alias, *is_same_model, *prepared_alias = NULL;
-	zval *column_data, *sql_expr_column, *balias;
-	zval *sql_alias;
+	zval *best_alias, *prepared_alias = NULL, *column_data;
+	zval *sql_expr_column, *balias, *sql_alias;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1030,7 +1029,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	 */
 	PHALCON_OBS_VAR(column_type);
 	phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(column_type, 352 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 352)) {
 	
 		PHALCON_OBS_VAR(models);
 		phalcon_read_property(&models, this_ptr, SL("_models"), PH_NOISY_CC);
@@ -1066,7 +1065,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	/** 
 	 * Check if selected column is qualified.*
 	 */
-	if (phalcon_compare_strict_long(column_type, 353 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 353)) {
 	
 		PHALCON_OBS_VAR(sql_aliases);
 		phalcon_read_property(&sql_aliases, this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
@@ -1111,9 +1110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		/** 
 		 * If the best alias is the model name we lowercase the first letter
 		 */
-		PHALCON_INIT_VAR(is_same_model);
-		is_equal_function(is_same_model, best_alias, model_name TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_same_model)) {
+		if (PHALCON_IS_EQUAL(best_alias, model_name)) {
 			PHALCON_INIT_VAR(prepared_alias);
 			PHALCON_CALL_FUNC_PARAMS_1(prepared_alias, "lcfirst", model_name);
 		} else {
@@ -1137,7 +1134,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	/** 
 	 * Check for columns qualified and not qualified
 	 */
-	if (phalcon_compare_strict_long(column_type, 354 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 354)) {
 	
 		/** 
 		 * The sql_column is a scalar type returning a simple string
@@ -1248,7 +1245,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 	
 		PHALCON_OBS_VAR(qualified_type);
 		phalcon_array_fetch_string(&qualified_type, qualified, SL("type"), PH_NOISY_CC);
-		if (phalcon_compare_strict_long(qualified_type, 355 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(qualified_type, 355)) {
 			PHALCON_OBS_VAR(model_name);
 			phalcon_array_fetch_string(&model_name, qualified, SL("name"), PH_NOISY_CC);
 	
@@ -1787,7 +1784,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	
 			PHALCON_OBS_NVAR(order_sort);
 			phalcon_array_fetch_string(&order_sort, order_item, SL("sort"), PH_NOISY_CC);
-			if (phalcon_compare_strict_long(order_sort, 327 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(order_sort, 327)) {
 				PHALCON_INIT_NVAR(order_part_sort);
 				array_init_size(order_part_sort, 2);
 				phalcon_array_append(&order_part_sort, order_part_expr, PH_SEPARATE TSRMLS_CC);
@@ -2165,7 +2162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 				} else {
 					PHALCON_OBS_NVAR(type);
 					phalcon_array_fetch_string(&type, sql_column, SL("type"), PH_NOISY_CC);
-					if (PHALCON_COMPARE_STRING(type, "scalar")) {
+					if (PHALCON_IS_STRING(type, "scalar")) {
 						PHALCON_INIT_NVAR(alias);
 						PHALCON_CONCAT_SV(alias, "_", position);
 						phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -2958,7 +2955,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	PHALCON_INIT_VAR(number_models);
 	phalcon_fast_count(number_models, models TSRMLS_CC);
-	if (phalcon_compare_strict_long(number_models, 1 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(number_models, 1)) {
 	
 		/** 
 		 * Load first model if is not loaded
@@ -3008,7 +3005,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 			PHALCON_INIT_NVAR(connection_types);
 			phalcon_fast_count(connection_types, connections TSRMLS_CC);
-			if (phalcon_compare_strict_long(connection_types, 2 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(connection_types, 2)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot use models of different database systems in the same query");
 				return;
 			}
@@ -3048,7 +3045,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(column_type, "scalar")) {
+		if (PHALCON_IS_STRING(column_type, "scalar")) {
 			if (!phalcon_array_isset_string(column, SS("balias"))) {
 				PHALCON_INIT_NVAR(is_complex);
 				ZVAL_BOOL(is_complex, 1);
@@ -3074,7 +3071,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			if (PHALCON_IS_TRUE(have_scalars)) {
 				ZVAL_BOOL(is_complex, 1);
 			} else {
-				if (phalcon_compare_strict_long(number_objects, 1 TSRMLS_CC)) {
+				if (PHALCON_IS_LONG(number_objects, 1)) {
 					PHALCON_INIT_VAR(is_simple_std);
 					ZVAL_BOOL(is_simple_std, 0);
 				} else {
@@ -3113,7 +3110,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 		PHALCON_OBS_NVAR(sql_column);
 		phalcon_array_fetch_string(&sql_column, column, SL("column"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(type, "object")) {
+		if (PHALCON_IS_STRING(type, "object")) {
 	
 			PHALCON_OBS_NVAR(model_name);
 			phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
@@ -3359,7 +3356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *model = NULL, *connection, *meta_data, *attributes;
 	zval *automatic_fields = NULL, *fields = NULL, *column_map = NULL;
 	zval *values, *number_fields, *number_values;
-	zval *not_equal, *dialect, *double_colon, *empty_string;
+	zval *dialect, *double_colon, *empty_string;
 	zval *null_value, *not_exists, *insert_values;
 	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
 	zval *insert_expr = NULL, *wildcard = NULL, *exception_message = NULL;
@@ -3429,10 +3426,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(number_values);
 	phalcon_fast_count(number_values, values TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(not_equal);
-	is_identical_function(not_equal, number_values, number_fields TSRMLS_CC);
-	if (PHALCON_IS_FALSE(not_equal)) {
+	if (PHALCON_IS_IDENTICAL(number_fields, number_values)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The columns count does not match the values count");
 		return;
 	}
@@ -4236,7 +4230,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 		/** 
 		 * Only PHQL SELECTs can be cached
 		 */
-		if (!phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
+		if (!PHALCON_IS_LONG(type, 309)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}

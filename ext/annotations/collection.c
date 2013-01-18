@@ -40,6 +40,26 @@
 #include "kernel/concat.h"
 
 /**
+ * Phalcon\Annotations\Collection
+ *
+ * Represents a collection of annotations. This class allows to traverse a group of annotations easily
+ *
+ *<code>
+ * //Traverse annotations
+ * foreach ($classAnnotations as $annotation) {
+ *     echo 'Name=', $annotation->getName(), PHP_EOL;
+ * }
+ *
+ * //Check if the annotations has an specific
+ * var_dump($classAnnotations->has('Cacheable'));
+ *
+ * //Get an specific annotation in the collection
+ * $annotation = $classAnnotations->get('Cacheable');
+ *</code>
+ */
+
+
+/**
  * Phalcon\Annotations\Collection initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
@@ -56,6 +76,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
 
 /**
  * Phalcon\Annotations\Collection constructor
+ *
+ * @param array $reflectionData
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 
@@ -109,6 +131,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Rewinds the internal iterator
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, rewind){
 
 
@@ -116,6 +141,11 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind){
 	
 }
 
+/**
+ * Returns the current annotation in the iterator
+ *
+ * @return Phalcon\Annotations\Annotation
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, current){
 
 	zval *position, *annotations, *annotation;
@@ -136,12 +166,21 @@ PHP_METHOD(Phalcon_Annotations_Collection, current){
 	RETURN_MM_NULL();
 }
 
+/**
+ * Returns the current position/key in the iterator
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, key){
 
 
 	RETURN_MEMBER(this_ptr, "_position");
 }
 
+/**
+ * Moves the internal iteration pointer to the next position
+ *
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, next){
 
 
@@ -149,6 +188,11 @@ PHP_METHOD(Phalcon_Annotations_Collection, next){
 	
 }
 
+/**
+ * Check if the current annotation in the iterator is valid
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, valid){
 
 	zval *position, *annotations;
@@ -167,6 +211,11 @@ PHP_METHOD(Phalcon_Annotations_Collection, valid){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Returns the internal annotations as an array
+ *
+ * @return Phalcon\Annotations\Annotation[]
+ */
 PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
 
 
@@ -182,12 +231,10 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
 PHP_METHOD(Phalcon_Annotations_Collection, get){
 
 	zval *name, *annotations, *annotation = NULL, *annotation_name = NULL;
-	zval *is_equal = NULL, *exception_message;
-	zval *i0 = NULL;
+	zval *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -209,10 +256,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	
 			PHALCON_INIT_NVAR(annotation_name);
 			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
-	
-			PHALCON_INIT_NVAR(is_equal);
-			is_equal_function(is_equal, name, annotation_name TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equal)) {
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
 				RETURN_CCTOR(annotation);
 			}
 	
@@ -223,14 +267,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "The collection doesn't have an annotation '", name, "'");
-	ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(i0);
-	object_init_ex(i0, ce0);
-	if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", exception_message);
-	}
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_annotations_exception_ce, exception_message);
 	return;
 }
 
@@ -243,7 +280,6 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 PHP_METHOD(Phalcon_Annotations_Collection, has){
 
 	zval *name, *annotations, *annotation = NULL, *annotation_name = NULL;
-	zval *is_equal = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -268,10 +304,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has){
 	
 			PHALCON_INIT_NVAR(annotation_name);
 			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
-	
-			PHALCON_INIT_NVAR(is_equal);
-			is_equal_function(is_equal, name, annotation_name TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equal)) {
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
 				RETURN_MM_TRUE;
 			}
 	

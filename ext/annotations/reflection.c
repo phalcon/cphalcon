@@ -38,6 +38,25 @@
 #include "kernel/file.h"
 
 /**
+ * Phalcon\Annotations\Reflection
+ *
+ * Allows to manipulate the annotations reflection in an OO manner
+ *
+ *<code>
+ * //Parse the annotations in a class
+ * $reader = new Phalcon\Annotations\Reader();
+ * $parsing = $reader->parse('MyComponent');
+ *
+ * //Create the reflection
+ * $reflection = new Phalcon\Annotations\Reflection($parsing);
+ *
+ * //Get the annotations in the class docblock
+ * $classAnnotations = $reflection->getClassAnnotations();
+ *</code>
+ */
+
+
+/**
  * Phalcon\Annotations\Reflection initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
@@ -54,6 +73,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
 
 /**
  * Phalcon\Annotations\Reflection constructor
+ *
+ * @param array $reflectionData
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 
@@ -63,12 +84,16 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+	}
 	
 }
 
 /**
+ * Returns the annotations found in the class docblock
  *
+ * @return Phalcon\Annotations\Collection
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 
@@ -103,6 +128,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 	RETURN_CCTOR(annotations);
 }
 
+/**
+ * Returns the annotations found in the methods' docblocks
+ *
+ * @return Phalcon\Annotations\Collection[]
+ */
 PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
 
 	zval *annotations, *reflection_data, *reflection_methods;
@@ -161,6 +191,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
 	RETURN_CCTOR(annotations);
 }
 
+/**
+ * Returns the annotations found in the properties' docblocks
+ *
+ * @return Phalcon\Annotations\Collection[]
+ */
 PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 
 	zval *annotations, *reflection_data, *reflection_properties;
@@ -219,6 +254,11 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations){
 	RETURN_CCTOR(annotations);
 }
 
+/**
+ * Returns the raw parsing intermediate definitions used to construct the reflection
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData){
 
 

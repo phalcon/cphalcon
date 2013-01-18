@@ -37,6 +37,7 @@
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "kernel/file.h"
+#include "kernel/operators.h"
 
 /**
  * Phalcon\Mvc\Model\Transaction\Manager
@@ -500,7 +501,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	zval *transaction, *transactions, *new_transactions;
 	zval *managed_transaction = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -526,9 +526,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 	
 			PHALCON_GET_FOREACH_VALUE(managed_transaction);
 	
-			PHALCON_INIT_NVAR(r0);
-			is_equal_function(r0, managed_transaction, transaction TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			if (PHALCON_IS_EQUAL(managed_transaction, transaction)) {
 				phalcon_array_append(&new_transactions, transaction, PH_SEPARATE TSRMLS_CC);
 				phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			}

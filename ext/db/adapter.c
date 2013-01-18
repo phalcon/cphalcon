@@ -348,6 +348,10 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
 		return;
 	}
+	
+	/** 
+	 * A valid array with more than one element is required
+	 */
 	if (!phalcon_fast_count_ev(values TSRMLS_CC)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
@@ -454,6 +458,9 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_CONCAT_SVSVS(insert_sql, "INSERT INTO ", escaped_table, " VALUES (", joined_values, ")");
 	}
 	
+	/** 
+	 * Perform the execution via PDO::execute
+	 */
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", insert_sql, insert_values, bind_data_types);
 	
@@ -604,17 +611,30 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			 * Array conditions may have bound params and bound types
 			 */
 			if (Z_TYPE_P(where_condition) == IS_ARRAY) { 
+	
+				/** 
+				 * If an index 'conditions' is present it contains string where conditions that are
+				 * appended to the UPDATE sql
+				 */
 				if (phalcon_array_isset_string(where_condition, SS("conditions"))) {
 					PHALCON_OBS_VAR(conditions);
 					phalcon_array_fetch_string(&conditions, where_condition, SL("conditions"), PH_NOISY_CC);
 					phalcon_concat_self(&update_sql, conditions TSRMLS_CC);
 				}
+	
+				/** 
+				 * Bound parameters are arbitrary values that are passed by separate
+				 */
 				if (phalcon_array_isset_string(where_condition, SS("bind"))) {
 					PHALCON_OBS_VAR(where_bind);
 					phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY_CC);
 					phalcon_merge_append(update_values, where_bind TSRMLS_CC);
 				}
 	
+				/** 
+				 * Bind types is how the bound parameters must be casted before be sent to the
+				 * database system
+				 */
 				if (phalcon_array_isset_string(where_condition, SS("bindTypes"))) {
 					PHALCON_OBS_VAR(where_types);
 					phalcon_array_fetch_string(&where_types, where_condition, SL("bindTypes"), PH_NOISY_CC);
@@ -630,6 +650,9 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 		PHALCON_CONCAT_SVSV(update_sql, "UPDATE ", escaped_table, " SET ", set_clause);
 	}
 	
+	/** 
+	 * Perform the update via PDO::execute
+	 */
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", update_sql, update_values, bind_data_types);
 	
@@ -693,6 +716,9 @@ PHP_METHOD(Phalcon_Db_Adapter, delete){
 		PHALCON_CONCAT_SV(sql, "DELETE FROM ", escaped_table);
 	}
 	
+	/** 
+	 * Perform the update via PDO::execute
+	 */
 	PHALCON_INIT_VAR(success);
 	PHALCON_CALL_METHOD_PARAMS_3(success, this_ptr, "execute", sql, placeholders, data_types);
 	

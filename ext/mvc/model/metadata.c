@@ -1191,23 +1191,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute){
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
 
-	zval *meta_data, *number, *is_empty;
-	zval *t0 = NULL;
+	zval *meta_data;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	if (phalcon_fast_count_ev(meta_data TSRMLS_CC)) {
+		RETURN_MM_TRUE;
+	}
 	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, meta_data TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_INIT_VAR(is_empty);
-	is_equal_function(is_empty, number, t0 TSRMLS_CC);
-	RETURN_NCTOR(is_empty);
+	RETURN_MM_FALSE;
 }
 
 /**

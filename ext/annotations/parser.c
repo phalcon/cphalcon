@@ -1268,7 +1268,7 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		error = emalloc(sizeof(char) * (128 + state->start_length +  Z_STRLEN_P(state->active_file)));
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
@@ -1278,7 +1278,7 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
+		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
 		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -1477,7 +1477,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 
 		state->active_token = token.opcode;
 
-		state->start_length = (Z_STRVAL_P(comment) + Z_STRLEN_P(comment) - state->start);
+		state->start_length = (Z_STRVAL(processed_comment) + Z_STRLEN(processed_comment) - state->start);
 
 		switch (token.opcode) {
 

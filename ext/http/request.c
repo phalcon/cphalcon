@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme){
 	
 	PHALCON_INIT_VAR(https);
 	PHALCON_CALL_METHOD_PARAMS_1(https, this_ptr, "getserver", https_header);
-	if (PHALCON_COMPARE_STRING(https, "on")) {
+	if (PHALCON_IS_STRING(https, "on")) {
 		PHALCON_INIT_VAR(scheme);
 		ZVAL_STRING(scheme, "https", 1);
 	} else {
@@ -894,7 +894,7 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent){
  */
 PHP_METHOD(Phalcon_Http_Request, isMethod){
 
-	zval *methods, *http_method, *is_equals = NULL, *method = NULL;
+	zval *methods, *http_method, *is_equals, *method = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -921,9 +921,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 	
 			PHALCON_GET_FOREACH_VALUE(method);
 	
-			PHALCON_INIT_NVAR(is_equals);
-			is_equal_function(is_equals, method, http_method TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equals)) {
+			if (PHALCON_IS_EQUAL(method, http_method)) {
 				RETURN_MM_TRUE;
 			}
 	
@@ -1302,7 +1300,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	
 		PHALCON_GET_FOREACH_VALUE(accept);
 	
-		if (phalcon_compare_strict_long(i, 0 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(i, 0)) {
 			PHALCON_OBS_NVAR(quality);
 			phalcon_array_fetch_string(&quality, accept, SL("quality"), PH_NOISY_CC);
 	

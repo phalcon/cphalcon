@@ -57,7 +57,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Reader){
 }
 
 /**
- * Reads annotations from the class, methods and properties
+ * Reads annotations from the class dockblocks, its methods and/or properties
  *
  * @param string $className
  * @return array
@@ -88,6 +88,10 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	
 	PHALCON_INIT_VAR(annotations);
 	array_init(annotations);
+	
+	/** 
+	 * A ReflectionClass is used to obtain the class dockblock
+	 */
 	ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reflection);

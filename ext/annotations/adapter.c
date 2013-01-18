@@ -111,7 +111,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	zval *class_name, *method_name, *class_annotations;
-	zval *methods, *method = NULL, *name = NULL, *is_equal = NULL, *collection;
+	zval *methods, *method = NULL, *name = NULL, *collection;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -139,9 +139,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 				PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(method);
 	
-				PHALCON_INIT_NVAR(is_equal);
-				is_equal_function(is_equal, name, method_name TSRMLS_CC);
-				if (PHALCON_IS_TRUE(is_equal)) {
+				if (PHALCON_IS_EQUAL(name, method_name)) {
 					RETURN_CCTOR(method);
 				}
 	

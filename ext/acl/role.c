@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 		PHALCON_INIT_VAR(description);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "*")) {
+	if (PHALCON_IS_STRING(name, "*")) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Role name cannot be \"*\"");
 		return;
 	}

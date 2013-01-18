@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'service', we obtain the service from the DI
 	 */
-	if (PHALCON_COMPARE_STRING(type, "service")) {
+	if (PHALCON_IS_STRING(type, "service")) {
 		if (!phalcon_array_isset_string(argument, SS("name"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'name' is required in parameter on position ", position);
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'parameter', we assign the value as it is
 	 */
-	if (PHALCON_COMPARE_STRING(type, "parameter")) {
+	if (PHALCON_IS_STRING(type, "parameter")) {
 		if (!phalcon_array_isset_string(argument, SS("value"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'value' is required in parameter on position ", position);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	/** 
 	 * If the argument type is 'instance', we assign the value as it is
 	 */
-	if (PHALCON_COMPARE_STRING(type, "instance")) {
+	if (PHALCON_IS_STRING(type, "instance")) {
 		if (!phalcon_array_isset_string(argument, SS("className"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'className' is required in parameter on position ", position);

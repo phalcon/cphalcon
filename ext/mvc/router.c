@@ -1122,7 +1122,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
-	zval *id, *routes, *route = NULL, *route_id = NULL, *is_equal = NULL;
+	zval *id, *routes, *route = NULL, *route_id = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1146,10 +1146,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	
 		PHALCON_INIT_NVAR(route_id);
 		PHALCON_CALL_METHOD(route_id, route, "getrouteid");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_id, id TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_id, id)) {
 			RETURN_CCTOR(route);
 		}
 	
@@ -1167,7 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
  */
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, *route = NULL, *route_name = NULL, *is_equal = NULL;
+	zval *name, *routes, *route = NULL, *route_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1191,10 +1188,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	
 		PHALCON_INIT_NVAR(route_name);
 		PHALCON_CALL_METHOD(route_name, route, "getname");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_name, name TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_name, name)) {
 			RETURN_CCTOR(route);
 		}
 	

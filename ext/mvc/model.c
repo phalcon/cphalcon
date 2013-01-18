@@ -964,9 +964,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	zval *null_value, *number_empty, *where_pk, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
 	zval *value = NULL, *escaped_field = NULL, *pk_condition = NULL, *type = NULL;
-	zval *is_empty, *join_where, *dirty_state, *schema;
-	zval *source, *escaped_table, *null_mode, *select;
-	zval *num, *row_count;
+	zval *join_where, *dirty_state, *schema, *source;
+	zval *escaped_table, *null_mode, *select, *num;
+	zval *row_count;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1092,9 +1092,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-			PHALCON_INIT_VAR(is_empty);
-			is_equal_function(is_empty, number_primary, number_empty TSRMLS_CC);
-			if (PHALCON_IS_FALSE(is_empty)) {
+			if (PHALCON_IS_EQUAL(number_primary, number_empty)) {
 				PHALCON_INIT_VAR(join_where);
 				phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
 	
@@ -1617,7 +1615,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
 
 	PHALCON_OBS_VAR(operation_made);
 	phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(operation_made, 3 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(operation_made, 3)) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "notDeleted", 1);
 	} else {
@@ -2230,9 +2228,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *status = NULL, *not_null, *data_type_numeric;
 	zval *column_map = NULL, *automatic_attributes = NULL, *error = NULL;
 	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *is_numeric = NULL;
-	zval *is_identity_field = NULL, *message = NULL, *type = NULL, *model_message = NULL;
-	zval *skipped;
+	zval *exception_message = NULL, *value = NULL, *message = NULL, *type = NULL;
+	zval *model_message = NULL, *skipped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2371,9 +2368,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 									ZVAL_BOOL(is_null, 1);
 								}
 							} else {
-								PHALCON_INIT_NVAR(is_numeric);
-								PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
-								if (PHALCON_IS_FALSE(is_numeric)) {
+								if (!phalcon_is_numeric(value)) {
 									PHALCON_INIT_NVAR(is_null);
 									ZVAL_BOOL(is_null, 1);
 								}
@@ -2390,9 +2385,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 							/** 
 							 * The identity field can be null
 							 */
-							PHALCON_INIT_NVAR(is_identity_field);
-							is_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
-							if (PHALCON_IS_TRUE(is_identity_field)) {
+							if (PHALCON_IS_EQUAL(field, identity_field)) {
 								zend_hash_move_forward_ex(ah0, &hp0);
 								continue;
 							}
@@ -2577,9 +2570,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *bind_types, *attributes, *bind_data_types;
 	zval *automatic_attributes, *column_map = NULL, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
-	zval *is_not_identity_field = NULL, *value = NULL, *bind_type = NULL;
-	zval *default_value, *success, *sequence_name = NULL;
-	zval *support_sequences, *source, *last_insert_id;
+	zval *value = NULL, *bind_type = NULL, *default_value, *success;
+	zval *sequence_name = NULL, *support_sequences, *source;
+	zval *last_insert_id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -2653,9 +2646,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 			/** 
 			 * Check every attribute in the model except identity field
 			 */
-			PHALCON_INIT_NVAR(is_not_identity_field);
-			is_not_equal_function(is_not_identity_field, field, identity_field TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_not_identity_field)) {
+			if (!PHALCON_IS_EQUAL(field, identity_field)) {
 				phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
 				if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 					if (!phalcon_array_isset(bind_data_types, field)) {
@@ -2971,7 +2962,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 			/** 
 			 * Only belongsTo relations are important here
 			 */
-			if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(type, 0)) {
 				if (Z_TYPE_P(record) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects can be stored as part of belongs-to relations");
 					return;
@@ -3091,7 +3082,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			/** 
 			 * Discard belongsTo relations
 			 */
-			if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(type, 0)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}

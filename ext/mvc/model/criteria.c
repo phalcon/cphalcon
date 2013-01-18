@@ -588,11 +588,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 			if (phalcon_array_isset(data_types, field)) {
 				if (Z_TYPE_P(value) != IS_NULL) {
-					if (!PHALCON_COMPARE_STRING(value, "")) {
+					if (!PHALCON_IS_STRING(value, "")) {
 	
 						PHALCON_OBS_NVAR(type);
 						phalcon_array_fetch(&type, data_types, field, PH_NOISY_CC);
-						if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
+						if (PHALCON_IS_LONG(type, 2)) {
 							/** 
 							 * For varchar types we use LIKE operator
 							 */

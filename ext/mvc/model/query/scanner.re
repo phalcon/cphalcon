@@ -262,7 +262,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [a-zA-Z][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q);
@@ -271,7 +271,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = [\[] [a-zA-Z][a-zA-Z0-9\_\\]* [\]];
+		EIDENTIFIER = [\[] [a-zA-Z\\][a-zA-Z0-9\_\\]* [\]];
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);

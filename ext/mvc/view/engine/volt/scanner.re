@@ -295,7 +295,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [a-zA-Z][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);

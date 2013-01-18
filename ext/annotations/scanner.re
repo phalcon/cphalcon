@@ -63,7 +63,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
-		INTEGER = [0-9]+;
+		INTEGER = [\-]?[0-9]+;
 		INTEGER {
 			token->opcode = PHANNOT_T_INTEGER;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -72,7 +72,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([0-9]+[\.][0-9]+);
+		DOUBLE = ([\-]?[0-9]+[\.][0-9]+);
 		DOUBLE {
 			token->opcode = PHANNOT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);
@@ -105,7 +105,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [a-zA-Z][a-zA-Z0-9\_\\]*;
+		IDENTIFIER = [\\]?[a-zA-Z\\][a-zA-Z0-9\_\\]*;
 		IDENTIFIER {
 			token->opcode = PHANNOT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);

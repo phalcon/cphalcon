@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	
-	if (PHALCON_COMPARE_STRING(filter, "email")) {
+	if (PHALCON_IS_STRING(filter, "email")) {
 		/** 
 		 * The 'email' filter uses the filter extension
 		 */
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "int")) {
+	if (PHALCON_IS_STRING(filter, "int")) {
 		/** 
 		 * 'int' filter sanitizes a numeric input
 		 */
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "string")) {
+	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513);
 	
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "float")) {
+	if (PHALCON_IS_STRING(filter, "float")) {
 		/** 
 		 * The 'float' filter uses the filter extension
 		 */
@@ -273,25 +273,25 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
+	if (PHALCON_IS_STRING(filter, "alphanum")) {
 		PHALCON_INIT_NVAR(filtered);
 		phalcon_filter_alphanum(filtered, value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "trim")) {
+	if (PHALCON_IS_STRING(filter, "trim")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "trim", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "striptags")) {
+	if (PHALCON_IS_STRING(filter, "striptags")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strip_tags", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "lower")) {
+	if (PHALCON_IS_STRING(filter, "lower")) {
 		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'lower' checks for the mbstring extension to make a correct lowercase
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "upper")) {
+	if (PHALCON_IS_STRING(filter, "upper")) {
 		if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 			/** 
 			 * 'upper' checks for the mbstring extension to make a correct lowercase
