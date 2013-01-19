@@ -91,11 +91,31 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, getConnection);
 /**
  * Assigns values to a model from an array returning a new model
  *
+ * @param Phalcon\Mvc\Model $base
+ * @param array $data
+ * @param array $columnMap
+ * @param int $dirtyState
+ * @return Phalcon\Mvc\Model $result
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
+
+/**
+ * Assigns values to a model from an array returning a new model
+ *
  * @param array $result
  * @param Phalcon\Mvc\ModelInterface $base
  * @return Phalcon\Mvc\ModelInterface $result
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, dumpResult);
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
+
+/**
+ * Returns an hydrated result based on the data and the column map
+ *
+ * @param array $data
+ * @param array $columnMap
+ * @param int $hydrationMode
+ */
+PHALCON_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 
 /**
  * Allows to query a set of records that match the specified conditions

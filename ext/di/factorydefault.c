@@ -42,7 +42,7 @@
  *
  * This is a variant of the standard Phalcon\DI. By default it automatically
  * registers all the services provided by the framework. Thanks to this, the developer does not need
- * to register each service individually.
+ * to register each service individually providing a full stack framework
  */
 
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 
 	zval *shared, *name = NULL, *definition = NULL, *router, *dispatcher;
 	zval *url, *models_manager, *models_metadata;
-	zval *response, *request, *filter, *escaper, *security;
+	zval *response, *request, *filter, *escaper, *security = NULL;
 	zval *flash, *flash_session, *session, *session_bag;
 	zval *events_manager, *transaction_manager;
 	zval *services;
@@ -178,6 +178,19 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(escaper, "__construct", name, definition, shared);
 	
 	/** 
+	 * Default annotations service
+	 */
+	PHALCON_INIT_NVAR(name);
+	ZVAL_STRING(name, "annotations", 1);
+	
+	PHALCON_INIT_NVAR(definition);
+	ZVAL_STRING(definition, "Phalcon\\Annotations\\Adapter\\Memory", 1);
+	
+	PHALCON_INIT_VAR(security);
+	object_init_ex(security, phalcon_di_service_ce);
+	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
+	
+	/** 
 	 * Security doesn't need to be shared, but anyways we register it as shared
 	 */
 	PHALCON_INIT_NVAR(name);
@@ -186,7 +199,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	PHALCON_INIT_NVAR(definition);
 	ZVAL_STRING(definition, "Phalcon\\Security", 1);
 	
-	PHALCON_INIT_VAR(security);
+	PHALCON_INIT_NVAR(security);
 	object_init_ex(security, phalcon_di_service_ce);
 	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(security, "__construct", name, definition, shared);
 	
@@ -277,6 +290,10 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	phalcon_array_update_string(&services, SL("sessionBag"), &session_bag, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("eventsManager"), &events_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	phalcon_array_update_string(&services, SL("transactionManager"), &transaction_manager, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	/** 
+	 * Update the internal services properties
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_services"), services TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();

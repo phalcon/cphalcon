@@ -17,22 +17,42 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface);
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_setisfresh, 0, 0, 1)
-	ZEND_ARG_INFO(0, isFresh)
-ZEND_END_ARG_INFO()
+#include "Zend/zend_operators.h"
+#include "Zend/zend_exceptions.h"
+#include "Zend/zend_interfaces.h"
 
-PHALCON_INIT_FUNCS(phalcon_mvc_model_resultsetinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getType, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getLast, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh, arginfo_phalcon_mvc_model_resultsetinterface_setisfresh)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, isFresh, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getCache, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, toArray, NULL)
-	PHP_FE_END
-};
+#include "kernel/main.h"
+#include "kernel/memory.h"
+
+/**
+ * Phalcon\Mvc\Model\MetaData\Strategy\Instrospection
+ *
+ * Queries the table meta-data in order to instrospect the
+ *
+ */
+
+
+/**
+ * Phalcon\Mvc\Model\MetaData\Strategy\Introspection initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection){
+
+	PHALCON_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Introspection, mvc_model_metadata_strategy_introspection, phalcon_mvc_model_metadata_strategy_introspection_method_entry, 0);
+
+	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, get){
+
+
+	
+}
 

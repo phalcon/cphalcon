@@ -463,7 +463,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setConnectionService){
 }
 
 /**
- * Returns the DependencyInjection connection service related to the model
+ * Returns the DependencyInjection connection service name related to the model
  *
  * @return string
  */
@@ -540,7 +540,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
  * Assigns values to a model from an array returning a new model.
  *
  *<code>
- *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
+ *$robot = \Phalcon\Mvc\Model::cloneResultMap(new Robots(), array(
  *  'type' => 'mechanical',
  *  'name' => 'Astro Boy',
  *  'year' => 1952
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getConnection){
  * @param int $dirtyState
  * @return Phalcon\Mvc\Model $result
  */
-PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
+PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap){
 
 	zval *base, *data, *column_map, *dirty_state = NULL, *object;
 	zval *value = NULL, *key = NULL, *attribute = NULL, *exception_message = NULL;
@@ -572,67 +572,161 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
 		ZVAL_LONG(dirty_state, 0);
 	}
 	
-	if (Z_TYPE_P(data) == IS_ARRAY) { 
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
+		return;
+	}
 	
-		PHALCON_INIT_VAR(object);
-		if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
-			return;
-		}
+	PHALCON_INIT_VAR(object);
+	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
+		return;
+	}
 	
-		/** 
-		 * Change the dirty state to persistent
-		 */
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setdirtystate", dirty_state);
+	/** 
+	 * Change the dirty state to persistent
+	 */
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setdirtystate", dirty_state);
 	
-		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
 	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(value);
 	
-			if (Z_TYPE_P(key) == IS_STRING) {
+		if (Z_TYPE_P(key) == IS_STRING) {
+	
+			/** 
+			 * Only string keys in the data are valid
+			 */
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
 	
 				/** 
-				 * Only string keys in the data are valid
+				 * Every field must be part of the column map
 				 */
-				if (Z_TYPE_P(column_map) == IS_ARRAY) { 
-	
-					/** 
-					 * Every field must be part of the column map
-					 */
-					if (phalcon_array_isset(column_map, key)) {
-						PHALCON_OBS_NVAR(attribute);
-						phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
-						phalcon_update_property_zval_zval(object, attribute, value TSRMLS_CC);
-					} else {
-						PHALCON_INIT_NVAR(exception_message);
-						PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
-						PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
-						return;
-					}
+				if (phalcon_array_isset(column_map, key)) {
+					PHALCON_OBS_NVAR(attribute);
+					phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+					phalcon_update_property_zval_zval(object, attribute, value TSRMLS_CC);
 				} else {
-					phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
 				}
+			} else {
+				phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
 			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
 		}
 	
-	
-		RETURN_CCTOR(object);
+		zend_hash_move_forward_ex(ah0, &hp0);
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
-	return;
+	
+	
+	RETURN_CCTOR(object);
 }
 
 /**
- * Assigns values to a model from an array returning a new model.
+ * Returns an hydrated result based on the data and the column map
+ *
+ * @param array $data
+ * @param array $columnMap
+ * @param int $hydrationMode
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate){
+
+	zval *data, *column_map, *hydration_mode, *hydrate = NULL;
+	zval *value = NULL, *key = NULL, *exception_message = NULL, *attribute = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &data, &column_map, &hydration_mode) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to hidrate must be an Array");
+		return;
+	}
+	
+	/** 
+	 * If there is no column map and the hydration mode is arrays return the data as it
+	 * is
+	 */
+	if (Z_TYPE_P(column_map) != IS_ARRAY) { 
+		if (PHALCON_IS_LONG(hydration_mode, 1)) {
+			RETURN_CCTOR(data);
+		}
+	}
+	
+	/** 
+	 * Create the destination object according to the hydration mode
+	 */
+	if (PHALCON_IS_LONG(hydration_mode, 1)) {
+		PHALCON_INIT_VAR(hydrate);
+		array_init(hydrate);
+	} else {
+		PHALCON_INIT_NVAR(hydrate);
+		object_init(hydrate);
+	}
+	
+	
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(value);
+	
+		if (Z_TYPE_P(key) == IS_STRING) {
+			if (Z_TYPE_P(column_map) == IS_ARRAY) { 
+	
+				/** 
+				 * Every field must be part of the column map
+				 */
+				if (!phalcon_array_isset(column_map, key)) {
+					PHALCON_INIT_NVAR(exception_message);
+					PHALCON_CONCAT_SVS(exception_message, "Column \"", key, "\" doesn't make part of the column map");
+					PHALCON_THROW_EXCEPTION_ZVAL(phalcon_mvc_model_exception_ce, exception_message);
+					return;
+				}
+	
+				PHALCON_OBS_NVAR(attribute);
+				phalcon_array_fetch(&attribute, column_map, key, PH_NOISY_CC);
+				if (PHALCON_IS_LONG(hydration_mode, 1)) {
+					phalcon_array_update_zval(&hydrate, attribute, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_update_property_zval_zval(hydrate, attribute, value TSRMLS_CC);
+				}
+			} else {
+				if (PHALCON_IS_LONG(hydration_mode, 1)) {
+					phalcon_array_update_zval(&hydrate, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+				} else {
+					phalcon_update_property_zval_zval(hydrate, key, value TSRMLS_CC);
+				}
+			}
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	
+	RETURN_CCTOR(hydrate);
+}
+
+/**
+ * Assigns values to a model from an array returning a new model
  *
  *<code>
- *$robot = Phalcon\Mvc\Model::dumpResult(new Robots(), array(
+ *$robot = Phalcon\Mvc\Model::cloneResult(new Robots(), array(
  *  'type' => 'mechanical',
  *  'name' => 'Astro Boy',
  *  'year' => 1952
@@ -644,7 +738,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResultMap){
  * @param int $dirtyState
  * @return Phalcon\Mvc\Model $result
  */
-PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
+PHP_METHOD(Phalcon_Mvc_Model, cloneResult){
 
 	zval *base, *data, *dirty_state = NULL, *object, *value = NULL, *key = NULL;
 	HashTable *ah0;
@@ -662,38 +756,38 @@ PHP_METHOD(Phalcon_Mvc_Model, dumpResult){
 		ZVAL_LONG(dirty_state, 0);
 	}
 	
-	if (Z_TYPE_P(data) == IS_ARRAY) { 
-	
-		PHALCON_INIT_VAR(object);
-		if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
-			return;
-		}
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setdirtystate", dirty_state);
-	
-		if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
-			return;
-		}
-	
-		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
-	
-			PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
-			PHALCON_GET_FOREACH_VALUE(value);
-	
-			if (Z_TYPE_P(key) == IS_STRING) {
-				phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
-			} else {
-				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid key in array data provided to dumpResult()");
-				return;
-			}
-	
-			zend_hash_move_forward_ex(ah0, &hp0);
-		}
-	
-	
-		RETURN_CCTOR(object);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
+		return;
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Data to dump in the object must be an Array");
-	return;
+	
+	PHALCON_INIT_VAR(object);
+	if (phalcon_clone(object, base TSRMLS_CC) == FAILURE) {
+		return;
+	}
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(object, "setdirtystate", dirty_state);
+	
+	if (!phalcon_is_iterable(data, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		return;
+	}
+	
+	while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
+		PHALCON_GET_FOREACH_VALUE(value);
+	
+		if (Z_TYPE_P(key) == IS_STRING) {
+			phalcon_update_property_zval_zval(object, key, value TSRMLS_CC);
+		} else {
+			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid key in array data provided to dumpResult()");
+			return;
+		}
+	
+		zend_hash_move_forward_ex(ah0, &hp0);
+	}
+	
+	
+	RETURN_CCTOR(object);
 }
 
 /**

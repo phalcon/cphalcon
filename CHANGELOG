@@ -10,6 +10,8 @@
  - Improved XSS protection in Phalcon\Tag
  - Implemented queuing events with priorities in Phalcon\Events
  - Implemented collecting of returned responses in Phalcon\Events
+ - Added toArray method to Phalcon\Mvc\Model\Resultset classes
+ - Added hydration modes to Phalcon\Mvc\Model\Resultset (HYDRATE_RECORDS, HYDRATE_ARRAYS, HYDRATE_OBJECTS)
 
 0.8.0b1
  - Improved Phalcon\Escaper, this component provides contextual escaping of different kinds of texts (CSS, Javascript, URL, HTML Attributes etc)

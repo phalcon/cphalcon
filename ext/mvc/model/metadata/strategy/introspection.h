@@ -17,22 +17,14 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
+extern zend_class_entry *phalcon_mvc_model_metadata_strategy_introspection_ce;
 
-PHALCON_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface);
+PHALCON_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_setisfresh, 0, 0, 1)
-	ZEND_ARG_INFO(0, isFresh)
-ZEND_END_ARG_INFO()
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, get);
 
-PHALCON_INIT_FUNCS(phalcon_mvc_model_resultsetinterface_method_entry){
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getType, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getLast, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh, arginfo_phalcon_mvc_model_resultsetinterface_setisfresh)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, isFresh, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getCache, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, toArray, NULL)
+PHALCON_INIT_FUNCS(phalcon_mvc_model_metadata_strategy_introspection_method_entry){
+	PHP_ME(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, get, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 

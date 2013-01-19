@@ -83,6 +83,13 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset){
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_activeRow"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_rows"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("_errorMessages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_mvc_model_resultset_ce, SL("_hydrateMode"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_PARTIAL"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("TYPE_RESULT_FULL"), 1 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_RECORDS"), 0 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_OBJECTS"), 2 TSRMLS_CC);
+	zend_declare_class_constant_long(phalcon_mvc_model_resultset_ce, SL("HYDRATE_ARRAYS"), 1 TSRMLS_CC);
 
 	zend_class_implements(phalcon_mvc_model_resultset_ce TSRMLS_CC, 6, phalcon_mvc_model_resultsetinterface_ce, zend_ce_iterator, spl_ce_SeekableIterator, spl_ce_Countable, zend_ce_arrayaccess, zend_ce_serializable);
 
@@ -439,6 +446,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset){
 }
 
 /**
+ * Returns the internal type of data retrieval that the resultset is using
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType){
+
+
+	RETURN_MEMBER(this_ptr, "_type");
+}
+
+/**
  * Get first row in the resultset
  *
  * @return Phalcon\Mvc\ModelInterface
@@ -535,6 +553,34 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, isFresh){
 
 
 	RETURN_MEMBER(this_ptr, "_isFresh");
+}
+
+/**
+ * Sets the hydration mode in the resultset
+ *
+ * @param int $hydrateMode
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode){
+
+	zval *hydrate_mode;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &hydrate_mode) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_hydrateMode"), hydrate_mode TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the current hydration mode
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode){
+
+
+	RETURN_MEMBER(this_ptr, "_hydrateMode");
 }
 
 /**

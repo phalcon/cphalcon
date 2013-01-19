@@ -259,6 +259,10 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue){
 	 */
 	PHALCON_INIT_VAR(event_name);
 	PHALCON_CALL_METHOD(event_name, event, "gettype");
+	if (Z_TYPE_P(event_name) != IS_STRING) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_events_exception_ce, "The event type not valid");
+		return;
+	}
 	
 	/** 
 	 * Get the object who triggered the event

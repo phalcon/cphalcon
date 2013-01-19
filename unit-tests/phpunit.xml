@@ -36,6 +36,7 @@
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
 			<file>unit-tests/ModelsResultsetTest.php</file>
+			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsRelationsTest.php</file>
 			<file>unit-tests/ModelsValidatorsTest.php</file>
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
