@@ -1500,8 +1500,9 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 
 
 
-/** Operators */
-#define PHALCON_COMPARE_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
+/** Strict comparing */
+#define PHALCON_IS_LONG(op1, op2) phalcon_compare_strict_long(op1, op2 TSRMLS_CC)
+#define PHALCON_IS_STRING(op1, op2) phalcon_compare_strict_string(op1, op2, strlen(op2))
 
 /** strict boolean comparison */
 #define PHALCON_IS_FALSE(var) Z_TYPE_P(var) == IS_BOOL && !Z_BVAL_P(var)
@@ -1518,6 +1519,10 @@ void phalcon_escape_html(zval *return_value, zval *str, zval *quote_style, zval 
 #define PHALCON_IS_SCALAR(var) Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE
 #define PHALCON_IS_NOT_SCALAR(var) !(Z_TYPE_P(var) == IS_NULL || Z_TYPE_P(var) == IS_ARRAY || Z_TYPE_P(var) == IS_OBJECT || Z_TYPE_P(var) == IS_RESOURCE)
 
+/** Equals/Identical */
+#define PHALCON_IS_EQUAL(op1, op2) phalcon_is_equal(op1, op2 TSRMLS_CC)
+#define PHALCON_IS_IDENTICAL(op1, op2) phalcon_is_identical(op1, op2 TSRMLS_CC)
+
 /** Operator functions */
 int phalcon_add_function(zval *result, zval *op1, zval *op2 TSRMLS_DC);
 int phalcon_and_function(zval *result, zval *left, zval *right);
@@ -1525,8 +1530,8 @@ int phalcon_and_function(zval *result, zval *left, zval *right);
 void phalcon_concat_self(zval **left, zval *right TSRMLS_DC);
 void phalcon_concat_self_str(zval **left, char *right, int right_length TSRMLS_DC);
 
+/** Strict comparing */
 int phalcon_compare_strict_string(zval *op1, char *op2, int op2_length);
-
 int phalcon_compare_strict_long(zval *op1, long op2 TSRMLS_DC);
 
 int phalcon_is_smaller_strict_long(zval *op1, long op2 TSRMLS_DC);
@@ -1535,6 +1540,9 @@ int phalcon_is_smaller_or_equal_strict_long(zval *op1, long op2 TSRMLS_DC);
 void phalcon_cast(zval *result, zval *var, zend_uint type);
 long phalcon_get_intval(zval *op);
 int phalcon_is_numeric(zval *op);
+
+int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC);
+int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC);
 
 
 
@@ -4410,7 +4418,7 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 		return FAILURE;
 	} else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
-	}
+	}	
 
 	return SUCCESS;
 }
@@ -7155,6 +7163,18 @@ int phalcon_is_numeric(zval *op) {
 	}
 
 	return 0;
+}
+
+int phalcon_is_equal(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_equal_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
+}
+
+int phalcon_is_identical(zval *op1, zval *op2 TSRMLS_DC) {
+	zval result;
+	is_identical_function(&result, op1, op2 TSRMLS_CC);
+	return Z_BVAL(result);
 }
 
 
@@ -12625,7 +12645,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	zval *columns, *referenced_columns, *schema;
 	zval *referenced_schema, *number_columns;
 	zval *number_referenced_columns;
-	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -12678,10 +12697,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct){
 	
 	PHALCON_INIT_VAR(number_referenced_columns);
 	phalcon_fast_count(number_referenced_columns, referenced_columns TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(r0);
-	is_not_equal_function(r0, number_columns, number_referenced_columns TSRMLS_CC);
-	if (zend_is_true(r0)) {
+	if (!PHALCON_IS_EQUAL(number_columns, number_referenced_columns)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced");
 		return;
 	}
@@ -12997,7 +13013,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct){
 	}
 	
 	if (phalcon_array_isset_string(definition, SS("autoIncrement"))) {
-		if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(type, 0)) {
 			PHALCON_OBS_VAR(auto_increment);
 			phalcon_array_fetch_string(&auto_increment, definition, SL("autoIncrement"), PH_NOISY_CC);
 			phalcon_update_property_zval(this_ptr, SL("_autoIncrement"), auto_increment TSRMLS_CC);
@@ -13381,19 +13397,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns){
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "PRI")) {
+		if (PHALCON_IS_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "NO")) {
+		if (PHALCON_IS_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "auto_increment")) {
+		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
@@ -14037,19 +14053,19 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns){
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("key"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "PRI")) {
+		if (PHALCON_IS_STRING(attribute, "PRI")) {
 			phalcon_array_update_string_bool(&definition, SL("primary"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("null"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "NO")) {
+		if (PHALCON_IS_STRING(attribute, "NO")) {
 			phalcon_array_update_string_bool(&definition, SL("notNull"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
 		PHALCON_OBS_NVAR(attribute);
 		phalcon_array_fetch_string(&attribute, field, SL("extra"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(attribute, "auto_increment")) {
+		if (PHALCON_IS_STRING(attribute, "auto_increment")) {
 			phalcon_array_update_string_bool(&definition, SL("autoIncrement"), 1, PH_SEPARATE TSRMLS_CC);
 		}
 	
@@ -15335,6 +15351,7 @@ PHP_METHOD(Phalcon_Db_Adapter, insert){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "The second parameter for insert isn't an Array");
 		return;
 	}
+	
 	if (!phalcon_fast_count_ev(values TSRMLS_CC)) {
 		PHALCON_INIT_VAR(exception_message);
 		PHALCON_CONCAT_SVS(exception_message, "Unable to insert into ", table, " without data");
@@ -15551,11 +15568,13 @@ PHP_METHOD(Phalcon_Db_Adapter, update){
 			phalcon_concat_self(&update_sql, where_condition TSRMLS_CC);
 		} else {
 			if (Z_TYPE_P(where_condition) == IS_ARRAY) { 
+	
 				if (phalcon_array_isset_string(where_condition, SS("conditions"))) {
 					PHALCON_OBS_VAR(conditions);
 					phalcon_array_fetch_string(&conditions, where_condition, SL("conditions"), PH_NOISY_CC);
 					phalcon_concat_self(&update_sql, conditions TSRMLS_CC);
 				}
+	
 				if (phalcon_array_isset_string(where_condition, SS("bind"))) {
 					PHALCON_OBS_VAR(where_bind);
 					phalcon_array_fetch_string(&where_bind, where_condition, SL("bind"), PH_NOISY_CC);
@@ -16468,7 +16487,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows){
 	
 		PHALCON_INIT_VAR(type);
 		PHALCON_CALL_METHOD(type, connection, "gettype");
-		if (PHALCON_COMPARE_STRING(type, "sqlite")) {
+		if (PHALCON_IS_STRING(type, "sqlite")) {
 	
 			PHALCON_OBS_VAR(sql_statement);
 			phalcon_read_property(&sql_statement, this_ptr, SL("_sqlStatement"), PH_NOISY_CC);
@@ -18238,7 +18257,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable){
 			PHALCON_INIT_NVAR(column_list);
 			PHALCON_CALL_METHOD_PARAMS_1(column_list, this_ptr, "getcolumnlist", columns);
 	
-			if (PHALCON_COMPARE_STRING(index_name, "PRIMARY")) {
+			if (PHALCON_IS_STRING(index_name, "PRIMARY")) {
 				PHALCON_INIT_NVAR(index_sql);
 				PHALCON_CONCAT_SVS(index_sql, "PRIMARY KEY (", column_list, ")");
 			} else {
@@ -18858,7 +18877,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, expression, SL("type"), PH_NOISY_CC);
 	
-	if (PHALCON_COMPARE_STRING(type, "qualified")) {
+	if (PHALCON_IS_STRING(type, "qualified")) {
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, expression, SL("name"), PH_NOISY_CC);
@@ -18889,13 +18908,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		RETURN_CCTOR(escaped_name);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "literal")) {
+	if (PHALCON_IS_STRING(type, "literal")) {
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY_CC);
 		RETURN_CCTOR(value);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "binary-op")) {
+	if (PHALCON_IS_STRING(type, "binary-op")) {
 		PHALCON_OBS_VAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
 	
@@ -18916,7 +18935,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		RETURN_CTOR(binary_expr);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "unary-op")) {
+	if (PHALCON_IS_STRING(type, "unary-op")) {
 	
 		PHALCON_OBS_NVAR(operator);
 		phalcon_array_fetch_string(&operator, expression, SL("op"), PH_NOISY_CC);
@@ -18946,13 +18965,13 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		}
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "placeholder")) {
+	if (PHALCON_IS_STRING(type, "placeholder")) {
 		PHALCON_OBS_NVAR(value);
 		phalcon_array_fetch_string(&value, expression, SL("value"), PH_NOISY_CC);
 		RETURN_CCTOR(value);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "parentheses")) {
+	if (PHALCON_IS_STRING(type, "parentheses")) {
 		PHALCON_OBS_NVAR(left);
 		phalcon_array_fetch_string(&left, expression, SL("left"), PH_NOISY_CC);
 	
@@ -18964,7 +18983,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		RETURN_CTOR(expression_group);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "functionCall")) {
+	if (PHALCON_IS_STRING(type, "functionCall")) {
 	
 		PHALCON_OBS_NVAR(name);
 		phalcon_array_fetch_string(&name, expression, SL("name"), PH_NOISY_CC);
@@ -19005,7 +19024,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		RETURN_CTOR(function_expression);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "list")) {
+	if (PHALCON_IS_STRING(type, "list")) {
 	
 		PHALCON_INIT_VAR(sql_items);
 		array_init(sql_items);
@@ -19037,7 +19056,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression){
 		RETURN_CTOR(group_expression);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "all")) {
+	if (PHALCON_IS_STRING(type, "all")) {
 		PHALCON_MM_RESTORE();
 		RETURN_STRING("*", 1);
 	}
@@ -19193,7 +19212,7 @@ PHP_METHOD(Phalcon_Db_Dialect, select){
 				PHALCON_INIT_NVAR(column_sql);
 				PHALCON_CALL_METHOD_PARAMS_2(column_sql, this_ptr, "getsqlexpression", column_item, escape_char);
 			} else {
-				if (PHALCON_COMPARE_STRING(column_item, "*")) {
+				if (PHALCON_IS_STRING(column_item, "*")) {
 					PHALCON_CPY_WRT(column_sql, column_item);
 				} else {
 					if (PHALCON_GLOBAL(db).escape_identifiers) {
@@ -19892,7 +19911,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 	}
 	
 	
-	if (PHALCON_COMPARE_STRING(filter, "email")) {
+	if (PHALCON_IS_STRING(filter, "email")) {
 		PHALCON_INIT_VAR(type);
 		ZVAL_LONG(type, 517);
 	
@@ -19910,7 +19929,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "int")) {
+	if (PHALCON_IS_STRING(filter, "int")) {
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 519);
 	
@@ -19919,7 +19938,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "string")) {
+	if (PHALCON_IS_STRING(filter, "string")) {
 		PHALCON_INIT_NVAR(type);
 		ZVAL_LONG(type, 513);
 	
@@ -19928,7 +19947,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "float")) {
+	if (PHALCON_IS_STRING(filter, "float")) {
 		PHALCON_INIT_VAR(allow_fraction);
 		ZVAL_LONG(allow_fraction, 4096);
 	
@@ -19944,25 +19963,25 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "alphanum")) {
+	if (PHALCON_IS_STRING(filter, "alphanum")) {
 		PHALCON_INIT_NVAR(filtered);
 		phalcon_filter_alphanum(filtered, value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "trim")) {
+	if (PHALCON_IS_STRING(filter, "trim")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "trim", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "striptags")) {
+	if (PHALCON_IS_STRING(filter, "striptags")) {
 		PHALCON_INIT_NVAR(filtered);
 		PHALCON_CALL_FUNC_PARAMS_1(filtered, "strip_tags", value);
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "lower")) {
+	if (PHALCON_IS_STRING(filter, "lower")) {
 		if (phalcon_function_exists_ex(SS("mb_strtolower") TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_NVAR(filtered);
 			PHALCON_CALL_FUNC_PARAMS_1(filtered, "mb_strtolower", value);
@@ -19973,7 +19992,7 @@ PHP_METHOD(Phalcon_Filter, _sanitize){
 		goto ph_end_0;
 	}
 	
-	if (PHALCON_COMPARE_STRING(filter, "upper")) {
+	if (PHALCON_IS_STRING(filter, "upper")) {
 		if (phalcon_function_exists_ex(SS("mb_strtoupper") TSRMLS_CC) == SUCCESS) {
 			PHALCON_INIT_NVAR(filtered);
 			PHALCON_CALL_FUNC_PARAMS_1(filtered, "mb_strtoupper", value);
@@ -21406,7 +21425,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme){
 	
 	PHALCON_INIT_VAR(https);
 	PHALCON_CALL_METHOD_PARAMS_1(https, this_ptr, "getserver", https_header);
-	if (PHALCON_COMPARE_STRING(https, "on")) {
+	if (PHALCON_IS_STRING(https, "on")) {
 		PHALCON_INIT_VAR(scheme);
 		ZVAL_STRING(scheme, "https", 1);
 	} else {
@@ -21713,7 +21732,7 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 
 PHP_METHOD(Phalcon_Http_Request, isMethod){
 
-	zval *methods, *http_method, *is_equals = NULL, *method = NULL;
+	zval *methods, *http_method, *is_equals, *method = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -21740,9 +21759,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod){
 	
 			PHALCON_GET_FOREACH_VALUE(method);
 	
-			PHALCON_INIT_NVAR(is_equals);
-			is_equal_function(is_equals, method, http_method TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equals)) {
+			if (PHALCON_IS_EQUAL(method, http_method)) {
 				RETURN_MM_TRUE;
 			}
 	
@@ -22056,7 +22073,7 @@ PHP_METHOD(Phalcon_Http_Request, _getBestQuality){
 	
 		PHALCON_GET_FOREACH_VALUE(accept);
 	
-		if (phalcon_compare_strict_long(i, 0 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(i, 0)) {
 			PHALCON_OBS_NVAR(quality);
 			phalcon_array_fetch_string(&quality, accept, SL("quality"), PH_NOISY_CC);
 	
@@ -24491,7 +24508,7 @@ PHP_METHOD(Phalcon_Tag, _inputField){
 		}
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "checkbox")) {
+	if (PHALCON_IS_STRING(type, "checkbox")) {
 		if (zend_is_true(value)) {
 			phalcon_array_update_string_string(&params, SL("checked"), SL("checked"), PH_SEPARATE TSRMLS_CC);
 		}
@@ -26757,7 +26774,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, valid){
 	
 				PHALCON_OBS_NVAR(type);
 				phalcon_array_fetch_string(&type, column, SL("type"), PH_NOISY_CC);
-				if (PHALCON_COMPARE_STRING(type, "object")) {
+				if (PHALCON_IS_STRING(type, "object")) {
 	
 					PHALCON_OBS_NVAR(source);
 					phalcon_array_fetch_string(&source, column, SL("column"), PH_NOISY_CC);
@@ -27270,10 +27287,8 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete){
 
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 
-	zval *type, *model, *options, *value, *field, *actual_value;
-	zval *is_same, *update_model, *status, *messages;
-	zval *message = NULL;
-	zval *c0 = NULL;
+	zval *type, *model, *options, *skip, *value, *field, *actual_value;
+	zval *update_model, *status, *messages, *message = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -27284,7 +27299,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		RETURN_MM_NULL();
 	}
 
-	if (PHALCON_COMPARE_STRING(type, "beforeDelete")) {
+	if (PHALCON_IS_STRING(type, "beforeDelete")) {
 	
 		PHALCON_INIT_VAR(options);
 		PHALCON_CALL_METHOD(options, this_ptr, "getoptions");
@@ -27298,9 +27313,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 			return;
 		}
 	
-		PHALCON_INIT_VAR(c0);
-		ZVAL_BOOL(c0, 1);
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "skipoperation", c0);
+		PHALCON_INIT_VAR(skip);
+		ZVAL_BOOL(skip, 1);
+	
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(model, "skipoperation", skip);
 	
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch_string(&value, options, SL("value"), PH_NOISY_CC);
@@ -27311,9 +27327,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify){
 		PHALCON_INIT_VAR(actual_value);
 		PHALCON_CALL_METHOD_PARAMS_1(actual_value, model, "readattribute", field);
 	
-		PHALCON_INIT_VAR(is_same);
-		is_equal_function(is_same, actual_value, value TSRMLS_CC);
-		if (!zend_is_true(is_same)) {
+		if (!PHALCON_IS_EQUAL(actual_value, value)) {
 	
 			PHALCON_INIT_VAR(update_model);
 			if (phalcon_clone(update_model, model TSRMLS_CC) == FAILURE) {
@@ -28223,23 +28237,17 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute){
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
 
-	zval *meta_data, *number, *is_empty;
-	zval *t0 = NULL;
+	zval *meta_data;
 
 	PHALCON_MM_GROW();
 
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
+	if (phalcon_fast_count_ev(meta_data TSRMLS_CC)) {
+		RETURN_MM_FALSE;
+	}
 	
-	PHALCON_INIT_VAR(number);
-	phalcon_fast_count(number, meta_data TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(t0);
-	ZVAL_LONG(t0, 0);
-	
-	PHALCON_INIT_VAR(is_empty);
-	is_equal_function(is_empty, number, t0 TSRMLS_CC);
-	RETURN_NCTOR(is_empty);
+	RETURN_MM_TRUE;
 }
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset){
@@ -28693,7 +28701,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 
 	zval *transaction, *transactions, *new_transactions;
 	zval *managed_transaction = NULL;
-	zval *r0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -28719,9 +28726,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, _collectTransaction){
 	
 			PHALCON_GET_FOREACH_VALUE(managed_transaction);
 	
-			PHALCON_INIT_NVAR(r0);
-			is_equal_function(r0, managed_transaction, transaction TSRMLS_CC);
-			if (zend_is_true(r0)) {
+			if (PHALCON_IS_EQUAL(managed_transaction, transaction)) {
 				phalcon_array_append(&new_transactions, transaction, PH_SEPARATE TSRMLS_CC);
 				phalcon_property_decr(this_ptr, SL("_number") TSRMLS_CC);
 			}
@@ -29196,7 +29201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getCallArgument){
 
 	PHALCON_OBS_VAR(argument_type);
 	phalcon_array_fetch_string(&argument_type, argument, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(argument_type, 352 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(argument_type, 352)) {
 		PHALCON_INIT_VAR(argument_expr);
 		array_init_size(argument_expr, 1);
 		add_assoc_stringl_ex(argument_expr, SS("type"), SL("all"), 1);
@@ -29698,9 +29703,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	zval *source = NULL, *model_name = NULL, *sql_column = NULL, *sql_aliases;
 	zval *column_domain, *exception_message = NULL, *sql_column_alias = NULL;
 	zval *sql_aliases_models, *sql_models_aliases;
-	zval *best_alias, *is_same_model, *prepared_alias = NULL;
-	zval *column_data, *sql_expr_column, *balias;
-	zval *sql_alias;
+	zval *best_alias, *prepared_alias = NULL, *column_data;
+	zval *sql_expr_column, *balias, *sql_alias;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -29721,7 +29725,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 	
 	PHALCON_OBS_VAR(column_type);
 	phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(column_type, 352 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 352)) {
 	
 		PHALCON_OBS_VAR(models);
 		phalcon_read_property(&models, this_ptr, SL("_models"), PH_NOISY_CC);
@@ -29754,7 +29758,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		return;
 	}
 	
-	if (phalcon_compare_strict_long(column_type, 353 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 353)) {
 	
 		PHALCON_OBS_VAR(sql_aliases);
 		phalcon_read_property(&sql_aliases, this_ptr, SL("_sqlAliases"), PH_NOISY_CC);
@@ -29784,9 +29788,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		PHALCON_OBS_VAR(best_alias);
 		phalcon_array_fetch(&best_alias, sql_models_aliases, model_name, PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(is_same_model);
-		is_equal_function(is_same_model, best_alias, model_name TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_same_model)) {
+		if (PHALCON_IS_EQUAL(best_alias, model_name)) {
 			PHALCON_INIT_VAR(prepared_alias);
 			PHALCON_CALL_FUNC_PARAMS_1(prepared_alias, "lcfirst", model_name);
 		} else {
@@ -29804,7 +29806,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getSelectColumn){
 		RETURN_CTOR(sql_columns);
 	}
 	
-	if (phalcon_compare_strict_long(column_type, 354 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(column_type, 354)) {
 	
 		PHALCON_INIT_NVAR(sql_column);
 		array_init_size(sql_column, 1);
@@ -29895,7 +29897,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getJoin){
 	
 		PHALCON_OBS_VAR(qualified_type);
 		phalcon_array_fetch_string(&qualified_type, qualified, SL("type"), PH_NOISY_CC);
-		if (phalcon_compare_strict_long(qualified_type, 355 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(qualified_type, 355)) {
 			PHALCON_OBS_VAR(model_name);
 			phalcon_array_fetch_string(&model_name, qualified, SL("name"), PH_NOISY_CC);
 	
@@ -30323,7 +30325,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getOrderClause){
 	
 			PHALCON_OBS_NVAR(order_sort);
 			phalcon_array_fetch_string(&order_sort, order_item, SL("sort"), PH_NOISY_CC);
-			if (phalcon_compare_strict_long(order_sort, 327 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(order_sort, 327)) {
 				PHALCON_INIT_NVAR(order_part_sort);
 				array_init_size(order_part_sort, 2);
 				phalcon_array_append(&order_part_sort, order_part_expr, PH_SEPARATE TSRMLS_CC);
@@ -30625,7 +30627,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _prepareSelect){
 				} else {
 					PHALCON_OBS_NVAR(type);
 					phalcon_array_fetch_string(&type, sql_column, SL("type"), PH_NOISY_CC);
-					if (PHALCON_COMPARE_STRING(type, "scalar")) {
+					if (PHALCON_IS_STRING(type, "scalar")) {
 						PHALCON_INIT_NVAR(alias);
 						PHALCON_CONCAT_SV(alias, "_", position);
 						phalcon_array_update_zval(&sql_columns, alias, &sql_column, PH_COPY | PH_SEPARATE TSRMLS_CC);
@@ -31327,7 +31329,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 	PHALCON_INIT_VAR(number_models);
 	phalcon_fast_count(number_models, models TSRMLS_CC);
-	if (phalcon_compare_strict_long(number_models, 1 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(number_models, 1)) {
 	
 		PHALCON_OBS_VAR(model_name);
 		phalcon_array_fetch_long(&model_name, models, 0, PH_NOISY_CC);
@@ -31371,7 +31373,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 			PHALCON_INIT_NVAR(connection_types);
 			phalcon_fast_count(connection_types, connections TSRMLS_CC);
-			if (phalcon_compare_strict_long(connection_types, 2 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(connection_types, 2)) {
 				PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Cannot use models of different database systems in the same query");
 				return;
 			}
@@ -31408,7 +31410,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 		PHALCON_OBS_NVAR(column_type);
 		phalcon_array_fetch_string(&column_type, column, SL("type"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(column_type, "scalar")) {
+		if (PHALCON_IS_STRING(column_type, "scalar")) {
 			if (!phalcon_array_isset_string(column, SS("balias"))) {
 				PHALCON_INIT_NVAR(is_complex);
 				ZVAL_BOOL(is_complex, 1);
@@ -31431,7 +31433,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 			if (PHALCON_IS_TRUE(have_scalars)) {
 				ZVAL_BOOL(is_complex, 1);
 			} else {
-				if (phalcon_compare_strict_long(number_objects, 1 TSRMLS_CC)) {
+				if (PHALCON_IS_LONG(number_objects, 1)) {
 					PHALCON_INIT_VAR(is_simple_std);
 					ZVAL_BOOL(is_simple_std, 0);
 				} else {
@@ -31467,7 +31469,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect){
 	
 		PHALCON_OBS_NVAR(sql_column);
 		phalcon_array_fetch_string(&sql_column, column, SL("column"), PH_NOISY_CC);
-		if (PHALCON_COMPARE_STRING(type, "object")) {
+		if (PHALCON_IS_STRING(type, "object")) {
 	
 			PHALCON_OBS_NVAR(model_name);
 			phalcon_array_fetch_string(&model_name, column, SL("model"), PH_NOISY_CC);
@@ -31677,7 +31679,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	zval *model = NULL, *connection, *meta_data, *attributes;
 	zval *automatic_fields = NULL, *fields = NULL, *column_map = NULL;
 	zval *values, *number_fields, *number_values;
-	zval *not_equal, *dialect, *double_colon, *empty_string;
+	zval *dialect, *double_colon, *empty_string;
 	zval *null_value, *not_exists, *insert_values;
 	zval *value = NULL, *number = NULL, *type = NULL, *expr_value = NULL, *insert_value = NULL;
 	zval *insert_expr = NULL, *wildcard = NULL, *exception_message = NULL;
@@ -31744,11 +31746,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(number_values);
 	phalcon_fast_count(number_values, values TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(not_equal);
-	is_identical_function(not_equal, number_values, number_fields TSRMLS_CC);
-	if (PHALCON_IS_FALSE(not_equal)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The columns count does not match the values count");
+	if (!PHALCON_IS_EQUAL(number_fields, number_values)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The column count does not match the values count");
 		return;
 	}
 	
@@ -32450,7 +32449,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, execute){
 	
 	if (Z_TYPE_P(cache_options) != IS_NULL) {
 	
-		if (!phalcon_compare_strict_long(type, 309 TSRMLS_CC)) {
+		if (!PHALCON_IS_LONG(type, 309)) {
 			PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only PHQL statements that return resultsets can be cached");
 			return;
 		}
@@ -32738,8 +32737,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists){
 
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 
-	zval *index, *count, *exists, *pointer, *is_same, *current = NULL;
-	zval *valid;
+	zval *index, *count, *exists, *pointer, *current = NULL, *valid;
 
 	PHALCON_MM_GROW();
 
@@ -32756,10 +32754,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet){
 	
 		PHALCON_OBS_VAR(pointer);
 		phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	
-		PHALCON_INIT_VAR(is_same);
-		is_equal_function(is_same, pointer, index TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_same)) {
+		if (PHALCON_IS_EQUAL(pointer, index)) {
 			PHALCON_INIT_VAR(current);
 			PHALCON_CALL_METHOD(current, this_ptr, "current");
 			RETURN_CCTOR(current);
@@ -32818,7 +32813,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst){
 
 	PHALCON_OBS_VAR(pointer);
 	phalcon_read_property(&pointer, this_ptr, SL("_pointer"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(pointer, 0 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(pointer, 0)) {
 		PHALCON_INIT_VAR(current);
 		PHALCON_CALL_METHOD(current, this_ptr, "current");
 		RETURN_CCTOR(current);
@@ -33540,11 +33535,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput){
 	
 			if (phalcon_array_isset(data_types, field)) {
 				if (Z_TYPE_P(value) != IS_NULL) {
-					if (!PHALCON_COMPARE_STRING(value, "")) {
+					if (!PHALCON_IS_STRING(value, "")) {
 	
 						PHALCON_OBS_NVAR(type);
 						phalcon_array_fetch(&type, data_types, field, PH_NOISY_CC);
-						if (phalcon_compare_strict_long(type, 2 TSRMLS_CC)) {
+						if (PHALCON_IS_LONG(type, 2)) {
 							PHALCON_INIT_NVAR(condition);
 							PHALCON_CONCAT_VSVS(condition, field, " LIKE :", field, ":");
 	
@@ -34015,7 +34010,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	
 	PHALCON_INIT_VAR(operation_made);
 	PHALCON_CALL_METHOD(operation_made, record, "getoperationmade");
-	if (phalcon_compare_strict_long(operation_made, 2 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(operation_made, 2)) {
 	
 		if (PHALCON_GLOBAL(orm).column_renaming) {
 			PHALCON_INIT_NVAR(column_map);
@@ -34090,7 +34085,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Validator_Uniqueness, validate){
 	phalcon_get_class(class_name, record, 0 TSRMLS_CC);
 	
 	PHALCON_CALL_STATIC_ZVAL_PARAMS_1(number, class_name, "count", params);
-	if (!phalcon_compare_strict_long(number, 0 TSRMLS_CC)) {
+	if (!PHALCON_IS_LONG(number, 0)) {
 	
 		PHALCON_INIT_NVAR(option);
 		ZVAL_STRING(option, "message", 1);
@@ -40328,7 +40323,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		length = 32 + state->start_length;
+		length = 48 + state->start_length;
 		error = emalloc(sizeof(char) * length);
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
@@ -40340,7 +40335,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 		error[length - 1] = '\0';
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * 32);
+		error = emalloc(sizeof(char) * 48);
 		sprintf(error, "Parsing error near to EOF");
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -40696,7 +40691,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL){
 
 
 
-/* Generated by re2c 0.13.5 on Tue Jan 15 02:44:09 2013 */
+/* Generated by re2c 0.13.5 on Fri Jan 18 16:53:42 2013 */
 // 1 "scanner.re"
 
 
@@ -40724,24 +40719,24 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 			yych = *YYCURSOR;
 			switch (yych) {
-			case 0x00:	goto yy61;
+			case 0x00:	goto yy62;
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy59;
-			case '!':	goto yy47;
+			case ' ':	goto yy60;
+			case '!':	goto yy48;
 			case '"':	goto yy27;
-			case '%':	goto yy39;
-			case '&':	goto yy55;
+			case '%':	goto yy40;
+			case '&':	goto yy56;
 			case '\'':	goto yy28;
-			case '(':	goto yy43;
-			case ')':	goto yy45;
-			case '*':	goto yy35;
-			case '+':	goto yy31;
-			case ',':	goto yy41;
-			case '-':	goto yy33;
+			case '(':	goto yy44;
+			case ')':	goto yy46;
+			case '*':	goto yy36;
+			case '+':	goto yy32;
+			case ',':	goto yy42;
+			case '-':	goto yy34;
 			case '.':	goto yy4;
-			case '/':	goto yy37;
+			case '/':	goto yy38;
 			case '0':
 			case '1':
 			case '2':
@@ -40753,9 +40748,9 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			case '8':
 			case '9':	goto yy2;
 			case ':':	goto yy8;
-			case '<':	goto yy49;
-			case '=':	goto yy53;
-			case '>':	goto yy51;
+			case '<':	goto yy50;
+			case '=':	goto yy54;
+			case '>':	goto yy52;
 			case '?':	goto yy6;
 			case 'A':
 			case 'a':	goto yy14;
@@ -40782,7 +40777,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			case 't':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy29;
+			case 'z':	goto yy30;
 			case 'F':
 			case 'f':	goto yy13;
 			case 'G':
@@ -40809,14 +40804,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			case 'v':	goto yy16;
 			case 'W':
 			case 'w':	goto yy17;
-			case '[':	goto yy30;
-			case '|':	goto yy57;
-			default:	goto yy63;
+			case '[':	goto yy31;
+			case '\\':	goto yy29;
+			case '|':	goto yy58;
+			default:	goto yy64;
 			}
 yy2:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '.':	goto yy244;
+			case '.':	goto yy245;
 			case '0':
 			case '1':
 			case '2':
@@ -40826,7 +40822,7 @@ yy2:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy246;
+			case '9':	goto yy247;
 			default:	goto yy3;
 			}
 yy3:
@@ -40838,7 +40834,7 @@ yy3:
 			q = YYCURSOR;
 			return 0;
 		}
-// 165 "scanner.c"
+// 166 "scanner.c"
 yy4:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -40851,7 +40847,7 @@ yy4:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy241;
+			case '9':	goto yy242;
 			default:	goto yy5;
 			}
 yy5:
@@ -40860,7 +40856,7 @@ yy5:
 			token->opcode = PHQL_T_DOT;
 			return 0;
 		}
-// 187 "scanner.c"
+// 188 "scanner.c"
 yy6:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
@@ -40873,7 +40869,7 @@ yy6:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy238;
+			case '9':	goto yy239;
 			default:	goto yy7;
 			}
 yy7:
@@ -40882,7 +40878,7 @@ yy7:
 			status = PHQL_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 209 "scanner.c"
+// 210 "scanner.c"
 yy8:
 			yych = *(YYMARKER = ++YYCURSOR);
 			switch (yych) {
@@ -40948,15 +40944,15 @@ yy8:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy234;
+			case 'z':	goto yy235;
 			default:	goto yy7;
 			}
 yy9:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case 'P':
-			case 'p':	goto yy228;
-			default:	goto yy80;
+			case 'p':	goto yy229;
+			default:	goto yy81;
 			}
 yy10:
 // 266 "scanner.re"
@@ -40967,152 +40963,149 @@ yy10:
 			q = YYCURSOR;
 			return 0;
 		}
-// 294 "scanner.c"
+// 295 "scanner.c"
 yy11:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy220;
-			default:	goto yy80;
+			case 'e':	goto yy221;
+			default:	goto yy81;
 			}
 yy12:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy203;
+			case 'e':	goto yy204;
 			case 'I':
-			case 'i':	goto yy204;
-			default:	goto yy80;
+			case 'i':	goto yy205;
+			default:	goto yy81;
 			}
 yy13:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'R':
-			case 'r':	goto yy195;
+			case 'r':	goto yy196;
 			case 'U':
-			case 'u':	goto yy196;
-			default:	goto yy80;
+			case 'u':	goto yy197;
+			default:	goto yy81;
 			}
 yy14:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'N':
-			case 'n':	goto yy188;
+			case 'n':	goto yy189;
 			case 'S':
-			case 's':	goto yy189;
-			default:	goto yy80;
+			case 's':	goto yy190;
+			default:	goto yy81;
 			}
 yy15:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'N':
-			case 'n':	goto yy172;
+			case 'n':	goto yy173;
 			case 'S':
-			case 's':	goto yy174;
-			default:	goto yy80;
+			case 's':	goto yy175;
+			default:	goto yy81;
 			}
 yy16:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'A':
-			case 'a':	goto yy166;
-			default:	goto yy80;
+			case 'a':	goto yy167;
+			default:	goto yy81;
 			}
 yy17:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'H':
-			case 'h':	goto yy161;
-			default:	goto yy80;
+			case 'h':	goto yy162;
+			default:	goto yy81;
 			}
 yy18:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'F':
-			case 'f':	goto yy142;
+			case 'f':	goto yy143;
 			case 'N':
-			case 'n':	goto yy143;
+			case 'n':	goto yy144;
 			case 'R':
-			case 'r':	goto yy145;
+			case 'r':	goto yy146;
 			case 'U':
-			case 'u':	goto yy147;
-			default:	goto yy80;
+			case 'u':	goto yy148;
+			default:	goto yy81;
 			}
 yy19:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy133;
+			case 'e':	goto yy134;
 			case 'Y':
-			case 'y':	goto yy134;
-			default:	goto yy80;
+			case 'y':	goto yy135;
+			default:	goto yy81;
 			}
 yy20:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'R':
-			case 'r':	goto yy128;
-			default:	goto yy80;
+			case 'r':	goto yy129;
+			default:	goto yy81;
 			}
 yy21:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'A':
-			case 'a':	goto yy122;
-			default:	goto yy80;
+			case 'a':	goto yy123;
+			default:	goto yy81;
 			}
 yy22:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
-			case 'e':	goto yy110;
+			case 'e':	goto yy111;
 			case 'I':
-			case 'i':	goto yy111;
-			default:	goto yy80;
+			case 'i':	goto yy112;
+			default:	goto yy81;
 			}
 yy23:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'O':
-			case 'o':	goto yy103;
+			case 'o':	goto yy104;
 			case 'U':
-			case 'u':	goto yy104;
-			default:	goto yy80;
+			case 'u':	goto yy105;
+			default:	goto yy81;
 			}
 yy24:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'O':
-			case 'o':	goto yy99;
-			default:	goto yy80;
+			case 'o':	goto yy100;
+			default:	goto yy81;
 			}
 yy25:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'I':
-			case 'i':	goto yy94;
-			default:	goto yy80;
+			case 'i':	goto yy95;
+			default:	goto yy81;
 			}
 yy26:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'R':
-			case 'r':	goto yy89;
-			default:	goto yy80;
+			case 'r':	goto yy90;
+			default:	goto yy81;
 			}
 yy27:
 			yych = *(YYMARKER = ++YYCURSOR);
 			if (yych <= 0x00) goto yy7;
-			goto yy87;
+			goto yy88;
 yy28:
 			yych = *(YYMARKER = ++YYCURSOR);
 			if (yych <= 0x00) goto yy7;
-			goto yy82;
+			goto yy83;
 yy29:
 			yych = *++YYCURSOR;
-			goto yy80;
-yy30:
-			yych = *(YYMARKER = ++YYCURSOR);
 			switch (yych) {
 			case 'A':
 			case 'B':
@@ -41165,203 +41158,264 @@ yy30:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy74;
+			case 'z':	goto yy80;
 			default:	goto yy7;
 			}
+yy30:
+			yych = *++YYCURSOR;
+			goto yy81;
 yy31:
+			yych = *(YYMARKER = ++YYCURSOR);
+			switch (yych) {
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto yy75;
+			default:	goto yy7;
+			}
+yy32:
 			++YYCURSOR;
 // 283 "scanner.re"
 			{
 			token->opcode = PHQL_T_ADD;
 			return 0;
 		}
-// 502 "scanner.c"
-yy33:
+// 561 "scanner.c"
+yy34:
 			++YYCURSOR;
 // 288 "scanner.re"
 			{
 			token->opcode = PHQL_T_SUB;
 			return 0;
 		}
-// 510 "scanner.c"
-yy35:
+// 569 "scanner.c"
+yy36:
 			++YYCURSOR;
 // 293 "scanner.re"
 			{
 			token->opcode = PHQL_T_MUL;
 			return 0;
 		}
-// 518 "scanner.c"
-yy37:
+// 577 "scanner.c"
+yy38:
 			++YYCURSOR;
 // 298 "scanner.re"
 			{
 			token->opcode = PHQL_T_DIV;
 			return 0;
 		}
-// 526 "scanner.c"
-yy39:
+// 585 "scanner.c"
+yy40:
 			++YYCURSOR;
 // 303 "scanner.re"
 			{
 			token->opcode = PHQL_T_MOD;
 			return 0;
 		}
-// 534 "scanner.c"
-yy41:
+// 593 "scanner.c"
+yy42:
 			++YYCURSOR;
 // 313 "scanner.re"
 			{
 			token->opcode = PHQL_T_COMMA;
 			return 0;
 		}
-// 542 "scanner.c"
-yy43:
+// 601 "scanner.c"
+yy44:
 			++YYCURSOR;
 // 318 "scanner.re"
 			{
 			token->opcode = PHQL_T_BRACKET_OPEN;
 			return 0;
 		}
-// 550 "scanner.c"
-yy45:
+// 609 "scanner.c"
+yy46:
 			++YYCURSOR;
 // 323 "scanner.re"
 			{
 			token->opcode = PHQL_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 558 "scanner.c"
-yy47:
+// 617 "scanner.c"
+yy48:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy72;
-			default:	goto yy48;
+			case '=':	goto yy73;
+			default:	goto yy49;
 			}
-yy48:
+yy49:
 // 353 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOT;
 			return 0;
 		}
-// 571 "scanner.c"
-yy49:
+// 630 "scanner.c"
+yy50:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy68;
-			case '>':	goto yy70;
-			default:	goto yy50;
+			case '=':	goto yy69;
+			case '>':	goto yy71;
+			default:	goto yy51;
 			}
-yy50:
+yy51:
 // 358 "scanner.re"
 			{
 			token->opcode = PHQL_T_LESS;
 			return 0;
 		}
-// 585 "scanner.c"
-yy51:
+// 644 "scanner.c"
+yy52:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
-			case '=':	goto yy66;
-			default:	goto yy52;
+			case '=':	goto yy67;
+			default:	goto yy53;
 			}
-yy52:
+yy53:
 // 363 "scanner.re"
 			{
 			token->opcode = PHQL_T_GREATER;
 			return 0;
 		}
-// 598 "scanner.c"
-yy53:
+// 657 "scanner.c"
+yy54:
 			++YYCURSOR;
 // 348 "scanner.re"
 			{
 			token->opcode = PHQL_T_EQUALS;
 			return 0;
 		}
-// 606 "scanner.c"
-yy55:
+// 665 "scanner.c"
+yy56:
 			++YYCURSOR;
 // 368 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_AND;
 			return 0;
 		}
-// 614 "scanner.c"
-yy57:
+// 673 "scanner.c"
+yy58:
 			++YYCURSOR;
 // 373 "scanner.re"
 			{
 			token->opcode = PHQL_T_BITWISE_OR;
 			return 0;
 		}
-// 622 "scanner.c"
-yy59:
+// 681 "scanner.c"
+yy60:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-			goto yy65;
-yy60:
+			goto yy66;
+yy61:
 // 378 "scanner.re"
 			{
 			token->opcode = PHQL_T_IGNORE;
 			return 0;
 		}
-// 633 "scanner.c"
-yy61:
+// 692 "scanner.c"
+yy62:
 			++YYCURSOR;
 // 383 "scanner.re"
 			{
 			status = PHQL_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 641 "scanner.c"
-yy63:
+// 700 "scanner.c"
+yy64:
 			yych = *++YYCURSOR;
 			goto yy7;
-yy64:
+yy65:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-yy65:
+yy66:
 			switch (yych) {
 			case '\t':
 			case '\n':
 			case '\r':
-			case ' ':	goto yy64;
-			default:	goto yy60;
+			case ' ':	goto yy65;
+			default:	goto yy61;
 			}
-yy66:
+yy67:
 			++YYCURSOR;
 // 343 "scanner.re"
 			{
 			token->opcode = PHQL_T_GREATEREQUAL;
 			return 0;
 		}
-// 663 "scanner.c"
-yy68:
+// 722 "scanner.c"
+yy69:
 			++YYCURSOR;
 // 338 "scanner.re"
 			{
 			token->opcode = PHQL_T_LESSEQUAL;
 			return 0;
 		}
-// 671 "scanner.c"
-yy70:
+// 730 "scanner.c"
+yy71:
 			++YYCURSOR;
 // 333 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOTEQUALS;
 			return 0;
 		}
-// 679 "scanner.c"
-yy72:
+// 738 "scanner.c"
+yy73:
 			++YYCURSOR;
 // 328 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOTEQUALS;
 			return 0;
 		}
-// 687 "scanner.c"
-yy74:
+// 746 "scanner.c"
+yy75:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -41428,14 +41482,14 @@ yy74:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy74;
-			case ']':	goto yy77;
-			default:	goto yy76;
+			case 'z':	goto yy75;
+			case ']':	goto yy78;
+			default:	goto yy77;
 			}
-yy76:
+yy77:
 			YYCURSOR = YYMARKER;
 			goto yy7;
-yy77:
+yy78:
 			++YYCURSOR;
 // 275 "scanner.re"
 			{
@@ -41445,11 +41499,11 @@ yy77:
 			q = YYCURSOR;
 			return 0;
 		}
-// 772 "scanner.c"
-yy79:
+// 831 "scanner.c"
+yy80:
 			++YYCURSOR;
 			yych = *YYCURSOR;
-yy80:
+yy81:
 			switch (yych) {
 			case '0':
 			case '1':
@@ -41514,27 +41568,27 @@ yy80:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
+			case 'z':	goto yy80;
 			default:	goto yy10;
 			}
-yy81:
-			++YYCURSOR;
-			yych = *YYCURSOR;
 yy82:
-			switch (yych) {
-			case 0x00:	goto yy76;
-			case '\'':	goto yy84;
-			case '\\':	goto yy83;
-			default:	goto yy81;
-			}
-yy83:
 			++YYCURSOR;
 			yych = *YYCURSOR;
+yy83:
 			switch (yych) {
-			case '\n':	goto yy76;
-			default:	goto yy81;
+			case 0x00:	goto yy77;
+			case '\'':	goto yy85;
+			case '\\':	goto yy84;
+			default:	goto yy82;
 			}
 yy84:
+			++YYCURSOR;
+			yych = *YYCURSOR;
+			switch (yych) {
+			case '\n':	goto yy77;
+			default:	goto yy82;
+			}
+yy85:
 			++YYCURSOR;
 // 257 "scanner.re"
 			{
@@ -41544,46 +41598,46 @@ yy84:
 			q = YYCURSOR;
 			return 0;
 		}
-// 871 "scanner.c"
-yy86:
-			++YYCURSOR;
-			yych = *YYCURSOR;
+// 930 "scanner.c"
 yy87:
-			switch (yych) {
-			case 0x00:	goto yy76;
-			case '"':	goto yy84;
-			case '\\':	goto yy88;
-			default:	goto yy86;
-			}
-yy88:
 			++YYCURSOR;
 			yych = *YYCURSOR;
+yy88:
 			switch (yych) {
-			case '\n':	goto yy76;
-			default:	goto yy86;
+			case 0x00:	goto yy77;
+			case '"':	goto yy85;
+			case '\\':	goto yy89;
+			default:	goto yy87;
 			}
 yy89:
-			yych = *++YYCURSOR;
+			++YYCURSOR;
+			yych = *YYCURSOR;
 			switch (yych) {
-			case 'O':
-			case 'o':	goto yy90;
-			default:	goto yy80;
+			case '\n':	goto yy77;
+			default:	goto yy87;
 			}
 yy90:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'S':
-			case 's':	goto yy91;
-			default:	goto yy80;
+			case 'O':
+			case 'o':	goto yy91;
+			default:	goto yy81;
 			}
 yy91:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'S':
 			case 's':	goto yy92;
-			default:	goto yy80;
+			default:	goto yy81;
 			}
 yy92:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy93;
+			default:	goto yy81;
+			}
+yy93:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -41649,38 +41703,38 @@ yy92:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy93;
+			case 'z':	goto yy80;
+			default:	goto yy94;
 			}
-yy93:
+yy94:
 // 221 "scanner.re"
 			{
 			token->opcode = PHQL_T_CROSS;
 			return 0;
 		}
-// 985 "scanner.c"
-yy94:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'G':
-			case 'g':	goto yy95;
-			default:	goto yy80;
-			}
+// 1044 "scanner.c"
 yy95:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'H':
-			case 'h':	goto yy96;
-			default:	goto yy80;
+			case 'G':
+			case 'g':	goto yy96;
+			default:	goto yy81;
 			}
 yy96:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy97;
-			default:	goto yy80;
+			case 'H':
+			case 'h':	goto yy97;
+			default:	goto yy81;
 			}
 yy97:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy98;
+			default:	goto yy81;
+			}
+yy98:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -41746,31 +41800,31 @@ yy97:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy98;
+			case 'z':	goto yy80;
+			default:	goto yy99;
 			}
-yy98:
+yy99:
 // 216 "scanner.re"
 			{
 			token->opcode = PHQL_T_RIGHT;
 			return 0;
 		}
-// 1082 "scanner.c"
-yy99:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'I':
-			case 'i':	goto yy100;
-			default:	goto yy80;
-			}
+// 1141 "scanner.c"
 yy100:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'N':
-			case 'n':	goto yy101;
-			default:	goto yy80;
+			case 'I':
+			case 'i':	goto yy101;
+			default:	goto yy81;
 			}
 yy101:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'N':
+			case 'n':	goto yy102;
+			default:	goto yy81;
+			}
+yy102:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -41836,38 +41890,38 @@ yy101:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy102;
+			case 'z':	goto yy80;
+			default:	goto yy103;
 			}
-yy102:
+yy103:
 // 201 "scanner.re"
 			{
 			token->opcode = PHQL_T_JOIN;
 			return 0;
 		}
-// 1172 "scanner.c"
-yy103:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy108;
-			default:	goto yy80;
-			}
+// 1231 "scanner.c"
 yy104:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'L':
-			case 'l':	goto yy105;
-			default:	goto yy80;
+			case 'T':
+			case 't':	goto yy109;
+			default:	goto yy81;
 			}
 yy105:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'L':
 			case 'l':	goto yy106;
-			default:	goto yy80;
+			default:	goto yy81;
 			}
 yy106:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy107;
+			default:	goto yy81;
+			}
+yy107:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -41933,17 +41987,17 @@ yy106:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy107;
+			case 'z':	goto yy80;
+			default:	goto yy108;
 			}
-yy107:
+yy108:
 // 241 "scanner.re"
 			{
 			token->opcode = PHQL_T_NULL;
 			return 0;
 		}
-// 1269 "scanner.c"
-yy108:
+// 1328 "scanner.c"
+yy109:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42009,47 +42063,47 @@ yy108:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy109;
+			case 'z':	goto yy80;
+			default:	goto yy110;
 			}
-yy109:
+yy110:
 // 171 "scanner.re"
 			{
 			token->opcode = PHQL_T_NOT;
 			return 0;
 		}
-// 1345 "scanner.c"
-yy110:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'F':
-			case 'f':	goto yy119;
-			default:	goto yy80;
-			}
+// 1404 "scanner.c"
 yy111:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'K':
-			case 'k':	goto yy113;
-			case 'M':
-			case 'm':	goto yy112;
-			default:	goto yy80;
+			case 'F':
+			case 'f':	goto yy120;
+			default:	goto yy81;
 			}
 yy112:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'I':
-			case 'i':	goto yy116;
-			default:	goto yy80;
+			case 'K':
+			case 'k':	goto yy114;
+			case 'M':
+			case 'm':	goto yy113;
+			default:	goto yy81;
 			}
 yy113:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy114;
-			default:	goto yy80;
+			case 'I':
+			case 'i':	goto yy117;
+			default:	goto yy81;
 			}
 yy114:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy115;
+			default:	goto yy81;
+			}
+yy115:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42115,24 +42169,24 @@ yy114:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy115;
+			case 'z':	goto yy80;
+			default:	goto yy116;
 			}
-yy115:
+yy116:
 // 186 "scanner.re"
 			{
 			token->opcode = PHQL_T_LIKE;
 			return 0;
 		}
-// 1451 "scanner.c"
-yy116:
+// 1510 "scanner.c"
+yy117:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy117;
-			default:	goto yy80;
+			case 't':	goto yy118;
+			default:	goto yy81;
 			}
-yy117:
+yy118:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42198,24 +42252,24 @@ yy117:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy118;
+			case 'z':	goto yy80;
+			default:	goto yy119;
 			}
-yy118:
+yy119:
 // 161 "scanner.re"
 			{
 			token->opcode = PHQL_T_LIMIT;
 			return 0;
 		}
-// 1534 "scanner.c"
-yy119:
+// 1593 "scanner.c"
+yy120:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy120;
-			default:	goto yy80;
+			case 't':	goto yy121;
+			default:	goto yy81;
 			}
-yy120:
+yy121:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42281,45 +42335,45 @@ yy120:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy121;
+			case 'z':	goto yy80;
+			default:	goto yy122;
 			}
-yy121:
+yy122:
 // 211 "scanner.re"
 			{
 			token->opcode = PHQL_T_LEFT;
 			return 0;
 		}
-// 1617 "scanner.c"
-yy122:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'V':
-			case 'v':	goto yy123;
-			default:	goto yy80;
-			}
+// 1676 "scanner.c"
 yy123:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'I':
-			case 'i':	goto yy124;
-			default:	goto yy80;
+			case 'V':
+			case 'v':	goto yy124;
+			default:	goto yy81;
 			}
 yy124:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'N':
-			case 'n':	goto yy125;
-			default:	goto yy80;
+			case 'I':
+			case 'i':	goto yy125;
+			default:	goto yy81;
 			}
 yy125:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'G':
-			case 'g':	goto yy126;
-			default:	goto yy80;
+			case 'N':
+			case 'n':	goto yy126;
+			default:	goto yy81;
 			}
 yy126:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'G':
+			case 'g':	goto yy127;
+			default:	goto yy81;
+			}
+yy127:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42385,38 +42439,38 @@ yy126:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy127;
+			case 'z':	goto yy80;
+			default:	goto yy128;
 			}
-yy127:
+yy128:
 // 156 "scanner.re"
 			{
 			token->opcode = PHQL_T_HAVING;
 			return 0;
 		}
-// 1721 "scanner.c"
-yy128:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'O':
-			case 'o':	goto yy129;
-			default:	goto yy80;
-			}
+// 1780 "scanner.c"
 yy129:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'U':
-			case 'u':	goto yy130;
-			default:	goto yy80;
+			case 'O':
+			case 'o':	goto yy130;
+			default:	goto yy81;
 			}
 yy130:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'P':
-			case 'p':	goto yy131;
-			default:	goto yy80;
+			case 'U':
+			case 'u':	goto yy131;
+			default:	goto yy81;
 			}
 yy131:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'P':
+			case 'p':	goto yy132;
+			default:	goto yy81;
+			}
+yy132:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42482,24 +42536,24 @@ yy131:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy132;
+			case 'z':	goto yy80;
+			default:	goto yy133;
 			}
-yy132:
+yy133:
 // 151 "scanner.re"
 			{
 			token->opcode = PHQL_T_GROUP;
 			return 0;
 		}
-// 1818 "scanner.c"
-yy133:
+// 1877 "scanner.c"
+yy134:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'T':
-			case 't':	goto yy136;
-			default:	goto yy80;
+			case 't':	goto yy137;
+			default:	goto yy81;
 			}
-yy134:
+yy135:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42565,45 +42619,45 @@ yy134:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy135;
+			case 'z':	goto yy80;
+			default:	goto yy136;
 			}
-yy135:
+yy136:
 // 136 "scanner.re"
 			{
 			token->opcode = PHQL_T_BY;
 			return 0;
 		}
-// 1901 "scanner.c"
-yy136:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'W':
-			case 'w':	goto yy137;
-			default:	goto yy80;
-			}
+// 1960 "scanner.c"
 yy137:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy138;
-			default:	goto yy80;
+			case 'W':
+			case 'w':	goto yy138;
+			default:	goto yy81;
 			}
 yy138:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'E':
 			case 'e':	goto yy139;
-			default:	goto yy80;
+			default:	goto yy81;
 			}
 yy139:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'N':
-			case 'n':	goto yy140;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy140;
+			default:	goto yy81;
 			}
 yy140:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'N':
+			case 'n':	goto yy141;
+			default:	goto yy81;
+			}
+yy141:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42669,24 +42723,24 @@ yy140:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy141;
+			case 'z':	goto yy80;
+			default:	goto yy142;
 			}
-yy141:
+yy142:
 // 251 "scanner.re"
 			{
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;
 		}
-// 2005 "scanner.c"
-yy142:
+// 2064 "scanner.c"
+yy143:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'F':
-			case 'f':	goto yy156;
-			default:	goto yy80;
+			case 'f':	goto yy157;
+			default:	goto yy81;
 			}
-yy143:
+yy144:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42752,17 +42806,17 @@ yy143:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy144;
+			case 'z':	goto yy80;
+			default:	goto yy145;
 			}
-yy144:
+yy145:
 // 196 "scanner.re"
 			{
 			token->opcode = PHQL_T_ON;
 			return 0;
 		}
-// 2088 "scanner.c"
-yy145:
+// 2147 "scanner.c"
+yy146:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42826,40 +42880,40 @@ yy145:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
+			case 'z':	goto yy80;
 			case 'D':
-			case 'd':	goto yy152;
-			default:	goto yy146;
+			case 'd':	goto yy153;
+			default:	goto yy147;
 			}
-yy146:
+yy147:
 // 181 "scanner.re"
 			{
 			token->opcode = PHQL_T_OR;
 			return 0;
 		}
-// 2164 "scanner.c"
-yy147:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy148;
-			default:	goto yy80;
-			}
+// 2223 "scanner.c"
 yy148:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy149;
-			default:	goto yy80;
+			case 'T':
+			case 't':	goto yy149;
+			default:	goto yy81;
 			}
 yy149:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy150;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy150;
+			default:	goto yy81;
 			}
 yy150:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy151;
+			default:	goto yy81;
+			}
+yy151:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -42925,31 +42979,31 @@ yy150:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy151;
+			case 'z':	goto yy80;
+			default:	goto yy152;
 			}
-yy151:
+yy152:
 // 226 "scanner.re"
 			{
 			token->opcode = PHQL_T_OUTER;
 			return 0;
 		}
-// 2261 "scanner.c"
-yy152:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy153;
-			default:	goto yy80;
-			}
+// 2320 "scanner.c"
 yy153:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy154;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy154;
+			default:	goto yy81;
 			}
 yy154:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy155;
+			default:	goto yy81;
+			}
+yy155:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43015,38 +43069,38 @@ yy154:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy155;
+			case 'z':	goto yy80;
+			default:	goto yy156;
 			}
-yy155:
+yy156:
 // 131 "scanner.re"
 			{
 			token->opcode = PHQL_T_ORDER;
 			return 0;
 		}
-// 2351 "scanner.c"
-yy156:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'S':
-			case 's':	goto yy157;
-			default:	goto yy80;
-			}
+// 2410 "scanner.c"
 yy157:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy158;
-			default:	goto yy80;
+			case 'S':
+			case 's':	goto yy158;
+			default:	goto yy81;
 			}
 yy158:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy159;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy159;
+			default:	goto yy81;
 			}
 yy159:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy160;
+			default:	goto yy81;
+			}
+yy160:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43112,38 +43166,38 @@ yy159:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy160;
+			case 'z':	goto yy80;
+			default:	goto yy161;
 			}
-yy160:
+yy161:
 // 166 "scanner.re"
 			{
 			token->opcode = PHQL_T_OFFSET;
 			return 0;
 		}
-// 2448 "scanner.c"
-yy161:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy162;
-			default:	goto yy80;
-			}
+// 2507 "scanner.c"
 yy162:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy163;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy163;
+			default:	goto yy81;
 			}
 yy163:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy164;
-			default:	goto yy80;
+			case 'R':
+			case 'r':	goto yy164;
+			default:	goto yy81;
 			}
 yy164:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy165;
+			default:	goto yy81;
+			}
+yy165:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43209,45 +43263,45 @@ yy164:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy165;
+			case 'z':	goto yy80;
+			default:	goto yy166;
 			}
-yy165:
+yy166:
 // 121 "scanner.re"
 			{
 			token->opcode = PHQL_T_WHERE;
 			return 0;
 		}
-// 2545 "scanner.c"
-yy166:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy167;
-			default:	goto yy80;
-			}
+// 2604 "scanner.c"
 yy167:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'U':
-			case 'u':	goto yy168;
-			default:	goto yy80;
+			case 'L':
+			case 'l':	goto yy168;
+			default:	goto yy81;
 			}
 yy168:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy169;
-			default:	goto yy80;
+			case 'U':
+			case 'u':	goto yy169;
+			default:	goto yy81;
 			}
 yy169:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'S':
-			case 's':	goto yy170;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy170;
+			default:	goto yy81;
 			}
 yy170:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'S':
+			case 's':	goto yy171;
+			default:	goto yy81;
+			}
+yy171:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43313,17 +43367,17 @@ yy170:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy171;
+			case 'z':	goto yy80;
+			default:	goto yy172;
 			}
-yy171:
+yy172:
 // 116 "scanner.re"
 			{
 			token->opcode = PHQL_T_VALUES;
 			return 0;
 		}
-// 2649 "scanner.c"
-yy172:
+// 2708 "scanner.c"
+yy173:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43383,23 +43437,23 @@ yy172:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
+			case 'z':	goto yy80;
 			case 'N':
-			case 'n':	goto yy178;
+			case 'n':	goto yy179;
 			case 'S':
-			case 's':	goto yy176;
+			case 's':	goto yy177;
 			case 'T':
-			case 't':	goto yy177;
-			default:	goto yy173;
+			case 't':	goto yy178;
+			default:	goto yy174;
 			}
-yy173:
+yy174:
 // 191 "scanner.re"
 			{
 			token->opcode = PHQL_T_IN;
 			return 0;
 		}
-// 2725 "scanner.c"
-yy174:
+// 2784 "scanner.c"
+yy175:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43465,45 +43519,45 @@ yy174:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy175;
+			case 'z':	goto yy80;
+			default:	goto yy176;
 			}
-yy175:
+yy176:
 // 236 "scanner.re"
 			{
 			token->opcode = PHQL_T_IS;
 			return 0;
 		}
-// 2801 "scanner.c"
-yy176:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy184;
-			default:	goto yy80;
-			}
+// 2860 "scanner.c"
 yy177:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'O':
-			case 'o':	goto yy182;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy185;
+			default:	goto yy81;
 			}
 yy178:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy179;
-			default:	goto yy80;
+			case 'O':
+			case 'o':	goto yy183;
+			default:	goto yy81;
 			}
 yy179:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'R':
-			case 'r':	goto yy180;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy180;
+			default:	goto yy81;
 			}
 yy180:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'R':
+			case 'r':	goto yy181;
+			default:	goto yy81;
+			}
+yy181:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43569,17 +43623,17 @@ yy180:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy181;
+			case 'z':	goto yy80;
+			default:	goto yy182;
 			}
-yy181:
+yy182:
 // 206 "scanner.re"
 			{
 			token->opcode = PHQL_T_INNER;
 			return 0;
 		}
-// 2905 "scanner.c"
-yy182:
+// 2964 "scanner.c"
+yy183:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43645,31 +43699,31 @@ yy182:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy183;
+			case 'z':	goto yy80;
+			default:	goto yy184;
 			}
-yy183:
+yy184:
 // 111 "scanner.re"
 			{
 			token->opcode = PHQL_T_INTO;
 			return 0;
 		}
-// 2981 "scanner.c"
-yy184:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'R':
-			case 'r':	goto yy185;
-			default:	goto yy80;
-			}
+// 3040 "scanner.c"
 yy185:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy186;
-			default:	goto yy80;
+			case 'R':
+			case 'r':	goto yy186;
+			default:	goto yy81;
 			}
 yy186:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy187;
+			default:	goto yy81;
+			}
+yy187:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43735,24 +43789,24 @@ yy186:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy187;
+			case 'z':	goto yy80;
+			default:	goto yy188;
 			}
-yy187:
+yy188:
 // 106 "scanner.re"
 			{
 			token->opcode = PHQL_T_INSERT;
 			return 0;
 		}
-// 3071 "scanner.c"
-yy188:
+// 3130 "scanner.c"
+yy189:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'D':
-			case 'd':	goto yy193;
-			default:	goto yy80;
+			case 'd':	goto yy194;
+			default:	goto yy81;
 			}
-yy189:
+yy190:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43816,19 +43870,19 @@ yy189:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
+			case 'z':	goto yy80;
 			case 'C':
-			case 'c':	goto yy191;
-			default:	goto yy190;
+			case 'c':	goto yy192;
+			default:	goto yy191;
 			}
-yy190:
+yy191:
 // 101 "scanner.re"
 			{
 			token->opcode = PHQL_T_AS;
 			return 0;
 		}
-// 3154 "scanner.c"
-yy191:
+// 3213 "scanner.c"
+yy192:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43894,17 +43948,17 @@ yy191:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy192;
+			case 'z':	goto yy80;
+			default:	goto yy193;
 			}
-yy192:
+yy193:
 // 141 "scanner.re"
 			{
 			token->opcode = PHQL_T_ASC;
 			return 0;
 		}
-// 3230 "scanner.c"
-yy193:
+// 3289 "scanner.c"
+yy194:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -43970,38 +44024,38 @@ yy193:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy194;
+			case 'z':	goto yy80;
+			default:	goto yy195;
 			}
-yy194:
+yy195:
 // 176 "scanner.re"
 			{
 			token->opcode = PHQL_T_AND;
 			return 0;
 		}
-// 3306 "scanner.c"
-yy195:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'O':
-			case 'o':	goto yy200;
-			default:	goto yy80;
-			}
+// 3365 "scanner.c"
 yy196:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'L':
-			case 'l':	goto yy197;
-			default:	goto yy80;
+			case 'O':
+			case 'o':	goto yy201;
+			default:	goto yy81;
 			}
 yy197:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'L':
 			case 'l':	goto yy198;
-			default:	goto yy80;
+			default:	goto yy81;
 			}
 yy198:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'L':
+			case 'l':	goto yy199;
+			default:	goto yy81;
+			}
+yy199:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44067,24 +44121,24 @@ yy198:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy199;
+			case 'z':	goto yy80;
+			default:	goto yy200;
 			}
-yy199:
+yy200:
 // 231 "scanner.re"
 			{
 			token->opcode = PHQL_T_FULL;
 			return 0;
 		}
-// 3403 "scanner.c"
-yy200:
+// 3462 "scanner.c"
+yy201:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'M':
-			case 'm':	goto yy201;
-			default:	goto yy80;
+			case 'm':	goto yy202;
+			default:	goto yy81;
 			}
-yy201:
+yy202:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44150,68 +44204,68 @@ yy201:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy202;
+			case 'z':	goto yy80;
+			default:	goto yy203;
 			}
-yy202:
+yy203:
 // 96 "scanner.re"
 			{
 			token->opcode = PHQL_T_FROM;
 			return 0;
 		}
-// 3486 "scanner.c"
-yy203:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'L':
-			case 'l':	goto yy212;
-			case 'S':
-			case 's':	goto yy213;
-			default:	goto yy80;
-			}
+// 3545 "scanner.c"
 yy204:
 			yych = *++YYCURSOR;
 			switch (yych) {
+			case 'L':
+			case 'l':	goto yy213;
 			case 'S':
-			case 's':	goto yy205;
-			default:	goto yy80;
+			case 's':	goto yy214;
+			default:	goto yy81;
 			}
 yy205:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy206;
-			default:	goto yy80;
+			case 'S':
+			case 's':	goto yy206;
+			default:	goto yy81;
 			}
 yy206:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'I':
-			case 'i':	goto yy207;
-			default:	goto yy80;
+			case 'T':
+			case 't':	goto yy207;
+			default:	goto yy81;
 			}
 yy207:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'N':
-			case 'n':	goto yy208;
-			default:	goto yy80;
+			case 'I':
+			case 'i':	goto yy208;
+			default:	goto yy81;
 			}
 yy208:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'C':
-			case 'c':	goto yy209;
-			default:	goto yy80;
+			case 'N':
+			case 'n':	goto yy209;
+			default:	goto yy81;
 			}
 yy209:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy210;
-			default:	goto yy80;
+			case 'C':
+			case 'c':	goto yy210;
+			default:	goto yy81;
 			}
 yy210:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy211;
+			default:	goto yy81;
+			}
+yy211:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44277,31 +44331,31 @@ yy210:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy211;
+			case 'z':	goto yy80;
+			default:	goto yy212;
 			}
-yy211:
+yy212:
 // 246 "scanner.re"
 			{
 			token->opcode = PHQL_T_DISTINCT;
 			return 0;
 		}
-// 3613 "scanner.c"
-yy212:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy216;
-			default:	goto yy80;
-			}
+// 3672 "scanner.c"
 yy213:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'C':
-			case 'c':	goto yy214;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy217;
+			default:	goto yy81;
 			}
 yy214:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'C':
+			case 'c':	goto yy215;
+			default:	goto yy81;
+			}
+yy215:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44367,31 +44421,31 @@ yy214:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy215;
+			case 'z':	goto yy80;
+			default:	goto yy216;
 			}
-yy215:
+yy216:
 // 146 "scanner.re"
 			{
 			token->opcode = PHQL_T_DESC;
 			return 0;
 		}
-// 3703 "scanner.c"
-yy216:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'T':
-			case 't':	goto yy217;
-			default:	goto yy80;
-			}
+// 3762 "scanner.c"
 yy217:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy218;
-			default:	goto yy80;
+			case 'T':
+			case 't':	goto yy218;
+			default:	goto yy81;
 			}
 yy218:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy219;
+			default:	goto yy81;
+			}
+yy219:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44457,26 +44511,26 @@ yy218:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy219;
+			case 'z':	goto yy80;
+			default:	goto yy220;
 			}
-yy219:
+yy220:
 // 91 "scanner.re"
 			{
 			token->opcode = PHQL_T_DELETE;
 			return 0;
 		}
-// 3793 "scanner.c"
-yy220:
+// 3852 "scanner.c"
+yy221:
 			yych = *++YYCURSOR;
 			switch (yych) {
 			case 'L':
-			case 'l':	goto yy223;
+			case 'l':	goto yy224;
 			case 'T':
-			case 't':	goto yy221;
-			default:	goto yy80;
+			case 't':	goto yy222;
+			default:	goto yy81;
 			}
-yy221:
+yy222:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44542,38 +44596,38 @@ yy221:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy222;
+			case 'z':	goto yy80;
+			default:	goto yy223;
 			}
-yy222:
+yy223:
 // 86 "scanner.re"
 			{
 			token->opcode = PHQL_T_SET;
 			return 0;
 		}
-// 3878 "scanner.c"
-yy223:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'E':
-			case 'e':	goto yy224;
-			default:	goto yy80;
-			}
+// 3937 "scanner.c"
 yy224:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'C':
-			case 'c':	goto yy225;
-			default:	goto yy80;
+			case 'E':
+			case 'e':	goto yy225;
+			default:	goto yy81;
 			}
 yy225:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy226;
-			default:	goto yy80;
+			case 'C':
+			case 'c':	goto yy226;
+			default:	goto yy81;
 			}
 yy226:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'T':
+			case 't':	goto yy227;
+			default:	goto yy81;
+			}
+yy227:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44639,45 +44693,45 @@ yy226:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy227;
+			case 'z':	goto yy80;
+			default:	goto yy228;
 			}
-yy227:
+yy228:
 // 126 "scanner.re"
 			{
 			token->opcode = PHQL_T_SELECT;
 			return 0;
 		}
-// 3975 "scanner.c"
-yy228:
-			yych = *++YYCURSOR;
-			switch (yych) {
-			case 'D':
-			case 'd':	goto yy229;
-			default:	goto yy80;
-			}
+// 4034 "scanner.c"
 yy229:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'A':
-			case 'a':	goto yy230;
-			default:	goto yy80;
+			case 'D':
+			case 'd':	goto yy230;
+			default:	goto yy81;
 			}
 yy230:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'T':
-			case 't':	goto yy231;
-			default:	goto yy80;
+			case 'A':
+			case 'a':	goto yy231;
+			default:	goto yy81;
 			}
 yy231:
 			yych = *++YYCURSOR;
 			switch (yych) {
-			case 'E':
-			case 'e':	goto yy232;
-			default:	goto yy80;
+			case 'T':
+			case 't':	goto yy232;
+			default:	goto yy81;
 			}
 yy232:
+			yych = *++YYCURSOR;
+			switch (yych) {
+			case 'E':
+			case 'e':	goto yy233;
+			default:	goto yy81;
+			}
+yy233:
 			++YYCURSOR;
 			switch ((yych = *YYCURSOR)) {
 			case '0':
@@ -44743,17 +44797,17 @@ yy232:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy79;
-			default:	goto yy233;
+			case 'z':	goto yy80;
+			default:	goto yy234;
 			}
-yy233:
+yy234:
 // 81 "scanner.re"
 			{
 			token->opcode = PHQL_T_UPDATE;
 			return 0;
 		}
-// 4079 "scanner.c"
-yy234:
+// 4138 "scanner.c"
+yy235:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -44819,11 +44873,11 @@ yy234:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto yy234;
-			case ':':	goto yy236;
-			default:	goto yy76;
+			case 'z':	goto yy235;
+			case ':':	goto yy237;
+			default:	goto yy77;
 			}
-yy236:
+yy237:
 			++YYCURSOR;
 // 73 "scanner.re"
 			{
@@ -44833,8 +44887,8 @@ yy236:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4160 "scanner.c"
-yy238:
+// 4219 "scanner.c"
+yy239:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -44847,10 +44901,10 @@ yy238:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy238;
-			default:	goto yy240;
+			case '9':	goto yy239;
+			default:	goto yy241;
 			}
-yy240:
+yy241:
 // 64 "scanner.re"
 			{
 			token->opcode = PHQL_T_NPLACEHOLDER;
@@ -44859,8 +44913,8 @@ yy240:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4186 "scanner.c"
-yy241:
+// 4245 "scanner.c"
+yy242:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -44873,10 +44927,10 @@ yy241:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy241;
-			default:	goto yy243;
+			case '9':	goto yy242;
+			default:	goto yy244;
 			}
-yy243:
+yy244:
 // 55 "scanner.re"
 			{
 			token->opcode = PHQL_T_DOUBLE;
@@ -44885,8 +44939,8 @@ yy243:
 			q = YYCURSOR;
 			return 0;
 		}
-// 4212 "scanner.c"
-yy244:
+// 4271 "scanner.c"
+yy245:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
@@ -44899,14 +44953,14 @@ yy244:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy244;
-			default:	goto yy243;
+			case '9':	goto yy245;
+			default:	goto yy244;
 			}
-yy246:
+yy247:
 			++YYCURSOR;
 			yych = *YYCURSOR;
 			switch (yych) {
-			case '.':	goto yy244;
+			case '.':	goto yy245;
 			case '0':
 			case '1':
 			case '2':
@@ -44916,7 +44970,7 @@ yy246:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto yy246;
+			case '9':	goto yy247;
 			default:	goto yy3;
 			}
 		}
@@ -46100,7 +46154,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(name, annotation, "getname");
 	
-	if (PHALCON_COMPARE_STRING(name, "RoutePrefix")) {
+	if (PHALCON_IS_STRING(name, "RoutePrefix")) {
 		PHALCON_INIT_VAR(position);
 		ZVAL_LONG(position, 0);
 	
@@ -46137,27 +46191,27 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 	PHALCON_INIT_VAR(name);
 	PHALCON_CALL_METHOD(name, annotation, "getname");
 	
-	if (PHALCON_COMPARE_STRING(name, "Route")) {
+	if (PHALCON_IS_STRING(name, "Route")) {
 		ZVAL_BOOL(is_route, 1);
 	} else {
-		if (PHALCON_COMPARE_STRING(name, "Get")) {
+		if (PHALCON_IS_STRING(name, "Get")) {
 			ZVAL_BOOL(is_route, 1);
 	
 			ZVAL_STRING(methods, "GET", 1);
 		} else {
-			if (PHALCON_COMPARE_STRING(name, "Post")) {
+			if (PHALCON_IS_STRING(name, "Post")) {
 				ZVAL_BOOL(is_route, 1);
 	
 				PHALCON_INIT_NVAR(methods);
 				ZVAL_STRING(methods, "POST", 1);
 			} else {
-				if (PHALCON_COMPARE_STRING(name, "Put")) {
+				if (PHALCON_IS_STRING(name, "Put")) {
 					ZVAL_BOOL(is_route, 1);
 	
 					PHALCON_INIT_NVAR(methods);
 					ZVAL_STRING(methods, "PUT", 1);
 				} else {
-					if (PHALCON_COMPARE_STRING(name, "Options")) {
+					if (PHALCON_IS_STRING(name, "Options")) {
 						ZVAL_BOOL(is_route, 1);
 	
 						PHALCON_INIT_NVAR(methods);
@@ -46205,7 +46259,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation){
 		PHALCON_CALL_METHOD_PARAMS_1(value, annotation, "getargument", position);
 	
 		if (Z_TYPE_P(value) != IS_NULL) {
-			if (!PHALCON_COMPARE_STRING(value, "/")) {
+			if (!PHALCON_IS_STRING(value, "/")) {
 				PHALCON_INIT_VAR(uri);
 				PHALCON_CONCAT_VV(uri, route_prefix, value);
 			} else {
@@ -48305,7 +48359,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 	
 	PHALCON_OBS_VAR(left_type);
 	phalcon_array_fetch_string(&left_type, left, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(left_type, 265 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(left_type, 265)) {
 	
 		PHALCON_OBS_VAR(variable);
 		phalcon_array_fetch_string(&variable, left, SL("value"), PH_NOISY_CC);
@@ -48327,8 +48381,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 	} else {
 		PHALCON_INIT_VAR(left_code);
 		PHALCON_CALL_METHOD_PARAMS_1(left_code, this_ptr, "expression", left);
-		if (!phalcon_compare_strict_long(left_type, 46 TSRMLS_CC)) {
-			if (!phalcon_compare_strict_long(left_type, 350 TSRMLS_CC)) {
+		if (!PHALCON_IS_LONG(left_type, 46)) {
+			if (!PHALCON_IS_LONG(left_type, 350)) {
 				PHALCON_SCONCAT_SVS(expr_code, "(", left_code, ")");
 			} else {
 				phalcon_concat_self(&expr_code, left_code TSRMLS_CC);
@@ -48345,7 +48399,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader){
 	
 	PHALCON_OBS_VAR(right_type);
 	phalcon_array_fetch_string(&right_type, right, SL("type"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(right_type, 265 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(right_type, 265)) {
 		PHALCON_OBS_VAR(member);
 		phalcon_array_fetch_string(&member, right, SL("value"), PH_NOISY_CC);
 		phalcon_concat_self(&expr_code, member TSRMLS_CC);
@@ -48399,7 +48453,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 	PHALCON_OBS_VAR(name_type);
 	phalcon_array_fetch_string(&name_type, name_expr, SL("type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(name_type, 265 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(name_type, 265)) {
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, name_expr, SL("value"), PH_NOISY_CC);
@@ -48440,25 +48494,25 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			}
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "get_content")) {
+		if (PHALCON_IS_STRING(name, "get_content")) {
 			PHALCON_INIT_NVAR(code);
 			ZVAL_STRING(code, "$this->getContent()", 1);
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "content")) {
+		if (PHALCON_IS_STRING(name, "content")) {
 			PHALCON_INIT_NVAR(code);
 			ZVAL_STRING(code, "$this->getContent()", 1);
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "partial")) {
+		if (PHALCON_IS_STRING(name, "partial")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->partial(", arguments, ")");
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "super")) {
+		if (PHALCON_IS_STRING(name, "super")) {
 	
 			PHALCON_OBS_VAR(extended_blocks);
 			phalcon_read_property(&extended_blocks, this_ptr, SL("_extendedBlocks"), PH_NOISY_CC);
@@ -48536,43 +48590,43 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, functionCall){
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "url")) {
+		if (PHALCON_IS_STRING(name, "url")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "$this->url->get(", arguments, ")");
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "date")) {
+		if (PHALCON_IS_STRING(name, "date")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "date(", arguments, ")");
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "time")) {
+		if (PHALCON_IS_STRING(name, "time")) {
 			PHALCON_INIT_NVAR(code);
 			ZVAL_STRING(code, "time()", 1);
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "dump")) {
+		if (PHALCON_IS_STRING(name, "dump")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "var_dump(", arguments, ")");
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "version")) {
+		if (PHALCON_IS_STRING(name, "version")) {
 			PHALCON_INIT_NVAR(code);
 			ZVAL_STRING(code, "Phalcon\\Version::get()", 1);
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "version_id")) {
+		if (PHALCON_IS_STRING(name, "version_id")) {
 			PHALCON_INIT_NVAR(code);
 			ZVAL_STRING(code, "Phalcon\\Version::getId()", 1);
 			RETURN_CCTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "constant")) {
+		if (PHALCON_IS_STRING(name, "constant")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "constant(", arguments, ")");
 			RETURN_CCTOR(code);
@@ -48619,49 +48673,49 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, test, SL("type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 265 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 265)) {
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, test, SL("value"), PH_NOISY_CC);
 	
-		if (PHALCON_COMPARE_STRING(name, "empty")) {
+		if (PHALCON_IS_STRING(name, "empty")) {
 			PHALCON_INIT_VAR(code);
 			PHALCON_CONCAT_SVS(code, "empty(", left, ")");
 			RETURN_CTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "even")) {
+		if (PHALCON_IS_STRING(name, "even")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "(((", left, ") % 2) == 0)");
 			RETURN_CTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "odd")) {
+		if (PHALCON_IS_STRING(name, "odd")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "(((", left, ") % 2) != 0)");
 			RETURN_CTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "numeric")) {
+		if (PHALCON_IS_STRING(name, "numeric")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "is_numeric(", left, ")");
 			RETURN_CTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "scalar")) {
+		if (PHALCON_IS_STRING(name, "scalar")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVS(code, "is_scalar(", left, ")");
 			RETURN_CTOR(code);
 		}
 	
-		if (PHALCON_COMPARE_STRING(name, "iterable")) {
+		if (PHALCON_IS_STRING(name, "iterable")) {
 			PHALCON_INIT_NVAR(code);
 			PHALCON_CONCAT_SVSVS(code, "(is_array(", left, ") || (", left, ") instanceof Traversable)");
 			RETURN_CTOR(code);
 		}
 	}
 	
-	if (phalcon_compare_strict_long(type, 350 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 350)) {
 	
 		PHALCON_OBS_VAR(test_name);
 		phalcon_array_fetch_string(&test_name, test, SL("name"), PH_NOISY_CC);
@@ -48669,7 +48723,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 	
 			PHALCON_OBS_NVAR(name);
 			phalcon_array_fetch_string(&name, test_name, SL("value"), PH_NOISY_CC);
-			if (PHALCON_COMPARE_STRING(name, "divisibleby")) {
+			if (PHALCON_IS_STRING(name, "divisibleby")) {
 				PHALCON_OBS_VAR(test_arguments);
 				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
 	
@@ -48681,7 +48735,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveTest){
 				RETURN_CTOR(code);
 			}
 	
-			if (PHALCON_COMPARE_STRING(name, "sameas")) {
+			if (PHALCON_IS_STRING(name, "sameas")) {
 				PHALCON_OBS_NVAR(test_arguments);
 				phalcon_array_fetch_string(&test_arguments, test, SL("arguments"), PH_NOISY_CC);
 	
@@ -48727,11 +48781,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, filter, SL("type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 265 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 265)) {
 		PHALCON_OBS_VAR(name);
 		phalcon_array_fetch_string(&name, filter, SL("value"), PH_NOISY_CC);
 	} else {
-		if (phalcon_compare_strict_long(type, 350 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(type, 350)) {
 			PHALCON_OBS_VAR(function_name);
 			phalcon_array_fetch_string(&function_name, filter, SL("name"), PH_NOISY_CC);
 	
@@ -48766,7 +48820,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 		PHALCON_OBS_NVAR(func_arguments);
 		phalcon_array_fetch_string(&func_arguments, filter, SL("arguments"), PH_NOISY_CC);
 	
-		if (!PHALCON_COMPARE_STRING(name, "default")) {
+		if (!PHALCON_IS_STRING(name, "default")) {
 			PHALCON_INIT_VAR(resolved_expr);
 			array_init_size(resolved_expr, 4);
 			add_assoc_long_ex(resolved_expr, SS("type"), 364);
@@ -48828,157 +48882,157 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter){
 		}
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "length")) {
+	if (PHALCON_IS_STRING(name, "length")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->length(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "e")) {
+	if (PHALCON_IS_STRING(name, "e")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "escape")) {
+	if (PHALCON_IS_STRING(name, "escape")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtml(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "escape_css")) {
+	if (PHALCON_IS_STRING(name, "escape_css")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeCss(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "escape_js")) {
+	if (PHALCON_IS_STRING(name, "escape_js")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeJs(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "escape_attr")) {
+	if (PHALCON_IS_STRING(name, "escape_attr")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->escaper->escapeHtmlAttr(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "trim")) {
+	if (PHALCON_IS_STRING(name, "trim")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "trim(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "striptags")) {
+	if (PHALCON_IS_STRING(name, "striptags")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "strip_tags(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "url_encode")) {
+	if (PHALCON_IS_STRING(name, "url_encode")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "urlencode(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "slashes")) {
+	if (PHALCON_IS_STRING(name, "slashes")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "addslashes(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "stripslashes")) {
+	if (PHALCON_IS_STRING(name, "stripslashes")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "stripslashes(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "nl2br")) {
+	if (PHALCON_IS_STRING(name, "nl2br")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "nl2br(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "keys")) {
+	if (PHALCON_IS_STRING(name, "keys")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "array_keys(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "join")) {
+	if (PHALCON_IS_STRING(name, "join")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "join(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "lowercase")) {
+	if (PHALCON_IS_STRING(name, "lowercase")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "Phalcon\\Text::lower(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "lower")) {
+	if (PHALCON_IS_STRING(name, "lower")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "Phalcon\\Text::lower(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "uppercase")) {
+	if (PHALCON_IS_STRING(name, "uppercase")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "Phalcon\\Text::upper(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "upper")) {
+	if (PHALCON_IS_STRING(name, "upper")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "Phalcon\\Text::upper(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "sort")) {
+	if (PHALCON_IS_STRING(name, "sort")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "asort(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "json_encode")) {
+	if (PHALCON_IS_STRING(name, "json_encode")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "json_encode(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "json_decode")) {
+	if (PHALCON_IS_STRING(name, "json_decode")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "json_decode(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "format")) {
+	if (PHALCON_IS_STRING(name, "format")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "sprintf(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "abs")) {
+	if (PHALCON_IS_STRING(name, "abs")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "abs(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "slice")) {
+	if (PHALCON_IS_STRING(name, "slice")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->slice(", arguments, ")");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "default")) {
+	if (PHALCON_IS_STRING(name, "default")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVSVSVS(code, "(empty(", left, ") ? (", arguments, ") : (", left, "))");
 		RETURN_CCTOR(code);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "convert_encoding")) {
+	if (PHALCON_IS_STRING(name, "convert_encoding")) {
 		PHALCON_INIT_NVAR(code);
 		PHALCON_CONCAT_SVS(code, "$this->convertEncoding(", arguments, ")");
 		RETURN_CCTOR(code);
@@ -49060,7 +49114,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, expr, SL("type"), PH_NOISY_CC);
 	
-	if (phalcon_compare_strict_long(type, 46 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 46)) {
 		PHALCON_INIT_NVAR(expr_code);
 		PHALCON_CALL_METHOD_PARAMS_1(expr_code, this_ptr, "attributereader", expr);
 		RETURN_CCTOR(expr_code);
@@ -49074,7 +49128,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		PHALCON_CALL_METHOD_PARAMS_1(left_code, this_ptr, "expression", left);
 	}
 	
-	if (phalcon_compare_strict_long(type, 311 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 311)) {
 		PHALCON_OBS_VAR(right_code);
 		phalcon_array_fetch_string(&right_code, expr, SL("right"), PH_NOISY_CC);
 	
@@ -49083,7 +49137,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, expression){
 		RETURN_CCTOR(expr_code);
 	}
 	
-	if (phalcon_compare_strict_long(type, 124 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(type, 124)) {
 		PHALCON_OBS_NVAR(right_code);
 		phalcon_array_fetch_string(&right_code, expr, SL("right"), PH_NOISY_CC);
 	
@@ -49733,7 +49787,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 		PHALCON_OBS_VAR(level);
 		phalcon_read_property(&level, this_ptr, SL("_level"), PH_NOISY_CC);
-		if (phalcon_compare_strict_long(level, 1 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(level, 1)) {
 			if (Z_TYPE_P(compilation) != IS_NULL) {
 				phalcon_update_property_array_append(this_ptr, SL("_blocks"), compilation TSRMLS_CC);
 			}
@@ -49897,9 +49951,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileString){
 
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 
-	zval *path, *compiled_path, *extends_mode = NULL, *same;
-	zval *view_code, *exception_message, *compilation;
-	zval *final_compilation = NULL, *status;
+	zval *path, *compiled_path, *extends_mode = NULL, *view_code;
+	zval *exception_message, *compilation, *final_compilation = NULL;
+	zval *status;
 
 	PHALCON_MM_GROW();
 
@@ -49912,9 +49966,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileFile){
 		ZVAL_BOOL(extends_mode, 0);
 	}
 	
-	PHALCON_INIT_VAR(same);
-	is_equal_function(same, path, compiled_path TSRMLS_CC);
-	if (PHALCON_IS_TRUE(same)) {
+	if (PHALCON_IS_EQUAL(path, compiled_path)) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Template path and compilation template path cannot be the same");
 		return;
 	}
@@ -52993,7 +53045,7 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	return status;
 }
 
-/* Generated by re2c 0.13.5 on Tue Jan 15 15:19:59 2013 */
+/* Generated by re2c 0.13.5 on Fri Jan 18 16:53:49 2013 */
 // 1 "scanner.re"
 
 
@@ -53081,23 +53133,23 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case 0x00:	goto kk62;
+			case 0x00:	goto kk63;
 			case '\t':
 			case '\r':
-			case ' ':	goto kk58;
-			case '\n':	goto kk60;
-			case '!':	goto kk52;
+			case ' ':	goto kk59;
+			case '\n':	goto kk61;
+			case '!':	goto kk53;
 			case '"':	goto kk21;
 			case '%':	goto kk18;
 			case '\'':	goto kk22;
-			case '(':	goto kk38;
-			case ')':	goto kk40;
-			case '*':	goto kk28;
-			case '+':	goto kk24;
-			case ',':	goto kk36;
-			case '-':	goto kk26;
-			case '.':	goto kk34;
-			case '/':	goto kk30;
+			case '(':	goto kk39;
+			case ')':	goto kk41;
+			case '*':	goto kk29;
+			case '+':	goto kk25;
+			case ',':	goto kk37;
+			case '-':	goto kk27;
+			case '.':	goto kk35;
+			case '/':	goto kk31;
 			case '0':
 			case '1':
 			case '2':
@@ -53108,10 +53160,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case '7':
 			case '8':
 			case '9':	goto kk2;
-			case ':':	goto kk56;
-			case '<':	goto kk46;
-			case '=':	goto kk48;
-			case '>':	goto kk50;
+			case ':':	goto kk57;
+			case '<':	goto kk47;
+			case '=':	goto kk49;
+			case '>':	goto kk51;
 			case 'A':
 			case 'a':	goto kk11;
 			case 'B':
@@ -53153,7 +53205,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk23;
+			case 'z':	goto kk24;
 			case 'I':
 			case 'i':	goto kk4;
 			case 'N':
@@ -53164,18 +53216,19 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			case 's':	goto kk8;
 			case 'T':
 			case 't':	goto kk10;
-			case '[':	goto kk42;
-			case ']':	goto kk44;
+			case '[':	goto kk43;
+			case '\\':	goto kk23;
+			case ']':	goto kk45;
 			case '{':	goto kk16;
-			case '|':	goto kk54;
+			case '|':	goto kk55;
 			case '}':	goto kk20;
-			case '~':	goto kk32;
-			default:	goto kk64;
+			case '~':	goto kk33;
+			default:	goto kk65;
 			}
 kk2:
 			kkaccept = 0;
 			kkch = *(KKMARKER = ++KKCURSOR);
-			goto kk228;
+			goto kk229;
 kk3:
 // 105 "scanner.re"
 			{
@@ -53185,17 +53238,17 @@ kk3:
 			q = KKCURSOR;
 			return 0;
 		}
-// 215 "scanner.c"
+// 216 "scanner.c"
 kk4:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case 'F':
-			case 'f':	goto kk214;
+			case 'f':	goto kk215;
 			case 'N':
-			case 'n':	goto kk216;
+			case 'n':	goto kk217;
 			case 'S':
-			case 's':	goto kk218;
-			default:	goto kk84;
+			case 's':	goto kk219;
+			default:	goto kk85;
 			}
 kk5:
 // 299 "scanner.re"
@@ -53206,98 +53259,98 @@ kk5:
 			q = KKCURSOR;
 			return 0;
 		}
-// 236 "scanner.c"
+// 237 "scanner.c"
 kk6:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk171;
+			case 'l':	goto kk172;
 			case 'N':
-			case 'n':	goto kk172;
+			case 'n':	goto kk173;
 			case 'X':
-			case 'x':	goto kk173;
-			default:	goto kk84;
+			case 'x':	goto kk174;
+			default:	goto kk85;
 			}
 kk7:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
-			case 'a':	goto kk163;
+			case 'a':	goto kk164;
 			case 'O':
-			case 'o':	goto kk164;
-			default:	goto kk84;
+			case 'o':	goto kk165;
+			default:	goto kk85;
 			}
 kk8:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk160;
-			default:	goto kk84;
+			case 'e':	goto kk161;
+			default:	goto kk85;
 			}
 kk9:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'O':
-			case 'o':	goto kk153;
+			case 'o':	goto kk154;
 			case 'U':
-			case 'u':	goto kk154;
-			default:	goto kk84;
+			case 'u':	goto kk155;
+			default:	goto kk85;
 			}
 kk10:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk149;
-			default:	goto kk84;
+			case 'r':	goto kk150;
+			default:	goto kk85;
 			}
 kk11:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'N':
-			case 'n':	goto kk136;
+			case 'n':	goto kk137;
 			case 'U':
-			case 'u':	goto kk137;
-			default:	goto kk84;
+			case 'u':	goto kk138;
+			default:	goto kk85;
 			}
 kk12:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk134;
-			default:	goto kk84;
+			case 'r':	goto kk135;
+			default:	goto kk85;
 			}
 kk13:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
-			case 'l':	goto kk124;
+			case 'l':	goto kk125;
 			case 'R':
-			case 'r':	goto kk125;
-			default:	goto kk84;
+			case 'r':	goto kk126;
+			default:	goto kk85;
 			}
 kk14:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk115;
+			case 'e':	goto kk116;
 			case 'O':
-			case 'o':	goto kk116;
-			default:	goto kk84;
+			case 'o':	goto kk117;
+			default:	goto kk85;
 			}
 kk15:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'A':
-			case 'a':	goto kk102;
+			case 'a':	goto kk103;
 			case 'O':
-			case 'o':	goto kk103;
-			default:	goto kk84;
+			case 'o':	goto kk104;
+			default:	goto kk85;
 			}
 kk16:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '%':	goto kk100;
-			case '{':	goto kk98;
+			case '%':	goto kk101;
+			case '{':	goto kk99;
 			default:	goto kk17;
 			}
 kk17:
@@ -53306,11 +53359,11 @@ kk17:
 			status = PHVOLT_SCANNER_RETCODE_ERR;
 			break;
 		}
-// 336 "scanner.c"
+// 337 "scanner.c"
 kk18:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '}':	goto kk96;
+			case '}':	goto kk97;
 			default:	goto kk19;
 			}
 kk19:
@@ -53319,200 +53372,257 @@ kk19:
 			token->opcode = PHVOLT_T_MOD;
 			return 0;
 		}
-// 349 "scanner.c"
+// 350 "scanner.c"
 kk20:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case '}':	goto kk94;
+			case '}':	goto kk95;
 			default:	goto kk17;
 			}
 kk21:
 			kkaccept = 1;
 			kkch = *(KKMARKER = ++KKCURSOR);
 			if (kkch <= 0x00) goto kk17;
-			goto kk92;
+			goto kk93;
 kk22:
 			kkaccept = 1;
 			kkch = *(KKMARKER = ++KKCURSOR);
 			if (kkch <= 0x00) goto kk17;
-			goto kk86;
+			goto kk87;
 kk23:
 			kkch = *++KKCURSOR;
-			goto kk84;
+			switch (kkch) {
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto kk84;
+			default:	goto kk17;
+			}
 kk24:
+			kkch = *++KKCURSOR;
+			goto kk85;
+kk25:
 			++KKCURSOR;
 // 307 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ADD;
 			return 0;
 		}
-// 376 "scanner.c"
-kk26:
+// 434 "scanner.c"
+kk27:
 			++KKCURSOR;
 // 312 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SUB;
 			return 0;
 		}
-// 384 "scanner.c"
-kk28:
+// 442 "scanner.c"
+kk29:
 			++KKCURSOR;
 // 317 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_MUL;
 			return 0;
 		}
-// 392 "scanner.c"
-kk30:
+// 450 "scanner.c"
+kk31:
 			++KKCURSOR;
 // 322 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DIV;
 			return 0;
 		}
-// 400 "scanner.c"
-kk32:
+// 458 "scanner.c"
+kk33:
 			++KKCURSOR;
 // 332 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_CONCAT;
 			return 0;
 		}
-// 408 "scanner.c"
-kk34:
+// 466 "scanner.c"
+kk35:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '.':	goto kk81;
-			default:	goto kk35;
+			case '.':	goto kk82;
+			default:	goto kk36;
 			}
-kk35:
+kk36:
 // 342 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOT;
 			return 0;
 		}
-// 421 "scanner.c"
-kk36:
+// 479 "scanner.c"
+kk37:
 			++KKCURSOR;
 // 347 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_COMMA;
 			return 0;
 		}
-// 429 "scanner.c"
-kk38:
+// 487 "scanner.c"
+kk39:
 			++KKCURSOR;
 // 352 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 437 "scanner.c"
-kk40:
+// 495 "scanner.c"
+kk41:
 			++KKCURSOR;
 // 357 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 445 "scanner.c"
-kk42:
+// 503 "scanner.c"
+kk43:
 			++KKCURSOR;
 // 362 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 453 "scanner.c"
-kk44:
+// 511 "scanner.c"
+kk45:
 			++KKCURSOR;
 // 367 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 461 "scanner.c"
-kk46:
+// 519 "scanner.c"
+kk47:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk79;
-			case '>':	goto kk77;
-			default:	goto kk47;
+			case '=':	goto kk80;
+			case '>':	goto kk78;
+			default:	goto kk48;
 			}
-kk47:
+kk48:
 // 417 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESS;
 			return 0;
 		}
-// 475 "scanner.c"
-kk48:
+// 533 "scanner.c"
+kk49:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk73;
-			default:	goto kk49;
+			case '=':	goto kk74;
+			default:	goto kk50;
 			}
-kk49:
+kk50:
 // 377 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ASSIGN;
 			return 0;
 		}
-// 488 "scanner.c"
-kk50:
+// 546 "scanner.c"
+kk51:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk71;
-			default:	goto kk51;
+			case '=':	goto kk72;
+			default:	goto kk52;
 			}
-kk51:
+kk52:
 // 422 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATER;
 			return 0;
 		}
-// 501 "scanner.c"
-kk52:
+// 559 "scanner.c"
+kk53:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk67;
-			default:	goto kk53;
+			case '=':	goto kk68;
+			default:	goto kk54;
 			}
-kk53:
+kk54:
 // 412 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 514 "scanner.c"
-kk54:
+// 572 "scanner.c"
+kk55:
 			++KKCURSOR;
 // 427 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_PIPE;
 			return 0;
 		}
-// 522 "scanner.c"
-kk56:
+// 580 "scanner.c"
+kk57:
 			++KKCURSOR;
 // 432 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLECOLON;
 			return 0;
 		}
-// 530 "scanner.c"
-kk58:
+// 588 "scanner.c"
+kk59:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-			goto kk66;
-kk59:
+			goto kk67;
+kk60:
 // 437 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 541 "scanner.c"
-kk60:
+// 599 "scanner.c"
+kk61:
 			++KKCURSOR;
 // 442 "scanner.re"
 			{
@@ -53520,106 +53630,106 @@ kk60:
 			token->opcode = PHVOLT_T_IGNORE;
 			return 0;
 		}
-// 550 "scanner.c"
-kk62:
+// 608 "scanner.c"
+kk63:
 			++KKCURSOR;
 // 448 "scanner.re"
 			{
 			status = PHVOLT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 558 "scanner.c"
-kk64:
+// 616 "scanner.c"
+kk65:
 			kkch = *++KKCURSOR;
 			goto kk17;
-kk65:
+kk66:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk66:
+kk67:
 			switch (kkch) {
 			case '\t':
 			case '\r':
-			case ' ':	goto kk65;
-			default:	goto kk59;
-			}
-kk67:
-			++KKCURSOR;
-			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk69;
-			default:	goto kk68;
+			case ' ':	goto kk66;
+			default:	goto kk60;
 			}
 kk68:
+			++KKCURSOR;
+			switch ((kkch = *KKCURSOR)) {
+			case '=':	goto kk70;
+			default:	goto kk69;
+			}
+kk69:
 // 392 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 584 "scanner.c"
-kk69:
+// 642 "scanner.c"
+kk70:
 			++KKCURSOR;
 // 407 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTIDENTICAL;
 			return 0;
 		}
-// 592 "scanner.c"
-kk71:
+// 650 "scanner.c"
+kk72:
 			++KKCURSOR;
 // 382 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_GREATEREQUAL;
 			return 0;
 		}
-// 600 "scanner.c"
-kk73:
+// 658 "scanner.c"
+kk74:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
-			case '=':	goto kk75;
-			default:	goto kk74;
+			case '=':	goto kk76;
+			default:	goto kk75;
 			}
-kk74:
+kk75:
 // 387 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_EQUALS;
 			return 0;
 		}
-// 613 "scanner.c"
-kk75:
+// 671 "scanner.c"
+kk76:
 			++KKCURSOR;
 // 402 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IDENTICAL;
 			return 0;
 		}
-// 621 "scanner.c"
-kk77:
+// 679 "scanner.c"
+kk78:
 			++KKCURSOR;
 // 397 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NOTEQUALS;
 			return 0;
 		}
-// 629 "scanner.c"
-kk79:
+// 687 "scanner.c"
+kk80:
 			++KKCURSOR;
 // 372 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_LESSEQUAL;
 			return 0;
 		}
-// 637 "scanner.c"
-kk81:
+// 695 "scanner.c"
+kk82:
 			++KKCURSOR;
 // 337 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_RANGE;
 			return 0;
 		}
-// 645 "scanner.c"
-kk83:
+// 703 "scanner.c"
+kk84:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk84:
+kk85:
 			switch (kkch) {
 			case '0':
 			case '1':
@@ -53684,33 +53794,33 @@ kk84:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
+			case 'z':	goto kk84;
 			default:	goto kk5;
 			}
-kk85:
+kk86:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
-kk86:
-			switch (kkch) {
-			case 0x00:	goto kk87;
-			case '\'':	goto kk89;
-			case '\\':	goto kk88;
-			default:	goto kk85;
-			}
 kk87:
+			switch (kkch) {
+			case 0x00:	goto kk88;
+			case '\'':	goto kk90;
+			case '\\':	goto kk89;
+			default:	goto kk86;
+			}
+kk88:
 			KKCURSOR = KKMARKER;
 			switch (kkaccept) {
 			case 0: 	goto kk3;
 			case 1: 	goto kk17;
 			}
-kk88:
+kk89:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
-			case '\n':	goto kk87;
-			default:	goto kk85;
+			case '\n':	goto kk88;
+			default:	goto kk86;
 			}
-kk89:
+kk90:
 			++KKCURSOR;
 // 290 "scanner.re"
 			{
@@ -53720,25 +53830,25 @@ kk89:
 			q = KKCURSOR;
 			return 0;
 		}
-// 750 "scanner.c"
-kk91:
-			++KKCURSOR;
-			kkch = *KKCURSOR;
+// 808 "scanner.c"
 kk92:
-			switch (kkch) {
-			case 0x00:	goto kk87;
-			case '"':	goto kk89;
-			case '\\':	goto kk93;
-			default:	goto kk91;
-			}
-kk93:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
+kk93:
 			switch (kkch) {
-			case '\n':	goto kk87;
-			default:	goto kk91;
+			case 0x00:	goto kk88;
+			case '"':	goto kk90;
+			case '\\':	goto kk94;
+			default:	goto kk92;
 			}
 kk94:
+			++KKCURSOR;
+			kkch = *KKCURSOR;
+			switch (kkch) {
+			case '\n':	goto kk88;
+			default:	goto kk92;
+			}
+kk95:
 			++KKCURSOR;
 // 283 "scanner.re"
 			{
@@ -53746,8 +53856,8 @@ kk94:
 			token->opcode = PHVOLT_T_CLOSE_EDELIMITER;
 			return 0;
 		}
-// 776 "scanner.c"
-kk96:
+// 834 "scanner.c"
+kk97:
 			++KKCURSOR;
 // 271 "scanner.re"
 			{
@@ -53755,8 +53865,8 @@ kk96:
 			token->opcode = PHVOLT_T_CLOSE_DELIMITER;
 			return 0;
 		}
-// 785 "scanner.c"
-kk98:
+// 843 "scanner.c"
+kk99:
 			++KKCURSOR;
 // 277 "scanner.re"
 			{
@@ -53764,65 +53874,65 @@ kk98:
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
 			return 0;
 		}
-// 794 "scanner.c"
-kk100:
+// 852 "scanner.c"
+kk101:
 			++KKCURSOR;
 // 266 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OPEN_DELIMITER;
 			return 0;
 		}
-// 802 "scanner.c"
-kk102:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk111;
-			default:	goto kk84;
-			}
+// 860 "scanner.c"
 kk103:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk104;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk112;
+			default:	goto kk85;
 			}
 kk104:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'T':
-			case 't':	goto kk105;
-			default:	goto kk84;
+			case 'N':
+			case 'n':	goto kk105;
+			default:	goto kk85;
 			}
 kk105:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'I':
-			case 'i':	goto kk106;
-			default:	goto kk84;
+			case 'T':
+			case 't':	goto kk106;
+			default:	goto kk85;
 			}
 kk106:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk107;
-			default:	goto kk84;
+			case 'I':
+			case 'i':	goto kk107;
+			default:	goto kk85;
 			}
 kk107:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk108;
-			default:	goto kk84;
+			case 'N':
+			case 'n':	goto kk108;
+			default:	goto kk85;
 			}
 kk108:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk109;
-			default:	goto kk84;
+			case 'U':
+			case 'u':	goto kk109;
+			default:	goto kk85;
 			}
 kk109:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk110;
+			default:	goto kk85;
+			}
+kk110:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -53888,32 +53998,32 @@ kk109:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk110;
+			case 'z':	goto kk84;
+			default:	goto kk111;
 			}
-kk110:
+kk111:
 // 254 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CONTINUE;
 			return 0;
 		}
-// 928 "scanner.c"
-kk111:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'H':
-			case 'h':	goto kk112;
-			default:	goto kk84;
-			}
+// 986 "scanner.c"
 kk112:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk113;
-			default:	goto kk84;
+			case 'H':
+			case 'h':	goto kk113;
+			default:	goto kk85;
 			}
 kk113:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk114;
+			default:	goto kk85;
+			}
+kk114:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -53979,25 +54089,25 @@ kk113:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk114;
+			case 'z':	goto kk84;
+			default:	goto kk115;
 			}
-kk114:
+kk115:
 // 225 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_CACHE;
 			return 0;
 		}
-// 1019 "scanner.c"
-kk115:
+// 1077 "scanner.c"
+kk116:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'F':
-			case 'f':	goto kk118;
-			default:	goto kk84;
+			case 'f':	goto kk119;
+			default:	goto kk85;
 			}
-kk116:
+kk117:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54063,46 +54173,46 @@ kk116:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk117;
+			case 'z':	goto kk84;
+			default:	goto kk118;
 			}
-kk117:
+kk118:
 // 236 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DO;
 			return 0;
 		}
-// 1103 "scanner.c"
-kk118:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'I':
-			case 'i':	goto kk119;
-			default:	goto kk84;
-			}
+// 1161 "scanner.c"
 kk119:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk120;
-			default:	goto kk84;
+			case 'I':
+			case 'i':	goto kk120;
+			default:	goto kk85;
 			}
 kk120:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk121;
-			default:	goto kk84;
+			case 'N':
+			case 'n':	goto kk121;
+			default:	goto kk85;
 			}
 kk121:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk122;
-			default:	goto kk84;
+			case 'E':
+			case 'e':	goto kk122;
+			default:	goto kk85;
 			}
 kk122:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'D':
+			case 'd':	goto kk123;
+			default:	goto kk85;
+			}
+kk123:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54168,46 +54278,46 @@ kk122:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk123;
+			case 'z':	goto kk84;
+			default:	goto kk124;
 			}
-kk123:
+kk124:
 // 213 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_DEFINED;
 			return 0;
 		}
-// 1208 "scanner.c"
-kk124:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk130;
-			default:	goto kk84;
-			}
+// 1266 "scanner.c"
 kk125:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk126;
-			default:	goto kk84;
+			case 'O':
+			case 'o':	goto kk131;
+			default:	goto kk85;
 			}
 kk126:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk127;
-			default:	goto kk84;
+			case 'E':
+			case 'e':	goto kk127;
+			default:	goto kk85;
 			}
 kk127:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk128;
-			default:	goto kk84;
+			case 'A':
+			case 'a':	goto kk128;
+			default:	goto kk85;
 			}
 kk128:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk129;
+			default:	goto kk85;
+			}
+kk129:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54273,32 +54383,32 @@ kk128:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk129;
+			case 'z':	goto kk84;
+			default:	goto kk130;
 			}
-kk129:
+kk130:
 // 260 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_BREAK;
 			return 0;
 		}
-// 1313 "scanner.c"
-kk130:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk131;
-			default:	goto kk84;
-			}
+// 1371 "scanner.c"
 kk131:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk132;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk132;
+			default:	goto kk85;
 			}
 kk132:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk133;
+			default:	goto kk85;
+			}
+kk133:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54364,18 +54474,18 @@ kk132:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk133;
+			case 'z':	goto kk84;
+			default:	goto kk134;
 			}
-kk133:
+kk134:
 // 184 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_BLOCK;
 			return 0;
 		}
-// 1404 "scanner.c"
-kk134:
+// 1462 "scanner.c"
+kk135:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54441,80 +54551,80 @@ kk134:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk135;
+			case 'z':	goto kk84;
+			default:	goto kk136;
 			}
-kk135:
+kk136:
 // 179 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_OR;
 			return 0;
 		}
-// 1480 "scanner.c"
-kk136:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk147;
-			default:	goto kk84;
-			}
+// 1538 "scanner.c"
 kk137:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'T':
-			case 't':	goto kk138;
-			default:	goto kk84;
+			case 'D':
+			case 'd':	goto kk148;
+			default:	goto kk85;
 			}
 kk138:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk139;
-			default:	goto kk84;
+			case 'T':
+			case 't':	goto kk139;
+			default:	goto kk85;
 			}
 kk139:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk140;
-			default:	goto kk84;
+			case 'O':
+			case 'o':	goto kk140;
+			default:	goto kk85;
 			}
 kk140:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'S':
-			case 's':	goto kk141;
-			default:	goto kk84;
+			case 'E':
+			case 'e':	goto kk141;
+			default:	goto kk85;
 			}
 kk141:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk142;
-			default:	goto kk84;
+			case 'S':
+			case 's':	goto kk142;
+			default:	goto kk85;
 			}
 kk142:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk143;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk143;
+			default:	goto kk85;
 			}
 kk143:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'P':
-			case 'p':	goto kk144;
-			default:	goto kk84;
+			case 'A':
+			case 'a':	goto kk144;
+			default:	goto kk85;
 			}
 kk144:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk145;
-			default:	goto kk84;
+			case 'P':
+			case 'p':	goto kk145;
+			default:	goto kk85;
 			}
 kk145:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk146;
+			default:	goto kk85;
+			}
+kk146:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54580,18 +54690,18 @@ kk145:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk146;
+			case 'z':	goto kk84;
+			default:	goto kk147;
 			}
-kk146:
+kk147:
 // 242 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_AUTOESCAPE;
 			return 0;
 		}
-// 1620 "scanner.c"
-kk147:
+// 1678 "scanner.c"
+kk148:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54657,31 +54767,31 @@ kk147:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk148;
+			case 'z':	goto kk84;
+			default:	goto kk149;
 			}
-kk148:
+kk149:
 // 174 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_AND;
 			return 0;
 		}
-// 1696 "scanner.c"
-kk149:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk150;
-			default:	goto kk84;
-			}
+// 1754 "scanner.c"
 kk150:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk151;
-			default:	goto kk84;
+			case 'U':
+			case 'u':	goto kk151;
+			default:	goto kk85;
 			}
 kk151:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk152;
+			default:	goto kk85;
+			}
+kk152:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54747,38 +54857,38 @@ kk151:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk152;
+			case 'z':	goto kk84;
+			default:	goto kk153;
 			}
-kk152:
+kk153:
 // 169 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_TRUE;
 			return 0;
 		}
-// 1786 "scanner.c"
-kk153:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'T':
-			case 't':	goto kk158;
-			default:	goto kk84;
-			}
+// 1844 "scanner.c"
 kk154:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk155;
-			default:	goto kk84;
+			case 'T':
+			case 't':	goto kk159;
+			default:	goto kk85;
 			}
 kk155:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'L':
 			case 'l':	goto kk156;
-			default:	goto kk84;
+			default:	goto kk85;
 			}
 kk156:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'L':
+			case 'l':	goto kk157;
+			default:	goto kk85;
+			}
+kk157:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54844,17 +54954,17 @@ kk156:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk157;
+			case 'z':	goto kk84;
+			default:	goto kk158;
 			}
-kk157:
+kk158:
 // 159 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_NULL;
 			return 0;
 		}
-// 1883 "scanner.c"
-kk158:
+// 1941 "scanner.c"
+kk159:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -54920,25 +55030,25 @@ kk158:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk159;
+			case 'z':	goto kk84;
+			default:	goto kk160;
 			}
-kk159:
+kk160:
 // 207 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_NOT;
 			return 0;
 		}
-// 1960 "scanner.c"
-kk160:
+// 2018 "scanner.c"
+kk161:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'T':
-			case 't':	goto kk161;
-			default:	goto kk84;
+			case 't':	goto kk162;
+			default:	goto kk85;
 			}
-kk161:
+kk162:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55004,31 +55114,31 @@ kk161:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk162;
+			case 'z':	goto kk84;
+			default:	goto kk163;
 			}
-kk162:
+kk163:
 // 154 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
-// 2043 "scanner.c"
-kk163:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk167;
-			default:	goto kk84;
-			}
+// 2101 "scanner.c"
 kk164:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'R':
-			case 'r':	goto kk165;
-			default:	goto kk84;
+			case 'L':
+			case 'l':	goto kk168;
+			default:	goto kk85;
 			}
 kk165:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'R':
+			case 'r':	goto kk166;
+			default:	goto kk85;
+			}
+kk166:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55094,32 +55204,32 @@ kk165:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk166;
+			case 'z':	goto kk84;
+			default:	goto kk167;
 			}
-kk166:
+kk167:
 // 138 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_FOR;
 			return 0;
 		}
-// 2134 "scanner.c"
-kk167:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'S':
-			case 's':	goto kk168;
-			default:	goto kk84;
-			}
+// 2192 "scanner.c"
 kk168:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk169;
-			default:	goto kk84;
+			case 'S':
+			case 's':	goto kk169;
+			default:	goto kk85;
 			}
 kk169:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk170;
+			default:	goto kk85;
+			}
+kk170:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55185,66 +55295,66 @@ kk169:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk170;
+			case 'z':	goto kk84;
+			default:	goto kk171;
 			}
-kk170:
+kk171:
 // 164 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_FALSE;
 			return 0;
 		}
-// 2224 "scanner.c"
-kk171:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'S':
-			case 's':	goto kk211;
-			default:	goto kk84;
-			}
+// 2282 "scanner.c"
 kk172:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk180;
-			default:	goto kk84;
+			case 'S':
+			case 's':	goto kk212;
+			default:	goto kk85;
 			}
 kk173:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'T':
-			case 't':	goto kk174;
-			default:	goto kk84;
+			case 'D':
+			case 'd':	goto kk181;
+			default:	goto kk85;
 			}
 kk174:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk175;
-			default:	goto kk84;
+			case 'T':
+			case 't':	goto kk175;
+			default:	goto kk85;
 			}
 kk175:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'N':
-			case 'n':	goto kk176;
-			default:	goto kk84;
+			case 'E':
+			case 'e':	goto kk176;
+			default:	goto kk85;
 			}
 kk176:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk177;
-			default:	goto kk84;
+			case 'N':
+			case 'n':	goto kk177;
+			default:	goto kk85;
 			}
 kk177:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'S':
-			case 's':	goto kk178;
-			default:	goto kk84;
+			case 'D':
+			case 'd':	goto kk178;
+			default:	goto kk85;
 			}
 kk178:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'S':
+			case 's':	goto kk179;
+			default:	goto kk85;
+			}
+kk179:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55310,68 +55420,68 @@ kk178:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk179;
+			case 'z':	goto kk84;
+			default:	goto kk180;
 			}
-kk179:
+kk180:
 // 195 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_EXTENDS;
 			return 0;
 		}
-// 2350 "scanner.c"
-kk180:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk181;
-			case 'B':
-			case 'b':	goto kk182;
-			case 'C':
-			case 'c':	goto kk183;
-			case 'F':
-			case 'f':	goto kk184;
-			case 'I':
-			case 'i':	goto kk185;
-			default:	goto kk84;
-			}
+// 2408 "scanner.c"
 kk181:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk201;
-			default:	goto kk84;
+			case 'A':
+			case 'a':	goto kk182;
+			case 'B':
+			case 'b':	goto kk183;
+			case 'C':
+			case 'c':	goto kk184;
+			case 'F':
+			case 'f':	goto kk185;
+			case 'I':
+			case 'i':	goto kk186;
+			default:	goto kk85;
 			}
 kk182:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk196;
-			default:	goto kk84;
+			case 'U':
+			case 'u':	goto kk202;
+			default:	goto kk85;
 			}
 kk183:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk191;
-			default:	goto kk84;
+			case 'L':
+			case 'l':	goto kk197;
+			default:	goto kk85;
 			}
 kk184:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk188;
-			default:	goto kk84;
+			case 'A':
+			case 'a':	goto kk192;
+			default:	goto kk85;
 			}
 kk185:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'F':
-			case 'f':	goto kk186;
-			default:	goto kk84;
+			case 'O':
+			case 'o':	goto kk189;
+			default:	goto kk85;
 			}
 kk186:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'F':
+			case 'f':	goto kk187;
+			default:	goto kk85;
+			}
+kk187:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55437,24 +55547,24 @@ kk186:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk187;
+			case 'z':	goto kk84;
+			default:	goto kk188;
 			}
-kk187:
+kk188:
 // 133 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
 		}
-// 2476 "scanner.c"
-kk188:
+// 2534 "scanner.c"
+kk189:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'R':
-			case 'r':	goto kk189;
-			default:	goto kk84;
+			case 'r':	goto kk190;
+			default:	goto kk85;
 			}
-kk189:
+kk190:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55520,38 +55630,38 @@ kk189:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk190;
+			case 'z':	goto kk84;
+			default:	goto kk191;
 			}
-kk190:
+kk191:
 // 144 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDFOR;
 			return 0;
 		}
-// 2559 "scanner.c"
-kk191:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk192;
-			default:	goto kk84;
-			}
+// 2617 "scanner.c"
 kk192:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'H':
-			case 'h':	goto kk193;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk193;
+			default:	goto kk85;
 			}
 kk193:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk194;
-			default:	goto kk84;
+			case 'H':
+			case 'h':	goto kk194;
+			default:	goto kk85;
 			}
 kk194:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk195;
+			default:	goto kk85;
+			}
+kk195:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55617,38 +55727,38 @@ kk194:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk195;
+			case 'z':	goto kk84;
+			default:	goto kk196;
 			}
-kk195:
+kk196:
 // 231 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDCACHE;
 			return 0;
 		}
-// 2656 "scanner.c"
-kk196:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk197;
-			default:	goto kk84;
-			}
+// 2714 "scanner.c"
 kk197:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk198;
-			default:	goto kk84;
+			case 'O':
+			case 'o':	goto kk198;
+			default:	goto kk85;
 			}
 kk198:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'K':
-			case 'k':	goto kk199;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk199;
+			default:	goto kk85;
 			}
 kk199:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'K':
+			case 'k':	goto kk200;
+			default:	goto kk85;
+			}
+kk200:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55714,73 +55824,73 @@ kk199:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk200;
+			case 'z':	goto kk84;
+			default:	goto kk201;
 			}
-kk200:
+kk201:
 // 190 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ENDBLOCK;
 			return 0;
 		}
-// 2753 "scanner.c"
-kk201:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'T':
-			case 't':	goto kk202;
-			default:	goto kk84;
-			}
+// 2811 "scanner.c"
 kk202:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'O':
-			case 'o':	goto kk203;
-			default:	goto kk84;
+			case 'T':
+			case 't':	goto kk203;
+			default:	goto kk85;
 			}
 kk203:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk204;
-			default:	goto kk84;
+			case 'O':
+			case 'o':	goto kk204;
+			default:	goto kk85;
 			}
 kk204:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'S':
-			case 's':	goto kk205;
-			default:	goto kk84;
+			case 'E':
+			case 'e':	goto kk205;
+			default:	goto kk85;
 			}
 kk205:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'C':
-			case 'c':	goto kk206;
-			default:	goto kk84;
+			case 'S':
+			case 's':	goto kk206;
+			default:	goto kk85;
 			}
 kk206:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'A':
-			case 'a':	goto kk207;
-			default:	goto kk84;
+			case 'C':
+			case 'c':	goto kk207;
+			default:	goto kk85;
 			}
 kk207:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'P':
-			case 'p':	goto kk208;
-			default:	goto kk84;
+			case 'A':
+			case 'a':	goto kk208;
+			default:	goto kk85;
 			}
 kk208:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk209;
-			default:	goto kk84;
+			case 'P':
+			case 'p':	goto kk209;
+			default:	goto kk85;
 			}
 kk209:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk210;
+			default:	goto kk85;
+			}
+kk210:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55846,25 +55956,25 @@ kk209:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk210;
+			case 'z':	goto kk84;
+			default:	goto kk211;
 			}
-kk210:
+kk211:
 // 248 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_ENDAUTOESCAPE;
 			return 0;
 		}
-// 2886 "scanner.c"
-kk211:
+// 2944 "scanner.c"
+kk212:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case 'E':
-			case 'e':	goto kk212;
-			default:	goto kk84;
+			case 'e':	goto kk213;
+			default:	goto kk85;
 			}
-kk212:
+kk213:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -55930,17 +56040,17 @@ kk212:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk213;
+			case 'z':	goto kk84;
+			default:	goto kk214;
 			}
-kk213:
+kk214:
 // 128 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_ELSE;
 			return 0;
 		}
-// 2969 "scanner.c"
-kk214:
+// 3027 "scanner.c"
+kk215:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56006,18 +56116,18 @@ kk214:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk215;
+			case 'z':	goto kk84;
+			default:	goto kk216;
 			}
-kk215:
+kk216:
 // 122 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IF;
 			return 0;
 		}
-// 3046 "scanner.c"
-kk216:
+// 3104 "scanner.c"
+kk217:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56081,19 +56191,19 @@ kk216:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
+			case 'z':	goto kk84;
 			case 'C':
-			case 'c':	goto kk220;
-			default:	goto kk217;
+			case 'c':	goto kk221;
+			default:	goto kk218;
 			}
-kk217:
+kk218:
 // 149 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_IN;
 			return 0;
 		}
-// 3122 "scanner.c"
-kk218:
+// 3180 "scanner.c"
+kk219:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56159,46 +56269,46 @@ kk218:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk219;
+			case 'z':	goto kk84;
+			default:	goto kk220;
 			}
-kk219:
+kk220:
 // 201 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IS;
 			return 0;
 		}
-// 3199 "scanner.c"
-kk220:
-			kkch = *++KKCURSOR;
-			switch (kkch) {
-			case 'L':
-			case 'l':	goto kk221;
-			default:	goto kk84;
-			}
+// 3257 "scanner.c"
 kk221:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'U':
-			case 'u':	goto kk222;
-			default:	goto kk84;
+			case 'L':
+			case 'l':	goto kk222;
+			default:	goto kk85;
 			}
 kk222:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'D':
-			case 'd':	goto kk223;
-			default:	goto kk84;
+			case 'U':
+			case 'u':	goto kk223;
+			default:	goto kk85;
 			}
 kk223:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
-			case 'E':
-			case 'e':	goto kk224;
-			default:	goto kk84;
+			case 'D':
+			case 'd':	goto kk224;
+			default:	goto kk85;
 			}
 kk224:
+			kkch = *++KKCURSOR;
+			switch (kkch) {
+			case 'E':
+			case 'e':	goto kk225;
+			default:	goto kk85;
+			}
+kk225:
 			++KKCURSOR;
 			switch ((kkch = *KKCURSOR)) {
 			case '0':
@@ -56264,18 +56374,18 @@ kk224:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto kk83;
-			default:	goto kk225;
+			case 'z':	goto kk84;
+			default:	goto kk226;
 			}
-kk225:
+kk226:
 // 219 "scanner.re"
 			{
 			s->statement_position++;
 			token->opcode = PHVOLT_T_INCLUDE;
 			return 0;
 		}
-// 3304 "scanner.c"
-kk226:
+// 3362 "scanner.c"
+kk227:
 			kkch = *++KKCURSOR;
 			switch (kkch) {
 			case '0':
@@ -56287,16 +56397,16 @@ kk226:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk229;
-			default:	goto kk87;
+			case '9':	goto kk230;
+			default:	goto kk88;
 			}
-kk227:
+kk228:
 			kkaccept = 0;
 			KKMARKER = ++KKCURSOR;
 			kkch = *KKCURSOR;
-kk228:
+kk229:
 			switch (kkch) {
-			case '.':	goto kk226;
+			case '.':	goto kk227;
 			case '0':
 			case '1':
 			case '2':
@@ -56306,10 +56416,10 @@ kk228:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk227;
+			case '9':	goto kk228;
 			default:	goto kk3;
 			}
-kk229:
+kk230:
 			++KKCURSOR;
 			kkch = *KKCURSOR;
 			switch (kkch) {
@@ -56322,10 +56432,10 @@ kk229:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto kk229;
-			default:	goto kk231;
+			case '9':	goto kk230;
+			default:	goto kk232;
 			}
-kk231:
+kk232:
 // 114 "scanner.re"
 			{
 			token->opcode = PHVOLT_T_DOUBLE;
@@ -56334,7 +56444,7 @@ kk231:
 			q = KKCURSOR;
 			return 0;
 		}
-// 3364 "scanner.c"
+// 3422 "scanner.c"
 		}
 // 458 "scanner.re"
 
@@ -58486,7 +58596,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes){
 
 PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
-	zval *id, *routes, *route = NULL, *route_id = NULL, *is_equal = NULL;
+	zval *id, *routes, *route = NULL, *route_id = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -58510,10 +58620,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 	
 		PHALCON_INIT_NVAR(route_id);
 		PHALCON_CALL_METHOD(route_id, route, "getrouteid");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_id, id TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_id, id)) {
 			RETURN_CCTOR(route);
 		}
 	
@@ -58525,7 +58632,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById){
 
 PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 
-	zval *name, *routes, *route = NULL, *route_name = NULL, *is_equal = NULL;
+	zval *name, *routes, *route = NULL, *route_name = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -58549,10 +58656,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName){
 	
 		PHALCON_INIT_NVAR(route_name);
 		PHALCON_CALL_METHOD(route_name, route, "getname");
-	
-		PHALCON_INIT_NVAR(is_equal);
-		is_equal_function(is_equal, route_name, name TSRMLS_CC);
-		if (PHALCON_IS_TRUE(is_equal)) {
+		if (PHALCON_IS_EQUAL(route_name, name)) {
 			RETURN_CCTOR(route);
 		}
 	
@@ -59597,7 +59701,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
 	
 		PHALCON_OBS_VAR(operation_made);
 		phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
-		if (phalcon_compare_strict_long(operation_made, 3 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(operation_made, 3)) {
 			PHALCON_INIT_VAR(event_name);
 			ZVAL_STRING(event_name, "notDeleted", 1);
 		} else {
@@ -59754,7 +59858,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 	
-		if (PHALCON_COMPARE_STRING(key, "_id")) {
+		if (PHALCON_IS_STRING(key, "_id")) {
 			if (Z_TYPE_P(value) != IS_NULL) {
 				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
@@ -60089,7 +60193,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 		PHALCON_GET_FOREACH_KEY(key, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(value);
 	
-		if (PHALCON_COMPARE_STRING(key, "_id")) {
+		if (PHALCON_IS_STRING(key, "_id")) {
 			if (Z_TYPE_P(value) != IS_NULL) {
 				phalcon_array_update_zval(&data, key, &value, PH_COPY | PH_SEPARATE TSRMLS_CC);
 			}
@@ -61054,9 +61158,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 	zval *null_value, *number_empty, *where_pk, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
 	zval *value = NULL, *escaped_field = NULL, *pk_condition = NULL, *type = NULL;
-	zval *is_empty, *join_where, *dirty_state, *schema;
-	zval *source, *escaped_table, *null_mode, *select;
-	zval *num, *row_count;
+	zval *join_where, *dirty_state, *schema, *source;
+	zval *escaped_table, *null_mode, *select, *num;
+	zval *row_count;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -61169,9 +61273,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-			PHALCON_INIT_VAR(is_empty);
-			is_equal_function(is_empty, number_primary, number_empty TSRMLS_CC);
-			if (PHALCON_IS_FALSE(is_empty)) {
+			if (!PHALCON_IS_EQUAL(number_primary, number_empty)) {
 				PHALCON_INIT_VAR(join_where);
 				phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
 	
@@ -61536,7 +61638,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation){
 
 	PHALCON_OBS_VAR(operation_made);
 	phalcon_read_property(&operation_made, this_ptr, SL("_operationMade"), PH_NOISY_CC);
-	if (phalcon_compare_strict_long(operation_made, 3 TSRMLS_CC)) {
+	if (PHALCON_IS_LONG(operation_made, 3)) {
 		PHALCON_INIT_VAR(event_name);
 		ZVAL_STRING(event_name, "notDeleted", 1);
 	} else {
@@ -61961,9 +62063,8 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 	zval *status = NULL, *not_null, *data_type_numeric;
 	zval *column_map = NULL, *automatic_attributes = NULL, *error = NULL;
 	zval *null_value, *field = NULL, *is_null = NULL, *attribute_field = NULL;
-	zval *exception_message = NULL, *value = NULL, *is_numeric = NULL;
-	zval *is_identity_field = NULL, *message = NULL, *type = NULL, *model_message = NULL;
-	zval *skipped;
+	zval *exception_message = NULL, *value = NULL, *message = NULL, *type = NULL;
+	zval *model_message = NULL, *skipped;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -62074,9 +62175,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 									ZVAL_BOOL(is_null, 1);
 								}
 							} else {
-								PHALCON_INIT_NVAR(is_numeric);
-								PHALCON_CALL_FUNC_PARAMS_1(is_numeric, "is_numeric", value);
-								if (PHALCON_IS_FALSE(is_numeric)) {
+								if (!phalcon_is_numeric(value)) {
 									PHALCON_INIT_NVAR(is_null);
 									ZVAL_BOOL(is_null, 1);
 								}
@@ -62090,9 +62189,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave){
 					if (PHALCON_IS_TRUE(is_null)) {
 						if (!zend_is_true(exists)) {
 	
-							PHALCON_INIT_NVAR(is_identity_field);
-							is_equal_function(is_identity_field, field, identity_field TSRMLS_CC);
-							if (PHALCON_IS_TRUE(is_identity_field)) {
+							if (PHALCON_IS_EQUAL(field, identity_field)) {
 								zend_hash_move_forward_ex(ah0, &hp0);
 								continue;
 							}
@@ -62244,9 +62341,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 	zval *bind_types, *attributes, *bind_data_types;
 	zval *automatic_attributes, *column_map = NULL, *field = NULL;
 	zval *attribute_field = NULL, *exception_message = NULL;
-	zval *is_not_identity_field = NULL, *value = NULL, *bind_type = NULL;
-	zval *default_value, *success, *sequence_name = NULL;
-	zval *support_sequences, *source, *last_insert_id;
+	zval *value = NULL, *bind_type = NULL, *default_value, *success;
+	zval *sequence_name = NULL, *support_sequences, *source;
+	zval *last_insert_id;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -62311,9 +62408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert){
 				PHALCON_CPY_WRT(attribute_field, field);
 			}
 	
-			PHALCON_INIT_NVAR(is_not_identity_field);
-			is_not_equal_function(is_not_identity_field, field, identity_field TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_not_identity_field)) {
+			if (!PHALCON_IS_EQUAL(field, identity_field)) {
 				phalcon_array_append(&fields, field, PH_SEPARATE TSRMLS_CC);
 				if (phalcon_isset_property_zval(this_ptr, attribute_field TSRMLS_CC)) {
 					if (!phalcon_array_isset(bind_data_types, field)) {
@@ -62574,7 +62669,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords){
 			PHALCON_INIT_NVAR(type);
 			PHALCON_CALL_METHOD(type, relation, "gettype");
 	
-			if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(type, 0)) {
 				if (Z_TYPE_P(record) != IS_OBJECT) {
 					PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Only objects can be stored as part of belongs-to relations");
 					return;
@@ -62670,7 +62765,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords){
 			PHALCON_INIT_NVAR(type);
 			PHALCON_CALL_METHOD(type, relation, "gettype");
 	
-			if (phalcon_compare_strict_long(type, 0 TSRMLS_CC)) {
+			if (PHALCON_IS_LONG(type, 0)) {
 				zend_hash_move_forward_ex(ah0, &hp0);
 				continue;
 			}
@@ -64723,7 +64818,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addRole){
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 
 	zval *role_name, *role_to_inherit, *roles_names;
-	zval *exception_message = NULL, *is_the_same, *roles_inherits;
+	zval *exception_message = NULL, *roles_inherits;
 	zval *empty_arr, *_roleInherits;
 
 	PHALCON_MM_GROW();
@@ -64748,9 +64843,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, addInherit){
 		return;
 	}
 	
-	PHALCON_INIT_VAR(is_the_same);
-	is_equal_function(is_the_same, role_to_inherit, role_name TSRMLS_CC);
-	if (PHALCON_IS_TRUE(is_the_same)) {
+	if (PHALCON_IS_EQUAL(role_to_inherit, role_name)) {
 		RETURN_MM_FALSE;
 	}
 	
@@ -65093,7 +65186,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, _allowOrDeny){
 		}
 	
 	} else {
-		if (!PHALCON_COMPARE_STRING(access, "*")) {
+		if (!PHALCON_IS_STRING(access, "*")) {
 	
 			PHALCON_OBS_VAR(t4);
 			phalcon_read_property(&t4, this_ptr, SL("_accessList"), PH_NOISY_CC);
@@ -65189,7 +65282,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 	zval *role, *resource, *access, *default_access;
 	zval *events_manager, *event_name = NULL, *status, *resources_names;
 	zval *roles_names, *have_access = NULL, *access_roles;
-	zval *resource_access = NULL, *resource_name = NULL, *same_resource = NULL;
+	zval *resource_access = NULL, *resource_name = NULL;
 	zval *t0 = NULL;
 	HashTable *ah0, *ah1;
 	HashPosition hp0, hp1;
@@ -65251,9 +65344,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, isAllowed){
 		PHALCON_GET_FOREACH_KEY(resource_name, ah0, hp0);
 		PHALCON_GET_FOREACH_VALUE(resource_access);
 	
-		PHALCON_INIT_NVAR(same_resource);
-		is_equal_function(same_resource, resource_name, resource TSRMLS_CC);
-		if (PHALCON_IS_TRUE(same_resource)) {
+		if (PHALCON_IS_EQUAL(resource_name, resource)) {
 			if (phalcon_array_isset(resource_access, access)) {
 				PHALCON_OBS_NVAR(have_access);
 				phalcon_array_fetch(&have_access, resource_access, access, PH_NOISY_CC);
@@ -65587,7 +65678,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct){
 		PHALCON_INIT_VAR(description);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "*")) {
+	if (PHALCON_IS_STRING(name, "*")) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Role name cannot be \"*\"");
 		return;
 	}
@@ -65656,7 +65747,7 @@ PHP_METHOD(Phalcon_Acl_Resource, __construct){
 		PHALCON_INIT_VAR(description);
 	}
 	
-	if (PHALCON_COMPARE_STRING(name, "*")) {
+	if (PHALCON_IS_STRING(name, "*")) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_acl_exception_ce, "Resource name cannot be \"*\"");
 		return;
 	}
@@ -69112,7 +69203,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, getPaginate){
 	mod_function(remainder, n, show TSRMLS_CC);
 	
 	div_function(possible_pages, n, show TSRMLS_CC);
-	if (!phalcon_compare_strict_long(remainder, 0 TSRMLS_CC)) {
+	if (!PHALCON_IS_LONG(remainder, 0)) {
 		PHALCON_INIT_NVAR(next);
 		phalcon_add_function(next, possible_pages, one TSRMLS_CC);
 	
@@ -69194,12 +69285,12 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, setCurrentPage){
 
 PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 
-	zval *show, *items, *page_number = NULL, *n, *page, *start, *total_pages = NULL;
-	zval *next = NULL, *before = NULL, *res, *div, *t_pages = NULL;
-	zval *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL, *t5 = NULL, *t6 = NULL;
-	zval *t7 = NULL;
+	zval *show, *items, *page_number = NULL, *one, *n, *page, *start;
+	zval *nn, *total_pages = NULL, *to_show, *next = NULL, *before = NULL, *res;
+	zval *div, *t_pages = NULL;
+	zval *t0 = NULL, *t1 = NULL;
 	zval *r0 = NULL, *r1 = NULL, *r2 = NULL, *r3 = NULL, *r4 = NULL, *r5 = NULL, *r6 = NULL;
-	zval *r7 = NULL, *r8 = NULL, *r9 = NULL, *r10 = NULL, *r11 = NULL;
+	zval *r7 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -69219,91 +69310,77 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 		ZVAL_LONG(page_number, 1);
 	}
 	
+	PHALCON_INIT_VAR(one);
+	ZVAL_LONG(one, 1);
+	
 	PHALCON_INIT_VAR(n);
 	phalcon_fast_count(n, items TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(page);
 	object_init(page);
 	
-	PHALCON_INIT_VAR(t1);
-	ZVAL_LONG(t1, 1);
-	
 	PHALCON_INIT_VAR(r0);
-	sub_function(r0, page_number, t1 TSRMLS_CC);
+	sub_function(r0, page_number, one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(start);
 	mul_function(start, show, r0 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t2);
-	ZVAL_LONG(t2, 1);
+	PHALCON_INIT_VAR(nn);
+	sub_function(nn, n, one TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(r1);
-	sub_function(r1, n, t2 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(r2);
-	div_function(r2, r1, show TSRMLS_CC);
+	div_function(r1, nn, show TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(total_pages);
-	PHALCON_CALL_FUNC_PARAMS_1(total_pages, "round", r2);
+	PHALCON_CALL_FUNC_PARAMS_1(total_pages, "round", r1);
 	if (Z_TYPE_P(items) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_paginator_exception_ce, "Invalid data for paginator");
 		return;
 	}
 	
-	PHALCON_INIT_VAR(r3);
-	PHALCON_CALL_FUNC_PARAMS_3(r3, "array_slice", items, start, show);
-	phalcon_update_property_zval(page, SL("items"), r3 TSRMLS_CC);
+	PHALCON_INIT_VAR(r2);
+	PHALCON_CALL_FUNC_PARAMS_3(r2, "array_slice", items, start, show);
+	phalcon_update_property_zval(page, SL("items"), r2 TSRMLS_CC);
 	phalcon_update_property_long(page, SL("first"), 1 TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r4);
-	phalcon_add_function(r4, start, show TSRMLS_CC);
+	PHALCON_INIT_VAR(to_show);
+	phalcon_add_function(to_show, start, show TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(r5);
-	is_smaller_function(r5, r4, n TSRMLS_CC);
-	if (zend_is_true(r5)) {
-		PHALCON_INIT_VAR(t3);
-		ZVAL_LONG(t3, 1);
+	PHALCON_INIT_VAR(r3);
+	is_smaller_function(r3, to_show, n TSRMLS_CC);
+	if (zend_is_true(r3)) {
+		PHALCON_INIT_VAR(t1);
+		ZVAL_LONG(t1, 1);
 		PHALCON_INIT_VAR(next);
-		phalcon_add_function(next, page_number, t3 TSRMLS_CC);
+		phalcon_add_function(next, page_number, t1 TSRMLS_CC);
 	} else {
-		PHALCON_INIT_VAR(r6);
-		phalcon_add_function(r6, start, show TSRMLS_CC);
-		PHALCON_INIT_VAR(r7);
-		is_equal_function(r7, r6, n TSRMLS_CC);
-		if (zend_is_true(r7)) {
+		if (PHALCON_IS_EQUAL(to_show, n)) {
 			PHALCON_CPY_WRT(next, n);
 		} else {
-			PHALCON_INIT_VAR(r8);
-			div_function(r8, n, show TSRMLS_CC);
-			PHALCON_INIT_VAR(t4);
-			ZVAL_LONG(t4, 1);
+			PHALCON_INIT_VAR(r4);
+			div_function(r4, n, show TSRMLS_CC);
 			PHALCON_INIT_NVAR(next);
-			phalcon_add_function(next, r8, t4 TSRMLS_CC);
+			phalcon_add_function(next, r4, one TSRMLS_CC);
 		}
 	
-		PHALCON_INIT_VAR(r9);
-		PHALCON_CALL_FUNC_PARAMS_1(r9, "intval", next);
-		PHALCON_CPY_WRT(next, r9);
+		PHALCON_INIT_VAR(r5);
+		PHALCON_CALL_FUNC_PARAMS_1(r5, "intval", next);
+		PHALCON_CPY_WRT(next, r5);
 	}
 	
-	PHALCON_INIT_VAR(r10);
-	is_smaller_function(r10, total_pages, next TSRMLS_CC);
-	if (zend_is_true(r10)) {
+	PHALCON_INIT_VAR(r6);
+	is_smaller_function(r6, total_pages, next TSRMLS_CC);
+	if (zend_is_true(r6)) {
 		PHALCON_CPY_WRT(next, total_pages);
 	}
 	
 	phalcon_update_property_zval(page, SL("next"), next TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(t5);
-	ZVAL_LONG(t5, 1);
-	
-	PHALCON_INIT_VAR(r11);
-	is_smaller_function(r11, t5, page_number TSRMLS_CC);
-	if (zend_is_true(r11)) {
-		PHALCON_INIT_VAR(t6);
-		ZVAL_LONG(t6, 1);
+	PHALCON_INIT_VAR(r7);
+	is_smaller_function(r7, one, page_number TSRMLS_CC);
+	if (zend_is_true(r7)) {
 		PHALCON_INIT_VAR(before);
-		sub_function(before, page_number, t6 TSRMLS_CC);
+		sub_function(before, page_number, one TSRMLS_CC);
 	} else {
 		PHALCON_INIT_NVAR(before);
 		ZVAL_LONG(before, 1);
@@ -69318,10 +69395,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, getPaginate){
 	PHALCON_INIT_VAR(div);
 	div_function(div, n, show TSRMLS_CC);
 	if (zend_is_true(res)) {
-		PHALCON_INIT_VAR(t7);
-		ZVAL_LONG(t7, 1);
 		PHALCON_INIT_VAR(t_pages);
-		phalcon_add_function(t_pages, div, t7 TSRMLS_CC);
+		phalcon_add_function(t_pages, div, one TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(t_pages, div);
 	}
@@ -69656,6 +69731,8 @@ PHALCON_INIT_CLASS(Phalcon_Translate_Exception){
 
 
 
+
+
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reflection, annotations_reflection, phalcon_annotations_reflection_method_entry, 0);
@@ -69676,7 +69753,9 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 		RETURN_NULL();
 	}
 
-	phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
+		phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
+	}
 	
 }
 
@@ -69948,7 +70027,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	zval *class_name, *method_name, *class_annotations;
-	zval *methods, *method = NULL, *name = NULL, *is_equal = NULL, *collection;
+	zval *methods, *method = NULL, *name = NULL, *collection;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -69976,9 +70055,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 				PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(method);
 	
-				PHALCON_INIT_NVAR(is_equal);
-				is_equal_function(is_equal, name, method_name TSRMLS_CC);
-				if (PHALCON_IS_TRUE(is_equal)) {
+				if (PHALCON_IS_EQUAL(name, method_name)) {
 					RETURN_CCTOR(method);
 				}
 	
@@ -70042,6 +70119,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse){
 	
 	PHALCON_INIT_VAR(annotations);
 	array_init(annotations);
+	
 	ce0 = zend_fetch_class(SL("ReflectionClass"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(reflection);
@@ -71332,7 +71410,7 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 
 	PHALCON_INIT_VAR(*error_msg);
 	if (state->start) {
-		error = emalloc(sizeof(char) * 64 + state->start_length +  Z_STRLEN_P(state->active_file));
+		error = emalloc(sizeof(char) * (128 + state->start_length +  Z_STRLEN_P(state->active_file)));
 		if (state->start_length > 16) {
 			error_part = estrndup(state->start, 16);
 			sprintf(error, "Parsing error before '%s...' in %s on line %d", error_part, Z_STRVAL_P(state->active_file), state->active_line);
@@ -71342,7 +71420,7 @@ static void phannot_scanner_error_msg(phannot_parser_status *parser_status, zval
 		}
 		ZVAL_STRING(*error_msg, error, 1);
 	} else {
-		error = emalloc(sizeof(char) * (32 + Z_STRLEN_P(state->active_file)));
+		error = emalloc(sizeof(char) * (64 + Z_STRLEN_P(state->active_file)));
 		sprintf(error, "Parsing error near to EOF in %s", Z_STRVAL_P(state->active_file));
 		ZVAL_STRING(*error_msg, error, 1);
 	}
@@ -71517,7 +71595,7 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 
 		state->active_token = token.opcode;
 
-		state->start_length = (Z_STRVAL_P(comment) + Z_STRLEN_P(comment) - state->start);
+		state->start_length = (Z_STRVAL(processed_comment) + Z_STRLEN(processed_comment) - state->start);
 
 		switch (token.opcode) {
 
@@ -71663,6 +71741,8 @@ int phannot_internal_parse_annotations(zval **result, zval *comment, zval *file_
 
 
 
+
+
 PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Collection, annotations_collection, phalcon_annotations_collection_method_entry, 0);
@@ -71794,12 +71874,10 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations){
 PHP_METHOD(Phalcon_Annotations_Collection, get){
 
 	zval *name, *annotations, *annotation = NULL, *annotation_name = NULL;
-	zval *is_equal = NULL, *exception_message;
-	zval *i0 = NULL;
+	zval *exception_message;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
-	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
@@ -71821,10 +71899,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	
 			PHALCON_INIT_NVAR(annotation_name);
 			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
-	
-			PHALCON_INIT_NVAR(is_equal);
-			is_equal_function(is_equal, name, annotation_name TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equal)) {
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
 				RETURN_CCTOR(annotation);
 			}
 	
@@ -71835,21 +71910,13 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	
 	PHALCON_INIT_VAR(exception_message);
 	PHALCON_CONCAT_SVS(exception_message, "The collection doesn't have an annotation '", name, "'");
-	ce0 = zend_fetch_class(SL("Exception"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(i0);
-	object_init_ex(i0, ce0);
-	if (phalcon_has_constructor(i0 TSRMLS_CC)) {
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(i0, "__construct", exception_message);
-	}
-	phalcon_throw_exception(i0 TSRMLS_CC);
+	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_annotations_exception_ce, exception_message);
 	return;
 }
 
 PHP_METHOD(Phalcon_Annotations_Collection, has){
 
 	zval *name, *annotations, *annotation = NULL, *annotation_name = NULL;
-	zval *is_equal = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -71874,10 +71941,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, has){
 	
 			PHALCON_INIT_NVAR(annotation_name);
 			PHALCON_CALL_METHOD(annotation_name, annotation, "getname");
-	
-			PHALCON_INIT_NVAR(is_equal);
-			is_equal_function(is_equal, name, annotation_name TSRMLS_CC);
-			if (PHALCON_IS_TRUE(is_equal)) {
+			if (PHALCON_IS_EQUAL(name, annotation_name)) {
 				RETURN_MM_TRUE;
 			}
 	
@@ -72194,7 +72258,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
 
 
 
-/* Generated by re2c 0.13.5 on Sun Jan 13 00:43:14 2013 */
+/* Generated by re2c 0.13.5 on Fri Jan 18 16:53:32 2013 */
 // 1 "scanner.re"
 
 
@@ -72244,16 +72308,17 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 
 			jjch = *JJCURSOR;
 			switch (jjch) {
-			case 0x00:	goto jj36;
+			case 0x00:	goto jj38;
 			case '\t':
 			case '\r':
-			case ' ':	goto jj32;
-			case '\n':	goto jj34;
-			case '"':	goto jj8;
-			case '\'':	goto jj10;
-			case '(':	goto jj12;
-			case ')':	goto jj14;
-			case ',':	goto jj30;
+			case ' ':	goto jj34;
+			case '\n':	goto jj36;
+			case '"':	goto jj10;
+			case '\'':	goto jj11;
+			case '(':	goto jj14;
+			case ')':	goto jj16;
+			case ',':	goto jj32;
+			case '-':	goto jj2;
 			case '0':
 			case '1':
 			case '2':
@@ -72263,10 +72328,10 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto jj2;
-			case ':':	goto jj28;
-			case '=':	goto jj26;
-			case '@':	goto jj24;
+			case '9':	goto jj4;
+			case ':':	goto jj30;
+			case '=':	goto jj28;
+			case '@':	goto jj26;
 			case 'A':
 			case 'B':
 			case 'C':
@@ -72312,24 +72377,47 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto jj11;
+			case 'z':	goto jj13;
 			case 'F':
-			case 'f':	goto jj6;
+			case 'f':	goto jj8;
 			case 'N':
-			case 'n':	goto jj4;
+			case 'n':	goto jj6;
 			case 'T':
-			case 't':	goto jj7;
-			case '[':	goto jj20;
-			case ']':	goto jj22;
-			case '{':	goto jj16;
-			case '}':	goto jj18;
-			default:	goto jj38;
+			case 't':	goto jj9;
+			case '[':	goto jj22;
+			case '\\':	goto jj12;
+			case ']':	goto jj24;
+			case '{':	goto jj18;
+			case '}':	goto jj20;
+			default:	goto jj40;
 			}
 jj2:
+			++JJCURSOR;
+			switch ((jjch = *JJCURSOR)) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':	goto jj68;
+			default:	goto jj3;
+			}
+jj3:
+// 183 "scanner.re"
+			{
+			status = PHANNOT_SCANNER_RETCODE_ERR;
+			break;
+		}
+// 177 "scanner.c"
+jj4:
 			jjaccept = 0;
 			jjch = *(JJMARKER = ++JJCURSOR);
-			goto jj67;
-jj3:
+			goto jj69;
+jj5:
 // 67 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_INTEGER;
@@ -72338,15 +72426,15 @@ jj3:
 			q = JJCURSOR;
 			return 0;
 		}
-// 167 "scanner.c"
-jj4:
+// 191 "scanner.c"
+jj6:
 			++JJCURSOR;
 			switch ((jjch = *JJCURSOR)) {
 			case 'U':
-			case 'u':	goto jj61;
-			default:	goto jj42;
+			case 'u':	goto jj63;
+			default:	goto jj44;
 			}
-jj5:
+jj7:
 // 109 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_IDENTIFIER;
@@ -72355,132 +72443,129 @@ jj5:
 			q = JJCURSOR;
 			return 0;
 		}
-// 184 "scanner.c"
-jj6:
+// 208 "scanner.c"
+jj8:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
 			case 'A':
-			case 'a':	goto jj56;
-			default:	goto jj42;
+			case 'a':	goto jj58;
+			default:	goto jj44;
 			}
-jj7:
+jj9:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
 			case 'R':
-			case 'r':	goto jj52;
-			default:	goto jj42;
+			case 'r':	goto jj54;
+			default:	goto jj44;
 			}
-jj8:
-			jjaccept = 1;
-			jjch = *(JJMARKER = ++JJCURSOR);
-			if (jjch >= 0x01) goto jj50;
-jj9:
-// 183 "scanner.re"
-			{
-			status = PHANNOT_SCANNER_RETCODE_ERR;
-			break;
-		}
-// 209 "scanner.c"
 jj10:
 			jjaccept = 1;
 			jjch = *(JJMARKER = ++JJCURSOR);
-			if (jjch <= 0x00) goto jj9;
-			goto jj44;
+			if (jjch <= 0x00) goto jj3;
+			goto jj52;
 jj11:
-			jjch = *++JJCURSOR;
-			goto jj42;
+			jjaccept = 1;
+			jjch = *(JJMARKER = ++JJCURSOR);
+			if (jjch <= 0x00) goto jj3;
+			goto jj46;
 jj12:
+			jjch = *++JJCURSOR;
+			goto jj44;
+jj13:
+			jjch = *++JJCURSOR;
+			goto jj44;
+jj14:
 			++JJCURSOR;
 // 117 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_OPEN;
 			return 0;
 		}
-// 225 "scanner.c"
-jj14:
+// 246 "scanner.c"
+jj16:
 			++JJCURSOR;
 // 122 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_PARENTHESES_CLOSE;
 			return 0;
 		}
-// 233 "scanner.c"
-jj16:
+// 254 "scanner.c"
+jj18:
 			++JJCURSOR;
 // 127 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_BRACKET_OPEN;
 			return 0;
 		}
-// 241 "scanner.c"
-jj18:
+// 262 "scanner.c"
+jj20:
 			++JJCURSOR;
 // 132 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_BRACKET_CLOSE;
 			return 0;
 		}
-// 249 "scanner.c"
-jj20:
+// 270 "scanner.c"
+jj22:
 			++JJCURSOR;
 // 137 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_SBRACKET_OPEN;
 			return 0;
 		}
-// 257 "scanner.c"
-jj22:
+// 278 "scanner.c"
+jj24:
 			++JJCURSOR;
 // 142 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_SBRACKET_CLOSE;
 			return 0;
 		}
-// 265 "scanner.c"
-jj24:
+// 286 "scanner.c"
+jj26:
 			++JJCURSOR;
 // 147 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_AT;
 			return 0;
 		}
-// 273 "scanner.c"
-jj26:
+// 294 "scanner.c"
+jj28:
 			++JJCURSOR;
 // 152 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_EQUALS;
 			return 0;
 		}
-// 281 "scanner.c"
-jj28:
+// 302 "scanner.c"
+jj30:
 			++JJCURSOR;
 // 157 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_COLON;
 			return 0;
 		}
-// 289 "scanner.c"
-jj30:
+// 310 "scanner.c"
+jj32:
 			++JJCURSOR;
 // 162 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_COMMA;
 			return 0;
 		}
-// 297 "scanner.c"
-jj32:
+// 318 "scanner.c"
+jj34:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
-			goto jj40;
-jj33:
+			goto jj42;
+jj35:
 // 167 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 308 "scanner.c"
-jj34:
+// 329 "scanner.c"
+jj36:
 			++JJCURSOR;
 // 172 "scanner.re"
 			{
@@ -72488,32 +72573,32 @@ jj34:
 			token->opcode = PHANNOT_T_IGNORE;
 			return 0;
 		}
-// 317 "scanner.c"
-jj36:
+// 338 "scanner.c"
+jj38:
 			++JJCURSOR;
 // 178 "scanner.re"
 			{
 			status = PHANNOT_SCANNER_RETCODE_EOF;
 			break;
 		}
-// 325 "scanner.c"
-jj38:
-			jjch = *++JJCURSOR;
-			goto jj9;
-jj39:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
+// 346 "scanner.c"
 jj40:
-			switch (jjch) {
-			case '\t':
-			case '\r':
-			case ' ':	goto jj39;
-			default:	goto jj33;
-			}
+			jjch = *++JJCURSOR;
+			goto jj3;
 jj41:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 jj42:
+			switch (jjch) {
+			case '\t':
+			case '\r':
+			case ' ':	goto jj41;
+			default:	goto jj35;
+			}
+jj43:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj44:
 			switch (jjch) {
 			case '0':
 			case '1':
@@ -72578,33 +72663,33 @@ jj42:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto jj41;
-			default:	goto jj5;
-			}
-jj43:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-jj44:
-			switch (jjch) {
-			case 0x00:	goto jj45;
-			case '\'':	goto jj47;
-			case '\\':	goto jj46;
-			default:	goto jj43;
+			case 'z':	goto jj43;
+			default:	goto jj7;
 			}
 jj45:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+jj46:
+			switch (jjch) {
+			case 0x00:	goto jj47;
+			case '\'':	goto jj49;
+			case '\\':	goto jj48;
+			default:	goto jj45;
+			}
+jj47:
 			JJCURSOR = JJMARKER;
 			switch (jjaccept) {
-			case 0: 	goto jj3;
-			case 1: 	goto jj9;
+			case 0: 	goto jj5;
+			case 1: 	goto jj3;
 			}
-jj46:
+jj48:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 			switch (jjch) {
-			case '\n':	goto jj45;
-			default:	goto jj43;
+			case '\n':	goto jj47;
+			default:	goto jj45;
 			}
-jj47:
+jj49:
 			++JJCURSOR;
 // 100 "scanner.re"
 			{
@@ -72614,39 +72699,39 @@ jj47:
 			q = JJCURSOR;
 			return 0;
 		}
-// 443 "scanner.c"
-jj49:
-			++JJCURSOR;
-			jjch = *JJCURSOR;
-jj50:
-			switch (jjch) {
-			case 0x00:	goto jj45;
-			case '"':	goto jj47;
-			case '\\':	goto jj51;
-			default:	goto jj49;
-			}
+// 464 "scanner.c"
 jj51:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
-			switch (jjch) {
-			case '\n':	goto jj45;
-			default:	goto jj49;
-			}
 jj52:
+			switch (jjch) {
+			case 0x00:	goto jj47;
+			case '"':	goto jj49;
+			case '\\':	goto jj53;
+			default:	goto jj51;
+			}
+jj53:
+			++JJCURSOR;
+			jjch = *JJCURSOR;
+			switch (jjch) {
+			case '\n':	goto jj47;
+			default:	goto jj51;
+			}
+jj54:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
 			case 'U':
-			case 'u':	goto jj53;
-			default:	goto jj42;
+			case 'u':	goto jj55;
+			default:	goto jj44;
 			}
-jj53:
+jj55:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
 			case 'E':
-			case 'e':	goto jj54;
-			default:	goto jj42;
+			case 'e':	goto jj56;
+			default:	goto jj44;
 			}
-jj54:
+jj56:
 			++JJCURSOR;
 			switch ((jjch = *JJCURSOR)) {
 			case '0':
@@ -72712,38 +72797,38 @@ jj54:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto jj41;
-			default:	goto jj55;
+			case 'z':	goto jj43;
+			default:	goto jj57;
 			}
-jj55:
+jj57:
 // 94 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_TRUE;
 			return 0;
 		}
-// 550 "scanner.c"
-jj56:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj57;
-			default:	goto jj42;
-			}
-jj57:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'S':
-			case 's':	goto jj58;
-			default:	goto jj42;
-			}
+// 571 "scanner.c"
 jj58:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
-			case 'E':
-			case 'e':	goto jj59;
-			default:	goto jj42;
+			case 'L':
+			case 'l':	goto jj59;
+			default:	goto jj44;
 			}
 jj59:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'S':
+			case 's':	goto jj60;
+			default:	goto jj44;
+			}
+jj60:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'E':
+			case 'e':	goto jj61;
+			default:	goto jj44;
+			}
+jj61:
 			++JJCURSOR;
 			switch ((jjch = *JJCURSOR)) {
 			case '0':
@@ -72809,31 +72894,31 @@ jj59:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto jj41;
-			default:	goto jj60;
+			case 'z':	goto jj43;
+			default:	goto jj62;
 			}
-jj60:
+jj62:
 // 89 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_FALSE;
 			return 0;
 		}
-// 647 "scanner.c"
-jj61:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj62;
-			default:	goto jj42;
-			}
-jj62:
-			jjch = *++JJCURSOR;
-			switch (jjch) {
-			case 'L':
-			case 'l':	goto jj63;
-			default:	goto jj42;
-			}
+// 668 "scanner.c"
 jj63:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'L':
+			case 'l':	goto jj64;
+			default:	goto jj44;
+			}
+jj64:
+			jjch = *++JJCURSOR;
+			switch (jjch) {
+			case 'L':
+			case 'l':	goto jj65;
+			default:	goto jj44;
+			}
+jj65:
 			++JJCURSOR;
 			switch ((jjch = *JJCURSOR)) {
 			case '0':
@@ -72899,17 +72984,17 @@ jj63:
 			case 'w':
 			case 'x':
 			case 'y':
-			case 'z':	goto jj41;
-			default:	goto jj64;
+			case 'z':	goto jj43;
+			default:	goto jj66;
 			}
-jj64:
+jj66:
 // 84 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_NULL;
 			return 0;
 		}
-// 737 "scanner.c"
-jj65:
+// 758 "scanner.c"
+jj67:
 			jjch = *++JJCURSOR;
 			switch (jjch) {
 			case '0':
@@ -72921,16 +73006,16 @@ jj65:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto jj68;
-			default:	goto jj45;
+			case '9':	goto jj70;
+			default:	goto jj47;
 			}
-jj66:
+jj68:
 			jjaccept = 0;
 			JJMARKER = ++JJCURSOR;
 			jjch = *JJCURSOR;
-jj67:
+jj69:
 			switch (jjch) {
-			case '.':	goto jj65;
+			case '.':	goto jj67;
 			case '0':
 			case '1':
 			case '2':
@@ -72940,10 +73025,10 @@ jj67:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto jj66;
-			default:	goto jj3;
+			case '9':	goto jj68;
+			default:	goto jj5;
 			}
-jj68:
+jj70:
 			++JJCURSOR;
 			jjch = *JJCURSOR;
 			switch (jjch) {
@@ -72956,10 +73041,10 @@ jj68:
 			case '6':
 			case '7':
 			case '8':
-			case '9':	goto jj68;
-			default:	goto jj70;
+			case '9':	goto jj70;
+			default:	goto jj72;
 			}
-jj70:
+jj72:
 // 76 "scanner.re"
 			{
 			token->opcode = PHANNOT_T_DOUBLE;
@@ -72968,7 +73053,7 @@ jj70:
 			q = JJCURSOR;
 			return 0;
 		}
-// 797 "scanner.c"
+// 818 "scanner.c"
 		}
 // 188 "scanner.re"
 
@@ -73285,7 +73370,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 	PHALCON_OBS_VAR(type);
 	phalcon_array_fetch_string(&type, argument, SL("type"), PH_NOISY_CC);
 	
-	if (PHALCON_COMPARE_STRING(type, "service")) {
+	if (PHALCON_IS_STRING(type, "service")) {
 		if (!phalcon_array_isset_string(argument, SS("name"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'name' is required in parameter on position ", position);
@@ -73306,7 +73391,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 		RETURN_CCTOR(value);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "parameter")) {
+	if (PHALCON_IS_STRING(type, "parameter")) {
 		if (!phalcon_array_isset_string(argument, SS("value"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'value' is required in parameter on position ", position);
@@ -73320,7 +73405,7 @@ PHP_METHOD(Phalcon_DI_Service_Builder, _buildParameter){
 		RETURN_CCTOR(value);
 	}
 	
-	if (PHALCON_COMPARE_STRING(type, "instance")) {
+	if (PHALCON_IS_STRING(type, "instance")) {
 		if (!phalcon_array_isset_string(argument, SS("className"))) {
 			PHALCON_INIT_NVAR(exception_message);
 			PHALCON_CONCAT_SV(exception_message, "Service 'className' is required in parameter on position ", position);
@@ -74268,12 +74353,12 @@ PHP_METHOD(Phalcon_DI_Injectable, __get){
 		RETURN_CCTOR(service);
 	}
 	
-	if (PHALCON_COMPARE_STRING(property_name, "di")) {
+	if (PHALCON_IS_STRING(property_name, "di")) {
 		phalcon_update_property_zval(this_ptr, SL("di"), dependency_injector TSRMLS_CC);
 		RETURN_CCTOR(dependency_injector);
 	}
 	
-	if (PHALCON_COMPARE_STRING(property_name, "persistent")) {
+	if (PHALCON_IS_STRING(property_name, "persistent")) {
 		PHALCON_INIT_VAR(class_name);
 		phalcon_get_class(class_name, this_ptr, 0 TSRMLS_CC);
 	
@@ -74684,7 +74769,7 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch){
 		PHALCON_SEPARATE(number_dispatches);
 		increment_function(number_dispatches);
 	
-		if (phalcon_compare_strict_long(number_dispatches, 256 TSRMLS_CC)) {
+		if (PHALCON_IS_LONG(number_dispatches, 256)) {
 			PHALCON_INIT_NVAR(exception_code);
 			ZVAL_LONG(exception_code, 1);
 	
