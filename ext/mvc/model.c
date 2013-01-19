@@ -1092,7 +1092,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists){
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
 	
-			if (PHALCON_IS_EQUAL(number_primary, number_empty)) {
+			if (!PHALCON_IS_EQUAL(number_primary, number_empty)) {
 				PHALCON_INIT_VAR(join_where);
 				phalcon_fast_join_str(join_where, SL(" AND "), where_pk TSRMLS_CC);
 	
