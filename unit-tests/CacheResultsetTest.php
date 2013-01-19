@@ -42,7 +42,7 @@ class CacheResultsetTest extends PHPUnit_Framework_TestCase
 
 	protected function _getCache($adapter='File'){
 
-		@unlink('unit-tests/cache/testresultset');
+		@unlink('unit-tests/cache/test-resultset');
 
 		Phalcon\DI::reset();
 

@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_DI_FactoryDefault, __construct){
 	ZVAL_STRING(name, "modelsMetadata", 1);
 	
 	PHALCON_INIT_NVAR(definition);
-	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\Metadata\\Memory", 1);
+	ZVAL_STRING(definition, "Phalcon\\Mvc\\Model\\MetaData\\Memory", 1);
 	
 	PHALCON_INIT_VAR(models_metadata);
 	object_init_ex(models_metadata, phalcon_di_service_ce);

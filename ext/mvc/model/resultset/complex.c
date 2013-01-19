@@ -340,6 +340,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize){
 
 	PHALCON_MM_GROW();
 
+	/** 
+	 * Obtain the records as an array
+	 */
 	PHALCON_INIT_VAR(records);
 	PHALCON_CALL_METHOD(records, this_ptr, "toarray");
 	
@@ -384,7 +387,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize){
 	
 	PHALCON_INIT_VAR(resultset);
 	PHALCON_CALL_FUNC_PARAMS_1(resultset, "unserialize", data);
-	if (Z_TYPE_P(resultset) == IS_ARRAY) { 
+	if (Z_TYPE_P(resultset) != IS_ARRAY) { 
 		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "Invalid serialization data");
 		return;
 	}
