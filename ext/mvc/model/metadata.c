@@ -1198,10 +1198,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty){
 	PHALCON_OBS_VAR(meta_data);
 	phalcon_read_property(&meta_data, this_ptr, SL("_metaData"), PH_NOISY_CC);
 	if (phalcon_fast_count_ev(meta_data TSRMLS_CC)) {
-		RETURN_MM_TRUE;
+		RETURN_MM_FALSE;
 	}
 	
-	RETURN_MM_FALSE;
+	RETURN_MM_TRUE;
 }
 
 /**

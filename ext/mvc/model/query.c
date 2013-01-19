@@ -3426,8 +3426,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeInsert){
 	
 	PHALCON_INIT_VAR(number_values);
 	phalcon_fast_count(number_values, values TSRMLS_CC);
-	if (PHALCON_IS_IDENTICAL(number_fields, number_values)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The columns count does not match the values count");
+	if (!PHALCON_IS_EQUAL(number_fields, number_values)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_model_exception_ce, "The column count does not match the values count");
 		return;
 	}
 	
