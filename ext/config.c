@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Config, merge){
 }
 
 /**
- * Converts recursivelly the object to an array
+ * Converts recursively the object to an array
  *
  *<code>
  *	print_r($config->toArray());

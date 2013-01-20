@@ -47,11 +47,11 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$di->set('modelsManager', function(){
 			return new Phalcon\Mvc\Model\Manager();
-		});
+		}, true);
 
 		$di->set('modelsMetadata', function(){
 			return new Phalcon\Mvc\Model\Metadata\Memory();
-		});
+		}, true);
 
 		return $di;
 	}
@@ -68,6 +68,7 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeTestsNormal($di);
 		$this->_executeTestsRenamed($di);
+		$this->_executeTestsNormalComplex($di);
 	}
 
 	public function testModelsPostgresql()
@@ -81,7 +82,8 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		});
 
 		$this->_executeTestsNormal($di);
-		//$this->_executeTestsRenamed($di);
+		$this->_executeTestsRenamed($di);
+		$this->_executeTestsNormalComplex($di);
 	}
 
 	public function testModelsSQLite()
@@ -95,7 +97,8 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		});
 
 		$this->_executeTestsNormal($di);
-		//$this->_executeTestsRenamed($di);
+		$this->_executeTestsRenamed($di);
+		$this->_executeTestsNormalComplex($di);
 	}
 
 	protected function _executeTestsNormal($di)
@@ -240,5 +243,75 @@ class ModelsHydrationTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($number, 33 * 4);
 	}
 
+	protected function _executeTestsNormalComplex($di)
+	{
+		$result = $di->get('modelsManager')->executeQuery('SELECT id FROM Robots');
+
+		//Scalar complex query
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($result as $row) {
+			$this->assertTrue(is_array($row));
+			$this->assertTrue(is_numeric($row['id']));
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'stdClass');
+			$this->assertTrue(is_numeric($row->id));
+		}
+
+		//Complex resultset including scalars and complete objects
+		$result = $di->get('modelsManager')->executeQuery('SELECT Robots.id, Robots.*, RobotsParts.* FROM Robots JOIN RobotsParts');
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'Robots');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_RECORDS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'Phalcon\Mvc\Model\Row');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'Robots');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'RobotsParts');
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_ARRAYS);
+		foreach ($result as $row) {
+			$this->assertTrue(is_array($row));
+			$this->assertTrue(is_numeric($row['id']));
+			$this->assertEquals(gettype($row['robots']), 'array');
+			$this->assertEquals(count($row['robots']), 4);
+			$this->assertEquals(gettype($row['robotsParts']), 'array');
+			$this->assertEquals(count($row['robotsParts']), 3);
+		}
+
+		$result->setHydrateMode(Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS);
+		foreach ($result as $row) {
+			$this->assertEquals(get_class($row), 'stdClass');
+			$this->assertTrue(is_numeric($row->id));
+			$this->assertEquals(gettype($row->robots), 'object');
+			$this->assertEquals(get_class($row->robots), 'stdClass');
+			$this->assertEquals(gettype($row->robotsParts), 'object');
+			$this->assertEquals(get_class($row->robotsParts), 'stdClass');
+		}
+
+	}
 
 }

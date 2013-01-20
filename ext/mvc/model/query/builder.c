@@ -724,6 +724,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 		PHALCON_INIT_VAR(service_name);
 		ZVAL_STRING(service_name, "modelsMetadata", 1);
 	
+		/** 
+		 * Get the models metadata service to obtain the column names, column map and
+		 * primary key
+		 */
 		PHALCON_INIT_VAR(meta_data);
 		PHALCON_CALL_METHOD_PARAMS_1(meta_data, dependency_injector, "getshared", service_name);
 		ce0 = phalcon_fetch_class(model TSRMLS_CC);

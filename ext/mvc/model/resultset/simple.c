@@ -65,9 +65,9 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple){
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
  * @param array $columnMap
- * @param Phalcon\Mvc\Model $model
+ * @param Phalcon\Mvc\ModelInterface $model
  * @param Phalcon\Db\Result\Pdo $result
- * @param Phalcon\Cache\Backend $cache
+ * @param Phalcon\Cache\BackendInterface $cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct){
 

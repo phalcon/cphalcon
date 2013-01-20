@@ -149,13 +149,14 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct){
 }
 
 /**
- * Sets a value for the _id propery, creates a MongoId object if needed
+ * Sets a value for the _id property, creates a MongoId object if needed
  *
  * @param mixed $id
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setId){
 
-	zval *id, *mongo_id = NULL;
+	zval *id, *models_manager, *use_implicit_ids;
+	zval *mongo_id = NULL;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -165,11 +166,24 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId){
 	}
 
 	if (Z_TYPE_P(id) != IS_OBJECT) {
-		ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		PHALCON_INIT_VAR(mongo_id);
-		object_init_ex(mongo_id, ce0);
-		if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+	
+		PHALCON_OBS_VAR(models_manager);
+		phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+		/** 
+		 * Check if the model use implicit ids
+		 */
+		PHALCON_INIT_VAR(use_implicit_ids);
+		PHALCON_CALL_METHOD_PARAMS_1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
+		if (zend_is_true(use_implicit_ids)) {
+			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			PHALCON_INIT_VAR(mongo_id);
+			object_init_ex(mongo_id, ce0);
+			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+			}
+		} else {
+			PHALCON_CPY_WRT(mongo_id, id);
 		}
 	} else {
 		PHALCON_CPY_WRT(mongo_id, id);
@@ -257,6 +271,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager){
 	PHALCON_INIT_VAR(events_manager);
 	PHALCON_CALL_METHOD_PARAMS_1(events_manager, models_manager, "getcustomeventsmanager", this_ptr);
 	RETURN_CCTOR(events_manager);
+}
+
+/**
+ * Returns the models manager related to the entity instance
+ *
+ * @return Phalcon\Mvc\Model\ManagerInterface
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager){
+
+
+	RETURN_MEMBER(this_ptr, "_modelsManager");
 }
 
 /**
@@ -785,16 +810,15 @@ PHP_METHOD(Phalcon_Mvc_Collection, _postSave){
 		}
 	
 		RETURN_CCTOR(success);
-	} else {
-		if (!zend_is_true(disable_events)) {
-			PHALCON_INIT_NVAR(event_name);
-			ZVAL_STRING(event_name, "notSave", 1);
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
-		}
-		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_canceloperation", disable_events);
-		RETURN_MM_FALSE;
 	}
-	RETURN_MM_TRUE;
+	if (!zend_is_true(disable_events)) {
+		PHALCON_INIT_NVAR(event_name);
+		ZVAL_STRING(event_name, "notSave", 1);
+		PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
+	}
+	
+	PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "_canceloperation", disable_events);
+	RETURN_MM_FALSE;
 }
 
 /**
@@ -871,7 +895,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate){
  *<code>
  *use Phalcon\Mvc\Model\Validator\ExclusionIn as ExclusionIn;
  *
- *class Subscriptors extends Phalcon\Mvc\Model
+ *class Subscriptors extends Phalcon\Mvc\Collection
  *{
  *
  *	public function validation()
@@ -1024,7 +1048,8 @@ PHP_METHOD(Phalcon_Mvc_Collection, _cancelOperation){
  */
 PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 
-	zval *collection, *id, *mongo_id = NULL, *parameters, *document_count;
+	zval *collection, *id, *mongo_id = NULL, *models_manager;
+	zval *use_implicit_ids, *parameters, *document_count;
 	zval *zero, *exist;
 	zend_class_entry *ce0;
 
@@ -1041,19 +1066,34 @@ PHP_METHOD(Phalcon_Mvc_Collection, _exists){
 		if (Z_TYPE_P(id) == IS_OBJECT) {
 			PHALCON_CPY_WRT(mongo_id, id);
 		} else {
-			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-			PHALCON_INIT_VAR(mongo_id);
-			object_init_ex(mongo_id, ce0);
-			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
-				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+			PHALCON_OBS_VAR(models_manager);
+			phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+			/** 
+			 * Check if the model use implicit ids
+			 */
+			PHALCON_INIT_VAR(use_implicit_ids);
+			PHALCON_CALL_METHOD_PARAMS_1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
+			if (zend_is_true(use_implicit_ids)) {
+				ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+				PHALCON_INIT_VAR(mongo_id);
+				object_init_ex(mongo_id, ce0);
+				if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+					PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+				}
+				phalcon_update_property_zval(this_ptr, SL("_id"), mongo_id TSRMLS_CC);
+			} else {
+				PHALCON_CPY_WRT(mongo_id, id);
 			}
-			phalcon_update_property_zval(this_ptr, SL("_id"), mongo_id TSRMLS_CC);
 		}
 	
 		PHALCON_INIT_VAR(parameters);
 		array_init_size(parameters, 1);
 		phalcon_array_update_string(&parameters, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
 	
+		/** 
+		 * Perform the count using the function provided by the driver
+		 */
 		PHALCON_INIT_VAR(document_count);
 		PHALCON_CALL_METHOD_PARAMS_1(document_count, collection, "count", parameters);
 	
@@ -1175,6 +1215,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	PHALCON_INIT_VAR(collection);
 	PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
 	
+	/** 
+	 * Check the dirty state of the current operation to update the current operation
+	 */
 	PHALCON_INIT_VAR(exists);
 	PHALCON_CALL_METHOD_PARAMS_1(exists, this_ptr, "_exists", collection);
 	if (PHALCON_IS_FALSE(exists)) {
@@ -1185,6 +1228,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 	
 	PHALCON_INIT_VAR(empty_array);
 	array_init(empty_array);
+	
+	/** 
+	 * The messages added to the validator are reset here
+	 */
 	phalcon_update_property_zval(this_ptr, SL("_errorMessages"), empty_array TSRMLS_CC);
 	
 	PHALCON_OBS_VAR(disable_events);
@@ -1280,15 +1327,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, save){
 }
 
 /**
- * Find a document by its id
+ * Find a document by its id (_id)
  *
- * @param string $id
+ * @param string|\MongoId $id
  * @return Phalcon\Mvc\Collection
  */
 PHP_METHOD(Phalcon_Mvc_Collection, findById){
 
-	zval *id, *mongo_id = NULL, *conditions, *parameters, *result;
-	zend_class_entry *ce0;
+	zval *id, *class_name, *collection, *models_manager;
+	zval *use_implicit_ids, *mongo_id = NULL, *conditions;
+	zval *parameters, *result;
+	zend_class_entry *ce0, *ce1;
 
 	PHALCON_MM_GROW();
 
@@ -1297,11 +1346,34 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
 	}
 
 	if (Z_TYPE_P(id) != IS_OBJECT) {
-		ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		PHALCON_INIT_VAR(mongo_id);
-		object_init_ex(mongo_id, ce0);
-		if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
-			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+	
+		PHALCON_INIT_VAR(class_name);
+		phalcon_get_called_class(class_name  TSRMLS_CC);
+		ce0 = phalcon_fetch_class(class_name TSRMLS_CC);
+	
+		PHALCON_INIT_VAR(collection);
+		object_init_ex(collection, ce0);
+		if (phalcon_has_constructor(collection TSRMLS_CC)) {
+			PHALCON_CALL_METHOD_NORETURN(collection, "__construct");
+		}
+	
+		PHALCON_INIT_VAR(models_manager);
+		PHALCON_CALL_METHOD(models_manager, collection, "getmodelsmanager");
+	
+		/** 
+		 * Check if the model use implicit ids
+		 */
+		PHALCON_INIT_VAR(use_implicit_ids);
+		PHALCON_CALL_METHOD_PARAMS_1(use_implicit_ids, models_manager, "isusingimplicitobjectids", collection);
+		if (zend_is_true(use_implicit_ids)) {
+			ce1 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+			PHALCON_INIT_VAR(mongo_id);
+			object_init_ex(mongo_id, ce1);
+			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
+			}
+		} else {
+			PHALCON_CPY_WRT(mongo_id, id);
 		}
 	} else {
 		PHALCON_CPY_WRT(mongo_id, id);
@@ -1326,22 +1398,22 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById){
  *
  * <code>
  *
- * //What's the first robot in robots table?
+ * //What's the first robot in the robots table?
  * $robot = Robots::findFirst();
- * echo "The robot name is ", $robot->name;
+ * echo "The robot name is ", $robot->name, "\n";
  *
  * //What's the first mechanical robot in robots table?
  * $robot = Robots::findFirst(array(
  *     array("type" => "mechanical")
  * ));
- * echo "The first mechanical robot name is ", $robot->name;
+ * echo "The first mechanical robot name is ", $robot->name, "\n";
  *
  * //Get first virtual robot ordered by name
  * $robot = Robots::findFirst(array(
  *     array("type" => "mechanical"),
  *     "order" => array("name" => 1)
  * ));
- * echo "The first virtual robot name is ", $robot->name;
+ * echo "The first virtual robot name is ", $robot->name, "\n";
  *
  * </code>
  *
@@ -1535,12 +1607,12 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
  * Deletes a model instance. Returning true on success or false otherwise.
  *
  * <code>
- *$robot = Robots::findFirst();
- *$robot->delete();
+ *	$robot = Robots::findFirst();
+ *	$robot->delete();
  *
- *foreach(Robots::find() as $robot){
- *   $robot->delete();
- *}
+ *	foreach (Robots::find() as $robot) {
+ *		$robot->delete();
+ *	}
  * </code>
  *
  * @return boolean
@@ -1549,100 +1621,124 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete){
 
 	zval *disable_events, *event_name = NULL, *status = NULL, *id;
 	zval *connection, *source, *collection, *mongo_id = NULL;
-	zval *id_condition, *success = NULL, *options, *ok;
+	zval *models_manager, *use_implicit_ids, *id_condition;
+	zval *success = NULL, *options, *ok;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
 
-	if (phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC)) {
+	if (!phalcon_isset_property(this_ptr, SS("_id") TSRMLS_CC)) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
+		return;
+	}
 	
-		PHALCON_OBS_VAR(disable_events);
-		phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
-		if (!zend_is_true(disable_events)) {
+	PHALCON_OBS_VAR(disable_events);
+	phalcon_read_static_property(&disable_events, SL("phalcon\\mvc\\collection"), SL("_disableEvents") TSRMLS_CC);
+	if (!zend_is_true(disable_events)) {
 	
-			PHALCON_INIT_VAR(event_name);
-			ZVAL_STRING(event_name, "beforeDelete", 1);
+		PHALCON_INIT_VAR(event_name);
+		ZVAL_STRING(event_name, "beforeDelete", 1);
 	
-			PHALCON_INIT_VAR(status);
-			PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
-			if (PHALCON_IS_FALSE(status)) {
-				RETURN_MM_FALSE;
-			}
+		PHALCON_INIT_VAR(status);
+		PHALCON_CALL_METHOD_PARAMS_1(status, this_ptr, "fireeventcancel", event_name);
+		if (PHALCON_IS_FALSE(status)) {
+			RETURN_MM_FALSE;
 		}
+	}
 	
-		PHALCON_OBS_VAR(id);
-		phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
+	PHALCON_OBS_VAR(id);
+	phalcon_read_property(&id, this_ptr, SL("_id"), PH_NOISY_CC);
 	
-		PHALCON_INIT_VAR(connection);
-		PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
+	PHALCON_INIT_VAR(connection);
+	PHALCON_CALL_METHOD(connection, this_ptr, "getconnection");
 	
-		PHALCON_INIT_VAR(source);
-		PHALCON_CALL_METHOD(source, this_ptr, "getsource");
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, this_ptr, "getsource");
 	
-		PHALCON_INIT_VAR(collection);
-		PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
-		if (Z_TYPE_P(id) == IS_OBJECT) {
-			PHALCON_CPY_WRT(mongo_id, id);
-		} else {
+	/** 
+	 * Get the \MongoCollection
+	 */
+	PHALCON_INIT_VAR(collection);
+	PHALCON_CALL_METHOD_PARAMS_1(collection, connection, "selectcollection", source);
+	if (Z_TYPE_P(id) == IS_OBJECT) {
+		PHALCON_CPY_WRT(mongo_id, id);
+	} else {
+		PHALCON_OBS_VAR(models_manager);
+		phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	
+		/** 
+		 * Is the collection using implicit object Ids?
+		 */
+		PHALCON_INIT_VAR(use_implicit_ids);
+		PHALCON_CALL_METHOD_PARAMS_1(use_implicit_ids, models_manager, "isusingimplicitobjectids", this_ptr);
+		if (zend_is_true(use_implicit_ids)) {
 			ce0 = zend_fetch_class(SL("MongoId"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
 			PHALCON_INIT_VAR(mongo_id);
 			object_init_ex(mongo_id, ce0);
 			if (phalcon_has_constructor(mongo_id TSRMLS_CC)) {
 				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(mongo_id, "__construct", id);
 			}
-		}
-	
-		PHALCON_INIT_VAR(id_condition);
-		array_init_size(id_condition, 1);
-		phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
-	
-		PHALCON_INIT_VAR(success);
-		ZVAL_BOOL(success, 0);
-	
-		PHALCON_INIT_VAR(options);
-		array_init_size(options, 1);
-		add_assoc_bool_ex(options, SS("safe"), 1);
-	
-		PHALCON_INIT_NVAR(status);
-		PHALCON_CALL_METHOD_PARAMS_2(status, collection, "remove", id_condition, options);
-		if (Z_TYPE_P(status) == IS_ARRAY) { 
-	
-			/** 
-			 * Check the operation status
-			 */
-			if (phalcon_array_isset_string(status, SS("ok"))) {
-	
-				PHALCON_OBS_VAR(ok);
-				phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY_CC);
-				if (zend_is_true(ok)) {
-	
-					ZVAL_BOOL(success, 1);
-					if (!zend_is_true(disable_events)) {
-						PHALCON_INIT_NVAR(event_name);
-						ZVAL_STRING(event_name, "afterDelete", 1);
-						PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
-					}
-				}
-			}
 		} else {
-			ZVAL_BOOL(success, 0);
+			PHALCON_CPY_WRT(mongo_id, id);
 		}
-	
-	
-		RETURN_NCTOR(success);
 	}
-	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_collection_exception_ce, "The document cannot be deleted because it doesn't exist");
-	return;
+	
+	PHALCON_INIT_VAR(id_condition);
+	array_init_size(id_condition, 1);
+	phalcon_array_update_string(&id_condition, SL("_id"), &mongo_id, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+	PHALCON_INIT_VAR(success);
+	ZVAL_BOOL(success, 0);
+	
+	PHALCON_INIT_VAR(options);
+	array_init_size(options, 1);
+	add_assoc_bool_ex(options, SS("safe"), 1);
+	
+	/** 
+	 * Remove the instance
+	 */
+	PHALCON_INIT_NVAR(status);
+	PHALCON_CALL_METHOD_PARAMS_2(status, collection, "remove", id_condition, options);
+	if (Z_TYPE_P(status) != IS_ARRAY) { 
+		RETURN_MM_FALSE;
+	}
+	
+	/** 
+	 * Check the operation status
+	 */
+	if (phalcon_array_isset_string(status, SS("ok"))) {
+	
+		PHALCON_OBS_VAR(ok);
+		phalcon_array_fetch_string(&ok, status, SL("ok"), PH_NOISY_CC);
+		if (zend_is_true(ok)) {
+	
+			ZVAL_BOOL(success, 1);
+			if (!zend_is_true(disable_events)) {
+				PHALCON_INIT_NVAR(event_name);
+				ZVAL_STRING(event_name, "afterDelete", 1);
+				PHALCON_CALL_METHOD_PARAMS_1_NORETURN(this_ptr, "fireevent", event_name);
+			}
+		}
+	} else {
+		ZVAL_BOOL(success, 0);
+	}
+	
+	
+	RETURN_NCTOR(success);
 }
 
 /**
- * Serializes the object ignoring connections or protected properties
+ * Returns the instance as an array representation
  *
- * @return string
+ *<code>
+ * print_r($robot->toArray());
+ *</code>
+ *
+ * @return array
  */
-PHP_METHOD(Phalcon_Mvc_Collection, serialize){
+PHP_METHOD(Phalcon_Mvc_Collection, toArray){
 
-	zval *data, *reserved, *properties, *value = NULL, *key = NULL, *serialize;
+	zval *data, *reserved, *properties, *value = NULL, *key = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1655,6 +1751,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 	PHALCON_INIT_VAR(reserved);
 	PHALCON_CALL_METHOD(reserved, this_ptr, "getreservedattributes");
 	
+	/** 
+	 * Get an array with the values of the object
+	 */
 	PHALCON_INIT_VAR(properties);
 	PHALCON_CALL_FUNC_PARAMS_1(properties, "get_object_vars", this_ptr);
 	
@@ -1684,12 +1783,29 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize){
 		zend_hash_move_forward_ex(ah0, &hp0);
 	}
 	
+	
+	RETURN_CTOR(data);
+}
+
+/**
+ * Serializes the object ignoring connections or protected properties
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, serialize){
+
+	zval *data, *serialize;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_INIT_VAR(data);
+	PHALCON_CALL_METHOD(data, this_ptr, "toarray");
+	
 	/** 
 	 * Use the standard serialize function to serialize the array data
 	 */
 	PHALCON_INIT_VAR(serialize);
 	PHALCON_CALL_FUNC_PARAMS_1(serialize, "serialize", data);
-	
 	RETURN_CCTOR(serialize);
 }
 

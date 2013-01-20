@@ -42,8 +42,7 @@
  *
  * Allows to define indexes to be used on tables. Indexes are a common way
  * to enhance database performance. An index allows the database server to find
- * and retrieve specific rows much faster than it could do without an index.
- *
+ * and retrieve specific rows much faster than it could do without an index
  */
 
 
@@ -134,6 +133,9 @@ PHP_METHOD(Phalcon_Db_Index, __set_state){
 	PHALCON_OBS_VAR(columns);
 	phalcon_array_fetch_string(&columns, data, SL("_columns"), PH_NOISY_CC);
 	
+	/** 
+	 * Return a Phalcon\Db\Index as part of the returning state
+	 */
 	PHALCON_INIT_VAR(index);
 	object_init_ex(index, phalcon_db_index_ce);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(index, "__construct", index_name, columns);

@@ -31,12 +31,11 @@
 			<file>unit-tests/DbProfilerTest.php</file>
 			<file>unit-tests/DbLoggerTest.php</file>
 
-			<!-- ORM tests -->
+			<!-- ORM tests / First Part -->
 			<file>unit-tests/ModelsMetadataTest.php</file>
 			<file>unit-tests/ModelsTest.php</file>
 			<file>unit-tests/ModelsCalculationsTest.php</file>
 			<file>unit-tests/ModelsResultsetTest.php</file>
-			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsRelationsTest.php</file>
 			<file>unit-tests/ModelsValidatorsTest.php</file>
 			<file>unit-tests/ModelsForeignKeysTest.php</file>
@@ -50,7 +49,9 @@
 			<file>unit-tests/ModelsBehaviorsTest.php</file>
 			<file>unit-tests/ModelsMultipleSourcesTest.php</file>
 			<file>unit-tests/ModelsSerializeTest.php</file>
+			<file>unit-tests/ModelsHydrationTest.php</file>
 			<file>unit-tests/ModelsTransactionsTest.php</file>
+			<file>unit-tests/ModelsRelationsMagicTest.php</file>
 
 			<!-- NoSQL tests -->
 			<file>unit-tests/CollectionsTest.php</file>

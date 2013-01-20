@@ -32,6 +32,8 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds);
+PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection);
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent);
 
@@ -65,6 +67,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_setconnectionservi
 	ZEND_ARG_INFO(0, connectionService)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_useimplicitobjectids, 0, 0, 2)
+	ZEND_ARG_INFO(0, model)
+	ZEND_ARG_INFO(0, useImplicitObjectIds)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_isusingimplicitobjectids, 0, 0, 1)
+	ZEND_ARG_INFO(0, model)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_collection_manager_getconnection, 0, 0, 1)
 	ZEND_ARG_INFO(0, model)
 ZEND_END_ARG_INFO()
@@ -85,6 +96,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_manager_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection_Manager, isInitialized, arginfo_phalcon_mvc_collection_manager_isinitialized, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection_Manager, getLastInitialized, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection_Manager, setConnectionService, arginfo_phalcon_mvc_collection_manager_setconnectionservice, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds, arginfo_phalcon_mvc_collection_manager_useimplicitobjectids, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds, arginfo_phalcon_mvc_collection_manager_isusingimplicitobjectids, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection_Manager, getConnection, arginfo_phalcon_mvc_collection_manager_getconnection, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection_Manager, notifyEvent, arginfo_phalcon_mvc_collection_manager_notifyevent, ZEND_ACC_PUBLIC) 
 	PHP_FE_END

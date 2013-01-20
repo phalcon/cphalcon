@@ -29,6 +29,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setDI);
 PHP_METHOD(Phalcon_Mvc_Collection, getDI);
 PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager);
+PHP_METHOD(Phalcon_Mvc_Collection, getModelsManager);
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes);
 PHP_METHOD(Phalcon_Mvc_Collection, setSource);
 PHP_METHOD(Phalcon_Mvc_Collection, getSource);
@@ -55,6 +56,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst);
 PHP_METHOD(Phalcon_Mvc_Collection, find);
 PHP_METHOD(Phalcon_Mvc_Collection, count);
 PHP_METHOD(Phalcon_Mvc_Collection, delete);
+PHP_METHOD(Phalcon_Mvc_Collection, toArray);
 PHP_METHOD(Phalcon_Mvc_Collection, serialize);
 PHP_METHOD(Phalcon_Mvc_Collection, unserialize);
 
@@ -129,6 +131,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection, getDI, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, setEventsManager, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, getEventsManager, NULL, ZEND_ACC_PROTECTED) 
+	PHP_ME(Phalcon_Mvc_Collection, getModelsManager, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, getReservedAttributes, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, setSource, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, getSource, NULL, ZEND_ACC_PUBLIC) 
@@ -155,6 +158,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection, find, arginfo_phalcon_mvc_collection_find, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, count, arginfo_phalcon_mvc_collection_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, delete, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Collection, toArray, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, serialize, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, unserialize, arginfo_phalcon_mvc_collection_unserialize, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
