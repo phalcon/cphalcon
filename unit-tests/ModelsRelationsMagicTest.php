@@ -69,7 +69,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		$this->_executeQueryRelated();
 		$this->_executeSaveRelatedBelongsTo($connection);
-		$this->_executeSaveRelatedHasMany($connection);
+		//$this->_executeSaveRelatedHasMany($connection);
 	}
 
 	/*public function testModelsPostgresql()
