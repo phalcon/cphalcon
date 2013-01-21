@@ -6082,9 +6082,13 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	cursor = Z_STRVAL_P(pattern);
-	for (i = 0; i < Z_STRLEN_P(pattern); i++) {
+
+	 cursor++;
+
+	for (i = 1; i < Z_STRLEN_P(pattern); i++) {
 
 		ch = *cursor;
+
 		if (parentheses_count == 0 && !looking_placeholder) {
 			if (ch == '{') {
 				if (bracket_count == 0) {
@@ -33622,6 +33626,23 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 	RETURN_CCTOR(reserved);
 }
 
+PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds){
+
+	zval *use_implicit_object_ids, *models_manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &use_implicit_object_ids) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(models_manager, "useimplicitobjectids", this_ptr, use_implicit_object_ids, 13093193505116296708UL);
+	
+	PHALCON_MM_RESTORE();
+}
+
 PHP_METHOD(Phalcon_Mvc_Collection, setSource){
 
 	zval *source;
@@ -33736,7 +33757,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute){
 	
 }
 
-PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
+PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 
 	zval *collection, *document, *cloned_collection;
 	zval *value = NULL, *key = NULL;
@@ -33846,7 +33867,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_CALL_METHOD(document, documents_cursor, "current");
 		if (Z_TYPE_P(document) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(collection_cloned);
-			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
 			RETURN_CCTOR(collection_cloned);
 		}
 	
@@ -33868,7 +33889,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_GET_FOREACH_VALUE(document);
 	
 		PHALCON_INIT_NVAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -61537,7 +61558,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *dependency_injector, *service;
 	zval *router, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *final_uri = NULL;
+	zval *pattern, *paths, *processed_uri, *final_uri = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -61588,8 +61609,11 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(paths);
 		PHALCON_CALL_METHOD(paths, route, "getreversedpaths");
 	
+		PHALCON_INIT_VAR(processed_uri);
+		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
+	
 		PHALCON_INIT_VAR(final_uri);
-		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
+		PHALCON_CONCAT_VV(final_uri, base_uri, processed_uri);
 	
 		RETURN_CTOR(final_uri);
 	}
@@ -75408,7 +75432,7 @@ PHP_METHOD(Phalcon_Version, _getVersion){
 	add_next_index_long(version, 0);
 	add_next_index_long(version, 9);
 	add_next_index_long(version, 0);
-	add_next_index_long(version, 1);
+	add_next_index_long(version, 2);
 	add_next_index_long(version, 1);
 	RETURN_CTOR(version);
 }
