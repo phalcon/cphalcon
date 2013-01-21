@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 
 	zval *uri = NULL, *base_uri, *dependency_injector, *service;
 	zval *router, *route_name, *route, *exception_message;
-	zval *pattern, *paths, *final_uri = NULL;
+	zval *pattern, *paths, *processed_uri, *final_uri = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -282,11 +282,20 @@ PHP_METHOD(Phalcon_Mvc_Url, get){
 		PHALCON_INIT_VAR(pattern);
 		PHALCON_CALL_METHOD(pattern, route, "getpattern");
 	
+		/** 
+		 * Return the reversed paths
+		 */
 		PHALCON_INIT_VAR(paths);
 		PHALCON_CALL_METHOD(paths, route, "getreversedpaths");
 	
+		/** 
+		 * Replace the patterns by its variables
+		 */
+		PHALCON_INIT_VAR(processed_uri);
+		phalcon_replace_paths(processed_uri, pattern, paths, uri TSRMLS_CC);
+	
 		PHALCON_INIT_VAR(final_uri);
-		phalcon_replace_paths(final_uri, pattern, paths, uri TSRMLS_CC);
+		PHALCON_CONCAT_VV(final_uri, base_uri, processed_uri);
 	
 		RETURN_CTOR(final_uri);
 	}

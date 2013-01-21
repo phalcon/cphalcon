@@ -313,6 +313,28 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes){
 }
 
 /**
+ * Sets if a model must use implicit objects ids
+ *
+ * @param boolean $useImplicitObjectIds
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds){
+
+	zval *use_implicit_object_ids, *models_manager;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &use_implicit_object_ids) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_OBS_VAR(models_manager);
+	phalcon_read_property(&models_manager, this_ptr, SL("_modelsManager"), PH_NOISY_CC);
+	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(models_manager, "useimplicitobjectids", this_ptr, use_implicit_object_ids);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
  * Sets collection name which model should be mapped
  *
  * @param string $source
@@ -480,7 +502,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute){
  * @param array $document
  * @return Phalcon\Mvc\Collection
  */
-PHP_METHOD(Phalcon_Mvc_Collection, dumpResult){
+PHP_METHOD(Phalcon_Mvc_Collection, cloneResult){
 
 	zval *collection, *document, *cloned_collection;
 	zval *value = NULL, *key = NULL;
@@ -617,7 +639,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_CALL_METHOD(document, documents_cursor, "current");
 		if (Z_TYPE_P(document) == IS_ARRAY) { 
 			PHALCON_INIT_VAR(collection_cloned);
-			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+			PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
 			RETURN_CCTOR(collection_cloned);
 		}
 	
@@ -642,7 +664,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 		PHALCON_GET_FOREACH_VALUE(document);
 	
 		PHALCON_INIT_NVAR(collection_cloned);
-		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "dumpresult", collection, document);
+		PHALCON_CALL_SELF_PARAMS_2(collection_cloned, this_ptr, "cloneresult", collection, document);
 		phalcon_array_append(&collections, collection_cloned, PH_SEPARATE TSRMLS_CC);
 	
 		zend_hash_move_forward_ex(ah0, &hp0);
@@ -1472,13 +1494,13 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst){
  *
  * //How many robots are there?
  * $robots = Robots::find();
- * echo "There are ", count($robots);
+ * echo "There are ", count($robots), "\n";
  *
  * //How many mechanical robots are there?
  * $robots = Robots::find(array(
  *     array("type" => "mechanical")
  * ));
- * echo "There are ", count($robots);
+ * echo "There are ", count($robots), "\n";
  *
  * //Get and print virtual robots ordered by name
  * $robots = Robots::findFirst(array(

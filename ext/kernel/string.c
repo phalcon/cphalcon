@@ -726,9 +726,16 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	}
 
 	cursor = Z_STRVAL_P(pattern);
-	for (i = 0; i < Z_STRLEN_P(pattern); i++) {
+
+	/**
+	 * Ignoring the first character, it must be a /
+	 */
+	 cursor++;
+
+	for (i = 1; i < Z_STRLEN_P(pattern); i++) {
 
 		ch = *cursor;
+
 		if (parentheses_count == 0 && !looking_placeholder) {
 			if (ch == '{') {
 				if (bracket_count == 0) {

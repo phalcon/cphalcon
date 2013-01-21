@@ -117,7 +117,7 @@ PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, writeAttribute);
  * @param array $document
  * @return Phalcon\Mvc\Collection
  */
-PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, dumpResult);
+PHALCON_DOC_METHOD(Phalcon_Mvc_CollectionInterface, cloneResult);
 
 /**
  * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
