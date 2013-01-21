@@ -135,7 +135,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		//Due to not null fields on both models the album/artist aren't saved
 		$this->assertFalse($album->save());
-		$this->assertFalse($connection->isUnderTransaction());
+		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//The artists must no be saved
 		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_TRANSIENT);
@@ -150,7 +150,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		//Due to not null fields on album model the whole
 		$this->assertFalse($album->save());
-		$this->assertFalse($connection->isUnderTransaction());
+		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//The artist model was saved correctly but album not
 		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
@@ -165,7 +165,7 @@ class ModelsRelationsMagicTest extends PHPUnit_Framework_TestCase
 
 		//Saving OK
 		$this->assertTrue($album->save());
-		$this->assertFalse($connection->isUnderTransaction());
+		$this->assertFalse((bool) $connection->isUnderTransaction());
 
 		//Both messages must be saved correctly
 		$this->assertEquals($artist->getDirtyState(), Phalcon\Mvc\Model::DIRTY_STATE_PERSISTENT);
