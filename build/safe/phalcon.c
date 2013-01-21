@@ -23014,8 +23014,8 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 
 	zval *event_type, *source, *data = NULL, *cancelable = NULL, *events;
 	zval *exception_message, *colon, *event_parts;
-	zval *type, *event_name, *status = NULL, *collect, *fire_events = NULL;
-	zval *event = NULL;
+	zval *type, *event_name, *status = NULL, *collect, *event = NULL;
+	zval *fire_events = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -23070,12 +23070,13 @@ PHP_METHOD(Phalcon_Events_Manager, fire){
 		phalcon_update_property_null(this_ptr, SL("_responses") TSRMLS_CC);
 	}
 	
+	PHALCON_INIT_VAR(event);
+	
 	if (phalcon_array_isset(events, type)) {
 	
 		PHALCON_OBS_VAR(fire_events);
 		phalcon_array_fetch(&fire_events, events, type, PH_NOISY_CC);
 		if (Z_TYPE_P(fire_events) == IS_OBJECT) {
-			PHALCON_INIT_VAR(event);
 			object_init_ex(event, phalcon_events_event_ce);
 			PHALCON_CALL_METHOD_PARAMS_4_NORETURN(event, "__construct", event_name, source, data, cancelable);
 	
