@@ -421,6 +421,10 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 			PHALCON_INIT_NVAR(params);
 			PHALCON_CALL_METHOD(params, dispatcher, "getparams");
+	
+			/** 
+			 * Automatic render based on the latest controller executed
+			 */
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params);
 		}
 	}

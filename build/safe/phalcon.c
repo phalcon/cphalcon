@@ -57504,8 +57504,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
-	phalcon_create_symbol_table(TSRMLS_C);
-	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -57658,8 +57656,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			}
 		}
 	}
-	
-	phalcon_restore_symbol_table(TSRMLS_C);
 	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 		PHALCON_INIT_NVAR(event_name);
@@ -59163,6 +59159,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 			PHALCON_INIT_NVAR(params);
 			PHALCON_CALL_METHOD(params, dispatcher, "getparams");
+	
 			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(view, "render", controller_name, action_name, params);
 		}
 	}

@@ -1052,11 +1052,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	/** 
-	 * Create a virtual symbol table
-	 */
-	phalcon_create_symbol_table(TSRMLS_C);
-	
-	/** 
 	 * Call beforeRender if there is an events manager
 	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -1244,11 +1239,6 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 			}
 		}
 	}
-	
-	/** 
-	 * Restore the virtual symbol table
-	 */
-	phalcon_restore_symbol_table(TSRMLS_C);
 	
 	/** 
 	 * Call afterRender event
