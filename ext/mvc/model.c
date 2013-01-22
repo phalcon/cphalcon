@@ -4884,6 +4884,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		RETURN_CCTOR(value);
 	}
 	
+	/** 
+	 * Fallback assigning the value to the instance
+	 */
 	phalcon_update_property_zval_zval(this_ptr, property, value TSRMLS_CC);
 	
 	RETURN_CCTOR(value);
@@ -4897,8 +4900,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *model_name, *manager, *relation;
-	zval *call_args, *call_object, *result, *error_msg;
+	zval *property, *model_name, *manager, *lower_property;
+	zval *relation, *call_args, *call_object, *result;
+	zval *is_simple_model, *error_msg;
 
 	PHALCON_MM_GROW();
 
@@ -4912,12 +4916,16 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(manager, this_ptr, "getmodelsmanager");
 	
+	PHALCON_INIT_VAR(lower_property);
+	phalcon_fast_strtolower(lower_property, property);
+	
 	/** 
 	 * Check if the property is a relationship
 	 */
 	PHALCON_INIT_VAR(relation);
-	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, property);
+	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, lower_property);
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
+	
 		PHALCON_INIT_VAR(call_args);
 		array_init_size(call_args, 4);
 		phalcon_array_append(&call_args, relation, PH_SEPARATE TSRMLS_CC);
@@ -4930,8 +4938,33 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 		phalcon_array_append(&call_object, manager, PH_SEPARATE TSRMLS_CC);
 		add_next_index_stringl(call_object, SL("getRelationRecords"), 1);
 	
+		/** 
+		 * Get the related records
+		 */
 		PHALCON_INIT_VAR(result);
 		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
+	
+		/** 
+		 * Assign the result to the object
+		 */
+		if (Z_TYPE_P(result) == IS_OBJECT) {
+	
+			/** 
+			 * We assign the result to the instance avoiding future queries
+			 */
+			phalcon_update_property_zval_zval(this_ptr, lower_property, result TSRMLS_CC);
+	
+			/** 
+			 * For belongs-to relations we store the object in the related bag
+			 */
+			PHALCON_INIT_VAR(is_simple_model);
+			phalcon_instance_of(is_simple_model, result, phalcon_mvc_modelinterface_ce TSRMLS_CC);
+			if (PHALCON_IS_TRUE(is_simple_model)) {
+				phalcon_update_property_array(this_ptr, SL("_related"), lower_property, result TSRMLS_CC);
+			}
+		}
+	
+	
 		RETURN_CCTOR(result);
 	}
 	

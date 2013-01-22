@@ -554,7 +554,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having){
 }
 
 /**
- * Return the columns to be queried
+ * Return the current having clause
  *
  * @return string|array
  */
@@ -653,13 +653,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *first_primary_key, *column_map = NULL, *attribute_field = NULL;
 	zval *exception_message, *primary_key_condition;
 	zval *phql, *columns, *selected_columns = NULL, *column = NULL;
-	zval *joined_columns = NULL, *alias = NULL, *selected_column = NULL;
-	zval *selected_models, *selected_model = NULL, *joined_models;
-	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL;
-	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
-	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
-	zval *order_items, *order_item = NULL, *limit, *number;
-	zval *offset = NULL;
+	zval *alias = NULL, *aliased_column = NULL, *joined_columns = NULL;
+	zval *selected_column = NULL, *selected_models, *selected_model = NULL;
+	zval *joined_models, *joins, *join = NULL, *join_model = NULL;
+	zval *join_conditions = NULL, *join_alias = NULL, *group, *group_items;
+	zval *group_item = NULL, *escaped_item = NULL, *joined_items = NULL;
+	zval *having, *order, *order_items, *order_item = NULL;
+	zval *limit, *number, *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -810,9 +810,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
+				PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(column);
 	
-				phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(alias) == IS_LONG) {
+					phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(aliased_column);
+					PHALCON_CONCAT_VSV(aliased_column, column, " AS ", alias);
+					phalcon_array_append(&selected_columns, aliased_column, PH_SEPARATE TSRMLS_CC);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

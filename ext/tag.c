@@ -1569,7 +1569,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	}
 	
 	PHALCON_INIT_VAR(pattern);
-	ZVAL_STRING(pattern, "~[ \\t]+~", 1);
+	ZVAL_STRING(pattern, "~[^a-z0-9A-Z]+~", 1);
 	
 	PHALCON_INIT_VAR(friendly);
 	PHALCON_CALL_FUNC_PARAMS_3(friendly, "preg_replace", pattern, separator, text);

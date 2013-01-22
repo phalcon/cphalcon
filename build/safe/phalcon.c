@@ -25282,7 +25282,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle){
 	}
 	
 	PHALCON_INIT_VAR(pattern);
-	ZVAL_STRING(pattern, "~[ \\t]+~", 1);
+	ZVAL_STRING(pattern, "~[^a-z0-9A-Z]+~", 1);
 	
 	PHALCON_INIT_VAR(friendly);
 	PHALCON_CALL_FUNC_PARAMS_3(friendly, "preg_replace", pattern, separator, text);
@@ -25691,13 +25691,13 @@ PHP_METHOD(Phalcon_Security, getToken){
 
 PHP_METHOD(Phalcon_Security, checkToken){
 
-	zval *token_key = NULL, *dependency_injector, *service = NULL;
-	zval *session, *key = NULL, *request, *token, *session_token;
+	zval *token_key = NULL, *token_value = NULL, *dependency_injector;
+	zval *service = NULL, *session, *key = NULL, *request, *token = NULL, *session_token;
 	zval *same;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &token_key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|zz", &token_key, &token_value) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
@@ -25705,6 +25705,10 @@ PHP_METHOD(Phalcon_Security, checkToken){
 		PHALCON_INIT_VAR(token_key);
 	} else {
 		PHALCON_SEPARATE_PARAM(token_key);
+	}
+	
+	if (!token_value) {
+		PHALCON_INIT_VAR(token_value);
 	}
 	
 	PHALCON_OBS_VAR(dependency_injector);
@@ -25727,14 +25731,18 @@ PHP_METHOD(Phalcon_Security, checkToken){
 		PHALCON_CALL_METHOD_PARAMS_1(token_key, session, "get", key);
 	}
 	
-	PHALCON_INIT_NVAR(service);
-	ZVAL_STRING(service, "request", 1);
+	if (Z_TYPE_P(token_value) == IS_NULL) {
+		PHALCON_INIT_NVAR(service);
+		ZVAL_STRING(service, "request", 1);
 	
-	PHALCON_INIT_VAR(request);
-	PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", service);
+		PHALCON_INIT_VAR(request);
+		PHALCON_CALL_METHOD_PARAMS_1(request, dependency_injector, "getshared", service);
 	
-	PHALCON_INIT_VAR(token);
-	PHALCON_CALL_METHOD_PARAMS_1(token, request, "getpost", token_key);
+		PHALCON_INIT_VAR(token);
+		PHALCON_CALL_METHOD_PARAMS_1(token, request, "getpost", token_key);
+	} else {
+		PHALCON_CPY_WRT(token, token_value);
+	}
 	
 	PHALCON_INIT_NVAR(key);
 	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
@@ -25746,6 +25754,35 @@ PHP_METHOD(Phalcon_Security, checkToken){
 	is_equal_function(same, token, session_token TSRMLS_CC);
 	
 	RETURN_NCTOR(same);
+}
+
+PHP_METHOD(Phalcon_Security, getSessionToken){
+
+	zval *dependency_injector, *service, *session;
+	zval *key, *session_token;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(dependency_injector);
+	phalcon_read_property(&dependency_injector, this_ptr, SL("_dependencyInjector"), PH_NOISY_CC);
+	if (Z_TYPE_P(dependency_injector) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_flash_exception_ce, "A dependency injection container is required to access the 'session' service");
+		return;
+	}
+	
+	PHALCON_INIT_VAR(service);
+	ZVAL_STRING(service, "session", 1);
+	
+	PHALCON_INIT_VAR(session);
+	PHALCON_CALL_METHOD_PARAMS_1(session, dependency_injector, "getshared", service);
+	
+	PHALCON_INIT_VAR(key);
+	ZVAL_STRING(key, "$PHALCON/CSRF$", 1);
+	
+	PHALCON_INIT_VAR(session_token);
+	PHALCON_CALL_METHOD_PARAMS_1(session_token, session, "get", key);
+	
+	RETURN_CCTOR(session_token);
 }
 
 
@@ -37327,13 +37364,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	zval *first_primary_key, *column_map = NULL, *attribute_field = NULL;
 	zval *exception_message, *primary_key_condition;
 	zval *phql, *columns, *selected_columns = NULL, *column = NULL;
-	zval *joined_columns = NULL, *alias = NULL, *selected_column = NULL;
-	zval *selected_models, *selected_model = NULL, *joined_models;
-	zval *joins, *join = NULL, *join_model = NULL, *join_conditions = NULL;
-	zval *join_alias = NULL, *group, *group_items, *group_item = NULL;
-	zval *escaped_item = NULL, *joined_items = NULL, *having, *order;
-	zval *order_items, *order_item = NULL, *limit, *number;
-	zval *offset = NULL;
+	zval *alias = NULL, *aliased_column = NULL, *joined_columns = NULL;
+	zval *selected_column = NULL, *selected_models, *selected_model = NULL;
+	zval *joined_models, *joins, *join = NULL, *join_model = NULL;
+	zval *join_conditions = NULL, *join_alias = NULL, *group, *group_items;
+	zval *group_item = NULL, *escaped_item = NULL, *joined_items = NULL;
+	zval *having, *order, *order_items, *order_item = NULL;
+	zval *limit, *number, *offset = NULL;
 	HashTable *ah0, *ah1, *ah2, *ah3, *ah4, *ah5;
 	HashPosition hp0, hp1, hp2, hp3, hp4, hp5;
 	zval **hd;
@@ -37470,9 +37507,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql){
 	
 			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
+				PHALCON_GET_FOREACH_KEY(alias, ah0, hp0);
 				PHALCON_GET_FOREACH_VALUE(column);
 	
-				phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				if (Z_TYPE_P(alias) == IS_LONG) {
+					phalcon_array_append(&selected_columns, column, PH_SEPARATE TSRMLS_CC);
+				} else {
+					PHALCON_INIT_NVAR(aliased_column);
+					PHALCON_CONCAT_VSV(aliased_column, column, " AS ", alias);
+					phalcon_array_append(&selected_columns, aliased_column, PH_SEPARATE TSRMLS_CC);
+				}
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -64361,8 +64405,9 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 
 PHP_METHOD(Phalcon_Mvc_Model, __get){
 
-	zval *property, *model_name, *manager, *relation;
-	zval *call_args, *call_object, *result, *error_msg;
+	zval *property, *model_name, *manager, *lower_property;
+	zval *relation, *call_args, *call_object, *result;
+	zval *is_simple_model, *error_msg;
 
 	PHALCON_MM_GROW();
 
@@ -64376,9 +64421,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	PHALCON_INIT_VAR(manager);
 	PHALCON_CALL_METHOD(manager, this_ptr, "getmodelsmanager");
 	
+	PHALCON_INIT_VAR(lower_property);
+	phalcon_fast_strtolower(lower_property, property);
+	
 	PHALCON_INIT_VAR(relation);
-	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, property);
+	PHALCON_CALL_METHOD_PARAMS_2(relation, manager, "getrelationbyalias", model_name, lower_property);
 	if (Z_TYPE_P(relation) == IS_OBJECT) {
+	
 		PHALCON_INIT_VAR(call_args);
 		array_init_size(call_args, 4);
 		phalcon_array_append(&call_args, relation, PH_SEPARATE TSRMLS_CC);
@@ -64393,6 +64442,19 @@ PHP_METHOD(Phalcon_Mvc_Model, __get){
 	
 		PHALCON_INIT_VAR(result);
 		PHALCON_CALL_USER_FUNC_ARRAY(result, call_object, call_args);
+	
+		if (Z_TYPE_P(result) == IS_OBJECT) {
+	
+			phalcon_update_property_zval_zval(this_ptr, lower_property, result TSRMLS_CC);
+	
+			PHALCON_INIT_VAR(is_simple_model);
+			phalcon_instance_of(is_simple_model, result, phalcon_mvc_modelinterface_ce TSRMLS_CC);
+			if (PHALCON_IS_TRUE(is_simple_model)) {
+				phalcon_update_property_array(this_ptr, SL("_related"), lower_property, result TSRMLS_CC);
+			}
+		}
+	
+	
 		RETURN_CCTOR(result);
 	}
 	

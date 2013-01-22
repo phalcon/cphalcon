@@ -1,4 +1,4 @@
-0.9.0a1
+0.9.0b1
  - Added Phalcon\Annotations, a general purpose component to read annotations from docblocks
  - Phalcon\Mvc\Model now supports saving related records using magic methods with a unique call to 'save'
  - Adding autoescaping option to Phalcon\Tag
