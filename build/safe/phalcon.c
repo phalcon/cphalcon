@@ -64384,6 +64384,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set){
 		if (zend_is_true(is_model)) {
 			PHALCON_INIT_VAR(lower_property);
 			phalcon_fast_strtolower(lower_property, property);
+			phalcon_update_property_zval_zval(this_ptr, lower_property, value TSRMLS_CC);
 			phalcon_update_property_array(this_ptr, SL("_related"), lower_property, value TSRMLS_CC);
 			phalcon_update_property_long(this_ptr, SL("_dirtyState"), 1 TSRMLS_CC);
 			RETURN_CCTOR(value);
