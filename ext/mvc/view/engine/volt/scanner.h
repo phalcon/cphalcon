@@ -64,7 +64,7 @@
 #define PHVOLT_T_NOTIDENTICAL 275
 #define PHVOLT_T_RANGE 276
 #define PHVOLT_T_ASSIGN '='
-#define PHVOLT_T_DOUBLECOLON 277
+#define PHVOLT_T_COLON 277
 
 #define PHVOLT_T_BRACKET_OPEN '('
 #define PHVOLT_T_BRACKET_CLOSE ')'
@@ -74,6 +74,7 @@
 /** Reserved words */
 #define PHVOLT_T_IF 300
 #define PHVOLT_T_ELSE 301
+#define PHVOLT_T_ELSEIF 302
 #define PHVOLT_T_ENDIF 303
 #define PHVOLT_T_FOR 304
 #define PHVOLT_T_ENDFOR 305

@@ -591,7 +591,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit){
 	}
 	
 	phalcon_update_property_zval(this_ptr, SL("_limit"), limit TSRMLS_CC);
-	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	if (Z_TYPE_P(offset) != IS_NULL) {
+		phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	}
+	
+	
 	RETURN_THIS();
 }
 
@@ -604,6 +608,40 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit){
 
 
 	RETURN_MEMBER(this_ptr, "_limit");
+}
+
+/**
+ * Sets an OFFSET clause
+ *
+ *<code>
+ *	$builder->offset(30);
+ *</code>
+ *
+ * @param int $limit
+ * @param int $offset
+ * @return Phalcon\Mvc\Model\Query\Builder
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset){
+
+	zval *offset;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &offset) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the current OFFSET clause
+ *
+ * @return string|array
+ */
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset){
+
+
+	RETURN_MEMBER(this_ptr, "_offset");
 }
 
 /**

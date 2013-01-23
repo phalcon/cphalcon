@@ -130,6 +130,11 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
+		'elseif' {
+			token->opcode = PHVOLT_T_ELSEIF;
+			return 0;
+		}
+
 		'endif' {
 			token->opcode = PHVOLT_T_ENDIF;
 			return 0;
@@ -430,7 +435,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		":" {
-			token->opcode = PHVOLT_T_DOUBLECOLON;
+			token->opcode = PHVOLT_T_COLON;
 			return 0;
 		}
 

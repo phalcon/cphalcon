@@ -102,7 +102,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, __construct){
 		PHALCON_INIT_VAR(view);
 	}
 	
-	phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
+	if (Z_TYPE_P(view) == IS_OBJECT) {
+		phalcon_update_property_zval(this_ptr, SL("_view"), view TSRMLS_CC);
+	}
 	
 	PHALCON_MM_RESTORE();
 }
@@ -1609,11 +1611,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	zval *statements, *extends_mode = NULL, *extended = NULL, *block_mode = NULL;
 	zval *compilation = NULL, *statement = NULL, *expr = NULL, *expr_code = NULL;
 	zval *line = NULL, *file = NULL, *exception_message = NULL, *type = NULL, *code = NULL;
-	zval *block_statements = NULL, *variable = NULL, *key = NULL, *if_expr = NULL;
-	zval *if_expr_code = NULL, *autoescape = NULL, *block_name = NULL;
-	zval *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL, *final_path = NULL;
-	zval *sub_compiler = NULL, *sub_compilation = NULL, *compiled_path = NULL;
-	zval *lifetime = NULL, *old_autoescape = NULL, *level;
+	zval *block_statements = NULL, *else_if_expr = NULL, *else_if_expr_code = NULL;
+	zval *variable = NULL, *key = NULL, *if_expr = NULL, *if_expr_code = NULL, *autoescape = NULL;
+	zval *block_name = NULL, *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL;
+	zval *final_path = NULL, *sub_compiler = NULL, *sub_compilation = NULL;
+	zval *compiled_path = NULL, *lifetime = NULL, *old_autoescape = NULL;
+	zval *level;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1716,12 +1719,35 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				PHALCON_OBS_NVAR(block_statements);
 				phalcon_array_fetch_string(&block_statements, statement, SL("true_statements"), PH_NOISY_CC);
 	
+				/** 
+				 * Process statements in the 'true' block
+				 */
 				PHALCON_INIT_NVAR(code);
 				PHALCON_CALL_METHOD_PARAMS_2(code, this_ptr, "_statementlist", block_statements, extends_mode);
 				phalcon_concat_self(&compilation, code TSRMLS_CC);
-				if (phalcon_array_isset_string(statement, SS("false_statements"))) {
-					phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
 	
+				/** 
+				 * Check for a 'else'/'elseif' block
+				 */
+				if (phalcon_array_isset_string(statement, SS("false_statements"))) {
+	
+					/** 
+					 * Check if it's an elseif
+					 */
+					if (phalcon_array_isset_string(statement, SS("elseif_expr"))) {
+						PHALCON_OBS_NVAR(else_if_expr);
+						phalcon_array_fetch_string(&else_if_expr, statement, SL("elseif_expr"), PH_NOISY_CC);
+	
+						PHALCON_INIT_NVAR(else_if_expr_code);
+						PHALCON_CALL_METHOD_PARAMS_1(else_if_expr_code, this_ptr, "expression", else_if_expr);
+						PHALCON_SCONCAT_SVS(compilation, "<?php } elseif (", else_if_expr_code, ") { ?>");
+					} else {
+						phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
+					}
+	
+					/** 
+					 * Process statements in the 'false' block
+					 */
 					PHALCON_OBS_NVAR(block_statements);
 					phalcon_array_fetch_string(&block_statements, statement, SL("false_statements"), PH_NOISY_CC);
 	
@@ -1739,6 +1765,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 */
 				PHALCON_OBS_NVAR(variable);
 				phalcon_array_fetch_string(&variable, statement, SL("variable"), PH_NOISY_CC);
+	
+				/** 
+				 * Check if a 'key' variable needs to be calculated
+				 */
 				if (phalcon_array_isset_string(statement, SS("key"))) {
 					PHALCON_OBS_NVAR(key);
 					phalcon_array_fetch_string(&key, statement, SL("key"), PH_NOISY_CC);
@@ -1747,6 +1777,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					PHALCON_SCONCAT_SVSVS(compilation, "<?php foreach (", expr_code, " as $", variable, ") { ");
 				}
 	
+				/** 
+				 * Check for an 'if' expr in the block
+				 */
 				if (phalcon_array_isset_string(statement, SS("if_expr"))) {
 					PHALCON_OBS_NVAR(if_expr);
 					phalcon_array_fetch_string(&if_expr, statement, SL("if_expr"), PH_NOISY_CC);
@@ -1758,6 +1791,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					phalcon_concat_self_str(&compilation, SL("?>") TSRMLS_CC);
 				}
 	
+				/** 
+				 * Process the block statements
+				 */
 				PHALCON_OBS_NVAR(block_statements);
 				phalcon_array_fetch_string(&block_statements, statement, SL("block_statements"), PH_NOISY_CC);
 	
@@ -1940,11 +1976,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				/** 
 				 * Cache statement
 				 */
-				PHALCON_OBS_NVAR(key);
-				phalcon_array_fetch_string(&key, statement, SL("key"), PH_NOISY_CC);
-				PHALCON_SCONCAT_SVS(compilation, "<?php $_cache", key, " = $this->di->get('viewCache'); ");
-				PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey", key, " = $_cache", key, "->start('", key, "'); ");
-				PHALCON_SCONCAT_SVS(compilation, "if ($_cacheKey", key, " === null) { ?>");
+				PHALCON_SCONCAT_SVS(compilation, "<?php $_cache[", expr_code, "] = $this->di->get('viewCache'); ");
+				PHALCON_SCONCAT_SVSVSVS(compilation, "$_cacheKey[", expr_code, "] = $_cache[", expr_code, "]->start(", expr_code, "); ");
+				PHALCON_SCONCAT_SVS(compilation, "if ($_cacheKey[", expr_code, "] === null) { ?>");
 				/** 
 				 * Get the code in the block
 				 */
@@ -1961,10 +1995,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				if (phalcon_array_isset_string(statement, SS("lifetime"))) {
 					PHALCON_OBS_NVAR(lifetime);
 					phalcon_array_fetch_string(&lifetime, statement, SL("lifetime"), PH_NOISY_CC);
-					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache", key, "->save('", key, "', null, ", lifetime, "); ");
-					PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime, "); ");
+					PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey[", expr_code, "]; } ?>");
 				} else {
-					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache", key, "->save('", key, "'); } else { echo $_cacheKey", key, "; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", key, "]->save(", expr_code, "); } else { echo $_cacheKey[", expr_code, "]; } ?>");
 				}
 	
 				break;
