@@ -73,7 +73,7 @@ static zval *phvolt_ret_literal_zval(int type, phvolt_parser_token *T, phvolt_sc
 	return ret;
 }
 
-static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *false_statements, zval *elseif_expr, phvolt_scanner_state *state)
+static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *false_statements, phvolt_scanner_state *state)
 {
 	zval *ret;
 
@@ -87,9 +87,21 @@ static zval *phvolt_ret_if_statement(zval *expr, zval *true_statements, zval *fa
 		add_assoc_zval(ret, "false_statements", false_statements);
 	}
 
-	if (elseif_expr) {
-		add_assoc_zval(ret, "elseif_expr", elseif_expr);
-	}
+	Z_ADDREF_P(state->active_file);
+	add_assoc_zval(ret, "file", state->active_file);
+	add_assoc_long(ret, "line", state->active_line);
+
+	return ret;
+}
+
+static zval *phvolt_ret_elseif_statement(zval *expr, phvolt_scanner_state *state)
+{
+	zval *ret;
+
+	MAKE_STD_ZVAL(ret);
+	array_init(ret);
+	add_assoc_long(ret, "type", PHVOLT_T_ELSEIF);
+	add_assoc_zval(ret, "expr", expr);
 
 	Z_ADDREF_P(state->active_file);
 	add_assoc_zval(ret, "file", state->active_file);
@@ -539,6 +551,10 @@ statement(R) ::= if_statement(I) . {
 	R = I;
 }
 
+statement(R) ::= elseif_statement(I) . {
+	R = I;
+}
+
 statement(R) ::= for_statement(E) . {
 	R = E;
 }
@@ -590,15 +606,17 @@ statement(R) ::= empty_statement(E) . {
 %destructor if_statement { zval_ptr_dtor(&$$); }
 
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
-	R = phvolt_ret_if_statement(E, T, NULL, NULL, status->scanner_state);
+	R = phvolt_ret_if_statement(E, T, NULL, status->scanner_state);
 }
 
 if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list(F) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
-	R = phvolt_ret_if_statement(E, T, F, NULL, status->scanner_state);
+	R = phvolt_ret_if_statement(E, T, F, status->scanner_state);
 }
 
-if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSEIF expr(I) CLOSE_DELIMITER statement_list(F) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
-	R = phvolt_ret_if_statement(E, T, F, I, status->scanner_state);
+%destructor elseif_statement { zval_ptr_dtor(&$$); }
+
+elseif_statement(R) ::= OPEN_DELIMITER ELSEIF expr(E) CLOSE_DELIMITER . {
+	R = phvolt_ret_elseif_statement(E, status->scanner_state);
 }
 
 %destructor for_statement { zval_ptr_dtor(&$$); }

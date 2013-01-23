@@ -1611,12 +1611,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	zval *statements, *extends_mode = NULL, *extended = NULL, *block_mode = NULL;
 	zval *compilation = NULL, *statement = NULL, *expr = NULL, *expr_code = NULL;
 	zval *line = NULL, *file = NULL, *exception_message = NULL, *type = NULL, *code = NULL;
-	zval *block_statements = NULL, *else_if_expr = NULL, *else_if_expr_code = NULL;
-	zval *variable = NULL, *key = NULL, *if_expr = NULL, *if_expr_code = NULL, *autoescape = NULL;
-	zval *block_name = NULL, *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL;
-	zval *final_path = NULL, *sub_compiler = NULL, *sub_compilation = NULL;
-	zval *compiled_path = NULL, *lifetime = NULL, *old_autoescape = NULL;
-	zval *level;
+	zval *block_statements = NULL, *variable = NULL, *key = NULL, *if_expr = NULL;
+	zval *if_expr_code = NULL, *autoescape = NULL, *block_name = NULL;
+	zval *blocks = NULL, *path = NULL, *view = NULL, *views_dir = NULL, *final_path = NULL;
+	zval *sub_compiler = NULL, *sub_compilation = NULL, *compiled_path = NULL;
+	zval *lifetime = NULL, *old_autoescape = NULL, *level;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
@@ -1713,7 +1712,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 	
 			case 300:
 				/** 
-				 * If statement
+				 * 'If' statement
 				 */
 				PHALCON_SCONCAT_SVS(compilation, "<?php if (", expr_code, ") { ?>");
 				PHALCON_OBS_NVAR(block_statements);
@@ -1730,20 +1729,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				 * Check for a 'else'/'elseif' block
 				 */
 				if (phalcon_array_isset_string(statement, SS("false_statements"))) {
-	
-					/** 
-					 * Check if it's an elseif
-					 */
-					if (phalcon_array_isset_string(statement, SS("elseif_expr"))) {
-						PHALCON_OBS_NVAR(else_if_expr);
-						phalcon_array_fetch_string(&else_if_expr, statement, SL("elseif_expr"), PH_NOISY_CC);
-	
-						PHALCON_INIT_NVAR(else_if_expr_code);
-						PHALCON_CALL_METHOD_PARAMS_1(else_if_expr_code, this_ptr, "expression", else_if_expr);
-						PHALCON_SCONCAT_SVS(compilation, "<?php } elseif (", else_if_expr_code, ") { ?>");
-					} else {
-						phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
-					}
+					phalcon_concat_self_str(&compilation, SL("<?php } else { ?>") TSRMLS_CC);
 	
 					/** 
 					 * Process statements in the 'false' block
@@ -1757,6 +1743,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 				}
 	
 				phalcon_concat_self_str(&compilation, SL("<?php } ?>") TSRMLS_CC);
+				break;
+	
+			case 302:
+				/** 
+				 * 'elseif' statement
+				 */
+				PHALCON_SCONCAT_SVS(compilation, "<?php } elseif (", expr_code, ") { ?>");
 				break;
 	
 			case 304:
@@ -1998,7 +1991,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, _statementList){
 					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, ", null, ", lifetime, "); ");
 					PHALCON_SCONCAT_SVS(compilation, "} else { echo $_cacheKey[", expr_code, "]; } ?>");
 				} else {
-					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", key, "]->save(", expr_code, "); } else { echo $_cacheKey[", expr_code, "]; } ?>");
+					PHALCON_SCONCAT_SVSVSVS(compilation, "<?php $_cache[", expr_code, "]->save(", expr_code, "); } else { echo $_cacheKey[", expr_code, "]; } ?>");
 				}
 	
 				break;

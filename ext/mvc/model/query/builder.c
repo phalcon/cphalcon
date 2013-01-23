@@ -630,7 +630,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset){
 	}
 
 	phalcon_update_property_zval(this_ptr, SL("_offset"), offset TSRMLS_CC);
-	
+	RETURN_THISW();
 }
 
 /**
