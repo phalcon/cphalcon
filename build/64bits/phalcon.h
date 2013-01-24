@@ -6117,6 +6117,7 @@ PHP_METHOD(Phalcon_Security, isLegacyHash);
 PHP_METHOD(Phalcon_Security, getTokenKey);
 PHP_METHOD(Phalcon_Security, getToken);
 PHP_METHOD(Phalcon_Security, checkToken);
+PHP_METHOD(Phalcon_Security, getSessionToken);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setdi, 0, 0, 1)
 	ZEND_ARG_INFO(0, dependencyInjector)
@@ -6154,6 +6155,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_checktoken, 0, 0, 0)
 	ZEND_ARG_INFO(0, tokenKey)
+	ZEND_ARG_INFO(0, tokenValue)
 ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_security_method_entry){
@@ -6170,6 +6172,7 @@ PHALCON_INIT_FUNCS(phalcon_security_method_entry){
 	PHP_ME(Phalcon_Security, getTokenKey, arginfo_phalcon_security_gettokenkey, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Security, getToken, arginfo_phalcon_security_gettoken, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Security, checkToken, arginfo_phalcon_security_checktoken, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Security, getSessionToken, NULL, ZEND_ACC_PUBLIC) 
 	PHP_FE_END
 };
 
@@ -9423,6 +9426,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, having);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getHaving);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, limit);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getLimit);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, offset);
+PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getOffset);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, groupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getGroupBy);
 PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getPhql);
@@ -9480,6 +9485,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 0, 1)
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_offset, 0, 0, 1)
+	ZEND_ARG_INFO(0, offset)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_groupby, 0, 0, 1)
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
@@ -9504,6 +9513,8 @@ PHALCON_INIT_FUNCS(phalcon_mvc_model_query_builder_method_entry){
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getHaving, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, limit, arginfo_phalcon_mvc_model_query_builder_limit, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getLimit, NULL, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, offset, arginfo_phalcon_mvc_model_query_builder_offset, ZEND_ACC_PUBLIC) 
+	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getOffset, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, groupBy, arginfo_phalcon_mvc_model_query_builder_groupby, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getGroupBy, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Model_Query_Builder, getPhql, NULL, ZEND_ACC_PUBLIC) 
