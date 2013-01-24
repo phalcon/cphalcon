@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Mvc_View, setParamToView){
  * Set all the render params
  *
  *<code>
- *	$this->view->setParamToView(array('products' => $products));
+ *	$this->view->setVars(array('products' => $products));
  *</code>
  *
  * @param array $params
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVars){
  * Set a single view parameter
  *
  *<code>
- *	$this->view->setParamToView('products', $products);
+ *	$this->view->setVar('products', $products);
  *</code>
  *
  * @param string $key
