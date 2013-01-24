@@ -24,7 +24,8 @@ class SomeObject implements Iterator, Countable
 
 	private $_pointer = 0;
 
-	public function __construct($data){
+	public function __construct($data)
+	{
 		$this->_data = $data;
 	}
 
@@ -1043,10 +1044,10 @@ class ViewEnginesVoltTest extends PHPUnit_Framework_TestCase
 
 		// Cache statement
 		$compilation = $volt->compileString('{% cache somekey %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $_cachesomekey = $this->di->get(\'viewCache\'); $_cacheKeysomekey = $_cachesomekey->start(\'somekey\'); if ($_cacheKeysomekey === null) { ?> hello <?php $_cachesomekey->save(\'somekey\'); } else { echo $_cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } else { echo $_cacheKey[$somekey]; } ?>');
 
 		$compilation = $volt->compileString('{% cache somekey 500 %} hello {% endcache %}');
-		$this->assertEquals($compilation, '<?php $_cachesomekey = $this->di->get(\'viewCache\'); $_cacheKeysomekey = $_cachesomekey->start(\'somekey\'); if ($_cacheKeysomekey === null) { ?> hello <?php $_cachesomekey->save(\'somekey\', null, 500); } else { echo $_cacheKeysomekey; } ?>');
+		$this->assertEquals($compilation, '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>');
 
 		//Autoescape mode
 		$compilation = $volt->compileString('{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}');

@@ -1189,18 +1189,30 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
  */
 PHP_METHOD(Phalcon_Tag, getTitle){
 
-	zval *document_title, *eol, *title_html;
+	zval *tags = NULL, *document_title, *eol, *title_html;
 
 	PHALCON_MM_GROW();
 
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &tags) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!tags) {
+		PHALCON_INIT_VAR(tags);
+		ZVAL_BOOL(tags, 1);
+	}
+	
 	PHALCON_OBS_VAR(document_title);
 	phalcon_read_static_property(&document_title, SL("phalcon\\tag"), SL("_documentTitle") TSRMLS_CC);
+	if (PHALCON_IS_TRUE(tags)) {
+		PHALCON_INIT_VAR(eol);
+		zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
 	
-	PHALCON_INIT_VAR(eol);
-	zend_get_constant(SL("PHP_EOL"), eol TSRMLS_CC);
+		PHALCON_INIT_VAR(title_html);
+		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
+	}
 	
-	PHALCON_INIT_VAR(title_html);
-	PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
+	
 	RETURN_CTOR(title_html);
 }
 
@@ -1208,8 +1220,8 @@ PHP_METHOD(Phalcon_Tag, getTitle){
  * Builds a LINK[rel="stylesheet"] tag
  *
  * <code>
- * echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
- * echo Phalcon\Tag::stylesheetLink("css/style.css");
+ * 	echo Phalcon\Tag::stylesheetLink("http://fonts.googleapis.com/css?family=Rosario", false);
+ * 	echo Phalcon\Tag::stylesheetLink("css/style.css");
  * </code>
  *
  * @param array $parameters

@@ -2348,7 +2348,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	zval *template_path, *extends_mode = NULL, *stat = NULL, *compile_always = NULL;
 	zval *compiled_path = NULL, *prefix = NULL, *compiled_separator = NULL;
 	zval *compiled_extension = NULL, *compilation = NULL, *options;
-	zval *win_separator, *unix_separator, *template_win_path;
 	zval *template_sep_path = NULL, *compiled_template_path = NULL;
 	zval *blocks_code, *exception_message = NULL;
 
@@ -2468,17 +2467,12 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile){
 	}
 	
 	if (Z_TYPE_P(compiled_path) != IS_NULL) {
-		PHALCON_INIT_VAR(win_separator);
-		ZVAL_STRING(win_separator, "\\", 1);
-	
-		PHALCON_INIT_VAR(unix_separator);
-		ZVAL_STRING(unix_separator, "/", 1);
-	
-		PHALCON_INIT_VAR(template_win_path);
-		phalcon_fast_str_replace(template_win_path, win_separator, compiled_separator, template_path TSRMLS_CC);
-	
+		/** 
+		 * Create the virtual path replacing the directory separator by the compiled
+		 * separator
+		 */
 		PHALCON_INIT_VAR(template_sep_path);
-		phalcon_fast_str_replace(template_sep_path, unix_separator, compiled_separator, template_win_path TSRMLS_CC);
+		phalcon_prepare_virtual_path(template_sep_path, template_path, compiled_separator TSRMLS_CC);
 	} else {
 		PHALCON_CPY_WRT(template_sep_path, template_path);
 	}

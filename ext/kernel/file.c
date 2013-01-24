@@ -25,6 +25,7 @@
 #include "php_phalcon.h"
 #include "php_main.h"
 #include "main/php_streams.h"
+#include "ext/standard/php_smart_str.h"
 #include "ext/standard/php_filestat.h"
 
 #include "kernel/main.h"
@@ -109,4 +110,36 @@ void phalcon_fix_path(zval **return_value, zval *path, zval *directory_separator
 	zval_ptr_dtor(return_value);
 	*return_value = path;
 	Z_ADDREF_P(path);
+}
+
+/**
+ * Replaces directory separators by the virtual separator
+ */
+void phalcon_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator TSRMLS_DC) {
+
+	unsigned int i;
+	unsigned char ch;
+	smart_str virtual_str = {0};
+
+	if (Z_TYPE_P(path) != IS_STRING || Z_TYPE_P(virtual_separator) != IS_STRING) {
+		return;
+	}
+
+	for (i = 0; i < Z_STRLEN_P(path); i++) {
+		ch = Z_STRVAL_P(path)[i];
+		if (ch == '/' || ch == '\\' || ch == ':') {
+			smart_str_appendl(&virtual_str, Z_STRVAL_P(virtual_separator), Z_STRLEN_P(virtual_separator));
+			continue;
+		}
+		smart_str_appendc(&virtual_str, ch);
+	}
+
+	smart_str_0(&virtual_str);
+
+	if (virtual_str.len) {
+		RETURN_STRINGL(virtual_str.c, virtual_str.len, 0);
+	} else {
+		smart_str_free(&virtual_str);
+		RETURN_EMPTY_STRING();
+	}
 }
