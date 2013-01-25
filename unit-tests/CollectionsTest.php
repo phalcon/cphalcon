@@ -175,6 +175,12 @@ class CollectionsTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Songs', $song);
 		$this->assertEquals($song->name, 'Teardrop');
 
+		//Count
+		$this->assertEquals(Songs::count(), 3);
+		$this->assertEquals(Songs::count(array(
+			array('artist' => 'Massive Attack')
+		)), 2);
+
 	}
 
 }

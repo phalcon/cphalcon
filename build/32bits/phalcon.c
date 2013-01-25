@@ -59954,6 +59954,84 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	RETURN_CTOR(collections);
 }
 
+PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
+
+	zval *params, *collection, *connection, *source;
+	zval *mongo_collection, *conditions = NULL, *simple = NULL;
+	zval *documents_cursor, *limit, *sort = NULL, *group = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &params, &collection, &connection) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, collection, "getsource");
+	
+	PHALCON_INIT_VAR(mongo_collection);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(mongo_collection, connection, "selectcollection", source, 3563037297UL);
+	
+	if (phalcon_array_isset_long(params, 0)) {
+		PHALCON_OBS_VAR(conditions);
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
+	} else {
+		if (phalcon_array_isset_quick_string(params, SS("conditions"), 1055696255UL)) {
+			PHALCON_OBS_NVAR(conditions);
+			phalcon_array_fetch_quick_string(&conditions, params, SS("conditions"), 1055696255UL, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(conditions);
+			array_init(conditions);
+		}
+	}
+	
+	PHALCON_INIT_VAR(simple);
+	ZVAL_BOOL(simple, 1);
+	if (phalcon_array_isset_quick_string(params, SS("limit"), 192268420UL)) {
+		ZVAL_BOOL(simple, 0);
+	} else {
+		if (phalcon_array_isset_quick_string(params, SS("sort"), 274650125UL)) {
+			ZVAL_BOOL(simple, 0);
+		} else {
+			if (phalcon_array_isset_quick_string(params, SS("skip"), 274496444UL)) {
+				ZVAL_BOOL(simple, 0);
+			}
+		}
+	}
+	
+	if (PHALCON_IS_FALSE(simple)) {
+	
+		PHALCON_INIT_VAR(documents_cursor);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(documents_cursor, mongo_collection, "find", conditions, 259012646UL);
+	
+		if (phalcon_array_isset_quick_string(params, SS("limit"), 192268420UL)) {
+			PHALCON_OBS_VAR(limit);
+			phalcon_array_fetch_quick_string(&limit, params, SS("limit"), 192268420UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "limit", limit, 192268420UL);
+		}
+	
+		if (phalcon_array_isset_quick_string(params, SS("sort"), 274650125UL)) {
+			PHALCON_OBS_VAR(sort);
+			phalcon_array_fetch_quick_string(&sort, params, SS("sort"), 274650125UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "sort", sort, 274650125UL);
+		}
+	
+		if (phalcon_array_isset_quick_string(params, SS("skip"), 274496444UL)) {
+			PHALCON_OBS_NVAR(sort);
+			phalcon_array_fetch_quick_string(&sort, params, SS("skip"), 274496444UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "skip", sort, 274496444UL);
+		}
+	
+		PHALCON_INIT_VAR(group);
+		phalcon_fast_count(group, documents_cursor TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_NVAR(group);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(group, mongo_collection, "count", conditions, 4142425646UL);
+	
+	RETURN_CCTOR(group);
+}
+
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 
 	zval *dependency_injector, *disable_events;
@@ -60591,7 +60669,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *unique, *resultset;
+	zval *result;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -60624,13 +60702,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, collection, "getconnection");
 	
-	PHALCON_INIT_VAR(unique);
-	ZVAL_BOOL(unique, 0);
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_SELF_PARAMS_3(result, this_ptr, "_getgroupresultset", parameters, collection, connection);
 	
-	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
-	
-	RETURN_CCTOR(resultset);
+	RETURN_CCTOR(result);
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection, delete){

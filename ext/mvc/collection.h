@@ -41,6 +41,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, readAttribute);
 PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute);
 PHP_METHOD(Phalcon_Mvc_Collection, cloneResult);
 PHP_METHOD(Phalcon_Mvc_Collection, _getResultset);
+PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset);
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave);
 PHP_METHOD(Phalcon_Mvc_Collection, _postSave);
 PHP_METHOD(Phalcon_Mvc_Collection, validate);
@@ -144,6 +145,7 @@ PHALCON_INIT_FUNCS(phalcon_mvc_collection_method_entry){
 	PHP_ME(Phalcon_Mvc_Collection, writeAttribute, arginfo_phalcon_mvc_collection_writeattribute, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Mvc_Collection, cloneResult, arginfo_phalcon_mvc_collection_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, _getResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
+	PHP_ME(Phalcon_Mvc_Collection, _getGroupResultset, NULL, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC) 
 	PHP_ME(Phalcon_Mvc_Collection, _preSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, _postSave, NULL, ZEND_ACC_PROTECTED) 
 	PHP_ME(Phalcon_Mvc_Collection, validate, NULL, ZEND_ACC_PROTECTED) 

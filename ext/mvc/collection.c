@@ -675,6 +675,110 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 }
 
 /**
+ * Perform a count over a resultset
+ *
+ * @param array $params
+ * @param Phalcon\Mvc\Collection $collection
+ * @param \MongoDb $connection
+ * @return int
+ */
+PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
+
+	zval *params, *collection, *connection, *source;
+	zval *mongo_collection, *conditions = NULL, *simple = NULL;
+	zval *documents_cursor, *limit, *sort = NULL, *group = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &params, &collection, &connection) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, collection, "getsource");
+	
+	PHALCON_INIT_VAR(mongo_collection);
+	PHALCON_CALL_METHOD_PARAMS_1(mongo_collection, connection, "selectcollection", source);
+	
+	/** 
+	 * Convert the string to an array
+	 */
+	if (phalcon_array_isset_long(params, 0)) {
+		PHALCON_OBS_VAR(conditions);
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
+	} else {
+		if (phalcon_array_isset_string(params, SS("conditions"))) {
+			PHALCON_OBS_NVAR(conditions);
+			phalcon_array_fetch_string(&conditions, params, SL("conditions"), PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(conditions);
+			array_init(conditions);
+		}
+	}
+	
+	PHALCON_INIT_VAR(simple);
+	ZVAL_BOOL(simple, 1);
+	if (phalcon_array_isset_string(params, SS("limit"))) {
+		ZVAL_BOOL(simple, 0);
+	} else {
+		if (phalcon_array_isset_string(params, SS("sort"))) {
+			ZVAL_BOOL(simple, 0);
+		} else {
+			if (phalcon_array_isset_string(params, SS("skip"))) {
+				ZVAL_BOOL(simple, 0);
+			}
+		}
+	}
+	
+	if (PHALCON_IS_FALSE(simple)) {
+	
+		/** 
+		 * Perform the find
+		 */
+		PHALCON_INIT_VAR(documents_cursor);
+		PHALCON_CALL_METHOD_PARAMS_1(documents_cursor, mongo_collection, "find", conditions);
+	
+		/** 
+		 * Check if a 'limit' clause was defined
+		 */
+		if (phalcon_array_isset_string(params, SS("limit"))) {
+			PHALCON_OBS_VAR(limit);
+			phalcon_array_fetch_string(&limit, params, SL("limit"), PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "limit", limit);
+		}
+	
+		/** 
+		 * Check if a 'sort' clause was defined
+		 */
+		if (phalcon_array_isset_string(params, SS("sort"))) {
+			PHALCON_OBS_VAR(sort);
+			phalcon_array_fetch_string(&sort, params, SL("sort"), PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "sort", sort);
+		}
+	
+		/** 
+		 * Check if a 'skip' clause was defined
+		 */
+		if (phalcon_array_isset_string(params, SS("skip"))) {
+			PHALCON_OBS_NVAR(sort);
+			phalcon_array_fetch_string(&sort, params, SL("skip"), PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(documents_cursor, "skip", sort);
+		}
+	
+		/** 
+		 * Only 'count' is supported
+		 */
+		PHALCON_INIT_VAR(group);
+		phalcon_fast_count(group, documents_cursor TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_NVAR(group);
+	PHALCON_CALL_METHOD_PARAMS_1(group, mongo_collection, "count", conditions);
+	
+	RETURN_CCTOR(group);
+}
+
+/**
  * Executes internal hooks before save a document
  *
  * @param Phalcon\DiInterface $dependencyInjector
@@ -1583,7 +1687,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *unique, *resultset;
+	zval *result;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -1616,19 +1720,17 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, collection, "getconnection");
 	
-	PHALCON_INIT_VAR(unique);
-	ZVAL_BOOL(unique, 0);
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_SELF_PARAMS_3(result, this_ptr, "_getgroupresultset", parameters, collection, connection);
 	
-	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
-	
-	RETURN_CCTOR(resultset);
+	RETURN_CCTOR(result);
 }
 
 /**
  * Deletes a model instance. Returning true on success or false otherwise.
  *
  * <code>
+ *
  *	$robot = Robots::findFirst();
  *	$robot->delete();
  *
