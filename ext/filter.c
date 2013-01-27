@@ -124,9 +124,9 @@ PHP_METHOD(Phalcon_Filter, add){
 PHP_METHOD(Phalcon_Filter, sanitize){
 
 	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
-	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
+	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value = NULL;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -193,8 +193,32 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 	/** 
 	 * Apply a single filter value
 	 */
-	PHALCON_INIT_VAR(sanizited_value);
-	PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters);
+	if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(sanizited_value);
+		array_init(sanizited_value);
+	
+		if (!phalcon_is_iterable(value, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah2, hp2);
+			PHALCON_GET_FOREACH_VALUE(item_value);
+	
+			PHALCON_INIT_NVAR(filter_value);
+			PHALCON_CALL_METHOD_PARAMS_2(filter_value, this_ptr, "_sanitize", item_value, filters);
+			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
+	
+	} else {
+		PHALCON_INIT_NVAR(sanizited_value);
+		PHALCON_CALL_METHOD_PARAMS_2(sanizited_value, this_ptr, "_sanitize", value, filters);
+	}
+	
 	
 	RETURN_CCTOR(sanizited_value);
 }

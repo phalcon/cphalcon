@@ -42,7 +42,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
-	phalcon_globals->symbol_tables = NULL;
+	phalcon_globals->active_symbol_table = NULL;
 
 	/* Cache options */
 	phalcon_globals->function_cache = NULL;
@@ -86,6 +86,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
  * Initilializes super global variables if doesn't
  */
 int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
+
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -96,6 +97,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
 	}
 	#endif
+
 	return SUCCESS;
 }
 
@@ -134,6 +136,7 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
  * Makes fast count on implicit array types
  */
 void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
+
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
@@ -173,6 +176,7 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 			}
 		}
 	}
+
 	ZVAL_LONG(result, 1);
 }
 
@@ -247,101 +251,6 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 	}
 
 	return (int) retval;
-}
-
-/**
- * Creates virtual symbol tables dinamically
- */
-void phalcon_create_symbol_table(TSRMLS_D) {
-
-	if (!PHALCON_GLOBAL(symbol_tables)) {
-		PHALCON_GLOBAL(symbol_tables) = emalloc(sizeof(HashTable **) * 4);
-		PHALCON_GLOBAL(number_symbol_tables) = 1;
-	} else {
-		if ((PHALCON_GLOBAL(number_symbol_tables) % 4) == 0) {
-			PHALCON_GLOBAL(symbol_tables) = erealloc(PHALCON_GLOBAL(symbol_tables), sizeof(HashTable **) * 4 + PHALCON_GLOBAL(number_symbol_tables));
-		}
-		PHALCON_GLOBAL(number_symbol_tables)++;
-	}
-
-	PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1] = EG(active_symbol_table);
-	EG(active_symbol_table) = NULL;
-}
-
-/**
- * Restores a virtual symbol table
- */
-void phalcon_restore_symbol_table(TSRMLS_D) {
-
-	if (PHALCON_GLOBAL(symbol_tables)) {
-
-		EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1];
-
-		PHALCON_GLOBAL(number_symbol_tables)--;
-
-		if (PHALCON_GLOBAL(number_symbol_tables) == 0) {
-			efree(PHALCON_GLOBAL(symbol_tables));
-			PHALCON_GLOBAL(symbol_tables) = NULL;
-		}
-	}
-}
-
-/**
- * Restores all the virtual symbol tables
- */
-void phalcon_clean_symbol_tables(TSRMLS_D) {
-
-	unsigned int i;
-
-	if (PHALCON_GLOBAL(symbol_tables)) {
-		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
-			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
-		}
-		efree(PHALCON_GLOBAL(symbol_tables));
-		PHALCON_GLOBAL(symbol_tables) = NULL;
-	}
-}
-
-/**
- * Exports symbols to the active symbol table
- */
-int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
-
-	if (!EG(active_symbol_table)) {
-		zend_rebuild_symbol_table(TSRMLS_C);
-	}
-
-	if (EG(active_symbol_table)) {
-		if (Z_TYPE_P(key_name) == IS_STRING) {
-			Z_ADDREF_P(value);
-			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name)+1, &value, sizeof(zval *), NULL);
-			if (EG(exception)) {
-				return FAILURE;
-			}
-		}
-	}
-
-	return SUCCESS;
-}
-
-/**
- * Exports a string symbol to the active symbol table
- */
-int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
-
-	if (!EG(active_symbol_table)) {
-		zend_rebuild_symbol_table(TSRMLS_C);
-	}
-
-	if (&EG(symbol_table)) {
-		Z_ADDREF_P(value);
-		zend_hash_update(&EG(symbol_table), key_name, key_length, &value, sizeof(zval *), NULL);
-		if (EG(exception)) {
-			return FAILURE;
-		}
-	}
-
-	return SUCCESS;
 }
 
 /**

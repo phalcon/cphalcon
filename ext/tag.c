@@ -1185,6 +1185,14 @@ PHP_METHOD(Phalcon_Tag, prependTitle){
 /**
  * Gets the current document title
  *
+ * <code>
+ * 	echo Phalcon\Tag::getTitle();
+ * </code>
+ *
+ * <code>
+ * 	{{ get_title() }}
+ * </code>
+ *
  * @return string
  */
 PHP_METHOD(Phalcon_Tag, getTitle){
@@ -1210,10 +1218,11 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
+		RETURN_CTOR(title_html);
 	}
 	
 	
-	RETURN_CTOR(title_html);
+	RETURN_CCTOR(document_title);
 }
 
 /**
@@ -1346,8 +1355,8 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink){
  * Builds a SCRIPT[type="javascript"] tag
  *
  * <code>
- * echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
- * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
+ * 	echo Phalcon\Tag::javascriptInclude("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false);
+ * 	echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
  * </code>
  *
  * Volt syntax:

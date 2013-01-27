@@ -94,6 +94,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, "phalcon\\di\\injectable", phalcon_mvc_application_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -164,6 +165,34 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules){
 }
 
 /**
+ * Sets the module name to be used if the router doesn't return a valid module
+ *
+ * @param string $defaultModule
+ */
+PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
+
+	zval *default_module;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_module) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
+	
+}
+
+/**
+ * Returns the default module name
+ *
+ * @return string
+ */
+PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule){
+
+
+	RETURN_MEMBER(this_ptr, "_defaultModule");
+}
+
+/**
  * Handles a MVC request
  *
  * @param string $uri
@@ -172,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules){
 PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	zval *uri = NULL, *dependency_injector, *events_manager;
-	zval *service = NULL, *router, *module_name, *event_name = NULL;
+	zval *service = NULL, *router, *module_name = NULL, *event_name = NULL;
 	zval *status = NULL, *modules, *exception_msg = NULL, *module;
 	zval *path, *class_name = NULL, *module_object, *module_params;
 	zval *view, *namespace_name, *controller_name = NULL;
@@ -212,6 +241,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	 */
 	PHALCON_INIT_VAR(module_name);
 	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	
+	/** 
+	 * If the router doesn't return a valid module we use the default module
+	 */
+	if (!zend_is_true(module_name)) {
+		PHALCON_OBS_NVAR(module_name);
+		phalcon_read_property(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+	}
+	
+	/** 
+	 * Process the module definition
+	 */
 	if (zend_is_true(module_name)) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	

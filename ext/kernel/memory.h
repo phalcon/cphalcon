@@ -19,10 +19,12 @@
 
 #define PHALCON_MEMORY_FRAME_CHUNK 16
 
+/* Variable Tracking */
 extern void phalcon_init_nvar(zval **var TSRMLS_DC);
 extern void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
 extern void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
+/* Memory Frames */
 extern int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
@@ -33,12 +35,21 @@ extern int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 extern int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D);
 extern int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
+/* Virtual symbol tables */
+extern void phalcon_create_symbol_table(TSRMLS_D);
+extern void phalcon_restore_symbol_table(TSRMLS_D);
+extern void phalcon_clean_symbol_tables(TSRMLS_D);
+
+/** Export symbols to active symbol table */
+extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
+
 extern void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 
-/** Memory macros */
+/* Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z); ZVAL_NULL(z);
 

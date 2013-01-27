@@ -40,7 +40,7 @@
 /**
  * Reads class constant from string name and returns its value
  */
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC){
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC) {
 
 	zval **result_ptr;
 
@@ -58,7 +58,7 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 /**
  * Check if class is instance of
  */
-int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
+int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
@@ -66,7 +66,7 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 		return FAILURE;
 	} else {
 		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
-	}	
+	}
 
 	return SUCCESS;
 }
@@ -74,7 +74,7 @@ int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry
 /**
  * Check if an object is instance of a class
  */
-int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC){
+int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -91,7 +91,7 @@ int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_le
 /**
  * Returns a class name into a zval result
  */
-void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -117,12 +117,12 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
 /**
  * Returns a class name into a zval result
  */
-void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	int found = 0;
 	zend_class_entry *ce;
 	unsigned int i, class_length;
-	char *cursor, *class_name;
+	const char *cursor, *class_name;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		if (Z_TYPE_P(object) != IS_STRING) {
@@ -177,12 +177,12 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 /**
  * Returns a namespace from a class name
  */
-void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 	int found = 0;
 	unsigned int i, j, class_length;
-	char *cursor, *class_name;
+	const char *cursor, *class_name;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		if (Z_TYPE_P(object) != IS_STRING) {
@@ -259,7 +259,7 @@ void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
 /**
  * Fetches a zend class entry from a zval value
  */
-zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
+zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -272,7 +272,7 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
 /**
  * Checks if a class exist
  */
-int phalcon_class_exists(zval *class_name TSRMLS_DC){
+int phalcon_class_exists(zval *class_name TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -290,7 +290,7 @@ int phalcon_class_exists(zval *class_name TSRMLS_DC){
 /**
  * Clones an object from obj to destiny
  */
-int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
+int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC) {
 
 	int status = SUCCESS;
 	zend_class_entry *ce;
@@ -332,7 +332,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 /**
  * Checks if property exists on object
  */
-int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -352,7 +352,7 @@ int phalcon_isset_property(zval *object, char *property_name, unsigned int prope
 /**
  * Checks if string property exists on object
  */
-int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
+int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -376,7 +376,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
  * Lookup exact class where a property is defined
  *
  */
-static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zend_class_entry *original_ce;
 	unsigned long hash;
@@ -396,7 +396,7 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 /**
  * Reads a property from an object
  */
-int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC){
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
 	zval *property;
 	zend_class_entry *ce, *old_scope;
@@ -452,7 +452,7 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 /**
  * Returns an object's member
  */
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *property, *result;
 	zend_class_entry *ce, *old_scope;
@@ -500,7 +500,7 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 /**
  * Reads a property from an object
  */
-int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC){
+int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
 
 	zend_class_entry *ce, *old_scope;
 
@@ -554,7 +554,7 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 /**
  * Checks whether obj is an object and updates property with long value
  */
-int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC){
+int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -575,7 +575,7 @@ int phalcon_update_property_long(zval *object, char *property_name, unsigned int
 /**
  * Checks whether obj is an object and updates property with string value
  */
-int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC){
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC) {
 
 	zval *value, *property;
 	zend_class_entry *ce, *old_scope;
@@ -621,7 +621,7 @@ int phalcon_update_property_string(zval *object, char *property_name, unsigned i
 /**
  * Checks whether obj is an object and updates property with bool value
  */
-int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC){
+int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -643,7 +643,7 @@ int phalcon_update_property_bool(zval *object, char *property_name, unsigned int
 /**
  * Checks whether obj is an object and updates property with null value
  */
-int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 

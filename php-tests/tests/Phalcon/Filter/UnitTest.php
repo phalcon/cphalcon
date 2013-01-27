@@ -805,5 +805,33 @@ class Filter_UnitTest extends Phalcon_Test_UnitTestCase
             'Striptags single HTML filter is not correct'
         );
     }
+
+    public function testSanitizeArray()
+    {
+        $filter = new Flt();
+
+        $expected = array('1', '2', '3');
+        $actual   = $filter->sanitize(array(' 1 ', '  2', '3  '), 'trim');
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Filter an array is not correct'
+        );
+    }
+
+    public function testSanitizeArrayMultipleFilters()
+    {
+        $filter = new Flt();
+
+        $expected = array('1', '2', '3');
+        $actual   = $filter->sanitize(array(' <a href="a">1</a> ', '  <h1>2</h1>', '<p>3</p>  '), array('trim', 'striptags'));
+
+        $this->assertEquals(
+            $expected,
+            $actual,
+            'Filter an array with multiples filters is not correct'
+        );
+    }
 }
 

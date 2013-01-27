@@ -45,11 +45,11 @@ extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 #endif
 
-/** Startup functions */
+/* Startup functions */
 extern void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 extern zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
 
-/** Globals functions */
+/* Globals functions */
 extern int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 extern int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
@@ -57,7 +57,7 @@ extern int phalcon_get_global_by_index(char *global, char *index, zval *result T
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
 extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
 
-/** Count */
+/* Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
@@ -65,16 +65,7 @@ extern int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 extern void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 extern int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
-/* Virtual symbol tables */
-extern void phalcon_create_symbol_table(TSRMLS_D);
-extern void phalcon_restore_symbol_table(TSRMLS_D);
-extern void phalcon_clean_symbol_tables(TSRMLS_D);
-
-/** Export symbols to active symbol table */
-extern int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-extern int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
-
-/** Compatibility with PHP 5.3 */
+/* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
   (z)->value = (v)->value;\

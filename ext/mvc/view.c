@@ -1052,6 +1052,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
 	/** 
+	 * Create a virtual symbol table
+	 */
+	phalcon_create_symbol_table(TSRMLS_C);
+	
+	/** 
 	 * Call beforeRender if there is an events manager
 	 */
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
@@ -1249,11 +1254,11 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN(events_manager, "fire", event_name, this_ptr);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_NULL();
 }
 
 /**
- * Choose different to render than last-controller/last-action
+ * Choose a different view to render instead of last-controller/last-action
  *
  * <code>
  * class ProductsController extends Phalcon\Mvc\Controller
