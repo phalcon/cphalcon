@@ -238,6 +238,18 @@ int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS
 }
 
 /**
+ * Check if method exists on certain object using explicit char param (without calculate hash key)
+ */
+int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+
+	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
+/**
  * Checks if a zval is callable
  */
 int phalcon_is_callable(zval *var TSRMLS_DC) {

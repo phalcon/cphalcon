@@ -635,7 +635,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, escapeString){
 }
 
 /**
- * Manually bind params to a SQL statement
+ * Manually bind params to a SQL statement. This method requires an active connection to a database system
  *
  *<code>
  *	$sql = $connection->bindParams('SELECT * FROM robots WHERE name = ?0', array('Bender'));
@@ -695,22 +695,29 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 					PHALCON_INIT_NVAR(replaced_sql);
 					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
 					PHALCON_CPY_WRT(sql, replaced_sql);
-				} else {
-					/** 
-					 * Handle long parameters as string placeholders: :name:, :other:
-					 */
-					if (Z_TYPE_P(index) == IS_STRING) {
-						PHALCON_INIT_NVAR(place_key);
-						PHALCON_CONCAT_SVS(place_key, ":", index, ":");
-	
-						PHALCON_INIT_NVAR(replaced_sql);
-						phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
-						PHALCON_CPY_WRT(sql, replaced_sql);
-					} else {
-						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
-						return;
-					}
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
 				}
+	
+				/** 
+				 * Handle long parameters as string placeholders: :name:, :other:
+				 */
+				if (Z_TYPE_P(index) == IS_STRING) {
+					PHALCON_INIT_NVAR(place_key);
+					PHALCON_CONCAT_SVS(place_key, ":", index, ":");
+	
+					PHALCON_INIT_NVAR(replaced_sql);
+					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
+					PHALCON_CPY_WRT(sql, replaced_sql);
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
+				}
+	
+				/** 
+				 * Unrecognized parameter type
+				 */
+				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
+				return;
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}

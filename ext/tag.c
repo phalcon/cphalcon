@@ -328,9 +328,8 @@ PHP_METHOD(Phalcon_Tag, displayTo){
  */
 PHP_METHOD(Phalcon_Tag, getValue){
 
-	zval *name, *params, *display_values, *value = NULL, *autoescape = NULL;
-	zval *escaper = NULL, *escaped_value = NULL;
-	zval *g0 = NULL;
+	zval *name, *params, *display_values, *value = NULL, *_POST;
+	zval *autoescape = NULL, *escaper = NULL, *escaped_value = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -351,10 +350,10 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		/** 
 		 * Check if there is a post value for the item
 		 */
-		phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
-		if (phalcon_array_isset(g0, name)) {
+		phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
+		if (phalcon_array_isset(_POST, name)) {
 			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, _POST, name, PH_NOISY_CC);
 		} else {
 			RETURN_MM_NULL();
 		}

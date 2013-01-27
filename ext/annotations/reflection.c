@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
  *
  * @return Phalcon\Annotations\Collection[]
  */
-PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
+PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 
 	zval *annotations, *reflection_data, *reflection_methods;
 	zval *collections, *reflection_method = NULL, *method_name = NULL;

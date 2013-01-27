@@ -170,10 +170,9 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue){
  */
 PHP_METHOD(Phalcon_Http_Cookie, getValue){
 
-	zval *filters = NULL, *default_value = NULL, *readed, *name, *value;
-	zval *filter = NULL, *dependency_injector, *service;
+	zval *filters = NULL, *default_value = NULL, *readed, *name, *_COOKIE;
+	zval *value, *filter = NULL, *dependency_injector, *service;
 	zval *sanitized_value;
-	zval *g0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -195,11 +194,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-		phalcon_get_global(&g0, SS("_COOKIE") TSRMLS_CC);
-		if (phalcon_array_isset(g0, name)) {
+		phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
+		if (phalcon_array_isset(_COOKIE, name)) {
 	
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, _COOKIE, name, PH_NOISY_CC);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);

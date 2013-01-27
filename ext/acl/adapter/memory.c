@@ -55,7 +55,7 @@
  *		'users' => new Phalcon\Acl\Role('Users'),
  *		'guests' => new Phalcon\Acl\Role('Guests')
  *	);
- *	foreach($roles as $role){
+ *	foreach ($roles as $role) {
  *		$acl->addRole($role);
  *	}
  *
@@ -65,7 +65,7 @@
  *		'products' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
  *		'invoices' => array('index', 'profile')
  *	);
- *	foreach($privateResources as $resource => $actions){
+ *	foreach ($privateResources as $resource => $actions) {
  *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
  *	}
  *
@@ -76,20 +76,20 @@
  *		'session' => array('index', 'register', 'start', 'end'),
  *		'contact' => array('index', 'send')
  *	);
- *  foreach($publicResources as $resource => $actions){
+ *  foreach ($publicResources as $resource => $actions) {
  *		$acl->addResource(new Phalcon\Acl\Resource($resource), $actions);
  *	}
  *
  *  //Grant access to public areas to both users and guests
- *	foreach($roles as $role){
- *		foreach($publicResources as $resource => $actions){
+ *	foreach ($roles as $role){
+ *		foreach ($publicResources as $resource => $actions) {
  *			$acl->allow($role->getName(), $resource, '*');
  *		}
  *	}
  *
  *	//Grant acess to private area to role Users
- *  foreach($privateResources as $resource => $actions){
- * 		foreach($actions as $action){
+ *  foreach ($privateResources as $resource => $actions) {
+ * 		foreach ($actions as $action) {
  *			$acl->allow('Users', $resource, $action);
  *		}
  *	}
@@ -160,8 +160,8 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, __construct){
  *
  * Example:
  * <code>
- * $acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultant');
- * $acl->addRole('administrator', 'consultant');
+ * 	$acl->addRole(new Phalcon\Acl\Role('administrator'), 'consultant');
+ * 	$acl->addRole('administrator', 'consultant');
  * </code>
  *
  * @param  Phalcon\Acl\RoleInterface $role

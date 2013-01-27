@@ -324,6 +324,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_File, __wakeup){
 		ZVAL_STRING(mode, "ab", 1);
 	}
 	
+	/** 
+	 * Re-open the file handler if the logger was serialized
+	 */
 	PHALCON_INIT_VAR(file_handler);
 	PHALCON_CALL_FUNC_PARAMS_2(file_handler, "fopen", path, mode);
 	phalcon_update_property_zval(this_ptr, SL("_fileHandler"), file_handler TSRMLS_CC);

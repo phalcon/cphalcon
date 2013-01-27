@@ -40,6 +40,13 @@
 #include "kernel/concat.h"
 
 /**
+ * Phalcon\Annotations\Annotation
+ *
+ * Represents a single annotation in an annotations collection
+ */
+
+
+/**
  * Phalcon\Annotations\Annotation initializer
  */
 PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation){
@@ -55,6 +62,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Annotation){
 
 /**
  * Phalcon\Annotations\Annotation constructor
+ *
+ * @param array $reflectionData
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 
@@ -121,12 +130,23 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the annotation's name
+ *
+ * @return string
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getName){
 
 
 	RETURN_MEMBER(this_ptr, "_name");
 }
 
+/**
+ * Resolves an annotation expression
+ *
+ * @param array $expr
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 
 	zval *expr = NULL, *type, *value = NULL, *array_value, *items, *item = NULL;
@@ -234,18 +254,33 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression){
 	PHALCON_MM_RESTORE();
 }
 
+/**
+ * Returns the expression arguments without resolving
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments){
 
 
 	RETURN_MEMBER(this_ptr, "_exprArguments");
 }
 
+/**
+ * Returns the expression arguments
+ *
+ * @return array
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getArguments){
 
 
 	RETURN_MEMBER(this_ptr, "_arguments");
 }
 
+/**
+ * Returns the number of arguments that the annotation has
+ *
+ * @return int
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
 
 	zval *arguments, *number;
@@ -260,6 +295,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments){
 	RETURN_NCTOR(number);
 }
 
+/**
+ * Returns an argument in an specific position
+ *
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 
 	zval *position, *arguments, *value;
@@ -281,6 +321,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument){
 	RETURN_MM_NULL();
 }
 
+/**
+ * Returns an argument in an specific position
+ *
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 
 	zval *position, *arguments;
@@ -300,6 +345,12 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument){
 	RETURN_MM_FALSE;
 }
 
+/**
+ * Returns a named argument
+ *
+ * @param string $name
+ * @return mixed
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 
 	zval *name, *arguments, *value;
@@ -321,6 +372,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter){
 	RETURN_MM_NULL();
 }
 
+/**
+ * Checks if the annotation has a specific named argument
+ *
+ * @return boolean
+ */
 PHP_METHOD(Phalcon_Annotations_Annotation, hasNamedArgument){
 
 	zval *name, *arguments;

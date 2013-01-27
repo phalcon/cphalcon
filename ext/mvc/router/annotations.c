@@ -43,7 +43,20 @@
 /**
  * Phalcon\Mvc\Router\Annotations
  *
- * A router that reads routes annotations from classes
+ * A router that reads routes annotations from classes/resources
+ *
+ *<code>
+ * $di->set('router', function() {
+ *
+ *		//Use the annotations router
+ *		$router = new \Phalcon\Mvc\Router\Annotations();
+ *
+ *		//This will do the same as above but only if the handled uri starts with /robots
+ * 		$router->addResource('Robots', '/robots');
+ *
+ * 		return $router;
+ *	});
+ *</code>
  */
 
 
@@ -63,6 +76,14 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Router_Annotations){
 	return SUCCESS;
 }
 
+/**
+ * Adds a resource to the annotations handler
+ * A resource is a class that contains routing annotations
+ *
+ * @param string $handler
+ * @param string $prefix
+ * @return Phalcon\Mvc\Router\Annotations
+ */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 
 	zval *handler, *prefix = NULL, *scope;
@@ -92,6 +113,11 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource){
 	RETURN_THIS();
 }
 
+/**
+ * Produce the routing parameters from the rewrite information
+ *
+ * @param string $uri
+ */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 
 	zval *uri = NULL, *real_uri = NULL, *processed, *annotations_service = NULL;
@@ -268,7 +294,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle){
 }
 
 /**
+ * Checks for annotations in the controller docblock
  *
+ * @param string $handler
+ * @param Phalcon\Annotations\AdapterInterface
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation){
 

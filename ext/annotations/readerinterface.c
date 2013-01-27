@@ -25,51 +25,31 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "Zend/zend_operators.h"
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
-
 #include "kernel/main.h"
-#include "kernel/memory.h"
 
 /**
- * Phalcon\Annotations\Adapter\Memory
- *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Phalcon\Annotations\ReaderInterface initializer
  */
+PHALCON_INIT_CLASS(Phalcon_Annotations_ReaderInterface){
 
-
-/**
- * Phalcon\Annotations\Adapter\Memory initializer
- */
-PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
-
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
-
-	zend_class_implements(phalcon_annotations_adapter_memory_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Annotations, ReaderInterface, annotations_readerinterface, phalcon_annotations_readerinterface_method_entry);
 
 	return SUCCESS;
 }
 
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
+/**
+ * Reads annotations from the class dockblocks, its methods and/or properties
+ *
+ * @param string $className
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parse);
 
-	zval *key;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	RETURN_NULL();
-}
-
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
-
-	zval *key, *data;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	RETURN_NULL();
-}
+/**
+ * Parses a raw doc block returning the annotations found
+ *
+ * @param string $docBlock
+ * @return array
+ */
+PHALCON_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parseDocBlock);
 

@@ -123,9 +123,9 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
  */
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_REQUEST;
+	zval *value, *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -141,11 +141,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
+	if (phalcon_array_isset(_REQUEST, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _REQUEST, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -197,9 +197,9 @@ PHP_METHOD(Phalcon_Http_Request, get){
  */
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_POST, *value;
+	zval *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
+	if (phalcon_array_isset(_POST, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _POST, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -274,9 +274,9 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_GET, *value;
+	zval *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -292,11 +292,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
+	if (phalcon_array_isset(_GET, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _GET, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -338,8 +338,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
  */
 PHP_METHOD(Phalcon_Http_Request, getServer){
 
-	zval *name, *server_value;
-	zval *g0 = NULL;
+	zval *name, *_SERVER, *server_value;
 
 	PHALCON_MM_GROW();
 
@@ -347,10 +346,10 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset(_SERVER, name)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, name, PH_NOISY_CC);
 		RETURN_CCTOR(server_value);
 	}
 	RETURN_MM_NULL();
@@ -364,8 +363,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
  */
 PHP_METHOD(Phalcon_Http_Request, has){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_REQUEST;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -374,9 +372,9 @@ PHP_METHOD(Phalcon_Http_Request, has){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
+	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_REQUEST, name));
 	RETURN_NCTOR(r0);
 }
 
@@ -388,8 +386,7 @@ PHP_METHOD(Phalcon_Http_Request, has){
  */
 PHP_METHOD(Phalcon_Http_Request, hasPost){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_POST;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -398,9 +395,9 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
+	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_POST, name));
 	RETURN_NCTOR(r0);
 }
 
@@ -412,8 +409,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
  */
 PHP_METHOD(Phalcon_Http_Request, hasQuery){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_GET;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -422,9 +418,9 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_GET, name));
 	RETURN_NCTOR(r0);
 }
 
@@ -436,8 +432,7 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery){
  */
 PHP_METHOD(Phalcon_Http_Request, hasServer){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_SERVER;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -446,9 +441,9 @@ PHP_METHOD(Phalcon_Http_Request, hasServer){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_SERVER, name));
 	RETURN_NCTOR(r0);
 }
 
@@ -460,8 +455,7 @@ PHP_METHOD(Phalcon_Http_Request, hasServer){
  */
 PHP_METHOD(Phalcon_Http_Request, getHeader){
 
-	zval *header, *server_value = NULL, *key;
-	zval *g0 = NULL;
+	zval *header, *_SERVER, *server_value = NULL, *key;
 
 	PHALCON_MM_GROW();
 
@@ -469,17 +463,17 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset(g0, header)) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset(_SERVER, header)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, g0, header, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, header, PH_NOISY_CC);
 		RETURN_CCTOR(server_value);
 	} else {
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "HTTP_", header);
-		if (phalcon_array_isset(g0, key)) {
+		if (phalcon_array_isset(_SERVER, key)) {
 			PHALCON_OBS_NVAR(server_value);
-			phalcon_array_fetch(&server_value, g0, key, PH_NOISY_CC);
+			phalcon_array_fetch(&server_value, _SERVER, key, PH_NOISY_CC);
 			RETURN_CCTOR(server_value);
 		}
 	}
@@ -548,13 +542,12 @@ PHP_METHOD(Phalcon_Http_Request, isAjax){
  */
 PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 
-	zval *server = NULL, *content_type;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *content_type;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("HTTP_SOAPACTION"))) {
 		RETURN_MM_TRUE;
 	} else {
@@ -631,13 +624,12 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
  */
 PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 
-	zval *server = NULL, *server_addr = NULL, *localhost;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *server_addr = NULL, *localhost;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("SERVER_ADDR"))) {
 		PHALCON_OBS_VAR(server_addr);
 		phalcon_array_fetch_string(&server_addr, server, SL("SERVER_ADDR"), PH_NOISY_CC);
@@ -660,13 +652,12 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress){
  */
 PHP_METHOD(Phalcon_Http_Request, getServerName){
 
-	zval *server = NULL, *server_name = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *server_name = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("SERVER_NAME"))) {
 		PHALCON_OBS_VAR(server_name);
 		phalcon_array_fetch_string(&server_name, server, SL("SERVER_NAME"), PH_NOISY_CC);
@@ -779,9 +770,8 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
  */
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
-	zval *trust_forwarded_header = NULL, *server = NULL, *address = NULL;
-	zval *comma, *addresses, *first;
-	zval *g0 = NULL;
+	zval *trust_forwarded_header = NULL, *server = NULL, *_SERVER;
+	zval *address = NULL, *comma, *addresses, *first;
 
 	PHALCON_MM_GROW();
 
@@ -794,8 +784,8 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 		ZVAL_BOOL(trust_forwarded_header, 0);
 	}
 	
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	
 	/** 
 	 * Proxies uses this IP
@@ -841,13 +831,12 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
  */
 PHP_METHOD(Phalcon_Http_Request, getMethod){
 
-	zval *server = NULL, *request_method = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *request_method = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("REQUEST_METHOD"))) {
 		PHALCON_OBS_VAR(request_method);
 		phalcon_array_fetch_string(&request_method, server, SL("REQUEST_METHOD"), PH_NOISY_CC);
@@ -867,13 +856,12 @@ PHP_METHOD(Phalcon_Http_Request, getMethod){
  */
 PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 
-	zval *server = NULL, *user_agent = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *user_agent = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_string(server, SS("HTTP_USER_AGENT"))) {
 		PHALCON_OBS_VAR(user_agent);
 		phalcon_array_fetch_string(&user_agent, server, SL("HTTP_USER_AGENT"), PH_NOISY_CC);
@@ -1095,19 +1083,18 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
-	zval *files = NULL, *zero, *number_files, *has_files;
-	zval *g0 = NULL;
+	zval *files = NULL, *_FILES, *zero, *number_files, *has_files;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_FILES") TSRMLS_CC);
-	PHALCON_CPY_WRT(files, g0);
+	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
+	PHALCON_CPY_WRT(files, _FILES);
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(number_files);
-	phalcon_fast_count(number_files, g0 TSRMLS_CC);
+	phalcon_fast_count(number_files, _FILES TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(has_files);
 	is_smaller_function(has_files, zero, number_files TSRMLS_CC);
@@ -1121,17 +1108,16 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
  */
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
-	zval *super_files = NULL, *files, *file = NULL, *request_file = NULL;
+	zval *super_files = NULL, *_FILES, *files, *file = NULL, *request_file = NULL;
 	zval *empty_files;
-	zval *g0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_FILES") TSRMLS_CC);
-	PHALCON_CPY_WRT(super_files, g0);
+	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
+	PHALCON_CPY_WRT(super_files, _FILES);
 	if (phalcon_fast_count_ev(super_files TSRMLS_CC)) {
 	
 		PHALCON_INIT_VAR(files);
@@ -1171,15 +1157,14 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
  */
 PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 
-	zval *http_referer;
-	zval *g0 = NULL;
+	zval *_SERVER, *http_referer;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset_string(g0, SS("HTTP_REFERER"))) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset_string(_SERVER, SS("HTTP_REFERER"))) {
 		PHALCON_OBS_VAR(http_referer);
-		phalcon_array_fetch_string(&http_referer, g0, SL("HTTP_REFERER"), PH_NOISY_CC);
+		phalcon_array_fetch_string(&http_referer, _SERVER, SL("HTTP_REFERER"), PH_NOISY_CC);
 		RETURN_CCTOR(http_referer);
 	}
 	PHALCON_MM_RESTORE();

@@ -43,6 +43,7 @@
 /**
  * Phalcon\Annotations\Reader
  *
+ * Parses docblocks returning an array with the found annotations
  */
 
 
@@ -52,6 +53,8 @@
 PHALCON_INIT_CLASS(Phalcon_Annotations_Reader){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reader, annotations_reader, phalcon_annotations_reader_method_entry, 0);
+
+	zend_class_implements(phalcon_annotations_reader_ce TSRMLS_CC, 1, phalcon_annotations_readerinterface_ce);
 
 	return SUCCESS;
 }

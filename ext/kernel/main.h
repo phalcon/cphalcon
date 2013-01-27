@@ -56,6 +56,7 @@ extern int phalcon_get_global_by_index(char *global, char *index, zval *result T
 
 extern int phalcon_is_callable(zval *var TSRMLS_DC);
 extern int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
+extern int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
 
 /* Count */
 extern void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);

@@ -135,9 +135,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
  */
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
-	zval *base_uri = NULL, *slash, *one, *minus_one = NULL, *php_self;
-	zval *dirname, *dir_parts, *slice, *uri = NULL;
-	zval *g0 = NULL;
+	zval *base_uri = NULL, *slash, *_SERVER, *one, *minus_one = NULL;
+	zval *php_self, *dirname, *dir_parts, *slice, *uri = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -148,8 +147,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	
 		PHALCON_INIT_VAR(slash);
 		ZVAL_STRING(slash, "/", 1);
-		phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-		if (phalcon_array_isset_string(g0, SS("PHP_SELF"))) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		if (phalcon_array_isset_string(_SERVER, SS("PHP_SELF"))) {
 			PHALCON_INIT_VAR(one);
 			ZVAL_LONG(one, 1);
 	
@@ -158,7 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			PHALCON_CPY_WRT(minus_one, c0);
 	
 			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, g0, SL("PHP_SELF"), PH_NOISY_CC);
+			phalcon_array_fetch_string(&php_self, _SERVER, SL("PHP_SELF"), PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(dirname);
 			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", php_self);

@@ -284,13 +284,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
 		PHALCON_INIT_VAR(converted);
 		PHALCON_CALL_FUNC_PARAMS_3(converted, "mb_convert_encoding", text, from, to);
 		RETURN_CCTOR(converted);
-	} else {
-		if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_NVAR(converted);
-			PHALCON_CALL_FUNC_PARAMS_3(converted, "iconv", from, to, text);
-			RETURN_CCTOR(converted);
-		}
 	}
+	if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_NVAR(converted);
+		PHALCON_CALL_FUNC_PARAMS_3(converted, "iconv", from, to, text);
+		RETURN_CCTOR(converted);
+	}
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
 	return;
 }
