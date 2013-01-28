@@ -755,19 +755,20 @@ extern PHPAPI zend_class_entry *spl_ce_Countable;
 extern PHPAPI zend_class_entry *spl_ce_SeekableIterator;
 #endif
 
-/** Startup functions */
+/* Startup functions */
 void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC);
 zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_class_entry, char *parent_name TSRMLS_DC);
 
-/** Globals functions */
+/* Globals functions */
 int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC);
 int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRMLS_DC);
 int phalcon_get_global_by_index(char *global, char *index, zval *result TSRMLS_DC);
 
 int phalcon_is_callable(zval *var TSRMLS_DC);
 int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS_DC);
+int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC);
 
-/** Count */
+/* Count */
 void phalcon_fast_count(zval *result, zval *array TSRMLS_DC);
 int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 
@@ -775,16 +776,7 @@ int phalcon_fast_count_ev(zval *array TSRMLS_DC);
 void phalcon_inherit_not_found(char *class_name, char *inherit_name);
 int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC);
 
-/* Virtual symbol tables */
-void phalcon_create_symbol_table(TSRMLS_D);
-void phalcon_restore_symbol_table(TSRMLS_D);
-void phalcon_clean_symbol_tables(TSRMLS_D);
-
-/** Export symbols to active symbol table */
-int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
-int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
-
-/** Compatibility with PHP 5.3 */
+/* Compatibility with PHP 5.3 */
 #ifndef ZVAL_COPY_VALUE
  #define ZVAL_COPY_VALUE(z, v)\
   (z)->value = (v)->value;\
@@ -962,10 +954,12 @@ int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value 
 
 #define PHALCON_MEMORY_FRAME_CHUNK 16
 
+/* Variable Tracking */
 void phalcon_init_nvar(zval **var TSRMLS_DC);
 void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC);
 void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC);
 
+/* Memory Frames */
 int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D);
 int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D);
 
@@ -976,12 +970,21 @@ int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC);
 int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D);
 int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D);
 
+/* Virtual symbol tables */
+void phalcon_create_symbol_table(TSRMLS_D);
+void phalcon_restore_symbol_table(TSRMLS_D);
+void phalcon_clean_symbol_tables(TSRMLS_D);
+
+/** Export symbols to active symbol table */
+int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC);
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC);
+
 void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin);
 
 #define PHALCON_MM_GROW() phalcon_memory_grow_stack(TSRMLS_C)
 #define PHALCON_MM_RESTORE() phalcon_memory_restore_stack(TSRMLS_C)
 
-/** Memory macros */
+/* Memory macros */
 #define PHALCON_ALLOC_ZVAL(z) \
 	ALLOC_ZVAL(z); INIT_PZVAL(z); ZVAL_NULL(z);
 
@@ -1737,7 +1740,7 @@ void php_phalcon_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC) {
 	phalcon_globals->active_memory = NULL;
 
 	/* Virtual Symbol Tables */
-	phalcon_globals->symbol_tables = NULL;
+	phalcon_globals->active_symbol_table = NULL;
 
 	/* Cache options */
 	phalcon_globals->function_cache = NULL;
@@ -1775,6 +1778,7 @@ zend_class_entry *phalcon_register_internal_interface_ex(zend_class_entry *orig_
 }
 
 int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
+
 	#if PHP_VERSION_ID < 50400
 	zend_bool jit_initialization = (PG(auto_globals_jit) && !PG(register_globals) && !PG(register_long_arrays));
 	if (jit_initialization) {
@@ -1785,6 +1789,7 @@ int phalcon_init_global(char *global, unsigned int global_length TSRMLS_DC) {
 		return zend_is_auto_global(global, global_length-1 TSRMLS_CC);
 	}
 	#endif
+
 	return SUCCESS;
 }
 
@@ -1817,6 +1822,7 @@ int phalcon_get_global(zval **arr, char *global, unsigned int global_length TSRM
 }
 
 void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
+
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZVAL_LONG(result, zend_hash_num_elements(Z_ARRVAL_P(value)));
 		return;
@@ -1856,6 +1862,7 @@ void phalcon_fast_count(zval *result, zval *value TSRMLS_DC) {
 			}
 		}
 	}
+
 	ZVAL_LONG(result, 1);
 }
 
@@ -1910,6 +1917,15 @@ int phalcon_function_exists_ex(char *method_name, unsigned int method_len TSRMLS
 	return FAILURE;
 }
 
+int phalcon_function_quick_exists_ex(char *method_name, unsigned int method_len, unsigned long key TSRMLS_DC) {
+
+	if (zend_hash_quick_exists(CG(function_table), method_name, method_len, key)) {
+		return SUCCESS;
+	}
+
+	return FAILURE;
+}
+
 int phalcon_is_callable(zval *var TSRMLS_DC) {
 
 	char *error = NULL;
@@ -1921,86 +1937,6 @@ int phalcon_is_callable(zval *var TSRMLS_DC) {
 	}
 
 	return (int) retval;
-}
-
-void phalcon_create_symbol_table(TSRMLS_D) {
-
-	if (!PHALCON_GLOBAL(symbol_tables)) {
-		PHALCON_GLOBAL(symbol_tables) = emalloc(sizeof(HashTable **) * 4);
-		PHALCON_GLOBAL(number_symbol_tables) = 1;
-	} else {
-		if ((PHALCON_GLOBAL(number_symbol_tables) % 4) == 0) {
-			PHALCON_GLOBAL(symbol_tables) = erealloc(PHALCON_GLOBAL(symbol_tables), sizeof(HashTable **) * 4 + PHALCON_GLOBAL(number_symbol_tables));
-		}
-		PHALCON_GLOBAL(number_symbol_tables)++;
-	}
-
-	PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1] = EG(active_symbol_table);
-	EG(active_symbol_table) = NULL;
-}
-
-void phalcon_restore_symbol_table(TSRMLS_D) {
-
-	if (PHALCON_GLOBAL(symbol_tables)) {
-
-		EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[PHALCON_GLOBAL(number_symbol_tables) - 1];
-
-		PHALCON_GLOBAL(number_symbol_tables)--;
-
-		if (PHALCON_GLOBAL(number_symbol_tables) == 0) {
-			efree(PHALCON_GLOBAL(symbol_tables));
-			PHALCON_GLOBAL(symbol_tables) = NULL;
-		}
-	}
-}
-
-void phalcon_clean_symbol_tables(TSRMLS_D) {
-
-	unsigned int i;
-
-	if (PHALCON_GLOBAL(symbol_tables)) {
-		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
-			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
-		}
-		efree(PHALCON_GLOBAL(symbol_tables));
-		PHALCON_GLOBAL(symbol_tables) = NULL;
-	}
-}
-
-int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
-
-	if (!EG(active_symbol_table)) {
-		zend_rebuild_symbol_table(TSRMLS_C);
-	}
-
-	if (EG(active_symbol_table)) {
-		if (Z_TYPE_P(key_name) == IS_STRING) {
-			Z_ADDREF_P(value);
-			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name)+1, &value, sizeof(zval *), NULL);
-			if (EG(exception)) {
-				return FAILURE;
-			}
-		}
-	}
-
-	return SUCCESS;
-}
-
-int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
-
-	if (!EG(active_symbol_table)) {
-		zend_rebuild_symbol_table(TSRMLS_C);
-	}
-
-	if (&EG(symbol_table)) {
-		Z_ADDREF_P(value);
-		zend_hash_update(&EG(symbol_table), key_name, key_length, &value, sizeof(zval *), NULL);
-		if (EG(exception)) {
-			return FAILURE;
-		}
-	}
-
-	return SUCCESS;
 }
 
 int phalcon_is_iterable(zval *arr, HashTable **arr_hash, HashPosition *hash_position, int duplicate, int reverse TSRMLS_DC) {
@@ -2039,7 +1975,8 @@ void phalcon_inherit_not_found(char *class_name, char *inherit_name) {
 #endif
 
 
-inline void phalcon_init_nvar(zval **var TSRMLS_DC){
+
+inline void phalcon_init_nvar(zval **var TSRMLS_DC) {
 	if (*var) {
 		if (Z_REFCOUNT_PP(var) > 1) {
 			Z_DELREF_PP(var);
@@ -2055,7 +1992,8 @@ inline void phalcon_init_nvar(zval **var TSRMLS_DC){
 	}
 }
 
-inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC){
+inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC) {
+
 	if (*dest) {
 		if (Z_REFCOUNT_PP(dest) > 0) {
 			zval_ptr_dtor(dest);
@@ -2063,11 +2001,13 @@ inline void phalcon_cpy_wrt(zval **dest, zval *var TSRMLS_DC){
 	} else {
 		phalcon_memory_observe(dest TSRMLS_CC);
 	}
+
 	Z_ADDREF_P(var);
 	*dest = var;
 }
 
-inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
+inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC) {
+
 	if (*dest) {
 		if (Z_REFCOUNT_PP(dest) > 0) {
 			zval_ptr_dtor(dest);
@@ -2075,6 +2015,7 @@ inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
 	} else {
 		phalcon_memory_observe(dest TSRMLS_CC);
 	}
+
 	Z_ADDREF_P(var);
 	*dest = var;
 	zval_copy_ctor(*dest);
@@ -2082,21 +2023,20 @@ inline void phalcon_cpy_wrt_ctor(zval **dest, zval *var TSRMLS_DC){
 	Z_UNSET_ISREF_PP(dest);
 }
 
-int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
+int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D) {
 
-	phalcon_memory_entry *entry;
+	phalcon_memory_entry *entry, *start;
 
 	if (!PHALCON_GLOBAL(start_memory)) {
-		PHALCON_GLOBAL(start_memory) = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
-		//PHALCON_GLOBAL(start_memory)->addresses = NULL;
-		PHALCON_GLOBAL(start_memory)->pointer = -1;
-		PHALCON_GLOBAL(start_memory)->prev = NULL;
-		PHALCON_GLOBAL(start_memory)->next = NULL;
-		PHALCON_GLOBAL(active_memory) = PHALCON_GLOBAL(start_memory);
+		start = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
+		start->pointer = -1;
+		start->prev = NULL;
+		start->next = NULL;
+		PHALCON_GLOBAL(start_memory) = start;
+		PHALCON_GLOBAL(active_memory) = start;
 	}
 
 	entry = (phalcon_memory_entry *) emalloc(sizeof(phalcon_memory_entry));
-	entry->addresses[0] = NULL;
 	entry->pointer = -1;
 	entry->prev = PHALCON_GLOBAL(active_memory);
 	PHALCON_GLOBAL(active_memory)->next = entry;
@@ -2105,66 +2045,81 @@ int PHALCON_FASTCALL phalcon_memory_grow_stack(TSRMLS_D){
 	return SUCCESS;
 }
 
-int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D){
+int PHALCON_FASTCALL phalcon_memory_restore_stack(TSRMLS_D) {
 
 	register int i;
 	phalcon_memory_entry *prev, *active_memory = PHALCON_GLOBAL(active_memory);
+	phalcon_symbol_table *active_symbol_table;
 
-	if (active_memory != NULL) {
+	if (active_memory == NULL) {
+		return FAILURE;
+	}
 
-		/*#ifndef PHALCON_RELEASE
-		//if(!PHALCON_GLOBAL(phalcon_stack_stats)){
-			PHALCON_GLOBAL(phalcon_stack_stats) += active_memory->pointer;
-			PHALCON_GLOBAL(phalcon_number_grows)++;
-		//} else {
-		//	if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
-		//		PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
-		//	}
-		//}
-		#endif*/
+	/*#ifndef PHALCON_RELEASE
+	//if(!PHALCON_GLOBAL(phalcon_stack_stats)){
+	//	PHALCON_GLOBAL(phalcon_stack_stats) += active_memory->pointer;
+	//	PHALCON_GLOBAL(phalcon_number_grows)++;
+	//} else {
+	//	if (active_memory->pointer > PHALCON_GLOBAL(phalcon_stack_stats)) {
+	//		PHALCON_GLOBAL(phalcon_stack_stats) = active_memory->pointer;
+	//	}
+	//}
+	#endif*/
 
-		if (active_memory->pointer > -1) {
-			for (i = active_memory->pointer; i>=0; i--) {
-				if(active_memory->addresses[i] != NULL){
-					if(*active_memory->addresses[i] != NULL ){
-						if (Z_REFCOUNT_PP(active_memory->addresses[i])-1 == 0) {
-							zval_ptr_dtor(active_memory->addresses[i]);
-							//*active_memory->addresses[i] = NULL;
-							active_memory->addresses[i] = NULL;
-						} else {
-							Z_DELREF_PP(active_memory->addresses[i]);
-							if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
-								active_memory->addresses[i] = NULL;
-							}
-						}
-					}
+	if (PHALCON_GLOBAL(active_symbol_table)) {
+		active_symbol_table = PHALCON_GLOBAL(active_symbol_table);
+		if (active_symbol_table->scope == active_memory) {
+			zend_hash_destroy(EG(active_symbol_table));
+			FREE_HASHTABLE(EG(active_symbol_table));
+			EG(active_symbol_table) = active_symbol_table->symbol_table;
+			PHALCON_GLOBAL(active_symbol_table) = active_symbol_table->prev;
+			efree(active_symbol_table);
+		}
+	}
+
+	if (active_memory->pointer > -1) {
+
+		for (i = active_memory->pointer; i >= 0; i--) {
+
+			if (active_memory->addresses[i] == NULL) {
+				continue;
+			}
+
+			if (*active_memory->addresses[i] == NULL) {
+				continue;
+			}
+
+			if ((Z_REFCOUNT_PP(active_memory->addresses[i]) - 1) == 0) {
+				zval_ptr_dtor(active_memory->addresses[i]);
+				active_memory->addresses[i] = NULL;
+			} else {
+				Z_DELREF_PP(active_memory->addresses[i]);
+				if (Z_REFCOUNT_PP(active_memory->addresses[i]) == 1) {
+					active_memory->addresses[i] = NULL;
 				}
 			}
 		}
+	}
 
-		prev = active_memory->prev;
-		efree(PHALCON_GLOBAL(active_memory));
-		PHALCON_GLOBAL(active_memory) = prev;
-		if (prev != NULL) {
-			PHALCON_GLOBAL(active_memory)->next = NULL;
-			if (PHALCON_GLOBAL(active_memory) == PHALCON_GLOBAL(start_memory)) {
-				efree(PHALCON_GLOBAL(active_memory));
-				PHALCON_GLOBAL(start_memory) = NULL;
-				PHALCON_GLOBAL(active_memory) = NULL;
-			}
-		} else {
+	prev = active_memory->prev;
+	efree(PHALCON_GLOBAL(active_memory));
+	PHALCON_GLOBAL(active_memory) = prev;
+	if (prev != NULL) {
+		PHALCON_GLOBAL(active_memory)->next = NULL;
+		if (PHALCON_GLOBAL(active_memory) == PHALCON_GLOBAL(start_memory)) {
+			efree(PHALCON_GLOBAL(active_memory));
 			PHALCON_GLOBAL(start_memory) = NULL;
 			PHALCON_GLOBAL(active_memory) = NULL;
 		}
-
 	} else {
-		return FAILURE;
+		PHALCON_GLOBAL(start_memory) = NULL;
+		PHALCON_GLOBAL(active_memory) = NULL;
 	}
 
 	return SUCCESS;
 }
 
-int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
+int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D) {
 
 	#if !ZEND_DEBUG && PHP_VERSION_ID <= 50400
 
@@ -2195,59 +2150,140 @@ int PHALCON_FASTCALL phalcon_clean_shutdown_stack(TSRMLS_D){
 	PHALCON_GLOBAL(active_memory) = NULL;
 
 	return SUCCESS;
-
 }
 
-int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_memory_observe(zval **var TSRMLS_DC) {
+
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+
 	active_memory->pointer++;
+
 	#ifndef PHALCON_RELEASE
-	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK-1)) {
+	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK - 1)) {
 		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d\n", PHALCON_MAX_MEMORY_STACK);
 		return FAILURE;
 	}
 	#endif
+
 	active_memory->addresses[active_memory->pointer] = var;
 	active_memory->addresses[active_memory->pointer+1] = NULL;
+
 	return SUCCESS;
 }
 
-int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_memory_alloc(zval **var TSRMLS_DC) {
+
 	phalcon_memory_entry *active_memory = PHALCON_GLOBAL(active_memory);
+
 	active_memory->pointer++;
+
 	#ifndef PHALCON_RELEASE
-	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK-1)) {
+	if (active_memory->pointer >= (PHALCON_MAX_MEMORY_STACK - 1)) {
 		fprintf(stderr, "ERROR: Phalcon memory stack is too small %d\n", PHALCON_MAX_MEMORY_STACK);
 		return FAILURE;
 	}
 	#endif
+
 	active_memory->addresses[active_memory->pointer] = var;
-	active_memory->addresses[active_memory->pointer+1] = NULL;
+	active_memory->addresses[active_memory->pointer + 1] = NULL;
 	ALLOC_ZVAL(*var);
 	INIT_PZVAL(*var);
 	ZVAL_NULL(*var);
+
 	return SUCCESS;
 }
 
-int PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC){
+int PHALCON_FASTCALL phalcon_memory_remove(zval **var TSRMLS_DC) {
 	zval_ptr_dtor(var);
 	*var = NULL;
 	return SUCCESS;
 }
 
-int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D){
+int PHALCON_FASTCALL phalcon_clean_restore_stack(TSRMLS_D) {
 	while (PHALCON_GLOBAL(active_memory) != NULL) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 	return SUCCESS;
 }
 
-void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin){
+void PHALCON_FASTCALL phalcon_copy_ctor(zval *destiny, zval *origin) {
 	if (Z_REFCOUNT_P(origin) > 1) {
 		zval_copy_ctor(destiny);
 	} else {
 		ZVAL_NULL(origin);
 	}
+}
+
+void phalcon_create_symbol_table(TSRMLS_D) {
+
+	phalcon_symbol_table *entry;
+	HashTable *symbol_table;
+
+	#ifndef PHALCON_RELEASE
+	if (!PHALCON_GLOBAL(active_memory)) {
+		fprintf(stderr, "ERROR: Trying to create a virtual symbol table without a memory frame");
+		return;
+	}
+	#endif
+
+	entry = (phalcon_symbol_table *) emalloc(sizeof(phalcon_symbol_table));
+	entry->scope = PHALCON_GLOBAL(active_memory);
+	entry->symbol_table = EG(active_symbol_table);
+	entry->prev = PHALCON_GLOBAL(active_symbol_table);
+	PHALCON_GLOBAL(active_symbol_table) = entry;
+
+	ALLOC_HASHTABLE(symbol_table);
+	zend_hash_init(symbol_table, 0, NULL, ZVAL_PTR_DTOR, 0);
+	EG(active_symbol_table) = symbol_table;
+}
+
+void phalcon_clean_symbol_tables(TSRMLS_D) {
+
+	/*unsigned int i;
+
+	if (PHALCON_GLOBAL(symbol_tables)) {
+		for (i = PHALCON_GLOBAL(number_symbol_tables); i > 0; i--) {
+			EG(active_symbol_table) = PHALCON_GLOBAL(symbol_tables)[i - 1];
+		}
+		efree(PHALCON_GLOBAL(symbol_tables));
+		PHALCON_GLOBAL(symbol_tables) = NULL;
+	}*/
+}
+
+int phalcon_set_symbol(zval *key_name, zval *value TSRMLS_DC) {
+
+	if (!EG(active_symbol_table)) {
+		zend_rebuild_symbol_table(TSRMLS_C);
+	}
+
+	if (EG(active_symbol_table)) {
+		if (Z_TYPE_P(key_name) == IS_STRING) {
+			Z_ADDREF_P(value);
+			zend_hash_update(EG(active_symbol_table), Z_STRVAL_P(key_name), Z_STRLEN_P(key_name) + 1, &value, sizeof(zval *), NULL);
+			if (EG(exception)) {
+				return FAILURE;
+			}
+		}
+	}
+
+	return SUCCESS;
+}
+
+int phalcon_set_symbol_str(char *key_name, unsigned int key_length, zval *value TSRMLS_DC) {
+
+	if (!EG(active_symbol_table)) {
+		zend_rebuild_symbol_table(TSRMLS_C);
+	}
+
+	if (&EG(symbol_table)) {
+		Z_ADDREF_P(value);
+		zend_hash_update(&EG(symbol_table), key_name, key_length, &value, sizeof(zval *), NULL);
+		if (EG(exception)) {
+			return FAILURE;
+		}
+	}
+
+	return SUCCESS;
 }
 
 
@@ -2332,7 +2368,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -2347,7 +2383,7 @@ static inline int phalcon_call_func_internal(zval *return_value, char *func_name
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2367,7 +2403,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 	ZVAL_STRINGL(fn, func_name, func_length, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s()", func_name);
 	}
 
@@ -2382,7 +2418,7 @@ static inline int phalcon_call_func_params_internal(zval *return_value, char *fu
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2399,7 +2435,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -2428,7 +2464,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, 0, NULL TSRMLS_CC);
 	#endif
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s()", method_name);
 	}
 	EG(scope) = active_scope;
@@ -2444,7 +2480,7 @@ static inline int phalcon_call_method_internal(zval *return_value, zval *object,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2476,7 +2512,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	int status = FAILURE;
 	zend_class_entry *ce, *active_scope = NULL;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to method %s() on a non object", method_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
@@ -2505,7 +2541,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 	status = phalcon_call_user_function(&ce->function_table, &object, fn, return_value, param_count, params TSRMLS_CC);
 	#endif
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		EG(scope) = active_scope;
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined method %s() on class %s", method_name, ce->name);
 		status = FAILURE;
@@ -2524,7 +2560,7 @@ static inline int phalcon_call_method_params_internal(zval *return_value, zval *
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2585,7 +2621,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -2602,7 +2638,7 @@ inline int phalcon_call_static_func_params(zval *return_value, char *class_name,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2630,7 +2666,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 	add_next_index_zval(fn, fn_method);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", class_name, method_name);
 	}
 
@@ -2647,7 +2683,7 @@ inline int phalcon_call_static_func(zval *return_value, char *class_name, int cl
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2801,7 +2837,7 @@ int phalcon_call_static_zval_func(zval *return_value, zval *mixed_name, char *me
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, 0, NULL TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
@@ -2843,7 +2879,7 @@ inline int phalcon_call_static_zval_func_params(zval *return_value, zval *mixed_
 	add_next_index_stringl(fn, method_name, method_len, 1);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		if(Z_TYPE_P(mixed_name) == IS_STRING) {
 			php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", Z_STRVAL_P(mixed_name), method_name);
 		} else {
@@ -2898,7 +2934,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 	add_next_index_stringl(fn, method_name, method_len, 0);
 
 	status = phalcon_call_user_function(CG(function_table), NULL, fn, return_value, param_count, params TSRMLS_CC);
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Call to undefined function %s::%s()", ce->name, method_name);
 	}
 
@@ -2910,7 +2946,7 @@ int phalcon_call_static_ce_func_params(zval *return_value, zend_class_entry *ce,
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -2996,7 +3032,7 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		}
 	}
 
-	if (status == SUCCESS) {
+	if (likely(status == SUCCESS)) {
 
 		fci.param_count = 0;
 		fci.retval_ptr_ptr = &retval_ptr;
@@ -3014,7 +3050,7 @@ int phalcon_call_user_func(zval *return_value, zval *handler TSRMLS_DC){
 		status = FAILURE;
 	}
 
-	if (status == FAILURE) {
+	if (unlikely(status == FAILURE)) {
 		phalcon_memory_restore_stack(TSRMLS_C);
 	}
 
@@ -3162,16 +3198,9 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 		return FAILURE;
 	}
 
-	if (EX(function_state).function->common.fn_flags & (ZEND_ACC_ABSTRACT|ZEND_ACC_DEPRECATED)) {
-		if (EX(function_state).function->common.fn_flags & ZEND_ACC_ABSTRACT) {
-			zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
-		}
-		if (EX(function_state).function->common.fn_flags & ZEND_ACC_DEPRECATED) {
- 			zend_error(E_DEPRECATED, "Function %s%s%s() is deprecated",
-				EX(function_state).function->common.scope ? EX(function_state).function->common.scope->name : "",
-				EX(function_state).function->common.scope ? "::" : "",
-				EX(function_state).function->common.function_name);
-		}
+	if (EX(function_state).function->common.fn_flags & ZEND_ACC_ABSTRACT) {
+		zend_error_noreturn(E_ERROR, "Cannot call abstract method %s::%s()", EX(function_state).function->common.scope->name, EX(function_state).function->common.function_name);
+		return FAILURE;
 	}
 
 	ZEND_VM_STACK_GROW_IF_NEEDED(fci->param_count + 1);
@@ -3331,6 +3360,7 @@ int phalcon_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache
 			Z_OBJ_HT_P(fci->object_ptr)->call_method(EX(function_state).function->common.function_name, fci->param_count, *fci->retval_ptr_ptr, fci->retval_ptr_ptr, fci->object_ptr, 1 TSRMLS_CC);
 		} else {
 			zend_error_noreturn(E_ERROR, "Cannot call overloaded function for non-object");
+			return FAILURE;
 		}
 
 		if (EX(function_state).function->type == ZEND_OVERLOADED_FUNCTION_TEMPORARY) {
@@ -3473,12 +3503,11 @@ int phalcon_lookup_class(const char *name, int name_length, zend_class_entry ***
 
 
 
-
 #ifdef HAVE_CONFIG_H
 #endif
 
 
-int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
+int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index) {
 
 	zval *copy;
 	int exists, type, copied = 0;
@@ -3520,7 +3549,7 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		exists = zend_hash_exists(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
+		exists = zend_hash_exists(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
 	} else {
 		exists = zend_hash_index_exists(Z_ARRVAL_P(arr), Z_LVAL_P(index));
 	}
@@ -3532,41 +3561,47 @@ int PHALCON_FASTCALL phalcon_array_isset(const zval *arr, zval *index){
 	return exists;
 }
 
-int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length){
+int PHALCON_FASTCALL phalcon_array_isset_string(const zval *arr, char *index, uint index_length) {
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
-	} else {
-		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-			return 0;
-		}
 	}
+
+	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+		return 0;
+	}
+
 	return zend_hash_exists(Z_ARRVAL_P(arr), index, index_length);
 }
 
 
-int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key){
+int PHALCON_FASTCALL phalcon_array_isset_quick_string(const zval *arr, char *index, uint index_length, unsigned long key) {
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
-	} else {
-		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-			return 0;
-		}
 	}
+
+	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+		return 0;
+	}
+
 	return zend_hash_quick_exists(Z_ARRVAL_P(arr), index, index_length, key);
 }
 
-int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index){
+int PHALCON_FASTCALL phalcon_array_isset_long(const zval *arr, unsigned long index) {
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
-	} else {
-		if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
-			return 0;
-		}
 	}
+
+	if (!zend_hash_num_elements(Z_ARRVAL_P(arr))) {
+		return 0;
+	}
+
 	return zend_hash_index_exists(Z_ARRVAL_P(arr), index);
 }
 
-int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index){
+int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index) {
 
 	zval *copy;
 	int exists, copied = 0;
@@ -3592,7 +3627,7 @@ int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index){
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		exists = zend_hash_del(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1);
+		exists = zend_hash_del(Z_ARRVAL_P(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1);
 	} else {
 		exists = zend_hash_index_del(Z_ARRVAL_P(arr), Z_LVAL_P(index));
 	}
@@ -3604,41 +3639,46 @@ int PHALCON_FASTCALL phalcon_array_unset(zval *arr, zval *index){
 	return exists;
 }
 
-int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length){
+int PHALCON_FASTCALL phalcon_array_unset_string(zval *arr, char *index, uint index_length) {
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
+
 	return zend_hash_del(Z_ARRVAL_P(arr), index, index_length);
 }
 
-int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index){
+int PHALCON_FASTCALL phalcon_array_unset_long(zval *arr, unsigned long index) {
+
 	if (Z_TYPE_P(arr) != IS_ARRAY) {
 		return 0;
 	}
+
 	return zend_hash_index_del(Z_ARRVAL_P(arr), index);
 }
 
-int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC){
-	if (Z_TYPE_PP(arr) == IS_ARRAY) {
-		if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-			if (Z_REFCOUNT_PP(arr) > 1) {
-				zval *new_zv;
-				Z_DELREF_PP(arr);
-				ALLOC_ZVAL(new_zv);
-				INIT_PZVAL_COPY(new_zv, *arr);
-				*arr = new_zv;
-				zval_copy_ctor(new_zv);
-			}
-		}
-		Z_ADDREF_P(value);
-		return add_next_index_zval(*arr, value);
-	} else {
+int phalcon_array_append(zval **arr, zval *value, int flags TSRMLS_DC) {
+
+	if (Z_TYPE_PP(arr) != IS_ARRAY) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
+		return FAILURE;
 	}
-	return FAILURE;
+
+	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
+		if (Z_REFCOUNT_PP(arr) > 1) {
+			zval *new_zv;
+			Z_DELREF_PP(arr);
+			ALLOC_ZVAL(new_zv);
+			INIT_PZVAL_COPY(new_zv, *arr);
+			*arr = new_zv;
+			zval_copy_ctor(new_zv);
+		}
+	}
+	Z_ADDREF_P(value);
+	return add_next_index_zval(*arr, value);
 }
 
-int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
+int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC) {
 
 	zval *zvalue;
 
@@ -3649,7 +3689,7 @@ int phalcon_array_append_long(zval **arr, long value, int separate TSRMLS_DC){
 	return phalcon_array_append(arr, zvalue, separate TSRMLS_CC);
 }
 
-int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate TSRMLS_DC){
+int phalcon_array_append_string(zval **arr, char *value, uint value_length, int separate TSRMLS_DC) {
 
 	zval *zvalue;
 
@@ -3660,9 +3700,9 @@ int phalcon_array_append_string(zval **arr, char *value, uint value_length, int 
 	return phalcon_array_append(arr, zvalue, separate TSRMLS_CC);
 }
 
-int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC){
+int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags TSRMLS_DC) {
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -3700,19 +3740,18 @@ int phalcon_array_update_zval(zval **arr, zval *index, zval **value, int flags T
 	}
 
 	if (Z_TYPE_P(index) == IS_STRING) {
-		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index)+1, value, sizeof(zval *), NULL);
-	} else {
-		if (Z_TYPE_P(index) == IS_LONG) {
-			return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), value, sizeof(zval *), NULL);
-		} else {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
-		}
+		return zend_hash_update(Z_ARRVAL_PP(arr), Z_STRVAL_P(index), Z_STRLEN_P(index) + 1, value, sizeof(zval *), NULL);
 	}
 
+	if (Z_TYPE_P(index) == IS_LONG) {
+		return zend_hash_index_update(Z_ARRVAL_PP(arr), Z_LVAL_P(index), value, sizeof(zval *), NULL);
+	}
+
+	php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Illegal offset type");
 	return FAILURE;
 }
 
-int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags TSRMLS_DC){
+int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags TSRMLS_DC) {
 
 	zval *zvalue;
 
@@ -3722,7 +3761,7 @@ int phalcon_array_update_zval_bool(zval **arr, zval *index, int value, int flags
 	return phalcon_array_update_zval(arr, index, &zvalue, flags TSRMLS_CC);
 }
 
-int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags TSRMLS_DC){
+int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint value_length, int flags TSRMLS_DC) {
 
 	zval *zvalue;
 
@@ -3732,9 +3771,9 @@ int phalcon_array_update_zval_string(zval **arr, zval *index, char *value, uint 
 	return phalcon_array_update_zval(arr, index, &zvalue, flags TSRMLS_CC);
 }
 
-int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC){
+int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval **value, int flags TSRMLS_DC) {
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -3768,7 +3807,7 @@ int phalcon_array_update_string(zval **arr, char *index, uint index_length, zval
 
 int phalcon_array_update_quick_string(zval **arr, char *index, uint index_length, unsigned long key, zval **value, int flags TSRMLS_DC){
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -3832,7 +3871,7 @@ int phalcon_array_update_string_string(zval **arr, char *index, uint index_lengt
 
 int phalcon_array_update_long(zval **arr, unsigned long index, zval **value, int flags TSRMLS_DC){
 
-	if (Z_TYPE_PP(arr) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_PP(arr) != IS_ARRAY)) {
 		php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
 		return FAILURE;
 	}
@@ -4016,7 +4055,7 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 	zval **zv;
 	int result = FAILURE;
 
-	if (Z_TYPE_P(arr) != IS_ARRAY) {
+	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
 
 		if (silent == PH_NOISY) {
 			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Cannot use a scalar value as an array");
@@ -4028,7 +4067,7 @@ int phalcon_array_fetch_quick_string(zval **return_value, zval *arr, char *index
 		return FAILURE;
 	}
 
-	if ((result = zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**)&zv)) == SUCCESS) {
+	if ((result = zend_hash_quick_find(Z_ARRVAL_P(arr), index, index_length, key, (void**) &zv)) == SUCCESS) {
 		*return_value = *zv;
 		Z_ADDREF_PP(return_value);
 		return SUCCESS;
@@ -4397,7 +4436,7 @@ void phalcon_array_next(zval *array){
 
 
 
-int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC){
+int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *constant_name, unsigned int constant_length TSRMLS_DC) {
 
 	zval **result_ptr;
 
@@ -4405,27 +4444,25 @@ int phalcon_get_class_constant(zval *return_value, zend_class_entry *ce, char *c
 		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Undefined class constant '%s::%s'", ce->name, constant_name);
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
-	} else {
-		ZVAL_ZVAL(return_value, *result_ptr, 1, 0);
 	}
 
+	ZVAL_ZVAL(return_value, *result_ptr, 1, 0);
 	return SUCCESS;
 }
 
-int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC){
+int phalcon_instance_of(zval *result, const zval *object, const zend_class_entry *ce TSRMLS_DC) {
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "instanceof expects an object instance, constant given");
 		phalcon_memory_restore_stack(TSRMLS_C);
 		return FAILURE;
-	} else {
-		ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
-	}	
+	}
 
+	ZVAL_BOOL(result, instanceof_function(Z_OBJCE_P(object), ce TSRMLS_CC));
 	return SUCCESS;
 }
 
-int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC){
+int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -4439,7 +4476,7 @@ int phalcon_is_instance_of(zval *object, char *class_name, unsigned int class_le
 	return 0;
 }
 
-void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
@@ -4462,12 +4499,12 @@ void phalcon_get_class(zval *result, zval *object, int lower TSRMLS_DC){
 	}
 }
 
-void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	int found = 0;
 	zend_class_entry *ce;
 	unsigned int i, class_length;
-	char *cursor, *class_name;
+	const char *cursor, *class_name;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		if (Z_TYPE_P(object) != IS_STRING) {
@@ -4519,12 +4556,12 @@ void phalcon_get_class_ns(zval *result, zval *object, int lower TSRMLS_DC){
 
 }
 
-void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC){
+void phalcon_get_ns_class(zval *result, zval *object, int lower TSRMLS_DC) {
 
 	zend_class_entry *ce;
 	int found = 0;
 	unsigned int i, j, class_length;
-	char *cursor, *class_name;
+	const char *cursor, *class_name;
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
 		if (Z_TYPE_P(object) != IS_STRING) {
@@ -4587,15 +4624,15 @@ void phalcon_get_called_class(zval *return_value TSRMLS_DC) {
 
 	if (EG(called_scope)) {
 		RETURN_STRINGL(EG(called_scope)->name, EG(called_scope)->name_length, 1);
-	} else {
-		if (!EG(scope))  {
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_called_class() called from outside a class");
-		}
+	}
+
+	if (!EG(scope))  {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "phalcon_get_called_class() called from outside a class");
 	}
 
 }
 
-zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
+zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC) {
 
 	if (Z_TYPE_P(class_name) == IS_STRING) {
 		return zend_fetch_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
@@ -4605,7 +4642,7 @@ zend_class_entry *phalcon_fetch_class(zval *class_name TSRMLS_DC){
 	return zend_fetch_class("stdclass", strlen("stdclass"), ZEND_FETCH_CLASS_DEFAULT TSRMLS_CC);
 }
 
-int phalcon_class_exists(zval *class_name TSRMLS_DC){
+int phalcon_class_exists(zval *class_name TSRMLS_DC) {
 
 	zend_class_entry **ce;
 
@@ -4613,14 +4650,13 @@ int phalcon_class_exists(zval *class_name TSRMLS_DC){
 		if (zend_lookup_class(Z_STRVAL_P(class_name), Z_STRLEN_P(class_name), &ce TSRMLS_CC) == SUCCESS) {
 			return (((*ce)->ce_flags & ZEND_ACC_INTERFACE) == 0);
 		}
-	} else {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
 	}
 
+	php_error_docref(NULL TSRMLS_CC, E_WARNING, "class name must be a string");
 	return 0;
 }
 
-int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
+int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC) {
 
 	int status = SUCCESS;
 	zend_class_entry *ce;
@@ -4659,7 +4695,7 @@ int phalcon_clone(zval *destiny, zval *obj TSRMLS_DC){
 	return status;
 }
 
-int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_isset_property(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -4676,7 +4712,7 @@ int phalcon_isset_property(zval *object, char *property_name, unsigned int prope
 	return 0;
 }
 
-int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
+int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC) {
 
 	unsigned long hash;
 
@@ -4696,7 +4732,7 @@ int phalcon_isset_property_zval(zval *object, zval *property TSRMLS_DC){
 	return 0;
 }
 
-static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC){
+static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zend_class_entry *original_ce;
 	unsigned long hash;
@@ -4713,12 +4749,12 @@ static inline zend_class_entry *phalcon_lookup_class_ce(zend_class_entry *ce, ch
 	return original_ce;
 }
 
-int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC){
+int phalcon_read_property(zval **result, zval *object, char *property_name, unsigned int property_length, int silent TSRMLS_DC) {
 
 	zval *property;
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
@@ -4766,12 +4802,12 @@ int phalcon_read_property(zval **result, zval *object, char *property_name, unsi
 	return FAILURE;
 }
 
-int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zval *property, *result;
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
+	if (likely(Z_TYPE_P(object) == IS_OBJECT)) {
 
 		ce = Z_OBJCE_P(object);
 		if (ce->parent) {
@@ -4811,7 +4847,7 @@ int phalcon_return_property(zval *return_value, zval *object, char *property_nam
 	return FAILURE;
 }
 
-int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC){
+int phalcon_read_property_zval(zval **result, zval *object, zval *property, int silent TSRMLS_DC) {
 
 	zend_class_entry *ce, *old_scope;
 
@@ -4862,11 +4898,11 @@ int phalcon_read_property_zval(zval **result, zval *object, zval *property, int 
 	return FAILURE;
 }
 
-int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC){
+int phalcon_update_property_long(zval *object, char *property_name, unsigned int property_length, long value TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -4880,12 +4916,12 @@ int phalcon_update_property_long(zval *object, char *property_name, unsigned int
 	return SUCCESS;
 }
 
-int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC){
+int phalcon_update_property_string(zval *object, char *property_name, unsigned int property_length, char *str, unsigned int str_length TSRMLS_DC) {
 
 	zval *value, *property;
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -4923,11 +4959,11 @@ int phalcon_update_property_string(zval *object, char *property_name, unsigned i
 	return SUCCESS;
 }
 
-int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC){
+int phalcon_update_property_bool(zval *object, char *property_name, unsigned int property_length, int value TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -4942,11 +4978,11 @@ int phalcon_update_property_bool(zval *object, char *property_name, unsigned int
 	return SUCCESS;
 }
 
-int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC){
+int phalcon_update_property_null(zval *object, char *property_name, unsigned int property_length TSRMLS_DC) {
 
 	zend_class_entry *ce;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -4966,7 +5002,7 @@ int phalcon_update_property_zval(zval *object, char *property_name, unsigned int
 	zend_class_entry *ce, *old_scope;
 	zval *property;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -5005,7 +5041,7 @@ int phalcon_update_property_zval_zval(zval *object, zval *property, zval *value 
 
 	zend_class_entry *ce, *old_scope;
 
-	if (Z_TYPE_P(object) != IS_OBJECT) {
+	if (unlikely(Z_TYPE_P(object) != IS_OBJECT)) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Attempt to assign property of non-object");
 		return FAILURE;
 	}
@@ -5142,43 +5178,43 @@ int phalcon_update_property_array_append(zval *object, char *property, unsigned 
 	zval *tmp;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-
-		phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
-
-		/** Separation only when refcount > 2 */
-		if (Z_REFCOUNT_P(tmp) > 2) {
-			zval *new_zv;
-			Z_DELREF_P(tmp);
-			ALLOC_ZVAL(new_zv);
-			INIT_PZVAL_COPY(new_zv, tmp);
-			tmp = new_zv;
-			zval_copy_ctor(new_zv);
-			separated = 1;
-		}
-
-		/** Convert the value to array if not is an array */
-		if (Z_TYPE_P(tmp) != IS_ARRAY) {
-			if (separated) {
-				convert_to_array(tmp);
-			} else {
-				zval_ptr_dtor(&tmp);
-				ALLOC_INIT_ZVAL(tmp);
-				array_init(tmp);
-				separated = 1;
-			}
-		}
-
-		Z_ADDREF_P(value);
-		add_next_index_zval(tmp, value);
-
-		if (separated) {
-			phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
-		}
-
-		zval_ptr_dtor(&tmp);
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
 	}
 
+	phalcon_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
+
+	/** Separation only when refcount > 2 */
+	if (Z_REFCOUNT_P(tmp) > 2) {
+		zval *new_zv;
+		Z_DELREF_P(tmp);
+		ALLOC_ZVAL(new_zv);
+		INIT_PZVAL_COPY(new_zv, tmp);
+		tmp = new_zv;
+		zval_copy_ctor(new_zv);
+		separated = 1;
+	}
+
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE_P(tmp) != IS_ARRAY) {
+		if (separated) {
+			convert_to_array(tmp);
+		} else {
+			zval_ptr_dtor(&tmp);
+			ALLOC_INIT_ZVAL(tmp);
+			array_init(tmp);
+			separated = 1;
+		}
+	}
+
+	Z_ADDREF_P(value);
+	add_next_index_zval(tmp, value);
+
+	if (separated) {
+		phalcon_update_property_zval(object, property, property_length, tmp TSRMLS_CC);
+	}
+
+	zval_ptr_dtor(&tmp);
 	return SUCCESS;
 }
 
@@ -10944,9 +10980,13 @@ PHALCON_INIT_CLASS(Phalcon_Acl){
 
 
 
+
+
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
+
+	zend_class_implements(phalcon_annotations_adapter_memory_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
 
 	return SUCCESS;
 }
@@ -10984,13 +11024,53 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
 
 
 
+
+
 PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Adapter, annotations_adapter, phalcon_annotations_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
+	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_reader"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_adapter_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter, setReader){
+
+	zval *reader;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reader) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(reader) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_annotations_exception_ce, "Invalid annotations reader");
+		return;
+	}
+	phalcon_update_property_zval(this_ptr, SL("_reader"), reader TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter, getReader){
+
+	zval *reader = NULL;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(reader);
+	phalcon_read_property(&reader, this_ptr, SL("_reader"), PH_NOISY_CC);
+	if (Z_TYPE_P(reader) != IS_OBJECT) {
+		PHALCON_INIT_NVAR(reader);
+		object_init_ex(reader, phalcon_annotations_reader_ce);
+		phalcon_update_property_zval(this_ptr, SL("_reader"), reader TSRMLS_CC);
+	}
+	
+	
+	RETURN_CCTOR(reader);
 }
 
 PHP_METHOD(Phalcon_Annotations_Adapter, get){
@@ -11026,10 +11106,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	if (Z_TYPE_P(class_annotations) == IS_NULL) {
 	
 		PHALCON_INIT_VAR(reader);
-		object_init_ex(reader, phalcon_annotations_reader_ce);
+		PHALCON_CALL_METHOD(reader, this_ptr, "getreader");
 	
 		PHALCON_INIT_VAR(parsed_annotations);
 		PHALCON_CALL_METHOD_PARAMS_1_KEY(parsed_annotations, reader, "parse", real_class_name, 6953891564928UL);
+	
 		if (Z_TYPE_P(parsed_annotations) == IS_ARRAY) { 
 			PHALCON_INIT_NVAR(class_annotations);
 			object_init_ex(class_annotations, phalcon_annotations_reflection_ce);
@@ -11042,6 +11123,31 @@ PHP_METHOD(Phalcon_Annotations_Adapter, get){
 	
 	
 	RETURN_CCTOR(class_annotations);
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter, getMethods){
+
+	zval *class_name, *class_annotations, *methods = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(class_annotations);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(class_annotations, this_ptr, "get", class_name, 6385256229UL);
+	
+	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+		PHALCON_INIT_VAR(methods);
+		PHALCON_CALL_METHOD(methods, class_annotations, "getmethodsannotations");
+		RETURN_CCTOR(methods);
+	}
+	
+	PHALCON_INIT_NVAR(methods);
+	array_init(methods);
+	
+	RETURN_CCTOR(methods);
 }
 
 PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
@@ -11060,10 +11166,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 
 	PHALCON_INIT_VAR(class_annotations);
 	PHALCON_CALL_METHOD_PARAMS_1_KEY(class_annotations, this_ptr, "get", class_name, 6385256229UL);
+	
 	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(methods);
-		PHALCON_CALL_METHOD(methods, class_annotations, "getmethodannotations");
+		PHALCON_CALL_METHOD(methods, class_annotations, "getmethodsannotations");
 		if (Z_TYPE_P(methods) == IS_ARRAY) { 
 	
 			if (!phalcon_is_iterable(methods, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
@@ -11093,12 +11200,112 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getMethod){
 	RETURN_CTOR(collection);
 }
 
+PHP_METHOD(Phalcon_Annotations_Adapter, getProperties){
+
+	zval *class_name, *class_annotations, *properties = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &class_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(class_annotations);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(class_annotations, this_ptr, "get", class_name, 6385256229UL);
+	
+	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+		PHALCON_INIT_VAR(properties);
+		PHALCON_CALL_METHOD(properties, class_annotations, "getpropertiesannotations");
+		RETURN_CCTOR(properties);
+	}
+	
+	PHALCON_INIT_NVAR(properties);
+	array_init(properties);
+	
+	RETURN_CCTOR(properties);
+}
+
+PHP_METHOD(Phalcon_Annotations_Adapter, getProperty){
+
+	zval *class_name, *property_name, *class_annotations;
+	zval *properties, *property = NULL, *name = NULL, *collection;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &class_name, &property_name) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(class_annotations);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(class_annotations, this_ptr, "get", class_name, 6385256229UL);
+	
+	if (Z_TYPE_P(class_annotations) == IS_OBJECT) {
+	
+		PHALCON_INIT_VAR(properties);
+		PHALCON_CALL_METHOD(properties, class_annotations, "getpropertyannotations");
+		if (Z_TYPE_P(properties) == IS_ARRAY) { 
+	
+			if (!phalcon_is_iterable(properties, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+				return;
+			}
+	
+			while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+				PHALCON_GET_FOREACH_KEY(name, ah0, hp0);
+				PHALCON_GET_FOREACH_VALUE(property);
+	
+				if (PHALCON_IS_EQUAL(name, property_name)) {
+					RETURN_CCTOR(property);
+				}
+	
+				zend_hash_move_forward_ex(ah0, &hp0);
+			}
+	
+		}
+	}
+	
+	PHALCON_INIT_VAR(collection);
+	object_init_ex(collection, phalcon_annotations_collection_ce);
+	PHALCON_CALL_METHOD_NORETURN(collection, "__construct");
+	
+	
+	RETURN_CTOR(collection);
+}
+
 
 
 
 
 #ifdef HAVE_CONFIG_H
 #endif
+
+
+
+PHALCON_INIT_CLASS(Phalcon_Annotations_AdapterInterface){
+
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Annotations, AdapterInterface, annotations_adapterinterface, phalcon_annotations_adapterinterface_method_entry);
+
+	return SUCCESS;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
 
 
 
@@ -13112,6 +13319,8 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Reader){
 
 	PHALCON_REGISTER_CLASS(Phalcon\\Annotations, Reader, annotations_reader, phalcon_annotations_reader_method_entry, 0);
 
+	zend_class_implements(phalcon_annotations_reader_ce TSRMLS_CC, 1, phalcon_annotations_readerinterface_ce);
+
 	return SUCCESS;
 }
 
@@ -13304,6 +13513,24 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock){
 
 
 
+PHALCON_INIT_CLASS(Phalcon_Annotations_ReaderInterface){
+
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Annotations, ReaderInterface, annotations_readerinterface, phalcon_annotations_readerinterface_method_entry);
+
+	return SUCCESS;
+}
+
+
+
+
+
+
+
+#ifdef HAVE_CONFIG_H
+#endif
+
+
+
 
 
 
@@ -13367,7 +13594,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations){
 	RETURN_CCTOR(annotations);
 }
 
-PHP_METHOD(Phalcon_Annotations_Reflection, getMethodAnnotations){
+PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations){
 
 	zval *annotations, *reflection_data, *reflection_methods;
 	zval *collections, *reflection_method = NULL, *method_name = NULL;
@@ -19032,19 +19259,23 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 					PHALCON_INIT_NVAR(replaced_sql);
 					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
 					PHALCON_CPY_WRT(sql, replaced_sql);
-				} else {
-					if (Z_TYPE_P(index) == IS_STRING) {
-						PHALCON_INIT_NVAR(place_key);
-						PHALCON_CONCAT_SVS(place_key, ":", index, ":");
-	
-						PHALCON_INIT_NVAR(replaced_sql);
-						phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
-						PHALCON_CPY_WRT(sql, replaced_sql);
-					} else {
-						PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
-						return;
-					}
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
 				}
+	
+				if (Z_TYPE_P(index) == IS_STRING) {
+					PHALCON_INIT_NVAR(place_key);
+					PHALCON_CONCAT_SVS(place_key, ":", index, ":");
+	
+					PHALCON_INIT_NVAR(replaced_sql);
+					phalcon_fast_str_replace(replaced_sql, place_key, value, sql TSRMLS_CC);
+					PHALCON_CPY_WRT(sql, replaced_sql);
+					zend_hash_move_forward_ex(ah0, &hp0);
+					continue;
+				}
+	
+				PHALCON_THROW_EXCEPTION_STR(phalcon_db_exception_ce, "Invalid bind parameter");
+				return;
 	
 				zend_hash_move_forward_ex(ah0, &hp0);
 			}
@@ -28180,9 +28411,9 @@ PHP_METHOD(Phalcon_Filter, add){
 PHP_METHOD(Phalcon_Filter, sanitize){
 
 	zval *value, *filters, *new_value = NULL, *filter = NULL, *array_value = NULL;
-	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value;
-	HashTable *ah0, *ah1;
-	HashPosition hp0, hp1;
+	zval *item_value = NULL, *key = NULL, *filter_value = NULL, *sanizited_value = NULL;
+	HashTable *ah0, *ah1, *ah2;
+	HashPosition hp0, hp1, hp2;
 	zval **hd;
 
 	PHALCON_MM_GROW();
@@ -28240,8 +28471,32 @@ PHP_METHOD(Phalcon_Filter, sanitize){
 		RETURN_CCTOR(new_value);
 	}
 	
-	PHALCON_INIT_VAR(sanizited_value);
-	PHALCON_CALL_METHOD_PARAMS_2_KEY(sanizited_value, this_ptr, "_sanitize", value, filters, 8246001628018421355UL);
+	if (Z_TYPE_P(value) == IS_ARRAY) { 
+	
+		PHALCON_INIT_VAR(sanizited_value);
+		array_init(sanizited_value);
+	
+		if (!phalcon_is_iterable(value, &ah2, &hp2, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah2, (void**) &hd, &hp2) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_KEY(key, ah2, hp2);
+			PHALCON_GET_FOREACH_VALUE(item_value);
+	
+			PHALCON_INIT_NVAR(filter_value);
+			PHALCON_CALL_METHOD_PARAMS_2_KEY(filter_value, this_ptr, "_sanitize", item_value, filters, 8246001628018421355UL);
+			phalcon_array_update_zval(&sanizited_value, key, &filter_value, PH_COPY | PH_SEPARATE TSRMLS_CC);
+	
+			zend_hash_move_forward_ex(ah2, &hp2);
+		}
+	
+	} else {
+		PHALCON_INIT_NVAR(sanizited_value);
+		PHALCON_CALL_METHOD_PARAMS_2_KEY(sanizited_value, this_ptr, "_sanitize", value, filters, 8246001628018421355UL);
+	}
+	
 	
 	RETURN_CCTOR(sanizited_value);
 }
@@ -29104,10 +29359,9 @@ PHP_METHOD(Phalcon_Http_Cookie, setValue){
 
 PHP_METHOD(Phalcon_Http_Cookie, getValue){
 
-	zval *filters = NULL, *default_value = NULL, *readed, *name, *value;
-	zval *filter = NULL, *dependency_injector, *service;
+	zval *filters = NULL, *default_value = NULL, *readed, *name, *_COOKIE;
+	zval *value, *filter = NULL, *dependency_injector, *service;
 	zval *sanitized_value;
-	zval *g0 = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -29129,11 +29383,11 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue){
 	
 		PHALCON_OBS_VAR(name);
 		phalcon_read_property(&name, this_ptr, SL("_name"), PH_NOISY_CC);
-		phalcon_get_global(&g0, SS("_COOKIE") TSRMLS_CC);
-		if (phalcon_array_isset(g0, name)) {
+		phalcon_get_global(&_COOKIE, SS("_COOKIE") TSRMLS_CC);
+		if (phalcon_array_isset(_COOKIE, name)) {
 	
 			PHALCON_OBS_VAR(value);
-			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, _COOKIE, name, PH_NOISY_CC);
 			if (Z_TYPE_P(filters) != IS_NULL) {
 	
 				PHALCON_OBS_VAR(filter);
@@ -29408,9 +29662,9 @@ PHP_METHOD(Phalcon_Http_Request, getDI){
 
 PHP_METHOD(Phalcon_Http_Request, get){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_REQUEST;
+	zval *value, *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -29426,11 +29680,11 @@ PHP_METHOD(Phalcon_Http_Request, get){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
+	if (phalcon_array_isset(_REQUEST, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _REQUEST, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -29466,9 +29720,9 @@ PHP_METHOD(Phalcon_Http_Request, get){
 
 PHP_METHOD(Phalcon_Http_Request, getPost){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_POST, *value;
+	zval *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -29484,11 +29738,11 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
+	if (phalcon_array_isset(_POST, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _POST, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -29524,9 +29778,9 @@ PHP_METHOD(Phalcon_Http_Request, getPost){
 
 PHP_METHOD(Phalcon_Http_Request, getQuery){
 
-	zval *name, *filters = NULL, *default_value = NULL, *value, *filter = NULL;
-	zval *dependency_injector, *service, *sanitized_value;
-	zval *g0 = NULL;
+	zval *name, *filters = NULL, *default_value = NULL, *_GET, *value;
+	zval *filter = NULL, *dependency_injector, *service;
+	zval *sanitized_value;
 
 	PHALCON_MM_GROW();
 
@@ -29542,11 +29796,11 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 		PHALCON_INIT_VAR(default_value);
 	}
 	
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
+	if (phalcon_array_isset(_GET, name)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _GET, name, PH_NOISY_CC);
 		if (Z_TYPE_P(filters) != IS_NULL) {
 	
 			PHALCON_OBS_VAR(filter);
@@ -29582,8 +29836,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery){
 
 PHP_METHOD(Phalcon_Http_Request, getServer){
 
-	zval *name, *server_value;
-	zval *g0 = NULL;
+	zval *name, *_SERVER, *server_value;
 
 	PHALCON_MM_GROW();
 
@@ -29591,10 +29844,10 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset(g0, name)) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset(_SERVER, name)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, g0, name, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, name, PH_NOISY_CC);
 		RETURN_CCTOR(server_value);
 	}
 	RETURN_MM_NULL();
@@ -29602,8 +29855,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer){
 
 PHP_METHOD(Phalcon_Http_Request, has){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_REQUEST;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -29612,16 +29864,15 @@ PHP_METHOD(Phalcon_Http_Request, has){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_REQUEST") TSRMLS_CC);
+	phalcon_get_global(&_REQUEST, SS("_REQUEST") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_REQUEST, name));
 	RETURN_NCTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Http_Request, hasPost){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_POST;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -29630,16 +29881,15 @@ PHP_METHOD(Phalcon_Http_Request, hasPost){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
+	phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_POST, name));
 	RETURN_NCTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Http_Request, hasQuery){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_GET;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -29648,16 +29898,15 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_GET, name));
 	RETURN_NCTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Http_Request, hasServer){
 
-	zval *name;
-	zval *g0 = NULL;
+	zval *name, *_SERVER;
 	zval *r0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -29666,16 +29915,15 @@ PHP_METHOD(Phalcon_Http_Request, hasServer){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
 	PHALCON_INIT_VAR(r0);
-	ZVAL_BOOL(r0, phalcon_array_isset(g0, name));
+	ZVAL_BOOL(r0, phalcon_array_isset(_SERVER, name));
 	RETURN_NCTOR(r0);
 }
 
 PHP_METHOD(Phalcon_Http_Request, getHeader){
 
-	zval *header, *server_value = NULL, *key;
-	zval *g0 = NULL;
+	zval *header, *_SERVER, *server_value = NULL, *key;
 
 	PHALCON_MM_GROW();
 
@@ -29683,17 +29931,17 @@ PHP_METHOD(Phalcon_Http_Request, getHeader){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset(g0, header)) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset(_SERVER, header)) {
 		PHALCON_OBS_VAR(server_value);
-		phalcon_array_fetch(&server_value, g0, header, PH_NOISY_CC);
+		phalcon_array_fetch(&server_value, _SERVER, header, PH_NOISY_CC);
 		RETURN_CCTOR(server_value);
 	} else {
 		PHALCON_INIT_VAR(key);
 		PHALCON_CONCAT_SV(key, "HTTP_", header);
-		if (phalcon_array_isset(g0, key)) {
+		if (phalcon_array_isset(_SERVER, key)) {
 			PHALCON_OBS_NVAR(server_value);
-			phalcon_array_fetch(&server_value, g0, key, PH_NOISY_CC);
+			phalcon_array_fetch(&server_value, _SERVER, key, PH_NOISY_CC);
 			RETURN_CCTOR(server_value);
 		}
 	}
@@ -29747,13 +29995,12 @@ PHP_METHOD(Phalcon_Http_Request, isAjax){
 
 PHP_METHOD(Phalcon_Http_Request, isSoapRequested){
 
-	zval *server = NULL, *content_type;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *content_type;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_quick_string(server, SS("HTTP_SOAPACTION"), 10551487363000627669UL)) {
 		RETURN_MM_TRUE;
 	} else {
@@ -29812,13 +30059,12 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody){
 
 PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 
-	zval *server = NULL, *server_addr = NULL, *localhost;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *server_addr = NULL, *localhost;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_quick_string(server, SS("SERVER_ADDR"), 14100463673025097974UL)) {
 		PHALCON_OBS_VAR(server_addr);
 		phalcon_array_fetch_quick_string(&server_addr, server, SS("SERVER_ADDR"), 14100463673025097974UL, PH_NOISY_CC);
@@ -29836,13 +30082,12 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress){
 
 PHP_METHOD(Phalcon_Http_Request, getServerName){
 
-	zval *server = NULL, *server_name = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *server_name = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_quick_string(server, SS("SERVER_NAME"), 14100463673040416508UL)) {
 		PHALCON_OBS_VAR(server_name);
 		phalcon_array_fetch_quick_string(&server_name, server, SS("SERVER_NAME"), 14100463673040416508UL, PH_NOISY_CC);
@@ -29926,9 +30171,8 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost){
 
 PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
-	zval *trust_forwarded_header = NULL, *server = NULL, *address = NULL;
-	zval *comma, *addresses, *first;
-	zval *g0 = NULL;
+	zval *trust_forwarded_header = NULL, *server = NULL, *_SERVER;
+	zval *address = NULL, *comma, *addresses, *first;
 
 	PHALCON_MM_GROW();
 
@@ -29941,8 +30185,8 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 		ZVAL_BOOL(trust_forwarded_header, 0);
 	}
 	
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	
 	if (PHALCON_IS_TRUE(trust_forwarded_header)) {
 		if (phalcon_array_isset_quick_string(server, SS("HTTP_X_FORWARDED_FOR"), 17926040385222932095UL)) {
@@ -29977,13 +30221,12 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress){
 
 PHP_METHOD(Phalcon_Http_Request, getMethod){
 
-	zval *server = NULL, *request_method = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *request_method = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_quick_string(server, SS("REQUEST_METHOD"), 4480894824751561102UL)) {
 		PHALCON_OBS_VAR(request_method);
 		phalcon_array_fetch_quick_string(&request_method, server, SS("REQUEST_METHOD"), 4480894824751561102UL, PH_NOISY_CC);
@@ -29998,13 +30241,12 @@ PHP_METHOD(Phalcon_Http_Request, getMethod){
 
 PHP_METHOD(Phalcon_Http_Request, getUserAgent){
 
-	zval *server = NULL, *user_agent = NULL;
-	zval *g0 = NULL;
+	zval *server = NULL, *_SERVER, *user_agent = NULL;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	PHALCON_CPY_WRT(server, g0);
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	PHALCON_CPY_WRT(server, _SERVER);
 	if (phalcon_array_isset_quick_string(server, SS("HTTP_USER_AGENT"), 10554741916430329969UL)) {
 		PHALCON_OBS_VAR(user_agent);
 		phalcon_array_fetch_quick_string(&user_agent, server, SS("HTTP_USER_AGENT"), 10554741916430329969UL, PH_NOISY_CC);
@@ -30179,19 +30421,18 @@ PHP_METHOD(Phalcon_Http_Request, isOptions){
 
 PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
-	zval *files = NULL, *zero, *number_files, *has_files;
-	zval *g0 = NULL;
+	zval *files = NULL, *_FILES, *zero, *number_files, *has_files;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_FILES") TSRMLS_CC);
-	PHALCON_CPY_WRT(files, g0);
+	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
+	PHALCON_CPY_WRT(files, _FILES);
 	
 	PHALCON_INIT_VAR(zero);
 	ZVAL_LONG(zero, 0);
 	
 	PHALCON_INIT_VAR(number_files);
-	phalcon_fast_count(number_files, g0 TSRMLS_CC);
+	phalcon_fast_count(number_files, _FILES TSRMLS_CC);
 	
 	PHALCON_INIT_VAR(has_files);
 	is_smaller_function(has_files, zero, number_files TSRMLS_CC);
@@ -30200,17 +30441,16 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles){
 
 PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
-	zval *super_files = NULL, *files, *file = NULL, *request_file = NULL;
+	zval *super_files = NULL, *_FILES, *files, *file = NULL, *request_file = NULL;
 	zval *empty_files;
-	zval *g0 = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_FILES") TSRMLS_CC);
-	PHALCON_CPY_WRT(super_files, g0);
+	phalcon_get_global(&_FILES, SS("_FILES") TSRMLS_CC);
+	PHALCON_CPY_WRT(super_files, _FILES);
 	if (phalcon_fast_count_ev(super_files TSRMLS_CC)) {
 	
 		PHALCON_INIT_VAR(files);
@@ -30245,15 +30485,14 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles){
 
 PHP_METHOD(Phalcon_Http_Request, getHTTPReferer){
 
-	zval *http_referer;
-	zval *g0 = NULL;
+	zval *_SERVER, *http_referer;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-	if (phalcon_array_isset_string(g0, SS("HTTP_REFERER"))) {
+	phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+	if (phalcon_array_isset_quick_string(_SERVER, SS("HTTP_REFERER"), 5007611596329440847UL)) {
 		PHALCON_OBS_VAR(http_referer);
-		phalcon_array_fetch_string(&http_referer, g0, SL("HTTP_REFERER"), PH_NOISY_CC);
+		phalcon_array_fetch_quick_string(&http_referer, _SERVER, SS("HTTP_REFERER"), 5007611596329440847UL, PH_NOISY_CC);
 		RETURN_CCTOR(http_referer);
 	}
 	PHALCON_MM_RESTORE();
@@ -32817,6 +33056,7 @@ PHALCON_INIT_CLASS(Phalcon_Mvc_Application){
 
 	PHALCON_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, mvc_application, "phalcon\\di\\injectable", phalcon_mvc_application_method_entry, 0);
 
+	zend_declare_property_null(phalcon_mvc_application_ce, SL("_defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_mvc_application_ce, SL("_moduleObject"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -32862,10 +33102,28 @@ PHP_METHOD(Phalcon_Mvc_Application, getModules){
 	RETURN_MEMBER(this_ptr, "_modules");
 }
 
+PHP_METHOD(Phalcon_Mvc_Application, setDefaultModule){
+
+	zval *default_module;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &default_module) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	phalcon_update_property_zval(this_ptr, SL("_defaultModule"), default_module TSRMLS_CC);
+	
+}
+
+PHP_METHOD(Phalcon_Mvc_Application, getDefaultModule){
+
+
+	RETURN_MEMBER(this_ptr, "_defaultModule");
+}
+
 PHP_METHOD(Phalcon_Mvc_Application, handle){
 
 	zval *uri = NULL, *dependency_injector, *events_manager;
-	zval *service = NULL, *router, *module_name, *event_name = NULL;
+	zval *service = NULL, *router, *module_name = NULL, *event_name = NULL;
 	zval *status = NULL, *modules, *exception_msg = NULL, *module;
 	zval *path, *class_name = NULL, *module_object, *module_params;
 	zval *view, *namespace_name, *controller_name = NULL;
@@ -32902,6 +33160,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle){
 	
 	PHALCON_INIT_VAR(module_name);
 	PHALCON_CALL_METHOD(module_name, router, "getmodulename");
+	
+	if (!zend_is_true(module_name)) {
+		PHALCON_OBS_NVAR(module_name);
+		phalcon_read_property(&module_name, this_ptr, SL("_defaultModule"), PH_NOISY_CC);
+	}
+	
 	if (zend_is_true(module_name)) {
 		if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
@@ -33956,6 +34220,84 @@ PHP_METHOD(Phalcon_Mvc_Collection, _getResultset){
 	RETURN_CTOR(collections);
 }
 
+PHP_METHOD(Phalcon_Mvc_Collection, _getGroupResultset){
+
+	zval *params, *collection, *connection, *source;
+	zval *mongo_collection, *conditions = NULL, *simple = NULL;
+	zval *documents_cursor, *limit, *sort = NULL, *group = NULL;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &params, &collection, &connection) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	PHALCON_INIT_VAR(source);
+	PHALCON_CALL_METHOD(source, collection, "getsource");
+	
+	PHALCON_INIT_VAR(mongo_collection);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(mongo_collection, connection, "selectcollection", source, 4445757485292167793UL);
+	
+	if (phalcon_array_isset_long(params, 0)) {
+		PHALCON_OBS_VAR(conditions);
+		phalcon_array_fetch_long(&conditions, params, 0, PH_NOISY_CC);
+	} else {
+		if (phalcon_array_isset_quick_string(params, SS("conditions"), 13869595219804857727UL)) {
+			PHALCON_OBS_NVAR(conditions);
+			phalcon_array_fetch_quick_string(&conditions, params, SS("conditions"), 13869595219804857727UL, PH_NOISY_CC);
+		} else {
+			PHALCON_INIT_NVAR(conditions);
+			array_init(conditions);
+		}
+	}
+	
+	PHALCON_INIT_VAR(simple);
+	ZVAL_BOOL(simple, 1);
+	if (phalcon_array_isset_quick_string(params, SS("limit"), 6953744320644UL)) {
+		ZVAL_BOOL(simple, 0);
+	} else {
+		if (phalcon_array_isset_quick_string(params, SS("sort"), 210728047629UL)) {
+			ZVAL_BOOL(simple, 0);
+		} else {
+			if (phalcon_array_isset_quick_string(params, SS("skip"), 210727893948UL)) {
+				ZVAL_BOOL(simple, 0);
+			}
+		}
+	}
+	
+	if (PHALCON_IS_FALSE(simple)) {
+	
+		PHALCON_INIT_VAR(documents_cursor);
+		PHALCON_CALL_METHOD_PARAMS_1_KEY(documents_cursor, mongo_collection, "find", conditions, 210712410150UL);
+	
+		if (phalcon_array_isset_quick_string(params, SS("limit"), 6953744320644UL)) {
+			PHALCON_OBS_VAR(limit);
+			phalcon_array_fetch_quick_string(&limit, params, SS("limit"), 6953744320644UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "limit", limit, 6953744320644UL);
+		}
+	
+		if (phalcon_array_isset_quick_string(params, SS("sort"), 210728047629UL)) {
+			PHALCON_OBS_VAR(sort);
+			phalcon_array_fetch_quick_string(&sort, params, SS("sort"), 210728047629UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "sort", sort, 210728047629UL);
+		}
+	
+		if (phalcon_array_isset_quick_string(params, SS("skip"), 210727893948UL)) {
+			PHALCON_OBS_NVAR(sort);
+			phalcon_array_fetch_quick_string(&sort, params, SS("skip"), 210727893948UL, PH_NOISY_CC);
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN_KEY(documents_cursor, "skip", sort, 210727893948UL);
+		}
+	
+		PHALCON_INIT_VAR(group);
+		phalcon_fast_count(group, documents_cursor TSRMLS_CC);
+	}
+	
+	PHALCON_INIT_NVAR(group);
+	PHALCON_CALL_METHOD_PARAMS_1_KEY(group, mongo_collection, "count", conditions, 6953399510574UL);
+	
+	RETURN_CCTOR(group);
+}
+
 PHP_METHOD(Phalcon_Mvc_Collection, _preSave){
 
 	zval *dependency_injector, *disable_events;
@@ -34593,7 +34935,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, find){
 PHP_METHOD(Phalcon_Mvc_Collection, count){
 
 	zval *parameters = NULL, *class_name, *collection, *connection;
-	zval *unique, *resultset;
+	zval *result;
 	zend_class_entry *ce0;
 
 	PHALCON_MM_GROW();
@@ -34626,13 +34968,10 @@ PHP_METHOD(Phalcon_Mvc_Collection, count){
 	PHALCON_INIT_VAR(connection);
 	PHALCON_CALL_METHOD(connection, collection, "getconnection");
 	
-	PHALCON_INIT_VAR(unique);
-	ZVAL_BOOL(unique, 0);
+	PHALCON_INIT_VAR(result);
+	PHALCON_CALL_SELF_PARAMS_3(result, this_ptr, "_getgroupresultset", parameters, collection, connection);
 	
-	PHALCON_INIT_VAR(resultset);
-	PHALCON_CALL_SELF_PARAMS_4(resultset, this_ptr, "_getresultset", parameters, collection, connection, unique);
-	
-	RETURN_CCTOR(resultset);
+	RETURN_CCTOR(result);
 }
 
 PHP_METHOD(Phalcon_Mvc_Collection, delete){
@@ -39134,8 +39473,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, __construct){
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
-	zval *key, *session = NULL, *suffix, *suffix_key, *meta_data;
-	zval *g0 = NULL;
+	zval *key, *session = NULL, *_SESSION, *suffix, *suffix_key;
+	zval *meta_data;
 	zval *r0 = NULL, *r1 = NULL;
 
 	PHALCON_MM_GROW();
@@ -39144,8 +39483,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 		RETURN_MM_NULL();
 	}
 
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	PHALCON_CPY_WRT(session, g0);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	PHALCON_CPY_WRT(session, _SESSION);
 	
 	PHALCON_OBS_VAR(suffix);
 	phalcon_read_property(&suffix, this_ptr, SL("_suffix"), PH_NOISY_CC);
@@ -39170,8 +39509,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read){
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 
-	zval *key, *data, *suffix, *suffix_key;
-	zval *g0 = NULL;
+	zval *key, *data, *suffix, *suffix_key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -39184,8 +39522,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write){
 	
 	PHALCON_INIT_VAR(suffix_key);
 	PHALCON_CONCAT_SV(suffix_key, "$PMM$", suffix);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_multi_2(&g0, suffix_key, key, &data, 0 TSRMLS_CC);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_update_multi_2(&_SESSION, suffix_key, key, &data, 0 TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -60707,22 +61045,19 @@ PHP_METHOD(Phalcon_Mvc_Router, getDI){
 
 PHP_METHOD(Phalcon_Mvc_Router, _getRewriteUri){
 
-	zval *get = NULL, *url;
-	zval *g0 = NULL;
+	zval *_GET, *url;
 
 	PHALCON_MM_GROW();
 
-	phalcon_get_global(&g0, SS("_GET") TSRMLS_CC);
-	PHALCON_CPY_WRT(get, g0);
-	if (phalcon_array_isset_quick_string(get, SS("_url"), 210704544567UL)) {
+	phalcon_get_global(&_GET, SS("_GET") TSRMLS_CC);
+	if (phalcon_array_isset_quick_string(_GET, SS("_url"), 210704544567UL)) {
 	
 		PHALCON_OBS_VAR(url);
-		phalcon_array_fetch_quick_string(&url, get, SS("_url"), 210704544567UL, PH_NOISY_CC);
+		phalcon_array_fetch_quick_string(&url, _GET, SS("_url"), 210704544567UL, PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(url)) {
 			RETURN_CCTOR(url);
 		}
 	}
-	
 	PHALCON_MM_RESTORE();
 	RETURN_STRING("/", 1);
 }
@@ -61584,9 +61919,8 @@ PHP_METHOD(Phalcon_Mvc_Url, setBaseUri){
 
 PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 
-	zval *base_uri = NULL, *slash, *one, *minus_one = NULL, *php_self;
-	zval *dirname, *dir_parts, *slice, *uri = NULL;
-	zval *g0 = NULL;
+	zval *base_uri = NULL, *slash, *_SERVER, *one, *minus_one = NULL;
+	zval *php_self, *dirname, *dir_parts, *slice, *uri = NULL;
 	zval *c0 = NULL;
 
 	PHALCON_MM_GROW();
@@ -61597,8 +61931,8 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 	
 		PHALCON_INIT_VAR(slash);
 		ZVAL_STRING(slash, "/", 1);
-		phalcon_get_global(&g0, SS("_SERVER") TSRMLS_CC);
-		if (phalcon_array_isset_string(g0, SS("PHP_SELF"))) {
+		phalcon_get_global(&_SERVER, SS("_SERVER") TSRMLS_CC);
+		if (phalcon_array_isset_quick_string(_SERVER, SS("PHP_SELF"), 249855885920558742UL)) {
 			PHALCON_INIT_VAR(one);
 			ZVAL_LONG(one, 1);
 	
@@ -61607,7 +61941,7 @@ PHP_METHOD(Phalcon_Mvc_Url, getBaseUri){
 			PHALCON_CPY_WRT(minus_one, c0);
 	
 			PHALCON_OBS_VAR(php_self);
-			phalcon_array_fetch_string(&php_self, g0, SL("PHP_SELF"), PH_NOISY_CC);
+			phalcon_array_fetch_quick_string(&php_self, _SERVER, SS("PHP_SELF"), 249855885920558742UL, PH_NOISY_CC);
 	
 			PHALCON_INIT_VAR(dirname);
 			PHALCON_CALL_FUNC_PARAMS_1(dirname, "dirname", php_self);
@@ -70500,13 +70834,13 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, converEncoding){
 		PHALCON_INIT_VAR(converted);
 		PHALCON_CALL_FUNC_PARAMS_3(converted, "mb_convert_encoding", text, from, to);
 		RETURN_CCTOR(converted);
-	} else {
-		if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
-			PHALCON_INIT_NVAR(converted);
-			PHALCON_CALL_FUNC_PARAMS_3(converted, "iconv", from, to, text);
-			RETURN_CCTOR(converted);
-		}
 	}
+	if (phalcon_function_exists_ex(SS("iconv") TSRMLS_CC) == SUCCESS) {
+		PHALCON_INIT_NVAR(converted);
+		PHALCON_CALL_FUNC_PARAMS_3(converted, "iconv", from, to, text);
+		RETURN_CCTOR(converted);
+	}
+	
 	PHALCON_THROW_EXCEPTION_STR(phalcon_mvc_view_exception_ce, "Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
 	return;
 }
@@ -71450,6 +71784,8 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 	PHALCON_OBS_VAR(events_manager);
 	phalcon_read_property(&events_manager, this_ptr, SL("_eventsManager"), PH_NOISY_CC);
 	
+	phalcon_create_symbol_table(TSRMLS_C);
+	
 	if (Z_TYPE_P(events_manager) == IS_OBJECT) {
 	
 		PHALCON_INIT_VAR(event_name);
@@ -71609,7 +71945,7 @@ PHP_METHOD(Phalcon_Mvc_View, render){
 		PHALCON_CALL_METHOD_PARAMS_2_NORETURN_KEY(events_manager, "fire", event_name, this_ptr, 210712414539UL);
 	}
 	
-	PHALCON_MM_RESTORE();
+	RETURN_MM_NULL();
 }
 
 PHP_METHOD(Phalcon_Mvc_View, pick){
@@ -73058,8 +73394,8 @@ PHP_METHOD(Phalcon_Session_Adapter, getOptions){
 
 PHP_METHOD(Phalcon_Session_Adapter, get){
 
-	zval *index, *default_value = NULL, *unique_id, *key, *value;
-	zval *g0 = NULL;
+	zval *index, *default_value = NULL, *unique_id, *key, *_SESSION;
+	zval *value;
 
 	PHALCON_MM_GROW();
 
@@ -73076,11 +73412,11 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(g0, key)) {
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	if (phalcon_array_isset(_SESSION, key)) {
 	
 		PHALCON_OBS_VAR(value);
-		phalcon_array_fetch(&value, g0, key, PH_NOISY_CC);
+		phalcon_array_fetch(&value, _SESSION, key, PH_NOISY_CC);
 		if (PHALCON_IS_NOT_EMPTY(value)) {
 			RETURN_CCTOR(value);
 		}
@@ -73092,8 +73428,7 @@ PHP_METHOD(Phalcon_Session_Adapter, get){
 
 PHP_METHOD(Phalcon_Session_Adapter, set){
 
-	zval *index, *value, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *value, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -73106,16 +73441,15 @@ PHP_METHOD(Phalcon_Session_Adapter, set){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_update_zval(&g0, key, &value, PH_COPY TSRMLS_CC);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_update_zval(&_SESSION, key, &value, PH_COPY TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
 PHP_METHOD(Phalcon_Session_Adapter, has){
 
-	zval *index, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -73128,8 +73462,8 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	if (phalcon_array_isset(g0, key)) {
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	if (phalcon_array_isset(_SESSION, key)) {
 		RETURN_MM_TRUE;
 	}
 	
@@ -73138,8 +73472,7 @@ PHP_METHOD(Phalcon_Session_Adapter, has){
 
 PHP_METHOD(Phalcon_Session_Adapter, remove){
 
-	zval *index, *unique_id, *key;
-	zval *g0 = NULL;
+	zval *index, *unique_id, *key, *_SESSION;
 
 	PHALCON_MM_GROW();
 
@@ -73152,8 +73485,8 @@ PHP_METHOD(Phalcon_Session_Adapter, remove){
 	
 	PHALCON_INIT_VAR(key);
 	PHALCON_CONCAT_VV(key, unique_id, index);
-	phalcon_get_global(&g0, SS("_SESSION") TSRMLS_CC);
-	phalcon_array_unset(g0, key);
+	phalcon_get_global(&_SESSION, SS("_SESSION") TSRMLS_CC);
+	phalcon_array_unset(_SESSION, key);
 	
 	PHALCON_MM_RESTORE();
 }
@@ -74087,9 +74420,8 @@ PHP_METHOD(Phalcon_Tag, displayTo){
 
 PHP_METHOD(Phalcon_Tag, getValue){
 
-	zval *name, *params, *display_values, *value = NULL, *autoescape = NULL;
-	zval *escaper = NULL, *escaped_value = NULL;
-	zval *g0 = NULL;
+	zval *name, *params, *display_values, *value = NULL, *_POST;
+	zval *autoescape = NULL, *escaper = NULL, *escaped_value = NULL;
 
 	PHALCON_MM_GROW();
 
@@ -74104,10 +74436,10 @@ PHP_METHOD(Phalcon_Tag, getValue){
 		PHALCON_OBS_VAR(value);
 		phalcon_array_fetch(&value, display_values, name, PH_NOISY_CC);
 	} else {
-		phalcon_get_global(&g0, SS("_POST") TSRMLS_CC);
-		if (phalcon_array_isset(g0, name)) {
+		phalcon_get_global(&_POST, SS("_POST") TSRMLS_CC);
+		if (phalcon_array_isset(_POST, name)) {
 			PHALCON_OBS_NVAR(value);
-			phalcon_array_fetch(&value, g0, name, PH_NOISY_CC);
+			phalcon_array_fetch(&value, _POST, name, PH_NOISY_CC);
 		} else {
 			RETURN_MM_NULL();
 		}
@@ -74771,10 +75103,11 @@ PHP_METHOD(Phalcon_Tag, getTitle){
 	
 		PHALCON_INIT_VAR(title_html);
 		PHALCON_CONCAT_SVSV(title_html, "<title>", document_title, "</title>", eol);
+		RETURN_CTOR(title_html);
 	}
 	
 	
-	RETURN_CTOR(title_html);
+	RETURN_CCTOR(document_title);
 }
 
 PHP_METHOD(Phalcon_Tag, stylesheetLink){
@@ -75819,23 +76152,23 @@ PHP_METHOD(Phalcon_Version, getId){
 
 
 
-zend_class_entry *phalcon_text_ce;
-zend_class_entry *phalcon_acl_ce;
-zend_class_entry *phalcon_db_ce;
 zend_class_entry *phalcon_tag_ce;
+zend_class_entry *phalcon_db_ce;
+zend_class_entry *phalcon_text_ce;
 zend_class_entry *phalcon_di_ce;
-zend_class_entry *phalcon_cache_exception_ce;
+zend_class_entry *phalcon_acl_ce;
 zend_class_entry *phalcon_cache_backend_ce;
-zend_class_entry *phalcon_cache_frontend_none_ce;
-zend_class_entry *phalcon_cache_frontend_data_ce;
+zend_class_entry *phalcon_cache_exception_ce;
 zend_class_entry *phalcon_cache_backend_mongo_ce;
+zend_class_entry *phalcon_cache_frontend_data_ce;
 zend_class_entry *phalcon_cache_backend_file_ce;
 zend_class_entry *phalcon_cache_backend_apc_ce;
-zend_class_entry *phalcon_cache_frontend_base64_ce;
-zend_class_entry *phalcon_cache_backendinterface_ce;
+zend_class_entry *phalcon_cache_frontend_none_ce;
 zend_class_entry *phalcon_cache_backend_memcache_ce;
-zend_class_entry *phalcon_cache_frontendinterface_ce;
+zend_class_entry *phalcon_cache_backendinterface_ce;
 zend_class_entry *phalcon_cache_frontend_output_ce;
+zend_class_entry *phalcon_cache_frontendinterface_ce;
+zend_class_entry *phalcon_cache_frontend_base64_ce;
 zend_class_entry *phalcon_tag_select_ce;
 zend_class_entry *phalcon_tag_exception_ce;
 zend_class_entry *phalcon_paginator_exception_ce;
@@ -75843,22 +76176,22 @@ zend_class_entry *phalcon_paginator_adapter_model_ce;
 zend_class_entry *phalcon_paginator_adapterinterface_ce;
 zend_class_entry *phalcon_paginator_adapter_nativearray_ce;
 zend_class_entry *phalcon_db_index_ce;
-zend_class_entry *phalcon_db_adapter_ce;
-zend_class_entry *phalcon_db_profiler_ce;
-zend_class_entry *phalcon_db_dialect_ce;
-zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_db_column_ce;
+zend_class_entry *phalcon_db_dialect_ce;
+zend_class_entry *phalcon_db_adapter_ce;
 zend_class_entry *phalcon_db_rawvalue_ce;
 zend_class_entry *phalcon_db_reference_ce;
+zend_class_entry *phalcon_db_profiler_ce;
+zend_class_entry *phalcon_db_exception_ce;
 zend_class_entry *phalcon_db_adapter_pdo_ce;
-zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_db_adapter_pdo_mysql_ce;
+zend_class_entry *phalcon_db_adapterinterface_ce;
 zend_class_entry *phalcon_db_adapter_pdo_sqlite_ce;
 zend_class_entry *phalcon_db_adapter_pdo_postgresql_ce;
 zend_class_entry *phalcon_db_columninterface_ce;
 zend_class_entry *phalcon_db_dialect_mysql_ce;
-zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_db_dialect_sqlite_ce;
+zend_class_entry *phalcon_db_dialectinterface_ce;
 zend_class_entry *phalcon_db_dialect_postgresql_ce;
 zend_class_entry *phalcon_db_indexinterface_ce;
 zend_class_entry *phalcon_db_profiler_item_ce;
@@ -75866,17 +76199,17 @@ zend_class_entry *phalcon_db_result_pdo_ce;
 zend_class_entry *phalcon_db_resultinterface_ce;
 zend_class_entry *phalcon_db_referenceinterface_ce;
 zend_class_entry *phalcon_acl_role_ce;
-zend_class_entry *phalcon_acl_adapter_ce;
 zend_class_entry *phalcon_acl_resource_ce;
+zend_class_entry *phalcon_acl_adapter_ce;
 zend_class_entry *phalcon_acl_exception_ce;
 zend_class_entry *phalcon_acl_adapterinterface_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_roleinterface_ce;
 zend_class_entry *phalcon_acl_resourceinterface_ce;
-zend_class_entry *phalcon_security_ce;
-zend_class_entry *phalcon_version_ce;
-zend_class_entry *phalcon_kernel_ce;
 zend_class_entry *phalcon_session_ce;
+zend_class_entry *phalcon_version_ce;
+zend_class_entry *phalcon_security_ce;
+zend_class_entry *phalcon_kernel_ce;
 zend_class_entry *phalcon_security_exception_ce;
 zend_class_entry *phalcon_session_bag_ce;
 zend_class_entry *phalcon_session_adapter_ce;
@@ -75894,15 +76227,15 @@ zend_class_entry *phalcon_di_injectionawareinterface_ce;
 zend_class_entry *phalcon_di_serviceinterface_ce;
 zend_class_entry *phalcon_di_service_builder_ce;
 zend_class_entry *phalcon_diinterface_ce;
-zend_class_entry *phalcon_filterinterface_ce;
 zend_class_entry *phalcon_filter_exception_ce;
+zend_class_entry *phalcon_filterinterface_ce;
 zend_class_entry *phalcon_dispatcher_ce;
 zend_class_entry *phalcon_dispatcherinterface_ce;
-zend_class_entry *phalcon_flash_ce;
 zend_class_entry *phalcon_cli_task_ce;
+zend_class_entry *phalcon_flash_ce;
 zend_class_entry *phalcon_flash_direct_ce;
-zend_class_entry *phalcon_flashinterface_ce;
 zend_class_entry *phalcon_flash_exception_ce;
+zend_class_entry *phalcon_flashinterface_ce;
 zend_class_entry *phalcon_flash_session_ce;
 zend_class_entry *phalcon_cli_console_ce;
 zend_class_entry *phalcon_cli_router_ce;
@@ -75912,18 +76245,20 @@ zend_class_entry *phalcon_cli_dispatcher_exception_ce;
 zend_class_entry *phalcon_cli_router_exception_ce;
 zend_class_entry *phalcon_annotations_adapter_ce;
 zend_class_entry *phalcon_annotations_reader_ce;
-zend_class_entry *phalcon_annotations_collection_ce;
 zend_class_entry *phalcon_annotations_reflection_ce;
-zend_class_entry *phalcon_annotations_exception_ce;
 zend_class_entry *phalcon_annotations_annotation_ce;
+zend_class_entry *phalcon_annotations_exception_ce;
+zend_class_entry *phalcon_annotations_collection_ce;
+zend_class_entry *phalcon_annotations_adapterinterface_ce;
+zend_class_entry *phalcon_annotations_readerinterface_ce;
 zend_class_entry *phalcon_annotations_adapter_memory_ce;
-zend_class_entry *phalcon_config_ce;
 zend_class_entry *phalcon_logger_ce;
+zend_class_entry *phalcon_config_ce;
 zend_class_entry *phalcon_loader_ce;
 zend_class_entry *phalcon_loader_exception_ce;
 zend_class_entry *phalcon_logger_item_ce;
-zend_class_entry *phalcon_logger_adapter_ce;
 zend_class_entry *phalcon_logger_exception_ce;
+zend_class_entry *phalcon_logger_adapter_ce;
 zend_class_entry *phalcon_logger_adapter_file_ce;
 zend_class_entry *phalcon_logger_adapterinterface_ce;
 zend_class_entry *phalcon_config_exception_ce;
@@ -75936,69 +76271,69 @@ zend_class_entry *phalcon_translate_adapter_nativearray_ce;
 zend_class_entry *phalcon_escaper_ce;
 zend_class_entry *phalcon_escaperinterface_ce;
 zend_class_entry *phalcon_escaper_exception_ce;
-zend_class_entry *phalcon_http_request_ce;
 zend_class_entry *phalcon_http_cookie_ce;
+zend_class_entry *phalcon_http_request_ce;
 zend_class_entry *phalcon_http_response_ce;
 zend_class_entry *phalcon_http_request_file_ce;
 zend_class_entry *phalcon_http_cookie_exception_ce;
-zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_http_responseinterface_ce;
+zend_class_entry *phalcon_http_response_exception_ce;
 zend_class_entry *phalcon_http_request_exception_ce;
-zend_class_entry *phalcon_http_response_cookies_ce;
 zend_class_entry *phalcon_http_requestinterface_ce;
+zend_class_entry *phalcon_http_response_cookies_ce;
 zend_class_entry *phalcon_http_response_headers_ce;
 zend_class_entry *phalcon_http_request_fileinterface_ce;
 zend_class_entry *phalcon_http_response_headersinterface_ce;
 zend_class_entry *phalcon_mvc_url_ce;
 zend_class_entry *phalcon_mvc_view_ce;
 zend_class_entry *phalcon_mvc_router_ce;
-zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_micro_ce;
-zend_class_entry *phalcon_mvc_model_row_ce;
-zend_class_entry *phalcon_mvc_controller_ce;
-zend_class_entry *phalcon_mvc_urlinterface_ce;
-zend_class_entry *phalcon_mvc_collection_ce;
-zend_class_entry *phalcon_mvc_view_engine_ce;
-zend_class_entry *phalcon_mvc_application_ce;
+zend_class_entry *phalcon_mvc_model_ce;
 zend_class_entry *phalcon_mvc_dispatcher_ce;
-zend_class_entry *phalcon_mvc_model_query_ce;
+zend_class_entry *phalcon_mvc_model_row_ce;
 zend_class_entry *phalcon_mvc_router_group_ce;
 zend_class_entry *phalcon_mvc_user_module_ce;
+zend_class_entry *phalcon_mvc_view_engine_ce;
+zend_class_entry *phalcon_mvc_controller_ce;
+zend_class_entry *phalcon_mvc_application_ce;
+zend_class_entry *phalcon_mvc_collection_ce;
 zend_class_entry *phalcon_mvc_router_route_ce;
+zend_class_entry *phalcon_mvc_urlinterface_ce;
 zend_class_entry *phalcon_mvc_user_plugin_ce;
+zend_class_entry *phalcon_mvc_model_query_ce;
 zend_class_entry *phalcon_mvc_application_exception_ce;
-zend_class_entry *phalcon_mvc_collection_exception_ce;
 zend_class_entry *phalcon_mvc_controllerinterface_ce;
+zend_class_entry *phalcon_mvc_collection_exception_ce;
 zend_class_entry *phalcon_mvc_collectioninterface_ce;
 zend_class_entry *phalcon_mvc_collection_manager_ce;
 zend_class_entry *phalcon_mvc_dispatcherinterface_ce;
 zend_class_entry *phalcon_mvc_dispatcher_exception_ce;
 zend_class_entry *phalcon_mvc_model_exception_ce;
-zend_class_entry *phalcon_mvc_model_query_lang_ce;
-zend_class_entry *phalcon_mvc_model_resultset_ce;
-zend_class_entry *phalcon_mvc_model_criteria_ce;
-zend_class_entry *phalcon_mvc_model_message_ce;
-zend_class_entry *phalcon_mvc_micro_collection_ce;
-zend_class_entry *phalcon_mvc_micro_exception_ce;
-zend_class_entry *phalcon_mvc_model_behavior_ce;
-zend_class_entry *phalcon_mvc_model_relation_ce;
-zend_class_entry *phalcon_mvc_modelinterface_ce;
-zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_metadata_ce;
+zend_class_entry *phalcon_mvc_model_resultset_ce;
+zend_class_entry *phalcon_mvc_modelinterface_ce;
+zend_class_entry *phalcon_mvc_model_query_lang_ce;
+zend_class_entry *phalcon_mvc_micro_exception_ce;
+zend_class_entry *phalcon_mvc_model_relation_ce;
+zend_class_entry *phalcon_mvc_micro_collection_ce;
+zend_class_entry *phalcon_mvc_model_message_ce;
+zend_class_entry *phalcon_mvc_model_behavior_ce;
+zend_class_entry *phalcon_mvc_model_criteria_ce;
+zend_class_entry *phalcon_mvc_model_manager_ce;
 zend_class_entry *phalcon_mvc_model_validator_ce;
-zend_class_entry *phalcon_mvc_model_query_builder_ce;
-zend_class_entry *phalcon_mvc_model_transaction_ce;
-zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
 zend_class_entry *phalcon_mvc_model_query_status_ce;
-zend_class_entry *phalcon_mvc_model_metadata_files_ce;
+zend_class_entry *phalcon_mvc_model_transaction_ce;
 zend_class_entry *phalcon_mvc_model_queryinterface_ce;
-zend_class_entry *phalcon_mvc_model_metadata_session_ce;
+zend_class_entry *phalcon_mvc_model_query_builder_ce;
+zend_class_entry *phalcon_mvc_model_metadata_apc_ce;
+zend_class_entry *phalcon_mvc_model_metadata_files_ce;
+zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
 zend_class_entry *phalcon_mvc_model_metadata_memory_ce;
 zend_class_entry *phalcon_mvc_model_managerinterface_ce;
-zend_class_entry *phalcon_mvc_model_resultset_complex_ce;
+zend_class_entry *phalcon_mvc_model_metadata_session_ce;
 zend_class_entry *phalcon_mvc_model_behaviorinterface_ce;
-zend_class_entry *phalcon_mvc_model_resultinterface_ce;
 zend_class_entry *phalcon_mvc_model_resultsetinterface_ce;
+zend_class_entry *phalcon_mvc_model_resultinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_mvc_model_transaction_failed_ce;
 zend_class_entry *phalcon_mvc_model_validatorinterface_ce;
@@ -76009,14 +76344,14 @@ zend_class_entry *phalcon_mvc_model_relationinterface_ce;
 zend_class_entry *phalcon_mvc_model_validator_regex_ce;
 zend_class_entry *phalcon_mvc_model_validator_email_ce;
 zend_class_entry *phalcon_mvc_model_query_builderinterface_ce;
-zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
 zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
+zend_class_entry *phalcon_mvc_model_query_statusinterface_ce;
 zend_class_entry *phalcon_mvc_model_transaction_exception_ce;
-zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
-zend_class_entry *phalcon_mvc_model_transactioninterface_ce;
 zend_class_entry *phalcon_mvc_model_validator_stringlength_ce;
 zend_class_entry *phalcon_mvc_model_validator_exclusionin_ce;
+zend_class_entry *phalcon_mvc_model_transactioninterface_ce;
 zend_class_entry *phalcon_mvc_model_behavior_softdelete_ce;
+zend_class_entry *phalcon_mvc_model_validator_numericality_ce;
 zend_class_entry *phalcon_mvc_model_validator_inclusionin_ce;
 zend_class_entry *phalcon_mvc_model_transaction_manager_ce;
 zend_class_entry *phalcon_mvc_model_validator_uniqueness_ce;
@@ -76028,12 +76363,12 @@ zend_class_entry *phalcon_mvc_routerinterface_ce;
 zend_class_entry *phalcon_mvc_router_exception_ce;
 zend_class_entry *phalcon_mvc_router_annotations_ce;
 zend_class_entry *phalcon_mvc_router_routeinterface_ce;
-zend_class_entry *phalcon_mvc_url_exception_ce;
 zend_class_entry *phalcon_mvc_user_component_ce;
-zend_class_entry *phalcon_mvc_viewinterface_ce;
+zend_class_entry *phalcon_mvc_url_exception_ce;
 zend_class_entry *phalcon_mvc_view_exception_ce;
-zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_view_engine_php_ce;
+zend_class_entry *phalcon_mvc_viewinterface_ce;
+zend_class_entry *phalcon_mvc_view_engine_volt_ce;
 zend_class_entry *phalcon_mvc_view_engineinterface_ce;
 zend_class_entry *phalcon_mvc_view_engine_volt_compiler_ce;
 zend_class_entry *phalcon_events_event_ce;
@@ -76074,95 +76409,97 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_DI_InjectionAwareInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_ValidatorInterface);
 	PHALCON_INIT(Phalcon_Events_EventsAwareInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_MetaDataInterface);
 	PHALCON_INIT(Phalcon_Cache_FrontendInterface);
 	PHALCON_INIT(Phalcon_Cache_BackendInterface);
-	PHALCON_INIT(Phalcon_Db_AdapterInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_MetaDataInterface);
 	PHALCON_INIT(Phalcon_Db_DialectInterface);
-	PHALCON_INIT(Phalcon_Mvc_View_EngineInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_ResultsetInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_BehaviorInterface);
-	PHALCON_INIT(Phalcon_FlashInterface);
+	PHALCON_INIT(Phalcon_Db_AdapterInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_ResultInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_ResultsetInterface);
+	PHALCON_INIT(Phalcon_FlashInterface);
+	PHALCON_INIT(Phalcon_Mvc_View_EngineInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_BehaviorInterface);
 	PHALCON_INIT(Phalcon_Paginator_AdapterInterface);
 	PHALCON_INIT(Phalcon_DispatcherInterface);
 	PHALCON_INIT(Phalcon_Exception);
 	PHALCON_INIT(Phalcon_DI_Injectable);
-	PHALCON_INIT(Phalcon_Mvc_Model_Query_BuilderInterface);
-	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_QueryInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_ManagerInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_CriteriaInterface);
-	PHALCON_INIT(Phalcon_Mvc_ViewInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_RelationInterface);
-	PHALCON_INIT(Phalcon_Mvc_UrlInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_Query_BuilderInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_Query_StatusInterface);
+	PHALCON_INIT(Phalcon_DI_ServiceInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_MessageInterface);
 	PHALCON_INIT(Phalcon_Mvc_Model_Transaction_ManagerInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_Query_StatusInterface);
-	PHALCON_INIT(Phalcon_Mvc_Model_TransactionInterface);
-	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
-	PHALCON_INIT(Phalcon_Acl_ResourceInterface);
-	PHALCON_INIT(Phalcon_Acl_AdapterInterface);
-	PHALCON_INIT(Phalcon_Session_BagInterface);
-	PHALCON_INIT(Phalcon_FilterInterface);
-	PHALCON_INIT(Phalcon_Http_RequestInterface);
-	PHALCON_INIT(Phalcon_DI_ServiceInterface);
-	PHALCON_INIT(Phalcon_Events_ManagerInterface);
-	PHALCON_INIT(Phalcon_Logger_AdapterInterface);
-	PHALCON_INIT(Phalcon_EscaperInterface);
-	PHALCON_INIT(Phalcon_Translate_AdapterInterface);
-	PHALCON_INIT(Phalcon_Session_AdapterInterface);
-	PHALCON_INIT(Phalcon_Http_ResponseInterface);
-	PHALCON_INIT(Phalcon_Mvc_Router_RouteInterface);
-	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
-	PHALCON_INIT(Phalcon_Mvc_RouterInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_CriteriaInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_RelationInterface);
 	PHALCON_INIT(Phalcon_Mvc_ModelInterface);
-	PHALCON_INIT(Phalcon_Acl_RoleInterface);
-	PHALCON_INIT(Phalcon_Db_ReferenceInterface);
-	PHALCON_INIT(Phalcon_Http_Request_FileInterface);
+	PHALCON_INIT(Phalcon_Translate_AdapterInterface);
+	PHALCON_INIT(Phalcon_EscaperInterface);
+	PHALCON_INIT(Phalcon_Session_BagInterface);
+	PHALCON_INIT(Phalcon_Session_AdapterInterface);
+	PHALCON_INIT(Phalcon_Logger_AdapterInterface);
 	PHALCON_INIT(Phalcon_DiInterface);
+	PHALCON_INIT(Phalcon_Mvc_Router_RouteInterface);
+	PHALCON_INIT(Phalcon_Mvc_DispatcherInterface);
+	PHALCON_INIT(Phalcon_Mvc_UrlInterface);
+	PHALCON_INIT(Phalcon_Mvc_CollectionInterface);
+	PHALCON_INIT(Phalcon_Mvc_RouterInterface);
+	PHALCON_INIT(Phalcon_Mvc_ViewInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_ManagerInterface);
+	PHALCON_INIT(Phalcon_Acl_AdapterInterface);
+	PHALCON_INIT(Phalcon_Acl_ResourceInterface);
+	PHALCON_INIT(Phalcon_Acl_RoleInterface);
+	PHALCON_INIT(Phalcon_Http_Response_HeadersInterface);
+	PHALCON_INIT(Phalcon_Http_Request_FileInterface);
 	PHALCON_INIT(Phalcon_Db_IndexInterface);
 	PHALCON_INIT(Phalcon_Db_ColumnInterface);
+	PHALCON_INIT(Phalcon_Db_ReferenceInterface);
+	PHALCON_INIT(Phalcon_Http_ResponseInterface);
+	PHALCON_INIT(Phalcon_Annotations_AdapterInterface);
+	PHALCON_INIT(Phalcon_Http_RequestInterface);
+	PHALCON_INIT(Phalcon_Mvc_Model_TransactionInterface);
+	PHALCON_INIT(Phalcon_FilterInterface);
+	PHALCON_INIT(Phalcon_Annotations_ReaderInterface);
+	PHALCON_INIT(Phalcon_Events_ManagerInterface);
 	PHALCON_INIT(Phalcon_Db_Adapter);
 	PHALCON_INIT(Phalcon_Mvc_Model_Validator);
 	PHALCON_INIT(Phalcon_Mvc_Model_MetaData);
 	PHALCON_INIT(Phalcon_Cache_Backend);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo);
 	PHALCON_INIT(Phalcon_Db_Dialect);
-	PHALCON_INIT(Phalcon_Mvc_Model_Resultset);
 	PHALCON_INIT(Phalcon_DI);
 	PHALCON_INIT(Phalcon_Dispatcher);
-	PHALCON_INIT(Phalcon_Flash);
-	PHALCON_INIT(Phalcon_Mvc_Model_Behavior);
 	PHALCON_INIT(Phalcon_Mvc_View_Engine);
-	PHALCON_INIT(Phalcon_Translate_Adapter);
+	PHALCON_INIT(Phalcon_Mvc_Model_Resultset);
+	PHALCON_INIT(Phalcon_Mvc_Model_Behavior);
+	PHALCON_INIT(Phalcon_Flash);
+	PHALCON_INIT(Phalcon_Config);
 	PHALCON_INIT(Phalcon_DI_FactoryDefault);
 	PHALCON_INIT(Phalcon_Logger_Adapter);
 	PHALCON_INIT(Phalcon_Session_Adapter);
-	PHALCON_INIT(Phalcon_Mvc_Router);
+	PHALCON_INIT(Phalcon_Translate_Adapter);
 	PHALCON_INIT(Phalcon_Annotations_Adapter);
-	PHALCON_INIT(Phalcon_Mvc_Model_Exception);
-	PHALCON_INIT(Phalcon_Config);
 	PHALCON_INIT(Phalcon_Acl_Adapter);
+	PHALCON_INIT(Phalcon_Mvc_Router);
+	PHALCON_INIT(Phalcon_Mvc_Model_Exception);
 	PHALCON_INIT(Phalcon_Db);
-	PHALCON_INIT(Phalcon_Acl);
 	PHALCON_INIT(Phalcon_Tag);
+	PHALCON_INIT(Phalcon_Acl);
 	PHALCON_INIT(Phalcon_Cache_Exception);
 	PHALCON_INIT(Phalcon_Cache_Backend_Apc);
 	PHALCON_INIT(Phalcon_Cache_Backend_File);
 	PHALCON_INIT(Phalcon_Cache_Backend_Mongo);
 	PHALCON_INIT(Phalcon_Cache_Backend_Memcache);
-	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
-	PHALCON_INIT(Phalcon_Cache_Frontend_Base64);
-	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
 	PHALCON_INIT(Phalcon_Cache_Frontend_None);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Output);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Base64);
+	PHALCON_INIT(Phalcon_Cache_Frontend_Data);
 	PHALCON_INIT(Phalcon_Tag_Select);
 	PHALCON_INIT(Phalcon_Tag_Exception);
 	PHALCON_INIT(Phalcon_Paginator_Exception);
 	PHALCON_INIT(Phalcon_Paginator_Adapter_Model);
 	PHALCON_INIT(Phalcon_Paginator_Adapter_NativeArray);
-	PHALCON_INIT(Phalcon_Db_Column);
 	PHALCON_INIT(Phalcon_Db_Index);
+	PHALCON_INIT(Phalcon_Db_Column);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Sqlite);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Mysql);
 	PHALCON_INIT(Phalcon_Db_Adapter_Pdo_Postgresql);
@@ -76199,17 +76536,17 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Flash_Exception);
 	PHALCON_INIT(Phalcon_Flash_Session);
 	PHALCON_INIT(Phalcon_CLI_Task);
-	PHALCON_INIT(Phalcon_CLI_Console);
 	PHALCON_INIT(Phalcon_CLI_Router);
+	PHALCON_INIT(Phalcon_CLI_Console);
 	PHALCON_INIT(Phalcon_CLI_Console_Exception);
 	PHALCON_INIT(Phalcon_CLI_Dispatcher);
 	PHALCON_INIT(Phalcon_CLI_Dispatcher_Exception);
 	PHALCON_INIT(Phalcon_CLI_Router_Exception);
 	PHALCON_INIT(Phalcon_Annotations_Reader);
 	PHALCON_INIT(Phalcon_Annotations_Exception);
-	PHALCON_INIT(Phalcon_Annotations_Annotation);
-	PHALCON_INIT(Phalcon_Annotations_Reflection);
 	PHALCON_INIT(Phalcon_Annotations_Collection);
+	PHALCON_INIT(Phalcon_Annotations_Reflection);
+	PHALCON_INIT(Phalcon_Annotations_Annotation);
 	PHALCON_INIT(Phalcon_Annotations_Adapter_Memory);
 	PHALCON_INIT(Phalcon_Loader);
 	PHALCON_INIT(Phalcon_Logger);
@@ -76217,25 +76554,25 @@ PHP_MINIT_FUNCTION(phalcon){
 	PHALCON_INIT(Phalcon_Logger_Item);
 	PHALCON_INIT(Phalcon_Logger_Exception);
 	PHALCON_INIT(Phalcon_Logger_Adapter_File);
-	PHALCON_INIT(Phalcon_Config_Exception);
 	PHALCON_INIT(Phalcon_Config_Adapter_Ini);
+	PHALCON_INIT(Phalcon_Config_Exception);
 	PHALCON_INIT(Phalcon_Translate);
 	PHALCON_INIT(Phalcon_Translate_Exception);
 	PHALCON_INIT(Phalcon_Translate_Adapter_NativeArray);
 	PHALCON_INIT(Phalcon_Escaper);
 	PHALCON_INIT(Phalcon_Escaper_Exception);
-	PHALCON_INIT(Phalcon_Http_Cookie);
 	PHALCON_INIT(Phalcon_Http_Request);
+	PHALCON_INIT(Phalcon_Http_Cookie);
 	PHALCON_INIT(Phalcon_Http_Response);
 	PHALCON_INIT(Phalcon_Http_Cookie_Exception);
 	PHALCON_INIT(Phalcon_Http_Request_File);
-	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Response_Headers);
+	PHALCON_INIT(Phalcon_Http_Response_Cookies);
 	PHALCON_INIT(Phalcon_Http_Request_Exception);
 	PHALCON_INIT(Phalcon_Http_Response_Exception);
 	PHALCON_INIT(Phalcon_Mvc_Model);
-	PHALCON_INIT(Phalcon_Mvc_Url);
 	PHALCON_INIT(Phalcon_Mvc_View);
+	PHALCON_INIT(Phalcon_Mvc_Url);
 	PHALCON_INIT(Phalcon_Mvc_Micro);
 	PHALCON_INIT(Phalcon_Mvc_Application);
 	PHALCON_INIT(Phalcon_Mvc_Application_Exception);
@@ -76311,10 +76648,6 @@ PHP_MSHUTDOWN_FUNCTION(phalcon){
 		PHALCON_GLOBAL(function_cache) = NULL;
 	}
 
-	if (PHALCON_GLOBAL(symbol_tables) != NULL) {
-		phalcon_clean_symbol_tables(TSRMLS_C);
-	}
-
 	return SUCCESS;
 }
 
@@ -76335,10 +76668,6 @@ PHP_RSHUTDOWN_FUNCTION(phalcon){
 		zend_hash_destroy(PHALCON_GLOBAL(function_cache));
 		FREE_HASHTABLE(PHALCON_GLOBAL(function_cache));
 		PHALCON_GLOBAL(function_cache) = NULL;
-	}
-
-	if (PHALCON_GLOBAL(symbol_tables) != NULL) {
-		phalcon_clean_symbol_tables(TSRMLS_C);
 	}
 
 	return SUCCESS;
