@@ -69,7 +69,7 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Collection){
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("_position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("_annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
+	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 2, zend_ce_iterator, spl_ce_Countable);
 
 	return SUCCESS;
 }
@@ -129,6 +129,25 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct){
 	}
 	
 	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the number of annotations in the collection
+ *
+ * @return int
+ */
+PHP_METHOD(Phalcon_Annotations_Collection, count){
+
+	zval *annotations, *number;
+
+	PHALCON_MM_GROW();
+
+	PHALCON_OBS_VAR(annotations);
+	phalcon_read_property(&annotations, this_ptr, SL("_annotations"), PH_NOISY_CC);
+	
+	PHALCON_INIT_VAR(number);
+	phalcon_fast_count(number, annotations TSRMLS_CC);
+	RETURN_NCTOR(number);
 }
 
 /**
@@ -266,7 +285,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get){
 	}
 	
 	PHALCON_INIT_VAR(exception_message);
-	PHALCON_CONCAT_SVS(exception_message, "The collection doesn't have an annotation '", name, "'");
+	PHALCON_CONCAT_SVS(exception_message, "The collection doesn't have an annotation called '", name, "'");
 	PHALCON_THROW_EXCEPTION_ZVAL(phalcon_annotations_exception_ce, exception_message);
 	return;
 }

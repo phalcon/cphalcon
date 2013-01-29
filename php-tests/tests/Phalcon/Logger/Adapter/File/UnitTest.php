@@ -24,6 +24,7 @@
 use \Phalcon\Logger as PhLg;
 use \Phalcon\Logger\Exception as PhLgEx;
 use \Phalcon\Logger\Adapter\File as PhFLg;
+use \Phalcon\Logger\Formatter\Line as PhFfl;
 
 class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 {
@@ -77,7 +78,7 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
         $logger = new PhFLg($this->_logPath . $fileName);
         $logger->log('Hello');
         $logger->close();
-        
+
         // Now open the logger with w and add something else
         $logger = new PhFLg($this->_logPath . $fileName, $params);
         $logger->log('New Contents');
@@ -88,7 +89,7 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
         $this->cleanFile($this->_logPath, $fileName);
 
         $found = strpos($contents[0], 'New Contents');
-        
+
         $this->assertTrue(
             $found !== FALSE,
             'Opening file with w does not clear the log'
@@ -945,17 +946,14 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
      */
     public function testSetGetFormat()
     {
-        $fileName = $this->getFileName('log', 'log');
+        $formatter = new PhFfl();
 
-        $logger = new PhFLg($this->_logPath . $fileName);
+        $format = '%type%|%date%|%message%';
+        $formatter->setFormat($format);
 
-        $format = 'm/d/y h:i:s';
+        $actual = $formatter->getFormat();
 
-        $logger->setFormat($format);
-        $actual = $logger->getFormat();
         $logger->close();
-
-        $this->cleanFile($this->_logPath, $fileName);
 
         $expected = $format;
 
@@ -978,9 +976,9 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 
         $logger = new PhFLg($this->_logPath . $fileName);
 
-        $format = '%type%|%date%|%message%';
+        $formatter = new PhFfl('%type%|%date%|%message%');
 
-        $logger->setFormat($format);
+        $logger->setFormatter($formatter);
         $logger->log('Hello');
         $logger->close();
 
@@ -1012,9 +1010,9 @@ class Logger_Adapter_File_UnitTest extends Phalcon_Test_UnitTestCase
 
         $logger = new PhFLg($this->_logPath . $fileName);
 
-        $format = '%type%|%date%|%message%';
+        $formatter = new PhFfl('%type%|%date%|%message%');
 
-        $logger->setFormat($format);
+        $logger->setFormatter($formatter);
         $logger->log('Hello');
         $logger->close();
 

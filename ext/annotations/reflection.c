@@ -44,11 +44,11 @@
  *
  *<code>
  * //Parse the annotations in a class
- * $reader = new Phalcon\Annotations\Reader();
+ * $reader = new \Phalcon\Annotations\Reader();
  * $parsing = $reader->parse('MyComponent');
  *
  * //Create the reflection
- * $reflection = new Phalcon\Annotations\Reflection($parsing);
+ * $reflection = new \Phalcon\Annotations\Reflection($parsing);
  *
  * //Get the annotations in the class docblock
  * $classAnnotations = $reflection->getClassAnnotations();
@@ -78,16 +78,23 @@ PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection){
  */
 PHP_METHOD(Phalcon_Annotations_Reflection, __construct){
 
-	zval *reflection_data;
+	zval *reflection_data = NULL;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &reflection_data) == FAILURE) {
-		RETURN_NULL();
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|z", &reflection_data) == FAILURE) {
+		RETURN_MM_NULL();
 	}
 
+	if (!reflection_data) {
+		PHALCON_INIT_VAR(reflection_data);
+	}
+	
 	if (Z_TYPE_P(reflection_data) == IS_ARRAY) { 
 		phalcon_update_property_zval(this_ptr, SL("_reflectionData"), reflection_data TSRMLS_CC);
 	}
 	
+	PHALCON_MM_RESTORE();
 }
 
 /**

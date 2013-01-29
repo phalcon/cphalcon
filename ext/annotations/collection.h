@@ -22,6 +22,7 @@ extern zend_class_entry *phalcon_annotations_collection_ce;
 PHALCON_INIT_CLASS(Phalcon_Annotations_Collection);
 
 PHP_METHOD(Phalcon_Annotations_Collection, __construct);
+PHP_METHOD(Phalcon_Annotations_Collection, count);
 PHP_METHOD(Phalcon_Annotations_Collection, rewind);
 PHP_METHOD(Phalcon_Annotations_Collection, current);
 PHP_METHOD(Phalcon_Annotations_Collection, key);
@@ -45,6 +46,7 @@ ZEND_END_ARG_INFO()
 
 PHALCON_INIT_FUNCS(phalcon_annotations_collection_method_entry){
 	PHP_ME(Phalcon_Annotations_Collection, __construct, arginfo_phalcon_annotations_collection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
+	PHP_ME(Phalcon_Annotations_Collection, count, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Collection, rewind, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Collection, current, NULL, ZEND_ACC_PUBLIC) 
 	PHP_ME(Phalcon_Annotations_Collection, key, NULL, ZEND_ACC_PUBLIC) 

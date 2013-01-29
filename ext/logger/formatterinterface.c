@@ -17,26 +17,32 @@
   +------------------------------------------------------------------------+
 */
 
-extern zend_class_entry *phalcon_annotations_reflection_ce;
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-PHALCON_INIT_CLASS(Phalcon_Annotations_Reflection);
+#include "php.h"
+#include "php_phalcon.h"
+#include "phalcon.h"
 
-PHP_METHOD(Phalcon_Annotations_Reflection, __construct);
-PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations);
-PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData);
+#include "kernel/main.h"
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection___construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, reflectionData)
-ZEND_END_ARG_INFO()
+/**
+ * Phalcon\Logger\FormatterInterface initializer
+ */
+PHALCON_INIT_CLASS(Phalcon_Logger_FormatterInterface){
 
-PHALCON_INIT_FUNCS(phalcon_annotations_reflection_method_entry){
-	PHP_ME(Phalcon_Annotations_Reflection, __construct, arginfo_phalcon_annotations_reflection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR) 
-	PHP_ME(Phalcon_Annotations_Reflection, getClassAnnotations, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Reflection, getMethodsAnnotations, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Reflection, getPropertiesAnnotations, NULL, ZEND_ACC_PUBLIC) 
-	PHP_ME(Phalcon_Annotations_Reflection, getReflectionData, NULL, ZEND_ACC_PUBLIC) 
-	PHP_FE_END
-};
+	PHALCON_REGISTER_INTERFACE(Phalcon\\Logger, FormatterInterface, logger_formatterinterface, phalcon_logger_formatterinterface_method_entry);
+
+	return SUCCESS;
+}
+
+/**
+ * Applies a format to a message before sent it to the internal log
+ *
+ * @param string $message
+ * @param int $type
+ * @param int $timestamp
+ */
+PHALCON_DOC_METHOD(Phalcon_Logger_FormatterInterface, format);
 

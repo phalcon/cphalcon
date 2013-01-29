@@ -80,6 +80,7 @@ class TestClass
 	 * @Simple
      * @SingleParam("Param")
      * @MultipleParams("First", Second, 1, 1.1, -10, false, true, null)
+     * @NamedMultipleParams(first: "First", second: Second)
 	 */
 	public function testMethod1()
 	{
@@ -269,11 +270,12 @@ class AnnotationsTest extends PHPUnit_Framework_TestCase
 
 		//Multiple well ordered annotations
 		$this->assertTrue(isset($parsing['methods']['testMethod1']));
-		$this->assertEquals(count($parsing['methods']['testMethod1']), 4);
+		$this->assertEquals(count($parsing['methods']['testMethod1']), 5);
 		$this->assertEquals($parsing['methods']['testMethod1'][0]['name'], 'return');
 		$this->assertEquals($parsing['methods']['testMethod1'][1]['name'], 'Simple');
 		$this->assertEquals($parsing['methods']['testMethod1'][2]['name'], 'SingleParam');
 		$this->assertEquals($parsing['methods']['testMethod1'][3]['name'], 'MultipleParams');
+		$this->assertEquals($parsing['methods']['testMethod1'][4]['name'], 'NamedMultipleParams');
 
 		//Comment without content
 		$this->assertFalse(isset($parsing['methods']['testMethod2']));
@@ -303,15 +305,104 @@ class AnnotationsTest extends PHPUnit_Framework_TestCase
 			$reader = new Phalcon\Annotations\Reader();
 			$parsing = $reader->parse('TestClass1');
 			$this->assertTrue(false);
-		}
-		catch(Exception $e){
+		} catch (Exception $e) {
 			$this->assertEquals('Class TestClass1 does not exist', $e->getMessage());
 		}
 	}
 
 	public function testReflection()
 	{
-		//$
+		//Empty reflection
+		$reflection = new Phalcon\Annotations\Reflection();
+
+		$classAnnotations = $reflection->getClassAnnotations();
+		$this->assertEquals($classAnnotations, null);
+
+		$methodsAnnotations = $reflection->getMethodsAnnotations();
+		$this->assertEquals($methodsAnnotations, null);
+
+		$propertiesAnnotations = $reflection->getPropertiesAnnotations();
+		$this->assertEquals($propertiesAnnotations, null);
+
+		//Parsing a real class
+		$reader = new Phalcon\Annotations\Reader();
+		$parsing = $reader->parse('TestClass');
+
+		$reflection = new Phalcon\Annotations\Reflection($parsing);
+
+		//Annotations in the class' dockblock
+		$classAnnotations = $reflection->getClassAnnotations();
+		$this->assertEquals(get_class($classAnnotations), 'Phalcon\Annotations\Collection');
+
+		$number = 0;
+		foreach ($classAnnotations as $annotation) {
+			$this->assertEquals(get_class($annotation), 'Phalcon\Annotations\Annotation');
+			$number++;
+		}
+		$this->assertEquals($number, 9);
+
+		$this->assertEquals(count($classAnnotations), 9);
+
+		//Annotations in Methods
+		$methodsAnnotations = $reflection->getMethodsAnnotations();
+		$this->assertEquals(gettype($methodsAnnotations), 'array');
+		$this->assertEquals(get_class($methodsAnnotations['testMethod1']), 'Phalcon\Annotations\Collection');
+
+		$total = 0;
+		foreach ($methodsAnnotations as $method => $annotations) {
+
+			$this->assertEquals(gettype($method), 'string');
+
+			$number = 0;
+			foreach ($annotations as $annotation) {
+				$this->assertEquals(get_class($annotation), 'Phalcon\Annotations\Annotation');
+				$number++;
+				$total++;
+			}
+			$this->assertTrue($number > 0);
+
+		}
+		$this->assertEquals($total, 14);
+
+		$annotations = $methodsAnnotations['testMethod1'];
+		$this->assertTrue($annotations->has('Simple'));
+		$this->assertFalse($annotations->has('NoSimple'));
+
+		$annotation = $annotations->get('Simple');
+		$this->assertEquals($annotation->getName(), 'Simple');
+		$this->assertEquals($annotation->numberArguments(), 0);
+		$this->assertEquals($annotation->getArguments(), null);
+		$this->assertFalse($annotation->hasArgument('none'));
+
+		$annotation = $annotations->get('NamedMultipleParams');
+		$this->assertEquals($annotation->getName(), 'NamedMultipleParams');
+		$this->assertEquals($annotation->numberArguments(), 2);
+		$this->assertEquals($annotation->getArguments(), array('first' => 'First', 'second' => 'Second'));
+		$this->assertTrue($annotation->hasArgument('first'));
+		$this->assertEquals($annotation->getArgument('first'), 'First');
+		$this->assertFalse($annotation->hasArgument('none'));
+
+		//Annotations in properties
+		$propertiesAnnotations = $reflection->getPropertiesAnnotations();
+		$this->assertEquals(gettype($propertiesAnnotations), 'array');
+		$this->assertEquals(get_class($propertiesAnnotations['testProp1']), 'Phalcon\Annotations\Collection');
+
+		$total = 0;
+		foreach ($propertiesAnnotations as $property => $annotations) {
+
+			$this->assertEquals(gettype($method), 'string');
+
+			$number = 0;
+			foreach ($annotations as $annotation) {
+				$this->assertEquals(get_class($annotation), 'Phalcon\Annotations\Annotation');
+				$number++;
+				$total++;
+			}
+			$this->assertTrue($number > 0);
+
+		}
+		$this->assertEquals($total, 10);
+
 	}
 
 }

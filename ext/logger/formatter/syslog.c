@@ -32,72 +32,48 @@
 #include "kernel/main.h"
 #include "kernel/memory.h"
 
-#include "kernel/object.h"
 #include "kernel/array.h"
 
 /**
- * Phalcon\Annotations\Adapter\Memory
+ * Phalcon\Logger\Formatter\Syslog
  *
- * Stores the parsed annotations in memory. This adapter is the suitable for development/testing
+ * Prepares a message to be used in a Syslog backend
  */
 
 
 /**
- * Phalcon\Annotations\Adapter\Memory initializer
+ * Phalcon\Logger\Formatter\Syslog initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Annotations_Adapter_Memory){
+PHALCON_INIT_CLASS(Phalcon_Logger_Formatter_Syslog){
 
-	PHALCON_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, annotations_adapter_memory, "phalcon\\annotations\\adapter", phalcon_annotations_adapter_memory_method_entry, 0);
+	PHALCON_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Syslog, logger_formatter_syslog, "phalcon\\logger\\formatter", phalcon_logger_formatter_syslog_method_entry, 0);
 
-	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	zend_class_implements(phalcon_annotations_adapter_memory_ce TSRMLS_CC, 1, phalcon_annotations_adapterinterface_ce);
+	zend_class_implements(phalcon_logger_formatter_syslog_ce TSRMLS_CC, 1, phalcon_logger_formatterinterface_ce);
 
 	return SUCCESS;
 }
 
 /**
- * Reads meta-data from memory
+ * Applies a format to a message before sent it to the internal log
  *
- * @param string $key
- * @return array
+ * @param string $message
+ * @param int $type
+ * @param int $timestamp
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read){
+PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format){
 
-	zval *key, *data, *annotations;
+	zval *message, *type, *timestamp, *log;
 
 	PHALCON_MM_GROW();
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &key) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zzz", &message, &type, &timestamp) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 
-	PHALCON_OBS_VAR(data);
-	phalcon_read_property(&data, this_ptr, SL("_data"), PH_NOISY_CC);
-	if (phalcon_array_isset(data, key)) {
-		PHALCON_OBS_VAR(annotations);
-		phalcon_array_fetch(&annotations, data, key, PH_NOISY_CC);
-		RETURN_CCTOR(annotations);
-	}
-	
-	RETURN_MM_NULL();
-}
-
-/**
- * Writes the meta-data to files
- *
- * @param string $key
- * @param array $data
- */
-PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write){
-
-	zval *key, *data;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &key, &data) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	phalcon_update_property_array(this_ptr, SL("_data"), key, data TSRMLS_CC);
-	
+	PHALCON_INIT_VAR(log);
+	array_init_size(log, 2);
+	phalcon_array_append(&log, type, PH_SEPARATE TSRMLS_CC);
+	phalcon_array_append(&log, message, PH_SEPARATE TSRMLS_CC);
+	RETURN_CTOR(log);
 }
 

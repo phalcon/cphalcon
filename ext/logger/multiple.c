@@ -37,34 +37,71 @@
 #include "kernel/fcall.h"
 
 /**
- * Phalcon\Logger\Adapter
+ * Phalcon\Logger\Multiple
  *
- * Base class for Phalcon\Logger adapters
+ * Handles multiples logger handlers
  */
 
 
 /**
- * Phalcon\Logger\Adapter initializer
+ * Phalcon\Logger\Multiple initializer
  */
-PHALCON_INIT_CLASS(Phalcon_Logger_Adapter){
+PHALCON_INIT_CLASS(Phalcon_Logger_Multiple){
 
-	PHALCON_REGISTER_CLASS(Phalcon\\Logger, Adapter, logger_adapter, phalcon_logger_adapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	PHALCON_REGISTER_CLASS(Phalcon\\Logger, Multiple, logger_multiple, phalcon_logger_multiple_method_entry, 0);
 
-	zend_declare_property_bool(phalcon_logger_adapter_ce, SL("_transaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
-	zend_declare_property_null(phalcon_logger_adapter_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_loggers"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_multiple_ce, SL("_formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 }
 
 /**
- * Sets the message formatter
+ * Pushes a logger to the logger tail
+ *
+ * @param Phalcon\Logger\AdapterInterface $logger
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, push){
+
+	zval *logger;
+
+	PHALCON_MM_GROW();
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &logger) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (Z_TYPE_P(logger) != IS_OBJECT) {
+		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The logger is invalid");
+		return;
+	}
+	phalcon_update_property_array_append(this_ptr, SL("_loggers"), logger TSRMLS_CC);
+	
+	PHALCON_MM_RESTORE();
+}
+
+/**
+ * Returns the registered loggers
+ *
+ * @return Phalcon\Logger\AdapterInterface[]
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, getLoggers){
+
+
+	RETURN_MEMBER(this_ptr, "_loggers");
+}
+
+/**
+ * Sets a global formatter
  *
  * @param Phalcon\Logger\FormatterInterface $formatter
  */
-PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
+PHP_METHOD(Phalcon_Logger_Multiple, setFormatter){
 
-	zval *formatter;
+	zval *formatter, *loggers, *logger = NULL;
+	HashTable *ah0;
+	HashPosition hp0;
+	zval **hd;
 
 	PHALCON_MM_GROW();
 
@@ -72,73 +109,78 @@ PHP_METHOD(Phalcon_Logger_Adapter, setFormatter){
 		RETURN_MM_NULL();
 	}
 
-	if (Z_TYPE_P(formatter) != IS_OBJECT) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "The formatter is not valid");
-		return;
+	PHALCON_OBS_VAR(loggers);
+	phalcon_read_property(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
+	
+		if (!phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+			return;
+		}
+	
+		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
+	
+			PHALCON_GET_FOREACH_VALUE(logger);
+	
+			PHALCON_CALL_METHOD_PARAMS_1_NORETURN(logger, "setformatter", formatter);
+	
+			zend_hash_move_forward_ex(ah0, &hp0);
+		}
+	
 	}
+	
 	phalcon_update_property_zval(this_ptr, SL("_formatter"), formatter TSRMLS_CC);
 	
 	PHALCON_MM_RESTORE();
 }
 
 /**
-  * Starts a transaction
-  *
-  */
-PHP_METHOD(Phalcon_Logger_Adapter, begin){
+ * Returns a formatter
+ *
+ * @return Phalcon\Logger\FormatterInterface
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, getFormatter){
 
 
-	phalcon_update_property_bool(this_ptr, SL("_transaction"), 1 TSRMLS_CC);
-	
+	RETURN_MEMBER(this_ptr, "_formatter");
 }
 
 /**
-  * Commits the internal transaction
-  *
-  */
-PHP_METHOD(Phalcon_Logger_Adapter, commit){
+ * Sends a message to each registered logger
+ *
+ * @param string $message
+ * @param int $type
+ */
+PHP_METHOD(Phalcon_Logger_Multiple, log){
 
-	zval *transaction, *queue, *message = NULL, *message_str = NULL;
-	zval *type = NULL, *time = NULL;
+	zval *message, *type = NULL, *loggers, *logger = NULL;
 	HashTable *ah0;
 	HashPosition hp0;
 	zval **hd;
 
 	PHALCON_MM_GROW();
 
-	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (!zend_is_true(transaction)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &type) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+
+	if (!type) {
+		PHALCON_INIT_VAR(type);
+		ZVAL_LONG(type, 7);
 	}
 	
-	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
+	PHALCON_OBS_VAR(loggers);
+	phalcon_read_property(&loggers, this_ptr, SL("_loggers"), PH_NOISY_CC);
+	if (Z_TYPE_P(loggers) == IS_ARRAY) { 
 	
-	/** 
-	 * Check if the queue has something to log
-	 */
-	PHALCON_OBS_VAR(queue);
-	phalcon_read_property(&queue, this_ptr, SL("_queue"), PH_NOISY_CC);
-	if (Z_TYPE_P(queue) == IS_ARRAY) { 
-	
-		if (!phalcon_is_iterable(queue, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
+		if (!phalcon_is_iterable(loggers, &ah0, &hp0, 0, 0 TSRMLS_CC)) {
 			return;
 		}
 	
 		while (zend_hash_get_current_data_ex(ah0, (void**) &hd, &hp0) == SUCCESS) {
 	
-			PHALCON_GET_FOREACH_VALUE(message);
+			PHALCON_GET_FOREACH_VALUE(logger);
 	
-			PHALCON_INIT_NVAR(message_str);
-			PHALCON_CALL_METHOD(message_str, message, "getmessage");
-	
-			PHALCON_INIT_NVAR(type);
-			PHALCON_CALL_METHOD(type, message, "gettype");
-	
-			PHALCON_INIT_NVAR(time);
-			PHALCON_CALL_METHOD(time, message, "gettime");
-			PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "loginternal", message_str, type, time);
+			PHALCON_CALL_METHOD_PARAMS_2_NORETURN(logger, "log", message, type);
 	
 			zend_hash_move_forward_ex(ah0, &hp0);
 		}
@@ -149,37 +191,11 @@ PHP_METHOD(Phalcon_Logger_Adapter, commit){
 }
 
 /**
-  * Rollbacks the internal transaction
-  *
-  */
-PHP_METHOD(Phalcon_Logger_Adapter, rollback){
-
-	zval *transaction, *queue;
-
-	PHALCON_MM_GROW();
-
-	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (!zend_is_true(transaction)) {
-		PHALCON_THROW_EXCEPTION_STR(phalcon_logger_exception_ce, "There is no active transaction");
-		return;
-	}
-	
-	phalcon_update_property_bool(this_ptr, SL("_transaction"), 0 TSRMLS_CC);
-	
-	PHALCON_INIT_VAR(queue);
-	array_init(queue);
-	phalcon_update_property_zval(this_ptr, SL("_queue"), queue TSRMLS_CC);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
   * Sends/Writes an emergence message to the log
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, emergence){
+PHP_METHOD(Phalcon_Logger_Multiple, emergence){
 
 	zval *message, *type;
 
@@ -202,7 +218,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, emergence){
   * @param string $message
   * @param ing $type
   */
-PHP_METHOD(Phalcon_Logger_Adapter, debug){
+PHP_METHOD(Phalcon_Logger_Multiple, debug){
 
 	zval *message, *type;
 
@@ -224,7 +240,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, debug){
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, error){
+PHP_METHOD(Phalcon_Logger_Multiple, error){
 
 	zval *message, *type;
 
@@ -246,7 +262,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, error){
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, info){
+PHP_METHOD(Phalcon_Logger_Multiple, info){
 
 	zval *message, *type;
 
@@ -268,7 +284,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, info){
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, notice){
+PHP_METHOD(Phalcon_Logger_Multiple, notice){
 
 	zval *message, *type;
 
@@ -290,7 +306,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, notice){
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, warning){
+PHP_METHOD(Phalcon_Logger_Multiple, warning){
 
 	zval *message, *type;
 
@@ -312,7 +328,7 @@ PHP_METHOD(Phalcon_Logger_Adapter, warning){
   *
   * @param string $message
   */
-PHP_METHOD(Phalcon_Logger_Adapter, alert){
+PHP_METHOD(Phalcon_Logger_Multiple, alert){
 
 	zval *message, *type;
 
@@ -325,47 +341,6 @@ PHP_METHOD(Phalcon_Logger_Adapter, alert){
 	PHALCON_INIT_VAR(type);
 	phalcon_get_class_constant(type, phalcon_logger_ce, SS("ALERT") TSRMLS_CC);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(this_ptr, "log", message, type);
-	
-	PHALCON_MM_RESTORE();
-}
-
-/**
- * Logs messages to the internal loggger. Appends logs to the
- *
- * @param string $message
- * @param int $type
- */
-PHP_METHOD(Phalcon_Logger_Adapter, log){
-
-	zval *message, *type = NULL, *timestamp, *transaction;
-	zval *queue_item;
-
-	PHALCON_MM_GROW();
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &message, &type) == FAILURE) {
-		RETURN_MM_NULL();
-	}
-
-	if (!type) {
-		PHALCON_INIT_VAR(type);
-		ZVAL_LONG(type, 7);
-	}
-	
-	PHALCON_INIT_VAR(timestamp);
-	ZVAL_LONG(timestamp, (long) time(NULL));
-	
-	PHALCON_OBS_VAR(transaction);
-	phalcon_read_property(&transaction, this_ptr, SL("_transaction"), PH_NOISY_CC);
-	if (zend_is_true(transaction)) {
-		PHALCON_INIT_VAR(queue_item);
-		object_init_ex(queue_item, phalcon_logger_item_ce);
-		PHALCON_CALL_METHOD_PARAMS_3_NORETURN(queue_item, "__construct", message, type, timestamp);
-	
-		phalcon_update_property_array_append(this_ptr, SL("_queue"), queue_item TSRMLS_CC);
-		RETURN_MM_NULL();
-	}
-	
-	PHALCON_CALL_METHOD_PARAMS_3_NORETURN(this_ptr, "loginternal", message, type, timestamp);
 	
 	PHALCON_MM_RESTORE();
 }

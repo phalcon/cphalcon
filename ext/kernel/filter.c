@@ -175,7 +175,7 @@ char *phalcon_longtohex(unsigned long value) {
 /**
  * Perform escaping of non-alphanumeric characters to different formats
  */
-void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra){
+void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, unsigned int escape_length, char escape_extra, int use_whitelist) {
 
 	unsigned int i;
 	zval copy;
@@ -260,6 +260,40 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
 		}
 
 		/**
+		 * Chararters in the whitelist are leave as they are
+		 */
+		if (use_whitelist) {
+			switch (value) {
+				case ' ':
+				case '/':
+				case '*':
+				case '+':
+				case '-':
+				case '\t':
+				case '\n':
+				case '^':
+				case '$':
+				case '!':
+				case '?':
+				case '\\':
+				case '#':
+				case '}':
+				case '{':
+				case ')':
+				case '(':
+				case ']':
+				case '[':
+				case '.':
+				case ',':
+				case ':':
+				case ';':
+				case '_':
+					smart_str_appendc(&escaped_str, (unsigned char) value);
+					continue;
+			}
+		}
+
+		/**
 		 * Convert character to hexadecimal
 		 */
 		hex = phalcon_longtohex(value);
@@ -295,21 +329,21 @@ void phalcon_escape_multi(zval *return_value, zval *param, char *escape_char, un
  * Escapes non-alphanumeric characters to \HH+space
  */
 void phalcon_escape_css(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ');
+	phalcon_escape_multi(return_value, param, "\\", sizeof("\\")-1, ' ', 0);
 }
 
 /**
  * Escapes non-alphanumeric characters to \xHH+
  */
 void phalcon_escape_js(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0');
+	phalcon_escape_multi(return_value, param, "\\x", sizeof("\\x")-1, '\0', 1);
 }
 
 /**
  * Escapes non-alphanumeric characters to &xHH;
  */
 void phalcon_escape_htmlattr(zval *return_value, zval *param) {
-	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';');
+	phalcon_escape_multi(return_value, param, "&#x", sizeof("&#x")-1, ';', 1);
 }
 
 /**

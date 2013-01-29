@@ -38,8 +38,7 @@
 /**
  * Phalcon\Mvc\Model\Transaction\Failed
  *
- * Phalcon\Mvc\Model\Transaction\Failed will be thrown to exit a try/catch block for transactions
- *
+ * This class will be thrown to exit a try/catch block for isolated transactions
  */
 
 

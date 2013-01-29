@@ -81,16 +81,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct){
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Invalid options");
 		return;
 	}
-	if (phalcon_array_isset_string(options, SS("content"))) {
-	
-		PHALCON_OBS_VAR(data);
-		phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
-		if (Z_TYPE_P(data) != IS_ARRAY) { 
-			PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
-			return;
-		}
-	} else {
+	if (!phalcon_array_isset_string(options, SS("content"))) {
 		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation content was not provided");
+		return;
+	}
+	
+	PHALCON_OBS_VAR(data);
+	phalcon_array_fetch_string(&data, options, SL("content"), PH_NOISY_CC);
+	if (Z_TYPE_P(data) != IS_ARRAY) { 
+		PHALCON_THROW_EXCEPTION_STR(phalcon_translate_exception_ce, "Translation data must be an array");
 		return;
 	}
 	

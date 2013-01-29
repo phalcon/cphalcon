@@ -199,6 +199,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, _throwDispatchException){
 	ZVAL_STRING(status_message, "Not Found", 1);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(response, "setstatuscode", status_code, status_message);
 	
+	/** 
+	 * Create the real exception
+	 */
 	PHALCON_INIT_NVAR(exception);
 	object_init_ex(exception, phalcon_mvc_dispatcher_exception_ce);
 	PHALCON_CALL_METHOD_PARAMS_2_NORETURN(exception, "__construct", message, exception_code);
