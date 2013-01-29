@@ -14667,7 +14667,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, bindParams){
 				if (phalcon_is_numeric(bind_value)) {
 					PHALCON_CPY_WRT(value, bind_value);
 				} else {
-					if (Z_TYPE_P(value) == IS_OBJECT) {
+					if (Z_TYPE_P(bind_value) == IS_OBJECT) {
 						PHALCON_INIT_NVAR(value);
 						PHALCON_CALL_FUNC_PARAMS_1(value, "strval", bind_value);
 					} else {
